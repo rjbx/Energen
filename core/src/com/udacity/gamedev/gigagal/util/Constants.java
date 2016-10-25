@@ -61,8 +61,11 @@ public class Constants {
 
     // Bullet
     public static final String BULLET_SPRITE = "bullet";
+    public static final String CHARGE_BULLET_SPRITE = "charge-bullet";
+    public static final float CHARGE_DURATION = .8f;
     public static final float BULLET_MOVE_SPEED = 500;
     public static final Vector2 BULLET_CENTER = new Vector2(3, 2);
+    public static final Vector2 CHARGE_BULLET_CENTER = new Vector2(8, 4);
 
     // Explosion
     public static final String EXPLOSION_LARGE = "explosion-large";

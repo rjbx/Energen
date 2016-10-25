@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 
@@ -48,8 +49,8 @@ public class OnscreenControls extends InputAdapter {
 
         if (viewportPosition.dst(shootCenter) < Constants.BUTTON_RADIUS) {
 
-            // : Call shoot() on GigaGal
-            gigaGal.shoot();
+            // TODO: Call shoot() on GigaGal
+            gigaGal.shoot(Enums.BulletType.REGULAR);
         } else if (viewportPosition.dst(jumpCenter) < Constants.BUTTON_RADIUS) {
 
             // : Save the jumpPointer and set gigaGal.jumpButtonPressed = true

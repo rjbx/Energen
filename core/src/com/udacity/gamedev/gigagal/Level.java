@@ -14,6 +14,7 @@ import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Platform;
 import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 
 public class Level {
@@ -70,10 +71,10 @@ public class Level {
 
             // Update Bullets
             bullets.begin();
-            for (Bullet bullet : bullets) {
-                bullet.update(delta);
-                if (!bullet.active) {
-                    bullets.removeValue(bullet, false);
+            for (Bullet chargeBullet : bullets) {
+                chargeBullet.update(delta);
+                if (!chargeBullet.active) {
+                    bullets.removeValue(chargeBullet, false);
                 }
             }
             bullets.end();
@@ -125,8 +126,8 @@ public class Level {
         }
         gigaGal.render(batch);
 
-        for (Bullet bullet : bullets) {
-            bullet.render(batch);
+        for (Bullet chargeBullet : bullets) {
+            chargeBullet.render(batch);
         }
 
         for (Explosion explosion : explosions) {
@@ -199,8 +200,8 @@ public class Level {
         this.gigaGal = gigaGal;
     }
 
-    public void spawnBullet(Vector2 position, Direction direction) {
-        bullets.add(new Bullet(this, position, direction));
+    public void spawnBullet(Vector2 position, Direction direction, Enums.BulletType bulletType) {
+        bullets.add(new Bullet(this, position, direction, bulletType));
     }
 
     public void spawnExplosion(Vector2 position) {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
@@ -15,11 +16,13 @@ public class Bullet {
     private final Level level;
     public boolean active;
     private Vector2 position;
+    private final Enums.BulletType bulletType;
 
-    public Bullet(Level level, Vector2 position, Direction direction) {
+    public Bullet(Level level, Vector2 position, Direction direction, Enums.BulletType bulletType) {
         this.level = level;
         this.position = position;
         this.direction = direction;
+        this.bulletType = bulletType;
         active = true;
     }
 
@@ -37,7 +40,14 @@ public class Bullet {
             if (position.dst(zoomba.position) < Constants.ZOOMBA_SHOT_RADIUS) {
                 level.spawnExplosion(position);
                 active = false;
-                zoomba.health -= 1;
+                switch (bulletType) {
+                    case REGULAR:
+                        zoomba.health -= 1;
+                        break;
+                    case CHARGE:
+                        zoomba.health -= 5;
+                        break;
+                }
                 level.score += Constants.ZOOMBA_HIT_SCORE;
             }
         }
@@ -51,7 +61,18 @@ public class Bullet {
     }
 
     public void render(SpriteBatch batch) {
-        TextureRegion region = Assets.instance.bulletAssets.bullet;
-        Utils.drawTextureRegion(batch, region, position, Constants.BULLET_CENTER);
+        TextureRegion region = null;
+        Vector2 bulletCenter = new Vector2();
+        switch (bulletType) {
+            case REGULAR:
+                region = Assets.instance.bulletAssets.bullet;
+                bulletCenter.set(Constants.BULLET_CENTER);
+                break;
+            case CHARGE:
+                region = Assets.instance.bulletAssets.chargeBullet;
+                bulletCenter.set(Constants.CHARGE_BULLET_CENTER);
+                break;
+        }
+        Utils.drawTextureRegion(batch, region, position, bulletCenter);
     }
 }

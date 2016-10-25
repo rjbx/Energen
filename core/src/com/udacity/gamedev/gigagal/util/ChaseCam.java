@@ -18,7 +18,6 @@ public class ChaseCam {
         following = true;
     }
 
-
     public void update(float delta) {
 
         if (Gdx.input.isKeyJustPressed(Keys.TAB)) {
@@ -29,16 +28,16 @@ public class ChaseCam {
             camera.position.x = target.getPosition().x;
             camera.position.y = target.getPosition().y;
         } else {
-            if (Gdx.input.isKeyPressed(Keys.A)) {
+            if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
                 camera.position.x -= delta * Constants.CHASE_CAM_MOVE_SPEED;
             }
-            if (Gdx.input.isKeyPressed(Keys.D)) {
+            if (Gdx.input.isKeyPressed(Keys.SHIFT_RIGHT)) {
                 camera.position.x += delta * Constants.CHASE_CAM_MOVE_SPEED;
             }
-            if (Gdx.input.isKeyPressed(Keys.W)) {
+            if (Gdx.input.isKeyPressed(Keys.NUM_6)) {
                 camera.position.y += delta * Constants.CHASE_CAM_MOVE_SPEED;
             }
-            if (Gdx.input.isKeyPressed(Keys.S)) {
+            if (Gdx.input.isKeyPressed(Keys.SPACE)) {
                 camera.position.y -= delta * Constants.CHASE_CAM_MOVE_SPEED;
             }
         }

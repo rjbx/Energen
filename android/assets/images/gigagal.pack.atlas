@@ -6,7 +6,7 @@ filter: Nearest,Nearest
 repeat: none
 bullet
   rotate: false
-  xy: 62, 9
+  xy: 93, 17
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
@@ -37,6 +37,13 @@ button-shoot
   xy: 508, 94
   size: 32, 32
   orig: 32, 32
+  offset: 0, 0
+  index: -1
+charge-bullet
+  rotate: false
+  xy: 62, 3
+  size: 16, 11
+  orig: 16, 11
   offset: 0, 0
   index: -1
 exit-portal-1

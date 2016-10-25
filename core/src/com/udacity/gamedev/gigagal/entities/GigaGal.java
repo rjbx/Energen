@@ -38,6 +38,8 @@ public class GigaGal {
     private float hoverTimeSeconds;
     private boolean hasHovered;
     private long jumpStartTime;
+    private long chargeStartTime;
+    private boolean isCharged;
     private int ammo;
     private int lives;
 
@@ -73,6 +75,7 @@ public class GigaGal {
         walkState = Enums.WalkState.NOT_WALKING;
         jumpStartTime = 0;
         hasHovered = false;
+        isCharged = false;
     }
 
     public Vector2 getPosition() {
@@ -143,15 +146,15 @@ public class GigaGal {
         // Move left/right
         if (jumpState != JumpState.RECOILING) {
 
-            boolean left = Gdx.input.isKeyPressed(Keys.Z) || leftButtonPressed;
-            boolean right = Gdx.input.isKeyPressed(Keys.X) || rightButtonPressed;
+            boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
+            boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
 
             if (left && !right) {
                 moveLeft(delta);
             } else if (right && !left) {
                 moveRight(delta);
             } else {
-                walkTimeSeconds = 0.01f;
+                walkTimeSeconds = 0;
                 walkState = Enums.WalkState.NOT_WALKING;
             }
         }
@@ -202,13 +205,26 @@ public class GigaGal {
         }
         powerups.end();
 
-        // Shoot
+
         if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
-            shoot();
+            shoot(Enums.BulletType.REGULAR);
+            chargeStartTime = TimeUtils.nanoTime();
+        }
+
+        if (Gdx.input.isKeyPressed(Keys.ENTER)) {
+            // Shoot
+            if (Utils.secondsSince(chargeStartTime) > Constants.CHARGE_DURATION) {
+                isCharged = true;
+            }
+        } else {
+            if (isCharged) {
+                shoot(Enums.BulletType.CHARGE);
+                isCharged = false;
+            }
         }
     }
 
-    public void shoot() {
+    public void shoot(Enums.BulletType bulletType) {
         if (ammo > 0) {
 
             ammo--;
@@ -221,11 +237,11 @@ public class GigaGal {
                 );
             } else {
                 bulletPosition = new Vector2(
-                        position.x - Constants.GIGAGAL_CANNON_OFFSET.x - 4,
+                        position.x - Constants.GIGAGAL_CANNON_OFFSET.x - 5,
                         position.y + Constants.GIGAGAL_CANNON_OFFSET.y
                 );
             }
-            level.spawnBullet(bulletPosition, facing);
+            level.spawnBullet(bulletPosition, facing, bulletType);
         }
     }
 
@@ -254,8 +270,8 @@ public class GigaGal {
         if (jumpState == JumpState.GROUNDED) {
             if (walkState != Enums.WalkState.WALKING) {
                 walkStartTime = TimeUtils.nanoTime();
+                walkState = Enums.WalkState.WALKING;
             }
-            walkState = Enums.WalkState.WALKING;
             walkTimeSeconds = Utils.secondsSince(walkStartTime);
         }
         position.x -= Math.min(delta * walkTimeSeconds * Constants.GIGAGAL_MAX_SPEED, delta * Constants.GIGAGAL_MAX_SPEED);
@@ -267,8 +283,8 @@ public class GigaGal {
         if (jumpState == JumpState.GROUNDED) {
             if (walkState != Enums.WalkState.WALKING) {
                 walkStartTime = TimeUtils.nanoTime();
+                walkState = Enums.WalkState.WALKING;
             }
-            walkState = Enums.WalkState.WALKING;
             walkTimeSeconds = Utils.secondsSince(walkStartTime);
         }
         position.x += Math.min(delta * walkTimeSeconds * Constants.GIGAGAL_MAX_SPEED, delta * Constants.GIGAGAL_MAX_SPEED);
