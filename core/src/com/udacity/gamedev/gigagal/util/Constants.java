@@ -122,7 +122,7 @@ public class Constants {
 
     // Victory/Game Over screens
     public static final float LEVEL_END_DURATION = 5;
-    public static final String VICTORY_MESSAGE = "You are the Winnar!";
+    public static final String VICTORY_MESSAGE = "Boo Ya.";
     public static final String GAME_OVER_MESSAGE = "Game Over, Gal";
     public static final int EXPLOSION_COUNT = 500;
     public static final int ZOOMBA_COUNT = 200;

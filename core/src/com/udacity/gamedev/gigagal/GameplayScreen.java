@@ -26,6 +26,7 @@ public class GameplayScreen extends ScreenAdapter {
     OnscreenControls onscreenControls;
     SpriteBatch batch;
     long levelEndOverlayStartTime;
+    private int levelNumber;
     private Level level;
     private ChaseCam chaseCam;
     private GigaGalHud hud;
@@ -36,6 +37,7 @@ public class GameplayScreen extends ScreenAdapter {
     public void show() {
         AssetManager am = new AssetManager();
         Assets.instance.init(am);
+        levelNumber = 0;
 
         batch = new SpriteBatch();
         chaseCam = new ChaseCam();
@@ -129,8 +131,7 @@ public class GameplayScreen extends ScreenAdapter {
 
 //        level = Level.debugLevel();
 
-//      String levelName = Constants.LEVELS[MathUtils.random(Constants.LEVELS.length - 1)];
-        String levelName = Constants.LEVELS[0];
+      String levelName = Constants.LEVELS[levelNumber];
         level = LevelLoader.load(levelName);
 
         chaseCam.camera = level.viewport.getCamera();
@@ -140,10 +141,12 @@ public class GameplayScreen extends ScreenAdapter {
     }
 
     public void levelComplete() {
+        levelNumber++;
         startNewLevel();
     }
 
     public void levelFailed() {
+        levelNumber = 0;
         startNewLevel();
     }
 }
