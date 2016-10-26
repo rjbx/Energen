@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.sun.org.apache.xpath.internal.operations.*;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -165,7 +164,7 @@ public class GigaGal {
                     walkTimeSeconds = 0;
                     walkStartTime = TimeUtils.nanoTime();
                     velocity.x /= 2;
-                    walkState = WalkState.LEANING;
+                    walkState = WalkState.NOT_WALKING;
                     if (velocity.x >= -.01f && velocity.x <= .01f) {
                         velocity.x = 0;
                         walkState = Enums.WalkState.NOT_WALKING;
@@ -329,7 +328,7 @@ public class GigaGal {
     }
 
     private void continueDash() {
-        if ((Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) || jumpState == JumpState.HOVERING) {
+        if ((Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) || jumpState == JumpState.HOVERING || jumpState == JumpState.FALLING) {
             if (facing == Direction.LEFT) {
                 velocity.x = -Constants.GIGAGAL_MAX_SPEED;
             } else {
@@ -341,7 +340,8 @@ public class GigaGal {
     }
 
     private void endDash() {
-        walkState = WalkState.WALKING;
+        walkState = WalkState.LEANING;
+        velocity.x = 0;
     }
 
     private void startJump() {
@@ -417,12 +417,12 @@ public class GigaGal {
                 } else {
                     region = Assets.instance.gigaGalAssets.jumpingRight;
                 }
-            } else if (walkState == Enums.WalkState.NOT_WALKING || walkState == WalkState.LEANING) {
+            } else if (walkState == Enums.WalkState.NOT_WALKING) {
                 region = Assets.instance.gigaGalAssets.standingRight;
             } else if (walkState == Enums.WalkState.WALKING) {
 
                 region = Assets.instance.gigaGalAssets.walkingRightAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
-            } else if (walkState == WalkState.DASHING) {
+            } else if (walkState == WalkState.DASHING || walkState == WalkState.LEANING) {
 
                 region = Assets.instance.gigaGalAssets.dashingRight;
             }
@@ -435,12 +435,12 @@ public class GigaGal {
                 } else {
                     region = Assets.instance.gigaGalAssets.jumpingLeft;
                 }
-            } else if (walkState == Enums.WalkState.NOT_WALKING || walkState == WalkState.LEANING) {
+            } else if (walkState == Enums.WalkState.NOT_WALKING) {
                 region = Assets.instance.gigaGalAssets.standingLeft;
             } else if (walkState == Enums.WalkState.WALKING) {
 
                 region = Assets.instance.gigaGalAssets.walkingLeftAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
-            } else if (walkState == WalkState.DASHING) {
+            } else if (walkState == WalkState.DASHING || walkState == WalkState.LEANING) {
 
                 region = Assets.instance.gigaGalAssets.dashingLeft;
             }
