@@ -42,8 +42,11 @@ public class GigaGal {
     private boolean hasHovered;
     private long jumpStartTime;
     private long chargeStartTime;
+    private long dashStartTime;
     private boolean isCharged;
-    private boolean isDashing;
+    private boolean canDashLeft;
+    private boolean canDashRight;
+    private int doubleTapDirectional;
     private int ammo;
     private int lives;
 
@@ -79,7 +82,9 @@ public class GigaGal {
         walkState = Enums.WalkState.NOT_WALKING;
         jumpStartTime = 0;
         hasHovered = false;
-        isDashing = false;
+        canDashLeft = false;
+        canDashRight = false;
+        doubleTapDirectional = 0;
     }
 
     public Vector2 getPosition() {
@@ -109,10 +114,6 @@ public class GigaGal {
 
             for (Platform platform : platforms) {
                 if (isTouchingPlatform(platform)) {
-                    if (jumpState == JumpState.RECOILING) {
-                        walkStartTime = TimeUtils.nanoTime();
-                        velocity.x = 0;
-                    }
                     if (jumpStartTime != 0) {
                         walkStartTime += TimeUtils.nanoTime() - jumpStartTime;
                         jumpStartTime = 0;
@@ -151,25 +152,49 @@ public class GigaGal {
 
         // TODO: update OnScreenControls with new physics
         // Move left/right
+        if (walkState != WalkState.DASHING) {
+            if (jumpState != JumpState.RECOILING) {
+                boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
+                boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
+
+                if (left && !right) {
+                    moveLeft();
+                } else if (right && !left) {
+                    moveRight();
+                } else {
+                    walkTimeSeconds = 0;
+                    walkStartTime = TimeUtils.nanoTime();
+                    velocity.x /= 2;
+                    walkState = WalkState.LEANING;
+                    if (velocity.x >= -.01f && velocity.x <= .01f) {
+                        velocity.x = 0;
+                        walkState = Enums.WalkState.NOT_WALKING;
+                    }
+                }
 
 
-        if (jumpState != JumpState.RECOILING) {
-            boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
-            boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
-
-            if (left && !right && !isDashing) {
-                moveLeft();
-            } else if (right && !left && !isDashing) {
-                moveRight();
-            } else {
-                walkTimeSeconds = 0;
-                walkStartTime = TimeUtils.nanoTime();
-                velocity.x /= 2;
-                if (velocity.x >= -.00001f && velocity.x <= .00001f) {
-                    walkState = Enums.WalkState.NOT_WALKING;
-                    velocity.x = 0;
+                if (Gdx.input.isKeyJustPressed(Keys.A)) {
+                    if (canDashLeft && Utils.secondsSince(dashStartTime) < 0.1f) {
+                        startDash();
+                        canDashLeft = false;
+                    } else {
+                        canDashRight = false;
+                        canDashLeft = true;
+                        dashStartTime = TimeUtils.nanoTime();
+                    }
+                } else if (Gdx.input.isKeyJustPressed(Keys.S)) {
+                    if (canDashRight && Utils.secondsSince(dashStartTime) < 0.5f) {
+                        startDash();
+                        canDashRight = false;
+                    } else {
+                        canDashLeft = false;
+                        canDashRight = true;
+                        dashStartTime = TimeUtils.nanoTime();
+                    }
                 }
             }
+        } else {
+            continueDash();
         }
 
         // Jump
@@ -296,7 +321,27 @@ public class GigaGal {
     }
 
     private void startDash() {
+        if (jumpState == JumpState.GROUNDED) {
+            walkState = WalkState.DASHING;
+            dashStartTime = TimeUtils.nanoTime();
+            continueDash();
+        }
+    }
 
+    private void continueDash() {
+        if ((Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) || jumpState == JumpState.HOVERING) {
+            if (facing == Direction.LEFT) {
+                velocity.x = -Constants.GIGAGAL_MAX_SPEED;
+            } else {
+                velocity.x = Constants.GIGAGAL_MAX_SPEED;
+            }
+        } else {
+            endDash();
+        }
+    }
+
+    private void endDash() {
+        walkState = WalkState.WALKING;
     }
 
     private void startJump() {
@@ -360,34 +405,45 @@ public class GigaGal {
         }
     }
 
+
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.instance.gigaGalAssets.standingRight;
-        if (facing == Direction.RIGHT && jumpState != Enums.JumpState.GROUNDED) {
-            if (jumpState == JumpState.HOVERING) {
+        if (facing == Direction.RIGHT) {
+            if (jumpState != Enums.JumpState.GROUNDED) {
+                if (jumpState == JumpState.HOVERING) {
 
-                hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
-                region = Assets.instance.gigaGalAssets.hoverRightAnimation.getKeyFrame(hoverTimeSeconds);
-            } else {
-                region = Assets.instance.gigaGalAssets.jumpingRight;
+                    hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
+                    region = Assets.instance.gigaGalAssets.hoverRightAnimation.getKeyFrame(hoverTimeSeconds);
+                } else {
+                    region = Assets.instance.gigaGalAssets.jumpingRight;
+                }
+            } else if (walkState == Enums.WalkState.NOT_WALKING || walkState == WalkState.LEANING) {
+                region = Assets.instance.gigaGalAssets.standingRight;
+            } else if (walkState == Enums.WalkState.WALKING) {
+
+                region = Assets.instance.gigaGalAssets.walkingRightAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
+            } else if (walkState == WalkState.DASHING) {
+
+                region = Assets.instance.gigaGalAssets.dashingRight;
             }
-        } else if (facing == Direction.RIGHT && walkState == Enums.WalkState.NOT_WALKING) {
-            region = Assets.instance.gigaGalAssets.standingRight;
-        } else if (facing == Direction.RIGHT && walkState == Enums.WalkState.WALKING) {
+        } else if (facing == Direction.LEFT) {
+            if (jumpState != Enums.JumpState.GROUNDED) {
+                if (jumpState == JumpState.HOVERING) {
 
-            region = Assets.instance.gigaGalAssets.walkingRightAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
-        } else if (facing == Direction.LEFT && jumpState != Enums.JumpState.GROUNDED) {
-            if (jumpState == JumpState.HOVERING) {
+                    hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
+                    region = Assets.instance.gigaGalAssets.hoverLeftAnimation.getKeyFrame(hoverTimeSeconds);
+                } else {
+                    region = Assets.instance.gigaGalAssets.jumpingLeft;
+                }
+            } else if (walkState == Enums.WalkState.NOT_WALKING || walkState == WalkState.LEANING) {
+                region = Assets.instance.gigaGalAssets.standingLeft;
+            } else if (walkState == Enums.WalkState.WALKING) {
 
-                hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
-                region = Assets.instance.gigaGalAssets.hoverLeftAnimation.getKeyFrame(hoverTimeSeconds);
-            } else {
-                region = Assets.instance.gigaGalAssets.jumpingLeft;
+                region = Assets.instance.gigaGalAssets.walkingLeftAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
+            } else if (walkState == WalkState.DASHING) {
+
+                region = Assets.instance.gigaGalAssets.dashingLeft;
             }
-        } else if (facing == Direction.LEFT && walkState == Enums.WalkState.NOT_WALKING) {
-            region = Assets.instance.gigaGalAssets.standingLeft;
-        } else if (facing == Direction.LEFT && walkState == Enums.WalkState.WALKING) {
-
-            region = Assets.instance.gigaGalAssets.walkingLeftAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
         }
 
         Utils.drawTextureRegion(batch, region, position, Constants.GIGAGAL_EYE_POSITION);
