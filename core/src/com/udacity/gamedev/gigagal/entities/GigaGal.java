@@ -174,7 +174,7 @@ public class GigaGal {
 
 
                 if (Gdx.input.isKeyJustPressed(Keys.A)) {
-                    if (canDashLeft && Utils.secondsSince(dashStartTime) < 0.1f) {
+                    if (canDashLeft && Utils.secondsSince(dashStartTime) < 0.3f) {
                         startDash();
                         canDashLeft = false;
                     } else {
@@ -183,7 +183,7 @@ public class GigaGal {
                         dashStartTime = TimeUtils.nanoTime();
                     }
                 } else if (Gdx.input.isKeyJustPressed(Keys.S)) {
-                    if (canDashRight && Utils.secondsSince(dashStartTime) < 0.5f) {
+                    if (canDashRight && Utils.secondsSince(dashStartTime) < 0.3f) {
                         startDash();
                         canDashRight = false;
                     } else {
