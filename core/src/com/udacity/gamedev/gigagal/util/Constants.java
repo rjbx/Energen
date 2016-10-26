@@ -25,6 +25,7 @@ public class Constants {
     public static final Vector2 KNOCKBACK_VELOCITY = new Vector2(200, 200);
     public static final float MAX_JUMP_DURATION = .1f;
     public static final float MAX_HOVER_DURATION = 1f;
+    public static final float MAX_DASH_DURATION = 1f;
     public static final int INITIAL_AMMO = 10;
     public static final int INITIAL_LIVES = 3;
 

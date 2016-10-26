@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.sun.org.apache.xpath.internal.operations.*;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -17,6 +18,8 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Enums.JumpState;
 import com.udacity.gamedev.gigagal.util.Enums.WalkState;
 import com.udacity.gamedev.gigagal.util.Utils;
+
+import java.lang.String;
 
 public class GigaGal {
 
@@ -40,6 +43,7 @@ public class GigaGal {
     private long jumpStartTime;
     private long chargeStartTime;
     private boolean isCharged;
+    private boolean isDashing;
     private int ammo;
     private int lives;
 
@@ -75,7 +79,7 @@ public class GigaGal {
         walkState = Enums.WalkState.NOT_WALKING;
         jumpStartTime = 0;
         hasHovered = false;
-        isCharged = false;
+        isDashing = false;
     }
 
     public Vector2 getPosition() {
@@ -105,6 +109,10 @@ public class GigaGal {
 
             for (Platform platform : platforms) {
                 if (isTouchingPlatform(platform)) {
+                    if (jumpState == JumpState.RECOILING) {
+                        walkStartTime = TimeUtils.nanoTime();
+                        velocity.x = 0;
+                    }
                     if (jumpStartTime != 0) {
                         walkStartTime += TimeUtils.nanoTime() - jumpStartTime;
                         jumpStartTime = 0;
@@ -112,7 +120,6 @@ public class GigaGal {
                     jumpState = Enums.JumpState.GROUNDED;
                     hasHovered = false;
                     velocity.y = 0;
-                    velocity.x = 0;
                     position.y = platform.top + Constants.GIGAGAL_EYE_HEIGHT;
                 }
             }
@@ -135,27 +142,33 @@ public class GigaGal {
             if (gigaGalBounds.overlaps(zoombaBounds)) {
 
                 if (position.x < zoomba.position.x) {
-                    recoilFromZoomba(Direction.LEFT);
+                    recoilFromHit(Direction.LEFT);
                 } else {
-                    recoilFromZoomba(Direction.RIGHT);
+                    recoilFromHit(Direction.RIGHT);
                 }
             }
         }
 
         // TODO: update OnScreenControls with new physics
         // Move left/right
-        if (jumpState != JumpState.RECOILING) {
 
+
+        if (jumpState != JumpState.RECOILING) {
             boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
             boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
 
-            if (left && !right) {
-                moveLeft(delta);
-            } else if (right && !left) {
-                moveRight(delta);
+            if (left && !right && !isDashing) {
+                moveLeft();
+            } else if (right && !left && !isDashing) {
+                moveRight();
             } else {
                 walkTimeSeconds = 0;
-                walkState = Enums.WalkState.NOT_WALKING;
+                walkStartTime = TimeUtils.nanoTime();
+                velocity.x /= 2;
+                if (velocity.x >= -.00001f && velocity.x <= .00001f) {
+                    walkState = Enums.WalkState.NOT_WALKING;
+                    velocity.x = 0;
+                }
             }
         }
 
@@ -168,13 +181,6 @@ public class GigaGal {
                 case JUMPING:
                     continueJump();
                     break;
-            }
-        } else {
-          endJump();
-        }
-
-        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
-            switch (jumpState) {
                 case FALLING:
                     startHover();
                     break;
@@ -184,6 +190,7 @@ public class GigaGal {
             }
         } else {
             continueHover();
+            endJump();
         }
 
         // Check powerups
@@ -204,7 +211,6 @@ public class GigaGal {
             }
         }
         powerups.end();
-
 
         if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
             shoot(Enums.BulletType.REGULAR);
@@ -263,8 +269,7 @@ public class GigaGal {
         return leftFootIn || rightFootIn || straddle;
     }
 
-
-    private void moveLeft(float delta) {
+    private void moveLeft() {
 
         facing = Direction.LEFT;
         if (jumpState == JumpState.GROUNDED) {
@@ -274,10 +279,10 @@ public class GigaGal {
             }
             walkTimeSeconds = Utils.secondsSince(walkStartTime);
         }
-        position.x -= Math.min(delta * walkTimeSeconds * Constants.GIGAGAL_MAX_SPEED, delta * Constants.GIGAGAL_MAX_SPEED);
+        velocity.x = -Math.min(walkTimeSeconds * Constants.GIGAGAL_MAX_SPEED, Constants.GIGAGAL_MAX_SPEED);
     }
 
-    private void moveRight(float delta) {
+    private void moveRight() {
 
         facing = Direction.RIGHT;
         if (jumpState == JumpState.GROUNDED) {
@@ -287,7 +292,11 @@ public class GigaGal {
             }
             walkTimeSeconds = Utils.secondsSince(walkStartTime);
         }
-        position.x += Math.min(delta * walkTimeSeconds * Constants.GIGAGAL_MAX_SPEED, delta * Constants.GIGAGAL_MAX_SPEED);
+        velocity.x = Math.min(walkTimeSeconds * Constants.GIGAGAL_MAX_SPEED, Constants.GIGAGAL_MAX_SPEED);
+    }
+
+    private void startDash() {
+
     }
 
     private void startJump() {
@@ -303,6 +312,12 @@ public class GigaGal {
             } else {
                 endJump();
             }
+        }
+    }
+
+    private void endJump() {
+        if (jumpState == Enums.JumpState.JUMPING) {
+            jumpState = Enums.JumpState.FALLING;
         }
     }
 
@@ -333,14 +348,8 @@ public class GigaGal {
         }
     }
 
-    private void endJump() {
-        if (jumpState == Enums.JumpState.JUMPING) {
-            jumpState = Enums.JumpState.FALLING;
-        }
-    }
-
-    private void recoilFromZoomba(Direction direction) {
-        walkTimeSeconds = 0.01f;
+    private void recoilFromHit(Direction direction) {
+        walkTimeSeconds = 0;
         jumpState = JumpState.RECOILING;
         velocity.y = Constants.KNOCKBACK_VELOCITY.y;
 
@@ -365,7 +374,6 @@ public class GigaGal {
             region = Assets.instance.gigaGalAssets.standingRight;
         } else if (facing == Direction.RIGHT && walkState == Enums.WalkState.WALKING) {
 
-            walkTimeSeconds = Utils.secondsSince(walkStartTime);
             region = Assets.instance.gigaGalAssets.walkingRightAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
         } else if (facing == Direction.LEFT && jumpState != Enums.JumpState.GROUNDED) {
             if (jumpState == JumpState.HOVERING) {
@@ -379,7 +387,6 @@ public class GigaGal {
             region = Assets.instance.gigaGalAssets.standingLeft;
         } else if (facing == Direction.LEFT && walkState == Enums.WalkState.WALKING) {
 
-            walkTimeSeconds = Utils.secondsSince(walkStartTime);
             region = Assets.instance.gigaGalAssets.walkingLeftAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
         }
 

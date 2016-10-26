@@ -22,6 +22,7 @@ public class Enums {
 
     public enum WalkState {
         NOT_WALKING,
-        WALKING
+        WALKING,
+        DASHING
     }
 }
