@@ -111,28 +111,28 @@ explosion-small
   index: -1
 hover-1-left
   rotate: false
-  xy: 261, 25
+  xy: 323, 25
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
   index: -1
 hover-1-right
   rotate: false
-  xy: 291, 25
+  xy: 353, 25
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
   index: -1
 hover-2-left
   rotate: false
-  xy: 321, 25
+  xy: 542, 91
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
   index: -1
 hover-2-right
   rotate: false
-  xy: 351, 25
+  xy: 572, 91
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
@@ -165,58 +165,72 @@ powerup
   orig: 15, 17
   offset: 0, 0
   index: -1
+ricochet-left
+  rotate: false
+  xy: 261, 25
+  size: 29, 35
+  orig: 29, 35
+  offset: 0, 0
+  index: -1
+ricochet-right
+  rotate: false
+  xy: 292, 25
+  size: 29, 35
+  orig: 29, 35
+  offset: 0, 0
+  index: -1
 standing-left
-  rotate: false
-  xy: 542, 91
-  size: 28, 35
-  orig: 28, 35
-  offset: 0, 0
-  index: -1
-standing-right
-  rotate: false
-  xy: 572, 91
-  size: 28, 35
-  orig: 28, 35
-  offset: 0, 0
-  index: -1
-walk-1-left
   rotate: false
   xy: 602, 91
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
   index: -1
-walk-1-right
+standing-right
   rotate: false
   xy: 632, 91
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
   index: -1
+walk-1-left
+  rotate: false
+  xy: 662, 91
+  size: 28, 35
+  orig: 28, 35
+  offset: 0, 0
+  index: -1
+walk-1-right
+  rotate: false
+  xy: 692, 91
+  size: 28, 35
+  orig: 28, 35
+  offset: 0, 0
+  index: -1
 walk-2-left
   rotate: false
-  xy: 748, 91
+  xy: 808, 91
   size: 25, 35
   orig: 25, 35
   offset: 0, 0
   index: -1
 walk-2-right
   rotate: false
-  xy: 720, 91
+  xy: 780, 91
   size: 26, 35
   orig: 26, 35
   offset: 0, 0
   index: -1
 walk-3-left
   rotate: false
-  xy: 662, 91
+  xy: 722, 91
   size: 27, 35
   orig: 27, 35
   offset: 0, 0
   index: -1
 walk-3-right
   rotate: false
-  xy: 691, 91
+  xy: 751, 91
   size: 27, 35
   orig: 27, 35
   offset: 0, 0

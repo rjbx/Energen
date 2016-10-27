@@ -110,20 +110,27 @@ public class GigaGal {
             if (jumpState != JumpState.RECOILING && jumpState != JumpState.HOVERING) {
                 jumpState = Enums.JumpState.FALLING;
             }
+        }
 
-            for (Platform platform : platforms) {
-                if (isTouchingPlatform(platform)) {
-                    if (jumpStartTime != 0) {
-                        walkStartTime += TimeUtils.nanoTime() - jumpStartTime;
-                        jumpStartTime = 0;
-                    }
-                    jumpState = Enums.JumpState.GROUNDED;
-                    hasHovered = false;
-                    velocity.y = 0;
-                    position.y = platform.top + Constants.GIGAGAL_EYE_HEIGHT;
+        // TODO: fix momentum after jumping into collisions post- recoil
+        for (Platform platform : platforms) {
+            if (isTouchingPlatform(platform)) {
+                if (jumpState == JumpState.RECOILING) {
+                    velocity.x = 0;
+                    walkStartTime = TimeUtils.nanoTime() - jumpStartTime;
+                    jumpStartTime = 0;
                 }
+                if (jumpStartTime != 0) {
+                    walkStartTime += TimeUtils.nanoTime() - jumpStartTime;
+                    jumpStartTime = 0;
+                }
+                jumpState = Enums.JumpState.GROUNDED;
+                hasHovered = false;
+                velocity.y = 0;
+                position.y = platform.top + Constants.GIGAGAL_EYE_HEIGHT;
             }
         }
+
 
         // Collide with enemies
         Rectangle gigaGalBounds = new Rectangle(
