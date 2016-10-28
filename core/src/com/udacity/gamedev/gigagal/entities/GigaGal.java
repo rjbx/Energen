@@ -50,6 +50,7 @@ public class GigaGal {
     private int doubleTapDirectional;
     private int ammo;
     private int lives;
+    private Vector2 jumpStartingPoint;
 
     public GigaGal(Vector2 spawnLocation, Level level) {
         this.spawnLocation = spawnLocation;
@@ -132,14 +133,14 @@ public class GigaGal {
                 position.y = platform.top + Constants.GIGAGAL_EYE_HEIGHT;
             } else if (isBumping(platform)) {
 
+
                 position.x = lastFramePosition.x;
                 if (jumpState != JumpState.GROUNDED && jumpState != JumpState.RECOILING){
-                    if ((Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2)) && ((position.y + Constants.GIGAGAL_HEIGHT - Constants.GIGAGAL_EYE_HEIGHT) < platform.top)) {
+                    if (!(position.y + 2 > platform.top) && jumpStartingPoint.x != position.x && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2)) && position.y < platform.top && (position.y - Constants.GIGAGAL_EYE_HEIGHT) > platform.bottom) {
                         jumpState = JumpState.RICOCHETING;
                     }
                 } else {
                     jumpState = JumpState.BUMPING;
-
                     walkState = WalkState.NOT_WALKING;
                 }
             }
@@ -332,13 +333,13 @@ public class GigaGal {
             if (facing == Direction.RIGHT) {
 
                 if ((lastFramePosition.x + margin) <= platform.left &&
-                        (position.x + margin) > platform.left && (position.y - Constants.GIGAGAL_EYE_HEIGHT) > platform.bottom && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top ) {
+                        (position.x + margin) > platform.left && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top) {
                     return true;
                 }
             } else {
 
                 if ((lastFramePosition.x - margin) >= platform.right &&
-                        (position.x - margin) < platform.right && (position.y - Constants.GIGAGAL_EYE_HEIGHT) > platform.bottom && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top) {
+                        (position.x - margin) < platform.right && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top) {
                     return true;
                 }
             }
@@ -399,6 +400,7 @@ public class GigaGal {
 
 
     public void startJump() {
+        jumpStartingPoint = new Vector2(position);
         jumpState = Enums.JumpState.JUMPING;
         jumpStartTime = TimeUtils.nanoTime();
         continueJump();
@@ -408,6 +410,9 @@ public class GigaGal {
         if (jumpState == Enums.JumpState.JUMPING) {
             if (Utils.secondsSince(jumpStartTime) < Constants.MAX_JUMP_DURATION) {
                 velocity.y = Constants.JUMP_SPEED;
+                if (Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 2){
+                    velocity.y *= 1.1;
+                }
             } else {
                 endJump();
             }
