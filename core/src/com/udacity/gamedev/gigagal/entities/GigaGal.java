@@ -58,6 +58,12 @@ public class GigaGal {
         position = new Vector2();
         lastFramePosition = new Vector2();
         velocity = new Vector2();
+        jumpStartTime = 0;
+        hasHovered = false;
+        canDashLeft = false;
+        canDashRight = false;
+        doubleTapDirectional = 0;
+        jumpStartingPoint = new Vector2();
         init();
     }
 
@@ -87,6 +93,7 @@ public class GigaGal {
         canDashLeft = false;
         canDashRight = false;
         doubleTapDirectional = 0;
+        jumpStartingPoint = new Vector2();
     }
 
     public Vector2 getPosition() {
@@ -333,13 +340,13 @@ public class GigaGal {
             if (facing == Direction.RIGHT) {
 
                 if ((lastFramePosition.x + margin) <= platform.left &&
-                        (position.x + margin) > platform.left && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top) {
+                        (position.x + margin) > platform.left && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top && (position.y + 2 > platform.bottom)) {
                     return true;
                 }
             } else {
 
                 if ((lastFramePosition.x - margin) >= platform.right &&
-                        (position.x - margin) < platform.right && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top) {
+                        (position.x - margin) < platform.right && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top && (position.y + 2 > platform.bottom)) {
                     return true;
                 }
             }
