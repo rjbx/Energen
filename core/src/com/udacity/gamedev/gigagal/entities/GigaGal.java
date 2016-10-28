@@ -58,12 +58,6 @@ public class GigaGal {
         position = new Vector2();
         lastFramePosition = new Vector2();
         velocity = new Vector2();
-        jumpStartTime = 0;
-        hasHovered = false;
-        canDashLeft = false;
-        canDashRight = false;
-        doubleTapDirectional = 0;
-        jumpStartingPoint = new Vector2();
         init();
     }
 
@@ -124,6 +118,12 @@ public class GigaGal {
 
         // TODO: fix momentum after jumping into collisions post- recoil
         for (Platform platform : platforms) {
+
+            if ((lastFramePosition.y + 2 < platform.bottom) && position.y + 2 >= platform.bottom && position.x < platform.right && position.x > platform.left) {
+                endJump();
+                position.y = lastFramePosition.y;
+                velocity.y = -Constants.GRAVITY;
+            }
             if (isLanding(platform)) {
                 if (jumpState == JumpState.RECOILING) {
                     velocity.x = 0;
@@ -140,15 +140,15 @@ public class GigaGal {
                 position.y = platform.top + Constants.GIGAGAL_EYE_HEIGHT;
             } else if (isBumping(platform)) {
 
-
                 position.x = lastFramePosition.x;
                 if (jumpState != JumpState.GROUNDED && jumpState != JumpState.RECOILING){
                     if (!(position.y + 2 > platform.top) && jumpStartingPoint.x != position.x && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2)) && position.y < platform.top && (position.y - Constants.GIGAGAL_EYE_HEIGHT) > platform.bottom) {
                         jumpState = JumpState.RICOCHETING;
                     }
                 } else {
-                    jumpState = JumpState.BUMPING;
                     walkState = WalkState.NOT_WALKING;
+                    walkStartTime = TimeUtils.nanoTime();
+                    walkTimeSeconds = 0;
                 }
             }
         }
@@ -337,18 +337,13 @@ public class GigaGal {
 
             float margin = Constants.GIGAGAL_STANCE_WIDTH / 2;
 
-            if (facing == Direction.RIGHT) {
-
-                if ((lastFramePosition.x + margin) <= platform.left &&
-                        (position.x + margin) > platform.left && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top && (position.y + 2 > platform.bottom)) {
-                    return true;
-                }
-            } else {
-
-                if ((lastFramePosition.x - margin) >= platform.right &&
-                        (position.x - margin) < platform.right && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top && (position.y + 2 > platform.bottom)) {
-                    return true;
-                }
+            if ((lastFramePosition.x + margin) <= platform.left &&
+                    (position.x + margin) > platform.left && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top && (position.y + 2 > platform.bottom)) {
+                return true;
+            }
+            if ((lastFramePosition.x - margin) >= platform.right &&
+                    (position.x - margin) < platform.right && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top && (position.y + 2 > platform.bottom)) {
+                return true;
             }
         }
         return false;
