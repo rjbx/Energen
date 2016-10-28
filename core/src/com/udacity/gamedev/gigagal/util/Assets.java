@@ -70,6 +70,8 @@ public class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion jumpingRight;
         public final AtlasRegion dashingLeft;
         public final AtlasRegion dashingRight;
+        public final AtlasRegion ricochetingLeft;
+        public final AtlasRegion ricochetingRight;
         
         public final Animation hoverLeftAnimation;
         public final Animation hoverRightAnimation;
@@ -87,6 +89,8 @@ public class Assets implements Disposable, AssetErrorListener {
             jumpingRight = atlas.findRegion(Constants.JUMPING_RIGHT);
             dashingLeft = atlas.findRegion(Constants.WALKING_LEFT_2);
             dashingRight = atlas.findRegion(Constants.WALKING_RIGHT_2);
+            ricochetingLeft = atlas.findRegion(Constants.RICOCHETING_LEFT);
+            ricochetingRight = atlas.findRegion(Constants.RICOCHETING_RIGHT);
             
             Array<AtlasRegion> hoverLeftFrames = new Array<AtlasRegion>();
             hoverLeftFrames.add(atlas.findRegion(Constants.HOVER_LEFT_1));

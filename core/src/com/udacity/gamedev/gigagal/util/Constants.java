@@ -33,6 +33,8 @@ public class Constants {
     public static final String STANDING_LEFT = "standing-left";
     public static final String JUMPING_RIGHT = "jumping-right";
     public static final String JUMPING_LEFT = "jumping-left";
+    public static final String RICOCHETING_RIGHT = "ricochet-right";
+    public static final String RICOCHETING_LEFT = "ricochet-left";
     public static final String HOVER_RIGHT_1 = "hover-1-right";
     public static final String HOVER_LEFT_1 = "hover-1-left";
     public static final String HOVER_RIGHT_2 = "hover-2-right";
@@ -103,7 +105,7 @@ public class Constants {
     public static final String LEVEL_HEIGHT_KEY = "height";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_ZOOMBA_TAG = "Zoomba";
-    public static final String[] LEVELS = {"levels/Level1.dt", "levels/Level2.dt", "levels/Level3.dt"};
+    public static final String[] LEVELS = {"levels/Level3.dt", "levels/Level1.dt", "levels/Level2.dt"};
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;

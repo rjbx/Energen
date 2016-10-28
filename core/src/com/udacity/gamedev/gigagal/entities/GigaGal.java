@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.environment.SphericalHarmonics;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -26,6 +27,7 @@ public class GigaGal {
     public boolean jumpButtonPressed;
     public boolean leftButtonPressed;
     public boolean rightButtonPressed;
+    public boolean shootButtonPressed;
     private Level level;
     private Vector2 spawnLocation;
     private Vector2 position;
@@ -40,7 +42,7 @@ public class GigaGal {
     private float hoverTimeSeconds;
     private boolean hasHovered;
     private long jumpStartTime;
-    private long chargeStartTime;
+    public long chargeStartTime;
     private long dashStartTime;
     private boolean isCharged;
     private boolean canDashLeft;
@@ -107,17 +109,17 @@ public class GigaGal {
 
         // Land on/fall off platforms
         if (jumpState != Enums.JumpState.JUMPING) {
-            if (jumpState != JumpState.RECOILING && jumpState != JumpState.HOVERING) {
+            if (jumpState != JumpState.RECOILING && jumpState != JumpState.HOVERING && jumpState != JumpState.RICOCHETING) {
                 jumpState = Enums.JumpState.FALLING;
             }
         }
 
         // TODO: fix momentum after jumping into collisions post- recoil
         for (Platform platform : platforms) {
-            if (isTouchingPlatform(platform)) {
+            if (isLanding(platform)) {
                 if (jumpState == JumpState.RECOILING) {
                     velocity.x = 0;
-                    walkStartTime = TimeUtils.nanoTime() - jumpStartTime;
+                    walkStartTime = TimeUtils.nanoTime();
                     jumpStartTime = 0;
                 }
                 if (jumpStartTime != 0) {
@@ -128,9 +130,20 @@ public class GigaGal {
                 hasHovered = false;
                 velocity.y = 0;
                 position.y = platform.top + Constants.GIGAGAL_EYE_HEIGHT;
+            } else if (isBumping(platform)) {
+
+                position.x = lastFramePosition.x;
+                if (jumpState != JumpState.GROUNDED && jumpState != JumpState.RECOILING){
+                    if ((Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2)) && ((position.y + Constants.GIGAGAL_HEIGHT - Constants.GIGAGAL_EYE_HEIGHT) < platform.top)) {
+                        jumpState = JumpState.RICOCHETING;
+                    }
+                } else {
+                    jumpState = JumpState.BUMPING;
+
+                    walkState = WalkState.NOT_WALKING;
+                }
             }
         }
-
 
         // Collide with enemies
         Rectangle gigaGalBounds = new Rectangle(
@@ -159,7 +172,7 @@ public class GigaGal {
         // TODO: update OnScreenControls with new physics
         // Move left/right
         if (walkState != WalkState.DASHING) {
-            if (jumpState != JumpState.RECOILING) {
+            if (jumpState == JumpState.GROUNDED) {
                 boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
                 boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
 
@@ -178,7 +191,7 @@ public class GigaGal {
                     }
                 }
 
-
+                // TODO: enable dash on touch screen left/right button double press
                 if (Gdx.input.isKeyJustPressed(Keys.A)) {
                     if (canDashLeft && Utils.secondsSince(dashStartTime) < 0.3f) {
                         startDash();
@@ -218,6 +231,17 @@ public class GigaGal {
                 case HOVERING:
                     endHover();
                     break;
+                case RICOCHETING:
+
+                    if (facing == Direction.LEFT) {
+                        facing = Direction.RIGHT;
+                        velocity.x = Constants.GIGAGAL_MAX_SPEED;
+                    } else {
+                        facing = Direction.LEFT;
+                        velocity.x = -Constants.GIGAGAL_MAX_SPEED;
+                    }
+                    startJump();
+                    break;
             }
         } else {
             continueHover();
@@ -248,7 +272,7 @@ public class GigaGal {
             chargeStartTime = TimeUtils.nanoTime();
         }
 
-        if (Gdx.input.isKeyPressed(Keys.ENTER)) {
+        if (Gdx.input.isKeyPressed(Keys.ENTER) || shootButtonPressed) {
             // Shoot
             if (Utils.secondsSince(chargeStartTime) > Constants.CHARGE_DURATION) {
                 isCharged = true;
@@ -282,7 +306,7 @@ public class GigaGal {
         }
     }
 
-    boolean isTouchingPlatform(Platform platform) {
+    boolean isLanding(Platform platform) {
         boolean leftFootIn = false;
         boolean rightFootIn = false;
         boolean straddle = false;
@@ -298,6 +322,28 @@ public class GigaGal {
             straddle = (platform.left > leftFoot && platform.right < rightFoot);
         }
         return leftFootIn || rightFootIn || straddle;
+    }
+
+    boolean isBumping(Platform platform) {
+        if (platform.top - platform.bottom > 20) {
+
+            float margin = Constants.GIGAGAL_STANCE_WIDTH / 2;
+
+            if (facing == Direction.RIGHT) {
+
+                if ((lastFramePosition.x + margin) <= platform.left &&
+                        (position.x + margin) > platform.left && (position.y - Constants.GIGAGAL_EYE_HEIGHT) > platform.bottom && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top ) {
+                    return true;
+                }
+            } else {
+
+                if ((lastFramePosition.x - margin) >= platform.right &&
+                        (position.x - margin) < platform.right && (position.y - Constants.GIGAGAL_EYE_HEIGHT) > platform.bottom && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void moveLeft() {
@@ -351,7 +397,8 @@ public class GigaGal {
         velocity.x = 0;
     }
 
-    private void startJump() {
+
+    public void startJump() {
         jumpState = Enums.JumpState.JUMPING;
         jumpStartTime = TimeUtils.nanoTime();
         continueJump();
@@ -412,7 +459,6 @@ public class GigaGal {
         }
     }
 
-
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.instance.gigaGalAssets.standingRight;
         if (facing == Direction.RIGHT) {
@@ -421,6 +467,8 @@ public class GigaGal {
 
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
                     region = Assets.instance.gigaGalAssets.hoverRightAnimation.getKeyFrame(hoverTimeSeconds);
+                } else if (jumpState == JumpState.RICOCHETING) {
+                    region = Assets.instance.gigaGalAssets.ricochetingLeft;
                 } else {
                     region = Assets.instance.gigaGalAssets.jumpingRight;
                 }
@@ -439,6 +487,8 @@ public class GigaGal {
 
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
                     region = Assets.instance.gigaGalAssets.hoverLeftAnimation.getKeyFrame(hoverTimeSeconds);
+                } else if (jumpState == JumpState.RICOCHETING) {
+                    region = Assets.instance.gigaGalAssets.ricochetingRight;
                 } else {
                     region = Assets.instance.gigaGalAssets.jumpingLeft;
                 }

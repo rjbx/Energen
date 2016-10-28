@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
@@ -26,6 +27,7 @@ public class OnscreenControls extends InputAdapter {
     private int moveLeftPointer;
     private int moveRightPointer;
     private int jumpPointer;
+    private int shootPointer;
 
     public OnscreenControls() {
         this.viewport = new ExtendViewport(
@@ -38,6 +40,7 @@ public class OnscreenControls extends InputAdapter {
         shootCenter = new Vector2();
         jumpCenter = new Vector2();
 
+        // TODO: fix button positions
         recalculateButtonPositions();
     }
 
@@ -49,8 +52,10 @@ public class OnscreenControls extends InputAdapter {
 
         if (viewportPosition.dst(shootCenter) < Constants.BUTTON_RADIUS) {
 
-            // TODO: Call shoot() on GigaGal
             gigaGal.shoot(Enums.BulletType.REGULAR);
+            gigaGal.chargeStartTime = TimeUtils.nanoTime();
+            this.shootPointer = pointer;
+            gigaGal.shootButtonPressed = true;
         } else if (viewportPosition.dst(jumpCenter) < Constants.BUTTON_RADIUS) {
 
             // : Save the jumpPointer and set gigaGal.jumpButtonPressed = true
@@ -103,6 +108,10 @@ public class OnscreenControls extends InputAdapter {
             moveLeftPointer = pointer;
         }
 
+        if (pointer == shootPointer && viewportPosition.dst(shootCenter) < Constants.BUTTON_RADIUS) {
+            gigaGal.shootButtonPressed = true;
+        }
+
         return super.touchDragged(screenX, screenY, pointer);
     }
 
@@ -112,10 +121,13 @@ public class OnscreenControls extends InputAdapter {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
-        if (!Gdx.input.isTouched(jumpPointer)) {
+        if (!Gdx.input.isTouched(shootPointer)) {
+            gigaGal.shootButtonPressed = false;
+            shootPointer = 0;
+        }
+
             gigaGal.jumpButtonPressed = false;
             jumpPointer = 0;
-        }
 
         // : If the moveLeftPointer is no longer touched, inform GigaGal and zero moveLeftPointer
         if (!Gdx.input.isTouched(moveLeftPointer)) {

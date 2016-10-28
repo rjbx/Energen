@@ -15,9 +15,11 @@ public class Enums {
     public enum JumpState {
         JUMPING,
         HOVERING,
+        RICOCHETING,
         FALLING,
         GROUNDED,
-        RECOILING
+        RECOILING,
+        BUMPING
     }
 
     public enum WalkState {
