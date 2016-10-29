@@ -118,7 +118,10 @@ public class GigaGal {
         // TODO: fix momentum after jumping into collisions post- recoil
         for (Platform platform : platforms) {
 
-            if ((lastFramePosition.y + 2 < platform.bottom) && position.y + 2 >= platform.bottom && position.x < platform.right && position.x > platform.left) {
+            if ((lastFramePosition.y + 3 < platform.bottom)
+                    && position.y + 3 >= platform.bottom
+                    && position.x < platform.right
+                    && position.x > platform.left) {
                 endJump();
                 position.y = lastFramePosition.y;
                 velocity.y = -Constants.GRAVITY;
@@ -141,8 +144,14 @@ public class GigaGal {
 
                 position.x = lastFramePosition.x;
                 if (jumpState != JumpState.GROUNDED && jumpState != JumpState.RECOILING){
-                    if (!(position.y + 2 > platform.top) && jumpStartingPoint.x != position.x && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2)) && position.y < platform.top && (position.y - Constants.GIGAGAL_EYE_HEIGHT) > platform.bottom) {
+                    if (position.y - 3 <= platform.top
+                            && jumpStartingPoint.x != position.x
+                            && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))
+                            && position.y - Constants.GIGAGAL_EYE_HEIGHT > platform.bottom) {
                         jumpState = JumpState.RICOCHETING;
+                        walkState = WalkState.LEANING;
+                    } else {
+                        jumpState = JumpState.FALLING;
                     }
                 } else {
                     walkState = WalkState.NOT_WALKING;
@@ -319,7 +328,7 @@ public class GigaGal {
         boolean straddle = false;
 
         if (lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.top &&
-                position.y - Constants.GIGAGAL_EYE_HEIGHT < platform.top) {
+                position.y - Constants.GIGAGAL_EYE_HEIGHT < platform.top + 3) {
 
             float leftFoot = position.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
             float rightFoot = position.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
