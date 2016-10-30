@@ -47,6 +47,7 @@ public class GigaGal {
     private boolean canDashLeft;
     private boolean canDashRight;
     private int doubleTapDirectional;
+    private long ricochetStartTime;
     private int ammo;
     private int lives;
     private Vector2 jumpStartingPoint;
@@ -96,8 +97,18 @@ public class GigaGal {
     public void update(float delta, Array<Platform> platforms) {
 
         lastFramePosition.set(position);
-        if (jumpState != JumpState.HOVERING) {
+
+        if (jumpState != JumpState.RICOCHETING) {
             velocity.y -= Constants.GRAVITY;
+        } else if (Utils.secondsSince(ricochetStartTime) > 0.05f) {
+            if (facing == Direction.LEFT) {
+                facing = Direction.RIGHT;
+                velocity.x = Constants.GIGAGAL_MAX_SPEED;
+            } else {
+                facing = Direction.LEFT;
+                velocity.x = -Constants.GIGAGAL_MAX_SPEED;
+            }
+            startJump();
         }
         position.mulAdd(velocity, delta);
 
@@ -109,11 +120,6 @@ public class GigaGal {
         }
 
         // Land on/fall off platforms
-        if (jumpState != Enums.JumpState.JUMPING) {
-            if (jumpState != JumpState.RECOILING && jumpState != JumpState.HOVERING && jumpState != JumpState.RICOCHETING) {
-                jumpState = Enums.JumpState.FALLING;
-            }
-        }
 
         // TODO: fix momentum after jumping into collisions post- recoil
         for (Platform platform : platforms) {
@@ -141,17 +147,14 @@ public class GigaGal {
                 velocity.y = 0;
                 position.y = platform.top + Constants.GIGAGAL_EYE_HEIGHT;
             } else if (isBumping(platform)) {
-
                 position.x = lastFramePosition.x;
-                if (jumpState != JumpState.GROUNDED && jumpState != JumpState.RECOILING){
+                if (jumpState != JumpState.GROUNDED && jumpState != JumpState.RECOILING && jumpState != JumpState.RICOCHETING) {
                     if (position.y - 3 <= platform.top
                             && jumpStartingPoint.x != position.x
                             && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))
                             && position.y - Constants.GIGAGAL_EYE_HEIGHT > platform.bottom) {
-                        jumpState = JumpState.RICOCHETING;
+                        jumpState = JumpState.BUMPING;
                         walkState = WalkState.LEANING;
-                    } else {
-                        jumpState = JumpState.FALLING;
                     }
                 } else {
                     walkState = WalkState.NOT_WALKING;
@@ -160,7 +163,6 @@ public class GigaGal {
                 }
             }
         }
-
         // Collide with enemies
         Rectangle gigaGalBounds = new Rectangle(
                 position.x - Constants.GIGAGAL_STANCE_WIDTH / 2,
@@ -247,16 +249,9 @@ public class GigaGal {
                 case HOVERING:
                     endHover();
                     break;
-                case RICOCHETING:
-
-                    if (facing == Direction.LEFT) {
-                        facing = Direction.RIGHT;
-                        velocity.x = Constants.GIGAGAL_MAX_SPEED;
-                    } else {
-                        facing = Direction.LEFT;
-                        velocity.x = -Constants.GIGAGAL_MAX_SPEED;
-                    }
-                    startJump();
+                case BUMPING:
+                    jumpState = JumpState.RICOCHETING;
+                    ricochetStartTime = TimeUtils.nanoTime();
                     break;
             }
         } else {
