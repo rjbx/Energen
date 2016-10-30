@@ -19,7 +19,7 @@ public class Enums {
         FALLING,
         GROUNDED,
         RECOILING,
-        BUMPING
+        SLIDING
     }
 
     public enum WalkState {

@@ -18,6 +18,13 @@ public class Platform {
         this.left = left;
         this.right = left + width;
     }
+    
+    public Platform(Platform p) {
+        this.top = p.top;
+        this.bottom = p.top - (p.top - p.bottom);
+        this.left = p.left;
+        this.right = p.left + (p.right - p.left);
+    }
 
     public void render(SpriteBatch batch) {
         final float width = right - left;

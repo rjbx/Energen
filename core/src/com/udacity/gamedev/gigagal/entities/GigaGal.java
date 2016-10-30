@@ -51,6 +51,7 @@ public class GigaGal {
     private int ammo;
     private int lives;
     private Vector2 jumpStartingPoint;
+    private Platform slidPlatform;
 
     public GigaGal(Vector2 spawnLocation, Level level) {
         this.spawnLocation = spawnLocation;
@@ -123,7 +124,6 @@ public class GigaGal {
 
         // TODO: fix momentum after jumping into collisions post- recoil
         for (Platform platform : platforms) {
-
             if ((lastFramePosition.y + 3 < platform.bottom)
                     && position.y + 3 >= platform.bottom
                     && position.x < platform.right
@@ -132,6 +132,7 @@ public class GigaGal {
                 position.y = lastFramePosition.y;
                 velocity.y = -Constants.GRAVITY;
             }
+
             if (isLanding(platform)) {
                 if (jumpState == JumpState.RECOILING) {
                     velocity.x = 0;
@@ -147,19 +148,27 @@ public class GigaGal {
                 velocity.y = 0;
                 position.y = platform.top + Constants.GIGAGAL_EYE_HEIGHT;
             } else if (isBumping(platform)) {
+
+
                 position.x = lastFramePosition.x;
-                if (jumpState != JumpState.GROUNDED && jumpState != JumpState.RECOILING && jumpState != JumpState.RICOCHETING) {
+                if (jumpState != JumpState.GROUNDED
+                        && jumpState != JumpState.RECOILING
+                        && jumpState != JumpState.RICOCHETING) {
                     if (position.y - 3 <= platform.top
                             && jumpStartingPoint.x != position.x
                             && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))
                             && position.y - Constants.GIGAGAL_EYE_HEIGHT > platform.bottom) {
-                        jumpState = JumpState.BUMPING;
+                        jumpState = JumpState.SLIDING;
+                        hoverStartTime = TimeUtils.nanoTime();
                         walkState = WalkState.LEANING;
+                        velocity.x = 0;
+                        slidPlatform = new Platform(platform);
+                    } else {
+                        jumpState = JumpState.FALLING;
+                        walkState = WalkState.NOT_WALKING;
+                        walkStartTime = TimeUtils.nanoTime();
+                        walkTimeSeconds = 0;
                     }
-                } else {
-                    walkState = WalkState.NOT_WALKING;
-                    walkStartTime = TimeUtils.nanoTime();
-                    walkTimeSeconds = 0;
                 }
             }
         }
@@ -249,9 +258,11 @@ public class GigaGal {
                 case HOVERING:
                     endHover();
                     break;
-                case BUMPING:
-                    jumpState = JumpState.RICOCHETING;
-                    ricochetStartTime = TimeUtils.nanoTime();
+                case SLIDING:
+                    if (position.y - 3 > slidPlatform.bottom) {
+                        jumpState = JumpState.RICOCHETING;
+                        ricochetStartTime = TimeUtils.nanoTime();
+                    }
                     break;
             }
         } else {
@@ -336,16 +347,20 @@ public class GigaGal {
     }
 
     boolean isBumping(Platform platform) {
-        if (platform.top - platform.bottom > 20) {
+        if (platform.top - platform.bottom > 5) {
 
             float margin = Constants.GIGAGAL_STANCE_WIDTH / 2;
 
             if ((lastFramePosition.x + margin) <= platform.left &&
-                    (position.x + margin) > platform.left && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top && (position.y + 2 > platform.bottom)) {
+                    (position.x + margin) > platform.left
+                    && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top
+                    && (position.y + 3 > platform.bottom)) {
                 return true;
             }
             if ((lastFramePosition.x - margin) >= platform.right &&
-                    (position.x - margin) < platform.right && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top && (position.y + 2 > platform.bottom)) {
+                    (position.x - margin) < platform.right
+                    && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top
+                    && (position.y + 3 > platform.bottom)) {
                 return true;
             }
         }
