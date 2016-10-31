@@ -52,7 +52,7 @@ public class OnscreenControls extends InputAdapter {
 
         if (viewportPosition.dst(shootCenter) < Constants.BUTTON_RADIUS) {
 
-            gigaGal.shoot(Enums.BulletType.REGULAR);
+            gigaGal.shoot(Enums.AmmoType.REGULAR);
             gigaGal.chargeStartTime = TimeUtils.nanoTime();
             this.shootPointer = pointer;
             gigaGal.shootButtonPressed = true;

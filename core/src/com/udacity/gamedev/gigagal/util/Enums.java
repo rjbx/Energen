@@ -3,7 +3,7 @@ package com.udacity.gamedev.gigagal.util;
 
 public class Enums {
 
-    public enum BulletType {
+    public enum AmmoType {
         REGULAR, CHARGE
     }
 
@@ -12,7 +12,7 @@ public class Enums {
         LEFT, RIGHT
     }
 
-    public enum JumpState {
+    public enum AerialStatus {
         JUMPING,
         HOVERING,
         RICOCHETING,
@@ -22,8 +22,8 @@ public class Enums {
         SLIDING
     }
 
-    public enum WalkState {
-        NOT_WALKING,
+    public enum TerrainStatus {
+        STANDING,
         LEANING,
         WALKING,
         DASHING

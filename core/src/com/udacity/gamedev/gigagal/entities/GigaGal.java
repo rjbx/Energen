@@ -14,8 +14,8 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
-import com.udacity.gamedev.gigagal.util.Enums.JumpState;
-import com.udacity.gamedev.gigagal.util.Enums.WalkState;
+import com.udacity.gamedev.gigagal.util.Enums.AerialStatus;
+import com.udacity.gamedev.gigagal.util.Enums.TerrainStatus;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 import java.lang.String;
@@ -33,8 +33,8 @@ public class GigaGal {
     private Vector2 lastFramePosition;
     private Vector2 velocity;
     private Direction facing;
-    private JumpState jumpState;
-    private WalkState walkState;
+    private AerialStatus AerialStatus;
+    private TerrainStatus TerrainStatus;
     private long walkStartTime;
     private float walkTimeSeconds;
     private long hoverStartTime;
@@ -80,9 +80,9 @@ public class GigaGal {
         position.set(spawnLocation);
         lastFramePosition.set(spawnLocation);
         velocity.setZero();
-        jumpState = Enums.JumpState.FALLING;
+        AerialStatus = AerialStatus.FALLING;
         facing = Direction.RIGHT;
-        walkState = Enums.WalkState.NOT_WALKING;
+        TerrainStatus = TerrainStatus.STANDING;
         jumpStartTime = 0;
         hasHovered = false;
         canDashLeft = false;
@@ -99,9 +99,9 @@ public class GigaGal {
 
         lastFramePosition.set(position);
 
-        if (jumpState != JumpState.RICOCHETING) {
+        if (AerialStatus != AerialStatus.RICOCHETING) {
             velocity.y -= Constants.GRAVITY;
-        } else if (Utils.secondsSince(ricochetStartTime) > 0.05f) {
+        } else if (Utils.secondsSince(ricochetStartTime) > Constants.RICOCHET_DURATION) {
             if (facing == Direction.LEFT) {
                 facing = Direction.RIGHT;
                 velocity.x = Constants.GIGAGAL_MAX_SPEED;
@@ -124,8 +124,8 @@ public class GigaGal {
 
         // TODO: fix momentum after jumping into collisions post- recoil
         for (Platform platform : platforms) {
-            if ((lastFramePosition.y + 3 < platform.bottom)
-                    && position.y + 3 >= platform.bottom
+            if ((lastFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS < platform.bottom)
+                    && position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.bottom
                     && position.x < platform.right
                     && position.x > platform.left) {
                 endJump();
@@ -134,7 +134,7 @@ public class GigaGal {
             }
 
             if (isLanding(platform)) {
-                if (jumpState == JumpState.RECOILING) {
+                if (AerialStatus == AerialStatus.RECOILING) {
                     velocity.x = 0;
                     walkStartTime = TimeUtils.nanoTime();
                     jumpStartTime = 0;
@@ -143,7 +143,7 @@ public class GigaGal {
                     walkStartTime += TimeUtils.nanoTime() - jumpStartTime;
                     jumpStartTime = 0;
                 }
-                jumpState = Enums.JumpState.GROUNDED;
+                AerialStatus = AerialStatus.GROUNDED;
                 hasHovered = false;
                 velocity.y = 0;
                 position.y = platform.top + Constants.GIGAGAL_EYE_HEIGHT;
@@ -151,21 +151,22 @@ public class GigaGal {
 
 
                 position.x = lastFramePosition.x;
-                if (jumpState != JumpState.GROUNDED
-                        && jumpState != JumpState.RECOILING
-                        && jumpState != JumpState.RICOCHETING) {
-                    if (position.y - 3 <= platform.top
+                if (AerialStatus != AerialStatus.GROUNDED
+                        && AerialStatus != AerialStatus.RECOILING
+                        && AerialStatus != AerialStatus.RICOCHETING) {
+                    if (position.y - Constants.GIGAGAL_HEAD_RADIUS <= platform.top
                             && jumpStartingPoint.x != position.x
                             && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))
                             && position.y - Constants.GIGAGAL_EYE_HEIGHT > platform.bottom) {
-                        jumpState = JumpState.SLIDING;
+                        AerialStatus = AerialStatus.SLIDING;
                         hoverStartTime = TimeUtils.nanoTime();
-                        walkState = WalkState.LEANING;
+                        TerrainStatus = TerrainStatus.LEANING;
                         velocity.x = 0;
+
                         slidPlatform = new Platform(platform);
                     } else {
-                        jumpState = JumpState.FALLING;
-                        walkState = WalkState.NOT_WALKING;
+                        AerialStatus = AerialStatus.FALLING;
+                        TerrainStatus = TerrainStatus.STANDING;
                         walkStartTime = TimeUtils.nanoTime();
                         walkTimeSeconds = 0;
                     }
@@ -198,8 +199,8 @@ public class GigaGal {
 
         // TODO: update OnScreenControls with new physics
         // Move left/right
-        if (walkState != WalkState.DASHING) {
-            if (jumpState == JumpState.GROUNDED) {
+        if (TerrainStatus != TerrainStatus.DASHING) {
+            if (AerialStatus == AerialStatus.GROUNDED) {
                 boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
                 boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
 
@@ -211,16 +212,16 @@ public class GigaGal {
                     walkTimeSeconds = 0;
                     walkStartTime = TimeUtils.nanoTime();
                     velocity.x /= 2;
-                    walkState = WalkState.NOT_WALKING;
+                    TerrainStatus = TerrainStatus.STANDING;
                     if (velocity.x >= -.01f && velocity.x <= .01f) {
                         velocity.x = 0;
-                        walkState = Enums.WalkState.NOT_WALKING;
+                        TerrainStatus = TerrainStatus.STANDING;
                     }
                 }
 
                 // TODO: enable dash on touch screen left/right button double press
                 if (Gdx.input.isKeyJustPressed(Keys.A)) {
-                    if (canDashLeft && Utils.secondsSince(dashStartTime) < 0.3f) {
+                    if (canDashLeft && Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
                         startDash();
                         canDashLeft = false;
                     } else {
@@ -229,7 +230,7 @@ public class GigaGal {
                         dashStartTime = TimeUtils.nanoTime();
                     }
                 } else if (Gdx.input.isKeyJustPressed(Keys.S)) {
-                    if (canDashRight && Utils.secondsSince(dashStartTime) < 0.3f) {
+                    if (canDashRight && Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
                         startDash();
                         canDashRight = false;
                     } else {
@@ -245,7 +246,7 @@ public class GigaGal {
 
         // Jump
         if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
-            switch (jumpState) {
+            switch (AerialStatus) {
                 case GROUNDED:
                     startJump();
                     break;
@@ -259,8 +260,8 @@ public class GigaGal {
                     endHover();
                     break;
                 case SLIDING:
-                    if (position.y - 3 > slidPlatform.bottom) {
-                        jumpState = JumpState.RICOCHETING;
+                    if (position.y - Constants.GIGAGAL_HEAD_RADIUS > slidPlatform.bottom) {
+                        AerialStatus = AerialStatus.RICOCHETING;
                         ricochetStartTime = TimeUtils.nanoTime();
                     }
                     break;
@@ -290,7 +291,7 @@ public class GigaGal {
         powerups.end();
 
         if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
-            shoot(Enums.BulletType.REGULAR);
+            shoot(Enums.AmmoType.REGULAR);
             chargeStartTime = TimeUtils.nanoTime();
         }
 
@@ -301,13 +302,13 @@ public class GigaGal {
             }
         } else {
             if (isCharged) {
-                shoot(Enums.BulletType.CHARGE);
+                shoot(Enums.AmmoType.CHARGE);
                 isCharged = false;
             }
         }
     }
 
-    public void shoot(Enums.BulletType bulletType) {
+    public void shoot(Enums.AmmoType ammoType) {
         if (ammo > 0) {
 
             ammo--;
@@ -324,7 +325,7 @@ public class GigaGal {
                         position.y + Constants.GIGAGAL_CANNON_OFFSET.y
                 );
             }
-            level.spawnBullet(bulletPosition, facing, bulletType);
+            level.spawnBullet(bulletPosition, facing, ammoType);
         }
     }
 
@@ -334,7 +335,7 @@ public class GigaGal {
         boolean straddle = false;
 
         if (lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.top &&
-                position.y - Constants.GIGAGAL_EYE_HEIGHT < platform.top + 3) {
+                position.y - Constants.GIGAGAL_EYE_HEIGHT < platform.top + Constants.GIGAGAL_HEAD_RADIUS) {
 
             float leftFoot = position.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
             float rightFoot = position.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
@@ -347,20 +348,20 @@ public class GigaGal {
     }
 
     boolean isBumping(Platform platform) {
-        if (platform.top - platform.bottom > 5) {
+        if (platform.top - platform.bottom > Constants.MAX_LEDGE_HEIGHT) {
 
             float margin = Constants.GIGAGAL_STANCE_WIDTH / 2;
 
             if ((lastFramePosition.x + margin) <= platform.left &&
                     (position.x + margin) > platform.left
                     && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top
-                    && (position.y + 3 > platform.bottom)) {
+                    && (position.y + Constants.GIGAGAL_HEAD_RADIUS > platform.bottom)) {
                 return true;
             }
             if ((lastFramePosition.x - margin) >= platform.right &&
                     (position.x - margin) < platform.right
                     && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top
-                    && (position.y + 3 > platform.bottom)) {
+                    && (position.y + Constants.GIGAGAL_HEAD_RADIUS > platform.bottom)) {
                 return true;
             }
         }
@@ -370,10 +371,10 @@ public class GigaGal {
     private void moveLeft() {
 
         facing = Direction.LEFT;
-        if (jumpState == JumpState.GROUNDED) {
-            if (walkState != Enums.WalkState.WALKING) {
+        if (AerialStatus == AerialStatus.GROUNDED) {
+            if (TerrainStatus != TerrainStatus.WALKING) {
                 walkStartTime = TimeUtils.nanoTime();
-                walkState = Enums.WalkState.WALKING;
+                TerrainStatus = TerrainStatus.WALKING;
             }
             walkTimeSeconds = Utils.secondsSince(walkStartTime);
         }
@@ -383,10 +384,10 @@ public class GigaGal {
     private void moveRight() {
 
         facing = Direction.RIGHT;
-        if (jumpState == JumpState.GROUNDED) {
-            if (walkState != Enums.WalkState.WALKING) {
+        if (AerialStatus == AerialStatus.GROUNDED) {
+            if (TerrainStatus != TerrainStatus.WALKING) {
                 walkStartTime = TimeUtils.nanoTime();
-                walkState = Enums.WalkState.WALKING;
+                TerrainStatus = TerrainStatus.WALKING;
             }
             walkTimeSeconds = Utils.secondsSince(walkStartTime);
         }
@@ -394,15 +395,15 @@ public class GigaGal {
     }
 
     private void startDash() {
-        if (jumpState == JumpState.GROUNDED) {
-            walkState = WalkState.DASHING;
+        if (AerialStatus == AerialStatus.GROUNDED) {
+            TerrainStatus = TerrainStatus.DASHING;
             dashStartTime = TimeUtils.nanoTime();
             continueDash();
         }
     }
 
     private void continueDash() {
-        if ((Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) || jumpState == JumpState.HOVERING || jumpState == JumpState.FALLING) {
+        if ((Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) || AerialStatus == AerialStatus.HOVERING || AerialStatus == AerialStatus.FALLING) {
             if (facing == Direction.LEFT) {
                 velocity.x = -Constants.GIGAGAL_MAX_SPEED;
             } else {
@@ -414,24 +415,24 @@ public class GigaGal {
     }
 
     private void endDash() {
-        walkState = WalkState.LEANING;
+        TerrainStatus = TerrainStatus.LEANING;
         velocity.x = 0;
     }
 
 
     public void startJump() {
         jumpStartingPoint = new Vector2(position);
-        jumpState = Enums.JumpState.JUMPING;
+        AerialStatus = AerialStatus.JUMPING;
         jumpStartTime = TimeUtils.nanoTime();
         continueJump();
     }
 
     private void continueJump() {
-        if (jumpState == Enums.JumpState.JUMPING) {
+        if (AerialStatus == AerialStatus.JUMPING) {
             if (Utils.secondsSince(jumpStartTime) < Constants.MAX_JUMP_DURATION) {
                 velocity.y = Constants.JUMP_SPEED;
                 if (Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 2){
-                    velocity.y *= 1.1;
+                    velocity.y *= Constants.RUNNING_JUMP_MULTIPLIER;
                 }
             } else {
                 endJump();
@@ -440,14 +441,14 @@ public class GigaGal {
     }
 
     private void endJump() {
-        if (jumpState == Enums.JumpState.JUMPING) {
-            jumpState = Enums.JumpState.FALLING;
+        if (AerialStatus == AerialStatus.JUMPING) {
+            AerialStatus = AerialStatus.FALLING;
         }
     }
 
     private void startHover() {
         if (!hasHovered) {
-            jumpState = JumpState.HOVERING;
+            AerialStatus = AerialStatus.HOVERING;
             hoverStartTime = TimeUtils.nanoTime();
         }
         continueHover();
@@ -455,7 +456,7 @@ public class GigaGal {
 
     private void continueHover() {
         hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
-        if (jumpState == JumpState.HOVERING) {
+        if (AerialStatus == AerialStatus.HOVERING) {
             if (hoverTimeSeconds < Constants.MAX_HOVER_DURATION) {
                 velocity.y = 0;
 
@@ -466,15 +467,15 @@ public class GigaGal {
     }
 
     private void endHover() {
-        if (jumpState == JumpState.HOVERING) {
-            jumpState = JumpState.FALLING;
+        if (AerialStatus == AerialStatus.HOVERING) {
+            AerialStatus = AerialStatus.FALLING;
             hasHovered = true;
         }
     }
 
     private void recoilFromHit(Direction direction) {
         walkTimeSeconds = 0;
-        jumpState = JumpState.RECOILING;
+        AerialStatus = AerialStatus.RECOILING;
         velocity.y = Constants.KNOCKBACK_VELOCITY.y;
 
         if (direction == Direction.LEFT) {
@@ -487,42 +488,42 @@ public class GigaGal {
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.instance.gigaGalAssets.standingRight;
         if (facing == Direction.RIGHT) {
-            if (jumpState != Enums.JumpState.GROUNDED) {
-                if (jumpState == JumpState.HOVERING) {
+            if (AerialStatus != AerialStatus.GROUNDED) {
+                if (AerialStatus == AerialStatus.HOVERING) {
 
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
                     region = Assets.instance.gigaGalAssets.hoverRightAnimation.getKeyFrame(hoverTimeSeconds);
-                } else if (jumpState == JumpState.RICOCHETING) {
+                } else if (AerialStatus == AerialStatus.RICOCHETING) {
                     region = Assets.instance.gigaGalAssets.ricochetingLeft;
                 } else {
                     region = Assets.instance.gigaGalAssets.jumpingRight;
                 }
-            } else if (walkState == Enums.WalkState.NOT_WALKING) {
+            } else if (TerrainStatus == TerrainStatus.STANDING) {
                 region = Assets.instance.gigaGalAssets.standingRight;
-            } else if (walkState == Enums.WalkState.WALKING) {
+            } else if (TerrainStatus == TerrainStatus.WALKING) {
 
                 region = Assets.instance.gigaGalAssets.walkingRightAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
-            } else if (walkState == WalkState.DASHING || walkState == WalkState.LEANING) {
+            } else if (TerrainStatus == TerrainStatus.DASHING || TerrainStatus == TerrainStatus.LEANING) {
 
                 region = Assets.instance.gigaGalAssets.dashingRight;
             }
         } else if (facing == Direction.LEFT) {
-            if (jumpState != Enums.JumpState.GROUNDED) {
-                if (jumpState == JumpState.HOVERING) {
+            if (AerialStatus != AerialStatus.GROUNDED) {
+                if (AerialStatus == AerialStatus.HOVERING) {
 
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
                     region = Assets.instance.gigaGalAssets.hoverLeftAnimation.getKeyFrame(hoverTimeSeconds);
-                } else if (jumpState == JumpState.RICOCHETING) {
+                } else if (AerialStatus == AerialStatus.RICOCHETING) {
                     region = Assets.instance.gigaGalAssets.ricochetingRight;
                 } else {
                     region = Assets.instance.gigaGalAssets.jumpingLeft;
                 }
-            } else if (walkState == Enums.WalkState.NOT_WALKING) {
+            } else if (TerrainStatus == TerrainStatus.STANDING) {
                 region = Assets.instance.gigaGalAssets.standingLeft;
-            } else if (walkState == Enums.WalkState.WALKING) {
+            } else if (TerrainStatus == TerrainStatus.WALKING) {
 
                 region = Assets.instance.gigaGalAssets.walkingLeftAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
-            } else if (walkState == WalkState.DASHING || walkState == WalkState.LEANING) {
+            } else if (TerrainStatus == TerrainStatus.DASHING || TerrainStatus == TerrainStatus.LEANING) {
 
                 region = Assets.instance.gigaGalAssets.dashingLeft;
             }

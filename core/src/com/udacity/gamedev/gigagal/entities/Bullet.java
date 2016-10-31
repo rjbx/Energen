@@ -16,13 +16,13 @@ public class Bullet {
     private final Level level;
     public boolean active;
     private Vector2 position;
-    private final Enums.BulletType bulletType;
+    private final Enums.AmmoType ammoType;
 
-    public Bullet(Level level, Vector2 position, Direction direction, Enums.BulletType bulletType) {
+    public Bullet(Level level, Vector2 position, Direction direction, Enums.AmmoType ammoType) {
         this.level = level;
         this.position = position;
         this.direction = direction;
-        this.bulletType = bulletType;
+        this.ammoType = ammoType;
         active = true;
     }
 
@@ -40,7 +40,7 @@ public class Bullet {
             if (position.dst(zoomba.position) < Constants.ZOOMBA_SHOT_RADIUS) {
                 level.spawnExplosion(position);
                 active = false;
-                switch (bulletType) {
+                switch (ammoType) {
                     case REGULAR:
                         zoomba.health -= 1;
                         break;
@@ -63,7 +63,7 @@ public class Bullet {
     public void render(SpriteBatch batch) {
         TextureRegion region = null;
         Vector2 bulletCenter = new Vector2();
-        switch (bulletType) {
+        switch (ammoType) {
             case REGULAR:
                 region = Assets.instance.bulletAssets.bullet;
                 bulletCenter.set(Constants.BULLET_CENTER);

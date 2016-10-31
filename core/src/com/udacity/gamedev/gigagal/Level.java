@@ -200,8 +200,8 @@ public class Level {
         this.gigaGal = gigaGal;
     }
 
-    public void spawnBullet(Vector2 position, Direction direction, Enums.BulletType bulletType) {
-        bullets.add(new Bullet(this, position, direction, bulletType));
+    public void spawnBullet(Vector2 position, Direction direction, Enums.AmmoType ammoType) {
+        bullets.add(new Bullet(this, position, direction, ammoType));
     }
 
     public void spawnExplosion(Vector2 position) {

@@ -19,13 +19,16 @@ public class Constants {
     public static final float GIGAGAL_STANCE_WIDTH = 19.0f;
     public static final Vector2 GIGAGAL_CANNON_OFFSET = new Vector2(4, -7);
     public static final float GIGAGAL_HEIGHT = 23.0f;
+    public static final float GIGAGAL_HEAD_RADIUS = 3;
     public static final float GIGAGAL_MAX_SPEED = 200;
 
     public static final float JUMP_SPEED = 200;
+    public static final float RUNNING_JUMP_MULTIPLIER = 1.1f;
     public static final Vector2 KNOCKBACK_VELOCITY = new Vector2(200, 200);
     public static final float MAX_JUMP_DURATION = .1f;
     public static final float MAX_HOVER_DURATION = 1f;
     public static final float MAX_DASH_DURATION = .5f;
+    public static final float DOUBLE_TAP_SPEED = 0.3f;
     public static final int INITIAL_AMMO = 10;
     public static final int INITIAL_LIVES = 3;
 
@@ -35,6 +38,7 @@ public class Constants {
     public static final String JUMPING_LEFT = "jumping-left";
     public static final String RICOCHETING_RIGHT = "ricochet-right";
     public static final String RICOCHETING_LEFT = "ricochet-left";
+    public static final float RICOCHET_DURATION = 0.05f;
     public static final String HOVER_RIGHT_1 = "hover-1-right";
     public static final String HOVER_LEFT_1 = "hover-1-left";
     public static final String HOVER_RIGHT_2 = "hover-2-right";
@@ -50,7 +54,8 @@ public class Constants {
 
     // Platform
     public static final String PLATFORM_SPRITE = "platform";
-    public static final int PLATFORM_EDGE = 8;
+    public static final float PLATFORM_EDGE = 8;
+    public static final float MAX_LEDGE_HEIGHT = 5;
 
     // Zoomba
     public static final String ZOOMBA_SPRITE = "zoomba";
@@ -105,7 +110,7 @@ public class Constants {
     public static final String LEVEL_HEIGHT_KEY = "height";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_ZOOMBA_TAG = "Zoomba";
-    public static final String[] LEVELS = {"levels/Level1.dt", "levels/Level2.dt", "levels/Level3.dt"};
+    public static final String[] LEVELS = {"levels/Level1.dt", "levels/Level2.dt", "levels/Level3.dt", };
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;
