@@ -11,7 +11,8 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class GigaGalHud {
+// immutable
+public final class GigaGalHud {
 
     public final Viewport viewport;
     final BitmapFont font;

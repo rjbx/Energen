@@ -14,8 +14,8 @@ import com.udacity.gamedev.gigagal.entities.Platform;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-
-public class GameOverOverlay {
+// immutable
+public final class GameOverOverlay {
 
     public final Viewport viewport;
     final BitmapFont font;

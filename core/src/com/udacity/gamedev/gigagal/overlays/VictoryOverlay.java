@@ -13,7 +13,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Explosion;
 import com.udacity.gamedev.gigagal.util.Constants;
 
-public class VictoryOverlay {
+// immutable
+public final class VictoryOverlay {
 
     public final static String TAG = VictoryOverlay.class.getName();
     public final Viewport viewport;
