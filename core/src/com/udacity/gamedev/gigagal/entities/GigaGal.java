@@ -18,6 +18,8 @@ import java.lang.String;
 
 // mutable
 public class GigaGal {
+
+    // fields
     public final static String TAG = GigaGal.class.getName();
     private Level level;
     private Vector2 spawnLocation;
@@ -37,7 +39,8 @@ public class GigaGal {
     private boolean isCharged;
     private boolean canDashLeft;
     private boolean canDashRight;
-    private int doubleTapDirectional;
+    private int doubleTapLeft;
+    private int doubleTapRight;
     private long ricochetStartTime;
     private int ammo;
     private int lives;
@@ -49,6 +52,7 @@ public class GigaGal {
     public boolean shootButtonPressed;
     public long chargeStartTime;
 
+    // ctor
     public GigaGal(Vector2 spawnLocation, Level level) {
         this.spawnLocation = spawnLocation;
         this.level = level;
@@ -56,14 +60,6 @@ public class GigaGal {
         lastFramePosition = new Vector2();
         velocity = new Vector2();
         init();
-    }
-
-    public int getAmmo() {
-        return ammo;
-    }
-
-    public int getLives() {
-        return lives;
     }
 
     public void init() {
@@ -80,15 +76,13 @@ public class GigaGal {
         facing = Direction.RIGHT;
         groundMove = GroundMove.STANDING;
         jumpStartTime = 0;
+        dashStartTime = 0;
         hasHovered = false;
         canDashLeft = false;
         canDashRight = false;
-        doubleTapDirectional = 0;
+        doubleTapLeft = 0;
+        doubleTapRight = 0;
         jumpStartingPoint = new Vector2();
-    }
-
-    public Vector2 getPosition() {
-        return position;
     }
 
     public void update(float delta, Array<Platform> platforms) {
@@ -156,7 +150,6 @@ public class GigaGal {
                         hoverStartTime = TimeUtils.nanoTime();
                         groundMove = GroundMove.LEANING;
                         velocity.x = 0;
-
                         slidPlatform = new Platform(platform);
                     } else {
                         aerialMove = AerialMove.FALLING;
@@ -199,14 +192,50 @@ public class GigaGal {
                 boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
 
                 if (left && !right) {
-                    moveLeft();
+                    if (leftButtonPressed && doubleTapLeft == 0) {
+                        doubleTapLeft = 1;
+                        doubleTapRight = 0;
+                    }
+                    if (doubleTapLeft == 2) {
+                        if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
+                            startDash();
+                            doubleTapLeft = 0;
+                        } else {
+                            doubleTapLeft = 0;
+                            dashStartTime = TimeUtils.nanoTime();
+                        }
+                    } else {
+                        moveLeft();
+                    }
                 } else if (right && !left) {
-                    moveRight();
+                    if (rightButtonPressed && doubleTapRight == 0) {
+                        doubleTapRight = 1;
+                        doubleTapLeft = 0;
+                    }
+                    if (doubleTapRight == 2) {
+                        if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
+                            startDash();
+                            doubleTapRight = 0;
+                        } else {
+                            doubleTapRight = 0;
+                            dashStartTime = TimeUtils.nanoTime();
+                        }
+                    } else {
+                        moveRight();
+                    }
                 } else {
                     walkTimeSeconds = 0;
                     walkStartTime = TimeUtils.nanoTime();
                     velocity.x /= 2;
                     groundMove = GroundMove.STANDING;
+                    if (doubleTapLeft == 1) {
+                        doubleTapLeft = 2;
+                        dashStartTime = TimeUtils.nanoTime();
+                    }
+                    if (doubleTapRight == 1) {
+                        doubleTapRight = 2;
+                        dashStartTime = TimeUtils.nanoTime();
+                    }
                     if (velocity.x >= -.01f && velocity.x <= .01f) {
                         velocity.x = 0;
                         groundMove = GroundMove.STANDING;
@@ -214,7 +243,7 @@ public class GigaGal {
                 }
 
                 // TODO: enable dash on touch screen left/right button double press
-                if (Gdx.input.isKeyJustPressed(Keys.A)) {
+                if (Gdx.input.isKeyJustPressed(Keys.A) || (doubleTapLeft == 3)) {
                     if (canDashLeft && Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
                         startDash();
                         canDashLeft = false;
@@ -223,7 +252,7 @@ public class GigaGal {
                         canDashLeft = true;
                         dashStartTime = TimeUtils.nanoTime();
                     }
-                } else if (Gdx.input.isKeyJustPressed(Keys.S)) {
+                } else if (Gdx.input.isKeyJustPressed(Keys.S) || (doubleTapRight == 3)) {
                     if (canDashRight && Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
                         startDash();
                         canDashRight = false;
@@ -517,7 +546,18 @@ public class GigaGal {
                 region = Assets.getInstance().getGigaGalAssets().dashLeft;
             }
         }
-
         Utils.drawTextureRegion(batch, region, position, Constants.GIGAGAL_EYE_POSITION);
+    }
+
+    public int getAmmo() {
+        return ammo;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public Vector2 getPosition() {
+        return position;
     }
 }

@@ -117,13 +117,12 @@ public class OnscreenControls extends InputAdapter {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
+        gigaGal.jumpButtonPressed = false;
+
         if (!Gdx.input.isTouched(shootPointer)) {
             gigaGal.shootButtonPressed = false;
             shootPointer = 0;
         }
-
-            gigaGal.jumpButtonPressed = false;
-            jumpPointer = 0;
 
         // : If the moveLeftPointer is no longer touched, inform GigaGal and zero moveLeftPointer
         if (!Gdx.input.isTouched(moveLeftPointer)) {
