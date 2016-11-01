@@ -6,28 +6,29 @@ import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Enums.Direction;
+import com.udacity.gamedev.gigagal.util.Enums.AmmoType;
+import com.udacity.gamedev.gigagal.util.Enums.DirectionalState;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class Bullet {
+// immutable
+public final class Ammo {
 
-    private final Direction direction;
     private final Level level;
     public boolean active;
     private Vector2 position;
-    private final Enums.AmmoType ammoType;
+    private final AmmoType ammoType;
+    private final DirectionalState directionalState;
 
-    public Bullet(Level level, Vector2 position, Direction direction, Enums.AmmoType ammoType) {
+    public Ammo(Level level, Vector2 position, DirectionalState directionalState, AmmoType ammoType) {
         this.level = level;
         this.position = position;
-        this.direction = direction;
+        this.directionalState = directionalState;
         this.ammoType = ammoType;
         active = true;
     }
 
     public void update(float delta) {
-        switch (direction) {
+        switch (directionalState) {
             case LEFT:
                 position.x -= delta * Constants.BULLET_MOVE_SPEED;
                 break;
@@ -42,20 +43,20 @@ public class Bullet {
                 active = false;
                 switch (ammoType) {
                     case REGULAR:
-                        zoomba.health -= 1;
+                        zoomba.health -= Constants.ZOOMBA_HEALTH / 5;
                         break;
                     case CHARGE:
-                        zoomba.health -= 5;
+                        zoomba.health -= Constants.ZOOMBA_HEALTH;
                         break;
                 }
                 level.score += Constants.ZOOMBA_HIT_SCORE;
             }
         }
 
-        final float worldWidth = level.getViewport().getWorldWidth();
+        final float halfWorldWidth = level.getViewport().getWorldWidth() / 2;
         final float cameraX = level.getViewport().getCamera().position.x;
 
-        if (position.x < cameraX - worldWidth / 2 || position.x > cameraX + worldWidth / 2) {
+        if (position.x < cameraX - halfWorldWidth || position.x > cameraX + halfWorldWidth) {
             active = false;
         }
     }

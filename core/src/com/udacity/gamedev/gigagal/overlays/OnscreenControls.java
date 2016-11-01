@@ -18,7 +18,7 @@ public class OnscreenControls extends InputAdapter {
 
     public static final String TAG = OnscreenControls.class.getName();
 
-    public final Viewport viewport;
+    public Viewport viewport;
     public GigaGal gigaGal;
     private Vector2 moveLeftCenter;
     private Vector2 moveRightCenter;
@@ -51,23 +51,19 @@ public class OnscreenControls extends InputAdapter {
         Vector2 viewportPosition = viewport.unproject(new Vector2(screenX, screenY));
 
         if (viewportPosition.dst(shootCenter) < Constants.BUTTON_RADIUS) {
-
             gigaGal.shoot(Enums.AmmoType.REGULAR);
             gigaGal.chargeStartTime = TimeUtils.nanoTime();
             this.shootPointer = pointer;
             gigaGal.shootButtonPressed = true;
         } else if (viewportPosition.dst(jumpCenter) < Constants.BUTTON_RADIUS) {
-
             // : Save the jumpPointer and set gigaGal.jumpButtonPressed = true
             this.jumpPointer = pointer;
             gigaGal.jumpButtonPressed = true;
         } else if (viewportPosition.dst(moveLeftCenter) < Constants.BUTTON_RADIUS) {
-
             // : Save the moveLeftPointer, and set gigaGal.leftButtonPressed = true
             this.moveLeftPointer = pointer;
             gigaGal.leftButtonPressed = true;
         } else if (viewportPosition.dst(moveRightCenter) < Constants.BUTTON_RADIUS) {
-
             // : Save the moveRightPointer, and set gigaGal.rightButtonPressed = true
             this.moveRightPointer = pointer;
             gigaGal.rightButtonPressed = true;

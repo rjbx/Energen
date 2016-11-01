@@ -6,7 +6,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class Utils {
+// immutable
+public final class Utils {
 
     public static void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position) {
         drawTextureRegion(batch, region, position.x, position.y);

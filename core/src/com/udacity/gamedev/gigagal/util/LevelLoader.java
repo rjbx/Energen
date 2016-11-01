@@ -17,18 +17,15 @@ import org.json.simple.parser.JSONParser;
 
 import java.util.Comparator;
 
-
+// immutable
 public class LevelLoader {
 
     public static final String TAG = LevelLoader.class.toString();
 
-
     public static Level load(String path) {
+
+        final FileHandle file = Gdx.files.internal(path);
         Level level = new Level();
-
-
-        FileHandle file = Gdx.files.internal(path);
-
         JSONParser parser = new JSONParser();
         JSONObject rootJsonObject;
 
@@ -72,7 +69,7 @@ public class LevelLoader {
                 final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded a powerup at " + powerupPosition);
                 level.getPowerups().add(new Powerup(powerupPosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STANDING_RIGHT)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STAND_RIGHT)) {
                 final Vector2 gigaGalPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);
                 level.setGigaGal(new GigaGal(gigaGalPosition, level));
@@ -81,10 +78,9 @@ public class LevelLoader {
                 Gdx.app.log(TAG, "Loaded the exit portal at " + exitPortalPosition);
                 level.setExitPortal(new ExitPortal(exitPortalPosition));
             }
-
         }
-    }
 
+    }
 
     private static void loadPlatforms(JSONArray array, Level level) {
 
@@ -111,10 +107,7 @@ public class LevelLoader {
                 final Zoomba zoomba = new Zoomba(platform);
                 level.getEnemies().add(zoomba);
             }
-
-
         }
-
 
         platformArray.sort(new Comparator<Platform>() {
             @Override
@@ -129,7 +122,5 @@ public class LevelLoader {
         });
 
         level.getPlatforms().addAll(platformArray);
-
     }
-
 }

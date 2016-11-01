@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.overlays.GameOverOverlay;
 import com.udacity.gamedev.gigagal.overlays.GigaGalHud;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
@@ -18,14 +20,14 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.LevelLoader;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-
-public class GameplayScreen extends ScreenAdapter {
+// immutable
+public final class GameplayScreen extends ScreenAdapter {
 
     public static final String TAG = GameplayScreen.class.getName();
 
-    OnscreenControls onscreenControls;
-    SpriteBatch batch;
-    long levelEndOverlayStartTime;
+    private OnscreenControls onscreenControls;
+    private SpriteBatch batch;
+    private long levelEndOverlayStartTime;
     private int levelNumber;
     private Level level;
     private ChaseCam chaseCam;
@@ -63,8 +65,9 @@ public class GameplayScreen extends ScreenAdapter {
         hud.viewport.update(width, height, true);
         victoryOverlay.viewport.update(width, height, true);
         gameOverOverlay.viewport.update(width, height, true);
-        level.viewport.update(width, height, true);
-        chaseCam.camera = level.viewport.getCamera();
+        level.getViewport().update(width, height, true);
+        chaseCam.camera = level.getViewport().getCamera();
+        onscreenControls.gigaGal = level.getGigaGal();
         onscreenControls.viewport.update(width, height, true);
         onscreenControls.recalculateButtonPositions();
     }
@@ -95,12 +98,12 @@ public class GameplayScreen extends ScreenAdapter {
         // onMobile();
         onscreenControls.render(batch);
 
-        hud.render(batch, level.getGigaGal().getLives(), level.getGigaGal().getAmmo(), level.score);
+        hud.render(batch, level.getGigaGal().getLives(), level.getGigaGal().getAmmo(), level.getScore());
         renderLevelEndOverlays(batch);
     }
 
     private void renderLevelEndOverlays(SpriteBatch batch) {
-        if (level.gameOver) {
+        if (level.isGameOver()) {
 
             if (levelEndOverlayStartTime == 0) {
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
@@ -112,7 +115,7 @@ public class GameplayScreen extends ScreenAdapter {
                 levelEndOverlayStartTime = 0;
                 levelFailed();
             }
-        } else if (level.victory) {
+        } else if (level.isVictory()) {
             if (levelEndOverlayStartTime == 0) {
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
                 victoryOverlay.init();
@@ -123,20 +126,17 @@ public class GameplayScreen extends ScreenAdapter {
                 levelEndOverlayStartTime = 0;
                 levelComplete();
             }
-
         }
     }
 
     private void startNewLevel() {
 
 //        level = Level.debugLevel();
-
         String levelName = Constants.LEVELS[levelNumber];
         level = LevelLoader.load(levelName);
 
-        chaseCam.camera = level.viewport.getCamera();
+        chaseCam.camera = level.getViewport().getCamera();
         chaseCam.target = level.getGigaGal();
-        onscreenControls.gigaGal = level.getGigaGal();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
@@ -148,5 +148,9 @@ public class GameplayScreen extends ScreenAdapter {
     public void levelFailed() {
         levelNumber = 0;
         startNewLevel();
+    }
+
+    public final OnscreenControls getOnscreenControls() {
+        return onscreenControls;
     }
 }

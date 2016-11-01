@@ -12,8 +12,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
-
-public class Assets implements Disposable, AssetErrorListener {
+// immutable
+public final class Assets implements Disposable, AssetErrorListener {
 
     public static final String TAG = Assets.class.getName();
     public static final Assets instance = new Assets();
@@ -29,7 +29,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
     private AssetManager assetManager;
 
-
+    // singleton
     private Assets() {
     }
 
@@ -62,35 +62,32 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public class GigaGalAssets {
 
-        public final AtlasRegion standingLeft;
-        public final AtlasRegion standingRight;
-        public final AtlasRegion walkingLeft;
-        public final AtlasRegion walkingRight;
-        public final AtlasRegion jumpingLeft;
-        public final AtlasRegion jumpingRight;
-        public final AtlasRegion dashingLeft;
-        public final AtlasRegion dashingRight;
-        public final AtlasRegion ricochetingLeft;
-        public final AtlasRegion ricochetingRight;
-        
+        public final AtlasRegion standLeft;
+        public final AtlasRegion standRight;
+        public final AtlasRegion walkLeft;
+        public final AtlasRegion walkRight;
+        public final AtlasRegion jumpLeft;
+        public final AtlasRegion jumpRight;
+        public final AtlasRegion dashLeft;
+        public final AtlasRegion dashRight;
+        public final AtlasRegion ricochetLeft;
+        public final AtlasRegion ricochetRight;
         public final Animation hoverLeftAnimation;
         public final Animation hoverRightAnimation;
-
-        public final Animation walkingLeftAnimation;
-        public final Animation walkingRightAnimation;
-
+        public final Animation walkLeftAnimation;
+        public final Animation walkRightAnimation;
 
         public GigaGalAssets(TextureAtlas atlas) {
-            standingLeft = atlas.findRegion(Constants.STANDING_LEFT);
-            standingRight = atlas.findRegion(Constants.STANDING_RIGHT);
-            walkingLeft = atlas.findRegion(Constants.WALKING_LEFT_2);
-            walkingRight = atlas.findRegion(Constants.WALKING_RIGHT_2);
-            jumpingLeft = atlas.findRegion(Constants.JUMPING_LEFT);
-            jumpingRight = atlas.findRegion(Constants.JUMPING_RIGHT);
-            dashingLeft = atlas.findRegion(Constants.WALKING_LEFT_2);
-            dashingRight = atlas.findRegion(Constants.WALKING_RIGHT_2);
-            ricochetingLeft = atlas.findRegion(Constants.RICOCHETING_LEFT);
-            ricochetingRight = atlas.findRegion(Constants.RICOCHETING_RIGHT);
+            standLeft = atlas.findRegion(Constants.STAND_LEFT);
+            standRight = atlas.findRegion(Constants.STAND_RIGHT);
+            walkLeft = atlas.findRegion(Constants.WALK_LEFT_2);
+            walkRight = atlas.findRegion(Constants.WALK_RIGHT_2);
+            jumpLeft = atlas.findRegion(Constants.JUMP_LEFT);
+            jumpRight = atlas.findRegion(Constants.JUMP_RIGHT);
+            dashLeft = atlas.findRegion(Constants.WALK_LEFT_2);
+            dashRight = atlas.findRegion(Constants.WALK_RIGHT_2);
+            ricochetLeft = atlas.findRegion(Constants.RICOCHET_LEFT);
+            ricochetRight = atlas.findRegion(Constants.RICOCHET_RIGHT);
             
             Array<AtlasRegion> hoverLeftFrames = new Array<AtlasRegion>();
             hoverLeftFrames.add(atlas.findRegion(Constants.HOVER_LEFT_1));
@@ -102,20 +99,19 @@ public class Assets implements Disposable, AssetErrorListener {
             hoverRightFrames.add(atlas.findRegion(Constants.HOVER_RIGHT_2));
             hoverRightAnimation = new Animation(Constants.HOVER_LOOP_DURATION, hoverRightFrames, PlayMode.LOOP);
 
-            Array<AtlasRegion> walkingLeftFrames = new Array<AtlasRegion>();
-            walkingLeftFrames.add(atlas.findRegion(Constants.WALKING_LEFT_2));
-            walkingLeftFrames.add(atlas.findRegion(Constants.WALKING_LEFT_1));
-            walkingLeftFrames.add(atlas.findRegion(Constants.WALKING_LEFT_2));
-            walkingLeftFrames.add(atlas.findRegion(Constants.WALKING_LEFT_3));
-            walkingLeftAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingLeftFrames, PlayMode.LOOP);
+            Array<AtlasRegion> walkLeftFrames = new Array<AtlasRegion>();
+            walkLeftFrames.add(atlas.findRegion(Constants.WALK_LEFT_2));
+            walkLeftFrames.add(atlas.findRegion(Constants.WALK_LEFT_1));
+            walkLeftFrames.add(atlas.findRegion(Constants.WALK_LEFT_2));
+            walkLeftFrames.add(atlas.findRegion(Constants.WALK_LEFT_3));
+            walkLeftAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkLeftFrames, PlayMode.LOOP);
 
-
-            Array<AtlasRegion> walkingRightFrames = new Array<AtlasRegion>();
-            walkingRightFrames.add(atlas.findRegion(Constants.WALKING_RIGHT_2));
-            walkingRightFrames.add(atlas.findRegion(Constants.WALKING_RIGHT_1));
-            walkingRightFrames.add(atlas.findRegion(Constants.WALKING_RIGHT_2));
-            walkingRightFrames.add(atlas.findRegion(Constants.WALKING_RIGHT_3));
-            walkingRightAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingRightFrames, PlayMode.LOOP);
+            Array<AtlasRegion> walkRightFrames = new Array<AtlasRegion>();
+            walkRightFrames.add(atlas.findRegion(Constants.WALK_RIGHT_2));
+            walkRightFrames.add(atlas.findRegion(Constants.WALK_RIGHT_1));
+            walkRightFrames.add(atlas.findRegion(Constants.WALK_RIGHT_2));
+            walkRightFrames.add(atlas.findRegion(Constants.WALK_RIGHT_3));
+            walkRightAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkRightFrames, PlayMode.LOOP);
         }
     }
 

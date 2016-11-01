@@ -8,11 +8,12 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
+// immutable
 public class ExitPortal {
 
     public final static String TAG = ExitPortal.class.getName();
 
-    public final Vector2 position;
+    public Vector2 position;
 
     private final long startTime;
 
@@ -26,8 +27,5 @@ public class ExitPortal {
         final TextureRegion region = Assets.instance.exitPortalAssets.exitPortal.getKeyFrame(elapsedTime, true);
         Utils.drawTextureRegion(batch, region, position, Constants.EXIT_PORTAL_CENTER);
     }
-
-
-
 }
 

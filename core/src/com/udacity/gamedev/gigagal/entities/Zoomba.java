@@ -7,22 +7,22 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums.Direction;
+import com.udacity.gamedev.gigagal.util.Enums.DirectionalState;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 
 public class Zoomba {
 
-    final long startTime;
-    final float bobOffset;
+    private final long startTime;
+    private final float bobOffset;
     private final Platform platform;
     public Vector2 position;
     public int health;
-    private Direction direction;
+    private DirectionalState directionalState;
 
     public Zoomba(Platform platform) {
         this.platform = platform;
-        direction = Direction.RIGHT;
+        directionalState = DirectionalState.RIGHT;
         position = new Vector2(platform.left, platform.top + Constants.ZOOMBA_CENTER.y);
         startTime = TimeUtils.nanoTime();
         health = Constants.ZOOMBA_HEALTH;
@@ -30,7 +30,7 @@ public class Zoomba {
     }
 
     public void update(float delta) {
-        switch (direction) {
+        switch (directionalState) {
             case LEFT:
                 position.x -= Constants.ZOOMBA_MOVEMENT_SPEED * delta;
                 break;
@@ -40,10 +40,10 @@ public class Zoomba {
 
         if (position.x < platform.left) {
             position.x = platform.left;
-            direction = Direction.RIGHT;
+            directionalState = DirectionalState.RIGHT;
         } else if (position.x > platform.right) {
             position.x = platform.right;
-            direction = Direction.LEFT;
+            directionalState = DirectionalState.LEFT;
         }
 
         final float elapsedTime = Utils.secondsSince(startTime);

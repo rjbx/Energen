@@ -5,7 +5,8 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 
-public class ChaseCam {
+// immutable
+public final class ChaseCam {
 
     public static final String TAG = ChaseCam.class.getName();
 

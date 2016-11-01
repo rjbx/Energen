@@ -2,7 +2,8 @@ package com.udacity.gamedev.gigagal;
 
 import com.badlogic.gdx.Game;
 
-public class GigaGalGame extends Game {
+// immutable
+public final class GigaGalGame extends Game {
 
     @Override
     public void create() {

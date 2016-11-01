@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.entities.Bullet;
+import com.udacity.gamedev.gigagal.entities.Ammo;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.ExitPortal;
 import com.udacity.gamedev.gigagal.entities.Explosion;
@@ -15,39 +15,37 @@ import com.udacity.gamedev.gigagal.entities.Platform;
 import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Enums.Direction;
+import com.udacity.gamedev.gigagal.util.Enums.DirectionalState;
 
+// mutable
 public class Level {
 
     public static final String TAG = Level.class.getName();
-    public boolean gameOver;
-    public boolean victory;
-    public Viewport viewport;
+
+    private Viewport viewport;
+    private boolean victory;
+    private boolean gameOver;
     public int score;
     private GigaGal gigaGal;
     private ExitPortal exitPortal;
     private Array<Platform> platforms;
     private DelayedRemovalArray<Zoomba> enemies;
-    private DelayedRemovalArray<Bullet> bullets;
+    private DelayedRemovalArray<Ammo> bullets;
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
 
     public Level() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-
         gigaGal = new GigaGal(new Vector2(50, 50), this);
         platforms = new Array<Platform>();
         enemies = new DelayedRemovalArray<Zoomba>();
-        bullets = new DelayedRemovalArray<Bullet>();
+        bullets = new DelayedRemovalArray<Ammo>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
         exitPortal = new ExitPortal(new Vector2(200, 200));
-
         gameOver = false;
         victory = false;
         score = 0;
-
-
     }
 
     public static Level debugLevel() {
@@ -71,10 +69,10 @@ public class Level {
 
             // Update Bullets
             bullets.begin();
-            for (Bullet chargeBullet : bullets) {
-                chargeBullet.update(delta);
-                if (!chargeBullet.active) {
-                    bullets.removeValue(chargeBullet, false);
+            for (Ammo chargeAmmo : bullets) {
+                chargeAmmo.update(delta);
+                if (!chargeAmmo.active) {
+                    bullets.removeValue(chargeAmmo, false);
                 }
             }
             bullets.end();
@@ -126,8 +124,8 @@ public class Level {
         }
         gigaGal.render(batch);
 
-        for (Bullet chargeBullet : bullets) {
-            chargeBullet.render(batch);
+        for (Ammo chargeAmmo : bullets) {
+            chargeAmmo.render(batch);
         }
 
         for (Explosion explosion : explosions) {
@@ -144,7 +142,7 @@ public class Level {
         exitPortal = new ExitPortal(new Vector2(150, 150));
 
         platforms = new Array<Platform>();
-        bullets = new DelayedRemovalArray<Bullet>();
+        bullets = new DelayedRemovalArray<Ammo>();
         enemies = new DelayedRemovalArray<Zoomba>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
@@ -163,48 +161,45 @@ public class Level {
         powerups.add(new Powerup(new Vector2(20, 110)));
     }
 
-
-    public Array<Platform> getPlatforms() {
-        return platforms;
+    public void spawnBullet(Vector2 position, DirectionalState directionalState, Enums.AmmoType ammoType) {
+        bullets.add(new Ammo(this, position, directionalState, ammoType));
     }
 
-    public DelayedRemovalArray<Zoomba> getEnemies() {
-        return enemies;
+    public void spawnExplosion(Vector2 position) {
+        explosions.add(new Explosion(position));
     }
 
+    // Getters
+    public Array<Platform> getPlatforms() { return platforms; }
+    public DelayedRemovalArray<Zoomba> getEnemies() { return enemies; }
     public DelayedRemovalArray<Powerup> getPowerups() {
         return powerups;
     }
+    public ExitPortal getExitPortal() { return exitPortal; }
+    public Viewport getViewport() { return viewport; }
+    public GigaGal getGigaGal() { return gigaGal; }
+    public boolean isGameOver() { return gameOver; }
+    public boolean isVictory() { return victory; }
+    public int getScore() { return score; }
 
-    public ExitPortal getExitPortal() {
-        return exitPortal;
+    public void setVictory(boolean victory) {
+        this.victory = victory;
+    }
+
+    public void setGameOver(boolean gameOver) { this.gameOver = gameOver; }
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public void setExitPortal(ExitPortal exitPortal) {
         this.exitPortal = exitPortal;
     }
 
-    public Viewport getViewport() {
-        return viewport;
-    }
-
     public void setViewport(Viewport viewport) {
         this.viewport = viewport;
     }
 
-    public GigaGal getGigaGal() {
-        return gigaGal;
-    }
-
     public void setGigaGal(GigaGal gigaGal) {
         this.gigaGal = gigaGal;
-    }
-
-    public void spawnBullet(Vector2 position, Direction direction, Enums.AmmoType ammoType) {
-        bullets.add(new Bullet(this, position, direction, ammoType));
-    }
-
-    public void spawnExplosion(Vector2 position) {
-        explosions.add(new Explosion(position));
     }
 }

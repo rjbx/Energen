@@ -7,8 +7,8 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-
-public class Powerup {
+// immutable
+public final class Powerup {
 
     final public Vector2 position;
 
@@ -20,5 +20,4 @@ public class Powerup {
         final TextureRegion region = Assets.instance.powerupAssets.powerup;
         Utils.drawTextureRegion(batch, region, position, Constants.POWERUP_CENTER);
     }
-
 }

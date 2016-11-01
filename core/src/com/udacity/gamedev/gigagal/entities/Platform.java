@@ -3,7 +3,8 @@ package com.udacity.gamedev.gigagal.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.udacity.gamedev.gigagal.util.Assets;
 
-public class Platform {
+// immutable
+public final class Platform {
 
     public final float top;
     public final float bottom;
@@ -12,18 +13,18 @@ public class Platform {
     // This is used by the level loading code to link enemies and platforms.
     String identifier;
 
-    public Platform(float left, float top, float width, float height) {
-        this.top = top;
-        this.bottom = top - height;
-        this.left = left;
-        this.right = left + width;
-    }
-    
     public Platform(Platform p) {
         this.top = p.top;
         this.bottom = p.top - (p.top - p.bottom);
         this.left = p.left;
         this.right = p.left + (p.right - p.left);
+    }
+
+    public Platform(float left, float top, float width, float height) {
+        this.top = top;
+        this.bottom = top - height;
+        this.left = left;
+        this.right = left + width;
     }
 
     public void render(SpriteBatch batch) {
