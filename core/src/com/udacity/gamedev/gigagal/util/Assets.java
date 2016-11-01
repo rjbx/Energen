@@ -12,26 +12,29 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
-// immutable
+// immutable singleton
 public final class Assets implements Disposable, AssetErrorListener {
 
     public static final String TAG = Assets.class.getName();
-    public static final Assets instance = new Assets();
+    private static final Assets INSTANCE = new Assets();
 
-    public GigaGalAssets gigaGalAssets;
-    public PlatformAssets platformAssets;
-    public BulletAssets bulletAssets;
-    public ZoombaAssets zoombaAssets;
-    public ExplosionAssets explosionAssets;
-    public PowerupAssets powerupAssets;
-    public ExitPortalAssets exitPortalAssets;
-    public OnscreenControlsAssets onscreenControlsAssets;
+    private GigaGalAssets gigaGalAssets;
+    private PlatformAssets platformAssets;
+    private BulletAssets bulletAssets;
+    private ZoombaAssets zoombaAssets;
+    private ExplosionAssets explosionAssets;
+    private PowerupAssets powerupAssets;
+    private ExitPortalAssets exitPortalAssets;
+    private OnscreenControlsAssets onscreenControlsAssets;
 
     private AssetManager assetManager;
 
-    // singleton
+    // non-instantiable
     private Assets() {
     }
+
+    // static factory
+    public static Assets getInstance() { return INSTANCE; }
 
     public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -204,4 +207,14 @@ public final class Assets implements Disposable, AssetErrorListener {
             jump = atlas.findRegion(Constants.JUMP_BUTTON);
         }
     }
+
+    // Getters
+    public final GigaGalAssets getGigaGalAssets() { return gigaGalAssets; }
+    public final PlatformAssets getPlatformAssets() { return platformAssets; }
+    public final BulletAssets getBulletAssets() { return bulletAssets; }
+    public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
+    public final ExplosionAssets getExplosionAssets() { return explosionAssets; }
+    public final PowerupAssets getPowerupAssets() { return powerupAssets; }
+    public final ExitPortalAssets getExitPortalAssets() { return exitPortalAssets; }
+    public final OnscreenControlsAssets getOnscreenControlsAssets() { return onscreenControlsAssets; }
 }

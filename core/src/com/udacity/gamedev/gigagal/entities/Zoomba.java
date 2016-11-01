@@ -52,7 +52,7 @@ public class Zoomba {
     }
 
     public void render(SpriteBatch batch) {
-        final TextureRegion region = Assets.instance.zoombaAssets.zoomba;
+        final TextureRegion region = Assets.getInstance().getZoombaAssets().zoomba;
         Utils.drawTextureRegion(batch, region, position, Constants.ZOOMBA_CENTER);
     }
 }

@@ -69,11 +69,11 @@ public final class Ammo {
         Vector2 bulletCenter = new Vector2();
         switch (ammoType) {
             case REGULAR:
-                region = Assets.instance.bulletAssets.bullet;
+                region = Assets.getInstance().getBulletAssets().bullet;
                 bulletCenter.set(Constants.BULLET_CENTER);
                 break;
             case CHARGE:
-                region = Assets.instance.bulletAssets.chargeBullet;
+                region = Assets.getInstance().getBulletAssets().chargeBullet;
                 bulletCenter.set(Constants.CHARGE_BULLET_CENTER);
                 break;
         }

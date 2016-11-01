@@ -15,7 +15,7 @@ public final class ChaseCam {
     private static Boolean following;
     private static final ChaseCam INSTANCE = new ChaseCam();
 
-    // non-instantiable
+    // non-instantiable; cannot be subclassed
     private ChaseCam() { following = true; }
 
     // static factory

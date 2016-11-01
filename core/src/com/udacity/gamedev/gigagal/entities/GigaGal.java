@@ -273,8 +273,8 @@ public class GigaGal {
             Rectangle powerupBounds = new Rectangle(
                     powerup.position.x - Constants.POWERUP_CENTER.x,
                     powerup.position.y - Constants.POWERUP_CENTER.y,
-                    Assets.instance.powerupAssets.powerup.getRegionWidth(),
-                    Assets.instance.powerupAssets.powerup.getRegionHeight()
+                    Assets.getInstance().getPowerupAssets().powerup.getRegionWidth(),
+                    Assets.getInstance().getPowerupAssets().powerup.getRegionHeight()
             );
             if (gigaGalBounds.overlaps(powerupBounds)) {
                 ammo += Constants.POWERUP_AMMO;
@@ -479,42 +479,42 @@ public class GigaGal {
     }
 
     public void render(SpriteBatch batch) {
-        TextureRegion region = Assets.instance.gigaGalAssets.standRight;
+        TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
         if (facing == Direction.RIGHT) {
             if (aerialMove != AerialMove.GROUNDED) {
                 if (aerialMove == AerialMove.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
-                    region = Assets.instance.gigaGalAssets.hoverRightAnimation.getKeyFrame(hoverTimeSeconds);
+                    region = Assets.getInstance().getGigaGalAssets().hoverRightAnimation.getKeyFrame(hoverTimeSeconds);
                 } else if (aerialMove == AerialMove.RICOCHETING) {
-                    region = Assets.instance.gigaGalAssets.ricochetLeft;
+                    region = Assets.getInstance().getGigaGalAssets().ricochetLeft;
                 } else {
-                    region = Assets.instance.gigaGalAssets.jumpRight;
+                    region = Assets.getInstance().getGigaGalAssets().jumpRight;
                 }
             } else if (groundMove == GroundMove.STANDING) {
-                region = Assets.instance.gigaGalAssets.standRight;
+                region = Assets.getInstance().getGigaGalAssets().standRight;
             } else if (groundMove == GroundMove.WALKING) {
-                region = Assets.instance.gigaGalAssets.walkRightAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
+                region = Assets.getInstance().getGigaGalAssets().walkRightAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
             } else if (groundMove == GroundMove.DASHING
                     || groundMove == GroundMove.LEANING) {
-                region = Assets.instance.gigaGalAssets.dashRight;
+                region = Assets.getInstance().getGigaGalAssets().dashRight;
             }
         } else if (facing == Direction.LEFT) {
             if (aerialMove != AerialMove.GROUNDED) {
                 if (aerialMove == AerialMove.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
-                    region = Assets.instance.gigaGalAssets.hoverLeftAnimation.getKeyFrame(hoverTimeSeconds);
+                    region = Assets.getInstance().getGigaGalAssets().hoverLeftAnimation.getKeyFrame(hoverTimeSeconds);
                 } else if (aerialMove == AerialMove.RICOCHETING) {
-                    region = Assets.instance.gigaGalAssets.ricochetRight;
+                    region = Assets.getInstance().getGigaGalAssets().ricochetRight;
                 } else {
-                    region = Assets.instance.gigaGalAssets.jumpLeft;
+                    region = Assets.getInstance().getGigaGalAssets().jumpLeft;
                 }
             } else if (groundMove == GroundMove.STANDING) {
-                region = Assets.instance.gigaGalAssets.standLeft;
+                region = Assets.getInstance().getGigaGalAssets().standLeft;
             } else if (groundMove == GroundMove.WALKING) {
-                region = Assets.instance.gigaGalAssets.walkLeftAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
+                region = Assets.getInstance().getGigaGalAssets().walkLeftAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
             } else if (groundMove == GroundMove.DASHING
                     || groundMove == GroundMove.LEANING) {
-                region = Assets.instance.gigaGalAssets.dashLeft;
+                region = Assets.getInstance().getGigaGalAssets().dashLeft;
             }
         }
 

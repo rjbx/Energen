@@ -25,7 +25,7 @@ public class Explosion {
         if (!isFinished() && !yetToStart()) {
             Utils.drawTextureRegion(
                     batch,
-                    Assets.instance.explosionAssets.explosion.getKeyFrame(Utils.secondsSince(startTime) - offset),
+                    Assets.getInstance().getExplosionAssets().explosion.getKeyFrame(Utils.secondsSince(startTime) - offset),
                     position.x - Constants.EXPLOSION_CENTER.x,
                     position.y - Constants.EXPLOSION_CENTER.y
             );
@@ -38,7 +38,7 @@ public class Explosion {
 
     public boolean isFinished() {
         float elapsedTime = Utils.secondsSince(startTime) - offset;
-        return Assets.instance.explosionAssets.explosion.isAnimationFinished(elapsedTime);
+        return Assets.getInstance().getExplosionAssets().explosion.isAnimationFinished(elapsedTime);
     }
 
     public float getOffset() { return offset; }

@@ -35,7 +35,7 @@ public final class GameplayScreen extends ScreenAdapter {
     @Override
     public void show() {
         AssetManager am = new AssetManager();
-        Assets.instance.init(am);
+        Assets.getInstance().init(am);
         levelNumber = 0;
 
         batch = new SpriteBatch();
@@ -71,7 +71,7 @@ public final class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        Assets.instance.dispose();
+        Assets.getInstance().dispose();
     }
 
     @Override

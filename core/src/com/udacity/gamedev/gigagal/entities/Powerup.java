@@ -17,7 +17,7 @@ public final class Powerup {
     }
 
     public void render(SpriteBatch batch) {
-        final TextureRegion region = Assets.instance.powerupAssets.powerup;
+        final TextureRegion region = Assets.getInstance().getPowerupAssets().powerup;
         Utils.drawTextureRegion(batch, region, position, Constants.POWERUP_CENTER);
     }
 }

@@ -32,7 +32,7 @@ public final class GigaGalHud {
                         Constants.HUD_AMMO_LABEL + ammo;
 
         font.draw(batch, hudString, Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN);
-        final TextureRegion standingRight = Assets.instance.gigaGalAssets.standRight;
+        final TextureRegion standingRight = Assets.getInstance().getGigaGalAssets().standRight;
         for (int i = 1; i <= lives; i++) {
             final Vector2 drawPosition = new Vector2(
                     viewport.getWorldWidth() - i * (Constants.HUD_MARGIN / 2 + standingRight.getRegionWidth()),

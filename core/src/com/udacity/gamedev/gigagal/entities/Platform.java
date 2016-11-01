@@ -30,7 +30,7 @@ public final class Platform {
     public void render(SpriteBatch batch) {
         final float width = right - left;
         final float height = top - bottom;
-        Assets.instance.platformAssets.platformNinePatch.draw(batch, left - 1, bottom - 1, width + 2, height + 2);
+        Assets.getInstance().getPlatformAssets().platformNinePatch.draw(batch, left - 1, bottom - 1, width + 2, height + 2);
     }
 
     public String getIdentifier() {
