@@ -15,15 +15,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import java.util.Comparator;
 
-// immutable
+// immutable static
 public final class LevelLoader {
 
     public static final String TAG = LevelLoader.class.toString();
 
-    // singleton
+    // non-instantiable
     private LevelLoader() {}
 
-    public static Level load(String path) {
+    public static final Level load(String path) {
 
         final FileHandle file = Gdx.files.internal(path);
         Level level = new Level();
@@ -49,7 +49,7 @@ public final class LevelLoader {
         return level;
     }
 
-    private static Vector2 extractXY(JSONObject object) {
+    private static final Vector2 extractXY(JSONObject object) {
 
         Number x = (Number) object.get(Constants.LEVEL_X_KEY);
         Number y = (Number) object.get(Constants.LEVEL_Y_KEY);
@@ -60,7 +60,7 @@ public final class LevelLoader {
         );
     }
 
-    private static void loadNonPlatformEntities(Level level, JSONArray nonPlatformObjects) {
+    private static final void loadNonPlatformEntities(Level level, JSONArray nonPlatformObjects) {
         for (Object o : nonPlatformObjects) {
             JSONObject item = (JSONObject) o;
 
@@ -82,7 +82,7 @@ public final class LevelLoader {
         }
     }
 
-    private static void loadPlatforms(JSONArray array, Level level) {
+    private static final void loadPlatforms(JSONArray array, Level level) {
 
         Array<Platform> platformArray = new Array<Platform>();
 

@@ -29,9 +29,8 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     private AssetManager assetManager;
 
-    // non-instantiable
-    private Assets() {
-    }
+    // non-instantiable; cannot be subclassed
+    private Assets() {}
 
     // static factory
     public static Assets getInstance() { return INSTANCE; }

@@ -6,21 +6,21 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 
-// immutable
+// immutable static
 public final class Utils {
 
-    // singleton
+    // non-instantiable
     private Utils() {}
 
-    public static void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position) {
+    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position) {
         drawTextureRegion(batch, region, position.x, position.y);
     }
 
-    public static void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position, Vector2 offset) {
+    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position, Vector2 offset) {
         drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y);
     }
 
-    public static void drawTextureRegion(SpriteBatch batch, TextureRegion region, float x, float y) {
+    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, float x, float y) {
         batch.draw(
                 region.getTexture(),
                 x,
@@ -40,7 +40,7 @@ public final class Utils {
                 false);
     }
 
-    public static float secondsSince(long timeNanos) {
+    public static final float secondsSince(long timeNanos) {
         return MathUtils.nanoToSec * (TimeUtils.nanoTime() - timeNanos);
     }
 }
