@@ -17,6 +17,7 @@ import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Utils;
 import java.lang.String;
 
+// mutable
 public class GigaGal {
     public final static String TAG = GigaGal.class.getName();
     private Level level;

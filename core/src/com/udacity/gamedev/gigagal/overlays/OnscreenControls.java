@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-
+// mutable
 public class OnscreenControls extends InputAdapter {
 
     public static final String TAG = OnscreenControls.class.getName();

@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.DirectionalState;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-
+// mutable
 public class Zoomba {
 
     private final long startTime;

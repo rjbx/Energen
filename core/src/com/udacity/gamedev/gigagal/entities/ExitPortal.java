@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // immutable
-public class ExitPortal {
+public final class ExitPortal {
 
     public final static String TAG = ExitPortal.class.getName();
 

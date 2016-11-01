@@ -10,15 +10,13 @@ import com.udacity.gamedev.gigagal.entities.ExitPortal;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Platform;
 import com.udacity.gamedev.gigagal.entities.Powerup;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
 import java.util.Comparator;
 
 // immutable
-public class LevelLoader {
+public final class LevelLoader {
 
     public static final String TAG = LevelLoader.class.toString();
 
@@ -79,7 +77,6 @@ public class LevelLoader {
                 level.setExitPortal(new ExitPortal(exitPortalPosition));
             }
         }
-
     }
 
     private static void loadPlatforms(JSONArray array, Level level) {
