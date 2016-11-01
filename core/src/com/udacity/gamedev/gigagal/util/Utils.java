@@ -9,6 +9,9 @@ import com.badlogic.gdx.utils.TimeUtils;
 // immutable
 public final class Utils {
 
+    // singleton
+    private Utils() {}
+
     public static void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position) {
         drawTextureRegion(batch, region, position.x, position.y);
     }

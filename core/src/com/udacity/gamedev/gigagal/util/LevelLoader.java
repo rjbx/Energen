@@ -20,6 +20,9 @@ public final class LevelLoader {
 
     public static final String TAG = LevelLoader.class.toString();
 
+    // singleton
+    private LevelLoader() {}
+
     public static Level load(String path) {
 
         final FileHandle file = Gdx.files.internal(path);

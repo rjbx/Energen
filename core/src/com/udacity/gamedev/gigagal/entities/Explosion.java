@@ -7,12 +7,14 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-// immutable
-public final class Explosion {
+// mutable
+public class Explosion {
 
+    //fields
+    public static final String TAG = Explosion.class.getName();
     private final Vector2 position;
     private final long startTime;
-    public float offset = 0;
+    private float offset = 0;
 
     public Explosion(Vector2 position) {
         this.position = position;
@@ -38,4 +40,7 @@ public final class Explosion {
         float elapsedTime = Utils.secondsSince(startTime) - offset;
         return Assets.instance.explosionAssets.explosion.isAnimationFinished(elapsedTime);
     }
+
+    public float getOffset() { return offset; }
+    public void setOffset(float offset) { this.offset = offset; }
 }

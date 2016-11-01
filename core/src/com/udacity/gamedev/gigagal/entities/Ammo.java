@@ -7,28 +7,31 @@ import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.AmmoType;
-import com.udacity.gamedev.gigagal.util.Enums.DirectionalState;
+import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // immutable
 public final class Ammo {
 
+    // fields
+    public final static String TAG = Ammo.class.getName();
     private final Level level;
-    public boolean active;
-    private Vector2 position;
     private final AmmoType ammoType;
-    private final DirectionalState directionalState;
+    private final Direction direction;
+    private boolean active;
+    private Vector2 position;
 
-    public Ammo(Level level, Vector2 position, DirectionalState directionalState, AmmoType ammoType) {
+    // ctor
+    public Ammo(Level level, Vector2 position, Direction direction, AmmoType ammoType) {
         this.level = level;
         this.position = position;
-        this.directionalState = directionalState;
+        this.direction = direction;
         this.ammoType = ammoType;
         active = true;
     }
 
     public void update(float delta) {
-        switch (directionalState) {
+        switch (direction) {
             case LEFT:
                 position.x -= delta * Constants.BULLET_MOVE_SPEED;
                 break;
@@ -76,4 +79,6 @@ public final class Ammo {
         }
         Utils.drawTextureRegion(batch, region, position, bulletCenter);
     }
+
+    public final boolean isActive() { return active; }
 }

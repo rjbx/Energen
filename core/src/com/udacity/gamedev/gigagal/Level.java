@@ -15,7 +15,7 @@ import com.udacity.gamedev.gigagal.entities.Platform;
 import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Enums.DirectionalState;
+import com.udacity.gamedev.gigagal.util.Enums.Direction;
 
 // mutable
 public class Level {
@@ -59,7 +59,7 @@ public class Level {
 
         if (gigaGal.getLives() < 0) {
             gameOver = true;
-        } else if (gigaGal.getPosition().dst(exitPortal.position) < Constants.EXIT_PORTAL_RADIUS) {
+        } else if (gigaGal.getPosition().dst(exitPortal.getPosition()) < Constants.EXIT_PORTAL_RADIUS) {
             victory = true;
         }
 
@@ -71,7 +71,7 @@ public class Level {
             bullets.begin();
             for (Ammo chargeAmmo : bullets) {
                 chargeAmmo.update(delta);
-                if (!chargeAmmo.active) {
+                if (!chargeAmmo.isActive()) {
                     bullets.removeValue(chargeAmmo, false);
                 }
             }
@@ -161,8 +161,8 @@ public class Level {
         powerups.add(new Powerup(new Vector2(20, 110)));
     }
 
-    public void spawnBullet(Vector2 position, DirectionalState directionalState, Enums.AmmoType ammoType) {
-        bullets.add(new Ammo(this, position, directionalState, ammoType));
+    public void spawnBullet(Vector2 position, Direction direction, Enums.AmmoType ammoType) {
+        bullets.add(new Ammo(this, position, direction, ammoType));
     }
 
     public void spawnExplosion(Vector2 position) {
@@ -182,23 +182,20 @@ public class Level {
     public boolean isVictory() { return victory; }
     public int getScore() { return score; }
 
+    // Setters
     public void setVictory(boolean victory) {
         this.victory = victory;
     }
-
     public void setGameOver(boolean gameOver) { this.gameOver = gameOver; }
     public void setScore(int score) {
         this.score = score;
     }
-
     public void setExitPortal(ExitPortal exitPortal) {
         this.exitPortal = exitPortal;
     }
-
     public void setViewport(Viewport viewport) {
         this.viewport = viewport;
     }
-
     public void setGigaGal(GigaGal gigaGal) {
         this.gigaGal = gigaGal;
     }

@@ -2,15 +2,17 @@ package com.udacity.gamedev.gigagal.util;
 
 public final class Enums {
 
+    private Enums() {}
+
     public enum AmmoType {
         REGULAR, CHARGE
     }
 
-    public enum DirectionalState {
+    public enum Direction {
         LEFT, RIGHT
     }
 
-    public enum AerialState {
+    public enum AerialMove {
         JUMPING,
         HOVERING,
         RICOCHETING,
@@ -20,7 +22,7 @@ public final class Enums {
         SLIDING
     }
 
-    public enum TerrestrialState {
+    public enum GroundMove {
         STANDING,
         LEANING,
         WALKING,

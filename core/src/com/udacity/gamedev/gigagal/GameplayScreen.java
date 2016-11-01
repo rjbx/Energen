@@ -6,10 +6,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.overlays.GameOverOverlay;
 import com.udacity.gamedev.gigagal.overlays.GigaGalHud;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
@@ -23,8 +20,8 @@ import com.udacity.gamedev.gigagal.util.Utils;
 // immutable
 public final class GameplayScreen extends ScreenAdapter {
 
+    // fields
     public static final String TAG = GameplayScreen.class.getName();
-
     private OnscreenControls onscreenControls;
     private SpriteBatch batch;
     private long levelEndOverlayStartTime;
@@ -42,7 +39,7 @@ public final class GameplayScreen extends ScreenAdapter {
         levelNumber = 0;
 
         batch = new SpriteBatch();
-        chaseCam = new ChaseCam();
+        chaseCam = ChaseCam.getInstance();
         hud = new GigaGalHud();
         victoryOverlay = new VictoryOverlay();
         gameOverOverlay = new GameOverOverlay();

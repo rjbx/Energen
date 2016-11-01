@@ -35,7 +35,7 @@ public final class VictoryOverlay {
                     MathUtils.random(viewport.getWorldWidth()),
                     MathUtils.random(viewport.getWorldHeight())
             ));
-            explosion.offset = MathUtils.random(Constants.LEVEL_END_DURATION);
+            explosion.setOffset(MathUtils.random(Constants.LEVEL_END_DURATION));
 
             explosions.add(explosion);
         }

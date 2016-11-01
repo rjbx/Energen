@@ -5,17 +5,22 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 
-// immutable
+// immutable singleton
 public final class ChaseCam {
 
     public static final String TAG = ChaseCam.class.getName();
 
     public Camera camera;
     public GigaGal target;
-    private Boolean following;
+    private static Boolean following;
+    private static final ChaseCam INSTANCE = new ChaseCam();
 
-    public ChaseCam() {
-        following = true;
+    // non-instantiable
+    private ChaseCam() { following = true; }
+
+    // static factory
+    public static ChaseCam getInstance() {
+        return INSTANCE;
     }
 
     public void update(float delta) {

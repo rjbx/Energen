@@ -6,6 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 // immutable
 public final class Constants {
 
+    // non-instantiable
+    private Constants() {}
+
     // World/Camera
     public static final Color BACKGROUND_COLOR = Color.SKY;
     public static final float WORLD_SIZE = 160;
