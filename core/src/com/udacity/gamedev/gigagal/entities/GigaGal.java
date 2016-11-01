@@ -39,8 +39,8 @@ public class GigaGal {
     private boolean isCharged;
     private boolean canDashLeft;
     private boolean canDashRight;
-    private int doubleTapLeft;
-    private int doubleTapRight;
+    private boolean doubleTapLeft;
+    private boolean doubleTapRight;
     private long ricochetStartTime;
     private int ammo;
     private int lives;
@@ -80,8 +80,8 @@ public class GigaGal {
         hasHovered = false;
         canDashLeft = false;
         canDashRight = false;
-        doubleTapLeft = 0;
-        doubleTapRight = 0;
+        doubleTapLeft = false;
+        doubleTapRight = false;
         jumpStartingPoint = new Vector2();
     }
 
@@ -190,50 +190,52 @@ public class GigaGal {
             if (aerialMove == AerialMove.GROUNDED) {
                 boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
                 boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
-
-                if (left && !right) {
-                    if (leftButtonPressed && doubleTapLeft == 0) {
-                        doubleTapLeft = 1;
-                        doubleTapRight = 0;
-                    }
-                    if (doubleTapLeft == 2) {
-                        if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
-                            startDash();
-                            doubleTapLeft = 0;
+                if (!right && left) {
+                    if (leftButtonPressed && doubleTapLeft == false) {
+                        if (dashStartTime == 0) {
+                            doubleTapLeft = true;
+                            doubleTapRight = false;
+                            dashStartTime = 0;
                         } else {
-                            doubleTapLeft = 0;
-                            dashStartTime = TimeUtils.nanoTime();
+                            if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
+                                startDash();
+                                doubleTapLeft = false;
+                            } else {
+                                doubleTapLeft = false;
+                                dashStartTime = 0;
+                            }
                         }
                     } else {
                         moveLeft();
                     }
                 } else if (right && !left) {
-                    if (rightButtonPressed && doubleTapRight == 0) {
-                        doubleTapRight = 1;
-                        doubleTapLeft = 0;
-                    }
-                    if (doubleTapRight == 2) {
-                        if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
-                            startDash();
-                            doubleTapRight = 0;
+                    if (rightButtonPressed && doubleTapRight == false) {
+                        if (dashStartTime == 0) {
+                            doubleTapRight = true;
+                            doubleTapLeft = false;
                         } else {
-                            doubleTapRight = 0;
-                            dashStartTime = TimeUtils.nanoTime();
+                            if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
+                                startDash();
+                                doubleTapRight = false;
+                            } else {
+                                doubleTapRight = false;
+                                dashStartTime = 0;
+                            }
                         }
                     } else {
-                        moveRight();
+                       moveRight();
                     }
                 } else {
                     walkTimeSeconds = 0;
                     walkStartTime = TimeUtils.nanoTime();
                     velocity.x /= 2;
                     groundMove = GroundMove.STANDING;
-                    if (doubleTapLeft == 1) {
-                        doubleTapLeft = 2;
+                    if (doubleTapLeft == true) {
+                        doubleTapLeft = false;
                         dashStartTime = TimeUtils.nanoTime();
                     }
-                    if (doubleTapRight == 1) {
-                        doubleTapRight = 2;
+                    if (doubleTapRight == true) {
+                        doubleTapRight = false;
                         dashStartTime = TimeUtils.nanoTime();
                     }
                     if (velocity.x >= -.01f && velocity.x <= .01f) {
@@ -243,7 +245,7 @@ public class GigaGal {
                 }
 
                 // TODO: enable dash on touch screen left/right button double press
-                if (Gdx.input.isKeyJustPressed(Keys.A) || (doubleTapLeft == 3)) {
+                if (Gdx.input.isKeyJustPressed(Keys.A)) {
                     if (canDashLeft && Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
                         startDash();
                         canDashLeft = false;
@@ -252,7 +254,7 @@ public class GigaGal {
                         canDashLeft = true;
                         dashStartTime = TimeUtils.nanoTime();
                     }
-                } else if (Gdx.input.isKeyJustPressed(Keys.S) || (doubleTapRight == 3)) {
+                } else if (Gdx.input.isKeyJustPressed(Keys.S)) {
                     if (canDashRight && Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
                         startDash();
                         canDashRight = false;
