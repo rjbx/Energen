@@ -16,6 +16,7 @@ public class Explosion {
     private final long startTime;
     private float offset = 0;
 
+    // ctor
     public Explosion(Vector2 position) {
         this.position = position;
         startTime = TimeUtils.nanoTime();

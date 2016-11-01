@@ -83,8 +83,8 @@ public class Level {
             for (int i = 0; i < enemies.size; i++) {
                 Zoomba zoomba = enemies.get(i);
                 zoomba.update(delta);
-                if (zoomba.health < 1) {
-                    spawnExplosion(zoomba.position);
+                if (zoomba.getHealth() < 1) {
+                    spawnExplosion(zoomba.getPosition());
                     enemies.removeIndex(i);
                     score += Constants.ZOOMBA_KILL_SCORE;
                 }
@@ -182,7 +182,7 @@ public class Level {
     public final boolean isVictory() { return victory; }
 
     // Setters
-    public void setScore(int score) { this.score = score; }
-    public void setExitPortal(ExitPortal exitPortal) { this.exitPortal = exitPortal; }
-    public void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
+    public final void setScore(int score) { this.score = score; }
+    public final void setExitPortal(ExitPortal exitPortal) { this.exitPortal = exitPortal; }
+    public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
 }

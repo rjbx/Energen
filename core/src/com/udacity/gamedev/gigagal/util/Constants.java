@@ -66,7 +66,7 @@ public final class Constants {
     public static final float ZOOMBA_MOVEMENT_SPEED = 10;
     public static final float ZOOMBA_BOB_AMPLITUDE = 2;
     public static final float ZOOMBA_BOB_PERIOD = 3.0f;
-    public static final int ZOOMBA_HEALTH = 5;
+    public static final int ZOOMBA_MAX_HEALTH = 5;
     public static final float ZOOMBA_COLLISION_RADIUS = 15;
     public static final float ZOOMBA_SHOT_RADIUS = 17;
     public static final String ZOOMBA_SPRITE = "zoomba";

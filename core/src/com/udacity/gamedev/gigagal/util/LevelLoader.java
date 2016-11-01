@@ -112,9 +112,9 @@ public final class LevelLoader {
         platformArray.sort(new Comparator<Platform>() {
             @Override
             public int compare(Platform o1, Platform o2) {
-                if (o1.top < o2.top) {
+                if (o1.getTop() < o2.getTop()) {
                     return 1;
-                } else if (o1.top > o2.top) {
+                } else if (o1.getTop() > o2.getTop()) {
                     return -1;
                 }
                 return 0;

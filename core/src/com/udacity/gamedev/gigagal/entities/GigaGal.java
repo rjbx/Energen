@@ -119,10 +119,10 @@ public class GigaGal {
         // Land on/fall off platforms
         // TODO: fix momentum after jumping into collisions post- recoil
         for (Platform platform : platforms) {
-            if ((lastFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS < platform.bottom)
-                    && position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.bottom
-                    && position.x < platform.right
-                    && position.x > platform.left) {
+            if ((lastFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS < platform.getBottom())
+                    && position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.getBottom()
+                    && position.x < platform.getRight()
+                    && position.x > platform.getLeft()) {
                 endJump();
                 position.y = lastFramePosition.y;
                 velocity.y = -Constants.GRAVITY;
@@ -141,17 +141,17 @@ public class GigaGal {
                 aerialMove = AerialMove.GROUNDED;
                 hasHovered = false;
                 velocity.y = 0;
-                position.y = platform.top + Constants.GIGAGAL_EYE_HEIGHT;
+                position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
             } else if (isBumping(platform)) {
 
                 position.x = lastFramePosition.x;
                 if (aerialMove != AerialMove.GROUNDED
                         && aerialMove != AerialMove.RECOILING
                         && aerialMove != AerialMove.RICOCHETING) {
-                    if (position.y - Constants.GIGAGAL_HEAD_RADIUS <= platform.top
+                    if (position.y - Constants.GIGAGAL_HEAD_RADIUS <= platform.getTop()
                             && jumpStartingPoint.x != position.x
                             && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))
-                            && position.y - Constants.GIGAGAL_EYE_HEIGHT > platform.bottom) {
+                            && position.y - Constants.GIGAGAL_EYE_HEIGHT > platform.getBottom()) {
                         aerialMove = AerialMove.SLIDING;
                         hoverStartTime = TimeUtils.nanoTime();
                         groundMove = GroundMove.LEANING;
@@ -176,14 +176,14 @@ public class GigaGal {
 
         for (Zoomba zoomba : level.getEnemies()) {
             Rectangle zoombaBounds = new Rectangle(
-                    zoomba.position.x - Constants.ZOOMBA_COLLISION_RADIUS,
-                    zoomba.position.y - Constants.ZOOMBA_COLLISION_RADIUS,
+                    zoomba.getPosition().x - Constants.ZOOMBA_COLLISION_RADIUS,
+                    zoomba.getPosition().y - Constants.ZOOMBA_COLLISION_RADIUS,
                     2 * Constants.ZOOMBA_COLLISION_RADIUS,
                     2 * Constants.ZOOMBA_COLLISION_RADIUS
             );
             if (gigaGalBounds.overlaps(zoombaBounds)) {
 
-                if (position.x < zoomba.position.x) {
+                if (position.x < zoomba.getPosition().x) {
                     recoilFromHit(Direction.LEFT);
                 } else {
                     recoilFromHit(Direction.RIGHT);
@@ -254,7 +254,7 @@ public class GigaGal {
                     endHover();
                     break;
                 case SLIDING:
-                    if (position.y - Constants.GIGAGAL_HEAD_RADIUS > slidPlatform.bottom) {
+                    if (position.y - Constants.GIGAGAL_HEAD_RADIUS > slidPlatform.getBottom()) {
                         aerialMove = AerialMove.RICOCHETING;
                         ricochetStartTime = TimeUtils.nanoTime();
                     }
@@ -271,8 +271,8 @@ public class GigaGal {
         for (int i = 0; i < powerups.size; i++) {
             Powerup powerup = powerups.get(i);
             Rectangle powerupBounds = new Rectangle(
-                    powerup.position.x - Constants.POWERUP_CENTER.x,
-                    powerup.position.y - Constants.POWERUP_CENTER.y,
+                    powerup.getPosition().x - Constants.POWERUP_CENTER.x,
+                    powerup.getPosition().y - Constants.POWERUP_CENTER.y,
                     Assets.getInstance().getPowerupAssets().powerup.getRegionWidth(),
                     Assets.getInstance().getPowerupAssets().powerup.getRegionHeight()
             );
@@ -328,34 +328,34 @@ public class GigaGal {
         boolean rightFootIn = false;
         boolean straddle = false;
 
-        if (lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.top &&
-                position.y - Constants.GIGAGAL_EYE_HEIGHT < platform.top + Constants.GIGAGAL_HEAD_RADIUS) {
+        if (lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.getTop() &&
+                position.y - Constants.GIGAGAL_EYE_HEIGHT < platform.getTop() + Constants.GIGAGAL_HEAD_RADIUS) {
 
             float leftFoot = position.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
             float rightFoot = position.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
 
-            leftFootIn = (platform.left < leftFoot && platform.right > leftFoot);
-            rightFootIn = (platform.left < rightFoot && platform.right > rightFoot);
-            straddle = (platform.left > leftFoot && platform.right < rightFoot);
+            leftFootIn = (platform.getLeft() < leftFoot && platform.getRight() > leftFoot);
+            rightFootIn = (platform.getLeft() < rightFoot && platform.getRight() > rightFoot);
+            straddle = (platform.getLeft() > leftFoot && platform.getRight() < rightFoot);
         }
         return leftFootIn || rightFootIn || straddle;
     }
 
     private boolean isBumping(Platform platform) {
-        if (platform.top - platform.bottom > Constants.MAX_LEDGE_HEIGHT) {
+        if (platform.getTop() - platform.getBottom() > Constants.MAX_LEDGE_HEIGHT) {
 
             float margin = Constants.GIGAGAL_STANCE_WIDTH / 2;
 
-            if ((lastFramePosition.x + margin) <= platform.left &&
-                    (position.x + margin) > platform.left
-                    && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top
-                    && (position.y + Constants.GIGAGAL_HEAD_RADIUS > platform.bottom)) {
+            if ((lastFramePosition.x + margin) <= platform.getLeft() &&
+                    (position.x + margin) > platform.getLeft()
+                    && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.getTop()
+                    && (position.y + Constants.GIGAGAL_HEAD_RADIUS > platform.getBottom())) {
                 return true;
             }
-            if ((lastFramePosition.x - margin) >= platform.right &&
-                    (position.x - margin) < platform.right
-                    && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.top
-                    && (position.y + Constants.GIGAGAL_HEAD_RADIUS > platform.bottom)) {
+            if ((lastFramePosition.x - margin) >= platform.getRight() &&
+                    (position.x - margin) < platform.getRight()
+                    && (position.y - Constants.GIGAGAL_EYE_HEIGHT) < platform.getTop()
+                    && (position.y + Constants.GIGAGAL_HEAD_RADIUS > platform.getBottom())) {
                 return true;
             }
         }

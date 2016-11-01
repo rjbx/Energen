@@ -10,8 +10,10 @@ import com.udacity.gamedev.gigagal.util.Utils;
 // immutable
 public final class Powerup {
 
-    final public Vector2 position;
+    // fields
+    private final Vector2 position;
 
+    // ctor
     public Powerup(Vector2 position) {
         this.position = position;
     }
@@ -20,4 +22,6 @@ public final class Powerup {
         final TextureRegion region = Assets.getInstance().getPowerupAssets().powerup;
         Utils.drawTextureRegion(batch, region, position, Constants.POWERUP_CENTER);
     }
+
+    public final Vector2 getPosition() { return position; }
 }

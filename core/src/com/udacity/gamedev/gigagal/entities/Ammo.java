@@ -18,8 +18,8 @@ public final class Ammo {
     private final Level level;
     private final AmmoType ammoType;
     private final Direction direction;
+    private final Vector2 position;
     private boolean active;
-    private Vector2 position;
 
     // ctor
     public Ammo(Level level, Vector2 position, Direction direction, AmmoType ammoType) {
@@ -41,15 +41,15 @@ public final class Ammo {
         }
 
         for (Zoomba zoomba : level.getEnemies()) {
-            if (position.dst(zoomba.position) < Constants.ZOOMBA_SHOT_RADIUS) {
+            if (position.dst(zoomba.getPosition()) < Constants.ZOOMBA_SHOT_RADIUS) {
                 level.spawnExplosion(position);
                 active = false;
                 switch (ammoType) {
                     case REGULAR:
-                        zoomba.health -= Constants.ZOOMBA_HEALTH / 5;
+                        zoomba.setHealth(zoomba.getHealth() - Constants.ZOOMBA_MAX_HEALTH / 5);
                         break;
                     case CHARGE:
-                        zoomba.health -= Constants.ZOOMBA_HEALTH;
+                        zoomba.setHealth(zoomba.getHealth() - Constants.ZOOMBA_MAX_HEALTH);
                         break;
                 }
                 level.setScore(level.getScore() + Constants.ZOOMBA_HIT_SCORE);

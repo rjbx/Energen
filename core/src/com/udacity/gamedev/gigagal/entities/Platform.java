@@ -6,25 +6,29 @@ import com.udacity.gamedev.gigagal.util.Assets;
 // immutable
 public final class Platform {
 
-    public final float top;
-    public final float bottom;
-    public final float left;
-    public final float right;
+    // fields
+    private final float top;
+    private final float bottom;
+    private final float left;
+    private final float right;
+
     // This is used by the level loading code to link enemies and platforms.
-    String identifier;
+    private static String identifier;
 
-    public Platform(Platform p) {
-        this.top = p.top;
-        this.bottom = p.top - (p.top - p.bottom);
-        this.left = p.left;
-        this.right = p.left + (p.right - p.left);
-    }
-
+    // ctor
     public Platform(float left, float top, float width, float height) {
         this.top = top;
         this.bottom = top - height;
         this.left = left;
         this.right = left + width;
+    }
+
+    // copy ctor
+    public Platform(Platform p) {
+        this.top = p.top;
+        this.bottom = p.top - (p.top - p.bottom);
+        this.left = p.left;
+        this.right = p.left + (p.right - p.left);
     }
 
     public void render(SpriteBatch batch) {
@@ -33,11 +37,10 @@ public final class Platform {
         Assets.getInstance().getPlatformAssets().platformNinePatch.draw(batch, left - 1, bottom - 1, width + 2, height + 2);
     }
 
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
+    // Getters
+    public float getTop() { return top; }
+    public float getBottom() {return bottom; }
+    public float getLeft() { return left; }
+    public float getRight() { return right; }
+    public static final String getIdentifier() { return identifier; }
 }

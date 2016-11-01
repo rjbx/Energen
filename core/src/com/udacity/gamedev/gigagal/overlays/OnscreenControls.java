@@ -179,5 +179,5 @@ public class OnscreenControls extends InputAdapter {
 
     public final Viewport getViewport() { return viewport; }
     public final GigaGal getGigaGal() { return gigaGal; }
-    public void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
+    public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
 }
