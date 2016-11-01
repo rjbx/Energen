@@ -15,9 +15,9 @@ import com.badlogic.gdx.utils.Disposable;
 // immutable singleton
 public final class Assets implements Disposable, AssetErrorListener {
 
+    // fields
     public static final String TAG = Assets.class.getName();
     private static final Assets INSTANCE = new Assets();
-
     private GigaGalAssets gigaGalAssets;
     private PlatformAssets platformAssets;
     private BulletAssets bulletAssets;

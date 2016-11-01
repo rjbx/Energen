@@ -32,6 +32,9 @@ public final class GameplayScreen extends ScreenAdapter {
     private VictoryOverlay victoryOverlay;
     private GameOverOverlay gameOverOverlay;
 
+    // default ctor
+    public GameplayScreen() {}
+
     @Override
     public void show() {
         AssetManager am = new AssetManager();
@@ -59,13 +62,13 @@ public final class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void resize(int width, int height) {
-        hud.viewport.update(width, height, true);
-        victoryOverlay.viewport.update(width, height, true);
+        hud.getViewport().update(width, height, true);
+        victoryOverlay.getViewport().update(width, height, true);
         gameOverOverlay.viewport.update(width, height, true);
         level.getViewport().update(width, height, true);
         chaseCam.camera = level.getViewport().getCamera();
-        onscreenControls.gigaGal = level.getGigaGal();
-        onscreenControls.viewport.update(width, height, true);
+        onscreenControls.setGigaGal(level.getGigaGal());
+        onscreenControls.getViewport().update(width, height, true);
         onscreenControls.recalculateButtonPositions();
     }
 
@@ -145,9 +148,5 @@ public final class GameplayScreen extends ScreenAdapter {
     public void levelFailed() {
         levelNumber = 0;
         startNewLevel();
-    }
-
-    public final OnscreenControls getOnscreenControls() {
-        return onscreenControls;
     }
 }

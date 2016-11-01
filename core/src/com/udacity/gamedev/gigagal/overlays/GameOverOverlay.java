@@ -17,11 +17,13 @@ import com.udacity.gamedev.gigagal.util.Utils;
 // immutable
 public final class GameOverOverlay {
 
+    // fields
     public final Viewport viewport;
     final BitmapFont font;
     Array<Zoomba> enemies;
     long startTime;
 
+    // ctor
     public GameOverOverlay() {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
 

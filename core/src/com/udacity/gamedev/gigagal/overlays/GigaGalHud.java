@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.overlays;
 
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,9 +13,11 @@ import com.udacity.gamedev.gigagal.util.Utils;
 // immutable
 public final class GigaGalHud {
 
-    public final Viewport viewport;
-    final BitmapFont font;
+    // fields
+    private final Viewport viewport;
+    private final BitmapFont font;
 
+    // default ctor
     public GigaGalHud() {
         this.viewport = new ExtendViewport(Constants.HUD_VIEWPORT_SIZE, Constants.HUD_VIEWPORT_SIZE);
         font = new BitmapFont();
@@ -46,4 +47,6 @@ public final class GigaGalHud {
         }
         batch.end();
     }
+
+    public final Viewport getViewport() { return viewport; }
 }

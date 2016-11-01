@@ -16,24 +16,24 @@ import com.udacity.gamedev.gigagal.util.Utils;
 // mutable
 public class OnscreenControls extends InputAdapter {
 
+    // fields
     public static final String TAG = OnscreenControls.class.getName();
-
-    public Viewport viewport;
-    public GigaGal gigaGal;
-    private Vector2 moveLeftCenter;
-    private Vector2 moveRightCenter;
-    private Vector2 shootCenter;
-    private Vector2 jumpCenter;
+    private final Viewport viewport;
+    private final Vector2 moveLeftCenter;
+    private final Vector2 moveRightCenter;
+    private final Vector2 shootCenter;
+    private final Vector2 jumpCenter;
+    private GigaGal gigaGal;
     private int moveLeftPointer;
     private int moveRightPointer;
     private int jumpPointer;
     private int shootPointer;
 
+    // default ctor
     public OnscreenControls() {
         this.viewport = new ExtendViewport(
                 Constants.ONSCREEN_CONTROLS_VIEWPORT_SIZE,
                 Constants.ONSCREEN_CONTROLS_VIEWPORT_SIZE);
-
 
         moveLeftCenter = new Vector2();
         moveRightCenter = new Vector2();
@@ -176,4 +176,8 @@ public class OnscreenControls extends InputAdapter {
                 Constants.BUTTON_RADIUS
         );
     }
+
+    public final Viewport getViewport() { return viewport; }
+    public final GigaGal getGigaGal() { return gigaGal; }
+    public void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
 }

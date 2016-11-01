@@ -52,7 +52,7 @@ public final class Ammo {
                         zoomba.health -= Constants.ZOOMBA_HEALTH;
                         break;
                 }
-                level.score += Constants.ZOOMBA_HIT_SCORE;
+                level.setScore(level.getScore() + Constants.ZOOMBA_HIT_SCORE);
             }
         }
 

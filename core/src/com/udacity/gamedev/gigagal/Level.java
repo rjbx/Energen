@@ -20,12 +20,12 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 // mutable
 public class Level {
 
+    // fields
     public static final String TAG = Level.class.getName();
-
     private Viewport viewport;
     private boolean victory;
     private boolean gameOver;
-    public int score;
+    private int score;
     private GigaGal gigaGal;
     private ExitPortal exitPortal;
     private Array<Platform> platforms;
@@ -34,6 +34,7 @@ public class Level {
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
 
+    // default ctor
     public Level() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigaGal = new GigaGal(new Vector2(50, 50), this);
@@ -170,33 +171,18 @@ public class Level {
     }
 
     // Getters
-    public Array<Platform> getPlatforms() { return platforms; }
-    public DelayedRemovalArray<Zoomba> getEnemies() { return enemies; }
-    public DelayedRemovalArray<Powerup> getPowerups() {
-        return powerups;
-    }
-    public ExitPortal getExitPortal() { return exitPortal; }
-    public Viewport getViewport() { return viewport; }
-    public GigaGal getGigaGal() { return gigaGal; }
-    public boolean isGameOver() { return gameOver; }
-    public boolean isVictory() { return victory; }
-    public int getScore() { return score; }
+    public final Array<Platform> getPlatforms() { return platforms; }
+    public final DelayedRemovalArray<Zoomba> getEnemies() { return enemies; }
+    public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
+    public final Viewport getViewport() { return viewport; }
+    public final int getScore() { return score; }
+    public final ExitPortal getExitPortal() { return exitPortal; }
+    public final GigaGal getGigaGal() { return gigaGal; }
+    public final boolean isGameOver() { return gameOver; }
+    public final boolean isVictory() { return victory; }
 
     // Setters
-    public void setVictory(boolean victory) {
-        this.victory = victory;
-    }
-    public void setGameOver(boolean gameOver) { this.gameOver = gameOver; }
-    public void setScore(int score) {
-        this.score = score;
-    }
-    public void setExitPortal(ExitPortal exitPortal) {
-        this.exitPortal = exitPortal;
-    }
-    public void setViewport(Viewport viewport) {
-        this.viewport = viewport;
-    }
-    public void setGigaGal(GigaGal gigaGal) {
-        this.gigaGal = gigaGal;
-    }
+    public void setScore(int score) { this.score = score; }
+    public void setExitPortal(ExitPortal exitPortal) { this.exitPortal = exitPortal; }
+    public void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
 }

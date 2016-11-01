@@ -16,14 +16,15 @@ import com.udacity.gamedev.gigagal.util.Constants;
 // immutable
 public final class VictoryOverlay {
 
+    // fields
     public final static String TAG = VictoryOverlay.class.getName();
-    public final Viewport viewport;
-    final BitmapFont font;
-    Array<Explosion> explosions;
+    private final Viewport viewport;
+    private final BitmapFont font;
+    private Array<Explosion> explosions;
 
+    // default ctor
     public VictoryOverlay() {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(1);
     }
@@ -54,6 +55,7 @@ public final class VictoryOverlay {
         font.draw(batch, Constants.VICTORY_MESSAGE, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
 
         batch.end();
-
     }
+
+    public final Viewport getViewport() { return viewport; }
 }

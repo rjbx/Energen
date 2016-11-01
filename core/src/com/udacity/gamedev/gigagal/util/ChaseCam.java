@@ -8,8 +8,8 @@ import com.udacity.gamedev.gigagal.entities.GigaGal;
 // immutable singleton
 public final class ChaseCam {
 
+    // fields
     public static final String TAG = ChaseCam.class.getName();
-
     public Camera camera;
     public GigaGal target;
     private static Boolean following;

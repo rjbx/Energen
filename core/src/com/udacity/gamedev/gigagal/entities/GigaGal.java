@@ -278,7 +278,7 @@ public class GigaGal {
             );
             if (gigaGalBounds.overlaps(powerupBounds)) {
                 ammo += Constants.POWERUP_AMMO;
-                level.score += Constants.POWERUP_SCORE;
+                level.setScore(level.getScore() + Constants.POWERUP_SCORE);
                 powerups.removeIndex(i);
             }
         }
