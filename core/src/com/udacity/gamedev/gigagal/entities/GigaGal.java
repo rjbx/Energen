@@ -205,7 +205,6 @@ public class GigaGal {
                     if (canDashRight == false) {
                         if (dashStartTime == 0) {
                             canDashRight = true;
-                            dashStartTime = 0;
                         } else if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
                             startDash();
                         } else {
