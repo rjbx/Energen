@@ -191,7 +191,7 @@ public class GigaGal {
                 boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
                 boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
                 if (!right && left) {
-                    if (leftButtonPressed && doubleTapLeft == false) {
+                    if (doubleTapLeft == false) {
                         if (dashStartTime == 0) {
                             doubleTapLeft = true;
                             doubleTapRight = false;
@@ -209,7 +209,7 @@ public class GigaGal {
                         moveLeft();
                     }
                 } else if (right && !left) {
-                    if (rightButtonPressed && doubleTapRight == false) {
+                    if (doubleTapRight == false) {
                         if (dashStartTime == 0) {
                             doubleTapRight = true;
                             doubleTapLeft = false;
@@ -241,27 +241,6 @@ public class GigaGal {
                     if (velocity.x >= -.01f && velocity.x <= .01f) {
                         velocity.x = 0;
                         groundMove = GroundMove.STANDING;
-                    }
-                }
-
-                // TODO: enable dash on touch screen left/right button double press
-                if (Gdx.input.isKeyJustPressed(Keys.A)) {
-                    if (canDashLeft && Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
-                        startDash();
-                        canDashLeft = false;
-                    } else {
-                        canDashRight = false;
-                        canDashLeft = true;
-                        dashStartTime = TimeUtils.nanoTime();
-                    }
-                } else if (Gdx.input.isKeyJustPressed(Keys.S)) {
-                    if (canDashRight && Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
-                        startDash();
-                        canDashRight = false;
-                    } else {
-                        canDashLeft = false;
-                        canDashRight = true;
-                        dashStartTime = TimeUtils.nanoTime();
                     }
                 }
             }
