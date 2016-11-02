@@ -223,11 +223,16 @@ public class GigaGal {
                     if (dashStartTime == 0) {
                         if (canDashLeft == true) {
                             canDashLeft = false;
+                            canDashRight = true;
                             dashStartTime = TimeUtils.nanoTime();
                         } else if (canDashRight == true) {
                             canDashRight = false;
+                            canDashLeft = true;
                             dashStartTime = TimeUtils.nanoTime();
                         }
+                    } else {
+                        canDashLeft = false;
+                        canDashRight = false;
                     }
                 }
             }
