@@ -192,17 +192,12 @@ public class GigaGal {
                     if (canDashLeft == false) {
                         if (dashStartTime == 0) {
                             canDashLeft = true;
-                            canDashRight = false;
-                            dashStartTime = 0;
+                        } else if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
+                            startDash();
                         } else {
-                            if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
-                                startDash();
-                                canDashLeft = false;
-                            } else {
-                                canDashLeft = false;
-                                dashStartTime = 0;
-                            }
+                            dashStartTime = 0;
                         }
+                        canDashRight = false;
                     } else {
                         moveLeft();
                     }
@@ -210,16 +205,13 @@ public class GigaGal {
                     if (canDashRight == false) {
                         if (dashStartTime == 0) {
                             canDashRight = true;
-                            canDashLeft = false;
+                            dashStartTime = 0;
+                        } else if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
+                            startDash();
                         } else {
-                            if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
-                                startDash();
-                                canDashRight = false;
-                            } else {
-                                canDashRight = false;
-                                dashStartTime = 0;
-                            }
+                            dashStartTime = 0;
                         }
+                        canDashLeft = false;
                     } else {
                        moveRight();
                     }
@@ -231,17 +223,11 @@ public class GigaGal {
                     if (dashStartTime == 0) {
                         if (canDashLeft == true) {
                             canDashLeft = false;
-                            canDashRight = true;
                             dashStartTime = TimeUtils.nanoTime();
                         } else if (canDashRight == true) {
                             canDashRight = false;
-                            canDashLeft = true;
                             dashStartTime = TimeUtils.nanoTime();
                         }
-                    }
-                    if (velocity.x >= -.01f && velocity.x <= .01f) {
-                        velocity.x = 0;
-                        groundMove = GroundMove.STANDING;
                     }
                 }
             }
