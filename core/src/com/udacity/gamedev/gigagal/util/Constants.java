@@ -31,7 +31,7 @@ public final class Constants {
     public static final float MAX_JUMP_DURATION = 0.1f;
     public static final float MAX_HOVER_DURATION = 1f;
     public static final float MAX_DASH_DURATION = 0.5f;
-    public static final float DOUBLE_TAP_SPEED = 0.3f;
+    public static final float DOUBLE_TAP_SPEED = 0.15f;
     public static final int INITIAL_AMMO = 10;
     public static final int INITIAL_LIVES = 3;
 

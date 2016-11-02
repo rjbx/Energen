@@ -39,8 +39,6 @@ public class GigaGal {
     private boolean isCharged;
     private boolean canDashLeft;
     private boolean canDashRight;
-    private boolean doubleTapLeft;
-    private boolean doubleTapRight;
     private long ricochetStartTime;
     private int ammo;
     private int lives;
@@ -80,8 +78,8 @@ public class GigaGal {
         hasHovered = false;
         canDashLeft = false;
         canDashRight = false;
-        doubleTapLeft = false;
-        doubleTapRight = false;
+        canDashLeft = false;
+        canDashRight = false;
         jumpStartingPoint = new Vector2();
     }
 
@@ -191,17 +189,17 @@ public class GigaGal {
                 boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
                 boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
                 if (!right && left) {
-                    if (doubleTapLeft == false) {
+                    if (canDashLeft == false) {
                         if (dashStartTime == 0) {
-                            doubleTapLeft = true;
-                            doubleTapRight = false;
+                            canDashLeft = true;
+                            canDashRight = false;
                             dashStartTime = 0;
                         } else {
                             if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
                                 startDash();
-                                doubleTapLeft = false;
+                                canDashLeft = false;
                             } else {
-                                doubleTapLeft = false;
+                                canDashLeft = false;
                                 dashStartTime = 0;
                             }
                         }
@@ -209,16 +207,16 @@ public class GigaGal {
                         moveLeft();
                     }
                 } else if (right && !left) {
-                    if (doubleTapRight == false) {
+                    if (canDashRight == false) {
                         if (dashStartTime == 0) {
-                            doubleTapRight = true;
-                            doubleTapLeft = false;
+                            canDashRight = true;
+                            canDashLeft = false;
                         } else {
                             if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
                                 startDash();
-                                doubleTapRight = false;
+                                canDashRight = false;
                             } else {
-                                doubleTapRight = false;
+                                canDashRight = false;
                                 dashStartTime = 0;
                             }
                         }
@@ -230,13 +228,16 @@ public class GigaGal {
                     walkStartTime = TimeUtils.nanoTime();
                     velocity.x /= 2;
                     groundMove = GroundMove.STANDING;
-                    if (doubleTapLeft == true) {
-                        doubleTapLeft = false;
-                        dashStartTime = TimeUtils.nanoTime();
-                    }
-                    if (doubleTapRight == true) {
-                        doubleTapRight = false;
-                        dashStartTime = TimeUtils.nanoTime();
+                    if (dashStartTime == 0) {
+                        if (canDashLeft == true) {
+                            canDashLeft = false;
+                            canDashRight = true;
+                            dashStartTime = TimeUtils.nanoTime();
+                        } else if (canDashRight == true) {
+                            canDashRight = false;
+                            canDashLeft = true;
+                            dashStartTime = TimeUtils.nanoTime();
+                        }
                     }
                     if (velocity.x >= -.01f && velocity.x <= .01f) {
                         velocity.x = 0;
