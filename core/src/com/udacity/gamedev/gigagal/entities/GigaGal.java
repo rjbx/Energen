@@ -230,7 +230,7 @@ public class GigaGal {
                             canDashLeft = true;
                             dashStartTime = TimeUtils.nanoTime();
                         }
-                    } else {
+                    } else if (Utils.secondsSince(dashStartTime) > Constants.DOUBLE_TAP_SPEED) {
                         canDashLeft = false;
                         canDashRight = false;
                     }
