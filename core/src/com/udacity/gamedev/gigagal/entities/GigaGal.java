@@ -86,31 +86,42 @@ public class GigaGal {
     public void update(float delta, Array<Platform> platforms) {
 
         /*
+        enums
+        -each represents a unique render texture region (eliminate slide)
+
         methods
-        -move left / right (building up momentum according to key hold duration)
-        -jump (detecting velocity.x prior to key press and adjusting jump height and distance accordingly)
-        -dash (max speed for short burst in direction facing)
+        -recoil disables all else
+        -bump (detect contact with top, sides or bottom of platform and reset position to previous frame;
+            velocity.y equal and opposite to downward velocity if top, set canRicochet to true if jumping and side)
+        -move left / right (building up momentum according to key hold duration; velocity.x < max;
+            bump sides disables)
+        -jump (detecting velocity.x prior to key press and adjusting jump height and distance accordingly;
+            bump bottom disables)
+        -dash (max speed for short burst in direction facing, no movement in opposite direction
+            or building momentum, reset momentum)
 
         at all times
         1. enable shoot (with or without charge)
         2. detect platform contact under feet (change state to grounded)
         3. detect contact with enemy (change aerial & ground state to recoil until grounded)
 
-        if grounded
+        if grounded and not recoiling
             if standing (not keying left or right directional)
                 1. reset momentum
-                2. enable move left / right (change ground state to walking at key detection)
-                3. if previously grounded & standing, then walking, then grounded & standing, all within
+                2. enable move left / right (change ground state to striding at key detection)
+                3. if previously grounded & standing, then striding, then grounded & standing, all within
                     certain timespan, enable dash (canDash + ground state to dashing at key detection)
-            else if walking (keying left or right directional, velocity.x < run)
+            else if striding (keying left or right directional)
                 1. build momentum so long as one key is held
-                2. change state to standing if single key hold is interrupted (by release or other key press)
-                    to reset momentum
-                3. enable jump (in same direction and speed as walk)
+                2. change state to standing if single key hold is interrupted (by release or keying of
+                    other directional in order to reset momentum
+                3. enable jump (in same direction and speed as stride)
+            else if dashing
+                1. trigger dash method
+                2. enable jump during dash (in same direction and speed as dash)
 
-
-
-
+        if airborne and not recoiling
+            if jumping
 
 
          */
@@ -397,9 +408,9 @@ public class GigaGal {
 
         facing = Direction.LEFT;
         if (aerialMove == AerialMove.GROUNDED) {
-            if (groundMove != GroundMove.WALKING) {
+            if (groundMove != GroundMove.STRIDING) {
                 walkStartTime = TimeUtils.nanoTime();
-                groundMove = GroundMove.WALKING;
+                groundMove = GroundMove.STRIDING;
             }
             walkTimeSeconds = Utils.secondsSince(walkStartTime);
         }
@@ -410,9 +421,9 @@ public class GigaGal {
 
         facing = Direction.RIGHT;
         if (aerialMove == AerialMove.GROUNDED) {
-            if (groundMove != GroundMove.WALKING) {
+            if (groundMove != GroundMove.STRIDING) {
                 walkStartTime = TimeUtils.nanoTime();
-                groundMove = GroundMove.WALKING;
+                groundMove = GroundMove.STRIDING;
             }
             walkTimeSeconds = Utils.secondsSince(walkStartTime);
         }
@@ -523,7 +534,7 @@ public class GigaGal {
                 }
             } else if (groundMove == GroundMove.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standRight;
-            } else if (groundMove == GroundMove.WALKING) {
+            } else if (groundMove == GroundMove.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().walkRightAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
             } else if (groundMove == GroundMove.DASHING
                     || groundMove == GroundMove.LEANING) {
@@ -541,7 +552,7 @@ public class GigaGal {
                 }
             } else if (groundMove == GroundMove.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standLeft;
-            } else if (groundMove == GroundMove.WALKING) {
+            } else if (groundMove == GroundMove.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().walkLeftAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
             } else if (groundMove == GroundMove.DASHING
                     || groundMove == GroundMove.LEANING) {

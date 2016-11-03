@@ -12,6 +12,8 @@ public final class Enums {
         LEFT, RIGHT
     }
 
+
+
     public enum AerialMove {
         JUMPING,
         HOVERING,
@@ -25,8 +27,9 @@ public final class Enums {
     public enum GroundMove {
         STANDING,
         LEANING,
-        WALKING,
+        STRIDING,
         DASHING,
-        RECOILING
+        RECOILING,
+        AIRBORNE
     }
 }
