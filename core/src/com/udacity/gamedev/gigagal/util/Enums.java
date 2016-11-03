@@ -26,6 +26,7 @@ public final class Enums {
         STANDING,
         LEANING,
         WALKING,
-        DASHING
+        DASHING,
+        RECOILING
     }
 }

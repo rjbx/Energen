@@ -85,6 +85,36 @@ public class GigaGal {
 
     public void update(float delta, Array<Platform> platforms) {
 
+        /*
+        methods
+        -move left / right (building up momentum according to key hold duration)
+        -jump (detecting velocity.x prior to key press and adjusting jump height and distance accordingly)
+        -dash (max speed for short burst in direction facing)
+
+        at all times
+        1. enable shoot (with or without charge)
+        2. detect platform contact under feet (change state to grounded)
+        3. detect contact with enemy (change aerial & ground state to recoil until grounded)
+
+        if grounded
+            if standing (not keying left or right directional)
+                1. reset momentum
+                2. enable move left / right (change ground state to walking at key detection)
+                3. if previously grounded & standing, then walking, then grounded & standing, all within
+                    certain timespan, enable dash (canDash + ground state to dashing at key detection)
+            else if walking (keying left or right directional, velocity.x < run)
+                1. build momentum so long as one key is held
+                2. change state to standing if single key hold is interrupted (by release or other key press)
+                    to reset momentum
+                3. enable jump (in same direction and speed as walk)
+
+
+
+
+
+
+         */
+
         lastFramePosition.set(position);
 
         if (aerialMove != AerialMove.RICOCHETING) {
