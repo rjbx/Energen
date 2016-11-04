@@ -71,9 +71,9 @@ public class GigaGal {
         position.set(spawnLocation);
         lastFramePosition.set(spawnLocation);
         velocity.setZero();
-        aerialState = AerialState.FALLING;
         facing = Direction.RIGHT;
-        groundState = GroundState.STANDING;
+        groundState = GroundState.AIRBORNE;
+        aerialState = AerialState.FALLING;
         jumpStartTime = 0;
         dashStartTime = 0;
         hasHovered = false;
@@ -141,6 +141,9 @@ public class GigaGal {
          */
     // MUCH BETTER
 
+        position.mulAdd(velocity, delta);
+        lastFramePosition.set(position);
+        enableMortality();
         enableShoot();
 
         // refactor into single detect collision method?
@@ -179,7 +182,6 @@ public class GigaGal {
 
     //WTF
         /*
-        lastFramePosition.set(position);
 
         if (aerialState != AerialState.RICOCHETING) {
             velocity.y -= Constants.GRAVITY;
@@ -193,14 +195,7 @@ public class GigaGal {
             }
             startJump();
         }
-        position.mulAdd(velocity, delta);
 
-        if (position.y < Constants.KILL_PLANE) {
-            lives--;
-            if (lives > -1) {
-                respawn();
-            }
-        }
 
         // Land on/fall off platforms
         // TODO: fix momentum after jumping into collisions post- recoil
@@ -509,6 +504,15 @@ public class GigaGal {
         }
         aerialState = AerialState.FALLING;
         velocity.y = -Constants.GRAVITY;
+    }
+
+    private void enableMortality() {
+        if (position.y < Constants.KILL_PLANE) {
+            lives--;
+            if (lives > -1) {
+                respawn();
+            }
+        }
     }
 
     // bump sides disables; change ground state to striding at key detection;
