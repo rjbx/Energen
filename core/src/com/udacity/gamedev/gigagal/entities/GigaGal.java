@@ -89,20 +89,23 @@ public class GigaGal {
         enums
         -each represents a unique render texture region (eliminate slide)
 
-        methods
+        methods: "enable[X]" incorporate all key press / button tap listeners
         -recoil disables all else
         -bump (detect contact with top, sides or bottom of platform and reset position to previous frame;
-            velocity.y equal and opposite to downward velocity if top, set canRicochet to true if jumping and side)
+            velocity.y equal and opposite to downward velocity i.e. gravity if top, set canRicochet
+            to true if jumping and side)
         -move left / right (building up momentum according to key hold duration; velocity.x < max;
             bump sides disables)
         -jump (detecting velocity.x prior to key press and adjusting jump height and distance accordingly;
-            bump bottom disables)
+            bump platform bottom disables; change state to falling after reaching jump peak)
         -dash (max speed for short burst in direction facing, no movement in opposite direction
             or building momentum, reset momentum)
+        -hover (maintain forward momentum, velocity.y equal and opposite to downward velocity i.e. gravity
+            until disabled manually or exceed max hover duration)
 
         at all times
         1. enable shoot (with or without charge)
-        2. detect platform contact under feet (change state to grounded)
+        2. detect platform contact under feet (changes aerial state to grounded or falling)
         3. detect contact with enemy (change aerial & ground state to recoil until grounded)
 
         if grounded and not recoiling
@@ -122,8 +125,16 @@ public class GigaGal {
 
         if airborne and not recoiling
             if jumping
-
-
+                1. enable hover upon key detection
+                2. change state to sliding upon platform side collision detection
+            else if falling
+                1. enable hover upon key detection
+                2. change state to sliding upon platform side collision detection
+            else if hovering
+                1. disable hover upon key detection
+                2. change state to sliding upon platform side collision detection
+            else if sliding
+                1. enable wall jump
          */
 
         lastFramePosition.set(position);
