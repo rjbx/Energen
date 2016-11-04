@@ -15,7 +15,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Utils;
 import java.lang.String;
-import java.util.ArrayList;
 
 // mutable
 public class GigaGal {
@@ -65,23 +64,6 @@ public class GigaGal {
         ammo = Constants.INITIAL_AMMO;
         lives = Constants.INITIAL_LIVES;
         respawn();
-    }
-
-    private void respawn() {
-        position.set(spawnLocation);
-        lastFramePosition.set(spawnLocation);
-        velocity.setZero();
-        facing = Direction.RIGHT;
-        groundState = GroundState.AIRBORNE;
-        aerialState = AerialState.FALLING;
-        jumpStartTime = 0;
-        dashStartTime = 0;
-        hasHovered = false;
-        canDashLeft = false;
-        canDashRight = false;
-        canDashLeft = false;
-        canDashRight = false;
-        jumpStartingPoint = new Vector2();
     }
 
     public void update(float delta, Array<Platform> platforms) {
@@ -139,11 +121,11 @@ public class GigaGal {
             else if sliding
                 1. enable wall jump
          */
-    // MUCH BETTER
+        // MUCH BETTER
 
         position.mulAdd(velocity, delta);
         lastFramePosition.set(position);
-        enableMortality();
+        enableRespawn();
         enableShoot();
 
         // refactor into single detect collision method?
@@ -438,14 +420,18 @@ public class GigaGal {
                     2 * Constants.ZOOMBA_COLLISION_RADIUS,
                     2 * Constants.ZOOMBA_COLLISION_RADIUS
             );
-            if (gigaGalBounds.overlaps(zoombaBounds)) {
 
-                if (position.x < zoomba.getPosition().x) {
-                    recoil(Direction.LEFT);
-                } else {
-                    recoil(Direction.RIGHT);
-                }
+            if (gigaGalBounds.overlaps(zoombaBounds)) {
+                enableRecoil(zoomba.getPosition().x);
             }
+        }
+    }
+
+    private void enableRecoil(float xPosition) {
+        if (position.x < xPosition) {
+            recoil(Direction.LEFT);
+        } else {
+            recoil(Direction.RIGHT);
         }
     }
 
@@ -506,13 +492,30 @@ public class GigaGal {
         velocity.y = -Constants.GRAVITY;
     }
 
-    private void enableMortality() {
+    private void enableRespawn() {
         if (position.y < Constants.KILL_PLANE) {
             lives--;
             if (lives > -1) {
                 respawn();
             }
         }
+    }
+
+    private void respawn() {
+        position.set(spawnLocation);
+        lastFramePosition.set(spawnLocation);
+        velocity.setZero();
+        facing = Direction.RIGHT;
+        groundState = GroundState.AIRBORNE;
+        aerialState = AerialState.FALLING;
+        jumpStartTime = 0;
+        dashStartTime = 0;
+        hasHovered = false;
+        canDashLeft = false;
+        canDashRight = false;
+        canDashLeft = false;
+        canDashRight = false;
+        jumpStartingPoint = new Vector2();
     }
 
     // bump sides disables; change ground state to striding at key detection;
