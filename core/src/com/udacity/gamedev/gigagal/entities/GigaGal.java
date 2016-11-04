@@ -472,30 +472,29 @@ public class GigaGal {
         velocity.x = 0;
     }
 
+    // update velocity.y
     private void fall() {
-        if (aerialState == AerialState.JUMPING) {
-            aerialState = AerialState.FALLING;
-        }
-
         if (aerialState == AerialState.HOVERING) {
-            aerialState = AerialState.FALLING;
             hasHovered = true;
         }
+        aerialState = AerialState.FALLING;
+        velocity.y = -Constants.GRAVITY;
     }
 
-    // move left / right (building up momentum according to key hold duration; velocity.x < max;
     // bump sides disables; change ground state to striding at key detection;
     // change state to standing if single key hold is interrupted by release or keying of
     // other directional in order to reset momentum)
-    private void enableStride(float lateralVelocity, Direction facing) {
-
+    private void enableStride(float lateralVelocity) {
+        if (Gdx.input.isKeyPressed(Keys.A)) {
+            facing = Direction.LEFT;
+        } else if (Gdx.input.isKeyPressed(Keys.S)) {
+            facing = Direction.RIGHT;
+        }
+        stride(lateralVelocity, facing);
     }
 
-    private void stride(float lateralVelocity, Direction facing) {}
-    // integrate with enableStride()
-    private void moveLeft() {
-
-        facing = Direction.LEFT;
+    private void stride(float lateralVelocity, Direction facing) {
+        groundState = GroundState.STRIDING;
         if (aerialState == AerialState.GROUNDED) {
             if (groundState != GroundState.STRIDING) {
                 walkStartTime = TimeUtils.nanoTime();
@@ -503,20 +502,11 @@ public class GigaGal {
             }
             walkTimeSeconds = Utils.secondsSince(walkStartTime);
         }
-        velocity.x = -Math.min(walkTimeSeconds * Constants.GIGAGAL_MAX_SPEED, Constants.GIGAGAL_MAX_SPEED);
-    }
-    // integrate with enableStride()
-    private void moveRight() {
-
-        facing = Direction.RIGHT;
-        if (aerialState == AerialState.GROUNDED) {
-            if (groundState != GroundState.STRIDING) {
-                walkStartTime = TimeUtils.nanoTime();
-                groundState = GroundState.STRIDING;
-            }
-            walkTimeSeconds = Utils.secondsSince(walkStartTime);
+        if (facing == Direction.LEFT) {
+            velocity.x = -Math.min(walkTimeSeconds * Constants.GIGAGAL_MAX_SPEED, Constants.GIGAGAL_MAX_SPEED);
+        } else {
+            velocity.x = Math.min(walkTimeSeconds * Constants.GIGAGAL_MAX_SPEED, Constants.GIGAGAL_MAX_SPEED);
         }
-        velocity.x = Math.min(walkTimeSeconds * Constants.GIGAGAL_MAX_SPEED, Constants.GIGAGAL_MAX_SPEED);
     }
 
     //  jump (detecting velocity.x prior to key press and adjusting jump height and distance accordingly;
@@ -548,7 +538,7 @@ public class GigaGal {
     //        or building momentum, reset momentum;
     private void enableDash() {
         // detect if previously grounded & standing, then striding, then grounded & standing, all within
-        // ertain timespan, canDash = true && ground state to dashing at key detection)
+        // certain timespan, canDash = true && ground state to dashing at key detection)
     }
 
     private void dash() {
@@ -613,7 +603,6 @@ public class GigaGal {
     private void ricochet(Direction facing) {
 
     }
-
 
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
