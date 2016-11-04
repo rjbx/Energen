@@ -141,35 +141,38 @@ public class GigaGal {
             else if sliding
                 1. enable wall jump
          */
-
+    // MUCH BETTER
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.RECOILING) {
             if (groundState == GroundState.STANDING) {
                 stop();
-                enableStride();
+                enableStride(velocity.x);
                 enableDash();
-                enableJump();
+                enableJump(velocity.x, facing);
             } else if (groundState == GroundState.STRIDING) {
-                enableStride();
-                enableJump();
+                enableStride(velocity.x);
+                enableJump(velocity.x, facing);
             } else if (groundState == GroundState.DASHING) {
-                enableJump();
+                enableJump(velocity.x, facing);
             }
         }
 
         if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
             if (aerialState == AerialState.JUMPING) {
-                enableHover();
+                enableHover(velocity.x, facing);
                 enableSlide();
             } else if (aerialState == AerialState.FALLING) {
-                enableHover();
+                enableHover(velocity.x, facing);
                 enableSlide();
             } else if (aerialState == AerialState.HOVERING) {
-                disableHover();
+                enableSlide();
             } else if (aerialState == AerialState.SLIDING) {
-                enableRicochet();
+                enableRicochet(facing);
             }
         }
+    }
 
+    //WTF
+        /*
         lastFramePosition.set(position);
 
         if (aerialState != AerialState.RICOCHETING) {
@@ -386,7 +389,8 @@ public class GigaGal {
                 isCharged = false;
             }
         }
-    }
+    }*/
+
 
     private boolean isLanding(Platform platform) {
         boolean leftFootIn = false;
@@ -593,9 +597,9 @@ public class GigaGal {
     private void enableRicochet(Direction facing) {
         if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
             if (facing == Direction.LEFT) {
-                startJump(Direction.RIGHT, Constants.GIGAGAL_MAX_SPEED);
+                jump(Constants.GIGAGAL_MAX_SPEED, Direction.RIGHT);
             } else {
-                startJump(Direction.LEFT, Constants.GIGAGAL_MAX_SPEED);
+                jump(Constants.GIGAGAL_MAX_SPEED, Direction.LEFT);
             }
         }
     }
