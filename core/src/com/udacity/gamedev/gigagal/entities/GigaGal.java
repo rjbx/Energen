@@ -144,7 +144,7 @@ public class GigaGal {
 
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.RECOILING) {
             if (groundState == GroundState.STANDING) {
-                resetMomentum();
+                stop();
                 enableStride();
                 enableDash();
                 enableJump();
@@ -409,15 +409,13 @@ public class GigaGal {
         }
     }
 
-    // fix start jump method
-    private void enableRicochet() {
-        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
-            if (facing == Direction.LEFT) {
-                startJump(Direction.RIGHT, Constants.GIGAGAL_MAX_SPEED);
-            } else {
-                startJump(Direction.LEFT, Constants.GIGAGAL_MAX_SPEED);
-            }
-        }
+
+    private void stop() {
+        velocity.x = 0;
+    }
+
+    private void fall() {
+
     }
 
     //  jump (detecting velocity.x prior to key press and adjusting jump height and distance accordingly;
@@ -429,12 +427,21 @@ public class GigaGal {
         }
     }
 
+    private void jump(float lateralVelocity, Direction facing) {
+
+    }
+
     // dash (max speed for short burst in direction facing, no movement in opposite direction
     //        or building momentum, reset momentum;
     private void enableDash() {
         // detect if previously grounded & standing, then striding, then grounded & standing, all within
         // ertain timespan, canDash = true && ground state to dashing at key detection)
     }
+
+    private void dash() {
+
+    }
+
 
     //  hover (maintain forward momentum, velocity.y equal and opposite to downward velocity i.e. gravity
     //  until disabled manually or exceed max hover duration)
@@ -444,13 +451,32 @@ public class GigaGal {
         }
     }
 
+    private void hover(float lateralVelocity, Direction facing) {
+
+    }
+
     // (reset forward momentum, enable wall jump upon key detection)
     private void enableSlide() {
 
     }
 
-    private void resetMomentum() {
-        velocity.x = 0;
+    private void slide() {
+
+    }
+
+    // fix start jump method
+    private void enableRicochet(Direction facing) {
+        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
+            if (facing == Direction.LEFT) {
+                startJump(Direction.RIGHT, Constants.GIGAGAL_MAX_SPEED);
+            } else {
+                startJump(Direction.LEFT, Constants.GIGAGAL_MAX_SPEED);
+            }
+        }
+    }
+
+    private void ricochet(Direction facing) {
+
     }
 
     private boolean isLanding(Platform platform) {
@@ -561,7 +587,7 @@ public class GigaGal {
         jumpStartingPoint = new Vector2(position);
         aerialState = AerialState.JUMPING;
         jumpStartTime = TimeUtils.nanoTime();
-        p();
+        continueJump();
     }
 
     private void continueJump() {
