@@ -260,9 +260,9 @@ public class GigaGal {
             if (gigaGalBounds.overlaps(zoombaBounds)) {
 
                 if (position.x < zoomba.getPosition().x) {
-                    recoilFromHit(Direction.LEFT);
+                    recoil(Direction.LEFT);
                 } else {
-                    recoilFromHit(Direction.RIGHT);
+                    recoil(Direction.RIGHT);
                 }
             }
         }
@@ -452,7 +452,7 @@ public class GigaGal {
     }
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
-    private void recoilFromHit(Direction direction) {
+    private void recoil(Direction direction) {
         walkTimeSeconds = 0;
         aerialState = AerialState.RECOILING;
         groundState = GroundState.RECOILING;
@@ -466,11 +466,21 @@ public class GigaGal {
     }
 
     private void stop() {
+        if (groundState == GroundState.DASHING) {
+            groundState = GroundState.LEANING;
+        }
         velocity.x = 0;
     }
 
     private void fall() {
+        if (aerialState == AerialState.JUMPING) {
+            aerialState = AerialState.FALLING;
+        }
 
+        if (aerialState == AerialState.HOVERING) {
+            aerialState = AerialState.FALLING;
+            hasHovered = true;
+        }
     }
 
     // move left / right (building up momentum according to key hold duration; velocity.x < max;
@@ -514,21 +524,14 @@ public class GigaGal {
     //  lateral speed and direction)
     private void enableJump(float lateralVelocity, Direction facing) {
         if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
-            startJump(lateralVelocity, facing);
+            jump(lateralVelocity, facing);
         }
     }
 
     private void jump(float lateralVelocity, Direction facing) {
-
-    }
-    // combine start-continue-end
-    public void startJump() {
         jumpStartingPoint = new Vector2(position);
         aerialState = AerialState.JUMPING;
         jumpStartTime = TimeUtils.nanoTime();
-        continueJump();
-    }
-    private void continueJump() {
         if (aerialState == AerialState.JUMPING) {
             if (Utils.secondsSince(jumpStartTime) < Constants.MAX_JUMP_DURATION) {
                 velocity.y = Constants.JUMP_SPEED;
@@ -536,13 +539,8 @@ public class GigaGal {
                     velocity.y *= Constants.RUNNING_JUMP_MULTIPLIER;
                 }
             } else {
-                endJump();
+                fall();
             }
-        }
-    }
-    private void endJump() {
-        if (aerialState == AerialState.JUMPING) {
-            aerialState = AerialState.FALLING;
         }
     }
 
@@ -554,17 +552,10 @@ public class GigaGal {
     }
 
     private void dash() {
-
-    }
-    // combine start-continue-end
-    private void startDash() {
         if (aerialState == AerialState.GROUNDED) {
             groundState = GroundState.DASHING;
             dashStartTime = TimeUtils.nanoTime();
-            continueDash();
         }
-    }
-    private void continueDash() {
         if ((Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) || aerialState == AerialState.HOVERING || aerialState == AerialState.FALLING) {
             if (facing == Direction.LEFT) {
                 velocity.x = -Constants.GIGAGAL_MAX_SPEED;
@@ -572,47 +563,30 @@ public class GigaGal {
                 velocity.x = Constants.GIGAGAL_MAX_SPEED;
             }
         } else {
-            endDash();
+            stop();
         }
-    }
-    private void endDash() {
-        groundState = GroundState.LEANING;
-        velocity.x = 0;
     }
 
     //  hover (maintain forward momentum, velocity.y equal and opposite to downward velocity i.e. gravity
     //  until disabled manually or exceed max hover duration)
     private void enableHover(float lateralVelocity, Direction facing) {
         if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
-            startHover(lateralVelocity, facing);
+            hover(lateralVelocity, facing);
         }
     }
 
     private void hover(float lateralVelocity, Direction facing) {
-
-    }
-    // combine start-continue-end
-    private void startHover() {
         if (!hasHovered) {
             aerialState = AerialState.HOVERING;
             hoverStartTime = TimeUtils.nanoTime();
         }
-        continueHover();
-    }
-    private void continueHover() {
         hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
         if (aerialState == AerialState.HOVERING) {
             if (hoverTimeSeconds < Constants.MAX_HOVER_DURATION) {
                 velocity.y = 0;
             } else {
-                endHover();
+                fall();
             }
-        }
-    }
-    private void endHover() {
-        if (aerialState == AerialState.HOVERING) {
-            aerialState = AerialState.FALLING;
-            hasHovered = true;
         }
     }
 
