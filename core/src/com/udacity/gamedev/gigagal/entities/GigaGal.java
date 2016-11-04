@@ -15,6 +15,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Utils;
 import java.lang.String;
+import java.util.ArrayList;
 
 // mutable
 public class GigaGal {
@@ -108,10 +109,7 @@ public class GigaGal {
             until disabled manually or exceed max hover duration)
         -slide (reset forward momentum, enable wall jump upon key detection)
 
-        at all times
-        1. enable shoot (with or without charge)
-        2. detect platform contact under feet (changes aerial state to grounded or falling)
-        3. detect contact with enemy (change aerial & ground state to recoil until grounded)
+
 
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.RECOILING)
             if (groundState == GroundState.STANDING (not keying left or right directional)
@@ -142,6 +140,19 @@ public class GigaGal {
                 1. enable wall jump
          */
     // MUCH BETTER
+
+        /*at all times
+        1. enable shoot (with or without charge)
+        2. detect platform contact under feet (changes aerial state to grounded or falling)
+        3. detect contact with enemy (change aerial & ground state to recoil until grounded) */
+
+        enableShoot();
+
+        // refactor into single detect collision method?
+        detectPlatformCollision(platforms);
+        detectEnemyCollision();
+        detectPowerupCollision();
+
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.RECOILING) {
             if (groundState == GroundState.STANDING) {
                 stop();
@@ -198,77 +209,8 @@ public class GigaGal {
 
         // Land on/fall off platforms
         // TODO: fix momentum after jumping into collisions post- recoil
-        for (Platform platform : platforms) {
-            if ((lastFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS < platform.getBottom())
-                    && position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.getBottom()
-                    && position.x < platform.getRight()
-                    && position.x > platform.getLeft()) {
-                endJump();
-                position.y = lastFramePosition.y;
-                velocity.y = -Constants.GRAVITY;
-            }
-
-            if (isLanding(platform)) {
-                if (aerialState == AerialState.RECOILING) {
-                    velocity.x = 0;
-                    walkStartTime = TimeUtils.nanoTime();
-                    jumpStartTime = 0;
-                }
-                if (jumpStartTime != 0) {
-                    walkStartTime += TimeUtils.nanoTime() - jumpStartTime;
-                    jumpStartTime = 0;
-                }
-                aerialState = AerialState.GROUNDED;
-                hasHovered = false;
-                velocity.y = 0;
-                position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
-            } else if (isBumping(platform)) {
-
-                position.x = lastFramePosition.x;
-                if (aerialState != AerialState.GROUNDED
-                        && aerialState != AerialState.RECOILING
-                        && aerialState != AerialState.RICOCHETING) {
-                    if (position.y - Constants.GIGAGAL_HEAD_RADIUS <= platform.getTop()
-                            && jumpStartingPoint.x != position.x
-                            && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))
-                            && position.y - Constants.GIGAGAL_EYE_HEIGHT > platform.getBottom()) {
-                        aerialState = AerialState.SLIDING;
-                        hoverStartTime = TimeUtils.nanoTime();
-                        groundState = GroundState.LEANING;
-                        velocity.x = 0;
-                        slidPlatform = new Platform(platform);
-                    } else {
-                        aerialState = AerialState.FALLING;
-                        groundState = GroundState.STANDING;
-                        walkStartTime = TimeUtils.nanoTime();
-                        walkTimeSeconds = 0;
-                    }
-                }
-            }
-        }
         // Collide with enemies
-        Rectangle gigaGalBounds = new Rectangle(
-                position.x - Constants.GIGAGAL_STANCE_WIDTH / 2,
-                position.y - Constants.GIGAGAL_EYE_HEIGHT,
-                Constants.GIGAGAL_STANCE_WIDTH,
-                Constants.GIGAGAL_HEIGHT);
 
-        for (Zoomba zoomba : level.getEnemies()) {
-            Rectangle zoombaBounds = new Rectangle(
-                    zoomba.getPosition().x - Constants.ZOOMBA_COLLISION_RADIUS,
-                    zoomba.getPosition().y - Constants.ZOOMBA_COLLISION_RADIUS,
-                    2 * Constants.ZOOMBA_COLLISION_RADIUS,
-                    2 * Constants.ZOOMBA_COLLISION_RADIUS
-            );
-            if (gigaGalBounds.overlaps(zoombaBounds)) {
-
-                if (position.x < zoomba.getPosition().x) {
-                    recoil(Direction.LEFT);
-                } else {
-                    recoil(Direction.RIGHT);
-                }
-            }
-        }
 
         // TODO: update OnScreenControls with new physics
         // Move left/right
@@ -352,45 +294,59 @@ public class GigaGal {
         } else {
             continueHover();
             endJump();
-        }
+        }*/
 
-        // Check powerups
-        DelayedRemovalArray<Powerup> powerups = level.getPowerups();
-        powerups.begin();
-        for (int i = 0; i < powerups.size; i++) {
-            Powerup powerup = powerups.get(i);
-            Rectangle powerupBounds = new Rectangle(
-                    powerup.getPosition().x - Constants.POWERUP_CENTER.x,
-                    powerup.getPosition().y - Constants.POWERUP_CENTER.y,
-                    Assets.getInstance().getPowerupAssets().powerup.getRegionWidth(),
-                    Assets.getInstance().getPowerupAssets().powerup.getRegionHeight()
-            );
-            if (gigaGalBounds.overlaps(powerupBounds)) {
-                ammo += Constants.POWERUP_AMMO;
-                level.setScore(level.getScore() + Constants.POWERUP_SCORE);
-                powerups.removeIndex(i);
+    // refactor
+
+    private void detectPlatformCollision(Array<Platform> platforms) {
+        for (Platform platform : platforms) {
+            if ((lastFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS < platform.getBottom())
+                    && position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.getBottom()
+                    && position.x < platform.getRight()
+                    && position.x > platform.getLeft()) {
+                fall();
+                position.y = lastFramePosition.y;
+                velocity.y = -Constants.GRAVITY;
+                if (isLanding(platform)) {
+                    if (aerialState == AerialState.RECOILING) {
+                        velocity.x = 0;
+                        walkStartTime = TimeUtils.nanoTime();
+                        jumpStartTime = 0;
+                    }
+                    if (jumpStartTime != 0) {
+                        walkStartTime += TimeUtils.nanoTime() - jumpStartTime;
+                        jumpStartTime = 0;
+                    }
+                    aerialState = AerialState.GROUNDED;
+                    hasHovered = false;
+                    velocity.y = 0;
+                    position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
+                } else if (isBumping(platform)) {
+
+                    position.x = lastFramePosition.x;
+                    if (aerialState != AerialState.GROUNDED
+                            && aerialState != AerialState.RECOILING
+                            && aerialState != AerialState.RICOCHETING) {
+                        if (position.y - Constants.GIGAGAL_HEAD_RADIUS <= platform.getTop()
+                                && jumpStartingPoint.x != position.x
+                                && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))
+                                && position.y - Constants.GIGAGAL_EYE_HEIGHT > platform.getBottom()) {
+                            aerialState = AerialState.SLIDING;
+                            hoverStartTime = TimeUtils.nanoTime();
+                            groundState = GroundState.LEANING;
+                            velocity.x = 0;
+                            slidPlatform = new Platform(platform);
+                        } else {
+                            aerialState = AerialState.FALLING;
+                            groundState = GroundState.STANDING;
+                            walkStartTime = TimeUtils.nanoTime();
+                            walkTimeSeconds = 0;
+                        }
+                    }
+                }
             }
         }
-        powerups.end();
-
-        if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
-            shoot(AmmoType.REGULAR);
-            chargeStartTime = TimeUtils.nanoTime();
-        }
-
-        if (Gdx.input.isKeyPressed(Keys.ENTER) || shootButtonPressed) {
-            // Shoot
-            if (Utils.secondsSince(chargeStartTime) > Constants.CHARGE_DURATION) {
-                isCharged = true;
-            }
-        } else {
-            if (isCharged) {
-                shoot(AmmoType.CHARGE);
-                isCharged = false;
-            }
-        }
-    }*/
-
+    }
 
     private boolean isLanding(Platform platform) {
         boolean leftFootIn = false;
@@ -434,6 +390,27 @@ public class GigaGal {
         return false;
     }
 
+    private void enableShoot() {
+
+        // incorporate into enableShoot()
+        if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
+            shoot(AmmoType.REGULAR);
+            chargeStartTime = TimeUtils.nanoTime();
+        }
+
+        if (Gdx.input.isKeyPressed(Keys.ENTER) || shootButtonPressed) {
+            // Shoot
+            if (Utils.secondsSince(chargeStartTime) > Constants.CHARGE_DURATION) {
+                isCharged = true;
+            }
+        } else {
+            if (isCharged) {
+                shoot(AmmoType.CHARGE);
+                isCharged = false;
+            }
+        }
+    }
+
     public void shoot(AmmoType ammoType) {
         if (ammo > 0) {
 
@@ -455,6 +432,31 @@ public class GigaGal {
         }
     }
 
+    private void detectEnemyCollision() {
+        Rectangle gigaGalBounds = new Rectangle(
+                position.x - Constants.GIGAGAL_STANCE_WIDTH / 2,
+                position.y - Constants.GIGAGAL_EYE_HEIGHT,
+                Constants.GIGAGAL_STANCE_WIDTH,
+                Constants.GIGAGAL_HEIGHT);
+
+        for (Zoomba zoomba : level.getEnemies()) {
+            Rectangle zoombaBounds = new Rectangle(
+                    zoomba.getPosition().x - Constants.ZOOMBA_COLLISION_RADIUS,
+                    zoomba.getPosition().y - Constants.ZOOMBA_COLLISION_RADIUS,
+                    2 * Constants.ZOOMBA_COLLISION_RADIUS,
+                    2 * Constants.ZOOMBA_COLLISION_RADIUS
+            );
+            if (gigaGalBounds.overlaps(zoombaBounds)) {
+
+                if (position.x < zoomba.getPosition().x) {
+                    recoil(Direction.LEFT);
+                } else {
+                    recoil(Direction.RIGHT);
+                }
+            }
+        }
+    }
+
     // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoil(Direction direction) {
         walkTimeSeconds = 0;
@@ -467,6 +469,34 @@ public class GigaGal {
         } else {
             velocity.x = Constants.KNOCKBACK_VELOCITY.x;
         }
+    }
+
+    private void detectPowerupCollision() {
+
+        Rectangle gigaGalBounds = new Rectangle(
+                position.x - Constants.GIGAGAL_STANCE_WIDTH / 2,
+                position.y - Constants.GIGAGAL_EYE_HEIGHT,
+                Constants.GIGAGAL_STANCE_WIDTH,
+                Constants.GIGAGAL_HEIGHT);
+
+        // Check powerups
+        DelayedRemovalArray<Powerup> powerups = level.getPowerups();
+        powerups.begin();
+        for (int i = 0; i < powerups.size; i++) {
+            Powerup powerup = powerups.get(i);
+            Rectangle powerupBounds = new Rectangle(
+                    powerup.getPosition().x - Constants.POWERUP_CENTER.x,
+                    powerup.getPosition().y - Constants.POWERUP_CENTER.y,
+                    Assets.getInstance().getPowerupAssets().powerup.getRegionWidth(),
+                    Assets.getInstance().getPowerupAssets().powerup.getRegionHeight()
+            );
+            if (gigaGalBounds.overlaps(powerupBounds)) {
+                ammo += Constants.POWERUP_AMMO;
+                level.setScore(level.getScore() + Constants.POWERUP_SCORE);
+                powerups.removeIndex(i);
+            }
+        }
+        powerups.end();
     }
 
     private void stop() {
