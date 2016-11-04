@@ -141,17 +141,12 @@ public class GigaGal {
          */
     // MUCH BETTER
 
-        /*at all times
-        1. enable shoot (with or without charge)
-        2. detect platform contact under feet (changes aerial state to grounded or falling)
-        3. detect contact with enemy (change aerial & ground state to recoil until grounded) */
-
         enableShoot();
 
         // refactor into single detect collision method?
         detectPlatformCollision(platforms);
-        detectEnemyCollision();
-        detectPowerupCollision();
+        detectEnemyCollision(level.getEnemies());
+        detectPowerupCollision(level.getPowerups());
 
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.RECOILING) {
             if (groundState == GroundState.STANDING) {
@@ -369,6 +364,7 @@ public class GigaGal {
     //  -bump (detect contact with top, sides or bottom of platform and reset position to previous frame;
     //  velocity.y equal and opposite to downward velocity i.e. gravity if top, set canRicochet
     //  to true if jumping and side)
+    // detect platform contact under feet (changes aerial state to grounded or falling)
     private boolean isBumping(Platform platform) {
         if (platform.getTop() - platform.getBottom() > Constants.MAX_LEDGE_HEIGHT) {
 
@@ -432,14 +428,15 @@ public class GigaGal {
         }
     }
 
-    private void detectEnemyCollision() {
+    // detect contact with enemy (change aerial & ground state to recoil until grounded) */
+    private void detectEnemyCollision(DelayedRemovalArray<Zoomba> zoombas) {
         Rectangle gigaGalBounds = new Rectangle(
                 position.x - Constants.GIGAGAL_STANCE_WIDTH / 2,
                 position.y - Constants.GIGAGAL_EYE_HEIGHT,
                 Constants.GIGAGAL_STANCE_WIDTH,
                 Constants.GIGAGAL_HEIGHT);
 
-        for (Zoomba zoomba : level.getEnemies()) {
+        for (Zoomba zoomba : zoombas) {
             Rectangle zoombaBounds = new Rectangle(
                     zoomba.getPosition().x - Constants.ZOOMBA_COLLISION_RADIUS,
                     zoomba.getPosition().y - Constants.ZOOMBA_COLLISION_RADIUS,
@@ -471,7 +468,7 @@ public class GigaGal {
         }
     }
 
-    private void detectPowerupCollision() {
+    private void detectPowerupCollision(DelayedRemovalArray<Powerup> powerups) {
 
         Rectangle gigaGalBounds = new Rectangle(
                 position.x - Constants.GIGAGAL_STANCE_WIDTH / 2,
@@ -480,7 +477,6 @@ public class GigaGal {
                 Constants.GIGAGAL_HEIGHT);
 
         // Check powerups
-        DelayedRemovalArray<Powerup> powerups = level.getPowerups();
         powerups.begin();
         for (int i = 0; i < powerups.size; i++) {
             Powerup powerup = powerups.get(i);
