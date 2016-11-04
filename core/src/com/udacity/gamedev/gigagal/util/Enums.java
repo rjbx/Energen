@@ -12,9 +12,7 @@ public final class Enums {
         LEFT, RIGHT
     }
 
-
-
-    public enum AerialMove {
+    public enum AerialState {
         JUMPING,
         HOVERING,
         RICOCHETING,
@@ -24,7 +22,7 @@ public final class Enums {
         SLIDING
     }
 
-    public enum GroundMove {
+    public enum GroundState {
         STANDING,
         LEANING,
         STRIDING,

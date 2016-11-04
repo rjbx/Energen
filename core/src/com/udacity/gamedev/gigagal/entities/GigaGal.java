@@ -27,8 +27,8 @@ public class GigaGal {
     private Vector2 lastFramePosition;
     private Vector2 velocity;
     private Direction facing;
-    private AerialMove aerialMove;
-    private GroundMove groundMove;
+    private AerialState aerialState;
+    private GroundState groundState;
     private long walkStartTime;
     private float walkTimeSeconds;
     private long hoverStartTime;
@@ -70,9 +70,9 @@ public class GigaGal {
         position.set(spawnLocation);
         lastFramePosition.set(spawnLocation);
         velocity.setZero();
-        aerialMove = AerialMove.FALLING;
+        aerialState = AerialState.FALLING;
         facing = Direction.RIGHT;
-        groundMove = GroundMove.STANDING;
+        groundState = GroundState.STANDING;
         jumpStartTime = 0;
         dashStartTime = 0;
         hasHovered = false;
@@ -95,21 +95,26 @@ public class GigaGal {
             velocity.y equal and opposite to downward velocity i.e. gravity if top, set canRicochet
             to true if jumping and side)
         -move left / right (building up momentum according to key hold duration; velocity.x < max;
-            bump sides disables)
+            bump sides disables; change ground state to striding at key detection;
+            change state to standing if single key hold is interrupted by release or keying of
+                other directional in order to reset momentum)
         -jump (detecting velocity.x prior to key press and adjusting jump height and distance accordingly;
-            bump platform bottom disables; change state to falling after reaching jump peak)
+            bump platform bottom disables; change state to falling after reaching jump peak; maintain
+            lateral speed and direction)
         -dash (max speed for short burst in direction facing, no movement in opposite direction
-            or building momentum, reset momentum)
+            or building momentum, reset momentum; if previously grounded & standing, then striding, then grounded & standing, all within
+            certain timespan, canDash = true && ground state to dashing at key detection)
         -hover (maintain forward momentum, velocity.y equal and opposite to downward velocity i.e. gravity
             until disabled manually or exceed max hover duration)
+        -slide (reset forward momentum, enable wall jump upon key detection)
 
         at all times
         1. enable shoot (with or without charge)
         2. detect platform contact under feet (changes aerial state to grounded or falling)
         3. detect contact with enemy (change aerial & ground state to recoil until grounded)
 
-        if grounded and not recoiling
-            if standing (not keying left or right directional)
+        if (aerialState == AerialState.GROUNDED && groundState != GroundState.RECOILING)
+            if (groundState == GroundState.STANDING (not keying left or right directional)
                 1. reset momentum
                 2. enable move left / right (change ground state to striding at key detection)
                 3. if previously grounded & standing, then striding, then grounded & standing, all within
@@ -137,9 +142,37 @@ public class GigaGal {
                 1. enable wall jump
          */
 
+        if (aerialState == AerialState.GROUNDED && groundState != GroundState.RECOILING) {
+            if (groundState == GroundState.STANDING) {
+                resetMomentum();
+                enableStride();
+                enableDash();
+                enableJump();
+            } else if (groundState == GroundState.STRIDING) {
+                enableStride();
+                enableJump();
+            } else if (groundState == GroundState.DASHING) {
+                enableJump();
+            }
+        }
+
+        if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
+            if (aerialState == AerialState.JUMPING) {
+                enableHover();
+                enableSlide();
+            } else if (aerialState == AerialState.FALLING) {
+                enableHover();
+                enableSlide();
+            } else if (aerialState == AerialState.HOVERING) {
+                disableHover();
+            } else if (aerialState == AerialState.SLIDING) {
+                enableRicochet();
+            }
+        }
+
         lastFramePosition.set(position);
 
-        if (aerialMove != AerialMove.RICOCHETING) {
+        if (aerialState != AerialState.RICOCHETING) {
             velocity.y -= Constants.GRAVITY;
         } else if (Utils.secondsSince(ricochetStartTime) > Constants.RICOCHET_DURATION) {
             if (facing == Direction.LEFT) {
@@ -173,7 +206,7 @@ public class GigaGal {
             }
 
             if (isLanding(platform)) {
-                if (aerialMove == AerialMove.RECOILING) {
+                if (aerialState == AerialState.RECOILING) {
                     velocity.x = 0;
                     walkStartTime = TimeUtils.nanoTime();
                     jumpStartTime = 0;
@@ -182,28 +215,28 @@ public class GigaGal {
                     walkStartTime += TimeUtils.nanoTime() - jumpStartTime;
                     jumpStartTime = 0;
                 }
-                aerialMove = AerialMove.GROUNDED;
+                aerialState = AerialState.GROUNDED;
                 hasHovered = false;
                 velocity.y = 0;
                 position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
             } else if (isBumping(platform)) {
 
                 position.x = lastFramePosition.x;
-                if (aerialMove != AerialMove.GROUNDED
-                        && aerialMove != AerialMove.RECOILING
-                        && aerialMove != AerialMove.RICOCHETING) {
+                if (aerialState != AerialState.GROUNDED
+                        && aerialState != AerialState.RECOILING
+                        && aerialState != AerialState.RICOCHETING) {
                     if (position.y - Constants.GIGAGAL_HEAD_RADIUS <= platform.getTop()
                             && jumpStartingPoint.x != position.x
                             && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))
                             && position.y - Constants.GIGAGAL_EYE_HEIGHT > platform.getBottom()) {
-                        aerialMove = AerialMove.SLIDING;
+                        aerialState = AerialState.SLIDING;
                         hoverStartTime = TimeUtils.nanoTime();
-                        groundMove = GroundMove.LEANING;
+                        groundState = GroundState.LEANING;
                         velocity.x = 0;
                         slidPlatform = new Platform(platform);
                     } else {
-                        aerialMove = AerialMove.FALLING;
-                        groundMove = GroundMove.STANDING;
+                        aerialState = AerialState.FALLING;
+                        groundState = GroundState.STANDING;
                         walkStartTime = TimeUtils.nanoTime();
                         walkTimeSeconds = 0;
                     }
@@ -236,8 +269,8 @@ public class GigaGal {
 
         // TODO: update OnScreenControls with new physics
         // Move left/right
-        if (groundMove != GroundMove.DASHING) {
-            if (aerialMove == AerialMove.GROUNDED) {
+        if (groundState != GroundState.DASHING) {
+            if (aerialState == AerialState.GROUNDED) {
                 boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
                 boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
                 if (!right && left) {
@@ -270,7 +303,7 @@ public class GigaGal {
                     walkTimeSeconds = 0;
                     walkStartTime = TimeUtils.nanoTime();
                     velocity.x /= 2;
-                    groundMove = GroundMove.STANDING;
+                    groundState = GroundState.STANDING;
                     if (dashStartTime == 0) {
                         if (canDashLeft == true) {
                             canDashLeft = false;
@@ -293,7 +326,7 @@ public class GigaGal {
 
         // Jump
         if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
-            switch (aerialMove) {
+            switch (aerialState) {
                 case GROUNDED:
                     startJump();
                     break;
@@ -308,7 +341,7 @@ public class GigaGal {
                     break;
                 case SLIDING:
                     if (position.y - Constants.GIGAGAL_HEAD_RADIUS > slidPlatform.getBottom()) {
-                        aerialMove = AerialMove.RICOCHETING;
+                        aerialState = AerialState.RICOCHETING;
                         ricochetStartTime = TimeUtils.nanoTime();
                     }
                     break;
@@ -376,6 +409,50 @@ public class GigaGal {
         }
     }
 
+    // fix start jump method
+    private void enableRicochet() {
+        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
+            if (facing == Direction.LEFT) {
+                startJump(Direction.RIGHT, Constants.GIGAGAL_MAX_SPEED);
+            } else {
+                startJump(Direction.LEFT, Constants.GIGAGAL_MAX_SPEED);
+            }
+        }
+    }
+
+    //  jump (detecting velocity.x prior to key press and adjusting jump height and distance accordingly;
+    //  bump platform bottom disables; change state to falling after reaching jump peak; maintain
+    //  lateral speed and direction)
+    private void enableJump(float lateralVelocity, Direction facing) {
+        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
+            startJump(lateralVelocity, facing);
+        }
+    }
+
+    // dash (max speed for short burst in direction facing, no movement in opposite direction
+    //        or building momentum, reset momentum;
+    private void enableDash() {
+        // detect if previously grounded & standing, then striding, then grounded & standing, all within
+        // ertain timespan, canDash = true && ground state to dashing at key detection)
+    }
+
+    //  hover (maintain forward momentum, velocity.y equal and opposite to downward velocity i.e. gravity
+    //  until disabled manually or exceed max hover duration)
+    private void enableHover(float lateralVelocity, Direction facing) {
+        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
+            startHover(lateralVelocity, facing);
+        }
+    }
+
+    // (reset forward momentum, enable wall jump upon key detection)
+    private void enableSlide() {
+
+    }
+
+    private void resetMomentum() {
+        velocity.x = 0;
+    }
+
     private boolean isLanding(Platform platform) {
         boolean leftFootIn = false;
         boolean rightFootIn = false;
@@ -394,6 +471,9 @@ public class GigaGal {
         return leftFootIn || rightFootIn || straddle;
     }
 
+    //  -bump (detect contact with top, sides or bottom of platform and reset position to previous frame;
+    //  velocity.y equal and opposite to downward velocity i.e. gravity if top, set canRicochet
+    //  to true if jumping and side)
     private boolean isBumping(Platform platform) {
         if (platform.getTop() - platform.getBottom() > Constants.MAX_LEDGE_HEIGHT) {
 
@@ -415,26 +495,36 @@ public class GigaGal {
         return false;
     }
 
+    // move left / right (building up momentum according to key hold duration; velocity.x < max;
+    // bump sides disables; change ground state to striding at key detection;
+    // change state to standing if single key hold is interrupted by release or keying of
+    // other directional in order to reset momentum)
+    private void enableStride(float lateralVelocity) {
+
+    }
+
+    // integrate with enableStride()
     private void moveLeft() {
 
         facing = Direction.LEFT;
-        if (aerialMove == AerialMove.GROUNDED) {
-            if (groundMove != GroundMove.STRIDING) {
+        if (aerialState == AerialState.GROUNDED) {
+            if (groundState != GroundState.STRIDING) {
                 walkStartTime = TimeUtils.nanoTime();
-                groundMove = GroundMove.STRIDING;
+                groundState = GroundState.STRIDING;
             }
             walkTimeSeconds = Utils.secondsSince(walkStartTime);
         }
         velocity.x = -Math.min(walkTimeSeconds * Constants.GIGAGAL_MAX_SPEED, Constants.GIGAGAL_MAX_SPEED);
     }
 
+    // integrate with enableStride()
     private void moveRight() {
 
         facing = Direction.RIGHT;
-        if (aerialMove == AerialMove.GROUNDED) {
-            if (groundMove != GroundMove.STRIDING) {
+        if (aerialState == AerialState.GROUNDED) {
+            if (groundState != GroundState.STRIDING) {
                 walkStartTime = TimeUtils.nanoTime();
-                groundMove = GroundMove.STRIDING;
+                groundState = GroundState.STRIDING;
             }
             walkTimeSeconds = Utils.secondsSince(walkStartTime);
         }
@@ -442,15 +532,15 @@ public class GigaGal {
     }
 
     private void startDash() {
-        if (aerialMove == AerialMove.GROUNDED) {
-            groundMove = GroundMove.DASHING;
+        if (aerialState == AerialState.GROUNDED) {
+            groundState = GroundState.DASHING;
             dashStartTime = TimeUtils.nanoTime();
             continueDash();
         }
     }
 
     private void continueDash() {
-        if ((Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) || aerialMove == AerialMove.HOVERING || aerialMove == AerialMove.FALLING) {
+        if ((Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) || aerialState == AerialState.HOVERING || aerialState == AerialState.FALLING) {
             if (facing == Direction.LEFT) {
                 velocity.x = -Constants.GIGAGAL_MAX_SPEED;
             } else {
@@ -462,20 +552,20 @@ public class GigaGal {
     }
 
     private void endDash() {
-        groundMove = GroundMove.LEANING;
+        groundState = GroundState.LEANING;
         velocity.x = 0;
     }
 
-
+    // combine start and continue jump adding parameters to set velocity and direction
     public void startJump() {
         jumpStartingPoint = new Vector2(position);
-        aerialMove = AerialMove.JUMPING;
+        aerialState = AerialState.JUMPING;
         jumpStartTime = TimeUtils.nanoTime();
-        continueJump();
+        p();
     }
 
     private void continueJump() {
-        if (aerialMove == AerialMove.JUMPING) {
+        if (aerialState == AerialState.JUMPING) {
             if (Utils.secondsSince(jumpStartTime) < Constants.MAX_JUMP_DURATION) {
                 velocity.y = Constants.JUMP_SPEED;
                 if (Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 2){
@@ -488,14 +578,14 @@ public class GigaGal {
     }
 
     private void endJump() {
-        if (aerialMove == AerialMove.JUMPING) {
-            aerialMove = AerialMove.FALLING;
+        if (aerialState == AerialState.JUMPING) {
+            aerialState = AerialState.FALLING;
         }
     }
 
     private void startHover() {
         if (!hasHovered) {
-            aerialMove = AerialMove.HOVERING;
+            aerialState = AerialState.HOVERING;
             hoverStartTime = TimeUtils.nanoTime();
         }
         continueHover();
@@ -503,7 +593,7 @@ public class GigaGal {
 
     private void continueHover() {
         hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
-        if (aerialMove == AerialMove.HOVERING) {
+        if (aerialState == AerialState.HOVERING) {
             if (hoverTimeSeconds < Constants.MAX_HOVER_DURATION) {
                 velocity.y = 0;
             } else {
@@ -513,15 +603,17 @@ public class GigaGal {
     }
 
     private void endHover() {
-        if (aerialMove == AerialMove.HOVERING) {
-            aerialMove = AerialMove.FALLING;
+        if (aerialState == AerialState.HOVERING) {
+            aerialState = AerialState.FALLING;
             hasHovered = true;
         }
     }
 
+    // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoilFromHit(Direction direction) {
         walkTimeSeconds = 0;
-        aerialMove = AerialMove.RECOILING;
+        aerialState = AerialState.RECOILING;
+        groundState = GroundState.RECOILING;
         velocity.y = Constants.KNOCKBACK_VELOCITY.y;
 
         if (direction == Direction.LEFT) {
@@ -534,39 +626,39 @@ public class GigaGal {
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
         if (facing == Direction.RIGHT) {
-            if (aerialMove != AerialMove.GROUNDED) {
-                if (aerialMove == AerialMove.HOVERING) {
+            if (aerialState != AerialState.GROUNDED) {
+                if (aerialState == AerialState.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
                     region = Assets.getInstance().getGigaGalAssets().hoverRightAnimation.getKeyFrame(hoverTimeSeconds);
-                } else if (aerialMove == AerialMove.RICOCHETING) {
+                } else if (aerialState == AerialState.RICOCHETING) {
                     region = Assets.getInstance().getGigaGalAssets().ricochetLeft;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().jumpRight;
                 }
-            } else if (groundMove == GroundMove.STANDING) {
+            } else if (groundState == GroundState.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standRight;
-            } else if (groundMove == GroundMove.STRIDING) {
+            } else if (groundState == GroundState.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().walkRightAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
-            } else if (groundMove == GroundMove.DASHING
-                    || groundMove == GroundMove.LEANING) {
+            } else if (groundState == GroundState.DASHING
+                    || groundState == GroundState.LEANING) {
                 region = Assets.getInstance().getGigaGalAssets().dashRight;
             }
         } else if (facing == Direction.LEFT) {
-            if (aerialMove != AerialMove.GROUNDED) {
-                if (aerialMove == AerialMove.HOVERING) {
+            if (aerialState != AerialState.GROUNDED) {
+                if (aerialState == AerialState.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
                     region = Assets.getInstance().getGigaGalAssets().hoverLeftAnimation.getKeyFrame(hoverTimeSeconds);
-                } else if (aerialMove == AerialMove.RICOCHETING) {
+                } else if (aerialState == AerialState.RICOCHETING) {
                     region = Assets.getInstance().getGigaGalAssets().ricochetRight;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().jumpLeft;
                 }
-            } else if (groundMove == GroundMove.STANDING) {
+            } else if (groundState == GroundState.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standLeft;
-            } else if (groundMove == GroundMove.STRIDING) {
+            } else if (groundState == GroundState.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().walkLeftAnimation.getKeyFrame(Math.min(walkTimeSeconds * walkTimeSeconds, walkTimeSeconds));
-            } else if (groundMove == GroundMove.DASHING
-                    || groundMove == GroundMove.LEANING) {
+            } else if (groundState == GroundState.DASHING
+                    || groundState == GroundState.LEANING) {
                 region = Assets.getInstance().getGigaGalAssets().dashLeft;
             }
         }
