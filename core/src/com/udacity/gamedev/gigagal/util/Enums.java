@@ -18,13 +18,11 @@ public final class Enums {
         RICOCHETING,
         FALLING,
         GROUNDED,
-        RECOILING,
-        SLIDING
+        RECOILING
     }
 
     public enum GroundState {
         STANDING,
-        LEANING,
         STRIDING,
         DASHING,
         RECOILING,
