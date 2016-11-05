@@ -123,6 +123,7 @@ public class GigaGal {
          */
         // MUCH BETTER
 
+        velocity.y -= Constants.GRAVITY;
         position.mulAdd(velocity, delta);
         lastFramePosition.set(position);
         enableRespawn();
@@ -162,30 +163,7 @@ public class GigaGal {
         }
     }
 
-    //WTF
-        /*
-
-        if (aerialState != AerialState.RICOCHETING) {
-            velocity.y -= Constants.GRAVITY;
-        } else if (Utils.secondsSince(ricochetStartTime) > Constants.RICOCHET_DURATION) {
-            if (facing == Direction.LEFT) {
-                facing = Direction.RIGHT;
-                velocity.x = Constants.GIGAGAL_MAX_SPEED;
-            } else {
-                facing = Direction.LEFT;
-                velocity.x = -Constants.GIGAGAL_MAX_SPEED;
-            }
-            startJump();
-        }
-
-
-        // Land on/fall off platforms
-        // TODO: fix momentum after jumping into collisions post- recoil
-        // Collide with enemies
-
-
-        // TODO: update OnScreenControls with new physics
-        // Move left/right
+/*
         if (groundState != GroundState.DASHING) {
             if (aerialState == AerialState.GROUNDED) {
                 boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
@@ -195,26 +173,26 @@ public class GigaGal {
                         if (dashStartTime == 0) {
                             canDashLeft = true;
                         } else if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
-                            startDash();
+                      //      startDash();
                         } else {
                             dashStartTime = 0;
                         }
                         canDashRight = false;
                     } else {
-                        moveLeft();
+                     //   moveLeft();
                     }
                 } else if (right && !left) {
                     if (canDashRight == false) {
                         if (dashStartTime == 0) {
                             canDashRight = true;
                         } else if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
-                            startDash();
+                         //   startDash();
                         } else {
                             dashStartTime = 0;
                         }
                         canDashLeft = false;
                     } else {
-                       moveRight();
+                       // moveRight();
                     }
                 } else {
                     walkTimeSeconds = 0;
@@ -238,7 +216,20 @@ public class GigaGal {
                 }
             }
         } else {
-            continueDash();
+            // continueDash();
+        }
+
+        if (aerialState != AerialState.RICOCHETING) {
+            velocity.y -= Constants.GRAVITY;
+        } else if (Utils.secondsSince(ricochetStartTime) > Constants.RICOCHET_DURATION) {
+            if (facing == Direction.LEFT) {
+                facing = Direction.RIGHT;
+                velocity.x = Constants.GIGAGAL_MAX_SPEED;
+            } else {
+                facing = Direction.LEFT;
+                velocity.x = -Constants.GIGAGAL_MAX_SPEED;
+            }
+            // startJump();
         }
 
         // Jump
