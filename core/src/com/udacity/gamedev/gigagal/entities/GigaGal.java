@@ -123,7 +123,6 @@ public class GigaGal {
          */
         // MUCH BETTER
 
-        velocity.y -= Constants.GRAVITY;
         position.mulAdd(velocity, delta);
         lastFramePosition.set(position);
         enableRespawn();
@@ -135,6 +134,8 @@ public class GigaGal {
         detectPowerupCollision(level.getPowerups());
 
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.RECOILING) {
+
+            velocity.y += Constants.GRAVITY;
             if (groundState == GroundState.STANDING) {
                 stop();
                 enableStride(velocity.x);
@@ -149,6 +150,8 @@ public class GigaGal {
         }
 
         if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
+
+            velocity.y -= Constants.GRAVITY;
             if (aerialState == AerialState.JUMPING) {
                 enableHover(velocity.x, facing);
                 enableSlide();
@@ -270,6 +273,7 @@ public class GigaGal {
                 fall();
                 position.y = lastFramePosition.y;
                 velocity.y = -Constants.GRAVITY;
+            }
                 if (isLanding(platform)) {
                     if (aerialState == AerialState.RECOILING) {
                         velocity.x = 0;
@@ -309,7 +313,6 @@ public class GigaGal {
                 }
             }
         }
-    }
 
     private boolean isLanding(Platform platform) {
         boolean leftFootIn = false;
