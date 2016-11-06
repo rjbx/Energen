@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // mutable
-public class Zoomba {
+public class Zoomba implements PhysicalEntity {
 
     // fields
     private final long startTime;
@@ -60,5 +60,7 @@ public class Zoomba {
 
     public final Vector2 getPosition() { return position; }
     public final int getHealth() { return health; }
+    public final float getWidth() { return Constants.ZOOMBA_COLLISION_RADIUS * 2; }
+    public final float getHeight() { return Constants.ZOOMBA_COLLISION_RADIUS * 2; }
     public final void setHealth( int health ) { this.health = health; }
 }
