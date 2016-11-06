@@ -1,10 +1,11 @@
 package com.udacity.gamedev.gigagal.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 
 // immutable
-public final class Platform {
+public final class Platform implements PhysicalEntity {
 
     // fields
     private final float top;
@@ -42,5 +43,8 @@ public final class Platform {
     public float getBottom() {return bottom; }
     public float getLeft() { return left; }
     public float getRight() { return right; }
+    public Vector2 getPosition() { return new Vector2(left, bottom); }
+    public float getWidth() { return right - left;}
+    public float getHeight() {return top - bottom; }
     public static final String getIdentifier() { return identifier; }
 }

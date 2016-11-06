@@ -177,6 +177,7 @@ public class GigaGal {
         if (gigaGalBounds.overlaps(entityBounds)) {
             return true;
         }
+        return false;
     }
 
     private void detectPlatformCollision(Array<Platform> platforms) {
@@ -212,48 +213,20 @@ public class GigaGal {
 
     private void collectPowerups(DelayedRemovalArray<Powerup> powerups) {
 
-        Rectangle gigaGalBounds = new Rectangle(
-                position.x - Constants.GIGAGAL_STANCE_WIDTH / 2,
-                position.y - Constants.GIGAGAL_EYE_HEIGHT,
-                Constants.GIGAGAL_STANCE_WIDTH,
-                Constants.GIGAGAL_HEIGHT);
-
-        // Check powerups
-        powerups.begin();
-        for (int i = 0; i < powerups.size; i++) {
-            Powerup powerup = powerups.get(i);
-            Rectangle powerupBounds = new Rectangle(
-                    powerup.getPosition().x - Constants.POWERUP_CENTER.x,
-                    powerup.getPosition().y - Constants.POWERUP_CENTER.y,
-                    Assets.getInstance().getPowerupAssets().powerup.getRegionWidth(),
-                    Assets.getInstance().getPowerupAssets().powerup.getRegionHeight()
-            );
-            if (gigaGalBounds.overlaps(powerupBounds)) {
+        for (Powerup powerup : powerups) {
+            if (isCollidingWith(powerup)) {
                 ammo += Constants.POWERUP_AMMO;
                 level.setScore(level.getScore() + Constants.POWERUP_SCORE);
-                powerups.removeIndex(i);
+                powerups.removeValue(powerup, true);
             }
         }
-        powerups.end();
     }
 
     // detect contact with enemy (change aerial & ground state to recoil until grounded) */
     private void recoilFromEnemies(DelayedRemovalArray<Zoomba> zoombas) {
-        Rectangle gigaGalBounds = new Rectangle(
-                position.x - Constants.GIGAGAL_STANCE_WIDTH / 2,
-                position.y - Constants.GIGAGAL_EYE_HEIGHT,
-                Constants.GIGAGAL_STANCE_WIDTH,
-                Constants.GIGAGAL_HEIGHT);
 
         for (Zoomba zoomba : zoombas) {
-            Rectangle zoombaBounds = new Rectangle(
-                    zoomba.getPosition().x - Constants.ZOOMBA_COLLISION_RADIUS,
-                    zoomba.getPosition().y - Constants.ZOOMBA_COLLISION_RADIUS,
-                    2 * Constants.ZOOMBA_COLLISION_RADIUS,
-                    2 * Constants.ZOOMBA_COLLISION_RADIUS
-            );
-
-            if (gigaGalBounds.overlaps(zoombaBounds)) {
+            if (isCollidingWith(zoomba)) {
                 enableRecoil(zoomba.getPosition().x);
             }
         }
