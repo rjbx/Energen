@@ -69,52 +69,51 @@ public class GigaGal {
     public void update(float delta) {
 
         lastFramePosition.set(position);
-        position.mulAdd(velocity, delta);
-        enableRespawn();
-        enableShoot();
-
+        position.x += velocity.x * delta;
+        position.y += velocity.y * delta;
         touchPlatforms(level.getPlatforms());
         recoilFromEnemies(level.getEnemies());
         collectPowerups(level.getPowerups());
+        enableRespawn();
+        enableShoot();
 
-        if (aerialState == AerialState.GROUNDED && groundState != GroundState.RECOILING) {
+        if (aerialState == AerialState.GROUNDED && groundState != GroundState.AIRBORNE && groundState != GroundState.RECOILING) {
 
             velocity.y = 0;
             if (groundState == GroundState.STANDING) {
                 enableStride(delta, facing);
-                enableDash();
+                // enableDash();
                 enableJump(velocity.x, facing);
             } else if (groundState == GroundState.STRIDING) {
-                enableStride(delta, facing);
-                enableJump(velocity.x, facing);
+                 enableStride(delta, facing);
+                 enableJump(velocity.x, facing);
             } else if (groundState == GroundState.DASHING) {
-                enableJump(velocity.x, facing);
+                // enableJump(velocity.x, facing);
             }
         }
 
-        if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
+        if (groundState == GroundState.AIRBORNE && aerialState != AerialState.GROUNDED && aerialState != AerialState.RECOILING) {
 
             velocity.y -= Constants.GRAVITY;
             if (aerialState == AerialState.JUMPING) {
-                enableHover(velocity.x, facing);
-                enableRicochet(facing);
+                //enableHover(velocity.x, facing);
+                // enableRicochet(facing);
             } else if (aerialState == AerialState.FALLING) {
-                fall();
-                enableHover(velocity.x, facing);
-                enableRicochet(facing);
+                //fall();
+                //enableHover(velocity.x, facing);
+                // enableRicochet(facing);
             } else if (aerialState == AerialState.HOVERING) {
-                enableRicochet(facing);
+                // enableRicochet(facing);
             }
         }
     }
 
-    // refactor
     private boolean isGrounded(Platform platform) {
         boolean leftFootIn = false;
         boolean rightFootIn = false;
         boolean straddle = false;
 
-        if ((lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.getTop() - 1) &&
+        if ((lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.getTop()) &&
                 (position.y - Constants.GIGAGAL_EYE_HEIGHT <= platform.getTop())) {
 
             float leftFoot = position.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
@@ -156,9 +155,13 @@ public class GigaGal {
         boolean isGrounded = false;
         for (Platform platform : platforms) {
             if (isGrounded(platform)) {
-
+                velocity.y = 0;
+                velocity.x = 0;
+                position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
                 aerialState = AerialState.GROUNDED;
-                groundState = GroundState.STANDING;
+                if (groundState == GroundState.AIRBORNE) {
+                    groundState = GroundState.STANDING;
+                }
                 isGrounded = true;
             /* } else if (isCollidingWith(platform)) {
                 fall();
@@ -304,7 +307,7 @@ public class GigaGal {
     private void enableStride(float delta, Direction facing) {
         if (Gdx.input.isKeyPressed(Keys.A)) {
             facing = Direction.LEFT;
-            stride(delta, facing);/////
+            stride(delta, facing);
         } else if (Gdx.input.isKeyPressed(Keys.S)) {
             facing = Direction.RIGHT;
             stride(delta, facing);
@@ -431,8 +434,12 @@ public class GigaGal {
         if (aerialState == AerialState.HOVERING) {
             hasHovered = true;
         }
-        groundState = GroundState.AIRBORNE;
-        aerialState = AerialState.FALLING;
+        if (groundState == GroundState.STANDING) {
+            aerialState = AerialState.GROUNDED;
+        }
+        if (aerialState == AerialState.GROUNDED) {
+            groundState = GroundState.STANDING;
+        }
     }
 
     private void stop() {
