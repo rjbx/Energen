@@ -66,22 +66,21 @@ public class GigaGal {
         respawn();
     }
 
-    public void update(float delta, Array<Platform> platforms) {
+    public void update(float delta) {
 
         lastFramePosition.set(position);
         position.mulAdd(velocity, delta);
         enableRespawn();
         enableShoot();
 
-        // refactor into single detect collision method?
-        detectPlatformCollision(platforms);
+        touchPlatforms(level.getPlatforms());
         recoilFromEnemies(level.getEnemies());
         collectPowerups(level.getPowerups());
 
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.RECOILING) {
 
+            velocity.y = 0;
             if (groundState == GroundState.STANDING) {
-                stop();
                 enableStride(delta, facing);
                 enableDash();
                 enableJump(velocity.x, facing);
@@ -95,6 +94,7 @@ public class GigaGal {
 
         if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
 
+            velocity.y -= Constants.GRAVITY;
             if (aerialState == AerialState.JUMPING) {
                 enableHover(velocity.x, facing);
                 enableRicochet(facing);
@@ -107,49 +107,21 @@ public class GigaGal {
             }
         }
     }
-/*
-        // Jump
-        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
-            switch (aerialState) {
-                case GROUNDED:
-                    startJump();
-                    break;
-                case JUMPING:
-                    continueJump();
-                    break;
-                case FALLING:
-                    startHover();
-                    break;
-                case HOVERING:
-                    endHover();
-                    break;
-                case SLIDING:
-                    if (position.y - Constants.GIGAGAL_HEAD_RADIUS > slidPlatform.getBottom()) {
-                        aerialState = AerialState.RICOCHETING;
-                        ricochetStartTime = TimeUtils.nanoTime();
-                    }
-                    break;
-            }
-        } else {
-            continueHover();
-            endJump();
-        }*/
 
     // refactor
-
     private boolean isGrounded(Platform platform) {
         boolean leftFootIn = false;
         boolean rightFootIn = false;
         boolean straddle = false;
 
-        if (lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.getTop() &&
-                position.y - Constants.GIGAGAL_EYE_HEIGHT <= platform.getTop()) {
+        if ((lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.getTop() - 1) &&
+                (position.y - Constants.GIGAGAL_EYE_HEIGHT <= platform.getTop())) {
 
             float leftFoot = position.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
             float rightFoot = position.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
 
-            leftFootIn = (platform.getLeft() < leftFoot && platform.getRight() > leftFoot);
-            rightFootIn = (platform.getLeft() < rightFoot && platform.getRight() > rightFoot);
+            leftFootIn = (platform.getLeft() < leftFoot) && (platform.getRight() > leftFoot);
+            rightFootIn = (platform.getLeft() < rightFoot) && (platform.getRight() > rightFoot);
             straddle = (platform.getLeft() > leftFoot && platform.getRight() < rightFoot);
         }
         return leftFootIn || rightFootIn || straddle;
@@ -180,14 +152,16 @@ public class GigaGal {
         return false;
     }
 
-    private void detectPlatformCollision(Array<Platform> platforms) {
+    private void touchPlatforms(Array<Platform> platforms) {
+        boolean isGrounded = false;
         for (Platform platform : platforms) {
             if (isGrounded(platform)) {
-                velocity.y += Constants.GRAVITY;
+
                 aerialState = AerialState.GROUNDED;
                 groundState = GroundState.STANDING;
-            } else if (isCollidingWith(platform)) {
-              /*  fall();
+                isGrounded = true;
+            /* } else if (isCollidingWith(platform)) {
+                fall();
                 position.x = lastFramePosition.x;
                 if (aerialState != AerialState.GROUNDED
                         && aerialState != AerialState.RECOILING
@@ -206,8 +180,12 @@ public class GigaGal {
                         walkTimeSeconds = 0;
                     }
                 } */
-            } else {
             }
+        }
+
+        if (!isGrounded) {
+            groundState = GroundState.AIRBORNE;
+            aerialState = AerialState.FALLING;
         }
     }
 
@@ -326,7 +304,7 @@ public class GigaGal {
     private void enableStride(float delta, Direction facing) {
         if (Gdx.input.isKeyPressed(Keys.A)) {
             facing = Direction.LEFT;
-            stride(delta, facing);
+            stride(delta, facing);/////
         } else if (Gdx.input.isKeyPressed(Keys.S)) {
             facing = Direction.RIGHT;
             stride(delta, facing);
@@ -370,6 +348,7 @@ public class GigaGal {
                     velocity.y *= Constants.RUNNING_JUMP_MULTIPLIER;
                 }
             } else {
+                groundState = GroundState.AIRBORNE;
                 aerialState = AerialState.FALLING;
             }
         }
@@ -443,13 +422,17 @@ public class GigaGal {
         }
     }
 
+    private void enableFall(Array<Platform> platforms) {
+
+    }
+
     // update velocity.y
     private void fall() {
         if (aerialState == AerialState.HOVERING) {
             hasHovered = true;
         }
+        groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
-        velocity.y = -Constants.GRAVITY;
     }
 
     private void stop() {

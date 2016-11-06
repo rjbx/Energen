@@ -66,7 +66,7 @@ public class Level {
 
         if (!gameOver && !victory) {
 
-            gigaGal.update(delta, platforms);
+            gigaGal.update(delta);
 
             // Update Bullets
             bullets.begin();
