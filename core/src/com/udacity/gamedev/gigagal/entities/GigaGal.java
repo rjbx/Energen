@@ -2,7 +2,6 @@ package com.udacity.gamedev.gigagal.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -34,7 +33,7 @@ public class GigaGal {
     private float walkTimeSeconds;
     private long hoverStartTime;
     private float hoverTimeSeconds;
-    private boolean hasHovered;
+    private boolean canHover;
     private long jumpStartTime;
     private long dashStartTime;
     private boolean isCharged;
@@ -97,13 +96,15 @@ public class GigaGal {
 
             velocity.y -= Constants.GRAVITY;
             if (aerialState == AerialState.JUMPING) {
-                //enableHover(velocity.x, facing);
+                enableHover();
                 // enableRicochet(facing);
             } else if (aerialState == AerialState.FALLING) {
                 //fall();
-                //enableHover(velocity.x, facing);
+                enableHover();
                 // enableRicochet(facing);
             } else if (aerialState == AerialState.HOVERING) {
+                velocity.y += Constants.GRAVITY;
+                enableHover();
                 // enableRicochet(facing);
             }
         }
@@ -159,6 +160,7 @@ public class GigaGal {
                 velocity.y = 0;
                 velocity.x = 0;
                 position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
+                canHover = false;
                 aerialState = AerialState.GROUNDED;
                 if (groundState == GroundState.AIRBORNE) {
                     groundState = GroundState.STANDING;
@@ -187,7 +189,7 @@ public class GigaGal {
             }
         }
 
-        if (!isGrounded) {
+        if (!isGrounded && aerialState == AerialState.GROUNDED || aerialState == AerialState.JUMPING) {
             groundState = GroundState.AIRBORNE;
             aerialState = AerialState.FALLING;
         }
@@ -296,7 +298,7 @@ public class GigaGal {
         aerialState = AerialState.FALLING;
         jumpStartTime = 0;
         dashStartTime = 0;
-        hasHovered = false;
+        canHover = false;
         canDashLeft = false;
         canDashRight = false;
         jumpStartingPoint = new Vector2();
@@ -346,6 +348,7 @@ public class GigaGal {
         jumpStartingPoint = new Vector2(position);
         aerialState = AerialState.JUMPING;
         jumpStartTime = TimeUtils.nanoTime();
+        canHover = true;
         if (aerialState == AerialState.JUMPING) {
             if (Utils.secondsSince(jumpStartTime) < Constants.MAX_JUMP_DURATION) {
                 velocity.y = Constants.JUMP_SPEED;
@@ -373,7 +376,8 @@ public class GigaGal {
         }
         if ((Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) || aerialState == AerialState.HOVERING || aerialState == AerialState.FALLING) {
             if (facing == Direction.LEFT) {
-                velocity.x = -Constants.GIGAGAL_MAX_SPEED;   } else {
+                velocity.x = -Constants.GIGAGAL_MAX_SPEED;
+            } else {
                 velocity.x = Constants.GIGAGAL_MAX_SPEED;
             }
         } else {
@@ -384,15 +388,16 @@ public class GigaGal {
     //  hover (maintain forward momentum, velocity.y equal and opposite to downward velocity i.e. gravity
     //  until disabled manually or exceed max hover duration)
     private void enableHover() {
-        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
+        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || aerialState == AerialState.HOVERING) {
             hover();
         }
     }
 
     private void hover() {
-        if (!hasHovered) {
+        if (canHover) {
             aerialState = AerialState.HOVERING;
             hoverStartTime = TimeUtils.nanoTime();
+            canHover = false;
         }
         hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
         if (aerialState == AerialState.HOVERING) {
@@ -433,9 +438,6 @@ public class GigaGal {
 
     // update velocity.y
     private void fall() {
-        if (aerialState == AerialState.HOVERING) {
-            hasHovered = true;
-        }
         if (groundState == GroundState.STANDING) {
             aerialState = AerialState.GROUNDED;
         }
