@@ -103,7 +103,6 @@ public class GigaGal {
                 enableHover();
                 // enableRicochet(facing);
             } else if (aerialState == AerialState.HOVERING) {
-                velocity.y += Constants.GRAVITY;
                 enableHover();
                 // enableRicochet(facing);
             }
@@ -189,7 +188,7 @@ public class GigaGal {
             }
         }
 
-        if (!isGrounded && aerialState == AerialState.GROUNDED || aerialState == AerialState.JUMPING) {
+        if (!isGrounded && aerialState == AerialState.GROUNDED || aerialState != AerialState.GROUNDED && aerialState != AerialState.HOVERING) {
             groundState = GroundState.AIRBORNE;
             aerialState = AerialState.FALLING;
         }
@@ -388,7 +387,7 @@ public class GigaGal {
     //  hover (maintain forward momentum, velocity.y equal and opposite to downward velocity i.e. gravity
     //  until disabled manually or exceed max hover duration)
     private void enableHover() {
-        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || aerialState == AerialState.HOVERING) {
+        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed || aerialState == AerialState.HOVERING) {
             hover();
         }
     }
@@ -402,7 +401,7 @@ public class GigaGal {
         hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
         if (aerialState == AerialState.HOVERING) {
             if (hoverTimeSeconds < Constants.MAX_HOVER_DURATION) {
-                velocity.y = Constants.GRAVITY;
+                velocity.y = 0;
             } else {
                 aerialState = AerialState.FALLING;
             }
