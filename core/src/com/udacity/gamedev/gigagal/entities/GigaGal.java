@@ -387,7 +387,13 @@ public class GigaGal {
     //  hover (maintain forward momentum, velocity.y equal and opposite to downward velocity i.e. gravity
     //  until disabled manually or exceed max hover duration)
     private void enableHover() {
-        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed || aerialState == AerialState.HOVERING) {
+        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
+            if (aerialState != AerialState.HOVERING) {
+                hover();
+            } else {
+                fall();
+            }
+        } else if (aerialState == AerialState.HOVERING) {
             hover();
         }
     }
@@ -437,12 +443,7 @@ public class GigaGal {
 
     // update velocity.y
     private void fall() {
-        if (groundState == GroundState.STANDING) {
-            aerialState = AerialState.GROUNDED;
-        }
-        if (aerialState == AerialState.GROUNDED) {
-            groundState = GroundState.STANDING;
-        }
+        aerialState = AerialState.FALLING;
     }
 
     private void stop() {
