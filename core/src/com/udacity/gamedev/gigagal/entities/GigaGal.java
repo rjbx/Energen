@@ -307,10 +307,10 @@ public class GigaGal {
     // other directional in order to reset momentum)
     private void enableStride() {
 
-        if (Gdx.input.isKeyPressed(Keys.A)) {
+        if (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed) {
             facing = Direction.LEFT;
             stride();
-        } else if (Gdx.input.isKeyPressed(Keys.S)) {
+        } else if (Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed) {
             facing = Direction.RIGHT;
             stride();
         } else {
@@ -337,7 +337,7 @@ public class GigaGal {
     //  bump platform bottom disables; change state to falling after reaching jump peak; maintain
     //  lateral speed and direction)
     private void enableJump() {
-        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
+        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
             jump();
         }
     }
@@ -445,7 +445,7 @@ public class GigaGal {
     }
 
     private void stop() {
-        if (groundState == GroundState.DASHING) {
+        if (groundState != GroundState.STANDING) {
             groundState = GroundState.STANDING;
         }
         velocity.x = 0;
