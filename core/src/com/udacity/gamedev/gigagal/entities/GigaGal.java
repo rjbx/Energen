@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -81,12 +82,12 @@ public class GigaGal {
 
             velocity.y = 0;
             if (groundState == GroundState.STANDING) {
-                enableStride(delta, facing);
+                enableStride();
                 // enableDash();
-                enableJump(velocity.x, facing);
+                enableJump();
             } else if (groundState == GroundState.STRIDING) {
-                 enableStride(delta, facing);
-                 enableJump(velocity.x, facing);
+                 enableStride();
+                 enableJump();
             } else if (groundState == GroundState.DASHING) {
                 // enableJump(velocity.x, facing);
             }
@@ -304,19 +305,20 @@ public class GigaGal {
     // bump sides disables; change ground state to striding at key detection;
     // change state to standing if single key hold is interrupted by release or keying of
     // other directional in order to reset momentum)
-    private void enableStride(float delta, Direction facing) {
+    private void enableStride() {
+
         if (Gdx.input.isKeyPressed(Keys.A)) {
             facing = Direction.LEFT;
-            stride(delta, facing);
+            stride();
         } else if (Gdx.input.isKeyPressed(Keys.S)) {
             facing = Direction.RIGHT;
-            stride(delta, facing);
+            stride();
         } else {
             stop();
         }
     }
 
-    private void stride(float delta, Direction facing) {
+    private void stride() {
         if (aerialState == AerialState.GROUNDED) {
             if (groundState != GroundState.STRIDING) {
                 walkStartTime = TimeUtils.nanoTime();
@@ -325,22 +327,22 @@ public class GigaGal {
             walkTimeSeconds = Utils.secondsSince(walkStartTime);
         }
         if (facing == Direction.LEFT) {
-            velocity.x = -Constants.GIGAGAL_MAX_SPEED;
+            velocity.x = Math.max(-Constants.GIGAGAL_MAX_SPEED * walkTimeSeconds, -Constants.GIGAGAL_MAX_SPEED);
         } else {
-            velocity.x = Constants.GIGAGAL_MAX_SPEED;
+            velocity.x = Math.min(Constants.GIGAGAL_MAX_SPEED * walkTimeSeconds, Constants.GIGAGAL_MAX_SPEED);
         }
     }
 
     //  jump (detecting velocity.x prior to key press and adjusting jump height and distance accordingly;
     //  bump platform bottom disables; change state to falling after reaching jump peak; maintain
     //  lateral speed and direction)
-    private void enableJump(float lateralVelocity, Direction facing) {
+    private void enableJump() {
         if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
-            jump(lateralVelocity, facing);
+            jump();
         }
     }
 
-    private void jump(float lateralVelocity, Direction facing) {
+    private void jump() {
         jumpStartingPoint = new Vector2(position);
         aerialState = AerialState.JUMPING;
         jumpStartTime = TimeUtils.nanoTime();
@@ -381,13 +383,13 @@ public class GigaGal {
 
     //  hover (maintain forward momentum, velocity.y equal and opposite to downward velocity i.e. gravity
     //  until disabled manually or exceed max hover duration)
-    private void enableHover(float lateralVelocity, Direction facing) {
+    private void enableHover() {
         if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
-            hover(lateralVelocity, facing);
+            hover();
         }
     }
 
-    private void hover(float lateralVelocity, Direction facing) {
+    private void hover() {
         if (!hasHovered) {
             aerialState = AerialState.HOVERING;
             hoverStartTime = TimeUtils.nanoTime();
@@ -403,22 +405,22 @@ public class GigaGal {
     }
 
     // fix start jump method
-    private void enableRicochet(Direction facing) {
+    private void enableRicochet() {
         if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
             ricochetStartTime = TimeUtils.nanoTime();
-            ricochet(facing);
+            ricochet();
         }
     }
 
-    private void ricochet(Direction facing) {
+    private void ricochet() {
         aerialState = AerialState.RICOCHETING;
         if (Utils.secondsSince(ricochetStartTime) > Constants.RICOCHET_DURATION) {
             if (facing == Direction.LEFT) {
                 facing = Direction.RIGHT;
-                jump(Constants.GIGAGAL_MAX_SPEED, facing);
+                jump();
             } else {
                 facing = Direction.LEFT;
-                jump(-Constants.GIGAGAL_MAX_SPEED, facing);
+                jump();
             }
         } else {
             ricochetStartTime = 0;
