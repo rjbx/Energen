@@ -82,12 +82,12 @@ public final class Assets implements Disposable, AssetErrorListener {
         public GigaGalAssets(TextureAtlas atlas) {
             standLeft = atlas.findRegion(Constants.STAND_LEFT);
             standRight = atlas.findRegion(Constants.STAND_RIGHT);
-            strideLeft = atlas.findRegion(Constants.stride_LEFT_2);
-            strideRight = atlas.findRegion(Constants.stride_RIGHT_2);
+            strideLeft = atlas.findRegion(Constants.STRIDE_2_LEFT);
+            strideRight = atlas.findRegion(Constants.STRIDE_2_RIGHT);
             jumpLeft = atlas.findRegion(Constants.JUMP_LEFT);
             jumpRight = atlas.findRegion(Constants.JUMP_RIGHT);
-            dashLeft = atlas.findRegion(Constants.stride_LEFT_2);
-            dashRight = atlas.findRegion(Constants.stride_RIGHT_2);
+            dashLeft = atlas.findRegion(Constants.STRIDE_2_LEFT);
+            dashRight = atlas.findRegion(Constants.STRIDE_2_RIGHT);
             ricochetLeft = atlas.findRegion(Constants.RICOCHET_LEFT);
             ricochetRight = atlas.findRegion(Constants.RICOCHET_RIGHT);
             
@@ -102,18 +102,18 @@ public final class Assets implements Disposable, AssetErrorListener {
             hoverRightAnimation = new Animation(Constants.HOVER_LOOP_DURATION, hoverRightFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> strideLeftFrames = new Array<AtlasRegion>();
-            strideLeftFrames.add(atlas.findRegion(Constants.stride_LEFT_2));
-            strideLeftFrames.add(atlas.findRegion(Constants.stride_LEFT_1));
-            strideLeftFrames.add(atlas.findRegion(Constants.stride_LEFT_2));
-            strideLeftFrames.add(atlas.findRegion(Constants.stride_LEFT_3));
-            strideLeftAnimation = new Animation(Constants.stride_LOOP_DURATION, strideLeftFrames, PlayMode.LOOP);
+            strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_2_LEFT));
+            strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_1_LEFT));
+            strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_2_LEFT));
+            strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_3_LEFT));
+            strideLeftAnimation = new Animation(Constants.STRIDE_LOOP_DURATION, strideLeftFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> strideRightFrames = new Array<AtlasRegion>();
-            strideRightFrames.add(atlas.findRegion(Constants.stride_RIGHT_2));
-            strideRightFrames.add(atlas.findRegion(Constants.stride_RIGHT_1));
-            strideRightFrames.add(atlas.findRegion(Constants.stride_RIGHT_2));
-            strideRightFrames.add(atlas.findRegion(Constants.stride_RIGHT_3));
-            strideRightAnimation = new Animation(Constants.stride_LOOP_DURATION, strideRightFrames, PlayMode.LOOP);
+            strideRightFrames.add(atlas.findRegion(Constants.STRIDE_2_RIGHT));
+            strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_1));
+            strideRightFrames.add(atlas.findRegion(Constants.STRIDE_2_RIGHT));
+            strideRightFrames.add(atlas.findRegion(Constants.STRIDE_3_RIGHT));
+            strideRightAnimation = new Animation(Constants.STRIDE_LOOP_DURATION, strideRightFrames, PlayMode.LOOP);
         }
     }
 
