@@ -49,11 +49,11 @@ public final class Constants {
     public static final String HOVER_LEFT_2 = "hover-2-left";
     public static final float HOVER_LOOP_DURATION = 0.05f;
     public static final String STRIDE_RIGHT_1 = "stride-1-right";
-    public static final String STRIDE_1_LEFT = "stride-1-left";
-    public static final String STRIDE_2_RIGHT = "stride-2-right";
-    public static final String STRIDE_2_LEFT = "stride-2-left";
-    public static final String STRIDE_3_RIGHT = "stride-3-right";
-    public static final String STRIDE_3_LEFT = "stride-3-left";
+    public static final String STRIDE_LEFT_1 = "stride-1-left";
+    public static final String STRIDE_RIGHT_2 = "stride-2-right";
+    public static final String STRIDE_LEFT_2 = "stride-2-left";
+    public static final String STRIDE_RIGHT_3 = "stride-3-right";
+    public static final String STRIDE_LEFT_3 = "stride-3-left";
     public static final float STRIDE_LOOP_DURATION = 0.1f;
 
     // Platform
