@@ -117,24 +117,30 @@ public class GigaGal {
             }
         }
     }
-
-    private boolean isGrounded(Platform platform) {
-        canJump = true;
+    
+    private boolean isBetweenSides(PhysicalEntity entity) {
         boolean leftFootIn = false;
         boolean rightFootIn = false;
         boolean straddle = false;
 
+        float leftFoot = position.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
+        float rightFoot = position.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
+
+        leftFootIn = (entity.getLeft() < leftFoot) && (entity.getRight() > leftFoot);
+        rightFootIn = (entity.getLeft() < rightFoot) && (entity.getRight() > rightFoot);
+        straddle = (entity.getLeft() > leftFoot && entity.getRight() < rightFoot);
+    
+        return leftFootIn || rightFootIn || straddle;
+    }
+
+    private boolean isGrounded(Platform platform) {
+        canJump = true;
+
         if ((lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.getTop()) &&
                 (position.y - Constants.GIGAGAL_EYE_HEIGHT <= platform.getTop())) {
-
-            float leftFoot = position.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
-            float rightFoot = position.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
-
-            leftFootIn = (platform.getLeft() < leftFoot) && (platform.getRight() > leftFoot);
-            rightFootIn = (platform.getLeft() < rightFoot) && (platform.getRight() > rightFoot);
-            straddle = (platform.getLeft() > leftFoot && platform.getRight() < rightFoot);
+            return isBetweenSides(platform);
         }
-        return leftFootIn || rightFootIn || straddle;
+        return false;
     }
 
     //  -bump (detect contact with top, sides or bottom of platform and reset position to previous frame;
@@ -176,9 +182,7 @@ public class GigaGal {
                     groundState = GroundState.STANDING;
                 }
             } else if (isCollidingWith(platform)) {
-                position.x = lastFramePosition.x;
-                if (aerialState != AerialState.GROUNDED
-                        && aerialState != AerialState.RICOCHETING) {
+                if (aerialState != AerialState.GROUNDED) {
                     if (position.y - Constants.GIGAGAL_HEAD_RADIUS <= platform.getTop()
                             && position.y - Constants.GIGAGAL_HEAD_RADIUS > platform.getBottom()) {
                         if (jumpStartingPoint.x != position.x
@@ -191,13 +195,14 @@ public class GigaGal {
                             canRicochet = false;
                         }
                         velocity.x = 0;
-                    } else if (position.y + Constants.GIGAGAL_HEAD_RADIUS > platform.getBottom()) {
+                    } else if (position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.getBottom() && (isBetweenSides(platform))) {
                         velocity.y = -Constants.GRAVITY;
                         jumpStartTime = 0;
                         strideStartTime = TimeUtils.nanoTime();
                         strideTimeSeconds = 0;
                     }
                 }
+                position.x = lastFramePosition.x;
             }
         }
 

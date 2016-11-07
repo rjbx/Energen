@@ -7,4 +7,8 @@ public interface PhysicalEntity {
     Vector2 getPosition();
     float getWidth();
     float getHeight();
+    float getLeft();
+    float getRight();
+    float getTop();
+    float getBottom();
 }

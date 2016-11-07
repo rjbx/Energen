@@ -62,5 +62,9 @@ public class Zoomba implements PhysicalEntity {
     public final int getHealth() { return health; }
     public final float getWidth() { return Constants.ZOOMBA_COLLISION_RADIUS * 2; }
     public final float getHeight() { return Constants.ZOOMBA_COLLISION_RADIUS * 2; }
+    public final float getLeft() { return position.x - (getWidth() / 2); }
+    public final float getRight() { return position.x + (getWidth() / 2); }
+    public final float getTop() { return position.x + (getHeight() / 2); }
+    public final float getBottom() { return position.x - (getHeight() / 2); }
     public final void setHealth( int health ) { this.health = health; }
 }
