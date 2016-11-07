@@ -195,7 +195,9 @@ public class GigaGal {
                             canRicochet = false;
                         }
                         velocity.x = 0;
-                    } else if (position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.getBottom() && (isBetweenSides(platform))) {
+                    } else if ((lastFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS <= platform.getBottom()
+                            && (position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.getBottom()))
+                            && (isBetweenSides(platform))) {
                         velocity.y = -Constants.GRAVITY;
                         jumpStartTime = 0;
                         strideStartTime = TimeUtils.nanoTime();
