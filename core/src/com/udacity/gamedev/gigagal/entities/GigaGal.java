@@ -84,6 +84,7 @@ public class GigaGal {
 
             velocity.y = 0;
             if (groundState == GroundState.STANDING) {
+                stand();
                 enableStride();
                 // enableDash();
                 enableJump();
@@ -91,18 +92,20 @@ public class GigaGal {
                  enableStride();
                  enableJump();
             } else if (groundState == GroundState.DASHING) {
-                // enableJump(velocity.x, facing);
+                enableDash();
+                enableJump();
             }
         }
 
         if (groundState == GroundState.AIRBORNE && aerialState != AerialState.GROUNDED && aerialState != AerialState.RECOILING) {
 
             velocity.y -= Constants.GRAVITY;
-            if (aerialState == AerialState.JUMPING) {
+            if (aerialState == AerialState.FALLING) {
+                fall();
                 enableHover();
                 enableRicochet();
-            } else if (aerialState == AerialState.FALLING) {
-                //fall();
+            } else if (aerialState == AerialState.JUMPING) {
+                enableJump();
                 enableHover();
                 enableRicochet();
             } else if (aerialState == AerialState.HOVERING) {
@@ -110,6 +113,7 @@ public class GigaGal {
                 enableRicochet();
             } else if (aerialState == AerialState.RICOCHETING) {
                 enableRicochet();
+                // enableJump();
             }
         }
     }
@@ -172,7 +176,6 @@ public class GigaGal {
                     groundState = GroundState.STANDING;
                 }
             } else if (isCollidingWith(platform)) {
-                fall();
                 position.x = lastFramePosition.x;
                 if (aerialState != AerialState.GROUNDED
                         && aerialState != AerialState.RICOCHETING) {
@@ -198,7 +201,7 @@ public class GigaGal {
             }
         }
 
-        if (!isGrounded && aerialState == AerialState.GROUNDED || aerialState != AerialState.GROUNDED && aerialState != AerialState.HOVERING) {
+        if (!isGrounded && aerialState == AerialState.GROUNDED || aerialState != AerialState.GROUNDED && aerialState != AerialState.HOVERING && aerialState != AerialState.RICOCHETING) {
             groundState = GroundState.AIRBORNE;
             aerialState = AerialState.FALLING;
         }
@@ -327,7 +330,7 @@ public class GigaGal {
             facing = Direction.RIGHT;
             stride();
         } else {
-            stop();
+            stand();
         }
     }
 
@@ -464,7 +467,7 @@ public class GigaGal {
         aerialState = AerialState.FALLING;
     }
 
-    private void stop() {
+    private void stand() {
         if (groundState != GroundState.STANDING) {
             groundState = GroundState.STANDING;
         }

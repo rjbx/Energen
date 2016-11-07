@@ -42,7 +42,7 @@ public final class Constants {
     public static final String JUMP_LEFT = "jumping-left";
     public static final String RICOCHET_RIGHT = "ricochet-right";
     public static final String RICOCHET_LEFT = "ricochet-left";
-    public static final float RICOCHET_DURATION = 0.05f;
+    public static final float RICOCHET_DURATION = 0.2f;
     public static final String HOVER_RIGHT_1 = "hover-1-right";
     public static final String HOVER_LEFT_1 = "hover-1-left";
     public static final String HOVER_RIGHT_2 = "hover-2-right";
