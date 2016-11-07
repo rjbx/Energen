@@ -72,8 +72,7 @@ public class GigaGal {
     public void update(float delta) {
 
         lastFramePosition.set(position);
-        position.x += velocity.x * delta;
-        position.y += velocity.y * delta;
+        position.mulAdd(velocity, delta);
         touchPlatforms(level.getPlatforms());
         recoilFromEnemies(level.getEnemies());
         collectPowerups(level.getPowerups());
@@ -132,7 +131,6 @@ public class GigaGal {
         return leftFootIn || rightFootIn || straddle;
     }
 
-
     private boolean isVerticallyBetween(PhysicalEntity entity) {
         boolean leftFootIn = false;
         boolean rightFootIn = false;
@@ -181,41 +179,43 @@ public class GigaGal {
 
     private void touchPlatforms(Array<Platform> platforms) {
         boolean isGrounded = false;
-        for (Platform platform : platforms) {
-            if (isGrounded(platform)) {
-                velocity.y = 0;
-                velocity.x = 0;
-                position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
-                canHover = false;
-                isGrounded = true;
-                aerialState = AerialState.GROUNDED;
-                if (groundState == GroundState.AIRBORNE) {
-                    groundState = GroundState.STANDING;
-                }
-            } else if (isCollidingWith(platform)) {
-                if (aerialState != AerialState.GROUNDED) {
-                    if (isVerticallyBetween(platform)) {
-                        if (jumpStartingPoint.x != position.x
-                                && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))) {
-                            hoverStartTime = TimeUtils.nanoTime();
+        if (aerialState != AerialState.RECOILING && groundState != GroundState.RECOILING) {
+            for (Platform platform : platforms) {
+                if (isGrounded(platform)) {
+                    velocity.y = 0;
+                    velocity.x = 0;
+                    position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
+                    canHover = false;
+                    isGrounded = true;
+                    aerialState = AerialState.GROUNDED;
+                    if (groundState == GroundState.AIRBORNE) {
+                        groundState = GroundState.STANDING;
+                    }
+                } else if (isCollidingWith(platform)) {
+                    if (aerialState != AerialState.GROUNDED) {
+                        if (isVerticallyBetween(platform)) {
+                            if (jumpStartingPoint.x != position.x
+                                    && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))) {
+                                hoverStartTime = TimeUtils.nanoTime();
+                                velocity.x = 0;
+                                slidPlatform = new Platform(platform);
+                                canRicochet = true;
+                            } else {
+                                canRicochet = false;
+                            }
                             velocity.x = 0;
-                            slidPlatform = new Platform(platform);
-                            canRicochet = true;
-                        } else {
+                        } else if ((lastFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS <= platform.getBottom()
+                                && (position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.getBottom()))
+                                && (isLaterallyBetween(platform))) {
+                            velocity.y = -Constants.GRAVITY;
+                            jumpStartTime = 0;
+                            strideStartTime = TimeUtils.nanoTime();
+                            strideTimeSeconds = 0;
                             canRicochet = false;
                         }
-                        velocity.x = 0;
-                    } else if ((lastFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS <= platform.getBottom()
-                            && (position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.getBottom()))
-                            && (isLaterallyBetween(platform))) {
-                        velocity.y = -Constants.GRAVITY;
-                        jumpStartTime = 0;
-                        strideStartTime = TimeUtils.nanoTime();
-                        strideTimeSeconds = 0;
-                        canRicochet = false;
                     }
+                    position.x = lastFramePosition.x;
                 }
-                position.x = lastFramePosition.x;
             }
         }
 
@@ -241,30 +241,22 @@ public class GigaGal {
 
         for (Zoomba zoomba : zoombas) {
             if (isCollidingWith(zoomba)) {
-                enableRecoil(zoomba.getPosition().x);
+                recoil();
             }
         }
     }
 
-    private void enableRecoil(float xPosition) {
-        if (position.x < xPosition) {
-            recoil(Direction.LEFT);
-        } else {
-            recoil(Direction.RIGHT);
-        }
-    }
-
     // disables all else by virtue of neither top level update conditions being satisfied due to state
-    private void recoil(Direction direction) {
+    private void recoil() {
         strideTimeSeconds = 0;
         aerialState = AerialState.RECOILING;
         groundState = GroundState.RECOILING;
         velocity.y = Constants.KNOCKBACK_VELOCITY.y;
 
-        if (direction == Direction.LEFT) {
-            velocity.x = -Constants.KNOCKBACK_VELOCITY.x;
-        } else {
+        if (facing == Direction.LEFT) {
             velocity.x = Constants.KNOCKBACK_VELOCITY.x;
+        } else {
+            velocity.x = -Constants.KNOCKBACK_VELOCITY.x;
         }
     }
 

@@ -26,8 +26,8 @@ public final class Powerup implements PhysicalEntity {
     public final Vector2 getPosition() { return position; }
     public final float getWidth() { return Constants.POWERUP_CENTER.x * 2; }
     public final float getHeight() { return Constants.POWERUP_CENTER.y * 2; }
-    public final float getLeft() { return position.x - (getWidth() / 2); }
-    public final float getRight() { return position.x + (getWidth() / 2); }
-    public final float getTop() { return position.x + (getHeight() / 2); }
-    public final float getBottom() { return position.x - (getHeight() / 2); }
+    public final float getLeft() { return position.x - Constants.POWERUP_CENTER.x; }
+    public final float getRight() { return position.x + Constants.POWERUP_CENTER.x; }
+    public final float getTop() { return position.y + Constants.POWERUP_CENTER.y; }
+    public final float getBottom() { return position.y - Constants.POWERUP_CENTER.y; }
 }
