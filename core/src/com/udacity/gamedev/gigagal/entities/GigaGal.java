@@ -113,12 +113,11 @@ public class GigaGal {
                 enableRicochet();
             } else if (aerialState == AerialState.RICOCHETING) {
                 enableRicochet();
-                // enableJump();
             }
         }
     }
     
-    private boolean isBetweenSides(PhysicalEntity entity) {
+    private boolean isLaterallyBetween(PhysicalEntity entity) {
         boolean leftFootIn = false;
         boolean rightFootIn = false;
         boolean straddle = false;
@@ -133,12 +132,24 @@ public class GigaGal {
         return leftFootIn || rightFootIn || straddle;
     }
 
+
+    private boolean isVerticallyBetween(PhysicalEntity entity) {
+        boolean leftFootIn = false;
+        boolean rightFootIn = false;
+        boolean straddle = false;
+
+        float top = position.y + Constants.GIGAGAL_HEAD_RADIUS;
+        float bottom = position.y - Constants.GIGAGAL_HEAD_RADIUS;
+
+        return (entity.getTop() > top) && (entity.getBottom() < bottom);
+    }
+
     private boolean isGrounded(Platform platform) {
         canJump = true;
 
         if ((lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.getTop()) &&
                 (position.y - Constants.GIGAGAL_EYE_HEIGHT <= platform.getTop())) {
-            return isBetweenSides(platform);
+            return isLaterallyBetween(platform);
         }
         return false;
     }
@@ -156,8 +167,8 @@ public class GigaGal {
         );
 
         Rectangle entityBounds = new Rectangle(
-                entity.getPosition().x - (entity.getWidth() / 2),
-                entity.getPosition().y - (entity.getHeight() / 2),
+                entity.getLeft(),
+                entity.getBottom(),
                 entity.getWidth(),
                 entity.getHeight()
         );
@@ -183,8 +194,7 @@ public class GigaGal {
                 }
             } else if (isCollidingWith(platform)) {
                 if (aerialState != AerialState.GROUNDED) {
-                    if (position.y - Constants.GIGAGAL_HEAD_RADIUS <= platform.getTop()
-                            && position.y - Constants.GIGAGAL_HEAD_RADIUS > platform.getBottom()) {
+                    if (isVerticallyBetween(platform)) {
                         if (jumpStartingPoint.x != position.x
                                 && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))) {
                             hoverStartTime = TimeUtils.nanoTime();
@@ -197,11 +207,12 @@ public class GigaGal {
                         velocity.x = 0;
                     } else if ((lastFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS <= platform.getBottom()
                             && (position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.getBottom()))
-                            && (isBetweenSides(platform))) {
+                            && (isLaterallyBetween(platform))) {
                         velocity.y = -Constants.GRAVITY;
                         jumpStartTime = 0;
                         strideStartTime = TimeUtils.nanoTime();
                         strideTimeSeconds = 0;
+                        canRicochet = false;
                     }
                 }
                 position.x = lastFramePosition.x;
@@ -437,7 +448,9 @@ public class GigaGal {
 
     // fix start jump method
     private void enableRicochet() {
-        if ((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) && canRicochet) || aerialState == AerialState.RICOCHETING) {
+        if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) && canRicochet)
+                || aerialState == AerialState.RICOCHETING)
+                && isVerticallyBetween(slidPlatform)) {
             ricochet();
         }
     }
