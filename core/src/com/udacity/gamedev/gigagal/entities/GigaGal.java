@@ -171,18 +171,18 @@ public class GigaGal {
                 if (aerialState != AerialState.GROUNDED
                         && aerialState != AerialState.RICOCHETING) {
                     if (position.y - Constants.GIGAGAL_HEAD_RADIUS <= platform.getTop()
-                            && jumpStartingPoint.x != position.x
-                            && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))
                             && position.y - Constants.GIGAGAL_EYE_HEIGHT > platform.getBottom()) {
-                        hoverStartTime = TimeUtils.nanoTime();
+                        if (jumpStartingPoint.x != position.x
+                                && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))) {
+                            hoverStartTime = TimeUtils.nanoTime();
+                            velocity.x = 0;slidPlatform = new Platform(platform);
+                        }
                         velocity.x = 0;
-                        slidPlatform = new Platform(platform);
                     } else if (position.y + Constants.GIGAGAL_HEAD_RADIUS > platform.getBottom()) {
                         velocity.y = -Constants.GRAVITY;
-                    } else {
+                        jumpStartTime = 0;
                         walkStartTime = TimeUtils.nanoTime();
                         walkTimeSeconds = 0;
-                        velocity.y -= Constants.GRAVITY;
                     }
                 }
             }
