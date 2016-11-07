@@ -43,7 +43,7 @@ public final class Platform implements PhysicalEntity {
     public float getBottom() {return bottom; }
     public float getLeft() { return left; }
     public float getRight() { return right; }
-    public Vector2 getPosition() { return new Vector2(left, bottom); }
+    public Vector2 getPosition() { return new Vector2(left + (getWidth() / 2), bottom + (getHeight() / 2)); }
     public float getWidth() { return right - left;}
     public float getHeight() {return top - bottom; }
     public static final String getIdentifier() { return identifier; }

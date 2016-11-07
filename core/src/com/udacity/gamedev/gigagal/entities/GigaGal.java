@@ -97,14 +97,14 @@ public class GigaGal {
             velocity.y -= Constants.GRAVITY;
             if (aerialState == AerialState.JUMPING) {
                 enableHover();
-                // enableRicochet(facing);
+                // enableRicochet();
             } else if (aerialState == AerialState.FALLING) {
                 //fall();
                 enableHover();
-                // enableRicochet(facing);
+                // enableRicochet();
             } else if (aerialState == AerialState.HOVERING) {
                 enableHover();
-                // enableRicochet(facing);
+                // enableRicochet();
             }
         }
     }
@@ -160,16 +160,15 @@ public class GigaGal {
                 velocity.x = 0;
                 position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
                 canHover = false;
+                isGrounded = true;
                 aerialState = AerialState.GROUNDED;
                 if (groundState == GroundState.AIRBORNE) {
                     groundState = GroundState.STANDING;
                 }
-                isGrounded = true;
-            /* } else if (isCollidingWith(platform)) {
+            } else if (isCollidingWith(platform)) {
                 fall();
                 position.x = lastFramePosition.x;
                 if (aerialState != AerialState.GROUNDED
-                        && aerialState != AerialState.RECOILING
                         && aerialState != AerialState.RICOCHETING) {
                     if (position.y - Constants.GIGAGAL_HEAD_RADIUS <= platform.getTop()
                             && jumpStartingPoint.x != position.x
@@ -178,13 +177,14 @@ public class GigaGal {
                         hoverStartTime = TimeUtils.nanoTime();
                         velocity.x = 0;
                         slidPlatform = new Platform(platform);
+                    } else if (position.y + Constants.GIGAGAL_HEAD_RADIUS > platform.getBottom()) {
+                        velocity.y = -Constants.GRAVITY;
                     } else {
-                        aerialState = AerialState.FALLING;
-                        groundState = GroundState.AIRBORNE;
                         walkStartTime = TimeUtils.nanoTime();
                         walkTimeSeconds = 0;
+                        velocity.y -= Constants.GRAVITY;
                     }
-                } */
+                }
             }
         }
 
