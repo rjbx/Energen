@@ -179,43 +179,41 @@ public class GigaGal {
 
     private void touchPlatforms(Array<Platform> platforms) {
         boolean isGrounded = false;
-        if (aerialState != AerialState.RECOILING && groundState != GroundState.RECOILING) {
-            for (Platform platform : platforms) {
-                if (isGrounded(platform)) {
-                    velocity.y = 0;
-                    velocity.x = 0;
-                    position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
-                    canHover = false;
-                    isGrounded = true;
-                    aerialState = AerialState.GROUNDED;
-                    if (groundState == GroundState.AIRBORNE) {
-                        groundState = GroundState.STANDING;
-                    }
-                } else if (isCollidingWith(platform)) {
-                    if (aerialState != AerialState.GROUNDED) {
-                        if (isVerticallyBetween(platform)) {
-                            if (jumpStartingPoint.x != position.x
-                                    && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))) {
-                                hoverStartTime = TimeUtils.nanoTime();
-                                velocity.x = 0;
-                                slidPlatform = new Platform(platform);
-                                canRicochet = true;
-                            } else {
-                                canRicochet = false;
-                            }
+        for (Platform platform : platforms) {
+            if (isGrounded(platform)) {
+                velocity.y = 0;
+                velocity.x = 0;
+                position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
+                canHover = false;
+                isGrounded = true;
+                aerialState = AerialState.GROUNDED;
+                if (groundState == GroundState.AIRBORNE) {
+                    groundState = GroundState.STANDING;
+                }
+            } else if (isCollidingWith(platform)) {
+                if (aerialState != AerialState.GROUNDED) {
+                    if (isVerticallyBetween(platform)) {
+                        if (jumpStartingPoint.x != position.x
+                                && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))) {
+                            hoverStartTime = TimeUtils.nanoTime();
                             velocity.x = 0;
-                        } else if ((lastFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS <= platform.getBottom()
-                                && (position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.getBottom()))
-                                && (isLaterallyBetween(platform))) {
-                            velocity.y = -Constants.GRAVITY;
-                            jumpStartTime = 0;
-                            strideStartTime = TimeUtils.nanoTime();
-                            strideTimeSeconds = 0;
+                            slidPlatform = new Platform(platform);
+                            canRicochet = true;
+                        } else {
                             canRicochet = false;
                         }
+                        velocity.x = 0;
+                    } else if ((lastFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS <= platform.getBottom()
+                            && (position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.getBottom()))
+                            && (isLaterallyBetween(platform))) {
+                        velocity.y = -Constants.GRAVITY;
+                        jumpStartTime = 0;
+                        strideStartTime = TimeUtils.nanoTime();
+                        strideTimeSeconds = 0;
+                        canRicochet = false;
                     }
-                    position.x = lastFramePosition.x;
                 }
+                position.x = lastFramePosition.x;
             }
         }
 
