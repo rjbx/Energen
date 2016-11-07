@@ -115,6 +115,7 @@ public class GigaGal {
     }
 
     private boolean isGrounded(Platform platform) {
+        canJump = true;
         boolean leftFootIn = false;
         boolean rightFootIn = false;
         boolean straddle = false;
@@ -304,12 +305,13 @@ public class GigaGal {
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
-        jumpStartTime = 0;
-        dashStartTime = 0;
-        canHover = false;
+        canJump = false;
         canDashLeft = false;
         canDashRight = false;
+        canHover = false;
         canRicochet = false;
+        jumpStartTime = 0;
+        dashStartTime = 0;
         jumpStartingPoint = new Vector2();
     }
 
@@ -436,6 +438,7 @@ public class GigaGal {
             aerialState = AerialState.RICOCHETING;
             ricochetStartTime = TimeUtils.nanoTime();
             canRicochet = false;
+            canJump = true;
         }
         if (Utils.secondsSince(ricochetStartTime) > Constants.RICOCHET_DURATION) {
             if (facing == Direction.LEFT) {

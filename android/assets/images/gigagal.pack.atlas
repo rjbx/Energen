@@ -193,42 +193,42 @@ standing-right
   orig: 28, 35
   offset: 0, 0
   index: -1
-walk-1-left
+stride-1-left
   rotate: false
   xy: 662, 91
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
   index: -1
-walk-1-right
+stride-1-right
   rotate: false
   xy: 692, 91
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
   index: -1
-walk-2-left
+stride-2-left
   rotate: false
   xy: 808, 91
   size: 25, 35
   orig: 25, 35
   offset: 0, 0
   index: -1
-walk-2-right
+stride-2-right
   rotate: false
   xy: 780, 91
   size: 26, 35
   orig: 26, 35
   offset: 0, 0
   index: -1
-walk-3-left
+stride-3-left
   rotate: false
   xy: 722, 91
   size: 27, 35
   orig: 27, 35
   offset: 0, 0
   index: -1
-walk-3-right
+stride-3-right
   rotate: false
   xy: 751, 91
   size: 27, 35

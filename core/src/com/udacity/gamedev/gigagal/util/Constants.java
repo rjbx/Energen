@@ -48,13 +48,13 @@ public final class Constants {
     public static final String HOVER_RIGHT_2 = "hover-2-right";
     public static final String HOVER_LEFT_2 = "hover-2-left";
     public static final float HOVER_LOOP_DURATION = 0.05f;
-    public static final String WALK_RIGHT_1 = "walk-1-right";
-    public static final String WALK_LEFT_1 = "walk-1-left";
-    public static final String WALK_RIGHT_2 = "walk-2-right";
-    public static final String WALK_LEFT_2 = "walk-2-left";
-    public static final String WALK_RIGHT_3 = "walk-3-right";
-    public static final String WALK_LEFT_3 = "walk-3-left";
-    public static final float WALK_LOOP_DURATION = 0.1f;
+    public static final String stride_RIGHT_1 = "stride-1-right";
+    public static final String stride_LEFT_1 = "stride-1-left";
+    public static final String stride_RIGHT_2 = "stride-2-right";
+    public static final String stride_LEFT_2 = "stride-2-left";
+    public static final String stride_RIGHT_3 = "stride-3-right";
+    public static final String stride_LEFT_3 = "stride-3-left";
+    public static final float stride_LOOP_DURATION = 0.1f;
 
     // Platform
     public static final int PLATFORM_EDGE = 8;

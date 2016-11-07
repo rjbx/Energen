@@ -66,8 +66,8 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final AtlasRegion standLeft;
         public final AtlasRegion standRight;
-        public final AtlasRegion walkLeft;
-        public final AtlasRegion walkRight;
+        public final AtlasRegion strideLeft;
+        public final AtlasRegion strideRight;
         public final AtlasRegion jumpLeft;
         public final AtlasRegion jumpRight;
         public final AtlasRegion dashLeft;
@@ -76,18 +76,18 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion ricochetRight;
         public final Animation hoverLeftAnimation;
         public final Animation hoverRightAnimation;
-        public final Animation walkLeftAnimation;
-        public final Animation walkRightAnimation;
+        public final Animation strideLeftAnimation;
+        public final Animation strideRightAnimation;
 
         public GigaGalAssets(TextureAtlas atlas) {
             standLeft = atlas.findRegion(Constants.STAND_LEFT);
             standRight = atlas.findRegion(Constants.STAND_RIGHT);
-            walkLeft = atlas.findRegion(Constants.WALK_LEFT_2);
-            walkRight = atlas.findRegion(Constants.WALK_RIGHT_2);
+            strideLeft = atlas.findRegion(Constants.stride_LEFT_2);
+            strideRight = atlas.findRegion(Constants.stride_RIGHT_2);
             jumpLeft = atlas.findRegion(Constants.JUMP_LEFT);
             jumpRight = atlas.findRegion(Constants.JUMP_RIGHT);
-            dashLeft = atlas.findRegion(Constants.WALK_LEFT_2);
-            dashRight = atlas.findRegion(Constants.WALK_RIGHT_2);
+            dashLeft = atlas.findRegion(Constants.stride_LEFT_2);
+            dashRight = atlas.findRegion(Constants.stride_RIGHT_2);
             ricochetLeft = atlas.findRegion(Constants.RICOCHET_LEFT);
             ricochetRight = atlas.findRegion(Constants.RICOCHET_RIGHT);
             
@@ -101,19 +101,19 @@ public final class Assets implements Disposable, AssetErrorListener {
             hoverRightFrames.add(atlas.findRegion(Constants.HOVER_RIGHT_2));
             hoverRightAnimation = new Animation(Constants.HOVER_LOOP_DURATION, hoverRightFrames, PlayMode.LOOP);
 
-            Array<AtlasRegion> walkLeftFrames = new Array<AtlasRegion>();
-            walkLeftFrames.add(atlas.findRegion(Constants.WALK_LEFT_2));
-            walkLeftFrames.add(atlas.findRegion(Constants.WALK_LEFT_1));
-            walkLeftFrames.add(atlas.findRegion(Constants.WALK_LEFT_2));
-            walkLeftFrames.add(atlas.findRegion(Constants.WALK_LEFT_3));
-            walkLeftAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkLeftFrames, PlayMode.LOOP);
+            Array<AtlasRegion> strideLeftFrames = new Array<AtlasRegion>();
+            strideLeftFrames.add(atlas.findRegion(Constants.stride_LEFT_2));
+            strideLeftFrames.add(atlas.findRegion(Constants.stride_LEFT_1));
+            strideLeftFrames.add(atlas.findRegion(Constants.stride_LEFT_2));
+            strideLeftFrames.add(atlas.findRegion(Constants.stride_LEFT_3));
+            strideLeftAnimation = new Animation(Constants.stride_LOOP_DURATION, strideLeftFrames, PlayMode.LOOP);
 
-            Array<AtlasRegion> walkRightFrames = new Array<AtlasRegion>();
-            walkRightFrames.add(atlas.findRegion(Constants.WALK_RIGHT_2));
-            walkRightFrames.add(atlas.findRegion(Constants.WALK_RIGHT_1));
-            walkRightFrames.add(atlas.findRegion(Constants.WALK_RIGHT_2));
-            walkRightFrames.add(atlas.findRegion(Constants.WALK_RIGHT_3));
-            walkRightAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkRightFrames, PlayMode.LOOP);
+            Array<AtlasRegion> strideRightFrames = new Array<AtlasRegion>();
+            strideRightFrames.add(atlas.findRegion(Constants.stride_RIGHT_2));
+            strideRightFrames.add(atlas.findRegion(Constants.stride_RIGHT_1));
+            strideRightFrames.add(atlas.findRegion(Constants.stride_RIGHT_2));
+            strideRightFrames.add(atlas.findRegion(Constants.stride_RIGHT_3));
+            strideRightAnimation = new Animation(Constants.stride_LOOP_DURATION, strideRightFrames, PlayMode.LOOP);
         }
     }
 
