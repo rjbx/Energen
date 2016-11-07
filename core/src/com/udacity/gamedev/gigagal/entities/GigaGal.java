@@ -431,7 +431,6 @@ public class GigaGal {
     // fix start jump method
     private void enableRicochet() {
         if ((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) && canRicochet) || aerialState == AerialState.RICOCHETING) {
-
             ricochet();
         }
     }
@@ -453,8 +452,6 @@ public class GigaGal {
                 velocity.x = -Constants.GIGAGAL_MAX_SPEED;
                 jump();
             }
-        } else {
-            ricochetStartTime = 0;
         }
     }
 
