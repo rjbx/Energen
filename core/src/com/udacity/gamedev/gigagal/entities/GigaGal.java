@@ -180,7 +180,7 @@ public class GigaGal {
                 if (aerialState != AerialState.GROUNDED
                         && aerialState != AerialState.RICOCHETING) {
                     if (position.y - Constants.GIGAGAL_HEAD_RADIUS <= platform.getTop()
-                            && position.y - Constants.GIGAGAL_EYE_HEIGHT > platform.getBottom()) {
+                            && position.y - Constants.GIGAGAL_HEAD_RADIUS > platform.getBottom()) {
                         if (jumpStartingPoint.x != position.x
                                 && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))) {
                             hoverStartTime = TimeUtils.nanoTime();
