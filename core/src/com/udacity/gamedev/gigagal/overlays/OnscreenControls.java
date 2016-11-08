@@ -147,19 +147,38 @@ public class OnscreenControls extends InputAdapter {
                 Constants.BUTTON_CENTER
         );
 
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOnscreenControlsAssets().shoot,
-                shootCenter,
-                Constants.BUTTON_CENTER
-        );
+        if (!gigaGal.isCharged) {
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getOnscreenControlsAssets().shoot,
+                    shootCenter,
+                    Constants.BUTTON_CENTER
+            );
+        } else {
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getOnscreenControlsAssets().blast,
+                    shootCenter,
+                    Constants.BUTTON_CENTER
+            );
+        }
 
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOnscreenControlsAssets().jump,
-                jumpCenter,
-                Constants.BUTTON_CENTER
-        );
+        if (!gigaGal.canHover) {
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getOnscreenControlsAssets().jump,
+                    jumpCenter,
+                    Constants.BUTTON_CENTER
+            );
+        } else {
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getOnscreenControlsAssets().hover,
+                    jumpCenter,
+                    Constants.BUTTON_CENTER
+            );
+        }
+
         batch.end();
     }
 
