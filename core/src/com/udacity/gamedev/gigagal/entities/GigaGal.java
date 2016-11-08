@@ -116,7 +116,7 @@ public class GigaGal {
         }
     }
     
-    private boolean isLaterallyBetween(PhysicalEntity entity) {
+    private boolean isLaterallyBetween(float leftSide, float rightSide) {
         boolean leftFootIn = false;
         boolean rightFootIn = false;
         boolean straddle = false;
@@ -124,18 +124,18 @@ public class GigaGal {
         float leftFoot = position.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
         float rightFoot = position.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
 
-        leftFootIn = (entity.getLeft() < leftFoot) && (entity.getRight() > leftFoot);
-        rightFootIn = (entity.getLeft() < rightFoot) && (entity.getRight() > rightFoot);
-        straddle = (entity.getLeft() > leftFoot && entity.getRight() < rightFoot);
+        leftFootIn = (leftSide < leftFoot) && (rightSide > leftFoot);
+        rightFootIn = (leftSide < rightFoot) && (rightSide > rightFoot);
+        straddle = (leftSide > leftFoot && rightSide < rightFoot);
     
         return leftFootIn || rightFootIn || straddle;
     }
 
-    private boolean isVerticallyBetween(PhysicalEntity entity) {
+    private boolean isVerticallyBetween(float BottomSide, float topSide) {
         float top = position.y - Constants.GIGAGAL_HEAD_RADIUS;
         float bottom = position.y - Constants.GIGAGAL_HEAD_RADIUS;
 
-        return (entity.getTop() > top) && (entity.getBottom() < bottom);
+        return (topSide > top) && (BottomSide < bottom);
     }
 
     private boolean isGrounded(Platform platform) {
@@ -143,7 +143,7 @@ public class GigaGal {
 
         if ((lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.getTop()) &&
                 (position.y - Constants.GIGAGAL_EYE_HEIGHT <= platform.getTop())) {
-            return isLaterallyBetween(platform);
+            return isLaterallyBetween(platform.getLeft(), platform.getRight());
         }
         return false;
     }
@@ -173,6 +173,18 @@ public class GigaGal {
         return false;
     }
 
+
+    private boolean isSlidingDown(Platform platform) {
+
+        if (isLaterallyBetween(platform.getLeft() - 5, platform.getRight() + 5)) {
+
+            if (isVerticallyBetween(platform.getBottom(), platform.getTop())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void touchPlatforms(Array<Platform> platforms) {
         boolean isGrounded = false;
         for (Platform platform : platforms) {
@@ -188,20 +200,21 @@ public class GigaGal {
                 }
             } else if (isCollidingWith(platform)) {
                 if (aerialState != AerialState.GROUNDED) {
-                    if (isVerticallyBetween(platform)) {
+                    if (isVerticallyBetween(platform.getBottom(), platform.getTop())) {
                         if (jumpStartingPoint.x != position.x
                                 && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))) {
                             hoverStartTime = TimeUtils.nanoTime();
                             velocity.x = 0;
                             slidPlatform = new Platform(platform);
                             canRicochet = true;
+                            canHover = false;
                         } else {
                             canRicochet = false;
                         }
                         velocity.x = 0;
                     } else if ((lastFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS <= platform.getBottom()
                             && (position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.getBottom()))
-                            && (isLaterallyBetween(platform))) {
+                            && (isLaterallyBetween(platform.getLeft(), platform.getRight()))) {
                         velocity.y = -Constants.GRAVITY;
                         jumpStartTime = 0;
                         strideStartTime = TimeUtils.nanoTime();
@@ -438,8 +451,10 @@ public class GigaGal {
     // fix start jump method
     private void enableRicochet() {
         if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) && canRicochet)
-                || aerialState == AerialState.RICOCHETING) && (isVerticallyBetween(slidPlatform))) {
-            ricochet();
+                || aerialState == AerialState.RICOCHETING)) {
+            if (isSlidingDown(slidPlatform)) {
+                ricochet();
+            }
         }
     }
 

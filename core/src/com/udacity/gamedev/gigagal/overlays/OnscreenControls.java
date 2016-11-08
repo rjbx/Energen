@@ -117,8 +117,6 @@ public class OnscreenControls extends InputAdapter {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
-        gigaGal.jumpButtonPressed = false;
-
         if (!Gdx.input.isTouched(shootPointer)) {
             gigaGal.shootButtonPressed = false;
             shootPointer = 0;
@@ -131,6 +129,11 @@ public class OnscreenControls extends InputAdapter {
         // : Do the same for moveRightPointer
         if (!Gdx.input.isTouched(moveRightPointer)) {
             gigaGal.rightButtonPressed = false;
+        }
+
+        if (!Gdx.input.isKeyJustPressed(jumpPointer)) {
+            gigaGal.jumpButtonPressed = false;
+            jumpPointer = 0;
         }
 
         Utils.drawTextureRegion(
