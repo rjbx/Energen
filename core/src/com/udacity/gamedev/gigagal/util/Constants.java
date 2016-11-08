@@ -132,6 +132,7 @@ public final class Constants {
     public static final String BLAST_BUTTON = "button-blast";
     public static final String JUMP_BUTTON = "button-jump";
     public static final String HOVER_BUTTON = "button-hover";
+    public static final String RICOCHET_BUTTON = "button-ricochet";
 
     // Victory/Game Over screens
     public static final float LEVEL_END_DURATION = 5;

@@ -132,10 +132,6 @@ public class GigaGal {
     }
 
     private boolean isVerticallyBetween(PhysicalEntity entity) {
-        boolean leftFootIn = false;
-        boolean rightFootIn = false;
-        boolean straddle = false;
-
         float top = position.y - Constants.GIGAGAL_HEAD_RADIUS;
         float bottom = position.y - Constants.GIGAGAL_HEAD_RADIUS;
 
@@ -442,13 +438,13 @@ public class GigaGal {
     // fix start jump method
     private void enableRicochet() {
         if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) && canRicochet)
-                || aerialState == AerialState.RICOCHETING)
-                && isVerticallyBetween(slidPlatform)) {
+                || aerialState == AerialState.RICOCHETING) && (isVerticallyBetween(slidPlatform))) {
             ricochet();
         }
     }
 
     private void ricochet() {
+
         if (canRicochet) {
             aerialState = AerialState.RICOCHETING;
             ricochetStartTime = TimeUtils.nanoTime();

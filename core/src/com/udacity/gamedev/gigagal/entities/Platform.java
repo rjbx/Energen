@@ -26,10 +26,10 @@ public final class Platform implements PhysicalEntity {
 
     // copy ctor
     public Platform(Platform p) {
-        this.top = p.top;
-        this.bottom = p.top - (p.top - p.bottom);
-        this.left = p.left;
-        this.right = p.left + (p.right - p.left);
+        this.top = p.getTop();
+        this.bottom = p.getBottom();
+        this.left = p.getLeft();
+        this.right = p.getRight();
     }
 
     public void render(SpriteBatch batch) {

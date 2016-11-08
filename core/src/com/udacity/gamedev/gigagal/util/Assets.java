@@ -200,6 +200,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion blast;
         public final AtlasRegion jump;
         public final AtlasRegion hover;
+        public final AtlasRegion ricochet;
 
         public OnscreenControlsAssets(TextureAtlas atlas) {
             moveRight = atlas.findRegion(Constants.MOVE_RIGHT_BUTTON);
@@ -208,6 +209,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             blast = atlas.findRegion(Constants.BLAST_BUTTON);
             jump = atlas.findRegion(Constants.JUMP_BUTTON);
             hover = atlas.findRegion(Constants.HOVER_BUTTON);
+            ricochet = atlas.findRegion(Constants.RICOCHET_BUTTON);
         }
     }
 
