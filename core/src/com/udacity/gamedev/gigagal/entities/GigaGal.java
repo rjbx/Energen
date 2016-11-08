@@ -136,7 +136,7 @@ public class GigaGal {
         boolean rightFootIn = false;
         boolean straddle = false;
 
-        float top = position.y + Constants.GIGAGAL_HEAD_RADIUS;
+        float top = position.y - Constants.GIGAGAL_HEAD_RADIUS;
         float bottom = position.y - Constants.GIGAGAL_HEAD_RADIUS;
 
         return (entity.getTop() > top) && (entity.getBottom() < bottom);
@@ -326,15 +326,18 @@ public class GigaGal {
         jumpStartingPoint = new Vector2();
     }
 
-    // bump sides disables; change ground state to striding at key detection;
-    // change state to standing if single key hold is interrupted by release or keying of
-    // other directional in order to reset momentum)
     private void enableStride() {
 
         if (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed) {
+            if (facing == Direction.RIGHT) {
+                stand();
+            }
             facing = Direction.LEFT;
             stride();
         } else if (Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed) {
+            if (facing == Direction.LEFT) {
+                stand();
+            }
             facing = Direction.RIGHT;
             stride();
         } else {
