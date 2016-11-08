@@ -32,8 +32,8 @@ public class GigaGal {
     private boolean canJump;
     private boolean canDashLeft;
     private boolean canDashRight;
-    private boolean canHover;
-    private boolean canRicochet;
+    public boolean canHover;
+    public boolean canRicochet;
     private long strideStartTime;
     private long jumpStartTime;
     private long dashStartTime;
@@ -45,7 +45,7 @@ public class GigaGal {
     private Platform slidPlatform;
     private int lives;
     private int ammo;
-    private boolean isCharged;
+    public boolean isCharged;
     public boolean leftButtonPressed;
     public boolean rightButtonPressed;
     public boolean jumpButtonPressed;
@@ -235,10 +235,10 @@ public class GigaGal {
     }
 
     // detect contact with enemy (change aerial & ground state to recoil until grounded) */
-    private void recoilFromEnemies(DelayedRemovalArray<Zoomba> zoombas) {
+    private void recoilFromEnemies(DelayedRemovalArray<Enemy> enemies) {
 
-        for (Zoomba zoomba : zoombas) {
-            if (isCollidingWith(zoomba)) {
+        for (Enemy enemy : enemies) {
+            if (isCollidingWith(enemy)) {
                 recoil();
             }
         }

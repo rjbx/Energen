@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Ammo;
+import com.udacity.gamedev.gigagal.entities.Enemy;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.ExitPortal;
 import com.udacity.gamedev.gigagal.entities.Explosion;
@@ -29,7 +30,7 @@ public class Level {
     private GigaGal gigaGal;
     private ExitPortal exitPortal;
     private Array<Platform> platforms;
-    private DelayedRemovalArray<Zoomba> enemies;
+    private DelayedRemovalArray<Enemy> enemies;
     private DelayedRemovalArray<Ammo> bullets;
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
@@ -39,7 +40,7 @@ public class Level {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigaGal = new GigaGal(new Vector2(50, 50), this);
         platforms = new Array<Platform>();
-        enemies = new DelayedRemovalArray<Zoomba>();
+        enemies = new DelayedRemovalArray<Enemy>();
         bullets = new DelayedRemovalArray<Ammo>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
@@ -81,12 +82,14 @@ public class Level {
             // Update Enemies
             enemies.begin();
             for (int i = 0; i < enemies.size; i++) {
-                Zoomba zoomba = enemies.get(i);
-                zoomba.update(delta);
-                if (zoomba.getHealth() < 1) {
-                    spawnExplosion(zoomba.getPosition());
+                Enemy enemy = enemies.get(i);
+                enemy.update(delta);
+                if (enemy.getHealth() < 1) {
+                    spawnExplosion(enemy.getPosition());
                     enemies.removeIndex(i);
-                    score += Constants.ZOOMBA_KILL_SCORE;
+                    if (enemy.getClass() == Zoomba.class) {
+                        score += Constants.ZOOMBA_KILL_SCORE;
+                    }
                 }
             }
             enemies.end();
@@ -100,7 +103,6 @@ public class Level {
             }
             explosions.end();
         }
-
     }
 
     public void render(SpriteBatch batch) {
@@ -120,8 +122,8 @@ public class Level {
             powerup.render(batch);
         }
 
-        for (Zoomba zoomba : enemies) {
-            zoomba.render(batch);
+        for (Enemy enemy : enemies) {
+            enemy.render(batch);
         }
         gigaGal.render(batch);
 
@@ -144,7 +146,7 @@ public class Level {
 
         platforms = new Array<Platform>();
         bullets = new DelayedRemovalArray<Ammo>();
-        enemies = new DelayedRemovalArray<Zoomba>();
+        enemies = new DelayedRemovalArray<Enemy>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
 
@@ -172,7 +174,7 @@ public class Level {
 
     // Getters
     public final Array<Platform> getPlatforms() { return platforms; }
-    public final DelayedRemovalArray<Zoomba> getEnemies() { return enemies; }
+    public final DelayedRemovalArray<Enemy> getEnemies() { return enemies; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
     public final int getScore() { return score; }

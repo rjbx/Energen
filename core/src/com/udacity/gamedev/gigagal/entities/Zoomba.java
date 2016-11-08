@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // mutable
-public class Zoomba implements PhysicalEntity {
+public class Zoomba extends Enemy {
 
     // fields
     private final long startTime;
