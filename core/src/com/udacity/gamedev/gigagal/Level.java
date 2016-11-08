@@ -87,9 +87,7 @@ public class Level {
                 if (enemy.getHealth() < 1) {
                     spawnExplosion(enemy.getPosition());
                     enemies.removeIndex(i);
-                    if (enemy.getClass() == Zoomba.class) {
-                        score += Constants.ZOOMBA_KILL_SCORE;
-                    }
+                    score += enemy.getHitScore();
                 }
             }
             enemies.end();

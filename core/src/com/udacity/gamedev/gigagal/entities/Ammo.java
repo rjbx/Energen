@@ -40,19 +40,23 @@ public final class Ammo {
                 break;
         }
 
-        for (Zoomba zoomba : level.getEnemies()) {
-            if (position.dst(zoomba.getPosition()) < Constants.ZOOMBA_SHOT_RADIUS) {
+        for (Enemy enemy : level.getEnemies()) {
+            if (position.dst(enemy.getPosition()) < enemy.getShotRadius()) {
                 level.spawnExplosion(position);
                 active = false;
                 switch (ammoType) {
                     case REGULAR:
-                        zoomba.setHealth(zoomba.getHealth() - Constants.ZOOMBA_MAX_HEALTH / 5);
+                        if (enemy.getSubclass() == Zoomba.class) {
+                            enemy.setHealth(enemy.getHealth() - Constants.ZOOMBA_MAX_HEALTH / 5);
+                        }
                         break;
                     case CHARGE:
-                        zoomba.setHealth(zoomba.getHealth() - Constants.ZOOMBA_MAX_HEALTH);
+                        if (enemy.getSubclass() == Zoomba.class) {
+                            enemy.setHealth(enemy.getHealth() - Constants.ZOOMBA_MAX_HEALTH);
+                        }
                         break;
                 }
-                level.setScore(level.getScore() + Constants.ZOOMBA_HIT_SCORE);
+                level.setScore(level.getScore() + enemy.getHitScore());
             }
         }
 
