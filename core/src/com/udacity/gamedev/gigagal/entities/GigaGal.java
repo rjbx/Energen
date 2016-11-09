@@ -116,38 +116,6 @@ public class GigaGal implements PhysicalEntity {
         }
     }
 
-    /*
-    private boolean isLaterallyBetween(float leftSide, float rightSide) {
-        boolean leftFootIn = false;
-        boolean rightFootIn = false;
-        boolean straddle = false;
-
-        float leftFoot = position.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
-        float rightFoot = position.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
-
-        leftFootIn = (leftSide < leftFoot) && (rightSide > leftFoot);
-        rightFootIn = (leftSide < rightFoot) && (rightSide > rightFoot);
-        straddle = (leftSide > leftFoot && rightSide < rightFoot);
-    
-        return leftFootIn || rightFootIn || straddle;
-    }
-
-    private boolean isVerticallyBetween(float BottomSide, float topSide) {
-        float top = position.y - Constants.GIGAGAL_HEAD_RADIUS;
-        float bottom = position.y - Constants.GIGAGAL_HEAD_RADIUS;
-
-        return (topSide > top) && (BottomSide < bottom);
-    }
-
-    private boolean isGrounded(Platform platform) {
-        canJump = true;
-
-        if ((lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.getTop()) &&
-                (position.y - Constants.GIGAGAL_EYE_HEIGHT <= platform.getTop())) {
-            return isLaterallyBetween(platform.getLeft(), platform.getRight());
-        }
-        return false;
-    }
 
     //  -bump (detect contact with top, sides or bottom of platform and reset position to previous frame;
     //  velocity.y equal and opposite to downward velocity i.e. gravity if top, set canRicochet
@@ -220,10 +188,10 @@ public class GigaGal implements PhysicalEntity {
                     platform.getHeight());
 
             if (getBounds().overlaps(bounds)) {
-                if (lastFramePosition.x > platform.getLeft() && getLeft() <= platform.getLeft()) {
-
+                if (lastFramePosition.x < platform.getLeft() && getRight() >= platform.getLeft()) {
+                    
                 }
-                if (lastFramePosition.x > platform.getRight() && getRight() <= platform.getRight()) {
+                if (lastFramePosition.x > platform.getRight() && getLeft() <= platform.getRight()) {
 
                 }
                 if (lastFramePosition.y > platform.getTop() && getBottom() <= platform.getTop()) {
