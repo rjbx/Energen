@@ -110,7 +110,7 @@ public class GigaGal implements PhysicalEntity {
                 enableRicochet();
             } else if (aerialState == AerialState.JUMPING) {
                 enableJump();
-                enableHover();
+                // enableHover();
                 enableRicochet();
             } else if (aerialState == AerialState.HOVERING) {
                 enableHover();
@@ -144,7 +144,8 @@ public class GigaGal implements PhysicalEntity {
                     stand();
                 }
                 if (lastFrameTop < platform.getBottom() && getTop() >= platform.getBottom()) {
-                    position.y = platform.getBottom() + Constants.GIGAGAL_HEAD_RADIUS;
+                    velocity.y = 0;
+                    position.y = lastFrameTop - Constants.GIGAGAL_HEAD_RADIUS;
                     fall();
                 }
             }
@@ -302,6 +303,7 @@ public class GigaGal implements PhysicalEntity {
     private void jump() {
         if (canJump) {
             aerialState = AerialState.JUMPING;
+            groundState = GroundState.AIRBORNE;
             jumpStartingPoint = new Vector2(position);
             jumpStartTime = TimeUtils.nanoTime();
             canHover = true;
@@ -343,11 +345,9 @@ public class GigaGal implements PhysicalEntity {
     //  hover (maintain forward momentum, velocity.y equal and opposite to downward velocity i.e. gravity
     //  until disabled manually or exceed max hover duration)
     private void enableHover() {
-        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
+        if (canHover && Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
             if (aerialState != AerialState.HOVERING) {
                 hover();
-            } else {
-                fall();
             }
         } else if (aerialState == AerialState.HOVERING) {
             hover();
@@ -423,6 +423,7 @@ public class GigaGal implements PhysicalEntity {
         aerialState = AerialState.FALLING;
         groundState = GroundState.AIRBORNE;
         canHover = true;
+        canJump = false;
     }
 
     public void render(SpriteBatch batch) {
