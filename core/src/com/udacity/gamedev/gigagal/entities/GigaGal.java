@@ -115,7 +115,8 @@ public class GigaGal {
             }
         }
     }
-    
+
+    /*
     private boolean isLaterallyBetween(float leftSide, float rightSide) {
         boolean leftFootIn = false;
         boolean rightFootIn = false;
@@ -146,41 +147,26 @@ public class GigaGal {
             return isLaterallyBetween(platform.getLeft(), platform.getRight());
         }
         return false;
-    }
+    } */
 
     //  -bump (detect contact with top, sides or bottom of platform and reset position to previous frame;
     //  velocity.y equal and opposite to downward velocity i.e. gravity if top, set canRicochet
     //  to true if jumping and side)
     // detect platform contact under feet (changes aerial state to grounded or falling)
-    private boolean isCollidingWith(PhysicalEntity entity) {
-        Rectangle gigaGalBounds = new Rectangle(
-                position.x - Constants.GIGAGAL_STANCE_WIDTH / 2,
-                position.y - Constants.GIGAGAL_EYE_HEIGHT,
-                Constants.GIGAGAL_STANCE_WIDTH,
-                Constants.GIGAGAL_HEIGHT
-        );
+    private boolean overlaps(Rectangle entityBounds) {
 
-        Rectangle entityBounds = new Rectangle(
-                entity.getLeft(),
-                entity.getBottom(),
-                entity.getWidth(),
-                entity.getHeight()
-        );
-
-        if (gigaGalBounds.overlaps(entityBounds)) {
+        if (getBounds().overlaps(entityBounds)) {
             return true;
         }
         return false;
     }
 
-
+    /*
     private boolean isSlidingDown(Platform platform) {
 
-        if (isLaterallyBetween(platform.getLeft() - 5, platform.getRight() + 5)) {
-
-            if (isVerticallyBetween(platform.getBottom(), platform.getTop())) {
+        if (isLaterallyBetween(platform.getLeft() - 5, platform.getRight() + 5)
+        && (isVerticallyBetween(platform.getBottom(), platform.getTop()))) {
                 return true;
-            }
         }
         return false;
     }
@@ -198,7 +184,7 @@ public class GigaGal {
                 if (groundState == GroundState.AIRBORNE) {
                     groundState = GroundState.STANDING;
                 }
-            } else if (isCollidingWith(platform)) {
+            } else if (overlaps(platform)) {
                 if (aerialState != AerialState.GROUNDED) {
                     if (isVerticallyBetween(platform.getBottom(), platform.getTop())) {
                         if (jumpStartingPoint.x != position.x
@@ -230,12 +216,19 @@ public class GigaGal {
             groundState = GroundState.AIRBORNE;
             aerialState = AerialState.FALLING;
         }
+    } */
+
+    private void touchPlatforms(Array<Platform> platforms) {
+        for (Platform platform : platforms) {
+
+        }
     }
 
     private void collectPowerups(DelayedRemovalArray<Powerup> powerups) {
 
         for (Powerup powerup : powerups) {
-            if (isCollidingWith(powerup)) {
+            Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
+            if (overlaps(bounds)) {
                 ammo += Constants.POWERUP_AMMO;
                 level.setScore(level.getScore() + Constants.POWERUP_SCORE);
                 powerups.removeValue(powerup, true);
@@ -247,7 +240,8 @@ public class GigaGal {
     private void recoilFromEnemies(DelayedRemovalArray<Enemy> enemies) {
 
         for (Enemy enemy : enemies) {
-            if (isCollidingWith(enemy)) {
+            Rectangle bounds = new Rectangle(enemy.getLeft(), enemy.getBottom(), enemy.getWidth(), enemy.getHeight());
+            if (overlaps(bounds)) {
                 recoil();
             }
         }
@@ -545,5 +539,14 @@ public class GigaGal {
 
     public Vector2 getPosition() {
         return position;
+    }
+
+    public Rectangle getBounds() {
+        return  new Rectangle(
+                position.x - Constants.GIGAGAL_STANCE_WIDTH / 2,
+                position.y - Constants.GIGAGAL_EYE_HEIGHT,
+                Constants.GIGAGAL_STANCE_WIDTH,
+                Constants.GIGAGAL_HEIGHT
+        );
     }
 }
