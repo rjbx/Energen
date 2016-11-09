@@ -17,7 +17,7 @@ import com.udacity.gamedev.gigagal.util.Utils;
 import java.lang.String;
 
 // mutable
-public class GigaGal {
+public class GigaGal implements PhysicalEntity {
 
     // fields
     public final static String TAG = GigaGal.class.getName();
@@ -147,19 +147,12 @@ public class GigaGal {
             return isLaterallyBetween(platform.getLeft(), platform.getRight());
         }
         return false;
-    } */
+    }
 
     //  -bump (detect contact with top, sides or bottom of platform and reset position to previous frame;
     //  velocity.y equal and opposite to downward velocity i.e. gravity if top, set canRicochet
     //  to true if jumping and side)
     // detect platform contact under feet (changes aerial state to grounded or falling)
-    private boolean overlaps(Rectangle entityBounds) {
-
-        if (getBounds().overlaps(entityBounds)) {
-            return true;
-        }
-        return false;
-    }
 
     /*
     private boolean isSlidingDown(Platform platform) {
@@ -220,7 +213,26 @@ public class GigaGal {
 
     private void touchPlatforms(Array<Platform> platforms) {
         for (Platform platform : platforms) {
+            Rectangle bounds = new Rectangle(
+                    platform.getLeft(),
+                    platform.getBottom(),
+                    platform.getWidth(),
+                    platform.getHeight());
 
+            if (getBounds().overlaps(bounds)) {
+                if (lastFramePosition.x > platform.getLeft() && getLeft() <= platform.getLeft()) {
+
+                }
+                if (lastFramePosition.x > platform.getRight() && getRight() <= platform.getRight()) {
+
+                }
+                if (lastFramePosition.y > platform.getTop() && getBottom() <= platform.getTop()) {
+
+                }
+                if (lastFramePosition.y < platform.getBottom() && getTop() >= platform.getBottom()) {
+
+                }
+            }
         }
     }
 
@@ -228,7 +240,7 @@ public class GigaGal {
 
         for (Powerup powerup : powerups) {
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
-            if (overlaps(bounds)) {
+            if (getBounds().overlaps(bounds)) {
                 ammo += Constants.POWERUP_AMMO;
                 level.setScore(level.getScore() + Constants.POWERUP_SCORE);
                 powerups.removeValue(powerup, true);
@@ -241,7 +253,7 @@ public class GigaGal {
 
         for (Enemy enemy : enemies) {
             Rectangle bounds = new Rectangle(enemy.getLeft(), enemy.getBottom(), enemy.getWidth(), enemy.getHeight());
-            if (overlaps(bounds)) {
+            if (getBounds().overlaps(bounds)) {
                 recoil();
             }
         }
@@ -529,24 +541,15 @@ public class GigaGal {
         Utils.drawTextureRegion(batch, region, position, Constants.GIGAGAL_EYE_POSITION);
     }
 
-    public int getAmmo() {
-        return ammo;
-    }
-
-    public int getLives() {
-        return lives;
-    }
-
-    public Vector2 getPosition() {
-        return position;
-    }
-
-    public Rectangle getBounds() {
-        return  new Rectangle(
-                position.x - Constants.GIGAGAL_STANCE_WIDTH / 2,
-                position.y - Constants.GIGAGAL_EYE_HEIGHT,
-                Constants.GIGAGAL_STANCE_WIDTH,
-                Constants.GIGAGAL_HEIGHT
-        );
-    }
+    // Getters
+    public int getAmmo() { return ammo; }
+    public int getLives() { return lives; }
+    public Vector2 getPosition() { return position; }
+    public float getWidth() { return Constants.GIGAGAL_STANCE_WIDTH; }
+    public float getHeight() { return Constants.GIGAGAL_HEIGHT; }
+    public float getLeft() { return position.x - (Constants.GIGAGAL_STANCE_WIDTH / 2); }
+    public float getRight() { return position.x + (Constants.GIGAGAL_STANCE_WIDTH / 2); }
+    public float getTop() { return position.y + Constants.GIGAGAL_HEAD_RADIUS; }
+    public float getBottom() { return position.y - Constants.GIGAGAL_EYE_HEIGHT; }
+    public Rectangle getBounds() { return  new Rectangle( getLeft(), getBottom(), getWidth(), getHeight()); }
 }
