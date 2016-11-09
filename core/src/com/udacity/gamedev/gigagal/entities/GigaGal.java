@@ -116,101 +116,11 @@ public class GigaGal implements PhysicalEntity {
         }
     }
 
-    /*
-    private boolean isLaterallyBetween(float leftSide, float rightSide) {
-        boolean leftFootIn = false;
-        boolean rightFootIn = false;
-        boolean straddle = false;
-
-        float leftFoot = position.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
-        float rightFoot = position.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
-
-        leftFootIn = (leftSide < leftFoot) && (rightSide > leftFoot);
-        rightFootIn = (leftSide < rightFoot) && (rightSide > rightFoot);
-        straddle = (leftSide > leftFoot && rightSide < rightFoot);
-    
-        return leftFootIn || rightFootIn || straddle;
-    }
-
-    private boolean isVerticallyBetween(float BottomSide, float topSide) {
-        float top = position.y - Constants.GIGAGAL_HEAD_RADIUS;
-        float bottom = position.y - Constants.GIGAGAL_HEAD_RADIUS;
-
-        return (topSide > top) && (BottomSide < bottom);
-    }
-
-    private boolean isGrounded(Platform platform) {
-        canJump = true;
-
-        if ((lastFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= platform.getTop()) &&
-                (position.y - Constants.GIGAGAL_EYE_HEIGHT <= platform.getTop())) {
-            return isLaterallyBetween(platform.getLeft(), platform.getRight());
-        }
-        return false;
-    }
 
     //  -bump (detect contact with top, sides or bottom of platform and reset position to previous frame;
     //  velocity.y equal and opposite to downward velocity i.e. gravity if top, set canRicochet
     //  to true if jumping and side)
-    // detect platform contact under feet (changes aerial state to grounded or falling)
-
-    /*
-    private boolean isSlidingDown(Platform platform) {
-
-        if (isLaterallyBetween(platform.getLeft() - 5, platform.getRight() + 5)
-        && (isVerticallyBetween(platform.getBottom(), platform.getTop()))) {
-                return true;
-        }
-        return false;
-    }
-
-    private void touchPlatforms(Array<Platform> platforms) {
-        boolean isGrounded = false;
-        for (Platform platform : platforms) {
-            if (isGrounded(platform)) {
-                velocity.y = 0;
-                velocity.x = 0;
-                position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
-                canHover = false;
-                isGrounded = true;
-                aerialState = AerialState.GROUNDED;
-                if (groundState == GroundState.AIRBORNE) {
-                    groundState = GroundState.STANDING;
-                }
-            } else if (overlaps(platform)) {
-                if (aerialState != AerialState.GROUNDED) {
-                    if (isVerticallyBetween(platform.getBottom(), platform.getTop())) {
-                        if (jumpStartingPoint.x != position.x
-                                && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))) {
-                            hoverStartTime = TimeUtils.nanoTime();
-                            velocity.x = 0;
-                            slidPlatform = new Platform(platform);
-                            canRicochet = true;
-                            canHover = false;
-                        } else {
-                            canRicochet = false;
-                        }
-                        velocity.x = 0;
-                    } else if ((lastFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS <= platform.getBottom()
-                            && (position.y + Constants.GIGAGAL_HEAD_RADIUS >= platform.getBottom()))
-                            && (isLaterallyBetween(platform.getLeft(), platform.getRight()))) {
-                        velocity.y = -Constants.GRAVITY;
-                        jumpStartTime = 0;
-                        strideStartTime = TimeUtils.nanoTime();
-                        strideTimeSeconds = 0;
-                        canRicochet = false;
-                    }
-                }
-                position.x = lastFramePosition.x;
-            }
-        }
-
-        if (!isGrounded && aerialState == AerialState.GROUNDED || aerialState != AerialState.GROUNDED && aerialState != AerialState.HOVERING && aerialState != AerialState.RICOCHETING) {
-            groundState = GroundState.AIRBORNE;
-            aerialState = AerialState.FALLING;
-        }
-    } */
-
+    // detect platform contact under feet (changes aerial state to grounded or falling
     private void touchPlatforms(Array<Platform> platforms) {
         for (Platform platform : platforms) {
             Rectangle bounds = new Rectangle(
@@ -220,20 +130,37 @@ public class GigaGal implements PhysicalEntity {
                     platform.getHeight());
 
             if (getBounds().overlaps(bounds)) {
-                if (lastFramePosition.x > platform.getLeft() && getLeft() <= platform.getLeft()) {
-
-                }
-                if (lastFramePosition.x > platform.getRight() && getRight() <= platform.getRight()) {
-
+                if (lastFramePosition.x < platform.getLeft() && getRight() >= platform.getLeft()
+                 || lastFramePosition.x > platform.getRight() && getLeft() <= platform.getRight()) {
+                    position.x = lastFramePosition.x;
                 }
                 if (lastFramePosition.y > platform.getTop() && getBottom() <= platform.getTop()) {
-
+                    position.y = lastFramePosition.y;
+                    velocity.y = 0;
+                    velocity.x = 0;
+                    position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
+                    canHover = false;
+                    aerialState = AerialState.GROUNDED;
+                    if (groundState == GroundState.AIRBORNE) {
+                        groundState = GroundState.STANDING;
+                    }
                 }
                 if (lastFramePosition.y < platform.getBottom() && getTop() >= platform.getBottom()) {
-
+                    position.y = lastFramePosition.y;
+                    velocity.y = -Constants.GRAVITY;
+                    jumpStartTime = 0;
+                    strideStartTime = TimeUtils.nanoTime();
+                    strideTimeSeconds = 0;
+                    canRicochet = false;
                 }
             }
         }
+
+     /*
+        if (!isGrounded && aerialState == AerialState.GROUNDED || aerialState != AerialState.GROUNDED && aerialState != AerialState.HOVERING && aerialState != AerialState.RICOCHETING) {
+            groundState = GroundState.AIRBORNE;
+            aerialState = AerialState.FALLING;
+        } */
     }
 
     private void collectPowerups(DelayedRemovalArray<Powerup> powerups) {
@@ -456,11 +383,21 @@ public class GigaGal implements PhysicalEntity {
 
     // fix start jump method
     private void enableRicochet() {
+        /* if (jumpStartingPoint.x != position.x
+                && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))) {
+            hoverStartTime = TimeUtils.nanoTime();
+            velocity.x = 0;
+            slidPlatform = new Platform(platform);
+            canRicochet = true;
+            canHover = false;
+        } else {
+            canRicochet = false;
+        } */
         if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) && canRicochet)
                 || aerialState == AerialState.RICOCHETING)) {
-            if (isSlidingDown(slidPlatform)) {
+            /* if (isSlidingDown(slidPlatform)) {
                 ricochet();
-            }
+            } */
         }
     }
 
