@@ -132,7 +132,7 @@ public class GigaGal implements PhysicalEntity {
             if (getBounds().overlaps(bounds)) {
                 if (previousFrameRight <= platform.getLeft() && getRight() > platform.getLeft()
                  || previousFrameLeft >= platform.getRight() && getLeft() < platform.getRight()) {
-                    if (velocity.x >= Constants.GIGAGAL_MAX_SPEED / 2) {
+                    if ((Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) && jumpStartingPoint != position.x) {
                         canRicochet = true;
                     }
                     velocity.x = 0;
@@ -386,8 +386,8 @@ public class GigaGal implements PhysicalEntity {
         } else {
             canRicochet = false;
         } */
-        if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) && canRicochet)
-                || aerialState == AerialState.RICOCHETING)) {
+        if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) && canRicochet)
+                || aerialState == AerialState.RICOCHETING) {
             ricochet();
 
         }
@@ -401,7 +401,7 @@ public class GigaGal implements PhysicalEntity {
             canRicochet = false;
             canJump = true;
         }
-        if (Utils.secondsSince(ricochetStartTime) >= Constants.RICOCHET_DURATION) {
+        if (Utils.secondsSince(ricochetStartTime) >= Constants.RICOCHET_FRAME_DURATION) {
             if (facing == Direction.LEFT) {
                 facing = Direction.RIGHT;
                 velocity.x = Constants.GIGAGAL_MAX_SPEED;
