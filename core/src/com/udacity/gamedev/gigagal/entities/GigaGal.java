@@ -24,14 +24,12 @@ public class GigaGal implements PhysicalEntity {
     private Level level;
     private Vector2 spawnLocation;
     private Vector2 position;
-    private float lastFrameTop;
-    private float lastFrameBottom;
-    private float lastFrameLeft;
-    private float lastFrameRight;
+    private Vector2 previousFramePosition;
     private Vector2 velocity;
     private Direction facing;
     private AerialState aerialState;
     private GroundState groundState;
+    private boolean canStride;
     private boolean canJump;
     private boolean canDashLeft;
     private boolean canDashRight;
@@ -62,6 +60,7 @@ public class GigaGal implements PhysicalEntity {
         this.level = level;
         position = new Vector2();
         velocity = new Vector2();
+        previousFramePosition = new Vector2();
         init();
     }
 
@@ -72,11 +71,7 @@ public class GigaGal implements PhysicalEntity {
     }
 
     public void update(float delta) {
-
-        lastFrameLeft = getLeft();
-        lastFrameRight = getRight();
-        lastFrameTop = getTop();
-        lastFrameBottom = getBottom();
+        previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
         touchPlatforms(level.getPlatforms());
         recoilFromEnemies(level.getEnemies());
@@ -130,19 +125,23 @@ public class GigaGal implements PhysicalEntity {
         for (Platform platform : platforms) {
             Rectangle bounds = new Rectangle( platform.getLeft(), platform.getBottom(), platform.getWidth() + 2, platform.getHeight());
             if (getBounds().overlaps(bounds)) {
+                float lastFrameRight = previousFramePosition.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
+                float lastFrameLeft = previousFramePosition.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
+                float lastFrameTop = previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS;
+                float lastFrameBottom = previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT;
                 if (lastFrameRight < platform.getLeft() && getRight() >= platform.getLeft()
                  || lastFrameLeft > platform.getRight() && getLeft() <= platform.getRight()) {
-                    position.x = lastFrameRight - (Constants.GIGAGAL_STANCE_WIDTH / 2);
                     if (velocity.x >= Constants.GIGAGAL_MAX_SPEED / 2) {
                         canRicochet = true;
                     }
                     velocity.x = 0;
-                    position.x = lastFrameRight - (Constants.GIGAGAL_STANCE_WIDTH / 2);
+                    position.x = previousFramePosition.x;
                 }
-                if (lastFrameBottom > platform.getTop() && getBottom() <= platform.getTop()) {
+                if (lastFrameBottom > platform.getTop() && getBottom() <= platform.getTop()
+                    && getRight() > platform.getLeft() && getLeft() < platform.getRight()) {
                     position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
                     stand();
-                }
+                } 
                 if (lastFrameTop < platform.getBottom() && getTop() >= platform.getBottom()) {
                     velocity.y = 0;
                     position.y = lastFrameTop - Constants.GIGAGAL_HEAD_RADIUS;
@@ -181,7 +180,6 @@ public class GigaGal implements PhysicalEntity {
         aerialState = AerialState.RECOILING;
         groundState = GroundState.RECOILING;
         velocity.y = Constants.KNOCKBACK_VELOCITY.y;
-
         if (facing == Direction.LEFT) {
             velocity.x = Constants.KNOCKBACK_VELOCITY.x;
         } else {
@@ -246,6 +244,7 @@ public class GigaGal implements PhysicalEntity {
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
+        canStride = false;
         canJump = false;
         canDashLeft = false;
         canDashRight = false;
@@ -257,20 +256,22 @@ public class GigaGal implements PhysicalEntity {
 
     private void enableStride() {
 
-        if (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed) {
-            if (facing == Direction.RIGHT) {
+        if (canStride) {
+            if (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed) {
+                if (facing == Direction.RIGHT) {
+                    stand();
+                }
+                facing = Direction.LEFT;
+                stride();
+            } else if (Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed) {
+                if (facing == Direction.LEFT) {
+                    stand();
+                }
+                facing = Direction.RIGHT;
+                stride();
+            } else {
                 stand();
             }
-            facing = Direction.LEFT;
-            stride();
-        } else if (Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed) {
-            if (facing == Direction.LEFT) {
-                stand();
-            }
-            facing = Direction.RIGHT;
-            stride();
-        } else {
-            stand();
         }
     }
 
@@ -413,6 +414,7 @@ public class GigaGal implements PhysicalEntity {
         velocity.x = 0;
         groundState = GroundState.STANDING;
         aerialState = AerialState.GROUNDED;
+        canStride = true;
         canJump = true;
         canHover = false;
         canRicochet = false;
@@ -422,6 +424,7 @@ public class GigaGal implements PhysicalEntity {
     private void fall() {
         aerialState = AerialState.FALLING;
         groundState = GroundState.AIRBORNE;
+        canStride = false;
         canJump = false;
     }
 
