@@ -105,7 +105,7 @@ public class GigaGal implements PhysicalEntity {
                 enableRicochet();
             } else if (aerialState == AerialState.JUMPING) {
                 enableJump();
-                // enableHover();
+                enableHover();
                 enableRicochet();
             } else if (aerialState == AerialState.HOVERING) {
                 enableHover();
@@ -155,7 +155,7 @@ public class GigaGal implements PhysicalEntity {
                 }
             }
         }
-        if (!canStride) {
+        if (!canStride && aerialState == AerialState.GROUNDED) {
             fall();
         }
     }
@@ -315,7 +315,6 @@ public class GigaGal implements PhysicalEntity {
             groundState = GroundState.AIRBORNE;
             jumpStartingPoint = position.x;
             jumpStartTime = TimeUtils.nanoTime();
-            canHover = true;
             canJump = false;
         }
         if (Utils.secondsSince(jumpStartTime) < Constants.MAX_JUMP_DURATION) {
@@ -324,6 +323,7 @@ public class GigaGal implements PhysicalEntity {
                 velocity.y *= Constants.RUNNING_JUMP_MULTIPLIER;
             }
         } else {
+            canHover = true;
             fall();
         }
     }
@@ -354,11 +354,8 @@ public class GigaGal implements PhysicalEntity {
     //  hover (maintain forward momentum, velocity.y equal and opposite to downward velocity i.e. gravity
     //  until disabled manually or exceed max hover duration)
     private void enableHover() {
-        if (canHover && Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
-            if (aerialState != AerialState.HOVERING) {
-                hover();
-            }
-        } else if (aerialState == AerialState.HOVERING) {
+        if (canHover && (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed)
+        || aerialState == AerialState.HOVERING) {
             hover();
         }
     }
@@ -370,12 +367,10 @@ public class GigaGal implements PhysicalEntity {
             canHover = false;
         }
         hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
-        if (aerialState == AerialState.HOVERING) {
-            if (hoverTimeSeconds < Constants.MAX_HOVER_DURATION) {
-                velocity.y = 0;
-            } else {
-                aerialState = AerialState.FALLING;
-            }
+        if (hoverTimeSeconds < Constants.MAX_HOVER_DURATION) {
+            velocity.y = 0;
+        } else {
+            fall();
         }
     }
 
@@ -435,6 +430,7 @@ public class GigaGal implements PhysicalEntity {
         groundState = GroundState.AIRBORNE;
         canStride = false;
         canJump = false;
+        canHover = true;
     }
 
     public void render(SpriteBatch batch) {
