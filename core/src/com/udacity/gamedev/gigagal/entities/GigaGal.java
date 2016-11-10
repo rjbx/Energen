@@ -155,7 +155,7 @@ public class GigaGal implements PhysicalEntity {
                 }
             }
         }
-        if (!canStride && aerialState == AerialState.GROUNDED) {
+        if ((!canStride && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING || aerialState == AerialState.RECOILING) {
             fall();
         }
     }
