@@ -122,13 +122,14 @@ public class GigaGal implements PhysicalEntity {
     //  to true if jumping and side)
     // detect platform contact under feet (changes aerial state to grounded or falling
     private void touchPlatforms(Array<Platform> platforms) {
+        canStride = false;
         for (Platform platform : platforms) {
-            Rectangle bounds = new Rectangle( platform.getLeft(), platform.getBottom(), platform.getWidth() + 2, platform.getHeight() + 2);
+            Rectangle bounds = new Rectangle( platform.getLeft(), platform.getBottom(), platform.getWidth(), platform.getHeight());
+            float previousFrameRight = previousFramePosition.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
+            float previousFrameLeft = previousFramePosition.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
+            float previousFrameTop = previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS;
+            float previousFrameBottom = previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT;
             if (getBounds().overlaps(bounds)) {
-                float previousFrameRight = previousFramePosition.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
-                float previousFrameLeft = previousFramePosition.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
-                float previousFrameTop = previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS;
-                float previousFrameBottom = previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT;
                 if (previousFrameRight <= platform.getLeft() && getRight() > platform.getLeft()
                  || previousFrameLeft >= platform.getRight() && getLeft() < platform.getRight()) {
                     if (velocity.x >= Constants.GIGAGAL_MAX_SPEED / 2) {
@@ -137,19 +138,25 @@ public class GigaGal implements PhysicalEntity {
                     velocity.x = 0;
                     position.x = previousFramePosition.x;
                 }
-                if (previousFrameBottom >= platform.getTop() && getBottom() < platform.getTop()
-                    && getRight() > platform.getLeft() && getLeft() < platform.getRight()) {
-                    position.y = previousFramePosition.y - 1;
-                    canStride = true;
-                    stand();
-                } else {
-                }
                 if (previousFrameTop <= platform.getBottom() && getTop() > platform.getBottom()) {
                     velocity.y = 0;
                     position.y = previousFramePosition.y;
                     fall();
                 }
             }
+            if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop()
+                && getRight() > platform.getLeft() && getLeft() < platform.getRight()) {
+                position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
+                canStride = true;
+                if (groundState == GroundState.STRIDING) {
+                    stride();
+                } else {
+                    stand();
+                }
+            }
+        }
+        if (!canStride) {
+            fall();
         }
     }
 
@@ -416,7 +423,7 @@ public class GigaGal implements PhysicalEntity {
         velocity.x = 0;
         groundState = GroundState.STANDING;
         aerialState = AerialState.GROUNDED;
-        // canStride = true;
+        canStride = true;
         canJump = true;
         canHover = false;
         canRicochet = false;
