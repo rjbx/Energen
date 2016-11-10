@@ -128,13 +128,13 @@ public class GigaGal implements PhysicalEntity {
     // detect platform contact under feet (changes aerial state to grounded or falling
     private void touchPlatforms(Array<Platform> platforms) {
         for (Platform platform : platforms) {
-            Rectangle bounds = new Rectangle(
-                    platform.getLeft(),
-                    platform.getBottom(),
-                    platform.getWidth(),
-                    platform.getHeight());
-
+            Rectangle bounds = new Rectangle( platform.getLeft(), platform.getBottom(), platform.getWidth() + 4, platform.getHeight());
             if (getBounds().overlaps(bounds)) {
+                if (lastFrameRight < platform.getLeft() - 1 && getRight() >= platform.getLeft() - 1
+                        || lastFrameLeft > platform.getRight() + 1 && getLeft() <= platform.getRight() + 1) {
+                    canHover = false;
+                    canRicochet = true;
+                }
                 if (lastFrameRight < platform.getLeft() && getRight() >= platform.getLeft()
                  || lastFrameLeft > platform.getRight() && getLeft() <= platform.getRight()) {
                     position.x = lastFrameRight - (Constants.GIGAGAL_STANCE_WIDTH / 2);
@@ -384,9 +384,8 @@ public class GigaGal implements PhysicalEntity {
         } */
         if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) && canRicochet)
                 || aerialState == AerialState.RICOCHETING)) {
-            /* if (isSlidingDown(slidPlatform)) {
-                ricochet();
-            } */
+            ricochet();
+
         }
     }
 
@@ -416,6 +415,8 @@ public class GigaGal implements PhysicalEntity {
         groundState = GroundState.STANDING;
         aerialState = AerialState.GROUNDED;
         canJump = true;
+        canHover = false;
+        canRicochet = false;
     }
 
     // update velocity.y
