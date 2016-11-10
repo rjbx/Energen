@@ -354,8 +354,13 @@ public class GigaGal implements PhysicalEntity {
     //  hover (maintain forward momentum, velocity.y equal and opposite to downward velocity i.e. gravity
     //  until disabled manually or exceed max hover duration)
     private void enableHover() {
-        if (canHover && (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed)
-        || aerialState == AerialState.HOVERING) {
+        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
+            if (aerialState == AerialState.HOVERING) {
+                fall();
+            } else if (canHover) {
+                hover();
+            }
+        } else if (aerialState == AerialState.HOVERING) {
             hover();
         }
     }
