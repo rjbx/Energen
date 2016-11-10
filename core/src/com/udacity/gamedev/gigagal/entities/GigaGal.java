@@ -123,28 +123,30 @@ public class GigaGal implements PhysicalEntity {
     // detect platform contact under feet (changes aerial state to grounded or falling
     private void touchPlatforms(Array<Platform> platforms) {
         for (Platform platform : platforms) {
-            Rectangle bounds = new Rectangle( platform.getLeft(), platform.getBottom(), platform.getWidth() + 2, platform.getHeight());
+            Rectangle bounds = new Rectangle( platform.getLeft(), platform.getBottom(), platform.getWidth() + 2, platform.getHeight() + 2);
             if (getBounds().overlaps(bounds)) {
-                float lastFrameRight = previousFramePosition.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
-                float lastFrameLeft = previousFramePosition.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
-                float lastFrameTop = previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS;
-                float lastFrameBottom = previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT;
-                if (lastFrameRight < platform.getLeft() && getRight() >= platform.getLeft()
-                 || lastFrameLeft > platform.getRight() && getLeft() <= platform.getRight()) {
+                float previousFrameRight = previousFramePosition.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
+                float previousFrameLeft = previousFramePosition.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
+                float previousFrameTop = previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS;
+                float previousFrameBottom = previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT;
+                if (previousFrameRight <= platform.getLeft() && getRight() > platform.getLeft()
+                 || previousFrameLeft >= platform.getRight() && getLeft() < platform.getRight()) {
                     if (velocity.x >= Constants.GIGAGAL_MAX_SPEED / 2) {
                         canRicochet = true;
                     }
                     velocity.x = 0;
                     position.x = previousFramePosition.x;
                 }
-                if (lastFrameBottom > platform.getTop() && getBottom() <= platform.getTop()
+                if (previousFrameBottom >= platform.getTop() && getBottom() < platform.getTop()
                     && getRight() > platform.getLeft() && getLeft() < platform.getRight()) {
-                    position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
+                    position.y = previousFramePosition.y - 1;
+                    canStride = true;
                     stand();
-                } 
-                if (lastFrameTop < platform.getBottom() && getTop() >= platform.getBottom()) {
+                } else {
+                }
+                if (previousFrameTop <= platform.getBottom() && getTop() > platform.getBottom()) {
                     velocity.y = 0;
-                    position.y = lastFrameTop - Constants.GIGAGAL_HEAD_RADIUS;
+                    position.y = previousFramePosition.y;
                     fall();
                 }
             }
@@ -414,7 +416,7 @@ public class GigaGal implements PhysicalEntity {
         velocity.x = 0;
         groundState = GroundState.STANDING;
         aerialState = AerialState.GROUNDED;
-        canStride = true;
+        // canStride = true;
         canJump = true;
         canHover = false;
         canRicochet = false;
