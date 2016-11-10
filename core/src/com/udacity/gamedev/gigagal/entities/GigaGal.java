@@ -44,7 +44,7 @@ public class GigaGal implements PhysicalEntity {
     private float strideTimeSeconds;
     private float hoverTimeSeconds;
     private long ricochetStartTime;
-    private Vector2 jumpStartingPoint;
+    private float jumpStartingPoint;
     private Platform slidPlatform;
     private int lives;
     private int ammo;
@@ -128,15 +128,15 @@ public class GigaGal implements PhysicalEntity {
     // detect platform contact under feet (changes aerial state to grounded or falling
     private void touchPlatforms(Array<Platform> platforms) {
         for (Platform platform : platforms) {
-            Rectangle bounds = new Rectangle( platform.getLeft(), platform.getBottom(), platform.getWidth() + 4, platform.getHeight());
+            Rectangle bounds = new Rectangle( platform.getLeft(), platform.getBottom(), platform.getWidth() + 2, platform.getHeight());
             if (getBounds().overlaps(bounds)) {
-                if (lastFrameRight < platform.getLeft() - 1 && getRight() >= platform.getLeft() - 1
-                        || lastFrameLeft > platform.getRight() + 1 && getLeft() <= platform.getRight() + 1) {
-                    canHover = false;
-                    canRicochet = true;
-                }
                 if (lastFrameRight < platform.getLeft() && getRight() >= platform.getLeft()
                  || lastFrameLeft > platform.getRight() && getLeft() <= platform.getRight()) {
+                    position.x = lastFrameRight - (Constants.GIGAGAL_STANCE_WIDTH / 2);
+                    if (velocity.x >= Constants.GIGAGAL_MAX_SPEED / 2) {
+                        canRicochet = true;
+                    }
+                    velocity.x = 0;
                     position.x = lastFrameRight - (Constants.GIGAGAL_STANCE_WIDTH / 2);
                 }
                 if (lastFrameBottom > platform.getTop() && getBottom() <= platform.getTop()) {
@@ -253,7 +253,6 @@ public class GigaGal implements PhysicalEntity {
         canRicochet = false;
         jumpStartTime = 0;
         dashStartTime = 0;
-        jumpStartingPoint = new Vector2();
     }
 
     private void enableStride() {
@@ -294,7 +293,7 @@ public class GigaGal implements PhysicalEntity {
     //  bump platform bottom disables; change state to falling after reaching jump peak; maintain
     //  lateral speed and direction)
     private void enableJump() {
-        if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) && canJump) 
+        if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) && canJump)
                 || aerialState == AerialState.JUMPING) {
             jump();
         }
@@ -304,7 +303,7 @@ public class GigaGal implements PhysicalEntity {
         if (canJump) {
             aerialState = AerialState.JUMPING;
             groundState = GroundState.AIRBORNE;
-            jumpStartingPoint = new Vector2(position);
+            jumpStartingPoint = position.x;
             jumpStartTime = TimeUtils.nanoTime();
             canHover = true;
             canJump = false;
@@ -397,7 +396,7 @@ public class GigaGal implements PhysicalEntity {
             canRicochet = false;
             canJump = true;
         }
-        if (Utils.secondsSince(ricochetStartTime) > Constants.RICOCHET_DURATION) {
+        if (Utils.secondsSince(ricochetStartTime) >= Constants.RICOCHET_DURATION) {
             if (facing == Direction.LEFT) {
                 facing = Direction.RIGHT;
                 velocity.x = Constants.GIGAGAL_MAX_SPEED;
@@ -423,7 +422,6 @@ public class GigaGal implements PhysicalEntity {
     private void fall() {
         aerialState = AerialState.FALLING;
         groundState = GroundState.AIRBORNE;
-        canHover = true;
         canJump = false;
     }
 
