@@ -139,22 +139,22 @@ public class GigaGal implements PhysicalEntity {
                     canRicochet = false;
                 }
             }
-            // detects contact with platform bottom
-            if (previousFrameTop <= platform.getBottom() && getTop() > platform.getBottom()
-                    && getRight() > platform.getLeft() && getLeft() < platform.getRight()) {
-                velocity.y = 0;
-                position.y = previousFramePosition.y;
-                fall();
-            }
-            // detects contact with platform top
-            if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop()
-                && getRight() > platform.getLeft() && getLeft() < platform.getRight()) {
-                position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
-                canStride = true;
-                if (groundState == GroundState.STRIDING) {
-                    stride();
-                } else {
-                    stand();
+            if (getRight() > platform.getLeft() && getLeft() < platform.getRight()) {
+                // detects contact with platform bottom
+                if (previousFrameTop <= platform.getBottom() && getTop() > platform.getBottom()) {
+                    velocity.y = 0;
+                    position.y = previousFramePosition.y;
+                    fall();
+                }
+                // detects contact with platform top
+                if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop()) {
+                    position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
+                    canStride = true;
+                    if (groundState == GroundState.STRIDING) {
+                        stride();
+                    } else {
+                        stand();
+                    }
                 }
             }
         }
