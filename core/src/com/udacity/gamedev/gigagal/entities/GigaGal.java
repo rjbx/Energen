@@ -288,12 +288,12 @@ public class GigaGal implements PhysicalEntity {
                 strideStartTime = TimeUtils.nanoTime();
                 groundState = GroundState.STRIDING;
             }
-            strideTimeSeconds = Utils.secondsSince(strideStartTime);
+            strideTimeSeconds = Utils.secondsSince(strideStartTime) + Constants.STRIDE_ACCELERATION;
         }
         if (facing == Direction.LEFT) {
-            velocity.x = Math.max(-Constants.GIGAGAL_MAX_SPEED * strideTimeSeconds, -Constants.GIGAGAL_MAX_SPEED);
+            velocity.x = Math.max(-Constants.GIGAGAL_MAX_SPEED * strideTimeSeconds - Constants.STRIDE_ACCELERATION, -Constants.GIGAGAL_MAX_SPEED);
         } else {
-            velocity.x = Math.min(Constants.GIGAGAL_MAX_SPEED * strideTimeSeconds, Constants.GIGAGAL_MAX_SPEED);
+            velocity.x = Math.min(Constants.GIGAGAL_MAX_SPEED * strideTimeSeconds + Constants.STRIDE_ACCELERATION, Constants.GIGAGAL_MAX_SPEED);
         }
     }
 
@@ -314,7 +314,7 @@ public class GigaGal implements PhysicalEntity {
         if (Utils.secondsSince(jumpStartTime) < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
             if (Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 2){
-                velocity.y *= Constants.RUNNING_JUMP_MULTIPLIER;
+                velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
             }
         } else {
             fall();
