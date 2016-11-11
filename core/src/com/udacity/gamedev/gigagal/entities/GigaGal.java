@@ -81,7 +81,7 @@ public class GigaGal implements PhysicalEntity {
             if (groundState == GroundState.STANDING) {
                 stand();
                 enableStride();
-                // enableDash();
+                enableDash();
                 enableJump();
             } else if (groundState == GroundState.STRIDING) {
                  enableStride();
@@ -149,11 +149,10 @@ public class GigaGal implements PhysicalEntity {
                 // detects contact with platform top
                 if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop()) {
                     position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
-                    canStride = true;
-                    if (groundState == GroundState.STRIDING) {
-                        stride();
-                    } else {
+                    if (groundState != GroundState.STRIDING) {
                         stand();
+                    } else {
+                        stride();
                     }
                 }
             }
@@ -263,37 +262,35 @@ public class GigaGal implements PhysicalEntity {
     }
 
     private void enableStride() {
-        if (canStride) {
-            if (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed) {
-                if (facing == Direction.RIGHT) {
-                    stand();
-                }
-                facing = Direction.LEFT;
-                stride();
-            } else if (Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed) {
-                if (facing == Direction.LEFT) {
-                    stand();
-                }
-                facing = Direction.RIGHT;
-                stride();
-            } else {
-                stand();
-            }
+        if (canStride
+        && (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed ||Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed)) {
+            stride();
         }
     }
 
     private void stride() {
+        canStride = true;
         if (aerialState == AerialState.GROUNDED) {
             if (groundState != GroundState.STRIDING) {
                 strideStartTime = TimeUtils.nanoTime();
                 groundState = GroundState.STRIDING;
             }
             strideTimeSeconds = Utils.secondsSince(strideStartTime) + Constants.STRIDE_ACCELERATION;
-        }
-        if (facing == Direction.LEFT) {
-            velocity.x = Math.max(-Constants.GIGAGAL_MAX_SPEED * strideTimeSeconds - Constants.STRIDE_ACCELERATION, -Constants.GIGAGAL_MAX_SPEED);
-        } else {
-            velocity.x = Math.min(Constants.GIGAGAL_MAX_SPEED * strideTimeSeconds + Constants.STRIDE_ACCELERATION, Constants.GIGAGAL_MAX_SPEED);
+            if (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed) {
+                if (facing == Direction.RIGHT) {
+                    stand();
+                }
+                facing = Direction.LEFT;
+                velocity.x = Math.max(-Constants.GIGAGAL_MAX_SPEED * strideTimeSeconds - Constants.STRIDE_ACCELERATION, -Constants.GIGAGAL_MAX_SPEED);
+            } else if (Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed) {
+                if (facing == Direction.LEFT) {
+                    stand();
+                }
+                facing = Direction.RIGHT;
+                velocity.x = Math.min(Constants.GIGAGAL_MAX_SPEED * strideTimeSeconds + Constants.STRIDE_ACCELERATION, Constants.GIGAGAL_MAX_SPEED);
+            } else {
+                stand();
+            }
         }
     }
 
