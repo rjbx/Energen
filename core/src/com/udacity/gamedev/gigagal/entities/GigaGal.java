@@ -53,7 +53,6 @@ public class GigaGal implements PhysicalEntity {
     public boolean shootButtonPressed;
     public long chargeStartTime;
 
-
     // ctor
     public GigaGal(Vector2 spawnLocation, Level level) {
         this.spawnLocation = spawnLocation;
@@ -80,7 +79,6 @@ public class GigaGal implements PhysicalEntity {
         enableShoot();
 
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.AIRBORNE && groundState != GroundState.RECOILING) {
-
             velocity.y = 0;
             if (groundState == GroundState.STANDING) {
                 stand();
@@ -97,7 +95,6 @@ public class GigaGal implements PhysicalEntity {
         }
 
         if (groundState == GroundState.AIRBORNE && aerialState != AerialState.GROUNDED && aerialState != AerialState.RECOILING) {
-
             velocity.y -= Constants.GRAVITY;
             if (aerialState == AerialState.FALLING) {
                 fall();
@@ -124,11 +121,12 @@ public class GigaGal implements PhysicalEntity {
     private void touchPlatforms(Array<Platform> platforms) {
         canStride = false;
         for (Platform platform : platforms) {
-            Rectangle bounds = new Rectangle( platform.getLeft(), platform.getBottom(), platform.getWidth(), platform.getHeight());
+            Rectangle bounds = new Rectangle( platform.getLeft(), platform.getBottom(), platform.getWidth(), platform.getHeight() );
             float previousFrameRight = previousFramePosition.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
             float previousFrameLeft = previousFramePosition.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
             float previousFrameTop = previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS;
             float previousFrameBottom = previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT;
+            // detects contact with platform sides and determines if can ricochet
             if (getBounds().overlaps(bounds)) {
                 if (previousFrameRight <= platform.getLeft() && getRight() > platform.getLeft()
                  || previousFrameLeft >= platform.getRight() && getLeft() < platform.getRight()) {
@@ -137,13 +135,18 @@ public class GigaGal implements PhysicalEntity {
                     }
                     velocity.x = 0;
                     position.x = previousFramePosition.x;
-                }
-                if (previousFrameTop <= platform.getBottom() && getTop() > platform.getBottom()) {
-                    velocity.y = 0;
-                    position.y = previousFramePosition.y;
-                    fall();
+                } else {
+                    canRicochet = false;
                 }
             }
+            // detects contact with platform bottom
+            if (previousFrameTop <= platform.getBottom() && getTop() > platform.getBottom()
+                    && getRight() > platform.getLeft() && getLeft() < platform.getRight()) {
+                velocity.y = 0;
+                position.y = previousFramePosition.y;
+                fall();
+            }
+            // detects contact with platform top
             if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop()
                 && getRight() > platform.getLeft() && getLeft() < platform.getRight()) {
                 position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
@@ -155,13 +158,13 @@ public class GigaGal implements PhysicalEntity {
                 }
             }
         }
+        // fall if no detection with platform top
         if ((!canStride && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING || aerialState == AerialState.RECOILING) {
             fall();
         }
     }
 
     private void collectPowerups(DelayedRemovalArray<Powerup> powerups) {
-
         for (Powerup powerup : powerups) {
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {
@@ -172,9 +175,8 @@ public class GigaGal implements PhysicalEntity {
         }
     }
 
-    // detect contact with enemy (change aerial & ground state to recoil until grounded) */
+    // detect contact with enemy (change aerial & ground state to recoil until grounded)
     private void recoilFromEnemies(DelayedRemovalArray<Enemy> enemies) {
-
         for (Enemy enemy : enemies) {
             Rectangle bounds = new Rectangle(enemy.getLeft(), enemy.getBottom(), enemy.getWidth(), enemy.getHeight());
             if (getBounds().overlaps(bounds)) {
@@ -197,13 +199,10 @@ public class GigaGal implements PhysicalEntity {
     }
 
     private void enableShoot() {
-
-        // incorporate into enableShoot()
         if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
             shoot(AmmoType.REGULAR);
             chargeStartTime = TimeUtils.nanoTime();
         }
-
         if (Gdx.input.isKeyPressed(Keys.ENTER) || shootButtonPressed) {
             // Shoot
             if (Utils.secondsSince(chargeStartTime) > Constants.CHARGE_DURATION) {
@@ -219,20 +218,16 @@ public class GigaGal implements PhysicalEntity {
 
     public void shoot(AmmoType ammoType) {
         if (ammo > 0) {
-
             ammo--;
             Vector2 bulletPosition;
-
             if (facing == Direction.RIGHT) {
                 bulletPosition = new Vector2(
                         position.x + Constants.GIGAGAL_CANNON_OFFSET.x,
-                        position.y + Constants.GIGAGAL_CANNON_OFFSET.y
-                );
+                        position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
             } else {
                 bulletPosition = new Vector2(
                         position.x - Constants.GIGAGAL_CANNON_OFFSET.x - 5,
-                        position.y + Constants.GIGAGAL_CANNON_OFFSET.y
-                );
+                        position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
             }
             level.spawnBullet(bulletPosition, facing, ammoType);
         }
@@ -264,7 +259,6 @@ public class GigaGal implements PhysicalEntity {
     }
 
     private void enableStride() {
-
         if (canStride) {
             if (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed) {
                 if (facing == Direction.RIGHT) {
@@ -299,9 +293,6 @@ public class GigaGal implements PhysicalEntity {
         }
     }
 
-    //  jump (detecting velocity.x prior to key press and adjusting jump height and distance accordingly;
-    //  bump platform bottom disables; change state to falling after reaching jump peak; maintain
-    //  lateral speed and direction)
     private void enableJump() {
         if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) && canJump)
                 || aerialState == AerialState.JUMPING) {
@@ -351,8 +342,6 @@ public class GigaGal implements PhysicalEntity {
         }
     }
 
-    //  hover (maintain forward momentum, velocity.y equal and opposite to downward velocity i.e. gravity
-    //  until disabled manually or exceed max hover duration)
     private void enableHover() {
         if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
             if (aerialState == AerialState.HOVERING) {
@@ -379,7 +368,6 @@ public class GigaGal implements PhysicalEntity {
         }
     }
 
-    // fix start jump method
     private void enableRicochet() {
         /* if (jumpStartingPoint.x != position.x
                 && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))) {
@@ -394,12 +382,10 @@ public class GigaGal implements PhysicalEntity {
         if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) && canRicochet)
                 || aerialState == AerialState.RICOCHETING) {
             ricochet();
-
         }
     }
 
     private void ricochet() {
-
         if (canRicochet) {
             aerialState = AerialState.RICOCHETING;
             ricochetStartTime = TimeUtils.nanoTime();
@@ -429,7 +415,6 @@ public class GigaGal implements PhysicalEntity {
         canRicochet = false;
     }
 
-    // update velocity.y
     private void fall() {
         aerialState = AerialState.FALLING;
         groundState = GroundState.AIRBORNE;
