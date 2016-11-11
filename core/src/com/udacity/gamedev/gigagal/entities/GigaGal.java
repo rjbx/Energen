@@ -128,7 +128,7 @@ public class GigaGal implements PhysicalEntity {
                         canRicochet = true;
                         slidPlatformBottom = platform.getBottom();
                     }
-                    velocity.x = 0;
+                    velocity.x += Utils.getLateralVelocity(Constants.STRIDE_ACCELERATION, facing);
                     strideStartTime = TimeUtils.nanoTime(); // resets stride if bumping platform side
                     position.x = previousFramePosition.x;
                 } else {
@@ -311,11 +311,10 @@ public class GigaGal implements PhysicalEntity {
             jumpStartTime = TimeUtils.nanoTime();
             canJump = false;
         }
+        velocity.x += Utils.getLateralVelocity(Constants.STRIDE_ACCELERATION * Constants.STRIDING_JUMP_MULTIPLIER, facing);
         if (Utils.secondsSince(jumpStartTime) < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
-            if (Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 2){
-                velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
-            }
+            velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         } else {
             fall();
         }
