@@ -53,12 +53,12 @@ public class Utils {
         }
     }
 
-    public static boolean compareSetDirection(GigaGal gigaGal, Enums.Direction setTo) {
+    public static final boolean changeDirection(GigaGal gigaGal, Enums.Direction setTo) {
         if (gigaGal.getDirection() == setTo) {
-            return true;
+            return false;
         } else {
             gigaGal.setDirection(setTo);
+            return true;
         }
-        return false;
     }
 }

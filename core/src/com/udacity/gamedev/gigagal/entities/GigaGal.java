@@ -279,11 +279,11 @@ public class GigaGal implements PhysicalEntity {
             }
             strideTimeSeconds = Utils.secondsSince(strideStartTime) + Constants.STRIDE_ACCELERATION;
             if (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed) {
-                if (!Utils.compareSetDirection(this, Direction.LEFT)) {
+                if (Utils.changeDirection(this, Direction.LEFT)) {
                     stand();
                 }
             } else if (Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed) {
-                if (!Utils.compareSetDirection(this, Direction.RIGHT)) {
+                if (Utils.changeDirection(this, Direction.RIGHT)) {
                     stand();
                 }
             }
