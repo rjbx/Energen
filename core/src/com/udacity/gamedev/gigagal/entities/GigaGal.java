@@ -31,8 +31,7 @@ public class GigaGal implements PhysicalEntity {
     private GroundState groundState;
     private boolean canStride;
     private boolean canJump;
-    private boolean canDashLeft;
-    private boolean canDashRight;
+    private boolean canDash;
     public boolean canHover;
     public boolean canRicochet;
     private long strideStartTime;
@@ -42,7 +41,6 @@ public class GigaGal implements PhysicalEntity {
     private float strideTimeSeconds;
     private float hoverTimeSeconds;
     private long ricochetStartTime;
-    private float jumpStartingPoint;
     private float slidPlatformBottom;
     private int lives;
     private int ammo;
@@ -309,7 +307,6 @@ public class GigaGal implements PhysicalEntity {
         if (canJump) {
             aerialState = AerialState.JUMPING;
             groundState = GroundState.AIRBORNE;
-            jumpStartingPoint = position.x;
             jumpStartTime = TimeUtils.nanoTime();
             canJump = false;
         }
