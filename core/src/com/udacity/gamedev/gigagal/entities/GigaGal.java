@@ -265,6 +265,8 @@ public class GigaGal implements PhysicalEntity {
         if (canStride
         && (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed ||Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed)) {
             stride();
+        } else {
+            stand();
         }
     }
 
@@ -277,20 +279,15 @@ public class GigaGal implements PhysicalEntity {
             }
             strideTimeSeconds = Utils.secondsSince(strideStartTime) + Constants.STRIDE_ACCELERATION;
             if (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed) {
-                if (facing == Direction.RIGHT) {
+                if (!Utils.compareSetDirection(this, Direction.LEFT)) {
                     stand();
                 }
-                facing = Direction.LEFT;
-                velocity.x = Math.max(-Constants.GIGAGAL_MAX_SPEED * strideTimeSeconds - Constants.STRIDE_ACCELERATION, -Constants.GIGAGAL_MAX_SPEED);
             } else if (Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed) {
-                if (facing == Direction.LEFT) {
+                if (!Utils.compareSetDirection(this, Direction.RIGHT)) {
                     stand();
                 }
-                facing = Direction.RIGHT;
-                velocity.x = Math.min(Constants.GIGAGAL_MAX_SPEED * strideTimeSeconds + Constants.STRIDE_ACCELERATION, Constants.GIGAGAL_MAX_SPEED);
-            } else {
-                stand();
             }
+            velocity.x = Utils.getLateralVelocity(Math.min(Constants.GIGAGAL_MAX_SPEED * strideTimeSeconds + Constants.STRIDE_ACCELERATION, Constants.GIGAGAL_MAX_SPEED), facing);
         }
     }
 
@@ -453,6 +450,7 @@ public class GigaGal implements PhysicalEntity {
     // Getters
     public int getAmmo() { return ammo; }
     public int getLives() { return lives; }
+    public Direction getDirection() { return facing; }
     public Vector2 getPosition() { return position; }
     public float getWidth() { return Constants.GIGAGAL_STANCE_WIDTH; }
     public float getHeight() { return Constants.GIGAGAL_HEIGHT; }
@@ -461,4 +459,5 @@ public class GigaGal implements PhysicalEntity {
     public float getTop() { return position.y + Constants.GIGAGAL_HEAD_RADIUS; }
     public float getBottom() { return position.y - Constants.GIGAGAL_EYE_HEIGHT; }
     public Rectangle getBounds() { return  new Rectangle( getLeft(), getBottom(), getWidth(), getHeight()); }
+    public void setDirection(Direction facing) { this.facing = facing; }
 }

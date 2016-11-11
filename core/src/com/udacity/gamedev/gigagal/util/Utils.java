@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.udacity.gamedev.gigagal.entities.GigaGal;
 
 // immutable static
-public final class Utils {
+public class Utils {
 
     // non-instantiable
     private Utils() {}
@@ -44,11 +45,20 @@ public final class Utils {
         return MathUtils.nanoToSec * (TimeUtils.nanoTime() - timeNanos);
     }
 
-    public static float getLateralVelocity(float delta, Enums.Direction facing) {
+    public static final float getLateralVelocity(float delta, Enums.Direction facing) {
         if (facing == Enums.Direction.RIGHT) {
             return delta;
         } else {
             return -delta;
         }
+    }
+
+    public static boolean compareSetDirection(GigaGal gigaGal, Enums.Direction setTo) {
+        if (gigaGal.getDirection() == setTo) {
+            return true;
+        } else {
+            gigaGal.setDirection(setTo);
+        }
+        return false;
     }
 }
