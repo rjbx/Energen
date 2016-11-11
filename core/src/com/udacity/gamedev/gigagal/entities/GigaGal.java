@@ -128,7 +128,11 @@ public class GigaGal implements PhysicalEntity {
                         canRicochet = true;
                         slidPlatformBottom = platform.getBottom();
                     }
-                    velocity.x += Utils.getLateralVelocity(Constants.STRIDE_ACCELERATION, facing);
+                    if (aerialState == AerialState.RICOCHETING) {
+                        velocity.x = 0;
+                    } else {
+                        velocity.x += Utils.getLateralVelocity(Constants.STRIDE_ACCELERATION, facing);
+                    }
                     strideStartTime = TimeUtils.nanoTime(); // resets stride if bumping platform side
                     position.x = previousFramePosition.x;
                 } else {
