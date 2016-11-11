@@ -124,8 +124,8 @@ public class GigaGal implements PhysicalEntity {
             // detects contact with platform sides
             if (getBounds().overlaps(bounds)) {
                 // determines if can ricochet
-                 if (previousFrameRight <= platform.getLeft() && getRight() > platform.getLeft()
-                 || previousFrameLeft >= platform.getRight() && getLeft() < platform.getRight()) {
+                if (previousFrameRight <= platform.getLeft() && getRight() > platform.getLeft()
+                || previousFrameLeft >= platform.getRight() && getLeft() < platform.getRight()) {
                     if ((Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) && groundState == GroundState.AIRBORNE) {
                         canRicochet = true;
                         slidPlatformBottom = platform.getBottom();
@@ -161,6 +161,7 @@ public class GigaGal implements PhysicalEntity {
         }
         // falls if no detection with platform top
         if ((!canStride && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING || aerialState == AerialState.RECOILING) {
+            canHover = true;
             fall();
         }
     }
@@ -315,7 +316,6 @@ public class GigaGal implements PhysicalEntity {
                 velocity.y *= Constants.RUNNING_JUMP_MULTIPLIER;
             }
         } else {
-            canHover = true;
             fall();
         }
     }
@@ -411,7 +411,6 @@ public class GigaGal implements PhysicalEntity {
         groundState = GroundState.AIRBORNE;
         canStride = false;
         canJump = false;
-        canHover = true;
     }
 
     public void render(SpriteBatch batch) {
