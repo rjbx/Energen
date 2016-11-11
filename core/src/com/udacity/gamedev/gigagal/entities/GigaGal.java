@@ -121,8 +121,9 @@ public class GigaGal implements PhysicalEntity {
             float previousFrameLeft = previousFramePosition.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
             float previousFrameTop = previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS;
             float previousFrameBottom = previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT;
-            // detects contact with platform sides and determines if can ricochet
+            // detects contact with platform sides
             if (getBounds().overlaps(bounds)) {
+                // determines if can ricochet
                  if (previousFrameRight <= platform.getLeft() && getRight() > platform.getLeft()
                  || previousFrameLeft >= platform.getRight() && getLeft() < platform.getRight()) {
                     if ((Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) && groundState == GroundState.AIRBORNE) {
@@ -130,7 +131,7 @@ public class GigaGal implements PhysicalEntity {
                         slidPlatformBottom = platform.getBottom();
                     }
                     velocity.x = 0;
-                    strideStartTime = TimeUtils.nanoTime(); // reset stride if bumping platform side
+                    strideStartTime = TimeUtils.nanoTime(); // resets stride if bumping platform side
                     position.x = previousFramePosition.x;
                 } else {
                     canRicochet = false;
@@ -158,7 +159,7 @@ public class GigaGal implements PhysicalEntity {
         if (position.y < slidPlatformBottom) {
             canRicochet = false;
         }
-        // fall if no detection with platform top
+        // falls if no detection with platform top
         if ((!canStride && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING || aerialState == AerialState.RECOILING) {
             fall();
         }
@@ -175,7 +176,7 @@ public class GigaGal implements PhysicalEntity {
         }
     }
 
-    // detect contact with enemy (change aerial & ground state to recoil until grounded)
+    // detects contact with enemy (change aerial & ground state to recoil until grounded)
     private void recoilFromEnemies(DelayedRemovalArray<Enemy> enemies) {
         for (Enemy enemy : enemies) {
             Rectangle bounds = new Rectangle(enemy.getLeft(), enemy.getBottom(), enemy.getWidth(), enemy.getHeight());
@@ -204,7 +205,7 @@ public class GigaGal implements PhysicalEntity {
             chargeStartTime = TimeUtils.nanoTime();
         }
         if (Gdx.input.isKeyPressed(Keys.ENTER) || shootButtonPressed) {
-            // Shoot
+            // Shoots
             if (Utils.secondsSince(chargeStartTime) > Constants.CHARGE_DURATION) {
                 isCharged = true;
             }
