@@ -160,8 +160,10 @@ public class GigaGal implements PhysicalEntity {
             canRicochet = false;
         }
         // falls if no detection with platform top
-        if ((!canStride && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING || aerialState == AerialState.RECOILING) {
-            canHover = true;
+        if ((!canStride && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING) {
+            if (aerialState != AerialState.RECOILING) {
+                canHover = true;
+            }
             fall();
         }
     }
@@ -198,6 +200,7 @@ public class GigaGal implements PhysicalEntity {
         } else {
             velocity.x = -Constants.KNOCKBACK_VELOCITY.x;
         }
+        fall();
     }
 
     private void enableShoot() {
