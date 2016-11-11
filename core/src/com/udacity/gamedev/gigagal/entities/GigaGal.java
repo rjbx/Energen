@@ -253,8 +253,7 @@ public class GigaGal implements PhysicalEntity {
         aerialState = AerialState.FALLING;
         canStride = false;
         canJump = false;
-        canDashLeft = false;
-        canDashRight = false;
+        canDash = false;
         canHover = false;
         canRicochet = false;
         jumpStartTime = 0;
