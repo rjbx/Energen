@@ -179,6 +179,9 @@ public class GigaGal implements PhysicalEntity {
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     private void recoilFromEnemies(DelayedRemovalArray<Enemy> enemies) {
+        if (aerialState == AerialState.RECOILING) {
+            velocity.y -= Constants.GRAVITY;
+        }
         for (Enemy enemy : enemies) {
             Rectangle bounds = new Rectangle(enemy.getLeft(), enemy.getBottom(), enemy.getWidth(), enemy.getHeight());
             if (getBounds().overlaps(bounds)) {
@@ -194,11 +197,10 @@ public class GigaGal implements PhysicalEntity {
         groundState = GroundState.RECOILING;
         velocity.y = Constants.KNOCKBACK_VELOCITY.y;
         if (facing == Direction.LEFT) {
-            velocity.x = Constants.KNOCKBACK_VELOCITY.x;
+            velocity.x += Constants.KNOCKBACK_VELOCITY.x;
         } else {
-            velocity.x = -Constants.KNOCKBACK_VELOCITY.x;
+            velocity.x -= Constants.KNOCKBACK_VELOCITY.x;
         }
-        fall();
     }
 
     private void enableShoot() {
