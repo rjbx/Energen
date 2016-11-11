@@ -123,13 +123,14 @@ public class GigaGal implements PhysicalEntity {
             float previousFrameBottom = previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT;
             // detects contact with platform sides and determines if can ricochet
             if (getBounds().overlaps(bounds)) {
-                if (previousFrameRight <= platform.getLeft() && getRight() > platform.getLeft()
+                 if (previousFrameRight <= platform.getLeft() && getRight() > platform.getLeft()
                  || previousFrameLeft >= platform.getRight() && getLeft() < platform.getRight()) {
-                    if ((Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) && jumpStartingPoint != position.x) {
+                    if ((Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) && groundState == GroundState.AIRBORNE) {
                         canRicochet = true;
                         slidPlatformBottom = platform.getBottom();
                     }
                     velocity.x = 0;
+                    strideStartTime = TimeUtils.nanoTime(); // reset stride if bumping platform side
                     position.x = previousFramePosition.x;
                 } else {
                     canRicochet = false;
