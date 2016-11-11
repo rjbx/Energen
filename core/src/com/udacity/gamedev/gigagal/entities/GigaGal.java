@@ -196,7 +196,7 @@ public class GigaGal implements PhysicalEntity {
         aerialState = AerialState.RECOILING;
         groundState = GroundState.RECOILING;
         velocity.y = Constants.KNOCKBACK_VELOCITY.y;
-        velocity.x += Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, facing);
+        velocity.x -= Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, facing);
     }
 
     private void enableShoot() {
