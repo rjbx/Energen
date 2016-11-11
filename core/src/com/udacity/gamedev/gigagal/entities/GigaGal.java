@@ -43,7 +43,7 @@ public class GigaGal implements PhysicalEntity {
     private float hoverTimeSeconds;
     private long ricochetStartTime;
     private float jumpStartingPoint;
-    private Platform slidPlatform;
+    private float slidPlatformBottom;
     private int lives;
     private int ammo;
     public boolean isCharged;
@@ -113,11 +113,6 @@ public class GigaGal implements PhysicalEntity {
         }
     }
 
-
-    //  -bump (detect contact with top, sides or bottom of platform and reset position to previous frame;
-    //  velocity.y equal and opposite to downward velocity i.e. gravity if top, set canRicochet
-    //  to true if jumping and side)
-    // detect platform contact under feet (changes aerial state to grounded or falling
     private void touchPlatforms(Array<Platform> platforms) {
         canStride = false;
         for (Platform platform : platforms) {
@@ -132,6 +127,7 @@ public class GigaGal implements PhysicalEntity {
                  || previousFrameLeft >= platform.getRight() && getLeft() < platform.getRight()) {
                     if ((Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) && jumpStartingPoint != position.x) {
                         canRicochet = true;
+                        slidPlatformBottom = platform.getBottom();
                     }
                     velocity.x = 0;
                     position.x = previousFramePosition.x;
@@ -157,6 +153,9 @@ public class GigaGal implements PhysicalEntity {
                     }
                 }
             }
+        }
+        if (position.y < slidPlatformBottom) {
+            canRicochet = false;
         }
         // fall if no detection with platform top
         if ((!canStride && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING || aerialState == AerialState.RECOILING) {
@@ -369,16 +368,6 @@ public class GigaGal implements PhysicalEntity {
     }
 
     private void enableRicochet() {
-        /* if (jumpStartingPoint.x != position.x
-                && (Math.abs(velocity.x) > (Constants.GIGAGAL_MAX_SPEED / 2))) {
-            hoverStartTime = TimeUtils.nanoTime();
-            velocity.x = 0;
-            slidPlatform = new Platform(platform);
-            canRicochet = true;
-            canHover = false;
-        } else {
-            canRicochet = false;
-        } */
         if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) && canRicochet)
                 || aerialState == AerialState.RICOCHETING) {
             ricochet();
