@@ -133,7 +133,7 @@ public class GigaGal implements PhysicalEntity {
                     } else {
                         velocity.x += Utils.getLateralVelocity(Constants.STRIDE_ACCELERATION, facing);
                     }
-                    strideStartTime = TimeUtils.nanoTime(); // resets stride if bumping platform side
+                    // strideStartTime = TimeUtils.nanoTime(); // resets stride if bumping platform side
                     position.x = previousFramePosition.x;
                 } else {
                     canRicochet = false;
@@ -317,6 +317,22 @@ public class GigaGal implements PhysicalEntity {
     // dash (max speed for short burst in direction facing, no movement in opposite direction
     //        or building momentum, reset momentum;
     private void enableDash() {
+        if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+            canDash = false;
+            stand();
+        }
+
+        if (canDash == true) {
+            if ((Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed) && !Utils.changeDirection(this, Direction.LEFT)) {
+                dash();
+            } else if ((Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed) && !Utils.changeDirection(this, Direction.RIGHT)) {
+                dash();
+            }
+        } else if (groundState == GroundState.DASHING) {
+            dash();
+        } else {
+            canDash = false;
+        }
         // detect if previously grounded & standing, then striding, then grounded & standing, all within
         // certain timespan, canDash = true && ground state to dashing at key detection)
     }
@@ -325,15 +341,16 @@ public class GigaGal implements PhysicalEntity {
         if (aerialState == AerialState.GROUNDED) {
             groundState = GroundState.DASHING;
             dashStartTime = TimeUtils.nanoTime();
+            canDash = false;
         }
-        if ((Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) || aerialState == AerialState.HOVERING || aerialState == AerialState.FALLING) {
+        if (Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) {
             if (facing == Direction.LEFT) {
                 velocity.x = -Constants.GIGAGAL_MAX_SPEED;
             } else {
                 velocity.x = Constants.GIGAGAL_MAX_SPEED;
             }
         } else {
-            groundState = GroundState.STANDING;
+            stand();
         }
     }
 
@@ -400,6 +417,11 @@ public class GigaGal implements PhysicalEntity {
         canJump = true;
         canHover = false;
         canRicochet = false;
+        if (Utils.secondsSince(strideStartTime) < Constants.DOUBLE_TAP_SPEED) {
+            canDash = true;
+        } else {
+            canDash = false;
+        }
     }
 
     private void fall() {
