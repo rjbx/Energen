@@ -195,17 +195,11 @@ public class GigaGal implements PhysicalEntity {
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoil() {
-        if (aerialState == AerialState.RECOILING) {
-            velocity.x = 0;
-        }
-        if (groundState == GroundState.AIRBORNE) {
-            velocity.x *= Constants.AIRBORNE_RECOIL_MULTIPLIER;
-        }
+        velocity.y = Constants.KNOCKBACK_VELOCITY.y;
+        velocity.x = -Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, facing);
         strideTimeSeconds = 0;
         aerialState = AerialState.RECOILING;
         groundState = GroundState.RECOILING;
-        velocity.y = Constants.KNOCKBACK_VELOCITY.y;
-        velocity.x -= Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, facing);
     }
 
     private void enableShoot() {
