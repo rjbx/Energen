@@ -38,7 +38,7 @@ public class GigaGal implements PhysicalEntity {
     private long jumpStartTime;
     private long dashStartTime;
     private long hoverStartTime;
-    private float strideTimeSeconds;
+    private float strideAcceleration;
     private float hoverTimeSeconds;
     private long ricochetStartTime;
     private float slidPlatformBottom;
@@ -131,7 +131,7 @@ public class GigaGal implements PhysicalEntity {
                     if (aerialState == AerialState.RICOCHETING) {
                         velocity.x = 0;
                     } else {
-                        velocity.x += Utils.getLateralVelocity(Constants.STRIDE_ACCELERATION, facing);
+                        velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
                     }
                     // strideStartTime = TimeUtils.nanoTime(); // resets stride if bumping platform side
                     position.x = previousFramePosition.x;
@@ -161,7 +161,7 @@ public class GigaGal implements PhysicalEntity {
             canRicochet = false;
         }
         // falls if no detection with platform top
-        if ((!canStride && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING) {
+        if ((!canStride && !canDash && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING) {
             if (aerialState != AerialState.RECOILING) {
                 canHover = true;
             }
@@ -195,7 +195,7 @@ public class GigaGal implements PhysicalEntity {
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoil() {
-        strideTimeSeconds = 0;
+        strideAcceleration = 0;
         aerialState = AerialState.RECOILING;
         groundState = GroundState.RECOILING;
         velocity.y = Constants.KNOCKBACK_VELOCITY.y;
@@ -257,6 +257,7 @@ public class GigaGal implements PhysicalEntity {
         canDash = false;
         canHover = false;
         canRicochet = false;
+        strideStartTime = 0;
         jumpStartTime = 0;
         dashStartTime = 0;
     }
@@ -277,7 +278,7 @@ public class GigaGal implements PhysicalEntity {
                 strideStartTime = TimeUtils.nanoTime();
                 groundState = GroundState.STRIDING;
             }
-            strideTimeSeconds = Utils.secondsSince(strideStartTime) + Constants.STRIDE_ACCELERATION;
+            strideAcceleration = Utils.secondsSince(strideStartTime) + Constants.GIGAGAL_STARTING_SPEED;
             if (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed) {
                 if (Utils.changeDirection(this, Direction.LEFT)) {
                     stand();
@@ -287,7 +288,7 @@ public class GigaGal implements PhysicalEntity {
                     stand();
                 }
             }
-            velocity.x = Utils.getLateralVelocity(Math.min(Constants.GIGAGAL_MAX_SPEED * strideTimeSeconds + Constants.STRIDE_ACCELERATION, Constants.GIGAGAL_MAX_SPEED), facing);
+            velocity.x = Utils.getLateralVelocity(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing);
         }
     }
 
@@ -305,7 +306,7 @@ public class GigaGal implements PhysicalEntity {
             jumpStartTime = TimeUtils.nanoTime();
             canJump = false;
         }
-        velocity.x += Utils.getLateralVelocity(Constants.STRIDE_ACCELERATION * Constants.STRIDING_JUMP_MULTIPLIER, facing);
+        velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, facing);
         if (Utils.secondsSince(jumpStartTime) < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
@@ -413,13 +414,15 @@ public class GigaGal implements PhysicalEntity {
         velocity.x = 0;
         groundState = GroundState.STANDING;
         aerialState = AerialState.GROUNDED;
-        canStride = true;
+        // canStride = true;
         canJump = true;
         canHover = false;
         canRicochet = false;
         if (Utils.secondsSince(strideStartTime) < Constants.DOUBLE_TAP_SPEED) {
+            canStride = false;
             canDash = true;
         } else {
+            canStride = true;
             canDash = false;
         }
     }
@@ -446,7 +449,7 @@ public class GigaGal implements PhysicalEntity {
             } else if (groundState == GroundState.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standRight;
             } else if (groundState == GroundState.STRIDING) {
-                region = Assets.getInstance().getGigaGalAssets().strideRightAnimation.getKeyFrame(Math.min(strideTimeSeconds * strideTimeSeconds, strideTimeSeconds));
+                region = Assets.getInstance().getGigaGalAssets().strideRightAnimation.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (groundState == GroundState.DASHING) {
                 region = Assets.getInstance().getGigaGalAssets().dashRight;
             }
@@ -463,7 +466,7 @@ public class GigaGal implements PhysicalEntity {
             } else if (groundState == GroundState.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standLeft;
             } else if (groundState == GroundState.STRIDING) {
-                region = Assets.getInstance().getGigaGalAssets().strideLeftAnimation.getKeyFrame(Math.min(strideTimeSeconds * strideTimeSeconds, strideTimeSeconds));
+                region = Assets.getInstance().getGigaGalAssets().strideLeftAnimation.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (groundState == GroundState.DASHING ) {
                 region = Assets.getInstance().getGigaGalAssets().dashLeft;
             }
