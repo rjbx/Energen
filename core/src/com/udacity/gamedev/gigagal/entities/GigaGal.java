@@ -195,11 +195,11 @@ public class GigaGal implements PhysicalEntity {
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoil() {
-        velocity.y = Constants.KNOCKBACK_VELOCITY.y;
-        velocity.x = -Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, facing);
         strideTimeSeconds = 0;
         aerialState = AerialState.RECOILING;
         groundState = GroundState.RECOILING;
+        velocity.y = Constants.KNOCKBACK_VELOCITY.y;
+        velocity.x = -Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, facing);
     }
 
     private void enableShoot() {
@@ -340,26 +340,28 @@ public class GigaGal implements PhysicalEntity {
     private void enableHover() {
         if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
             if (aerialState == AerialState.HOVERING) {
-                fall();
+                fall(); // if already hovering when jump key pressed, disable hover
             } else if (canHover) {
-                hover();
+                hover(); // else hover if canHover is true (set to false after beginning hover)
             }
+        // if jump key not pressed, but already hovering, continue to hover
         } else if (aerialState == AerialState.HOVERING) {
             hover();
         }
     }
 
     private void hover() {
+        // canHover can only be true just before beginning to hover
         if (canHover) {
-            aerialState = AerialState.HOVERING;
-            hoverStartTime = TimeUtils.nanoTime();
-            canHover = false;
+            aerialState = AerialState.HOVERING; // indicates currently hovering
+            hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
+            canHover = false; // indicates hover has begun
         }
-        hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
+        hoverTimeSeconds = Utils.secondsSince(hoverStartTime); // for comparing with max hover time
         if (hoverTimeSeconds < Constants.MAX_HOVER_DURATION) {
-            velocity.y = 0;
+            velocity.y = 0; // disables impact of gravity
         } else {
-            fall();
+            fall(); // when max hover time is exceeded
         }
     }
 
