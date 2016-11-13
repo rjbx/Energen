@@ -1,6 +1,7 @@
 package com.udacity.gamedev.gigagal.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -88,6 +89,7 @@ public class GigaGal implements PhysicalEntity {
                 enableStride();
                 enableJump();
             } else if (groundState == GroundState.DASHING) {
+                enableDash();
                 enableJump();
             }
         }
@@ -161,7 +163,7 @@ public class GigaGal implements PhysicalEntity {
             canRicochet = false;
         }
         // falls if no detection with platform top
-        if ((!canStride && !canDash && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING) {
+        if ((!canStride /* && groundState == GroundState.STRIDING */ && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING) {
             if (aerialState != AerialState.RECOILING) {
                 canHover = true;
             }
@@ -252,7 +254,7 @@ public class GigaGal implements PhysicalEntity {
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
-        canStride = false;
+        canStride = true;
         canJump = false;
         canDash = false;
         canHover = false;
@@ -264,15 +266,21 @@ public class GigaGal implements PhysicalEntity {
     }
 
     private void enableStride() {
-        if (canStride && !canDash
-        && (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed || Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed)) {
-            stride();
+        /*
+        if (canStride & (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed || Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed)) {
+            if (dashStartTime > 0 && Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
+                canDash = true;
+                stand();
+            } else {
+                stride();
+            }
         } else {
             stand();
-        }
+        }*/
     }
 
     private void stride() {
+        /*
         canStride = true;
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.DASHING) {
             if (groundState != GroundState.STRIDING) {
@@ -297,6 +305,48 @@ public class GigaGal implements PhysicalEntity {
             }
             velocity.x = Utils.getLateralVelocity(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing);
         }
+        */
+    }
+
+    private void enableDash() {
+/*
+        if (!directionChanged) {
+            if (Gdx.input.isKeyJustPressed(Keys.A) || leftButtonPressed || Gdx.input.isKeyJustPressed(Keys.S) || rightButtonPressed) {
+                if (dashStartTime == 0) {
+                    dashStartTime = TimeUtils.nanoTime();
+                } else if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
+                    canDash = true;
+                    dash();
+                } else if (groundState == GroundState.DASHING) {
+                    dash();
+                } else {
+                    dashStartTime = 0;
+                }
+            }
+        } else {
+            dashStartTime = 0;
+        } */
+    }
+
+    private void dash() {
+        /*
+        if (aerialState == AerialState.GROUNDED && groundState != GroundState.DASHING) {
+            groundState = GroundState.DASHING;
+            canStride = false;
+        }
+        if (Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) {
+            if (facing == Direction.LEFT) {
+                velocity.x = -Constants.GIGAGAL_MAX_SPEED;
+            } else {
+                velocity.x = Constants.GIGAGAL_MAX_SPEED;
+            }
+        } else {
+            canDash = false;
+            canStride = true;
+            dashStartTime = 0;
+            stand();
+        }
+        */
     }
 
     private void enableJump() {
@@ -319,46 +369,6 @@ public class GigaGal implements PhysicalEntity {
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         } else {
             fall();
-        }
-    }
-
-    // dash (max speed for short burst in direction facing, no movement in opposite direction
-    //        or building momentum, reset momentum;
-    private void enableDash() {
-
-        if (dashStartTime == 0 && Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
-            canDash = true;
-        }
-
-        if (((Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed) && !directionChanged)
-        || ((Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed) && !directionChanged)) {
-            if (dashStartTime == 0) {
-                dashStartTime = TimeUtils.nanoTime();
-            } else if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
-                dash();
-            } else {
-                dashStartTime = 0;
-            }
-        }
-        // detect if previously grounded & standing, then striding, then grounded & standing, all within
-        // certain timespan, canDash = true && ground state to dashing at key detection)
-    }
-
-    private void dash() {
-        if (aerialState == AerialState.GROUNDED && groundState != GroundState.DASHING) {
-            groundState = GroundState.DASHING;
-            dashStartTime = TimeUtils.nanoTime();
-            canDash = false;
-            canStride = false;
-        }
-        if (Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) {
-            if (facing == Direction.LEFT) {
-                velocity.x = -Constants.GIGAGAL_MAX_SPEED;
-            } else {
-                velocity.x = Constants.GIGAGAL_MAX_SPEED;
-            }
-        } else {
-            stand();
         }
     }
 
@@ -424,7 +434,6 @@ public class GigaGal implements PhysicalEntity {
         canStride = true;
         canJump = true;
         canHover = false;
-        canStride = true;
         canRicochet = false;
     }
 
@@ -473,6 +482,13 @@ public class GigaGal implements PhysicalEntity {
             }
         }
         Utils.drawTextureRegion(batch, region, position, Constants.GIGAGAL_EYE_POSITION);
+    }
+
+    private void handleDirectionalInput() {
+        boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
+        boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
+
+        
     }
 
     // Getters
