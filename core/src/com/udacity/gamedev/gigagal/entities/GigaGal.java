@@ -16,6 +16,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Utils;
 import java.lang.String;
+import java.sql.Time;
 
 // mutable
 public class GigaGal implements PhysicalEntity {
@@ -431,7 +432,7 @@ public class GigaGal implements PhysicalEntity {
         velocity.x = 0;
         groundState = GroundState.STANDING;
         aerialState = AerialState.GROUNDED;
-        canStride = true;
+        canStride = false;
         canJump = true;
         canHover = false;
         canRicochet = false;
@@ -487,8 +488,31 @@ public class GigaGal implements PhysicalEntity {
     private void handleDirectionalInput() {
         boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
         boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
+        boolean directionChanged = false;
 
-        
+        if (groundState != GroundState.DASHING) {
+            if (left || right) {
+                if (left && !right) {
+                    directionChanged = Utils.changeDirection(this, Direction.LEFT);
+                } else if (!left && right) {
+                    directionChanged = Utils.changeDirection(this, Direction.RIGHT);
+                }
+                if (directionChanged) {
+                    stand();
+                } else if (!canStride) {
+                    if (strideStartTime == 0) {
+                        canStride = true;
+                    } else if (Utils.secondsSince(strideStartTime) < Constants.DOUBLE_TAP_SPEED) {
+                        canDash = true;
+                        strideStartTime = 0;
+                    }
+                } else {
+                    canStride = true;
+                }
+            } else {
+                stand();
+            }
+        }
     }
 
     // Getters
