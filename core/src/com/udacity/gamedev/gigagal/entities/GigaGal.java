@@ -121,10 +121,15 @@ public class GigaGal implements PhysicalEntity {
             float previousFrameLeft = previousFramePosition.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
             float previousFrameTop = previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS;
             float previousFrameBottom = previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT;
-            // detects contact with platform sides
-            if (getRight() > platform.getLeft() && getLeft() < platform.getRight()) {
-                if (platform.getHeight() > Constants.MAX_LEDGE_HEIGHT && getBounds().overlaps(bounds)) {
-                    if (previousFrameRight <= platform.getLeft() || previousFrameLeft >= platform.getRight()) {
+
+            // if currently within platform left and right sides
+            if (getRight() >= platform.getLeft() && getLeft() <= platform.getRight()) {
+                // apply following rules (bump side and bottom) only if platform height > ledge height
+                // ledges only apply collision detection on top, and not on sides and bottom as do platforms
+                if (platform.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
+                    // detects contact with platform sides
+                    if ((previousFrameRight <= platform.getLeft() || previousFrameLeft >= platform.getRight())
+                    && getBottom() < platform.getTop() && getTop() > platform.getBottom()) {
                         if ((Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) && groundState == GroundState.AIRBORNE) {
                             canRicochet = true;
                             slidPlatformBottom = platform.getBottom();
