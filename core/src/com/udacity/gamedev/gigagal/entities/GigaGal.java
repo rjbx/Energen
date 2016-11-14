@@ -115,7 +115,6 @@ public class GigaGal implements PhysicalEntity {
     }
 
     private void touchPlatforms(Array<Platform> platforms) {
-        canStride = false;
         for (Platform platform : platforms) {
             Rectangle bounds = new Rectangle( platform.getLeft(), platform.getBottom(), platform.getWidth(), platform.getHeight() );
             float previousFrameRight = previousFramePosition.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
@@ -152,11 +151,7 @@ public class GigaGal implements PhysicalEntity {
                 // detects contact with platform top
                 if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop()) {
                     position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
-                    if (groundState != GroundState.STRIDING) {
-                        stand();
-                    } else {
-                        stride();
-                    }
+                    stand();
                 }
             }
         }
@@ -164,7 +159,7 @@ public class GigaGal implements PhysicalEntity {
             canRicochet = false;
         }
         // falls if no detection with platform top
-        if ((!canStride /* && groundState == GroundState.STRIDING */ && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING) {
+        if ((groundState == GroundState.STRIDING && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING) {
             if (aerialState != AerialState.RECOILING) {
                 canHover = true;
             }
@@ -267,6 +262,11 @@ public class GigaGal implements PhysicalEntity {
     }
 
     private void enableStride() {
+
+        handleDirectionalInput();
+        if (canStride) {
+            stride();
+        }
         /*
         if (canStride & (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed || Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed)) {
             if (dashStartTime > 0 && Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
@@ -281,6 +281,14 @@ public class GigaGal implements PhysicalEntity {
     }
 
     private void stride() {
+        if (strideStartTime == 0) {
+            strideStartTime = TimeUtils.nanoTime();
+        }
+        canStride = true;
+        groundState = GroundState.STRIDING;
+        strideAcceleration = Utils.secondsSince(strideStartTime) + Constants.GIGAGAL_STARTING_SPEED;
+        velocity.x = Utils.getLateralVelocity(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing);
+
         /*
         canStride = true;
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.DASHING) {
@@ -432,7 +440,6 @@ public class GigaGal implements PhysicalEntity {
         velocity.x = 0;
         groundState = GroundState.STANDING;
         aerialState = AerialState.GROUNDED;
-        canStride = false;
         canJump = true;
         canHover = false;
         canRicochet = false;
@@ -498,19 +505,19 @@ public class GigaGal implements PhysicalEntity {
                     directionChanged = Utils.changeDirection(this, Direction.RIGHT);
                 }
                 if (directionChanged) {
-                    stand();
+                 //   stand();
                 } else if (!canStride) {
                     if (strideStartTime == 0) {
                         canStride = true;
                     } else if (Utils.secondsSince(strideStartTime) < Constants.DOUBLE_TAP_SPEED) {
                         canDash = true;
-                        strideStartTime = 0;
                     }
                 } else {
                     canStride = true;
                 }
             } else {
                 stand();
+                strideStartTime = 0;
             }
         }
     }
