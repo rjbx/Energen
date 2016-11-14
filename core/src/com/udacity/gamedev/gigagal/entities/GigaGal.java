@@ -122,31 +122,30 @@ public class GigaGal implements PhysicalEntity {
             float previousFrameTop = previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS;
             float previousFrameBottom = previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT;
             // detects contact with platform sides
-            if (getBounds().overlaps(bounds)) {
-                // determines if can ricochet
-                if (previousFrameRight <= platform.getLeft() && getRight() > platform.getLeft()
-                || previousFrameLeft >= platform.getRight() && getLeft() < platform.getRight()) {
-                    if ((Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) && groundState == GroundState.AIRBORNE) {
-                        canRicochet = true;
-                        slidPlatformBottom = platform.getBottom();
-                    }
-                    if (aerialState == AerialState.RICOCHETING || aerialState == AerialState.HOVERING) {
-                        velocity.x = 0;
-                    } else {
-                        velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
-                    }
-                    strideStartTime = TimeUtils.nanoTime(); // resets stride if bumping platform side
-                    position.x = previousFramePosition.x;
-                } else {
-                    canRicochet = false;
-                }
-            }
             if (getRight() > platform.getLeft() && getLeft() < platform.getRight()) {
-                // detects contact with platform bottom
-                if (previousFrameTop <= platform.getBottom() && getTop() > platform.getBottom()) {
-                    velocity.y = 0;
-                    position.y = previousFramePosition.y;
-                    fall();
+                if (platform.getHeight() > Constants.MAX_LEDGE_HEIGHT && getBounds().overlaps(bounds)) {
+                    if (previousFrameRight <= platform.getLeft() || previousFrameLeft >= platform.getRight()) {
+                        if ((Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) && groundState == GroundState.AIRBORNE) {
+                            canRicochet = true;
+                            slidPlatformBottom = platform.getBottom();
+                        }
+                        if (aerialState == AerialState.RICOCHETING || aerialState == AerialState.HOVERING) {
+                            velocity.x = 0;
+                        } else {
+                            velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
+                        }
+                        strideStartTime = TimeUtils.nanoTime(); // resets stride if bumping platform side
+                        position.x = previousFramePosition.x;
+                    } else {
+                        canRicochet = false;
+                    }
+
+                    // detects contact with platform bottom
+                    if (previousFrameTop <= platform.getBottom() && getTop() > platform.getBottom()) {
+                        velocity.y = 0;
+                        position.y = previousFramePosition.y;
+                        fall();
+                    }
                 }
                 // detects contact with platform top
                 if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop()) {
