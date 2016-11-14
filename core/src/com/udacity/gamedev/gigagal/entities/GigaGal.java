@@ -130,7 +130,7 @@ public class GigaGal implements PhysicalEntity {
                         canRicochet = true;
                         slidPlatformBottom = platform.getBottom();
                     }
-                    if (aerialState == AerialState.RICOCHETING) {
+                    if (aerialState == AerialState.RICOCHETING || aerialState == AerialState.HOVERING) {
                         velocity.x = 0;
                     } else {
                         velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
