@@ -150,6 +150,7 @@ public class GigaGal implements PhysicalEntity {
                 }
                 // detects contact with platform top
                 if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop()) {
+                    velocity.y = 0;
                     position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
                     stand();
                 }
@@ -250,7 +251,7 @@ public class GigaGal implements PhysicalEntity {
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
-        canStride = true;
+        canStride = false;
         canJump = false;
         canDash = false;
         canHover = false;
@@ -448,6 +449,7 @@ public class GigaGal implements PhysicalEntity {
     private void fall() {
         aerialState = AerialState.FALLING;
         groundState = GroundState.AIRBORNE;
+        strideStartTime = 0;
         canStride = false;
         canJump = false;
     }
@@ -505,7 +507,8 @@ public class GigaGal implements PhysicalEntity {
                     directionChanged = Utils.changeDirection(this, Direction.RIGHT);
                 }
                 if (directionChanged) {
-                 //   stand();
+                    strideStartTime = 0;
+                    stand();
                 } else if (!canStride) {
                     if (strideStartTime == 0) {
                         canStride = true;
@@ -515,8 +518,13 @@ public class GigaGal implements PhysicalEntity {
                 } else {
                     canStride = true;
                 }
+                if (groundState == GroundState.STANDING) {
+                    stand();
+                    canStride = true;
+                }
             } else {
                 stand();
+                canStride = false;
                 strideStartTime = 0;
             }
         }
