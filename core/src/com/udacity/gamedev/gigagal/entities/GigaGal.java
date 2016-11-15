@@ -148,6 +148,7 @@ public class GigaGal implements PhysicalEntity {
                     if (previousFrameTop <= platform.getBottom() && getTop() > platform.getBottom()) {
                         velocity.y = 0;
                         position.y = previousFramePosition.y;
+                        canHover = true;
                         fall();
                     }
                 }
