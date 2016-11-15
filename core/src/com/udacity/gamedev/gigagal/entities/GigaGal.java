@@ -114,6 +114,8 @@ public class GigaGal implements Physical {
     private void touchPlatforms(Array<Platform> platforms) {
         float slidPlatformTop = 0;
         float slidPlatformBottom = 0;
+        float groundedPlatformLeft = 0;
+        float groundedPlatformRight = 0;
         for (Platform platform : platforms) {
             float previousFrameRight = previousFramePosition.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
             float previousFrameLeft = previousFramePosition.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
@@ -162,6 +164,8 @@ public class GigaGal implements Physical {
                 if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop()) {
                     velocity.y = 0; // prevents from descending beneath platform top
                     position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop platform
+                    groundedPlatformLeft = platform.getLeft();
+                    groundedPlatformRight = platform.getRight();
                     if (groundState != GroundState.DASHING) {
                         stand();
                     }
@@ -180,8 +184,9 @@ public class GigaGal implements Physical {
             canRicochet = false;
         }
         // falls if no detection with platform top
-        if (((groundState == GroundState.STRIDING)
-        && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING) {
+        if ((aerialState == AerialState.GROUNDED
+        && (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight))
+        || aerialState == AerialState.JUMPING) {
             if (aerialState != AerialState.RECOILING) {
                 canHover = true;
             }
@@ -355,6 +360,7 @@ public class GigaGal implements Physical {
             velocity.y = Constants.JUMP_SPEED;
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         } else {
+           // velocity.y = 0;
             fall();
         }
     }

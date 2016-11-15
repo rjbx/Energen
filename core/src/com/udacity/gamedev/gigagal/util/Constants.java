@@ -24,7 +24,7 @@ public final class Constants {
     public static final float GIGAGAL_WAIST_HEIGHT = 9.5f;
     public static final float GIGAGAL_STANCE_WIDTH = 19.0f;
     public static final Vector2 GIGAGAL_CANNON_OFFSET = new Vector2(4, -7);
-    public static final float GIGAGAL_HEIGHT = 23.0f;
+    public static final float GIGAGAL_HEIGHT = 23.0f; // four pixels added for plume height
     public static final float GIGAGAL_HEAD_RADIUS = 3;
     public static final float GIGAGAL_MAX_SPEED = 200;
     public static final float JUMP_SPEED = 200;
@@ -127,7 +127,7 @@ public final class Constants {
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_ZOOMBA_TAG = "Zoomba";
     public static final String LEVEL_SPIKE_TAG = "Spike";
-    public static final String[] LEVELS = {"levels/Level3.dt", "levels/Level1.dt", "levels/Level2.dt", };
+    public static final String[] LEVELS = {"levels/Level2.dt", "levels/Level1.dt", "levels/Level3.dt", };
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;
