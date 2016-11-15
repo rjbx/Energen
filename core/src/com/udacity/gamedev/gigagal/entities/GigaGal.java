@@ -101,7 +101,6 @@ public class GigaGal implements PhysicalEntity {
                 enableRicochet();
             } else if (aerialState == AerialState.JUMPING) {
                 enableJump();
-                enableHover();
                 enableRicochet();
             } else if (aerialState == AerialState.HOVERING) {
                 enableHover();
