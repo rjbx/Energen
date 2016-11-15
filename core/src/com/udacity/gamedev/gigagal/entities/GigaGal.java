@@ -127,13 +127,15 @@ public class GigaGal implements Physical {
                 && getBottom() < platform.getTop() && getTop() > platform.getBottom()) {
                     // detects contact with platform sides
                     if ((previousFrameRight < platform.getLeft() || previousFrameLeft > platform.getRight())) {
-                        if ((Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) && groundState == GroundState.AIRBORNE) {
-                            canRicochet = true;
-                            slidPlatformBottom = platform.getBottom();
-                        }
-                        if (aerialState == AerialState.RICOCHETING || aerialState == AerialState.HOVERING) {
-                            velocity.x = 0;
+                        if (groundState == GroundState.AIRBORNE) {
+                            if (Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) {
+                                canRicochet = true;
+                                slidPlatformBottom = platform.getBottom();
+                            } else if (aerialState == AerialState.RICOCHETING || aerialState == AerialState.HOVERING) {
+                                velocity.x = 0;
+                            }
                         } else {
+                            stand();
                             velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
                         }
                         strideStartTime = 0;
