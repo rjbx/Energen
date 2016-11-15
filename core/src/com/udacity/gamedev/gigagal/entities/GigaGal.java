@@ -200,13 +200,18 @@ public class GigaGal implements Physical {
         for (Hazard hazard : hazards) {
             Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
             if (getBounds().overlaps(bounds)) {
-                recoil();
+                if (hazard.getClass() == Directional.class) {
+                    Direction facing = ((Directional) hazard).getDirection();
+                    recoil(facing);
+                } else {
+                    recoil(this.facing);
+                }
             }
         }
     }
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
-    private void recoil() {
+    private void recoil(Direction facing) {
         strideAcceleration = 0;
         aerialState = AerialState.RECOILING;
         groundState = GroundState.RECOILING;
