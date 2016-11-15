@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // mutable
-public class Zoomba extends Destructible {
+public class Zoomba extends Destructible implements Directional {
 
     // fields
     private final long startTime;
@@ -58,6 +58,7 @@ public class Zoomba extends Destructible {
         Utils.drawTextureRegion(batch, region, position, Constants.ZOOMBA_CENTER);
     }
 
+    public Direction getDirection() { return direction; }
     public final Vector2 getPosition() { return position; }
     public final int getHealth() { return health; }
     public final float getWidth() { return Constants.ZOOMBA_COLLISION_RADIUS * 2; }

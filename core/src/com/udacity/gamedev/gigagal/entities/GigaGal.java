@@ -17,7 +17,7 @@ import com.udacity.gamedev.gigagal.util.Utils;
 import java.lang.String;
 
 // mutable
-public class GigaGal implements PhysicalEntity {
+public class GigaGal implements Physical {
 
     // fields
     public final static String TAG = GigaGal.class.getName();

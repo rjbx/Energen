@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // immutable
-public final class Powerup implements PhysicalEntity {
+public final class Powerup implements Physical {
 
     // fields
     private final Vector2 position;
