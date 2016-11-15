@@ -200,9 +200,10 @@ public class GigaGal implements Physical {
         for (Hazard hazard : hazards) {
             Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
             if (getBounds().overlaps(bounds)) {
-                if (getPosition().x < hazard.getWidth() / 3) {
+                float oneThirdWidth = hazard.getWidth() / 3;
+                if (getPosition().x < (hazard.getLeft() + oneThirdWidth)) {
                     recoil(Direction.LEFT);
-                } else if (getPosition().x > hazard.getWidth() * (2/3)) {
+                } else if (getPosition().x > (hazard.getRight() - oneThirdWidth)) {
                     recoil(Direction.RIGHT);
                 }
             }
@@ -219,7 +220,7 @@ public class GigaGal implements Physical {
         canRicochet = false;
         canStride = false;
         velocity.y = Constants.KNOCKBACK_VELOCITY.y;
-        velocity.x = -Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, direction);
+        velocity.x = Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, direction);
     }
 
     private void enableShoot() {
