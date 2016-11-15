@@ -10,5 +10,6 @@ public abstract class Enemy implements PhysicalEntity {
     abstract public void render(SpriteBatch batch);
     abstract public float getShotRadius();
     abstract public int getHitScore();
+    abstract public int getKillScore();
     abstract public Class getSubclass();
 }

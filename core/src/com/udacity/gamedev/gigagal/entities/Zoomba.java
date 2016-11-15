@@ -68,6 +68,7 @@ public class Zoomba extends Enemy {
     public final float getBottom() { return position.y - Constants.ZOOMBA_CENTER.y; }
     public final float getShotRadius() { return Constants.ZOOMBA_SHOT_RADIUS; }
     public final int getHitScore() { return Constants.ZOOMBA_HIT_SCORE; }
+    public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
     public final Class getSubclass() { return this.getClass(); }
     public final void setHealth( int health ) { this.health = health; }
 }

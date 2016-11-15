@@ -22,6 +22,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private PlatformAssets platformAssets;
     private BulletAssets bulletAssets;
     private ZoombaAssets zoombaAssets;
+    private SpikeAssets spikeAssets;
     private ExplosionAssets explosionAssets;
     private PowerupAssets powerupAssets;
     private ExitPortalAssets exitPortalAssets;
@@ -46,6 +47,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         platformAssets = new PlatformAssets(atlas);
         bulletAssets = new BulletAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
+        spikeAssets = new SpikeAssets(atlas);
         explosionAssets = new ExplosionAssets(atlas);
         powerupAssets = new PowerupAssets(atlas);
         exitPortalAssets = new ExitPortalAssets(atlas);
@@ -120,7 +122,6 @@ public final class Assets implements Disposable, AssetErrorListener {
     public class PlatformAssets {
 
         public final NinePatch platformNinePatch;
-
         public PlatformAssets(TextureAtlas atlas) {
             AtlasRegion region = atlas.findRegion(Constants.PLATFORM_SPRITE);
             int edge = Constants.PLATFORM_EDGE;
@@ -146,6 +147,15 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public ZoombaAssets(TextureAtlas atlas) {
             zoomba = atlas.findRegion(Constants.ZOOMBA_SPRITE);
+        }
+    }
+
+    public class SpikeAssets {
+
+        public final AtlasRegion spike;
+
+        public SpikeAssets(TextureAtlas atlas) {
+            spike = atlas.findRegion(Constants.SPIKE_SPRITE);
         }
     }
 
@@ -218,6 +228,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final PlatformAssets getPlatformAssets() { return platformAssets; }
     public final BulletAssets getBulletAssets() { return bulletAssets; }
     public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
+    public final SpikeAssets getSpikeAssets() { return spikeAssets; }
     public final ExplosionAssets getExplosionAssets() { return explosionAssets; }
     public final PowerupAssets getPowerupAssets() { return powerupAssets; }
     public final ExitPortalAssets getExitPortalAssets() { return exitPortalAssets; }

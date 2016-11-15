@@ -74,6 +74,13 @@ public final class Constants {
     public static final float ZOOMBA_SHOT_RADIUS = 17;
     public static final String ZOOMBA_SPRITE = "zoomba";
 
+    // Spike
+    public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
+    public static final int SPIKE_MAX_HEALTH = 50;
+    public static final float SPIKE_COLLISION_WIDTH = 9;
+    public static final float SPIKE_COLLISION_HEIGHT = 17;
+    public static final String SPIKE_SPRITE = "spike";
+
     // Ammo
     public static final float CHARGE_DURATION = 0.8f;
     public static final float BULLET_MOVE_SPEED = 500;
@@ -148,5 +155,7 @@ public final class Constants {
     // Scoring
     public static final int ZOOMBA_KILL_SCORE = 100;
     public static final int ZOOMBA_HIT_SCORE = 25;
+    public static final int SPIKE_KILL_SCORE = 10;
+    public static final int SPIKE_HIT_SCORE = 5;
     public static final int POWERUP_SCORE = 50;
 }

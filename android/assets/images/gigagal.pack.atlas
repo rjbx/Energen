@@ -200,6 +200,13 @@ ricochet-right
   orig: 29, 35
   offset: 0, 0
   index: -1
+spike
+  rotate: false
+  xy: 998, 110
+  size: 7, 16
+  orig: 7, 16
+  offset: 0, 0
+  index: -1
 standing-left
   rotate: false
   xy: 820, 91

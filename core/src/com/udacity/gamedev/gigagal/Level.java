@@ -87,7 +87,7 @@ public class Level {
                 if (enemy.getHealth() < 1) {
                     spawnExplosion(enemy.getPosition());
                     enemies.removeIndex(i);
-                    score += enemy.getHitScore();
+                    score += enemy.getKillScore();
                 }
             }
             enemies.end();
