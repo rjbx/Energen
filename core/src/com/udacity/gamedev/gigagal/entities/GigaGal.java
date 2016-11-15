@@ -174,7 +174,8 @@ public class GigaGal implements Physical {
                 }
             }
         }
-        if (getBottom() > slidPlatformTop  || getTop() < slidPlatformBottom) {
+        float waistHeight = getBottom() + Constants.GIGAGAL_WAIST_HEIGHT;
+        if (waistHeight > slidPlatformTop  || waistHeight < slidPlatformBottom) {
             canRicochet = false;
         }
         // falls if no detection with platform top
