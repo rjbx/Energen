@@ -37,7 +37,7 @@ public final class LevelLoader {
             JSONObject composite = (JSONObject) rootJsonObject.get(Constants.LEVEL_COMPOSITE);
 
             JSONArray platforms = (JSONArray) composite.get(Constants.LEVEL_9PATCHES);
-            loadPlatforms(platforms, level);
+            loadPlatforms(level, platforms);
 
             JSONArray nonPlatformObjects = (JSONArray) composite.get(Constants.LEVEL_IMAGES);
             loadNonPlatformEntities(level, nonPlatformObjects);
@@ -64,53 +64,47 @@ public final class LevelLoader {
     private static final void loadNonPlatformEntities(Level level, JSONArray nonPlatformObjects) {
         for (Object o : nonPlatformObjects) {
             JSONObject item = (JSONObject) o;
+            String identifier = (String) item.get(Constants.LEVEL_IDENTIFIER_KEY);
+            Vector2 imageCenter = extractXY(item);
 
-            final Vector2 imagePosition = extractXY(item);
-
-            if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POWERUP_SPRITE)) {
-                final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
+            if (identifier.equals(Constants.POWERUP_SPRITE)) {
+                final Vector2 powerupPosition = imageCenter.add(Constants.POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded a powerup at " + powerupPosition);
                 level.getPowerups().add(new Powerup(powerupPosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STAND_RIGHT)) {
-                final Vector2 gigaGalPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
+            } else if (identifier.equals(Constants.STAND_RIGHT)) {
+                final Vector2 gigaGalPosition = imageCenter.add(Constants.GIGAGAL_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);
                 level.setGigaGal(new GigaGal(gigaGalPosition, level));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.EXIT_PORTAL_SPRITE_1)) {
-                final Vector2 exitPortalPosition = imagePosition.add(Constants.EXIT_PORTAL_CENTER);
+            } else if (identifier.equals(Constants.EXIT_PORTAL_SPRITE_1)) {
+                final Vector2 exitPortalPosition = imageCenter.add(Constants.EXIT_PORTAL_CENTER);
                 Gdx.app.log(TAG, "Loaded the exit portal at " + exitPortalPosition);
                 level.setExitPortal(new ExitPortal(exitPortalPosition));
             }
         }
     }
 
-    private static final void loadPlatforms(JSONArray array, Level level) {
+    private static final void loadPlatforms(Level level, JSONArray array) {
 
         Array<Platform> platformArray = new Array<Platform>();
 
-        for (Object object : array) {
-            final JSONObject platformObject = (JSONObject) object;
-
-            Vector2 bottomLeft = extractXY(platformObject);
-
+        for (Object o : array) {
+            final JSONObject platformObject = (JSONObject) o;
+            final String identifier = (String) platformObject.get(Constants.LEVEL_IDENTIFIER_KEY);
+            Vector2 platformBottomLeft = extractXY(platformObject);
             final float width = ((Number) platformObject.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
             final float height = ((Number) platformObject.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
-
-
-            final Platform platform = new Platform(bottomLeft.x, bottomLeft.y + height, width, height);
+            final Platform platform = new Platform(platformBottomLeft.x, platformBottomLeft.y + height, width, height);
 
             platformArray.add(platform);
 
-
-            final String identifier = (String) platformObject.get(Constants.LEVEL_IDENTIFIER_KEY);
-
-
-            if (identifier != null && identifier.equals(Constants.LEVEL_ZOOMBA_TAG)) {
+            if (identifier.equals(Constants.LEVEL_ZOOMBA_TAG)) {
                 final Zoomba zoomba = new Zoomba(platform);
                 level.getEnemies().add(zoomba);
             }
 
-            if (identifier != null && identifier.equals(Constants.LEVEL_SPIKE_TAG)) {
-                final Spike spike = new Spike(platform);
+            if (identifier.equals(Constants.LEVEL_SPIKE_TAG)) {
+                final Vector2 spikePosition = extractXY(platformObject).add(Constants.SPIKE_CENTER);
+                final Spike spike = new Spike(platform, spikePosition.x);
                 level.getEnemies().add(spike);
             }
         }

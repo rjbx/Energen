@@ -18,15 +18,14 @@ public class Spike extends Enemy {
     private int health;
 
     // ctor
-    public Spike(Platform platform) {
+    public Spike(Platform platform, float lateralPosition) {
         this.platform = platform;
-        position = new Vector2(platform.getLeft(), platform.getTop() + Constants.SPIKE_CENTER.y);
+        position = new Vector2(lateralPosition, platform.getTop() + Constants.SPIKE_CENTER.y);
         health = Constants.SPIKE_MAX_HEALTH;
     }
 
     // static render
     public void update(float delta) {
-        position.y = platform.getTop() + Constants.SPIKE_CENTER.y;
     }
 
     public void render(SpriteBatch batch) {
