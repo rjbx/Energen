@@ -1,7 +1,6 @@
 package com.udacity.gamedev.gigagal.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,7 +15,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Utils;
 import java.lang.String;
-import java.sql.Time;
 
 // mutable
 public class GigaGal implements PhysicalEntity {
@@ -74,7 +72,7 @@ public class GigaGal implements PhysicalEntity {
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
         touchPlatforms(level.getPlatforms());
-        recoilFromEnemies(level.getEnemies());
+        recoilFromHazards(level.getHazards());
         collectPowerups(level.getPowerups());
         enableRespawn();
         enableShoot();
@@ -183,12 +181,12 @@ public class GigaGal implements PhysicalEntity {
     }
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    private void recoilFromEnemies(DelayedRemovalArray<Enemy> enemies) {
+    private void recoilFromHazards(Array<Hazard> hazards) {
         if (aerialState == AerialState.RECOILING) {
             velocity.y -= Constants.GRAVITY;
         }
-        for (Enemy enemy : enemies) {
-            Rectangle bounds = new Rectangle(enemy.getLeft(), enemy.getBottom(), enemy.getWidth(), enemy.getHeight());
+        for (Hazard hazard : hazards) {
+            Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
             if (getBounds().overlaps(bounds)) {
                 recoil();
             }

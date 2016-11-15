@@ -2,7 +2,7 @@ package com.udacity.gamedev.gigagal.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public abstract class Enemy implements PhysicalEntity {
+public abstract class Destructible extends Hazard {
 
     abstract public int getHealth();
     abstract public void setHealth(int health);

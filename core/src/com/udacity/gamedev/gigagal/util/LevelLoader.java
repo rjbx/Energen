@@ -79,10 +79,10 @@ public final class LevelLoader {
                 final Vector2 exitPortalPosition = imagePosition.add(Constants.EXIT_PORTAL_CENTER);
                 Gdx.app.log(TAG, "Loaded the exit portal at " + exitPortalPosition);
                 level.setExitPortal(new ExitPortal(exitPortalPosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LEVEL_SPIKE_TAG)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPIKE_SPRITE)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SPIKE_CENTER);
                 Gdx.app.log(TAG, "Loaded the spike at " + spikePosition);
-                level.getHazards().add(new Spike(spikePosition));
+                level.getIndestructables().add(new Spike(spikePosition));
             }
         }
     }
@@ -103,7 +103,7 @@ public final class LevelLoader {
 
             if (identifier != null && identifier.equals(Constants.LEVEL_ZOOMBA_TAG)) {
                 final Zoomba zoomba = new Zoomba(platform);
-                level.getEnemies().add(zoomba);
+                level.getDestructables().add(zoomba);
             }
         }
 

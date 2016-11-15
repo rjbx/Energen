@@ -7,9 +7,9 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Ammo;
-import com.udacity.gamedev.gigagal.entities.Enemy;
+import com.udacity.gamedev.gigagal.entities.Destructible;
 import com.udacity.gamedev.gigagal.entities.Hazard;
-import com.udacity.gamedev.gigagal.entities.Spike;
+import com.udacity.gamedev.gigagal.entities.Indestructible;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.ExitPortal;
 import com.udacity.gamedev.gigagal.entities.Explosion;
@@ -32,8 +32,8 @@ public class Level {
     private GigaGal gigaGal;
     private ExitPortal exitPortal;
     private Array<Platform> platforms;
-    private Array<Hazard> hazards;
-    private DelayedRemovalArray<Enemy> enemies;
+    private Array<Indestructible> indestructables;
+    private DelayedRemovalArray<Destructible> destructables;
     private DelayedRemovalArray<Ammo> bullets;
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
@@ -43,8 +43,8 @@ public class Level {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigaGal = new GigaGal(new Vector2(50, 50), this);
         platforms = new Array<Platform>();
-        enemies = new DelayedRemovalArray<Enemy>();
-        hazards = new DelayedRemovalArray<Hazard>();
+        destructables = new DelayedRemovalArray<Destructible>();
+        indestructables = new DelayedRemovalArray<Indestructible>();
         bullets = new DelayedRemovalArray<Ammo>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
@@ -84,17 +84,17 @@ public class Level {
             bullets.end();
 
             // Update Enemies
-            enemies.begin();
-            for (int i = 0; i < enemies.size; i++) {
-                Enemy enemy = enemies.get(i);
-                enemy.update(delta);
-                if (enemy.getHealth() < 1) {
-                    spawnExplosion(enemy.getPosition());
-                    enemies.removeIndex(i);
-                    score += enemy.getKillScore();
+            destructables.begin();
+            for (int i = 0; i < destructables.size; i++) {
+                Destructible destructible = destructables.get(i);
+                destructible.update(delta);
+                if (destructible.getHealth() < 1) {
+                    spawnExplosion(destructible.getPosition());
+                    destructables.removeIndex(i);
+                    score += destructible.getKillScore();
                 }
             }
-            enemies.end();
+            destructables.end();
 
             // Update Explosions
             explosions.begin();
@@ -124,12 +124,12 @@ public class Level {
             powerup.render(batch);
         }
 
-        for (Hazard hazard : hazards) {
-            hazard.render(batch);
+        for (Indestructible indestructible : indestructables) {
+            indestructible.render(batch);
         }
 
-        for (Enemy enemy : enemies) {
-            enemy.render(batch);
+        for (Destructible destructible : destructables) {
+            destructible.render(batch);
         }
         gigaGal.render(batch);
 
@@ -152,7 +152,7 @@ public class Level {
 
         platforms = new Array<Platform>();
         bullets = new DelayedRemovalArray<Ammo>();
-        enemies = new DelayedRemovalArray<Enemy>();
+        destructables = new DelayedRemovalArray<Destructible>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
 
@@ -161,7 +161,7 @@ public class Level {
 
         Platform zoombaPlatform = new Platform(75, 90, 100, 65);
 
-        enemies.add(new Zoomba(zoombaPlatform));
+        destructables.add(new Zoomba(zoombaPlatform));
 
         platforms.add(zoombaPlatform);
         platforms.add(new Platform(35, 55, 50, 20));
@@ -180,8 +180,9 @@ public class Level {
 
     // Getters
     public final Array<Platform> getPlatforms() { return platforms; }
-    public final Array<Hazard> getHazards() { return hazards; }
-    public final DelayedRemovalArray<Enemy> getEnemies() { return enemies; }
+    public final Array<Indestructible> getIndestructables() { return indestructables; }
+    public final DelayedRemovalArray<Destructible> getDestructables() { return destructables; }
+    public final Array<Hazard> getHazards() { Array<Hazard> hazards = new Array<Hazard>(destructables); hazards.addAll(indestructables); return hazards; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
     public final int getScore() { return score; }
