@@ -155,7 +155,9 @@ public class GigaGal implements PhysicalEntity {
                     position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
                     stand();
                 }
-                if (aerialState == AerialState.FALLING && (getBottom() < (platform.getTop() + Constants.MIN_HOVER_HEIGHT))) {
+                if (aerialState == AerialState.FALLING
+                && (getBottom() < (platform.getTop() + Constants.MIN_HOVER_HEIGHT))
+                && platform.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                     canHover = false;
                 }
             }
