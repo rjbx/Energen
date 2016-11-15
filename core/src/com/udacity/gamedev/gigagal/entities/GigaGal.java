@@ -136,6 +136,7 @@ public class GigaGal implements PhysicalEntity {
                         } else {
                             velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
                         }
+                        strideStartTime = 0;
                         canStride = false;
                         canDash = false;
                         position.x = previousFramePosition.x;
