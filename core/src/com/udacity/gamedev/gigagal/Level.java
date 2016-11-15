@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Ammo;
 import com.udacity.gamedev.gigagal.entities.Enemy;
+import com.udacity.gamedev.gigagal.entities.Hazard;
 import com.udacity.gamedev.gigagal.entities.Spike;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.ExitPortal;
@@ -31,6 +32,7 @@ public class Level {
     private GigaGal gigaGal;
     private ExitPortal exitPortal;
     private Array<Platform> platforms;
+    private Array<Hazard> hazards;
     private DelayedRemovalArray<Enemy> enemies;
     private DelayedRemovalArray<Ammo> bullets;
     private DelayedRemovalArray<Explosion> explosions;
@@ -42,6 +44,7 @@ public class Level {
         gigaGal = new GigaGal(new Vector2(50, 50), this);
         platforms = new Array<Platform>();
         enemies = new DelayedRemovalArray<Enemy>();
+        hazards = new DelayedRemovalArray<Hazard>();
         bullets = new DelayedRemovalArray<Ammo>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
@@ -121,6 +124,10 @@ public class Level {
             powerup.render(batch);
         }
 
+        for (Hazard hazard : hazards) {
+            hazard.render(batch);
+        }
+
         for (Enemy enemy : enemies) {
             enemy.render(batch);
         }
@@ -173,6 +180,7 @@ public class Level {
 
     // Getters
     public final Array<Platform> getPlatforms() { return platforms; }
+    public final Array<Hazard> getHazards() { return hazards; }
     public final DelayedRemovalArray<Enemy> getEnemies() { return enemies; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
