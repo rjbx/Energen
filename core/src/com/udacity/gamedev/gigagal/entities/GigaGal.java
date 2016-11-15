@@ -101,6 +101,7 @@ public class GigaGal implements PhysicalEntity {
                 enableRicochet();
             } else if (aerialState == AerialState.JUMPING) {
                 enableJump();
+                enableHover();
                 enableRicochet();
             } else if (aerialState == AerialState.HOVERING) {
                 enableHover();
@@ -154,6 +155,9 @@ public class GigaGal implements PhysicalEntity {
                     position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
                     stand();
                 }
+                if (aerialState == AerialState.FALLING && (getBottom() < (platform.getTop() + Constants.MIN_HOVER_HEIGHT))) {
+                    canHover = false;
+                }
             }
         }
         if (position.y < slidPlatformBottom) {
@@ -197,6 +201,8 @@ public class GigaGal implements PhysicalEntity {
         strideAcceleration = 0;
         aerialState = AerialState.RECOILING;
         groundState = GroundState.RECOILING;
+        canHover = false;
+        canRicochet = false;
         velocity.y = Constants.KNOCKBACK_VELOCITY.y;
         velocity.x = -Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, facing);
     }
