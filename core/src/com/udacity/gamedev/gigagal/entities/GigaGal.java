@@ -205,6 +205,7 @@ public class GigaGal implements PhysicalEntity {
         groundState = GroundState.RECOILING;
         canHover = false;
         canRicochet = false;
+        strideStartTime = 0;
         velocity.y = Constants.KNOCKBACK_VELOCITY.y;
         velocity.x = -Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, facing);
     }
@@ -327,6 +328,11 @@ public class GigaGal implements PhysicalEntity {
     }
 
     private void enableDash() {
+
+        handleDirectionalInput();
+        if (canDash) {
+            dash();
+        }
 /*
         if (!directionChanged) {
             if (Gdx.input.isKeyJustPressed(Keys.A) || leftButtonPressed || Gdx.input.isKeyJustPressed(Keys.S) || rightButtonPressed) {
@@ -347,7 +353,7 @@ public class GigaGal implements PhysicalEntity {
     }
 
     private void dash() {
-        /*
+
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.DASHING) {
             groundState = GroundState.DASHING;
             canStride = false;
@@ -364,7 +370,7 @@ public class GigaGal implements PhysicalEntity {
             dashStartTime = 0;
             stand();
         }
-        */
+
     }
 
     private void enableJump() {
