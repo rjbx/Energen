@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // mutable
-public class Zoomba extends Destructible implements Directional {
+public class Zoomba extends Destructible {
 
     // fields
     private final long startTime;

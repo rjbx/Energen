@@ -11,5 +11,4 @@ public abstract class Destructible extends Hazard {
     abstract public float getShotRadius();
     abstract public int getHitScore();
     abstract public int getKillScore();
-    abstract public Class getSubclass();
 }

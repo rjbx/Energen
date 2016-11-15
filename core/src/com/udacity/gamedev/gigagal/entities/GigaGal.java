@@ -200,18 +200,17 @@ public class GigaGal implements Physical {
         for (Hazard hazard : hazards) {
             Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
             if (getBounds().overlaps(bounds)) {
-                if (hazard.getClass() == Directional.class) {
-                    Direction facing = ((Directional) hazard).getDirection();
-                    recoil(facing);
-                } else {
-                    recoil(this.facing);
+                if (getPosition().x < hazard.getWidth() / 3) {
+                    recoil(Direction.LEFT);
+                } else if (getPosition().x > hazard.getWidth() * (2/3)) {
+                    recoil(Direction.RIGHT);
                 }
             }
         }
     }
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
-    private void recoil(Direction facing) {
+    private void recoil(Direction direction) {
         strideAcceleration = 0;
         aerialState = AerialState.RECOILING;
         groundState = GroundState.RECOILING;
@@ -220,7 +219,7 @@ public class GigaGal implements Physical {
         canRicochet = false;
         canStride = false;
         velocity.y = Constants.KNOCKBACK_VELOCITY.y;
-        velocity.x = -Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, facing);
+        velocity.x = -Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, direction);
     }
 
     private void enableShoot() {
