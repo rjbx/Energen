@@ -42,7 +42,6 @@ public class GigaGal implements Physical {
     private float strideAcceleration;
     private float hoverTimeSeconds;
     private long ricochetStartTime;
-    private float slidPlatformBottom;
     private int lives;
     private int ammo;
     public boolean isCharged;
@@ -113,6 +112,8 @@ public class GigaGal implements Physical {
     }
 
     private void touchPlatforms(Array<Platform> platforms) {
+        float slidPlatformTop = 0;
+        float slidPlatformBottom = 0;
         for (Platform platform : platforms) {
             float previousFrameRight = previousFramePosition.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
             float previousFrameLeft = previousFramePosition.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
@@ -130,9 +131,10 @@ public class GigaGal implements Physical {
                         if (groundState == GroundState.AIRBORNE) {
                             if (Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) {
                                 canRicochet = true;
+                                slidPlatformTop = platform.getTop();
                                 slidPlatformBottom = platform.getBottom();
                             }
-                            if (aerialState == AerialState.RICOCHETING || aerialState == AerialState.HOVERING) {
+                            if (aerialState == AerialState.RICOCHETING) {
                                 velocity.x = 0;
                             } else {
                                 velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
@@ -165,14 +167,14 @@ public class GigaGal implements Physical {
                     }
                 }
                 // detects if above max hover height relative to below platform save for ledges
-                if (aerialState == AerialState.FALLING
+                if ((aerialState == AerialState.FALLING)
                 && (getBottom() < (platform.getTop() + Constants.MIN_HOVER_HEIGHT))
                 && platform.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                     canHover = false; // disables hover
                 }
             }
         }
-        if (position.y < slidPlatformBottom) {
+        if (getBottom() > slidPlatformTop  || getTop() < slidPlatformBottom) {
             canRicochet = false;
         }
         // falls if no detection with platform top

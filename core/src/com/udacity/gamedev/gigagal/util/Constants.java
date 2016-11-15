@@ -126,7 +126,7 @@ public final class Constants {
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_ZOOMBA_TAG = "Zoomba";
     public static final String LEVEL_SPIKE_TAG = "Spike";
-    public static final String[] LEVELS = {"levels/Level2.dt", "levels/Level1.dt", "levels/Level3.dt", };
+    public static final String[] LEVELS = {"levels/Level3.dt", "levels/Level1.dt", "levels/Level2.dt", };
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;
