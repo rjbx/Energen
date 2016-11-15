@@ -131,12 +131,14 @@ public class GigaGal implements Physical {
                             if (Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) {
                                 canRicochet = true;
                                 slidPlatformBottom = platform.getBottom();
-                            } else if (aerialState == AerialState.RICOCHETING || aerialState == AerialState.HOVERING) {
+                            }
+                            if (aerialState == AerialState.RICOCHETING || aerialState == AerialState.HOVERING) {
                                 velocity.x = 0;
+                            } else {
+                                velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
                             }
                         } else {
                             stand();
-                            velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
                         }
                         strideStartTime = 0;
                         canStride = false;
