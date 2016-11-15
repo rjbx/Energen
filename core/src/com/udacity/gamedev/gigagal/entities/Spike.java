@@ -25,7 +25,9 @@ public class Spike extends Enemy {
     }
 
     // static render
-    public void update(float delta) {}
+    public void update(float delta) {
+        position.y = platform.getTop() + Constants.SPIKE_CENTER.y;
+    }
 
     public void render(SpriteBatch batch) {
         final TextureRegion region = Assets.getInstance().getSpikeAssets().spike;

@@ -26,6 +26,13 @@ powerup
   orig: 15, 17
   offset: 0, 0
   index: -1
+spike
+  rotate: false
+  xy: 99, 91
+  size: 7, 16
+  orig: 7, 16
+  offset: 0, 0
+  index: -1
 standing-right
   rotate: false
   xy: 68, 45

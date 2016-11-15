@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Ammo;
 import com.udacity.gamedev.gigagal.entities.Enemy;
+import com.udacity.gamedev.gigagal.entities.Spike;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.ExitPortal;
 import com.udacity.gamedev.gigagal.entities.Explosion;

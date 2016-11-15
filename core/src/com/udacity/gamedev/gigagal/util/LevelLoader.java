@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.Level;
+import com.udacity.gamedev.gigagal.entities.Spike;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.ExitPortal;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
@@ -106,6 +107,11 @@ public final class LevelLoader {
             if (identifier != null && identifier.equals(Constants.LEVEL_ZOOMBA_TAG)) {
                 final Zoomba zoomba = new Zoomba(platform);
                 level.getEnemies().add(zoomba);
+            }
+
+            if (identifier != null && identifier.equals(Constants.LEVEL_SPIKE_TAG)) {
+                final Spike spike = new Spike(platform);
+                level.getEnemies().add(spike);
             }
         }
 
