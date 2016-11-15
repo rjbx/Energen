@@ -153,14 +153,17 @@ public class GigaGal implements PhysicalEntity {
                 }
                 // detects contact with platform top
                 if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop()) {
-                    velocity.y = 0;
-                    position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
-                    stand();
+                    velocity.y = 0; // prevents from descending beneath platform top
+                    position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop platform
+                    if (groundState != GroundState.DASHING) {
+                        stand();
+                    }
                 }
+                // detects if above max hover height relative to below platform save for ledges
                 if (aerialState == AerialState.FALLING
                 && (getBottom() < (platform.getTop() + Constants.MIN_HOVER_HEIGHT))
                 && platform.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
-                    canHover = false;
+                    canHover = false; // disables hover
                 }
             }
         }
@@ -168,7 +171,7 @@ public class GigaGal implements PhysicalEntity {
             canRicochet = false;
         }
         // falls if no detection with platform top
-        if (((groundState == GroundState.STRIDING || groundState == GroundState.DASHING)
+        if (((groundState == GroundState.STRIDING)
         && aerialState == AerialState.GROUNDED) || aerialState == AerialState.JUMPING) {
             if (aerialState != AerialState.RECOILING) {
                 canHover = true;
@@ -337,28 +340,11 @@ public class GigaGal implements PhysicalEntity {
         if (canDash) {
             dash();
         }
-/*
-        if (!directionChanged) {
-            if (Gdx.input.isKeyJustPressed(Keys.A) || leftButtonPressed || Gdx.input.isKeyJustPressed(Keys.S) || rightButtonPressed) {
-                if (dashStartTime == 0) {
-                    dashStartTime = TimeUtils.nanoTime();
-                } else if (Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
-                    canDash = true;
-                    dash();
-                } else if (groundState == GroundState.DASHING) {
-                    dash();
-                } else {
-                    dashStartTime = 0;
-                }
-            }
-        } else {
-            dashStartTime = 0;
-        } */
     }
 
     private void dash() {
 
-        if (aerialState == AerialState.GROUNDED && groundState != GroundState.DASHING) {
+        if (groundState != GroundState.DASHING) {
             groundState = GroundState.DASHING;
             dashStartTime = TimeUtils.nanoTime();
             strideStartTime = 0;
