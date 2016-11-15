@@ -356,6 +356,8 @@ public class GigaGal implements PhysicalEntity {
 
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.DASHING) {
             groundState = GroundState.DASHING;
+            dashStartTime = TimeUtils.nanoTime();
+            strideStartTime = 0;
             canStride = false;
         }
         if (Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) {
@@ -370,7 +372,6 @@ public class GigaGal implements PhysicalEntity {
             dashStartTime = 0;
             stand();
         }
-
     }
 
     private void enableJump() {
@@ -526,7 +527,9 @@ public class GigaGal implements PhysicalEntity {
                 } else if (!canStride) {
                     if (strideStartTime == 0) {
                         canStride = true;
-                    } else if (Utils.secondsSince(strideStartTime) < Constants.DOUBLE_TAP_SPEED) {
+                    } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+                        strideStartTime = 0;
+                    } else {
                         canDash = true;
                     }
                 } else {
@@ -539,7 +542,6 @@ public class GigaGal implements PhysicalEntity {
             } else {
                 stand();
                 canStride = false;
-                strideStartTime = 0;
             }
         }
     }
