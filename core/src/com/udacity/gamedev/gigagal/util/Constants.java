@@ -24,7 +24,7 @@ public final class Constants {
     public static final float GIGAGAL_WAIST_HEIGHT = 9.5f;
     public static final float GIGAGAL_STANCE_WIDTH = 19.0f;
     public static final Vector2 GIGAGAL_CANNON_OFFSET = new Vector2(4, -7);
-    public static final float GIGAGAL_HEIGHT = 19.0f;
+    public static final float GIGAGAL_HEIGHT = 23.0f;
     public static final float GIGAGAL_HEAD_RADIUS = 3;
     public static final float GIGAGAL_MAX_SPEED = 200;
     public static final float JUMP_SPEED = 200;

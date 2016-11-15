@@ -167,8 +167,9 @@ public class GigaGal implements Physical {
                     }
                 }
                 // detects if above max hover height relative to below platform save for ledges
-                if ((aerialState == AerialState.FALLING)
-                && (getBottom() < (platform.getTop() + Constants.MIN_HOVER_HEIGHT))
+                if (aerialState == AerialState.FALLING
+                && getBottom() < (platform.getTop() + Constants.MIN_HOVER_HEIGHT)
+                && getBottom() > platform.getTop()
                 && platform.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                     canHover = false; // disables hover
                 }
@@ -292,22 +293,10 @@ public class GigaGal implements Physical {
     }
 
     private void enableStride() {
-
         handleDirectionalInput();
         if (canStride) {
             stride();
         }
-        /*
-        if (canStride & (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed || Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed)) {
-            if (dashStartTime > 0 && Utils.secondsSince(dashStartTime) < Constants.DOUBLE_TAP_SPEED) {
-                canDash = true;
-                stand();
-            } else {
-                stride();
-            }
-        } else {
-            stand();
-        }*/
     }
 
     private void stride() {
@@ -318,37 +307,9 @@ public class GigaGal implements Physical {
         groundState = GroundState.STRIDING;
         strideAcceleration = Utils.secondsSince(strideStartTime) + Constants.GIGAGAL_STARTING_SPEED;
         velocity.x = Utils.getLateralVelocity(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing);
-
-        /*
-        canStride = true;
-        if (aerialState == AerialState.GROUNDED && groundState != GroundState.DASHING) {
-            if (groundState != GroundState.STRIDING) {
-                strideStartTime = TimeUtils.nanoTime();
-                groundState = GroundState.STRIDING;
-            }
-            strideAcceleration = Utils.secondsSince(strideStartTime) + Constants.GIGAGAL_STARTING_SPEED;
-            if (Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed) {
-                if (Utils.changeDirection(this, Direction.LEFT)) {
-                    directionChanged = true;
-                    stand();
-                } else {
-                    directionChanged = false;
-                }
-            } else if (Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed) {
-                if (Utils.changeDirection(this, Direction.RIGHT)) {
-                    directionChanged = true;
-                    stand();
-                } else {
-                    directionChanged = false;
-                }
-            }
-            velocity.x = Utils.getLateralVelocity(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing);
-        }
-        */
     }
 
     private void enableDash() {
-
         handleDirectionalInput();
         if (canDash) {
             dash();
@@ -356,7 +317,6 @@ public class GigaGal implements Physical {
     }
 
     private void dash() {
-
         if (groundState != GroundState.DASHING) {
             groundState = GroundState.DASHING;
             dashStartTime = TimeUtils.nanoTime();
