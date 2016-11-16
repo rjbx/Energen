@@ -100,7 +100,6 @@ public class GigaGal implements Physical {
                 enableRicochet();
             } else if (aerialState == AerialState.JUMPING) {
                 enableJump();
-               // enableHover();
                 enableRicochet();
             } else if (aerialState == AerialState.HOVERING) {
                 enableHover();
@@ -145,7 +144,6 @@ public class GigaGal implements Physical {
                             stand();
                         }
                         strideStartTime = 0;
-                        hoverStartTime = 0;
                         canStride = false;
                         canDash = false;
                         canHover = true;
@@ -154,7 +152,7 @@ public class GigaGal implements Physical {
                         canRicochet = false;
                     }
 
-                    // detects contact with platform bottom
+                    // detects contact with platform bottsom
                     if (previousFrameTop <= platform.getBottom() && getTop() > platform.getBottom()) {
                         velocity.y = 0;
                         position.y = previousFramePosition.y;
@@ -364,6 +362,7 @@ public class GigaGal implements Physical {
         if (canHover) {
             if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
                 if (aerialState == AerialState.HOVERING) {
+                    canHover = false;
                     fall(); // if already hovering when jump key pressed, disable hover
                 } else {
                     hover(); // else hover if canHover is true (set to false after beginning hover)
