@@ -152,7 +152,7 @@ public class GigaGal implements Physical {
                         canRicochet = false;
                     }
 
-                    // detects contact with platform bottsom
+                    // detects contact with platform bottom
                     if (previousFrameTop <= platform.getBottom() && getTop() > platform.getBottom()) {
                         velocity.y = 0;
                         position.y = previousFramePosition.y;
@@ -401,6 +401,8 @@ public class GigaGal implements Physical {
             aerialState = AerialState.RICOCHETING;
             ricochetStartTime = TimeUtils.nanoTime();
             canRicochet = false;
+            canHover = true;
+            hoverStartTime = 0;
             canJump = true;
         }
         if (Utils.secondsSince(ricochetStartTime) >= Constants.RICOCHET_FRAME_DURATION) {
