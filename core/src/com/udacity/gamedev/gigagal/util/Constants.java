@@ -32,7 +32,7 @@ public final class Constants {
     public static final float STRIDING_JUMP_MULTIPLIER = 1.1f;
 
     public static final Vector2 KNOCKBACK_VELOCITY = new Vector2(100, 150);
-    public static final float MAX_JUMP_DURATION = 0.1f;
+    public static final float MAX_JUMP_DURATION = 0.025f;
     public static final float MAX_HOVER_DURATION = 1;
     public static final float MIN_HOVER_HEIGHT = 7;
     public static final float MAX_DASH_DURATION = 0.35f;

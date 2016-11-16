@@ -184,12 +184,7 @@ public class GigaGal implements Physical {
             canRicochet = false;
         }
         // falls if no detection with platform top
-        if ((aerialState == AerialState.GROUNDED
-        && (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight))
-        || aerialState == AerialState.JUMPING) {
-            if (aerialState != AerialState.RECOILING) {
-                canHover = true;
-            }
+        if ((aerialState == AerialState.GROUNDED && (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight))) {
             fall();
         }
     }
@@ -360,7 +355,6 @@ public class GigaGal implements Physical {
             velocity.y = Constants.JUMP_SPEED;
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         } else {
-           // velocity.y = 0;
             fall();
         }
     }
@@ -436,6 +430,7 @@ public class GigaGal implements Physical {
         canStride = false;
         canDash = false;
         canJump = false;
+        canHover = true;
     }
 
     public void render(SpriteBatch batch) {
