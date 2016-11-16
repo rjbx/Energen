@@ -30,8 +30,8 @@ public class GigaGal implements Physical {
     private AerialState aerialState;
     private GroundState groundState;
     private boolean canStride;
-    private boolean canJump;
     private boolean canDash;
+    public boolean canJump;
     public boolean canHover;
     public boolean canRicochet;
     private boolean directionChanged;
@@ -100,7 +100,7 @@ public class GigaGal implements Physical {
                 enableRicochet();
             } else if (aerialState == AerialState.JUMPING) {
                 enableJump();
-                enableHover();
+               // enableHover();
                 enableRicochet();
             } else if (aerialState == AerialState.HOVERING) {
                 enableHover();
@@ -145,8 +145,10 @@ public class GigaGal implements Physical {
                             stand();
                         }
                         strideStartTime = 0;
+                        hoverStartTime = 0;
                         canStride = false;
                         canDash = false;
+                        canHover = true;
                         position.x = previousFramePosition.x;
                     } else {
                         canRicochet = false;
@@ -156,7 +158,6 @@ public class GigaGal implements Physical {
                     if (previousFrameTop <= platform.getBottom() && getTop() > platform.getBottom()) {
                         velocity.y = 0;
                         position.y = previousFramePosition.y;
-                        canHover = true;
                         fall();
                     }
                 }
@@ -166,24 +167,24 @@ public class GigaGal implements Physical {
                     position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop platform
                     groundedPlatformLeft = platform.getLeft();
                     groundedPlatformRight = platform.getRight();
+                    hoverStartTime = 0;
+                    canHover = true;
                     if (groundState != GroundState.DASHING) {
                         stand();
                     }
                 }
-                // detects if above max hover height relative to below platform save for ledges
-                if (aerialState == AerialState.FALLING
-                && getBottom() < (platform.getTop() + Constants.MIN_HOVER_HEIGHT)
-                && getBottom() > platform.getTop()
-                && platform.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
+                // disables hover if below minimum hover height
+                if (aerialState == AerialState.FALLING && getBottom() < (platform.getTop() + Constants.MIN_HOVER_HEIGHT) && getBottom() > platform.getTop()) {
                     canHover = false; // disables hover
                 }
             }
         }
+        // disables ricochet if no contact with slid platform side
         float waistHeight = getBottom() + Constants.GIGAGAL_WAIST_HEIGHT;
         if (waistHeight > slidPlatformTop  || waistHeight < slidPlatformBottom) {
             canRicochet = false;
         }
-        // falls if no detection with platform top
+        // falls if no detection with grounded platform top
         if ((aerialState == AerialState.GROUNDED && (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight))) {
             fall();
         }
@@ -360,29 +361,31 @@ public class GigaGal implements Physical {
     }
 
     private void enableHover() {
-        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
-            if (aerialState == AerialState.HOVERING) {
-                fall(); // if already hovering when jump key pressed, disable hover
-            } else if (canHover) {
-                hover(); // else hover if canHover is true (set to false after beginning hover)
+        if (canHover) {
+            if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
+                if (aerialState == AerialState.HOVERING) {
+                    fall(); // if already hovering when jump key pressed, disable hover
+                } else {
+                    hover(); // else hover if canHover is true (set to false after beginning hover)
+                }
+                // if jump key not pressed, but already hovering, continue to hover
+            } else if (aerialState == AerialState.HOVERING) {
+                hover();
             }
-        // if jump key not pressed, but already hovering, continue to hover
-        } else if (aerialState == AerialState.HOVERING) {
-            hover();
         }
     }
 
     private void hover() {
         // canHover can only be true just before beginning to hover
-        if (canHover) {
+        if (hoverStartTime == 0) {
             aerialState = AerialState.HOVERING; // indicates currently hovering
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
-            canHover = false; // indicates hover has begun
         }
         hoverTimeSeconds = Utils.secondsSince(hoverStartTime); // for comparing with max hover time
         if (hoverTimeSeconds < Constants.MAX_HOVER_DURATION) {
             velocity.y = 0; // disables impact of gravity
         } else {
+            canHover = false;
             fall(); // when max hover time is exceeded
         }
     }
@@ -419,18 +422,14 @@ public class GigaGal implements Physical {
         groundState = GroundState.STANDING;
         aerialState = AerialState.GROUNDED;
         canJump = true;
-        canHover = false;
-        canRicochet = false;
     }
 
     private void fall() {
+        strideStartTime = 0;
         aerialState = AerialState.FALLING;
         groundState = GroundState.AIRBORNE;
-        strideStartTime = 0;
-        canStride = false;
-        canDash = false;
         canJump = false;
-        canHover = true;
+        canDash = false;
     }
 
     public void render(SpriteBatch batch) {
