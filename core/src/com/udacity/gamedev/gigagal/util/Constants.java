@@ -21,10 +21,9 @@ public final class Constants {
     // GigaGal attributes
     public static final Vector2 GIGAGAL_EYE_POSITION = new Vector2(16, 24);
     public static final float GIGAGAL_EYE_HEIGHT = 16.0f;
-    public static final float GIGAGAL_WAIST_HEIGHT = 9.5f;
     public static final float GIGAGAL_STANCE_WIDTH = 19.0f;
     public static final Vector2 GIGAGAL_CANNON_OFFSET = new Vector2(4, -7);
-    public static final float GIGAGAL_HEIGHT = 23.0f; // four pixels added for plume height
+    public static final float GIGAGAL_HEIGHT = 19.0f; // plume is ignored
     public static final float GIGAGAL_HEAD_RADIUS = 3;
     public static final float GIGAGAL_MAX_SPEED = 200;
     public static final float JUMP_SPEED = 200;
@@ -34,7 +33,7 @@ public final class Constants {
     public static final Vector2 KNOCKBACK_VELOCITY = new Vector2(100, 150);
     public static final float MAX_JUMP_DURATION = 0.025f;
     public static final float MAX_HOVER_DURATION = 1;
-    public static final float MIN_HOVER_HEIGHT = 10;
+    public static final float MIN_GROUND_DISTANCE = 10;
     public static final float MAX_DASH_DURATION = 0.35f;
     public static final float DOUBLE_TAP_SPEED = 0.2f;
     public static final int INITIAL_AMMO = 10;

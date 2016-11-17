@@ -130,16 +130,14 @@ public class GigaGal implements Physical {
                     // detects contact with platform sides
                     if ((previousFrameRight < platform.getLeft() || previousFrameLeft > platform.getRight())) {
                         if (groundState == GroundState.AIRBORNE) {
-                            if (Math.abs(velocity.x) >= (Constants.GIGAGAL_MAX_SPEED / 2)) {
-                                canRicochet = true;
-                                slidPlatformTop = platform.getTop();
-                                slidPlatformBottom = platform.getBottom();
-                            }
                             if (aerialState == AerialState.RICOCHETING) {
                                 velocity.x = 0;
                             } else {
                                 velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
                             }
+                            canRicochet = true;
+                            slidPlatformTop = platform.getTop();
+                            slidPlatformBottom = platform.getBottom();
                         } else {
                             stand();
                         }
@@ -171,15 +169,15 @@ public class GigaGal implements Physical {
                         stand();
                     }
                 }
-                // disables hover if below minimum hover height
-                if (aerialState == AerialState.FALLING && getBottom() < (platform.getTop() + Constants.MIN_HOVER_HEIGHT) && getBottom() > platform.getTop()) {
+                // disables ricochet and hover if below minimum ground distance
+                if (aerialState == AerialState.FALLING && getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE) && getBottom() > platform.getTop()) {
+                    canRicochet = false; // disables ricochet
                     canHover = false; // disables hover
                 }
             }
         }
         // disables ricochet if no contact with slid platform side
-        float waistHeight = getBottom() + Constants.GIGAGAL_WAIST_HEIGHT;
-        if (waistHeight > slidPlatformTop  || waistHeight < slidPlatformBottom) {
+        if (getBottom() > slidPlatformTop  || getTop() < slidPlatformBottom) {
             canRicochet = false;
         }
         // falls if no detection with grounded platform top
