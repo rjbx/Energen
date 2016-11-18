@@ -133,11 +133,11 @@ public class GigaGal implements Physical {
                     if ((previousFrameRight <= platform.getLeft() || previousFrameLeft >= platform.getRight())) {
                         if (groundState == GroundState.AIRBORNE) {
                             if (aerialState == AerialState.RICOCHETING) {
+                                canChangeDirection = false;
                                 velocity.x = 0;
                             } else {
                                 velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
                             }
-                            canChangeDirection = false;
                             canRicochet = true;
                             slidPlatform = true;
                             slidPlatformTop = platform.getTop();
