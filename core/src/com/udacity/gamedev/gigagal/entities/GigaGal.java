@@ -37,7 +37,7 @@ public class GigaGal implements Physical {
     private boolean isCharged;
     private boolean slidPlatform;
     private boolean groundedPlatform;
-    private boolean activatedDirectionalInput;
+    private boolean canChangeDirection;
     private long strideStartTime;
     private long jumpStartTime;
     private long dashStartTime;
@@ -137,7 +137,7 @@ public class GigaGal implements Physical {
                             } else {
                                 velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
                             }
-                            activatedDirectionalInput = false;
+                            canChangeDirection = false;
                             canRicochet = true;
                             slidPlatform = true;
                             slidPlatformTop = platform.getTop();
@@ -164,7 +164,7 @@ public class GigaGal implements Physical {
                 if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop()) {
                     velocity.y = 0; // prevents from descending beneath platform top
                     position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop platform
-                    activatedDirectionalInput = true;
+                    canChangeDirection = true;
                     groundedPlatform = true;
                     groundedPlatformLeft = platform.getLeft();
                     groundedPlatformRight = platform.getRight();
@@ -230,6 +230,7 @@ public class GigaGal implements Physical {
         strideAcceleration = 0;
         aerialState = AerialState.RECOILING;
         chargeStartTime = 0;
+        canChangeDirection = false;
         isCharged = false;
         canDash = false;
         canHover = false;
@@ -297,7 +298,7 @@ public class GigaGal implements Physical {
         slidPlatform = false;
         groundedPlatform = false;
         isCharged = false;
-        activatedDirectionalInput = true;
+        canChangeDirection = true;
         chargeStartTime = 0;
         strideStartTime = 0;
         jumpStartTime = 0;
@@ -444,7 +445,9 @@ public class GigaGal implements Physical {
         groundState = GroundState.AIRBORNE;
         canJump = false;
         canDash = false;
-        handleDirectionalInput();
+        if (canChangeDirection) {
+            handleDirectionalInput();
+        }
     }
 
     public void render(SpriteBatch batch) {
@@ -522,7 +525,7 @@ public class GigaGal implements Physical {
                     canStride = false;
                 }
             }
-        } else if (activatedDirectionalInput && directionChanged) {
+        } else if (directionChanged) {
             velocity.x = 0;
         }
     }
