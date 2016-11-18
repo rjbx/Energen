@@ -35,6 +35,7 @@ public class GigaGal implements Physical {
     public boolean canHover;
     public boolean canRicochet;
     private boolean directionChanged;
+    private boolean slidPlatform;
     private long strideStartTime;
     private long jumpStartTime;
     private long dashStartTime;
@@ -111,7 +112,6 @@ public class GigaGal implements Physical {
     }
 
     private void touchPlatforms(Array<Platform> platforms) {
-        boolean slidPlatform = false;
         float slidPlatformTop = 0;
         float slidPlatformBottom = 0;
         float groundedPlatformLeft = 0;
@@ -151,9 +151,8 @@ public class GigaGal implements Physical {
                     } else {
                         canRicochet = false;
                     }
-
                     // detects contact with platform bottom
-                    if (previousFrameTop <= platform.getBottom() && getTop() > platform.getBottom()) {
+                    if (previousFrameTop <= platform.getBottom()) {
                         velocity.y = 0;
                         position.y = previousFramePosition.y;
                         fall();
@@ -171,15 +170,25 @@ public class GigaGal implements Physical {
                         stand();
                     }
                 }
+                // disables ricochet and hover if below minimum ground distance
+                if (aerialState == AerialState.FALLING
+                        && getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
+                        && getBottom() > platform.getTop()) {
+                    canRicochet = false; // disables ricochet
+                    canHover = false; // disables hover
+                }
             }
         }
         // disables ricochet if no contact with slid platform side
-        if ((getBottom() > slidPlatformTop  || getTop() < slidPlatformBottom) && slidPlatform) {
-            canRicochet = false;
-            canHover = true;
+        if (slidPlatform) {
+            if (getBottom() > slidPlatformTop  || getTop() < slidPlatformBottom) {
+                canRicochet = false;
+                slidPlatform = false;
+            }
         }
         // falls if no detection with grounded platform top
-        if (aerialState == AerialState.GROUNDED && (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight)) {
+        if ((aerialState == AerialState.GROUNDED || aerialState == AerialState.FALLING)
+        && (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight)) {
             canHover = true;
             fall();
         }
@@ -285,6 +294,7 @@ public class GigaGal implements Physical {
         canHover = false;
         canRicochet = false;
         directionChanged = false;
+        slidPlatform = false;
         strideStartTime = 0;
         jumpStartTime = 0;
         dashStartTime = 0;
