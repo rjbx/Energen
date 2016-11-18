@@ -169,22 +169,16 @@ public class GigaGal implements Physical {
                         stand();
                     }
                 }
-                // disables ricochet and hover if below minimum ground distance
-                if (aerialState == AerialState.FALLING
-                && Math.abs(velocity.x) < Constants.GIGAGAL_MAX_SPEED
-                && getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
-                && getBottom() > platform.getTop()) {
-                    canRicochet = false; // disables ricochet
-                    canHover = false; // disables hover
-                }
             }
         }
         // disables ricochet if no contact with slid platform side
         if (getBottom() > slidPlatformTop  || getTop() < slidPlatformBottom) {
             canRicochet = false;
+            canHover = true;
         }
         // falls if no detection with grounded platform top
         if (aerialState == AerialState.GROUNDED && (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight)) {
+            canHover = true;
             fall();
         }
     }
@@ -366,7 +360,8 @@ public class GigaGal implements Physical {
             if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
                 if (aerialState == AerialState.HOVERING) {
                     canHover = false;
-                    fall(); // if already hovering when jump key pressed, disable hover
+                    fall();
+
                 } else {
                     hover(); // else hover if canHover is true (set to false after beginning hover)
                 }
@@ -404,7 +399,6 @@ public class GigaGal implements Physical {
             aerialState = AerialState.RICOCHETING;
             ricochetStartTime = TimeUtils.nanoTime();
             canRicochet = false;
-            canHover = true;
             hoverStartTime = 0;
             canJump = true;
         }
@@ -429,9 +423,6 @@ public class GigaGal implements Physical {
     }
 
     private void fall() {
-        if (aerialState != AerialState.FALLING) {
-            canHover = true;
-        }
         strideStartTime = 0;
         aerialState = AerialState.FALLING;
         groundState = GroundState.AIRBORNE;
