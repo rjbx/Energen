@@ -31,9 +31,10 @@ public class GigaGal implements Physical {
     private GroundState groundState;
     private boolean canStride;
     private boolean canDash;
-    public boolean canJump;
-    public boolean canHover;
-    public boolean canRicochet;
+    private boolean canJump;
+    private boolean canHover;
+    private boolean canRicochet;
+    private boolean isCharged;
     private boolean slidPlatform;
     private boolean groundedPlatform;
     private long strideStartTime;
@@ -43,14 +44,13 @@ public class GigaGal implements Physical {
     private float strideAcceleration;
     private float hoverTimeSeconds;
     private long ricochetStartTime;
+    private long chargeStartTime;
     private int lives;
     private int ammo;
-    public boolean isCharged;
     public boolean leftButtonPressed;
     public boolean rightButtonPressed;
     public boolean jumpButtonPressed;
     public boolean shootButtonPressed;
-    public long chargeStartTime;
 
     // ctor
     public GigaGal(Vector2 spawnLocation, Level level) {
@@ -531,5 +531,10 @@ public class GigaGal implements Physical {
     public float getTop() { return position.y + Constants.GIGAGAL_HEAD_RADIUS; }
     public float getBottom() { return position.y - Constants.GIGAGAL_EYE_HEIGHT; }
     public Rectangle getBounds() { return  new Rectangle( getLeft(), getBottom(), getWidth(), getHeight()); }
+    public boolean getJumpStatus() { return canJump; }
+    public boolean getHoverStatus() { return canHover; }
+    public boolean getRicochetStatus() { return canRicochet; }
+    public boolean getChargeStatus() { return isCharged; }
     public void setDirection(Direction facing) { this.facing = facing; }
+    public void setChargeStartTime(long chargeStartTime) { this.chargeStartTime = chargeStartTime; }
 }

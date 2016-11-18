@@ -52,7 +52,7 @@ public class OnscreenControls extends InputAdapter {
 
         if (viewportPosition.dst(shootCenter) < Constants.BUTTON_RADIUS) {
             gigaGal.shoot(Enums.AmmoType.REGULAR);
-            gigaGal.chargeStartTime = TimeUtils.nanoTime();
+            gigaGal.setChargeStartTime(TimeUtils.nanoTime());
             this.shootPointer = pointer;
             gigaGal.shootButtonPressed = true;
         } else if (viewportPosition.dst(jumpCenter) < Constants.BUTTON_RADIUS) {
@@ -150,7 +150,7 @@ public class OnscreenControls extends InputAdapter {
                 Constants.BUTTON_CENTER
         );
 
-        if (!gigaGal.isCharged) {
+        if (!gigaGal.getChargeStatus()) {
             Utils.drawTextureRegion(
                     batch,
                     Assets.getInstance().getOnscreenControlsAssets().shoot,
@@ -166,8 +166,8 @@ public class OnscreenControls extends InputAdapter {
             );
         }
 
-        if (!gigaGal.canRicochet)  {
-             if (!gigaGal.canJump && gigaGal.canHover) {
+        if (!gigaGal.getRicochetStatus())  {
+             if (!gigaGal.getJumpStatus() && gigaGal.getHoverStatus()) {
                 Utils.drawTextureRegion(
                         batch,
                         Assets.getInstance().getOnscreenControlsAssets().hover,
@@ -207,6 +207,5 @@ public class OnscreenControls extends InputAdapter {
     }
 
     public final Viewport getViewport() { return viewport; }
-    public final GigaGal getGigaGal() { return gigaGal; }
     public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
 }

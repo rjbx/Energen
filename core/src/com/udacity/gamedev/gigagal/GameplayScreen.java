@@ -40,13 +40,11 @@ public final class GameplayScreen extends ScreenAdapter {
         AssetManager am = new AssetManager();
         Assets.getInstance().init(am);
         levelNumber = 0;
-
         batch = new SpriteBatch();
         chaseCam = ChaseCam.getInstance();
         hud = new GigaGalHud();
         victoryOverlay = new VictoryOverlay();
         gameOverOverlay = new GameOverOverlay();
-
         onscreenControls = new OnscreenControls();
 
         // : Use Gdx.input.setInputProcessor() to send touch events to onscreenControls
