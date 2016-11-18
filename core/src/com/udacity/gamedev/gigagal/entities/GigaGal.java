@@ -237,7 +237,7 @@ public class GigaGal implements Physical {
     }
 
     private void enableShoot() {
-        if (Gdx.input.isKeyJustPressed(Keys.ENTER) || shootButtonPressed) {
+        if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
             shoot(AmmoType.REGULAR);
             chargeStartTime = TimeUtils.nanoTime();
         }
@@ -286,7 +286,6 @@ public class GigaGal implements Physical {
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
-
         canStride = false;
         canJump = false;
         canDash = false;
