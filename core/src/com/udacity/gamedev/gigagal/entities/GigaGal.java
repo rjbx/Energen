@@ -226,7 +226,7 @@ public class GigaGal implements Physical {
     private void recoil(Direction direction) {
         strideAcceleration = 0;
         aerialState = AerialState.RECOILING;
-        chargeStartTime = TimeUtils.nanoTime();
+        chargeStartTime = 0;
         isCharged = false;
         canDash = false;
         canHover = false;
@@ -237,11 +237,11 @@ public class GigaGal implements Physical {
     }
 
     private void enableShoot() {
-        if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
+        if (Gdx.input.isKeyJustPressed(Keys.ENTER) || shootButtonPressed) {
             shoot(AmmoType.REGULAR);
             chargeStartTime = TimeUtils.nanoTime();
         }
-        if (Gdx.input.isKeyPressed(Keys.ENTER) || shootButtonPressed) {
+        if ((Gdx.input.isKeyPressed(Keys.ENTER) || shootButtonPressed) && chargeStartTime > 0) {
             // Shoots
             if (Utils.secondsSince(chargeStartTime) > Constants.CHARGE_DURATION) {
                 isCharged = true;
@@ -286,6 +286,7 @@ public class GigaGal implements Physical {
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
+
         canStride = false;
         canJump = false;
         canDash = false;
@@ -293,6 +294,8 @@ public class GigaGal implements Physical {
         canRicochet = false;
         slidPlatform = false;
         groundedPlatform = false;
+        isCharged = false;
+        chargeStartTime = 0;
         strideStartTime = 0;
         jumpStartTime = 0;
         dashStartTime = 0;
