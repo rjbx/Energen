@@ -132,12 +132,7 @@ public class GigaGal implements Physical {
                     // detects contact with platform sides
                     if ((previousFrameRight <= platform.getLeft() || previousFrameLeft >= platform.getRight())) {
                         if (groundState == GroundState.AIRBORNE) {
-                            if (aerialState == AerialState.RICOCHETING) {
-                                canChangeDirection = false;
-                                velocity.x = 0;
-                            } else {
-                                velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
-                            }
+                            velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
                             canRicochet = true;
                             slidPlatform = true;
                             slidPlatformTop = platform.getTop();
@@ -413,6 +408,8 @@ public class GigaGal implements Physical {
 
     private void ricochet() {
         if (canRicochet) {
+            canChangeDirection = false;
+            velocity.x = 0;
             aerialState = AerialState.RICOCHETING;
             ricochetStartTime = TimeUtils.nanoTime();
             canRicochet = false;
@@ -526,7 +523,7 @@ public class GigaGal implements Physical {
                 }
             }
         } else if (directionChanged) {
-            velocity.x = 0;
+            velocity.x += Utils.getLateralVelocity(Math.abs(velocity.x) / 2, facing);
         }
     }
 
