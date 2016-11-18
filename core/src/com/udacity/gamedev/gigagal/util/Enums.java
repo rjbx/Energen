@@ -25,7 +25,6 @@ public final class Enums {
         STANDING,
         STRIDING,
         DASHING,
-        RECOILING,
         AIRBORNE
     }
 }

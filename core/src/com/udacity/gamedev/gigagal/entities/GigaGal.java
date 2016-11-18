@@ -77,7 +77,7 @@ public class GigaGal implements Physical {
         enableRespawn();
         enableShoot();
 
-        if (aerialState == AerialState.GROUNDED && groundState != GroundState.AIRBORNE && groundState != GroundState.RECOILING) {
+        if (aerialState == AerialState.GROUNDED && groundState != GroundState.AIRBORNE) {
             velocity.y = 0;
             if (groundState == GroundState.STANDING) {
                 stand();
@@ -93,7 +93,7 @@ public class GigaGal implements Physical {
             }
         }
 
-        if (groundState == GroundState.AIRBORNE && aerialState != AerialState.GROUNDED && aerialState != AerialState.RECOILING) {
+        if (groundState == GroundState.AIRBORNE && aerialState != AerialState.GROUNDED) {
             velocity.y -= Constants.GRAVITY;
             if (aerialState == AerialState.FALLING) {
                 fall();
@@ -209,9 +209,6 @@ public class GigaGal implements Physical {
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     private void recoilFromHazards(Array<Hazard> hazards) {
-        if (aerialState == AerialState.RECOILING) {
-            velocity.y -= Constants.GRAVITY;
-        }
         for (Hazard hazard : hazards) {
             Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
             if (getBounds().overlaps(bounds)) {
@@ -229,7 +226,6 @@ public class GigaGal implements Physical {
     private void recoil(Direction direction) {
         strideAcceleration = 0;
         aerialState = AerialState.RECOILING;
-        groundState = GroundState.RECOILING;
         chargeStartTime = TimeUtils.nanoTime();
         isCharged = false;
         canDash = false;

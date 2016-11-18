@@ -23,8 +23,8 @@ public final class Constants {
     public static final float GIGAGAL_EYE_HEIGHT = 16.0f;
     public static final float GIGAGAL_STANCE_WIDTH = 19.0f;
     public static final Vector2 GIGAGAL_CANNON_OFFSET = new Vector2(4, -7);
-    public static final float GIGAGAL_HEIGHT = 19.0f; // plume is ignored
-    public static final float GIGAGAL_HEAD_RADIUS = 3;
+    public static final float GIGAGAL_HEIGHT = 21.0f;
+    public static final float GIGAGAL_HEAD_RADIUS = 5;
     public static final float GIGAGAL_MAX_SPEED = 200;
     public static final float JUMP_SPEED = 200;
     public static final float GIGAGAL_STARTING_SPEED = 0.2f;
@@ -77,7 +77,6 @@ public final class Constants {
 
     // Spike
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
-    public static final int SPIKE_MAX_HEALTH = 50;
     public static final float SPIKE_COLLISION_WIDTH = 9;
     public static final float SPIKE_COLLISION_HEIGHT = 17;
     public static final String SPIKE_SPRITE = "spike";
