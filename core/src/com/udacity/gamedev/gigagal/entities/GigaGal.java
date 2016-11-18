@@ -184,7 +184,7 @@ public class GigaGal implements Physical {
             canRicochet = false;
         }
         // falls if no detection with grounded platform top
-        if ((aerialState == AerialState.GROUNDED && (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight))) {
+        if (aerialState == AerialState.GROUNDED && (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight)) {
             fall();
         }
     }
@@ -223,6 +223,8 @@ public class GigaGal implements Physical {
         strideAcceleration = 0;
         aerialState = AerialState.RECOILING;
         groundState = GroundState.RECOILING;
+        chargeStartTime = TimeUtils.nanoTime();
+        isCharged = false;
         canDash = false;
         canHover = false;
         canRicochet = false;
@@ -427,6 +429,9 @@ public class GigaGal implements Physical {
     }
 
     private void fall() {
+        if (aerialState != AerialState.FALLING) {
+            canHover = true;
+        }
         strideStartTime = 0;
         aerialState = AerialState.FALLING;
         groundState = GroundState.AIRBORNE;
