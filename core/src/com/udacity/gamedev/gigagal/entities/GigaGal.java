@@ -212,16 +212,16 @@ public class GigaGal implements Physical {
             if (getBounds().overlaps(bounds)) {
                 float oneThirdWidth = hazard.getWidth() / 3;
                 if (getPosition().x < (hazard.getLeft() + oneThirdWidth)) {
-                    recoil(Direction.LEFT);
+                    recoil(Direction.LEFT, Constants.KNOCKBACK_VELOCITY);
                 } else if (getPosition().x > (hazard.getRight() - oneThirdWidth)) {
-                    recoil(Direction.RIGHT);
+                    recoil(Direction.RIGHT, Constants.KNOCKBACK_VELOCITY);
                 }
             }
         }
     }
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
-    private void recoil(Direction direction) {
+    private void recoil(Direction direction, Vector2 velocity) {
         strideAcceleration = 0;
         aerialState = AerialState.RECOILING;
         chargeStartTime = 0;
@@ -231,8 +231,8 @@ public class GigaGal implements Physical {
         canHover = false;
         canRicochet = false;
         canStride = false;
-        velocity.y = Constants.KNOCKBACK_VELOCITY.y;
-        velocity.x = Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, direction);
+        this.velocity.y = velocity.y;
+        this.velocity.x = Utils.getLateralVelocity(velocity.x, direction);
     }
 
     private void enableShoot() {
@@ -517,7 +517,8 @@ public class GigaGal implements Physical {
                 }
             }
         } else if (directionChanged) {
-            velocity.x += Utils.getLateralVelocity(Math.abs(velocity.x) / 2, facing);
+            float lateralVelocity = Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x / 3, facing);
+            recoil(facing, new Vector2(-lateralVelocity, velocity.y));
         }
     }
 
