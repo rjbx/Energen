@@ -440,6 +440,7 @@ public class GigaGal implements Physical {
         groundState = GroundState.AIRBORNE;
         canJump = false;
         canDash = false;
+        handleDirectionalInput();
     }
 
     public void render(SpriteBatch batch) {
@@ -486,36 +487,39 @@ public class GigaGal implements Physical {
         boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
         boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
         boolean directionChanged = false;
-
-        if (groundState != GroundState.DASHING) {
-            if (left || right) {
-                if (left && !right) {
-                    directionChanged = Utils.changeDirection(this, Direction.LEFT);
-                } else if (!left && right) {
-                    directionChanged = Utils.changeDirection(this, Direction.RIGHT);
-                }
-                if (directionChanged) {
-                    strideStartTime = 0;
-                    stand();
-                } else if (!canStride) {
-                    if (strideStartTime == 0) {
-                        canStride = true;
-                    } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+        if (left && !right) {
+            directionChanged = Utils.changeDirection(this, Direction.LEFT);
+        } else if (!left && right) {
+            directionChanged = Utils.changeDirection(this, Direction.RIGHT);
+        }
+        if (groundState != GroundState.AIRBORNE) {
+            if (groundState != GroundState.DASHING) {
+                if (left || right) {
+                    if (directionChanged) {
                         strideStartTime = 0;
+                        stand();
+                    } else if (!canStride) {
+                        if (strideStartTime == 0) {
+                            canStride = true;
+                        } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+                            strideStartTime = 0;
+                        } else {
+                            canDash = true;
+                        }
                     } else {
-                        canDash = true;
+                        canStride = true;
+                    }
+                    if (groundState == GroundState.STANDING) {
+                        stand();
+                        canStride = true;
                     }
                 } else {
-                    canStride = true;
-                }
-                if (groundState == GroundState.STANDING) {
                     stand();
-                    canStride = true;
+                    canStride = false;
                 }
-            } else {
-                stand();
-                canStride = false;
             }
+        } else if (aerialState == AerialState.FALLING && directionChanged) {
+            velocity.x = 0;
         }
     }
 
@@ -535,6 +539,8 @@ public class GigaGal implements Physical {
     public boolean getHoverStatus() { return canHover; }
     public boolean getRicochetStatus() { return canRicochet; }
     public boolean getChargeStatus() { return isCharged; }
+
+    // Setters
     public void setDirection(Direction facing) { this.facing = facing; }
     public void setChargeStartTime(long chargeStartTime) { this.chargeStartTime = chargeStartTime; }
 }
