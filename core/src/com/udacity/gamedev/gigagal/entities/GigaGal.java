@@ -417,15 +417,9 @@ public class GigaGal implements Physical {
             canJump = true;
         }
         if (Utils.secondsSince(ricochetStartTime) >= Constants.RICOCHET_FRAME_DURATION) {
-            if (facing == Direction.LEFT) {
-                facing = Direction.RIGHT;
-                velocity.x = Constants.GIGAGAL_MAX_SPEED;
-                jump();
-            } else {
-                facing = Direction.LEFT;
-                velocity.x = -Constants.GIGAGAL_MAX_SPEED;
-                jump();
-            }
+            facing = Utils.getOppositeDirection(facing);
+            velocity.x = Utils.getLateralVelocity(Constants.GIGAGAL_MAX_SPEED, facing);
+            jump();
         }
     }
 
@@ -492,9 +486,9 @@ public class GigaGal implements Physical {
         boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
         boolean directionChanged = false;
         if (left && !right) {
-            directionChanged = Utils.changeDirection(this, Direction.LEFT);
+            directionChanged = Utils.setDirection(this, Direction.LEFT);
         } else if (!left && right) {
-            directionChanged = Utils.changeDirection(this, Direction.RIGHT);
+            directionChanged = Utils.setDirection(this, Direction.RIGHT);
         }
         if (groundState != GroundState.AIRBORNE) {
             if (groundState != GroundState.DASHING) {
