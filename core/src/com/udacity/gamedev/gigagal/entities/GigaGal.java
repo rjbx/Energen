@@ -111,6 +111,7 @@ public class GigaGal implements Physical {
     }
 
     private void touchPlatforms(Array<Platform> platforms) {
+        boolean slidPlatform = false;
         float slidPlatformTop = 0;
         float slidPlatformBottom = 0;
         float groundedPlatformLeft = 0;
@@ -136,6 +137,7 @@ public class GigaGal implements Physical {
                                 velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
                             }
                             canRicochet = true;
+                            slidPlatform = true;
                             slidPlatformTop = platform.getTop();
                             slidPlatformBottom = platform.getBottom();
                         } else {
@@ -172,7 +174,7 @@ public class GigaGal implements Physical {
             }
         }
         // disables ricochet if no contact with slid platform side
-        if (getBottom() > slidPlatformTop  || getTop() < slidPlatformBottom) {
+        if ((getBottom() > slidPlatformTop  || getTop() < slidPlatformBottom) && slidPlatform) {
             canRicochet = false;
             canHover = true;
         }
