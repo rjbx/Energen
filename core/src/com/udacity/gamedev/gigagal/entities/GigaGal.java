@@ -126,9 +126,9 @@ public class GigaGal implements Physical {
                 // apply following rules (bump side and bottom) only if platform height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do platforms
                 if (platform.getHeight() > Constants.MAX_LEDGE_HEIGHT
-                && getBottom() < platform.getTop() && getTop() > platform.getBottom()) {
+                && getBottom() <= platform.getTop() && getTop() >= platform.getBottom()) {
                     // detects contact with platform sides
-                    if ((previousFrameRight < platform.getLeft() || previousFrameLeft > platform.getRight())) {
+                    if ((previousFrameRight <= platform.getLeft() || previousFrameLeft >= platform.getRight())) {
                         if (groundState == GroundState.AIRBORNE) {
                             if (aerialState == AerialState.RICOCHETING) {
                                 velocity.x = 0;
@@ -170,7 +170,10 @@ public class GigaGal implements Physical {
                     }
                 }
                 // disables ricochet and hover if below minimum ground distance
-                if (aerialState == AerialState.FALLING && getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE) && getBottom() > platform.getTop()) {
+                if (aerialState == AerialState.FALLING
+                && Math.abs(velocity.x) < Constants.GIGAGAL_MAX_SPEED
+                && getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
+                && getBottom() > platform.getTop()) {
                     canRicochet = false; // disables ricochet
                     canHover = false; // disables hover
                 }
