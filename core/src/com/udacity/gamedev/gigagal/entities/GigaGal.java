@@ -34,8 +34,8 @@ public class GigaGal implements Physical {
     public boolean canJump;
     public boolean canHover;
     public boolean canRicochet;
-    private boolean directionChanged;
     private boolean slidPlatform;
+    private boolean groundedPlatform;
     private long strideStartTime;
     private long jumpStartTime;
     private long dashStartTime;
@@ -162,6 +162,7 @@ public class GigaGal implements Physical {
                 if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop()) {
                     velocity.y = 0; // prevents from descending beneath platform top
                     position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop platform
+                    groundedPlatform = true;
                     groundedPlatformLeft = platform.getLeft();
                     groundedPlatformRight = platform.getRight();
                     hoverStartTime = 0;
@@ -172,8 +173,8 @@ public class GigaGal implements Physical {
                 }
                 // disables ricochet and hover if below minimum ground distance
                 if (aerialState == AerialState.FALLING
-                        && getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
-                        && getBottom() > platform.getTop()) {
+                && getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
+                && getBottom() > platform.getTop()) {
                     canRicochet = false; // disables ricochet
                     canHover = false; // disables hover
                 }
@@ -187,8 +188,9 @@ public class GigaGal implements Physical {
             }
         }
         // falls if no detection with grounded platform top
-        if ((aerialState == AerialState.GROUNDED || aerialState == AerialState.FALLING)
+        if ((groundedPlatform)
         && (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight)) {
+            groundedPlatform = false;
             canHover = true;
             fall();
         }
@@ -293,8 +295,8 @@ public class GigaGal implements Physical {
         canDash = false;
         canHover = false;
         canRicochet = false;
-        directionChanged = false;
         slidPlatform = false;
+        groundedPlatform = false;
         strideStartTime = 0;
         jumpStartTime = 0;
         dashStartTime = 0;
