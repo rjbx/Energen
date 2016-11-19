@@ -34,10 +34,11 @@ public class GigaGal implements Physical {
     private boolean canJump;
     private boolean canHover;
     private boolean canRicochet;
+    private boolean canChangeDirection;
     private boolean isCharged;
+    private boolean hasHovered;
     private boolean slidPlatform;
     private boolean groundedPlatform;
-    private boolean canChangeDirection;
     private long strideStartTime;
     private long jumpStartTime;
     private long dashStartTime;
@@ -170,6 +171,7 @@ public class GigaGal implements Physical {
                     groundedPlatformLeft = platform.getLeft();
                     groundedPlatformRight = platform.getRight();
                     hoverStartTime = 0;
+                    hasHovered = false;
                     canHover = true;
                     if (groundState != GroundState.DASHING) {
                         stand();
@@ -296,10 +298,11 @@ public class GigaGal implements Physical {
         canDash = false;
         canHover = false;
         canRicochet = false;
+        canChangeDirection = true;
+        isCharged = false;
+        hasHovered = false;
         slidPlatform = false;
         groundedPlatform = false;
-        isCharged = false;
-        canChangeDirection = true;
         chargeStartTime = 0;
         strideStartTime = 0;
         jumpStartTime = 0;
@@ -378,6 +381,7 @@ public class GigaGal implements Physical {
             if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
                 if (aerialState == AerialState.HOVERING) {
                     canHover = false;
+                    hoverStartTime =0;
                     fall();
 
                 } else {
@@ -395,6 +399,7 @@ public class GigaGal implements Physical {
         if (hoverStartTime == 0) {
             aerialState = AerialState.HOVERING; // indicates currently hovering
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
+            hasHovered = true;
         }
         hoverTimeSeconds = Utils.secondsSince(hoverStartTime); // for comparing with max hover time
         if (hoverTimeSeconds < Constants.MAX_HOVER_DURATION) {
@@ -417,6 +422,7 @@ public class GigaGal implements Physical {
             aerialState = AerialState.RICOCHETING;
             ricochetStartTime = TimeUtils.nanoTime();
             canRicochet = false;
+            hasHovered = false;
             hoverStartTime = 0;
             canJump = true;
         }
@@ -442,6 +448,9 @@ public class GigaGal implements Physical {
         canDash = false;
         if (canChangeDirection) {
             handleDirectionalInput();
+        }
+        if (!hasHovered) {
+            canHover = true;
         }
     }
 
