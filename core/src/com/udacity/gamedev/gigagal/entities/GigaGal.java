@@ -43,6 +43,7 @@ public class GigaGal implements Physical {
     private long jumpStartTime;
     private long dashStartTime;
     private long hoverStartTime;
+    private long tapStartTime;
     private float strideAcceleration;
     private float hoverTimeSeconds;
     private long ricochetStartTime;
@@ -307,6 +308,7 @@ public class GigaGal implements Physical {
         strideStartTime = 0;
         jumpStartTime = 0;
         dashStartTime = 0;
+        tapStartTime = 0;
     }
 
     private void enableStride() {
@@ -497,32 +499,21 @@ public class GigaGal implements Physical {
     private void handleDirectionalInput() {
         boolean leftJustPressed = Gdx.input.isKeyJustPressed(Keys.A);
         boolean rightJustPressed = Gdx.input.isKeyJustPressed(Keys.S);
-        boolean left = leftJustPressed || Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
-        boolean right = rightJustPressed || Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
-        boolean keyJustPressed = leftJustPressed || rightJustPressed;
+        boolean leftPressed = leftJustPressed || Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
+        boolean rightPressed = rightJustPressed || Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
         boolean directionChanged = false;
-        if (left && !right) {
+        if (leftPressed && !rightPressed) {
             directionChanged = Utils.setDirection(this, Direction.LEFT);
-        } else if (!left && right) {
+        } else if (!leftPressed && rightPressed) {
             directionChanged = Utils.setDirection(this, Direction.RIGHT);
         }
         if (groundState != GroundState.AIRBORNE) {
             if (groundState != GroundState.DASHING) {
-                if (left || right) {
-                    if (directionChanged) {
-                        strideStartTime = 0;
-                        stand();
-                    } else if (!canStride) {
-                        if (strideStartTime == 0 && keyJustPressed) {
-                            canStride = true;
-                        } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
-                            strideStartTime = 0;
-                        } else {
-                            canDash = true;
-                        }
-                    }
+                if ((leftPressed || rightPressed) && !directionChanged) {
+                    canStride = true;
                 } else {
                     stand();
+                    strideStartTime = 0;
                     canStride = false;
                 }
             }
