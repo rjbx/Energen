@@ -495,6 +495,7 @@ public class GigaGal implements Physical {
     }
 
     private void handleDirectionalInput() {
+        boolean keyJustPressed = Gdx.input.isKeyJustPressed(Keys.A) || Gdx.input.isKeyJustPressed(Keys.S);
         boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
         boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
         boolean directionChanged = false;
@@ -510,7 +511,7 @@ public class GigaGal implements Physical {
                         strideStartTime = 0;
                         stand();
                     } else if (!canStride) {
-                        if (strideStartTime == 0) {
+                        if (strideStartTime == 0 && keyJustPressed) {
                             canStride = true;
                         } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
                             strideStartTime = 0;
