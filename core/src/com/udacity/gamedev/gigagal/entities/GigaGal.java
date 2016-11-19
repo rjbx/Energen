@@ -517,12 +517,6 @@ public class GigaGal implements Physical {
                         } else {
                             canDash = true;
                         }
-                    } else {
-                        canStride = true;
-                    }
-                    if (groundState == GroundState.STANDING) {
-                        stand();
-                        canStride = true;
                     }
                 } else {
                     stand();

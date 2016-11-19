@@ -35,7 +35,7 @@ public final class Constants {
     public static final float MAX_HOVER_DURATION = 1;
     public static final float MIN_GROUND_DISTANCE = 5;
     public static final float MAX_DASH_DURATION = 0.35f;
-    public static final float DOUBLE_TAP_SPEED = 0.2f;
+    public static final float DOUBLE_TAP_SPEED = 1f;
     public static final int INITIAL_AMMO = 10;
     public static final int INITIAL_LIVES = 3;
 
@@ -125,7 +125,7 @@ public final class Constants {
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_ZOOMBA_TAG = "Zoomba";
     public static final String LEVEL_SPIKE_TAG = "Spike";
-    public static final String[] LEVELS = {"levels/Level3.dt", "levels/Level1.dt", "levels/Level2.dt", };
+    public static final String[] LEVELS = {"levels/Level1.dt", "levels/Level2.dt", "levels/Level3.dt", };
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;
