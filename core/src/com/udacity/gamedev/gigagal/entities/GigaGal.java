@@ -192,11 +192,11 @@ public class GigaGal implements Physical {
             }
         }
         // falls if no detection with grounded platform top
-        if ((groundedPlatform)
-        && (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight)) {
-            groundedPlatform = false;
-            canHover = true;
-            fall();
+        if (groundedPlatform) {
+            if (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight) {
+                groundedPlatform = false;
+                fall();
+            }
         }
     }
 
