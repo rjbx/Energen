@@ -495,9 +495,11 @@ public class GigaGal implements Physical {
     }
 
     private void handleDirectionalInput() {
-        boolean keyJustPressed = Gdx.input.isKeyJustPressed(Keys.A) || Gdx.input.isKeyJustPressed(Keys.S);
-        boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
-        boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
+        boolean leftJustPressed = Gdx.input.isKeyJustPressed(Keys.A);
+        boolean rightJustPressed = Gdx.input.isKeyJustPressed(Keys.S);
+        boolean left = leftJustPressed || Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
+        boolean right = rightJustPressed || Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
+        boolean keyJustPressed = leftJustPressed || rightJustPressed;
         boolean directionChanged = false;
         if (left && !right) {
             directionChanged = Utils.setDirection(this, Direction.LEFT);
