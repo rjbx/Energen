@@ -174,7 +174,7 @@ public class GigaGal implements Physical {
                     hoverStartTime = 0;
                     hasHovered = false;
                     canHover = true;
-                    if (groundState != GroundState.DASHING) {
+                    if (aerialState == AerialState.FALLING) {
                         stand();
                     }
                 }
@@ -320,10 +320,9 @@ public class GigaGal implements Physical {
 
     private void stride() {
         if (strideStartTime == 0) {
+            groundState = GroundState.STRIDING;
             strideStartTime = TimeUtils.nanoTime();
         }
-        canStride = true;
-        groundState = GroundState.STRIDING;
         strideAcceleration = Utils.secondsSince(strideStartTime) + Constants.GIGAGAL_STARTING_SPEED;
         velocity.x = Utils.getLateralVelocity(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing);
     }
@@ -343,11 +342,7 @@ public class GigaGal implements Physical {
             canStride = false;
         }
         if (Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) {
-            if (facing == Direction.LEFT) {
-                velocity.x = -Constants.GIGAGAL_MAX_SPEED;
-            } else {
-                velocity.x = Constants.GIGAGAL_MAX_SPEED;
-            }
+            velocity.x = Utils.getLateralVelocity(Constants.GIGAGAL_MAX_SPEED, facing);
         } else {
             canDash = false;
             dashStartTime = 0;
