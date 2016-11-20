@@ -174,7 +174,7 @@ public class GigaGal implements Physical {
                     hoverStartTime = 0;
                     hasHovered = false;
                     canHover = true;
-                    if (aerialState == AerialState.FALLING) {
+                    if (groundState == GroundState.AIRBORNE) {
                         stand();
                     }
                 }
