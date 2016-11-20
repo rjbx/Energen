@@ -299,7 +299,7 @@ public class GigaGal implements Physical {
         canDash = false;
         canHover = false;
         canRicochet = false;
-        canChangeDirection = true;
+        canChangeDirection = false;
         isCharged = false;
         hasHovered = false;
         slidPlatform = false;
@@ -510,6 +510,20 @@ public class GigaGal implements Physical {
         if (groundState != GroundState.AIRBORNE) {
             if (groundState != GroundState.DASHING) {
                 if ((leftPressed || rightPressed) && !directionChanged) {
+                    if (leftJustPressed || rightJustPressed) {
+                        if (!canDash) {
+                            if (tapStartTime == 0) {
+                                tapStartTime = -1;
+                            } else if (Utils.secondsSince(tapStartTime) < Constants.DOUBLE_TAP_SPEED) {
+                                tapStartTime = 0;
+                                canDash = true;
+                            } else {
+                                tapStartTime = 0;
+                            }
+                        }
+                    } else if (tapStartTime == -1) {
+                        tapStartTime = TimeUtils.nanoTime();
+                    }
                     canStride = true;
                 } else {
                     stand();
