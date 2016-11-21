@@ -39,6 +39,7 @@ public class GigaGal implements Physical {
     private boolean hasHovered;
     private boolean slidPlatform;
     private boolean groundedPlatform;
+    boolean directionChanged;
     private long strideStartTime;
     private long jumpStartTime;
     private long dashStartTime;
@@ -89,6 +90,7 @@ public class GigaGal implements Physical {
                 enableJump();
             } else if (groundState == GroundState.STRIDING) {
                 enableStride();
+                enableDash();
                 enableJump();
             } else if (groundState == GroundState.DASHING) {
                 enableDash();
@@ -231,15 +233,15 @@ public class GigaGal implements Physical {
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoil(Vector2 velocity) {
-        strideAcceleration = 0;
         aerialState = AerialState.RECOILING;
+        strideStartTime = 0;
         chargeStartTime = 0;
-        canChangeDirection = false;
-        isCharged = false;
+        canStride = false;
         canDash = false;
+        isCharged = false;
         canHover = false;
         canRicochet = false;
-        canStride = false;
+        canChangeDirection = false;
         this.velocity.x = velocity.x;
         this.velocity.y = velocity.y;
     }
@@ -304,6 +306,7 @@ public class GigaGal implements Physical {
         hasHovered = false;
         slidPlatform = false;
         groundedPlatform = false;
+        directionChanged = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         jumpStartTime = 0;
@@ -492,37 +495,31 @@ public class GigaGal implements Physical {
     }
 
     private void handleDirectionalInput() {
-        boolean leftJustPressed = Gdx.input.isKeyJustPressed(Keys.A);
-        boolean rightJustPressed = Gdx.input.isKeyJustPressed(Keys.S);
-        boolean leftPressed = leftJustPressed || Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
-        boolean rightPressed = rightJustPressed || Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
-        boolean directionChanged = false;
-        if (leftPressed && !rightPressed) {
+        boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
+        boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
+        directionChanged = false;
+        if (left && !right) {
             directionChanged = Utils.setDirection(this, Direction.LEFT);
-        } else if (!leftPressed && rightPressed) {
+        } else if (!left && right) {
             directionChanged = Utils.setDirection(this, Direction.RIGHT);
         }
         if (groundState != GroundState.AIRBORNE) {
             if (groundState != GroundState.DASHING) {
-                if ((leftPressed || rightPressed) && !directionChanged) {
-                    if (leftJustPressed || rightJustPressed) {
-                        if (!canDash) {
-                            if (tapStartTime == 0) {
-                                tapStartTime = -1;
-                            } else if (Utils.secondsSince(tapStartTime) < Constants.DOUBLE_TAP_SPEED) {
-                                tapStartTime = 0;
-                                canDash = true;
-                            } else {
-                                tapStartTime = 0;
-                            }
+                if (left || right) {
+                    if (directionChanged) {
+                        strideStartTime = 0;
+                        stand();
+                    } else if (!canStride) {
+                        if (strideStartTime == 0) {
+                            canStride = true;
+                        } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+                            strideStartTime = 0;
+                        } else {
+                            canDash = true;
                         }
-                    } else if (tapStartTime == -1) {
-                        tapStartTime = TimeUtils.nanoTime();
                     }
-                    canStride = true;
                 } else {
                     stand();
-                    strideStartTime = 0;
                     canStride = false;
                 }
             }
