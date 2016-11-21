@@ -96,7 +96,7 @@ public final class GameplayScreen extends ScreenAdapter {
         // onMobile();
         onscreenControls.render(batch);
 
-        hud.render(batch, level.getGigaGal().getLives(), level.getGigaGal().getAmmo(), level.getScore());
+        hud.render(batch, level.getGigaGal().getLives(), level.getGigaGal().getAmmo(), level.getGigaGal(). getHealth(), level.getScore());
         renderLevelEndOverlays(batch);
     }
 

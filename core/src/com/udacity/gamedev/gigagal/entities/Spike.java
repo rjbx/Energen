@@ -29,5 +29,6 @@ public class Spike extends Indestructible {
     public final float getRight() { return position.x + Constants.SPIKE_CENTER.x; }
     public final float getTop() { return position.y + Constants.SPIKE_CENTER.y; }
     public final float getBottom() { return position.y - Constants.SPIKE_CENTER.y; }
+    public final int getDamage() { return Constants.SPIKE_DAMAGE; }
     public final Class getSubclass() { return this.getClass(); }
 }

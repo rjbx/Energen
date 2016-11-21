@@ -24,13 +24,14 @@ public final class GigaGalHud {
         font.getData().setScale(1);
     }
 
-    public void render(SpriteBatch batch, int lives, int ammo, int score) {
+    public void render(SpriteBatch batch, int lives, int ammo,  int health, int score) {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
         final String hudString =
                 Constants.HUD_SCORE_LABEL + score + "\n" +
-                        Constants.HUD_AMMO_LABEL + ammo;
+                Constants.HUD_AMMO_LABEL + ammo + "\n" +
+                Constants.HUD_HEALTH_LABEL + health;
 
         font.draw(batch, hudString, Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN);
         final TextureRegion standingRight = Assets.getInstance().getGigaGalAssets().standRight;

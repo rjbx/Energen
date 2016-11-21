@@ -44,13 +44,13 @@ public class GigaGal implements Physical {
     private long jumpStartTime;
     private long dashStartTime;
     private long hoverStartTime;
-    private long tapStartTime;
     private float strideAcceleration;
     private float hoverTimeSeconds;
     private long ricochetStartTime;
     private long chargeStartTime;
     private int lives;
     private int ammo;
+    private int health;
     public boolean leftButtonPressed;
     public boolean rightButtonPressed;
     public boolean jumpButtonPressed;
@@ -68,6 +68,7 @@ public class GigaGal implements Physical {
 
     public void init() {
         ammo = Constants.INITIAL_AMMO;
+        health = Constants.INITIAL_HEALTH;
         lives = Constants.INITIAL_LIVES;
         respawn();
     }
@@ -223,8 +224,10 @@ public class GigaGal implements Physical {
             if (getBounds().overlaps(bounds)) {
                 float oneThirdWidth = hazard.getWidth() / 3;
                 if (getPosition().x < (hazard.getLeft() + oneThirdWidth)) {
+                    health -= hazard.getDamage();
                     recoil(new Vector2(-Constants.KNOCKBACK_VELOCITY.x, Constants.KNOCKBACK_VELOCITY.y));
                 } else if (getPosition().x > (hazard.getRight() - oneThirdWidth)) {
+                    health -= hazard.getDamage();
                     recoil(Constants.KNOCKBACK_VELOCITY);
                 }
             }
@@ -311,7 +314,6 @@ public class GigaGal implements Physical {
         strideStartTime = 0;
         jumpStartTime = 0;
         dashStartTime = 0;
-        tapStartTime = 0;
     }
 
     private void enableStride() {
@@ -530,6 +532,7 @@ public class GigaGal implements Physical {
 
     // Getters
     public int getAmmo() { return ammo; }
+    public int getHealth() { return health; }
     public int getLives() { return lives; }
     public Direction getDirection() { return facing; }
     public Vector2 getPosition() { return position; }

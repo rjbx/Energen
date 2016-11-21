@@ -37,6 +37,7 @@ public final class Constants {
     public static final float MAX_DASH_DURATION = 0.35f;
     public static final float DOUBLE_TAP_SPEED = 0.25f;
     public static final int INITIAL_AMMO = 10;
+    public static final int INITIAL_HEALTH = 100;
     public static final int INITIAL_LIVES = 3;
 
     // Gigagal assets
@@ -71,12 +72,14 @@ public final class Constants {
     public static final float ZOOMBA_BOB_AMPLITUDE = 2;
     public static final float ZOOMBA_BOB_PERIOD = 3.0f;
     public static final int ZOOMBA_MAX_HEALTH = 3;
+    public static final int ZOOMBA_DAMAGE = 10;
     public static final float ZOOMBA_COLLISION_RADIUS = 15;
     public static final float ZOOMBA_SHOT_RADIUS = 17;
     public static final String ZOOMBA_SPRITE = "zoomba";
 
     // Spike
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
+    public static final int SPIKE_DAMAGE = 25;
     public static final float SPIKE_COLLISION_WIDTH = 9;
     public static final float SPIKE_COLLISION_HEIGHT = 17;
     public static final String SPIKE_SPRITE = "spike";
@@ -132,6 +135,7 @@ public final class Constants {
     public static final float HUD_MARGIN = 20;
     public static final String HUD_AMMO_LABEL = "Ammo: ";
     public static final String HUD_SCORE_LABEL = "Score: ";
+    public static final String HUD_HEALTH_LABEL = "Health: ";
 
     // Onscreen Controls
     public static final float ONSCREEN_CONTROLS_VIEWPORT_SIZE = 200;
