@@ -285,7 +285,7 @@ public class GigaGal implements Physical {
     }
 
     private void enableRespawn() {
-        if (position.y < Constants.KILL_PLANE) {
+        if (position.y < Constants.KILL_PLANE || health < 1) {
             lives--;
             if (lives > -1) {
                 respawn();
