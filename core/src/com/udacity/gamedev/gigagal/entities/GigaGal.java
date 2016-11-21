@@ -136,7 +136,7 @@ public class GigaGal implements Physical {
                 && getBottom() <= platform.getTop() && getTop() >= platform.getBottom()) {
                     // detects contact with platform sides
                     if (previousFrameRight <= platform.getLeft() || previousFrameLeft >= platform.getRight()) {
-                        if (groundState == GroundState.AIRBORNE && Math.abs(jumpTakeoff - previousFramePosition.x) > 0) {
+                        if (groundState == GroundState.AIRBORNE && Math.abs(jumpTakeoff - previousFramePosition.x) > 1) {
                             if (aerialState == AerialState.RICOCHETING) {
                                 canChangeDirection = false;
                                 velocity.x = 0;
@@ -147,6 +147,7 @@ public class GigaGal implements Physical {
                             slidPlatformTop = platform.getTop();
                             slidPlatformBottom = platform.getBottom();
                         } else {
+                            canHover = false;
                             fall();
                         }
                         strideStartTime = 0;
@@ -380,7 +381,7 @@ public class GigaGal implements Physical {
             if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
                 if (aerialState == AerialState.HOVERING) {
                     canHover = false;
-                    hoverStartTime =0;
+                    hoverStartTime = 0;
                     fall();
 
                 } else {
