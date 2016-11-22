@@ -147,8 +147,10 @@ public class GigaGal implements Physical {
                             slidPlatformTop = platform.getTop();
                             slidPlatformBottom = platform.getBottom();
                         } else {
-                            canHover = false;
                             fall();
+                        }
+                        if (aerialState != AerialState.HOVERING) {
+                            canHover = false;
                         }
                         strideStartTime = 0;
                         canStride = false;
