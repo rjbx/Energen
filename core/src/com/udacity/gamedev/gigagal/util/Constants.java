@@ -101,6 +101,7 @@ public final class Constants {
     // Powerup
     public static final Vector2 POWERUP_CENTER = new Vector2(7, 5);
     public static final int POWERUP_AMMO = 10;
+    public static final int POWERUP_HEALTH = 25;
     public static final String AMMO_POWERUP_SPRITE = "ammo-powerup";
     public static final String HEALTH_POWERUP_SPRITE = "health-powerup";
 

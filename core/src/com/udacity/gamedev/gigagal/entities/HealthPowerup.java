@@ -18,7 +18,7 @@ public class HealthPowerup extends Powerup {
     }
 
     public void render(SpriteBatch batch) {
-        final TextureRegion region = Assets.getInstance().getPowerupAssets().ammoPowerup;
+        final TextureRegion region = Assets.getInstance().getPowerupAssets().healthPowerup;
         Utils.drawTextureRegion(batch, region, position, Constants.POWERUP_CENTER);
     }
 
