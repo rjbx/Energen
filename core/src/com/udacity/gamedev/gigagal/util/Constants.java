@@ -1,7 +1,6 @@
 package com.udacity.gamedev.gigagal.util;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 // immutable static
@@ -33,7 +32,7 @@ public final class Constants {
     public static final Vector2 KNOCKBACK_VELOCITY = new Vector2(100, 150);
     public static final float MAX_JUMP_DURATION = 0.025f;
     public static final float MAX_HOVER_DURATION = 1;
-    public static final float MIN_GROUND_DISTANCE = 5;
+    public static final float MIN_GROUND_DISTANCE = 7;
     public static final float MAX_DASH_DURATION = 0.35f;
     public static final float DOUBLE_TAP_SPEED = 0.2f;
     public static final int INITIAL_AMMO = 10;
@@ -160,7 +159,5 @@ public final class Constants {
     // Scoring
     public static final int ZOOMBA_KILL_SCORE = 100;
     public static final int ZOOMBA_HIT_SCORE = 25;
-    public static final int SPIKE_KILL_SCORE = 10;
-    public static final int SPIKE_HIT_SCORE = 5;
     public static final int POWERUP_SCORE = 50;
 }
