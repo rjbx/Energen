@@ -225,14 +225,18 @@ public class GigaGal implements Physical {
         for (Hazard hazard : hazards) {
             Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
             if (getBounds().overlaps(bounds)) {
+                if (aerialState != AerialState.RECOILING) {
+                    health -= hazard.getDamage();
+                }
                 float oneThirdWidth = hazard.getWidth() / 3;
                 if (getPosition().x < (hazard.getLeft() + oneThirdWidth)) {
-                    health -= hazard.getDamage();
                     recoil(new Vector2(-Constants.KNOCKBACK_VELOCITY.x, Constants.KNOCKBACK_VELOCITY.y));
                 } else if (getPosition().x > (hazard.getRight() - oneThirdWidth)) {
-                    health -= hazard.getDamage();
                     recoil(Constants.KNOCKBACK_VELOCITY);
+                } else {
+                    recoil(new Vector2((Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, facing)), Constants.KNOCKBACK_VELOCITY.y));
                 }
+
             }
         }
     }
