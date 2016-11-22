@@ -220,6 +220,9 @@ public class GigaGal implements Physical {
                 }
                 if (powerup.getSubclass() == HealthPowerup.class) {
                     health += Constants.POWERUP_HEALTH;
+                    if (health > 100) {
+                        health = 100;
+                    }
                     level.setScore(level.getScore() + Constants.POWERUP_SCORE);
                     powerups.removeValue(powerup, true);
                 }
