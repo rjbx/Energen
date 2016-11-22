@@ -319,6 +319,7 @@ public class GigaGal implements Physical {
         strideStartTime = 0;
         jumpStartTime = 0;
         dashStartTime = 0;
+        health = 100;
     }
 
     private void enableStride() {
