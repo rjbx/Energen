@@ -213,9 +213,11 @@ public class GigaGal implements Physical {
         for (Powerup powerup : powerups) {
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {
-                ammo += Constants.POWERUP_AMMO;
-                level.setScore(level.getScore() + Constants.POWERUP_SCORE);
-                powerups.removeValue(powerup, true);
+                if (powerup.getSubclass() == HealthPowerup.class) {
+                    ammo += Constants.POWERUP_AMMO;
+                    level.setScore(level.getScore() + Constants.POWERUP_SCORE);
+                    powerups.removeValue(powerup, true);
+                }
             }
         }
     }
