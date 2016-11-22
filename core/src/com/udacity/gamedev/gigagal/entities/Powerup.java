@@ -10,5 +10,6 @@ import com.udacity.gamedev.gigagal.util.Utils;
 // immutable
 public abstract class Powerup implements Physical {
 
+    abstract public void render(SpriteBatch batch);
     abstract public Class getSubclass();
 }

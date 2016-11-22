@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Ammo;
+import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Destructible;
 import com.udacity.gamedev.gigagal.entities.Hazard;
 import com.udacity.gamedev.gigagal.entities.Indestructible;
@@ -167,7 +168,7 @@ public class Level {
         platforms.add(new Platform(35, 55, 50, 20));
         platforms.add(new Platform(10, 20, 20, 9));
 
-        powerups.add(new Powerup(new Vector2(20, 110)));
+        powerups.add(new AmmoPowerup(new Vector2(20, 110)));
     }
 
     public void spawnBullet(Vector2 position, Direction direction, Enums.AmmoType ammoType) {

@@ -4,9 +4,16 @@ size: 1024,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+ammo-powerup
+  rotate: false
+  xy: 398, 71
+  size: 15, 17
+  orig: 15, 17
+  offset: 0, 0
+  index: -1
 bullet
   rotate: false
-  xy: 93, 17
+  xy: 1015, 103
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
@@ -130,6 +137,13 @@ explosion-small
   orig: 36, 36
   offset: 0, 0
   index: -1
+health-powerup
+  rotate: false
+  xy: 998, 109
+  size: 15, 17
+  orig: 15, 17
+  offset: 0, 0
+  index: -1
 hover-1-left
   rotate: false
   xy: 700, 91
@@ -179,13 +193,6 @@ platform
   orig: 58, 58
   offset: 0, 0
   index: -1
-powerup
-  rotate: false
-  xy: 398, 71
-  size: 15, 17
-  orig: 15, 17
-  offset: 0, 0
-  index: -1
 ricochet-left
   rotate: false
   xy: 638, 91
@@ -202,7 +209,7 @@ ricochet-right
   index: -1
 spike
   rotate: false
-  xy: 998, 110
+  xy: 1015, 110
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
