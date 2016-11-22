@@ -431,6 +431,7 @@ public class GigaGal implements Physical {
             ricochetStartTime = TimeUtils.nanoTime();
             canRicochet = false;
             hasHovered = false;
+            canHover = true;
             hoverStartTime = 0;
             canJump = true;
         }
