@@ -101,7 +101,8 @@ public final class Constants {
     // Powerup
     public static final Vector2 POWERUP_CENTER = new Vector2(7, 5);
     public static final int POWERUP_AMMO = 10;
-    public static final String POWERUP_SPRITE = "powerup";
+    public static final String AMMO_POWERUP_SPRITE = "ammo-ammoPowerup";
+    public static final String HEALTH_POWERUP_SPRITE = "health-ammoPowerup";
 
     // Exit Portal
     public static final Vector2 EXIT_PORTAL_CENTER = new Vector2(31, 31);
@@ -126,7 +127,6 @@ public final class Constants {
     public static final String LEVEL_HEIGHT_KEY = "height";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_ZOOMBA_TAG = "Zoomba";
-    public static final String LEVEL_SPIKE_TAG = "Spike";
     public static final String[] LEVELS = {"levels/Level3.dt", "levels/Level2.dt", "levels/Level1.dt", };
 
     // HUD

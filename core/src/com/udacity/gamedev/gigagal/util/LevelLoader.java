@@ -5,6 +5,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.Level;
+import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
+import com.udacity.gamedev.gigagal.entities.HealthPowerup;
 import com.udacity.gamedev.gigagal.entities.Spike;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.ExitPortal;
@@ -67,10 +69,14 @@ public final class LevelLoader {
             final JSONObject item = (JSONObject) o;
             final Vector2 imagePosition = extractXY(item);
 
-            if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POWERUP_SPRITE)) {
+            if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.AMMO_POWERUP_SPRITE)) {
                 final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
-                Gdx.app.log(TAG, "Loaded a powerup at " + powerupPosition);
-                level.getPowerups().add(new Powerup(powerupPosition));
+                Gdx.app.log(TAG, "Loaded an AmmoPowerup at " + powerupPosition);
+                level.getPowerups().add(new AmmoPowerup(powerupPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.HEALTH_POWERUP_SPRITE)) {
+                final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
+                Gdx.app.log(TAG, "Loaded a HealthPowerup at " + powerupPosition);
+                level.getPowerups().add(new HealthPowerup(powerupPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STAND_RIGHT)) {
                 final Vector2 gigaGalPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);

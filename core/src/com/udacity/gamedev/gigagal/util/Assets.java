@@ -176,10 +176,12 @@ public final class Assets implements Disposable, AssetErrorListener {
     }
 
     public class PowerupAssets {
-        public final AtlasRegion powerup;
+        public final AtlasRegion ammoPowerup;
+        public final AtlasRegion healthPowerup;
 
         public PowerupAssets(TextureAtlas atlas) {
-            powerup = atlas.findRegion(Constants.POWERUP_SPRITE);
+            ammoPowerup = atlas.findRegion(Constants.AMMO_POWERUP_SPRITE);
+            healthPowerup = atlas.findRegion(Constants.HEALTH_POWERUP_SPRITE);
         }
     }
 
