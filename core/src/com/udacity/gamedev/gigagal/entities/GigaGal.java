@@ -168,7 +168,7 @@ public class GigaGal implements Physical {
                     }
                 }
                 // detects contact with platform top
-                if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop()) {
+                if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop() && platform.getTop() != slidPlatformTop) {
                     velocity.y = 0; // prevents from descending beneath platform top
                     position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop platform
                     canChangeDirection = true;
