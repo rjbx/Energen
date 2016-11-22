@@ -137,21 +137,23 @@ public class GigaGal implements Physical {
                 && getBottom() <= platform.getTop() && getTop() >= platform.getBottom()) {
                     // detects contact with platform sides
                     if (previousFrameRight <= platform.getLeft() || previousFrameLeft >= platform.getRight()) {
-                        if (groundState == GroundState.AIRBORNE && Math.abs(jumpTakeoff - previousFramePosition.x) > 1) {
-                            if (aerialState == AerialState.RICOCHETING) {
-                                canChangeDirection = false;
-                                velocity.x = 0;
+                        if (groundState == GroundState.AIRBORNE) {
+                            if (Math.abs(jumpTakeoff - previousFramePosition.x) > 1) {
+                                if (aerialState == AerialState.RICOCHETING) {
+                                    canChangeDirection = false;
+                                    velocity.x = 0;
+                                }
+                                velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
+                                canRicochet = true;
+                                slidPlatform = true;
+                                slidPlatformTop = platform.getTop();
+                                slidPlatformBottom = platform.getBottom();
+                            } else {
+                                fall();
                             }
-                            velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
-                            canRicochet = true;
-                            slidPlatform = true;
-                            slidPlatformTop = platform.getTop();
-                            slidPlatformBottom = platform.getBottom();
-                        } else {
-                            fall();
-                        }
-                        if (aerialState != AerialState.HOVERING) {
-                            canHover = false;
+                            if (aerialState != AerialState.HOVERING) {
+                                canHover = false;
+                            }
                         }
                         strideStartTime = 0;
                         canStride = false;
@@ -184,8 +186,8 @@ public class GigaGal implements Physical {
                 }
                 // disables ricochet and hover if below minimum ground distance
                 if (aerialState == AerialState.FALLING
-                && getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
-                && getBottom() > platform.getTop()) {
+                && getBottom() <= (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
+                && getBottom() >= platform.getTop()) {
                     canRicochet = false; // disables ricochet
                     canHover = false; // disables hover
                 }
@@ -361,13 +363,13 @@ public class GigaGal implements Physical {
     private void enableJump() {
         if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) && canJump)
                 || aerialState == AerialState.JUMPING) {
-            jumpTakeoff = position.x;
             jump();
         }
     }
 
     private void jump() {
         if (canJump) {
+            jumpTakeoff = position.x;
             aerialState = AerialState.JUMPING;
             groundState = GroundState.AIRBORNE;
             jumpStartTime = TimeUtils.nanoTime();
@@ -454,9 +456,6 @@ public class GigaGal implements Physical {
         canDash = false;
         if (canChangeDirection) {
             handleDirectionalInput();
-        }
-        if (!hasHovered) {
-            canHover = true;
         }
     }
 
