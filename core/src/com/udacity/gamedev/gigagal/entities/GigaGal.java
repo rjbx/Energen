@@ -34,6 +34,7 @@ public class GigaGal implements Physical {
     private boolean canJump;
     private boolean canHover;
     private boolean canRicochet;
+    private boolean canCharge;
     private boolean canChangeDirection;
     private boolean isCharged;
     private boolean hasHovered;
@@ -250,20 +251,22 @@ public class GigaGal implements Physical {
     }
 
     private void enableShoot() {
-        if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
-            shoot(AmmoType.REGULAR);
-            chargeStartTime = TimeUtils.nanoTime();
-        }
-        if ((Gdx.input.isKeyPressed(Keys.ENTER) || shootButtonPressed) && chargeStartTime > 0) {
-            // Shoots
-            if (Utils.secondsSince(chargeStartTime) > Constants.CHARGE_DURATION) {
+        if (Gdx.input.isKeyPressed(Keys.ENTER) || shootButtonPressed) {
+            if (chargeStartTime == 0) {
+                canCharge = true;
+                chargeStartTime = TimeUtils.nanoTime();
+            } else if (Utils.secondsSince(chargeStartTime) > Constants.CHARGE_DURATION) {
                 isCharged = true;
             }
-        } else {
+        } else if (canCharge) {
             if (isCharged) {
                 shoot(AmmoType.CHARGE);
-                isCharged = false;
+            } else {
+                shoot(AmmoType.REGULAR);
             }
+            chargeStartTime = 0;
+            isCharged = false;
+            canCharge = false;
         }
     }
 
@@ -304,6 +307,7 @@ public class GigaGal implements Physical {
         canDash = false;
         canHover = false;
         canRicochet = false;
+        canCharge = false;
         canChangeDirection = false;
         isCharged = false;
         hasHovered = false;
