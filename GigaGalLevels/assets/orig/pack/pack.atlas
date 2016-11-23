@@ -11,13 +11,6 @@ ammo-powerup
   orig: 15, 17
   offset: 0, 0
   index: -1
-powerup
-  rotate: false
-  xy: 99, 109
-  size: 15, 17
-  orig: 15, 17
-  offset: 0, 0
-  index: -1
 exit-portal-1
   rotate: false
   xy: 2, 62
