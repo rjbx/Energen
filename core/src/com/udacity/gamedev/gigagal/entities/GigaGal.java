@@ -37,9 +37,9 @@ public class GigaGal implements Physical {
     private boolean canCharge;
     private boolean canChangeDirection;
     private boolean isCharged;
-    private boolean hasHovered;
     private boolean slidPlatform;
     private boolean groundedPlatform;
+    private boolean knockedBack;
     private long strideStartTime;
     private long jumpStartTime;
     private long dashStartTime;
@@ -178,7 +178,7 @@ public class GigaGal implements Physical {
                     groundedPlatformLeft = platform.getLeft();
                     groundedPlatformRight = platform.getRight();
                     hoverStartTime = 0;
-                    hasHovered = false;
+                    knockedBack = false;
                     canHover = true;
                     if (groundState == GroundState.AIRBORNE) {
                         stand();
@@ -235,8 +235,9 @@ public class GigaGal implements Physical {
         for (Hazard hazard : hazards) {
             Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
             if (getBounds().overlaps(bounds)) {
-                if (aerialState != AerialState.RECOILING) {
+                if (!knockedBack) {
                     health -= hazard.getDamage();
+                    knockedBack = true;
                 }
                 float oneThirdWidth = hazard.getWidth() / 3;
                 if (getPosition().x < (hazard.getLeft() + oneThirdWidth)) {
@@ -305,6 +306,7 @@ public class GigaGal implements Physical {
 
     private void enableRespawn() {
         if (position.y < Constants.KILL_PLANE || health < 1) {
+            health = 0;
             lives--;
             if (lives > -1) {
                 respawn();
@@ -326,7 +328,6 @@ public class GigaGal implements Physical {
         canCharge = false;
         canChangeDirection = false;
         isCharged = false;
-        hasHovered = false;
         slidPlatform = false;
         groundedPlatform = false;
         chargeStartTime = 0;
@@ -422,7 +423,6 @@ public class GigaGal implements Physical {
         if (hoverStartTime == 0) {
             aerialState = AerialState.HOVERING; // indicates currently hovering
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
-            hasHovered = true;
         }
         hoverTimeSeconds = Utils.secondsSince(hoverStartTime); // for comparing with max hover time
         if (hoverTimeSeconds < Constants.MAX_HOVER_DURATION) {
@@ -445,7 +445,6 @@ public class GigaGal implements Physical {
             aerialState = AerialState.RICOCHETING;
             ricochetStartTime = TimeUtils.nanoTime();
             canRicochet = false;
-            hasHovered = false;
             canHover = true;
             hoverStartTime = 0;
             canJump = true;
