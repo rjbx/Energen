@@ -87,7 +87,7 @@ public final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPIKE_SPRITE)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SPIKE_CENTER);
                 Gdx.app.log(TAG, "Loaded the spike at " + spikePosition);
-                level.getIndestructables().add(new Spike(spikePosition));
+                level.getIndestructibles().add(new Spike(spikePosition));
             }
         }
     }
@@ -108,7 +108,7 @@ public final class LevelLoader {
 
             if (identifier != null && identifier.equals(Constants.LEVEL_ZOOMBA_TAG)) {
                 final Zoomba zoomba = new Zoomba(platform);
-                level.getDestructables().add(zoomba);
+                level.getdestructibles().add(zoomba);
             }
         }
 

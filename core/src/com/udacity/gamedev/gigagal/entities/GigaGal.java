@@ -48,7 +48,7 @@ public class GigaGal implements Physical {
     private long chargeStartTime;
     private float strideAcceleration;
     private float hoverTimeSeconds;
-    private float jumpTakeoff;
+    private float aerialTakeoff;
     private int lives;
     private int ammo;
     private int health;
@@ -138,7 +138,7 @@ public class GigaGal implements Physical {
                     // detects contact with platform sides
                     if (previousFrameRight <= platform.getLeft() || previousFrameLeft >= platform.getRight()) {
                         if (groundState == GroundState.AIRBORNE) {
-                            if (Math.abs(jumpTakeoff - previousFramePosition.x) > 1) {
+                            if (Math.abs(aerialTakeoff - previousFramePosition.x) > 1) {
                                 if (aerialState == AerialState.RICOCHETING) {
                                     canChangeDirection = false;
                                     velocity.x = 0;
@@ -385,7 +385,7 @@ public class GigaGal implements Physical {
 
     private void jump() {
         if (canJump) {
-            jumpTakeoff = position.x;
+            aerialTakeoff = position.x;
             aerialState = AerialState.JUMPING;
             groundState = GroundState.AIRBORNE;
             jumpStartTime = TimeUtils.nanoTime();
@@ -466,7 +466,10 @@ public class GigaGal implements Physical {
     private void fall() {
         strideStartTime = 0;
         aerialState = AerialState.FALLING;
-        groundState = GroundState.AIRBORNE;
+        if (groundState != GroundState.AIRBORNE) {
+            aerialTakeoff = position.x;
+            groundState = GroundState.AIRBORNE;
+        }
         canJump = false;
         canDash = false;
         if (canChangeDirection) {

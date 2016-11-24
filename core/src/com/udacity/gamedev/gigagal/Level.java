@@ -33,8 +33,8 @@ public class Level {
     private GigaGal gigaGal;
     private ExitPortal exitPortal;
     private Array<Platform> platforms;
-    private Array<Indestructible> indestructables;
-    private DelayedRemovalArray<Destructible> destructables;
+    private Array<Indestructible> indestructibles;
+    private DelayedRemovalArray<Destructible> destructibles;
     private DelayedRemovalArray<Ammo> bullets;
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
@@ -44,8 +44,8 @@ public class Level {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigaGal = new GigaGal(new Vector2(50, 50), this);
         platforms = new Array<Platform>();
-        destructables = new DelayedRemovalArray<Destructible>();
-        indestructables = new DelayedRemovalArray<Indestructible>();
+        destructibles = new DelayedRemovalArray<Destructible>();
+        indestructibles = new DelayedRemovalArray<Indestructible>();
         bullets = new DelayedRemovalArray<Ammo>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
@@ -85,17 +85,17 @@ public class Level {
             bullets.end();
 
             // Update Enemies
-            destructables.begin();
-            for (int i = 0; i < destructables.size; i++) {
-                Destructible destructible = destructables.get(i);
+            destructibles.begin();
+            for (int i = 0; i < destructibles.size; i++) {
+                Destructible destructible = destructibles.get(i);
                 destructible.update(delta);
                 if (destructible.getHealth() < 1) {
                     spawnExplosion(destructible.getPosition());
-                    destructables.removeIndex(i);
+                    destructibles.removeIndex(i);
                     score += destructible.getKillScore();
                 }
             }
-            destructables.end();
+            destructibles.end();
 
             // Update Explosions
             explosions.begin();
@@ -125,11 +125,11 @@ public class Level {
             powerup.render(batch);
         }
 
-        for (Indestructible indestructible : indestructables) {
+        for (Indestructible indestructible : indestructibles) {
             indestructible.render(batch);
         }
 
-        for (Destructible destructible : destructables) {
+        for (Destructible destructible : destructibles) {
             destructible.render(batch);
         }
         gigaGal.render(batch);
@@ -153,7 +153,7 @@ public class Level {
 
         platforms = new Array<Platform>();
         bullets = new DelayedRemovalArray<Ammo>();
-        destructables = new DelayedRemovalArray<Destructible>();
+        destructibles = new DelayedRemovalArray<Destructible>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
 
@@ -162,7 +162,7 @@ public class Level {
 
         Platform zoombaPlatform = new Platform(75, 90, 100, 65);
 
-        destructables.add(new Zoomba(zoombaPlatform));
+        destructibles.add(new Zoomba(zoombaPlatform));
 
         platforms.add(zoombaPlatform);
         platforms.add(new Platform(35, 55, 50, 20));
@@ -181,9 +181,9 @@ public class Level {
 
     // Getters
     public final Array<Platform> getPlatforms() { return platforms; }
-    public final Array<Indestructible> getIndestructables() { return indestructables; }
-    public final DelayedRemovalArray<Destructible> getDestructables() { return destructables; }
-    public final Array<Hazard> getHazards() { Array<Hazard> hazards = new Array<Hazard>(destructables); hazards.addAll(indestructables); return hazards; }
+    public final Array<Indestructible> getIndestructibles() { return indestructibles; }
+    public final DelayedRemovalArray<Destructible> getdestructibles() { return destructibles; }
+    public final Array<Hazard> getHazards() { Array<Hazard> hazards = new Array<Hazard>(destructibles); hazards.addAll(indestructibles); return hazards; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
     public final int getScore() { return score; }
