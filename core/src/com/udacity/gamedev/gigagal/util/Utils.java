@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
+import com.udacity.gamedev.gigagal.entities.Physical;
 
 // immutable static
 public class Utils {
@@ -68,5 +69,19 @@ public class Utils {
         } else {
             return Enums.Direction.LEFT;
         }
+    }
+
+    public static final boolean bisectsLaterally(Physical entity, float delta, Enums.Direction facing) {
+        float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
+        if (facing == Enums.Direction.LEFT) {
+            if ((delta - frontHalf) <= entity.getRight()) {
+                return true;
+            }
+        } else if (facing == Enums.Direction.RIGHT) {
+            if ((delta + frontHalf) >= entity.getLeft()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

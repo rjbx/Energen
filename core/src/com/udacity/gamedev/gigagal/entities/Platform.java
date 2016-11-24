@@ -24,14 +24,6 @@ public final class Platform implements Physical {
         this.right = left + width;
     }
 
-    // copy ctor
-    public Platform(Platform p) {
-        this.top = p.getTop();
-        this.bottom = p.getBottom();
-        this.left = p.getLeft();
-        this.right = p.getRight();
-    }
-
     public void render(SpriteBatch batch) {
         final float width = right - left;
         final float height = top - bottom;

@@ -37,9 +37,9 @@ public class GigaGal implements Physical {
     private boolean canCharge;
     private boolean canChangeDirection;
     private boolean isCharged;
+    private boolean knockedBack;
     private boolean slidPlatform;
     private boolean groundedPlatform;
-    private boolean knockedBack;
     private long strideStartTime;
     private long jumpStartTime;
     private long dashStartTime;
@@ -119,16 +119,13 @@ public class GigaGal implements Physical {
     }
 
     private void touchPlatforms(Array<Platform> platforms) {
+        slidPlatform = false;
+        groundedPlatform = false;
         float slidPlatformTop = 0;
         float slidPlatformBottom = 0;
         float groundedPlatformLeft = 0;
         float groundedPlatformRight = 0;
         for (Platform platform : platforms) {
-            float previousFrameRight = previousFramePosition.x + Constants.GIGAGAL_STANCE_WIDTH / 2;
-            float previousFrameLeft = previousFramePosition.x - Constants.GIGAGAL_STANCE_WIDTH / 2;
-            float previousFrameTop = previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS;
-            float previousFrameBottom = previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT;
-
             // if currently within platform left and right sides
             if (getRight() >= platform.getLeft() && getLeft() <= platform.getRight()) {
                 // apply following rules (bump side and bottom) only if platform height > ledge height
@@ -136,7 +133,7 @@ public class GigaGal implements Physical {
                 if (platform.getHeight() > Constants.MAX_LEDGE_HEIGHT
                 && getBottom() <= platform.getTop() && getTop() >= platform.getBottom()) {
                     // detects contact with platform sides
-                    if (previousFrameRight <= platform.getLeft() || previousFrameLeft >= platform.getRight()) {
+                    if (!Utils.bisectsLaterally(platform, previousFramePosition.x, facing)) {
                         if (groundState == GroundState.AIRBORNE) {
                             if (Math.abs(aerialTakeoff - previousFramePosition.x) > 1) {
                                 if (aerialState == AerialState.RICOCHETING) {
@@ -163,20 +160,20 @@ public class GigaGal implements Physical {
                         canRicochet = false;
                     }
                     // detects contact with platform bottom
-                    if (previousFrameTop <= platform.getBottom()) {
+                    if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= platform.getBottom()) {
                         velocity.y = 0;
                         position.y = previousFramePosition.y;
                         fall();
                     }
                 }
                 // detects contact with platform top
-                if (previousFrameBottom >= platform.getTop() && getBottom() <= platform.getTop() && platform.getTop() != slidPlatformTop) {
+                if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= platform.getTop()
+                && getBottom() <= platform.getTop()
+                && platform.getTop() != slidPlatformTop) {
                     velocity.y = 0; // prevents from descending beneath platform top
                     position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop platform
                     canChangeDirection = true;
                     groundedPlatform = true;
-                    groundedPlatformLeft = platform.getLeft();
-                    groundedPlatformRight = platform.getRight();
                     hoverStartTime = 0;
                     knockedBack = false;
                     canHover = true;
@@ -186,8 +183,9 @@ public class GigaGal implements Physical {
                 }
                 // disables ricochet and hover if below minimum ground distance
                 if (velocity.y < 0
-                && getBottom() <= (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
-                && getBottom() >= platform.getTop()) {
+                && slidPlatform == false
+                && getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
+                && getBottom() > platform.getTop()) {
                     canRicochet = false; // disables ricochet
                     canHover = false; // disables hover
                 }
@@ -206,6 +204,40 @@ public class GigaGal implements Physical {
                 groundedPlatform = false;
                 fall();
             }
+        }
+    }
+
+    private void handleDirectionalInput() {
+        boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
+        boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
+        boolean directionChanged = false;
+        if (left && !right) {
+            directionChanged = Utils.setDirection(this, Direction.LEFT);
+        } else if (!left && right) {
+            directionChanged = Utils.setDirection(this, Direction.RIGHT);
+        }
+        if (groundState != GroundState.AIRBORNE) {
+            if (groundState != GroundState.DASHING) {
+                if (left || right) {
+                    if (directionChanged) {
+                        strideStartTime = 0;
+                        stand();
+                    } else if (!canStride) {
+                        if (strideStartTime == 0) {
+                            canStride = true;
+                        } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+                            strideStartTime = 0;
+                        } else {
+                            canDash = true;
+                        }
+                    }
+                } else {
+                    stand();
+                    canStride = false;
+                }
+            }
+        } else if (directionChanged) {
+            recoil(new Vector2(velocity.x / 2, velocity.y));
         }
     }
 
@@ -515,40 +547,6 @@ public class GigaGal implements Physical {
             }
         }
         Utils.drawTextureRegion(batch, region, position, Constants.GIGAGAL_EYE_POSITION);
-    }
-
-    private void handleDirectionalInput() {
-        boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
-        boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
-        boolean directionChanged = false;
-        if (left && !right) {
-            directionChanged = Utils.setDirection(this, Direction.LEFT);
-        } else if (!left && right) {
-            directionChanged = Utils.setDirection(this, Direction.RIGHT);
-        }
-        if (groundState != GroundState.AIRBORNE) {
-            if (groundState != GroundState.DASHING) {
-                if (left || right) {
-                    if (directionChanged) {
-                        strideStartTime = 0;
-                        stand();
-                    } else if (!canStride) {
-                        if (strideStartTime == 0) {
-                            canStride = true;
-                        } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
-                            strideStartTime = 0;
-                        } else {
-                            canDash = true;
-                        }
-                    }
-                } else {
-                    stand();
-                    canStride = false;
-                }
-            }
-        } else if (directionChanged) {
-            recoil(new Vector2(velocity.x / 2, velocity.y));
-        }
     }
 
     // Getters
