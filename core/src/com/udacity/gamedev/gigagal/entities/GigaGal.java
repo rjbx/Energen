@@ -119,8 +119,6 @@ public class GigaGal implements Physical {
     }
 
     private void touchPlatforms(Array<Platform> platforms) {
-        slidPlatform = false;
-        groundedPlatform = false;
         float slidPlatformTop = 0;
         float slidPlatformBottom = 0;
         float groundedPlatformLeft = 0;
@@ -174,6 +172,8 @@ public class GigaGal implements Physical {
                     position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop platform
                     canChangeDirection = true;
                     groundedPlatform = true;
+                    groundedPlatformLeft = platform.getLeft();
+                    groundedPlatformRight = platform.getRight();
                     hoverStartTime = 0;
                     knockedBack = false;
                     canHover = true;
