@@ -71,13 +71,13 @@ public class Utils {
         }
     }
 
-    public static final boolean bisectsLaterally(Physical entity, float delta, Enums.Direction facing) {
+    public static final boolean bisectsLaterally(Physical entity, float delta, float velocity) {
         float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
-        if (facing == Enums.Direction.LEFT) {
+        if (velocity < 0) {
             if ((delta - frontHalf) <= entity.getRight()) {
                 return true;
             }
-        } else if (facing == Enums.Direction.RIGHT) {
+        } else if (velocity > 0) {
             if ((delta + frontHalf) >= entity.getLeft()) {
                 return true;
             }

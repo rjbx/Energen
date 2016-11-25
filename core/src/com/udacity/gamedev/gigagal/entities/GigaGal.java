@@ -131,10 +131,10 @@ public class GigaGal implements Physical {
                 if (platform.getHeight() > Constants.MAX_LEDGE_HEIGHT
                 && getBottom() <= platform.getTop() && getTop() >= platform.getBottom()) {
                     // detects contact with platform sides
-                    if (!Utils.bisectsLaterally(platform, previousFramePosition.x, facing)) {
+                    if (!Utils.bisectsLaterally(platform, previousFramePosition.x, velocity.x)) {
                         if (groundState == GroundState.AIRBORNE) {
                             if (Math.abs(aerialTakeoff - previousFramePosition.x) > 1
-                                && Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 2) {
+                                && Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 3) {
                                 if (aerialState == AerialState.RICOCHETING) {
                                     velocity.x = 0;
                                 }
