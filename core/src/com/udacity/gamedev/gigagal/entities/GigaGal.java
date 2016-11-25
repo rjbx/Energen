@@ -133,9 +133,9 @@ public class GigaGal implements Physical {
                     // detects contact with platform sides
                     if (!Utils.bisectsLaterally(platform, previousFramePosition.x, facing)) {
                         if (groundState == GroundState.AIRBORNE) {
-                            if (Math.abs(aerialTakeoff - previousFramePosition.x) > 1) {
+                            if (Math.abs(aerialTakeoff - previousFramePosition.x) > 1
+                                && Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 2) {
                                 if (aerialState == AerialState.RICOCHETING) {
-                                    canChangeDirection = false;
                                     velocity.x = 0;
                                 }
                                 velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing);
@@ -185,7 +185,8 @@ public class GigaGal implements Physical {
                 if (velocity.y < 0
                 && slidPlatform == false
                 && getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
-                && getBottom() > platform.getTop()) {
+                && getBottom() > platform.getTop()
+                && aerialState != AerialState.RICOCHETING) {
                     canRicochet = false; // disables ricochet
                     canHover = false; // disables hover
                 }
@@ -477,7 +478,6 @@ public class GigaGal implements Physical {
             aerialState = AerialState.RICOCHETING;
             ricochetStartTime = TimeUtils.nanoTime();
             canRicochet = false;
-            canHover = true;
             hoverStartTime = 0;
             canJump = true;
         }
@@ -485,6 +485,9 @@ public class GigaGal implements Physical {
             facing = Utils.getOppositeDirection(facing);
             velocity.x = Utils.getLateralVelocity(Constants.GIGAGAL_MAX_SPEED, facing);
             jump();
+        } else {
+            canChangeDirection = false;
+            canHover = true;
         }
     }
 
