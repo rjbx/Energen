@@ -146,8 +146,8 @@ public class GigaGal implements Physical {
                             } else {
                                 fall();
                             }
-                            if (aerialState != AerialState.HOVERING && velocity.y < 0) {
-                               canHover = false;
+                            if (aerialState != AerialState.HOVERING && velocity.y < 0 && velocity.x < Constants.GIGAGAL_MAX_SPEED / 3) {
+                                canHover = false;
                             }
                         }
                         strideStartTime = 0;
