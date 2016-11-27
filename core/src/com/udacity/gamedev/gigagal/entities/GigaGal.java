@@ -146,7 +146,7 @@ public class GigaGal implements Physical {
                             } else {
                                 fall();
                             }
-                            if (aerialState != AerialState.HOVERING) {
+                            if (aerialState != AerialState.HOVERING && velocity.y < 0) {
                                canHover = false;
                             }
                         }
@@ -183,7 +183,7 @@ public class GigaGal implements Physical {
                 }
                 // disables ricochet and hover if below minimum ground distance
                 if (velocity.y < 0
-                && slidPlatform == false
+                && !slidPlatform
                 && getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
                 && getBottom() > platform.getTop()
                 && aerialState != AerialState.RICOCHETING) {
@@ -219,7 +219,7 @@ public class GigaGal implements Physical {
         }
         if (groundState != GroundState.AIRBORNE) {
             if (groundState != GroundState.DASHING) {
-                if (left || right) {
+                if (left && !right || right && !left) {
                     if (directionChanged) {
                         strideStartTime = 0;
                         stand();
