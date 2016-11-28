@@ -71,16 +71,11 @@ public class Utils {
         }
     }
 
-    public static final boolean bisectsLaterally(Physical entity, float delta, float velocity) {
+    public static final boolean inside(Physical entity, float delta, float speed) {
         float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
-        if (velocity <= 0) {
-            if ((delta - frontHalf) <= entity.getRight()) {
-                return true;
-            }
-        } else if (velocity >= 0) {
-            if ((delta + frontHalf) >= entity.getLeft()) {
-                return true;
-            }
+        if ((delta - frontHalf) <= entity.getRight()
+        && (delta + frontHalf) >= entity.getLeft()) {
+            return true;
         }
         return false;
     }

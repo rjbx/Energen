@@ -125,13 +125,13 @@ public class GigaGal implements Physical {
         float groundedPlatformRight = 0;
         for (Platform platform : platforms) {
             // if currently within platform left and right sides
-            if (getRight() >= platform.getLeft() && getLeft() <= platform.getRight()) {
+            if (Utils.inside(platform, position.x, velocity.x)) {
                 // apply following rules (bump side and bottom) only if platform height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do platforms
                 if (platform.getHeight() > Constants.MAX_LEDGE_HEIGHT
                 && getBottom() <= platform.getTop() && getTop() >= platform.getBottom()) {
-                    // if contact with platform sides is detected
-                    if (!Utils.bisectsLaterally(platform, previousFramePosition.x, velocity.x)) {
+                    // if during previous frame was not, while currently is, between platform left and right sides
+                    if (!Utils.inside(platform, previousFramePosition.x, velocity.x)) {
                         // only when not grounded
                         if (groundState == GroundState.AIRBORNE) {
                             // if lateral velocity (magnitude, without concern for direction) greater than one third max speed,
@@ -140,6 +140,10 @@ public class GigaGal implements Physical {
                                 // if already ricocheting, halt lateral progression
                                 if (aerialState == AerialState.RICOCHETING) {
                                     velocity.x = 0; // halt lateral progression
+                                // if not already ricocheting and hover was previously activated before grounding
+                                } else if (!canHover || aerialState == AerialState.HOVERING){
+                                    fall(); // begin descent from platform side sans access to hover
+                                    canHover = false; // disable hover if not already
                                 }
                                 velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing); // boost lateral velocity by starting speed
                                 canRicochet = true; // enable ricochet
@@ -156,7 +160,7 @@ public class GigaGal implements Physical {
                             }
                         }
                         // if contact with platform sides detected without concern for ground state (either grounded or airborne),
-                        // set reset stride acceleration, disable stride and dash, and set gigagal at platform side
+                        // reset stride acceleration, disable stride and dash, and set gigagal at platform side
                         strideStartTime = 0; // reset stride acceleration
                         canStride = false; // disable stride
                         canDash = false; // disable dash
@@ -186,7 +190,7 @@ public class GigaGal implements Physical {
                     ricochetStartTime = 0; // reset ricochet
                     knockedBack = false; // reset knockback if recoiling from enemy
                     canHover = true; // enable hover
-                    //if groundstate is airborne, set to standing
+                    // if groundstate is airborne, set to standing
                     if (groundState == GroundState.AIRBORNE) {
                         stand(); // set groundstate to standing
                     }
@@ -450,7 +454,6 @@ public class GigaGal implements Physical {
                     canHover = false;
                     hoverStartTime = 0;
                     fall();
-
                 } else {
                     hover(); // else hover if canHover is true (set to false after beginning hover)
                 }
