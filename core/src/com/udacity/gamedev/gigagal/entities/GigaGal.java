@@ -175,6 +175,7 @@ public class GigaGal implements Physical {
                     groundedPlatformLeft = platform.getLeft();
                     groundedPlatformRight = platform.getRight();
                     hoverStartTime = 0;
+                    ricochetStartTime = 0;
                     knockedBack = false;
                     canHover = true;
                     if (groundState == GroundState.AIRBORNE) {
@@ -185,7 +186,7 @@ public class GigaGal implements Physical {
                 if (velocity.y < 0
                 && getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
                 && getBottom() > platform.getTop()
-                && aerialState != AerialState.RICOCHETING) {
+                && ricochetStartTime == 0) {
                     canRicochet = false; // disables ricochet
                     canHover = false; // disables hover
                 }
