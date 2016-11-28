@@ -6,7 +6,7 @@ filter: Nearest,Nearest
 repeat: none
 ammo-powerup
   rotate: false
-  xy: 398, 71
+  xy: 322, 43
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -144,9 +144,16 @@ flame
   orig: 17, 27
   offset: 0, 0
   index: -1
+geiser
+  rotate: false
+  xy: 398, 71
+  size: 17, 17
+  orig: 17, 17
+  offset: 0, 0
+  index: -1
 health-powerup
   rotate: false
-  xy: 322, 43
+  xy: 417, 71
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -216,7 +223,7 @@ ricochet-right
   index: -1
 spike
   rotate: false
-  xy: 415, 72
+  xy: 322, 25
   size: 7, 16
   orig: 7, 16
   offset: 0, 0

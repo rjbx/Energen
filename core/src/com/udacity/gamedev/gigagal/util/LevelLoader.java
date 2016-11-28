@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Flame;
+import com.udacity.gamedev.gigagal.entities.Geiser;
 import com.udacity.gamedev.gigagal.entities.HealthPowerup;
 import com.udacity.gamedev.gigagal.entities.Spike;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
@@ -93,6 +94,10 @@ public final class LevelLoader {
                 final Vector2 flamePosition = imagePosition.add(Constants.FLAME_CENTER);
                 Gdx.app.log(TAG, "Loaded the flame at " + flamePosition);
                 level.getIndestructibles().add(new Flame(flamePosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.GEISER_SPRITE)) {
+                final Vector2 geiserPosition = imagePosition.add(Constants.GEISER_CENTER);
+                Gdx.app.log(TAG, "Loaded the geiser at " + geiserPosition);
+                level.getIndestructibles().add(new Geiser(geiserPosition));
             }
         }
     }

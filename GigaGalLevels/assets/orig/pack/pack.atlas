@@ -6,7 +6,7 @@ filter: Linear,Linear
 repeat: none
 ammo-powerup
   rotate: false
-  xy: 99, 80
+  xy: 98, 61
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -25,9 +25,16 @@ flame
   orig: 17, 27
   offset: 0, 0
   index: -1
+geiser
+  rotate: false
+  xy: 99, 80
+  size: 17, 17
+  orig: 17, 17
+  offset: 0, 0
+  index: -1
 health-powerup
   rotate: false
-  xy: 98, 61
+  xy: 98, 42
   size: 15, 17
   orig: 15, 17
   offset: 0, 0

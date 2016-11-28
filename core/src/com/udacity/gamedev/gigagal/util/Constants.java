@@ -90,6 +90,13 @@ public final class Constants {
     public static final float FLAME_COLLISION_HEIGHT = 25;
     public static final String FLAME_SPRITE = "flame";
 
+    // Geiser
+    public static final Vector2 GEISER_CENTER = new Vector2(4, 8);
+    public static final int GEISER_DAMAGE = 25;
+    public static final float GEISER_COLLISION_WIDTH = 15;
+    public static final float GEISER_COLLISION_HEIGHT = 15;
+    public static final String GEISER_SPRITE = "geiser";
+
     // Ammo
     public static final float CHARGE_DURATION = 0.8f;
     public static final float BULLET_MOVE_SPEED = 500;
