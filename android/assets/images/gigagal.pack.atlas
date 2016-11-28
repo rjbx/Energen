@@ -13,7 +13,7 @@ ammo-powerup
   index: -1
 bullet
   rotate: false
-  xy: 1015, 103
+  xy: 93, 17
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
@@ -139,14 +139,14 @@ explosion-small
   index: -1
 flame
   rotate: false
-  xy: 322, 33
-  size: 27, 27
-  orig: 27, 27
+  xy: 998, 99
+  size: 17, 27
+  orig: 17, 27
   offset: 0, 0
   index: -1
 health-powerup
   rotate: false
-  xy: 998, 109
+  xy: 322, 43
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -216,7 +216,7 @@ ricochet-right
   index: -1
 spike
   rotate: false
-  xy: 1015, 110
+  xy: 415, 72
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
