@@ -186,10 +186,10 @@ public class GigaGal implements Physical {
                     ricochetStartTime = 0; // reset ricochet
                     knockedBack = false; // reset knockback if recoiling from enemy
                     canHover = true; // enable hover
-                    //if groundstate is not grounded, set to grounded
-                    //if (groundState == GroundState.AIRBORNE) {
-                    stand(); // set groundstate to grounded
-                    //}
+                    //if groundstate is airborne, set to standing
+                    if (groundState == GroundState.AIRBORNE) {
+                        stand(); // set groundstate to standing
+                    }
                 }
                 // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
                 if (getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
