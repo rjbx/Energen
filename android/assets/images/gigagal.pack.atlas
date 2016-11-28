@@ -137,6 +137,13 @@ explosion-small
   orig: 36, 36
   offset: 0, 0
   index: -1
+flame
+  rotate: false
+  xy: 322, 33
+  size: 27, 27
+  orig: 27, 27
+  offset: 0, 0
+  index: -1
 health-powerup
   rotate: false
   xy: 998, 109

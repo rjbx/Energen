@@ -23,6 +23,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private BulletAssets bulletAssets;
     private ZoombaAssets zoombaAssets;
     private SpikeAssets spikeAssets;
+    private FlameAssets flameAssets;
     private ExplosionAssets explosionAssets;
     private PowerupAssets powerupAssets;
     private ExitPortalAssets exitPortalAssets;
@@ -48,6 +49,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         bulletAssets = new BulletAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
         spikeAssets = new SpikeAssets(atlas);
+        flameAssets = new FlameAssets(atlas);
         explosionAssets = new ExplosionAssets(atlas);
         powerupAssets = new PowerupAssets(atlas);
         exitPortalAssets = new ExitPortalAssets(atlas);
@@ -159,6 +161,15 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    public class FlameAssets {
+
+        public final AtlasRegion flame;
+
+        public FlameAssets(TextureAtlas atlas) {
+            flame = atlas.findRegion(Constants.FLAME_SPRITE);
+        }
+    }
+
     public class ExplosionAssets {
 
         public final Animation explosion;
@@ -231,6 +242,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final BulletAssets getBulletAssets() { return bulletAssets; }
     public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
     public final SpikeAssets getSpikeAssets() { return spikeAssets; }
+    public final FlameAssets getFlameAssets() { return flameAssets; }
     public final ExplosionAssets getExplosionAssets() { return explosionAssets; }
     public final PowerupAssets getPowerupAssets() { return powerupAssets; }
     public final ExitPortalAssets getExitPortalAssets() { return exitPortalAssets; }
