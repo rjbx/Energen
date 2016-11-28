@@ -71,7 +71,7 @@ public class Utils {
         }
     }
 
-    public static final boolean inside(Physical entity, float delta, float speed) {
+    public static final boolean betweenSides(Physical entity, float delta) {
         float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
         if ((delta - frontHalf) <= entity.getRight()
         && (delta + frontHalf) >= entity.getLeft()) {

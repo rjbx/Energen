@@ -125,13 +125,13 @@ public class GigaGal implements Physical {
         float groundedPlatformRight = 0;
         for (Platform platform : platforms) {
             // if currently within platform left and right sides
-            if (Utils.inside(platform, position.x, velocity.x)) {
+            if (Utils.betweenSides(platform, position.x)) {
                 // apply following rules (bump side and bottom) only if platform height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do platforms
                 if (platform.getHeight() > Constants.MAX_LEDGE_HEIGHT
                 && getBottom() <= platform.getTop() && getTop() >= platform.getBottom()) {
                     // if during previous frame was not, while currently is, between platform left and right sides
-                    if (!Utils.inside(platform, previousFramePosition.x, velocity.x)) {
+                    if (!Utils.betweenSides(platform, previousFramePosition.x)) {
                         // only when not grounded
                         if (groundState == GroundState.AIRBORNE) {
                             // if lateral velocity (magnitude, without concern for direction) greater than one third max speed,
