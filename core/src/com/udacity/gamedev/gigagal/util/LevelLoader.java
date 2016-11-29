@@ -90,7 +90,7 @@ public final class LevelLoader {
                 final Vector2 spikePosition = imagePosition.add(Constants.SPIKE_CENTER);
                 Gdx.app.log(TAG, "Loaded the spike at " + spikePosition);
                 level.getIndestructibles().add(new Spike(spikePosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.FLAME_SPRITE)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.FLAME_SPRITE_1)) {
                 final Vector2 flamePosition = imagePosition.add(Constants.FLAME_CENTER);
                 Gdx.app.log(TAG, "Loaded the flame at " + flamePosition);
                 level.getIndestructibles().add(new Flame(flamePosition));

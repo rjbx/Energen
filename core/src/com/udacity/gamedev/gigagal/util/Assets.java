@@ -165,10 +165,15 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class FlameAssets {
 
-        public final AtlasRegion flame;
+        public final Animation flame;
 
         public FlameAssets(TextureAtlas atlas) {
-            flame = atlas.findRegion(Constants.FLAME_SPRITE);
+            Array<AtlasRegion> flameRegions = new Array<AtlasRegion>();
+            flameRegions.add(atlas.findRegion(Constants.FLAME_SPRITE_1));
+            flameRegions.add(atlas.findRegion(Constants.FLAME_SPRITE_2));
+
+            flame = new Animation(Constants.FLAME_DURATION / flameRegions.size,
+                    flameRegions, PlayMode.NORMAL);
         }
     }
 

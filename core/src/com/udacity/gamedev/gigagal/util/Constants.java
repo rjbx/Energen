@@ -84,15 +84,17 @@ public final class Constants {
     public static final String SPIKE_SPRITE = "spike";
 
     // Flame
-    public static final Vector2 FLAME_CENTER = new Vector2(4, 8);
+    public static final Vector2 FLAME_CENTER = new Vector2(8.5f, 17.5f);
+    public static final float FLAME_DURATION = 0.1f;
     public static final int FLAME_DAMAGE = 25;
     public static final float FLAME_COLLISION_WIDTH = 15;
     public static final float FLAME_COLLISION_HEIGHT = 25;
-    public static final String FLAME_SPRITE = "flame";
+    public static final String FLAME_SPRITE_1 = "flame-1";
+    public static final String FLAME_SPRITE_2 = "flame-2";
 
     // Geiser
-    public static final Vector2 GEISER_CENTER = new Vector2(4, 8);
-    public static final int GEISER_DAMAGE = 25;
+    public static final Vector2 GEISER_CENTER = new Vector2(7.5f, 7.5f);
+    public static final int GEISER_DAMAGE = 15;
     public static final float GEISER_COLLISION_WIDTH = 15;
     public static final float GEISER_COLLISION_HEIGHT = 15;
     public static final String GEISER_SPRITE = "geiser";
