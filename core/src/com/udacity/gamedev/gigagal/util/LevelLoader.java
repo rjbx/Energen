@@ -94,7 +94,7 @@ public final class LevelLoader {
                 final Vector2 flamePosition = imagePosition.add(Constants.FLAME_CENTER);
                 Gdx.app.log(TAG, "Loaded the flame at " + flamePosition);
                 level.getIndestructibles().add(new Flame(flamePosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.GEISER_SPRITE)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.GEISER_SPRITE_1)) {
                 final Vector2 geiserPosition = imagePosition.add(Constants.GEISER_CENTER);
                 Gdx.app.log(TAG, "Loaded the geiser at " + geiserPosition);
                 level.getIndestructibles().add(new Geiser(geiserPosition));

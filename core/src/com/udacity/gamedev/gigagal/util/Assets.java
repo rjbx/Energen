@@ -179,10 +179,15 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class GeiserAssets {
 
-        public final AtlasRegion geiser;
+        public final Animation geiser;
 
         public GeiserAssets(TextureAtlas atlas) {
-            geiser = atlas.findRegion(Constants.GEISER_SPRITE);
+            Array<AtlasRegion> geiserRegions = new Array<AtlasRegion>();
+            geiserRegions.add(atlas.findRegion(Constants.GEISER_SPRITE_1));
+            geiserRegions.add(atlas.findRegion(Constants.GEISER_SPRITE_2));
+
+            geiser = new Animation(Constants.GEISER_DURATION / geiserRegions.size,
+                    geiserRegions, PlayMode.NORMAL);
         }
     }
 
