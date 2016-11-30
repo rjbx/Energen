@@ -93,11 +93,11 @@ public final class Constants {
     public static final String FLAME_SPRITE_2 = "flame-2";
 
     // Geiser
-    public static final Vector2 GEISER_CENTER = new Vector2(8.5f, 8.5f);
+    public static final Vector2 GEISER_CENTER = new Vector2(8.5f, 17.5f);
     public static final float GEISER_DURATION = 0.2f;
     public static final int GEISER_DAMAGE = 15;
     public static final float GEISER_COLLISION_WIDTH = 15;
-    public static final float GEISER_COLLISION_HEIGHT = 15;
+    public static final float GEISER_COLLISION_HEIGHT = 25;
     public static final String GEISER_SPRITE_1 = "geiser-1";
     public static final String GEISER_SPRITE_2 = "geiser-2";
 
