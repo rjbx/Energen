@@ -94,7 +94,7 @@ public final class Constants {
 
     // Geiser
     public static final Vector2 GEISER_CENTER = new Vector2(8.5f, 17.5f);
-    public static final float GEISER_DURATION = 0.2f;
+    public static final float GEISER_DURATION = 0.3f;
     public static final int GEISER_DAMAGE = 15;
     public static final float GEISER_COLLISION_WIDTH = 15;
     public static final float GEISER_COLLISION_HEIGHT = 25;

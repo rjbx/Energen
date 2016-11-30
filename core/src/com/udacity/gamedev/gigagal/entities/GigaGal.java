@@ -49,6 +49,7 @@ public class GigaGal implements Physical {
     private float strideAcceleration;
     private float hoverTimeSeconds;
     private float aerialTakeoff;
+    private float lateralKnockback;
     private int lives;
     private int ammo;
     private int health;
@@ -188,7 +189,8 @@ public class GigaGal implements Physical {
                     groundedPlatformRight = platform.getRight(); // capture grounded platform boundary
                     hoverStartTime = 0; // reset hover
                     ricochetStartTime = 0; // reset ricochet
-                    knockedBack = false; // reset knockback if recoiling from enemy
+                    knockedBack = false; // reset knockback boolean
+                    lateralKnockback = 0; // reset knockback velocity
                     canHover = true; // enable hover
                     // if groundstate is airborne, set to standing
                     if (groundState == GroundState.AIRBORNE) {
@@ -285,16 +287,18 @@ public class GigaGal implements Physical {
                 if (!knockedBack) {
                     health -= hazard.getDamage();
                     knockedBack = true;
+                    lateralKnockback = Constants.KNOCKBACK_VELOCITY.x;
+                } else {
+                    lateralKnockback /= 1.2;
                 }
                 float oneThirdWidth = hazard.getWidth() / 3;
                 if (getPosition().x < (hazard.getLeft() + oneThirdWidth)) {
-                    recoil(new Vector2(-Constants.KNOCKBACK_VELOCITY.x, Constants.KNOCKBACK_VELOCITY.y));
+                    recoil(new Vector2(-lateralKnockback, Constants.KNOCKBACK_VELOCITY.y));
                 } else if (getPosition().x > (hazard.getRight() - oneThirdWidth)) {
                     recoil(Constants.KNOCKBACK_VELOCITY);
                 } else {
-                    recoil(new Vector2((Utils.getLateralVelocity(Constants.KNOCKBACK_VELOCITY.x, facing)), Constants.KNOCKBACK_VELOCITY.y));
+                    recoil(new Vector2((Utils.getLateralVelocity(lateralKnockback, facing)), Constants.KNOCKBACK_VELOCITY.y));
                 }
-
             }
         }
     }
@@ -377,6 +381,7 @@ public class GigaGal implements Physical {
         isCharged = false;
         slidPlatform = false;
         groundedPlatform = false;
+        knockedBack = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         jumpStartTime = 0;
