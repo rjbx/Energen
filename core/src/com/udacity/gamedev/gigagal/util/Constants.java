@@ -79,7 +79,7 @@ public final class Constants {
 
     // Spike
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
-    public static final int SPIKE_DAMAGE = 25;
+    public static final int SPIKE_DAMAGE = 30;
     public static final Vector2 SPIKE_KNOCKBACK = new Vector2(50, VERTICAL_KNOCKBACK);
     public static final float SPIKE_COLLISION_WIDTH = 9;
     public static final float SPIKE_COLLISION_HEIGHT = 17;
@@ -98,7 +98,7 @@ public final class Constants {
     // Geiser
     public static final Vector2 GEISER_CENTER = new Vector2(8.5f, 17.5f);
     public static final float GEISER_DURATION = 0.3f;
-    public static final int GEISER_DAMAGE = 15;
+    public static final int GEISER_DAMAGE = 20;
     public static final Vector2 GEISER_KNOCKBACK = new Vector2(25, VERTICAL_KNOCKBACK);
     public static final float GEISER_COLLISION_WIDTH = 15;
     public static final float GEISER_COLLISION_HEIGHT = 25;
@@ -118,7 +118,7 @@ public final class Constants {
     // Coil
     public static final Vector2 COIL_CENTER = new Vector2(12.5f, 12.5f);
     public static final float COIL_DURATION = 0.5f;
-    public static final int COIL_DAMAGE = 0;
+    public static final int COIL_DAMAGE = 15;
     public static final Vector2 COIL_KNOCKBACK = new Vector2(25, -25);
     public static final float COIL_COLLISION_WIDTH = 25;
     public static final float COIL_COLLISION_HEIGHT = 25;
