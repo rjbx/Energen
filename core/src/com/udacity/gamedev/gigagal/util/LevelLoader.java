@@ -10,6 +10,7 @@ import com.udacity.gamedev.gigagal.entities.Flame;
 import com.udacity.gamedev.gigagal.entities.Geiser;
 import com.udacity.gamedev.gigagal.entities.HealthPowerup;
 import com.udacity.gamedev.gigagal.entities.Spike;
+import com.udacity.gamedev.gigagal.entities.Wheel;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.ExitPortal;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
@@ -98,6 +99,10 @@ public final class LevelLoader {
                 final Vector2 geiserPosition = imagePosition.add(Constants.GEISER_CENTER);
                 Gdx.app.log(TAG, "Loaded the geiser at " + geiserPosition);
                 level.getIndestructibles().add(new Geiser(geiserPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WHEEL_SPRITE_1)) {
+                final Vector2 wheelPosition = imagePosition.add(Constants.WHEEL_CENTER);
+                Gdx.app.log(TAG, "Loaded the wheel at " + wheelPosition);
+                level.getIndestructibles().add(new Wheel(wheelPosition));
             }
         }
     }

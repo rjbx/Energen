@@ -6,7 +6,7 @@ filter: Nearest,Nearest
 repeat: none
 ammo-powerup
   rotate: false
-  xy: 398, 71
+  xy: 368, 43
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -146,28 +146,28 @@ flame-1
   index: -1
 flame-2
   rotate: false
-  xy: 322, 33
+  xy: 425, 61
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-1
   rotate: false
-  xy: 341, 33
+  xy: 444, 61
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-2
   rotate: false
-  xy: 360, 33
+  xy: 349, 33
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 health-powerup
   rotate: false
-  xy: 379, 43
+  xy: 385, 43
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -237,7 +237,7 @@ ricochet-right
   index: -1
 spike
   rotate: false
-  xy: 415, 72
+  xy: 463, 72
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
@@ -296,6 +296,20 @@ stride-3-right
   xy: 969, 91
   size: 27, 35
   orig: 27, 35
+  offset: 0, 0
+  index: -1
+wheel-1
+  rotate: false
+  xy: 398, 63
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+wheel-2
+  rotate: false
+  xy: 322, 35
+  size: 25, 25
+  orig: 25, 25
   offset: 0, 0
   index: -1
 zoomba

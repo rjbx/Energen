@@ -25,6 +25,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private SpikeAssets spikeAssets;
     private FlameAssets flameAssets;
     private GeiserAssets geiserAssets;
+    private WheelAssets wheelAssets;
     private ExplosionAssets explosionAssets;
     private PowerupAssets powerupAssets;
     private ExitPortalAssets exitPortalAssets;
@@ -52,6 +53,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         spikeAssets = new SpikeAssets(atlas);
         flameAssets = new FlameAssets(atlas);
         geiserAssets = new GeiserAssets(atlas);
+        wheelAssets = new WheelAssets(atlas);
         explosionAssets = new ExplosionAssets(atlas);
         powerupAssets = new PowerupAssets(atlas);
         exitPortalAssets = new ExitPortalAssets(atlas);
@@ -191,6 +193,20 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    public class WheelAssets {
+
+        public final Animation wheel;
+
+        public WheelAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> wheelRegions = new Array<AtlasRegion>();
+            wheelRegions.add(atlas.findRegion(Constants.WHEEL_SPRITE_1));
+            wheelRegions.add(atlas.findRegion(Constants.WHEEL_SPRITE_2));
+
+            wheel = new Animation(Constants.WHEEL_DURATION / wheelRegions.size,
+                    wheelRegions, PlayMode.NORMAL);
+        }
+    }
+
     public class ExplosionAssets {
 
         public final Animation explosion;
@@ -265,6 +281,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final SpikeAssets getSpikeAssets() { return spikeAssets; }
     public final FlameAssets getFlameAssets() { return flameAssets; }
     public final GeiserAssets getGeiserAssets() { return geiserAssets; }
+    public final WheelAssets getWheelAssets() { return wheelAssets; }
     public final ExplosionAssets getExplosionAssets() { return explosionAssets; }
     public final PowerupAssets getPowerupAssets() { return powerupAssets; }
     public final ExitPortalAssets getExitPortalAssets() { return exitPortalAssets; }
