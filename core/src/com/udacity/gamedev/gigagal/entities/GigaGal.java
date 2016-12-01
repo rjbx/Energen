@@ -288,8 +288,6 @@ public class GigaGal implements Physical {
                     health -= hazard.getDamage();
                     knockedBack = true;
                     lateralKnockback = hazard.getKnockback().x;
-                } else {
-                    lateralKnockback /= 1.2;
                 }
                 float oneThirdWidth = hazard.getWidth() / 3;
                 if (getPosition().x < (hazard.getLeft() + oneThirdWidth)) {
