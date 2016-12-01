@@ -119,7 +119,7 @@ public final class Constants {
     public static final Vector2 COIL_CENTER = new Vector2(12.5f, 12.5f);
     public static final float COIL_DURATION = 0.5f;
     public static final int COIL_DAMAGE = 15;
-    public static final Vector2 COIL_KNOCKBACK = new Vector2(25, -25);
+    public static final Vector2 COIL_KNOCKBACK = new Vector2(100, 50);
     public static final float COIL_COLLISION_WIDTH = 25;
     public static final float COIL_COLLISION_HEIGHT = 25;
     public static final String COIL_SPRITE_1 = "coil-1";
