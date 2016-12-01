@@ -109,7 +109,7 @@ public final class Constants {
     public static final Vector2 WHEEL_CENTER = new Vector2(12.5f, 12.5f);
     public static final float WHEEL_DURATION = 0.075f;
     public static final int WHEEL_DAMAGE = 0;
-    public static final Vector2 WHEEL_KNOCKBACK = new Vector2(200, VERTICAL_KNOCKBACK);
+    public static final Vector2 WHEEL_KNOCKBACK = new Vector2(200, 250);
     public static final float WHEEL_COLLISION_WIDTH = 25;
     public static final float WHEEL_COLLISION_HEIGHT = 25;
     public static final String WHEEL_SPRITE_1 = "wheel-1";
