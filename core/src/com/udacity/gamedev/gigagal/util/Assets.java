@@ -243,6 +243,24 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    public class PortalAssets {
+
+        public final Animation portal;
+
+        public PortalAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> portalRegions = new Array<AtlasRegion>();
+            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_1));
+            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_2));
+            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_3));
+            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_4));
+            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_5));
+            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_6));
+
+            portal = new Animation(Constants.PORTAL_FRAME_DURATION,
+                    portalRegions, PlayMode.NORMAL);
+        }
+    }
+
     public class ExplosionAssets {
 
         public final Animation explosion;
@@ -266,23 +284,6 @@ public final class Assets implements Disposable, AssetErrorListener {
         public PowerupAssets(TextureAtlas atlas) {
             ammoPowerup = atlas.findRegion(Constants.AMMO_POWERUP_SPRITE);
             healthPowerup = atlas.findRegion(Constants.HEALTH_POWERUP_SPRITE);
-        }
-    }
-
-    public class PortalAssets {
-
-        public final Animation portal;
-
-        public PortalAssets(TextureAtlas atlas) {
-            Array<AtlasRegion> portalRegions = new Array<AtlasRegion>();
-            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_1));
-            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_2));
-            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_3));
-            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_4));
-            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_5));
-            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_6));
-
-            portal = new Animation(Constants.PORTAL_FRAME_DURATION, portalRegions, PlayMode.LOOP_PINGPONG);
         }
     }
 

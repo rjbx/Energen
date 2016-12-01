@@ -130,8 +130,8 @@ public final class Constants {
     public static final float VACUUM_FRAME_DURATION = 0.1f;
     public static final int VACUUM_DAMAGE = 100;
     public static final Vector2 VACUUM_KNOCKBACK = new Vector2(100, 0);
-    public static final float VACUUM_COLLISION_WIDTH = 56;
-    public static final float VACUUM_COLLISION_HEIGHT = 56;
+    public static final float VACUUM_COLLISION_WIDTH = 28;
+    public static final float VACUUM_COLLISION_HEIGHT = 28;
     public static final String VACUUM_SPRITE_1 = "vacuum-1";
     public static final String VACUUM_SPRITE_2 = "vacuum-2";
     public static final String VACUUM_SPRITE_3 = "vacuum-3";
