@@ -134,7 +134,7 @@ public class GigaGal implements Physical {
                     // if during previous frame was not, while currently is, between platform left and right sides
                     if (!Utils.betweenSides(platform, previousFramePosition.x)) {
                         // only when not grounded
-                        if (groundState == GroundState.AIRBORNE) {
+                        if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
                             // if lateral velocity (magnitude, without concern for direction) greater than one third max speed,
                             // boost lateral velocity by starting speed, enable ricochet, verify slid platform and capture slid platform boundaries
                             if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 3) {
