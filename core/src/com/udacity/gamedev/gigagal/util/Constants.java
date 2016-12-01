@@ -128,13 +128,17 @@ public final class Constants {
 
     // Vacuum
     public static final Vector2 VACUUM_CENTER = new Vector2(31, 31);
-    public static final float VACUUM_DURATION = 0.25f;
+    public static final float VACUUM_FRAME_DURATION = 0.1f;
     public static final int VACUUM_DAMAGE = 100;
     public static final Vector2 VACUUM_KNOCKBACK = new Vector2(100, 0);
     public static final float VACUUM_COLLISION_WIDTH = 25;
     public static final float VACUUM_COLLISION_HEIGHT = 25;
     public static final String VACUUM_SPRITE_1 = "vacuum-1";
     public static final String VACUUM_SPRITE_2 = "vacuum-2";
+    public static final String VACUUM_SPRITE_3 = "vacuum-3";
+    public static final String VACUUM_SPRITE_4 = "vacuum-4";
+    public static final String VACUUM_SPRITE_5 = "vacuum-5";
+    public static final String VACUUM_SPRITE_6 = "vacuum-6";
 
     // Ammo
     public static final float CHARGE_DURATION = 0.8f;
