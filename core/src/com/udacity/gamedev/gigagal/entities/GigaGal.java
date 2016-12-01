@@ -287,17 +287,17 @@ public class GigaGal implements Physical {
                 if (!knockedBack) {
                     health -= hazard.getDamage();
                     knockedBack = true;
-                    lateralKnockback = Constants.KNOCKBACK_VELOCITY.x;
+                    lateralKnockback = hazard.getKnockback().x;
                 } else {
                     lateralKnockback /= 1.2;
                 }
                 float oneThirdWidth = hazard.getWidth() / 3;
                 if (getPosition().x < (hazard.getLeft() + oneThirdWidth)) {
-                    recoil(new Vector2(-lateralKnockback, Constants.KNOCKBACK_VELOCITY.y));
+                    recoil(new Vector2(-lateralKnockback, hazard.getKnockback().y));
                 } else if (getPosition().x > (hazard.getRight() - oneThirdWidth)) {
-                    recoil(Constants.KNOCKBACK_VELOCITY);
+                    recoil(hazard.getKnockback());
                 } else {
-                    recoil(new Vector2((Utils.getLateralVelocity(lateralKnockback, facing)), Constants.KNOCKBACK_VELOCITY.y));
+                    recoil(new Vector2((Utils.getLateralVelocity(lateralKnockback, facing)), hazard.getKnockback().y));
                 }
             }
         }

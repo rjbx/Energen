@@ -34,5 +34,6 @@ public class Geiser extends Indestructible {
     public final float getTop() { return position.y + Constants.GEISER_CENTER.y; }
     public final float getBottom() { return position.y - Constants.GEISER_CENTER.y; }
     public final int getDamage() { return Constants.GEISER_DAMAGE; }
+    public final Vector2 getKnockback() { return Constants.GEISER_KNOCKBACK; }
     public final Class getSubclass() { return this.getClass(); }
 }

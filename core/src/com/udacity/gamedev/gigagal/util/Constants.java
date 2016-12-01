@@ -72,6 +72,7 @@ public final class Constants {
     public static final float ZOOMBA_BOB_PERIOD = 3.0f;
     public static final int ZOOMBA_MAX_HEALTH = 3;
     public static final int ZOOMBA_DAMAGE = 10;
+    public static final Vector2 ZOOMBA_KNOCKBACK = new Vector2(75, 100);
     public static final float ZOOMBA_COLLISION_RADIUS = 15;
     public static final float ZOOMBA_SHOT_RADIUS = 17;
     public static final String ZOOMBA_SPRITE = "zoomba";
@@ -79,6 +80,7 @@ public final class Constants {
     // Spike
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
     public static final int SPIKE_DAMAGE = 25;
+    public static final Vector2 SPIKE_KNOCKBACK = new Vector2(50, 75);
     public static final float SPIKE_COLLISION_WIDTH = 9;
     public static final float SPIKE_COLLISION_HEIGHT = 17;
     public static final String SPIKE_SPRITE = "spike";
@@ -87,6 +89,7 @@ public final class Constants {
     public static final Vector2 FLAME_CENTER = new Vector2(8.5f, 17.5f);
     public static final float FLAME_DURATION = 0.1f;
     public static final int FLAME_DAMAGE = 25;
+    public static final Vector2 FLAME_KNOCKBACK = new Vector2(100, 150);
     public static final float FLAME_COLLISION_WIDTH = 15;
     public static final float FLAME_COLLISION_HEIGHT = 25;
     public static final String FLAME_SPRITE_1 = "flame-1";
@@ -96,6 +99,7 @@ public final class Constants {
     public static final Vector2 GEISER_CENTER = new Vector2(8.5f, 17.5f);
     public static final float GEISER_DURATION = 0.3f;
     public static final int GEISER_DAMAGE = 15;
+    public static final Vector2 GEISER_KNOCKBACK = new Vector2(25, 37.5f);
     public static final float GEISER_COLLISION_WIDTH = 15;
     public static final float GEISER_COLLISION_HEIGHT = 25;
     public static final String GEISER_SPRITE_1 = "geiser-1";

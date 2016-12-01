@@ -35,5 +35,6 @@ public class Flame extends Indestructible {
     public final float getTop() { return position.y + Constants.FLAME_CENTER.y; }
     public final float getBottom() { return position.y - Constants.FLAME_CENTER.y; }
     public final int getDamage() { return Constants.FLAME_DAMAGE; }
+    public final Vector2 getKnockback() { return Constants.FLAME_KNOCKBACK; }
     public final Class getSubclass() { return this.getClass(); }
 }

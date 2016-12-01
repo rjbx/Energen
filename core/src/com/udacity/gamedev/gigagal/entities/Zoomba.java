@@ -71,6 +71,7 @@ public class Zoomba extends Destructible {
     public final int getHitScore() { return Constants.ZOOMBA_HIT_SCORE; }
     public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
     public final int getDamage() { return Constants.ZOOMBA_DAMAGE; }
+    public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public final Class getSubclass() { return this.getClass(); }
     public final void setHealth( int health ) { this.health = health; }
 }
