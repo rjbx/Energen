@@ -27,6 +27,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private GeiserAssets geiserAssets;
     private WheelAssets wheelAssets;
     private CoilAssets coilAssets;
+    private VacuumAssets vacuumAssets;
     private ExplosionAssets explosionAssets;
     private PowerupAssets powerupAssets;
     private ExitPortalAssets exitPortalAssets;
@@ -56,6 +57,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         geiserAssets = new GeiserAssets(atlas);
         wheelAssets = new WheelAssets(atlas);
         coilAssets = new CoilAssets(atlas);
+        vacuumAssets = new VacuumAssets(atlas);
         explosionAssets = new ExplosionAssets(atlas);
         powerupAssets = new PowerupAssets(atlas);
         exitPortalAssets = new ExitPortalAssets(atlas);
@@ -222,6 +224,20 @@ public final class Assets implements Disposable, AssetErrorListener {
                     coilRegions, PlayMode.NORMAL);
         }
     }
+    
+    public class VacuumAssets {
+
+        public final Animation vacuum;
+
+        public VacuumAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> vacuumRegions = new Array<AtlasRegion>();
+            vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_1));
+            vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_2));
+
+            vacuum = new Animation(Constants.VACUUM_DURATION / vacuumRegions.size,
+                    vacuumRegions, PlayMode.NORMAL);
+        }
+    }
 
     public class ExplosionAssets {
 
@@ -299,6 +315,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final GeiserAssets getGeiserAssets() { return geiserAssets; }
     public final WheelAssets getWheelAssets() { return wheelAssets; }
     public final CoilAssets getCoilAssets() { return coilAssets; }
+    public final VacuumAssets getVacuumAssets() { return vacuumAssets; }
     public final ExplosionAssets getExplosionAssets() { return explosionAssets; }
     public final PowerupAssets getPowerupAssets() { return powerupAssets; }
     public final ExitPortalAssets getExitPortalAssets() { return exitPortalAssets; }

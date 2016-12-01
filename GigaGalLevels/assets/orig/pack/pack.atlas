@@ -1,19 +1,19 @@
 
 pack.png
-size: 128,128
+size: 256,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 ammo-powerup
   rotate: false
-  xy: 89, 26
+  xy: 183, 109
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 coil-1
   rotate: false
-  xy: 99, 101
+  xy: 93, 35
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
@@ -27,21 +27,21 @@ exit-portal-1
   index: -1
 flame-1
   rotate: false
-  xy: 99, 72
+  xy: 164, 99
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-1
   rotate: false
-  xy: 98, 53
+  xy: 93, 16
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 health-powerup
   rotate: false
-  xy: 89, 7
+  xy: 200, 109
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -56,28 +56,35 @@ platform
   index: -1
 spike
   rotate: false
-  xy: 118, 83
+  xy: 120, 44
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 standing-right
   rotate: false
-  xy: 68, 45
+  xy: 134, 91
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
   index: -1
+vacuum-1
+  rotate: false
+  xy: 68, 62
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 wheel-1
   rotate: false
-  xy: 62, 18
+  xy: 134, 64
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 zoomba
   rotate: false
-  xy: 68, 82
+  xy: 62, 16
   size: 29, 44
   orig: 29, 44
   offset: 0, 0

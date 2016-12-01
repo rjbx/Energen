@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
-import com.udacity.gamedev.gigagal.entities.Coil;
+import com.udacity.gamedev.gigagal.entities.Vacuum;
 import com.udacity.gamedev.gigagal.entities.Flame;
 import com.udacity.gamedev.gigagal.entities.Geiser;
 import com.udacity.gamedev.gigagal.entities.HealthPowerup;
@@ -104,10 +104,14 @@ public final class LevelLoader {
                 final Vector2 wheelPosition = imagePosition.add(Constants.WHEEL_CENTER);
                 Gdx.app.log(TAG, "Loaded the wheel at " + wheelPosition);
                 level.getIndestructibles().add(new Wheel(wheelPosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.COIL_SPRITE_1)) {
-                final Vector2 coilPosition = imagePosition.add(Constants.COIL_CENTER);
-                Gdx.app.log(TAG, "Loaded the coil at " + coilPosition);
-                level.getIndestructibles().add(new Coil(coilPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VACUUM_SPRITE_1)) {
+                final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
+                Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
+                level.getIndestructibles().add(new Vacuum(vacuumPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VACUUM_SPRITE_1)) {
+                final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
+                Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
+                level.getIndestructibles().add(new Vacuum(vacuumPosition));
             }
         }
     }
