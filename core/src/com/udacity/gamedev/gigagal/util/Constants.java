@@ -128,17 +128,28 @@ public final class Constants {
 
     // Vacuum
     public static final Vector2 VACUUM_CENTER = new Vector2(31, 31);
-    public static final float VACUUM_FRAME_DURATION = 0.075f;
+    public static final float VACUUM_FRAME_DURATION = 0.1f;
     public static final int VACUUM_DAMAGE = 100;
     public static final Vector2 VACUUM_KNOCKBACK = new Vector2(100, 0);
-    public static final float VACUUM_COLLISION_WIDTH = 64;
-    public static final float VACUUM_COLLISION_HEIGHT = 64;
+    public static final float VACUUM_COLLISION_WIDTH = 56;
+    public static final float VACUUM_COLLISION_HEIGHT = 56;
     public static final String VACUUM_SPRITE_1 = "vacuum-1";
     public static final String VACUUM_SPRITE_2 = "vacuum-2";
     public static final String VACUUM_SPRITE_3 = "vacuum-3";
     public static final String VACUUM_SPRITE_4 = "vacuum-4";
     public static final String VACUUM_SPRITE_5 = "vacuum-5";
     public static final String VACUUM_SPRITE_6 = "vacuum-6";
+
+    // Exit Portal
+    public static final Vector2 EXIT_PORTAL_CENTER = new Vector2(31, 31);
+    public static final float EXIT_PORTAL_RADIUS = 28;
+    public static final float EXIT_PORTAL_FRAME_DURATION = 0.1f;
+    public static final String EXIT_PORTAL_SPRITE_1 = "exit-portal-1";
+    public static final String EXIT_PORTAL_SPRITE_2 = "exit-portal-2";
+    public static final String EXIT_PORTAL_SPRITE_3 = "exit-portal-3";
+    public static final String EXIT_PORTAL_SPRITE_4 = "exit-portal-4";
+    public static final String EXIT_PORTAL_SPRITE_5 = "exit-portal-5";
+    public static final String EXIT_PORTAL_SPRITE_6 = "exit-portal-6";
 
     // Ammo
     public static final float CHARGE_DURATION = 0.8f;
@@ -161,17 +172,6 @@ public final class Constants {
     public static final int POWERUP_HEALTH = 50;
     public static final String AMMO_POWERUP_SPRITE = "ammo-powerup";
     public static final String HEALTH_POWERUP_SPRITE = "health-powerup";
-
-    // Exit Portal
-    public static final Vector2 EXIT_PORTAL_CENTER = new Vector2(31, 31);
-    public static final float EXIT_PORTAL_RADIUS = 28;
-    public static final float EXIT_PORTAL_FRAME_DURATION = 0.1f;
-    public static final String EXIT_PORTAL_SPRITE_1 = "exit-portal-1";
-    public static final String EXIT_PORTAL_SPRITE_2 = "exit-portal-2";
-    public static final String EXIT_PORTAL_SPRITE_3 = "exit-portal-3";
-    public static final String EXIT_PORTAL_SPRITE_4 = "exit-portal-4";
-    public static final String EXIT_PORTAL_SPRITE_5 = "exit-portal-5";
-    public static final String EXIT_PORTAL_SPRITE_6 = "exit-portal-6";
 
     // Level Loading
     public static final String LEVEL_COMPOSITE = "composite";

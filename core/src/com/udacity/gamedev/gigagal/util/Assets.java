@@ -239,7 +239,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_6));
 
             vacuum = new Animation(Constants.VACUUM_FRAME_DURATION,
-                    vacuumRegions, PlayMode.NORMAL);
+                    vacuumRegions, PlayMode.LOOP_PINGPONG);
         }
     }
 
@@ -274,17 +274,15 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final Animation exitPortal;
 
         public ExitPortalAssets(TextureAtlas atlas) {
-            final AtlasRegion exitPortal1 = atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_1);
-            final AtlasRegion exitPortal2 = atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_2);
-            final AtlasRegion exitPortal3 = atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_3);
-            final AtlasRegion exitPortal4 = atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_4);
-            final AtlasRegion exitPortal5 = atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_5);
-            final AtlasRegion exitPortal6 = atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_6);
+            Array<AtlasRegion> portalRegions = new Array<AtlasRegion>();
+            portalRegions.add(atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_1));
+            portalRegions.add(atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_2));
+            portalRegions.add(atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_3));
+            portalRegions.add(atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_4));
+            portalRegions.add(atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_5));
+            portalRegions.add(atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_6));
 
-            Array<AtlasRegion> exitPortalFrames = new Array<AtlasRegion>();
-            exitPortalFrames.addAll(exitPortal1, exitPortal2, exitPortal3, exitPortal4, exitPortal5, exitPortal6);
-
-            exitPortal = new Animation(Constants.EXIT_PORTAL_FRAME_DURATION, exitPortalFrames, PlayMode.REVERSED);
+            exitPortal = new Animation(Constants.EXIT_PORTAL_FRAME_DURATION, portalRegions, PlayMode.LOOP_PINGPONG);
         }
     }
 
