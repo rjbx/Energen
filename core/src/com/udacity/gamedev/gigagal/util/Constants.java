@@ -128,11 +128,11 @@ public final class Constants {
 
     // Vacuum
     public static final Vector2 VACUUM_CENTER = new Vector2(31, 31);
-    public static final float VACUUM_FRAME_DURATION = 0.1f;
+    public static final float VACUUM_FRAME_DURATION = 0.075f;
     public static final int VACUUM_DAMAGE = 100;
     public static final Vector2 VACUUM_KNOCKBACK = new Vector2(100, 0);
-    public static final float VACUUM_COLLISION_WIDTH = 25;
-    public static final float VACUUM_COLLISION_HEIGHT = 25;
+    public static final float VACUUM_COLLISION_WIDTH = 64;
+    public static final float VACUUM_COLLISION_HEIGHT = 64;
     public static final String VACUUM_SPRITE_1 = "vacuum-1";
     public static final String VACUUM_SPRITE_2 = "vacuum-2";
     public static final String VACUUM_SPRITE_3 = "vacuum-3";
@@ -165,7 +165,7 @@ public final class Constants {
     // Exit Portal
     public static final Vector2 EXIT_PORTAL_CENTER = new Vector2(31, 31);
     public static final float EXIT_PORTAL_RADIUS = 28;
-    public static final float EXIT_PORTAL_FRAME_DURATION = 0.05f;
+    public static final float EXIT_PORTAL_FRAME_DURATION = 0.1f;
     public static final String EXIT_PORTAL_SPRITE_1 = "exit-portal-1";
     public static final String EXIT_PORTAL_SPRITE_2 = "exit-portal-2";
     public static final String EXIT_PORTAL_SPRITE_3 = "exit-portal-3";

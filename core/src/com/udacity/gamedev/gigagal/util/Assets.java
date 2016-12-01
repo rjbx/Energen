@@ -284,7 +284,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             Array<AtlasRegion> exitPortalFrames = new Array<AtlasRegion>();
             exitPortalFrames.addAll(exitPortal1, exitPortal2, exitPortal3, exitPortal4, exitPortal5, exitPortal6);
 
-            exitPortal = new Animation(Constants.EXIT_PORTAL_FRAME_DURATION, exitPortalFrames);
+            exitPortal = new Animation(Constants.EXIT_PORTAL_FRAME_DURATION, exitPortalFrames, PlayMode.REVERSED);
         }
     }
 
