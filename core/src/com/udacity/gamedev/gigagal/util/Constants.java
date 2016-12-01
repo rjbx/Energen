@@ -125,7 +125,6 @@ public final class Constants {
     public static final String COIL_SPRITE_1 = "coil-1";
     public static final String COIL_SPRITE_2 = "coil-2";
 
-
     // Vacuum
     public static final Vector2 VACUUM_CENTER = new Vector2(31, 31);
     public static final float VACUUM_FRAME_DURATION = 0.1f;
@@ -140,16 +139,16 @@ public final class Constants {
     public static final String VACUUM_SPRITE_5 = "vacuum-5";
     public static final String VACUUM_SPRITE_6 = "vacuum-6";
 
-    // Exit Portal
-    public static final Vector2 EXIT_PORTAL_CENTER = new Vector2(31, 31);
-    public static final float EXIT_PORTAL_RADIUS = 28;
-    public static final float EXIT_PORTAL_FRAME_DURATION = 0.1f;
-    public static final String EXIT_PORTAL_SPRITE_1 = "exit-portal-1";
-    public static final String EXIT_PORTAL_SPRITE_2 = "exit-portal-2";
-    public static final String EXIT_PORTAL_SPRITE_3 = "exit-portal-3";
-    public static final String EXIT_PORTAL_SPRITE_4 = "exit-portal-4";
-    public static final String EXIT_PORTAL_SPRITE_5 = "exit-portal-5";
-    public static final String EXIT_PORTAL_SPRITE_6 = "exit-portal-6";
+    // Portal
+    public static final Vector2 PORTAL_CENTER = new Vector2(31, 31);
+    public static final float PORTAL_RADIUS = 28;
+    public static final float PORTAL_FRAME_DURATION = 0.1f;
+    public static final String PORTAL_SPRITE_1 = "portal-1";
+    public static final String PORTAL_SPRITE_2 = "portal-2";
+    public static final String PORTAL_SPRITE_3 = "portal-3";
+    public static final String PORTAL_SPRITE_4 = "portal-4";
+    public static final String PORTAL_SPRITE_5 = "portal-5";
+    public static final String PORTAL_SPRITE_6 = "portal-6";
 
     // Ammo
     public static final float CHARGE_DURATION = 0.8f;

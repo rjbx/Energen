@@ -14,7 +14,7 @@ import com.udacity.gamedev.gigagal.entities.HealthPowerup;
 import com.udacity.gamedev.gigagal.entities.Spike;
 import com.udacity.gamedev.gigagal.entities.Wheel;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
-import com.udacity.gamedev.gigagal.entities.ExitPortal;
+import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Platform;
 import org.json.simple.JSONArray;
@@ -85,10 +85,10 @@ public final class LevelLoader {
                 final Vector2 gigaGalPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);
                 level.setGigaGal(new GigaGal(gigaGalPosition, level));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.EXIT_PORTAL_SPRITE_1)) {
-                final Vector2 exitPortalPosition = imagePosition.add(Constants.EXIT_PORTAL_CENTER);
-                Gdx.app.log(TAG, "Loaded the exit portal at " + exitPortalPosition);
-                level.setExitPortal(new ExitPortal(exitPortalPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PORTAL_SPRITE_1)) {
+                final Vector2 portalPosition = imagePosition.add(Constants.PORTAL_CENTER);
+                Gdx.app.log(TAG, "Loaded the exit portal at " + portalPosition);
+                level.setPortal(new Portal(portalPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPIKE_SPRITE)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SPIKE_CENTER);
                 Gdx.app.log(TAG, "Loaded the spike at " + spikePosition);

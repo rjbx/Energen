@@ -88,48 +88,6 @@ coil-2
   orig: 25, 25
   offset: 0, 0
   index: -1
-exit-portal-1
-  rotate: false
-  xy: 2, 62
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-exit-portal-2
-  rotate: false
-  xy: 68, 62
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-exit-portal-3
-  rotate: false
-  xy: 134, 62
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-exit-portal-4
-  rotate: false
-  xy: 200, 62
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-exit-portal-5
-  rotate: false
-  xy: 266, 62
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-exit-portal-6
-  rotate: false
-  xy: 332, 62
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
 explosion-large
   rotate: false
   xy: 794, 90
@@ -233,6 +191,48 @@ platform
   xy: 2, 2
   size: 58, 58
   orig: 58, 58
+  offset: 0, 0
+  index: -1
+portal-1
+  rotate: false
+  xy: 2, 62
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+portal-2
+  rotate: false
+  xy: 68, 62
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+portal-3
+  rotate: false
+  xy: 134, 62
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+portal-4
+  rotate: false
+  xy: 200, 62
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+portal-5
+  rotate: false
+  xy: 266, 62
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+portal-6
+  rotate: false
+  xy: 332, 62
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
 ricochet-left

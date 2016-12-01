@@ -30,7 +30,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private VacuumAssets vacuumAssets;
     private ExplosionAssets explosionAssets;
     private PowerupAssets powerupAssets;
-    private ExitPortalAssets exitPortalAssets;
+    private PortalAssets portalAssets;
     private OnscreenControlsAssets onscreenControlsAssets;
 
     private AssetManager assetManager;
@@ -60,7 +60,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         vacuumAssets = new VacuumAssets(atlas);
         explosionAssets = new ExplosionAssets(atlas);
         powerupAssets = new PowerupAssets(atlas);
-        exitPortalAssets = new ExitPortalAssets(atlas);
+        portalAssets = new PortalAssets(atlas);
         onscreenControlsAssets = new OnscreenControlsAssets(atlas);
     }
 
@@ -269,20 +269,20 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
 
-    public class ExitPortalAssets {
+    public class PortalAssets {
 
-        public final Animation exitPortal;
+        public final Animation portal;
 
-        public ExitPortalAssets(TextureAtlas atlas) {
+        public PortalAssets(TextureAtlas atlas) {
             Array<AtlasRegion> portalRegions = new Array<AtlasRegion>();
-            portalRegions.add(atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_1));
-            portalRegions.add(atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_2));
-            portalRegions.add(atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_3));
-            portalRegions.add(atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_4));
-            portalRegions.add(atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_5));
-            portalRegions.add(atlas.findRegion(Constants.EXIT_PORTAL_SPRITE_6));
+            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_1));
+            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_2));
+            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_3));
+            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_4));
+            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_5));
+            portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_6));
 
-            exitPortal = new Animation(Constants.EXIT_PORTAL_FRAME_DURATION, portalRegions, PlayMode.LOOP_PINGPONG);
+            portal = new Animation(Constants.PORTAL_FRAME_DURATION, portalRegions, PlayMode.LOOP_PINGPONG);
         }
     }
 
@@ -320,6 +320,6 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final VacuumAssets getVacuumAssets() { return vacuumAssets; }
     public final ExplosionAssets getExplosionAssets() { return explosionAssets; }
     public final PowerupAssets getPowerupAssets() { return powerupAssets; }
-    public final ExitPortalAssets getExitPortalAssets() { return exitPortalAssets; }
+    public final PortalAssets getPortalAssets() { return portalAssets; }
     public final OnscreenControlsAssets getOnscreenControlsAssets() { return onscreenControlsAssets; }
 }

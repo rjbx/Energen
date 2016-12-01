@@ -12,7 +12,7 @@ import com.udacity.gamedev.gigagal.entities.Destructible;
 import com.udacity.gamedev.gigagal.entities.Hazard;
 import com.udacity.gamedev.gigagal.entities.Indestructible;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
-import com.udacity.gamedev.gigagal.entities.ExitPortal;
+import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.Explosion;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Platform;
@@ -31,7 +31,7 @@ public class Level {
     private boolean gameOver;
     private int score;
     private GigaGal gigaGal;
-    private ExitPortal exitPortal;
+    private Portal portal;
     private Array<Platform> platforms;
     private Array<Indestructible> indestructibles;
     private DelayedRemovalArray<Destructible> destructibles;
@@ -49,7 +49,7 @@ public class Level {
         bullets = new DelayedRemovalArray<Ammo>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
-        exitPortal = new ExitPortal(new Vector2(200, 200));
+        portal = new Portal(new Vector2(200, 200));
         gameOver = false;
         victory = false;
         score = 0;
@@ -66,7 +66,7 @@ public class Level {
 
         if (gigaGal.getLives() < 0) {
             gameOver = true;
-        } else if (gigaGal.getPosition().dst(exitPortal.getPosition()) < Constants.EXIT_PORTAL_RADIUS) {
+        } else if (gigaGal.getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS) {
             victory = true;
         }
 
@@ -119,7 +119,7 @@ public class Level {
             platform.render(batch);
         }
 
-        exitPortal.render(batch);
+        portal.render(batch);
 
         for (Powerup powerup : powerups) {
             powerup.render(batch);
@@ -149,7 +149,7 @@ public class Level {
 
         gigaGal = new GigaGal(new Vector2(15, 40), this);
 
-        exitPortal = new ExitPortal(new Vector2(150, 150));
+        portal = new Portal(new Vector2(150, 150));
 
         platforms = new Array<Platform>();
         bullets = new DelayedRemovalArray<Ammo>();
@@ -187,13 +187,13 @@ public class Level {
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
     public final int getScore() { return score; }
-    public final ExitPortal getExitPortal() { return exitPortal; }
+    public final Portal getPortal() { return portal; }
     public final GigaGal getGigaGal() { return gigaGal; }
     public final boolean isGameOver() { return gameOver; }
     public final boolean isVictory() { return victory; }
 
     // Setters
     public final void setScore(int score) { this.score = score; }
-    public final void setExitPortal(ExitPortal exitPortal) { this.exitPortal = exitPortal; }
+    public final void setPortal(Portal portal) { this.portal = portal; }
     public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
 }
