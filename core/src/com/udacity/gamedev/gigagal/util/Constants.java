@@ -114,6 +114,16 @@ public final class Constants {
     public static final float WHEEL_COLLISION_HEIGHT = 25;
     public static final String WHEEL_SPRITE_1 = "wheel-1";
     public static final String WHEEL_SPRITE_2 = "wheel-2";
+    
+    // Coil
+    public static final Vector2 COIL_CENTER = new Vector2(12.5f, 12.5f);
+    public static final float COIL_DURATION = 0.075f;
+    public static final int COIL_DAMAGE = 30;
+    public static final Vector2 COIL_KNOCKBACK = new Vector2(50, 100);
+    public static final float COIL_COLLISION_WIDTH = 25;
+    public static final float COIL_COLLISION_HEIGHT = 25;
+    public static final String COIL_SPRITE_1 = "coil-1";
+    public static final String COIL_SPRITE_2 = "coil-2";
 
     // Ammo
     public static final float CHARGE_DURATION = 0.8f;

@@ -6,7 +6,7 @@ filter: Nearest,Nearest
 repeat: none
 ammo-powerup
   rotate: false
-  xy: 368, 43
+  xy: 490, 75
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -72,6 +72,20 @@ charge-bullet
   xy: 62, 3
   size: 16, 11
   orig: 16, 11
+  offset: 0, 0
+  index: -1
+coil-1
+  rotate: false
+  xy: 398, 63
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+coil-2
+  rotate: false
+  xy: 322, 35
+  size: 25, 25
+  orig: 25, 25
   offset: 0, 0
   index: -1
 exit-portal-1
@@ -146,28 +160,28 @@ flame-1
   index: -1
 flame-2
   rotate: false
-  xy: 425, 61
+  xy: 452, 61
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-1
   rotate: false
-  xy: 444, 61
+  xy: 376, 33
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-2
   rotate: false
-  xy: 349, 33
+  xy: 471, 61
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 health-powerup
   rotate: false
-  xy: 385, 43
+  xy: 507, 75
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -237,7 +251,7 @@ ricochet-right
   index: -1
 spike
   rotate: false
-  xy: 463, 72
+  xy: 524, 76
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
@@ -300,14 +314,14 @@ stride-3-right
   index: -1
 wheel-1
   rotate: false
-  xy: 398, 63
+  xy: 425, 63
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 wheel-2
   rotate: false
-  xy: 322, 35
+  xy: 349, 35
   size: 25, 25
   orig: 25, 25
   offset: 0, 0

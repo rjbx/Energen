@@ -26,6 +26,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private FlameAssets flameAssets;
     private GeiserAssets geiserAssets;
     private WheelAssets wheelAssets;
+    private CoilAssets coilAssets;
     private ExplosionAssets explosionAssets;
     private PowerupAssets powerupAssets;
     private ExitPortalAssets exitPortalAssets;
@@ -54,6 +55,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         flameAssets = new FlameAssets(atlas);
         geiserAssets = new GeiserAssets(atlas);
         wheelAssets = new WheelAssets(atlas);
+        coilAssets = new CoilAssets(atlas);
         explosionAssets = new ExplosionAssets(atlas);
         powerupAssets = new PowerupAssets(atlas);
         exitPortalAssets = new ExitPortalAssets(atlas);
@@ -207,6 +209,20 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    public class CoilAssets {
+
+        public final Animation coil;
+
+        public CoilAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> coilRegions = new Array<AtlasRegion>();
+            coilRegions.add(atlas.findRegion(Constants.COIL_SPRITE_1));
+            coilRegions.add(atlas.findRegion(Constants.COIL_SPRITE_2));
+
+            coil = new Animation(Constants.COIL_DURATION / coilRegions.size,
+                    coilRegions, PlayMode.NORMAL);
+        }
+    }
+
     public class ExplosionAssets {
 
         public final Animation explosion;
@@ -282,6 +298,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final FlameAssets getFlameAssets() { return flameAssets; }
     public final GeiserAssets getGeiserAssets() { return geiserAssets; }
     public final WheelAssets getWheelAssets() { return wheelAssets; }
+    public final CoilAssets getCoilAssets() { return coilAssets; }
     public final ExplosionAssets getExplosionAssets() { return explosionAssets; }
     public final PowerupAssets getPowerupAssets() { return powerupAssets; }
     public final ExitPortalAssets getExitPortalAssets() { return exitPortalAssets; }

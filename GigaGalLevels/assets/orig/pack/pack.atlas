@@ -6,9 +6,16 @@ filter: Linear,Linear
 repeat: none
 ammo-powerup
   rotate: false
-  xy: 98, 63
+  xy: 89, 26
   size: 15, 17
   orig: 15, 17
+  offset: 0, 0
+  index: -1
+coil-1
+  rotate: false
+  xy: 99, 101
+  size: 25, 25
+  orig: 25, 25
   offset: 0, 0
   index: -1
 exit-portal-1
@@ -20,21 +27,21 @@ exit-portal-1
   index: -1
 flame-1
   rotate: false
-  xy: 62, 16
+  xy: 99, 72
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-1
   rotate: false
-  xy: 99, 82
+  xy: 98, 53
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 health-powerup
   rotate: false
-  xy: 81, 26
+  xy: 89, 7
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -49,7 +56,7 @@ platform
   index: -1
 spike
   rotate: false
-  xy: 98, 45
+  xy: 118, 83
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
@@ -63,7 +70,7 @@ standing-right
   index: -1
 wheel-1
   rotate: false
-  xy: 99, 101
+  xy: 62, 18
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
