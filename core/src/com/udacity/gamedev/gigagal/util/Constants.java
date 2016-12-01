@@ -128,7 +128,7 @@ public final class Constants {
 
     // Vacuum
     public static final Vector2 VACUUM_CENTER = new Vector2(31, 31);
-    public static final float VACUUM_DURATION = 0.05f;
+    public static final float VACUUM_DURATION = 0.25f;
     public static final int VACUUM_DAMAGE = 100;
     public static final Vector2 VACUUM_KNOCKBACK = new Vector2(100, 0);
     public static final float VACUUM_COLLISION_WIDTH = 25;
