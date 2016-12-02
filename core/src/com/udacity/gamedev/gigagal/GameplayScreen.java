@@ -37,8 +37,6 @@ public final class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        AssetManager am = new AssetManager();
-        Assets.getInstance().init(am, levelNumber);
         levelNumber = 0;
         batch = new SpriteBatch();
         chaseCam = ChaseCam.getInstance();
@@ -130,6 +128,8 @@ public final class GameplayScreen extends ScreenAdapter {
     private void startNewLevel() {
 
 //        level = Level.debugLevel();
+        AssetManager am = new AssetManager();
+        Assets.getInstance().init(am, levelNumber);
         String levelName = Constants.LEVELS[levelNumber];
         level = LevelLoader.load(levelName);
 
