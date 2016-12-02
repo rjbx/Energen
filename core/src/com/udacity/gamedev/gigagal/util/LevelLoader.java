@@ -133,7 +133,7 @@ public final class LevelLoader {
 
             if (identifier != null && identifier.equals(Constants.LEVEL_ZOOMBA_TAG)) {
                 final Zoomba zoomba = new Zoomba(platform);
-                level.getdestructibles().add(zoomba);
+                level.getDestructibles().add(zoomba);
             }
         }
 

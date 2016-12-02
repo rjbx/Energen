@@ -38,7 +38,7 @@ public final class GameplayScreen extends ScreenAdapter {
     @Override
     public void show() {
         AssetManager am = new AssetManager();
-        Assets.getInstance().init(am);
+        Assets.getInstance().init(am, levelNumber);
         levelNumber = 0;
         batch = new SpriteBatch();
         chaseCam = ChaseCam.getInstance();

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.udacity.gamedev.gigagal.Level;
 
 // immutable singleton
 public final class Assets implements Disposable, AssetErrorListener {
@@ -41,7 +42,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     // static factory
     public static Assets getInstance() { return INSTANCE; }
 
-    public void init(AssetManager assetManager) {
+    public void init(AssetManager assetManager, int levelNumber) {
         this.assetManager = assetManager;
         assetManager.setErrorListener(this);
         assetManager.load(Constants.TEXTURE_ATLAS, TextureAtlas.class);
@@ -49,7 +50,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
         gigaGalAssets = new GigaGalAssets(atlas);
-        platformAssets = new PlatformAssets(atlas);
+        platformAssets = new PlatformAssets(atlas, levelNumber);
         bulletAssets = new BulletAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
         spikeAssets = new SpikeAssets(atlas);
@@ -132,8 +133,19 @@ public final class Assets implements Disposable, AssetErrorListener {
     public class PlatformAssets {
 
         public final NinePatch platformNinePatch;
-        public PlatformAssets(TextureAtlas atlas) {
-            AtlasRegion region = atlas.findRegion(Constants.PLATFORM_SPRITE);
+        public PlatformAssets(TextureAtlas atlas, int levelNumber) {
+            AtlasRegion region;
+            switch(levelNumber) {
+                case 1: region = atlas.findRegion(Constants.ELECTRIC_PLATFORM_SPRITE); break;
+                case 2: region = atlas.findRegion(Constants.WATER_PLATFORM_SPRITE); break;
+                case 3: region = atlas.findRegion(Constants.FIRE_PLATFORM_SPRITE); break;
+                case 4: region = atlas.findRegion(Constants.METAL_PLATFORM_SPRITE); break;
+                case 5: region = atlas.findRegion(Constants.RUBBER_PLATFORM_SPRITE); break;
+                case 6: region = atlas.findRegion(Constants.PSYCHIC_PLATFORM_SPRITE); break;
+                case 7: region = atlas.findRegion(Constants.FINAL_PLATFORM_SPRITE); break;
+                default: region = atlas.findRegion(Constants.PLATFORM_SPRITE);
+            }
+
             int edge = Constants.PLATFORM_EDGE;
             platformNinePatch = new NinePatch(region, edge, edge, edge, edge);
         }

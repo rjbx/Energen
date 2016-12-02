@@ -40,7 +40,7 @@ public final class Ammo {
                 break;
         }
 
-        for (Destructible destructible : level.getdestructibles()) {
+        for (Destructible destructible : level.getDestructibles()) {
             if (position.dst(destructible.getPosition()) < destructible.getShotRadius()) {
                 level.spawnExplosion(position);
                 active = false;
