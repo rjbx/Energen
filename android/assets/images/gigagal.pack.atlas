@@ -88,13 +88,6 @@ coil-2
   orig: 25, 25
   offset: 0, 0
   index: -1
-electric-platform
-  rotate: false
-  xy: 2, 2
-  size: 58, 58
-  orig: 58, 58
-  offset: 0, 0
-  index: -1
 explosion-large
   rotate: false
   xy: 596, 90
@@ -114,20 +107,6 @@ explosion-small
   xy: 634, 90
   size: 36, 36
   orig: 36, 36
-  offset: 0, 0
-  index: -1
-final-platform
-  rotate: false
-  xy: 62, 2
-  size: 58, 58
-  orig: 58, 58
-  offset: 0, 0
-  index: -1
-fire-platform
-  rotate: false
-  xy: 122, 2
-  size: 58, 58
-  orig: 58, 58
   offset: 0, 0
   index: -1
 flame-1
@@ -207,16 +186,58 @@ jumping-right
   orig: 29, 35
   offset: 0, 0
   index: -1
-metal-platform
+platform
+  rotate: false
+  xy: 2, 2
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+platform-electric
+  rotate: false
+  xy: 62, 2
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+platform-final
+  rotate: false
+  xy: 122, 2
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+platform-fire
   rotate: false
   xy: 182, 2
   size: 58, 58
   orig: 58, 58
   offset: 0, 0
   index: -1
-platform
+platform-metal
   rotate: false
   xy: 242, 2
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+platform-psychic
+  rotate: false
+  xy: 302, 2
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+platform-rubber
+  rotate: false
+  xy: 362, 2
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+platform-water
+  rotate: false
+  xy: 422, 2
   size: 58, 58
   orig: 58, 58
   offset: 0, 0
@@ -263,13 +284,6 @@ portal-6
   orig: 64, 64
   offset: 0, 0
   index: -1
-psychic-platform
-  rotate: false
-  xy: 302, 2
-  size: 58, 58
-  orig: 58, 58
-  offset: 0, 0
-  index: -1
 ricochet-left
   rotate: false
   xy: 938, 91
@@ -282,13 +296,6 @@ ricochet-right
   xy: 969, 91
   size: 29, 35
   orig: 29, 35
-  offset: 0, 0
-  index: -1
-rubber-platform
-  rotate: false
-  xy: 362, 2
-  size: 58, 58
-  orig: 58, 58
   offset: 0, 0
   index: -1
 spike
@@ -373,13 +380,6 @@ vacuum-3
   xy: 530, 62
   size: 64, 64
   orig: 64, 64
-  offset: 0, 0
-  index: -1
-water-platform
-  rotate: false
-  xy: 422, 2
-  size: 58, 58
-  orig: 58, 58
   offset: 0, 0
   index: -1
 wheel-1
