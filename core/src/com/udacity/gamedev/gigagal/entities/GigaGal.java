@@ -284,11 +284,11 @@ public class GigaGal implements Physical {
         for (Hazard hazard : hazards) {
             Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
             if (getBounds().overlaps(bounds)) {
+                isCharged = false;
+                chargeStartTime = 0;
                 if (!knockedBack) {
                     health -= hazard.getDamage();
                     knockedBack = true;
-                    isCharged = false;
-                    chargeStartTime = 0;
                     lateralKnockback = hazard.getKnockback().x;
                 }
                 float oneThirdWidth = hazard.getWidth() / 3;
