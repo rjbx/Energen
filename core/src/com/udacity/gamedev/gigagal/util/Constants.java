@@ -139,7 +139,7 @@ public final class Constants {
     // Portal
     public static final Vector2 PORTAL_CENTER = new Vector2(31, 31);
     public static final float PORTAL_RADIUS = 28;
-    public static final float PORTAL_FRAME_DURATION = 0.3f;
+    public static final float PORTAL_FRAME_DURATION = 0.25f;
     public static final String PORTAL_SPRITE_1 = "portal-1";
     public static final String PORTAL_SPRITE_2 = "portal-2";
     public static final String PORTAL_SPRITE_3 = "portal-3";

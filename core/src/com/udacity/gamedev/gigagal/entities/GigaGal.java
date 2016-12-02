@@ -287,6 +287,8 @@ public class GigaGal implements Physical {
                 if (!knockedBack) {
                     health -= hazard.getDamage();
                     knockedBack = true;
+                    isCharged = false;
+                    chargeStartTime = 0;
                     lateralKnockback = hazard.getKnockback().x;
                 }
                 float oneThirdWidth = hazard.getWidth() / 3;
@@ -305,10 +307,8 @@ public class GigaGal implements Physical {
     private void recoil(Vector2 velocity) {
         aerialState = AerialState.RECOILING;
         strideStartTime = 0;
-        chargeStartTime = 0;
         canStride = false;
         canDash = false;
-        isCharged = false;
         canHover = false;
         canRicochet = false;
         canChangeDirection = false;
