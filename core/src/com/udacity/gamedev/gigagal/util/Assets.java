@@ -234,9 +234,6 @@ public final class Assets implements Disposable, AssetErrorListener {
             vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_1));
             vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_2));
             vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_3));
-            vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_4));
-            vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_5));
-            vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_6));
 
             vacuum = new Animation(Constants.VACUUM_FRAME_DURATION,
                     vacuumRegions, PlayMode.LOOP_PINGPONG);

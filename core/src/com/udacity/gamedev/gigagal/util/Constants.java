@@ -87,7 +87,7 @@ public final class Constants {
 
     // Flame
     public static final Vector2 FLAME_CENTER = new Vector2(8.5f, 17.5f);
-    public static final float FLAME_DURATION = 0.1f;
+    public static final float FLAME_DURATION = 0.15f;
     public static final int FLAME_DAMAGE = 25;
     public static final Vector2 FLAME_KNOCKBACK = new Vector2(100, VERTICAL_KNOCKBACK);
     public static final float FLAME_COLLISION_WIDTH = 15;
@@ -107,7 +107,7 @@ public final class Constants {
     
     // Wheel
     public static final Vector2 WHEEL_CENTER = new Vector2(12.5f, 12.5f);
-    public static final float WHEEL_DURATION = 0.075f;
+    public static final float WHEEL_DURATION = 0.1f;
     public static final int WHEEL_DAMAGE = 5;
     public static final Vector2 WHEEL_KNOCKBACK = new Vector2(200, 250);
     public static final float WHEEL_COLLISION_WIDTH = 25;
@@ -127,22 +127,19 @@ public final class Constants {
 
     // Vacuum
     public static final Vector2 VACUUM_CENTER = new Vector2(31, 31);
-    public static final float VACUUM_FRAME_DURATION = 0.1f;
+    public static final float VACUUM_FRAME_DURATION = 0.4f;
     public static final int VACUUM_DAMAGE = 100;
     public static final Vector2 VACUUM_KNOCKBACK = new Vector2(100, 0);
-    public static final float VACUUM_COLLISION_WIDTH = 28;
-    public static final float VACUUM_COLLISION_HEIGHT = 28;
+    public static final float VACUUM_COLLISION_WIDTH = 25;
+    public static final float VACUUM_COLLISION_HEIGHT = 25;
     public static final String VACUUM_SPRITE_1 = "vacuum-1";
     public static final String VACUUM_SPRITE_2 = "vacuum-2";
     public static final String VACUUM_SPRITE_3 = "vacuum-3";
-    public static final String VACUUM_SPRITE_4 = "vacuum-4";
-    public static final String VACUUM_SPRITE_5 = "vacuum-5";
-    public static final String VACUUM_SPRITE_6 = "vacuum-6";
 
     // Portal
     public static final Vector2 PORTAL_CENTER = new Vector2(31, 31);
     public static final float PORTAL_RADIUS = 28;
-    public static final float PORTAL_FRAME_DURATION = 0.1f;
+    public static final float PORTAL_FRAME_DURATION = 0.3f;
     public static final String PORTAL_SPRITE_1 = "portal-1";
     public static final String PORTAL_SPRITE_2 = "portal-2";
     public static final String PORTAL_SPRITE_3 = "portal-3";
