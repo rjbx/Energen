@@ -64,13 +64,13 @@ public final class Constants {
     public static final int PLATFORM_EDGE = 8;
     public static final float MAX_LEDGE_HEIGHT = 5;
     public static final String PLATFORM_SPRITE = "platform";
-    public static final String FIRE_PLATFORM_SPRITE = "platform-fire";
-    public static final String WATER_PLATFORM_SPRITE = "platform-water";
-    public static final String ELECTRIC_PLATFORM_SPRITE = "platform-electric";
-    public static final String METAL_PLATFORM_SPRITE = "platform-metal";
-    public static final String RUBBER_PLATFORM_SPRITE = "platform-rubber";
-    public static final String PSYCHIC_PLATFORM_SPRITE = "platform-psychic";
-    public static final String FINAL_PLATFORM_SPRITE = "platform-final";
+    public static final String BLUE_PLATFORM_SPRITE = "platform-blue";
+    public static final String YELLOW_PLATFORM_SPRITE = "platform-yellow";
+    public static final String BLACK_PLATFORM_SPRITE = "platform-black";
+    public static final String RED_PLATFORM_SPRITE = "platform-red";
+    public static final String GREY_PLATFORM_SPRITE = "platform-grey";
+    public static final String CLEAR_PLATFORM_SPRITE = "platform-clear";
+    public static final String MAGENTA_PLATFORM_SPRITE = "platform-magenta";
 
 
     // Zoomba
