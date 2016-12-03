@@ -21,4 +21,5 @@ public class SharpZoomba extends Zoomba {
 
     @Override
     public Class getSubclass() { return super.getClass(); }
+
 }

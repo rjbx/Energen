@@ -71,7 +71,7 @@ public class Zoomba extends Destructible {
     public final Direction getDirection() { return direction; }
     public final long getStartTime() { return startTime; }
     public final Vector2 getPosition() { return position; }
-    public final int getHealth() { return health; }
+    public int getHealth() { return health; }
     public final float getWidth() { return Constants.ZOOMBA_COLLISION_RADIUS * 2; }
     public final float getHeight() { return Constants.ZOOMBA_COLLISION_RADIUS * 2; }
     public final float getLeft() { return position.x - Constants.ZOOMBA_CENTER.x; }
@@ -84,5 +84,5 @@ public class Zoomba extends Destructible {
     public final int getDamage() { return Constants.ZOOMBA_DAMAGE; }
     public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public Class getSubclass() { return this.getClass(); }
-    public final void setHealth( int health ) { this.health = health; }
+    public void setHealth( int health ) { this.health = health; }
 }

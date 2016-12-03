@@ -46,12 +46,12 @@ public final class Ammo {
                 active = false;
                 switch (ammoType) {
                     case REGULAR:
-                        if (destructible.getSubclass() == Zoomba.class) {
+                        if (destructible instanceof Zoomba) {
                             destructible.setHealth(destructible.getHealth() - Constants.ZOOMBA_MAX_HEALTH / 3);
                         }
                         break;
                     case CHARGE:
-                        if (destructible.getSubclass() == Zoomba.class) {
+                        if (destructible instanceof Zoomba) {
                             destructible.setHealth(destructible.getHealth() - Constants.ZOOMBA_MAX_HEALTH);
                         }
                         break;
