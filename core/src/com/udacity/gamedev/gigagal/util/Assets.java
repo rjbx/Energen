@@ -11,9 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.udacity.gamedev.gigagal.Level;
-import com.udacity.gamedev.gigagal.entities.FireyZoomba;
-import com.udacity.gamedev.gigagal.entities.GushingZoomba;
+import com.udacity.gamedev.gigagal.entities.SharpZoomba;
 
 // immutable singleton
 public final class Assets implements Disposable, AssetErrorListener {
@@ -29,6 +27,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private GushingZoombaAssets gushingZoombaAssets;
     private ChargedZoombaAssets chargedZoombaAssets;
     private WhirlingZoombaAssets whirlingZoombaAssets;
+    private SharpZoombaAssets sharpZoombaAssets;
     private SpikeAssets spikeAssets;
     private FlameAssets flameAssets;
     private GeiserAssets geiserAssets;
@@ -63,6 +62,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         gushingZoombaAssets = new GushingZoombaAssets(atlas);
         chargedZoombaAssets = new ChargedZoombaAssets(atlas);
         whirlingZoombaAssets = new WhirlingZoombaAssets(atlas);
+        sharpZoombaAssets = new SharpZoombaAssets(atlas);
         spikeAssets = new SpikeAssets(atlas);
         flameAssets = new FlameAssets(atlas);
         geiserAssets = new GeiserAssets(atlas);
@@ -237,6 +237,15 @@ public final class Assets implements Disposable, AssetErrorListener {
                     whirlingZoombaRegions, PlayMode.NORMAL);
         }
     }
+
+    public class SharpZoombaAssets {
+
+        public final AtlasRegion sharpZoomba;
+
+        public SharpZoombaAssets(TextureAtlas atlas) {
+            sharpZoomba = atlas.findRegion(Constants.SHARPZOOMBA_SPRITE);
+        }
+    }
     
 
     public class SpikeAssets {
@@ -393,6 +402,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final GushingZoombaAssets getGushingZoombaAssets() { return gushingZoombaAssets; }
     public final ChargedZoombaAssets getChargedZoombaAssets() { return chargedZoombaAssets; }
     public final WhirlingZoombaAssets getWhirlingZoombaAssets() { return whirlingZoombaAssets; }
+    public final SharpZoombaAssets getSharpZoombaAssets() { return sharpZoombaAssets; }
     public final SpikeAssets getSpikeAssets() { return spikeAssets; }
     public final FlameAssets getFlameAssets() { return flameAssets; }
     public final GeiserAssets getGeiserAssets() { return geiserAssets; }
