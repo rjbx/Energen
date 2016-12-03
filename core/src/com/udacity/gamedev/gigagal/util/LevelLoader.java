@@ -16,6 +16,7 @@ import com.udacity.gamedev.gigagal.entities.Geiser;
 import com.udacity.gamedev.gigagal.entities.HealthPowerup;
 import com.udacity.gamedev.gigagal.entities.Spike;
 import com.udacity.gamedev.gigagal.entities.Wheel;
+import com.udacity.gamedev.gigagal.entities.WhirlingZoomba;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
@@ -147,6 +148,9 @@ public final class LevelLoader {
                 } else if (identifier.equals(Constants.LEVEL_CHARGEDZOOMBA_TAG)) {
                     final ChargedZoomba chargedZoomba = new ChargedZoomba(platform);
                     level.getDestructibles().add(chargedZoomba);
+                } else if (identifier.equals(Constants.LEVEL_WHIRLINGZOOMBA_TAG)) {
+                    final WhirlingZoomba whirlingZoomba = new WhirlingZoomba(platform);
+                    level.getDestructibles().add(whirlingZoomba);
                 }
             }
         }

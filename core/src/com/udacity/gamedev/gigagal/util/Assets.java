@@ -28,6 +28,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private FireyZoombaAssets fireyZoombaAssets;
     private GushingZoombaAssets gushingZoombaAssets;
     private ChargedZoombaAssets chargedZoombaAssets;
+    private WhirlingZoombaAssets whirlingZoombaAssets;
     private SpikeAssets spikeAssets;
     private FlameAssets flameAssets;
     private GeiserAssets geiserAssets;
@@ -61,6 +62,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         fireyZoombaAssets = new FireyZoombaAssets(atlas);
         gushingZoombaAssets = new GushingZoombaAssets(atlas);
         chargedZoombaAssets = new ChargedZoombaAssets(atlas);
+        whirlingZoombaAssets = new WhirlingZoombaAssets(atlas);
         spikeAssets = new SpikeAssets(atlas);
         flameAssets = new FlameAssets(atlas);
         geiserAssets = new GeiserAssets(atlas);
@@ -221,6 +223,20 @@ public final class Assets implements Disposable, AssetErrorListener {
                     chargedZoombaRegions, PlayMode.NORMAL);
         }
     }
+
+    public class WhirlingZoombaAssets {
+
+        public final Animation whirlingZoomba;
+
+        public WhirlingZoombaAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> whirlingZoombaRegions = new Array<AtlasRegion>();
+            whirlingZoombaRegions.add(atlas.findRegion(Constants.WHIRLINGZOOMBA_SPRITE_1));
+            whirlingZoombaRegions.add(atlas.findRegion(Constants.WHIRLINGZOOMBA_SPRITE_2));
+
+            whirlingZoomba = new Animation(Constants.WHEEL_DURATION / whirlingZoombaRegions.size,
+                    whirlingZoombaRegions, PlayMode.NORMAL);
+        }
+    }
     
 
     public class SpikeAssets {
@@ -376,6 +392,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final FireyZoombaAssets getFireyZoombaAssets() { return fireyZoombaAssets; }
     public final GushingZoombaAssets getGushingZoombaAssets() { return gushingZoombaAssets; }
     public final ChargedZoombaAssets getChargedZoombaAssets() { return chargedZoombaAssets; }
+    public final WhirlingZoombaAssets getWhirlingZoombaAssets() { return whirlingZoombaAssets; }
     public final SpikeAssets getSpikeAssets() { return spikeAssets; }
     public final FlameAssets getFlameAssets() { return flameAssets; }
     public final GeiserAssets getGeiserAssets() { return geiserAssets; }

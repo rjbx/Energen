@@ -96,6 +96,10 @@ public final class Constants {
     // Charged-Zoomba
     public static final String CHARGEDZOOMBA_SPRITE_1 = "zoomba-electric-1";
     public static final String CHARGEDZOOMBA_SPRITE_2 = "zoomba-electric-2";
+    
+    // Whirling-Zoomba
+    public static final String WHIRLINGZOOMBA_SPRITE_1 = "zoomba-rubber-1";
+    public static final String WHIRLINGZOOMBA_SPRITE_2 = "zoomba-rubber-2";
 
     // Spike
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
@@ -204,6 +208,7 @@ public final class Constants {
     public static final String LEVEL_FIREYZOOMBA_TAG = "FireyZoomba";
     public static final String LEVEL_GUSHINGZOOMBA_TAG = "GushingZoomba";
     public static final String LEVEL_CHARGEDZOOMBA_TAG = "ChargedZoomba";
+    public static final String LEVEL_WHIRLINGZOOMBA_TAG = "WhirlingZoomba";
     public static final String[] LEVELS = {"levels/Level1.dt", "levels/Level2.dt", "levels/Level3.dt", };
 
     // HUD
