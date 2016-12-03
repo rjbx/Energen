@@ -8,6 +8,7 @@ import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Coil;
 import com.udacity.gamedev.gigagal.entities.FireyZoomba;
+import com.udacity.gamedev.gigagal.entities.GushingZoomba;
 import com.udacity.gamedev.gigagal.entities.Vacuum;
 import com.udacity.gamedev.gigagal.entities.Flame;
 import com.udacity.gamedev.gigagal.entities.Geiser;
@@ -139,6 +140,9 @@ public final class LevelLoader {
                 } else if (identifier.equals(Constants.LEVEL_FIREYZOOMBA_TAG)) {
                     final FireyZoomba fireyZoomba = new FireyZoomba(platform);
                     level.getDestructibles().add(fireyZoomba);
+                } else if (identifier.equals(Constants.LEVEL_GUSHINGZOOMBA_TAG)) {
+                    final GushingZoomba gushingZoomba = new GushingZoomba(platform);
+                    level.getDestructibles().add(gushingZoomba);
                 }
             }
         }

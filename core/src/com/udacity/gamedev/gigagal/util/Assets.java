@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.entities.FireyZoomba;
+import com.udacity.gamedev.gigagal.entities.GushingZoomba;
 
 // immutable singleton
 public final class Assets implements Disposable, AssetErrorListener {
@@ -25,6 +26,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private BulletAssets bulletAssets;
     private ZoombaAssets zoombaAssets;
     private FireyZoombaAssets fireyZoombaAssets;
+    private GushingZoombaAssets gushingZoombaAssets;
     private SpikeAssets spikeAssets;
     private FlameAssets flameAssets;
     private GeiserAssets geiserAssets;
@@ -56,6 +58,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         bulletAssets = new BulletAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
         fireyZoombaAssets = new FireyZoombaAssets(atlas);
+        gushingZoombaAssets = new GushingZoombaAssets(atlas);
         spikeAssets = new SpikeAssets(atlas);
         flameAssets = new FlameAssets(atlas);
         geiserAssets = new GeiserAssets(atlas);
@@ -186,6 +189,20 @@ public final class Assets implements Disposable, AssetErrorListener {
 
             fireyZoomba = new Animation(Constants.FLAME_DURATION / fireyZoombaRegions.size,
                     fireyZoombaRegions, PlayMode.NORMAL);
+        }
+    }
+
+    public class GushingZoombaAssets {
+
+        public final Animation gushingZoomba;
+
+        public GushingZoombaAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> gushingZoombaRegions = new Array<AtlasRegion>();
+            gushingZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_1));
+            gushingZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_2));
+
+            gushingZoomba = new Animation(Constants.GEISER_DURATION / gushingZoombaRegions.size,
+                    gushingZoombaRegions, PlayMode.NORMAL);
         }
     }
     
@@ -341,6 +358,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final BulletAssets getBulletAssets() { return bulletAssets; }
     public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
     public final FireyZoombaAssets getFireyZoombaAssets() { return fireyZoombaAssets; }
+    public final GushingZoombaAssets getGushingZoombaAssets() { return gushingZoombaAssets; }
     public final SpikeAssets getSpikeAssets() { return spikeAssets; }
     public final FlameAssets getFlameAssets() { return flameAssets; }
     public final GeiserAssets getGeiserAssets() { return geiserAssets; }
