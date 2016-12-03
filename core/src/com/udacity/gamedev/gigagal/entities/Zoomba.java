@@ -21,6 +21,16 @@ public class Zoomba extends Destructible {
     private int health;
     private Direction direction;
 
+    //default ctor
+    public Zoomba() {
+        this.platform = new Platform();
+        direction = Direction.RIGHT;
+        position = new Vector2(platform.getLeft(), platform.getTop() + Constants.ZOOMBA_CENTER.y);
+        startTime = TimeUtils.nanoTime();
+        health = Constants.ZOOMBA_MAX_HEALTH;
+        bobOffset = MathUtils.random();
+    }
+
     // ctor
     public Zoomba(Platform platform) {
         this.platform = platform;
@@ -58,7 +68,8 @@ public class Zoomba extends Destructible {
         Utils.drawTextureRegion(batch, region, position, Constants.ZOOMBA_CENTER);
     }
 
-    public Direction getDirection() { return direction; }
+    public final Direction getDirection() { return direction; }
+    public final long getStartTime() { return startTime; }
     public final Vector2 getPosition() { return position; }
     public final int getHealth() { return health; }
     public final float getWidth() { return Constants.ZOOMBA_COLLISION_RADIUS * 2; }

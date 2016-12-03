@@ -85,6 +85,11 @@ public final class Constants {
     public static final float ZOOMBA_SHOT_RADIUS = 17;
     public static final String ZOOMBA_SPRITE = "zoomba";
 
+    // Firey-Zoomba
+
+    public static final String FIREYZOOMBA_SPRITE_1 = "zoomba-fire-1";
+    public static final String FIREYZOOMBA_SPRITE_2 = "zoomba-fire-2";
+
     // Spike
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
     public static final int SPIKE_DAMAGE = 30;
@@ -189,6 +194,7 @@ public final class Constants {
     public static final String LEVEL_HEIGHT_KEY = "height";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_ZOOMBA_TAG = "Zoomba";
+    public static final String LEVEL_FIREYZOOMBA_TAG = "FireyZoomba";
     public static final String[] LEVELS = {"levels/Level1.dt", "levels/Level2.dt", "levels/Level3.dt", };
 
     // HUD

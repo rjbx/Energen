@@ -16,6 +16,14 @@ public final class Platform implements Physical {
     // This is used by the level loading code to link enemies and platforms.
     private static String identifier;
 
+    // default ctor
+    public Platform() {
+        top = 0;
+        bottom = 0;
+        left = 0;
+        right = 0;
+    }
+
     // ctor
     public Platform(float left, float top, float width, float height) {
         this.top = top;
