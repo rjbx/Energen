@@ -18,4 +18,7 @@ public class SharpZoomba extends Zoomba {
         final TextureRegion region = Assets.getInstance().getSharpZoombaAssets().sharpZoomba;
         Utils.drawTextureRegion(batch, region, super.getPosition(), Constants.ZOOMBA_CENTER);
     }
+
+    @Override
+    public Class getSubclass() { return super.getClass(); }
 }

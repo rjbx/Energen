@@ -19,4 +19,7 @@ public class FireyZoomba extends Zoomba {
         final TextureRegion region = Assets.getInstance().getFireyZoombaAssets().fireyZoomba.getKeyFrame(elapsedTime, true);
         Utils.drawTextureRegion(batch, region, super.getPosition(), Constants.ZOOMBA_CENTER);
     }
+
+    @Override
+    public Class getSubclass() { return super.getClass(); }
 }

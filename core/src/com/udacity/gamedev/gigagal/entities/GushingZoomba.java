@@ -19,4 +19,7 @@ public class GushingZoomba extends Zoomba {
         final TextureRegion region = Assets.getInstance().getGushingZoombaAssets().gushingZoomba.getKeyFrame(elapsedTime, true);
         Utils.drawTextureRegion(batch, region, super.getPosition(), Constants.ZOOMBA_CENTER);
     }
+
+    @Override
+    public Class getSubclass() { return super.getClass(); }
 }
