@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
+import com.udacity.gamedev.gigagal.entities.ChargedZoomba;
 import com.udacity.gamedev.gigagal.entities.Coil;
 import com.udacity.gamedev.gigagal.entities.FireyZoomba;
 import com.udacity.gamedev.gigagal.entities.GushingZoomba;
@@ -143,6 +144,9 @@ public final class LevelLoader {
                 } else if (identifier.equals(Constants.LEVEL_GUSHINGZOOMBA_TAG)) {
                     final GushingZoomba gushingZoomba = new GushingZoomba(platform);
                     level.getDestructibles().add(gushingZoomba);
+                } else if (identifier.equals(Constants.LEVEL_CHARGEDZOOMBA_TAG)) {
+                    final ChargedZoomba chargedZoomba = new ChargedZoomba(platform);
+                    level.getDestructibles().add(chargedZoomba);
                 }
             }
         }
