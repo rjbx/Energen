@@ -184,6 +184,7 @@ public final class Constants {
     public static final String AMMO_FIRE_SPRITE = "ammo-fire";
     public static final String AMMO_CHARGED_FIRE_SPRITE = "ammo-charged-fire";
     public static final String AMMO_ELECTTRIC_SPRITE = "ammo-electric";
+    public static final String AMMO_CHARGED_ELECTTRIC_SPRITE = "ammo-charged-electric";
 
     // Explosion
     public static final Vector2 EXPLOSION_CENTER = new Vector2(8, 8);
