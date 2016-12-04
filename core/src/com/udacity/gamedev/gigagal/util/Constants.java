@@ -183,8 +183,16 @@ public final class Constants {
     public static final String BLAST_NATIVE_SPRITE = "ammo-blast-native";
     public static final String SHOT_FIRE_SPRITE = "ammo-shot-fire";
     public static final String BLAST_FIRE_SPRITE = "ammo-blast-fire";
+    public static final String SHOT_WATER_SPRITE = "ammo-shot-water";
+    public static final String BLAST_WATER_SPRITE = "ammo-blast-water";
     public static final String SHOT_ELECTRIC_SPRITE = "ammo-shot-electric";
     public static final String BLAST_ELECTRIC_SPRITE = "ammo-blast-electric";
+    public static final String SHOT_RUBBER_SPRITE = "ammo-shot-rubber";
+    public static final String BLAST_RUBBER_SPRITE = "ammo-blast-rubber";
+    public static final String SHOT_METAL_SPRITE = "ammo-shot-metal";
+    public static final String BLAST_METAL_SPRITE = "ammo-blast-metal";
+    public static final String SHOT_PSYCHIC_SPRITE = "ammo-shot-psychic";
+    public static final String BLAST_PSYCHIC_SPRITE = "ammo-blast-psychic";
 
     // Explosion
     public static final Vector2 EXPLOSION_CENTER = new Vector2(8, 8);

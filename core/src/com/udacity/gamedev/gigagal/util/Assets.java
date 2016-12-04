@@ -164,14 +164,34 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final AtlasRegion nativeShot;
         public final AtlasRegion nativeBlast;
+        public final AtlasRegion fireShot;
+        public final AtlasRegion fireBlast;
+        public final AtlasRegion waterShot;
+        public final AtlasRegion waterBlast;
         public final AtlasRegion electricShot;
         public final AtlasRegion electricBlast;
+        public final AtlasRegion rubberShot;
+        public final AtlasRegion rubberBlast;
+        public final AtlasRegion metalShot;
+        public final AtlasRegion metalBlast;
+        public final AtlasRegion psychicShot;
+        public final AtlasRegion psychicBlast;
 
         public AmmoAssets(TextureAtlas atlas) {
             nativeShot = atlas.findRegion(Constants.SHOT_NATIVE_SPRITE);
             nativeBlast = atlas.findRegion(Constants.BLAST_NATIVE_SPRITE);
+            fireShot = atlas.findRegion(Constants.SHOT_FIRE_SPRITE);
+            fireBlast = atlas.findRegion(Constants.BLAST_FIRE_SPRITE);
+            waterShot = atlas.findRegion(Constants.SHOT_WATER_SPRITE);
+            waterBlast = atlas.findRegion(Constants.BLAST_WATER_SPRITE);
             electricShot = atlas.findRegion(Constants.SHOT_ELECTRIC_SPRITE);
             electricBlast = atlas.findRegion(Constants.BLAST_ELECTRIC_SPRITE);
+            rubberShot = atlas.findRegion(Constants.SHOT_RUBBER_SPRITE);
+            rubberBlast = atlas.findRegion(Constants.BLAST_RUBBER_SPRITE);
+            metalShot = atlas.findRegion(Constants.SHOT_METAL_SPRITE);
+            metalBlast = atlas.findRegion(Constants.BLAST_METAL_SPRITE);
+            psychicShot = atlas.findRegion(Constants.SHOT_PSYCHIC_SPRITE);
+            psychicBlast = atlas.findRegion(Constants.BLAST_PSYCHIC_SPRITE);
         }
 
     }

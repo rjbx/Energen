@@ -11,8 +11,8 @@ import com.udacity.gamedev.gigagal.util.Enums.ShotIntensity;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-// mutable
-public class Ammo implements Physical {
+// immutable
+public final class Ammo implements Physical {
 
     // fields
     public final static String TAG = Ammo.class.getName();
