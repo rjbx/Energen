@@ -4,18 +4,32 @@ size: 1024,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ammo-powerup
+ammo-charged-fire
   rotate: false
-  xy: 575, 6
-  size: 15, 17
-  orig: 15, 17
+  xy: 885, 13
+  size: 16, 11
+  orig: 16, 11
   offset: 0, 0
   index: -1
-bullet
+ammo-electric
   rotate: false
   xy: 596, 66
   size: 7, 5
   orig: 7, 5
+  offset: 0, 0
+  index: -1
+ammo-fire
+  rotate: false
+  xy: 513, 2
+  size: 7, 5
+  orig: 7, 5
+  offset: 0, 0
+  index: -1
+ammo-native
+  rotate: false
+  xy: 592, 15
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: -1
 button-blast
@@ -65,13 +79,6 @@ button-shoot
   xy: 639, 4
   size: 32, 32
   orig: 32, 32
-  offset: 0, 0
-  index: -1
-charge-bullet
-  rotate: false
-  xy: 885, 13
-  size: 16, 11
-  orig: 16, 11
   offset: 0, 0
   index: -1
 coil-1
@@ -135,13 +142,6 @@ geiser-2
   xy: 951, 38
   size: 17, 27
   orig: 17, 27
-  offset: 0, 0
-  index: -1
-health-powerup
-  rotate: false
-  xy: 931, 19
-  size: 15, 17
-  orig: 15, 17
   offset: 0, 0
   index: -1
 hover-1-left
@@ -282,6 +282,20 @@ portal-6
   xy: 332, 62
   size: 64, 64
   orig: 64, 64
+  offset: 0, 0
+  index: -1
+powerup-ammo
+  rotate: false
+  xy: 575, 6
+  size: 15, 17
+  orig: 15, 17
+  offset: 0, 0
+  index: -1
+powerup-health
+  rotate: false
+  xy: 931, 19
+  size: 15, 17
+  orig: 15, 17
   offset: 0, 0
   index: -1
 ricochet-left

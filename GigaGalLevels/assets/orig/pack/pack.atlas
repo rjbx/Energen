@@ -4,13 +4,6 @@ size: 256,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-ammo-powerup
-  rotate: false
-  xy: 183, 109
-  size: 15, 17
-  orig: 15, 17
-  offset: 0, 0
-  index: -1
 coil-1
   rotate: false
   xy: 93, 35
@@ -41,7 +34,7 @@ geiser-1
   index: -1
 health-powerup
   rotate: false
-  xy: 200, 109
+  xy: 183, 109
   size: 15, 17
   orig: 15, 17
   offset: 0, 0

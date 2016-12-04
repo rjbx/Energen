@@ -179,8 +179,11 @@ public final class Constants {
     public static final float BULLET_MOVE_SPEED = 500;
     public static final Vector2 BULLET_CENTER = new Vector2(3, 2);
     public static final Vector2 CHARGE_BULLET_CENTER = new Vector2(8, 4);
-    public static final String BULLET_SPRITE = "bullet";
-    public static final String CHARGE_BULLET_SPRITE = "charge-bullet";
+    public static final String AMMO_NATIVE_SPRITE = "ammo-native";
+    public static final String AMMO_CHARGED_NATIVE_SPRITE = "ammo-charged-native";
+    public static final String AMMO_FIRE_SPRITE = "ammo-fire";
+    public static final String AMMO_CHARGED_FIRE_SPRITE = "ammo-charged-fire";
+    public static final String AMMO_ELECTTRIC_SPRITE = "ammo-electric";
 
     // Explosion
     public static final Vector2 EXPLOSION_CENTER = new Vector2(8, 8);
@@ -193,8 +196,8 @@ public final class Constants {
     public static final Vector2 POWERUP_CENTER = new Vector2(7, 5);
     public static final int POWERUP_AMMO = 10;
     public static final int POWERUP_HEALTH = 50;
-    public static final String AMMO_POWERUP_SPRITE = "ammo-powerup";
-    public static final String HEALTH_POWERUP_SPRITE = "health-powerup";
+    public static final String AMMO_POWERUP_SPRITE = "powerup-ammo";
+    public static final String HEALTH_POWERUP_SPRITE = "powerup-health";
 
     // Level Loading
     public static final String LEVEL_COMPOSITE = "composite";
