@@ -18,11 +18,25 @@ ammo-blast-fire
   orig: 16, 9
   offset: 0, 0
   index: -1
+ammo-blast-metal
+  rotate: false
+  xy: 885, 18
+  size: 18, 6
+  orig: 18, 6
+  offset: 0, 0
+  index: -1
 ammo-blast-native
   rotate: false
-  xy: 902, 16
+  xy: 592, 15
   size: 8, 8
   orig: 8, 8
+  offset: 0, 0
+  index: -1
+ammo-blast-psychic
+  rotate: false
+  xy: 885, 2
+  size: 14, 14
+  orig: 14, 14
   offset: 0, 0
   index: -1
 ammo-blast-water
@@ -34,16 +48,23 @@ ammo-blast-water
   index: -1
 ammo-shot-electric
   rotate: false
-  xy: 524, 2
+  xy: 534, 2
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
   index: -1
 ammo-shot-fire
   rotate: false
-  xy: 533, 2
+  xy: 543, 2
   size: 7, 5
   orig: 7, 5
+  offset: 0, 0
+  index: -1
+ammo-shot-metal
+  rotate: false
+  xy: 524, 2
+  size: 8, 5
+  orig: 8, 5
   offset: 0, 0
   index: -1
 ammo-shot-native
@@ -321,7 +342,7 @@ powerup-ammo
   index: -1
 powerup-health
   rotate: false
-  xy: 885, 7
+  xy: 931, 19
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
