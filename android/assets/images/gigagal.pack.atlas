@@ -4,16 +4,23 @@ size: 1024,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+ammo-charged-electric
+  rotate: false
+  xy: 827, 2
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
 ammo-charged-fire
   rotate: false
-  xy: 885, 13
+  xy: 841, 3
   size: 16, 11
   orig: 16, 11
   offset: 0, 0
   index: -1
 ammo-charged-native
   rotate: false
-  xy: 592, 15
+  xy: 902, 16
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -300,7 +307,7 @@ powerup-ammo
   index: -1
 powerup-health
   rotate: false
-  xy: 931, 19
+  xy: 885, 7
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
