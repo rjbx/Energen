@@ -10,8 +10,8 @@ import com.udacity.gamedev.gigagal.util.Enums.AmmoType;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-// immutable
-public final class Ammo implements Physical {
+// mutable
+public class Ammo implements Physical {
 
     // fields
     public final static String TAG = Ammo.class.getName();
