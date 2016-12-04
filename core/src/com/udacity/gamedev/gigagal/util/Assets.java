@@ -166,8 +166,8 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion chargeBullet;
 
         public BulletAssets(TextureAtlas atlas) {
-            bullet = atlas.findRegion(Constants.AMMO_NATIVE_SPRITE);
-            chargeBullet = atlas.findRegion(Constants.AMMO_CHARGED_NATIVE_SPRITE);
+            bullet = atlas.findRegion(Constants.SHOT_NATIVE_SPRITE);
+            chargeBullet = atlas.findRegion(Constants.SHOT_BLAST_NATIVE_SPRITE);
         }
 
     }
