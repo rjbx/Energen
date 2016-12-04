@@ -181,8 +181,8 @@ public final class Constants {
     // Ammo
     public static final float CHARGE_DURATION = 0.8f;
     public static final float BULLET_MOVE_SPEED = 500;
-    public static final Vector2 BULLET_CENTER = new Vector2(3, 2);
-    public static final Vector2 CHARGE_BULLET_CENTER = new Vector2(8, 4);
+    public static final Vector2 SHOT_CENTER = new Vector2(3, 2);
+    public static final Vector2 BLAST_CENTER = new Vector2(8, 4);
     public static final String SHOT_NATIVE_SPRITE = "ammo-shot-native";
     public static final String BLAST_NATIVE_SPRITE = "ammo-blast-native";
     public static final String SHOT_FIRE_SPRITE = "ammo-shot-fire";

@@ -35,7 +35,7 @@ public class Level {
     private Array<Platform> platforms;
     private Array<Indestructible> indestructibles;
     private DelayedRemovalArray<Destructible> destructibles;
-    private DelayedRemovalArray<Ammo> bullets;
+    private DelayedRemovalArray<Ammo> ammo;
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
 
@@ -46,7 +46,7 @@ public class Level {
         platforms = new Array<Platform>();
         destructibles = new DelayedRemovalArray<Destructible>();
         indestructibles = new DelayedRemovalArray<Indestructible>();
-        bullets = new DelayedRemovalArray<Ammo>();
+        ammo = new DelayedRemovalArray<Ammo>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
         portal = new Portal(new Vector2(200, 200));
@@ -75,14 +75,14 @@ public class Level {
             gigaGal.update(delta);
 
             // Update Bullets
-            bullets.begin();
-            for (Ammo chargeAmmo : bullets) {
+            ammo.begin();
+            for (Ammo chargeAmmo : ammo) {
                 chargeAmmo.update(delta);
                 if (!chargeAmmo.isActive()) {
-                    bullets.removeValue(chargeAmmo, false);
+                    ammo.removeValue(chargeAmmo, false);
                 }
             }
-            bullets.end();
+            ammo.end();
 
             // Update Enemies
             destructibles.begin();
@@ -134,7 +134,7 @@ public class Level {
         }
         gigaGal.render(batch);
 
-        for (Ammo chargeAmmo : bullets) {
+        for (Ammo chargeAmmo : ammo) {
             chargeAmmo.render(batch);
         }
 
@@ -152,7 +152,7 @@ public class Level {
         portal = new Portal(new Vector2(150, 150));
 
         platforms = new Array<Platform>();
-        bullets = new DelayedRemovalArray<Ammo>();
+        ammo = new DelayedRemovalArray<Ammo>();
         destructibles = new DelayedRemovalArray<Destructible>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
@@ -171,8 +171,8 @@ public class Level {
         powerups.add(new AmmoPowerup(new Vector2(20, 110)));
     }
 
-    public void spawnBullet(Vector2 position, Direction direction, Enums.ShotIntensity shotIntensity, Enums.Weapon weapon) {
-        bullets.add(new Ammo(this, position, direction, shotIntensity, weapon));
+    public void spawnAmmo(Vector2 position, Direction direction, Enums.ShotIntensity shotIntensity, Enums.Weapon weapon) {
+        ammo.add(new Ammo(this, position, direction, shotIntensity, weapon));
     }
 
     public void spawnExplosion(Vector2 position) {

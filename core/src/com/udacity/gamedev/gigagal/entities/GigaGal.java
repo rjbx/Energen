@@ -60,7 +60,6 @@ public class GigaGal implements Physical {
     private int lives;
     private int ammo;
     private int health;
-    private int weaponCount;
     public boolean leftButtonPressed;
     public boolean rightButtonPressed;
     public boolean jumpButtonPressed;
@@ -82,7 +81,7 @@ public class GigaGal implements Physical {
         health = Constants.INITIAL_HEALTH;
         lives = Constants.INITIAL_LIVES;
         weaponList.add(Weapon.NATIVE);
-        weaponCount = weaponList.size();
+        weapon = Weapon.NATIVE;
         respawn();
     }
 
@@ -373,17 +372,17 @@ public class GigaGal implements Physical {
     public void shoot(ShotIntensity shotIntensity, Weapon weapon) {
         if (ammo > 0) {
             ammo--;
-            Vector2 bulletPosition;
+            Vector2 ammoPosition;
             if (facing == Direction.RIGHT) {
-                bulletPosition = new Vector2(
+                ammoPosition = new Vector2(
                         position.x + Constants.GIGAGAL_CANNON_OFFSET.x,
                         position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
             } else {
-                bulletPosition = new Vector2(
+                ammoPosition = new Vector2(
                         position.x - Constants.GIGAGAL_CANNON_OFFSET.x - 5,
                         position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
             }
-            level.spawnBullet(bulletPosition, facing, shotIntensity, weapon);
+            level.spawnAmmo(ammoPosition, facing, shotIntensity, weapon);
         }
     }
 

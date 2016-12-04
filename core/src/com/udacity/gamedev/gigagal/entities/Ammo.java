@@ -6,9 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Enums.ShotIntensity;
-import com.udacity.gamedev.gigagal.util.Enums.Direction;
+import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // immutable
@@ -18,16 +16,18 @@ public final class Ammo implements Physical {
     public final static String TAG = Ammo.class.getName();
     private final Level level;
     private final ShotIntensity shotIntensity;
+    private final Weapon weapon;
     private final Direction direction;
     private final Vector2 position;
     private boolean active;
 
     // ctor
-    public Ammo(Level level, Vector2 position, Direction direction, ShotIntensity shotIntensity, Enums.Weapon weapon) {
+    public Ammo(Level level, Vector2 position, Direction direction, ShotIntensity shotIntensity, Weapon weapon) {
         this.level = level;
         this.position = position;
         this.direction = direction;
         this.shotIntensity = shotIntensity;
+        this.weapon = weapon;
         active = true;
     }
 
@@ -71,18 +71,64 @@ public final class Ammo implements Physical {
 
     public void render(SpriteBatch batch) {
         TextureRegion region = null;
-        Vector2 bulletCenter = new Vector2();
-        switch (shotIntensity) {
-            case NORMAL:
-                region = Assets.getInstance().getAmmoAssets().nativeShot;
-                bulletCenter.set(Constants.BULLET_CENTER);
+        Vector2 ammoCenter = new Vector2();
+        switch (weapon) {
+            case NATIVE:
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().nativeBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().nativeShot;
+                }
                 break;
-            case CHARGED:
-                region = Assets.getInstance().getAmmoAssets().nativeBlast;
-                bulletCenter.set(Constants.CHARGE_BULLET_CENTER);
+            case FIRE:
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().fireBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().fireShot;
+                }
+                break;
+            case WATER:
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().waterBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().waterShot;
+                }
+                break;
+            case ELECTRIC:
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().electricBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().electricShot;
+                }
+                break;
+            case RUBBER:
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().rubberBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().rubberShot;
+                }
+                break;
+            case METAL:
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().metalBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().metalShot;
+                }
+                break;
+            case PSYCHIC:
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().psychicBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().psychicShot;
+                }
                 break;
         }
-        Utils.drawTextureRegion(batch, region, position, bulletCenter);
+        if (shotIntensity == ShotIntensity.CHARGED) {
+            ammoCenter.set(Constants.BLAST_CENTER);
+        } else {
+            ammoCenter.set(Constants.SHOT_CENTER);
+        }
+        Utils.drawTextureRegion(batch, region, position, ammoCenter);
     }
 
     public final boolean isActive() { return active; }
