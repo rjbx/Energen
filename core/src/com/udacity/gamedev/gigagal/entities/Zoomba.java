@@ -21,16 +21,6 @@ public class Zoomba extends Destructible {
     private int health;
     private Direction direction;
 
-    //default ctor
-    public Zoomba() {
-        this.platform = new Platform();
-        direction = Direction.RIGHT;
-        position = new Vector2(platform.getLeft(), platform.getTop() + Constants.ZOOMBA_CENTER.y);
-        startTime = TimeUtils.nanoTime();
-        health = Constants.ZOOMBA_MAX_HEALTH;
-        bobOffset = MathUtils.random();
-    }
-
     // ctor
     public Zoomba(Platform platform) {
         this.platform = platform;

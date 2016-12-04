@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // immutable
-public final class Ammo {
+public final class Ammo implements Physical {
 
     // fields
     public final static String TAG = Ammo.class.getName();
@@ -73,11 +73,11 @@ public final class Ammo {
         Vector2 bulletCenter = new Vector2();
         switch (ammoType) {
             case REGULAR:
-                region = Assets.getInstance().getBulletAssets().bullet;
+                region = Assets.getInstance().getAmmoAssets().nativeShot;
                 bulletCenter.set(Constants.BULLET_CENTER);
                 break;
             case CHARGE:
-                region = Assets.getInstance().getBulletAssets().chargeBullet;
+                region = Assets.getInstance().getAmmoAssets().nativeBlast;
                 bulletCenter.set(Constants.CHARGE_BULLET_CENTER);
                 break;
         }
@@ -85,4 +85,12 @@ public final class Ammo {
     }
 
     public final boolean isActive() { return active; }
+    public final Vector2 getPosition() { return position; }
+    public final float getWidth() { return Constants.POWERUP_CENTER.x * 2; }
+    public final float getHeight() { return Constants.POWERUP_CENTER.y * 2; }
+    public final float getLeft() { return position.x - Constants.POWERUP_CENTER.x; }
+    public final float getRight() { return position.x + Constants.POWERUP_CENTER.x; }
+    public final float getTop() { return position.y + Constants.POWERUP_CENTER.y; }
+    public final float getBottom() { return position.y - Constants.POWERUP_CENTER.y; }
+    public final AmmoType getAmmoType() { return ammoType; }
 }

@@ -180,11 +180,11 @@ public final class Constants {
     public static final Vector2 BULLET_CENTER = new Vector2(3, 2);
     public static final Vector2 CHARGE_BULLET_CENTER = new Vector2(8, 4);
     public static final String SHOT_NATIVE_SPRITE = "ammo-shot-native";
-    public static final String SHOT_BLAST_NATIVE_SPRITE = "ammo-blast-native";
+    public static final String BLAST_NATIVE_SPRITE = "ammo-blast-native";
     public static final String SHOT_FIRE_SPRITE = "ammo-shot-fire";
     public static final String BLAST_FIRE_SPRITE = "ammo-blast-fire";
-    public static final String SHOT_ELECTTRIC_SPRITE = "ammo-shot-electric";
-    public static final String BLAST_ELECTTRIC_SPRITE = "ammo-blast-electric";
+    public static final String SHOT_ELECTRIC_SPRITE = "ammo-shot-electric";
+    public static final String BLAST_ELECTRIC_SPRITE = "ammo-blast-electric";
 
     // Explosion
     public static final Vector2 EXPLOSION_CENTER = new Vector2(8, 8);

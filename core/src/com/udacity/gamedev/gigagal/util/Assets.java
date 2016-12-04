@@ -20,7 +20,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private static final Assets INSTANCE = new Assets();
     private GigaGalAssets gigaGalAssets;
     private PlatformAssets platformAssets;
-    private BulletAssets bulletAssets;
+    private AmmoAssets ammoAssets;
     private ZoombaAssets zoombaAssets;
     private FireyZoombaAssets fireyZoombaAssets;
     private GushingZoombaAssets gushingZoombaAssets;
@@ -55,7 +55,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
         gigaGalAssets = new GigaGalAssets(atlas);
         platformAssets = new PlatformAssets(atlas, levelNumber);
-        bulletAssets = new BulletAssets(atlas);
+        ammoAssets = new AmmoAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
         fireyZoombaAssets = new FireyZoombaAssets(atlas);
         gushingZoombaAssets = new GushingZoombaAssets(atlas);
@@ -160,14 +160,18 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
 
-    public class BulletAssets {
+    public class AmmoAssets {
 
-        public final AtlasRegion bullet;
-        public final AtlasRegion chargeBullet;
+        public final AtlasRegion nativeShot;
+        public final AtlasRegion nativeBlast;
+        public final AtlasRegion electricShot;
+        public final AtlasRegion electricBlast;
 
-        public BulletAssets(TextureAtlas atlas) {
-            bullet = atlas.findRegion(Constants.SHOT_NATIVE_SPRITE);
-            chargeBullet = atlas.findRegion(Constants.SHOT_BLAST_NATIVE_SPRITE);
+        public AmmoAssets(TextureAtlas atlas) {
+            nativeShot = atlas.findRegion(Constants.SHOT_NATIVE_SPRITE);
+            nativeBlast = atlas.findRegion(Constants.BLAST_NATIVE_SPRITE);
+            electricShot = atlas.findRegion(Constants.SHOT_ELECTRIC_SPRITE);
+            electricBlast = atlas.findRegion(Constants.BLAST_ELECTRIC_SPRITE);
         }
 
     }
@@ -395,7 +399,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     // Getters
     public final GigaGalAssets getGigaGalAssets() { return gigaGalAssets; }
     public final PlatformAssets getPlatformAssets() { return platformAssets; }
-    public final BulletAssets getBulletAssets() { return bulletAssets; }
+    public final AmmoAssets getAmmoAssets() { return ammoAssets; }
     public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
     public final FireyZoombaAssets getFireyZoombaAssets() { return fireyZoombaAssets; }
     public final GushingZoombaAssets getGushingZoombaAssets() { return gushingZoombaAssets; }
