@@ -6,7 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums.AmmoType;
+import com.udacity.gamedev.gigagal.util.Enums;
+import com.udacity.gamedev.gigagal.util.Enums.ShotIntensity;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
@@ -16,17 +17,17 @@ public class Ammo implements Physical {
     // fields
     public final static String TAG = Ammo.class.getName();
     private final Level level;
-    private final AmmoType ammoType;
+    private final ShotIntensity shotIntensity;
     private final Direction direction;
     private final Vector2 position;
     private boolean active;
 
     // ctor
-    public Ammo(Level level, Vector2 position, Direction direction, AmmoType ammoType) {
+    public Ammo(Level level, Vector2 position, Direction direction, ShotIntensity shotIntensity, Enums.AmmoType ammoType) {
         this.level = level;
         this.position = position;
         this.direction = direction;
-        this.ammoType = ammoType;
+        this.shotIntensity = shotIntensity;
         active = true;
     }
 
@@ -44,13 +45,13 @@ public class Ammo implements Physical {
             if (position.dst(destructible.getPosition()) < destructible.getShotRadius()) {
                 level.spawnExplosion(position);
                 active = false;
-                switch (ammoType) {
-                    case REGULAR:
+                switch (shotIntensity) {
+                    case NORMAL:
                         if (destructible instanceof Zoomba) {
                             destructible.setHealth(destructible.getHealth() - Constants.ZOOMBA_MAX_HEALTH / 3);
                         }
                         break;
-                    case CHARGE:
+                    case CHARGED:
                         if (destructible instanceof Zoomba) {
                             destructible.setHealth(destructible.getHealth() - Constants.ZOOMBA_MAX_HEALTH);
                         }
@@ -71,12 +72,12 @@ public class Ammo implements Physical {
     public void render(SpriteBatch batch) {
         TextureRegion region = null;
         Vector2 bulletCenter = new Vector2();
-        switch (ammoType) {
-            case REGULAR:
+        switch (shotIntensity) {
+            case NORMAL:
                 region = Assets.getInstance().getAmmoAssets().nativeShot;
                 bulletCenter.set(Constants.BULLET_CENTER);
                 break;
-            case CHARGE:
+            case CHARGED:
                 region = Assets.getInstance().getAmmoAssets().nativeBlast;
                 bulletCenter.set(Constants.CHARGE_BULLET_CENTER);
                 break;
@@ -92,5 +93,5 @@ public class Ammo implements Physical {
     public final float getRight() { return position.x + Constants.POWERUP_CENTER.x; }
     public final float getTop() { return position.y + Constants.POWERUP_CENTER.y; }
     public final float getBottom() { return position.y - Constants.POWERUP_CENTER.y; }
-    public final AmmoType getAmmoType() { return ammoType; }
+    public final ShotIntensity getShotIntensity() { return shotIntensity; }
 }

@@ -29,6 +29,7 @@ public class GigaGal implements Physical {
     private Direction facing;
     private AerialState aerialState;
     private GroundState groundState;
+    private AmmoType ammoType;
     private boolean canStride;
     private boolean canDash;
     private boolean canJump;
@@ -82,7 +83,7 @@ public class GigaGal implements Physical {
         recoilFromHazards(level.getHazards());
         collectPowerups(level.getPowerups());
         enableRespawn();
-        enableShoot();
+        enableShoot(ammoType);
 
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.AIRBORNE) {
             velocity.y = 0;
@@ -316,7 +317,9 @@ public class GigaGal implements Physical {
         this.velocity.y = velocity.y;
     }
 
-    private void enableShoot() {
+    private void changeAmmoType() {}
+
+    private void enableShoot(AmmoType ammoType) {
         if (Gdx.input.isKeyPressed(Keys.ENTER) || shootButtonPressed) {
             if (chargeStartTime == 0) {
                 canCharge = true;
@@ -326,9 +329,9 @@ public class GigaGal implements Physical {
             }
         } else if (canCharge) {
             if (isCharged) {
-                shoot(AmmoType.CHARGE);
+                shoot(ShotIntensity.CHARGED, ammoType);
             } else {
-                shoot(AmmoType.REGULAR);
+                shoot(ShotIntensity.NORMAL, ammoType);
             }
             chargeStartTime = 0;
             isCharged = false;
@@ -336,7 +339,7 @@ public class GigaGal implements Physical {
         }
     }
 
-    public void shoot(AmmoType ammoType) {
+    public void shoot(ShotIntensity shotIntensity, AmmoType ammoType) {
         if (ammo > 0) {
             ammo--;
             Vector2 bulletPosition;
@@ -349,7 +352,7 @@ public class GigaGal implements Physical {
                         position.x - Constants.GIGAGAL_CANNON_OFFSET.x - 5,
                         position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
             }
-            level.spawnBullet(bulletPosition, facing, ammoType);
+            level.spawnBullet(bulletPosition, facing, shotIntensity, ammoType);
         }
     }
 
@@ -585,6 +588,7 @@ public class GigaGal implements Physical {
     public boolean getHoverStatus() { return canHover; }
     public boolean getRicochetStatus() { return canRicochet; }
     public boolean getChargeStatus() { return isCharged; }
+    public AmmoType getAmmoType() { return ammoType; }
 
     // Setters
     public void setDirection(Direction facing) { this.facing = facing; }

@@ -4,8 +4,12 @@ public final class Enums {
 
     private Enums() {}
 
+    public enum ShotIntensity {
+        NORMAL, CHARGED,
+    }
+
     public enum AmmoType {
-        REGULAR, CHARGE
+        ELECTRIC, FIRE, WATER, RUBBER, METAL, PSYCHIC
     }
 
     public enum Direction {

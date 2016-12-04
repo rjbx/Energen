@@ -171,8 +171,8 @@ public class Level {
         powerups.add(new AmmoPowerup(new Vector2(20, 110)));
     }
 
-    public void spawnBullet(Vector2 position, Direction direction, Enums.AmmoType ammoType) {
-        bullets.add(new Ammo(this, position, direction, ammoType));
+    public void spawnBullet(Vector2 position, Direction direction, Enums.ShotIntensity shotIntensity, Enums.AmmoType ammoType) {
+        bullets.add(new Ammo(this, position, direction, shotIntensity, ammoType));
     }
 
     public void spawnExplosion(Vector2 position) {

@@ -27,7 +27,7 @@ ammo-blast-metal
   index: -1
 ammo-blast-native
   rotate: false
-  xy: 592, 15
+  xy: 593, 15
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -37,6 +37,13 @@ ammo-blast-psychic
   xy: 885, 2
   size: 14, 14
   orig: 14, 14
+  offset: 0, 0
+  index: -1
+ammo-blast-rubber
+  rotate: false
+  xy: 575, 7
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: -1
 ammo-blast-water
@@ -72,6 +79,13 @@ ammo-shot-native
   xy: 813, 82
   size: 6, 6
   orig: 6, 6
+  offset: 0, 0
+  index: -1
+ammo-shot-rubber
+  rotate: false
+  xy: 970, 57
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-water
@@ -335,14 +349,14 @@ portal-6
   index: -1
 powerup-ammo
   rotate: false
-  xy: 575, 6
+  xy: 931, 19
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 931, 19
+  xy: 948, 19
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
