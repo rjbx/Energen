@@ -193,7 +193,6 @@ public final class Assets implements Disposable, AssetErrorListener {
             psychicShot = atlas.findRegion(Constants.SHOT_PSYCHIC_SPRITE);
             psychicBlast = atlas.findRegion(Constants.BLAST_PSYCHIC_SPRITE);
         }
-
     }
 
     public class ZoombaAssets {

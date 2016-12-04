@@ -23,7 +23,7 @@ public final class Ammo implements Physical {
     private boolean active;
 
     // ctor
-    public Ammo(Level level, Vector2 position, Direction direction, ShotIntensity shotIntensity, Enums.AmmoType ammoType) {
+    public Ammo(Level level, Vector2 position, Direction direction, ShotIntensity shotIntensity, Enums.Weapon weapon) {
         this.level = level;
         this.position = position;
         this.direction = direction;

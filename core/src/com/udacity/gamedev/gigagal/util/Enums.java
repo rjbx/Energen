@@ -8,8 +8,8 @@ public final class Enums {
         NORMAL, CHARGED,
     }
 
-    public enum AmmoType {
-        ELECTRIC, FIRE, WATER, RUBBER, METAL, PSYCHIC
+    public enum Weapon {
+        ELECTRIC, FIRE, WATER, RUBBER, METAL, PSYCHIC, NATIVE
     }
 
     public enum Direction {

@@ -139,6 +139,7 @@ public final class GameplayScreen extends ScreenAdapter {
     }
 
     public void levelComplete() {
+        level.getGigaGal().addWeapon(Constants.weapons[levelNumber]);
         levelNumber++;
         startNewLevel();
     }

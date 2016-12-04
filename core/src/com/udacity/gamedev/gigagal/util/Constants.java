@@ -2,6 +2,10 @@ package com.udacity.gamedev.gigagal.util;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+import java.util.Arrays;
+import java.util.List;
 
 // immutable static
 public final class Constants {
@@ -193,6 +197,15 @@ public final class Constants {
     public static final String BLAST_METAL_SPRITE = "ammo-blast-metal";
     public static final String SHOT_PSYCHIC_SPRITE = "ammo-shot-psychic";
     public static final String BLAST_PSYCHIC_SPRITE = "ammo-blast-psychic";
+    public static final Enums.Weapon[] weapons = {
+                                    Enums.Weapon.FIRE,
+                                    Enums.Weapon.WATER,
+                                    Enums.Weapon.ELECTRIC,
+                                    Enums.Weapon.RUBBER,
+                                    Enums.Weapon.METAL,
+                                    Enums.Weapon.PSYCHIC,
+                                    Enums.Weapon.NATIVE
+                                    };
 
     // Explosion
     public static final Vector2 EXPLOSION_CENTER = new Vector2(8, 8);
