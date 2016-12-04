@@ -11,6 +11,13 @@ ammo-charged-fire
   orig: 16, 11
   offset: 0, 0
   index: -1
+ammo-charged-native
+  rotate: false
+  xy: 592, 15
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
 ammo-electric
   rotate: false
   xy: 596, 66
@@ -27,9 +34,9 @@ ammo-fire
   index: -1
 ammo-native
   rotate: false
-  xy: 592, 15
-  size: 8, 8
-  orig: 8, 8
+  xy: 813, 82
+  size: 6, 6
+  orig: 6, 6
   offset: 0, 0
   index: -1
 button-blast
