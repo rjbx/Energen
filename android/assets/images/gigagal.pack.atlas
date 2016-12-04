@@ -4,46 +4,60 @@ size: 1024,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ammo-charged-electric
+ammo-blast-electric
   rotate: false
   xy: 827, 2
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
   index: -1
-ammo-charged-fire
+ammo-blast-fire
   rotate: false
-  xy: 841, 3
-  size: 16, 11
-  orig: 16, 11
+  xy: 841, 5
+  size: 16, 9
+  orig: 16, 9
   offset: 0, 0
   index: -1
-ammo-charged-native
+ammo-blast-native
   rotate: false
   xy: 902, 16
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-ammo-electric
+ammo-blast-water
   rotate: false
-  xy: 596, 66
+  xy: 859, 5
+  size: 16, 9
+  orig: 16, 9
+  offset: 0, 0
+  index: -1
+ammo-shot-electric
+  rotate: false
+  xy: 524, 2
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
   index: -1
-ammo-fire
+ammo-shot-fire
   rotate: false
-  xy: 513, 2
+  xy: 533, 2
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
   index: -1
-ammo-native
+ammo-shot-native
   rotate: false
   xy: 813, 82
   size: 6, 6
   orig: 6, 6
+  offset: 0, 0
+  index: -1
+ammo-shot-water
+  rotate: false
+  xy: 513, 2
+  size: 9, 5
+  orig: 9, 5
   offset: 0, 0
   index: -1
 button-blast
