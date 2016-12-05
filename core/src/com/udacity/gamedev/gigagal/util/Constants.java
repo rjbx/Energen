@@ -239,7 +239,7 @@ public final class Constants {
     public static final String LEVEL_CHARGEDZOOMBA_TAG = "ChargedZoomba";
     public static final String LEVEL_WHIRLINGZOOMBA_TAG = "WhirlingZoomba";
     public static final String LEVEL_SHARPZOOMBA_TAG = "SharpZoomba";
-    public static final String[] LEVELS = {"levels/RUBBER.dt", "levels/ELECTRIC.dt", "levels/WATER.dt", "levels/FIRE.dt", "levels/METAL.dt", "levels/PYSCHIC.dt", "levels/FINAL.dt"};
+    public static final String[] LEVELS = {"levels/RUBBER.dt", "levels/ELECTRIC.dt", "levels/WATER.dt", "levels/FIRE.dt", "levels/METAL.dt", "levels/PSYCHIC.dt", "levels/FINAL.dt"};
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;
