@@ -14,8 +14,12 @@ import com.udacity.gamedev.gigagal.overlays.VictoryOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.LevelLoader;
 import com.udacity.gamedev.gigagal.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 // immutable
 public final class GameplayScreen extends ScreenAdapter {
@@ -31,6 +35,7 @@ public final class GameplayScreen extends ScreenAdapter {
     private GigaGalHud hud;
     private VictoryOverlay victoryOverlay;
     private GameOverOverlay gameOverOverlay;
+    private ArrayList<String> completedLevels;
 
     // default ctor
     public GameplayScreen() {}
@@ -44,6 +49,7 @@ public final class GameplayScreen extends ScreenAdapter {
         victoryOverlay = new VictoryOverlay();
         gameOverOverlay = new GameOverOverlay();
         onscreenControls = new OnscreenControls();
+        completedLevels = new ArrayList<String>();
 
         // : Use Gdx.input.setInputProcessor() to send touch events to onscreenControls
         Gdx.input.setInputProcessor(onscreenControls);
@@ -130,16 +136,22 @@ public final class GameplayScreen extends ScreenAdapter {
 //        level = Level.debugLevel();
         AssetManager am = new AssetManager();
         Assets.getInstance().init(am, levelNumber);
-        String levelName = Constants.LEVELS[levelNumber];
-        level = LevelLoader.load(levelName);
-
+        String newLevelName = Constants.LEVELS[levelNumber];
+        level = LevelLoader.load(newLevelName);
+        for (String completedLevelName : completedLevels) {
+            for (Enums.Weapon weapon : Arrays.asList(Constants.weapons)) {
+                if (completedLevelName == weapon.name()) {
+                    level.getGigaGal().addWeapon(weapon);
+                }
+            }
+        }
         chaseCam.camera = level.getViewport().getCamera();
         chaseCam.target = level.getGigaGal();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     public void levelComplete() {
-        level.getGigaGal().addWeapon(Constants.weapons[levelNumber]);
+        completedLevels.add(Constants.LEVELS[levelNumber]);
         levelNumber++;
         startNewLevel();
     }
