@@ -13,16 +13,16 @@ ammo-blast-electric
   index: -1
 ammo-blast-fire
   rotate: false
-  xy: 841, 5
+  xy: 861, 5
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
   index: -1
 ammo-blast-metal
   rotate: false
-  xy: 885, 18
-  size: 18, 6
-  orig: 18, 6
+  xy: 841, 5
+  size: 18, 9
+  orig: 18, 9
   offset: 0, 0
   index: -1
 ammo-blast-native
@@ -34,7 +34,7 @@ ammo-blast-native
   index: -1
 ammo-blast-psychic
   rotate: false
-  xy: 885, 2
+  xy: 970, 51
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
@@ -48,7 +48,7 @@ ammo-blast-rubber
   index: -1
 ammo-blast-water
   rotate: false
-  xy: 859, 5
+  xy: 885, 15
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
@@ -83,7 +83,7 @@ ammo-shot-native
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 970, 57
+  xy: 970, 41
   size: 8, 8
   orig: 8, 8
   offset: 0, 0

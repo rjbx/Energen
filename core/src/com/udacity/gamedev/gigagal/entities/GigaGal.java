@@ -16,6 +16,7 @@ import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Utils;
 import java.lang.String;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 // mutable
@@ -24,6 +25,7 @@ public class GigaGal implements Physical {
     // fields
     public final static String TAG = GigaGal.class.getName();
     private List<Weapon> weaponList;
+    private Iterator<Weapon> weaponToggler;
     private Level level;
     private Vector2 spawnLocation;
     private Vector2 position;
@@ -337,15 +339,15 @@ public class GigaGal implements Physical {
 
     private void changeWeapon() {
         if (Utils.secondsSince(changeWeaponStartTime) > 1) {
-            int weaponIndex = weaponList.indexOf(weapon) + 1;
             if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
                 canChangeWeapon = true;
             } else if (canChangeWeapon) {
                 canChangeWeapon = false;
-                if (weaponIndex < weaponList.size()) {
-                    weapon = weaponList.get(weaponIndex);
+                if (weaponToggler.hasNext()) {
+                    weapon = weaponToggler.next();
                 } else {
-                    weapon = weaponList.get(0);
+                    weaponToggler = weaponList.iterator();
+                    weapon = weaponToggler.next();
                 }
             }
         }
@@ -406,7 +408,8 @@ public class GigaGal implements Physical {
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
-        weapon = weaponList.get(0);
+        weaponToggler = weaponList.iterator();
+        weapon = weaponToggler.next();
         canStride = false;
         canJump = false;
         canDash = false;
