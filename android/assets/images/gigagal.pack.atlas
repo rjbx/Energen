@@ -53,13 +53,6 @@ ammo-blast-water
   orig: 16, 9
   offset: 0, 0
   index: -1
-ammo-psychic-shot
-  rotate: false
-  xy: 595, 5
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
 ammo-shot-electric
   rotate: false
   xy: 596, 66
@@ -86,6 +79,13 @@ ammo-shot-native
   xy: 813, 82
   size: 6, 6
   orig: 6, 6
+  offset: 0, 0
+  index: -1
+ammo-shot-psychic
+  rotate: false
+  xy: 595, 5
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber
