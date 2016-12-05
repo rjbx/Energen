@@ -183,7 +183,7 @@ public final class Constants {
     public static final float BULLET_MOVE_SPEED = 500;
     public static final Vector2 SHOT_CENTER = new Vector2(3, 2);
     public static final Vector2 BLAST_CENTER = new Vector2(8, 4);
-    public static final int WEAPON_TOGGLER_DELAY = 0.5f
+    public static final float WEAPON_TOGGLER_DELAY = 0.5f;
     public static final String SHOT_NATIVE_SPRITE = "ammo-shot-native";
     public static final String BLAST_NATIVE_SPRITE = "ammo-blast-native";
     public static final String SHOT_FIRE_SPRITE = "ammo-shot-fire";
