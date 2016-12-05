@@ -339,7 +339,7 @@ public class GigaGal implements Physical {
     }
 
     private void changeWeapon() {
-        if (Utils.secondsSince(changeWeaponStartTime) > 1) {
+        if (Utils.secondsSince(changeWeaponStartTime) > Constants.WEAPON_TOGGLER_DELAY) {
             if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
                 canChangeWeapon = true;
             } else if (canChangeWeapon) {
