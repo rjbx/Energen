@@ -27,49 +27,56 @@ ammo-blast-metal
   index: -1
 ammo-blast-native
   rotate: false
-  xy: 593, 15
+  xy: 595, 15
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-blast-psychic
   rotate: false
-  xy: 970, 51
-  size: 14, 14
-  orig: 14, 14
+  xy: 575, 5
+  size: 18, 18
+  orig: 18, 18
   offset: 0, 0
   index: -1
 ammo-blast-rubber
   rotate: false
-  xy: 575, 7
+  xy: 885, 8
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 ammo-blast-water
   rotate: false
-  xy: 885, 15
+  xy: 948, 27
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
   index: -1
+ammo-psychic-shot
+  rotate: false
+  xy: 595, 5
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
 ammo-shot-electric
   rotate: false
-  xy: 534, 2
+  xy: 596, 66
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
   index: -1
 ammo-shot-fire
   rotate: false
-  xy: 543, 2
+  xy: 523, 2
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
   index: -1
 ammo-shot-metal
   rotate: false
-  xy: 524, 2
+  xy: 513, 2
   size: 8, 5
   orig: 8, 5
   offset: 0, 0
@@ -83,14 +90,14 @@ ammo-shot-native
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 970, 41
+  xy: 1013, 74
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-water
   rotate: false
-  xy: 513, 2
+  xy: 1013, 84
   size: 9, 5
   orig: 9, 5
   offset: 0, 0
@@ -349,14 +356,14 @@ portal-6
   index: -1
 powerup-ammo
   rotate: false
-  xy: 931, 19
+  xy: 912, 5
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 948, 19
+  xy: 931, 19
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -377,7 +384,7 @@ ricochet-right
   index: -1
 spike
   rotate: false
-  xy: 1013, 73
+  xy: 903, 8
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
