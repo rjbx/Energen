@@ -73,7 +73,6 @@ public class GigaGal implements Physical {
         velocity = new Vector2();
         previousFramePosition = new Vector2();
         weaponList = new ArrayList<Weapon>();
-        weaponList.add(Weapon.NATIVE);
         init();
     }
 
@@ -81,7 +80,7 @@ public class GigaGal implements Physical {
         ammo = Constants.INITIAL_AMMO;
         health = Constants.INITIAL_HEALTH;
         lives = Constants.INITIAL_LIVES;
-        weapon = Weapon.NATIVE;
+        weaponList.add(Weapon.NATIVE);
         respawn();
     }
 
@@ -262,7 +261,8 @@ public class GigaGal implements Physical {
                     stand();
                     canStride = false;
                     if (left && right) {
-                        if (changeWeaponStartTime != 0) {
+                        canShoot = false;
+                        if (changeWeaponStartTime == 0) {
                             changeWeaponStartTime = TimeUtils.nanoTime();
                         }
                         changeWeapon();
@@ -337,11 +337,12 @@ public class GigaGal implements Physical {
 
     private void changeWeapon() {
         if (Utils.secondsSince(changeWeaponStartTime) > .1) {
-            canShoot = false;
-            if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
-                int weaponIndex = weaponList.indexOf(weapon);
-                if (weaponIndex < weaponList.size() - 1) {
-                    weapon = weaponList.get(++weaponIndex);
+            int weaponIndex = weaponList.indexOf(weapon) + 1;
+            if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
+                if (weaponIndex <= weaponList.size()) {
+                    weapon = weaponList.get(weaponIndex);
+                } else {
+                    weapon = weaponList.get(0);
                 }
             }
         }
@@ -402,6 +403,7 @@ public class GigaGal implements Physical {
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
+        weapon = weaponList.get(0);
         canStride = false;
         canJump = false;
         canDash = false;
@@ -414,6 +416,7 @@ public class GigaGal implements Physical {
         slidPlatform = false;
         groundedPlatform = false;
         knockedBack = false;
+        changeWeaponStartTime = 0;
         chargeStartTime = 0;
         strideStartTime = 0;
         jumpStartTime = 0;
