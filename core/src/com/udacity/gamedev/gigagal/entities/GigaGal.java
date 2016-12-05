@@ -344,11 +344,10 @@ public class GigaGal implements Physical {
                 canChangeWeapon = true;
             } else if (canChangeWeapon) {
                 canChangeWeapon = false;
-                if (weaponToggler.hasNext()) {
-                    weapon = weaponToggler.next();
+                if (weaponToggler.hasPrevious()) {
+                    weapon = weaponToggler.previous();
                 } else {
                     weaponToggler.set(Weapon.NATIVE);
-                    weapon = weaponToggler.next();
                 }
             }
         }
