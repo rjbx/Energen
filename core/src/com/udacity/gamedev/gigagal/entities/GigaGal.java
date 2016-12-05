@@ -336,10 +336,13 @@ public class GigaGal implements Physical {
     }
 
     private void changeWeapon() {
-        if (Utils.secondsSince(changeWeaponStartTime) > .1) {
+        if (Utils.secondsSince(changeWeaponStartTime) > 1) {
             int weaponIndex = weaponList.indexOf(weapon) + 1;
             if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
-                if (weaponIndex <= weaponList.size()) {
+                canChangeWeapon = true;
+            } else if (canChangeWeapon) {
+                canChangeWeapon = false;
+                if (weaponIndex < weaponList.size()) {
                     weapon = weaponList.get(weaponIndex);
                 } else {
                     weapon = weaponList.get(0);
@@ -416,6 +419,7 @@ public class GigaGal implements Physical {
         slidPlatform = false;
         groundedPlatform = false;
         knockedBack = false;
+        canChangeWeapon = false;
         changeWeaponStartTime = 0;
         chargeStartTime = 0;
         strideStartTime = 0;
