@@ -18,6 +18,7 @@ import java.lang.String;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 // mutable
 public class GigaGal implements Physical {
@@ -25,7 +26,7 @@ public class GigaGal implements Physical {
     // fields
     public final static String TAG = GigaGal.class.getName();
     private List<Weapon> weaponList;
-    private Iterator<Weapon> weaponToggler;
+    private ListIterator<Weapon> weaponToggler;
     private Level level;
     private Vector2 spawnLocation;
     private Vector2 position;
@@ -346,7 +347,7 @@ public class GigaGal implements Physical {
                 if (weaponToggler.hasNext()) {
                     weapon = weaponToggler.next();
                 } else {
-                    weaponToggler = weaponList.iterator();
+                    weaponToggler.set(Weapon.NATIVE);
                     weapon = weaponToggler.next();
                 }
             }
@@ -408,7 +409,7 @@ public class GigaGal implements Physical {
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
-        weaponToggler = weaponList.iterator();
+        weaponToggler = weaponList.listIterator(0);
         weapon = weaponToggler.next();
         canStride = false;
         canJump = false;
@@ -631,7 +632,7 @@ public class GigaGal implements Physical {
     public boolean getChargeStatus() { return isCharged; }
     public Weapon getWeapon() { return weapon; }
     public List<Weapon> getWeaponList() { return weaponList; }
-    public void addWeapon(Weapon weapon) { weaponList.add(weapon); }
+    public void addWeapon(Weapon weapon) { weaponToggler.add(weapon); }
 
     // Setters
     public void setDirection(Direction facing) { this.facing = facing; }
