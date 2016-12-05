@@ -196,7 +196,7 @@ public final class Constants {
     public static final String BLAST_RUBBER_SPRITE = "ammo-blast-rubber";
     public static final String SHOT_METAL_SPRITE = "ammo-shot-metal";
     public static final String BLAST_METAL_SPRITE = "ammo-blast-metal";
-    public static final String SHOT_PSYCHIC_SPRITE = "ammo-shot-psychic";
+    public static final String SHOT_PSYCHIC_SPRITE = "ammo-shot-native";
     public static final String BLAST_PSYCHIC_SPRITE = "ammo-blast-psychic";
     public static final Enums.Weapon[] weapons = {
                                     Enums.Weapon.FIRE,
