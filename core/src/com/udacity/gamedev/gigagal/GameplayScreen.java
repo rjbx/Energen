@@ -6,6 +6,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.overlays.GameOverOverlay;
 import com.udacity.gamedev.gigagal.overlays.GigaGalHud;
@@ -35,7 +36,7 @@ public final class GameplayScreen extends ScreenAdapter {
     private GigaGalHud hud;
     private VictoryOverlay victoryOverlay;
     private GameOverOverlay gameOverOverlay;
-    private ArrayList<String> completedLevels;
+    private Array<String> completedLevels;
 
     // default ctor
     public GameplayScreen() {}
@@ -49,7 +50,7 @@ public final class GameplayScreen extends ScreenAdapter {
         victoryOverlay = new VictoryOverlay();
         gameOverOverlay = new GameOverOverlay();
         onscreenControls = new OnscreenControls();
-        completedLevels = new ArrayList<String>();
+        completedLevels = new Array<String>();
 
         // : Use Gdx.input.setInputProcessor() to send touch events to onscreenControls
         Gdx.input.setInputProcessor(onscreenControls);
@@ -100,7 +101,7 @@ public final class GameplayScreen extends ScreenAdapter {
         // onMobile();
         onscreenControls.render(batch);
 
-        hud.render(batch, level.getGigaGal().getLives(), level.getGigaGal().getAmmo(), level.getGigaGal(). getHealth(), level.getScore());
+        hud.render(batch, level.getGigaGal().getLives(), level.getGigaGal().getAmmo(), level.getGigaGal(). getHealth(), level.getScore(), level.getGigaGal().getWeaponList());
         renderLevelEndOverlays(batch);
     }
 
@@ -140,7 +141,7 @@ public final class GameplayScreen extends ScreenAdapter {
         level = LevelLoader.load(newLevelName);
         for (String completedLevelName : completedLevels) {
             for (Enums.Weapon weapon : Arrays.asList(Constants.weapons)) {
-                if (completedLevelName == weapon.name()) {
+                if (completedLevelName.equals("levels/" + weapon.name() + ".dt")) {
                     level.getGigaGal().addWeapon(weapon);
                 }
             }
@@ -151,7 +152,8 @@ public final class GameplayScreen extends ScreenAdapter {
     }
 
     public void levelComplete() {
-        completedLevels.add(Constants.LEVELS[levelNumber]);
+        String completedLevelName = Constants.LEVELS[levelNumber];
+        completedLevels.add(completedLevelName);
         levelNumber++;
         startNewLevel();
     }

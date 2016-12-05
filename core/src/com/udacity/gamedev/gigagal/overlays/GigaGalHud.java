@@ -4,11 +4,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
+
+import java.util.List;
 
 // immutable
 public final class GigaGalHud {
@@ -24,15 +28,15 @@ public final class GigaGalHud {
         font.getData().setScale(1);
     }
 
-    public void render(SpriteBatch batch, int lives, int ammo,  int health, int score) {
+    public void render(SpriteBatch batch, int lives, int ammo,  int health, int score, List<Enums.Weapon> weaponList) {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
         final String hudString =
                 Constants.HUD_SCORE_LABEL + score + "\n" +
                 Constants.HUD_AMMO_LABEL + ammo + "\n" +
-                Constants.HUD_HEALTH_LABEL + health;
-
+                Constants.HUD_HEALTH_LABEL + health + "\n" +
+                Constants.HUD_WEAPON_LABEL + weaponList.toString();
         font.draw(batch, hudString, Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN);
         final TextureRegion standingRight = Assets.getInstance().getGigaGalAssets().standRight;
         for (int i = 1; i <= lives; i++) {

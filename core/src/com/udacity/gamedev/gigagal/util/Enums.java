@@ -9,11 +9,18 @@ public final class Enums {
     }
 
     public enum Weapon {
-        ELECTRIC, FIRE, WATER, RUBBER, METAL, PSYCHIC, NATIVE
+        ELECTRIC,
+        FIRE,
+        WATER,
+        RUBBER,
+        METAL,
+        PSYCHIC,
+        NATIVE
     }
 
     public enum Direction {
-        LEFT, RIGHT
+        LEFT,
+        RIGHT
     }
 
     public enum AerialState {

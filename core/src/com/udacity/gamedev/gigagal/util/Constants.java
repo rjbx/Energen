@@ -238,7 +238,7 @@ public final class Constants {
     public static final String LEVEL_CHARGEDZOOMBA_TAG = "ChargedZoomba";
     public static final String LEVEL_WHIRLINGZOOMBA_TAG = "WhirlingZoomba";
     public static final String LEVEL_SHARPZOOMBA_TAG = "SharpZoomba";
-    public static final String[] LEVELS = {"levels/Level1.dt", "levels/Level1.dt", "levels/Level1.dt", "levels/Level1.dt", "levels/Level1.dt", "levels/Level1.dt", "levels/Level1.dt"};
+    public static final String[] LEVELS = {"levels/RUBBER.dt", "levels/ELECTRIC.dt", "levels/WATER.dt", "levels/Level1.dt", "levels/Level1.dt", "levels/Level1.dt", "levels/Level1.dt"};
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;
@@ -246,6 +246,7 @@ public final class Constants {
     public static final String HUD_AMMO_LABEL = "Ammo: ";
     public static final String HUD_SCORE_LABEL = "Score: ";
     public static final String HUD_HEALTH_LABEL = "Health: ";
+    public static final String HUD_WEAPON_LABEL = "Weapon: ";
 
     // Onscreen Controls
     public static final float ONSCREEN_CONTROLS_VIEWPORT_SIZE = 200;

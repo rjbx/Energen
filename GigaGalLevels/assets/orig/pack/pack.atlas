@@ -11,18 +11,18 @@ ammo-powerup
   orig: 15, 17
   offset: 0, 0
   index: -1
+powerup-ammo
+  rotate: false
+  xy: 183, 109
+  size: 15, 17
+  orig: 15, 17
+  offset: 0, 0
+  index: -1
 coil-1
   rotate: false
   xy: 93, 35
   size: 25, 25
   orig: 25, 25
-  offset: 0, 0
-  index: -1
-exit-portal-1
-  rotate: false
-  xy: 2, 62
-  size: 64, 64
-  orig: 64, 64
   offset: 0, 0
   index: -1
 flame-1
@@ -52,6 +52,20 @@ platform
   size: 58, 58
   split: 11, 9, 10, 9
   orig: 58, 58
+  offset: 0, 0
+  index: -1
+portal-1
+  rotate: false
+  xy: 2, 62
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+powerup-health
+  rotate: false
+  xy: 217, 109
+  size: 15, 17
+  orig: 15, 17
   offset: 0, 0
   index: -1
 spike

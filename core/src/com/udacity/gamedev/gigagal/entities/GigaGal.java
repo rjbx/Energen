@@ -73,6 +73,7 @@ public class GigaGal implements Physical {
         velocity = new Vector2();
         previousFramePosition = new Vector2();
         weaponList = new ArrayList<Weapon>();
+        weaponList.add(Weapon.NATIVE);
         init();
     }
 
@@ -80,7 +81,6 @@ public class GigaGal implements Physical {
         ammo = Constants.INITIAL_AMMO;
         health = Constants.INITIAL_HEALTH;
         lives = Constants.INITIAL_LIVES;
-        weaponList.add(Weapon.NATIVE);
         weapon = Weapon.NATIVE;
         respawn();
     }
@@ -336,11 +336,11 @@ public class GigaGal implements Physical {
     }
 
     private void changeWeapon() {
-        if (Utils.secondsSince(changeWeaponStartTime) > 1) {
+        if (Utils.secondsSince(changeWeaponStartTime) > .1) {
             canShoot = false;
             if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH)) {
                 int weaponIndex = weaponList.indexOf(weapon);
-                if (weaponIndex < weaponList.size()) {
+                if (weaponIndex < weaponList.size() - 1) {
                     weapon = weaponList.get(++weaponIndex);
                 }
             }
@@ -620,6 +620,7 @@ public class GigaGal implements Physical {
     public boolean getRicochetStatus() { return canRicochet; }
     public boolean getChargeStatus() { return isCharged; }
     public Weapon getWeapon() { return weapon; }
+    public List<Weapon> getWeaponList() { return weaponList; }
     public void addWeapon(Weapon weapon) { weaponList.add(weapon); }
 
     // Setters
