@@ -411,7 +411,7 @@ public class GigaGal implements Physical {
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
-        weaponToggler = weaponList.listIterator(0);
+        weaponToggler = weaponList.listIterator();
         weapon = weaponToggler.next();
         canStride = false;
         canJump = false;
