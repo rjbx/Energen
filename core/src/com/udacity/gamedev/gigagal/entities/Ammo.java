@@ -58,14 +58,33 @@ public final class Ammo implements Physical {
                         }
                         break;
                     case WATER:
+                        if (destructible instanceof Zoomba) {
+                            Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
+                            Utils.specializeDamage(destructible, SharpZoomba.class, GushingZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
+                        }
                         break;
                     case ELECTRIC:
+                        if (destructible instanceof Zoomba) {
+                            Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
+                            Utils.specializeDamage(destructible, GushingZoomba.class, WhirlingZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
+                        }
                         break;
                     case RUBBER:
+                        if (destructible instanceof Zoomba) {
+                            Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
+                            Utils.specializeDamage(destructible, ChargedZoomba.class, SharpZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
+                        }
                         break;
                     case METAL:
+                        if (destructible instanceof Zoomba) {
+                            Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
+                            Utils.specializeDamage(destructible, WhirlingZoomba.class, FireyZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
+                        }
                         break;
                     case PSYCHIC:
+                        if (destructible instanceof Zoomba) {
+                            Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE);
+                        }
                         break;
                 }
                 level.setScore(level.getScore() + destructible.getHitScore());
