@@ -16,7 +16,6 @@ import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Utils;
 import java.lang.String;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -319,7 +318,12 @@ public class GigaGal implements Physical {
                 } else if (getPosition().x > (hazard.getRight() - oneThirdWidth)) {
                     recoil(hazard.getKnockback());
                 } else {
-                    recoil(new Vector2((Utils.getLateralVelocity(lateralKnockback, facing)), hazard.getKnockback().y));
+                    if (hazard instanceof Destructible) {
+                        Zoomba zoomba = (Zoomba) hazard;
+                        recoil(new Vector2((Utils.getLateralVelocity(zoomba.getMountKnockback().x, facing)), zoomba.getMountKnockback().y));
+                    } else {
+                        recoil(new Vector2((Utils.getLateralVelocity(lateralKnockback, facing)), hazard.getKnockback().y));
+                    }
                 }
             }
         }
