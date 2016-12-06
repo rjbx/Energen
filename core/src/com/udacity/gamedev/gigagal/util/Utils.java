@@ -91,10 +91,12 @@ public class Utils {
     }
 
     public static final void specializeDamage(Destructible destructible, Class effectiveAgainst, Class ineffectiveAgainst, Enums.ShotIntensity shotIntensity, int specializedDamage, int standardDamage) {
-        if (destructible instanceof effectiveAgainst){
-            applyDamage(destructible, shotIntensity, specializedDamage);
-        } else if (destructible instanceof ineffectiveAgainst){
-            applyDamage(destructible, shotIntensity, standardDamage);
+        if (effectiveAgainst.isInstance(destructible)) {
+            if (destructible.getClass() == effectiveAgainst) {
+                applyDamage(destructible, shotIntensity, specializedDamage);
+            } else if (destructible.getClass() == ineffectiveAgainst) {
+                applyDamage(destructible, shotIntensity, standardDamage);
+            }
         }
     }
 }
