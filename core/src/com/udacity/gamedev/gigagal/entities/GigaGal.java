@@ -307,8 +307,8 @@ public class GigaGal implements Physical {
             if (getBounds().overlaps(bounds)) {
                 isCharged = false;
                 chargeStartTime = 0;
-                float damage = hazard.getDamage();
-                int oneThirdWidth = hazard.getWidth() / 3;
+                int damage = hazard.getDamage();
+                float oneThirdWidth = hazard.getWidth() / 3;
                 if (getPosition().x < (hazard.getLeft() + oneThirdWidth)) {
                     recoil(new Vector2(-lateralKnockback, hazard.getKnockback().y));
                 } else if (getPosition().x > (hazard.getRight() - oneThirdWidth)) {
