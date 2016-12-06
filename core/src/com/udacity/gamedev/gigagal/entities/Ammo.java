@@ -48,9 +48,18 @@ public final class Ammo implements Physical {
                 switch (weapon) {
                     case NATIVE:
                         if (destructible instanceof Zoomba) {
-                            Utils.applyDamage(destructible, shotIntensity, Constants.ZOOMBA_STANDARD_DAMAGE);
+                            Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
+                        }
                         break;
                     case FIRE:
+                        if  (destructible instanceof Zoomba) {
+                            if (!(destructible instanceof SharpZoomba)
+                                    && !(destructible instanceof GushingZoomba)) {
+                                Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
+                            } else {
+                                Utils.specializeDamage(SharpZoomba.class, GushingZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
+                            }
+                        }
                         break;
                     case WATER:
                         break;

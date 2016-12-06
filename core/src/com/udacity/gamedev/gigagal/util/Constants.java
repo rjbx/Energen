@@ -78,7 +78,7 @@ public final class Constants {
     public static final float ZOOMBA_MOVEMENT_SPEED = 10;
     public static final float ZOOMBA_BOB_AMPLITUDE = 2;
     public static final float ZOOMBA_BOB_PERIOD = 3.0f;
-    public static final int ZOOMBA_MAX_HEALTH = 3;
+    public static final int ZOOMBA_MAX_HEALTH = 30;
     public static final int ZOOMBA_STANDARD_DAMAGE = 10;
     public static final Vector2 ZOOMBA_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
     public static final float ZOOMBA_COLLISION_RADIUS = 15;
@@ -177,6 +177,8 @@ public final class Constants {
     // Ammo
     public static final float CHARGE_DURATION = 0.8f;
     public static final float BULLET_MOVE_SPEED = 500;
+    public static final int AMMO_STANDARD_DAMAGE = 10;
+    public static final int AMMO_SPECIALIZED_DAMAGE =
     public static final Vector2 SHOT_CENTER = new Vector2(3, 2);
     public static final Vector2 BLAST_CENTER = new Vector2(8, 4);
     public static final float WEAPON_TOGGLER_DELAY = 0.5f;
