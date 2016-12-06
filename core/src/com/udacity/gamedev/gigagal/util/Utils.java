@@ -5,8 +5,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.udacity.gamedev.gigagal.entities.Destructible;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Physical;
+import com.udacity.gamedev.gigagal.entities.Zoomba;
 
 // immutable static
 public class Utils {
@@ -79,4 +81,14 @@ public class Utils {
         }
         return false;
     }
+
+    public static final void applyDamage(Destructible destructible, Enums.ShotIntensity shotIntensity, int damage) {
+        if (shotIntensity == Enums.ShotIntensity.CHARGED) {
+            destructible.setHealth(destructible.getHealth() - damage);
+        } else {
+            destructible.setHealth(destructible.getHealth() - (damage / 3));
+        }
+    }
+
+    public static final void specializedDamage() {}
 }

@@ -79,7 +79,7 @@ public final class Constants {
     public static final float ZOOMBA_BOB_AMPLITUDE = 2;
     public static final float ZOOMBA_BOB_PERIOD = 3.0f;
     public static final int ZOOMBA_MAX_HEALTH = 3;
-    public static final int ZOOMBA_DAMAGE = 10;
+    public static final int ZOOMBA_STANDARD_DAMAGE = 10;
     public static final Vector2 ZOOMBA_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
     public static final float ZOOMBA_COLLISION_RADIUS = 15;
     public static final float ZOOMBA_SHOT_RADIUS = 17;

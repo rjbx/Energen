@@ -45,16 +45,22 @@ public final class Ammo implements Physical {
             if (position.dst(destructible.getPosition()) < destructible.getShotRadius()) {
                 level.spawnExplosion(position);
                 active = false;
-                switch (shotIntensity) {
-                    case NORMAL:
+                switch (weapon) {
+                    case NATIVE:
                         if (destructible instanceof Zoomba) {
-                            destructible.setHealth(destructible.getHealth() - Constants.ZOOMBA_MAX_HEALTH / 3);
-                        }
+                            Utils.applyDamage(destructible, shotIntensity, Constants.ZOOMBA_STANDARD_DAMAGE);
                         break;
-                    case CHARGED:
-                        if (destructible instanceof Zoomba) {
-                            destructible.setHealth(destructible.getHealth() - Constants.ZOOMBA_MAX_HEALTH);
-                        }
+                    case FIRE:
+                        break;
+                    case WATER:
+                        break;
+                    case ELECTRIC:
+                        break;
+                    case RUBBER:
+                        break;
+                    case METAL:
+                        break;
+                    case PSYCHIC:
                         break;
                 }
                 level.setScore(level.getScore() + destructible.getHitScore());
