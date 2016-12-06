@@ -379,8 +379,10 @@ public class GigaGal implements Physical {
     }
 
     public void shoot(ShotIntensity shotIntensity, Weapon weapon) {
-        if (ammo > 0) {
-            ammo--;
+        if (ammo > 0 || weapon == Weapon.NATIVE) {
+            if (weapon != Weapon.NATIVE) {
+                ammo--;
+            }
             Vector2 ammoPosition;
             if (facing == Direction.RIGHT) {
                 ammoPosition = new Vector2(
