@@ -307,23 +307,24 @@ public class GigaGal implements Physical {
             if (getBounds().overlaps(bounds)) {
                 isCharged = false;
                 chargeStartTime = 0;
-                if (!knockedBack) {
-                    health -= hazard.getDamage();
-                    knockedBack = true;
-                    lateralKnockback = hazard.getKnockback().x;
-                }
-                float oneThirdWidth = hazard.getWidth() / 3;
+                float damage = hazard.getDamage();
+                int oneThirdWidth = hazard.getWidth() / 3;
                 if (getPosition().x < (hazard.getLeft() + oneThirdWidth)) {
                     recoil(new Vector2(-lateralKnockback, hazard.getKnockback().y));
                 } else if (getPosition().x > (hazard.getRight() - oneThirdWidth)) {
                     recoil(hazard.getKnockback());
                 } else {
-                    if (hazard instanceof Destructible) {
+                    if (hazard instanceof Zoomba) {
                         Zoomba zoomba = (Zoomba) hazard;
                         recoil(new Vector2((Utils.getLateralVelocity(zoomba.getMountKnockback().x, facing)), zoomba.getMountKnockback().y));
+                        damage = zoomba.getMountDamage();
                     } else {
-                        recoil(new Vector2((Utils.getLateralVelocity(lateralKnockback, facing)), hazard.getKnockback().y));
+                        recoil(new Vector2((Utils.getLateralVelocity(hazard.getKnockback().x, facing)), hazard.getKnockback().y));
                     }
+                }
+                if (!knockedBack) {
+                    health -= damage;
+                    knockedBack = true;
                 }
             }
         }

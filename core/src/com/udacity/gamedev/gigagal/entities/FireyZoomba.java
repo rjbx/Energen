@@ -23,4 +23,7 @@ public class FireyZoomba extends Zoomba {
 
     @Override
     public Vector2 getMountKnockback() { return Constants.FLAME_KNOCKBACK; }
+
+    @Override
+    public int getMountDamage() {return Constants.FLAME_DAMAGE; }
 }

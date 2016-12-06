@@ -23,4 +23,8 @@ public class GushingZoomba extends Zoomba {
 
     @Override
     public Vector2 getMountKnockback() { return Constants.GEISER_KNOCKBACK; }
+
+
+    @Override
+    public int getMountDamage() {return Constants.GEISER_DAMAGE; }
 }

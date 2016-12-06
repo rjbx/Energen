@@ -23,4 +23,8 @@ public class ChargedZoomba extends Zoomba {
 
     @Override
     public Vector2 getMountKnockback() { return Constants.COIL_KNOCKBACK; }
+
+
+    @Override
+    public int getMountDamage() {return Constants.COIL_DAMAGE; }
 }

@@ -23,4 +23,8 @@ public class WhirlingZoomba extends Zoomba {
 
     @Override
     public Vector2 getMountKnockback() { return Constants.WHEEL_KNOCKBACK; }
+
+
+    @Override
+    public int getMountDamage() {return Constants.WHEEL_DAMAGE; }
 }
