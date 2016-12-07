@@ -6,10 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
+import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.ChargedZoomba;
 import com.udacity.gamedev.gigagal.entities.Coil;
 import com.udacity.gamedev.gigagal.entities.FireyZoomba;
 import com.udacity.gamedev.gigagal.entities.GushingZoomba;
+import com.udacity.gamedev.gigagal.entities.Pillar;
 import com.udacity.gamedev.gigagal.entities.SharpZoomba;
 import com.udacity.gamedev.gigagal.entities.Vacuum;
 import com.udacity.gamedev.gigagal.entities.Flame;
@@ -118,6 +120,14 @@ public final class LevelLoader {
                 final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
                 Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
                 level.getIndestructibles().add(new Vacuum(vacuumPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.CANNON_SPRITE)) {
+                final Vector2 cannonPosition = imagePosition.add(Constants.CANNON_CENTER);
+                Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
+                level.getPhysicalEntities().add(new Cannon(cannonPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PILLAR_SPRITE)) {
+                final Vector2 pillarPosition = imagePosition.add(Constants.PILLAR_CENTER);
+                Gdx.app.log(TAG, "Loaded the pillar at " + pillarPosition);
+                level.getPhysicalEntities().add(new Pillar(pillarPosition));
             }
         }
     }
@@ -155,7 +165,7 @@ public final class LevelLoader {
                 } else if (identifier.equals(Constants.LEVEL_SHARPZOOMBA_TAG)) {
                     final SharpZoomba sharpZoomba = new SharpZoomba(platform);
                     level.getDestructibles().add(sharpZoomba);
-                }
+                } 
             }
         }
 

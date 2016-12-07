@@ -11,6 +11,7 @@ import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Destructible;
 import com.udacity.gamedev.gigagal.entities.Hazard;
 import com.udacity.gamedev.gigagal.entities.Indestructible;
+import com.udacity.gamedev.gigagal.entities.Physical;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.Explosion;
@@ -35,6 +36,8 @@ public class Level {
     private Array<Platform> platforms;
     private Array<Indestructible> indestructibles;
     private DelayedRemovalArray<Destructible> destructibles;
+    private Array<Hazard> hazards;
+    private Array<Physical> physicalEntites;
     private DelayedRemovalArray<Ammo> ammo;
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
@@ -46,6 +49,9 @@ public class Level {
         platforms = new Array<Platform>();
         destructibles = new DelayedRemovalArray<Destructible>();
         indestructibles = new DelayedRemovalArray<Indestructible>();
+        hazards = new Array<Hazard>(destructibles);
+        hazards.addAll(indestructibles);
+        physicalEntites = new Array<Physical>();
         ammo = new DelayedRemovalArray<Ammo>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
@@ -62,8 +68,6 @@ public class Level {
     }
 
     public void update(float delta) {
-
-
         if (gigaGal.getLives() < 0) {
             gameOver = true;
         } else if (gigaGal.getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS) {
@@ -142,6 +146,10 @@ public class Level {
             explosion.render(batch);
         }
 
+        for (Physical physical : physicalEntites) {
+            physical.render(batch);
+        }
+
         batch.end();
     }
 
@@ -183,7 +191,8 @@ public class Level {
     public final Array<Platform> getPlatforms() { return platforms; }
     public final Array<Indestructible> getIndestructibles() { return indestructibles; }
     public final DelayedRemovalArray<Destructible> getDestructibles() { return destructibles; }
-    public final Array<Hazard> getHazards() { Array<Hazard> hazards = new Array<Hazard>(destructibles); hazards.addAll(indestructibles); return hazards; }
+    public final Array<Hazard> getHazards() { return hazards; }
+    public final Array<Physical> getPhysicalEntities() { return physicalEntites; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
     public final int getScore() { return score; }

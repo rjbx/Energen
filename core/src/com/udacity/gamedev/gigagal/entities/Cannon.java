@@ -7,7 +7,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class Cannon extends Platform {
+public class Cannon implements Physical {
 
     // fields
     private Vector2 position;
