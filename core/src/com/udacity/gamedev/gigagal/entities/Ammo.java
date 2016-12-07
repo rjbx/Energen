@@ -21,6 +21,7 @@ public final class Ammo extends Indestructible {
     private final Weapon weapon;
     private final Direction direction;
     private final Vector2 position;
+    private TextureRegion region;
     private boolean active;
 
     // ctor
@@ -33,6 +34,7 @@ public final class Ammo extends Indestructible {
         knockback = new Vector2();
         damage = 0;
         active = true;
+        region = null;
     }
 
     public void update(float delta) {
@@ -51,35 +53,70 @@ public final class Ammo extends Indestructible {
             case NATIVE:
                 damage = Constants.AMMO_STANDARD_DAMAGE;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().nativeBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().nativeShot;
+                }
                 break;
             case FIRE:
                 specializedZoomba = SharpZoomba.class;
                 damage = Constants.FLAME_DAMAGE;
                 knockback = Constants.FLAME_KNOCKBACK;
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().fireBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().fireShot;
+                }
                 break;
             case WATER:
                 specializedZoomba = FireyZoomba.class;
                 damage = Constants.GEISER_DAMAGE;
                 knockback = Constants.GEISER_KNOCKBACK;
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().waterBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().waterShot;
+                }
                 break;
             case ELECTRIC:
                 specializedZoomba = GushingZoomba.class;
                 damage = Constants.COIL_DAMAGE;
                 knockback = Constants.COIL_KNOCKBACK;
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().electricBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().electricShot;
+                }
                 break;
             case RUBBER:
                 specializedZoomba = ChargedZoomba.class;
                 damage = Constants.WHEEL_DAMAGE;
                 knockback = Constants.WHEEL_KNOCKBACK;
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().rubberBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().rubberShot;
+                }
                 break;
             case METAL:
                 specializedZoomba = WhirlingZoomba.class;
                 damage = Constants.SPIKE_DAMAGE;
                 knockback = Constants.SPIKE_KNOCKBACK;
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().metalBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().metalShot;
+                }
                 break;
             case PSYCHIC:
                 damage = 50;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
+                if (shotIntensity == ShotIntensity.CHARGED) {
+                    region = Assets.getInstance().getAmmoAssets().psychicBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().psychicShot;
+                }
                 break;
             default:
                 damage = Constants.AMMO_STANDARD_DAMAGE;
@@ -105,59 +142,7 @@ public final class Ammo extends Indestructible {
     }
 
     public void render(SpriteBatch batch) {
-        TextureRegion region = null;
         Vector2 ammoCenter = new Vector2();
-        switch (weapon) {
-            case NATIVE:
-                if (shotIntensity == ShotIntensity.CHARGED) {
-                    region = Assets.getInstance().getAmmoAssets().nativeBlast;
-                } else {
-                    region = Assets.getInstance().getAmmoAssets().nativeShot;
-                }
-                break;
-            case FIRE:
-                if (shotIntensity == ShotIntensity.CHARGED) {
-                    region = Assets.getInstance().getAmmoAssets().fireBlast;
-                } else {
-                    region = Assets.getInstance().getAmmoAssets().fireShot;
-                }
-                break;
-            case WATER:
-                if (shotIntensity == ShotIntensity.CHARGED) {
-                    region = Assets.getInstance().getAmmoAssets().waterBlast;
-                } else {
-                    region = Assets.getInstance().getAmmoAssets().waterShot;
-                }
-                break;
-            case ELECTRIC:
-                if (shotIntensity == ShotIntensity.CHARGED) {
-                    region = Assets.getInstance().getAmmoAssets().electricBlast;
-                } else {
-                    region = Assets.getInstance().getAmmoAssets().electricShot;
-                }
-                break;
-            case RUBBER:
-                if (shotIntensity == ShotIntensity.CHARGED) {
-                    region = Assets.getInstance().getAmmoAssets().rubberBlast;
-                } else {
-                    region = Assets.getInstance().getAmmoAssets().rubberShot;
-                }
-                break;
-            case METAL:
-                if (shotIntensity == ShotIntensity.CHARGED) {
-                    region = Assets.getInstance().getAmmoAssets().metalBlast;
-                } else {
-                    region = Assets.getInstance().getAmmoAssets().metalShot;
-                }
-                break;
-            case PSYCHIC:
-                if (shotIntensity == ShotIntensity.CHARGED) {
-                    region = Assets.getInstance().getAmmoAssets().psychicBlast;
-                } else {
-                    region = Assets.getInstance().getAmmoAssets().psychicShot;
-                }
-                break;
-        }
         if (shotIntensity == ShotIntensity.CHARGED) {
             ammoCenter.set(Constants.BLAST_CENTER);
         } else {
