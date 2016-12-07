@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 
 // mutable
-public class Platform implements Physical {
+public class Platform implements Ground {
 
     // fields
     private final float top;

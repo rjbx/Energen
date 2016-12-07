@@ -88,7 +88,7 @@ public class GigaGal implements Physical {
     public void update(float delta) {
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
-        touchPlatforms(level.getPlatforms());
+        touchGround(level.getGrounds());
         recoilFromHazards(level.getHazards());
         collectPowerups(level.getPowerups());
         enableRespawn();
@@ -129,39 +129,39 @@ public class GigaGal implements Physical {
         }
     }
 
-    private void touchPlatforms(Array<Platform> platforms) {
+    private void touchGround(Array<Ground> grounds) {
         float slidPlatformTop = 0;
         float slidPlatformBottom = 0;
         float groundedPlatformLeft = 0;
         float groundedPlatformRight = 0;
-        for (Platform platform : platforms) {
-            // if currently within platform left and right sides
-            if (Utils.betweenSides(platform, position.x)) {
-                // apply following rules (bump side and bottom) only if platform height > ledge height
+        for (Ground ground : grounds) {
+            // if currently within ground left and right sides
+            if (Utils.betweenSides(ground, position.x)) {
+                // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do platforms
-                if (platform.getHeight() > Constants.MAX_LEDGE_HEIGHT
-                        && getBottom() <= platform.getTop() && getTop() >= platform.getBottom()) {
-                    // if during previous frame was not, while currently is, between platform left and right sides
-                    if (!Utils.betweenSides(platform, previousFramePosition.x)) {
+                if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT
+                        && getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
+                    // if during previous frame was not, while currently is, between ground left and right sides
+                    if (!Utils.betweenSides(ground, previousFramePosition.x)) {
                         // only when not grounded
                         if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
                             // if lateral velocity (magnitude, without concern for direction) greater than one third max speed,
-                            // boost lateral velocity by starting speed, enable ricochet, verify slid platform and capture slid platform boundaries
+                            // boost lateral velocity by starting speed, enable ricochet, verify slid ground and capture slid ground boundaries
                             if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 3) {
                                 // if already ricocheting, halt lateral progression
                                 if (aerialState == AerialState.RICOCHETING) {
                                     velocity.x = 0; // halt lateral progression
                                     // if not already ricocheting and hover was previously activated before grounding
                                 } else if (!canHover || aerialState == AerialState.HOVERING){
-                                    fall(); // begin descent from platform side sans access to hover
+                                    fall(); // begin descent from ground side sans access to hover
                                     canHover = false; // disable hover if not already
                                 }
                                 velocity.x += Utils.getLateralVelocity(Constants.GIGAGAL_STARTING_SPEED, facing); // boost lateral velocity by starting speed
                                 canRicochet = true; // enable ricochet
-                                slidPlatform = true; // verify slid platform
-                                slidPlatformTop = platform.getTop(); // capture slid platform boundary
-                                slidPlatformBottom = platform.getBottom(); // capture slid platform boundary
-                                // if absval lateral velocity  not greater than one third max speed but aerial and bumping platform side, fall
+                                slidPlatform = true; // verify slid ground
+                                slidPlatformTop = ground.getTop(); // capture slid ground boundary
+                                slidPlatformBottom = ground.getBottom(); // capture slid ground boundary
+                                // if absval lateral velocity  not greater than one third max speed but aerial and bumping ground side, fall
                             } else {
                                 // if not already hovering and descending, also disable hover
                                 if (aerialState != AerialState.HOVERING && velocity.y < 0) {
@@ -170,33 +170,33 @@ public class GigaGal implements Physical {
                                 fall(); // fall regardless of whether or not inner condition met
                             }
                         }
-                        // if contact with platform sides detected without concern for ground state (either grounded or airborne),
-                        // reset stride acceleration, disable stride and dash, and set gigagal at platform side
+                        // if contact with ground sides detected without concern for ground state (either grounded or airborne),
+                        // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                         strideStartTime = 0; // reset stride acceleration
                         canStride = false; // disable stride
                         canDash = false; // disable dash
                         position.x = previousFramePosition.x; // halt lateral progression
-                        // else if no detection with platform sides, disable ricochet
+                        // else if no detection with ground sides, disable ricochet
                     } else {
                         canRicochet = false; // disable ricochet
                     }
-                    // if contact with platform bottom detected, halts upward progression and set gigagal at platform bottom
-                    if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= platform.getBottom()) {
-                        velocity.y = 0; // prevents from ascending above platform bottom
-                        position.y = previousFramePosition.y;  // sets gigagal at platform bottom
-                        fall(); // descend from point of contact with platform bottom
+                    // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
+                    if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()) {
+                        velocity.y = 0; // prevents from ascending above ground bottom
+                        position.y = previousFramePosition.y;  // sets gigagal at ground bottom
+                        fall(); // descend from point of contact with ground bottom
                     }
                 }
-                // if contact with platform top detected, halt downward progression and set gigagal atop platform
-                if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= platform.getTop()
-                        && getBottom() <= platform.getTop()
-                        && platform.getTop() != slidPlatformTop) {
-                    velocity.y = 0; // prevents from descending beneath platform top
-                    position.y = platform.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop platform
+                // if contact with ground top detected, halt downward progression and set gigagal atop ground
+                if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
+                        && getBottom() <= ground.getTop()
+                        && ground.getTop() != slidPlatformTop) {
+                    velocity.y = 0; // prevents from descending beneath ground top
+                    position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                     canChangeDirection = true; // enable change of direction
-                    groundedPlatform = true; // verify contact with platform top
-                    groundedPlatformLeft = platform.getLeft(); // capture grounded platform boundary
-                    groundedPlatformRight = platform.getRight(); // capture grounded platform boundary
+                    groundedPlatform = true; // verify contact with ground top
+                    groundedPlatformLeft = ground.getLeft(); // capture grounded ground boundary
+                    groundedPlatformRight = ground.getRight(); // capture grounded ground boundary
                     hoverStartTime = 0; // reset hover
                     ricochetStartTime = 0; // reset ricochet
                     knockedBack = false; // reset knockback boolean
@@ -207,8 +207,8 @@ public class GigaGal implements Physical {
                     }
                 }
                 // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
-                if (getBottom() < (platform.getTop() + Constants.MIN_GROUND_DISTANCE)
-                        && getBottom() > platform.getTop() // GG's bottom is greater than platform top but less than boundary
+                if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
+                        && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
                         && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
                         && ricochetStartTime == 0 // only if have not ricocheted since last grounded
                         ) {
