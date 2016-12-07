@@ -55,32 +55,32 @@ public final class Ammo extends Indestructible {
                         break;
                     case FIRE:
                         if (destructible instanceof Zoomba) {
-                            Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
-                            Utils.specializeDamage(destructible, SharpZoomba.class, GushingZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
+                            Utils.applyDamage(destructible, shotIntensity, 0);
+                            Utils.specializeDamage(destructible, SharpZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
                         }
                         break;
                     case WATER:
                         if (destructible instanceof Zoomba) {
-                            Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
-                            Utils.specializeDamage(destructible, FireyZoomba.class, ChargedZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
+                            Utils.applyDamage(destructible, shotIntensity, 0);
+                            Utils.specializeDamage(destructible, FireyZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
                         }
                         break;
                     case ELECTRIC:
                         if (destructible instanceof Zoomba) {
-                            Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
-                            Utils.specializeDamage(destructible, GushingZoomba.class, WhirlingZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
+                            Utils.applyDamage(destructible, shotIntensity, 0);
+                            Utils.specializeDamage(destructible, GushingZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
                         }
                         break;
                     case RUBBER:
                         if (destructible instanceof Zoomba) {
-                            Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
-                            Utils.specializeDamage(destructible, ChargedZoomba.class, SharpZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
+                            Utils.applyDamage(destructible, shotIntensity, 0);
+                            Utils.specializeDamage(destructible, ChargedZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
                         }
                         break;
                     case METAL:
                         if (destructible instanceof Zoomba) {
-                            Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
-                            Utils.specializeDamage(destructible, WhirlingZoomba.class, FireyZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
+                            Utils.applyDamage(destructible, shotIntensity, 0);
+                            Utils.specializeDamage(destructible, WhirlingZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
                         }
                         break;
                     case PSYCHIC:
