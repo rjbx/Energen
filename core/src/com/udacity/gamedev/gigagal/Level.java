@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Ammo;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
+import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.Destructible;
 import com.udacity.gamedev.gigagal.entities.Ground;
 import com.udacity.gamedev.gigagal.entities.Hazard;
@@ -21,6 +22,8 @@ import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
+
+import java.util.Arrays;
 
 // mutable
 public class Level {
@@ -76,6 +79,18 @@ public class Level {
         if (!gameOver && !victory) {
 
             gigaGal.update(delta);
+
+            for (Ground ground : grounds) {
+                if (ground instanceof Cannon) {
+                    Vector2 ammoPosition = new Vector2(ground.getPosition());
+                    Direction direction;
+                    if (gigaGal.getPosition().x < (ammoPosition.x - (ground.getWidth() / 2))) {
+                        spawnAmmo(ammoPosition, Direction.LEFT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
+                    } else if (gigaGal.getPosition().x > (ammoPosition.x + (ground.getWidth() / 2))) {
+                        spawnAmmo(ammoPosition, Direction.RIGHT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
+                    }
+                }
+            }
 
             // Update Bullets
             ammo.begin();
