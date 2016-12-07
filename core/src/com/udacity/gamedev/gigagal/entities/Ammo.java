@@ -15,6 +15,8 @@ public final class Ammo extends Indestructible {
     // fields
     public final static String TAG = Ammo.class.getName();
     private final Level level;
+    private int damage;
+    private Vector2 knockback;
     private final ShotIntensity shotIntensity;
     private final Weapon weapon;
     private final Direction direction;
@@ -28,6 +30,8 @@ public final class Ammo extends Indestructible {
         this.direction = direction;
         this.shotIntensity = shotIntensity;
         this.weapon = weapon;
+        knockback = new Vector2();
+        damage = 0;
         active = true;
     }
 
@@ -41,52 +45,53 @@ public final class Ammo extends Indestructible {
                 break;
         }
 
+        Class specializedZoomba = Zoomba.class;
+
+        switch (weapon) {
+            case NATIVE:
+                damage = Constants.AMMO_STANDARD_DAMAGE;
+                knockback = Constants.ZOOMBA_KNOCKBACK;
+                break;
+            case FIRE:
+                specializedZoomba = SharpZoomba.class;
+                damage = Constants.FLAME_DAMAGE;
+                knockback = Constants.FLAME_KNOCKBACK;
+                break;
+            case WATER:
+                specializedZoomba = FireyZoomba.class;
+                damage = Constants.GEISER_DAMAGE;
+                knockback = Constants.GEISER_KNOCKBACK;
+                break;
+            case ELECTRIC:
+                specializedZoomba = GushingZoomba.class;
+                damage = Constants.COIL_DAMAGE;
+                knockback = Constants.COIL_KNOCKBACK;
+                break;
+            case RUBBER:
+                specializedZoomba = ChargedZoomba.class;
+                damage = Constants.WHEEL_DAMAGE;
+                knockback = Constants.WHEEL_KNOCKBACK;
+                break;
+            case METAL:
+                specializedZoomba = WhirlingZoomba.class;
+                damage = Constants.SPIKE_DAMAGE;
+                knockback = Constants.SPIKE_KNOCKBACK;
+                break;
+            case PSYCHIC:
+                damage = 50;
+                knockback = Constants.ZOOMBA_KNOCKBACK;
+                break;
+            default:
+                damage = Constants.AMMO_STANDARD_DAMAGE;
+                knockback = Constants.ZOOMBA_KNOCKBACK;
+        }
+
         for (Destructible destructible : level.getDestructibles()) {
             if (position.dst(destructible.getPosition()) < destructible.getShotRadius()) {
                 level.spawnExplosion(position);
                 active = false;
-                switch (weapon) {
-                    case NATIVE:
-                        if (destructible instanceof Zoomba) {
-                            Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
-                        }
-                        break;
-                    case FIRE:
-                        if (destructible instanceof Zoomba) {
-                            Utils.applyDamage(destructible, shotIntensity, 0);
-                            Utils.specializeDamage(destructible, SharpZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
-                        }
-                        break;
-                    case WATER:
-                        if (destructible instanceof Zoomba) {
-                            Utils.applyDamage(destructible, shotIntensity, 0);
-                            Utils.specializeDamage(destructible, FireyZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
-                        }
-                        break;
-                    case ELECTRIC:
-                        if (destructible instanceof Zoomba) {
-                            Utils.applyDamage(destructible, shotIntensity, 0);
-                            Utils.specializeDamage(destructible, GushingZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
-                        }
-                        break;
-                    case RUBBER:
-                        if (destructible instanceof Zoomba) {
-                            Utils.applyDamage(destructible, shotIntensity, 0);
-                            Utils.specializeDamage(destructible, ChargedZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
-                        }
-                        break;
-                    case METAL:
-                        if (destructible instanceof Zoomba) {
-                            Utils.applyDamage(destructible, shotIntensity, 0);
-                            Utils.specializeDamage(destructible, WhirlingZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
-                        }
-                        break;
-                    case PSYCHIC:
-                        if (destructible instanceof Zoomba) {
-                            Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE);
-                        }
-                        break;
-                }
+                Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
+                Utils.specializeDamage(destructible, specializedZoomba, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
                 level.setScore(level.getScore() + destructible.getHitScore());
             }
         }
@@ -170,11 +175,8 @@ public final class Ammo extends Indestructible {
     public final float getTop() { return position.y + Constants.SHOT_CENTER.y; }
     public final float getBottom() { return position.y - Constants.SHOT_CENTER.y; }
     public final Class getSubclass() { return this.getClass(); }
-    public final int getDamage() {
-        return Constants.AMMO_STANDARD_DAMAGE;
-    }
-    public final Vector2 getKnockback() {
-        return Constants.ZOOMBA_KNOCKBACK;
-    }
+    public final int getDamage() { return damage; }
+    public final Vector2 getKnockback() { return knockback; }
+
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
 }
