@@ -83,11 +83,12 @@ public class Level {
 
             gigaGal.update(delta);
 
-            for (Ground ground : grounds) {
-                if (ground instanceof Cannon) {
-                    Vector2 ammoPositionLeft = new Vector2(ground.getPosition().x - (ground.getWidth() / 2), ground.getPosition().y);
-                    Vector2 ammoPositionRight = new Vector2(ground.getPosition().x + (ground.getWidth() / 2), ground.getPosition().y);
-                    if ((MathUtils.nanoToSec * ((gigaGal.getCurrentTime() - cannonStartTime))) > 1) {
+            if ((MathUtils.nanoToSec * ((gigaGal.getCurrentTime() - cannonStartTime))) > 1) {
+                for (Ground ground : grounds) {
+                    if (ground instanceof Cannon) {
+                        Vector2 ammoPositionLeft = new Vector2(ground.getPosition().x - (ground.getWidth() / 2), ground.getPosition().y);
+                        Vector2 ammoPositionRight = new Vector2(ground.getPosition().x + (ground.getWidth() / 2), ground.getPosition().y);
+
                         if (gigaGal.getPosition().x < (ammoPositionLeft.x - (ground.getWidth() / 2))) {
                             spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
                         } else if (gigaGal.getPosition().x > (ammoPositionRight.x + (ground.getWidth() / 2))) {
@@ -95,8 +96,8 @@ public class Level {
                         }
                     }
                 }
+                cannonStartTime = gigaGal.getCurrentTime();
             }
-            cannonStartTime = gigaGal.getCurrentTime();
 
             // Update Bullets
             ammo.begin();
