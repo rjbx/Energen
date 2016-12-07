@@ -188,7 +188,7 @@ public class Level {
     public final Array<Indestructible> getIndestructibles() { return indestructibles; }
     public final DelayedRemovalArray<Destructible> getDestructibles() { return destructibles; }
     public final Array<Hazard> getHazards() { hazards = new Array<Hazard>(destructibles); hazards.addAll(indestructibles); return hazards; }
-    public final Array<Ground> getGrounds() { grounds = new Array<Ground>(platforms); return grounds; }
+    public final Array<Ground> getGrounds() { return grounds; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
     public final int getScore() { return score; }

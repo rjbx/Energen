@@ -182,5 +182,6 @@ public final class LevelLoader {
         });
 
         level.getPlatforms().addAll(platformArray);
+        level.getGrounds().addAll(platformArray);
     }
 }
