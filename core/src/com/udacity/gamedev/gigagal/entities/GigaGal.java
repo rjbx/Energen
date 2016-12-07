@@ -301,7 +301,7 @@ public class GigaGal implements Physical {
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     private void recoilFromHazards(Array<Hazard> hazards) {
         for (Hazard hazard : hazards) {
-            Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
+            Rectangle bounds = new Rectangle(hazard.getLeft() + 5, hazard.getBottom(), hazard.getWidth() - 5, hazard.getHeight());
             if (getBounds().overlaps(bounds)) {
                 isCharged = false;
                 chargeStartTime = 0;
