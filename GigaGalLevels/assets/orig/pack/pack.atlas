@@ -4,6 +4,13 @@ size: 256,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+cannon
+  rotate: false
+  xy: 62, 2
+  size: 20, 12
+  orig: 20, 12
+  offset: 0, 0
+  index: -1
 coil-1
   rotate: false
   xy: 93, 35
@@ -23,6 +30,13 @@ geiser-1
   xy: 93, 16
   size: 17, 17
   orig: 17, 17
+  offset: 0, 0
+  index: -1
+pillar
+  rotate: false
+  xy: 84, 8
+  size: 12, 6
+  orig: 12, 6
   offset: 0, 0
   index: -1
 platform
