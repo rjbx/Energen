@@ -1,6 +1,7 @@
 package com.udacity.gamedev.gigagal;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
@@ -24,8 +25,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
-
-import java.util.Arrays;
 
 // mutable
 public class Level {
@@ -64,7 +63,7 @@ public class Level {
         gameOver = false;
         victory = false;
         score = 0;
-        cannonStartTime = 0;
+        cannonStartTime = gigaGal.getCurrentTime();
     }
 
     public static Level debugLevel() {
@@ -88,17 +87,13 @@ public class Level {
                 if (ground instanceof Cannon) {
                     Vector2 ammoPositionLeft = new Vector2(ground.getPosition().x - (ground.getWidth() / 2), ground.getPosition().y);
                     Vector2 ammoPositionRight = new Vector2(ground.getPosition().x + (ground.getWidth() / 2), ground.getPosition().y);
-                    Direction direction;
-                    if (Utils.secondsSince(cannonStartTime) > 0.5f) {
-                        cannonStartTime = 0;
-                    }
-                    if (cannonStartTime == 0) {
+                    if ((MathUtils.nanoToSec * ((gigaGal.getCurrentTime() - cannonStartTime))) > 0.05f) {
                         if (gigaGal.getPosition().x < (ammoPositionLeft.x - (ground.getWidth() / 2))) {
                             spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
-                            cannonStartTime = TimeUtils.nanoTime();
+                            cannonStartTime = gigaGal.getCurrentTime();
                         } else if (gigaGal.getPosition().x > (ammoPositionRight.x + (ground.getWidth() / 2))) {
                             spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
-                            cannonStartTime = TimeUtils.nanoTime();
+                            cannonStartTime = gigaGal.getCurrentTime();
                         }
                     }
                 }
