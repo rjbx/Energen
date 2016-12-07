@@ -637,7 +637,6 @@ public class GigaGal implements Physical {
     public boolean getHoverStatus() { return canHover; }
     public boolean getRicochetStatus() { return canRicochet; }
     public boolean getChargeStatus() { return isCharged; }
-    public long getCurrentTime() { return TimeUtils.nanoTime(); }
     public Weapon getWeapon() { return weapon; }
     public List<Weapon> getWeaponList() { return weaponList; }
     public void addWeapon(Weapon weapon) { weaponToggler.add(weapon); }

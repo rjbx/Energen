@@ -63,7 +63,7 @@ public class Level {
         gameOver = false;
         victory = false;
         score = 0;
-        cannonStartTime = gigaGal.getCurrentTime();
+        cannonStartTime = TimeUtils.nanoTime();
     }
 
     public static Level debugLevel() {
@@ -83,7 +83,7 @@ public class Level {
 
             gigaGal.update(delta);
 
-            if ((MathUtils.nanoToSec * ((gigaGal.getCurrentTime() - cannonStartTime))) > 1) {
+            if (Utils.secondsSince(cannonStartTime) > 1) {
                 for (Ground ground : grounds) {
                     if (ground instanceof Cannon) {
                         Vector2 ammoPositionLeft = new Vector2(ground.getPosition().x - (ground.getWidth() / 2), ground.getPosition().y);
@@ -96,7 +96,7 @@ public class Level {
                         }
                     }
                 }
-                cannonStartTime = gigaGal.getCurrentTime();
+                cannonStartTime = TimeUtils.nanoTime();
             }
 
             // Update Bullets
