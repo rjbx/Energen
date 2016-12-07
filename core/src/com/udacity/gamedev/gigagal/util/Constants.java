@@ -184,7 +184,7 @@ public final class Constants {
 
     // Ammo
     public static final float CHARGE_DURATION = 0.8f;
-    public static final float BULLET_MOVE_SPEED = 500;
+    public static final float AMMO_MOVE_SPEED = 500;
     public static final int AMMO_STANDARD_DAMAGE = 10;
     public static final int AMMO_SPECIALIZED_DAMAGE = 30;
     public static final Vector2 SHOT_CENTER = new Vector2(3, 2);

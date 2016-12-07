@@ -9,8 +9,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-import java.util.Arrays;
-
 // immutable
 public final class Ammo extends Indestructible {
 
@@ -36,10 +34,10 @@ public final class Ammo extends Indestructible {
     public void update(float delta) {
         switch (direction) {
             case LEFT:
-                position.x -= delta * Constants.BULLET_MOVE_SPEED;
+                position.x -= delta * Constants.AMMO_MOVE_SPEED;
                 break;
             case RIGHT:
-                position.x += delta * Constants.BULLET_MOVE_SPEED;
+                position.x += delta * Constants.AMMO_MOVE_SPEED;
                 break;
         }
 
@@ -172,21 +170,10 @@ public final class Ammo extends Indestructible {
     public final float getTop() { return position.y + Constants.SHOT_CENTER.y; }
     public final float getBottom() { return position.y - Constants.SHOT_CENTER.y; }
     public final Class getSubclass() { return this.getClass(); }
-    public final int getDamage() { 
-        for (String levelName : Arrays.asList(Constants.LEVELS)) {
-            if (levelName.equals("levels/" + weapon.name() + ".dt")) {
-                return level.getIndestructibles().get(0).getDamage();
-            }
-        }
+    public final int getDamage() {
         return Constants.AMMO_STANDARD_DAMAGE;
     }
     public final Vector2 getKnockback() {
-
-        for (String levelName : Arrays.asList(Constants.LEVELS)) {
-            if (levelName.equals("levels/" + weapon.name() + ".dt")) {
-                return level.getIndestructibles().get(0).getKnockback();
-            }
-        }
         return Constants.ZOOMBA_KNOCKBACK;
     }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
