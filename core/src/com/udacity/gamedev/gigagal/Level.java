@@ -82,12 +82,13 @@ public class Level {
 
             for (Ground ground : grounds) {
                 if (ground instanceof Cannon) {
-                    Vector2 ammoPosition = new Vector2(ground.getPosition());
+                    Vector2 ammoPositionLeft = new Vector2(ground.getPosition().x - (ground.getWidth() / 2), ground.getPosition().y);
+                    Vector2 ammoPositionRight = new Vector2(ground.getPosition().x + (ground.getWidth() / 2), ground.getPosition().y);
                     Direction direction;
-                    if (gigaGal.getPosition().x < (ammoPosition.x - (ground.getWidth() / 2))) {
-                        spawnAmmo(ammoPosition, Direction.LEFT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
-                    } else if (gigaGal.getPosition().x > (ammoPosition.x + (ground.getWidth() / 2))) {
-                        spawnAmmo(ammoPosition, Direction.RIGHT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
+                    if (gigaGal.getPosition().x < (ammoPositionLeft.x - (ground.getWidth() / 2))) {
+                        spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
+                    } else if (gigaGal.getPosition().x > (ammoPositionRight.x + (ground.getWidth() / 2))) {
+                        spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
                     }
                 }
             }
