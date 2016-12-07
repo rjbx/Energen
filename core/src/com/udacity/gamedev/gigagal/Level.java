@@ -26,11 +26,14 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
+import java.util.Arrays;
+
 // mutable
 public class Level {
 
     // fields
     public static final String TAG = Level.class.getName();
+    private String levelName;
     private Viewport viewport;
     private boolean victory;
     private boolean gameOver;
@@ -83,6 +86,13 @@ public class Level {
 
             gigaGal.update(delta);
 
+            Enums.Weapon levelWeapon = Enums.Weapon.NATIVE;
+            for (Enums.Weapon weapon : Arrays.asList(Enums.Weapon.values())) {
+                if (("levels/" + weapon.name() + ".dt").equals(levelName)) {
+                    levelWeapon = weapon;
+                }
+            }
+
             if (Utils.secondsSince(cannonStartTime) > 1) {
                 for (Ground ground : grounds) {
                     if (ground instanceof Cannon) {
@@ -90,9 +100,9 @@ public class Level {
                         Vector2 ammoPositionRight = new Vector2(ground.getPosition().x + (ground.getWidth() / 2), ground.getPosition().y);
 
                         if (gigaGal.getPosition().x < (ammoPositionLeft.x - (ground.getWidth() / 2))) {
-                            spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
+                            spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.ShotIntensity.NORMAL, levelWeapon);
                         } else if (gigaGal.getPosition().x > (ammoPositionRight.x + (ground.getWidth() / 2))) {
-                            spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
+                            spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.ShotIntensity.NORMAL, levelWeapon);
                         }
                     }
                 }
@@ -223,4 +233,5 @@ public class Level {
     public final void setScore(int score) { this.score = score; }
     public final void setPortal(Portal portal) { this.portal = portal; }
     public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
+    public final void setLevelName(String levelName) { this.levelName = levelName; }
 }
