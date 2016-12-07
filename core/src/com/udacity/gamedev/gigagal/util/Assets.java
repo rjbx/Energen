@@ -145,11 +145,11 @@ public final class Assets implements Disposable, AssetErrorListener {
         public PlatformAssets(TextureAtlas atlas, int levelNumber) {
             AtlasRegion region;
             switch(levelNumber) {
-                case 0: region = atlas.findRegion(Constants.BLACK_PLATFORM_SPRITE); break;
-                case 1: region = atlas.findRegion(Constants.YELLOW_PLATFORM_SPRITE); break;
-                case 2: region = atlas.findRegion(Constants.BLUE_PLATFORM_SPRITE); break;
-                case 3: region = atlas.findRegion(Constants.RED_PLATFORM_SPRITE); break;
-                case 4: region = atlas.findRegion(Constants.GREY_PLATFORM_SPRITE); break;
+                case 0: region = atlas.findRegion(Constants.RED_PLATFORM_SPRITE); break;
+                case 1: region = atlas.findRegion(Constants.GREY_PLATFORM_SPRITE); break;
+                case 2: region = atlas.findRegion(Constants.BLACK_PLATFORM_SPRITE); break;
+                case 3: region = atlas.findRegion(Constants.YELLOW_PLATFORM_SPRITE); break;
+                case 4: region = atlas.findRegion(Constants.BLUE_PLATFORM_SPRITE); break;
                 case 5: region = atlas.findRegion(Constants.CLEAR_PLATFORM_SPRITE); break;
                 case 6: region = atlas.findRegion(Constants.MAGENTA_PLATFORM_SPRITE); break;
                 default: region = atlas.findRegion(Constants.PLATFORM_SPRITE);

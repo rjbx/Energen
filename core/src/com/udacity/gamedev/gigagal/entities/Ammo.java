@@ -60,7 +60,7 @@ public final class Ammo implements Physical {
                     case WATER:
                         if (destructible instanceof Zoomba) {
                             Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
-                            Utils.specializeDamage(destructible, SharpZoomba.class, GushingZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
+                            Utils.specializeDamage(destructible, FireyZoomba.class, ChargedZoomba.class, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
                         }
                         break;
                     case ELECTRIC:
