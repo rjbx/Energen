@@ -72,7 +72,10 @@ public final class Constants {
     public static final String CLEAR_PLATFORM_SPRITE = "platform-clear";
     public static final String MAGENTA_PLATFORM_SPRITE = "platform-magenta";
 
-
+    // Cannon
+    public static final Vector2 CANNON_CENTER = new Vector2(10, 6);
+    public static final String CANNON_SPRITE = "cannon";
+    
     // Zoomba
     public static final Vector2 ZOOMBA_CENTER = new Vector2(14.5f, 25.5f);
     public static final float ZOOMBA_MOVEMENT_SPEED = 10;

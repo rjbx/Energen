@@ -20,6 +20,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private static final Assets INSTANCE = new Assets();
     private GigaGalAssets gigaGalAssets;
     private PlatformAssets platformAssets;
+    private CannonAssets cannonAssets;
     private AmmoAssets ammoAssets;
     private ZoombaAssets zoombaAssets;
     private FireyZoombaAssets fireyZoombaAssets;
@@ -55,6 +56,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
         gigaGalAssets = new GigaGalAssets(atlas);
         platformAssets = new PlatformAssets(atlas, levelNumber);
+        cannonAssets = new CannonAssets(atlas);
         ammoAssets = new AmmoAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
         fireyZoombaAssets = new FireyZoombaAssets(atlas);
@@ -192,6 +194,15 @@ public final class Assets implements Disposable, AssetErrorListener {
             metalBlast = atlas.findRegion(Constants.BLAST_METAL_SPRITE);
             psychicShot = atlas.findRegion(Constants.SHOT_PSYCHIC_SPRITE);
             psychicBlast = atlas.findRegion(Constants.BLAST_PSYCHIC_SPRITE);
+        }
+    }
+
+    public class CannonAssets {
+
+        public final AtlasRegion cannon;
+
+        public CannonAssets(TextureAtlas atlas) {
+            cannon = atlas.findRegion(Constants.CANNON_SPRITE);
         }
     }
 
@@ -418,6 +429,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     // Getters
     public final GigaGalAssets getGigaGalAssets() { return gigaGalAssets; }
     public final PlatformAssets getPlatformAssets() { return platformAssets; }
+    public final CannonAssets getCannonAssets() { return cannonAssets; }
     public final AmmoAssets getAmmoAssets() { return ammoAssets; }
     public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
     public final FireyZoombaAssets getFireyZoombaAssets() { return fireyZoombaAssets; }

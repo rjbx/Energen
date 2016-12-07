@@ -6,21 +6,21 @@ filter: Nearest,Nearest
 repeat: none
 ammo-blast-electric
   rotate: false
-  xy: 827, 2
+  xy: 849, 2
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
   index: -1
 ammo-blast-fire
   rotate: false
-  xy: 861, 5
+  xy: 885, 15
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
   index: -1
 ammo-blast-metal
   rotate: false
-  xy: 841, 5
+  xy: 863, 5
   size: 18, 9
   orig: 18, 9
   offset: 0, 0
@@ -41,14 +41,14 @@ ammo-blast-psychic
   index: -1
 ammo-blast-rubber
   rotate: false
-  xy: 885, 8
+  xy: 931, 20
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 ammo-blast-water
   rotate: false
-  xy: 948, 27
+  xy: 883, 4
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
@@ -76,7 +76,7 @@ ammo-shot-metal
   index: -1
 ammo-shot-native
   rotate: false
-  xy: 813, 82
+  xy: 913, 53
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
@@ -90,14 +90,14 @@ ammo-shot-psychic
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 1013, 74
+  xy: 970, 57
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-water
   rotate: false
-  xy: 1013, 84
+  xy: 921, 54
   size: 9, 5
   orig: 9, 5
   offset: 0, 0
@@ -149,6 +149,13 @@ button-shoot
   xy: 639, 4
   size: 32, 32
   orig: 32, 32
+  offset: 0, 0
+  index: -1
+cannon
+  rotate: false
+  xy: 827, 2
+  size: 20, 12
+  orig: 20, 12
   offset: 0, 0
   index: -1
 coil-1
@@ -256,6 +263,13 @@ jumping-right
   orig: 29, 35
   offset: 0, 0
   index: -1
+pillar
+  rotate: false
+  xy: 813, 82
+  size: 12, 6
+  orig: 12, 6
+  offset: 0, 0
+  index: -1
 platform
   rotate: false
   xy: 2, 2
@@ -356,14 +370,14 @@ portal-6
   index: -1
 powerup-ammo
   rotate: false
-  xy: 912, 5
+  xy: 949, 19
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 931, 19
+  xy: 966, 19
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -384,7 +398,7 @@ ricochet-right
   index: -1
 spike
   rotate: false
-  xy: 903, 8
+  xy: 1013, 73
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
