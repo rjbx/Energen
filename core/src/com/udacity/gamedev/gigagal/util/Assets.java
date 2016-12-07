@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -21,6 +22,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private GigaGalAssets gigaGalAssets;
     private PlatformAssets platformAssets;
     private CannonAssets cannonAssets;
+    private PillarAssets pillarAssets;
     private AmmoAssets ammoAssets;
     private ZoombaAssets zoombaAssets;
     private FireyZoombaAssets fireyZoombaAssets;
@@ -57,6 +59,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         gigaGalAssets = new GigaGalAssets(atlas);
         platformAssets = new PlatformAssets(atlas, levelNumber);
         cannonAssets = new CannonAssets(atlas);
+        pillarAssets = new PillarAssets(atlas);
         ammoAssets = new AmmoAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
         fireyZoombaAssets = new FireyZoombaAssets(atlas);
@@ -205,6 +208,17 @@ public final class Assets implements Disposable, AssetErrorListener {
             cannon = atlas.findRegion(Constants.CANNON_SPRITE);
         }
     }
+    
+
+    public class PillarAssets {
+
+        public final AtlasRegion pillar;
+
+        public PillarAssets(TextureAtlas atlas) {
+            pillar = atlas.findRegion(Constants.PILLAR_SPRITE);
+        }
+    }
+    
 
     public class ZoombaAssets {
 
@@ -430,6 +444,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final GigaGalAssets getGigaGalAssets() { return gigaGalAssets; }
     public final PlatformAssets getPlatformAssets() { return platformAssets; }
     public final CannonAssets getCannonAssets() { return cannonAssets; }
+    public final PillarAssets getPillarAssets() { return pillarAssets; }
     public final AmmoAssets getAmmoAssets() { return ammoAssets; }
     public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
     public final FireyZoombaAssets getFireyZoombaAssets() { return fireyZoombaAssets; }

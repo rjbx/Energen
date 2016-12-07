@@ -72,6 +72,10 @@ public final class Constants {
     public static final String CLEAR_PLATFORM_SPRITE = "platform-clear";
     public static final String MAGENTA_PLATFORM_SPRITE = "platform-magenta";
 
+    // Pillar
+    public static final Vector2 PILLAR_CENTER = new Vector2(6, 3);
+    public static final String PILLAR_SPRITE = "pillar";
+
     // Cannon
     public static final Vector2 CANNON_CENTER = new Vector2(10, 6);
     public static final String CANNON_SPRITE = "cannon";
