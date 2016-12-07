@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Ammo;
@@ -22,6 +23,7 @@ import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
+import com.udacity.gamedev.gigagal.util.Utils;
 
 import java.util.Arrays;
 
@@ -34,6 +36,7 @@ public class Level {
     private boolean victory;
     private boolean gameOver;
     private int score;
+    private long cannonStartTime;
     private GigaGal gigaGal;
     private Portal portal;
     private Array<Platform> platforms;
@@ -61,6 +64,7 @@ public class Level {
         gameOver = false;
         victory = false;
         score = 0;
+        cannonStartTime = 0;
     }
 
     public static Level debugLevel() {
@@ -84,11 +88,14 @@ public class Level {
                 if (ground instanceof Cannon) {
                     Vector2 ammoPositionLeft = new Vector2(ground.getPosition().x - (ground.getWidth() / 2), ground.getPosition().y);
                     Vector2 ammoPositionRight = new Vector2(ground.getPosition().x + (ground.getWidth() / 2), ground.getPosition().y);
-                    Direction direction;
-                    if (gigaGal.getPosition().x < (ammoPositionLeft.x - (ground.getWidth() / 2))) {
-                        spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
-                    } else if (gigaGal.getPosition().x > (ammoPositionRight.x + (ground.getWidth() / 2))) {
-                        spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
+                    if (Utils.secondsSince(cannonStartTime) > 0.01f) {
+                        if (gigaGal.getPosition().x < (ammoPositionLeft.x - (ground.getWidth() / 2))) {
+                            spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
+                            cannonStartTime = TimeUtils.nanoTime();
+                        } else if (gigaGal.getPosition().x > (ammoPositionRight.x + (ground.getWidth() / 2))) {
+                            spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.ShotIntensity.NORMAL, Enums.Weapon.NATIVE);
+                            cannonStartTime = TimeUtils.nanoTime();
+                        }
                     }
                 }
             }
