@@ -14,6 +14,7 @@ public class Cannon implements Ground {
     private Vector2 position;
     private Enums.Orientation orientation;
     private TextureRegion region;
+    private Vector2 center;
 
     // ctor
     public Cannon(Vector2 position, Enums.Orientation orientation) {
@@ -23,14 +24,16 @@ public class Cannon implements Ground {
         switch (orientation) {
             case VERTICAL:
                 region = Assets.getInstance().getCannonAssets().verticalCannon;
+                center = Constants.VERTICAL_CANNON_CENTER;
             case LATERAL:
                 region = Assets.getInstance().getCannonAssets().lateralCannon;
+                center = Constants.LATERAL_CANNON_CENTER;
         }
     }
 
     public void render(SpriteBatch batch) {
 
-        Utils.drawTextureRegion(batch, region, position, Constants.LATERAL_CANNON_CENTER);
+        Utils.drawTextureRegion(batch, region, position, center);
     }
 
     public final Vector2 getPosition() { return position; }
