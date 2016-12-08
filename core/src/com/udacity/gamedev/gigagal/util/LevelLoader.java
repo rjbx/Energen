@@ -120,8 +120,8 @@ public final class LevelLoader {
                 final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
                 Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
                 level.getIndestructibles().add(new Vacuum(vacuumPosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.CANNON_SPRITE)) {
-                final Vector2 cannonPosition = imagePosition.add(Constants.CANNON_CENTER);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LATERAL_CANNON_SPRITE)) {
+                final Vector2 cannonPosition = imagePosition.add(Constants.LATERAL_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
                 level.getGrounds().add(new Cannon(cannonPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PILLAR_SPRITE)) {

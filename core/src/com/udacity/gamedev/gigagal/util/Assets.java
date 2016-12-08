@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -202,10 +201,13 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class CannonAssets {
 
-        public final AtlasRegion cannon;
+        public final AtlasRegion verticalCannon;
+        public final AtlasRegion lateralCannon;
+
 
         public CannonAssets(TextureAtlas atlas) {
-            cannon = atlas.findRegion(Constants.CANNON_SPRITE);
+            verticalCannon = atlas.findRegion(Constants.VERTICAL_CANNON_SPRITE);
+            lateralCannon = atlas.findRegion(Constants.LATERAL_CANNON_SPRITE);
         }
     }
     

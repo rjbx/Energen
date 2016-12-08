@@ -19,15 +19,15 @@ public class Drone implements Ground {
 
     public void render(SpriteBatch batch) {
         final TextureRegion region = Assets.getInstance().getCannonAssets().drone;
-        Utils.drawTextureRegion(batch, region, position, Constants.CANNON_CENTER);
+        Utils.drawTextureRegion(batch, region, position, Constants.LATERAL_CANNON_CENTER);
     }
 
     public final Vector2 getPosition() { return position; }
-    public final float getHeight() { return Constants.CANNON_CENTER.x * 2; }
-    public final float getWidth() { return Constants.CANNON_CENTER.y * 2; }
-    public final float getLeft() { return position.x - Constants.CANNON_CENTER.x; }
-    public final float getRight() { return position.x + Constants.CANNON_CENTER.x; }
-    public final float getTop() { return position.y + Constants.CANNON_CENTER.y; }
-    public final float getBottom() { return position.y - Constants.CANNON_CENTER.y; }
+    public final float getHeight() { return Constants.LATERAL_CANNON_CENTER.x * 2; }
+    public final float getWidth() { return Constants.LATERAL_CANNON_CENTER.y * 2; }
+    public final float getLeft() { return position.x - Constants.LATERAL_CANNON_CENTER.x; }
+    public final float getRight() { return position.x + Constants.LATERAL_CANNON_CENTER.x; }
+    public final float getTop() { return position.y + Constants.LATERAL_CANNON_CENTER.y; }
+    public final float getBottom() { return position.y - Constants.LATERAL_CANNON_CENTER.y; }
     public final Class getSubclass() { return this.getClass(); }
 }
