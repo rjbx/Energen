@@ -13,7 +13,7 @@ ammo-blast-electric
   index: -1
 ammo-blast-fire
   rotate: false
-  xy: 931, 27
+  xy: 885, 15
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
@@ -27,77 +27,77 @@ ammo-blast-metal
   index: -1
 ammo-blast-native
   rotate: false
-  xy: 970, 57
+  xy: 595, 15
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-blast-psychic
   rotate: false
-  xy: 885, 6
+  xy: 575, 5
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 ammo-blast-rubber
   rotate: false
-  xy: 905, 6
+  xy: 938, 20
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 ammo-blast-water
   rotate: false
-  xy: 949, 27
+  xy: 883, 4
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
   index: -1
 ammo-shot-electric
   rotate: false
-  xy: 534, 2
+  xy: 596, 66
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
   index: -1
 ammo-shot-fire
   rotate: false
-  xy: 543, 2
+  xy: 523, 2
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
   index: -1
 ammo-shot-metal
   rotate: false
-  xy: 524, 2
+  xy: 513, 2
   size: 8, 5
   orig: 8, 5
   offset: 0, 0
   index: -1
 ammo-shot-native
   rotate: false
-  xy: 597, 17
+  xy: 913, 53
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 ammo-shot-psychic
   rotate: false
-  xy: 957, 17
+  xy: 595, 5
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 970, 47
+  xy: 970, 57
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-water
   rotate: false
-  xy: 513, 2
+  xy: 921, 54
   size: 9, 5
   orig: 9, 5
   offset: 0, 0
@@ -160,9 +160,9 @@ cannon-lateral
   index: -1
 cannon-vertical
   rotate: false
-  xy: 575, 3
-  size: 20, 20
-  orig: 20, 20
+  xy: 903, 2
+  size: 16, 20
+  orig: 16, 20
   offset: 0, 0
   index: -1
 coil-1
@@ -377,14 +377,14 @@ portal-6
   index: -1
 powerup-ammo
   rotate: false
-  xy: 923, 5
+  xy: 921, 5
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 940, 8
+  xy: 956, 19
   size: 15, 17
   orig: 15, 17
   offset: 0, 0

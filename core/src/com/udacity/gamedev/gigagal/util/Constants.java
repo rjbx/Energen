@@ -79,7 +79,7 @@ public final class Constants {
     // Cannon
     public static final Vector2 LATERAL_CANNON_CENTER = new Vector2(10, 6);
     public static final String LATERAL_CANNON_SPRITE = "cannon-lateral";
-    public static final Vector2 VERTICAL_CANNON_CENTER = new Vector2(6, 10);
+    public static final Vector2 VERTICAL_CANNON_CENTER = new Vector2(8, 10);
     public static final String VERTICAL_CANNON_SPRITE = "cannon-vertical";
     
     // Zoomba
