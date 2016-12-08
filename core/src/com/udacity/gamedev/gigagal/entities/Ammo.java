@@ -162,6 +162,5 @@ public final class Ammo extends Indestructible {
     public final Class getSubclass() { return this.getClass(); }
     public final int getDamage() { return damage; }
     public final Vector2 getKnockback() { return knockback; }
-
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
 }
