@@ -97,13 +97,21 @@ public class Level {
                 for (Ground ground : grounds) {
                     if (ground instanceof Cannon) {
                         Cannon cannon = (Cannon) ground;
-                        Vector2 ammoPositionLeft = new Vector2(cannon.getPosition().x - (cannon.getWidth() / 2), ground.getPosition().y);
-                        Vector2 ammoPositionRight = new Vector2(cannon.getPosition().x + (cannon.getWidth() / 2), ground.getPosition().y);
                         if (cannon.getOrientation() == Enums.Orientation.LATERAL) {
+                            Vector2 ammoPositionLeft = new Vector2(cannon.getPosition().x - (cannon.getWidth() / 2), ground.getPosition().y);
+                            Vector2 ammoPositionRight = new Vector2(cannon.getPosition().x + (cannon.getWidth() / 2), ground.getPosition().y);
                             if (gigaGal.getPosition().x < (ammoPositionLeft.x - (cannon.getWidth() / 2))) {
                                 spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.ShotIntensity.NORMAL, levelWeapon);
                             } else if (gigaGal.getPosition().x > (ammoPositionRight.x + (cannon.getWidth() / 2))) {
                                 spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.ShotIntensity.NORMAL, levelWeapon);
+                            }
+                        } else if (cannon.getOrientation() == Enums.Orientation.VERTICAL) {
+                            Vector2 ammoPositionTop = new Vector2(ground.getPosition().x, cannon.getPosition().y + (cannon.getHeight() / 2));
+                            Vector2 ammoPositionBottom = new Vector2(ground.getPosition().x, cannon.getPosition().y - (cannon.getHeight() / 2));
+                            if (gigaGal.getPosition().x < (ammoPositionBottom.x - (cannon.getWidth() / 2))) {
+                                spawnAmmo(ammoPositionBottom, Direction.LEFT, Enums.ShotIntensity.NORMAL, levelWeapon);
+                            } else if (gigaGal.getPosition().x > (ammoPositionTop.x + (cannon.getWidth() / 2))) {
+                                spawnAmmo(ammoPositionTop, Direction.RIGHT, Enums.ShotIntensity.NORMAL, levelWeapon);
                             }
                         }
                     }
@@ -209,8 +217,8 @@ public class Level {
         powerups.add(new AmmoPowerup(new Vector2(20, 110)));
     }
 
-    public void spawnAmmo(Vector2 position, Direction direction, Enums.ShotIntensity shotIntensity, Enums.Weapon weapon) {
-        ammo.add(new Ammo(this, position, direction, shotIntensity, weapon));
+    public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Weapon weapon) {
+        ammo.add(new Ammo(this, position, direction, orientation, shotIntensity, weapon));
     }
 
     public void spawnExplosion(Vector2 position) {

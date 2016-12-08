@@ -20,15 +20,17 @@ public final class Ammo extends Indestructible {
     private final ShotIntensity shotIntensity;
     private final Weapon weapon;
     private final Direction direction;
+    private final Orientation orientation;
     private final Vector2 position;
     private TextureRegion region;
     private boolean active;
 
     // ctor
-    public Ammo(Level level, Vector2 position, Direction direction, ShotIntensity shotIntensity, Weapon weapon) {
+    public Ammo(Level level, Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, Weapon weapon) {
         this.level = level;
         this.position = position;
         this.direction = direction;
+        this.orientation = orientation;
         this.shotIntensity = shotIntensity;
         this.weapon = weapon;
         knockback = new Vector2();
@@ -136,12 +138,13 @@ public final class Ammo extends Indestructible {
             }
         }
 
-        final float halfWorldWidth = level.getViewport().getWorldWidth() / 2;
-        final float cameraX = level.getViewport().getCamera().position.x;
-
-        if ((position.x < (cameraX - (halfWorldWidth * 2))) || position.x > (cameraX + (halfWorldWidth * 2))) {
-            active = false;
-        }
+        if (orientation == Orientation.LATERAL) {
+            final float halfWorldWidth = level.getViewport().getWorldWidth() / 2;
+            final float cameraX = level.getViewport().getCamera().position.x;
+            if ((position.x < (cameraX - (halfWorldWidth * 2))) || position.x > (cameraX + (halfWorldWidth * 2))) {
+                active = false;
+            }
+        } 
     }
 
     public void render(SpriteBatch batch) {
