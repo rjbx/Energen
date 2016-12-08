@@ -5,31 +5,20 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class Cannon implements Ground {
+public class Drone implements Ground {
 
     // fields
     private Vector2 position;
-    private Enums.Orientation orientation;
-    private TextureRegion region;
 
     // ctor
-    public Cannon(Vector2 position, Enums.Orientation orientation) {
-
+    public Drone(Vector2 position) {
         this.position = position;
-        this.orientation = orientation;
-        switch (orientation) {
-            case VERTICAL:
-                region = Assets.getInstance().getCannonAssets().drone;
-            case LATERAL:
-                region = Assets.getInstance().getCannonAssets().cannon;
-        }
     }
 
     public void render(SpriteBatch batch) {
-
+        final TextureRegion region = Assets.getInstance().getCannonAssets().drone;
         Utils.drawTextureRegion(batch, region, position, Constants.CANNON_CENTER);
     }
 

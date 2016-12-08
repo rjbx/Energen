@@ -20,7 +20,12 @@ public final class Enums {
 
     public enum Direction {
         LEFT,
-        RIGHT
+        RIGHT,
+    }
+
+    public enum Orientation {
+        VERTICAL,
+        LATERAL
     }
 
     public enum AerialState {
