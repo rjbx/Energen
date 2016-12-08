@@ -124,8 +124,8 @@ public final class LevelLoader {
                 final Vector2 cannonPosition = imagePosition.add(Constants.LATERAL_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
                 level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.LATERAL));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LATERAL_CANNON_SPRITE)) {
-                final Vector2 cannonPosition = imagePosition.add(Constants.LATERAL_CANNON_CENTER);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VERTICAL_CANNON_SPRITE)) {
+                final Vector2 cannonPosition = imagePosition.add(Constants.VERTICAL_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
                 level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.VERTICAL));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PILLAR_SPRITE)) {
