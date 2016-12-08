@@ -320,7 +320,7 @@ public class GigaGal implements Physical {
                         recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
                     } else if (getPosition().x > (hazard.getRight() - margin)) {
                         recoil(hazard.getKnockback());
-                    } else if (hazard instanceof Destructible) {
+                    } else if (!(hazard instanceof Ammo)) {
                         if (hazard instanceof Zoomba) {
                             Zoomba zoomba = (Zoomba) hazard;
                             recoil(new Vector2((Utils.getLateralVelocity(zoomba.getMountKnockback().x, facing)), zoomba.getMountKnockback().y));
