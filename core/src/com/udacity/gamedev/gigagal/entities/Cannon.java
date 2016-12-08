@@ -25,9 +25,11 @@ public class Cannon implements Ground {
             case VERTICAL:
                 region = Assets.getInstance().getCannonAssets().verticalCannon;
                 center = Constants.VERTICAL_CANNON_CENTER;
+                break;
             case LATERAL:
                 region = Assets.getInstance().getCannonAssets().lateralCannon;
                 center = Constants.LATERAL_CANNON_CENTER;
+                break;
         }
     }
 

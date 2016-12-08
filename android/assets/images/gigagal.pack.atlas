@@ -13,7 +13,7 @@ ammo-blast-electric
   index: -1
 ammo-blast-fire
   rotate: false
-  xy: 885, 15
+  xy: 931, 27
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
@@ -27,77 +27,77 @@ ammo-blast-metal
   index: -1
 ammo-blast-native
   rotate: false
-  xy: 595, 15
+  xy: 970, 57
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-blast-psychic
   rotate: false
-  xy: 575, 5
+  xy: 885, 6
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 ammo-blast-rubber
   rotate: false
-  xy: 931, 20
+  xy: 905, 6
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 ammo-blast-water
   rotate: false
-  xy: 883, 4
+  xy: 949, 27
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
   index: -1
 ammo-shot-electric
   rotate: false
-  xy: 596, 66
+  xy: 534, 2
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
   index: -1
 ammo-shot-fire
   rotate: false
-  xy: 523, 2
+  xy: 543, 2
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
   index: -1
 ammo-shot-metal
   rotate: false
-  xy: 513, 2
+  xy: 524, 2
   size: 8, 5
   orig: 8, 5
   offset: 0, 0
   index: -1
 ammo-shot-native
   rotate: false
-  xy: 913, 53
+  xy: 597, 17
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 ammo-shot-psychic
   rotate: false
-  xy: 595, 5
+  xy: 957, 17
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 970, 57
+  xy: 970, 47
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-water
   rotate: false
-  xy: 921, 54
+  xy: 513, 2
   size: 9, 5
   orig: 9, 5
   offset: 0, 0
@@ -151,11 +151,18 @@ button-shoot
   orig: 32, 32
   offset: 0, 0
   index: -1
-cannon
+cannon-lateral
   rotate: false
   xy: 827, 2
   size: 20, 12
   orig: 20, 12
+  offset: 0, 0
+  index: -1
+cannon-vertical
+  rotate: false
+  xy: 575, 3
+  size: 20, 20
+  orig: 20, 20
   offset: 0, 0
   index: -1
 coil-1
@@ -370,14 +377,14 @@ portal-6
   index: -1
 powerup-ammo
   rotate: false
-  xy: 949, 19
+  xy: 923, 5
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 966, 19
+  xy: 940, 8
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
