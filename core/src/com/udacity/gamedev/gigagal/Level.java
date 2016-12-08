@@ -96,13 +96,15 @@ public class Level {
             if (Utils.secondsSince(cannonStartTime) > 1) {
                 for (Ground ground : grounds) {
                     if (ground instanceof Cannon) {
-                        Vector2 ammoPositionLeft = new Vector2(ground.getPosition().x - (ground.getWidth() / 2), ground.getPosition().y);
-                        Vector2 ammoPositionRight = new Vector2(ground.getPosition().x + (ground.getWidth() / 2), ground.getPosition().y);
-
-                        if (gigaGal.getPosition().x < (ammoPositionLeft.x - (ground.getWidth() / 2))) {
-                            spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.ShotIntensity.NORMAL, levelWeapon);
-                        } else if (gigaGal.getPosition().x > (ammoPositionRight.x + (ground.getWidth() / 2))) {
-                            spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.ShotIntensity.NORMAL, levelWeapon);
+                        Cannon cannon = (Cannon) ground;
+                        Vector2 ammoPositionLeft = new Vector2(cannon.getPosition().x - (cannon.getWidth() / 2), ground.getPosition().y);
+                        Vector2 ammoPositionRight = new Vector2(cannon.getPosition().x + (cannon.getWidth() / 2), ground.getPosition().y);
+                        if (cannon.getOrientation() == Enums.Orientation.LATERAL) {
+                            if (gigaGal.getPosition().x < (ammoPositionLeft.x - (cannon.getWidth() / 2))) {
+                                spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.ShotIntensity.NORMAL, levelWeapon);
+                            } else if (gigaGal.getPosition().x > (ammoPositionRight.x + (cannon.getWidth() / 2))) {
+                                spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.ShotIntensity.NORMAL, levelWeapon);
+                            }
                         }
                     }
                 }

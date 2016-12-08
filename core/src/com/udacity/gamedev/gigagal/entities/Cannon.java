@@ -12,6 +12,7 @@ public class Cannon implements Ground {
 
     // fields
     private Vector2 position;
+    private Enums.Orientation orientation;
     private TextureRegion region;
     private Vector2 center;
 
@@ -19,6 +20,7 @@ public class Cannon implements Ground {
     public Cannon(Vector2 position, Enums.Orientation orientation) {
 
         this.position = position;
+        this.orientation = orientation;
         switch (orientation) {
             case VERTICAL:
                 region = Assets.getInstance().getCannonAssets().verticalCannon;
@@ -42,5 +44,6 @@ public class Cannon implements Ground {
     public final float getRight() { return position.x + center.x; }
     public final float getTop() { return position.y + center.y; }
     public final float getBottom() { return position.y - center.y; }
+    public final Enums.Orientation getOrientation() { return orientation; }
     public final Class getSubclass() { return this.getClass(); }
 }
