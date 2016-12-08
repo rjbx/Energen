@@ -141,7 +141,9 @@ public final class GameplayScreen extends ScreenAdapter {
         for (String completedLevelName : completedLevels) {
             for (Enums.Weapon weapon : Arrays.asList(Constants.weapons)) {
                 if (completedLevelName.equals("levels/" + weapon.name() + ".dt")) {
-                    level.getGigaGal().addWeapon(weapon);
+                    if (!level.getGigaGal().getWeaponList().contains(weapon)) {
+                        level.getGigaGal().addWeapon(weapon);
+                    }
                 }
             }
         }
