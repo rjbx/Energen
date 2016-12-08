@@ -21,6 +21,8 @@ public final class Enums {
     public enum Direction {
         LEFT,
         RIGHT,
+        DOWN,
+        UP
     }
 
     public enum Orientation {

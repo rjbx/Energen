@@ -40,13 +40,24 @@ public final class Ammo extends Indestructible {
     }
 
     public void update(float delta) {
-        switch (direction) {
-            case LEFT:
-                position.x -= delta * Constants.AMMO_MOVE_SPEED;
-                break;
-            case RIGHT:
-                position.x += delta * Constants.AMMO_MOVE_SPEED;
-                break;
+        if (orientation == Orientation.LATERAL) {
+            switch (direction) {
+                case LEFT:
+                    position.x -= delta * Constants.AMMO_MOVE_SPEED;
+                    break;
+                case RIGHT:
+                    position.x += delta * Constants.AMMO_MOVE_SPEED;
+                    break;
+            }
+        } else if (orientation == Orientation.VERTICAL) {
+            switch (direction) {
+                case DOWN:
+                    position.y -= delta * Constants.AMMO_MOVE_SPEED;
+                    break;
+                case UP:
+                    position.y += delta * Constants.AMMO_MOVE_SPEED;
+                    break;
+            }
         }
 
         Class specializedZoomba = null;

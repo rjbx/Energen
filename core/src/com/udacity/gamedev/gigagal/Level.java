@@ -1,7 +1,6 @@
 package com.udacity.gamedev.gigagal;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
@@ -46,7 +45,7 @@ public class Level {
     private DelayedRemovalArray<Destructible> destructibles;
     private Array<Hazard> hazards;
     private Array<Ground> grounds;
-    private DelayedRemovalArray<Ammo> ammo;
+    private DelayedRemovalArray<Ammo> ammoList;
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
 
@@ -59,7 +58,7 @@ public class Level {
         destructibles = new DelayedRemovalArray<Destructible>();
         indestructibles = new DelayedRemovalArray<Indestructible>();
         hazards = new Array<Hazard>(indestructibles);
-        ammo = new DelayedRemovalArray<Ammo>();
+        ammoList = new DelayedRemovalArray<Ammo>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
         portal = new Portal(new Vector2(200, 200));
@@ -110,9 +109,9 @@ public class Level {
                             Vector2 ammoPositionTop = new Vector2(ground.getPosition().x, cannon.getPosition().y + (cannon.getHeight() / 2));
                             Vector2 ammoPositionBottom = new Vector2(ground.getPosition().x, cannon.getPosition().y - (cannon.getHeight() / 2));
                             if (gigaGal.getPosition().x < (ammoPositionBottom.x - (cannon.getWidth() / 2))) {
-                                spawnAmmo(ammoPositionBottom, Direction.LEFT, orientation, Enums.ShotIntensity.NORMAL, levelWeapon);
+                                spawnAmmo(ammoPositionBottom, Direction.DOWN, orientation, Enums.ShotIntensity.NORMAL, levelWeapon);
                             } else if (gigaGal.getPosition().x > (ammoPositionTop.x + (cannon.getWidth() / 2))) {
-                                spawnAmmo(ammoPositionTop, Direction.RIGHT, orientation, Enums.ShotIntensity.NORMAL, levelWeapon);
+                                spawnAmmo(ammoPositionTop, Direction.UP, orientation, Enums.ShotIntensity.NORMAL, levelWeapon);
                             }
                         }
                     }
@@ -121,14 +120,14 @@ public class Level {
             }
 
             // Update Bullets
-            ammo.begin();
-            for (Ammo chargeAmmo : ammo) {
-                chargeAmmo.update(delta);
-                if (!chargeAmmo.isActive()) {
-                    ammo.removeValue(chargeAmmo, false);
+            ammoList.begin();
+            for (Ammo ammo : ammoList) {
+                ammo.update(delta);
+                if (!ammo.isActive()) {
+                    ammoList.removeValue(ammo, false);
                 }
             }
-            ammo.end();
+            ammoList.end();
 
             // Update Enemies
             destructibles.begin();
@@ -181,7 +180,7 @@ public class Level {
         }
         gigaGal.render(batch);
 
-        for (Ammo chargeAmmo : ammo) {
+        for (Ammo chargeAmmo : ammoList) {
             chargeAmmo.render(batch);
         }
 
@@ -199,7 +198,7 @@ public class Level {
         portal = new Portal(new Vector2(150, 150));
 
         platforms = new Array<Platform>();
-        ammo = new DelayedRemovalArray<Ammo>();
+        ammoList = new DelayedRemovalArray<Ammo>();
         destructibles = new DelayedRemovalArray<Destructible>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
@@ -219,7 +218,7 @@ public class Level {
     }
 
     public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Weapon weapon) {
-        ammo.add(new Ammo(this, position, direction, orientation, shotIntensity, weapon));
+        ammoList.add(new Ammo(this, position, direction, orientation, shotIntensity, weapon));
     }
 
     public void spawnExplosion(Vector2 position) {
@@ -230,7 +229,7 @@ public class Level {
     public final Array<Platform> getPlatforms() { return platforms; }
     public final Array<Indestructible> getIndestructibles() { return indestructibles; }
     public final DelayedRemovalArray<Destructible> getDestructibles() { return destructibles; }
-    public final Array<Hazard> getHazards() { hazards = new Array<Hazard>(destructibles); hazards.addAll(indestructibles); hazards.addAll(ammo); return hazards; }
+    public final Array<Hazard> getHazards() { hazards = new Array<Hazard>(destructibles); hazards.addAll(indestructibles); hazards.addAll(ammoList); return hazards; }
     public final Array<Ground> getGrounds() { return grounds; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
