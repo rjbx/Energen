@@ -47,7 +47,7 @@ public final class Ammo extends Indestructible {
                 break;
         }
 
-        Class specializedZoomba = Zoomba.class;
+        Class specializedZoomba = null;
 
         switch (weapon) {
             case NATIVE:
@@ -127,8 +127,11 @@ public final class Ammo extends Indestructible {
             if (position.dst(destructible.getPosition()) < destructible.getShotRadius()) {
                 level.spawnExplosion(position);
                 active = false;
-                Utils.applyDamage(destructible, shotIntensity, Constants.AMMO_STANDARD_DAMAGE);
-                Utils.specializeDamage(destructible, specializedZoomba, shotIntensity, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE);
+                damage = Constants.AMMO_STANDARD_DAMAGE;
+                if (specializedZoomba != null) {
+                    damage = Utils.specializeDamage(destructible, specializedZoomba, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE / 3);
+                }
+                Utils.applyDamage(destructible, shotIntensity, damage);
                 level.setScore(level.getScore() + destructible.getHitScore());
             }
         }
