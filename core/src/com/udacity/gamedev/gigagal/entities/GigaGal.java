@@ -82,6 +82,8 @@ public class GigaGal implements Physical {
         health = Constants.INITIAL_HEALTH;
         lives = Constants.INITIAL_LIVES;
         weaponList.add(Weapon.NATIVE);
+        weaponToggler = weaponList.listIterator();
+        weapon = weaponToggler.next();
         respawn();
     }
 
@@ -429,8 +431,6 @@ public class GigaGal implements Physical {
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
-        weaponToggler = weaponList.listIterator();
-        weapon = weaponToggler.next();
         canStride = false;
         canJump = false;
         canDash = false;
