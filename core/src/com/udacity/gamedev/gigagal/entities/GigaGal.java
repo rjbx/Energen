@@ -392,6 +392,9 @@ public class GigaGal implements Physical {
     }
 
     public void shoot(ShotIntensity shotIntensity, Weapon weapon) {
+        if (ammo == 0) {
+            weapon = Weapon.NATIVE;
+        }
         if (ammo > 0 || weapon == Weapon.NATIVE) {
             if (weapon != Weapon.NATIVE) {
                 ammo--;
