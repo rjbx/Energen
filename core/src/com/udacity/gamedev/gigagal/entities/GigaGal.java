@@ -301,28 +301,35 @@ public class GigaGal implements Physical {
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     private void recoilFromHazards(Array<Hazard> hazards) {
         for (Hazard hazard : hazards) {
-            Rectangle bounds = new Rectangle(hazard.getLeft() + 5, hazard.getBottom(), hazard.getWidth() - 5, hazard.getHeight());
-            if (getBounds().overlaps(bounds)) {
-                isCharged = false;
-                chargeStartTime = 0;
-                int damage = hazard.getDamage();
-                float oneSixthWidth = hazard.getWidth() / 6;
-                if (getPosition().x < (hazard.getLeft() + oneSixthWidth)) {
-                    recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
-                } else if (getPosition().x > (hazard.getRight() - oneSixthWidth)) {
-                    recoil(hazard.getKnockback());
-                } else {
-                    if (hazard instanceof Zoomba) {
-                        Zoomba zoomba = (Zoomba) hazard;
-                        recoil(new Vector2((Utils.getLateralVelocity(zoomba.getMountKnockback().x, facing)), zoomba.getMountKnockback().y));
-                        damage = zoomba.getMountDamage();
+            if (!knockedBack || hazard instanceof Zoomba) {
+                Rectangle bounds = new Rectangle(hazard.getLeft() + 5, hazard.getBottom(), hazard.getWidth() - 5, hazard.getHeight());
+                if (getBounds().overlaps(bounds)) {
+                    isCharged = false;
+                    chargeStartTime = 0;
+                    int damage = hazard.getDamage();
+                    float margin;
+                    if (hazard instanceof Destructible) {
+                        margin = hazard.getWidth() / 6;
                     } else {
-                        recoil(new Vector2((Utils.getLateralVelocity(hazard.getKnockback().x, facing)), hazard.getKnockback().y));
+                        margin = 0;
                     }
-                }
-                if (!knockedBack) {
-                    health -= damage;
-                    knockedBack = true;
+                    if (getPosition().x < (hazard.getLeft() + margin)) {
+                        recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
+                    } else if (getPosition().x > (hazard.getRight() - margin)) {
+                        recoil(hazard.getKnockback());
+                    } else if (hazard instanceof Destructible) {
+                        if (hazard instanceof Zoomba) {
+                            Zoomba zoomba = (Zoomba) hazard;
+                            recoil(new Vector2((Utils.getLateralVelocity(zoomba.getMountKnockback().x, facing)), zoomba.getMountKnockback().y));
+                            damage = zoomba.getMountDamage();
+                        } else {
+                            recoil(new Vector2((Utils.getLateralVelocity(hazard.getKnockback().x, facing)), hazard.getKnockback().y));
+                        }
+                    }
+                    if (!knockedBack) {
+                        health -= damage;
+                        knockedBack = true;
+                    }
                 }
             }
         }
