@@ -143,7 +143,7 @@ public class GigaGal implements Physical {
                         && getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     // if during previous frame was not, while currently is, between ground left and right sides
                     if (!Utils.betweenSides(ground, previousFramePosition.x)) {
-                        // only when not grounded
+                        // only when not grounded and not recoiling
                         if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
                             // if lateral velocity (magnitude, without concern for direction) greater than one third max speed,
                             // boost lateral velocity by starting speed, enable ricochet, verify slid ground and capture slid ground boundaries
@@ -161,7 +161,7 @@ public class GigaGal implements Physical {
                                 slidPlatform = true; // verify slid ground
                                 slidPlatformTop = ground.getTop(); // capture slid ground boundary
                                 slidPlatformBottom = ground.getBottom(); // capture slid ground boundary
-                                // if absval lateral velocity  not greater than one third max speed but aerial and bumping ground side, fall
+                            // if absval lateral velocity  not greater than one third max speed but aerial and bumping ground side, fall
                             } else {
                                 // if not already hovering and descending, also disable hover
                                 if (aerialState != AerialState.HOVERING && velocity.y < 0) {
@@ -169,6 +169,9 @@ public class GigaGal implements Physical {
                                 }
                                 fall(); // fall regardless of whether or not inner condition met
                             }
+                        // only when grounded
+                        } else if (aerialState == AerialState.GROUNDED){
+                            stand();
                         }
                         // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                         // reset stride acceleration, disable stride and dash, and set gigagal at ground side
@@ -176,7 +179,7 @@ public class GigaGal implements Physical {
                         canStride = false; // disable stride
                         canDash = false; // disable dash
                         position.x = previousFramePosition.x; // halt lateral progression
-                        // else if no detection with ground sides, disable ricochet
+                    // else if no detection with ground sides, disable ricochet
                     } else {
                         canRicochet = false; // disable ricochet
                     }
