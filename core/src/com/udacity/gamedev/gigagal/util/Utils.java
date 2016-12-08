@@ -51,9 +51,10 @@ public class Utils {
     public static final float getLateralVelocity(float delta, Enums.Direction direction) {
         if (direction == Enums.Direction.RIGHT) {
             return delta;
-        } else {
+        } else if (direction == Enums.Direction.LEFT) {
             return -delta;
         }
+        return 0;
     }
 
     public static final boolean setDirection(GigaGal gigaGal, Enums.Direction setTo) {
@@ -68,9 +69,10 @@ public class Utils {
     public static final Enums.Direction getOppositeDirection(Enums.Direction direction) {
         if (direction == Enums.Direction.LEFT) {
             return Enums.Direction.RIGHT;
-        } else {
+        } else if (direction == Enums.Direction.RIGHT)  {
             return Enums.Direction.LEFT;
         }
+        return null;
     }
 
     public static final boolean betweenSides(Physical entity, float delta) {

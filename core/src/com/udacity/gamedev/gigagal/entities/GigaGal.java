@@ -307,7 +307,7 @@ public class GigaGal implements Physical {
     private void recoilFromHazards(Array<Hazard> hazards) {
         for (Hazard hazard : hazards) {
             if (!knockedBack || hazard instanceof Zoomba) {
-                Rectangle bounds = new Rectangle(hazard.getLeft() + 5, hazard.getBottom(), hazard.getWidth() - 5, hazard.getHeight());
+                Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                 if (getBounds().overlaps(bounds)) {
                     isCharged = false;
                     chargeStartTime = 0;
@@ -401,12 +401,12 @@ public class GigaGal implements Physical {
             if (weapon != Weapon.NATIVE) {
                 ammo--;
             }
-            Vector2 ammoPosition;
+            Vector2 ammoPosition = new Vector2();
             if (facing == Direction.RIGHT) {
                 ammoPosition = new Vector2(
-                        position.x + Constants.GIGAGAL_CANNON_OFFSET.x,
+                        position.x + Constants.GIGAGAL_CANNON_OFFSET.x + 5,
                         position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
-            } else {
+            } else if (facing == Direction.LEFT){
                 ammoPosition = new Vector2(
                         position.x - Constants.GIGAGAL_CANNON_OFFSET.x - 5,
                         position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
