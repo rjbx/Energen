@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // mutable
@@ -17,12 +17,14 @@ public class Swoopa extends Destructible {
     private final long startTime;
     private final float bobOffset;
     private final Platform platform;
-    private final Vector2 position;
+    private Level level;
+    private Vector2 position;
     private int health;
 
     // ctor
-    public Swoopa(Platform platform) {
+    public Swoopa(Platform platform, Level level) {
         this.platform = platform;
+        this.level = level;
         position = new Vector2(platform.getLeft(), platform.getTop() + Constants.SWOOPA_CENTER.y);
         startTime = TimeUtils.nanoTime();
         health = Constants.SWOOPA_MAX_HEALTH;
@@ -49,7 +51,7 @@ public class Swoopa extends Destructible {
     }
 
     public final long getStartTime() { return startTime; }
-    public final Vector2 getPosition() { return position; }
+    public Vector2 getPosition() { return position; }
     public final int getHealth() { return health; }
     public final float getWidth() { return Constants.SWOOPA_COLLISION_WIDTH; }
     public final float getHeight() { return Constants.SWOOPA_COLLISION_HEIGHT; }

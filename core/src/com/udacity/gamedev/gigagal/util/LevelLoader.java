@@ -176,7 +176,7 @@ public final class LevelLoader {
                     final SharpZoomba sharpZoomba = new SharpZoomba(platform);
                     level.getDestructibles().add(sharpZoomba);
                 }  else if (identifier.equals(Constants.LEVEL_SWOOPA_TAG)) {
-                    final Swoopa swoopa = new Swoopa(platform);
+                    final Swoopa swoopa = new Swoopa(platform, level);
                     level.getDestructibles().add(swoopa);
                 } else if (identifier.equals(Constants.LEVEL_FIREYSWOOPA_TAG)) {
                     final FireySwoopa fireySwoopa = new FireySwoopa(platform);
