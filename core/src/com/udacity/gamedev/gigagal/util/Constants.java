@@ -114,6 +114,38 @@ public final class Constants {
     // Sharp-Zoomba
     public static final String SHARPZOOMBA_SPRITE = "zoomba-metal";
 
+    // Swoopa
+    public static final Vector2 SWOOPA_CENTER = new Vector2(14.5f, 25.5f);
+    public static final float SWOOPA_MOVEMENT_SPEED = 10;
+    public static final float SWOOPA_BOB_AMPLITUDE = 2;
+    public static final float SWOOPA_BOB_PERIOD = 3.0f;
+    public static final int SWOOPA_MAX_HEALTH = 30;
+    public static final int SWOOPA_STANDARD_DAMAGE = 10;
+    public static final Vector2 SWOOPA_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
+    public static final float SWOOPA_COLLISION_WIDTH = 29;
+    public static final float SWOOPA_COLLISION_HEIGHT = 51;
+    public static final float SWOOPA_SHOT_RADIUS = 17;
+    public static final String SWOOPA_SPRITE = "swoopa";
+
+    // Firey-Swoopa
+    public static final String FIREYSWOOPA_SPRITE_1 = "swoopa-fire-1";
+    public static final String FIREYSWOOPA_SPRITE_2 = "swoopa-fire-2";
+
+    // Gushing-Swoopa
+    public static final String GUSHINGSWOOPA_SPRITE_1 = "swoopa-water-1";
+    public static final String GUSHINGSWOOPA_SPRITE_2 = "swoopa-water-2";
+
+    // Charged-Swoopa
+    public static final String CHARGEDSWOOPA_SPRITE_1 = "swoopa-electric-1";
+    public static final String CHARGEDSWOOPA_SPRITE_2 = "swoopa-electric-2";
+
+    // Whirling-Swoopa
+    public static final String WHIRLINGSWOOPA_SPRITE_1 = "swoopa-rubber-1";
+    public static final String WHIRLINGSWOOPA_SPRITE_2 = "swoopa-rubber-2";
+
+    // Sharp-Swoopa
+    public static final String SHARPSWOOPA_SPRITE = "swoopa-metal";
+
     // Spike
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
     public static final int SPIKE_DAMAGE = 30;
@@ -247,6 +279,12 @@ public final class Constants {
     public static final String LEVEL_CHARGEDZOOMBA_TAG = "ChargedZoomba";
     public static final String LEVEL_WHIRLINGZOOMBA_TAG = "WhirlingZoomba";
     public static final String LEVEL_SHARPZOOMBA_TAG = "SharpZoomba";
+    public static final String LEVEL_SWOOPA_TAG = "Swoopa";
+    public static final String LEVEL_FIREYSWOOPA_TAG = "FireySwoopa";
+    public static final String LEVEL_GUSHINGSWOOPA_TAG = "GushingSwoopa";
+    public static final String LEVEL_CHARGEDSWOOPA_TAG = "ChargedSwoopa";
+    public static final String LEVEL_WHIRLINGSWOOPA_TAG = "WhirlingSwoopa";
+    public static final String LEVEL_SHARPSWOOPA_TAG = "SharpSwoopa";
     public static final String[] LEVELS =  {"levels/METAL.dt", "levels/RUBBER.dt", "levels/ELECTRIC.dt", "levels/WATER.dt", "levels/FIRE.dt", "levels/PSYCHIC.dt", "levels/FINAL.dt"};
 
     // HUD
@@ -280,5 +318,7 @@ public final class Constants {
     // Scoring
     public static final int ZOOMBA_KILL_SCORE = 100;
     public static final int ZOOMBA_HIT_SCORE = 25;
+    public static final int SWOOPA_KILL_SCORE = 100;
+    public static final int SWOOPA_HIT_SCORE = 25;
     public static final int POWERUP_SCORE = 50;
 }

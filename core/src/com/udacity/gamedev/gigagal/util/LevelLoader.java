@@ -7,18 +7,24 @@ import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Cannon;
+import com.udacity.gamedev.gigagal.entities.ChargedSwoopa;
 import com.udacity.gamedev.gigagal.entities.ChargedZoomba;
 import com.udacity.gamedev.gigagal.entities.Coil;
+import com.udacity.gamedev.gigagal.entities.FireySwoopa;
 import com.udacity.gamedev.gigagal.entities.FireyZoomba;
+import com.udacity.gamedev.gigagal.entities.GushingSwoopa;
 import com.udacity.gamedev.gigagal.entities.GushingZoomba;
 import com.udacity.gamedev.gigagal.entities.Pillar;
+import com.udacity.gamedev.gigagal.entities.SharpSwoopa;
 import com.udacity.gamedev.gigagal.entities.SharpZoomba;
+import com.udacity.gamedev.gigagal.entities.Swoopa;
 import com.udacity.gamedev.gigagal.entities.Vacuum;
 import com.udacity.gamedev.gigagal.entities.Flame;
 import com.udacity.gamedev.gigagal.entities.Geiser;
 import com.udacity.gamedev.gigagal.entities.HealthPowerup;
 import com.udacity.gamedev.gigagal.entities.Spike;
 import com.udacity.gamedev.gigagal.entities.Wheel;
+import com.udacity.gamedev.gigagal.entities.WhirlingSwoopa;
 import com.udacity.gamedev.gigagal.entities.WhirlingZoomba;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.Portal;
@@ -169,7 +175,25 @@ public final class LevelLoader {
                 } else if (identifier.equals(Constants.LEVEL_SHARPZOOMBA_TAG)) {
                     final SharpZoomba sharpZoomba = new SharpZoomba(platform);
                     level.getDestructibles().add(sharpZoomba);
-                } 
+                }  else if (identifier.equals(Constants.LEVEL_SWOOPA_TAG)) {
+                    final Swoopa swoopa = new Swoopa(platform);
+                    level.getDestructibles().add(swoopa);
+                } else if (identifier.equals(Constants.LEVEL_FIREYSWOOPA_TAG)) {
+                    final FireySwoopa fireySwoopa = new FireySwoopa(platform);
+                    level.getDestructibles().add(fireySwoopa);
+                } else if (identifier.equals(Constants.LEVEL_GUSHINGSWOOPA_TAG)) {
+                    final GushingSwoopa gushingSwoopa = new GushingSwoopa(platform);
+                    level.getDestructibles().add(gushingSwoopa);
+                } else if (identifier.equals(Constants.LEVEL_CHARGEDSWOOPA_TAG)) {
+                    final ChargedSwoopa chargedSwoopa = new ChargedSwoopa(platform);
+                    level.getDestructibles().add(chargedSwoopa);
+                } else if (identifier.equals(Constants.LEVEL_WHIRLINGSWOOPA_TAG)) {
+                    final WhirlingSwoopa whirlingSwoopa = new WhirlingSwoopa(platform);
+                    level.getDestructibles().add(whirlingSwoopa);
+                } else if (identifier.equals(Constants.LEVEL_SHARPSWOOPA_TAG)) {
+                    final SharpSwoopa sharpSwoopa = new SharpSwoopa(platform);
+                    level.getDestructibles().add(sharpSwoopa);
+                }
             }
         }
 
