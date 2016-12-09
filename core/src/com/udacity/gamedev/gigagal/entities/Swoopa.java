@@ -26,7 +26,7 @@ public class Swoopa extends Destructible {
     public Swoopa(Platform platform, Level level) {
         this.platform = platform;
         this.level = level;
-        position = new Vector2(platform.getRight(), platform.getTop() + Constants.SWOOPA_CENTER.y * 3);
+        position = new Vector2(platform.getRight() + Constants.SWOOPA_CENTER.x * 3, platform.getTop() + Constants.SWOOPA_CENTER.y * 3);
         startTime = TimeUtils.nanoTime();
         health = Constants.SWOOPA_MAX_HEALTH;
         bobOffset = MathUtils.random();
@@ -34,19 +34,19 @@ public class Swoopa extends Destructible {
 
     public void update(float delta) {
         if (position.y > (platform.getTop() + Constants.SWOOPA_CENTER.y)) {
-            position.y -= (Constants.SWOOPA_MOVEMENT_SPEED / 3) * delta;
+            position.x -= (Constants.SWOOPA_MOVEMENT_SPEED / 3) * delta;
+            position.y -= (Constants.SWOOPA_MOVEMENT_SPEED * 1.5) * delta;
         } else {
-            position.x -= Constants.SWOOPA_MOVEMENT_SPEED * delta;
+            position.x -= Constants.SWOOPA_MOVEMENT_SPEED * 2 * delta;
         }
 
         Vector2 halfWorldSpan = new Vector2(level.getViewport().getWorldWidth() / 2, level.getViewport().getWorldHeight() / 2);
         Vector3 camera = new Vector3(level.getViewport().getCamera().position);
-        if (position.x < (camera.x - (halfWorldSpan.x))) {
-            position.x = platform.getRight();
-            position.y = (camera.y + halfWorldSpan.y);
+        if (position.x < (camera.x - (halfWorldSpan.x * 2))) {
+            position.x = camera.x + halfWorldSpan.x;
+            position.y = (camera.y + halfWorldSpan.y * 3);
         }
-
-      }
+    }
 
     public void render(SpriteBatch batch) {
         final TextureRegion region = Assets.getInstance().getSwoopaAssets().swoopa;

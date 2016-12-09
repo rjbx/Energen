@@ -122,8 +122,8 @@ public final class Constants {
     public static final int SWOOPA_MAX_HEALTH = 10;
     public static final int SWOOPA_STANDARD_DAMAGE = 10;
     public static final Vector2 SWOOPA_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
-    public static final float SWOOPA_COLLISION_WIDTH = 29;
-    public static final float SWOOPA_COLLISION_HEIGHT = 51;
+    public static final float SWOOPA_COLLISION_WIDTH = 50;
+    public static final float SWOOPA_COLLISION_HEIGHT = 27;
     public static final float SWOOPA_SHOT_RADIUS = 17;
     public static final String SWOOPA_SPRITE = "swoopa";
 
