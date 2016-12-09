@@ -35,11 +35,11 @@ public class Swoopa extends Destructible {
     public void update(float delta) {
         Vector2 worldSpan = new Vector2(level.getViewport().getWorldWidth(), level.getViewport().getWorldHeight());
         Vector3 camera = new Vector3(level.getViewport().getCamera().position);
-        // while the swoopa is witin one screen's width from the screen center on either side, permit movement
-        if (position.x < (camera.x + worldSpan.x) && position.x > (camera.x - worldSpan.x)) {
+        // while the swoopa is witin two screens' widths from the screen center on either side, permit movement
+        if (position.x < (camera.x + worldSpan.x * 2) && position.x > (camera.x - worldSpan.x * 2)) {
             if (position.y > (platform.getTop() + Constants.SWOOPA_CENTER.y)) {
-                position.x -= (Constants.SWOOPA_MOVEMENT_SPEED / 3) * delta;
-                position.y -= (Constants.SWOOPA_MOVEMENT_SPEED * 1.5f) * delta;
+                position.x -= (Constants.SWOOPA_MOVEMENT_SPEED) * delta;
+                position.y -= (Constants.SWOOPA_MOVEMENT_SPEED * 2) * delta;
             } else {
                 position.x -= Constants.SWOOPA_MOVEMENT_SPEED * 3 * delta;
             }
@@ -47,8 +47,8 @@ public class Swoopa extends Destructible {
 
         // when the swoopa progresses past the center screen position with a margin of one screen's width, reset x and y position
         if (position.x < (camera.x - worldSpan.x)) {
-            position.x = platform.getPosition().x + (worldSpan.x / 2);
-            position.y = (platform.getPosition().y + (worldSpan.y * 1.5f));
+            position.x = platform.getRight() + (worldSpan.x / 2);
+            position.y = (platform.getTop() + (worldSpan.y * 1.5f));
         }
     }
 

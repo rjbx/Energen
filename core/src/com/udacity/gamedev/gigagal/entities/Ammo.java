@@ -183,7 +183,7 @@ public final class Ammo extends Indestructible {
     public final float getTop() { return position.y + Constants.SHOT_CENTER.y; }
     public final float getBottom() { return position.y - Constants.SHOT_CENTER.y; }
     public final Class getSubclass() { return this.getClass(); }
-    public final int getDamage() { return damage; }
+    public final int getDamage() { return damage / 3; }
     public final Vector2 getKnockback() { return knockback; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
 }
