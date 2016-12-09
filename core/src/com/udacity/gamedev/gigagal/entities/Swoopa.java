@@ -42,9 +42,9 @@ public class Swoopa extends Destructible {
 
         Vector2 halfWorldSpan = new Vector2(level.getViewport().getWorldWidth() / 2, level.getViewport().getWorldHeight() / 2);
         Vector3 camera = new Vector3(level.getViewport().getCamera().position);
-        if (position.x < (camera.x - (halfWorldSpan.x * 2))) {
-            position.x = camera.x + halfWorldSpan.x;
-            position.y = (camera.y + halfWorldSpan.y * 3);
+        if (position.x < (platform.getPosition().x - (halfWorldSpan.x * 2))) {
+            position.x = platform.getPosition().x + halfWorldSpan.x;
+            position.y = (platform.getPosition().y + halfWorldSpan.y * 3);
         }
     }
 
