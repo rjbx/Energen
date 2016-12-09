@@ -108,9 +108,9 @@ public class Level {
                         } else if (cannon.getOrientation() == Enums.Orientation.VERTICAL) {
                             Vector2 ammoPositionTop = new Vector2(ground.getPosition().x, cannon.getPosition().y + (cannon.getHeight() / 2));
                             Vector2 ammoPositionBottom = new Vector2(ground.getPosition().x, cannon.getPosition().y - (cannon.getHeight() / 2));
-                            if (gigaGal.getPosition().x < (ammoPositionBottom.x - (cannon.getWidth() / 2))) {
+                            if (gigaGal.getPosition().y < (ammoPositionBottom.y - (cannon.getHeight() / 2))) {
                                 spawnAmmo(ammoPositionBottom, Direction.DOWN, orientation, Enums.ShotIntensity.NORMAL, levelWeapon);
-                            } else if (gigaGal.getPosition().x > (ammoPositionTop.x + (cannon.getWidth() / 2))) {
+                            } else if (gigaGal.getPosition().y > (ammoPositionTop.y + (cannon.getHeight() / 2))) {
                                 spawnAmmo(ammoPositionTop, Direction.UP, orientation, Enums.ShotIntensity.NORMAL, levelWeapon);
                             }
                         }

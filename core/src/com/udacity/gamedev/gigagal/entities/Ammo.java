@@ -158,7 +158,7 @@ public final class Ammo extends Indestructible {
         } else if (orientation == Orientation.VERTICAL) {
             final float halfWorldHeight = level.getViewport().getWorldHeight() / 2;
             final float cameraY = level.getViewport().getCamera().position.y;
-            if ((position.y < (cameraY - (halfWorldHeight * 2))) || position.x > (cameraY + (halfWorldHeight * 2))) {
+            if ((position.y < (cameraY - (halfWorldHeight * 2))) || position.y > (cameraY + (halfWorldHeight * 2))) {
                 active = false;
             }
         }
