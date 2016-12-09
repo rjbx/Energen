@@ -20,8 +20,8 @@ public final class GameOverOverlay {
     // fields
     public final Viewport viewport;
     final BitmapFont font;
-    Array<Zoomba> enemies;
-    long startTime;
+ //   Array<Zoomba> enemies;
+ //   long startTime;
 
     // ctor
     public GameOverOverlay() {
@@ -32,7 +32,7 @@ public final class GameOverOverlay {
     }
 
     public void init() {
-        startTime = TimeUtils.nanoTime();
+     /*   startTime = TimeUtils.nanoTime();
 
         enemies = new Array<Zoomba>(Constants.ZOOMBA_COUNT);
 
@@ -49,7 +49,7 @@ public final class GameOverOverlay {
 
 
         }
-
+    */
     }
 
     public void render(SpriteBatch batch) {
@@ -58,7 +58,7 @@ public final class GameOverOverlay {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
-        float timeElapsed = Utils.secondsSince(startTime);
+   /*     float timeElapsed = Utils.secondsSince(startTime);
         int enemiesToShow = (int) (Constants.ZOOMBA_COUNT * (timeElapsed / Constants.LEVEL_END_DURATION));
 
         for (int i = 0; i < enemiesToShow; i++){
@@ -67,7 +67,7 @@ public final class GameOverOverlay {
             zoomba.render(batch);
         }
 
-
+    */
         font.draw(batch, Constants.GAME_OVER_MESSAGE, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
 
         batch.end();

@@ -41,7 +41,7 @@ public class Swoopa extends Destructible {
                 position.x -= (Constants.SWOOPA_MOVEMENT_SPEED / 3) * delta;
                 position.y -= (Constants.SWOOPA_MOVEMENT_SPEED * 1.5f) * delta;
             } else {
-                position.x -= Constants.SWOOPA_MOVEMENT_SPEED * 2 * delta;
+                position.x -= Constants.SWOOPA_MOVEMENT_SPEED * 3 * delta;
             }
         }
 
