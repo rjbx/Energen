@@ -28,7 +28,7 @@ public class Swoopa extends Destructible {
         this.platform = platform;
         this.level = level;
         position = new Vector2(platform.getRight() + Constants.SWOOPA_CENTER.x * 3, platform.getTop() + Constants.SWOOPA_CENTER.y * 3);
-        velocity = new Vector2(0, 0);
+        velocity = new Vector2(0, -Constants.SWOOPA_MOVEMENT_SPEED * 2);
         startTime = TimeUtils.nanoTime();
         health = Constants.SWOOPA_MAX_HEALTH;
         bobOffset = MathUtils.random();
@@ -41,10 +41,10 @@ public class Swoopa extends Destructible {
         if (position.x < (camera.x + worldSpan.x * 2) && position.x > (camera.x - worldSpan.x * 2)) {
             if (position.y > (platform.getTop() + Constants.SWOOPA_CENTER.y)) {
                 velocity.x = -Constants.SWOOPA_MOVEMENT_SPEED;
-                velocity.y = -Constants.SWOOPA_MOVEMENT_SPEED * 3;
+                velocity.y /= 1.001f;
             } else {
-                velocity.x = -Constants.SWOOPA_MOVEMENT_SPEED * 3;
-                velocity.y = 0;
+                velocity.x *= 1.05f;
+                velocity.y = -1;
             }
             position = position.mulAdd(velocity, delta);
         }
@@ -53,6 +53,7 @@ public class Swoopa extends Destructible {
         if (position.x < (camera.x - worldSpan.x)) {
             position.x = platform.getRight() + (worldSpan.x / 2);
             position.y = (platform.getTop() + (worldSpan.y * 1.5f));
+            velocity.y = -Constants.SWOOPA_MOVEMENT_SPEED * 2;
         }
     }
 
