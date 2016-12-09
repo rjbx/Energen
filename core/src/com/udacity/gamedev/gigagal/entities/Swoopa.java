@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -38,19 +39,14 @@ public class Swoopa extends Destructible {
             position.x -= Constants.SWOOPA_MOVEMENT_SPEED * delta;
         }
 
-        final float halfWorldWidth = level.getViewport().getWorldWidth() / 2;
-        final float halfWorldHeight = level.getViewport().getWorldHeight() / 2;
-        final float cameraX = level.getViewport().getCamera().position.x;
-        final float cameraY = level.getViewport().getCamera().position.y;
-        if (position.x < (cameraX - (halfWorldWidth))) {
+        Vector2 halfWorldSpan = new Vector2(level.getViewport().getWorldWidth() / 2, level.getViewport().getWorldHeight() / 2);
+        Vector3 camera = new Vector3(level.getViewport().getCamera().position);
+        if (position.x < (camera.x - (halfWorldSpan.x))) {
             position.x = platform.getRight();
-            position.y = (cameraY + halfWorldHeight);
+            position.y = (camera.y + halfWorldSpan.y);
         }
 
-        final float elapsedTime = Utils.secondsSince(startTime);
-        final float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + elapsedTime / Constants.SWOOPA_BOB_PERIOD));
-        position.y = platform.getTop() + Constants.SWOOPA_CENTER.y + Constants.SWOOPA_BOB_AMPLITUDE * bobMultiplier;
-    }
+      }
 
     public void render(SpriteBatch batch) {
         final TextureRegion region = Assets.getInstance().getSwoopaAssets().swoopa;
