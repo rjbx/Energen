@@ -312,13 +312,11 @@ public class GigaGal implements Physical {
                     isCharged = false;
                     chargeStartTime = 0;
                     int damage = hazard.getDamage();
-                    float margin;
+                    float margin = 0;
                     if (hazard instanceof Destructible) {
                         margin = hazard.getWidth() / 6;
-                    } else {
-                        margin = 0;
                     }
-                    if (getPosition().x < (hazard.getLeft() + margin)) {
+                    if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
                         if (hazard instanceof Swoopa){
                             Swoopa swoopa = (Swoopa) hazard;
                             recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y));
@@ -327,7 +325,7 @@ public class GigaGal implements Physical {
                             recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
 
                         }
-                    } else if (getPosition().x > (hazard.getRight() - margin)) {
+                    } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
                         if (hazard instanceof Swoopa) {
                             Swoopa swoopa = (Swoopa) hazard;
                             recoil(swoopa.getMountKnockback());
