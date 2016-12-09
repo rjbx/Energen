@@ -311,7 +311,7 @@ public class GigaGal implements Physical {
                 if (getBounds().overlaps(bounds)) {
                     isCharged = false;
                     chargeStartTime = 0;
-                    int damage = hazard.getDamage();
+                    int damage = 0;
                     float margin;
                     if (hazard instanceof Destructible) {
                         margin = hazard.getWidth() / 6;

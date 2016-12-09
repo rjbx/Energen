@@ -6,42 +6,42 @@ filter: Linear,Linear
 repeat: none
 cannon-lateral
   rotate: false
-  xy: 62, 2
+  xy: 134, 68
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
   index: -1
 cannon-vertical
   rotate: false
-  xy: 183, 106
+  xy: 89, 11
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 coil-1
   rotate: false
-  xy: 93, 35
+  xy: 62, 6
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 flame-1
   rotate: false
-  xy: 164, 99
+  xy: 117, 33
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-1
   rotate: false
-  xy: 93, 16
+  xy: 222, 109
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 pillar
   rotate: false
-  xy: 84, 8
+  xy: 165, 83
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
@@ -63,30 +63,37 @@ portal-1
   index: -1
 powerup-ammo
   rotate: false
-  xy: 205, 109
+  xy: 111, 14
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 222, 109
+  xy: 136, 49
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 spike
   rotate: false
-  xy: 120, 44
+  xy: 241, 110
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 standing-right
   rotate: false
-  xy: 134, 91
+  xy: 165, 91
   size: 28, 35
   orig: 28, 35
+  offset: 0, 0
+  index: -1
+swoopa
+  rotate: false
+  xy: 62, 33
+  size: 53, 27
+  orig: 53, 27
   offset: 0, 0
   index: -1
 vacuum-1
@@ -98,14 +105,14 @@ vacuum-1
   index: -1
 wheel-1
   rotate: false
-  xy: 134, 64
+  xy: 195, 101
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 zoomba
   rotate: false
-  xy: 62, 16
+  xy: 134, 82
   size: 29, 44
   orig: 29, 44
   offset: 0, 0

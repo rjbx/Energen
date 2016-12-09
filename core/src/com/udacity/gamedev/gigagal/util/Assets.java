@@ -206,7 +206,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
 
         public CannonAssets(TextureAtlas atlas) {
-            verticalCannon = atlas.findRegion(Constants.VERTICAL_CANNON_SPRITE);
+            verticalCannon
             lateralCannon = atlas.findRegion(Constants.LATERAL_CANNON_SPRITE);
         }
     }
