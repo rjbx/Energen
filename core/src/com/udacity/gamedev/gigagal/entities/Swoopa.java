@@ -34,9 +34,9 @@ public class Swoopa extends Destructible {
     public void update(float delta) {
         position.x -= Constants.SWOOPA_MOVEMENT_SPEED * delta;
 
-        if (position.x < platform.getLeft()) {
-            position.x = platform.getLeft();
-        } else if (position.x > platform.getRight()) {
+        final float halfWorldWidth = level.getViewport().getWorldWidth() / 2;
+        final float cameraX = level.getViewport().getCamera().position.x;
+        if (position.x < (cameraX - (halfWorldWidth))) {
             position.x = platform.getRight();
         }
 
