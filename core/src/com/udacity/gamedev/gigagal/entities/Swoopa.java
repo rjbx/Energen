@@ -43,9 +43,10 @@ public class Swoopa extends Destructible {
                 velocity.x = -Constants.SWOOPA_MOVEMENT_SPEED;
                 velocity.y /= 1.001f;
             } else {
-                velocity.x *= 1.05f;
+                velocity.x *= 1.1f;
                 velocity.y = -1;
             }
+            velocity.x = Math.max(velocity.x, -Constants.SWOOPA_MOVEMENT_SPEED * 3);
             position = position.mulAdd(velocity, delta);
         }
 
