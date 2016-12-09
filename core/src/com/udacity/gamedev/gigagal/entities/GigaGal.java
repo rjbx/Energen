@@ -311,7 +311,7 @@ public class GigaGal implements Physical {
                 if (getBounds().overlaps(bounds)) {
                     isCharged = false;
                     chargeStartTime = 0;
-                    int damage = 0;
+                    int damage = hazard.getDamage();
                     float margin;
                     if (hazard instanceof Destructible) {
                         margin = hazard.getWidth() / 6;
@@ -319,15 +319,28 @@ public class GigaGal implements Physical {
                         margin = 0;
                     }
                     if (getPosition().x < (hazard.getLeft() + margin)) {
-                        recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
+                        if (hazard instanceof Swoopa){
+                            Swoopa swoopa = (Swoopa) hazard;
+                            recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y));
+                            damage = swoopa.getMountDamage();
+                        } else {
+                            recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
+
+                        }
                     } else if (getPosition().x > (hazard.getRight() - margin)) {
-                        recoil(hazard.getKnockback());
+                        if (hazard instanceof Swoopa) {
+                            Swoopa swoopa = (Swoopa) hazard;
+                            recoil(swoopa.getMountKnockback());
+                            damage = swoopa.getMountDamage();
+                        } else {
+                            recoil(hazard.getKnockback());
+                        }
                     } else if (!(hazard instanceof Ammo)) {
                         if (hazard instanceof Zoomba) {
                             Zoomba zoomba = (Zoomba) hazard;
                             recoil(new Vector2((Utils.getLateralVelocity(zoomba.getMountKnockback().x, facing)), zoomba.getMountKnockback().y));
                             damage = zoomba.getMountDamage();
-                        } else {
+                        } else { 
                             recoil(new Vector2((Utils.getLateralVelocity(hazard.getKnockback().x, facing)), hazard.getKnockback().y));
                         }
                     }
