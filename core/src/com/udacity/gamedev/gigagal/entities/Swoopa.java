@@ -19,12 +19,10 @@ public class Swoopa extends Destructible {
     private final Platform platform;
     private final Vector2 position;
     private int health;
-    private Direction direction;
 
     // ctor
     public Swoopa(Platform platform) {
         this.platform = platform;
-        direction = Direction.RIGHT;
         position = new Vector2(platform.getLeft(), platform.getTop() + Constants.SWOOPA_CENTER.y);
         startTime = TimeUtils.nanoTime();
         health = Constants.SWOOPA_MAX_HEALTH;
@@ -32,20 +30,12 @@ public class Swoopa extends Destructible {
     }
 
     public void update(float delta) {
-        switch (direction) {
-            case LEFT:
-                position.x -= Constants.SWOOPA_MOVEMENT_SPEED * delta;
-                break;
-            case RIGHT:
-                position.x += Constants.SWOOPA_MOVEMENT_SPEED * delta;
-        }
+        position.x -= Constants.SWOOPA_MOVEMENT_SPEED * delta;
 
         if (position.x < platform.getLeft()) {
             position.x = platform.getLeft();
-            direction = Direction.RIGHT;
         } else if (position.x > platform.getRight()) {
             position.x = platform.getRight();
-            direction = Direction.LEFT;
         }
 
         final float elapsedTime = Utils.secondsSince(startTime);
@@ -58,7 +48,6 @@ public class Swoopa extends Destructible {
         Utils.drawTextureRegion(batch, region, position, Constants.SWOOPA_CENTER);
     }
 
-    public final Direction getDirection() { return direction; }
     public final long getStartTime() { return startTime; }
     public final Vector2 getPosition() { return position; }
     public final int getHealth() { return health; }

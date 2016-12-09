@@ -115,11 +115,11 @@ public final class Constants {
     public static final String SHARPZOOMBA_SPRITE = "zoomba-metal";
 
     // Swoopa
-    public static final Vector2 SWOOPA_CENTER = new Vector2(14.5f, 25.5f);
-    public static final float SWOOPA_MOVEMENT_SPEED = 10;
+    public static final Vector2 SWOOPA_CENTER = new Vector2(25f, 13.5f);
+    public static final float SWOOPA_MOVEMENT_SPEED = 75;
     public static final float SWOOPA_BOB_AMPLITUDE = 2;
     public static final float SWOOPA_BOB_PERIOD = 3.0f;
-    public static final int SWOOPA_MAX_HEALTH = 30;
+    public static final int SWOOPA_MAX_HEALTH = 10;
     public static final int SWOOPA_STANDARD_DAMAGE = 10;
     public static final Vector2 SWOOPA_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
     public static final float SWOOPA_COLLISION_WIDTH = 29;
