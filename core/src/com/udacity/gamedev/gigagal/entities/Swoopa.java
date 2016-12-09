@@ -39,20 +39,20 @@ public class Swoopa extends Destructible {
         Vector3 camera = new Vector3(level.getViewport().getCamera().position);
         // while the swoopa is witin two screens' widths from the screen center on either side, permit movement
         if (position.x < (camera.x + worldSpan.x * 2) && position.x > (camera.x - worldSpan.x * 2)) {
-            if (position.y > (platform.getTop() + Constants.SWOOPA_CENTER.y)) {
+            if (position.y > (platform.getTop() + Constants.SWOOPA_COLLISION_HEIGHT)) {
                 velocity.x = -Constants.SWOOPA_MOVEMENT_SPEED;
-                velocity.y /= 1.001f;
+                velocity.y /= 1.005f;
             } else {
-                velocity.x *= 1.1f;
-                velocity.y = -1;
+                velocity.x *= 1.05f;
+                velocity.y /= 1.1f;
             }
-            velocity.x = Math.max(velocity.x, -Constants.SWOOPA_MOVEMENT_SPEED * 3);
+            velocity.x = Math.max(velocity.x, -Constants.SWOOPA_MOVEMENT_SPEED * 4);
             position = position.mulAdd(velocity, delta);
         }
 
         // when the swoopa progresses past the center screen position with a margin of one screen's width, reset x and y position
         if (position.x < (camera.x - worldSpan.x)) {
-            position.x = platform.getRight() + (worldSpan.x / 2);
+            position.x = platform.getRight() + (worldSpan.x / 1.5f);
             position.y = (platform.getTop() + (worldSpan.y * 1.5f));
             velocity.y = -Constants.SWOOPA_MOVEMENT_SPEED * 2;
         }
