@@ -22,17 +22,19 @@ public final class Ammo extends Indestructible {
     private final Direction direction;
     private final Orientation orientation;
     private final Vector2 position;
+    private final boolean targetsEnemies;
     private TextureRegion region;
     private boolean active;
 
     // ctor
-    public Ammo(Level level, Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, Weapon weapon) {
+    public Ammo(Level level, Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, Weapon weapon, boolean targetsEnemies) {
         this.level = level;
         this.position = position;
         this.direction = direction;
         this.orientation = orientation;
         this.shotIntensity = shotIntensity;
         this.weapon = weapon;
+        this.targetsEnemies = targetsEnemies;
         knockback = new Vector2();
         damage = 0;
         active = true;
@@ -152,15 +154,17 @@ public final class Ammo extends Indestructible {
                 knockback = Constants.ZOOMBA_KNOCKBACK;
         }
 
-        for (Destructible destructible : level.getDestructibles()) {
-            if (position.dst(destructible.getPosition()) < destructible.getShotRadius()) {
-                level.spawnExplosion(position);
-                active = false;
-                if (destructible.getClass() == specializedZoomba || destructible.getClass() == specializedSwoopa) {
-                    damage = Constants.AMMO_SPECIALIZED_DAMAGE;
+        if (targetsEnemies) {
+            for (Destructible destructible : level.getDestructibles()) {
+                if (position.dst(destructible.getPosition()) < destructible.getShotRadius()) {
+                    level.spawnExplosion(position);
+                    active = false;
+                    if (destructible.getClass() == specializedZoomba || destructible.getClass() == specializedSwoopa) {
+                        damage = Constants.AMMO_SPECIALIZED_DAMAGE;
+                    }
+                    Utils.applyDamage(destructible, shotIntensity, damage);
+                    level.setScore(level.getScore() + destructible.getHitScore());
                 }
-                Utils.applyDamage(destructible, shotIntensity, damage);
-                level.setScore(level.getScore() + destructible.getHitScore());
             }
         }
 

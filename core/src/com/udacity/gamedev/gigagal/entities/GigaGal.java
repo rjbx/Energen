@@ -421,7 +421,7 @@ public class GigaGal implements Physical {
                         position.x - Constants.GIGAGAL_CANNON_OFFSET.x - 5,
                         position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
             }
-            level.spawnAmmo(ammoPosition, facing, Orientation.LATERAL, shotIntensity, weapon);
+            level.spawnAmmo(ammoPosition, facing, Orientation.LATERAL, shotIntensity, weapon, true);
         }
     }
 
