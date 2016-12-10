@@ -60,7 +60,6 @@ public final class Ammo extends Indestructible {
             }
         }
 
-        damage = Constants.AMMO_STANDARD_DAMAGE / 2;
         Class specializedZoomba = null;
         Class specializedSwoopa = null;
 
@@ -77,6 +76,7 @@ public final class Ammo extends Indestructible {
             case FIRE:
                 specializedZoomba = SharpZoomba.class;
                 specializedSwoopa = SharpSwoopa.class;
+                damage = Constants.FLAME_DAMAGE / 3;
                 knockback = Constants.FLAME_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
                     region = Assets.getInstance().getAmmoAssets().fireBlast;
@@ -89,6 +89,7 @@ public final class Ammo extends Indestructible {
             case WATER:
                 specializedZoomba = FireyZoomba.class;
                 specializedSwoopa = FireySwoopa.class;
+                damage = Constants.GEISER_DAMAGE / 3;
                 knockback = Constants.GEISER_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
                     region = Assets.getInstance().getAmmoAssets().waterBlast;
@@ -101,6 +102,7 @@ public final class Ammo extends Indestructible {
             case ELECTRIC:
                 specializedZoomba = GushingZoomba.class;
                 specializedSwoopa = GushingSwoopa.class;
+                damage = Constants.COIL_DAMAGE / 3;
                 knockback = Constants.COIL_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
                     region = Assets.getInstance().getAmmoAssets().electricBlast;
@@ -113,6 +115,7 @@ public final class Ammo extends Indestructible {
             case RUBBER:
                 specializedZoomba = ChargedZoomba.class;
                 specializedSwoopa = ChargedSwoopa.class;
+                damage = Constants.WHEEL_DAMAGE /3;
                 knockback = Constants.WHEEL_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
                     region = Assets.getInstance().getAmmoAssets().rubberBlast;
@@ -123,6 +126,7 @@ public final class Ammo extends Indestructible {
             case METAL:
                 specializedZoomba = WhirlingZoomba.class;
                 specializedSwoopa = WhirlingSwoopa.class;
+                damage = Constants.SPIKE_DAMAGE / 3;
                 knockback = Constants.SPIKE_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
                     region = Assets.getInstance().getAmmoAssets().metalBlast;
@@ -142,7 +146,7 @@ public final class Ammo extends Indestructible {
                 }
                 break;
             default:
-                damage = Constants.AMMO_STANDARD_DAMAGE / 2;
+                damage = Constants.AMMO_STANDARD_DAMAGE;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
         }
 
