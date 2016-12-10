@@ -75,7 +75,7 @@ powerup-health
   orig: 15, 17
   offset: 0, 0
   index: -1
-spike
+spike-1
   rotate: false
   xy: 241, 110
   size: 7, 16

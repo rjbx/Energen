@@ -397,7 +397,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             sharpSwoopaRegions.add(atlas.findRegion(Constants.SHARPSWOOPA_SPRITE_1));
             sharpSwoopaRegions.add(atlas.findRegion(Constants.SHARPSWOOPA_SPRITE_2));
 
-            sharpSwoopa = new Animation(Constants.WHEEL_DURATION / sharpSwoopaRegions.size,
+            sharpSwoopa = new Animation(Constants.SPIKE_DURATION / sharpSwoopaRegions.size,
                     sharpSwoopaRegions, PlayMode.NORMAL);
         }
     }
