@@ -148,7 +148,7 @@ public final class Constants {
 
     // Spike
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
-    public static final float SPIKE_DURATION = 0.2f;
+    public static final float SPIKE_DURATION = 0.5f;
     public static final int SPIKE_DAMAGE = 5;
     public static final Vector2 SPIKE_KNOCKBACK = new Vector2(50, VERTICAL_KNOCKBACK);
     public static final float SPIKE_COLLISION_WIDTH = 9;
