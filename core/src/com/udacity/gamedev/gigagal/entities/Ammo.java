@@ -144,7 +144,7 @@ public final class Ammo extends Indestructible {
                 }
                 Utils.applyDamage(destructible, shotIntensity, damage);
                 level.setScore(level.getScore() + destructible.getHitScore());
-                if (!fromGigagal) {
+                if (!fromGigagal && weapon != Weapon.PSYCHIC) {
                     damage = 0;
                 }
             }
