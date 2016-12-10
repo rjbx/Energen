@@ -375,10 +375,15 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class SharpSwoopaAssets {
 
-        public final AtlasRegion sharpSwoopa;
+        public final Animation sharpSwoopa;
 
         public SharpSwoopaAssets(TextureAtlas atlas) {
-            sharpSwoopa = atlas.findRegion(Constants.SHARPSWOOPA_SPRITE);
+            Array<AtlasRegion> sharpSwoopaRegions = new Array<AtlasRegion>();
+            sharpSwoopaRegions.add(atlas.findRegion(Constants.SHARPSWOOPA_SPRITE_1));
+            sharpSwoopaRegions.add(atlas.findRegion(Constants.SHARPSWOOPA_SPRITE_2));
+
+            sharpSwoopa = new Animation(Constants.WHEEL_DURATION / sharpSwoopaRegions.size,
+                    sharpSwoopaRegions, PlayMode.NORMAL);
         }
     }
 

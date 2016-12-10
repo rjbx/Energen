@@ -17,7 +17,8 @@ public class SharpSwoopa extends Swoopa {
 
     @Override
     public void render(SpriteBatch batch) {
-        final TextureRegion region = Assets.getInstance().getSharpSwoopaAssets().sharpSwoopa;
+        final float elapsedTime = Utils.secondsSince(super.getStartTime());
+        final TextureRegion region = Assets.getInstance().getSharpSwoopaAssets().sharpSwoopa.getKeyFrame(elapsedTime, true);
         Utils.drawTextureRegion(batch, region, super.getPosition(), Constants.SWOOPA_CENTER);
     }
 

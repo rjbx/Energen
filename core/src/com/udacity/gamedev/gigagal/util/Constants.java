@@ -142,7 +142,8 @@ public final class Constants {
     public static final String WHIRLINGSWOOPA_SPRITE_2 = "swoopa-rubber-2";
 
     // Sharp-Swoopa
-    public static final String SHARPSWOOPA_SPRITE = "swoopa-metal";
+    public static final String SHARPSWOOPA_SPRITE_1 = "swoopa-metal-1";
+    public static final String SHARPSWOOPA_SPRITE_2 = "swoopa-metal-2";
 
     // Spike
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
