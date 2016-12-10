@@ -16,7 +16,8 @@ public class SharpZoomba extends Zoomba {
 
     @Override
     public void render(SpriteBatch batch) {
-        final TextureRegion region = Assets.getInstance().getSharpZoombaAssets().sharpZoomba;
+        final float elapsedTime = Utils.secondsSince(super.getStartTime());
+        final TextureRegion region = Assets.getInstance().getSharpZoombaAssets().sharpZoomba.getKeyFrame(elapsedTime, true);
         Utils.drawTextureRegion(batch, region, super.getPosition(), Constants.ZOOMBA_CENTER);
     }
 

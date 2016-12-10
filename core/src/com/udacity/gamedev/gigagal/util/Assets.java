@@ -311,10 +311,15 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class SharpZoombaAssets {
 
-        public final AtlasRegion sharpZoomba;
+        public final Animation sharpZoomba;
 
         public SharpZoombaAssets(TextureAtlas atlas) {
-            sharpZoomba = atlas.findRegion(Constants.SHARPZOOMBA_SPRITE);
+            Array<AtlasRegion> sharpZoombaRegions = new Array<AtlasRegion>();
+            sharpZoombaRegions.add(atlas.findRegion(Constants.SHARPZOOMBA_SPRITE_1));
+            sharpZoombaRegions.add(atlas.findRegion(Constants.SHARPZOOMBA_SPRITE_2));
+
+            sharpZoomba = new Animation(Constants.WHEEL_DURATION / sharpZoombaRegions.size,
+                    sharpZoombaRegions, PlayMode.NORMAL);
         }
     }
 

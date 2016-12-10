@@ -112,7 +112,8 @@ public final class Constants {
     public static final String WHIRLINGZOOMBA_SPRITE_2 = "zoomba-rubber-2";
 
     // Sharp-Zoomba
-    public static final String SHARPZOOMBA_SPRITE = "zoomba-metal";
+    public static final String SHARPZOOMBA_SPRITE_1 = "zoomba-metal-1";
+    public static final String SHARPZOOMBA_SPRITE_2 = "zoomba-metal-2";
 
     // Swoopa
     public static final Vector2 SWOOPA_CENTER = new Vector2(25f, 13.5f);
