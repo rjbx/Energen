@@ -134,7 +134,7 @@ public final class Ammo extends Indestructible {
                 damage = Constants.AMMO_STANDARD_DAMAGE;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
         }
-       
+
         for (Destructible destructible : level.getDestructibles()) {
             if (position.dst(destructible.getPosition()) < destructible.getShotRadius()) {
                 level.spawnExplosion(position);
@@ -144,14 +144,17 @@ public final class Ammo extends Indestructible {
                 }
                 Utils.applyDamage(destructible, shotIntensity, damage);
                 level.setScore(level.getScore() + destructible.getHitScore());
+                if (!fromGigagal) {
+                    damage = 0;
+                }
             }
         }
 
         float ammoSpeed = Constants.AMMO_MOVE_SPEED;
         if (!fromGigagal) {
             ammoSpeed *= .75f;
-            damage /= 2;
         }
+
         if (orientation == Orientation.LATERAL) {
             switch (direction) {
                 case LEFT:
