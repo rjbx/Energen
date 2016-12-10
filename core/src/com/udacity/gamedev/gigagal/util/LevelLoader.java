@@ -102,7 +102,7 @@ public final class LevelLoader {
                 final Vector2 portalPosition = imagePosition.add(Constants.PORTAL_CENTER);
                 Gdx.app.log(TAG, "Loaded the exit portal at " + portalPosition);
                 level.setPortal(new Portal(portalPosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPIKE_SPRITE)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPIKE_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SPIKE_CENTER);
                 Gdx.app.log(TAG, "Loaded the spike at " + spikePosition);
                 level.getIndestructibles().add(new Spike(spikePosition));

@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
@@ -11,14 +12,17 @@ public class Spike extends Indestructible {
 
     // fields
     private Vector2 position;
+    private long startTime;
 
     // ctor
     public Spike(Vector2 position) {
         this.position = position;
+        this.startTime = TimeUtils.nanoTime();
     }
 
     public void render(SpriteBatch batch) {
-        final TextureRegion region = Assets.getInstance().getSpikeAssets().spike;
+        final float elapsedTime = Utils.secondsSince(startTime);
+        final TextureRegion region = Assets.getInstance().getSpikeAssets().spike.getKeyFrame(elapsedTime, true);
         Utils.drawTextureRegion(batch, region, position, Constants.SPIKE_CENTER);
     }
 

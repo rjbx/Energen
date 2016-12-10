@@ -318,7 +318,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             sharpZoombaRegions.add(atlas.findRegion(Constants.SHARPZOOMBA_SPRITE_1));
             sharpZoombaRegions.add(atlas.findRegion(Constants.SHARPZOOMBA_SPRITE_2));
 
-            sharpZoomba = new Animation(Constants.WHEEL_DURATION / sharpZoombaRegions.size,
+            sharpZoomba = new Animation(Constants.SPIKE_DURATION / sharpZoombaRegions.size,
                     sharpZoombaRegions, PlayMode.NORMAL);
         }
     }
@@ -404,10 +404,15 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class SpikeAssets {
 
-        public final AtlasRegion spike;
+        public final Animation spike;
 
         public SpikeAssets(TextureAtlas atlas) {
-            spike = atlas.findRegion(Constants.SPIKE_SPRITE);
+            Array<AtlasRegion> spikeRegions = new Array<AtlasRegion>();
+            spikeRegions.add(atlas.findRegion(Constants.SPIKE_SPRITE_1));
+            spikeRegions.add(atlas.findRegion(Constants.SPIKE_SPRITE_2));
+
+            spike = new Animation(Constants.SPIKE_DURATION / spikeRegions.size,
+                    spikeRegions, PlayMode.NORMAL);
         }
     }
 
