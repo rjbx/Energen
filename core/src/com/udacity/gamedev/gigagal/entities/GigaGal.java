@@ -323,7 +323,6 @@ public class GigaGal implements Physical {
                             damage = swoopa.getMountDamage();
                         } else {
                             recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
-
                         }
                     } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
                         if (hazard instanceof Swoopa) {

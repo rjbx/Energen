@@ -84,9 +84,9 @@ public final class Constants {
     
     // Zoomba
     public static final Vector2 ZOOMBA_CENTER = new Vector2(14.5f, 25.5f);
-    public static final float ZOOMBA_MOVEMENT_SPEED = 15;
-    public static final float ZOOMBA_BOB_AMPLITUDE = 25;
-    public static final float ZOOMBA_BOB_PERIOD = 1f;
+    public static final float ZOOMBA_MOVEMENT_SPEED = 20;
+    public static final float ZOOMBA_BOB_AMPLITUDE = 20;
+    public static final float ZOOMBA_BOB_PERIOD = 2f;
     public static final int ZOOMBA_MAX_HEALTH = 30;
     public static final int ZOOMBA_STANDARD_DAMAGE = 1;
     public static final Vector2 ZOOMBA_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
@@ -147,7 +147,7 @@ public final class Constants {
 
     // Spike
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
-    public static final int SPIKE_DAMAGE = 15;
+    public static final int SPIKE_DAMAGE = 5;
     public static final Vector2 SPIKE_KNOCKBACK = new Vector2(50, VERTICAL_KNOCKBACK);
     public static final float SPIKE_COLLISION_WIDTH = 9;
     public static final float SPIKE_COLLISION_HEIGHT = 17;
@@ -156,7 +156,7 @@ public final class Constants {
     // Flame
     public static final Vector2 FLAME_CENTER = new Vector2(8.5f, 17.5f);
     public static final float FLAME_DURATION = 0.15f;
-    public static final int FLAME_DAMAGE = 10;
+    public static final int FLAME_DAMAGE = 15;
     public static final Vector2 FLAME_KNOCKBACK = new Vector2(100, VERTICAL_KNOCKBACK);
     public static final float FLAME_COLLISION_WIDTH = 15;
     public static final float FLAME_COLLISION_HEIGHT = 25;
@@ -235,6 +235,7 @@ public final class Constants {
     public static final String SHOT_ELECTRIC_SPRITE_ALT = "ammo-shot-electric-alt";
     public static final String BLAST_ELECTRIC_SPRITE = "ammo-blast-electric";
     public static final String SHOT_RUBBER_SPRITE = "ammo-shot-rubber";
+    public static final String SHOT_RUBBER_SPRITE_ALT = "ammo-shot-rubber-alt";
     public static final String BLAST_RUBBER_SPRITE = "ammo-blast-rubber";
     public static final String SHOT_METAL_SPRITE = "ammo-shot-metal";
     public static final String SHOT_METAL_SPRITE_ALT = "ammo-shot-metal-alt";

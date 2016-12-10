@@ -190,6 +190,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion electricShotAlt;
         public final AtlasRegion electricBlast;
         public final AtlasRegion rubberShot;
+        public final AtlasRegion rubberShotAlt;
         public final AtlasRegion rubberBlast;
         public final AtlasRegion metalShot;
         public final AtlasRegion metalShotAlt;
@@ -210,6 +211,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             electricShotAlt = atlas.findRegion(Constants.SHOT_ELECTRIC_SPRITE_ALT);
             electricBlast = atlas.findRegion(Constants.BLAST_ELECTRIC_SPRITE);
             rubberShot = atlas.findRegion(Constants.SHOT_RUBBER_SPRITE);
+            rubberShotAlt = atlas.findRegion(Constants.SHOT_RUBBER_SPRITE_ALT);
             rubberBlast = atlas.findRegion(Constants.BLAST_RUBBER_SPRITE);
             metalShot = atlas.findRegion(Constants.SHOT_METAL_SPRITE);
             metalShotAlt = atlas.findRegion(Constants.SHOT_METAL_SPRITE_ALT);
