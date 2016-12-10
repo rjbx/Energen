@@ -231,13 +231,13 @@ public final class Constants {
     public static final String SHOT_WATER_SPRITE = "ammo-shot-water";
     public static final String SHOT_WATER_SPRITE_ALT = "ammo-shot-water-alt";
     public static final String BLAST_WATER_SPRITE = "ammo-blast-water";
-    public static final String SHOT_ELECTRIC_SPRITE_ALT = "ammo-shot-electric";
-    public static final String SHOT_ELECTRIC_SPRITE = "ammo-shot-electric-alt";
+    public static final String SHOT_ELECTRIC_SPRITE = "ammo-shot-electric";
+    public static final String SHOT_ELECTRIC_SPRITE_ALT = "ammo-shot-electric-alt";
     public static final String BLAST_ELECTRIC_SPRITE = "ammo-blast-electric";
     public static final String SHOT_RUBBER_SPRITE = "ammo-shot-rubber";
     public static final String BLAST_RUBBER_SPRITE = "ammo-blast-rubber";
-    public static final String SHOT_METAL_SPRITE_ALT = "ammo-shot-metal";
-    public static final String SHOT_METAL_SPRITE = "ammo-shot-metal-alt";
+    public static final String SHOT_METAL_SPRITE = "ammo-shot-metal";
+    public static final String SHOT_METAL_SPRITE_ALT = "ammo-shot-metal-alt";
     public static final String BLAST_METAL_SPRITE = "ammo-blast-metal";
     public static final String SHOT_PSYCHIC_SPRITE = "ammo-shot-psychic";
     public static final String BLAST_PSYCHIC_SPRITE = "ammo-blast-psychic";
@@ -288,7 +288,7 @@ public final class Constants {
     public static final String LEVEL_CHARGEDSWOOPA_TAG = "ChargedSwoopa";
     public static final String LEVEL_WHIRLINGSWOOPA_TAG = "WhirlingSwoopa";
     public static final String LEVEL_SHARPSWOOPA_TAG = "SharpSwoopa";
-    public static final String[] LEVELS =  {"levels/WATER.dt", "levels/RUBBER.dt", "levels/ELECTRIC.dt", "levels/WATER.dt", "levels/FIRE.dt", "levels/PSYCHIC.dt", "levels/FINAL.dt"};
+    public static final String[] LEVELS =  {"levels/METAL.dt", "levels/RUBBER.dt", "levels/ELECTRIC.dt", "levels/WATER.dt", "levels/FIRE.dt", "levels/PSYCHIC.dt", "levels/FINAL.dt"};
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;
