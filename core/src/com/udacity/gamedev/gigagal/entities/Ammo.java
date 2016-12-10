@@ -80,6 +80,8 @@ public final class Ammo extends Indestructible {
                 knockback = Constants.FLAME_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
                     region = Assets.getInstance().getAmmoAssets().fireBlast;
+                } else if (orientation == Orientation.VERTICAL) {
+                    region = Assets.getInstance().getAmmoAssets().fireShotAlt;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().fireShot;
                 }
@@ -91,6 +93,8 @@ public final class Ammo extends Indestructible {
                 knockback = Constants.GEISER_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
                     region = Assets.getInstance().getAmmoAssets().waterBlast;
+                } else if (orientation == Orientation.VERTICAL) {
+                    region = Assets.getInstance().getAmmoAssets().waterShotAlt;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().waterShot;
                 }
@@ -102,6 +106,8 @@ public final class Ammo extends Indestructible {
                 knockback = Constants.COIL_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
                     region = Assets.getInstance().getAmmoAssets().electricBlast;
+                }  else if (orientation == Orientation.VERTICAL) {
+                    region = Assets.getInstance().getAmmoAssets().electricShotAlt;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().electricShot;
                 }
@@ -124,6 +130,8 @@ public final class Ammo extends Indestructible {
                 knockback = Constants.SPIKE_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
                     region = Assets.getInstance().getAmmoAssets().metalBlast;
+                } else if (orientation == Orientation.VERTICAL) {
+                    region = Assets.getInstance().getAmmoAssets().metalShotAlt;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().metalShot;
                 }
