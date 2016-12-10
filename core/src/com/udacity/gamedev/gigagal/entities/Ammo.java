@@ -147,10 +147,8 @@ public final class Ammo extends Indestructible {
                 level.spawnExplosion(position);
                 active = false;
                 damage = Constants.AMMO_STANDARD_DAMAGE;
-                if (destructible.getClass() == specializedZoomba) {
-                    damage = Utils.specializeDamage(destructible, specializedZoomba, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE / 3);
-                } else if (destructible.getClass() == specializedSwoopa) {
-                    damage = Utils.specializeDamage(destructible, specializedSwoopa, Constants.AMMO_SPECIALIZED_DAMAGE, Constants.AMMO_STANDARD_DAMAGE / 3);
+                if (destructible.getClass() == specializedZoomba || destructible.getClass() == specializedSwoopa) {
+                    damage = Constants.AMMO_SPECIALIZED_DAMAGE;
                 }
                 Utils.applyDamage(destructible, shotIntensity, damage);
                 level.setScore(level.getScore() + destructible.getHitScore());

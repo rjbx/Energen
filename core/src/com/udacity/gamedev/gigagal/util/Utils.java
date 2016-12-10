@@ -91,11 +91,4 @@ public class Utils {
             destructible.setHealth(destructible.getHealth() - (damage / 3));
         }
     }
-
-    public static final int specializeDamage(Destructible destructible, Class effectiveAgainst,int specializedDamage, int standardDamage) {
-        if (destructible.getClass() == effectiveAgainst) {
-            return specializedDamage;
-        }
-        return standardDamage;
-    }
 }
