@@ -6,35 +6,35 @@ filter: Nearest,Nearest
 repeat: none
 ammo-blast-electric
   rotate: false
-  xy: 327, 130
+  xy: 873, 156
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
   index: -1
 ammo-blast-fire
   rotate: false
-  xy: 291, 133
+  xy: 260, 126
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
   index: -1
 ammo-blast-metal
   rotate: false
-  xy: 260, 126
+  xy: 853, 159
   size: 18, 9
   orig: 18, 9
   offset: 0, 0
   index: -1
 ammo-blast-native
   rotate: false
-  xy: 216, 61
+  xy: 887, 179
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-blast-psychic
   rotate: false
-  xy: 980, 198
+  xy: 980, 169
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
@@ -48,49 +48,49 @@ ammo-blast-rubber
   index: -1
 ammo-blast-water
   rotate: false
-  xy: 309, 133
+  xy: 291, 133
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
   index: -1
 ammo-shot-electric
   rotate: false
-  xy: 355, 137
+  xy: 844, 154
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
   index: -1
 ammo-shot-electric-alt
   rotate: false
-  xy: 853, 181
+  xy: 844, 145
   size: 5, 7
   orig: 5, 7
   offset: 0, 0
   index: -1
 ammo-shot-fire
   rotate: false
-  xy: 126, 21
+  xy: 344, 137
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
   index: -1
 ammo-shot-fire-alt
   rotate: false
-  xy: 853, 172
+  xy: 126, 38
   size: 5, 7
   orig: 5, 7
   offset: 0, 0
   index: -1
 ammo-shot-metal
   rotate: false
-  xy: 742, 127
+  xy: 334, 137
   size: 8, 5
   orig: 8, 5
   offset: 0, 0
   index: -1
 ammo-shot-metal-alt
   rotate: false
-  xy: 1017, 197
+  xy: 216, 61
   size: 5, 8
   orig: 5, 8
   offset: 0, 0
@@ -104,35 +104,35 @@ ammo-shot-native
   index: -1
 ammo-shot-psychic
   rotate: false
-  xy: 126, 48
+  xy: 278, 127
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 126, 38
+  xy: 887, 169
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber-alt
   rotate: false
-  xy: 126, 28
+  xy: 887, 159
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-water
   rotate: false
-  xy: 280, 130
+  xy: 323, 137
   size: 9, 5
   orig: 9, 5
   offset: 0, 0
   index: -1
 ammo-shot-water-alt
   rotate: false
-  xy: 1017, 207
+  xy: 126, 47
   size: 5, 9
   orig: 5, 9
   offset: 0, 0
@@ -195,7 +195,7 @@ cannon-lateral
   index: -1
 cannon-vertical
   rotate: false
-  xy: 961, 176
+  xy: 1000, 167
   size: 16, 20
   orig: 16, 20
   offset: 0, 0
@@ -244,21 +244,21 @@ flame-1
   index: -1
 flame-2
   rotate: false
-  xy: 796, 132
+  xy: 961, 169
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-1
   rotate: false
-  xy: 815, 132
+  xy: 980, 189
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-2
   rotate: false
-  xy: 834, 132
+  xy: 999, 189
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
@@ -305,9 +305,37 @@ jump-right
   orig: 29, 35
   offset: 0, 0
   index: -1
+lookdown-left
+  rotate: false
+  xy: 742, 128
+  size: 22, 31
+  orig: 22, 31
+  offset: 0, 0
+  index: -1
+lookdown-right
+  rotate: false
+  xy: 766, 128
+  size: 22, 31
+  orig: 22, 31
+  offset: 0, 0
+  index: -1
+lookup-left
+  rotate: false
+  xy: 619, 162
+  size: 23, 32
+  orig: 23, 32
+  offset: 0, 0
+  index: -1
+lookup-right
+  rotate: false
+  xy: 717, 127
+  size: 23, 32
+  orig: 23, 32
+  offset: 0, 0
+  index: -1
 pillar
   rotate: false
-  xy: 341, 136
+  xy: 309, 136
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
@@ -412,14 +440,14 @@ portal-6
   index: -1
 powerup-ammo
   rotate: false
-  xy: 979, 179
+  xy: 853, 170
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 1000, 199
+  xy: 870, 170
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -585,20 +613,6 @@ swoopa-water-2
   orig: 49, 27
   offset: 0, 0
   index: -1
-upshoot-left
-  rotate: false
-  xy: 619, 162
-  size: 23, 32
-  orig: 23, 32
-  offset: 0, 0
-  index: -1
-upshoot-right
-  rotate: false
-  xy: 717, 127
-  size: 23, 32
-  orig: 23, 32
-  offset: 0, 0
-  index: -1
 vacuum-1
   rotate: false
   xy: 68, 58
@@ -622,14 +636,14 @@ vacuum-3
   index: -1
 wheel-1
   rotate: false
-  xy: 742, 134
+  xy: 790, 134
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 wheel-2
   rotate: false
-  xy: 769, 134
+  xy: 817, 134
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
