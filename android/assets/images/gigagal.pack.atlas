@@ -76,7 +76,7 @@ ammo-shot-fire
   index: -1
 ammo-shot-fire-alt
   rotate: false
-  xy: 816, 175
+  xy: 1010, 177
   size: 5, 7
   orig: 5, 7
   offset: 0, 0
@@ -90,14 +90,14 @@ ammo-shot-metal
   index: -1
 ammo-shot-metal-alt
   rotate: false
-  xy: 660, 142
+  xy: 816, 174
   size: 5, 8
   orig: 5, 8
   offset: 0, 0
   index: -1
 ammo-shot-native
   rotate: false
-  xy: 853, 190
+  xy: 730, 161
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
@@ -116,6 +116,13 @@ ammo-shot-rubber
   orig: 8, 8
   offset: 0, 0
   index: -1
+ammo-shot-rubber-alt
+  rotate: false
+  xy: 846, 188
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
 ammo-shot-water
   rotate: false
   xy: 260, 130
@@ -125,7 +132,7 @@ ammo-shot-water
   index: -1
 ammo-shot-water-alt
   rotate: false
-  xy: 846, 187
+  xy: 660, 141
   size: 5, 9
   orig: 5, 9
   offset: 0, 0
