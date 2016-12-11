@@ -40,10 +40,14 @@ public final class Constants {
     public static final int INITIAL_LIVES = 3;
 
     // Gigagal assets
-    public static final String STAND_RIGHT = "standing-right";
-    public static final String STAND_LEFT = "standing-left";
-    public static final String JUMP_RIGHT = "jumping-right";
-    public static final String JUMP_LEFT = "jumping-left";
+    public static final String STAND_RIGHT = "stand-right";
+    public static final String STAND_LEFT = "stand-left";
+    public static final String JUMP_RIGHT = "jump-right";
+    public static final String JUMP_LEFT = "jump-left";
+    public static final String LOOKUP_RIGHT = "lookup-right";
+    public static final String LOOKUP_LEFT = "lookup-left";
+    public static final String LOOKDOWN_RIGHT = "lookdown-right";
+    public static final String LOOKDOWN_LEFT = "lookdown-left";
     public static final String RICOCHET_RIGHT = "ricochet-right";
     public static final String RICOCHET_LEFT = "ricochet-left";
     public static final float RICOCHET_FRAME_DURATION = 0.05f;
