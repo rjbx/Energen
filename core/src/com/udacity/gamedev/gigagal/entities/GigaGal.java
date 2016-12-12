@@ -424,13 +424,15 @@ public class GigaGal implements Physical {
                         position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
             } else if (facing == Direction.LEFT) {
                 ammoPosition = new Vector2(
-                        position.x - Constants.GIGAGAL_CANNON_OFFSET.x - 5,
+                        position.x - Constants.GIGAGAL_CANNON_OFFSET.x - 15,
                         position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
             }
             if (lookDirection == Direction.UP) {
+                ammoPosition.x -= Utils.getLateralVelocity(5, facing);
                 ammoPosition.y += 20;
                 level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
             } else if (lookDirection == Direction.DOWN) {
+                ammoPosition.x -= Utils.getLateralVelocity(10, facing);
                 ammoPosition.y -= 20;
                 level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
             } else {
