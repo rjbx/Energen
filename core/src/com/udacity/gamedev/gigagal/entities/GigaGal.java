@@ -429,10 +429,10 @@ public class GigaGal implements Physical {
             }
             if (lookDirection == Direction.UP) {
                 ammoPosition.y += 20;
-                level.spawnAmmo(ammoPosition, facing, Orientation.VERTICAL, shotIntensity, weapon, true);
+                level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
             } else if (lookDirection == Direction.DOWN) {
                 ammoPosition.y -= 20;
-                level.spawnAmmo(ammoPosition, facing, Orientation.VERTICAL, shotIntensity, weapon, true);
+                level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
             } else {
                 level.spawnAmmo(ammoPosition, facing, Orientation.LATERAL, shotIntensity, weapon, true);
             }
