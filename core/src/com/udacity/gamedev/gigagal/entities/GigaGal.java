@@ -230,7 +230,7 @@ public class GigaGal implements Physical {
             }
         }
         // falls if no detection with grounded platform top
-        if (groundedPlatform) {
+        if (groundedPlatform && aerialState != AerialState.RECOILING) {
             if (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight) {
                 groundedPlatform = false;
                 fall();
@@ -353,6 +353,7 @@ public class GigaGal implements Physical {
     // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoil(Vector2 velocity) {
         aerialState = AerialState.RECOILING;
+        groundState = GroundState.AIRBORNE;
         strideStartTime = 0;
         canStride = false;
         canDash = false;
