@@ -8,17 +8,17 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class FireySwoopa extends Swoopa {
+public class FierySwoopa extends Swoopa {
 
     // ctor
-    public FireySwoopa(Platform platform, Level level) {
+    public FierySwoopa(Platform platform, Level level) {
         super(platform, level);
     }
 
     @Override
     public void render(SpriteBatch batch) {
         final float elapsedTime = Utils.secondsSince(super.getStartTime());
-        final TextureRegion region = Assets.getInstance().getFireySwoopaAssets().fireySwoopa.getKeyFrame(elapsedTime, true);
+        final TextureRegion region = Assets.getInstance().getFierySwoopaAssets().fierySwoopa.getKeyFrame(elapsedTime, true);
         Utils.drawTextureRegion(batch, region, super.getPosition(), Constants.SWOOPA_CENTER);
     }
 

@@ -10,8 +10,8 @@ import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.ChargedSwoopa;
 import com.udacity.gamedev.gigagal.entities.ChargedZoomba;
 import com.udacity.gamedev.gigagal.entities.Coil;
-import com.udacity.gamedev.gigagal.entities.FireySwoopa;
-import com.udacity.gamedev.gigagal.entities.FireyZoomba;
+import com.udacity.gamedev.gigagal.entities.FierySwoopa;
+import com.udacity.gamedev.gigagal.entities.FieryZoomba;
 import com.udacity.gamedev.gigagal.entities.GushingSwoopa;
 import com.udacity.gamedev.gigagal.entities.GushingZoomba;
 import com.udacity.gamedev.gigagal.entities.Pillar;
@@ -160,9 +160,9 @@ public final class LevelLoader {
                 if (identifier.equals(Constants.LEVEL_ZOOMBA_TAG)) {
                     final Zoomba zoomba = new Zoomba(platform);
                     level.getDestructibles().add(zoomba);
-                } else if (identifier.equals(Constants.LEVEL_FIREYZOOMBA_TAG)) {
-                    final FireyZoomba fireyZoomba = new FireyZoomba(platform);
-                    level.getDestructibles().add(fireyZoomba);
+                } else if (identifier.equals(Constants.LEVEL_FIERYZOOMBA_TAG)) {
+                    final FieryZoomba fieryZoomba = new FieryZoomba(platform);
+                    level.getDestructibles().add(fieryZoomba);
                 } else if (identifier.equals(Constants.LEVEL_GUSHINGZOOMBA_TAG)) {
                     final GushingZoomba gushingZoomba = new GushingZoomba(platform);
                     level.getDestructibles().add(gushingZoomba);
@@ -178,9 +178,9 @@ public final class LevelLoader {
                 }  else if (identifier.equals(Constants.LEVEL_SWOOPA_TAG)) {
                     final Swoopa swoopa = new Swoopa(platform, level);
                     level.getDestructibles().add(swoopa);
-                } else if (identifier.equals(Constants.LEVEL_FIREYSWOOPA_TAG)) {
-                    final FireySwoopa fireySwoopa = new FireySwoopa(platform, level);
-                    level.getDestructibles().add(fireySwoopa);
+                } else if (identifier.equals(Constants.LEVEL_FIERYSWOOPA_TAG)) {
+                    final FierySwoopa fierySwoopa = new FierySwoopa(platform, level);
+                    level.getDestructibles().add(fierySwoopa);
                 } else if (identifier.equals(Constants.LEVEL_GUSHINGSWOOPA_TAG)) {
                     final GushingSwoopa gushingSwoopa = new GushingSwoopa(platform, level);
                     level.getDestructibles().add(gushingSwoopa);

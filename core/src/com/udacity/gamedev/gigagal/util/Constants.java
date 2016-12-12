@@ -101,9 +101,9 @@ public final class Constants {
     public static final float ZOOMBA_SHOT_RADIUS = 17;
     public static final String ZOOMBA_SPRITE = "zoomba";
 
-    // Firey-Zoomba
-    public static final String FIREYZOOMBA_SPRITE_1 = "zoomba-fire-1";
-    public static final String FIREYZOOMBA_SPRITE_2 = "zoomba-fire-2";
+    // Fiery-Zoomba
+    public static final String FIERYZOOMBA_SPRITE_1 = "zoomba-fire-1";
+    public static final String FIERYZOOMBA_SPRITE_2 = "zoomba-fire-2";
 
     // Gushing-Zoomba
     public static final String GUSHINGZOOMBA_SPRITE_1 = "zoomba-water-1";
@@ -132,9 +132,9 @@ public final class Constants {
     public static final float SWOOPA_SHOT_RADIUS = 17;
     public static final String SWOOPA_SPRITE = "swoopa";
 
-    // Firey-Swoopa
-    public static final String FIREYSWOOPA_SPRITE_1 = "swoopa-fire-1";
-    public static final String FIREYSWOOPA_SPRITE_2 = "swoopa-fire-2";
+    // Fiery-Swoopa
+    public static final String FIERYSWOOPA_SPRITE_1 = "swoopa-fire-1";
+    public static final String FIERYSWOOPA_SPRITE_2 = "swoopa-fire-2";
 
     // Gushing-Swoopa
     public static final String GUSHINGSWOOPA_SPRITE_1 = "swoopa-water-1";
@@ -287,13 +287,13 @@ public final class Constants {
     public static final String LEVEL_HEIGHT_KEY = "height";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_ZOOMBA_TAG = "Zoomba";
-    public static final String LEVEL_FIREYZOOMBA_TAG = "FireyZoomba";
+    public static final String LEVEL_FIERYZOOMBA_TAG = "FieryZoomba";
     public static final String LEVEL_GUSHINGZOOMBA_TAG = "GushingZoomba";
     public static final String LEVEL_CHARGEDZOOMBA_TAG = "ChargedZoomba";
     public static final String LEVEL_WHIRLINGZOOMBA_TAG = "WhirlingZoomba";
     public static final String LEVEL_SHARPZOOMBA_TAG = "SharpZoomba";
     public static final String LEVEL_SWOOPA_TAG = "Swoopa";
-    public static final String LEVEL_FIREYSWOOPA_TAG = "FireySwoopa";
+    public static final String LEVEL_FIERYSWOOPA_TAG = "FierySwoopa";
     public static final String LEVEL_GUSHINGSWOOPA_TAG = "GushingSwoopa";
     public static final String LEVEL_CHARGEDSWOOPA_TAG = "ChargedSwoopa";
     public static final String LEVEL_WHIRLINGSWOOPA_TAG = "WhirlingSwoopa";

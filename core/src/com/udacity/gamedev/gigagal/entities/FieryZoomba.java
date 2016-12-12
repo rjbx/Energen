@@ -7,17 +7,17 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class FireyZoomba extends Zoomba {
+public class FieryZoomba extends Zoomba {
 
     // ctor
-    public FireyZoomba(Platform platform) {
+    public FieryZoomba(Platform platform) {
         super(platform);
     }
 
     @Override
     public void render(SpriteBatch batch) {
         final float elapsedTime = Utils.secondsSince(super.getStartTime());
-        final TextureRegion region = Assets.getInstance().getFireyZoombaAssets().fireyZoomba.getKeyFrame(elapsedTime, true);
+        final TextureRegion region = Assets.getInstance().getFieryZoombaAssets().fieryZoomba.getKeyFrame(elapsedTime, true);
         Utils.drawTextureRegion(batch, region, super.getPosition(), Constants.ZOOMBA_CENTER);
     }
 

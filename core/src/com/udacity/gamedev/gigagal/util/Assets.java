@@ -24,13 +24,13 @@ public final class Assets implements Disposable, AssetErrorListener {
     private PillarAssets pillarAssets;
     private AmmoAssets ammoAssets;
     private ZoombaAssets zoombaAssets;
-    private FireyZoombaAssets fireyZoombaAssets;
+    private FieryZoombaAssets fieryZoombaAssets;
     private GushingZoombaAssets gushingZoombaAssets;
     private ChargedZoombaAssets chargedZoombaAssets;
     private WhirlingZoombaAssets whirlingZoombaAssets;
     private SharpZoombaAssets sharpZoombaAssets;
     private SwoopaAssets swoopaAssets;
-    private FireySwoopaAssets fireySwoopaAssets;
+    private FierySwoopaAssets fierySwoopaAssets;
     private GushingSwoopaAssets gushingSwoopaAssets;
     private ChargedSwoopaAssets chargedSwoopaAssets;
     private WhirlingSwoopaAssets whirlingSwoopaAssets;
@@ -67,13 +67,13 @@ public final class Assets implements Disposable, AssetErrorListener {
         pillarAssets = new PillarAssets(atlas);
         ammoAssets = new AmmoAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
-        fireyZoombaAssets = new FireyZoombaAssets(atlas);
+        fieryZoombaAssets = new FieryZoombaAssets(atlas);
         gushingZoombaAssets = new GushingZoombaAssets(atlas);
         chargedZoombaAssets = new ChargedZoombaAssets(atlas);
         whirlingZoombaAssets = new WhirlingZoombaAssets(atlas);
         sharpZoombaAssets = new SharpZoombaAssets(atlas);
         swoopaAssets = new SwoopaAssets(atlas);
-        fireySwoopaAssets = new FireySwoopaAssets(atlas);
+        fierySwoopaAssets = new FierySwoopaAssets(atlas);
         gushingSwoopaAssets = new GushingSwoopaAssets(atlas);
         chargedSwoopaAssets = new ChargedSwoopaAssets(atlas);
         whirlingSwoopaAssets = new WhirlingSwoopaAssets(atlas);
@@ -257,17 +257,17 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
     
-    public class FireyZoombaAssets {
+    public class FieryZoombaAssets {
 
-        public final Animation fireyZoomba;
+        public final Animation fieryZoomba;
 
-        public FireyZoombaAssets(TextureAtlas atlas) {
-            Array<AtlasRegion> fireyZoombaRegions = new Array<AtlasRegion>();
-            fireyZoombaRegions.add(atlas.findRegion(Constants.FIREYZOOMBA_SPRITE_1));
-            fireyZoombaRegions.add(atlas.findRegion(Constants.FIREYZOOMBA_SPRITE_2));
+        public FieryZoombaAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> fieryZoombaRegions = new Array<AtlasRegion>();
+            fieryZoombaRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_1));
+            fieryZoombaRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_2));
 
-            fireyZoomba = new Animation(Constants.FLAME_DURATION / fireyZoombaRegions.size,
-                    fireyZoombaRegions, PlayMode.NORMAL);
+            fieryZoomba = new Animation(Constants.FLAME_DURATION / fieryZoombaRegions.size,
+                    fieryZoombaRegions, PlayMode.NORMAL);
         }
     }
 
@@ -336,17 +336,17 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
 
-    public class FireySwoopaAssets {
+    public class FierySwoopaAssets {
 
-        public final Animation fireySwoopa;
+        public final Animation fierySwoopa;
 
-        public FireySwoopaAssets(TextureAtlas atlas) {
-            Array<AtlasRegion> fireySwoopaRegions = new Array<AtlasRegion>();
-            fireySwoopaRegions.add(atlas.findRegion(Constants.FIREYSWOOPA_SPRITE_1));
-            fireySwoopaRegions.add(atlas.findRegion(Constants.FIREYSWOOPA_SPRITE_2));
+        public FierySwoopaAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> fierySwoopaRegions = new Array<AtlasRegion>();
+            fierySwoopaRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_1));
+            fierySwoopaRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_2));
 
-            fireySwoopa = new Animation(Constants.FLAME_DURATION / fireySwoopaRegions.size,
-                    fireySwoopaRegions, PlayMode.NORMAL);
+            fierySwoopa = new Animation(Constants.FLAME_DURATION / fierySwoopaRegions.size,
+                    fierySwoopaRegions, PlayMode.NORMAL);
         }
     }
 
@@ -563,13 +563,13 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final PillarAssets getPillarAssets() { return pillarAssets; }
     public final AmmoAssets getAmmoAssets() { return ammoAssets; }
     public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
-    public final FireyZoombaAssets getFireyZoombaAssets() { return fireyZoombaAssets; }
+    public final FieryZoombaAssets getFieryZoombaAssets() { return fieryZoombaAssets; }
     public final GushingZoombaAssets getGushingZoombaAssets() { return gushingZoombaAssets; }
     public final ChargedZoombaAssets getChargedZoombaAssets() { return chargedZoombaAssets; }
     public final WhirlingZoombaAssets getWhirlingZoombaAssets() { return whirlingZoombaAssets; }
     public final SharpZoombaAssets getSharpZoombaAssets() { return sharpZoombaAssets; }
     public final SwoopaAssets getSwoopaAssets() { return swoopaAssets; }
-    public final FireySwoopaAssets getFireySwoopaAssets() { return fireySwoopaAssets; }
+    public final FierySwoopaAssets getFierySwoopaAssets() { return fierySwoopaAssets; }
     public final GushingSwoopaAssets getGushingSwoopaAssets() { return gushingSwoopaAssets; }
     public final ChargedSwoopaAssets getChargedSwoopaAssets() { return chargedSwoopaAssets; }
     public final WhirlingSwoopaAssets getWhirlingSwoopaAssets() { return whirlingSwoopaAssets; }

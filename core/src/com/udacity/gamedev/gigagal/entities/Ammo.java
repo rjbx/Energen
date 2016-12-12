@@ -70,8 +70,8 @@ public final class Ammo extends Indestructible {
                 }
                 break;
             case WATER:
-                specializedZoomba = FireyZoomba.class;
-                specializedSwoopa = FireySwoopa.class;
+                specializedZoomba = FieryZoomba.class;
+                specializedSwoopa = FierySwoopa.class;
                 damage = Constants.GEISER_DAMAGE;
                 knockback = Constants.GEISER_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
