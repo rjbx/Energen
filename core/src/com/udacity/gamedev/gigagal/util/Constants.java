@@ -237,9 +237,11 @@ public final class Constants {
     public static final String SHOT_FIRE_SPRITE = "ammo-shot-fire";
     public static final String SHOT_FIRE_SPRITE_ALT = "ammo-shot-fire-alt";
     public static final String BLAST_FIRE_SPRITE = "ammo-blast-fire";
+    public static final String BLAST_FIRE_SPRITE_ALT = "ammo-blast-fire-alt";
     public static final String SHOT_WATER_SPRITE = "ammo-shot-water";
     public static final String SHOT_WATER_SPRITE_ALT = "ammo-shot-water-alt";
     public static final String BLAST_WATER_SPRITE = "ammo-blast-water";
+    public static final String BLAST_WATER_SPRITE_ALT = "ammo-blast-water-alt";
     public static final String SHOT_ELECTRIC_SPRITE = "ammo-shot-electric";
     public static final String SHOT_ELECTRIC_SPRITE_ALT = "ammo-shot-electric-alt";
     public static final String BLAST_ELECTRIC_SPRITE = "ammo-blast-electric";
@@ -249,6 +251,7 @@ public final class Constants {
     public static final String SHOT_METAL_SPRITE = "ammo-shot-metal";
     public static final String SHOT_METAL_SPRITE_ALT = "ammo-shot-metal-alt";
     public static final String BLAST_METAL_SPRITE = "ammo-blast-metal";
+    public static final String BLAST_METAL_SPRITE_ALT = "ammo-blast-metal-alt";
     public static final String SHOT_PSYCHIC_SPRITE = "ammo-shot-psychic";
     public static final String BLAST_PSYCHIC_SPRITE = "ammo-blast-psychic";
     public static final Enums.Weapon[] weapons = {

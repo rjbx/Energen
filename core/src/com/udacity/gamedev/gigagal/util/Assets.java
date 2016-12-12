@@ -195,9 +195,11 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion fireShot;
         public final AtlasRegion fireShotAlt;
         public final AtlasRegion fireBlast;
+        public final AtlasRegion fireBlastAlt;
         public final AtlasRegion waterShot;
         public final AtlasRegion waterShotAlt;
         public final AtlasRegion waterBlast;
+        public final AtlasRegion waterBlastAlt;
         public final AtlasRegion electricShot;
         public final AtlasRegion electricShotAlt;
         public final AtlasRegion electricBlast;
@@ -207,6 +209,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion metalShot;
         public final AtlasRegion metalShotAlt;
         public final AtlasRegion metalBlast;
+        public final AtlasRegion metalBlastAlt;
         public final AtlasRegion psychicShot;
         public final AtlasRegion psychicBlast;
 
@@ -216,9 +219,11 @@ public final class Assets implements Disposable, AssetErrorListener {
             fireShot = atlas.findRegion(Constants.SHOT_FIRE_SPRITE);
             fireShotAlt = atlas.findRegion(Constants.SHOT_FIRE_SPRITE_ALT);
             fireBlast = atlas.findRegion(Constants.BLAST_FIRE_SPRITE);
+            fireBlastAlt = atlas.findRegion(Constants.BLAST_FIRE_SPRITE_ALT);
             waterShot = atlas.findRegion(Constants.SHOT_WATER_SPRITE);
             waterShotAlt = atlas.findRegion(Constants.SHOT_WATER_SPRITE_ALT);
             waterBlast = atlas.findRegion(Constants.BLAST_WATER_SPRITE);
+            waterBlastAlt = atlas.findRegion(Constants.BLAST_WATER_SPRITE_ALT);
             electricShot = atlas.findRegion(Constants.SHOT_ELECTRIC_SPRITE);
             electricShotAlt = atlas.findRegion(Constants.SHOT_ELECTRIC_SPRITE_ALT);
             electricBlast = atlas.findRegion(Constants.BLAST_ELECTRIC_SPRITE);
@@ -228,6 +233,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             metalShot = atlas.findRegion(Constants.SHOT_METAL_SPRITE);
             metalShotAlt = atlas.findRegion(Constants.SHOT_METAL_SPRITE_ALT);
             metalBlast = atlas.findRegion(Constants.BLAST_METAL_SPRITE);
+            metalBlastAlt = atlas.findRegion(Constants.BLAST_METAL_SPRITE_ALT);
             psychicShot = atlas.findRegion(Constants.SHOT_PSYCHIC_SPRITE);
             psychicBlast = atlas.findRegion(Constants.BLAST_PSYCHIC_SPRITE);
         }

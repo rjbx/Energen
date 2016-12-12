@@ -62,7 +62,11 @@ public final class Ammo extends Indestructible {
                 damage = Constants.FLAME_DAMAGE;
                 knockback = Constants.FLAME_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
-                    region = Assets.getInstance().getAmmoAssets().fireBlast;
+                    if (orientation == Orientation.VERTICAL) {
+                        region = Assets.getInstance().getAmmoAssets().fireBlastAlt;
+                    } else {
+                        region = Assets.getInstance().getAmmoAssets().fireBlast;
+                    }
                 } else if (orientation == Orientation.VERTICAL) {
                     region = Assets.getInstance().getAmmoAssets().fireShotAlt;
                 } else {
@@ -75,7 +79,11 @@ public final class Ammo extends Indestructible {
                 damage = Constants.GEISER_DAMAGE;
                 knockback = Constants.GEISER_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
-                    region = Assets.getInstance().getAmmoAssets().waterBlast;
+                    if (orientation == Orientation.VERTICAL) {
+                        region = Assets.getInstance().getAmmoAssets().waterBlastAlt;
+                    } else {
+                        region = Assets.getInstance().getAmmoAssets().waterBlast;
+                    }
                 } else if (orientation == Orientation.VERTICAL) {
                     region = Assets.getInstance().getAmmoAssets().waterShotAlt;
                 } else {
@@ -114,7 +122,11 @@ public final class Ammo extends Indestructible {
                 damage = Constants.SPIKE_DAMAGE;
                 knockback = Constants.SPIKE_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
-                    region = Assets.getInstance().getAmmoAssets().metalBlast;
+                    if (orientation == Orientation.VERTICAL) {
+                        region = Assets.getInstance().getAmmoAssets().metalBlastAlt;
+                    } else {
+                        region = Assets.getInstance().getAmmoAssets().metalBlast;
+                    }
                 } else if (orientation == Orientation.VERTICAL) {
                     region = Assets.getInstance().getAmmoAssets().metalShotAlt;
                 } else {
