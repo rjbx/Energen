@@ -48,7 +48,7 @@ public class Utils {
         return MathUtils.nanoToSec * (TimeUtils.nanoTime() - timeNanos);
     }
 
-    public static final float getLateralVelocity(float delta, Enums.Direction direction) {
+    public static final float absValToDirectional(float delta, Enums.Direction direction) {
         if (direction == Enums.Direction.RIGHT) {
             return delta;
         } else if (direction == Enums.Direction.LEFT) {
