@@ -42,8 +42,8 @@ public final class Constants {
     // Gigagal assets
     public static final String STAND_RIGHT = "stand-right";
     public static final String STAND_LEFT = "stand-left";
-    public static final String RECOIL_RIGHT = "jump-right";
-    public static final String RECOIL_LEFT = "jump-left";
+    public static final String RECOIL_RIGHT = "recoil-right";
+    public static final String RECOIL_LEFT = "recoil-left";
     public static final String FALL_RIGHT = "fall-right";
     public static final String FALL_LEFT = "fall-left";
     public static final String LOOKUP_RIGHT = "lookup-right";

@@ -613,9 +613,9 @@ public class GigaGal implements Physical {
                 } else if (aerialState == AerialState.RICOCHETING) {
                     region = Assets.getInstance().getGigaGalAssets().ricochetLeft;
                 } else if (aerialState == AerialState.RECOILING){
-                    region = Assets.getInstance().getGigaGalAssets().jumpLeft;
+                    region = Assets.getInstance().getGigaGalAssets().recoilRight;
                 } else {
-                    region = Assets.getInstance().getGigaGalAssets().fallLeft;
+                    region = Assets.getInstance().getGigaGalAssets().fallRight;
                 }
             } else if (groundState == GroundState.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standRight;
@@ -632,7 +632,7 @@ public class GigaGal implements Physical {
                 } else if (aerialState == AerialState.RICOCHETING) {
                     region = Assets.getInstance().getGigaGalAssets().ricochetRight;
                 } else if (aerialState == AerialState.RECOILING){
-                    region = Assets.getInstance().getGigaGalAssets().jumpLeft;
+                    region = Assets.getInstance().getGigaGalAssets().recoilLeft;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().fallLeft;
                 }
