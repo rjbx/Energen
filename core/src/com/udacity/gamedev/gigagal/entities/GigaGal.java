@@ -35,6 +35,8 @@ public class GigaGal implements Physical {
     private AerialState aerialState;
     private GroundState groundState;
     private Weapon weapon;
+    private Direction lookDirection;
+    private boolean canLook;
     private boolean canStride;
     private boolean canDash;
     private boolean canJump;
@@ -100,6 +102,7 @@ public class GigaGal implements Physical {
             velocity.y = 0;
             if (groundState == GroundState.STANDING) {
                 stand();
+                enableLook();
                 enableStride();
                 enableDash();
                 enableJump();
@@ -117,9 +120,11 @@ public class GigaGal implements Physical {
             velocity.y -= Constants.GRAVITY;
             if (aerialState == AerialState.FALLING) {
                 fall();
+                enableLook();
                 enableHover();
                 enableRicochet();
             } else if (aerialState == AerialState.JUMPING) {
+                enableLook();
                 enableJump();
                 enableRicochet();
             } else if (aerialState == AerialState.HOVERING) {
@@ -442,6 +447,7 @@ public class GigaGal implements Physical {
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
+        canLook = false;
         canStride = false;
         canJump = false;
         canDash = false;
@@ -462,6 +468,23 @@ public class GigaGal implements Physical {
         dashStartTime = 0;
         health = 100;
     }
+    
+    private void enableLook() {
+        if (canLook) {
+            look();
+        }
+    }
+    
+    private void look() {
+        if (Gdx.input.isKeyPressed(Keys.W)) {
+            lookDirection = Direction.UP;
+        } else if (Gdx.input.isKeyPressed(Keys.Z)) {
+            lookDirection = Direction.DOWN;
+        } else {
+            canLook = false;
+            lookDirection = null;
+        }
+    }
 
     private void enableStride() {
         handleDirectionalInput();
@@ -471,6 +494,7 @@ public class GigaGal implements Physical {
     }
 
     private void stride() {
+        canLook = false;
         if (strideStartTime == 0) {
             groundState = GroundState.STRIDING;
             strideStartTime = TimeUtils.nanoTime();
@@ -588,6 +612,7 @@ public class GigaGal implements Physical {
         groundState = GroundState.STANDING;
         aerialState = AerialState.GROUNDED;
         canJump = true;
+        canLook = true;
     }
 
     private void fall() {
@@ -599,6 +624,7 @@ public class GigaGal implements Physical {
         }
         canJump = false;
         canDash = false;
+        canLook = true;
         if (canChangeDirection) {
             handleDirectionalInput();
         }
@@ -607,7 +633,11 @@ public class GigaGal implements Physical {
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
         if (facing == Direction.RIGHT) {
-            if (aerialState != AerialState.GROUNDED) {
+            if (lookDirection == Direction.UP) {
+                region = Assets.getInstance().getGigaGalAssets().lookupRight;
+            } else if (lookDirection == Direction.DOWN) {
+                region = Assets.getInstance().getGigaGalAssets().lookdownRight;
+            } else if (aerialState != AerialState.GROUNDED) {
                 if (aerialState == AerialState.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
                     region = Assets.getInstance().getGigaGalAssets().hoverRightAnimation.getKeyFrame(hoverTimeSeconds);
@@ -626,7 +656,11 @@ public class GigaGal implements Physical {
                 region = Assets.getInstance().getGigaGalAssets().dashRight;
             }
         } else if (facing == Direction.LEFT) {
-            if (aerialState != AerialState.GROUNDED) {
+            if (lookDirection == Direction.UP) {
+                region = Assets.getInstance().getGigaGalAssets().lookupLeft;
+            } else if (lookDirection == Direction.DOWN) {
+                region = Assets.getInstance().getGigaGalAssets().lookdownLeft;
+            } else if (aerialState != AerialState.GROUNDED) {
                 if (aerialState == AerialState.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
                     region = Assets.getInstance().getGigaGalAssets().hoverLeftAnimation.getKeyFrame(hoverTimeSeconds);

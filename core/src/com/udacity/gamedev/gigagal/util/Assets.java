@@ -110,6 +110,10 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion recoilRight;
         public final AtlasRegion fallLeft;
         public final AtlasRegion fallRight;
+        public final AtlasRegion lookupLeft;
+        public final AtlasRegion lookupRight;
+        public final AtlasRegion lookdownLeft;
+        public final AtlasRegion lookdownRight;
         public final AtlasRegion dashLeft;
         public final AtlasRegion dashRight;
         public final AtlasRegion ricochetLeft;
@@ -128,6 +132,10 @@ public final class Assets implements Disposable, AssetErrorListener {
             recoilRight = atlas.findRegion(Constants.RECOIL_RIGHT);
             fallLeft = atlas.findRegion(Constants.FALL_LEFT);
             fallRight = atlas.findRegion(Constants.FALL_RIGHT);
+            lookupLeft = atlas.findRegion(Constants.LOOKUP_LEFT);
+            lookupRight = atlas.findRegion(Constants.LOOKUP_RIGHT);
+            lookdownLeft = atlas.findRegion(Constants.LOOKDOWN_LEFT);
+            lookdownRight = atlas.findRegion(Constants.LOOKDOWN_RIGHT);
             dashLeft = atlas.findRegion(Constants.STRIDE_LEFT_2);
             dashRight = atlas.findRegion(Constants.STRIDE_RIGHT_2);
             ricochetLeft = atlas.findRegion(Constants.RICOCHET_LEFT);
