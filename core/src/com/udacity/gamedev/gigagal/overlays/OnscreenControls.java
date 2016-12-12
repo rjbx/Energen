@@ -51,7 +51,11 @@ public class OnscreenControls extends InputAdapter {
         Vector2 viewportPosition = viewport.unproject(new Vector2(screenX, screenY));
 
         if (viewportPosition.dst(shootCenter) < Constants.BUTTON_RADIUS) {
-            gigaGal.shoot(Enums.ShotIntensity.NORMAL, gigaGal.getWeapon());
+            Enums.ShotIntensity shotIntensity = Enums.ShotIntensity.NORMAL;
+            if (gigaGal.isCharged()) {
+                shotIntensity = Enums.ShotIntensity.CHARGED;
+            }
+            gigaGal.shoot(shotIntensity, gigaGal.getWeapon(), Utils.useAmmo(shotIntensity));
             gigaGal.setChargeStartTime(TimeUtils.nanoTime());
             this.shootPointer = pointer;
             gigaGal.shootButtonPressed = true;
@@ -150,7 +154,7 @@ public class OnscreenControls extends InputAdapter {
                 Constants.BUTTON_CENTER
         );
 
-        if (!gigaGal.getChargeStatus()) {
+        if (!gigaGal.isCharged()) {
             Utils.drawTextureRegion(
                     batch,
                     Assets.getInstance().getOnscreenControlsAssets().shoot,

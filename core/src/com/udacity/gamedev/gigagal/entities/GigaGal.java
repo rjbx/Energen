@@ -57,6 +57,7 @@ public class GigaGal implements Physical {
     private long ricochetStartTime;
     private long chargeStartTime;
     private long changeWeaponStartTime;
+    private long recoveryStartTime;
     private float strideAcceleration;
     private float hoverTimeSeconds;
     private float aerialTakeoff;
@@ -252,7 +253,7 @@ public class GigaGal implements Physical {
         } else if (!left && right) {
             directionChanged = Utils.setDirection(this, Direction.RIGHT);
         }
-        if (groundState != GroundState.AIRBORNE) {
+        if (groundState != GroundState.AIRBORNE && lookDirection == null) {
             if (groundState != GroundState.DASHING) {
                 if (left && !right || right && !left) {
                     if (directionChanged) {
@@ -311,9 +312,11 @@ public class GigaGal implements Physical {
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     private void recoilFromHazards(Array<Hazard> hazards) {
         for (Hazard hazard : hazards) {
-            if (!knockedBack || hazard instanceof Zoomba) {
+            if (knockedBack && Utils.secondsSince(recoveryStartTime) > 1) {
+                knockedBack = true;
                 Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                 if (getBounds().overlaps(bounds)) {
+                    recoveryStartTime = TimeUtils.nanoTime();
                     isCharged = false;
                     chargeStartTime = 0;
                     int damage = hazard.getDamage();
@@ -322,7 +325,7 @@ public class GigaGal implements Physical {
                         margin = hazard.getWidth() / 6;
                     }
                     if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
-                        if (hazard instanceof Swoopa){
+                        if (hazard instanceof Swoopa) {
                             Swoopa swoopa = (Swoopa) hazard;
                             recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y));
                             damage = swoopa.getMountDamage();
@@ -342,14 +345,11 @@ public class GigaGal implements Physical {
                             Zoomba zoomba = (Zoomba) hazard;
                             recoil(new Vector2((Utils.absValToDirectional(zoomba.getMountKnockback().x, facing)), zoomba.getMountKnockback().y));
                             damage = zoomba.getMountDamage();
-                        } else { 
+                        } else {
                             recoil(new Vector2((Utils.absValToDirectional(hazard.getKnockback().x, facing)), hazard.getKnockback().y));
                         }
                     }
-                    if (!knockedBack) {
-                        health -= damage;
-                        knockedBack = true;
-                    }
+                    health -= damage;
                 }
             }
         }
@@ -396,12 +396,24 @@ public class GigaGal implements Physical {
                 } else if (Utils.secondsSince(chargeStartTime) > Constants.CHARGE_DURATION) {
                     isCharged = true;
                 }
+
             } else if (canCharge) {
+                ShotIntensity shotIntensity;
+                int ammoUsed;
                 if (isCharged) {
-                    shoot(ShotIntensity.CHARGED, weapon);
+                    shotIntensity = ShotIntensity.CHARGED;
                 } else {
-                    shoot(ShotIntensity.NORMAL, weapon);
+                    shotIntensity = ShotIntensity.NORMAL;
                 }
+
+                if (ammo == 0) {
+                    weapon = Weapon.NATIVE;
+                    ammoUsed = 0;
+                } else {
+                    ammoUsed = Utils.useAmmo(shotIntensity);
+                }
+
+                shoot(shotIntensity, weapon, ammoUsed);
                 chargeStartTime = 0;
                 isCharged = false;
                 canCharge = false;
@@ -409,14 +421,9 @@ public class GigaGal implements Physical {
         }
     }
 
-    public void shoot(ShotIntensity shotIntensity, Weapon weapon) {
-        if (ammo == 0) {
-            weapon = Weapon.NATIVE;
-        }
+    public void shoot(ShotIntensity shotIntensity, Weapon weapon, int ammoUsed) {
+        ammo -= ammoUsed;
         if (ammo > 0 || weapon == Weapon.NATIVE) {
-            if (weapon != Weapon.NATIVE) {
-                ammo--;
-            }
             Vector2 ammoPosition = new Vector2();
             if (facing == Direction.RIGHT) {
                 ammoPosition = new Vector2(
@@ -476,6 +483,7 @@ public class GigaGal implements Physical {
         strideStartTime = 0;
         jumpStartTime = 0;
         dashStartTime = 0;
+        recoveryStartTime = TimeUtils.nanoTime();
         health = 100;
     }
     
@@ -708,7 +716,7 @@ public class GigaGal implements Physical {
     public boolean getJumpStatus() { return canJump; }
     public boolean getHoverStatus() { return canHover; }
     public boolean getRicochetStatus() { return canRicochet; }
-    public boolean getChargeStatus() { return isCharged; }
+    public boolean isCharged() { return isCharged; }
     public Weapon getWeapon() { return weapon; }
     public List<Weapon> getWeaponList() { return weaponList; }
     public void addWeapon(Weapon weapon) { weaponToggler.add(weapon); }

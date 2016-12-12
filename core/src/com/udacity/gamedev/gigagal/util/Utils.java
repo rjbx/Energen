@@ -84,6 +84,15 @@ public class Utils {
         return false;
     }
 
+    public static final int useAmmo(Enums.ShotIntensity intensity) {
+        if (intensity == Enums.ShotIntensity.CHARGED) {
+            return 3;
+        } else if (intensity == Enums.ShotIntensity.NORMAL) {
+            return 1;
+        }
+        return 0;
+    }
+
     public static final void applyDamage(Destructible destructible, Enums.ShotIntensity shotIntensity, int damage) {
         if (shotIntensity == Enums.ShotIntensity.CHARGED) {
             destructible.setHealth(destructible.getHealth() - damage);
