@@ -108,6 +108,8 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion strideRight;
         public final AtlasRegion jumpLeft;
         public final AtlasRegion jumpRight;
+        public final AtlasRegion fallLeft;
+        public final AtlasRegion fallRight;
         public final AtlasRegion dashLeft;
         public final AtlasRegion dashRight;
         public final AtlasRegion ricochetLeft;
@@ -122,8 +124,10 @@ public final class Assets implements Disposable, AssetErrorListener {
             standRight = atlas.findRegion(Constants.STAND_RIGHT);
             strideLeft = atlas.findRegion(Constants.STRIDE_LEFT_2);
             strideRight = atlas.findRegion(Constants.STRIDE_RIGHT_2);
-            jumpLeft = atlas.findRegion(Constants.JUMP_LEFT);
-            jumpRight = atlas.findRegion(Constants.JUMP_RIGHT);
+            jumpLeft = atlas.findRegion(Constants.RECOIL_LEFT);
+            jumpRight = atlas.findRegion(Constants.RECOIL_RIGHT);
+            fallLeft = atlas.findRegion(Constants.FALL_LEFT);
+            fallRight = atlas.findRegion(Constants.FALL_RIGHT);
             dashLeft = atlas.findRegion(Constants.STRIDE_LEFT_2);
             dashRight = atlas.findRegion(Constants.STRIDE_RIGHT_2);
             ricochetLeft = atlas.findRegion(Constants.RICOCHET_LEFT);
