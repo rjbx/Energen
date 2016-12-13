@@ -312,12 +312,13 @@ public class GigaGal implements Physical {
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     private void recoilFromHazards(Array<Hazard> hazards) {
         for (Hazard hazard : hazards) {
-            if (knockedBack && Utils.secondsSince(recoveryStartTime) > 1) {
-                knockedBack = true;
+            if (!knockedBack
+                && Utils.secondsSince(recoveryStartTime) > 1) {
                 Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                 if (getBounds().overlaps(bounds)) {
-                    recoveryStartTime = TimeUtils.nanoTime();
+                    knockedBack = true;
                     isCharged = false;
+                    recoveryStartTime = TimeUtils.nanoTime();
                     chargeStartTime = 0;
                     int damage = hazard.getDamage();
                     float margin = 0;
