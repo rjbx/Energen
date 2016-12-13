@@ -134,8 +134,6 @@ public final class GameplayScreen extends ScreenAdapter {
     private void startNewLevel() {
 
 //        level = Level.debugLevel();
-        AssetManager am = new AssetManager();
-        Assets.getInstance().init(am, levelNumber);
         String newLevelName = Constants.LEVELS[levelNumber];
         level = LevelLoader.load(newLevelName);
         level.setLevelName(newLevelName);

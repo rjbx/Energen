@@ -19,10 +19,6 @@ public class Cursor {
     }
 
     public void render(SpriteBatch batch) {
-        Utils.drawTextureRegion(batch,
-                Assets.getInstance().getOnscreenControlsAssets().selectionCursor,
-                position.x,
-                position.y);
     }
 
     public final Vector2 getPosition() { return position; }

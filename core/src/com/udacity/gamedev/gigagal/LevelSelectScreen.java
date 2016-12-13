@@ -103,9 +103,10 @@ public final class LevelSelectScreen extends ScreenAdapter {
             iterator.next();
         }
 
+
+        overlay.render(batch);
         margin = 0;
         batch.end();
 
-        overlay.render(batch);
     }
 }
