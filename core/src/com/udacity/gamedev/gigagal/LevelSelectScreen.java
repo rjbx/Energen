@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.udacity.gamedev.gigagal.overlays.LevelSelectOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 
@@ -35,6 +36,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private float margin;
     private ListIterator<String> iterator;
     private String levelName;
+    private LevelSelectOverlay overlay;
 
     // default ctor
     public LevelSelectScreen() {
@@ -52,6 +54,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
+        overlay = new LevelSelectOverlay();
         levelNumber = 0;
         batch = new SpriteBatch();
         completedLevels = new Array<String>();
@@ -65,6 +68,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
+        overlay.getViewport().update(width, height, true);
     }
 
     @Override
@@ -78,7 +82,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         viewport.apply();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
         Gdx.gl.glClearColor(
@@ -96,14 +99,13 @@ public final class LevelSelectScreen extends ScreenAdapter {
             margin += 15;
         }
 
-
-
         while (iterator.hasNext()) {
             iterator.next();
         }
 
         margin = 0;
-
         batch.end();
+
+        overlay.render(batch);
     }
 }
