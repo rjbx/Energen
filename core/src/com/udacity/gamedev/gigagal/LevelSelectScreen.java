@@ -12,6 +12,14 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+import javax.swing.text.html.HTMLDocument;
+
 // immutable
 public final class LevelSelectScreen extends ScreenAdapter {
 
@@ -23,22 +31,31 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private Array<String> completedLevels;
     private ExtendViewport viewport;
     private BitmapFont font;
+    private List<String> levelNames;
+    private float margin;
+    private ListIterator<String> iterator;
+    private String levelName;
 
     // default ctor
     public LevelSelectScreen() {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(1);
+        levelNames = new ArrayList<String>();
+        levelNames.addAll(Arrays.asList(Constants.LEVELS));
+        iterator = levelNames.listIterator();
+        levelName = iterator.next();
+        margin = 0;
     }
 
     @Override
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-
         levelNumber = 0;
         batch = new SpriteBatch();
         completedLevels = new Array<String>();
+
     }
 
     private boolean onMobile() {
@@ -56,7 +73,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
     }
 
     public void update() {
-        
     }
 
     @Override
@@ -72,7 +88,17 @@ public final class LevelSelectScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        font.draw(batch, Constants.GAME_OVER_MESSAGE, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
+        while (iterator.hasPrevious()) {
+            levelName = iterator.previous();
+            font.draw(batch, levelName, viewport.getWorldWidth() / 7, viewport.getWorldHeight() / 2.5f + margin);
+            margin += 15;
+        }
+
+        while (iterator.hasNext()) {
+            iterator.next();
+        }
+
+        margin = 0;
 
         batch.end();
     }
