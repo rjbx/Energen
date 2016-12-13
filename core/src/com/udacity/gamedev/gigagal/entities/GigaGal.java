@@ -313,7 +313,7 @@ public class GigaGal implements Physical {
     private void recoilFromHazards(Array<Hazard> hazards) {
         for (Hazard hazard : hazards) {
             if (!knockedBack
-                && Utils.secondsSince(recoveryStartTime) > 1) {
+                && Utils.secondsSince(recoveryStartTime) > Constants.RECOVERY_TIME) {
                 Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                 if (getBounds().overlaps(bounds)) {
                     knockedBack = true;
@@ -407,9 +407,11 @@ public class GigaGal implements Physical {
                     shotIntensity = ShotIntensity.NORMAL;
                 }
 
-                if (ammo == 0) {
-                    weapon = Weapon.NATIVE;
+                if ((weapon == Weapon.NATIVE
+                || ammo < 3 && shotIntensity == ShotIntensity.CHARGED)
+                || ammo < 1) {
                     ammoUsed = 0;
+                    weapon = Weapon.NATIVE;
                 } else {
                     ammoUsed = Utils.useAmmo(shotIntensity);
                 }
@@ -424,28 +426,26 @@ public class GigaGal implements Physical {
 
     public void shoot(ShotIntensity shotIntensity, Weapon weapon, int ammoUsed) {
         ammo -= ammoUsed;
-        if (ammo > 0 || weapon == Weapon.NATIVE) {
-            Vector2 ammoPosition = new Vector2();
-            if (facing == Direction.RIGHT) {
-                ammoPosition = new Vector2(
-                        position.x + Constants.GIGAGAL_CANNON_OFFSET.x + 5,
-                        position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
-            } else if (facing == Direction.LEFT) {
-                ammoPosition = new Vector2(
-                        position.x - Constants.GIGAGAL_CANNON_OFFSET.x - 15,
-                        position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
-            }
-            if (lookDirection == Direction.UP) {
-                ammoPosition.x -= Utils.absValToDirectional(5, facing);
-                ammoPosition.y += 20;
-                level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
-            } else if (lookDirection == Direction.DOWN) {
-                ammoPosition.x -= Utils.absValToDirectional(10, facing);
-                ammoPosition.y -= 20;
-                level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
-            } else {
-                level.spawnAmmo(ammoPosition, facing, Orientation.LATERAL, shotIntensity, weapon, true);
-            }
+        Vector2 ammoPosition = new Vector2();
+        if (facing == Direction.RIGHT) {
+            ammoPosition = new Vector2(
+                    position.x + Constants.GIGAGAL_CANNON_OFFSET.x + 5,
+                    position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
+        } else if (facing == Direction.LEFT) {
+            ammoPosition = new Vector2(
+                    position.x - Constants.GIGAGAL_CANNON_OFFSET.x - 15,
+                    position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
+        }
+        if (lookDirection == Direction.UP) {
+            ammoPosition.x -= Utils.absValToDirectional(5, facing);
+            ammoPosition.y += 20;
+            level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
+        } else if (lookDirection == Direction.DOWN) {
+            ammoPosition.x -= Utils.absValToDirectional(10, facing);
+            ammoPosition.y -= 20;
+            level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
+        } else {
+            level.spawnAmmo(ammoPosition, facing, Orientation.LATERAL, shotIntensity, weapon, true);
         }
     }
 
