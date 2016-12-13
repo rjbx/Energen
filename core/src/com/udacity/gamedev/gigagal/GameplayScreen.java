@@ -37,11 +37,12 @@ public final class GameplayScreen extends ScreenAdapter {
     private Array<String> completedLevels;
 
     // default ctor
-    public GameplayScreen() {}
+    public GameplayScreen(int levelNumber) {
+        this.levelNumber = levelNumber;
+    }
 
     @Override
     public void show() {
-        levelNumber = 0;
         batch = new SpriteBatch();
         chaseCam = ChaseCam.getInstance();
         hud = new GigaGalHud();
