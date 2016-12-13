@@ -27,6 +27,7 @@ public final class LevelSelectOverlay {
 
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
+        cursor.render(batch);
 
     }
 
