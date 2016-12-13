@@ -83,6 +83,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void render(float delta) {
         viewport.apply();
         batch.begin();
+        float verticalPosition;
 
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
@@ -104,6 +105,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         }
 
         overlay.render(batch);
+        overlay.update();
         margin = 0;
         batch.end();
     }
