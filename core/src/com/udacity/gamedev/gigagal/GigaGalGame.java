@@ -10,6 +10,7 @@ public final class GigaGalGame extends Game {
 
     @Override
     public void create() {
-        setScreen(new GameplayScreen());
+        setScreen(new LevelSelectScreen());
+       // setScreen(new GameplayScreen());
     }
 }
