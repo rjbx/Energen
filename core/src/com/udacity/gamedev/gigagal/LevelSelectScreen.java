@@ -96,6 +96,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
             margin += 15;
         }
 
+
+
         while (iterator.hasNext()) {
             iterator.next();
         }
