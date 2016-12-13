@@ -40,7 +40,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public LevelSelectScreen() {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
-        font.getData().setScale(1);
+        font.getData().setScale(0.5f);
         levelNames = new ArrayList<String>();
         levelNames.addAll(Arrays.asList(Constants.LEVELS));
         iterator = levelNames.listIterator();
@@ -90,6 +90,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
         while (iterator.hasPrevious()) {
             levelName = iterator.previous();
+            levelName = levelName.replace("levels/", "");
+            levelName = levelName.replace(".dt", "");
             font.draw(batch, levelName, viewport.getWorldWidth() / 7, viewport.getWorldHeight() / 2.5f + margin);
             margin += 15;
         }
