@@ -35,6 +35,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private LevelSelectCursor overlay;
     private Array<Float> namePositions;
     private String selectedLevel;
+    private int index;
 
     // default ctor
     public LevelSelectScreen() {
@@ -46,6 +47,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         iterator = levelNames.listIterator();
         levelName = iterator.next();
         margin = 0;
+        index = 0;
         namePositions = new Array<Float>();
     }
 
@@ -94,7 +96,10 @@ public final class LevelSelectScreen extends ScreenAdapter {
         overlay.render(batch);
         overlay.update();
 
-        int index = 0;
+        while (iterator.hasNext()) {
+            iterator.next();
+        }
+
         float verticalPosition = viewport.getWorldHeight() / 2.5f;
         namePositions.add(verticalPosition);
         while (iterator.hasPrevious()) {
@@ -110,10 +115,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
             index++;
         }
 
-        while (iterator.hasNext()) {
-            iterator.next();
-        }
-
+        index = 0;
         margin = 0;
         batch.end();
     }
