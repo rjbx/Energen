@@ -540,9 +540,9 @@ public class GigaGal implements Physical {
             strideStartTime = 0;
             canStride = false;
         }
-        if (Utils.secondsSince(dashStartTime) <= Constants.MAX_DASH_DURATION) {
+        turbo = (int) (((Constants.MAX_DASH_DURATION - Utils.secondsSince(dashStartTime)) / Constants.MAX_DASH_DURATION * 100));
+        if (turbo > 1) {
             velocity.x = Utils.absValToDirectional(Constants.GIGAGAL_MAX_SPEED, facing);
-            turbo = (int) (((Constants.MAX_DASH_DURATION - Utils.secondsSince(dashStartTime)) / Constants.MAX_DASH_DURATION * 100));
         } else {
             canDash = false;
             dashStartTime = 0;
@@ -600,8 +600,8 @@ public class GigaGal implements Physical {
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
         hoverTimeSeconds = Utils.secondsSince(hoverStartTime); // for comparing with max hover time
-        if (hoverTimeSeconds <= Constants.MAX_HOVER_DURATION) {
-            turbo = (int) (((Constants.MAX_HOVER_DURATION - Utils.secondsSince(hoverStartTime)) / Constants.MAX_HOVER_DURATION * 100));
+        turbo = (int) (((Constants.MAX_HOVER_DURATION - Utils.secondsSince(hoverStartTime)) / Constants.MAX_HOVER_DURATION * 100));
+        if (turbo >= 1) {
             velocity.y = 0; // disables impact of gravity
         } else {
             canHover = false;
