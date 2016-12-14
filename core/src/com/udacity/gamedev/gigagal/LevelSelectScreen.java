@@ -1,7 +1,9 @@
 package com.udacity.gamedev.gigagal;
 
 import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -22,6 +24,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = LevelSelectScreen.class.getName();
+    private Game game;
     private SpriteBatch batch;
     private int levelNumber;
     private Level level;
@@ -38,7 +41,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private int index;
 
     // default ctor
-    public LevelSelectScreen() {
+    public LevelSelectScreen(Game game) {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
@@ -49,6 +52,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         margin = 0;
         index = 0;
         namePositions = new Array<Float>();
+        this.game = game;
     }
 
     @Override
@@ -104,7 +108,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         namePositions.add(verticalPosition);
         while (iterator.hasPrevious()) {
             levelName = iterator.previous();
-            if (overlay.getPosition() == namePositions.get(index)) {
+            if (overlay.getPosition() >= namePositions.get(index) && overlay.getPosition() < namePositions.get(index) + 15) {
                 selectedLevel = levelName;
             }
             levelName = levelName.replace("levels/", "");
@@ -118,6 +122,11 @@ public final class LevelSelectScreen extends ScreenAdapter {
         index = 0;
         margin = 0;
         batch.end();
+
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            game.setScreen(new GameplayScreen(selectedLevel));
+        }
     }
 
     public final String getSelectedLevel() { return selectedLevel; }
