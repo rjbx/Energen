@@ -105,6 +105,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
             levelName = levelName.replace("levels/", "");
             levelName = levelName.replace(".dt", "");
             font.draw(batch, levelName, viewport.getWorldWidth() / 7, namePositions.get(index));
+            verticalPosition += 15;
             namePositions.add(verticalPosition);
             index++;
         }
