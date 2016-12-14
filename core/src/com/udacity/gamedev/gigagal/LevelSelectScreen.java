@@ -24,7 +24,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = LevelSelectScreen.class.getName();
-    private Game game;
+    private GigaGalGame game;
     private SpriteBatch batch;
     private int levelNumber;
     private Level level;
@@ -41,7 +41,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private int index;
 
     // default ctor
-    public LevelSelectScreen(Game game) {
+    public LevelSelectScreen(GigaGalGame game) {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
@@ -125,7 +125,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            game.setScreen(new GameplayScreen(selectedLevel));
+            game.getGameplayScreen().setGame(game);
+            game.getGameplayScreen().setLevelName(selectedLevel);
+            game.setScreen(game.getGameplayScreen());
         }
     }
 

@@ -1,6 +1,7 @@
 package com.udacity.gamedev.gigagal;
 
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
@@ -25,6 +26,7 @@ public final class GameplayScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = GameplayScreen.class.getName();
+    private GigaGalGame game;
     private OnscreenControls onscreenControls;
     private SpriteBatch batch;
     private long levelEndOverlayStartTime;
@@ -35,11 +37,12 @@ public final class GameplayScreen extends ScreenAdapter {
     private VictoryOverlay victoryOverlay;
     private GameOverOverlay gameOverOverlay;
     private Array<String> completedLevels;
-    private String newLevelName;
+    private String levelName;
 
     // default ctor
-    public GameplayScreen(String levelName) {
-        this.newLevelName = levelName;
+    public GameplayScreen(GigaGalGame game) {
+        this.game = game;
+        this.levelName = levelName;
     }
 
     @Override
@@ -135,13 +138,13 @@ public final class GameplayScreen extends ScreenAdapter {
     private void startNewLevel() {
 
 //        level = Level.debugLevel();
- //     String newLevelName = Constants.LEVELS[levelNumber];
+ //     String levelName = Constants.LEVELS[levelNumber];
 
         AssetManager am = new AssetManager();
-        level = LevelLoader.load(newLevelName);
-        level.setLevelName(newLevelName);
-        int levelIndex = (Arrays.asList(Constants.LEVELS)).indexOf(newLevelName);
-        Assets.getInstance().init(am, levelIndex);
+        level = LevelLoader.load(levelName);
+        level.setLevelName(levelName);
+        levelNumber = (Arrays.asList(Constants.LEVELS)).indexOf(levelName);
+        Assets.getInstance().init(am, levelNumber);
         for (String completedLevelName : completedLevels) {
             for (Enums.Weapon weapon : Arrays.asList(Constants.weapons)) {
                 if (completedLevelName.equals("levels/" + weapon.name() + ".dt")) {
@@ -157,14 +160,15 @@ public final class GameplayScreen extends ScreenAdapter {
     }
 
     public void levelComplete() {
-        String completedLevelName = Constants.LEVELS[levelNumber];
-        completedLevels.add(completedLevelName);
-        levelNumber++;
-        startNewLevel();
+        completedLevels.add(levelName);
+        game.setScreen(game.getLevelSelectScreen());
     }
 
     public void levelFailed() {
         levelNumber = 0;
         startNewLevel();
     }
+
+    public void setGame(GigaGalGame game) { this.game = game; }
+    public void setLevelName(String levelName) { this.levelName = levelName; }
 }
