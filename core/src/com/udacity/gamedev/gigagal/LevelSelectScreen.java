@@ -34,6 +34,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private String levelName;
     private LevelSelectCursor overlay;
     private Array<Float> namePositions;
+    private String selectedLevel;
 
     // default ctor
     public LevelSelectScreen() {
@@ -89,26 +90,31 @@ public final class LevelSelectScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        int index = 0;
 
-        namePositions.add(viewport.getWorldHeight() / 2.5f);
+        overlay.render(batch);
+        overlay.update();
+
+        int index = 0;
+        float verticalPosition = viewport.getWorldHeight() / 2.5f;
+        namePositions.add(verticalPosition);
         while (iterator.hasPrevious()) {
             levelName = iterator.previous();
+            if (overlay.getPosition() == namePositions.get(index)) {
+                selectedLevel = levelName;
+            }
             levelName = levelName.replace("levels/", "");
             levelName = levelName.replace(".dt", "");
             font.draw(batch, levelName, viewport.getWorldWidth() / 7, namePositions.get(index));
-            margin += 15;
             index++;
-            namePositions.add(viewport.getWorldHeight() / 2.5f + margin);
         }
 
         while (iterator.hasNext()) {
             iterator.next();
         }
 
-        overlay.render(batch);
-        overlay.update();
         margin = 0;
         batch.end();
     }
+
+    public final String getSelectedLevel() { return selectedLevel; }
 }

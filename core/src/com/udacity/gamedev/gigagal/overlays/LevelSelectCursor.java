@@ -54,4 +54,5 @@ public final class LevelSelectCursor {
     }
 
     public ExtendViewport getViewport() { return viewport; }
+    public float getPosition() { return verticalPosition; }
 }
