@@ -18,6 +18,7 @@ import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 // mutable
 public class GigaGal implements Physical {
@@ -64,6 +65,7 @@ public class GigaGal implements Physical {
     private int lives;
     private int ammo;
     private int health;
+    private int turbo;
     public boolean leftButtonPressed;
     public boolean rightButtonPressed;
     public boolean jumpButtonPressed;
@@ -486,6 +488,7 @@ public class GigaGal implements Physical {
         dashStartTime = 0;
         recoveryStartTime = TimeUtils.nanoTime();
         health = 100;
+        turbo = 100;
     }
     
     private void enableLook() {
@@ -538,6 +541,7 @@ public class GigaGal implements Physical {
         }
         if (Utils.secondsSince(dashStartTime) < Constants.MAX_DASH_DURATION) {
             velocity.x = Utils.absValToDirectional(Constants.GIGAGAL_MAX_SPEED, facing);
+            turbo = (int) (((Constants.MAX_DASH_DURATION - Utils.secondsSince(dashStartTime)) / Constants.MAX_DASH_DURATION * 100));
         } else {
             canDash = false;
             dashStartTime = 0;
@@ -632,6 +636,7 @@ public class GigaGal implements Physical {
         aerialState = AerialState.GROUNDED;
         canJump = true;
         canLook = true;
+        turbo = 100;
     }
 
     private void fall() {
@@ -705,6 +710,7 @@ public class GigaGal implements Physical {
     public int getAmmo() { return ammo; }
     public int getHealth() { return health; }
     public int getLives() { return lives; }
+    public int getTurbo() { return turbo; }
     public Direction getDirection() { return facing; }
     public Vector2 getPosition() { return position; }
     public float getWidth() { return Constants.GIGAGAL_STANCE_WIDTH; }
