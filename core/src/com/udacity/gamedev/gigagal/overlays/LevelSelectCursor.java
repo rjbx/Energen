@@ -12,14 +12,14 @@ import com.udacity.gamedev.gigagal.util.Utils;
 import javafx.geometry.VerticalDirection;
 
 //immutable
-public final class LevelSelectOverlay {
+public final class LevelSelectCursor {
 
     // fields
     private ExtendViewport viewport;
     private float verticalPosition;
 
     // ctor
-    public LevelSelectOverlay() {
+    public LevelSelectCursor() {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         verticalPosition = 145;
     }

@@ -6,20 +6,16 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.overlays.LevelSelectOverlay;
+import com.udacity.gamedev.gigagal.overlays.LevelSelectCursor;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
-import javax.swing.text.html.HTMLDocument;
 
 // immutable
 public final class LevelSelectScreen extends ScreenAdapter {
@@ -36,7 +32,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private float margin;
     private ListIterator<String> iterator;
     private String levelName;
-    private LevelSelectOverlay overlay;
+    private LevelSelectCursor overlay;
+    private Array<Float> namePositions;
 
     // default ctor
     public LevelSelectScreen() {
@@ -48,17 +45,17 @@ public final class LevelSelectScreen extends ScreenAdapter {
         iterator = levelNames.listIterator();
         levelName = iterator.next();
         margin = 0;
+        namePositions = new Array<Float>();
     }
 
     @Override
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        overlay = new LevelSelectOverlay();
+        overlay = new LevelSelectCursor();
         levelNumber = 0;
         batch = new SpriteBatch();
         completedLevels = new Array<String>();
-
     }
 
     private boolean onMobile() {
@@ -81,9 +78,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+
         viewport.apply();
         batch.begin();
-        float verticalPosition;
 
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
@@ -92,12 +89,17 @@ public final class LevelSelectScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        int index = 0;
+
+        namePositions.add(viewport.getWorldHeight() / 2.5f);
         while (iterator.hasPrevious()) {
             levelName = iterator.previous();
             levelName = levelName.replace("levels/", "");
             levelName = levelName.replace(".dt", "");
-            font.draw(batch, levelName, viewport.getWorldWidth() / 7, viewport.getWorldHeight() / 2.5f + margin);
+            font.draw(batch, levelName, viewport.getWorldWidth() / 7, namePositions.get(index));
             margin += 15;
+            index++;
+            namePositions.add(viewport.getWorldHeight() / 2.5f + margin);
         }
 
         while (iterator.hasNext()) {
