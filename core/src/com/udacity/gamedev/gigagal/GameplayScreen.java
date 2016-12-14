@@ -42,7 +42,7 @@ public final class GameplayScreen extends ScreenAdapter {
     // default ctor
     public GameplayScreen(GigaGalGame game) {
         this.game = game;
-        this.levelName = levelName;
+        completedLevels = new Array<String>();
     }
 
     @Override
@@ -53,7 +53,6 @@ public final class GameplayScreen extends ScreenAdapter {
         victoryOverlay = new VictoryOverlay();
         gameOverOverlay = new GameOverOverlay();
         onscreenControls = new OnscreenControls();
-        completedLevels = new Array<String>();
 
         // : Use Gdx.input.setInputProcessor() to send touch events to onscreenControls
         Gdx.input.setInputProcessor(onscreenControls);
