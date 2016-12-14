@@ -113,6 +113,7 @@ public final class GameplayScreen extends ScreenAdapter {
             if (levelEndOverlayStartTime == 0) {
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
                 gameOverOverlay.init();
+                game.create();
             }
 
             gameOverOverlay.render(batch);
