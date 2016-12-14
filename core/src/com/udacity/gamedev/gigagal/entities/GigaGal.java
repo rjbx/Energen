@@ -240,6 +240,7 @@ public class GigaGal implements Physical {
         // falls if no detection with grounded platform top
         if (groundedPlatform && aerialState != AerialState.RECOILING) {
             if (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight) {
+                turbo = 100;
                 groundedPlatform = false;
                 fall();
             }
@@ -557,6 +558,7 @@ public class GigaGal implements Physical {
     }
 
     private void jump() {
+        turbo = 100;
         if (canJump) {
             aerialTakeoff = position.x;
             aerialState = AerialState.JUMPING;
@@ -578,6 +580,7 @@ public class GigaGal implements Physical {
             if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
                 if (aerialState == AerialState.HOVERING) {
                     canHover = false;
+                    turbo = 0;
                     hoverStartTime = 0;
                     fall();
                 } else {
@@ -598,6 +601,7 @@ public class GigaGal implements Physical {
         }
         hoverTimeSeconds = Utils.secondsSince(hoverStartTime); // for comparing with max hover time
         if (hoverTimeSeconds < Constants.MAX_HOVER_DURATION) {
+            turbo = (int) (((Constants.MAX_HOVER_DURATION - Utils.secondsSince(hoverStartTime)) / Constants.MAX_HOVER_DURATION * 100));
             velocity.y = 0; // disables impact of gravity
         } else {
             canHover = false;
