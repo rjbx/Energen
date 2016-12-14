@@ -35,10 +35,11 @@ public final class GameplayScreen extends ScreenAdapter {
     private VictoryOverlay victoryOverlay;
     private GameOverOverlay gameOverOverlay;
     private Array<String> completedLevels;
+    private String newLevelName;
 
     // default ctor
-    public GameplayScreen(int levelNumber) {
-        this.levelNumber = levelNumber;
+    public GameplayScreen(String levelName) {
+        this.newLevelName = levelName;
     }
 
     @Override
@@ -134,7 +135,7 @@ public final class GameplayScreen extends ScreenAdapter {
     private void startNewLevel() {
 
 //        level = Level.debugLevel();
-        String newLevelName = Constants.LEVELS[levelNumber];
+ //       String newLevelName = Constants.LEVELS[levelNumber];
         level = LevelLoader.load(newLevelName);
         level.setLevelName(newLevelName);
         for (String completedLevelName : completedLevels) {
