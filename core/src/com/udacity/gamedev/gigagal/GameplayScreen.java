@@ -135,9 +135,13 @@ public final class GameplayScreen extends ScreenAdapter {
     private void startNewLevel() {
 
 //        level = Level.debugLevel();
- //       String newLevelName = Constants.LEVELS[levelNumber];
+ //     String newLevelName = Constants.LEVELS[levelNumber];
+
+        AssetManager am = new AssetManager();
         level = LevelLoader.load(newLevelName);
         level.setLevelName(newLevelName);
+        int levelIndex = (Arrays.asList(Constants.LEVELS)).indexOf(newLevelName);
+        Assets.getInstance().init(am, levelIndex);
         for (String completedLevelName : completedLevels) {
             for (Enums.Weapon weapon : Arrays.asList(Constants.weapons)) {
                 if (completedLevelName.equals("levels/" + weapon.name() + ".dt")) {

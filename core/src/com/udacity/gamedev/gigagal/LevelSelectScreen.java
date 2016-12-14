@@ -108,7 +108,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         namePositions.add(verticalPosition);
         while (iterator.hasPrevious()) {
             levelName = iterator.previous();
-            if (overlay.getPosition() >= namePositions.get(index) && overlay.getPosition() < namePositions.get(index) + 15) {
+            if (overlay.getPosition() >= namePositions.get(index) - 15 && overlay.getPosition() < namePositions.get(index)) {
                 selectedLevel = levelName;
             }
             levelName = levelName.replace("levels/", "");
