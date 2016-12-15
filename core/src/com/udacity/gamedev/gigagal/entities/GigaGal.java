@@ -220,7 +220,7 @@ public class GigaGal implements Physical {
                 }
                 // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
                 // caution when crossing plane between ground top and minimum hover height / ground distance
-                // cannons, which inherit ground, can be mounted along sides of platforms causing accidental plane 
+                // cannons, which inherit ground, can be mounted along sides of platforms causing accidental plane breakage
                 if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
                         && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
                         && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
