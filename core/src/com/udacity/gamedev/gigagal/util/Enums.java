@@ -32,6 +32,7 @@ public final class Enums {
 
     public enum AerialState {
         JUMPING,
+        LOOKING,
         HOVERING,
         RICOCHETING,
         FALLING,
@@ -43,6 +44,7 @@ public final class Enums {
         STANDING,
         STRIDING,
         DASHING,
+        LOOKING,
         AIRBORNE
     }
 }
