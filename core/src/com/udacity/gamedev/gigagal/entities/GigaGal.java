@@ -220,10 +220,13 @@ public class GigaGal implements Physical {
                     }
                 }
                 // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
+                // caution when crossing plane between ground top and minimum hover height / ground distance
+                // should not apply to cannons, which implement ground, and can be mounted along sides of platforms causing accidental plane breakage
                 if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
                         && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
                         && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
                         && ricochetStartTime == 0 // only if have not ricocheted since last grounded
+                        && !(ground instanceof Cannon) // only if ground is not instance of platform
                         ) {
                     canRicochet = false; // disables ricochet
                     canHover = false; // disables hover
@@ -541,7 +544,7 @@ public class GigaGal implements Physical {
             canStride = false;
         }
         turbo = (int) (((Constants.MAX_DASH_DURATION - Utils.secondsSince(dashStartTime)) / Constants.MAX_DASH_DURATION * 100));
-        if (turbo > 1) {
+        if (turbo >= 1) {
             velocity.x = Utils.absValToDirectional(Constants.GIGAGAL_MAX_SPEED, facing);
         } else {
             canDash = false;
