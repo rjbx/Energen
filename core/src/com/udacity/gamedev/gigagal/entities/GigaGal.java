@@ -18,7 +18,6 @@ import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 
 // mutable
 public class GigaGal implements Physical {
@@ -503,8 +502,10 @@ public class GigaGal implements Physical {
     
     private void look() {
         if (Gdx.input.isKeyPressed(Keys.W)) {
+            canHover = false;
             lookDirection = Direction.UP;
         } else if (Gdx.input.isKeyPressed(Keys.Z)) {
+            canHover = false;
             lookDirection = Direction.DOWN;
         } else {
             canLook = false;
