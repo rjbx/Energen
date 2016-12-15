@@ -19,13 +19,16 @@ public class OnscreenControls extends InputAdapter {
     // fields
     public static final String TAG = OnscreenControls.class.getName();
     private final Viewport viewport;
-    private final Vector2 moveLeftCenter;
-    private final Vector2 moveRightCenter;
+    private final Vector2 leftCenter;
+    private final Vector2 rightCenter;
+    private final Vector2 upCenter;
+    private final Vector2 downCenter;
+    private final Vector2 centerCenter;
     private final Vector2 shootCenter;
     private final Vector2 jumpCenter;
     private GigaGal gigaGal;
-    private int moveLeftPointer;
-    private int moveRightPointer;
+    private int leftPointer;
+    private int rightPointer;
     private int jumpPointer;
     private int shootPointer;
 
@@ -35,8 +38,11 @@ public class OnscreenControls extends InputAdapter {
                 Constants.ONSCREEN_CONTROLS_VIEWPORT_SIZE,
                 Constants.ONSCREEN_CONTROLS_VIEWPORT_SIZE);
 
-        moveLeftCenter = new Vector2();
-        moveRightCenter = new Vector2();
+        leftCenter = new Vector2();
+        rightCenter = new Vector2();
+        upCenter = new Vector2();
+        downCenter = new Vector2();
+        centerCenter = new Vector2();
         shootCenter = new Vector2();
         jumpCenter = new Vector2();
 
@@ -63,13 +69,13 @@ public class OnscreenControls extends InputAdapter {
             // : Save the jumpPointer and set gigaGal.jumpButtonPressed = true
             this.jumpPointer = pointer;
             gigaGal.jumpButtonPressed = true;
-        } else if (viewportPosition.dst(moveLeftCenter) < Constants.BUTTON_RADIUS) {
-            // : Save the moveLeftPointer, and set gigaGal.leftButtonPressed = true
-            this.moveLeftPointer = pointer;
+        } else if (viewportPosition.dst(leftCenter) < Constants.BUTTON_RADIUS) {
+            // : Save the leftPointer, and set gigaGal.leftButtonPressed = true
+            this.leftPointer = pointer;
             gigaGal.leftButtonPressed = true;
-        } else if (viewportPosition.dst(moveRightCenter) < Constants.BUTTON_RADIUS) {
-            // : Save the moveRightPointer, and set gigaGal.rightButtonPressed = true
-            this.moveRightPointer = pointer;
+        } else if (viewportPosition.dst(rightCenter) < Constants.BUTTON_RADIUS) {
+            // : Save the rightPointer, and set gigaGal.rightButtonPressed = true
+            this.rightPointer = pointer;
             gigaGal.rightButtonPressed = true;
         }
 
@@ -80,7 +86,7 @@ public class OnscreenControls extends InputAdapter {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         Vector2 viewportPosition = viewport.unproject(new Vector2(screenX, screenY));
 
-        if (pointer == moveLeftPointer && viewportPosition.dst(moveRightCenter) < Constants.BUTTON_RADIUS) {
+        if (pointer == leftPointer && viewportPosition.dst(rightCenter) < Constants.BUTTON_RADIUS) {
 
             // : Handle the case where the left button touch has been dragged to the right button
             // Inform GigaGal that the left button is no longer pressed
@@ -88,13 +94,13 @@ public class OnscreenControls extends InputAdapter {
             gigaGal.rightButtonPressed = true;
             // Inform GigaGal that the right button is now pressed
         
-            // Zero moveLeftPointer
-            moveLeftPointer = 0;
-            // Save moveRightPointer
-            moveRightPointer = pointer;
+            // Zero leftPointer
+            leftPointer = 0;
+            // Save rightPointer
+            rightPointer = pointer;
         }
 
-        if (pointer == moveRightPointer && viewportPosition.dst(moveLeftCenter) < Constants.BUTTON_RADIUS) {
+        if (pointer == rightPointer && viewportPosition.dst(leftCenter) < Constants.BUTTON_RADIUS) {
 
             // : Handle the case where the right button touch has been dragged to the left button
             gigaGal.rightButtonPressed = false;
@@ -102,10 +108,10 @@ public class OnscreenControls extends InputAdapter {
             
             // Inform GigaGal that the right button is now pressed
 
-            // Zero moveLeftPointer
-            moveRightPointer = 0;
-            // Save moveRightPointer
-            moveLeftPointer = pointer;
+            // Zero leftPointer
+            rightPointer = 0;
+            // Save rightPointer
+            leftPointer = pointer;
         }
 
         if (pointer == shootPointer && viewportPosition.dst(shootCenter) < Constants.BUTTON_RADIUS) {
@@ -126,12 +132,12 @@ public class OnscreenControls extends InputAdapter {
             shootPointer = 0;
         }
 
-        // : If the moveLeftPointer is no longer touched, inform GigaGal and zero moveLeftPointer
-        if (!Gdx.input.isTouched(moveLeftPointer)) {
+        // : If the leftPointer is no longer touched, inform GigaGal and zero leftPointer
+        if (!Gdx.input.isTouched(leftPointer)) {
             gigaGal.leftButtonPressed = false;
         }
-        // : Do the same for moveRightPointer
-        if (!Gdx.input.isTouched(moveRightPointer)) {
+        // : Do the same for rightPointer
+        if (!Gdx.input.isTouched(rightPointer)) {
             gigaGal.rightButtonPressed = false;
         }
 
@@ -142,15 +148,36 @@ public class OnscreenControls extends InputAdapter {
 
         Utils.drawTextureRegion(
                 batch,
-                Assets.getInstance().getOnscreenControlsAssets().moveLeft,
-                moveLeftCenter,
+                Assets.getInstance().getOnscreenControlsAssets().left,
+                leftCenter,
                 Constants.BUTTON_CENTER
         );
 
         Utils.drawTextureRegion(
                 batch,
-                Assets.getInstance().getOnscreenControlsAssets().moveRight,
-                moveRightCenter,
+                Assets.getInstance().getOnscreenControlsAssets().right,
+                rightCenter,
+                Constants.BUTTON_CENTER
+        );
+
+        Utils.drawTextureRegion(
+                batch,
+                Assets.getInstance().getOnscreenControlsAssets().up,
+                upCenter,
+                Constants.BUTTON_CENTER
+        );
+
+        Utils.drawTextureRegion(
+                batch,
+                Assets.getInstance().getOnscreenControlsAssets().down,
+                downCenter,
+                Constants.BUTTON_CENTER
+        );
+
+        Utils.drawTextureRegion(
+                batch,
+                Assets.getInstance().getOnscreenControlsAssets().center,
+                centerCenter,
                 Constants.BUTTON_CENTER
         );
 
@@ -198,8 +225,11 @@ public class OnscreenControls extends InputAdapter {
     }
 
     public void recalculateButtonPositions() {
-        moveLeftCenter.set(Constants.BUTTON_RADIUS * 3 / 4, Constants.BUTTON_RADIUS);
-        moveRightCenter.set(Constants.BUTTON_RADIUS * 2, Constants.BUTTON_RADIUS * 3 / 4);
+        leftCenter.set(Constants.BUTTON_RADIUS * .775f, Constants.BUTTON_RADIUS * 1.25f);
+        rightCenter.set(Constants.BUTTON_RADIUS * 2.35f, Constants.BUTTON_RADIUS * 1.25f);
+        upCenter.set(Constants.BUTTON_RADIUS * 1.5f, Constants.BUTTON_RADIUS * 2.1f);
+        downCenter.set(Constants.BUTTON_RADIUS * 1.5f, Constants.BUTTON_RADIUS * .53f);
+        centerCenter.set(Constants.BUTTON_RADIUS * 1.54f, Constants.BUTTON_RADIUS * 1.3125f);
         shootCenter.set(
                 viewport.getWorldWidth() - Constants.BUTTON_RADIUS * 2f,
                 Constants.BUTTON_RADIUS * 3 / 4

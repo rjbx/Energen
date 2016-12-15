@@ -551,8 +551,11 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class OnscreenControlsAssets {
 
-        public final AtlasRegion moveRight;
-        public final AtlasRegion moveLeft;
+        public final AtlasRegion right;
+        public final AtlasRegion left;
+        public final AtlasRegion up;
+        public final AtlasRegion down;
+        public final AtlasRegion center;
         public final AtlasRegion shoot;
         public final AtlasRegion blast;
         public final AtlasRegion jump;
@@ -561,8 +564,11 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion selectionCursor;
 
         public OnscreenControlsAssets(TextureAtlas atlas) {
-            moveRight = atlas.findRegion(Constants.MOVE_RIGHT_BUTTON);
-            moveLeft = atlas.findRegion(Constants.MOVE_LEFT_BUTTON);
+            right = atlas.findRegion(Constants.RIGHT_BUTTON);
+            left = atlas.findRegion(Constants.LEFT_BUTTON);
+            up = atlas.findRegion(Constants.UP_BUTTON);
+            down = atlas.findRegion(Constants.DOWN_BUTTON);
+            center = atlas.findRegion(Constants.CENTER_BUTTON);
             shoot = atlas.findRegion(Constants.SHOOT_BUTTON);
             blast = atlas.findRegion(Constants.BLAST_BUTTON);
             jump = atlas.findRegion(Constants.JUMP_BUTTON);
