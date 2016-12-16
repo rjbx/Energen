@@ -231,11 +231,11 @@ public class OnscreenControls extends InputAdapter {
         downCenter.set(Constants.BUTTON_RADIUS * 1.5f, Constants.BUTTON_RADIUS * .53f);
         centerCenter.set(Constants.BUTTON_RADIUS * 1.54f, Constants.BUTTON_RADIUS * 1.3125f);
         shootCenter.set(
-                viewport.getWorldWidth() - Constants.BUTTON_RADIUS * 2f,
+                viewport.getWorldWidth() - Constants.BUTTON_RADIUS * 3f,
                 Constants.BUTTON_RADIUS * 3 / 4
         );
         jumpCenter.set(
-                viewport.getWorldWidth() - Constants.BUTTON_RADIUS * 3 / 4,
+                viewport.getWorldWidth() - Constants.BUTTON_RADIUS,
                 Constants.BUTTON_RADIUS
         );
     }
