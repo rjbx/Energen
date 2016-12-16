@@ -97,7 +97,6 @@ public class GigaGal implements Physical {
         touchGround(level.getGrounds());
         recoilFromHazards(level.getHazards());
         collectPowerups(level.getPowerups());
-        enableRespawn();
         enableShoot(weapon);
 
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.AIRBORNE) {
@@ -466,17 +465,7 @@ public class GigaGal implements Physical {
         }
     }
 
-    private void enableRespawn() {
-        if (position.y < Constants.KILL_PLANE || health < 1) {
-            health = 0;
-            lives--;
-            if (lives > -1) {
-                respawn();
-            }
-        }
-    }
-
-    private void respawn() {
+    public void respawn() {
         position.set(spawnLocation);
         velocity.setZero();
         facing = Direction.RIGHT;
@@ -751,4 +740,6 @@ public class GigaGal implements Physical {
     // Setters
     public void setDirection(Direction facing) { this.facing = facing; }
     public void setChargeStartTime(long chargeStartTime) { this.chargeStartTime = chargeStartTime; }
+    public void setLives(int lives) { this.lives = lives; }
+    public void setHealth(int health) { this.health = health; }
 }

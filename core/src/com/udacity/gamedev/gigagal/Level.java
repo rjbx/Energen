@@ -221,6 +221,16 @@ public class Level {
         ammoList.add(new Ammo(this, position, direction, orientation, shotIntensity, weapon, targetsEnemies));
     }
 
+    public boolean gigaGalFailed() {
+        if (gigaGal.getPosition().y < Constants.KILL_PLANE || gigaGal.getHealth() < 1) {
+            gigaGal.setHealth(0);
+            gigaGal.setLives(gigaGal.getLives() - 1);
+
+            return true;
+        }
+        return false;
+    }
+
     public void spawnExplosion(Vector2 position) {
         explosions.add(new Explosion(position));
     }
