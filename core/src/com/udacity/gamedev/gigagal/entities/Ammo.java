@@ -154,11 +154,12 @@ public final class Ammo extends Indestructible {
                 if (destructible.getClass() == specializedZoomba || destructible.getClass() == specializedSwoopa) {
                     damage = Constants.AMMO_SPECIALIZED_DAMAGE;
                 }
-                if (!fromGigagal && weapon != Weapon.PSYCHIC) {
+                if (!fromGigagal) {
                     damage = 0;
+                } else {
+                    level.setScore(level.getScore() + destructible.getHitScore());
                 }
                 Utils.applyDamage(destructible, shotIntensity, damage);
-                level.setScore(level.getScore() + destructible.getHitScore());
             }
         }
 

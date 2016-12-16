@@ -5,7 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.udacity.gamedev.gigagal.util.Assets;
 
 // immutable
-public class GigaGalGame extends Game {
+public final class GigaGalGame extends Game {
 
     // fields
     private LevelSelectScreen levelSelect;
