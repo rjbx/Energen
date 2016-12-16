@@ -60,6 +60,51 @@ public final class GigaGalHud {
             );
         }
 
+        float drawPositionX = viewport.getWorldWidth() - (Constants.HUD_MARGIN / 2) - 30;
+        final float drawPositionY = viewport.getWorldHeight() - Constants.HUD_MARGIN - 62.5f;
+
+        final Vector2 drawPosition = new Vector2(drawPositionX, drawPositionY);
+        if (!gigaGal.isCharged()) {
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getHudAssets().shoot,
+                    drawPosition,
+                    Constants.BUTTON_CENTER
+            );
+        } else {
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getHudAssets().blast,
+                    drawPosition,
+                    Constants.BUTTON_CENTER
+            );
+        }
+
+        drawPosition.set(drawPositionX - 50, drawPositionY);
+        if (!gigaGal.getRicochetStatus())  {
+            if (!gigaGal.getJumpStatus() && gigaGal.getHoverStatus()) {
+                Utils.drawTextureRegion(
+                        batch,
+                        Assets.getInstance().getHudAssets().hover,
+                        drawPosition,
+                        Constants.BUTTON_CENTER
+                );
+            } else {
+                Utils.drawTextureRegion(
+                        batch,
+                        Assets.getInstance().getHudAssets().jump,
+                        drawPosition,
+                        Constants.BUTTON_CENTER
+                );
+            }
+        } else {
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getHudAssets().ricochet,
+                    drawPosition,
+                    Constants.BUTTON_CENTER
+            );
+        }
         batch.end();
     }
 

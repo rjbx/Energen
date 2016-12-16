@@ -45,6 +45,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private PowerupAssets powerupAssets;
     private PortalAssets portalAssets;
     private OnscreenControlsAssets onscreenControlsAssets;
+    private HudAssets hudAssets;
 
     private AssetManager assetManager;
 
@@ -88,6 +89,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         powerupAssets = new PowerupAssets(atlas);
         portalAssets = new PortalAssets(atlas);
         onscreenControlsAssets = new OnscreenControlsAssets(atlas);
+        hudAssets = new HudAssets(atlas);
     }
 
     @Override
@@ -578,6 +580,24 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+
+    public class HudAssets {
+
+        public final AtlasRegion shoot;
+        public final AtlasRegion blast;
+        public final AtlasRegion jump;
+        public final AtlasRegion hover;
+        public final AtlasRegion ricochet;
+
+        public HudAssets(TextureAtlas atlas) {
+            shoot = atlas.findRegion(Constants.SHOOT_ICON);
+            blast = atlas.findRegion(Constants.BLAST_ICON);
+            jump = atlas.findRegion(Constants.JUMP_ICON);
+            hover = atlas.findRegion(Constants.HOVER_ICON);
+            ricochet = atlas.findRegion(Constants.RICOCHET_ICON);
+        }
+    }
+
     // Getters
     public final GigaGalAssets getGigaGalAssets() { return gigaGalAssets; }
     public final PlatformAssets getPlatformAssets() { return platformAssets; }
@@ -606,4 +626,5 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final PowerupAssets getPowerupAssets() { return powerupAssets; }
     public final PortalAssets getPortalAssets() { return portalAssets; }
     public final OnscreenControlsAssets getOnscreenControlsAssets() { return onscreenControlsAssets; }
+    public final HudAssets getHudAssets() { return hudAssets; }
 }

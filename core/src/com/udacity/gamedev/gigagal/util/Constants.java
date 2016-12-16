@@ -311,6 +311,11 @@ public final class Constants {
     public static final String HUD_SCORE_LABEL = "Score: ";
     public static final String HUD_HEALTH_LABEL = "Health: ";
     public static final String HUD_WEAPON_LABEL = "Weapon: ";
+    public static final String SHOOT_ICON = "icon-shoot";
+    public static final String BLAST_ICON = "icon-blast";
+    public static final String JUMP_ICON = "icon-jump";
+    public static final String HOVER_ICON = "icon-hover";
+    public static final String RICOCHET_ICON = "icon-ricochet";
 
     // Onscreen Controls
     public static final float ONSCREEN_CONTROLS_VIEWPORT_SIZE = 200;
@@ -325,7 +330,7 @@ public final class Constants {
     public static final String BLAST_BUTTON = "button-a";
     public static final String JUMP_BUTTON = "button-b";
     public static final String HOVER_BUTTON = "button-b";
-    public static final String RICOCHET_BUTTON = "button-ricochet";
+    public static final String RICOCHET_BUTTON = "button-b";
     public static final String SELECTION_CURSOR = "selection-cursor";
 
     // Victory/Game Over screens
