@@ -42,6 +42,7 @@ public final class GameplayScreen extends ScreenAdapter {
     private String levelName;
     private GigaGal gigaGal;
     private Array<TurboPowerup> powerups;
+    int score;
 
     // default ctor
     public GameplayScreen(GigaGalGame game) {
@@ -149,6 +150,7 @@ public final class GameplayScreen extends ScreenAdapter {
 
         AssetManager am = new AssetManager();
         level = LevelLoader.load(levelName);
+        level.setScore(score);
         level.setLevelName(levelName);
         levelNumber = (Arrays.asList(Constants.LEVELS)).indexOf(levelName);
         powerups = new Array<TurboPowerup>();
@@ -177,9 +179,11 @@ public final class GameplayScreen extends ScreenAdapter {
     public void restartLevel() {
         gigaGal.respawn();
         level.getPowerups().addAll(powerups);
+        level.setScore(score);
     }
 
     public void levelComplete() {
+        score = level.getScore();
         completedLevels.add(levelName);
         game.setScreen(game.getLevelSelectScreen());
     }

@@ -53,6 +53,7 @@ public class Level {
     public Level() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigaGal = new GigaGal(new Vector2(50, 50), this);
+        score = 0;
         platforms = new Array<Platform>();
         grounds = new Array<Ground>();
         destructibles = new DelayedRemovalArray<Destructible>();
@@ -64,7 +65,6 @@ public class Level {
         portal = new Portal(new Vector2(200, 200));
         gameOver = false;
         victory = false;
-        score = 0;
         cannonStartTime = TimeUtils.nanoTime();
     }
 
@@ -242,14 +242,14 @@ public class Level {
     public final Array<Ground> getGrounds() { return grounds; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
-    public final int getScore() { return score; }
+    public int getScore() { return score; }
     public final Portal getPortal() { return portal; }
     public final GigaGal getGigaGal() { return gigaGal; }
     public final boolean isGameOver() { return gameOver; }
     public final boolean isVictory() { return victory; }
 
     // Setters
-    public final void setScore(int score) { this.score = score; }
+    public void setScore(int score) { this.score = score; }
     public final void setPortal(Portal portal) { this.portal = portal; }
     public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
     public final void setLevelName(String levelName) { this.levelName = levelName; }

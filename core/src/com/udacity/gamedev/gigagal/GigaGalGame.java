@@ -5,7 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.udacity.gamedev.gigagal.util.Assets;
 
 // immutable
-public final class GigaGalGame extends Game {
+public class GigaGalGame extends Game {
 
     // fields
     private LevelSelectScreen levelSelect;
@@ -17,7 +17,6 @@ public final class GigaGalGame extends Game {
 
     @Override
     public void create() {
-
         levelSelect = new LevelSelectScreen(this);
         gameplay = new GameplayScreen(this);
         AssetManager am = new AssetManager();
