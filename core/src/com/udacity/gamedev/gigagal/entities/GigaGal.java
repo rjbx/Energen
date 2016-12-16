@@ -310,6 +310,12 @@ public class GigaGal implements Physical {
                     }
                 } else if (powerup instanceof TurboPowerup) {
                     turbo += Constants.POWERUP_TURBO;
+                    if (aerialState == AerialState.HOVERING) {
+                        hoverStartTime = TimeUtils.nanoTime();
+                    }
+                    if (groundState == GroundState.DASHING) {
+                        dashStartTime = TimeUtils.nanoTime();
+                    }
                     if (turbo > 100) {
                         turbo = 100;
                     }
