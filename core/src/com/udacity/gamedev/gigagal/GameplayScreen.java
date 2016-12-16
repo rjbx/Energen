@@ -49,7 +49,6 @@ public final class GameplayScreen extends ScreenAdapter {
     public void show() {
         batch = new SpriteBatch();
         chaseCam = ChaseCam.getInstance();
-        hud = new GigaGalHud();
         victoryOverlay = new VictoryOverlay();
         gameOverOverlay = new GameOverOverlay();
         onscreenControls = new OnscreenControls();
@@ -103,7 +102,7 @@ public final class GameplayScreen extends ScreenAdapter {
         // onMobile();
         onscreenControls.render(batch);
 
-        hud.render(batch, level.getGigaGal().getLives(), level.getGigaGal().getAmmo(), level.getGigaGal(). getHealth(), level.getScore(), level.getGigaGal().getTurbo(), level.getGigaGal().getWeaponList(), level.getGigaGal().getWeapon());
+        hud.render(batch);
         renderLevelEndOverlays(batch);
     }
 
@@ -141,6 +140,7 @@ public final class GameplayScreen extends ScreenAdapter {
 
         AssetManager am = new AssetManager();
         level = LevelLoader.load(levelName);
+        hud = new GigaGalHud(level);
         level.setLevelName(levelName);
         levelNumber = (Arrays.asList(Constants.LEVELS)).indexOf(levelName);
         Assets.getInstance().init(am, levelNumber);

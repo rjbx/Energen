@@ -322,7 +322,7 @@ public final class Constants {
     public static final String DOWN_BUTTON = "button-down";
     public static final String CENTER_BUTTON = "button-center";
     public static final String SHOOT_BUTTON = "button-a";
-    public static final String BLAST_BUTTON = "button-b";
+    public static final String BLAST_BUTTON = "button-a";
     public static final String JUMP_BUTTON = "button-b";
     public static final String HOVER_BUTTON = "button-b";
     public static final String RICOCHET_BUTTON = "button-ricochet";
