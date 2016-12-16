@@ -20,7 +20,7 @@ ammo-blast-fire
   index: -1
 ammo-blast-fire-alt
   rotate: false
-  xy: 847, 134
+  xy: 846, 123
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
@@ -62,14 +62,14 @@ ammo-blast-rubber
   index: -1
 ammo-blast-water
   rotate: false
-  xy: 829, 131
+  xy: 847, 141
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
   index: -1
 ammo-blast-water-alt
   rotate: false
-  xy: 858, 134
+  xy: 857, 123
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
@@ -90,7 +90,7 @@ ammo-shot-electric-alt
   index: -1
 ammo-shot-fire
   rotate: false
-  xy: 968, 177
+  xy: 271, 130
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
@@ -104,14 +104,14 @@ ammo-shot-fire-alt
   index: -1
 ammo-shot-metal
   rotate: false
-  xy: 911, 145
+  xy: 889, 145
   size: 8, 5
   orig: 8, 5
   offset: 0, 0
   index: -1
 ammo-shot-metal-alt
   rotate: false
-  xy: 961, 171
+  xy: 263, 120
   size: 5, 8
   orig: 5, 8
   offset: 0, 0
@@ -132,14 +132,14 @@ ammo-shot-psychic
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 887, 134
+  xy: 961, 153
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber-alt
   rotate: false
-  xy: 901, 142
+  xy: 879, 142
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -391,7 +391,7 @@ lookup-right
   index: -1
 pillar
   rotate: false
-  xy: 887, 144
+  xy: 865, 144
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
@@ -508,6 +508,13 @@ powerup-health
   orig: 15, 17
   offset: 0, 0
   index: -1
+powerup-turbo
+  rotate: false
+  xy: 812, 124
+  size: 15, 17
+  orig: 15, 17
+  offset: 0, 0
+  index: -1
 recoil-left
   rotate: false
   xy: 510, 125
@@ -538,21 +545,21 @@ ricochet-right
   index: -1
 selection-cursor
   rotate: false
-  xy: 812, 126
+  xy: 829, 125
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 spike-1
   rotate: false
-  xy: 869, 134
+  xy: 961, 163
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 spike-2
   rotate: false
-  xy: 878, 134
+  xy: 221, 19
   size: 7, 16
   orig: 7, 16
   offset: 0, 0

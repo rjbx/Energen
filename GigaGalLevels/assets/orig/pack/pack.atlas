@@ -75,6 +75,13 @@ powerup-health
   orig: 15, 17
   offset: 0, 0
   index: -1
+powerup-turbo
+  rotate: false
+  xy: 136, 30
+  size: 15, 17
+  orig: 15, 17
+  offset: 0, 0
+  index: -1
 spike-1
   rotate: false
   xy: 241, 110
@@ -82,7 +89,7 @@ spike-1
   orig: 7, 16
   offset: 0, 0
   index: -1
-standing-right
+stand-right
   rotate: false
   xy: 165, 91
   size: 28, 35

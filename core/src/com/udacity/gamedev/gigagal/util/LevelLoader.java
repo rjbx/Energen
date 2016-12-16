@@ -18,6 +18,7 @@ import com.udacity.gamedev.gigagal.entities.Pillar;
 import com.udacity.gamedev.gigagal.entities.SharpSwoopa;
 import com.udacity.gamedev.gigagal.entities.SharpZoomba;
 import com.udacity.gamedev.gigagal.entities.Swoopa;
+import com.udacity.gamedev.gigagal.entities.TurboPowerup;
 import com.udacity.gamedev.gigagal.entities.Vacuum;
 import com.udacity.gamedev.gigagal.entities.Flame;
 import com.udacity.gamedev.gigagal.entities.Geiser;
@@ -94,6 +95,10 @@ public final class LevelLoader {
                 final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded a HealthPowerup at " + powerupPosition);
                 level.getPowerups().add(new HealthPowerup(powerupPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TURBO_POWERUP_SPRITE)) {
+                final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
+                Gdx.app.log(TAG, "Loaded a TurboPowerup at " + powerupPosition);
+                level.getPowerups().add(new TurboPowerup(powerupPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STAND_RIGHT)) {
                 final Vector2 gigaGalPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);

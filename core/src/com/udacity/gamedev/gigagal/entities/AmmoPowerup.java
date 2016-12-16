@@ -7,7 +7,8 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class AmmoPowerup extends Powerup {
+// immutable
+public final class AmmoPowerup extends Powerup {
 
     // fields
     private final Vector2 position;

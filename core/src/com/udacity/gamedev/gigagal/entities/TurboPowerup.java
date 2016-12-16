@@ -7,18 +7,17 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public final class HealthPowerup extends Powerup {
+// immutable
+public final class TurboPowerup extends Powerup {
 
-    // fields
     private final Vector2 position;
 
-    // ctor
-    public HealthPowerup(Vector2 position) {
+    public TurboPowerup(Vector2 position) {
         this.position = position;
     }
 
     public void render(SpriteBatch batch) {
-        final TextureRegion region = Assets.getInstance().getPowerupAssets().healthPowerup;
+        final TextureRegion region = Assets.getInstance().getPowerupAssets().turboPowerup;
         Utils.drawTextureRegion(batch, region, position, Constants.POWERUP_CENTER);
     }
 
