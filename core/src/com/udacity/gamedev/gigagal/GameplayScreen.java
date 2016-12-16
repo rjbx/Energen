@@ -7,10 +7,10 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Powerup;
+import com.udacity.gamedev.gigagal.entities.TurboPowerup;
 import com.udacity.gamedev.gigagal.overlays.GameOverOverlay;
 import com.udacity.gamedev.gigagal.overlays.GigaGalHud;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
@@ -41,7 +41,7 @@ public final class GameplayScreen extends ScreenAdapter {
     private Array<String> completedLevels;
     private String levelName;
     private GigaGal gigaGal;
-    private DelayedRemovalArray<Powerup> powerups;
+    private Array<TurboPowerup> powerups;
 
     // default ctor
     public GameplayScreen(GigaGalGame game) {
@@ -56,13 +56,13 @@ public final class GameplayScreen extends ScreenAdapter {
         victoryOverlay = new VictoryOverlay();
         gameOverOverlay = new GameOverOverlay();
         onscreenControls = new OnscreenControls();
-        powerups = new DelayedRemovalArray<Powerup>();
+        powerups = new Array<TurboPowerup>();
 
         // : Use Gdx.input.setInputProcessor() to send touch events to onscreenControls
         Gdx.input.setInputProcessor(onscreenControls);
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        startLevel();
+        startNewLevel();
     }
 
     private boolean onMobile() {
@@ -111,9 +111,7 @@ public final class GameplayScreen extends ScreenAdapter {
         renderLevelEndOverlays(batch);
         if (level.gigaGalFailed()) {
             if (gigaGal.getLives() > -1) {
-                gigaGal.respawn();
-                level.getPowerups().removeRange(0, level.getPowerups().size - 1);
-                level.getPowerups().addAll(powerups);
+                restartLevel();
             }
         }
     }
@@ -144,7 +142,7 @@ public final class GameplayScreen extends ScreenAdapter {
         }
     }
 
-    private void startLevel() {
+    private void startNewLevel() {
 
 //        level = Level.debugLevel();
  //     String levelName = Constants.LEVELS[levelNumber];
@@ -153,7 +151,12 @@ public final class GameplayScreen extends ScreenAdapter {
         level = LevelLoader.load(levelName);
         level.setLevelName(levelName);
         levelNumber = (Arrays.asList(Constants.LEVELS)).indexOf(levelName);
-        powerups = new DelayedRemovalArray<Powerup>(level.getPowerups());
+        powerups = new Array<TurboPowerup>();
+        for (Powerup powerup : level.getPowerups()) {
+            if (powerup instanceof TurboPowerup) {
+                powerups.add((TurboPowerup) powerup);
+            }
+        }
         Assets.getInstance().init(am, levelNumber);
         hud = new GigaGalHud(level);
         this.gigaGal = level.getGigaGal();
@@ -169,6 +172,11 @@ public final class GameplayScreen extends ScreenAdapter {
         chaseCam.camera = level.getViewport().getCamera();
         chaseCam.target = gigaGal;
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    public void restartLevel() {
+        gigaGal.respawn();
+        level.getPowerups().addAll(powerups);
     }
 
     public void levelComplete() {

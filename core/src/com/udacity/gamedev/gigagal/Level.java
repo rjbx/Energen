@@ -225,7 +225,6 @@ public class Level {
         if (gigaGal.getPosition().y < Constants.KILL_PLANE || gigaGal.getHealth() < 1) {
             gigaGal.setHealth(0);
             gigaGal.setLives(gigaGal.getLives() - 1);
-
             return true;
         }
         return false;
