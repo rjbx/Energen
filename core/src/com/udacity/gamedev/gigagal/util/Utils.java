@@ -97,7 +97,7 @@ public class Utils {
         if (shotIntensity == Enums.ShotIntensity.CHARGED) {
             destructible.setHealth(destructible.getHealth() - damage);
         } else {
-            destructible.setHealth(destructible.getHealth() - (damage / 3));
+            destructible.setHealth((int) (destructible.getHealth() - (damage * .67f)));
         }
     }
 }
