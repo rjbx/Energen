@@ -11,8 +11,9 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.entities.TurboPowerup;
+import com.udacity.gamedev.gigagal.overlays.ContextIndicatorHud;
 import com.udacity.gamedev.gigagal.overlays.GameOverOverlay;
-import com.udacity.gamedev.gigagal.overlays.GigaGalHud;
+import com.udacity.gamedev.gigagal.overlays.MeterGaugeHud;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.overlays.VictoryOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -35,7 +36,8 @@ public final class GameplayScreen extends ScreenAdapter {
     private int levelNumber;
     private Level level;
     private ChaseCam chaseCam;
-    private GigaGalHud hud;
+    private MeterGaugeHud meterHud;
+    private ContextIndicatorHud contextHud;
     private VictoryOverlay victoryOverlay;
     private GameOverOverlay gameOverOverlay;
     private Array<String> completedLevels;
@@ -72,7 +74,8 @@ public final class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void resize(int width, int height) {
-        hud.getViewport().update(width, height, true);
+        meterHud.getViewport().update(width, height, true);
+        contextHud.getViewport().update(width, height, true);
         victoryOverlay.getViewport().update(width, height, true);
         gameOverOverlay.viewport.update(width, height, true);
         level.getViewport().update(width, height, true);
@@ -108,7 +111,8 @@ public final class GameplayScreen extends ScreenAdapter {
         // onMobile();
         onscreenControls.render(batch);
 
-        hud.render(batch);
+        meterHud.render(batch);
+        contextHud.render(batch);
         renderLevelEndOverlays(batch);
         if (level.gigaGalFailed()) {
             if (gigaGal.getLives() > -1) {
@@ -160,7 +164,8 @@ public final class GameplayScreen extends ScreenAdapter {
             }
         }
         Assets.getInstance().init(am, levelNumber);
-        hud = new GigaGalHud(level);
+        meterHud = new MeterGaugeHud(level);
+        contextHud = new ContextIndicatorHud(level);
         this.gigaGal = level.getGigaGal();
         for (String completedLevelName : completedLevels) {
             for (Enums.Weapon weapon : Arrays.asList(Constants.weapons)) {

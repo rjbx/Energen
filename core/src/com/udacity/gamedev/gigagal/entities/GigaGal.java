@@ -286,7 +286,7 @@ public class GigaGal implements Physical {
                         if (changeWeaponStartTime == 0) {
                             changeWeaponStartTime = TimeUtils.nanoTime();
                         }
-                        changeWeapon();
+                        toggleWeapon();
                     } else {
                         canShoot = true;
                         changeWeaponStartTime = 0;
@@ -388,7 +388,7 @@ public class GigaGal implements Physical {
         this.velocity.y = velocity.y;
     }
 
-    private void changeWeapon() {
+    private void toggleWeapon() {
         if (Utils.secondsSince(changeWeaponStartTime) > Constants.WEAPON_TOGGLER_DELAY) {
             if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
                 canChangeWeapon = true;
