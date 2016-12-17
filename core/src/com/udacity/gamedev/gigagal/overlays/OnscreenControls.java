@@ -29,6 +29,8 @@ public class OnscreenControls extends InputAdapter {
     private GigaGal gigaGal;
     private int leftPointer;
     private int rightPointer;
+    private int upPointer;
+    private int downPointer;
     private int jumpPointer;
     private int shootPointer;
 
@@ -77,6 +79,14 @@ public class OnscreenControls extends InputAdapter {
             // : Save the rightPointer, and set gigaGal.rightButtonPressed = true
             this.rightPointer = pointer;
             gigaGal.rightButtonPressed = true;
+        } else if (viewportPosition.dst(upCenter) < Constants.BUTTON_RADIUS) {
+            // : Save the upPointer, and set gigaGal.upButtonPressed = true
+            this.upPointer = pointer;
+            gigaGal.upButtonPressed = true;
+        }  else if (viewportPosition.dst(downCenter) < Constants.BUTTON_RADIUS) {
+            // : Save the downPointer, and set gigaGal.downButtonPressed = true
+            this.downPointer = pointer;
+            gigaGal.downButtonPressed = true;
         }
 
         return super.touchDown(screenX, screenY, pointer, button);
@@ -114,6 +124,34 @@ public class OnscreenControls extends InputAdapter {
             leftPointer = pointer;
         }
 
+        if (pointer == upPointer && viewportPosition.dst(downCenter) < Constants.BUTTON_RADIUS) {
+
+            // : Handle the case where the up button touch has been dragged to the down button
+            // Inform GigaGal that the up button is no longer pressed
+            gigaGal.upButtonPressed = false;
+            gigaGal.downButtonPressed = true;
+            // Inform GigaGal that the down button is now pressed
+
+            // Zero upPointer
+            upPointer = 0;
+            // Save downPointer
+            downPointer = pointer;
+        }
+
+        if (pointer == downPointer && viewportPosition.dst(upCenter) < Constants.BUTTON_RADIUS) {
+
+            // : Handle the case where the down button touch has been dragged to the up button
+            gigaGal.downButtonPressed = false;
+            gigaGal.upButtonPressed = true;
+
+            // Inform GigaGal that the down button is now pressed
+
+            // Zero upPointer
+            downPointer = 0;
+            // Save downPointer
+            upPointer = pointer;
+        }
+
         if (pointer == shootPointer && viewportPosition.dst(shootCenter) < Constants.BUTTON_RADIUS) {
             gigaGal.shootButtonPressed = true;
         }
@@ -139,6 +177,15 @@ public class OnscreenControls extends InputAdapter {
         // : Do the same for rightPointer
         if (!Gdx.input.isTouched(rightPointer)) {
             gigaGal.rightButtonPressed = false;
+        }
+
+        // : If the upPointer is no longer touched, inform GigaGal and zero upPointer
+        if (!Gdx.input.isTouched(upPointer)) {
+            gigaGal.upButtonPressed = false;
+        }
+        // : Do the same for downPointer
+        if (!Gdx.input.isTouched(downPointer)) {
+            gigaGal.downButtonPressed = false;
         }
 
         if (!Gdx.input.isKeyJustPressed(jumpPointer)) {

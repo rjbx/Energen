@@ -67,6 +67,8 @@ public class GigaGal implements Physical {
     private int turbo;
     public boolean leftButtonPressed;
     public boolean rightButtonPressed;
+    public boolean upButtonPressed;
+    public boolean downButtonPressed;
     public boolean jumpButtonPressed;
     public boolean shootButtonPressed;
 
@@ -502,10 +504,10 @@ public class GigaGal implements Physical {
     }
     
     private void look() {
-        if (Gdx.input.isKeyPressed(Keys.W)) {
+        if (Gdx.input.isKeyPressed(Keys.W) || upButtonPressed) {
             canHover = false;
             lookDirection = Direction.UP;
-        } else if (Gdx.input.isKeyPressed(Keys.Z)) {
+        } else if (Gdx.input.isKeyPressed(Keys.Z) || downButtonPressed) {
             canHover = false;
             lookDirection = Direction.DOWN;
         } else {
