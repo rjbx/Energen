@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entities.Destructible;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Physical;
-import com.udacity.gamedev.gigagal.entities.Zoomba;
 
 // immutable static
 public class Utils {
@@ -57,9 +56,9 @@ public class Utils {
         return 0;
     }
 
-    public static final boolean setDirection(GigaGal gigaGal, Enums.Direction setTo) {
-        if (gigaGal.getDirection() != setTo){
-            gigaGal.setDirection(setTo);
+    public static final boolean setFacing(GigaGal gigaGal, Enums.Direction setTo) {
+        if (gigaGal.getFacing() != setTo){
+            gigaGal.setFacing(setTo);
             return true;
         } else {
             return false;

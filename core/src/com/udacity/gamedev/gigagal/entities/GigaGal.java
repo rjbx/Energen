@@ -36,19 +36,7 @@ public class GigaGal implements Physical {
     private GroundState groundState;
     private Weapon weapon;
     private Direction lookDirection;
-    private boolean canLook;
-    private boolean canStride;
-    private boolean canDash;
-    private boolean canJump;
-    private boolean canHover;
-    private boolean canRicochet;
-    private boolean canCharge;
-    private boolean canChangeDirection;
-    private boolean canShoot;
-    private boolean isCharged;
-    private boolean knockedBack;
-    private boolean slidPlatform;
-    private boolean groundedPlatform;
+    private Direction toggleDirection;
     private long strideStartTime;
     private long jumpStartTime;
     private long dashStartTime;
@@ -63,6 +51,19 @@ public class GigaGal implements Physical {
     private int ammo;
     private int health;
     private int turbo;
+    private boolean canLook;
+    private boolean canStride;
+    private boolean canDash;
+    private boolean canJump;
+    private boolean canHover;
+    private boolean canRicochet;
+    private boolean canCharge;
+    private boolean canChangeDirection;
+    private boolean canShoot;
+    private boolean isCharged;
+    private boolean knockedBack;
+    private boolean slidPlatform;
+    private boolean groundedPlatform;
     public boolean leftButtonPressed;
     public boolean rightButtonPressed;
     public boolean upButtonPressed;
@@ -254,9 +255,9 @@ public class GigaGal implements Physical {
         boolean directionChanged = false;
         boolean isStriding = true;
         if (left && !right) {
-            directionChanged = Utils.setDirection(this, Direction.LEFT);
+            directionChanged = Utils.setFacing(this, Direction.LEFT);
         } else if (!left && right) {
-            directionChanged = Utils.setDirection(this, Direction.RIGHT);
+            directionChanged = Utils.setFacing(this, Direction.RIGHT);
         } else {
             isStriding = false;
         }
@@ -376,27 +377,38 @@ public class GigaGal implements Physical {
         this.velocity.y = velocity.y;
     }
 
-    private void toggleWeapon(Direction direction) {
+    private void enableToggle(Direction toggleDirection) {
+        boolean directionChanged = (this.toggleDirection != toggleDirection);
         if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
-            if (direction == Direction.DOWN) {
-                if (weaponToggler.hasPrevious()) {
-                    weapon = weaponToggler.previous();
-                } else {
-                    while (weaponToggler.hasNext()) {
-                        weaponToggler.next();
-                    }
-                    weapon = weaponToggler.previous();
-                }
-            } else if (direction == Direction.UP) {
-                if (weaponToggler.hasNext()) {
-                    weapon = weaponToggler.next();
-                } else {
-                    while (weaponToggler.hasPrevious()) {
-                        weaponToggler.previous();
-                    }
-                    weapon = weaponToggler.next();
-                }
+            if (directionChanged) {
+                toggle(toggleDirection);
             }
+            toggle(toggleDirection);
+            this.toggleDirection = toggleDirection;
+        }
+    }
+
+    private void toggle(Direction toggleDirection) {
+        if (toggleDirection == Direction.UP) {
+            if (weaponToggler.hasNext()) {
+                weapon = weaponToggler.next();
+            } else {
+                while (weaponToggler.hasPrevious()) {
+                    weaponToggler.previous();
+                }
+                weapon = weaponToggler.next();
+            }
+            this.toggleDirection = toggleDirection;
+        } else if (toggleDirection == Direction.DOWN) {
+            if (weaponToggler.hasPrevious()) {
+                weapon = weaponToggler.previous();
+            } else {
+                while (weaponToggler.hasNext()) {
+                    weaponToggler.next();
+                }
+                weapon = weaponToggler.previous();
+            }
+            this.toggleDirection = toggleDirection;
         }
     }
 
@@ -508,7 +520,7 @@ public class GigaGal implements Physical {
             }
             canHover = false;
             canJump = false;
-            toggleWeapon(lookDirection);
+            enableToggle(lookDirection);
         } else {
             canLook = false;
             lookDirection = null;
@@ -721,7 +733,7 @@ public class GigaGal implements Physical {
     public int getHealth() { return health; }
     public int getLives() { return lives; }
     public int getTurbo() { return turbo; }
-    public Direction getDirection() { return facing; }
+    public Direction getFacing() { return facing; }
     public Vector2 getPosition() { return position; }
     public float getWidth() { return Constants.GIGAGAL_STANCE_WIDTH; }
     public float getHeight() { return Constants.GIGAGAL_HEIGHT; }
@@ -739,7 +751,7 @@ public class GigaGal implements Physical {
     public void addWeapon(Weapon weapon) { weaponToggler.add(weapon); }
 
     // Setters
-    public void setDirection(Direction facing) { this.facing = facing; }
+    public void setFacing(Direction facing) { this.facing = facing; }
     public void setChargeStartTime(long chargeStartTime) { this.chargeStartTime = chargeStartTime; }
     public void setLives(int lives) { this.lives = lives; }
     public void setHealth(int health) { this.health = health; }
