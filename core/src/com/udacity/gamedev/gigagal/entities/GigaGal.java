@@ -45,7 +45,6 @@ public class GigaGal implements Physical {
     private boolean canCharge;
     private boolean canChangeDirection;
     private boolean canShoot;
-    private boolean canChangeWeapon;
     private boolean isCharged;
     private boolean knockedBack;
     private boolean slidPlatform;
@@ -56,7 +55,6 @@ public class GigaGal implements Physical {
     private long hoverStartTime;
     private long ricochetStartTime;
     private long chargeStartTime;
-    private long changeWeaponStartTime;
     private long recoveryStartTime;
     private float strideAcceleration;
     private float hoverTimeSeconds;
@@ -482,8 +480,6 @@ public class GigaGal implements Physical {
         slidPlatform = false;
         groundedPlatform = false;
         knockedBack = false;
-        canChangeWeapon = false;
-        changeWeaponStartTime = 0;
         chargeStartTime = 0;
         strideStartTime = 0;
         jumpStartTime = 0;
@@ -512,7 +508,6 @@ public class GigaGal implements Physical {
             }
             canHover = false;
             canJump = false;
-            changeWeaponStartTime = TimeUtils.nanoTime();
             toggleWeapon(lookDirection);
         } else {
             canLook = false;
