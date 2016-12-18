@@ -41,7 +41,7 @@ public class Swoopa extends Destructible {
         // while the swoopa is witin a screens' width from the screen center on either side, permit movement
         if (position.x < (camera.x + worldSpan.x)
         && position.x > (camera.x - worldSpan.x)
-        && Utils.secondsSince(descentStartTime) > 3) {
+        && Utils.secondsSince(descentStartTime) > 2.75f) {
             if (position.y > (platform.getTop() + Constants.SWOOPA_COLLISION_HEIGHT)) {
                 velocity.x = -Constants.SWOOPA_MOVEMENT_SPEED;
                 velocity.y /= 1.005f;

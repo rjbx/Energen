@@ -281,16 +281,6 @@ public class GigaGal implements Physical {
                 } else {
                     stand();
                     canStride = false;
-                    if (left && right) {
-                        canShoot = false;
-                        if (changeWeaponStartTime == 0) {
-                            changeWeaponStartTime = TimeUtils.nanoTime();
-                        }
-                        toggleWeapon();
-                    } else {
-                        canShoot = true;
-                        changeWeaponStartTime = 0;
-                    }
                 }
             }
         } else if (directionChanged) {
@@ -388,12 +378,9 @@ public class GigaGal implements Physical {
         this.velocity.y = velocity.y;
     }
 
-    private void toggleWeapon() {
-        if (Utils.secondsSince(changeWeaponStartTime) > Constants.WEAPON_TOGGLER_DELAY) {
-            if (Gdx.input.isKeyJustPressed(Keys.ENTER)) {
-                canChangeWeapon = true;
-            } else if (canChangeWeapon) {
-                canChangeWeapon = false;
+    private void toggleWeapon(Direction direction) {
+        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
+            if (direction == Direction.DOWN) {
                 if (weaponToggler.hasPrevious()) {
                     weapon = weaponToggler.previous();
                 } else {
@@ -401,6 +388,15 @@ public class GigaGal implements Physical {
                         weaponToggler.next();
                     }
                     weapon = weaponToggler.previous();
+                }
+            } else if (direction == Direction.UP) {
+                if (weaponToggler.hasNext()) {
+                    weapon = weaponToggler.next();
+                } else {
+                    while (weaponToggler.hasPrevious()) {
+                        weaponToggler.previous();
+                    }
+                    weapon = weaponToggler.next();
                 }
             }
         }
@@ -496,20 +492,28 @@ public class GigaGal implements Physical {
         health = 100;
         turbo = 100;
     }
-    
+
     private void enableLook() {
         if (canLook) {
             look();
         }
     }
-    
+
     private void look() {
-        if (Gdx.input.isKeyPressed(Keys.W) || upButtonPressed) {
+
+        boolean up = Gdx.input.isKeyPressed(Keys.W) || upButtonPressed;
+        boolean down = Gdx.input.isKeyPressed(Keys.Z) || downButtonPressed;
+        boolean looking = up || down;
+        if (looking) {
+            if (up) {
+                lookDirection = Direction.UP;
+            } else if (down) {
+                lookDirection = Direction.DOWN;
+            }
             canHover = false;
-            lookDirection = Direction.UP;
-        } else if (Gdx.input.isKeyPressed(Keys.Z) || downButtonPressed) {
-            canHover = false;
-            lookDirection = Direction.DOWN;
+            canJump = false;
+            changeWeaponStartTime = TimeUtils.nanoTime();
+            toggleWeapon(lookDirection);
         } else {
             canLook = false;
             lookDirection = null;
