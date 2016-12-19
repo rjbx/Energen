@@ -316,7 +316,7 @@ public final class Constants {
     public static final String BLAST_ICON = "icon-blast";
     public static final String JUMP_ICON = "icon-jump";
     public static final String HOVER_ICON = "icon-hover";
-    public static final String RICOCHET_ICON = "icon-ricochet3";
+    public static final String RICOCHET_ICON = "icon-ricochet";
     public static final String DASH_ICON = "icon-dash";
 
     // Onscreen Controls
