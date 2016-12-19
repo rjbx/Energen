@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 public class FieryZoomba extends Zoomba {
@@ -26,4 +27,6 @@ public class FieryZoomba extends Zoomba {
 
     @Override
     public int getMountDamage() {return Constants.FLAME_DAMAGE; }
+
+    public Enums.Weapon getType() { return Enums.Weapon.FIRE; }
 }

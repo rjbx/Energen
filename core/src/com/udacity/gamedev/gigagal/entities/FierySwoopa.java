@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 public class FierySwoopa extends Swoopa {
@@ -27,4 +28,7 @@ public class FierySwoopa extends Swoopa {
 
     @Override
     public int getMountDamage() {return Constants.FLAME_DAMAGE; }
+
+    @Override
+    public Enums.Weapon getType() { return Enums.Weapon.FIRE; }
 }

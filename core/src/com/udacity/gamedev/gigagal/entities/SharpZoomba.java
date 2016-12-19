@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 public class SharpZoomba extends Zoomba {
@@ -27,4 +28,6 @@ public class SharpZoomba extends Zoomba {
 
     @Override
     public int getMountDamage() {return Constants.SPIKE_DAMAGE; }
+
+    public Enums.Weapon getType() { return Enums.Weapon.METAL; }
 }

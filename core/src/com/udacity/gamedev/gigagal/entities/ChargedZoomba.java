@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 public class ChargedZoomba extends Zoomba {
@@ -27,4 +28,7 @@ public class ChargedZoomba extends Zoomba {
 
     @Override
     public int getMountDamage() {return Constants.COIL_DAMAGE; }
+
+    @Override
+    public Enums.Weapon getType() { return Enums.Weapon.ELECTRIC; }
 }

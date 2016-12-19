@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
@@ -77,4 +78,5 @@ public class Zoomba extends Destructible {
     public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public final Class getSubclass() { return this.getClass(); }
     public final void setHealth( int health ) { this.health = health; }
+    public Enums.Weapon getType() { return Enums.Weapon.NATIVE; }
 }

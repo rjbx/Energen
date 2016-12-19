@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // mutable
@@ -86,4 +87,5 @@ public class Swoopa extends Destructible {
     public Vector2 getMountKnockback() { return Constants.SWOOPA_KNOCKBACK; }
     public final Class getSubclass() { return this.getClass(); }
     public final void setHealth( int health ) { this.health = health; }
+    public Enums.Weapon getType() { return Enums.Weapon.NATIVE; }
 }

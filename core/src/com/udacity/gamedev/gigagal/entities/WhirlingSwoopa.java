@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 public class WhirlingSwoopa extends Swoopa {
@@ -28,4 +29,6 @@ public class WhirlingSwoopa extends Swoopa {
 
     @Override
     public int getMountDamage() {return Constants.WHEEL_DAMAGE; }
+
+    public Enums.Weapon getType() { return Enums.Weapon.RUBBER; }
 }
