@@ -142,9 +142,14 @@ public final class Ammo extends Indestructible {
                 switch (effectiveness) {
                     case STRONG:
                         damage = Constants.AMMO_SPECIALIZED_DAMAGE;
+                        break;
                     case WEAK:
                         damage = 1;
+                        break;
                     case NORMAL:
+                        damage = Constants.AMMO_STANDARD_DAMAGE;
+                        break;
+                    default:
                         damage = Constants.AMMO_STANDARD_DAMAGE;
                 }
                 if (!fromGigagal) {

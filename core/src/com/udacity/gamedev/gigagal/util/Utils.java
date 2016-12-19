@@ -101,17 +101,18 @@ public class Utils {
     }
 
     public static Enums.TypeEffectiveness getAmmoEffectiveness(Enums.WeaponType enemyType, Enums.WeaponType ammoType) {
-        if (enemyType.equals(ammoType)) {
+        if (enemyType == ammoType) {
             return Enums.TypeEffectiveness.WEAK;
-        } else if ((enemyType == Enums.WeaponType.METAL && ammoType == Enums.WeaponType.FIRE)
+        }
+
+        if ((enemyType == Enums.WeaponType.METAL && ammoType == Enums.WeaponType.FIRE)
         || (enemyType == Enums.WeaponType.RUBBER && ammoType == Enums.WeaponType.METAL)
         || (enemyType == Enums.WeaponType.ELECTRIC && ammoType == Enums.WeaponType.METAL)
         || (enemyType == Enums.WeaponType.WATER && ammoType == Enums.WeaponType.ELECTRIC)
         || (enemyType == Enums.WeaponType.FIRE && ammoType == Enums.WeaponType.WATER)
         || (ammoType == Enums.WeaponType.PSYCHIC)) {
             return Enums.TypeEffectiveness.STRONG;
-        } else {
-            return Enums.TypeEffectiveness.NORMAL;
         }
+        return Enums.TypeEffectiveness.NORMAL;
     }
 }
