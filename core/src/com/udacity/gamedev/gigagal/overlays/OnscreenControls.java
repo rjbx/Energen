@@ -92,7 +92,11 @@ public class OnscreenControls extends InputAdapter {
             // : Save the downPointer, and set gigaGal.downButtonPressed = true
             this.downPointer = pointer;
             gigaGal.downButtonPressed = true;
-        }  
+        }  else if (viewportPosition.dst(pauseCenter) < Constants.BUTTON_RADIUS) {
+            // : Save the pausePointer, and set gigaGal.pauseButtonPressed = true
+            this.pausePointer = pointer;
+            gameplayScreen.pauseButtonPressed = true;
+        }
         return super.touchDown(screenX, screenY, pointer, button);
     }
 
@@ -160,6 +164,10 @@ public class OnscreenControls extends InputAdapter {
             gigaGal.shootButtonPressed = true;
         }
 
+        if (pointer == pausePointer && viewportPosition.dst(pauseCenter) < Constants.BUTTON_RADIUS) {
+            gameplayScreen.pauseButtonPressed = true;
+        }
+
         return super.touchDragged(screenX, screenY, pointer);
     }
 
@@ -190,6 +198,10 @@ public class OnscreenControls extends InputAdapter {
         // : Do the same for downPointer
         if (!Gdx.input.isTouched(downPointer)) {
             gigaGal.downButtonPressed = false;
+        }
+        // : Do the same for pausePointer
+        if (!Gdx.input.isTouched(pausePointer)) {
+            gameplayScreen.pauseButtonPressed = false;
         }
 
         if (!Gdx.input.isKeyJustPressed(jumpPointer)) {
@@ -232,23 +244,23 @@ public class OnscreenControls extends InputAdapter {
                 Constants.BUTTON_CENTER
         );
 
-        if (!gigaGal.isCharged()) {
+      //  if (!gigaGal.isCharged()) {
             Utils.drawTextureRegion(
                     batch,
                     Assets.getInstance().getOnscreenControlsAssets().shoot,
                     shootCenter,
                     Constants.BUTTON_CENTER
             );
-        } else {
+     /*   } else {
             Utils.drawTextureRegion(
                     batch,
                     Assets.getInstance().getOnscreenControlsAssets().blast,
                     shootCenter,
                     Constants.BUTTON_CENTER
             );
-        }
+        } */
 
-        if (!gigaGal.getRicochetStatus())  {
+      /*  if (!gigaGal.getRicochetStatus())  {
              if (!gigaGal.getJumpStatus() && gigaGal.getHoverStatus()) {
                 Utils.drawTextureRegion(
                         batch,
@@ -256,14 +268,14 @@ public class OnscreenControls extends InputAdapter {
                         jumpCenter,
                         Constants.BUTTON_CENTER
                 );
-            } else {
+            } else { */
                  Utils.drawTextureRegion(
                          batch,
                          Assets.getInstance().getOnscreenControlsAssets().jump,
                          jumpCenter,
                          Constants.BUTTON_CENTER
                  );
-             }
+            /* }
         } else {
             Utils.drawTextureRegion(
                     batch,
@@ -271,7 +283,14 @@ public class OnscreenControls extends InputAdapter {
                     jumpCenter,
                     Constants.BUTTON_CENTER
             );
-        }
+        } */
+        Utils.drawTextureRegion(
+                batch,
+                Assets.getInstance().getOnscreenControlsAssets().pause,
+                pauseCenter,
+                Constants.BUTTON_CENTER
+        );
+
         batch.end();
     }
 
@@ -281,6 +300,7 @@ public class OnscreenControls extends InputAdapter {
         upCenter.set(Constants.BUTTON_RADIUS * 1.5f, Constants.BUTTON_RADIUS * 2.1f);
         downCenter.set(Constants.BUTTON_RADIUS * 1.5f, Constants.BUTTON_RADIUS * .54f);
         centerCenter.set(Constants.BUTTON_RADIUS * 1.54f, Constants.BUTTON_RADIUS * 1.3125f);
+        pauseCenter.set(viewport.getWorldWidth() / 2, 15);
         shootCenter.set(
                 viewport.getWorldWidth() - Constants.BUTTON_RADIUS * 3f,
                 Constants.BUTTON_RADIUS * 3 / 4
