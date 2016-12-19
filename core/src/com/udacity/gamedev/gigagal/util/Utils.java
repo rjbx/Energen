@@ -101,7 +101,7 @@ public class Utils {
     }
 
     public static Enums.TypeEffectiveness getAmmoEffectiveness(Enums.WeaponType enemyType, Enums.WeaponType ammoType) {
-        if (enemyType == ammoType) {
+        if (enemyType.equals(ammoType)) {
             return Enums.TypeEffectiveness.WEAK;
         } else if ((enemyType == Enums.WeaponType.METAL && ammoType == Enums.WeaponType.FIRE)
         || (enemyType == Enums.WeaponType.RUBBER && ammoType == Enums.WeaponType.METAL)

@@ -146,8 +146,6 @@ public final class Ammo extends Indestructible {
                         damage = 1;
                     case NORMAL:
                         damage = Constants.AMMO_STANDARD_DAMAGE;
-                    default:
-                        damage = Constants.AMMO_STANDARD_DAMAGE;
                 }
                 if (!fromGigagal) {
                     damage -= 1;

@@ -30,5 +30,6 @@ public class GushingSwoopa extends Swoopa {
     @Override
     public int getMountDamage() {return Constants.GEISER_DAMAGE; }
 
+    @Override
     public Enums.WeaponType getType() { return Enums.WeaponType.WATER; }
 }

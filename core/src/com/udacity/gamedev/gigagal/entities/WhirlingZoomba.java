@@ -29,5 +29,6 @@ public class WhirlingZoomba extends Zoomba {
     @Override
     public int getMountDamage() {return Constants.WHEEL_DAMAGE; }
 
+    @Override
     public Enums.WeaponType getType() { return Enums.WeaponType.RUBBER; }
 }
