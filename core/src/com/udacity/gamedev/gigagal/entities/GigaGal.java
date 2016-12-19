@@ -165,6 +165,10 @@ public class GigaGal implements Physical {
                                     fall(); // begin descent from ground side sans access to hover
                                     canHover = false; // disable hover if not already
                                 }
+                                turbo = (int) ((Math.abs(getBottom() - ground.getBottom()) / (ground.getTop() - ground.getBottom())) * 100);
+                                if (getBottom() <= ground.getBottom()) {
+                                    turbo = 0;
+                                }
                                 velocity.x += Utils.absValToLateralMovement(Constants.GIGAGAL_STARTING_SPEED, facing); // boost lateral velocity by starting speed
                                 canRicochet = true; // enable ricochet
                                 slidPlatform = true; // verify slid ground
