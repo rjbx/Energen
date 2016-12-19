@@ -30,5 +30,5 @@ public class ChargedSwoopa extends Swoopa {
     public int getMountDamage() {return Constants.COIL_DAMAGE; }
 
     @Override
-    public Enums.Weapon getType() { return Enums.Weapon.ELECTRIC; }
+    public Enums.WeaponType getType() { return Enums.WeaponType.ELECTRIC; }
 }

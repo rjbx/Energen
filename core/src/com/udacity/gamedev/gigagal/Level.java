@@ -85,8 +85,8 @@ public class Level {
 
             gigaGal.update(delta);
 
-            Enums.Weapon levelWeapon = Enums.Weapon.NATIVE;
-            for (Enums.Weapon weapon : Arrays.asList(Enums.Weapon.values())) {
+            Enums.WeaponType levelWeapon = Enums.WeaponType.NATIVE;
+            for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
                 if (("levels/" + weapon.name() + ".dt").equals(levelName)) {
                     levelWeapon = weapon;
                 }
@@ -217,7 +217,7 @@ public class Level {
         powerups.add(new AmmoPowerup(new Vector2(20, 110)));
     }
 
-    public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Weapon weapon, boolean targetsEnemies) {
+    public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.WeaponType weapon, boolean targetsEnemies) {
         ammoList.add(new Ammo(this, position, direction, orientation, shotIntensity, weapon, targetsEnemies));
     }
 

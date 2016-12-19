@@ -28,5 +28,5 @@ public class FieryZoomba extends Zoomba {
     @Override
     public int getMountDamage() {return Constants.FLAME_DAMAGE; }
 
-    public Enums.Weapon getType() { return Enums.Weapon.FIRE; }
+    public Enums.WeaponType getType() { return Enums.WeaponType.FIRE; }
 }

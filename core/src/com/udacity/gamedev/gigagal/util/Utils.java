@@ -99,4 +99,19 @@ public class Utils {
             destructible.setHealth((int) (destructible.getHealth() - (damage * .67f)));
         }
     }
+
+    public static Enums.TypeEffectiveness getAmmoEffectiveness(Enums.WeaponType enemyType, Enums.WeaponType ammoType) {
+        if (enemyType == ammoType) {
+            return Enums.TypeEffectiveness.WEAK;
+        } else if ((enemyType == Enums.WeaponType.METAL && ammoType == Enums.WeaponType.FIRE)
+        || (enemyType == Enums.WeaponType.METAL && ammoType == Enums.WeaponType.RUBBER)
+        || (enemyType == Enums.WeaponType.RUBBER&& ammoType == Enums.WeaponType.ELECTRIC)
+        || (enemyType == Enums.WeaponType.ELECTRIC && ammoType == Enums.WeaponType.WATER)
+        || (enemyType == Enums.WeaponType.WATER && ammoType == Enums.WeaponType.FIRE)
+        || (ammoType == Enums.WeaponType.PSYCHIC)) {
+            return Enums.TypeEffectiveness.STRONG;
+        } else {
+            return Enums.TypeEffectiveness.WEAK;
+        }
+    }
 }

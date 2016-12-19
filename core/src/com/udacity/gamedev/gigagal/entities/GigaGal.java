@@ -24,8 +24,8 @@ public class GigaGal implements Physical {
 
     // fields
     public final static String TAG = GigaGal.class.getName();
-    private List<Weapon> weaponList;
-    private ListIterator<Weapon> weaponToggler;
+    private List<WeaponType> weaponList;
+    private ListIterator<WeaponType> weaponToggler;
     private Level level;
     private Vector2 spawnLocation;
     private Vector2 position;
@@ -34,7 +34,7 @@ public class GigaGal implements Physical {
     private Direction facing;
     private AerialState aerialState;
     private GroundState groundState;
-    private Weapon weapon;
+    private WeaponType weapon;
     private Direction lookDirection;
     private Direction toggleDirection;
     private long strideStartTime;
@@ -78,7 +78,7 @@ public class GigaGal implements Physical {
         position = new Vector2();
         velocity = new Vector2();
         previousFramePosition = new Vector2();
-        weaponList = new ArrayList<Weapon>();
+        weaponList = new ArrayList<WeaponType>();
         init();
     }
 
@@ -86,7 +86,7 @@ public class GigaGal implements Physical {
         ammo = Constants.INITIAL_AMMO;
         health = Constants.INITIAL_HEALTH;
         lives = Constants.INITIAL_LIVES;
-        weaponList.add(Weapon.NATIVE);
+        weaponList.add(WeaponType.NATIVE);
         weaponToggler = weaponList.listIterator();
         weapon = weaponToggler.next();
         respawn();
@@ -419,7 +419,7 @@ public class GigaGal implements Physical {
         }
     }
 
-    private void enableShoot(Weapon weapon) {
+    private void enableShoot(WeaponType weapon) {
         if (canShoot) {
             if (Gdx.input.isKeyPressed(Keys.ENTER) || shootButtonPressed) {
                 if (chargeStartTime == 0) {
@@ -438,11 +438,11 @@ public class GigaGal implements Physical {
                     shotIntensity = ShotIntensity.NORMAL;
                 }
 
-                if ((weapon == Weapon.NATIVE
+                if ((weapon == WeaponType.NATIVE
                 || ammo < 3 && shotIntensity == ShotIntensity.CHARGED)
                 || ammo < 1) {
                     ammoUsed = 0;
-                    weapon = Weapon.NATIVE;
+                    weapon = WeaponType.NATIVE;
                 } else {
                     ammoUsed = Utils.useAmmo(shotIntensity);
                 }
@@ -455,7 +455,7 @@ public class GigaGal implements Physical {
         }
     }
 
-    public void shoot(ShotIntensity shotIntensity, Weapon weapon, int ammoUsed) {
+    public void shoot(ShotIntensity shotIntensity, WeaponType weapon, int ammoUsed) {
         ammo -= ammoUsed;
         Vector2 ammoPosition = new Vector2();
         if (facing == Direction.RIGHT) {
@@ -754,9 +754,9 @@ public class GigaGal implements Physical {
     public boolean getRicochetStatus() { return canRicochet; }
     public boolean getDashStatus() { return canDash; }
     public boolean isCharged() { return isCharged; }
-    public Weapon getWeapon() { return weapon; }
-    public List<Weapon> getWeaponList() { return weaponList; }
-    public void addWeapon(Weapon weapon) { weaponToggler.add(weapon); }
+    public WeaponType getWeapon() { return weapon; }
+    public List<WeaponType> getWeaponList() { return weaponList; }
+    public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
 
     // Setters
     public void setFacing(Direction facing) { this.facing = facing; }

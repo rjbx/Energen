@@ -8,7 +8,7 @@ public final class Enums {
         NORMAL, CHARGED,
     }
 
-    public enum Weapon {
+    public enum WeaponType {
         ELECTRIC,
         FIRE,
         WATER,
@@ -16,6 +16,13 @@ public final class Enums {
         METAL,
         PSYCHIC,
         NATIVE
+    }
+
+
+    public enum TypeEffectiveness {
+        STRONG,
+        NORMAL,
+        WEAK
     }
 
     public enum Direction {

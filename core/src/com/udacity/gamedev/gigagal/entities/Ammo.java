@@ -18,7 +18,7 @@ public final class Ammo extends Indestructible {
     private int damage;
     private Vector2 knockback;
     private final ShotIntensity shotIntensity;
-    private final Weapon weapon;
+    private final WeaponType weapon;
     private final Direction direction;
     private final Orientation orientation;
     private final Vector2 position;
@@ -27,7 +27,7 @@ public final class Ammo extends Indestructible {
     private boolean active;
 
     // ctor
-    public Ammo(Level level, Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, Weapon weapon, boolean fromGigagal) {
+    public Ammo(Level level, Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, WeaponType weapon, boolean fromGigagal) {
         this.level = level;
         this.position = position;
         this.direction = direction;

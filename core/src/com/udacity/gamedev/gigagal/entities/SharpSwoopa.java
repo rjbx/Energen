@@ -30,5 +30,5 @@ public class SharpSwoopa extends Swoopa {
     @Override
     public int getMountDamage() {return Constants.SPIKE_DAMAGE; }
 
-    public Enums.Weapon getType() { return Enums.Weapon.METAL; }
+    public Enums.WeaponType getType() { return Enums.WeaponType.METAL; }
 }

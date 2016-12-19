@@ -30,5 +30,5 @@ public class FierySwoopa extends Swoopa {
     public int getMountDamage() {return Constants.FLAME_DAMAGE; }
 
     @Override
-    public Enums.Weapon getType() { return Enums.Weapon.FIRE; }
+    public Enums.WeaponType getType() { return Enums.WeaponType.FIRE; }
 }

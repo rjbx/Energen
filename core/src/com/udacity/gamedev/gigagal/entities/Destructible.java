@@ -5,7 +5,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 
 public abstract class Destructible extends Hazard {
 
-    abstract public Enums.Weapon getType();
+    abstract public Enums.WeaponType getType();
     abstract public int getHealth();
     abstract public void setHealth(int health);
     abstract public void update(float delta);

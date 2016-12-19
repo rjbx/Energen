@@ -30,5 +30,5 @@ public class WhirlingSwoopa extends Swoopa {
     @Override
     public int getMountDamage() {return Constants.WHEEL_DAMAGE; }
 
-    public Enums.Weapon getType() { return Enums.Weapon.RUBBER; }
+    public Enums.WeaponType getType() { return Enums.WeaponType.RUBBER; }
 }

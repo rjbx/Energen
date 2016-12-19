@@ -255,14 +255,14 @@ public final class Constants {
     public static final String BLAST_METAL_SPRITE_ALT = "ammo-blast-metal-alt";
     public static final String SHOT_PSYCHIC_SPRITE = "ammo-shot-psychic";
     public static final String BLAST_PSYCHIC_SPRITE = "ammo-blast-psychic";
-    public static final Enums.Weapon[] weapons = {
-                                    Enums.Weapon.FIRE,
-                                    Enums.Weapon.WATER,
-                                    Enums.Weapon.ELECTRIC,
-                                    Enums.Weapon.RUBBER,
-                                    Enums.Weapon.METAL,
-                                    Enums.Weapon.PSYCHIC,
-                                    Enums.Weapon.NATIVE
+    public static final Enums.WeaponType[] weapons = {
+                                    Enums.WeaponType.FIRE,
+                                    Enums.WeaponType.WATER,
+                                    Enums.WeaponType.ELECTRIC,
+                                    Enums.WeaponType.RUBBER,
+                                    Enums.WeaponType.METAL,
+                                    Enums.WeaponType.PSYCHIC,
+                                    Enums.WeaponType.NATIVE
                                     };
 
     // Explosion
@@ -312,7 +312,7 @@ public final class Constants {
     public static final String HUD_AMMO_LABEL = "Ammo: ";
     public static final String HUD_SCORE_LABEL = "Score: ";
     public static final String HUD_HEALTH_LABEL = "Health: ";
-    public static final String HUD_WEAPON_LABEL = "Weapon: ";
+    public static final String HUD_WEAPON_LABEL = "WeaponType: ";
     public static final String SHOOT_ICON = "icon-shoot";
     public static final String BLAST_ICON = "icon-blast";
     public static final String JUMP_ICON = "icon-jump";
