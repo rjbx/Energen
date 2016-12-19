@@ -6,77 +6,77 @@ filter: Nearest,Nearest
 repeat: none
 ammo-blast-electric
   rotate: false
-  xy: 55, 2
+  xy: 923, 138
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
   index: -1
 ammo-blast-fire
   rotate: false
-  xy: 869, 141
+  xy: 767, 131
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
   index: -1
 ammo-blast-fire-alt
   rotate: false
-  xy: 922, 134
+  xy: 674, 116
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
   index: -1
 ammo-blast-metal
   rotate: false
-  xy: 849, 141
+  xy: 747, 131
   size: 18, 9
   orig: 18, 9
   offset: 0, 0
   index: -1
 ammo-blast-metal-alt
   rotate: false
-  xy: 139, 9
+  xy: 174, 15
   size: 9, 18
   orig: 9, 18
   offset: 0, 0
   index: -1
 ammo-blast-native
   rotate: false
-  xy: 747, 132
+  xy: 785, 132
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-blast-psychic
   rotate: false
-  xy: 206, 29
+  xy: 801, 141
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 ammo-blast-rubber
   rotate: false
-  xy: 150, 17
+  xy: 871, 134
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 ammo-blast-water
   rotate: false
-  xy: 887, 141
+  xy: 639, 123
   size: 16, 9
   orig: 16, 9
   offset: 0, 0
   index: -1
 ammo-blast-water-alt
   rotate: false
-  xy: 256, 112
+  xy: 685, 116
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
   index: -1
 ammo-shot-electric
   rotate: false
-  xy: 260, 130
+  xy: 840, 136
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
@@ -90,7 +90,7 @@ ammo-shot-electric-alt
   index: -1
 ammo-shot-fire
   rotate: false
-  xy: 149, 2
+  xy: 705, 117
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
@@ -104,14 +104,14 @@ ammo-shot-fire-alt
   index: -1
 ammo-shot-metal
   rotate: false
-  xy: 139, 2
+  xy: 260, 130
   size: 8, 5
   orig: 8, 5
   offset: 0, 0
   index: -1
 ammo-shot-metal-alt
   rotate: false
-  xy: 787, 132
+  xy: 256, 120
   size: 5, 8
   orig: 5, 8
   offset: 0, 0
@@ -125,21 +125,21 @@ ammo-shot-native
   index: -1
 ammo-shot-psychic
   rotate: false
-  xy: 757, 132
+  xy: 705, 124
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 767, 132
+  xy: 715, 124
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber-alt
   rotate: false
-  xy: 777, 132
+  xy: 725, 124
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -153,7 +153,7 @@ ammo-shot-water
   index: -1
 ammo-shot-water-alt
   rotate: false
-  xy: 794, 131
+  xy: 187, 53
   size: 5, 9
   orig: 5, 9
   offset: 0, 0
@@ -195,9 +195,9 @@ button-left
   index: -1
 button-pause
   rotate: false
-  xy: 779, 142
-  size: 29, 17
-  orig: 29, 17
+  xy: 33, 4
+  size: 40, 10
+  orig: 40, 10
   offset: 0, 0
   index: -1
 button-right
@@ -216,14 +216,14 @@ button-up
   index: -1
 cannon-lateral
   rotate: false
-  xy: 33, 2
+  xy: 849, 138
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
   index: -1
 cannon-vertical
   rotate: false
-  xy: 206, 49
+  xy: 139, 7
   size: 16, 20
   orig: 16, 20
   offset: 0, 0
@@ -300,7 +300,7 @@ geiser-1
   index: -1
 geiser-2
   rotate: false
-  xy: 187, 35
+  xy: 821, 132
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
@@ -342,7 +342,7 @@ icon-blast
   index: -1
 icon-dash
   rotate: false
-  xy: 810, 142
+  xy: 779, 142
   size: 20, 17
   orig: 20, 17
   offset: 0, 0
@@ -398,7 +398,7 @@ lookup-right
   index: -1
 pillar
   rotate: false
-  xy: 639, 126
+  xy: 157, 8
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
@@ -503,21 +503,21 @@ portal-6
   index: -1
 powerup-ammo
   rotate: false
-  xy: 832, 142
+  xy: 889, 133
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 168, 16
+  xy: 906, 133
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 185, 16
+  xy: 157, 16
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -552,21 +552,21 @@ ricochet-right
   index: -1
 selection-cursor
   rotate: false
-  xy: 905, 135
+  xy: 657, 117
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 spike-1
   rotate: false
-  xy: 256, 94
+  xy: 840, 143
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 spike-2
   rotate: false
-  xy: 256, 76
+  xy: 696, 116
   size: 7, 16
   orig: 7, 16
   offset: 0, 0

@@ -295,17 +295,17 @@ public class OnscreenControls extends InputAdapter {
     }
 
     public void recalculateButtonPositions() {
-        leftCenter.set(Constants.BUTTON_RADIUS * .775f, Constants.BUTTON_RADIUS * 1.25f);
-        rightCenter.set(Constants.BUTTON_RADIUS * 2.35f, Constants.BUTTON_RADIUS * 1.25f);
-        upCenter.set(Constants.BUTTON_RADIUS * 1.5f, Constants.BUTTON_RADIUS * 2.1f);
-        downCenter.set(Constants.BUTTON_RADIUS * 1.5f, Constants.BUTTON_RADIUS * .54f);
-        centerCenter.set(Constants.BUTTON_RADIUS * 1.54f, Constants.BUTTON_RADIUS * 1.3125f);
-        pauseCenter.set(viewport.getWorldWidth() / 2, 15);
-        shootCenter.set(
-                viewport.getWorldWidth() - Constants.BUTTON_RADIUS * 3f,
-                Constants.BUTTON_RADIUS * 3 / 4
-        );
+        leftCenter.set(Constants.BUTTON_RADIUS * .975f, Constants.BUTTON_RADIUS * 1.25f);
+        rightCenter.set(Constants.BUTTON_RADIUS * 2.55f, Constants.BUTTON_RADIUS * 1.25f);
+        upCenter.set(Constants.BUTTON_RADIUS * 1.7f, Constants.BUTTON_RADIUS * 2.1f);
+        downCenter.set(Constants.BUTTON_RADIUS * 1.7f, Constants.BUTTON_RADIUS * .54f);
+        centerCenter.set(Constants.BUTTON_RADIUS * 1.74f, Constants.BUTTON_RADIUS * 1.3125f);
+        pauseCenter.set(viewport.getWorldWidth() / 2, Constants.BUTTON_RADIUS * .8f);
         jumpCenter.set(
+                viewport.getWorldWidth() - Constants.BUTTON_RADIUS * 2.5f,
+                Constants.BUTTON_RADIUS
+        );
+        shootCenter.set(
                 viewport.getWorldWidth() - Constants.BUTTON_RADIUS,
                 Constants.BUTTON_RADIUS
         );
