@@ -334,6 +334,7 @@ public final class Constants {
     public static final String JUMP_BUTTON = "button-b";
     public static final String HOVER_BUTTON = "button-b";
     public static final String RICOCHET_BUTTON = "button-b";
+    public static final String PAUSE_BUTTON = "button-pause";
     public static final String SELECTION_CURSOR = "selection-cursor";
 
     // Victory/Game Over screens

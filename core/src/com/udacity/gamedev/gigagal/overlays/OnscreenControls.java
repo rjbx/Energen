@@ -24,6 +24,7 @@ public class OnscreenControls extends InputAdapter {
     private final Vector2 upCenter;
     private final Vector2 downCenter;
     private final Vector2 centerCenter;
+    private final Vector2 pauseCenter;
     private final Vector2 shootCenter;
     private final Vector2 jumpCenter;
     private GigaGal gigaGal;
@@ -31,6 +32,7 @@ public class OnscreenControls extends InputAdapter {
     private int rightPointer;
     private int upPointer;
     private int downPointer;
+    private int pausePointer;
     private int jumpPointer;
     private int shootPointer;
 
@@ -45,6 +47,7 @@ public class OnscreenControls extends InputAdapter {
         upCenter = new Vector2();
         downCenter = new Vector2();
         centerCenter = new Vector2();
+        pauseCenter = new Vector2();
         shootCenter = new Vector2();
         jumpCenter = new Vector2();
 
@@ -88,7 +91,6 @@ public class OnscreenControls extends InputAdapter {
             this.downPointer = pointer;
             gigaGal.downButtonPressed = true;
         }
-
         return super.touchDown(screenX, screenY, pointer, button);
     }
 
