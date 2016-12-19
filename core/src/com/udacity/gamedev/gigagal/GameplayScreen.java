@@ -24,8 +24,7 @@ import com.udacity.gamedev.gigagal.util.LevelLoader;
 import com.udacity.gamedev.gigagal.util.Utils;
 import java.util.Arrays;
 
-// immutable
-public final class GameplayScreen extends ScreenAdapter {
+public class GameplayScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = GameplayScreen.class.getName();
@@ -44,7 +43,8 @@ public final class GameplayScreen extends ScreenAdapter {
     private String levelName;
     private GigaGal gigaGal;
     private Array<TurboPowerup> powerups;
-    int score;
+    private int score;
+    public boolean pauseButtonPressed;
 
     // default ctor
     public GameplayScreen(GigaGalGame game) {
@@ -80,7 +80,7 @@ public final class GameplayScreen extends ScreenAdapter {
         gameOverOverlay.viewport.update(width, height, true);
         level.getViewport().update(width, height, true);
         chaseCam.camera = level.getViewport().getCamera();
-        onscreenControls.setGigaGal(gigaGal);
+        onscreenControls.setGameplayScreen(this);
         onscreenControls.getViewport().update(width, height, true);
         onscreenControls.recalculateButtonPositions();
     }
@@ -193,6 +193,12 @@ public final class GameplayScreen extends ScreenAdapter {
         game.setScreen(game.getLevelSelectScreen());
     }
 
+    public void pause() {
+
+    }
+
+    public Level getLevel() { return level; }
     public void setGame(GigaGalGame game) { this.game = game; }
     public void setLevelName(String levelName) { this.levelName = levelName; }
 }
+

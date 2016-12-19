@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.udacity.gamedev.gigagal.GameplayScreen;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -27,6 +28,7 @@ public class OnscreenControls extends InputAdapter {
     private final Vector2 pauseCenter;
     private final Vector2 shootCenter;
     private final Vector2 jumpCenter;
+    private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
     private int leftPointer;
     private int rightPointer;
@@ -90,7 +92,7 @@ public class OnscreenControls extends InputAdapter {
             // : Save the downPointer, and set gigaGal.downButtonPressed = true
             this.downPointer = pointer;
             gigaGal.downButtonPressed = true;
-        }
+        }  
         return super.touchDown(screenX, screenY, pointer, button);
     }
 
@@ -290,5 +292,6 @@ public class OnscreenControls extends InputAdapter {
     }
 
     public final Viewport getViewport() { return viewport; }
-    public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
+    public final void setGameplayScreen(GameplayScreen gameplayScreen) { this.gameplayScreen = gameplayScreen; setGigaGal(this.gameplayScreen.getLevel().getGigaGal()); }
+    public final void setGigaGal(GigaGal gigaGal) {this.gigaGal = gigaGal;}
 }
