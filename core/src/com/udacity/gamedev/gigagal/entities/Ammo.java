@@ -43,9 +43,6 @@ public final class Ammo extends Indestructible {
 
     public void update(float delta) {
 
-        Class specializedZoomba = null;
-        Class specializedSwoopa = null;
-
         switch (weapon) {
             case NATIVE:
                 damage = Constants.AMMO_STANDARD_DAMAGE;
