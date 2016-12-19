@@ -11,9 +11,9 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.entities.TurboPowerup;
-import com.udacity.gamedev.gigagal.overlays.ContextIndicatorHud;
+import com.udacity.gamedev.gigagal.overlays.IndicatorHud;
 import com.udacity.gamedev.gigagal.overlays.GameOverOverlay;
-import com.udacity.gamedev.gigagal.overlays.MeterGaugeHud;
+import com.udacity.gamedev.gigagal.overlays.GaugeHud;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.overlays.VictoryOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -36,8 +36,8 @@ public final class GameplayScreen extends ScreenAdapter {
     private int levelNumber;
     private Level level;
     private ChaseCam chaseCam;
-    private MeterGaugeHud meterHud;
-    private ContextIndicatorHud contextHud;
+    private GaugeHud meterHud;
+    private IndicatorHud contextHud;
     private VictoryOverlay victoryOverlay;
     private GameOverOverlay gameOverOverlay;
     private Array<String> completedLevels;
@@ -164,8 +164,8 @@ public final class GameplayScreen extends ScreenAdapter {
             }
         }
         Assets.getInstance().init(am, levelNumber);
-        meterHud = new MeterGaugeHud(level);
-        contextHud = new ContextIndicatorHud(level);
+        meterHud = new GaugeHud(level);
+        contextHud = new IndicatorHud(level);
         this.gigaGal = level.getGigaGal();
         for (String completedLevelName : completedLevels) {
             for (Enums.Weapon weapon : Arrays.asList(Constants.weapons)) {

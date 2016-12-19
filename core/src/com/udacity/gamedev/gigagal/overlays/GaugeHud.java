@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // immutable
-public final class MeterGaugeHud {
+public final class GaugeHud {
 
     // fields
     private final Viewport viewport;
@@ -22,7 +22,7 @@ public final class MeterGaugeHud {
     private final GigaGal gigaGal;
 
     // default ctor
-    public MeterGaugeHud(Level level) {
+    public GaugeHud(Level level) {
         this.level = level;
         this.gigaGal = level.getGigaGal();
         this.viewport = new ExtendViewport(Constants.HUD_VIEWPORT_SIZE, Constants.HUD_VIEWPORT_SIZE);

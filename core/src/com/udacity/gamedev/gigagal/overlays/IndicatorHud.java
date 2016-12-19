@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class ContextIndicatorHud {
+public class IndicatorHud {
 
     // fields
     private final Viewport viewport;
@@ -20,7 +20,7 @@ public class ContextIndicatorHud {
     private final GigaGal gigaGal;
 
 
-    public ContextIndicatorHud(Level level) {
+    public IndicatorHud(Level level) {
         this.level = level;
         this.gigaGal = level.getGigaGal();
         this.viewport = new ExtendViewport(

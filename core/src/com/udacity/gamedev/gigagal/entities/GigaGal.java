@@ -297,6 +297,9 @@ public class GigaGal implements Physical {
             if (getBounds().overlaps(bounds)) {
                 if (powerup instanceof AmmoPowerup) {
                     ammo += Constants.POWERUP_AMMO;
+                    if (ammo > 100) {
+                        ammo = 100;
+                    }
                 } else if (powerup instanceof HealthPowerup) {
                     health += Constants.POWERUP_HEALTH;
                     if (health > 100) {
