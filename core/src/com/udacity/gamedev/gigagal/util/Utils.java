@@ -111,7 +111,7 @@ public class Utils {
         || (ammoType == Enums.WeaponType.PSYCHIC)) {
             return Enums.TypeEffectiveness.STRONG;
         } else {
-            return Enums.TypeEffectiveness.WEAK;
+            return Enums.TypeEffectiveness.NORMAL;
         }
     }
 }

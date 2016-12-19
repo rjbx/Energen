@@ -57,8 +57,6 @@ public final class Ammo extends Indestructible {
                 }
                 break;
             case FIRE:
-                specializedZoomba = SharpZoomba.class;
-                specializedSwoopa = SharpSwoopa.class;
                 damage = Constants.FLAME_DAMAGE;
                 knockback = Constants.FLAME_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
@@ -74,8 +72,6 @@ public final class Ammo extends Indestructible {
                 }
                 break;
             case WATER:
-                specializedZoomba = FieryZoomba.class;
-                specializedSwoopa = FierySwoopa.class;
                 damage = Constants.GEISER_DAMAGE;
                 knockback = Constants.GEISER_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
@@ -91,8 +87,6 @@ public final class Ammo extends Indestructible {
                 }
                 break;
             case ELECTRIC:
-                specializedZoomba = GushingZoomba.class;
-                specializedSwoopa = GushingSwoopa.class;
                 damage = Constants.COIL_DAMAGE;
                 knockback = Constants.COIL_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
@@ -104,8 +98,6 @@ public final class Ammo extends Indestructible {
                 }
                 break;
             case RUBBER:
-                specializedZoomba = ChargedZoomba.class;
-                specializedSwoopa = ChargedSwoopa.class;
                 damage = Constants.WHEEL_DAMAGE;
                 knockback = Constants.WHEEL_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
@@ -117,8 +109,6 @@ public final class Ammo extends Indestructible {
                 }
                 break;
             case METAL:
-                specializedZoomba = WhirlingZoomba.class;
-                specializedSwoopa = WhirlingSwoopa.class;
                 damage = Constants.SPIKE_DAMAGE;
                 knockback = Constants.SPIKE_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.CHARGED) {
@@ -151,10 +141,21 @@ public final class Ammo extends Indestructible {
             if (position.dst(destructible.getPosition()) < destructible.getShotRadius()) {
                 level.spawnExplosion(position);
                 active = false;
-                if (destructible.getClass() == specializedZoomba || destructible.getClass() == specializedSwoopa) {
-                    damage = Constants.AMMO_SPECIALIZED_DAMAGE;
+                TypeEffectiveness effectiveness = Utils.getAmmoEffectiveness(destructible.getType(), weapon);
+                switch (effectiveness) {
+                    case STRONG:
+                        damage = Constants.AMMO_SPECIALIZED_DAMAGE;
+                    case WEAK:
+                        damage = 1;
+                    case NORMAL:
+                        damage = Constants.AMMO_STANDARD_DAMAGE;
+                    default:
+                        damage = Constants.AMMO_STANDARD_DAMAGE;
                 }
-                if (fromGigagal) {
+                if (!fromGigagal) {
+                    damage -= 1;
+                    damage /= 2;
+                } else {
                     level.setScore(level.getScore() + destructible.getHitScore());
                 }
                 Utils.applyDamage(destructible, shotIntensity, damage);
