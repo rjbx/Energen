@@ -56,6 +56,15 @@ public class IndicatorHud {
             );
         }
 
+        if (gigaGal.getDashStatus()) {
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getHudAssets().dash,
+                    drawPosition,
+                    Constants.BUTTON_CENTER
+            );
+        }
+
         drawPosition.set(drawPositionX - 50, drawPositionY);
 /*        if (!gigaGal.isCharged()) {
             Utils.drawTextureRegion(

@@ -752,6 +752,7 @@ public class GigaGal implements Physical {
     public boolean getJumpStatus() { return canJump; }
     public boolean getHoverStatus() { return canHover; }
     public boolean getRicochetStatus() { return canRicochet; }
+    public boolean getDashStatus() { return canDash; }
     public boolean isCharged() { return isCharged; }
     public Weapon getWeapon() { return weapon; }
     public List<Weapon> getWeaponList() { return weaponList; }

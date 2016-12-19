@@ -591,6 +591,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion jump;
         public final AtlasRegion hover;
         public final AtlasRegion ricochet;
+        public final AtlasRegion dash;
 
         public HudAssets(TextureAtlas atlas) {
             shoot = atlas.findRegion(Constants.SHOOT_ICON);
@@ -598,6 +599,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             jump = atlas.findRegion(Constants.JUMP_ICON);
             hover = atlas.findRegion(Constants.HOVER_ICON);
             ricochet = atlas.findRegion(Constants.RICOCHET_ICON);
+            dash = atlas.findRegion(Constants.DASH_ICON);
         }
     }
 
