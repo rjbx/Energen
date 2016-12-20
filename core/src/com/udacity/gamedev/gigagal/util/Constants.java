@@ -231,7 +231,7 @@ public final class Constants {
     public static final int AMMO_STANDARD_DAMAGE = 10;
     public static final int AMMO_SPECIALIZED_DAMAGE = 30;
     public static final Vector2 SHOT_CENTER = new Vector2(3, 2);
-    public static final Vector2 BLAST_CENTER = new Vector2(8, 4);
+    public static final Vector2 BLAST_CENTER = new Vector2(9, 9);
     public static final String SHOT_NATIVE_SPRITE = "ammo-shot-native";
     public static final String BLAST_NATIVE_SPRITE = "ammo-blast-native";
     public static final String SHOT_FIRE_SPRITE = "ammo-shot-fire";
