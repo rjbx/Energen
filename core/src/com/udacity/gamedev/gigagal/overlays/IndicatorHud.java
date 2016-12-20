@@ -86,10 +86,22 @@ public class IndicatorHud {
 
         drawPosition = new Vector2(viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN - 7);
         Enums.WeaponType weapon = gigaGal.getWeapon();
-        final Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.LATERAL, Enums.ShotIntensity.CHARGED, weapon, false);
+        Enums.ShotIntensity intensity = gigaGal.getShotIntensity();
+        final Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.LATERAL, intensity, weapon, false);
         ammo.update(1);
         final TextureRegion weaponIcon = new TextureRegion(ammo.getTexture());
-        Utils.drawTextureRegion(batch, weaponIcon, drawPosition, Constants.BLAST_CENTER);
+        Vector2 offset = new Vector2();
+        switch (intensity) {
+            case NORMAL:
+                offset.set(Constants.SHOT_CENTER);
+                break;
+            case CHARGED:
+                offset.set(Constants.BLAST_CENTER);
+                break;
+            default:
+                offset.set(Constants.SHOT_CENTER);
+        }
+        Utils.drawTextureRegion(batch, weaponIcon, drawPosition, offset);
 
         final String scoreString = level.getScore() + "";
         String timerString = level.getTimer() + "";
