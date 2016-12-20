@@ -46,7 +46,7 @@ public final class GaugeHud {
         for (int i = 1; i <= gigaGal.getLives(); i++) {
             final Vector2 drawPosition = new Vector2(
                     viewport.getWorldWidth() - i * (Constants.HUD_MARGIN / 2 + standRight.getRegionWidth()),
-                    viewport.getWorldHeight() - Constants.HUD_MARGIN - standRight.getRegionHeight()
+                    viewport.getWorldHeight() - Constants.HUD_MARGIN - standRight.getRegionHeight() - 33
             );
             Utils.drawTextureRegion(
                     batch,

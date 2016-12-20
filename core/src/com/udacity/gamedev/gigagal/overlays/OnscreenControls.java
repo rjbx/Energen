@@ -300,7 +300,7 @@ public class OnscreenControls extends InputAdapter {
         upCenter.set(Constants.BUTTON_RADIUS * 1.7f, Constants.BUTTON_RADIUS * 2.1f);
         downCenter.set(Constants.BUTTON_RADIUS * 1.7f, Constants.BUTTON_RADIUS * .54f);
         centerCenter.set(Constants.BUTTON_RADIUS * 1.74f, Constants.BUTTON_RADIUS * 1.3125f);
-        pauseCenter.set(viewport.getWorldWidth() / 2, Constants.BUTTON_RADIUS * .8f);
+        pauseCenter.set(viewport.getWorldWidth() / 2 - 6.25f, Constants.BUTTON_RADIUS * .8f);
         jumpCenter.set(
                 viewport.getWorldWidth() - Constants.BUTTON_RADIUS * 2.5f,
                 Constants.BUTTON_RADIUS
