@@ -19,6 +19,10 @@ public class IndicatorHud {
     private final BitmapFont font;
     private final Level level;
     private final GigaGal gigaGal;
+    int hours;
+    int minutes;
+    int seconds;
+
 
 
     // ctor
@@ -29,7 +33,11 @@ public class IndicatorHud {
                 Constants.ONSCREEN_CONTROLS_VIEWPORT_SIZE,
                 Constants.ONSCREEN_CONTROLS_VIEWPORT_SIZE);
         font = new BitmapFont();
-        font.getData().setScale(1);
+        font.getData().setScale(.75f);
+        hours = 0;
+        minutes = 0;
+        seconds = 0;
+
     }
 
     public void render(SpriteBatch batch) {
@@ -96,9 +104,21 @@ public class IndicatorHud {
                     drawPosition
             );
         }
+
+
+
+        final String scoreString = level.getScore() + "";
+        final String timerString = level.getTimer() + "";
+                        /*
+                Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
+                Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" +
+                "Turbo: " + gigaGal.getTurbo() + "\n" +
+                Constants.HUD_WEAPON_LABEL + gigaGal.getWeapon() +
+                gigaGal.getWeaponList().toString(); */
+        font.draw(batch, scoreString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN - 0.5f, Constants.HUD_MARGIN / 2, Constants.HUD_MARGIN * 2, 1, true);
+        font.draw(batch, timerString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN * 2 - 0.5f, Constants.HUD_MARGIN * 1.5f, Constants.HUD_MARGIN * 4, 1, true);
         batch.end();
     }
 
     public final Viewport getViewport() { return viewport; }
-
 }

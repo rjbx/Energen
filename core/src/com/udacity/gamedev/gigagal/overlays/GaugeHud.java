@@ -72,15 +72,6 @@ public final class GaugeHud {
 
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
- /*
-        final String hudString =
-                Constants.HUD_SCORE_LABEL + level.getScore() + "\n" +
-                Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
-                Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" +
-                "Turbo: " + gigaGal.getTurbo() + "\n" +
-                Constants.HUD_WEAPON_LABEL + gigaGal.getWeapon() +
-                gigaGal.getWeaponList().toString();
-        font.draw(batch, hudString, Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN); */
         batch.end();
     }
 
