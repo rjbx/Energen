@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal.overlays;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -81,6 +82,19 @@ public class IndicatorHud {
                     Constants.BUTTON_CENTER
             );
         }*/
+
+        final TextureRegion lifeIcon = Assets.getInstance().getHudAssets().life;
+        for (int i = 1; i <= gigaGal.getLives(); i++) {
+            drawPosition = new Vector2(
+                    i * (Constants.HUD_MARGIN / 2 + lifeIcon.getRegionWidth()),
+                    viewport.getWorldHeight() - Constants.HUD_MARGIN - lifeIcon.getRegionHeight()
+            );
+            Utils.drawTextureRegion(
+                    batch,
+                    lifeIcon,
+                    drawPosition
+            );
+        }
         batch.end();
     }
 

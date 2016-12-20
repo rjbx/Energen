@@ -87,18 +87,6 @@ public final class GaugeHud {
                 Constants.HUD_WEAPON_LABEL + gigaGal.getWeapon() +
                 gigaGal.getWeaponList().toString();
         font.draw(batch, hudString, Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN); */
-        final TextureRegion standRight = Assets.getInstance().getGigaGalAssets().standRight;
-        for (int i = 1; i <= gigaGal.getLives(); i++) {
-            final Vector2 drawPosition = new Vector2(
-                    i * (Constants.HUD_MARGIN / 2 + standRight.getRegionWidth()),
-                    viewport.getWorldHeight() - Constants.HUD_MARGIN - standRight.getRegionHeight() - 33
-            );
-            Utils.drawTextureRegion(
-                    batch,
-                    standRight,
-                    drawPosition
-            );
-        }
         batch.end();
     }
 

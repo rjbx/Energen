@@ -20,7 +20,7 @@ ammo-blast-fire
   index: -1
 ammo-blast-fire-alt
   rotate: false
-  xy: 674, 116
+  xy: 689, 116
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
@@ -69,7 +69,7 @@ ammo-blast-water
   index: -1
 ammo-blast-water-alt
   rotate: false
-  xy: 685, 116
+  xy: 700, 116
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
@@ -90,7 +90,7 @@ ammo-shot-electric-alt
   index: -1
 ammo-shot-fire
   rotate: false
-  xy: 705, 117
+  xy: 256, 123
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
@@ -111,7 +111,7 @@ ammo-shot-metal
   index: -1
 ammo-shot-metal-alt
   rotate: false
-  xy: 256, 120
+  xy: 740, 124
   size: 5, 8
   orig: 5, 8
   offset: 0, 0
@@ -125,21 +125,21 @@ ammo-shot-native
   index: -1
 ammo-shot-psychic
   rotate: false
-  xy: 705, 124
+  xy: 720, 124
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 715, 124
+  xy: 730, 124
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber-alt
   rotate: false
-  xy: 725, 124
+  xy: 720, 114
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -354,6 +354,13 @@ icon-hover
   orig: 30, 17
   offset: 0, 0
   index: -1
+icon-life
+  rotate: false
+  xy: 674, 119
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
 icon-ricochet
   rotate: false
   xy: 446, 140
@@ -566,7 +573,7 @@ spike-1
   index: -1
 spike-2
   rotate: false
-  xy: 696, 116
+  xy: 711, 116
   size: 7, 16
   orig: 7, 16
   offset: 0, 0

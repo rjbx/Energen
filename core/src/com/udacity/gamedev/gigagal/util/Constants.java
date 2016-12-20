@@ -318,6 +318,7 @@ public final class Constants {
     public static final String HOVER_ICON = "icon-hover";
     public static final String RICOCHET_ICON = "icon-ricochet";
     public static final String DASH_ICON = "icon-dash";
+    public static final String LIFE_ICON = "icon-life";
 
     // Onscreen Controls
     public static final float ONSCREEN_CONTROLS_VIEWPORT_SIZE = 200;
