@@ -15,6 +15,8 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
+import java.math.BigInteger;
+
 // immutable
 public final class GaugeHud {
 
@@ -53,23 +55,23 @@ public final class GaugeHud {
         // backdrop
         renderer.setColor(Color.BLACK);
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(0, 450, viewport.getScreenWidth(), 25);
+        renderer.rect(viewport.getScreenX(), viewport.getWorldHeight() - Constants.HUD_MARGIN, viewport.getWorldWidth(), viewport.getScreenHeight() / 25);
 
         // health
-        renderer.setColor(Color.BLUE);
+        renderer.setColor(Color.SKY);
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(0, 450, viewport.getScreenWidth() / 3, 25);
+        renderer.rect(viewport.getScreenX(), viewport.getWorldHeight() - Constants.HUD_MARGIN, viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
 
         // turbo
-        renderer.setColor(Color.GREEN);
+        renderer.setColor(Color.LIME);
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getScreenWidth() / 3, 450, viewport.getScreenWidth() / 3, 25);
+        renderer.rect(viewport.getWorldWidth() / 3, viewport.getWorldHeight() - Constants.HUD_MARGIN, viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
 
 
         // ammo
-        renderer.setColor(Color.RED);
+        renderer.setColor(Color.CORAL);
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getScreenWidth() / 3 * 2, 450, viewport.getScreenWidth() / 3, 25);
+        renderer.rect(viewport.getWorldWidth() / 3 * 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
 
         renderer.end();
 
@@ -88,7 +90,7 @@ public final class GaugeHud {
         final TextureRegion standRight = Assets.getInstance().getGigaGalAssets().standRight;
         for (int i = 1; i <= gigaGal.getLives(); i++) {
             final Vector2 drawPosition = new Vector2(
-                    viewport.getWorldWidth() - i * (Constants.HUD_MARGIN / 2 + standRight.getRegionWidth()),
+                    i * (Constants.HUD_MARGIN / 2 + standRight.getRegionWidth()),
                     viewport.getWorldHeight() - Constants.HUD_MARGIN - standRight.getRegionHeight() - 33
             );
             Utils.drawTextureRegion(
