@@ -20,7 +20,7 @@ ammo-blast-fire
   index: -1
 ammo-blast-fire-alt
   rotate: false
-  xy: 191, 17
+  xy: 256, 102
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
@@ -62,14 +62,14 @@ ammo-blast-rubber
   index: -1
 ammo-blast-water
   rotate: false
-  xy: 157, 5
-  size: 16, 9
-  orig: 16, 9
+  xy: 157, 16
+  size: 18, 17
+  orig: 18, 17
   offset: 0, 0
   index: -1
 ammo-blast-water-alt
   rotate: false
-  xy: 277, 119
+  xy: 256, 84
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
@@ -90,7 +90,7 @@ ammo-shot-electric-alt
   index: -1
 ammo-shot-fire
   rotate: false
-  xy: 175, 5
+  xy: 699, 120
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
@@ -132,28 +132,28 @@ ammo-shot-psychic
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 265, 110
+  xy: 849, 128
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber-alt
   rotate: false
-  xy: 265, 100
+  xy: 859, 128
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-water
   rotate: false
-  xy: 194, 64
+  xy: 204, 45
   size: 9, 5
   orig: 9, 5
   offset: 0, 0
   index: -1
 ammo-shot-water-alt
   rotate: false
-  xy: 265, 89
+  xy: 194, 24
   size: 5, 9
   orig: 5, 9
   offset: 0, 0
@@ -356,7 +356,7 @@ icon-hover
   index: -1
 icon-life
   rotate: false
-  xy: 191, 2
+  xy: 277, 122
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
@@ -405,7 +405,7 @@ lookup-right
   index: -1
 pillar
   rotate: false
-  xy: 849, 130
+  xy: 157, 8
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
@@ -510,21 +510,21 @@ portal-6
   index: -1
 powerup-ammo
   rotate: false
-  xy: 157, 16
+  xy: 177, 16
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 174, 16
+  xy: 187, 45
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 187, 45
+  xy: 204, 52
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -566,14 +566,14 @@ selection-cursor
   index: -1
 spike-1
   rotate: false
-  xy: 256, 102
+  xy: 267, 102
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 spike-2
   rotate: false
-  xy: 256, 84
+  xy: 267, 84
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
