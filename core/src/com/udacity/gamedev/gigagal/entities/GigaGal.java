@@ -339,29 +339,31 @@ public class GigaGal implements Physical {
                     if (hazard instanceof Destructible) {
                         margin = hazard.getWidth() / 6;
                     }
-                    if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
-                        if (hazard instanceof Swoopa) {
-                            Swoopa swoopa = (Swoopa) hazard;
-                            recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y));
-                            damage = swoopa.getMountDamage();
+                    if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
+                        if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
+                            if (hazard instanceof Swoopa) {
+                                Swoopa swoopa = (Swoopa) hazard;
+                                recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y));
+                                damage = swoopa.getMountDamage();
+                            } else {
+                                recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
+                            }
+                        } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
+                            if (hazard instanceof Swoopa) {
+                                Swoopa swoopa = (Swoopa) hazard;
+                                recoil(swoopa.getMountKnockback());
+                                damage = swoopa.getMountDamage();
+                            } else {
+                                recoil(hazard.getKnockback());
+                            }
                         } else {
-                            recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
-                        }
-                    } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
-                        if (hazard instanceof Swoopa) {
-                            Swoopa swoopa = (Swoopa) hazard;
-                            recoil(swoopa.getMountKnockback());
-                            damage = swoopa.getMountDamage();
-                        } else {
-                            recoil(hazard.getKnockback());
-                        }
-                    } else {
-                        if (hazard instanceof Zoomba) {
-                            Zoomba zoomba = (Zoomba) hazard;
-                            recoil(new Vector2((Utils.absValToLateralMovement(zoomba.getMountKnockback().x, facing)), zoomba.getMountKnockback().y));
-                            damage = zoomba.getMountDamage();
-                        } else {
-                            recoil(new Vector2((Utils.absValToLateralMovement(hazard.getKnockback().x, facing)), hazard.getKnockback().y));
+                            if (hazard instanceof Zoomba) {
+                                Zoomba zoomba = (Zoomba) hazard;
+                                recoil(new Vector2((Utils.absValToLateralMovement(zoomba.getMountKnockback().x, facing)), zoomba.getMountKnockback().y));
+                                damage = zoomba.getMountDamage();
+                            } else {
+                                recoil(new Vector2((Utils.absValToLateralMovement(hazard.getKnockback().x, facing)), hazard.getKnockback().y));
+                            }
                         }
                     }
                     health -= damage;
@@ -460,11 +462,11 @@ public class GigaGal implements Physical {
         Vector2 ammoPosition = new Vector2();
         if (facing == Direction.RIGHT) {
             ammoPosition = new Vector2(
-                    position.x + Constants.GIGAGAL_CANNON_OFFSET.x + 5,
+                    position.x + Constants.GIGAGAL_CANNON_OFFSET.x,
                     position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
         } else if (facing == Direction.LEFT) {
             ammoPosition = new Vector2(
-                    position.x - Constants.GIGAGAL_CANNON_OFFSET.x - 15,
+                    position.x - Constants.GIGAGAL_CANNON_OFFSET.x,
                     position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
         }
         if (lookDirection == Direction.UP) {
