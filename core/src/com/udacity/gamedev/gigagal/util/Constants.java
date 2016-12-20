@@ -319,6 +319,7 @@ public final class Constants {
     public static final String RICOCHET_ICON = "icon-ricochet";
     public static final String DASH_ICON = "icon-dash";
     public static final String LIFE_ICON = "icon-life";
+    public static final Vector2 ICON_CENTER = new Vector2(17, 8.5f);
 
     // Onscreen Controls
     public static final float ONSCREEN_CONTROLS_VIEWPORT_SIZE = 200;

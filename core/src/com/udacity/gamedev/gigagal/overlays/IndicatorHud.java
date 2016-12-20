@@ -42,7 +42,7 @@ public class IndicatorHud {
         batch.begin();
 
         float drawPositionX = viewport.getWorldWidth() / 2;
-        final float drawPositionY = viewport.getWorldHeight() - Constants.HUD_MARGIN;
+        final float drawPositionY = viewport.getWorldHeight() - Constants.HUD_MARGIN - 7;
         Vector2 drawPosition = new Vector2(drawPositionX, drawPositionY);
         if (!gigaGal.getRicochetStatus())  {
             if (!gigaGal.getJumpStatus() && gigaGal.getHoverStatus()) {
@@ -50,7 +50,7 @@ public class IndicatorHud {
                         batch,
                         Assets.getInstance().getHudAssets().hover,
                         drawPosition,
-                        Constants.BUTTON_CENTER
+                        Constants.ICON_CENTER
                 );
             }
         } else {
@@ -58,7 +58,7 @@ public class IndicatorHud {
                     batch,
                     Assets.getInstance().getHudAssets().ricochet,
                     drawPosition,
-                    Constants.BUTTON_CENTER
+                    Constants.ICON_CENTER
             );
         }
 
@@ -67,7 +67,7 @@ public class IndicatorHud {
                     batch,
                     Assets.getInstance().getHudAssets().dash,
                     drawPosition,
-                    Constants.BUTTON_CENTER
+                    Constants.ICON_CENTER
             );
         }
 
