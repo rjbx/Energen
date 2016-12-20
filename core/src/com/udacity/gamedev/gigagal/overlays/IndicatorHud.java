@@ -12,6 +12,8 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
+import java.time.format.DateTimeFormatter;
+
 public class IndicatorHud {
 
     // fields
@@ -100,7 +102,8 @@ public class IndicatorHud {
 
 
         final String scoreString = level.getScore() + "";
-        final String timerString = level.getTimer() + "";
+        String timerString = level.getTimer() + "";
+        timerString = timerString.substring(0, timerString.length() - 4);
                         /*
                 Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
                 Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" +

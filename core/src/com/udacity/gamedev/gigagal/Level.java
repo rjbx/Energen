@@ -54,7 +54,6 @@ public class Level {
     private DelayedRemovalArray<Powerup> powerups;
     private StopWatch timer;
     private String timerString;
-    private long levelStartTime;
     private Integer hours;
     private Integer minutes;
     private Integer seconds;
@@ -67,7 +66,6 @@ public class Level {
         score = 0;
         timer = new StopWatch();
         timer.start();
-        levelStartTime = 0;
         platforms = new Array<Platform>();
         grounds = new Array<Ground>();
         destructibles = new DelayedRemovalArray<Destructible>();
@@ -89,6 +87,7 @@ public class Level {
     }
 
     public void update(float delta) {
+
         timerString = hours + ":" + minutes + ":" + seconds;
 
         if (gigaGal.getLives() < 0) {
