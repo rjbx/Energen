@@ -101,9 +101,9 @@ public class IndicatorHud {
             );
         }
 
-        drawPosition = new Vector2(viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN);
+        drawPosition = new Vector2(viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN - 15);
         Enums.WeaponType weapon = gigaGal.getWeapon();
-        final Ammo ammo = new Ammo(level, new Vector2( 100, 100 ), Enums.Direction.RIGHT, Enums.Orientation.LATERAL, Enums.ShotIntensity.CHARGED, weapon, false);
+        final Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.LATERAL, Enums.ShotIntensity.CHARGED, weapon, false);
         ammo.update(1);
         final TextureRegion weaponIcon = new TextureRegion(ammo.getTexture());
 
