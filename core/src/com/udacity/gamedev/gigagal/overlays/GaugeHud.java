@@ -1,10 +1,14 @@
 package com.udacity.gamedev.gigagal.overlays;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
@@ -16,10 +20,15 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public final class GaugeHud {
 
     // fields
-    private final Viewport viewport;
+    private final ExtendViewport viewport;
     private final BitmapFont font;
     private final Level level;
     private final GigaGal gigaGal;
+    private Rectangle backdrop;
+    private Rectangle health;
+    private Rectangle turbo;
+    private Rectangle ammo;
+    private ShapeRenderer renderer;
 
     // default ctor
     public GaugeHud(Level level) {
@@ -28,12 +37,27 @@ public final class GaugeHud {
         this.viewport = new ExtendViewport(Constants.HUD_VIEWPORT_SIZE, Constants.HUD_VIEWPORT_SIZE);
         font = new BitmapFont();
         font.getData().setScale(1);
+        backdrop = new Rectangle();
+        health = new Rectangle();
+        turbo = new Rectangle();
+        ammo = new Rectangle();
+        renderer = new ShapeRenderer();
     }
 
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, ShapeRenderer renderer) {
+
         viewport.apply();
+        renderer.setProjectionMatrix(viewport.getCamera().combined);
+        renderer.begin();
+        renderer.setColor(Color.BLACK);
+        renderer.set(ShapeRenderer.ShapeType.Filled);
+        renderer.rect(0, 450, viewport.getScreenWidth(), 25);
+        renderer.end();
+
+        /*
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
+
         final String hudString =
                 Constants.HUD_SCORE_LABEL + level.getScore() + "\n" +
                 Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
@@ -54,7 +78,7 @@ public final class GaugeHud {
                     drawPosition
             );
         }
-        batch.end();
+        batch.end();  */
     }
 
     public final Viewport getViewport() { return viewport; }

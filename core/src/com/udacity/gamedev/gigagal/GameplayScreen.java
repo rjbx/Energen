@@ -6,6 +6,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
@@ -31,6 +32,7 @@ public class GameplayScreen extends ScreenAdapter {
     private GigaGalGame game;
     private OnscreenControls onscreenControls;
     private SpriteBatch batch;
+    private ShapeRenderer renderer;
     private long levelEndOverlayStartTime;
     private int levelNumber;
     private Level level;
@@ -55,6 +57,8 @@ public class GameplayScreen extends ScreenAdapter {
     @Override
     public void show() {
         batch = new SpriteBatch();
+        renderer = new ShapeRenderer();
+        renderer.setAutoShapeType(true);
         chaseCam = ChaseCam.getInstance();
         victoryOverlay = new VictoryOverlay();
         gameOverOverlay = new GameOverOverlay();
@@ -111,7 +115,7 @@ public class GameplayScreen extends ScreenAdapter {
         // onMobile();
         onscreenControls.render(batch);
 
-        meterHud.render(batch);
+        meterHud.render(batch, renderer);
         contextHud.render(batch);
         renderLevelEndOverlays(batch);
         if (level.gigaGalFailed()) {
