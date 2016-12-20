@@ -101,7 +101,7 @@ public class IndicatorHud {
             );
         }
 
-        drawPosition = new Vector2(viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN - 15);
+        drawPosition = new Vector2(viewport.getWorldWidth() - Constants.HUD_MARGIN - 5, viewport.getWorldHeight() - Constants.HUD_MARGIN - 12);
         Enums.WeaponType weapon = gigaGal.getWeapon();
         final Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.LATERAL, Enums.ShotIntensity.CHARGED, weapon, false);
         ammo.update(1);
