@@ -21,6 +21,7 @@ public class IndicatorHud {
     private final GigaGal gigaGal;
 
 
+    // ctor
     public IndicatorHud(Level level) {
         this.level = level;
         this.gigaGal = level.getGigaGal();
@@ -86,7 +87,7 @@ public class IndicatorHud {
         final TextureRegion lifeIcon = Assets.getInstance().getHudAssets().life;
         for (int i = 1; i <= gigaGal.getLives(); i++) {
             drawPosition = new Vector2(
-                    i * (Constants.HUD_MARGIN / 2 + lifeIcon.getRegionWidth()),
+                    i * (Constants.HUD_MARGIN / 2 + lifeIcon.getRegionWidth()) - 15,
                     viewport.getWorldHeight() - Constants.HUD_MARGIN - lifeIcon.getRegionHeight()
             );
             Utils.drawTextureRegion(
