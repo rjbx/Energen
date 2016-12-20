@@ -7,9 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.Level;
+import com.udacity.gamedev.gigagal.entities.Ammo;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 import java.time.format.DateTimeFormatter;
@@ -99,7 +101,13 @@ public class IndicatorHud {
             );
         }
 
+        drawPosition = new Vector2(viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN);
+        Enums.WeaponType weapon = gigaGal.getWeapon();
+        final Ammo ammo = new Ammo(level, new Vector2( 100, 100 ), Enums.Direction.RIGHT, Enums.Orientation.LATERAL, Enums.ShotIntensity.CHARGED, weapon, false);
+        ammo.update(1);
+        final TextureRegion weaponIcon = new TextureRegion(ammo.getTexture());
 
+        Utils.drawTextureRegion(batch, weaponIcon, drawPosition);
 
         final String scoreString = level.getScore() + "";
         String timerString = level.getTimer() + "";

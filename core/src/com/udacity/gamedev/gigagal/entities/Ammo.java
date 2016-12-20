@@ -227,4 +227,5 @@ public final class Ammo extends Indestructible {
     public final int getDamage() { return damage; }
     public final Vector2 getKnockback() { return knockback; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
+    public final TextureRegion getTexture() { return region; }
 }
