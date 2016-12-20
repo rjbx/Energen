@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
@@ -49,15 +48,35 @@ public final class GaugeHud {
         viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);
         renderer.begin();
+
+
+        // backdrop
         renderer.setColor(Color.BLACK);
         renderer.set(ShapeRenderer.ShapeType.Filled);
         renderer.rect(0, 450, viewport.getScreenWidth(), 25);
+
+        // health
+        renderer.setColor(Color.BLUE);
+        renderer.set(ShapeRenderer.ShapeType.Filled);
+        renderer.rect(0, 450, viewport.getScreenWidth() / 3, 25);
+
+        // turbo
+        renderer.setColor(Color.GREEN);
+        renderer.set(ShapeRenderer.ShapeType.Filled);
+        renderer.rect(viewport.getScreenWidth() / 3, 450, viewport.getScreenWidth() / 3, 25);
+
+
+        // ammo
+        renderer.setColor(Color.RED);
+        renderer.set(ShapeRenderer.ShapeType.Filled);
+        renderer.rect(viewport.getScreenWidth() / 3 * 2, 450, viewport.getScreenWidth() / 3, 25);
+
         renderer.end();
 
-        /*
+
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
-
+ /*
         final String hudString =
                 Constants.HUD_SCORE_LABEL + level.getScore() + "\n" +
                 Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
@@ -65,7 +84,7 @@ public final class GaugeHud {
                 "Turbo: " + gigaGal.getTurbo() + "\n" +
                 Constants.HUD_WEAPON_LABEL + gigaGal.getWeapon() +
                 gigaGal.getWeaponList().toString();
-        font.draw(batch, hudString, Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN);
+        font.draw(batch, hudString, Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN); */
         final TextureRegion standRight = Assets.getInstance().getGigaGalAssets().standRight;
         for (int i = 1; i <= gigaGal.getLives(); i++) {
             final Vector2 drawPosition = new Vector2(
@@ -78,7 +97,7 @@ public final class GaugeHud {
                     drawPosition
             );
         }
-        batch.end();  */
+        batch.end();
     }
 
     public final Viewport getViewport() { return viewport; }
