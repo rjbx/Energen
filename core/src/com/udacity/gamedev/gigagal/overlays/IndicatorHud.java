@@ -19,10 +19,6 @@ public class IndicatorHud {
     private final BitmapFont font;
     private final Level level;
     private final GigaGal gigaGal;
-    int hours;
-    int minutes;
-    int seconds;
-
 
 
     // ctor
@@ -34,10 +30,6 @@ public class IndicatorHud {
                 Constants.ONSCREEN_CONTROLS_VIEWPORT_SIZE);
         font = new BitmapFont();
         font.getData().setScale(.75f);
-        hours = 0;
-        minutes = 0;
-        seconds = 0;
-
     }
 
     public void render(SpriteBatch batch) {

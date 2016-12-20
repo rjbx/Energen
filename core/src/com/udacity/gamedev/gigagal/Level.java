@@ -25,6 +25,8 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
+import org.apache.commons.lang3.time.StopWatch;
+
 import java.sql.Time;
 import java.util.Arrays;
 import java.util.Timer;
@@ -50,12 +52,12 @@ public class Level {
     private DelayedRemovalArray<Ammo> ammoList;
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
-    private float timer;
+    private StopWatch timer;
     private String timerString;
     private long levelStartTime;
-    private int hours;
-    private int minutes;
-    private int seconds;
+    private Integer hours;
+    private Integer minutes;
+    private Integer seconds;
 
 
     // default ctor
@@ -63,10 +65,8 @@ public class Level {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigaGal = new GigaGal(new Vector2(50, 50), this);
         score = 0;
-        timer = 0;
-        hours = 0;
-        minutes = 0;
-        seconds = 0;
+        timer = new StopWatch();
+        timer.start();
         levelStartTime = 0;
         platforms = new Array<Platform>();
         grounds = new Array<Ground>();
@@ -89,21 +89,6 @@ public class Level {
     }
 
     public void update(float delta) {
-        if (levelStartTime == 0) {
-            levelStartTime = TimeUtils.nanoTime();
-        }
-        timer = Utils.secondsSince(levelStartTime);
-        if (timer % 1 == 0) {
-            seconds += 1;
-        }
-        if (timer % 60 == 0) {
-            minutes += 1;
-            seconds = 0;
-        }
-        if (timer % 3600 == 0) {
-            hours += 1;
-            minutes += 0;
-        }
         timerString = hours + ":" + minutes + ":" + seconds;
 
         if (gigaGal.getLives() < 0) {
@@ -278,7 +263,7 @@ public class Level {
     public final GigaGal getGigaGal() { return gigaGal; }
     public final boolean isGameOver() { return gameOver; }
     public final boolean isVictory() { return victory; }
-    public final float getTimer() { return timer; }
+    public final StopWatch getTimer() { return timer; }
     public final String getTimerString() { return timerString; }
 
     // Setters
