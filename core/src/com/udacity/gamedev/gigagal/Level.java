@@ -53,10 +53,6 @@ public class Level {
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
     private StopWatch timer;
-    private String timerString;
-    private Integer hours;
-    private Integer minutes;
-    private Integer seconds;
 
 
     // default ctor
@@ -87,8 +83,6 @@ public class Level {
     }
 
     public void update(float delta) {
-
-        timerString = hours + ":" + minutes + ":" + seconds;
 
         if (gigaGal.getLives() < 0) {
             gameOver = true;
@@ -263,7 +257,6 @@ public class Level {
     public final boolean isGameOver() { return gameOver; }
     public final boolean isVictory() { return victory; }
     public final StopWatch getTimer() { return timer; }
-    public final String getTimerString() { return timerString; }
 
     // Setters
     public void setScore(int score) { this.score = score; }

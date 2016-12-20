@@ -71,23 +71,6 @@ public class IndicatorHud {
             );
         }
 
-        drawPosition.set(drawPositionX - 50, drawPositionY);
-/*        if (!gigaGal.isCharged()) {
-            Utils.drawTextureRegion(
-                    batch,
-                    Assets.getInstance().getHudAssets().shoot,
-                    drawPosition,
-                    Constants.BUTTON_CENTER
-            );
-        } else {
-            Utils.drawTextureRegion(
-                    batch,
-                    Assets.getInstance().getHudAssets().blast,
-                    drawPosition,
-                    Constants.BUTTON_CENTER
-            );
-        }*/
-
         final TextureRegion lifeIcon = Assets.getInstance().getHudAssets().life;
         for (int i = 1; i <= gigaGal.getLives(); i++) {
             drawPosition = new Vector2(
@@ -106,20 +89,14 @@ public class IndicatorHud {
         final Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.LATERAL, Enums.ShotIntensity.CHARGED, weapon, false);
         ammo.update(1);
         final TextureRegion weaponIcon = new TextureRegion(ammo.getTexture());
-
         Utils.drawTextureRegion(batch, weaponIcon, drawPosition, Constants.BLAST_CENTER);
 
         final String scoreString = level.getScore() + "";
         String timerString = level.getTimer() + "";
         timerString = timerString.substring(0, timerString.length() - 4);
-                        /*
-                Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
-                Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" +
-                "Turbo: " + gigaGal.getTurbo() + "\n" +
-                Constants.HUD_WEAPON_LABEL + gigaGal.getWeapon() +
-                gigaGal.getWeaponList().toString(); */
         font.draw(batch, scoreString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN - 0.5f, Constants.HUD_MARGIN / 2, Constants.HUD_MARGIN * 2, 1, true);
         font.draw(batch, timerString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN * 2 - 0.5f, Constants.HUD_MARGIN * 1.5f, Constants.HUD_MARGIN * 4, 1, true);
+
         batch.end();
     }
 

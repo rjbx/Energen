@@ -20,7 +20,7 @@ ammo-blast-fire
   index: -1
 ammo-blast-fire-alt
   rotate: false
-  xy: 699, 124
+  xy: 191, 17
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
@@ -69,16 +69,16 @@ ammo-blast-water
   index: -1
 ammo-blast-water-alt
   rotate: false
-  xy: 742, 116
+  xy: 277, 119
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
   index: -1
 ammo-shot-electric
   rotate: false
-  xy: 838, 134
-  size: 7, 5
-  orig: 7, 5
+  xy: 838, 130
+  size: 9, 9
+  orig: 9, 9
   offset: 0, 0
   index: -1
 ammo-shot-electric-alt
@@ -90,9 +90,9 @@ ammo-shot-electric-alt
   index: -1
 ammo-shot-fire
   rotate: false
-  xy: 205, 64
-  size: 7, 5
-  orig: 7, 5
+  xy: 175, 5
+  size: 9, 9
+  orig: 9, 9
   offset: 0, 0
   index: -1
 ammo-shot-fire-alt
@@ -104,9 +104,9 @@ ammo-shot-fire-alt
   index: -1
 ammo-shot-metal
   rotate: false
-  xy: 260, 130
-  size: 8, 5
-  orig: 8, 5
+  xy: 699, 131
+  size: 10, 9
+  orig: 10, 9
   offset: 0, 0
   index: -1
 ammo-shot-metal-alt
@@ -132,14 +132,14 @@ ammo-shot-psychic
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 771, 124
+  xy: 265, 110
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber-alt
   rotate: false
-  xy: 781, 124
+  xy: 265, 100
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -153,7 +153,7 @@ ammo-shot-water
   index: -1
 ammo-shot-water-alt
   rotate: false
-  xy: 256, 119
+  xy: 265, 89
   size: 5, 9
   orig: 5, 9
   offset: 0, 0
@@ -356,7 +356,7 @@ icon-hover
   index: -1
 icon-life
   rotate: false
-  xy: 727, 119
+  xy: 191, 2
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
@@ -405,7 +405,7 @@ lookup-right
   index: -1
 pillar
   rotate: false
-  xy: 175, 8
+  xy: 849, 130
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
@@ -559,21 +559,21 @@ ricochet-right
   index: -1
 selection-cursor
   rotate: false
-  xy: 710, 117
+  xy: 260, 120
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 spike-1
   rotate: false
-  xy: 753, 116
+  xy: 256, 102
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 spike-2
   rotate: false
-  xy: 762, 116
+  xy: 256, 84
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
