@@ -18,6 +18,7 @@ import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Vector;
 
 // mutable
 public class GigaGal implements Physical {
@@ -453,22 +454,16 @@ public class GigaGal implements Physical {
 
     public void shoot(ShotIntensity shotIntensity, WeaponType weapon, int ammoUsed) {
         ammo -= ammoUsed;
-        Vector2 ammoPosition = new Vector2();
-        if (facing == Direction.RIGHT) {
-            ammoPosition = new Vector2(
-                    position.x + Constants.GIGAGAL_CANNON_OFFSET.x,
-                    position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
-        } else if (facing == Direction.LEFT) {
-            ammoPosition = new Vector2(
-                    position.x - Constants.GIGAGAL_CANNON_OFFSET.x,
-                    position.y + Constants.GIGAGAL_CANNON_OFFSET.y);
-        }
+        Vector2 ammoPosition = new Vector2(
+                    position.x + Utils.absValToLateralMovement(Constants.GIGAGAL_CANNON_OFFSET.x, facing),
+                    position.y + Constants.GIGAGAL_CANNON_OFFSET.y
+        );
         if (lookDirection == Direction.UP) {
-            ammoPosition.x -= Utils.absValToLateralMovement(5, facing);
+            ammoPosition.x += Utils.absValToLateralMovement(0, facing);
             ammoPosition.y += 20;
             level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
         } else if (lookDirection == Direction.DOWN) {
-            ammoPosition.x -= Utils.absValToLateralMovement(10, facing);
+            ammoPosition.x += Utils.absValToLateralMovement(0, facing);
             ammoPosition.y -= 20;
             level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
         } else {
