@@ -684,7 +684,7 @@ public class GigaGal implements Physical {
             handleLateralInputs();
         }
         if (turbo < 100) {
-            turbo += 1.25f;
+            turbo += .5f;
         }
     }
 
