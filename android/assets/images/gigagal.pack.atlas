@@ -13,65 +13,65 @@ ammo-blast-electric
   index: -1
 ammo-blast-fire
   rotate: false
-  xy: 845, 134
-  size: 18, 18
-  orig: 18, 18
+  xy: 668, 123
+  size: 18, 17
+  orig: 18, 17
   offset: 0, 0
   index: -1
 ammo-blast-fire-alt
   rotate: false
-  xy: 668, 122
-  size: 18, 18
-  orig: 18, 18
+  xy: 188, 32
+  size: 17, 18
+  orig: 17, 18
   offset: 0, 0
   index: -1
 ammo-blast-metal
   rotate: false
-  xy: 688, 122
-  size: 18, 18
-  orig: 18, 18
+  xy: 688, 123
+  size: 18, 17
+  orig: 18, 17
   offset: 0, 0
   index: -1
 ammo-blast-metal-alt
   rotate: false
-  xy: 168, 24
-  size: 18, 18
-  orig: 18, 18
+  xy: 214, 51
+  size: 17, 18
+  orig: 17, 18
   offset: 0, 0
   index: -1
 ammo-blast-native
   rotate: false
-  xy: 194, 51
-  size: 18, 18
-  orig: 18, 18
+  xy: 207, 32
+  size: 17, 17
+  orig: 17, 17
   offset: 0, 0
   index: -1
 ammo-blast-psychic
   rotate: false
-  xy: 188, 31
+  xy: 845, 134
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 ammo-blast-rubber
   rotate: false
-  xy: 214, 51
+  xy: 168, 24
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 ammo-blast-water
   rotate: false
-  xy: 234, 58
+  xy: 194, 52
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
 ammo-blast-water-alt
   rotate: false
-  xy: 208, 31
-  size: 18, 18
-  orig: 18, 18
+  xy: 233, 57
+  size: 17, 18
+  orig: 17, 18
   offset: 0, 0
   index: -1
 ammo-shot-electric
@@ -104,7 +104,7 @@ ammo-shot-fire-alt
   index: -1
 ammo-shot-metal
   rotate: false
-  xy: 747, 125
+  xy: 708, 123
   size: 8, 7
   orig: 8, 7
   offset: 0, 0
@@ -125,21 +125,21 @@ ammo-shot-native
   index: -1
 ammo-shot-psychic
   rotate: false
-  xy: 708, 122
+  xy: 727, 124
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 727, 124
+  xy: 737, 124
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber-alt
   rotate: false
-  xy: 737, 124
+  xy: 747, 124
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -356,7 +356,7 @@ icon-hover
   index: -1
 icon-life
   rotate: false
-  xy: 277, 122
+  xy: 205, 17
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
@@ -559,7 +559,7 @@ ricochet-right
   index: -1
 selection-cursor
   rotate: false
-  xy: 260, 120
+  xy: 188, 15
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
