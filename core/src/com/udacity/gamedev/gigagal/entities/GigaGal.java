@@ -334,6 +334,8 @@ public class GigaGal implements Physical {
                     shotIntensity = ShotIntensity.NORMAL;
                     recoveryStartTime = TimeUtils.nanoTime();
                     chargeStartTime = 0;
+                    lookDirection = null;
+                    canLook = false;
                     int damage = hazard.getDamage();
                     float margin = 0;
                     if (hazard instanceof Destructible) {
