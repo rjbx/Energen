@@ -46,14 +46,14 @@ public class GigaGal implements Physical {
     private long chargeStartTime;
     private long recoveryStartTime;
     private float turboDuration;
+    private float turbo;
+    private float startTurbo;
     private float strideAcceleration;
     private float hoverTimeSeconds;
     private float aerialTakeoff;
     private int lives;
     private int ammo;
     private int health;
-    private int turbo;
-    private int startTurbo;
     private boolean canLook;
     private boolean canStride;
     private boolean canDash;
@@ -166,12 +166,11 @@ public class GigaGal implements Physical {
                                 } else if (!canHover || aerialState == AerialState.HOVERING){
                                     fall(); // begin descent from ground side sans access to hover
                                     canHover = false; // disable hover if not already
-                                } else {
+                                }
+
+                                if (aerialState != AerialState.RICOCHETING){
                                     startTurbo = turbo;
-                                    turbo = (int) ((Math.abs(getBottom() - ground.getBottom()) / (ground.getTop() - ground.getBottom())) * startTurbo);
-                                    if (getBottom() <= ground.getBottom()) {
-                                        turbo = 0;
-                                    }
+                                    turbo = ((Math.abs(getBottom() - ground.getBottom()) / (ground.getTop() - ground.getBottom())) * startTurbo);
                                 }
                                 velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, facing, Orientation.LATERAL); // boost lateral velocity by starting speed
                                 canRicochet = true; // enable ricochet
@@ -270,24 +269,24 @@ public class GigaGal implements Physical {
         }
 
         if (groundState != GroundState.AIRBORNE && lookDirection == null) {
-            if (groundState != GroundState.DASHING) {
-                if (isStriding) {
-                    if (directionChanged) {
-                        strideStartTime = 0;
-                        stand();
-                    } else if (!canStride) {
-                        if (strideStartTime == 0) {
-                            canStride = true;
-                        } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
-                            strideStartTime = 0;
-                        } else {
-                            canDash = true;
-                        }
-                    }
-                } else {
-                    stand();
-                    canStride = false;
+            if (directionChanged) {
+               if (groundState == groundState.DASHING){
+                    dashStartTime = 0;
+                    canDash = false;
                 }
+                strideStartTime = 0;
+                stand();
+            } else if (isStriding && !canStride && groundState != GroundState.DASHING) {
+                if (strideStartTime == 0) {
+                    canStride = true;
+                } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+                    strideStartTime = 0;
+                } else {
+                    canDash = true;
+                }
+            } else if (!isStriding && groundState != GroundState.DASHING) {
+                stand();
+                canStride = false;
             }
         } else if (directionChanged) {
             recoil(new Vector2(velocity.x / 2, velocity.y));
@@ -535,7 +534,7 @@ public class GigaGal implements Physical {
 
     private void stride() {
         if (turbo < 100) {
-            turbo += 1;
+            turbo += .75f;
         }
         canLook = false;
         lookDirection = null;
@@ -563,7 +562,7 @@ public class GigaGal implements Physical {
             strideStartTime = 0;
             canStride = false;
         }
-        turbo = (int) (((turboDuration - Utils.secondsSince(dashStartTime)) / turboDuration) * startTurbo);
+        turbo = (((turboDuration - Utils.secondsSince(dashStartTime)) / turboDuration) * startTurbo);
         if (turbo >= 1) {
             velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, facing, Orientation.LATERAL);
         } else {
@@ -581,9 +580,6 @@ public class GigaGal implements Physical {
     }
 
     private void jump() {
-        if (turbo < 100) {
-            turbo += 1;
-        }
         if (canJump) {
             aerialTakeoff = position.x;
             aerialState = AerialState.JUMPING;
@@ -627,7 +623,7 @@ public class GigaGal implements Physical {
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
         hoverTimeSeconds = Utils.secondsSince(hoverStartTime); // for comparing with max hover time
-        turbo = (int) (((turboDuration - Utils.secondsSince(hoverStartTime)) / turboDuration * startTurbo));
+        turbo = (((turboDuration - Utils.secondsSince(hoverStartTime)) / turboDuration * startTurbo));
         if (turbo >= 1) {
             velocity.y = 0; // disables impact of gravity
         } else {
@@ -650,6 +646,9 @@ public class GigaGal implements Physical {
             canRicochet = false;
             hoverStartTime = 0;
             canJump = true;
+            if (turbo > 10) {
+           //     turbo -= 10;
+            }
         }
         if (Utils.secondsSince(ricochetStartTime) >= Constants.RICOCHET_FRAME_DURATION) {
             facing = Utils.getOppositeDirection(facing);
@@ -668,7 +667,7 @@ public class GigaGal implements Physical {
         canJump = true;
         canLook = true;
         if (turbo < 100) {
-            turbo += 3;
+            turbo += 1.5f;
         }
     }
 
@@ -686,7 +685,7 @@ public class GigaGal implements Physical {
             handleLateralInputs();
         }
         if (turbo < 100) {
-            turbo += 2;
+            turbo += 1.25f;
         }
     }
 
@@ -746,7 +745,7 @@ public class GigaGal implements Physical {
     public int getAmmo() { return ammo; }
     public int getHealth() { return health; }
     public int getLives() { return lives; }
-    public int getTurbo() { return turbo; }
+    public float getTurbo() { return turbo; }
     public Direction getFacing() { return facing; }
     public Vector2 getPosition() { return position; }
     public float getWidth() { return Constants.GIGAGAL_STANCE_WIDTH; }
