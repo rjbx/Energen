@@ -268,7 +268,7 @@ public class GigaGal implements Physical {
             isStriding = false;
         }
 
-        if (groundState != GroundState.AIRBORNE && lookDirection == null) {
+        if (groundState != GroundState.AIRBORNE) {
             if (directionChanged) {
                if (groundState == groundState.DASHING){
                     dashStartTime = 0;
@@ -276,7 +276,7 @@ public class GigaGal implements Physical {
                 }
                 strideStartTime = 0;
                 stand();
-            } else if (isStriding && !canStride && groundState != GroundState.DASHING) {
+            } else if (isStriding && !canStride && groundState != GroundState.DASHING && lookDirection == null) {
                 if (strideStartTime == 0) {
                     canStride = true;
                 } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
@@ -338,13 +338,13 @@ public class GigaGal implements Physical {
                     chargeStartTime = 0;
                     lookDirection = null;
                     canLook = false;
-                    turbo = 0;
                     int damage = hazard.getDamage();
                     float margin = 0;
                     if (hazard instanceof Destructible) {
                         margin = hazard.getWidth() / 6;
                     }
                     if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
+                        turbo = 0;
                         if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
                             if (hazard instanceof Swoopa) {
                                 Swoopa swoopa = (Swoopa) hazard;
