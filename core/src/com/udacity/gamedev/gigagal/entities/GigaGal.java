@@ -166,6 +166,12 @@ public class GigaGal implements Physical {
                                 } else if (!canHover || aerialState == AerialState.HOVERING){
                                     fall(); // begin descent from ground side sans access to hover
                                     canHover = false; // disable hover if not already
+                                } else {
+                                    startTurbo = turbo;
+                                    turbo = (int) ((Math.abs(getBottom() - ground.getBottom()) / (ground.getTop() - ground.getBottom())) * startTurbo);
+                                    if (getBottom() <= ground.getBottom()) {
+                                        turbo = 0;
+                                    }
                                 }
                                 velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, facing, Orientation.LATERAL); // boost lateral velocity by starting speed
                                 canRicochet = true; // enable ricochet
@@ -634,8 +640,6 @@ public class GigaGal implements Physical {
         if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) && canRicochet)
                 || aerialState == AerialState.RICOCHETING) {
             ricochet();
-        } else if (canRicochet == true) {
-            startTurbo = turbo;
         }
     }
 
