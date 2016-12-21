@@ -365,8 +365,8 @@ public class GigaGal implements Physical {
                                 recoil(new Vector2((Utils.absoluteToDirectionalValue(hazard.getKnockback().x, facing, Orientation.LATERAL)), hazard.getKnockback().y));
                             }
                         }
+                        health -= damage;
                     }
-                    health -= damage;
                 }
             }
         }
@@ -458,8 +458,7 @@ public class GigaGal implements Physical {
                     position.y + Constants.GIGAGAL_CANNON_OFFSET.y
         );
         if (lookDirection == Direction.UP || lookDirection == Direction.DOWN) {
-            ammoPosition.x += Utils.absoluteToDirectionalValue(5, facing, Orientation.LATERAL);
-            ammoPosition.y += Utils.absoluteToDirectionalValue(5, lookDirection, Orientation.VERTICAL);
+            ammoPosition.add(Utils.absoluteToDirectionalValue(0, facing, Orientation.LATERAL),  Utils.absoluteToDirectionalValue(6, lookDirection, Orientation.VERTICAL));
             level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
         } else {
             level.spawnAmmo(ammoPosition, facing, Orientation.LATERAL, shotIntensity, weapon, true);
