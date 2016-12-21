@@ -17,7 +17,6 @@ public final class GaugeHud {
 
     // fields
     private final ExtendViewport viewport;
-    private final BitmapFont font;
     private final Level level;
     private final GigaGal gigaGal;
     private Rectangle backdrop;
@@ -31,8 +30,6 @@ public final class GaugeHud {
         this.level = level;
         this.gigaGal = level.getGigaGal();
         this.viewport = new ExtendViewport(Constants.HUD_VIEWPORT_SIZE, Constants.HUD_VIEWPORT_SIZE);
-        font = new BitmapFont();
-        font.getData().setScale(1);
         backdrop = new Rectangle();
         health = new Rectangle();
         turbo = new Rectangle();
@@ -71,7 +68,7 @@ public final class GaugeHud {
             renderer.setColor(Color.FOREST);
         }
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getWorldWidth() / 3, viewport.getWorldHeight() - Constants.HUD_MARGIN, ((float) gigaGal.getTurbo() / 100) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
+        renderer.rect(viewport.getWorldWidth() / 3, viewport.getWorldHeight() - Constants.HUD_MARGIN, (gigaGal.getTurbo() / 100) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
 
 
         // ammo
