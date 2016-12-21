@@ -170,7 +170,7 @@ public class GigaGal implements Physical {
 
                                 if (aerialState != AerialState.RICOCHETING){
                                     startTurbo = turbo;
-                                    turbo = Math.min(((Math.abs(getTop() - ground.getBottom()) / (ground.getTop() - ground.getBottom())) * startTurbo), 100);
+                                    turbo = Math.min(((Math.abs(getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), 100);
                                 }
                                 velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, facing, Orientation.LATERAL); // boost lateral velocity by starting speed
                                 canRicochet = true; // enable ricochet
