@@ -56,16 +56,16 @@ public final class GaugeHud {
         } else if (gigaGal.getHealth() < 51) {
             renderer.setColor(Color.CORAL);
         } else {
-            renderer.setColor(Color.ROYAL);
+            renderer.setColor(new Color(0x4682B4FF));
         }
         renderer.set(ShapeRenderer.ShapeType.Filled);
         renderer.rect(viewport.getScreenX(), viewport.getWorldHeight() - Constants.HUD_MARGIN, ((float) gigaGal.getHealth() / 100) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
 
         // turbo
         if (gigaGal.getTurbo() < 100) {
-            renderer.setColor(Color.LIME);
+            renderer.setColor(new Color(Color.FOREST));
         } else {
-            renderer.setColor(Color.FOREST);
+            renderer.setColor(new Color(0x006400FF));
         }
         renderer.set(ShapeRenderer.ShapeType.Filled);
         renderer.rect(viewport.getWorldWidth() / 3, viewport.getWorldHeight() - Constants.HUD_MARGIN, (gigaGal.getTurbo() / 100) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
@@ -73,9 +73,9 @@ public final class GaugeHud {
 
         // ammo
         if (gigaGal.getShotIntensity() == Enums.ShotIntensity.CHARGED) {
-            renderer.setColor(Color.GOLD);
-        } else {
             renderer.setColor(Color.GOLDENROD);
+        } else {
+            renderer.setColor(new Color(0xB8860BFF));
         }
         renderer.set(ShapeRenderer.ShapeType.Filled);
         renderer.rect(viewport.getWorldWidth() / 3 * 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, ((float) gigaGal.getAmmo() / 100) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);

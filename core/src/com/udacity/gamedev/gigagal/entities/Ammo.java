@@ -192,14 +192,14 @@ public final class Ammo extends Indestructible {
             final float halfWorldWidth = margin + level.getViewport().getWorldWidth() / 2;
             final float cameraX = level.getViewport().getCamera().position.x;
             if (position.x < (cameraX - halfWorldWidth)
-                    || (position.x > (cameraX + halfWorldWidth))) {
+            || (position.x > (cameraX + halfWorldWidth))) {
                 active = false;
             }
         } else if (orientation == Orientation.VERTICAL) {
             final float halfWorldWidth = margin + level.getViewport().getWorldWidth() / 2;
             final float cameraY = level.getViewport().getCamera().position.y;
             if (position.y < (cameraY - halfWorldWidth)
-                    || (position.y > (cameraY + halfWorldWidth))) {
+            || (position.y > (cameraY + halfWorldWidth))) {
                 active = false;
             }
         }
