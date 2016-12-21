@@ -647,7 +647,7 @@ public class GigaGal implements Physical {
             hoverStartTime = 0;
             canJump = true;
             if (turbo > 10) {
-           //     turbo -= 10;
+                turbo -= 10;
             }
         }
         if (Utils.secondsSince(ricochetStartTime) >= Constants.RICOCHET_FRAME_DURATION) {
