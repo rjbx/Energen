@@ -669,7 +669,7 @@ public class GigaGal implements Physical {
         canJump = true;
         canLook = true;
         if (turbo < 100) {
-            turbo += 1.5f;
+            turbo += 1.25f;
         }
     }
 
@@ -687,7 +687,7 @@ public class GigaGal implements Physical {
             handleLateralInputs();
         }
         if (turbo < 100) {
-            turbo += .5f;
+            turbo += 1;
         }
     }
 
