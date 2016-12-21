@@ -54,9 +54,9 @@ public final class GaugeHud {
 
         // health
 
-        if (gigaGal.getHealth() < 20) {
+        if (gigaGal.getHealth() < 26) {
             renderer.setColor(Color.RED);
-        } else if (gigaGal.getHealth() < 40) {
+        } else if (gigaGal.getHealth() < 51) {
             renderer.setColor(Color.CORAL);
         } else {
             renderer.setColor(Color.ROYAL);
@@ -65,7 +65,11 @@ public final class GaugeHud {
         renderer.rect(viewport.getScreenX(), viewport.getWorldHeight() - Constants.HUD_MARGIN, ((float) gigaGal.getHealth() / 100) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
 
         // turbo
-        renderer.setColor(Color.FOREST);
+        if (gigaGal.getTurbo() < 100) {
+            renderer.setColor(Color.LIME);
+        } else {
+            renderer.setColor(Color.FOREST);
+        }
         renderer.set(ShapeRenderer.ShapeType.Filled);
         renderer.rect(viewport.getWorldWidth() / 3, viewport.getWorldHeight() - Constants.HUD_MARGIN, ((float) gigaGal.getTurbo() / 100) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
 
