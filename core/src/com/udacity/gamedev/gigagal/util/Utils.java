@@ -55,11 +55,19 @@ public class Utils {
         return MathUtils.nanoToSec * (TimeUtils.nanoTime() - timeNanos);
     }
 
-    public static final float absValToLateralMovement(float delta, Enums.Direction direction) {
-        if (direction == Enums.Direction.RIGHT) {
-            return delta;
-        } else if (direction == Enums.Direction.LEFT) {
-            return -delta;
+    public static final float absoluteToDirectionalValue(float delta, Enums.Direction direction, Enums.Orientation orientation) {
+        if (orientation == Enums.Orientation.LATERAL) {
+            if (direction == Enums.Direction.RIGHT) {
+                return delta;
+            } else if (direction == Enums.Direction.LEFT) {
+                return -delta;
+            }
+        } else if (orientation == Enums.Orientation.VERTICAL) {
+            if (direction == Enums.Direction.UP) {
+                return delta;
+            } else if (direction == Enums.Direction.DOWN) {
+                return -delta;
+            }
         }
         return 0;
     }

@@ -18,7 +18,6 @@ import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Vector;
 
 // mutable
 public class GigaGal implements Physical {
@@ -170,7 +169,7 @@ public class GigaGal implements Physical {
                                 if (getBottom() <= ground.getBottom()) {
                                     turbo = 0;
                                 }
-                                velocity.x += Utils.absValToLateralMovement(Constants.GIGAGAL_STARTING_SPEED, facing); // boost lateral velocity by starting speed
+                                velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, facing, Orientation.LATERAL); // boost lateral velocity by starting speed
                                 canRicochet = true; // enable ricochet
                                 slidPlatform = true; // verify slid ground
                                 slidPlatformTop = ground.getTop(); // capture slid ground boundary
@@ -360,10 +359,10 @@ public class GigaGal implements Physical {
                         } else {
                             if (hazard instanceof Zoomba) {
                                 Zoomba zoomba = (Zoomba) hazard;
-                                recoil(new Vector2((Utils.absValToLateralMovement(zoomba.getMountKnockback().x, facing)), zoomba.getMountKnockback().y));
+                                recoil(new Vector2((Utils.absoluteToDirectionalValue(zoomba.getMountKnockback().x, facing, Orientation.LATERAL)), zoomba.getMountKnockback().y));
                                 damage = zoomba.getMountDamage();
                             } else {
-                                recoil(new Vector2((Utils.absValToLateralMovement(hazard.getKnockback().x, facing)), hazard.getKnockback().y));
+                                recoil(new Vector2((Utils.absoluteToDirectionalValue(hazard.getKnockback().x, facing, Orientation.LATERAL)), hazard.getKnockback().y));
                             }
                         }
                     }
@@ -455,16 +454,12 @@ public class GigaGal implements Physical {
     public void shoot(ShotIntensity shotIntensity, WeaponType weapon, int ammoUsed) {
         ammo -= ammoUsed;
         Vector2 ammoPosition = new Vector2(
-                    position.x + Utils.absValToLateralMovement(Constants.GIGAGAL_CANNON_OFFSET.x, facing),
+                    position.x + Utils.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, facing, Orientation.LATERAL),
                     position.y + Constants.GIGAGAL_CANNON_OFFSET.y
         );
-        if (lookDirection == Direction.UP) {
-            ammoPosition.x += Utils.absValToLateralMovement(0, facing);
-            ammoPosition.y += 20;
-            level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
-        } else if (lookDirection == Direction.DOWN) {
-            ammoPosition.x += Utils.absValToLateralMovement(0, facing);
-            ammoPosition.y -= 20;
+        if (lookDirection == Direction.UP || lookDirection == Direction.DOWN) {
+            ammoPosition.x += Utils.absoluteToDirectionalValue(5, facing, Orientation.LATERAL);
+            ammoPosition.y += Utils.absoluteToDirectionalValue(5, lookDirection, Orientation.VERTICAL);
             level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
         } else {
             level.spawnAmmo(ammoPosition, facing, Orientation.LATERAL, shotIntensity, weapon, true);
@@ -539,7 +534,7 @@ public class GigaGal implements Physical {
             strideStartTime = TimeUtils.nanoTime();
         }
         strideAcceleration = Utils.secondsSince(strideStartTime) + Constants.GIGAGAL_STARTING_SPEED;
-        velocity.x = Utils.absValToLateralMovement(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing);
+        velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing, Orientation.LATERAL);
     }
 
     private void enableDash() {
@@ -558,7 +553,7 @@ public class GigaGal implements Physical {
         }
         turbo = (int) (((Constants.MAX_DASH_DURATION - Utils.secondsSince(dashStartTime)) / Constants.MAX_DASH_DURATION * 100));
         if (turbo >= 1) {
-            velocity.x = Utils.absValToLateralMovement(Constants.GIGAGAL_MAX_SPEED, facing);
+            velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, facing, Orientation.LATERAL);
         } else {
             canDash = false;
             dashStartTime = 0;
@@ -582,7 +577,7 @@ public class GigaGal implements Physical {
             jumpStartTime = TimeUtils.nanoTime();
             canJump = false;
         }
-        velocity.x += Utils.absValToLateralMovement(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, facing);
+        velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, facing, Orientation.LATERAL);
         if (Utils.secondsSince(jumpStartTime) < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
@@ -642,7 +637,7 @@ public class GigaGal implements Physical {
         }
         if (Utils.secondsSince(ricochetStartTime) >= Constants.RICOCHET_FRAME_DURATION) {
             facing = Utils.getOppositeDirection(facing);
-            velocity.x = Utils.absValToLateralMovement(Constants.GIGAGAL_MAX_SPEED, facing);
+            velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, facing, Orientation.LATERAL);
             jump();
         } else {
             canChangeDirection = false;
