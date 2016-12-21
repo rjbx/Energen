@@ -171,7 +171,7 @@ public class GigaGal implements Physical {
 
                                 if (aerialState != AerialState.RICOCHETING) {
                                     if (!slidPlatform) {
-                                        startTurbo = turbo;
+                                        startTurbo = Math.max(turbo, 25);
                                     }
                                     turbo = Math.min((Math.abs((getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), 100);
                                 }
@@ -186,9 +186,10 @@ public class GigaGal implements Physical {
                                 if (aerialState != AerialState.HOVERING && velocity.y < 0) {
                                     canHover = false; // disable hover
                                 }
+                                slidPlatform = false;
                                 fall(); // fall regardless of whether or not inner condition met
                             }
-                            // only when grounded
+                        // only when grounded
                         } else if (aerialState == AerialState.GROUNDED) {
                             stand();
                         }
@@ -201,6 +202,7 @@ public class GigaGal implements Physical {
                         // else if no detection with ground sides, disable ricochet
                     } else {
                         canRicochet = false; // disable ricochet
+                        slidPlatform = false;
                     }
                     // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
                     if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()) {
@@ -649,9 +651,6 @@ public class GigaGal implements Physical {
             canRicochet = false;
             hoverStartTime = 0;
             canJump = true;
-            if (turbo > 10) {
-                turbo -= 10;
-            }
         }
         if (Utils.secondsSince(ricochetStartTime) >= Constants.RICOCHET_FRAME_DURATION) {
             facing = Utils.getOppositeDirection(facing);
