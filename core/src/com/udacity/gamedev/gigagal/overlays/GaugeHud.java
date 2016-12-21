@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 
 // immutable
 public final class GaugeHud {
@@ -63,10 +64,13 @@ public final class GaugeHud {
 
 
         // ammo
-        renderer.setColor(Color.GOLDENROD);
+        if (gigaGal.getShotIntensity() == Enums.ShotIntensity.CHARGED) {
+            renderer.setColor(Color.GOLD);
+        } else {
+            renderer.setColor(Color.GOLDENROD);
+        }
         renderer.set(ShapeRenderer.ShapeType.Filled);
         renderer.rect(viewport.getWorldWidth() / 3 * 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, ((float) gigaGal.getAmmo() / 100) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
-
         renderer.end();
 
 
