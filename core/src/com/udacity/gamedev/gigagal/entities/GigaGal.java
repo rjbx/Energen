@@ -601,7 +601,6 @@ public class GigaGal implements Physical {
             if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
                 if (aerialState == AerialState.HOVERING) {
                     canHover = false;
-                    turbo = 0;
                     hoverStartTime = 0;
                     fall();
                 } else {
