@@ -621,11 +621,13 @@ public class GigaGal implements Physical {
     private void hover() {
         // canHover can only be true just before beginning to hover
         if (hoverStartTime == 0) {
+            startTurbo = turbo;
+            turboDuration = Constants.MAX_HOVER_DURATION * ((float) startTurbo / 100);
             aerialState = AerialState.HOVERING; // indicates currently hovering
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
         hoverTimeSeconds = Utils.secondsSince(hoverStartTime); // for comparing with max hover time
-        turbo = (int) (((Constants.MAX_HOVER_DURATION - Utils.secondsSince(hoverStartTime)) / Constants.MAX_HOVER_DURATION * 100));
+        turbo = (int) (((turboDuration - Utils.secondsSince(hoverStartTime)) / turboDuration * startTurbo));
         if (turbo >= 1) {
             velocity.y = 0; // disables impact of gravity
         } else {
