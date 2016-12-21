@@ -151,7 +151,8 @@ public class GigaGal implements Physical {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do platforms
                 if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT
-                        && getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
+                        && getBottom() <= ground.getTop()
+                        && getTop() >= ground.getBottom()) {
                     // if during previous frame was not, while currently is, between ground left and right sides
                     if (!Utils.betweenSides(ground, previousFramePosition.x)) {
                         // only when not grounded and not recoiling
@@ -163,21 +164,23 @@ public class GigaGal implements Physical {
                                 if (aerialState == AerialState.RICOCHETING) {
                                     velocity.x = 0; // halt lateral progression
                                     // if not already ricocheting and hover was previously activated before grounding
-                                } else if (!canHover || aerialState == AerialState.HOVERING){
+                                } else if (!canHover || aerialState == AerialState.HOVERING) {
                                     fall(); // begin descent from ground side sans access to hover
                                     canHover = false; // disable hover if not already
                                 }
 
-                                if (aerialState != AerialState.RICOCHETING){
-                                    startTurbo = turbo;
-                                    turbo = Math.min(((Math.abs(getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), 100);
+                                if (aerialState != AerialState.RICOCHETING) {
+                                    if (!slidPlatform) {
+                                        startTurbo = turbo;
+                                    }
+                                    turbo = Math.min((Math.abs((getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), 100);
                                 }
                                 velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, facing, Orientation.LATERAL); // boost lateral velocity by starting speed
                                 canRicochet = true; // enable ricochet
                                 slidPlatform = true; // verify slid ground
                                 slidPlatformTop = ground.getTop(); // capture slid ground boundary
                                 slidPlatformBottom = ground.getBottom(); // capture slid ground boundary
-                            // if absval lateral velocity  not greater than one third max speed but aerial and bumping ground side, fall
+                                // if absval lateral velocity  not greater than one third max speed but aerial and bumping ground side, fall
                             } else {
                                 // if not already hovering and descending, also disable hover
                                 if (aerialState != AerialState.HOVERING && velocity.y < 0) {
@@ -185,8 +188,8 @@ public class GigaGal implements Physical {
                                 }
                                 fall(); // fall regardless of whether or not inner condition met
                             }
-                        // only when grounded
-                        } else if (aerialState == AerialState.GROUNDED){
+                            // only when grounded
+                        } else if (aerialState == AerialState.GROUNDED) {
                             stand();
                         }
                         // if contact with ground sides detected without concern for ground state (either grounded or airborne),
@@ -195,7 +198,7 @@ public class GigaGal implements Physical {
                         canStride = false; // disable stride
                         canDash = false; // disable dash
                         position.x = previousFramePosition.x; // halt lateral progression
-                    // else if no detection with ground sides, disable ricochet
+                        // else if no detection with ground sides, disable ricochet
                     } else {
                         canRicochet = false; // disable ricochet
                     }
