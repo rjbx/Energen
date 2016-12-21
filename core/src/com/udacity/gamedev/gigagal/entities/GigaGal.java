@@ -170,7 +170,7 @@ public class GigaGal implements Physical {
 
                                 if (aerialState != AerialState.RICOCHETING){
                                     startTurbo = turbo;
-                                    turbo = ((Math.abs(getBottom() - ground.getBottom()) / (ground.getTop() - ground.getBottom())) * startTurbo);
+                                    turbo = Math.min(((Math.abs(getTop() - ground.getBottom()) / (ground.getTop() - ground.getBottom())) * startTurbo), 100);
                                 }
                                 velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, facing, Orientation.LATERAL); // boost lateral velocity by starting speed
                                 canRicochet = true; // enable ricochet
@@ -268,7 +268,7 @@ public class GigaGal implements Physical {
             isStriding = false;
         }
 
-        if (groundState != GroundState.AIRBORNE) {
+        if (groundState != GroundState.AIRBORNE && lookDirection == null) {
             if (directionChanged) {
                if (groundState == groundState.DASHING){
                     dashStartTime = 0;
@@ -276,7 +276,7 @@ public class GigaGal implements Physical {
                 }
                 strideStartTime = 0;
                 stand();
-            } else if (isStriding && !canStride && groundState != GroundState.DASHING && lookDirection == null) {
+            } else if (isStriding && !canStride && groundState != GroundState.DASHING) {
                 if (strideStartTime == 0) {
                     canStride = true;
                 } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
