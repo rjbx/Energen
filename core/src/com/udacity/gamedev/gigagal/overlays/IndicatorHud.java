@@ -94,14 +94,16 @@ public class IndicatorHud {
         switch (intensity) {
             case NORMAL:
                 offset.set(Constants.SHOT_CENTER);
+                offset.scl(1.5f);
                 break;
             case CHARGED:
                 offset.set(Constants.BLAST_CENTER);
+                offset.scl(1.5f);
                 break;
             default:
                 offset.set(Constants.SHOT_CENTER);
         }
-        Utils.drawTextureRegion(batch, weaponIcon, drawPosition, offset);
+        Utils.drawTextureRegion(batch, weaponIcon, drawPosition, offset, 1.5f);
 
         final String scoreString = level.getScore() + "";
         String timerString = level.getTimer() + "";

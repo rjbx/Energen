@@ -118,28 +118,28 @@ ammo-shot-metal-alt
   index: -1
 ammo-shot-native
   rotate: false
-  xy: 206, 16
-  size: 6, 6
-  orig: 6, 6
-  offset: 0, 0
-  index: -1
-ammo-shot-psychic
-  rotate: false
   xy: 187, 35
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-ammo-shot-rubber
+ammo-shot-psychic
   rotate: false
   xy: 171, 5
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-ammo-shot-rubber-alt
+ammo-shot-rubber
   rotate: false
   xy: 181, 5
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+ammo-shot-rubber-alt
+  rotate: false
+  xy: 708, 124
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
