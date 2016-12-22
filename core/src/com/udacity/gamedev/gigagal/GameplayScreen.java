@@ -132,6 +132,8 @@ public class GameplayScreen extends ScreenAdapter {
     private void renderLevelEndOverlays(SpriteBatch batch) {
         if (level.isGameOver()) {
             if (levelEndOverlayStartTime == 0) {
+                level.getLevelTime().suspend();
+                totalTime.suspend();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
                 gameOverOverlay.init();
             }
@@ -139,7 +141,7 @@ public class GameplayScreen extends ScreenAdapter {
             gameOverOverlay.render(batch);
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
                 levelEndOverlayStartTime = 0;
-                game.create();
+                game.setScreen(game.getLevelSelectScreen());
             }
         } else if (level.isVictory()) {
             if (levelEndOverlayStartTime == 0) {
