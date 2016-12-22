@@ -164,7 +164,7 @@ public final class Ammo extends Indestructible {
 
         float ammoSpeed = Constants.AMMO_MAX_SPEED;
         if (!fromGigagal) {
-            ammoSpeed *= Constants.AMMO_NORMAL_SPEED;
+            ammoSpeed = Constants.AMMO_NORMAL_SPEED;
         }
 
         if (orientation == Orientation.LATERAL) {
