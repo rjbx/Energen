@@ -55,8 +55,10 @@ public final class GaugeHud {
             renderer.setColor(Color.RED);
         } else if (gigaGal.getHealth() < 51) {
             renderer.setColor(Color.CORAL);
+        } else if (gigaGal.getHealth() > 99) {
+            renderer.setColor(new Color(0x1e90ffff));
         } else {
-            renderer.setColor(new Color(0x4682B4FF));
+            renderer.setColor(new Color(0x0077eeff));
         }
         renderer.set(ShapeRenderer.ShapeType.Filled);
         renderer.rect(viewport.getScreenX(), viewport.getWorldHeight() - Constants.HUD_MARGIN, ((float) gigaGal.getHealth() / 100) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
