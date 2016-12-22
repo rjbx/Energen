@@ -33,7 +33,7 @@ public final class Constants {
     public static final float STRIDING_JUMP_MULTIPLIER = 1.1f;
     public static final float VERTICAL_KNOCKBACK = 150;
     public static final float MAX_JUMP_DURATION = 0.025f;
-    public static final float MAX_HOVER_DURATION = 1;
+    public static final float MAX_HOVER_DURATION = 2;
     public static final float MIN_GROUND_DISTANCE = 20;
     public static final float MAX_DASH_DURATION = 0.35f;
     public static final float RECOVERY_TIME = 1;
@@ -360,7 +360,7 @@ public final class Constants {
     public static final String SELECTION_CURSOR = "selection-cursor";
 
     // Victory/Game Over screens
-    public static final float LEVEL_END_DURATION = 20;
+    public static final float LEVEL_END_DURATION = 5;
     public static final int EXPLOSION_COUNT = 500;
   //  public static final int ZOOMBA_COUNT = 200;
     public static final String VICTORY_MESSAGE = "Boo Ya.";
