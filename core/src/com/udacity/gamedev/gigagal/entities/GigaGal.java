@@ -345,6 +345,10 @@ public class GigaGal implements Physical {
                     canLook = false;
                     int damage = hazard.getDamage();
                     float margin = 0;
+                    Vector2 intersection = new Vector2();
+                    intersection.x = Math.max(getBounds().x, bounds.x);
+                    intersection.y = Math.max(getBounds().y, bounds.y);
+                    level.spawnExplosion(intersection);
                     if (hazard instanceof Destructible) {
                         margin = hazard.getWidth() / 6;
                     }
