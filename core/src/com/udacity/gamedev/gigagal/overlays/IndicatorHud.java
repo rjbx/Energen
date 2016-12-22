@@ -14,8 +14,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-import java.time.format.DateTimeFormatter;
-
 public class IndicatorHud {
 
     // fields
@@ -23,7 +21,7 @@ public class IndicatorHud {
     private final BitmapFont font;
     private final Level level;
     private final GigaGal gigaGal;
-
+    private String timerString;
 
     // ctor
     public IndicatorHud(Level level) {
@@ -86,17 +84,17 @@ public class IndicatorHud {
 
         drawPosition = new Vector2(viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN - 7);
         Enums.WeaponType weapon = gigaGal.getWeapon();
-        Enums.ShotIntensity intensity = gigaGal.getShotIntensity();
+        Enums.AmmoIntensity intensity = gigaGal.getAmmoIntensity();
         final Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.LATERAL, intensity, weapon, false);
         ammo.update(1);
         final TextureRegion weaponIcon = new TextureRegion(ammo.getTexture());
         Vector2 offset = new Vector2();
         switch (intensity) {
-            case NORMAL:
+            case SHOT:
                 offset.set(Constants.SHOT_CENTER);
                 offset.scl(1.5f);
                 break;
-            case CHARGED:
+            case BLAST:
                 offset.set(Constants.BLAST_CENTER);
                 offset.scl(1.5f);
                 break;
@@ -105,9 +103,8 @@ public class IndicatorHud {
         }
         Utils.drawTextureRegion(batch, weaponIcon, drawPosition, offset, 1.5f);
 
-        final String scoreString = level.getScore() + "";
-        String timerString = level.getTimer() + "";
-        timerString = timerString.substring(0, timerString.length() - 4);
+        final String scoreString = level.getLevelScore() + "";
+        timerString = Utils.stopWatchToString(level.getLevelTime());
         font.draw(batch, scoreString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN - 0.5f, Constants.HUD_MARGIN / 2, Constants.HUD_MARGIN * 2, 1, true);
         font.draw(batch, timerString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN * 2 - 0.5f, Constants.HUD_MARGIN * 1.5f, Constants.HUD_MARGIN * 4, 1, true);
 

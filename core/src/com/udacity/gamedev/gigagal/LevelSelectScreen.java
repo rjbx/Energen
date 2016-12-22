@@ -94,8 +94,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.b,
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-
         overlay.render(batch);
         overlay.update();
 

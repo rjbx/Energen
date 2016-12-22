@@ -17,8 +17,8 @@ public final class GigaGalGame extends Game {
 
     @Override
     public void create() {
-        levelSelect = new LevelSelectScreen(this);
         gameplay = new GameplayScreen(this);
+        levelSelect = new LevelSelectScreen(this);
         AssetManager am = new AssetManager();
         Assets.getInstance().init(am, 0);
         setScreen(levelSelect);

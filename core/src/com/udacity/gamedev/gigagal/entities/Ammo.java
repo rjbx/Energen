@@ -17,7 +17,7 @@ public final class Ammo extends Indestructible {
     private final Level level;
     private int damage;
     private Vector2 knockback;
-    private final ShotIntensity shotIntensity;
+    private final AmmoIntensity ammoIntensity;
     private final WeaponType weapon;
     private final Direction direction;
     private final Orientation orientation;
@@ -27,12 +27,12 @@ public final class Ammo extends Indestructible {
     private boolean active;
 
     // ctor
-    public Ammo(Level level, Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, WeaponType weapon, boolean fromGigagal) {
+    public Ammo(Level level, Vector2 position, Direction direction, Orientation orientation, AmmoIntensity ammoIntensity, WeaponType weapon, boolean fromGigagal) {
         this.level = level;
         this.position = position;
         this.direction = direction;
         this.orientation = orientation;
-        this.shotIntensity = shotIntensity;
+        this.ammoIntensity = ammoIntensity;
         this.weapon = weapon;
         this.fromGigagal = fromGigagal;
         knockback = new Vector2();
@@ -47,7 +47,7 @@ public final class Ammo extends Indestructible {
             case NATIVE:
                 damage = Constants.AMMO_STANDARD_DAMAGE;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
-                if (shotIntensity == ShotIntensity.CHARGED) {
+                if (ammoIntensity == AmmoIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().nativeBlast;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().nativeShot;
@@ -56,7 +56,7 @@ public final class Ammo extends Indestructible {
             case FIRE:
                 damage = Constants.FLAME_DAMAGE;
                 knockback = Constants.FLAME_KNOCKBACK;
-                if (shotIntensity == ShotIntensity.CHARGED) {
+                if (ammoIntensity == AmmoIntensity.BLAST) {
                     if (orientation == Orientation.VERTICAL) {
                         region = Assets.getInstance().getAmmoAssets().fireBlastAlt;
                     } else {
@@ -71,7 +71,7 @@ public final class Ammo extends Indestructible {
             case WATER:
                 damage = Constants.GEISER_DAMAGE;
                 knockback = Constants.GEISER_KNOCKBACK;
-                if (shotIntensity == ShotIntensity.CHARGED) {
+                if (ammoIntensity == AmmoIntensity.BLAST) {
                     if (orientation == Orientation.VERTICAL) {
                         region = Assets.getInstance().getAmmoAssets().waterBlastAlt;
                     } else {
@@ -86,7 +86,7 @@ public final class Ammo extends Indestructible {
             case ELECTRIC:
                 damage = Constants.COIL_DAMAGE;
                 knockback = Constants.COIL_KNOCKBACK;
-                if (shotIntensity == ShotIntensity.CHARGED) {
+                if (ammoIntensity == AmmoIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().electricBlast;
                 }  else if (orientation == Orientation.VERTICAL) {
                     region = Assets.getInstance().getAmmoAssets().electricShotAlt;
@@ -97,7 +97,7 @@ public final class Ammo extends Indestructible {
             case RUBBER:
                 damage = Constants.WHEEL_DAMAGE;
                 knockback = Constants.WHEEL_KNOCKBACK;
-                if (shotIntensity == ShotIntensity.CHARGED) {
+                if (ammoIntensity == AmmoIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().rubberBlast;
                 } else if (orientation == Orientation.VERTICAL) {
                     region = Assets.getInstance().getAmmoAssets().rubberShotAlt;
@@ -108,7 +108,7 @@ public final class Ammo extends Indestructible {
             case METAL:
                 damage = Constants.SPIKE_DAMAGE;
                 knockback = Constants.SPIKE_KNOCKBACK;
-                if (shotIntensity == ShotIntensity.CHARGED) {
+                if (ammoIntensity == AmmoIntensity.BLAST) {
                     if (orientation == Orientation.VERTICAL) {
                         region = Assets.getInstance().getAmmoAssets().metalBlastAlt;
                     } else {
@@ -121,9 +121,9 @@ public final class Ammo extends Indestructible {
                 }
                 break;
             case PSYCHIC:
-                damage = 50;
+                damage = Constants.MAX_HEALTH / 2;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
-                if (shotIntensity == ShotIntensity.CHARGED) {
+                if (ammoIntensity == AmmoIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().psychicBlast;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().psychicShot;
@@ -144,7 +144,7 @@ public final class Ammo extends Indestructible {
                         damage = Constants.AMMO_SPECIALIZED_DAMAGE;
                         break;
                     case WEAK:
-                        damage = 1;
+                        damage = Constants.AMMO_WEAK_DAMAGE;
                         break;
                     case NORMAL:
                         damage = Constants.AMMO_STANDARD_DAMAGE;
@@ -153,18 +153,18 @@ public final class Ammo extends Indestructible {
                         damage = Constants.AMMO_STANDARD_DAMAGE;
                 }
                 if (!fromGigagal) {
-                    damage -= 1;
+                    damage -= Constants.AMMO_WEAK_DAMAGE;
                     damage /= 2;
                 } else {
-                    level.setScore(level.getScore() + destructible.getHitScore());
+                    level.setLevelScore(level.getLevelScore() + destructible.getHitScore());
                 }
-                Utils.applyDamage(destructible, shotIntensity, damage);
+                Utils.applyDamage(destructible, ammoIntensity, damage);
             }
         }
 
-        float ammoSpeed = Constants.AMMO_MOVE_SPEED;
+        float ammoSpeed = Constants.AMMO_MAX_SPEED;
         if (!fromGigagal) {
-            ammoSpeed *= .75f;
+            ammoSpeed *= Constants.AMMO_NORMAL_SPEED;
         }
 
         if (orientation == Orientation.LATERAL) {
@@ -207,7 +207,7 @@ public final class Ammo extends Indestructible {
 
     public void render(SpriteBatch batch) {
         Vector2 ammoCenter = new Vector2();
-        if (shotIntensity == ShotIntensity.CHARGED) {
+        if (ammoIntensity == AmmoIntensity.BLAST) {
             ammoCenter.set(Constants.BLAST_CENTER);
         } else {
             ammoCenter.set(Constants.SHOT_CENTER);
@@ -226,7 +226,7 @@ public final class Ammo extends Indestructible {
     public final Class getSubclass() { return this.getClass(); }
     public final int getDamage() { return damage; }
     public final Vector2 getKnockback() { return knockback; }
-    public final ShotIntensity getShotIntensity() { return shotIntensity; }
+    public final AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
     public final TextureRegion getTexture() { return region; }
     public final boolean isFromGigagal() { return fromGigagal; }
 }

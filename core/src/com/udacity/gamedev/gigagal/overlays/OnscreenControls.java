@@ -64,8 +64,8 @@ public class OnscreenControls extends InputAdapter {
         Vector2 viewportPosition = viewport.unproject(new Vector2(screenX, screenY));
 
         if (viewportPosition.dst(shootCenter) < Constants.BUTTON_RADIUS) {
-            Enums.ShotIntensity shotIntensity = gigaGal.getShotIntensity();
-            gigaGal.shoot(shotIntensity, gigaGal.getWeapon(), Utils.useAmmo(shotIntensity));
+            Enums.AmmoIntensity ammoIntensity = gigaGal.getAmmoIntensity();
+            gigaGal.shoot(ammoIntensity, gigaGal.getWeapon(), Utils.useAmmo(ammoIntensity));
             gigaGal.setChargeStartTime(TimeUtils.nanoTime());
             this.shootPointer = pointer;
             gigaGal.shootButtonPressed = true;
@@ -240,47 +240,18 @@ public class OnscreenControls extends InputAdapter {
                 centerCenter,
                 Constants.BUTTON_CENTER
         );
-
-      //  if (!gigaGal.isCharged()) {
-            Utils.drawTextureRegion(
-                    batch,
-                    Assets.getInstance().getOnscreenControlsAssets().shoot,
-                    shootCenter,
-                    Constants.BUTTON_CENTER
-            );
-     /*   } else {
-            Utils.drawTextureRegion(
-                    batch,
-                    Assets.getInstance().getOnscreenControlsAssets().blast,
-                    shootCenter,
-                    Constants.BUTTON_CENTER
-            );
-        } */
-
-      /*  if (!gigaGal.getRicochetStatus())  {
-             if (!gigaGal.getJumpStatus() && gigaGal.getHoverStatus()) {
-                Utils.drawTextureRegion(
-                        batch,
-                        Assets.getInstance().getOnscreenControlsAssets().hover,
-                        jumpCenter,
-                        Constants.BUTTON_CENTER
-                );
-            } else { */
-                 Utils.drawTextureRegion(
-                         batch,
-                         Assets.getInstance().getOnscreenControlsAssets().jump,
-                         jumpCenter,
-                         Constants.BUTTON_CENTER
-                 );
-            /* }
-        } else {
-            Utils.drawTextureRegion(
-                    batch,
-                    Assets.getInstance().getOnscreenControlsAssets().ricochet,
-                    jumpCenter,
-                    Constants.BUTTON_CENTER
-            );
-        } */
+        Utils.drawTextureRegion(
+                batch,
+                Assets.getInstance().getOnscreenControlsAssets().shoot,
+                shootCenter,
+                Constants.BUTTON_CENTER
+        );
+        Utils.drawTextureRegion(
+             batch,
+             Assets.getInstance().getOnscreenControlsAssets().jump,
+             jumpCenter,
+             Constants.BUTTON_CENTER
+        );
         Utils.drawTextureRegion(
                 batch,
                 Assets.getInstance().getOnscreenControlsAssets().pause,

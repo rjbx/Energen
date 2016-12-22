@@ -9,6 +9,8 @@ import com.udacity.gamedev.gigagal.entities.Destructible;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Physical;
 
+import org.apache.commons.lang3.time.StopWatch;
+
 // immutable static
 public class Utils {
 
@@ -99,17 +101,17 @@ public class Utils {
         return false;
     }
 
-    public static final int useAmmo(Enums.ShotIntensity intensity) {
-        if (intensity == Enums.ShotIntensity.CHARGED) {
+    public static final int useAmmo(Enums.AmmoIntensity intensity) {
+        if (intensity == Enums.AmmoIntensity.BLAST) {
             return 3;
-        } else if (intensity == Enums.ShotIntensity.NORMAL) {
+        } else if (intensity == Enums.AmmoIntensity.SHOT) {
             return 1;
         }
         return 0;
     }
 
-    public static final void applyDamage(Destructible destructible, Enums.ShotIntensity shotIntensity, int damage) {
-        if (shotIntensity == Enums.ShotIntensity.CHARGED) {
+    public static final void applyDamage(Destructible destructible, Enums.AmmoIntensity ammoIntensity, int damage) {
+        if (ammoIntensity == Enums.AmmoIntensity.BLAST) {
             destructible.setHealth(destructible.getHealth() - damage);
         } else {
             destructible.setHealth((int) (destructible.getHealth() - (damage * .67f)));
@@ -130,4 +132,11 @@ public class Utils {
         }
         return Enums.TypeEffectiveness.NORMAL;
     }
+
+    public static final String stopWatchToString(StopWatch time) {
+        String timeString = time + "";
+        return (timeString).substring(0, timeString.length() - 4);
+    }
+
+
 }

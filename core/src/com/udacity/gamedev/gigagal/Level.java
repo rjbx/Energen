@@ -27,9 +27,7 @@ import com.udacity.gamedev.gigagal.util.Utils;
 
 import org.apache.commons.lang3.time.StopWatch;
 
-import java.sql.Time;
 import java.util.Arrays;
-import java.util.Timer;
 
 // mutable
 public class Level {
@@ -40,7 +38,7 @@ public class Level {
     private Viewport viewport;
     private boolean victory;
     private boolean gameOver;
-    private int score;
+    private int levelScore;
     private long cannonStartTime;
     private GigaGal gigaGal;
     private Portal portal;
@@ -52,16 +50,16 @@ public class Level {
     private DelayedRemovalArray<Ammo> ammoList;
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
-    private StopWatch timer;
+    private StopWatch levelTime;
 
 
     // default ctor
     public Level() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigaGal = new GigaGal(new Vector2(50, 50), this);
-        score = 0;
-        timer = new StopWatch();
-        timer.start();
+        levelScore = 0;
+        levelTime = new StopWatch();
+        levelTime.start();
         platforms = new Array<Platform>();
         grounds = new Array<Ground>();
         destructibles = new DelayedRemovalArray<Destructible>();
@@ -110,17 +108,17 @@ public class Level {
                             Vector2 ammoPositionLeft = new Vector2(cannon.getPosition().x - (cannon.getWidth() / 2), ground.getPosition().y);
                             Vector2 ammoPositionRight = new Vector2(cannon.getPosition().x + (cannon.getWidth() / 2), ground.getPosition().y);
                             if (gigaGal.getPosition().x < (ammoPositionLeft.x - (cannon.getWidth() / 2))) {
-                                spawnAmmo(ammoPositionLeft, Direction.LEFT, orientation, Enums.ShotIntensity.NORMAL, levelWeapon, false);
+                                spawnAmmo(ammoPositionLeft, Direction.LEFT, orientation, Enums.AmmoIntensity.SHOT, levelWeapon, false);
                             } else if (gigaGal.getPosition().x > (ammoPositionRight.x + (cannon.getWidth() / 2))) {
-                                spawnAmmo(ammoPositionRight, Direction.RIGHT, orientation, Enums.ShotIntensity.NORMAL, levelWeapon, false);
+                                spawnAmmo(ammoPositionRight, Direction.RIGHT, orientation, Enums.AmmoIntensity.SHOT, levelWeapon, false);
                             }
                         } else if (cannon.getOrientation() == Enums.Orientation.VERTICAL) {
                             Vector2 ammoPositionTop = new Vector2(ground.getPosition().x, cannon.getPosition().y + (cannon.getHeight() / 2));
                             Vector2 ammoPositionBottom = new Vector2(ground.getPosition().x, cannon.getPosition().y - (cannon.getHeight() / 2));
                             if (gigaGal.getPosition().y < (ammoPositionBottom.y - (cannon.getHeight() / 2))) {
-                                spawnAmmo(ammoPositionBottom, Direction.DOWN, orientation, Enums.ShotIntensity.NORMAL, levelWeapon, false);
+                                spawnAmmo(ammoPositionBottom, Direction.DOWN, orientation, Enums.AmmoIntensity.SHOT, levelWeapon, false);
                             } else if (gigaGal.getPosition().y > (ammoPositionTop.y + (cannon.getHeight() / 2))) {
-                                spawnAmmo(ammoPositionTop, Direction.UP, orientation, Enums.ShotIntensity.NORMAL, levelWeapon, false);
+                                spawnAmmo(ammoPositionTop, Direction.UP, orientation, Enums.AmmoIntensity.SHOT, levelWeapon, false);
                             }
                         }
                     }
@@ -146,7 +144,7 @@ public class Level {
                 if (destructible.getHealth() < 1) {
                     spawnExplosion(destructible.getPosition());
                     destructibles.removeIndex(i);
-                    score += destructible.getKillScore();
+                    levelScore += destructible.getKillScore();
                 }
             }
             destructibles.end();
@@ -226,8 +224,8 @@ public class Level {
         powerups.add(new AmmoPowerup(new Vector2(20, 110)));
     }
 
-    public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.WeaponType weapon, boolean targetsEnemies) {
-        ammoList.add(new Ammo(this, position, direction, orientation, shotIntensity, weapon, targetsEnemies));
+    public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.AmmoIntensity ammoIntensity, Enums.WeaponType weapon, boolean targetsEnemies) {
+        ammoList.add(new Ammo(this, position, direction, orientation, ammoIntensity, weapon, targetsEnemies));
     }
 
     public boolean gigaGalFailed() {
@@ -251,15 +249,15 @@ public class Level {
     public final Array<Ground> getGrounds() { return grounds; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
-    public int getScore() { return score; }
     public final Portal getPortal() { return portal; }
     public final GigaGal getGigaGal() { return gigaGal; }
     public final boolean isGameOver() { return gameOver; }
     public final boolean isVictory() { return victory; }
-    public final StopWatch getTimer() { return timer; }
+    public final StopWatch getLevelTime() { return levelTime; }
+    public final int getLevelScore() { return levelScore; }
 
     // Setters
-    public void setScore(int score) { this.score = score; }
+    public void setLevelScore(int levelScore) { this.levelScore = levelScore; }
     public final void setPortal(Portal portal) { this.portal = portal; }
     public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
     public final void setLevelName(String levelName) { this.levelName = levelName; }

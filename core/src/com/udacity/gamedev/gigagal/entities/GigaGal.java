@@ -35,7 +35,7 @@ public class GigaGal implements Physical {
     private AerialState aerialState;
     private GroundState groundState;
     private WeaponType weapon;
-    private ShotIntensity shotIntensity;
+    private AmmoIntensity ammoIntensity;
     private Direction lookDirection;
     private Direction toggleDirection;
     private long strideStartTime;
@@ -171,9 +171,9 @@ public class GigaGal implements Physical {
 
                                 if (aerialState != AerialState.RICOCHETING) {
                                     if (!slidPlatform) {
-                                        startTurbo = Math.max(turbo, 25);
+                                        startTurbo = Math.max(turbo, Constants.PLATFORM_SLIDE_MIN_TURBO);
                                     }
-                                    turbo = Math.min((Math.abs((getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), 100);
+                                    turbo = Math.min((Math.abs((getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), Constants.MAX_TURBO);
                                 }
                                 velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, facing, Orientation.LATERAL); // boost lateral velocity by starting speed
                                 canRicochet = true; // enable ricochet
@@ -304,13 +304,13 @@ public class GigaGal implements Physical {
             if (getBounds().overlaps(bounds)) {
                 if (powerup instanceof AmmoPowerup) {
                     ammo += Constants.POWERUP_AMMO;
-                    if (ammo > 100) {
-                        ammo = 100;
+                    if (ammo > Constants.MAX_AMMO) {
+                        ammo = Constants.MAX_AMMO;
                     }
                 } else if (powerup instanceof HealthPowerup) {
                     health += Constants.POWERUP_HEALTH;
-                    if (health > 100) {
-                        health = 100;
+                    if (health > Constants.MAX_HEALTH) {
+                        health = Constants.MAX_HEALTH;
                     }
                 } else if (powerup instanceof TurboPowerup) {
                     turbo += Constants.POWERUP_TURBO;
@@ -320,11 +320,11 @@ public class GigaGal implements Physical {
                     if (groundState == GroundState.DASHING) {
                         dashStartTime = TimeUtils.nanoTime();
                     }
-                    if (turbo > 100) {
-                        turbo = 100;
+                    if (turbo > Constants.MAX_TURBO) {
+                        turbo = Constants.MAX_TURBO;
                     }
                 }
-                level.setScore(level.getScore() + Constants.POWERUP_SCORE);
+                level.setLevelScore(level.getLevelScore() + Constants.POWERUP_SCORE);
                 powerups.removeValue(powerup, true);
             }
         }
@@ -338,7 +338,7 @@ public class GigaGal implements Physical {
                 Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                 if (getBounds().overlaps(bounds)) {
                     knockedBack = true;
-                    shotIntensity = ShotIntensity.NORMAL;
+                    ammoIntensity = AmmoIntensity.SHOT;
                     recoveryStartTime = TimeUtils.nanoTime();
                     chargeStartTime = 0;
                     lookDirection = null;
@@ -438,30 +438,30 @@ public class GigaGal implements Physical {
                     canCharge = true;
                     chargeStartTime = TimeUtils.nanoTime();
                 } else if (Utils.secondsSince(chargeStartTime) > Constants.CHARGE_DURATION) {
-                    shotIntensity = ShotIntensity.CHARGED;
+                    ammoIntensity = AmmoIntensity.BLAST;
                 }
 
             } else if (canCharge) {
                 int ammoUsed;
 
-                if ((weapon == WeaponType.NATIVE
-                || ammo < 3 && shotIntensity == ShotIntensity.CHARGED)
-                || ammo < 1) {
+                if (weapon == WeaponType.NATIVE
+                || (ammo < Constants.BLAST_AMMO_CONSUMPTION && ammoIntensity == AmmoIntensity.BLAST)
+                || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
                     ammoUsed = 0;
                     weapon = WeaponType.NATIVE;
                 } else {
-                    ammoUsed = Utils.useAmmo(shotIntensity);
+                    ammoUsed = Utils.useAmmo(ammoIntensity);
                 }
 
-                shoot(shotIntensity, weapon, ammoUsed);
+                shoot(ammoIntensity, weapon, ammoUsed);
                 chargeStartTime = 0;
-                this.shotIntensity = ShotIntensity.NORMAL;
+                this.ammoIntensity = AmmoIntensity.SHOT;
                 canCharge = false;
             }
         }
     }
 
-    public void shoot(ShotIntensity shotIntensity, WeaponType weapon, int ammoUsed) {
+    public void shoot(AmmoIntensity ammoIntensity, WeaponType weapon, int ammoUsed) {
         ammo -= ammoUsed;
         Vector2 ammoPosition = new Vector2(
                     position.x + Utils.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, facing, Orientation.LATERAL),
@@ -469,9 +469,9 @@ public class GigaGal implements Physical {
         );
         if (lookDirection == Direction.UP || lookDirection == Direction.DOWN) {
             ammoPosition.add(Utils.absoluteToDirectionalValue(0, facing, Orientation.LATERAL),  Utils.absoluteToDirectionalValue(6, lookDirection, Orientation.VERTICAL));
-            level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, shotIntensity, weapon, true);
+            level.spawnAmmo(ammoPosition, lookDirection, Orientation.VERTICAL, ammoIntensity, weapon, true);
         } else {
-            level.spawnAmmo(ammoPosition, facing, Orientation.LATERAL, shotIntensity, weapon, true);
+            level.spawnAmmo(ammoPosition, facing, Orientation.LATERAL, ammoIntensity, weapon, true);
         }
     }
 
@@ -490,7 +490,7 @@ public class GigaGal implements Physical {
         canShoot = true;
         canCharge = false;
         canChangeDirection = false;
-        shotIntensity = ShotIntensity.NORMAL;
+        ammoIntensity = AmmoIntensity.SHOT;
         slidPlatform = false;
         groundedPlatform = false;
         knockedBack = false;
@@ -499,8 +499,8 @@ public class GigaGal implements Physical {
         jumpStartTime = 0;
         dashStartTime = 0;
         recoveryStartTime = TimeUtils.nanoTime();
-        health = 100;
-        turbo = 100;
+        health = Constants.MAX_HEALTH;
+        turbo = Constants.MAX_TURBO;
         startTurbo = turbo;
         turboDuration = 0;
     }
@@ -539,8 +539,8 @@ public class GigaGal implements Physical {
     }
 
     private void stride() {
-        if (turbo < 100) {
-            turbo += .75f;
+        if (turbo < Constants.MAX_TURBO) {
+            turbo += Constants.STRIDE_TURBO_INCREMENT;
         }
         canLook = false;
         lookDirection = null;
@@ -562,7 +562,7 @@ public class GigaGal implements Physical {
     private void dash() {
         if (groundState != GroundState.DASHING) {
             startTurbo = turbo;
-            turboDuration = Constants.MAX_DASH_DURATION * ((float) startTurbo / 100);
+            turboDuration = Constants.MAX_DASH_DURATION * ((float) startTurbo / Constants.MAX_TURBO);
             groundState = GroundState.DASHING;
             dashStartTime = TimeUtils.nanoTime();
             strideStartTime = 0;
@@ -623,7 +623,7 @@ public class GigaGal implements Physical {
         // canHover can only be true just before beginning to hover
         if (hoverStartTime == 0) {
             startTurbo = turbo;
-            turboDuration = Constants.MAX_HOVER_DURATION * ((float) startTurbo / 100);
+            turboDuration = Constants.MAX_HOVER_DURATION * ((float) startTurbo / Constants.MAX_TURBO);
             aerialState = AerialState.HOVERING; // indicates currently hovering
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
@@ -656,6 +656,7 @@ public class GigaGal implements Physical {
             facing = Utils.getOppositeDirection(facing);
             velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, facing, Orientation.LATERAL);
             jump();
+            turbo = Math.max(turbo, Constants.PLATFORM_SLIDE_MIN_TURBO);
         } else {
             canChangeDirection = false;
             canHover = true;
@@ -668,8 +669,8 @@ public class GigaGal implements Physical {
         aerialState = AerialState.GROUNDED;
         canJump = true;
         canLook = true;
-        if (turbo < 100) {
-            turbo += 1.25f;
+        if (turbo < Constants.MAX_TURBO) {
+            turbo += Constants.STAND_TURBO_INCREMENT;
         }
     }
 
@@ -686,8 +687,8 @@ public class GigaGal implements Physical {
         if (canChangeDirection) {
             handleLateralInputs();
         }
-        if (turbo < 100) {
-            turbo += 1;
+        if (turbo < Constants.MAX_TURBO) {
+            turbo += Constants.FALL_TURBO_INCREMENT;
         }
     }
 
@@ -761,14 +762,15 @@ public class GigaGal implements Physical {
     public boolean getHoverStatus() { return canHover; }
     public boolean getRicochetStatus() { return canRicochet; }
     public boolean getDashStatus() { return canDash; }
-    public ShotIntensity getShotIntensity() { return shotIntensity; }
+    public AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
     public WeaponType getWeapon() { return weapon; }
     public List<WeaponType> getWeaponList() { return weaponList; }
-    public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
 
     // Setters
     public void setFacing(Direction facing) { this.facing = facing; }
     public void setChargeStartTime(long chargeStartTime) { this.chargeStartTime = chargeStartTime; }
     public void setLives(int lives) { this.lives = lives; }
     public void setHealth(int health) { this.health = health; }
+
+    public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
 }

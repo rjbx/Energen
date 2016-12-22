@@ -3,6 +3,9 @@ package com.udacity.gamedev.gigagal.util;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 // immutable static
 public final class Constants {
 
@@ -28,7 +31,6 @@ public final class Constants {
     public static final float JUMP_SPEED = 200;
     public static final float GIGAGAL_STARTING_SPEED = 0.3f;
     public static final float STRIDING_JUMP_MULTIPLIER = 1.1f;
-
     public static final float VERTICAL_KNOCKBACK = 150;
     public static final float MAX_JUMP_DURATION = 0.025f;
     public static final float MAX_HOVER_DURATION = 1;
@@ -36,9 +38,18 @@ public final class Constants {
     public static final float MAX_DASH_DURATION = 0.35f;
     public static final float RECOVERY_TIME = 1;
     public static final float DOUBLE_TAP_SPEED = 0.2f;
+    public static final float PLATFORM_SLIDE_MIN_TURBO = 25;
+    public static final float STRIDE_TURBO_INCREMENT = 0.75f;
+    public static final float FALL_TURBO_INCREMENT = 1;
+    public static final float STAND_TURBO_INCREMENT = 1.25f;
+    public static final int BLAST_AMMO_CONSUMPTION = 3;
+    public static final int SHOT_AMMO_CONSUMPTION = 1;
     public static final int INITIAL_AMMO = 10;
     public static final int INITIAL_HEALTH = 100;
     public static final int INITIAL_LIVES = 3;
+    public static final int MAX_AMMO = 100;
+    public static final int MAX_HEALTH = 100;
+    public static final float MAX_TURBO = 100;
 
     // Gigagal assets
     public static final String STAND_RIGHT = "stand-right";
@@ -227,9 +238,11 @@ public final class Constants {
 
     // Ammo
     public static final float CHARGE_DURATION = 0.8f;
-    public static final float AMMO_MOVE_SPEED = 500;
+    public static final float AMMO_MAX_SPEED = 500;
+    public static final float AMMO_NORMAL_SPEED = 375;
     public static final int AMMO_STANDARD_DAMAGE = 10;
     public static final int AMMO_SPECIALIZED_DAMAGE = 30;
+    public static final int AMMO_WEAK_DAMAGE = 1;
     public static final Vector2 SHOT_CENTER = new Vector2(4, 4);
     public static final Vector2 BLAST_CENTER = new Vector2(9, 9);
     public static final String SHOT_NATIVE_SPRITE = "ammo-shot-native";
@@ -320,6 +333,14 @@ public final class Constants {
     public static final String DASH_ICON = "icon-dash";
     public static final String LIFE_ICON = "icon-life";
     public static final Vector2 ICON_CENTER = new Vector2(20, 8.5f);
+    public static final Color HEALTH_CRITICAL_COLOR = Color.RED;
+    public static final Color HEALTH_LOW_COLOR = Color.CORAL;
+    public static final Color HEALTH_NORMAL_COLOR = new Color(0x0077eeff);
+    public static final Color HEALTH_MAX_COLOR = new Color(0x1e90ffff);
+    public static final Color TURBO_NORMAL_COLOR = Color.FOREST;
+    public static final Color TURBO_MAX_COLOR = new Color(0x006400FF);
+    public static final Color AMMO_NORMAL_COLOR = new Color(0xB8860BFF);
+    public static final Color AMMO_CHARGED_COLOR = Color.GOLDENROD;
 
     // Onscreen Controls
     public static final float ONSCREEN_CONTROLS_VIEWPORT_SIZE = 200;
@@ -339,12 +360,14 @@ public final class Constants {
     public static final String SELECTION_CURSOR = "selection-cursor";
 
     // Victory/Game Over screens
-    public static final float LEVEL_END_DURATION = 2;
+    public static final float LEVEL_END_DURATION = 20;
     public static final int EXPLOSION_COUNT = 500;
   //  public static final int ZOOMBA_COUNT = 200;
     public static final String VICTORY_MESSAGE = "Boo Ya.";
     public static final String GAME_OVER_MESSAGE = "Game Over, Gal";
     public static final String FONT_FILE = "font/header.fnt";
+    public static final String TIME_PATTERN = "HH:mm:ss";
+    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TIME_PATTERN);
 
     // Scoring
     public static final int ZOOMBA_KILL_SCORE = 100;

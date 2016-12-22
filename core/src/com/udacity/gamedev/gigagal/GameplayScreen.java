@@ -23,6 +23,8 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.LevelLoader;
 import com.udacity.gamedev.gigagal.util.Utils;
+
+import org.apache.commons.lang3.time.StopWatch;
 import java.util.Arrays;
 
 public class GameplayScreen extends ScreenAdapter {
@@ -45,13 +47,17 @@ public class GameplayScreen extends ScreenAdapter {
     private String levelName;
     private GigaGal gigaGal;
     private Array<TurboPowerup> powerups;
-    private int score;
+    private int totalScore;
+    private StopWatch totalTime;
     public boolean pauseButtonPressed;
 
     // default ctor
     public GameplayScreen(GigaGalGame game) {
         this.game = game;
         completedLevels = new Array<String>();
+        totalTime = new StopWatch();
+        totalTime.start();
+        totalTime.suspend();
     }
 
     @Override
@@ -60,7 +66,7 @@ public class GameplayScreen extends ScreenAdapter {
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
         chaseCam = ChaseCam.getInstance();
-        victoryOverlay = new VictoryOverlay();
+        victoryOverlay = new VictoryOverlay(this);
         gameOverOverlay = new GameOverOverlay();
         onscreenControls = new OnscreenControls();
         powerups = new Array<TurboPowerup>();
@@ -100,14 +106,12 @@ public class GameplayScreen extends ScreenAdapter {
         level.update(delta);
         chaseCam.update(delta);
 
-
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
                 Constants.BACKGROUND_COLOR.g,
                 Constants.BACKGROUND_COLOR.b,
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 
         level.render(batch);
 
@@ -139,6 +143,9 @@ public class GameplayScreen extends ScreenAdapter {
             }
         } else if (level.isVictory()) {
             if (levelEndOverlayStartTime == 0) {
+                level.getLevelTime().suspend();
+                totalTime.suspend();
+                totalScore += level.getLevelScore();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
                 victoryOverlay.init();
             }
@@ -153,12 +160,10 @@ public class GameplayScreen extends ScreenAdapter {
 
     private void startNewLevel() {
 
-//        level = Level.debugLevel();
- //     String levelName = Constants.LEVELS[levelNumber];
-
+//      level = Level.debugLevel();
+//      String levelName = Constants.LEVELS[levelNumber];
         AssetManager am = new AssetManager();
         level = LevelLoader.load(levelName);
-        level.setScore(score);
         level.setLevelName(levelName);
         levelNumber = (Arrays.asList(Constants.LEVELS)).indexOf(levelName);
         powerups = new Array<TurboPowerup>();
@@ -170,6 +175,7 @@ public class GameplayScreen extends ScreenAdapter {
         Assets.getInstance().init(am, levelNumber);
         meterHud = new GaugeHud(level);
         contextHud = new IndicatorHud(level);
+        totalTime.resume();
         this.gigaGal = level.getGigaGal();
         for (String completedLevelName : completedLevels) {
             for (Enums.WeaponType weapon : Arrays.asList(Constants.weapons)) {
@@ -188,21 +194,27 @@ public class GameplayScreen extends ScreenAdapter {
     public void restartLevel() {
         gigaGal.respawn();
         level.getPowerups().addAll(powerups);
-        level.setScore(score);
     }
 
     public void levelComplete() {
-        score = level.getScore();
         completedLevels.add(levelName);
         game.setScreen(game.getLevelSelectScreen());
     }
 
-    public void pause() {
+    public void pauseGame() {
+        level.getLevelTime().suspend();
+        totalTime.suspend();
+    }
 
+    public void unpauseGame() {
+        level.getLevelTime().resume();
+        totalTime.resume();
     }
 
     public Level getLevel() { return level; }
     public void setGame(GigaGalGame game) { this.game = game; }
     public void setLevelName(String levelName) { this.levelName = levelName; }
+    public int getTotalScore() { return totalScore; }
+    public StopWatch getTotalTime() { return totalTime; }
 }
 
