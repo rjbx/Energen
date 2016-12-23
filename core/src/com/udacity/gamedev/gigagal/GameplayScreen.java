@@ -122,12 +122,17 @@ public class GameplayScreen extends ScreenAdapter {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
 
-        Gdx.gl.glClearColor(
-                Constants.BACKGROUND_COLOR.r,
-                Constants.BACKGROUND_COLOR.g,
-                Constants.BACKGROUND_COLOR.b,
-                Constants.BACKGROUND_COLOR.a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (chaseCam.getFollowing()) {
+            Gdx.gl.glClearColor(
+                    Constants.BACKGROUND_COLOR.r,
+                    Constants.BACKGROUND_COLOR.g,
+                    Constants.BACKGROUND_COLOR.b,
+                    Constants.BACKGROUND_COLOR.a);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        } else {
+            level.render(batch);
+        }
 
         renderLevelEndOverlays(batch);
         if (level.gigaGalFailed()) {
@@ -139,21 +144,25 @@ public class GameplayScreen extends ScreenAdapter {
             if (paused) {
                 pauseOverlay.render(batch);
                 gigaGal.look(); // enables gigagal to toggle weapon during pause without enabling other gigagal features
-                if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed) {
+                if ((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed) && chaseCam.getFollowing()) {
                     unpause();
                 }
-                if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-                    if (pauseOverlay.getCursor().getPosition() == 73) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) || gigaGal.jumpButtonPressed || gigaGal.shootButtonPressed) {
+                    if (pauseOverlay.getCursor().getPosition() == 73 && chaseCam.getFollowing()) {
                         unpause();
                     } else if (pauseOverlay.getCursor().getPosition() == 58) {
                         game.setScreen(game.getLevelSelectScreen());
                     } else if (pauseOverlay.getCursor().getPosition() == 43) {
-
+                        if (!chaseCam.getFollowing()) {
+                            chaseCam.setFollowing(true);
+                        } else {
+                            chaseCam.setFollowing(false);
+                        }
                     } else if (pauseOverlay.getCursor().getPosition() == 28) {
                         game.create();
                     }
                 }
-            } else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed) {
+            } else if ((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed)) {
                 level.getLevelTime().suspend();
                 totalTime.suspend();
                 paused = true;
@@ -261,5 +270,6 @@ public class GameplayScreen extends ScreenAdapter {
     public void setLevelName(String levelName) { this.levelName = levelName; }
     public int getTotalScore() { return totalScore; }
     public StopWatch getTotalTime() { return totalTime; }
+    public ChaseCam getChaseCam() { return chaseCam; }
 }
 

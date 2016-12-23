@@ -47,4 +47,7 @@ public final class ChaseCam {
             }
         }
     }
+
+    public final void setFollowing(boolean following) { this.following = following; }
+    public final boolean getFollowing() { return following; }
 }

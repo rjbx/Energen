@@ -11,8 +11,6 @@ import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 
-import java.util.ListIterator;
-
 // immutable
 public final class PauseOverlay {
 
@@ -24,6 +22,7 @@ public final class PauseOverlay {
     private GigaGal gigaGal;
     private CursorOverlay cursor;
     private int index;
+    private boolean debugMode;
 
     // default ctor
     public PauseOverlay(GameplayScreen gameplayScreen) {
@@ -43,28 +42,32 @@ public final class PauseOverlay {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
-        cursor.render(batch);
-        cursor.update();
-        String stats =
-            Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
-                    Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" +
-                    "Turbo: " + gigaGal.getTurbo();
 
-        String weapons = gigaGal.getWeapon() + "";
+        if (gameplayScreen.getChaseCam().getFollowing()) {
+            cursor.render(batch);
+            cursor.update();
+            String stats =
+                    Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
+                            Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" +
+                            "Turbo: " + gigaGal.getTurbo();
 
-        for (Enums.WeaponType weapon : gigaGal.getWeaponList()) {
-            if (weapon != gigaGal.getWeapon()) {
-                weapons += "\n" + weapon.toString();
+            String weapons = gigaGal.getWeapon() + "";
+
+            for (Enums.WeaponType weapon : gigaGal.getWeaponList()) {
+                if (weapon != gigaGal.getWeapon()) {
+                    weapons += "\n" + weapon.toString();
+                }
             }
+
+            font.draw(batch, stats, Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, Align.left, false);
+            font.draw(batch, weapons, viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, weapons.length(), 10, Align.right, false);
+            font.draw(batch, "RESUME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
+            font.draw(batch, "EXIT LEVEL", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
+            font.draw(batch, "DEBUG CAM", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 15, 0, Align.center, false);
+            font.draw(batch, "QUIT GAME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 30, 0, Align.center, false);
+        } else {
+            font.draw(batch, "DEBUG MODE + \n" + "PRESS PAUSE BUTTON TO EXIT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
         }
-
-        font.draw(batch, stats, Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, Align.left, false);
-        font.draw(batch, weapons, viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, weapons.length(), 10, Align.right, false);
-        font.draw(batch, "RESUME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
-        font.draw(batch, "EXIT LEVEL", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
-        font.draw(batch, "DEBUG CAM", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 15, 0, Align.center, false);
-        font.draw(batch, "QUIT GAME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 30, 0, Align.center, false);
-
         batch.end();
     }
 
