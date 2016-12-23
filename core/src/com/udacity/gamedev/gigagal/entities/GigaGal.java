@@ -205,6 +205,7 @@ public class GigaGal implements Physical {
                         // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                         // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                         strideStartTime = 0; // reset stride acceleration
+                        pauseDuration = 0;
                         canStride = false; // disable stride
                         canDash = false; // disable dash
                         position.x = previousFramePosition.x; // halt lateral progression
@@ -224,6 +225,7 @@ public class GigaGal implements Physical {
                 if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
                         && getBottom() <= ground.getTop()
                         && ground.getTop() != slidPlatformTop) {
+                    pauseDuration = 0;
                     velocity.y = 0; // prevents from descending beneath ground top
                     position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                     canChangeDirection = true; // enable change of direction
@@ -308,6 +310,8 @@ public class GigaGal implements Physical {
             }
         } else if (directionChanged) {
             recoil(new Vector2(velocity.x / 2, velocity.y));
+            pauseDuration = 0;
+        } else if (isStriding){
             pauseDuration = 0;
         }
     }
