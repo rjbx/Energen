@@ -54,6 +54,8 @@ public class GigaGal implements Physical {
     private float dashTimeSeconds;
     private float jumpTimeSeconds;
     private float strideTimeSeconds;
+    private float ricochetTimeSeconds;
+    private float recoilTimeSeconds;
     private float aerialTakeoff;
     private int lives;
     private int ammo;
@@ -306,6 +308,7 @@ public class GigaGal implements Physical {
             }
         } else if (directionChanged) {
             recoil(new Vector2(velocity.x / 2, velocity.y));
+            pauseDuration = 0;
         }
     }
 
@@ -675,7 +678,8 @@ public class GigaGal implements Physical {
             hoverStartTime = 0;
             canJump = true;
         }
-        if ((Utils.secondsSince(ricochetStartTime) - pauseDuration) >= Constants.RICOCHET_FRAME_DURATION) {
+        ricochetTimeSeconds = (Utils.secondsSince(ricochetStartTime) - pauseDuration);
+        if (ricochetTimeSeconds >= Constants.RICOCHET_FRAME_DURATION) {
             facing = Utils.getOppositeDirection(facing);
             velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, facing, Orientation.LATERAL);
             jump();
