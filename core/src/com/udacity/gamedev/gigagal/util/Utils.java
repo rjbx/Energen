@@ -53,6 +53,11 @@ public class Utils {
                 false);
     }
 
+
+    public static final float secondsSincePause(long pauseTime) {
+        return secondsSince(pauseTime);
+    }
+
     public static final float secondsSince(long timeNanos) {
         return MathUtils.nanoToSec * (TimeUtils.nanoTime() - timeNanos);
     }
@@ -137,6 +142,4 @@ public class Utils {
         String timeString = time + "";
         return (timeString).substring(0, timeString.length() - 4);
     }
-
-
 }

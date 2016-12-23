@@ -45,6 +45,7 @@ public class GigaGal implements Physical {
     private long ricochetStartTime;
     private long chargeStartTime;
     private long recoveryStartTime;
+    private float pauseDuration;
     private float turboDuration;
     private float turbo;
     private float startTurbo;
@@ -320,13 +321,13 @@ public class GigaGal implements Physical {
                     if (groundState == GroundState.DASHING) {
                         dashStartTime = TimeUtils.nanoTime();
                     }
-                    if (turbo > Constants.MAX_TURBO) {
-                        turbo = Constants.MAX_TURBO;
-                    }
                 }
                 level.setLevelScore(level.getLevelScore() + Constants.POWERUP_SCORE);
                 powerups.removeValue(powerup, true);
             }
+        }
+        if (turbo > Constants.MAX_TURBO) {
+            turbo = Constants.MAX_TURBO;
         }
     }
 
@@ -503,6 +504,7 @@ public class GigaGal implements Physical {
         strideStartTime = 0;
         jumpStartTime = 0;
         dashStartTime = 0;
+        pauseDuration = 0;
         recoveryStartTime = TimeUtils.nanoTime();
         health = Constants.MAX_HEALTH;
         turbo = Constants.MAX_TURBO;
@@ -573,12 +575,13 @@ public class GigaGal implements Physical {
             strideStartTime = 0;
             canStride = false;
         }
-        turbo = (((turboDuration - Utils.secondsSince(dashStartTime)) / turboDuration) * startTurbo);
+        turbo = ((((turboDuration - Utils.secondsSince(dashStartTime)) - pauseDuration) / turboDuration) * startTurbo);
         if (turbo >= 1) {
             velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, facing, Orientation.LATERAL);
         } else {
             canDash = false;
             dashStartTime = 0;
+            pauseDuration = 0;
             stand();
         }
     }
@@ -599,10 +602,11 @@ public class GigaGal implements Physical {
             canJump = false;
         }
         velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, facing, Orientation.LATERAL);
-        if (Utils.secondsSince(jumpStartTime) < Constants.MAX_JUMP_DURATION) {
+        if ((Utils.secondsSince(jumpStartTime) - pauseDuration) < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         } else {
+            pauseDuration = 0;
             fall();
         }
     }
@@ -632,13 +636,14 @@ public class GigaGal implements Physical {
             aerialState = AerialState.HOVERING; // indicates currently hovering
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
-        hoverTimeSeconds = Utils.secondsSince(hoverStartTime); // for comparing with max hover time
-        turbo = (((turboDuration - Utils.secondsSince(hoverStartTime)) / turboDuration * startTurbo));
+        hoverTimeSeconds = (Utils.secondsSince(hoverStartTime) - pauseDuration); // for comparing with max hover time
+        turbo = (((turboDuration - hoverTimeSeconds)) / turboDuration * startTurbo);
         if (turbo >= 1) {
             velocity.y = 0; // disables impact of gravity
         } else {
             canHover = false;
             fall(); // when max hover time is exceeded
+            pauseDuration = 0;
         }
     }
 
@@ -657,12 +662,13 @@ public class GigaGal implements Physical {
             hoverStartTime = 0;
             canJump = true;
         }
-        if (Utils.secondsSince(ricochetStartTime) >= Constants.RICOCHET_FRAME_DURATION) {
+        if ((Utils.secondsSince(ricochetStartTime) - pauseDuration) >= Constants.RICOCHET_FRAME_DURATION) {
             facing = Utils.getOppositeDirection(facing);
             velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, facing, Orientation.LATERAL);
             jump();
             turbo = Math.max(turbo, Constants.PLATFORM_SLIDE_MIN_TURBO);
         } else {
+            pauseDuration = 0;
             canChangeDirection = false;
             canHover = true;
         }
@@ -771,12 +777,14 @@ public class GigaGal implements Physical {
     public WeaponType getWeapon() { return weapon; }
     public List<WeaponType> getWeaponList() { return weaponList; }
     public ListIterator getWeaponToggler() { return weaponToggler; }
+    public float getPauseDuration() { return pauseDuration; }
 
     // Setters
     public void setFacing(Direction facing) { this.facing = facing; }
     public void setChargeStartTime(long chargeStartTime) { this.chargeStartTime = chargeStartTime; }
     public void setLives(int lives) { this.lives = lives; }
     public void setHealth(int health) { this.health = health; }
+    public void setPauseDuration(float pauseDuration) { this.pauseDuration = pauseDuration; }
 
     public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
 }

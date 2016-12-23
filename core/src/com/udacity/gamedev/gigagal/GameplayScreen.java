@@ -55,6 +55,8 @@ public class GameplayScreen extends ScreenAdapter {
     public boolean pauseButtonPressed;
     private boolean paused;
     boolean levelEnded;
+    long pauseTime;
+    float pauseDuration;
 
     // default ctor
     public GameplayScreen(GigaGalGame game) {
@@ -66,6 +68,8 @@ public class GameplayScreen extends ScreenAdapter {
         paused = false;
         levelEnded = false;
         pauseButtonPressed = false;
+        pauseTime = 0;
+        pauseDuration = 0;
     }
 
     @Override
@@ -138,6 +142,7 @@ public class GameplayScreen extends ScreenAdapter {
                 if ((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed)
                 || (pauseOverlay.getCursor().getPosition() == 73
                         && Gdx.input.isKeyJustPressed(Input.Keys.ENTER))) {
+                    gigaGal.setPauseDuration(Utils.secondsSincePause(pauseTime) + pauseDuration);
                     level.getLevelTime().resume();
                     totalTime.resume();
                     paused = false;
@@ -151,6 +156,8 @@ public class GameplayScreen extends ScreenAdapter {
                 totalTime.suspend();
                 paused = true;
                 pauseOverlay.init();
+                pauseTime = TimeUtils.nanoTime();
+                pauseDuration = gigaGal.getPauseDuration();
             } else {
                 level.update(delta);
                 chaseCam.update(delta);
