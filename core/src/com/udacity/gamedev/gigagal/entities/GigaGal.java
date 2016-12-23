@@ -55,7 +55,7 @@ public class GigaGal implements Physical {
     private float jumpTimeSeconds;
     private float strideTimeSeconds;
     private float ricochetTimeSeconds;
-    private float recoilTimeSeconds;
+    private float recoveryTimeSeconds;
     private float aerialTakeoff;
     private int lives;
     private int ammo;
@@ -201,8 +201,9 @@ public class GigaGal implements Physical {
                         }
                         // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                         // reset stride acceleration, disable stride and dash, and set gigagal at ground side
-                        strideStartTime = 0; // reset stride acceleration
-                        pauseDuration = 0;
+                        if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
+                            strideStartTime = 0; // reset stride acceleration
+                        }
                         canStride = false; // disable stride
                         canDash = false; // disable dash
                         position.x = previousFramePosition.x; // halt lateral progression
@@ -347,8 +348,9 @@ public class GigaGal implements Physical {
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     private void recoilFromHazards(Array<Hazard> hazards) {
         for (Hazard hazard : hazards) {
+            recoveryTimeSeconds = Utils.secondsSince(recoveryStartTime) - pauseDuration;
             if (!knockedBack
-                && Utils.secondsSince(recoveryStartTime) > Constants.RECOVERY_TIME) {
+                &&  recoveryTimeSeconds > Constants.RECOVERY_TIME) {
                 Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                 if (getBounds().overlaps(bounds)) {
                     knockedBack = true;
@@ -793,7 +795,6 @@ public class GigaGal implements Physical {
     public AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
     public WeaponType getWeapon() { return weapon; }
     public List<WeaponType> getWeaponList() { return weaponList; }
-    public ListIterator getWeaponToggler() { return weaponToggler; }
     public float getPauseDuration() { return pauseDuration; }
 
     // Setters
