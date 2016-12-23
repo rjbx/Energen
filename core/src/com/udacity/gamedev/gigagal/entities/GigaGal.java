@@ -770,6 +770,7 @@ public class GigaGal implements Physical {
     public AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
     public WeaponType getWeapon() { return weapon; }
     public List<WeaponType> getWeaponList() { return weaponList; }
+    public ListIterator getWeaponToggler() { return weaponToggler; }
 
     // Setters
     public void setFacing(Direction facing) { this.facing = facing; }

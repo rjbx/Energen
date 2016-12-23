@@ -1,7 +1,6 @@
 package com.udacity.gamedev.gigagal.overlays;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
@@ -10,6 +9,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.GameplayScreen;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
+
+import java.util.ListIterator;
 
 // immutable
 public final class PauseOverlay {
@@ -21,6 +23,7 @@ public final class PauseOverlay {
     private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
     private CursorOverlay cursor;
+    private int index;
 
     // default ctor
     public PauseOverlay(GameplayScreen gameplayScreen) {
@@ -46,8 +49,15 @@ public final class PauseOverlay {
             Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
                     Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" +
                     "Turbo: " + gigaGal.getTurbo();
-        String weapons = gigaGal.getWeapon() +
-                gigaGal.getWeaponList().toString();
+
+        String weapons = gigaGal.getWeapon() + "";
+
+        for (Enums.WeaponType weapon : gigaGal.getWeaponList()) {
+            if (weapon != gigaGal.getWeapon()) {
+                weapons += "\n" + weapon.toString();
+            }
+        }
+
         font.draw(batch, stats, Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, Align.left, false);
         font.draw(batch, weapons, viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, weapons.length(), 10, Align.right, false);
         font.draw(batch, "RESUME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
