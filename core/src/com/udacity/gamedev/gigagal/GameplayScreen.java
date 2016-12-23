@@ -123,16 +123,13 @@ public class GameplayScreen extends ScreenAdapter {
         // onMobile();
 
 
-        if (chaseCam.getFollowing()) {
-            Gdx.gl.glClearColor(
-                    Constants.BACKGROUND_COLOR.r,
-                    Constants.BACKGROUND_COLOR.g,
-                    Constants.BACKGROUND_COLOR.b,
-                    Constants.BACKGROUND_COLOR.a);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        } else {
-            level.render(batch);
-        }
+
+        Gdx.gl.glClearColor(
+                Constants.BACKGROUND_COLOR.r,
+                Constants.BACKGROUND_COLOR.g,
+                Constants.BACKGROUND_COLOR.b,
+                Constants.BACKGROUND_COLOR.a);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderLevelEndOverlays(batch);
         if (level.gigaGalFailed()) {
@@ -174,6 +171,9 @@ public class GameplayScreen extends ScreenAdapter {
             } else {
                 level.update(delta);
                 chaseCam.update(delta);
+                level.render(batch);
+            }
+            if (!chaseCam.getFollowing()) {
                 level.render(batch);
             }
             meterHud.render(batch, renderer);
