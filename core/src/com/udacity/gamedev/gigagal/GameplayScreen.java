@@ -122,8 +122,6 @@ public class GameplayScreen extends ScreenAdapter {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
 
-
-
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
                 Constants.BACKGROUND_COLOR.g,
@@ -133,7 +131,7 @@ public class GameplayScreen extends ScreenAdapter {
         if (!chaseCam.getFollowing()) {
             level.render(batch);
             chaseCam.update(delta);
-        } 
+        }
 
         renderLevelEndOverlays(batch);
         if (level.gigaGalFailed()) {
@@ -145,10 +143,7 @@ public class GameplayScreen extends ScreenAdapter {
             if (paused) {
                 pauseOverlay.render(batch);
                 gigaGal.look(); // enables gigagal to toggle weapon during pause without enabling other gigagal features
-                if ((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed) && chaseCam.getFollowing()) {
-                    unpause();
-                }
-                if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) || gigaGal.jumpButtonPressed || gigaGal.shootButtonPressed) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) || pauseButtonPressed) {
                     if (pauseOverlay.getCursor().getPosition() == 73 && chaseCam.getFollowing()) {
                         unpause();
                     } else if (pauseOverlay.getCursor().getPosition() == 58) {
