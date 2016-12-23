@@ -18,11 +18,13 @@ public final class CursorOverlay {
     private ExtendViewport viewport;
     private float verticalPosition;
     private float startingPosition;
+    private float endingPosition;
 
     // ctor
-    public CursorOverlay(float verticalPosition) {
+    public CursorOverlay(float startingPosition, float endingPosition) {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        this.verticalPosition = verticalPosition;
+        verticalPosition = startingPosition;
+        this.endingPosition = endingPosition;
         this.startingPosition = verticalPosition;
     }
 
@@ -32,7 +34,7 @@ public final class CursorOverlay {
 
     public void update() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            if (verticalPosition >= 70) {
+            if (verticalPosition >= endingPosition + 15) {
                 verticalPosition -= 15;
             } else {
                 verticalPosition = startingPosition;
@@ -42,7 +44,7 @@ public final class CursorOverlay {
             if (verticalPosition <= startingPosition - 15) {
                 verticalPosition += 15;
             } else {
-                verticalPosition = 55;
+                verticalPosition = endingPosition;
             }
         }
     }

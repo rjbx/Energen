@@ -139,17 +139,19 @@ public class GameplayScreen extends ScreenAdapter {
             if (paused) {
                 pauseOverlay.render(batch);
                 gigaGal.look(); // enables gigagal to toggle weapon during pause without enabling other gigagal features
-                if ((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed)
-                || (pauseOverlay.getCursor().getPosition() == 73
-                        && Gdx.input.isKeyJustPressed(Input.Keys.ENTER))) {
-                    gigaGal.setPauseDuration(Utils.secondsSincePause(pauseTime) + pauseDuration);
-                    level.getLevelTime().resume();
-                    totalTime.resume();
-                    paused = false;
+                if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed) {
+                    unpause();
                 }
-                if (pauseOverlay.getCursor().getPosition() == 58
-                        && Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-                    game.create();
+                if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+                    if (pauseOverlay.getCursor().getPosition() == 73) {
+                        unpause();
+                    } else if (pauseOverlay.getCursor().getPosition() == 58) {
+                        game.setScreen(game.getLevelSelectScreen());
+                    } else if (pauseOverlay.getCursor().getPosition() == 43) {
+
+                    } else if (pauseOverlay.getCursor().getPosition() == 28) {
+                        game.create();
+                    }
                 }
             } else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed) {
                 level.getLevelTime().suspend();
@@ -245,6 +247,13 @@ public class GameplayScreen extends ScreenAdapter {
     public void levelComplete() {
         completedLevels.add(levelName);
         game.setScreen(game.getLevelSelectScreen());
+    }
+
+    public void unpause() {
+        gigaGal.setPauseDuration(Utils.secondsSincePause(pauseTime) + pauseDuration);
+        level.getLevelTime().resume();
+        totalTime.resume();
+        paused = false;
     }
 
     public Level getLevel() { return level; }
