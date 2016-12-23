@@ -58,7 +58,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        cursor = new CursorOverlay();
+        cursor = new CursorOverlay(145);
         levelNumber = 0;
         batch = new SpriteBatch();
         completedLevels = new Array<String>();

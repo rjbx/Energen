@@ -27,8 +27,8 @@ public final class PauseOverlay {
         this.gameplayScreen = gameplayScreen;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
-        font.getData().setScale(1);
-        cursor = new CursorOverlay();
+        font.getData().setScale(0.4f);
+        cursor = new CursorOverlay(73);
     }
 
     public void init() {
@@ -40,13 +40,17 @@ public final class PauseOverlay {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
+        cursor.render(batch);
+        cursor.update();
         String stats =
             Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
                     Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" +
-                    "Turbo: " + gigaGal.getTurbo() + "\n" +
-                    Constants.HUD_WEAPON_LABEL + gigaGal.getWeapon() +
-                    gigaGal.getWeaponList().toString();
-        font.draw(batch, stats, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f, 0 , Align.center, false);
+                    "Turbo: " + gigaGal.getTurbo();
+        String weapons = gigaGal.getWeapon() +
+                gigaGal.getWeaponList().toString();
+        font.draw(batch, stats, Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, Align.left, false);
+        font.draw(batch, weapons, viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, Align.right, false);
+        font.draw(batch, "RESUME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
         font.draw(batch, "QUIT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
 
         batch.end();

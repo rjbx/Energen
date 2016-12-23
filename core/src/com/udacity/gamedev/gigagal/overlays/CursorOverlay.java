@@ -19,9 +19,9 @@ public final class CursorOverlay {
     private float verticalPosition;
 
     // ctor
-    public CursorOverlay() {
+    public CursorOverlay(float verticalPosition) {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        verticalPosition = 145;
+        this.verticalPosition = verticalPosition;
     }
 
     public void init() {

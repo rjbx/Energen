@@ -73,4 +73,6 @@ public final class GameOverOverlay {
         batch.end();
 
     }
+
+    public Viewport getViewport() { return viewport; }
 }

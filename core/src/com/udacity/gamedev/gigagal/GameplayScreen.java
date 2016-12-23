@@ -96,12 +96,15 @@ public class GameplayScreen extends ScreenAdapter {
         meterHud.getViewport().update(width, height, true);
         contextHud.getViewport().update(width, height, true);
         victoryOverlay.getViewport().update(width, height, true);
-        gameOverOverlay.viewport.update(width, height, true);
+        gameOverOverlay.getViewport().update(width, height, true);
+        pauseOverlay.getViewport().update(width, height, true);
+        pauseOverlay.getCursor().getViewport().update(width, height, true);
         level.getViewport().update(width, height, true);
         chaseCam.camera = level.getViewport().getCamera();
         onscreenControls.setGameplayScreen(this);
         onscreenControls.getViewport().update(width, height, true);
         onscreenControls.recalculateButtonPositions();
+
     }
 
     @Override
@@ -131,7 +134,7 @@ public class GameplayScreen extends ScreenAdapter {
         if (!levelEnded) {
             if (paused) {
                 pauseOverlay.render(batch);
-                gigaGal.look();
+                gigaGal.look(); // enables gigagal to toggle weapon during pause without enabling other gigagal features
                 if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed) {
                     level.getLevelTime().resume();
                     totalTime.resume();
