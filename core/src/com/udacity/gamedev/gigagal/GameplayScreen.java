@@ -151,6 +151,8 @@ public class GameplayScreen extends ScreenAdapter {
                     if (pauseOverlay.getCursor().getPosition() == 73 && chaseCam.getFollowing()) {
                         unpause();
                     } else if (pauseOverlay.getCursor().getPosition() == 58) {
+                        unpause();
+                        totalTime.suspend();
                         game.setScreen(game.getLevelSelectScreen());
                     } else if (pauseOverlay.getCursor().getPosition() == 43) {
                         if (!chaseCam.getFollowing()) {
