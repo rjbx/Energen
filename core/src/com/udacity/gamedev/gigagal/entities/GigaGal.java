@@ -310,9 +310,6 @@ public class GigaGal implements Physical {
             }
         } else if (directionChanged) {
             recoil(new Vector2(velocity.x / 2, velocity.y));
-            pauseDuration = 0;
-        } else if (isStriding){
-            pauseDuration = 0;
         }
     }
 
