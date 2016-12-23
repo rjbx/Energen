@@ -17,6 +17,7 @@ import com.udacity.gamedev.gigagal.overlays.IndicatorHud;
 import com.udacity.gamedev.gigagal.overlays.GameOverOverlay;
 import com.udacity.gamedev.gigagal.overlays.GaugeHud;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
+import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.overlays.VictoryOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.ChaseCam;
@@ -44,7 +45,7 @@ public class GameplayScreen extends ScreenAdapter {
     private IndicatorHud contextHud;
     private VictoryOverlay victoryOverlay;
     private GameOverOverlay gameOverOverlay;
-    private PauseScreen pauseScreen;
+    PauseOverlay pauseOverlay;
     private Array<String> completedLevels;
     private String levelName;
     private GigaGal gigaGal;
@@ -52,6 +53,7 @@ public class GameplayScreen extends ScreenAdapter {
     private int totalScore;
     private StopWatch totalTime;
     public boolean pauseButtonPressed;
+    private boolean paused;
 
     // default ctor
     public GameplayScreen(GigaGalGame game) {
@@ -60,6 +62,7 @@ public class GameplayScreen extends ScreenAdapter {
         totalTime = new StopWatch();
         totalTime.start();
         totalTime.suspend();
+        paused = false;
     }
 
     @Override
@@ -68,6 +71,7 @@ public class GameplayScreen extends ScreenAdapter {
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
         chaseCam = ChaseCam.getInstance();
+        pauseOverlay = new PauseOverlay(this);
         victoryOverlay = new VictoryOverlay(this);
         gameOverOverlay = new GameOverOverlay();
         onscreenControls = new OnscreenControls();
@@ -104,34 +108,48 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-
-        level.update(delta);
-        chaseCam.update(delta);
-
-        Gdx.gl.glClearColor(
-                Constants.BACKGROUND_COLOR.r,
-                Constants.BACKGROUND_COLOR.g,
-                Constants.BACKGROUND_COLOR.b,
-                Constants.BACKGROUND_COLOR.a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        level.render(batch);
-
-        // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
-        // onMobile();
-        onscreenControls.render(batch);
-
-        meterHud.render(batch, renderer);
-        contextHud.render(batch);
-        renderLevelEndOverlays(batch);
-        if (level.gigaGalFailed()) {
-            if (gigaGal.getLives() > -1) {
-                restartLevel();
+        if (paused) {
+            pauseOverlay.render(batch);
+            game.pause();
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                level.getLevelTime().resume();
+                totalTime.resume();
+                paused = false;
             }
-        }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(game.getPauseScreen());
+            if (pauseOverlay.getCursor().getPosition() == pauseOverlay.getViewport().getWorldWidth() / 4 && Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+                game.create();
+            }
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            level.getLevelTime().suspend();
+            totalTime.suspend();
+            paused = true;
+            pauseOverlay.init();
+        } else {
+            level.update(delta);
+            chaseCam.update(delta);
+
+            Gdx.gl.glClearColor(
+                    Constants.BACKGROUND_COLOR.r,
+                    Constants.BACKGROUND_COLOR.g,
+                    Constants.BACKGROUND_COLOR.b,
+                    Constants.BACKGROUND_COLOR.a);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+            level.render(batch);
+
+            // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
+            // onMobile();
+            onscreenControls.render(batch);
+
+            meterHud.render(batch, renderer);
+            contextHud.render(batch);
+            renderLevelEndOverlays(batch);
+            if (level.gigaGalFailed()) {
+                if (gigaGal.getLives() > -1) {
+                    restartLevel();
+                }
+            }
         }
     }
 
@@ -220,7 +238,8 @@ public class GameplayScreen extends ScreenAdapter {
     }
 
     public Level getLevel() { return level; }
-    public void setGame(GigaGalGame game) { this.game = game; }
+    public void setGame(GigaGalGame game) { this.game = game;  }
+    public GigaGalGame getGame() { return game; }
     public void setLevelName(String levelName) { this.levelName = levelName; }
     public int getTotalScore() { return totalScore; }
     public StopWatch getTotalTime() { return totalTime; }
