@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
+import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 
 // immutable singleton
 public final class ChaseCam {
@@ -14,7 +15,7 @@ public final class ChaseCam {
     public GigaGal target;
     private static Boolean following;
     private static final ChaseCam INSTANCE = new ChaseCam();
-    private GigaGal gigaGal;
+    private OnscreenControls onscreenControls;
 
     // non-instantiable; cannot be subclassed
     private ChaseCam() { following = true; }
@@ -34,22 +35,22 @@ public final class ChaseCam {
             camera.position.x = target.getPosition().x;
             camera.position.y = target.getPosition().y;
         } else {
-            if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT) || gigaGal.leftButtonPressed) {
+            if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT) || onscreenControls.leftButtonPressed) {
                 camera.position.x -= delta * Constants.CHASE_CAM_MOVE_SPEED;
             }
-            if (Gdx.input.isKeyPressed(Keys.SHIFT_RIGHT) || gigaGal.rightButtonPressed) {
+            if (Gdx.input.isKeyPressed(Keys.SHIFT_RIGHT) || onscreenControls.rightButtonPressed) {
                 camera.position.x += delta * Constants.CHASE_CAM_MOVE_SPEED;
             }
-            if (Gdx.input.isKeyPressed(Keys.NUM_6) || gigaGal.upButtonPressed) {
+            if (Gdx.input.isKeyPressed(Keys.NUM_6) || onscreenControls.upButtonPressed) {
                 camera.position.y += delta * Constants.CHASE_CAM_MOVE_SPEED;
             }
-            if (Gdx.input.isKeyPressed(Keys.SPACE) || gigaGal.downButtonPressed) {
+            if (Gdx.input.isKeyPressed(Keys.SPACE) || onscreenControls.downButtonPressed) {
                 camera.position.y -= delta * Constants.CHASE_CAM_MOVE_SPEED;
             }
         }
     }
 
     public final void setFollowing(boolean following) { this.following = following; }
-    public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
+    public final void setOnscreenControls(OnscreenControls onscreenControls) { this.onscreenControls = onscreenControls; }
     public final boolean getFollowing() { return following; }
 }

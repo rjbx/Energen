@@ -108,6 +108,7 @@ public class GameplayScreen extends ScreenAdapter {
         onscreenControls.setGameplayScreen(this);
         onscreenControls.getViewport().update(width, height, true);
         onscreenControls.recalculateButtonPositions();
+        gigaGal.setOnscreenControls(onscreenControls);
 
     }
 
@@ -139,6 +140,7 @@ public class GameplayScreen extends ScreenAdapter {
                 restartLevel();
             }
         }
+
         if (!levelEnded) {
             if (paused) {
                 pauseOverlay.render(batch);
@@ -154,8 +156,8 @@ public class GameplayScreen extends ScreenAdapter {
                         if (!chaseCam.getFollowing()) {
                             chaseCam.setFollowing(true);
                         } else {
-                            chaseCam.setGigaGal(gigaGal);
                             chaseCam.setFollowing(false);
+                            chaseCam.setOnscreenControls(onscreenControls);
                         }
                     } else if (pauseOverlay.getCursor().getPosition() == 28) {
                         game.create();

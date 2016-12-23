@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.Level;
+import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -72,12 +73,8 @@ public class GigaGal implements Physical {
     private boolean knockedBack;
     private boolean slidPlatform;
     private boolean groundedPlatform;
-    public boolean leftButtonPressed;
-    public boolean rightButtonPressed;
-    public boolean upButtonPressed;
-    public boolean downButtonPressed;
-    public boolean jumpButtonPressed;
-    public boolean shootButtonPressed;
+    private boolean pauseState;
+    private OnscreenControls onscreenControls;
 
     // ctor
     public GigaGal(Vector2 spawnLocation, Level level) {
@@ -272,8 +269,8 @@ public class GigaGal implements Physical {
     }
 
     private void handleLateralInputs() {
-        boolean left = Gdx.input.isKeyPressed(Keys.A) || leftButtonPressed;
-        boolean right = Gdx.input.isKeyPressed(Keys.S) || rightButtonPressed;
+        boolean left = Gdx.input.isKeyPressed(Keys.A) || onscreenControls.leftButtonPressed;
+        boolean right = Gdx.input.isKeyPressed(Keys.S) || onscreenControls.rightButtonPressed;
         boolean directionChanged = false;
         boolean isStriding = true;
         if (left && !right) {
@@ -419,7 +416,7 @@ public class GigaGal implements Physical {
 
     private void enableToggle(Direction toggleDirection) {
         boolean directionChanged = (this.toggleDirection != toggleDirection);
-        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
+        if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || onscreenControls.jumpButtonPressed) {
             if (directionChanged) {
                 toggle(toggleDirection);
             }
@@ -454,7 +451,7 @@ public class GigaGal implements Physical {
 
     private void enableShoot(WeaponType weapon) {
         if (canShoot) {
-            if (Gdx.input.isKeyPressed(Keys.ENTER) || shootButtonPressed) {
+            if (Gdx.input.isKeyPressed(Keys.ENTER) || onscreenControls.shootButtonPressed) {
                 if (chargeStartTime == 0) {
                     canCharge = true;
                     chargeStartTime = TimeUtils.nanoTime();
@@ -502,6 +499,7 @@ public class GigaGal implements Physical {
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
+        pauseState = false;
         canLook = false;
         canStride = false;
         canJump = false;
@@ -535,8 +533,8 @@ public class GigaGal implements Physical {
 
     public void look() {
 
-        boolean up = Gdx.input.isKeyPressed(Keys.W) || upButtonPressed;
-        boolean down = Gdx.input.isKeyPressed(Keys.Z) || downButtonPressed;
+        boolean up = Gdx.input.isKeyPressed(Keys.W) || onscreenControls.upButtonPressed;
+        boolean down = Gdx.input.isKeyPressed(Keys.Z) || onscreenControls.downButtonPressed;
         boolean looking = up || down;
         if (looking) {
             if (up) {
@@ -604,7 +602,7 @@ public class GigaGal implements Physical {
     }
 
     private void enableJump() {
-        if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) && canJump)
+        if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || onscreenControls.jumpButtonPressed) && canJump)
                 || aerialState == AerialState.JUMPING) {
             jump();
         }
@@ -631,7 +629,7 @@ public class GigaGal implements Physical {
 
     private void enableHover() {
         if (canHover) {
-            if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) {
+            if (Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || onscreenControls.jumpButtonPressed) {
                 if (aerialState == AerialState.HOVERING) {
                     canHover = false;
                     hoverStartTime = 0;
@@ -666,7 +664,7 @@ public class GigaGal implements Physical {
     }
 
     private void enableRicochet() {
-        if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || jumpButtonPressed) && canRicochet)
+        if (((Gdx.input.isKeyJustPressed(Keys.BACKSLASH) || onscreenControls.jumpButtonPressed) && canRicochet)
                 || aerialState == AerialState.RICOCHETING) {
             ricochet();
         }
@@ -796,6 +794,7 @@ public class GigaGal implements Physical {
     public WeaponType getWeapon() { return weapon; }
     public List<WeaponType> getWeaponList() { return weaponList; }
     public float getPauseDuration() { return pauseDuration; }
+    public boolean getPauseState() { return pauseState; }
 
     // Setters
     public void setFacing(Direction facing) { this.facing = facing; }
@@ -803,6 +802,8 @@ public class GigaGal implements Physical {
     public void setLives(int lives) { this.lives = lives; }
     public void setHealth(int health) { this.health = health; }
     public void setPauseDuration(float pauseDuration) { this.pauseDuration = pauseDuration; }
-
+    public void setOnscreenControls(OnscreenControls onscreenControls) { this.onscreenControls = onscreenControls; }
+    public void isPaused(boolean pauseState) { this.pauseState = pauseState; }
+    
     public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
 }

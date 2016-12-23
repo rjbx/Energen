@@ -37,6 +37,12 @@ public class OnscreenControls extends InputAdapter {
     private int pausePointer;
     private int jumpPointer;
     private int shootPointer;
+    public boolean leftButtonPressed;
+    public boolean rightButtonPressed;
+    public boolean upButtonPressed;
+    public boolean downButtonPressed;
+    public boolean jumpButtonPressed;
+    public boolean shootButtonPressed;
 
     // default ctor
     public OnscreenControls() {
@@ -68,27 +74,27 @@ public class OnscreenControls extends InputAdapter {
             gigaGal.shoot(ammoIntensity, gigaGal.getWeapon(), Utils.useAmmo(ammoIntensity));
             gigaGal.setChargeStartTime(TimeUtils.nanoTime());
             this.shootPointer = pointer;
-            gigaGal.shootButtonPressed = true;
+            shootButtonPressed = true;
         } else if (viewportPosition.dst(jumpCenter) < Constants.BUTTON_RADIUS) {
-            // : Save the jumpPointer and set gigaGal.jumpButtonPressed = true
+            // : Save the jumpPointer and set jumpButtonPressed = true
             this.jumpPointer = pointer;
-            gigaGal.jumpButtonPressed = true;
+            jumpButtonPressed = true;
         } else if (viewportPosition.dst(leftCenter) < Constants.BUTTON_RADIUS) {
-            // : Save the leftPointer, and set gigaGal.leftButtonPressed = true
+            // : Save the leftPointer, and set leftButtonPressed = true
             this.leftPointer = pointer;
-            gigaGal.leftButtonPressed = true;
+            leftButtonPressed = true;
         } else if (viewportPosition.dst(rightCenter) < Constants.BUTTON_RADIUS) {
-            // : Save the rightPointer, and set gigaGal.rightButtonPressed = true
+            // : Save the rightPointer, and set rightButtonPressed = true
             this.rightPointer = pointer;
-            gigaGal.rightButtonPressed = true;
+            rightButtonPressed = true;
         } else if (viewportPosition.dst(upCenter) < Constants.BUTTON_RADIUS) {
-            // : Save the upPointer, and set gigaGal.upButtonPressed = true
+            // : Save the upPointer, and set upButtonPressed = true
             this.upPointer = pointer;
-            gigaGal.upButtonPressed = true;
+            upButtonPressed = true;
         }  else if (viewportPosition.dst(downCenter) < Constants.BUTTON_RADIUS) {
-            // : Save the downPointer, and set gigaGal.downButtonPressed = true
+            // : Save the downPointer, and set downButtonPressed = true
             this.downPointer = pointer;
-            gigaGal.downButtonPressed = true;
+            downButtonPressed = true;
         }  else if (viewportPosition.dst(pauseCenter) < Constants.BUTTON_RADIUS) {
             // : Save the pausePointer, and set gigaGal.pauseButtonPressed = true
             this.pausePointer = pointer;
@@ -105,8 +111,8 @@ public class OnscreenControls extends InputAdapter {
 
             // : Handle the case where the left button touch has been dragged to the right button
             // Inform GigaGal that the left button is no longer pressed
-            gigaGal.leftButtonPressed = false;
-            gigaGal.rightButtonPressed = true;
+            leftButtonPressed = false;
+            rightButtonPressed = true;
             // Inform GigaGal that the right button is now pressed
         
             // Zero leftPointer
@@ -118,8 +124,8 @@ public class OnscreenControls extends InputAdapter {
         if (pointer == rightPointer && viewportPosition.dst(leftCenter) < Constants.BUTTON_RADIUS) {
 
             // : Handle the case where the right button touch has been dragged to the left button
-            gigaGal.rightButtonPressed = false;
-            gigaGal.leftButtonPressed = true;
+            rightButtonPressed = false;
+            leftButtonPressed = true;
             
             // Inform GigaGal that the right button is now pressed
 
@@ -133,8 +139,8 @@ public class OnscreenControls extends InputAdapter {
 
             // : Handle the case where the up button touch has been dragged to the down button
             // Inform GigaGal that the up button is no longer pressed
-            gigaGal.upButtonPressed = false;
-            gigaGal.downButtonPressed = true;
+            upButtonPressed = false;
+            downButtonPressed = true;
             // Inform GigaGal that the down button is now pressed
 
             // Zero upPointer
@@ -146,8 +152,8 @@ public class OnscreenControls extends InputAdapter {
         if (pointer == downPointer && viewportPosition.dst(upCenter) < Constants.BUTTON_RADIUS) {
 
             // : Handle the case where the down button touch has been dragged to the up button
-            gigaGal.downButtonPressed = false;
-            gigaGal.upButtonPressed = true;
+            downButtonPressed = false;
+            upButtonPressed = true;
 
             // Inform GigaGal that the down button is now pressed
 
@@ -158,7 +164,7 @@ public class OnscreenControls extends InputAdapter {
         }
 
         if (pointer == shootPointer && viewportPosition.dst(shootCenter) < Constants.BUTTON_RADIUS) {
-            gigaGal.shootButtonPressed = true;
+            shootButtonPressed = true;
         }
 
         if (pointer == pausePointer && viewportPosition.dst(pauseCenter) < Constants.BUTTON_RADIUS) {
@@ -175,26 +181,26 @@ public class OnscreenControls extends InputAdapter {
         batch.begin();
 
         if (!Gdx.input.isTouched(shootPointer)) {
-            gigaGal.shootButtonPressed = false;
+            shootButtonPressed = false;
             shootPointer = 0;
         }
 
         // : If the leftPointer is no longer touched, inform GigaGal and zero leftPointer
         if (!Gdx.input.isTouched(leftPointer)) {
-            gigaGal.leftButtonPressed = false;
+            leftButtonPressed = false;
         }
         // : Do the same for rightPointer
         if (!Gdx.input.isTouched(rightPointer)) {
-            gigaGal.rightButtonPressed = false;
+            rightButtonPressed = false;
         }
 
         // : If the upPointer is no longer touched, inform GigaGal and zero upPointer
         if (!Gdx.input.isTouched(upPointer)) {
-            gigaGal.upButtonPressed = false;
+            upButtonPressed = false;
         }
         // : Do the same for downPointer
         if (!Gdx.input.isTouched(downPointer)) {
-            gigaGal.downButtonPressed = false;
+            downButtonPressed = false;
         }
         // : Do the same for pausePointer
         if (!Gdx.input.isTouched(pausePointer)) {
@@ -202,7 +208,7 @@ public class OnscreenControls extends InputAdapter {
         }
 
         if (!Gdx.input.isKeyJustPressed(jumpPointer)) {
-            gigaGal.jumpButtonPressed = false;
+            jumpButtonPressed = false;
             jumpPointer = 0;
         }
 

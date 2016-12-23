@@ -212,7 +212,9 @@ public final class Ammo extends Indestructible {
         } else {
             ammoCenter.set(Constants.SHOT_CENTER);
         }
-        Utils.drawTextureRegion(batch, region, position, ammoCenter);
+        if (!level.getGigaGal().getPauseState()) {
+            Utils.drawTextureRegion(batch, region, position, ammoCenter);
+        }
     }
 
     public final boolean isActive() { return active; }
