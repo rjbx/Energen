@@ -65,6 +65,7 @@ public class GameplayScreen extends ScreenAdapter {
         totalTime.suspend();
         paused = false;
         levelEnded = false;
+        pauseButtonPressed = false;
     }
 
     @Override
@@ -110,47 +111,49 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        if (paused) {
-            pauseOverlay.render(batch);
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-                level.getLevelTime().resume();
-                totalTime.resume();
-                paused = false;
+
+        // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
+        // onMobile();
+
+        Gdx.gl.glClearColor(
+                Constants.BACKGROUND_COLOR.r,
+                Constants.BACKGROUND_COLOR.g,
+                Constants.BACKGROUND_COLOR.b,
+                Constants.BACKGROUND_COLOR.a);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        renderLevelEndOverlays(batch);
+        if (level.gigaGalFailed()) {
+            if (gigaGal.getLives() > -1) {
+                restartLevel();
             }
-
-            if (pauseOverlay.getCursor().getPosition() == pauseOverlay.getViewport().getWorldWidth() / 4 && Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-                game.create();
+        }
+        if (!levelEnded) {
+            if (paused) {
+                pauseOverlay.render(batch);
+                gigaGal.update(delta);
+                if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed) {
+                    level.getLevelTime().resume();
+                    totalTime.resume();
+                    paused = false;
+                }
+                if (pauseOverlay.getCursor().getPosition() == pauseOverlay.getViewport().getWorldWidth() / 4
+                        && Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+                    game.create();
+                }
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed) {
+                level.getLevelTime().suspend();
+                totalTime.suspend();
+                paused = true;
+                pauseOverlay.init();
+            } else {
+                level.update(delta);
+                chaseCam.update(delta);
+                level.render(batch);
             }
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) && !levelEnded) {
-            level.getLevelTime().suspend();
-            totalTime.suspend();
-            paused = true;
-            pauseOverlay.init();
-        } else {
-            level.update(delta);
-            chaseCam.update(delta);
-
-            Gdx.gl.glClearColor(
-                    Constants.BACKGROUND_COLOR.r,
-                    Constants.BACKGROUND_COLOR.g,
-                    Constants.BACKGROUND_COLOR.b,
-                    Constants.BACKGROUND_COLOR.a);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-            level.render(batch);
-
-            // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
-            // onMobile();
-            onscreenControls.render(batch);
-
             meterHud.render(batch, renderer);
             contextHud.render(batch);
-            renderLevelEndOverlays(batch);
-            if (level.gigaGalFailed()) {
-                if (gigaGal.getLives() > -1) {
-                    restartLevel();
-                }
-            }
+            onscreenControls.render(batch);
         }
     }
 
@@ -206,7 +209,6 @@ public class GameplayScreen extends ScreenAdapter {
         Assets.getInstance().init(am, levelNumber);
         meterHud = new GaugeHud(level);
         contextHud = new IndicatorHud(level);
-        totalTime.resume();
         this.gigaGal = level.getGigaGal();
         for (String completedLevelName : completedLevels) {
             for (Enums.WeaponType weapon : Arrays.asList(Constants.weapons)) {
@@ -220,6 +222,7 @@ public class GameplayScreen extends ScreenAdapter {
         chaseCam.camera = level.getViewport().getCamera();
         chaseCam.target = gigaGal;
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        totalTime.resume();
     }
 
     public void restartLevel() {
@@ -232,19 +235,8 @@ public class GameplayScreen extends ScreenAdapter {
         game.setScreen(game.getLevelSelectScreen());
     }
 
-    public void pauseGame() {
-        level.getLevelTime().suspend();
-        totalTime.suspend();
-    }
-
-    public void unpauseGame() {
-        level.getLevelTime().resume();
-        totalTime.resume();
-    }
-
     public Level getLevel() { return level; }
     public void setGame(GigaGalGame game) { this.game = game;  }
-    public GigaGalGame getGame() { return game; }
     public void setLevelName(String levelName) { this.levelName = levelName; }
     public int getTotalScore() { return totalScore; }
     public StopWatch getTotalTime() { return totalTime; }

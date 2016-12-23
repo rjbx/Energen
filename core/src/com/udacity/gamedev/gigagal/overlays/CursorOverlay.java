@@ -50,7 +50,7 @@ public final class CursorOverlay {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         Utils.drawTextureRegion(batch,
                 Assets.getInstance().getOnscreenControlsAssets().selectionCursor,
-                7.5f, verticalPosition);
+                viewport.getWorldWidth() / 3.5f, verticalPosition);
     }
 
     public ExtendViewport getViewport() { return viewport; }

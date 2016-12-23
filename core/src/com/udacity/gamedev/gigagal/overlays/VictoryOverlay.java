@@ -29,10 +29,10 @@ public final class VictoryOverlay {
 
     // default ctor
     public VictoryOverlay(GameplayScreen gameplayScreen) {
+        this.gameplayScreen = gameplayScreen;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(.25f);
-        this.gameplayScreen = gameplayScreen;
     }
 
     public void init() {

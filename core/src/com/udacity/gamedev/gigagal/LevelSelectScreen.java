@@ -34,7 +34,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private float margin;
     private ListIterator<String> iterator;
     private String levelName;
-    private CursorOverlay overlay;
+    private CursorOverlay cursor;
     private Array<Float> namePositions;
     private String selectedLevel;
     private int index;
@@ -58,7 +58,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        overlay = new CursorOverlay();
+        cursor = new CursorOverlay();
         levelNumber = 0;
         batch = new SpriteBatch();
         completedLevels = new Array<String>();
@@ -71,7 +71,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-        overlay.getViewport().update(width, height, true);
+        cursor.getViewport().update(width, height, true);
     }
 
     @Override
@@ -94,8 +94,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.b,
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        overlay.render(batch);
-        overlay.update();
+        cursor.render(batch);
+        cursor.update();
 
         while (iterator.hasNext()) {
             iterator.next();
@@ -105,12 +105,12 @@ public final class LevelSelectScreen extends ScreenAdapter {
         namePositions.add(verticalPosition);
         while (iterator.hasPrevious()) {
             levelName = iterator.previous();
-            if (overlay.getPosition() >= namePositions.get(index) - 15 && overlay.getPosition() < namePositions.get(index)) {
+            if (cursor.getPosition() >= namePositions.get(index) - 15 && cursor.getPosition() < namePositions.get(index)) {
                 selectedLevel = levelName;
             }
             levelName = levelName.replace("levels/", "");
             levelName = levelName.replace(".dt", "");
-            font.draw(batch, levelName, viewport.getWorldWidth() / 7, namePositions.get(index));
+            font.draw(batch, levelName, viewport.getWorldWidth() / 2.5f, namePositions.get(index));
             verticalPosition += 15;
             namePositions.add(verticalPosition);
             index++;
