@@ -131,7 +131,7 @@ public class GameplayScreen extends ScreenAdapter {
         if (!levelEnded) {
             if (paused) {
                 pauseOverlay.render(batch);
-                gigaGal.update(delta);
+                gigaGal.look();
                 if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed) {
                     level.getLevelTime().resume();
                     totalTime.resume();

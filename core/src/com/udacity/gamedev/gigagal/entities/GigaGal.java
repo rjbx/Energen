@@ -516,7 +516,7 @@ public class GigaGal implements Physical {
         }
     }
 
-    private void look() {
+    public void look() {
 
         boolean up = Gdx.input.isKeyPressed(Keys.W) || upButtonPressed;
         boolean down = Gdx.input.isKeyPressed(Keys.Z) || downButtonPressed;
