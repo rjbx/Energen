@@ -195,6 +195,9 @@ public class GigaGal implements Physical {
                             }
                         // only when grounded
                         } else if (aerialState == AerialState.GROUNDED) {
+                            if (groundState == GroundState.STRIDING) {
+                                pauseDuration = 0;
+                            }
                             stand();
                         }
                         // if contact with ground sides detected without concern for ground state (either grounded or airborne),
@@ -276,7 +279,6 @@ public class GigaGal implements Physical {
         } else {
             isStriding = false;
         }
-
         if (groundState != GroundState.AIRBORNE && lookDirection == null) {
             if (directionChanged) {
                if (groundState == groundState.DASHING){
@@ -285,17 +287,22 @@ public class GigaGal implements Physical {
                 }
                 strideStartTime = 0;
                 stand();
-            } else if (isStriding && !canStride && groundState != GroundState.DASHING) {
-                if (strideStartTime == 0) {
-                    canStride = true;
-                } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
-                    strideStartTime = 0;
+            } else if (groundState != GroundState.DASHING) {
+                if (isStriding) {
+                    if (!canStride) {
+                        if (strideStartTime == 0) {
+                            canStride = true;
+                        } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+                            strideStartTime = 0;
+                        } else {
+                            canDash = true;
+                        }
+                    }
                 } else {
-                    canDash = true;
+                    pauseDuration = 0;
+                    stand();
+                    canStride = false;
                 }
-            } else if (!isStriding && groundState != GroundState.DASHING) {
-                stand();
-                canStride = false;
             }
         } else if (directionChanged) {
             recoil(new Vector2(velocity.x / 2, velocity.y));
@@ -558,7 +565,8 @@ public class GigaGal implements Physical {
             groundState = GroundState.STRIDING;
             strideStartTime = TimeUtils.nanoTime();
         }
-        strideAcceleration = Utils.secondsSince(strideStartTime) + Constants.GIGAGAL_STARTING_SPEED;
+        strideTimeSeconds = Utils.secondsSince(strideStartTime) - pauseDuration;
+        strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
         velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing, Orientation.LATERAL);
     }
 
@@ -606,7 +614,8 @@ public class GigaGal implements Physical {
             canJump = false;
         }
         velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, facing, Orientation.LATERAL);
-        if ((Utils.secondsSince(jumpStartTime) - pauseDuration) < Constants.MAX_JUMP_DURATION) {
+        jumpTimeSeconds = Utils.secondsSince(jumpStartTime) - pauseDuration;
+        if (jumpTimeSeconds < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         } else {
