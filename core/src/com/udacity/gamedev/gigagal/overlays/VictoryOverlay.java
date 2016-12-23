@@ -32,7 +32,7 @@ public final class VictoryOverlay {
         this.gameplayScreen = gameplayScreen;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
-        font.getData().setScale(.25f);
+        font.getData().setScale(.4f);
     }
 
     public void init() {
@@ -61,13 +61,9 @@ public final class VictoryOverlay {
         levelTime = Utils.stopWatchToString(gameplayScreen.getLevel().getLevelTime());
         totalTime = Utils.stopWatchToString(gameplayScreen.getTotalTime());
 
-        font.draw(batch, Constants.VICTORY_MESSAGE, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
-        font.draw(batch,
-                levelTime + "\n"
-                + gameplayScreen.getTotalScore() + "\n"
-                + totalTime + "\n"
-                + gameplayScreen.getLevel().getLevelScore() + "\n",
-                viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 3, 0, Align.center, false
+        font.draw(batch, Constants.VICTORY_MESSAGE, viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .9f, 0, Align.center, false);
+        font.draw(batch, "GAME TOTAL\n" + "Time: " + Utils.stopWatchToString(gameplayScreen.getTotalTime()) + "\n" + "Score: " + gameplayScreen.getTotalScore(), viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .7f, 0, Align.center, false);
+        font.draw(batch, "LEVEL TOTAL\n" + "Time: " + levelTime + "\n" + "Score: " + gameplayScreen.getLevel().getLevelScore() + "\n", viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .3f, 0, Align.center, false
                 );
 
         batch.end();

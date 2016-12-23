@@ -10,6 +10,7 @@ import com.udacity.gamedev.gigagal.GameplayScreen;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
+import com.udacity.gamedev.gigagal.util.Utils;
 
 // immutable
 public final class PauseOverlay {
@@ -59,8 +60,9 @@ public final class PauseOverlay {
                 }
             }
 
-            font.draw(batch, stats, Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, Align.left, false);
+            font.draw(batch, stats, viewport.getScreenX() + 5, viewport.getWorldHeight() * .8f, 0, Align.left, false);
             font.draw(batch, weapons, viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, weapons.length(), 10, Align.right, false);
+            font.draw(batch, "GAME TOTAL\n" + "Time: " + Utils.stopWatchToString(gameplayScreen.getTotalTime()) + "\n" + "Score: " + gameplayScreen.getTotalScore(), viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .8f, 0, Align.center, false);
             font.draw(batch, "RESUME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
             font.draw(batch, "EXIT LEVEL", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
             font.draw(batch, "DEBUG CAM", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 15, 0, Align.center, false);
