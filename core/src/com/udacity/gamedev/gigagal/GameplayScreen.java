@@ -130,6 +130,10 @@ public class GameplayScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.b,
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (!chaseCam.getFollowing()) {
+            level.render(batch);
+            chaseCam.update(delta);
+        } 
 
         renderLevelEndOverlays(batch);
         if (level.gigaGalFailed()) {
@@ -171,9 +175,6 @@ public class GameplayScreen extends ScreenAdapter {
             } else {
                 level.update(delta);
                 chaseCam.update(delta);
-                level.render(batch);
-            }
-            if (!chaseCam.getFollowing()) {
                 level.render(batch);
             }
             meterHud.render(batch, renderer);
