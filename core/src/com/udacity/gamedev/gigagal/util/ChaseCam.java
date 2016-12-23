@@ -14,6 +14,7 @@ public final class ChaseCam {
     public GigaGal target;
     private static Boolean following;
     private static final ChaseCam INSTANCE = new ChaseCam();
+    private GigaGal gigaGal;
 
     // non-instantiable; cannot be subclassed
     private ChaseCam() { following = true; }
@@ -33,21 +34,22 @@ public final class ChaseCam {
             camera.position.x = target.getPosition().x;
             camera.position.y = target.getPosition().y;
         } else {
-            if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
+            if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT) || gigaGal.leftButtonPressed) {
                 camera.position.x -= delta * Constants.CHASE_CAM_MOVE_SPEED;
             }
-            if (Gdx.input.isKeyPressed(Keys.SHIFT_RIGHT)) {
+            if (Gdx.input.isKeyPressed(Keys.SHIFT_RIGHT) || gigaGal.rightButtonPressed) {
                 camera.position.x += delta * Constants.CHASE_CAM_MOVE_SPEED;
             }
-            if (Gdx.input.isKeyPressed(Keys.NUM_6)) {
+            if (Gdx.input.isKeyPressed(Keys.NUM_6) || gigaGal.upButtonPressed) {
                 camera.position.y += delta * Constants.CHASE_CAM_MOVE_SPEED;
             }
-            if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+            if (Gdx.input.isKeyPressed(Keys.SPACE) || gigaGal.downButtonPressed) {
                 camera.position.y -= delta * Constants.CHASE_CAM_MOVE_SPEED;
             }
         }
     }
 
     public final void setFollowing(boolean following) { this.following = following; }
+    public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
     public final boolean getFollowing() { return following; }
 }

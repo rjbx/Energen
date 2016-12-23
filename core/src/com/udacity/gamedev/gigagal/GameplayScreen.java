@@ -154,6 +154,7 @@ public class GameplayScreen extends ScreenAdapter {
                         if (!chaseCam.getFollowing()) {
                             chaseCam.setFollowing(true);
                         } else {
+                            chaseCam.setGigaGal(gigaGal);
                             chaseCam.setFollowing(false);
                         }
                     } else if (pauseOverlay.getCursor().getPosition() == 28) {
