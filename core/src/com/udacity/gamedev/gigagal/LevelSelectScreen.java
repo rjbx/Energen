@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.overlays.LevelSelectCursor;
+import com.udacity.gamedev.gigagal.overlays.CursorOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private float margin;
     private ListIterator<String> iterator;
     private String levelName;
-    private LevelSelectCursor overlay;
+    private CursorOverlay overlay;
     private Array<Float> namePositions;
     private String selectedLevel;
     private int index;
@@ -58,7 +58,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        overlay = new LevelSelectCursor();
+        overlay = new CursorOverlay();
         levelNumber = 0;
         batch = new SpriteBatch();
         completedLevels = new Array<String>();

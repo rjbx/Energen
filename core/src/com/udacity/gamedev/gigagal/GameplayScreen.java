@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal;
 
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
@@ -43,6 +44,7 @@ public class GameplayScreen extends ScreenAdapter {
     private IndicatorHud contextHud;
     private VictoryOverlay victoryOverlay;
     private GameOverOverlay gameOverOverlay;
+    private PauseScreen pauseScreen;
     private Array<String> completedLevels;
     private String levelName;
     private GigaGal gigaGal;
@@ -126,6 +128,10 @@ public class GameplayScreen extends ScreenAdapter {
             if (gigaGal.getLives() > -1) {
                 restartLevel();
             }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            game.setScreen(game.getPauseScreen());
         }
     }
 

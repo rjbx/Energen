@@ -10,6 +10,8 @@ public final class GigaGalGame extends Game {
     // fields
     private LevelSelectScreen levelSelect;
     private GameplayScreen gameplay;
+    private PauseScreen pause;
+
 
     // default ctor
     public GigaGalGame() {
@@ -26,4 +28,5 @@ public final class GigaGalGame extends Game {
 
     public LevelSelectScreen getLevelSelectScreen() { return levelSelect; }
     public GameplayScreen getGameplayScreen() { return gameplay; }
+    public PauseScreen getPauseScreen() { return pause; }
 }
