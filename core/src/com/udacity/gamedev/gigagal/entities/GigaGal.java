@@ -197,9 +197,6 @@ public class GigaGal implements Physical {
                             }
                         // only when grounded
                         } else if (aerialState == AerialState.GROUNDED) {
-                            if (groundState == GroundState.STRIDING) {
-                                pauseDuration = 0;
-                            }
                             stand();
                         }
                         // if contact with ground sides detected without concern for ground state (either grounded or airborne),
@@ -225,7 +222,9 @@ public class GigaGal implements Physical {
                 if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
                         && getBottom() <= ground.getTop()
                         && ground.getTop() != slidPlatformTop) {
-                    pauseDuration = 0;
+                    if (groundState != GroundState.DASHING) {
+                        pauseDuration = 0;
+                    }
                     velocity.y = 0; // prevents from descending beneath ground top
                     position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                     canChangeDirection = true; // enable change of direction
