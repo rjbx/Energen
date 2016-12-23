@@ -135,12 +135,14 @@ public class GameplayScreen extends ScreenAdapter {
             if (paused) {
                 pauseOverlay.render(batch);
                 gigaGal.look(); // enables gigagal to toggle weapon during pause without enabling other gigagal features
-                if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed) {
+                if ((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed)
+                || (pauseOverlay.getCursor().getPosition() == 73
+                        && Gdx.input.isKeyJustPressed(Input.Keys.ENTER))) {
                     level.getLevelTime().resume();
                     totalTime.resume();
                     paused = false;
                 }
-                if (pauseOverlay.getCursor().getPosition() == pauseOverlay.getViewport().getWorldWidth() / 4
+                if (pauseOverlay.getCursor().getPosition() == 58
                         && Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
                     game.create();
                 }
