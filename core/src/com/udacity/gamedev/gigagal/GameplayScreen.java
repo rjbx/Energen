@@ -54,6 +54,7 @@ public class GameplayScreen extends ScreenAdapter {
     private StopWatch totalTime;
     public boolean pauseButtonPressed;
     private boolean paused;
+    boolean levelEnded;
 
     // default ctor
     public GameplayScreen(GigaGalGame game) {
@@ -63,6 +64,7 @@ public class GameplayScreen extends ScreenAdapter {
         totalTime.start();
         totalTime.suspend();
         paused = false;
+        levelEnded = false;
     }
 
     @Override
@@ -110,7 +112,6 @@ public class GameplayScreen extends ScreenAdapter {
     public void render(float delta) {
         if (paused) {
             pauseOverlay.render(batch);
-            game.pause();
             if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
                 level.getLevelTime().resume();
                 totalTime.resume();
@@ -120,7 +121,7 @@ public class GameplayScreen extends ScreenAdapter {
             if (pauseOverlay.getCursor().getPosition() == pauseOverlay.getViewport().getWorldWidth() / 4 && Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
                 game.create();
             }
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) && !levelEnded) {
             level.getLevelTime().suspend();
             totalTime.suspend();
             paused = true;
@@ -155,6 +156,7 @@ public class GameplayScreen extends ScreenAdapter {
 
     private void renderLevelEndOverlays(SpriteBatch batch) {
         if (level.isGameOver()) {
+            levelEnded = true;
             if (levelEndOverlayStartTime == 0) {
                 level.getLevelTime().suspend();
                 totalTime.suspend();
@@ -168,6 +170,7 @@ public class GameplayScreen extends ScreenAdapter {
                 game.setScreen(game.getLevelSelectScreen());
             }
         } else if (level.isVictory()) {
+            levelEnded = true;
             if (levelEndOverlayStartTime == 0) {
                 level.getLevelTime().suspend();
                 totalTime.suspend();
@@ -181,6 +184,8 @@ public class GameplayScreen extends ScreenAdapter {
                 levelEndOverlayStartTime = 0;
                 levelComplete();
             }
+        } else {
+            levelEnded = false;
         }
     }
 
