@@ -51,6 +51,9 @@ public class GigaGal implements Physical {
     private float startTurbo;
     private float strideAcceleration;
     private float hoverTimeSeconds;
+    private float dashTimeSeconds;
+    private float jumpTimeSeconds;
+    private float strideTimeSeconds;
     private float aerialTakeoff;
     private int lives;
     private int ammo;
@@ -575,7 +578,8 @@ public class GigaGal implements Physical {
             strideStartTime = 0;
             canStride = false;
         }
-        turbo = ((((turboDuration - Utils.secondsSince(dashStartTime)) - pauseDuration) / turboDuration) * startTurbo);
+        dashTimeSeconds = Utils.secondsSince(dashStartTime) - pauseDuration;
+        turbo = ((turboDuration - dashTimeSeconds) / turboDuration) * startTurbo;
         if (turbo >= 1) {
             velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, facing, Orientation.LATERAL);
         } else {
