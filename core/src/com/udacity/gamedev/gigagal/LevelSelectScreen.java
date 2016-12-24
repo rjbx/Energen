@@ -94,8 +94,19 @@ public final class LevelSelectScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
+        if (inputControls.shootButtonJustPressed) {
+            gameplayScreen.setGame(game);
+            gameplayScreen.setLevelName(selectedLevel);
+            game.setScreen(gameplayScreen);
+        }
+
+        inputControls.update();
+
         viewport.apply();
         batch.begin();
+
+        cursor.render(batch);
+        cursor.update();
 
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
@@ -127,18 +138,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         margin = 0;
         batch.end();
 
-        inputControls.update();
         inputControls.render(batch);
-        batch.begin();
-        cursor.render(batch);
-        cursor.update();
-        batch.end();
-
-        if (inputControls.shootButtonJustPressed) {
-            gameplayScreen.setGame(game);
-            gameplayScreen.setLevelName(selectedLevel);
-            game.setScreen(gameplayScreen);
-        }
     }
 
     public final String getSelectedLevel() { return selectedLevel; }
