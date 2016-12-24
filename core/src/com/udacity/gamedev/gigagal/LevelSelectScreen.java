@@ -63,11 +63,12 @@ public final class LevelSelectScreen extends ScreenAdapter {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
         cursor = new CursorOverlay(145, 55);
-        inputControls = game.getInputControls();
+        inputControls = new InputControls();
         cursor.setInputControls(inputControls);
         levelNumber = 0;
         batch = new SpriteBatch();
         completedLevels = new Array<String>();
+        Gdx.input.setInputProcessor(inputControls);
     }
 
     private boolean onMobile() {
@@ -102,8 +103,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.b,
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        cursor.render(batch);
-        cursor.update();
 
         while (iterator.hasNext()) {
             iterator.next();
@@ -127,11 +126,17 @@ public final class LevelSelectScreen extends ScreenAdapter {
         index = 0;
         margin = 0;
         batch.end();
-        
+
         inputControls.update();
         inputControls.render(batch);
+        batch.begin();
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+        cursor.setInputControls(inputControls);
+        cursor.render(batch);
+        cursor.update();
+        batch.end();
+
+        if (inputControls.shootButtonPressed) {
             gameplayScreen.setGame(game);
             gameplayScreen.setLevelName(selectedLevel);
             game.setScreen(gameplayScreen);

@@ -103,7 +103,6 @@ public class GameplayScreen extends ScreenAdapter {
         pauseOverlay.getCursor().getViewport().update(width, height, true);
         level.getViewport().update(width, height, true);
         chaseCam.camera = level.getViewport().getCamera();
-        inputControls.setGameplayScreen(this);
         inputControls.getViewport().update(width, height, true);
         inputControls.recalculateButtonPositions();
         gigaGal.setInputControls(inputControls);
@@ -120,7 +119,6 @@ public class GameplayScreen extends ScreenAdapter {
 
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        inputControls.update();
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
                 Constants.BACKGROUND_COLOR.g,
@@ -174,6 +172,7 @@ public class GameplayScreen extends ScreenAdapter {
             }
             meterHud.render(batch, renderer);
             contextHud.render(batch);
+            inputControls.update();
             inputControls.render(batch);
         }
     }
