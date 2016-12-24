@@ -51,7 +51,6 @@ public class GameplayScreen extends ScreenAdapter {
     private Array<TurboPowerup> powerups;
     private int totalScore;
     private StopWatch totalTime;
-    public boolean pauseButtonPressed;
     private boolean paused;
     boolean levelEnded;
     long pauseTime;
@@ -66,7 +65,6 @@ public class GameplayScreen extends ScreenAdapter {
         totalTime.suspend();
         paused = false;
         levelEnded = false;
-        pauseButtonPressed = false;
         pauseTime = 0;
         pauseDuration = 0;
     }
@@ -145,7 +143,7 @@ public class GameplayScreen extends ScreenAdapter {
             if (paused) {
                 pauseOverlay.render(batch);
                 gigaGal.look(); // enables gigagal to toggle weapon during pause without enabling other gigagal features
-                if (/* inputControls.pauseButtonJustPressed ||*/ inputControls.shootButtonJustPressed) {
+                if (inputControls.pauseButtonJustPressed || inputControls.shootButtonJustPressed) {
                     if (pauseOverlay.getCursor().getPosition() == 73 && chaseCam.getFollowing()) {
                         unpause();
                     } else if (pauseOverlay.getCursor().getPosition() == 58) {
@@ -162,7 +160,7 @@ public class GameplayScreen extends ScreenAdapter {
                         game.create();
                     }
                 }
-            } else if ((Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || pauseButtonPressed)) {
+            } else if (inputControls.pauseButtonJustPressed) {
                 level.getLevelTime().suspend();
                 totalTime.suspend();
                 paused = true;

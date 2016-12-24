@@ -44,12 +44,14 @@ public class InputControls extends InputAdapter {
     public boolean downButtonPressed;
     public boolean jumpButtonPressed;
     public boolean shootButtonPressed;
+    public boolean pauseButtonPressed;
     public boolean leftButtonJustPressed;
     public boolean rightButtonJustPressed;
     public boolean upButtonJustPressed;
     public boolean downButtonJustPressed;
     public boolean jumpButtonJustPressed;
     public boolean shootButtonJustPressed;
+    public boolean pauseButtonJustPressed;
 
     // default ctor
     public InputControls() {
@@ -104,7 +106,7 @@ public class InputControls extends InputAdapter {
         }  else if (viewportPosition.dst(pauseCenter) < Constants.BUTTON_RADIUS) {
             // : Save the pausePointer, and set gigaGal.pauseButtonPressed = true
             this.pausePointer = pointer;
-            gameplayScreen.pauseButtonPressed = true;
+            pauseButtonPressed = true;
         }
         return super.touchDown(screenX, screenY, pointer, button);
     }
@@ -174,7 +176,7 @@ public class InputControls extends InputAdapter {
         }
 
         if (pointer == pausePointer && viewportPosition.dst(pauseCenter) < Constants.BUTTON_RADIUS) {
-            gameplayScreen.pauseButtonPressed = true;
+            pauseButtonPressed = true;
         }
 
         return super.touchDragged(screenX, screenY, pointer);
@@ -198,6 +200,9 @@ public class InputControls extends InputAdapter {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             shootButtonPressed = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            pauseButtonPressed = true;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
             upButtonJustPressed = true;
@@ -228,6 +233,11 @@ public class InputControls extends InputAdapter {
             shootButtonJustPressed = true;
         } else {
             shootButtonJustPressed = false;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            pauseButtonJustPressed = true;
+        } else {
+            pauseButtonJustPressed = false;
         }
     }
 
@@ -261,7 +271,7 @@ public class InputControls extends InputAdapter {
         }
         // : Do the same for pausePointer
         if (!Gdx.input.isTouched(pausePointer)) {
-            gameplayScreen.pauseButtonPressed = false;
+            pauseButtonPressed = false;
         }
 
         if (!Gdx.input.isKeyJustPressed(jumpPointer)) {
