@@ -93,12 +93,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
-        inputControls.update();
-
         viewport.apply();
         batch.begin();
 
-   //     inputControls.render(batch);
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
                 Constants.BACKGROUND_COLOR.g,
@@ -130,7 +127,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
         index = 0;
         margin = 0;
         batch.end();
-
+        
+        inputControls.update();
+        inputControls.render(batch);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             gameplayScreen.setGame(game);
