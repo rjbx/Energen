@@ -30,14 +30,14 @@ public class CursorOverlay {
     }
 
     public void update() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.Z) || Gdx.input.isKeyJustPressed(Input.Keys.S) || inputControls.downButtonPressed || inputControls.rightButtonPressed) {
+        if (inputControls.downButtonJustPressed || inputControls.rightButtonJustPressed) {
             if (verticalPosition >= endingPosition + 15) {
                 verticalPosition -= 15;
             } else {
                 verticalPosition = startingPosition;
             }
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.A) || inputControls.upButtonPressed || inputControls.leftButtonPressed) {
+        if (inputControls.upButtonJustPressed || inputControls.leftButtonJustPressed) {
             if (verticalPosition <= startingPosition - 15) {
                 verticalPosition += 15;
             } else {
