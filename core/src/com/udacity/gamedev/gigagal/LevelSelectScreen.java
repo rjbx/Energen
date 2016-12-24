@@ -100,13 +100,12 @@ public final class LevelSelectScreen extends ScreenAdapter {
             game.setScreen(gameplayScreen);
         }
 
-        inputControls.update();
-
         viewport.apply();
         batch.begin();
 
         cursor.render(batch);
         cursor.update();
+        inputControls.update();
 
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
