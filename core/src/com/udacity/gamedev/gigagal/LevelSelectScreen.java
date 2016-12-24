@@ -44,6 +44,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
     // default ctor
     public LevelSelectScreen(GigaGalGame game) {
+        this.game = game;
+        gameplayScreen = game.getGameplayScreen();
+        cursor = new CursorOverlay(145, 55);
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
@@ -54,15 +57,12 @@ public final class LevelSelectScreen extends ScreenAdapter {
         margin = 0;
         index = 0;
         namePositions = new Array<Float>();
-        this.game = game;
-        gameplayScreen = game.getGameplayScreen();
     }
 
     @Override
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        cursor = new CursorOverlay(145, 55);
         inputControls = new InputControls();
         cursor.setInputControls(inputControls);
         levelNumber = 0;
@@ -130,8 +130,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
         inputControls.update();
         inputControls.render(batch);
         batch.begin();
-
-        cursor.setInputControls(inputControls);
         cursor.render(batch);
         cursor.update();
         batch.end();

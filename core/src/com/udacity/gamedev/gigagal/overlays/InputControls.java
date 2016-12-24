@@ -5,13 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // mutable
@@ -76,30 +74,41 @@ public class InputControls extends InputAdapter {
         Vector2 viewportPosition = viewport.unproject(new Vector2(screenX, screenY));
 
 
-        if (viewportPosition.dst(jumpCenter) < Constants.BUTTON_RADIUS) {
+        if (viewportPosition.dst(jumpCenter) < Constants.TOUCH_RADIUS) {
             // : Save the jumpPointer and set jumpButtonPressed = true
             this.jumpPointer = pointer;
             jumpButtonPressed = true;
-        } else if (viewportPosition.dst(leftCenter) < Constants.BUTTON_RADIUS) {
+            jumpButtonJustPressed = true;
+        } else if (viewportPosition.dst(shootCenter) < Constants.TOUCH_RADIUS) {
+            // : Save the shootPointer and set shootButtonPressed = true
+            this.shootPointer = pointer;
+            shootButtonPressed = true;
+            shootButtonJustPressed = true;
+        } else if (viewportPosition.dst(leftCenter) < Constants.TOUCH_RADIUS) {
             // : Save the leftPointer, and set leftButtonPressed = true
             this.leftPointer = pointer;
             leftButtonPressed = true;
-        } else if (viewportPosition.dst(rightCenter) < Constants.BUTTON_RADIUS) {
+            leftButtonJustPressed = true;
+        } else if (viewportPosition.dst(rightCenter) < Constants.TOUCH_RADIUS) {
             // : Save the rightPointer, and set rightButtonPressed = true
             this.rightPointer = pointer;
             rightButtonPressed = true;
-        } else if (viewportPosition.dst(upCenter) < Constants.BUTTON_RADIUS) {
+            rightButtonJustPressed = true;
+        } else if (viewportPosition.dst(upCenter) < Constants.TOUCH_RADIUS) {
             // : Save the upPointer, and set upButtonPressed = true
             this.upPointer = pointer;
             upButtonPressed = true;
-        }  else if (viewportPosition.dst(downCenter) < Constants.BUTTON_RADIUS) {
+            upButtonJustPressed = true;
+        }  else if (viewportPosition.dst(downCenter) < Constants.TOUCH_RADIUS) {
             // : Save the downPointer, and set downButtonPressed = true
             this.downPointer = pointer;
             downButtonPressed = true;
-        }  else if (viewportPosition.dst(pauseCenter) < Constants.BUTTON_RADIUS) {
+            downButtonJustPressed = true;
+        }  else if (viewportPosition.dst(pauseCenter) < Constants.TOUCH_RADIUS) {
             // : Save the pausePointer, and set gigaGal.pauseButtonPressed = true
             this.pausePointer = pointer;
             pauseButtonPressed = true;
+            pauseButtonJustPressed = true;
         }
         return super.touchDown(screenX, screenY, pointer, button);
     }
@@ -108,7 +117,7 @@ public class InputControls extends InputAdapter {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         Vector2 viewportPosition = viewport.unproject(new Vector2(screenX, screenY));
 
-        if (pointer == leftPointer && viewportPosition.dst(rightCenter) < Constants.BUTTON_RADIUS) {
+        if (pointer == leftPointer && viewportPosition.dst(rightCenter) < Constants.TOUCH_RADIUS) {
 
             // : Handle the case where the left button touch has been dragged to the right button
             // Inform GigaGal that the left button is no longer pressed
@@ -122,7 +131,7 @@ public class InputControls extends InputAdapter {
             rightPointer = pointer;
         }
 
-        if (pointer == rightPointer && viewportPosition.dst(leftCenter) < Constants.BUTTON_RADIUS) {
+        if (pointer == rightPointer && viewportPosition.dst(leftCenter) < Constants.TOUCH_RADIUS) {
 
             // : Handle the case where the right button touch has been dragged to the left button
             rightButtonPressed = false;
@@ -136,7 +145,7 @@ public class InputControls extends InputAdapter {
             leftPointer = pointer;
         }
 
-        if (pointer == upPointer && viewportPosition.dst(downCenter) < Constants.BUTTON_RADIUS) {
+        if (pointer == upPointer && viewportPosition.dst(downCenter) < Constants.TOUCH_RADIUS) {
 
             // : Handle the case where the up button touch has been dragged to the down button
             // Inform GigaGal that the up button is no longer pressed
@@ -150,7 +159,7 @@ public class InputControls extends InputAdapter {
             downPointer = pointer;
         }
 
-        if (pointer == downPointer && viewportPosition.dst(upCenter) < Constants.BUTTON_RADIUS) {
+        if (pointer == downPointer && viewportPosition.dst(upCenter) < Constants.TOUCH_RADIUS) {
 
             // : Handle the case where the down button touch has been dragged to the up button
             downButtonPressed = false;
@@ -164,11 +173,15 @@ public class InputControls extends InputAdapter {
             upPointer = pointer;
         }
 
-        if (pointer == shootPointer && viewportPosition.dst(shootCenter) < Constants.BUTTON_RADIUS) {
+        if (pointer == jumpPointer && viewportPosition.dst(jumpCenter) < Constants.TOUCH_RADIUS) {
+            jumpButtonPressed = true;
+        }
+
+        if (pointer == shootPointer && viewportPosition.dst(shootCenter) < Constants.TOUCH_RADIUS) {
             shootButtonPressed = true;
         }
 
-        if (pointer == pausePointer && viewportPosition.dst(pauseCenter) < Constants.BUTTON_RADIUS) {
+        if (pointer == pausePointer && viewportPosition.dst(pauseCenter) < Constants.TOUCH_RADIUS) {
             pauseButtonPressed = true;
         }
 
@@ -199,38 +212,24 @@ public class InputControls extends InputAdapter {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
             upButtonJustPressed = true;
-        } else {
-            upButtonJustPressed = false;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
             downButtonJustPressed = true;
-        } else {
-            downButtonJustPressed = false;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
             leftButtonJustPressed = true;
-        } else {
-            leftButtonJustPressed = false;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             rightButtonJustPressed = true;
-        } else {
-            rightButtonJustPressed = false;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH)) {
             jumpButtonJustPressed = true;
-        } else {
-            jumpButtonJustPressed = false;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             shootButtonJustPressed = true;
-        } else {
-            shootButtonJustPressed = false;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             pauseButtonJustPressed = true;
-        } else {
-            pauseButtonJustPressed = false;
         }
     }
 
@@ -240,35 +239,57 @@ public class InputControls extends InputAdapter {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
-        if (!Gdx.input.isTouched(shootPointer)) {
+        if (!Gdx.input.isTouched(shootPointer) && !Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             shootButtonPressed = false;
+        }
+        if (!Gdx.input.isKeyJustPressed(shootPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            shootButtonJustPressed = false;
             shootPointer = 0;
         }
-
-        // : If the leftPointer is no longer touched, inform GigaGal and zero leftPointer
-        if (!Gdx.input.isTouched(leftPointer)) {
+        if (!Gdx.input.isTouched(leftPointer) && !Gdx.input.isKeyPressed(Input.Keys.A)) {
             leftButtonPressed = false;
         }
-        // : Do the same for rightPointer
-        if (!Gdx.input.isTouched(rightPointer)) {
+        if (!Gdx.input.isKeyJustPressed(leftPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+            leftButtonJustPressed = false;
+            leftPointer = 0;
+        }
+        if (!Gdx.input.isTouched(rightPointer) && !Gdx.input.isKeyPressed(Input.Keys.S)) {
             rightButtonPressed = false;
         }
+        if (!Gdx.input.isKeyJustPressed(rightPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+            rightButtonJustPressed = false;
+            rightPointer = 0;
+        }
 
-        // : If the upPointer is no longer touched, inform GigaGal and zero upPointer
-        if (!Gdx.input.isTouched(upPointer)) {
+        if (!Gdx.input.isTouched(upPointer) && !Gdx.input.isKeyPressed(Input.Keys.W)) {
             upButtonPressed = false;
         }
-        // : Do the same for downPointer
-        if (!Gdx.input.isTouched(downPointer)) {
-            downButtonPressed = false;
-        }
-        // : Do the same for pausePointer
-        if (!Gdx.input.isTouched(pausePointer)) {
-            pauseButtonPressed = false;
+        if (!Gdx.input.isKeyJustPressed(upPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+            upButtonJustPressed = false;
+            upPointer = 0;
         }
 
-        if (!Gdx.input.isKeyJustPressed(jumpPointer)) {
+        if (!Gdx.input.isTouched(downPointer) && !Gdx.input.isKeyPressed(Input.Keys.Z)) {
+            downButtonPressed = false;
+        }
+        if (!Gdx.input.isKeyJustPressed(downPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+            downButtonJustPressed = false;
+            downPointer = 0;
+        }
+
+        if (!Gdx.input.isTouched(pausePointer) && !Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            pauseButtonPressed = false;
+        }
+        if (!Gdx.input.isKeyJustPressed(pausePointer) && !Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            pauseButtonJustPressed = false;
+            pausePointer = 0;
+        }
+
+        if (!Gdx.input.isTouched(jumpPointer) && !Gdx.input.isKeyPressed(Input.Keys.BACKSLASH)) {
             jumpButtonPressed = false;
+        }
+        if (!Gdx.input.isKeyJustPressed(jumpPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH)) {
+            jumpButtonJustPressed = false;
             jumpPointer = 0;
         }
 
@@ -329,19 +350,19 @@ public class InputControls extends InputAdapter {
     }
 
     public void recalculateButtonPositions() {
-        leftCenter.set(Constants.BUTTON_RADIUS * .975f, Constants.BUTTON_RADIUS * 1.25f);
-        rightCenter.set(Constants.BUTTON_RADIUS * 2.55f, Constants.BUTTON_RADIUS * 1.25f);
-        upCenter.set(Constants.BUTTON_RADIUS * 1.7f, Constants.BUTTON_RADIUS * 2.1f);
-        downCenter.set(Constants.BUTTON_RADIUS * 1.7f, Constants.BUTTON_RADIUS * .54f);
-        centerCenter.set(Constants.BUTTON_RADIUS * 1.74f, Constants.BUTTON_RADIUS * 1.3125f);
-        pauseCenter.set(viewport.getWorldWidth() / 2 - 6.25f, Constants.BUTTON_RADIUS * .8f);
+        leftCenter.set(Constants.POSITION_DIAMETER * .975f, Constants.POSITION_DIAMETER * 1.25f);
+        rightCenter.set(Constants.POSITION_DIAMETER * 2.55f, Constants.POSITION_DIAMETER * 1.25f);
+        upCenter.set(Constants.POSITION_DIAMETER * 1.7f, Constants.POSITION_DIAMETER * 2.1f);
+        downCenter.set(Constants.POSITION_DIAMETER * 1.7f, Constants.POSITION_DIAMETER * .54f);
+        centerCenter.set(Constants.POSITION_DIAMETER * 1.74f, Constants.POSITION_DIAMETER * 1.3125f);
+        pauseCenter.set(viewport.getWorldWidth() / 2 - 6.25f, Constants.POSITION_DIAMETER * .8f);
         jumpCenter.set(
-                viewport.getWorldWidth() - Constants.BUTTON_RADIUS * 2.5f,
-                Constants.BUTTON_RADIUS
+                viewport.getWorldWidth() - Constants.POSITION_DIAMETER * 2.5f,
+                Constants.POSITION_DIAMETER
         );
         shootCenter.set(
-                viewport.getWorldWidth() - Constants.BUTTON_RADIUS,
-                Constants.BUTTON_RADIUS
+                viewport.getWorldWidth() - Constants.POSITION_DIAMETER,
+                Constants.POSITION_DIAMETER
         );
     }
 

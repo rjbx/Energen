@@ -345,7 +345,8 @@ public final class Constants {
     // Onscreen Controls
     public static final float ONSCREEN_CONTROLS_VIEWPORT_SIZE = 200;
     public static final Vector2 BUTTON_CENTER = new Vector2(15, 15);
-    public static final float BUTTON_RADIUS = 32;
+    public static final float POSITION_DIAMETER = 32;
+    public static final float TOUCH_RADIUS = 20;
     public static final String LEFT_BUTTON = "button-left";
     public static final String RIGHT_BUTTON = "button-right";
     public static final String UP_BUTTON = "button-up";
