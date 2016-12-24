@@ -68,7 +68,7 @@ public final class PauseOverlay {
             font.draw(batch, "DEBUG CAM", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 15, 0, Align.center, false);
             font.draw(batch, "QUIT GAME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 30, 0, Align.center, false);
         } else {
-            font.draw(batch, "DEBUG MODE\n" + "PRESS PAUSE BUTTON TO EXIT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
+            font.draw(batch, "DEBUG MODE\n" + "PRESS SHOOT BUTTON TO EXIT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
         }
         batch.end();
     }

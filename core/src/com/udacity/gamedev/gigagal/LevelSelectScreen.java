@@ -27,7 +27,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private GigaGalGame game;
     private SpriteBatch batch;
     private int levelNumber;
-    private Level level;
     private Array<String> completedLevels;
     private ExtendViewport viewport;
     private BitmapFont font;
@@ -54,7 +53,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
         levelNames.addAll(Arrays.asList(Constants.LEVELS));
         iterator = levelNames.listIterator();
         levelName = iterator.next();
-        margin = 0;
         index = 0;
         namePositions = new Array<Float>();
     }
