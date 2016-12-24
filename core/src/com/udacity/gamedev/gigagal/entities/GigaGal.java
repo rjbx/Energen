@@ -415,7 +415,7 @@ public class GigaGal implements Physical {
         this.velocity.y = velocity.y;
     }
 
-    private void enableToggle(Direction toggleDirection) {
+    public void enableToggle(Direction toggleDirection) {
         boolean directionChanged = (this.toggleDirection != toggleDirection);
         if (inputControls.jumpButtonJustPressed) {
             if (directionChanged) {
@@ -532,7 +532,7 @@ public class GigaGal implements Physical {
         }
     }
 
-    public void look() {
+    private void look() {
 
         boolean up = inputControls.upButtonPressed;
         boolean down = inputControls.downButtonPressed;

@@ -140,7 +140,7 @@ public class GameplayScreen extends ScreenAdapter {
         if (!levelEnded) {
             if (paused) {
                 pauseOverlay.render(batch);
-                gigaGal.look(); // enables gigagal to toggle weapon during pause without enabling other gigagal features
+                gigaGal.enableToggle(Enums.Direction.DOWN); // enables gigagal to toggle weapon during pause without enabling other gigagal features
                 if (inputControls.shootButtonJustPressed) {
                     if (pauseOverlay.getCursor().getPosition() == 73 && chaseCam.getFollowing()) {
                         unpause();
