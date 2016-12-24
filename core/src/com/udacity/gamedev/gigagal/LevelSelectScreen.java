@@ -136,7 +136,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         cursor.update();
         batch.end();
 
-        if (inputControls.shootButtonPressed) {
+        if (inputControls.shootButtonJustPressed) {
             gameplayScreen.setGame(game);
             gameplayScreen.setLevelName(selectedLevel);
             game.setScreen(gameplayScreen);
