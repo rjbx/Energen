@@ -13,7 +13,6 @@ public final class GigaGalGame extends Game {
     private GameplayScreen gameplay;
     private InputControls inputControls;
 
-
     // default ctor
     public GigaGalGame() {
     }

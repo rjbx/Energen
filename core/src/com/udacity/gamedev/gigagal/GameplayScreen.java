@@ -44,7 +44,7 @@ public class GameplayScreen extends ScreenAdapter {
     private IndicatorHud contextHud;
     private VictoryOverlay victoryOverlay;
     private GameOverOverlay gameOverOverlay;
-    PauseOverlay pauseOverlay;
+    private PauseOverlay pauseOverlay;
     private Array<String> completedLevels;
     private String levelName;
     private GigaGal gigaGal;
@@ -52,9 +52,9 @@ public class GameplayScreen extends ScreenAdapter {
     private int totalScore;
     private StopWatch totalTime;
     private boolean paused;
-    boolean levelEnded;
-    long pauseTime;
-    float pauseDuration;
+    private boolean levelEnded;
+    private long pauseTime;
+    private float pauseDuration;
 
     // default ctor
     public GameplayScreen(GigaGalGame game) {
@@ -78,7 +78,7 @@ public class GameplayScreen extends ScreenAdapter {
         pauseOverlay = new PauseOverlay(this);
         victoryOverlay = new VictoryOverlay(this);
         gameOverOverlay = new GameOverOverlay();
-        inputControls = new InputControls();
+        inputControls = game.getInputControls();
         powerups = new Array<TurboPowerup>();
         pauseOverlay.getCursor().setInputControls(inputControls);
 

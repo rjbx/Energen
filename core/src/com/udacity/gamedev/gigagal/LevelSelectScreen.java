@@ -61,7 +61,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        inputControls = new InputControls();
+        inputControls = game.getInputControls();
         cursor.setInputControls(inputControls);
         levelNumber = 0;
         batch = new SpriteBatch();
