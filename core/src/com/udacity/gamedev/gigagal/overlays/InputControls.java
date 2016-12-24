@@ -75,13 +75,8 @@ public class InputControls extends InputAdapter {
 
         Vector2 viewportPosition = viewport.unproject(new Vector2(screenX, screenY));
 
-        if (viewportPosition.dst(shootCenter) < Constants.BUTTON_RADIUS) {
-            Enums.AmmoIntensity ammoIntensity = gigaGal.getAmmoIntensity();
-            gigaGal.shoot(ammoIntensity, gigaGal.getWeapon(), Utils.useAmmo(ammoIntensity));
-            gigaGal.setChargeStartTime(TimeUtils.nanoTime());
-            this.shootPointer = pointer;
-            shootButtonPressed = true;
-        } else if (viewportPosition.dst(jumpCenter) < Constants.BUTTON_RADIUS) {
+
+        if (viewportPosition.dst(jumpCenter) < Constants.BUTTON_RADIUS) {
             // : Save the jumpPointer and set jumpButtonPressed = true
             this.jumpPointer = pointer;
             jumpButtonPressed = true;

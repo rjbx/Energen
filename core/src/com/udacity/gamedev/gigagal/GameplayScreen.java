@@ -119,7 +119,6 @@ public class GameplayScreen extends ScreenAdapter {
 
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        inputControls.update();
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
                 Constants.BACKGROUND_COLOR.g,
@@ -175,6 +174,7 @@ public class GameplayScreen extends ScreenAdapter {
             contextHud.render(batch);
             inputControls.render(batch);
         }
+        inputControls.update();
     }
 
     private void renderLevelEndOverlays(SpriteBatch batch) {
