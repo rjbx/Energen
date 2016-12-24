@@ -1,6 +1,7 @@
 package com.udacity.gamedev.gigagal.overlays;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -15,10 +16,10 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // mutable
-public class OnscreenControls extends InputAdapter {
+public class InputControls extends InputAdapter {
 
     // fields
-    public static final String TAG = OnscreenControls.class.getName();
+    public static final String TAG = InputControls.class.getName();
     private final Viewport viewport;
     private final Vector2 leftCenter;
     private final Vector2 rightCenter;
@@ -43,9 +44,15 @@ public class OnscreenControls extends InputAdapter {
     public boolean downButtonPressed;
     public boolean jumpButtonPressed;
     public boolean shootButtonPressed;
+    public boolean leftButtonJustPressed;
+    public boolean rightButtonJustPressed;
+    public boolean upButtonJustPressed;
+    public boolean downButtonJustPressed;
+    public boolean jumpButtonJustPressed;
+    public boolean shootButtonJustPressed;
 
     // default ctor
-    public OnscreenControls() {
+    public InputControls() {
         this.viewport = new ExtendViewport(
                 Constants.ONSCREEN_CONTROLS_VIEWPORT_SIZE,
                 Constants.ONSCREEN_CONTROLS_VIEWPORT_SIZE);
@@ -62,7 +69,6 @@ public class OnscreenControls extends InputAdapter {
         // TODO: fix button positions
         recalculateButtonPositions();
     }
-
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -172,6 +178,57 @@ public class OnscreenControls extends InputAdapter {
         }
 
         return super.touchDragged(screenX, screenY, pointer);
+    }
+
+    public void update() {
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            upButtonPressed = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
+            downButtonPressed = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            leftButtonPressed = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            rightButtonPressed = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.BACKSLASH)) {
+            jumpButtonPressed = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            shootButtonPressed = true;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+            upButtonJustPressed = true;
+        } else {
+            upButtonJustPressed = false;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+            downButtonJustPressed = true;
+        } else {
+            downButtonJustPressed = false;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+            leftButtonJustPressed = true;
+        } else {
+            leftButtonJustPressed = false;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+            rightButtonJustPressed = true;
+        } else {
+            rightButtonJustPressed = false;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH)) {
+            jumpButtonJustPressed = true;
+        } else {
+            jumpButtonJustPressed = false;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            shootButtonJustPressed = true;
+        } else {
+            shootButtonJustPressed = false;
+        }
     }
 
     public void render(SpriteBatch batch) {

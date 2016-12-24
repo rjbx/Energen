@@ -3,22 +3,19 @@ package com.udacity.gamedev.gigagal.overlays;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-import javafx.geometry.VerticalDirection;
-
-//immutable
-public final class CursorOverlay {
+public class CursorOverlay {
 
     // fields
     private ExtendViewport viewport;
     private float verticalPosition;
     private float startingPosition;
     private float endingPosition;
+    private InputControls inputControls;
 
     // ctor
     public CursorOverlay(float startingPosition, float endingPosition) {
@@ -33,14 +30,14 @@ public final class CursorOverlay {
     }
 
     public void update() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Z) || Gdx.input.isKeyJustPressed(Input.Keys.S) || inputControls.downButtonPressed || inputControls.rightButtonPressed) {
             if (verticalPosition >= endingPosition + 15) {
                 verticalPosition -= 15;
             } else {
                 verticalPosition = startingPosition;
             }
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.A) || inputControls.upButtonPressed || inputControls.leftButtonPressed) {
             if (verticalPosition <= startingPosition - 15) {
                 verticalPosition += 15;
             } else {
@@ -59,4 +56,5 @@ public final class CursorOverlay {
 
     public ExtendViewport getViewport() { return viewport; }
     public float getPosition() { return verticalPosition; }
+    public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
 }

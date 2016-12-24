@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.udacity.gamedev.gigagal.overlays.InputControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 
 // immutable
@@ -10,6 +11,7 @@ public final class GigaGalGame extends Game {
     // fields
     private LevelSelectScreen levelSelect;
     private GameplayScreen gameplay;
+    private InputControls inputControls;
 
 
     // default ctor
@@ -18,6 +20,7 @@ public final class GigaGalGame extends Game {
 
     @Override
     public void create() {
+        inputControls = new InputControls();
         gameplay = new GameplayScreen(this);
         levelSelect = new LevelSelectScreen(this);
         AssetManager am = new AssetManager();
@@ -27,4 +30,5 @@ public final class GigaGalGame extends Game {
 
     public LevelSelectScreen getLevelSelectScreen() { return levelSelect; }
     public GameplayScreen getGameplayScreen() { return gameplay; }
+    public InputControls getInputControls() { return inputControls; }
 }

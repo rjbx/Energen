@@ -16,7 +16,7 @@ import com.udacity.gamedev.gigagal.entities.TurboPowerup;
 import com.udacity.gamedev.gigagal.overlays.IndicatorHud;
 import com.udacity.gamedev.gigagal.overlays.GameOverOverlay;
 import com.udacity.gamedev.gigagal.overlays.GaugeHud;
-import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
+import com.udacity.gamedev.gigagal.overlays.InputControls;
 import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.overlays.VictoryOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -25,7 +25,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.LevelLoader;
 import com.udacity.gamedev.gigagal.util.Utils;
-
 import org.apache.commons.lang3.time.StopWatch;
 import java.util.Arrays;
 
@@ -34,7 +33,7 @@ public class GameplayScreen extends ScreenAdapter {
     // fields
     public static final String TAG = GameplayScreen.class.getName();
     private GigaGalGame game;
-    private OnscreenControls onscreenControls;
+    private InputControls inputControls;
     private SpriteBatch batch;
     private ShapeRenderer renderer;
     private long levelEndOverlayStartTime;
@@ -81,11 +80,12 @@ public class GameplayScreen extends ScreenAdapter {
         pauseOverlay = new PauseOverlay(this);
         victoryOverlay = new VictoryOverlay(this);
         gameOverOverlay = new GameOverOverlay();
-        onscreenControls = new OnscreenControls();
+        inputControls = new InputControls();
         powerups = new Array<TurboPowerup>();
+        pauseOverlay.getCursor().setInputControls(inputControls);
 
-        // : Use Gdx.input.setInputProcessor() to send touch events to onscreenControls
-        Gdx.input.setInputProcessor(onscreenControls);
+        // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
+        Gdx.input.setInputProcessor(inputControls);
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
         startNewLevel();
@@ -105,11 +105,11 @@ public class GameplayScreen extends ScreenAdapter {
         pauseOverlay.getCursor().getViewport().update(width, height, true);
         level.getViewport().update(width, height, true);
         chaseCam.camera = level.getViewport().getCamera();
-        onscreenControls.setGameplayScreen(this);
-        onscreenControls.getViewport().update(width, height, true);
-        onscreenControls.recalculateButtonPositions();
-        gigaGal.setOnscreenControls(onscreenControls);
-
+        inputControls.setGameplayScreen(this);
+        inputControls.getViewport().update(width, height, true);
+        inputControls.recalculateButtonPositions();
+        gigaGal.setInputControls(inputControls);
+        chaseCam.setInputControls(inputControls);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class GameplayScreen extends ScreenAdapter {
 
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-
+        inputControls.update();
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
                 Constants.BACKGROUND_COLOR.g,
@@ -145,7 +145,7 @@ public class GameplayScreen extends ScreenAdapter {
             if (paused) {
                 pauseOverlay.render(batch);
                 gigaGal.look(); // enables gigagal to toggle weapon during pause without enabling other gigagal features
-                if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) || pauseButtonPressed) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) || pauseButtonPressed || inputControls.shootButtonPressed) {
                     if (pauseOverlay.getCursor().getPosition() == 73 && chaseCam.getFollowing()) {
                         unpause();
                     } else if (pauseOverlay.getCursor().getPosition() == 58) {
@@ -157,7 +157,6 @@ public class GameplayScreen extends ScreenAdapter {
                             chaseCam.setFollowing(true);
                         } else {
                             chaseCam.setFollowing(false);
-                            chaseCam.setOnscreenControls(onscreenControls);
                         }
                     } else if (pauseOverlay.getCursor().getPosition() == 28) {
                         game.create();
@@ -177,7 +176,7 @@ public class GameplayScreen extends ScreenAdapter {
             }
             meterHud.render(batch, renderer);
             contextHud.render(batch);
-            onscreenControls.render(batch);
+            inputControls.render(batch);
         }
     }
 
@@ -272,5 +271,6 @@ public class GameplayScreen extends ScreenAdapter {
     public int getTotalScore() { return totalScore; }
     public StopWatch getTotalTime() { return totalTime; }
     public ChaseCam getChaseCam() { return chaseCam; }
+    public InputControls getInputControls() { return inputControls; }
 }
 

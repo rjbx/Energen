@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.overlays.CursorOverlay;
+import com.udacity.gamedev.gigagal.overlays.InputControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private Array<Float> namePositions;
     private String selectedLevel;
     private int index;
+    private GameplayScreen gameplayScreen;
+    private InputControls inputControls;
 
     // default ctor
     public LevelSelectScreen(GigaGalGame game) {
@@ -52,6 +55,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         index = 0;
         namePositions = new Array<Float>();
         this.game = game;
+        gameplayScreen = game.getGameplayScreen();
     }
 
     @Override
@@ -59,6 +63,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
         cursor = new CursorOverlay(145, 55);
+        inputControls = game.getInputControls();
+        cursor.setInputControls(inputControls);
         levelNumber = 0;
         batch = new SpriteBatch();
         completedLevels = new Array<String>();
@@ -72,6 +78,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         viewport.update(width, height, true);
         cursor.getViewport().update(width, height, true);
+        inputControls.getViewport().update(width, height, true);
+        inputControls.recalculateButtonPositions();
     }
 
     @Override
@@ -85,9 +93,12 @@ public final class LevelSelectScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
+        inputControls.update();
+
         viewport.apply();
         batch.begin();
 
+   //     inputControls.render(batch);
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
                 Constants.BACKGROUND_COLOR.g,
@@ -122,9 +133,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            game.getGameplayScreen().setGame(game);
-            game.getGameplayScreen().setLevelName(selectedLevel);
-            game.setScreen(game.getGameplayScreen());
+            gameplayScreen.setGame(game);
+            gameplayScreen.setLevelName(selectedLevel);
+            game.setScreen(gameplayScreen);
         }
     }
 
