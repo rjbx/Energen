@@ -248,7 +248,7 @@ public class Level {
     public final Array<Hazard> getHazards() { hazards = new Array<Hazard>(destructibles); hazards.addAll(indestructibles); hazards.addAll(ammoList); return hazards; }
     public final Array<Ground> getGrounds() { return grounds; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
-    public Viewport getViewport() { return viewport; }
+    public final Viewport getViewport() { return viewport; }
     public final Portal getPortal() { return portal; }
     public final GigaGal getGigaGal() { return gigaGal; }
     public final boolean isGameOver() { return gameOver; }
