@@ -33,7 +33,11 @@ public final class ChaseCam {
 
         if (following) {
             camera.position.x = target.getPosition().x;
-            camera.position.y = target.getPosition().y;
+            if (target.isLooking()) {
+                camera.position.y = target.getChaseCamPosition().y;
+            } else {
+                camera.position.y = target.getPosition().y;
+            }
         } else {
             if (inputControls.leftButtonPressed) {
                 camera.position.x -= delta * Constants.CHASE_CAM_MOVE_SPEED;

@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.overlays.InputControls;
+import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -33,6 +35,7 @@ public class GigaGal implements Physical {
     private Vector2 position;
     private Vector2 previousFramePosition;
     private Vector2 velocity;
+    private Vector3 chaseCamPosition;
     private Direction facing;
     private AerialState aerialState;
     private GroundState groundState;
@@ -40,6 +43,7 @@ public class GigaGal implements Physical {
     private AmmoIntensity ammoIntensity;
     private Direction lookDirection;
     private Direction toggleDirection;
+    private long lookStartTime;
     private long strideStartTime;
     private long jumpStartTime;
     private long dashStartTime;
@@ -52,6 +56,7 @@ public class GigaGal implements Physical {
     private float turbo;
     private float startTurbo;
     private float strideAcceleration;
+    private float lookTimeSeconds;
     private float hoverTimeSeconds;
     private float dashTimeSeconds;
     private float jumpTimeSeconds;
@@ -84,6 +89,7 @@ public class GigaGal implements Physical {
         position = new Vector2();
         velocity = new Vector2();
         previousFramePosition = new Vector2();
+        chaseCamPosition = new Vector3();
         weaponList = new ArrayList<WeaponType>();
         init();
     }
@@ -459,7 +465,6 @@ public class GigaGal implements Physical {
                 } else if (Utils.secondsSince(chargeStartTime) > Constants.CHARGE_DURATION) {
                     ammoIntensity = AmmoIntensity.BLAST;
                 }
-
             } else if (canCharge) {
                 int ammoUsed;
 
@@ -496,6 +501,7 @@ public class GigaGal implements Physical {
 
     public void respawn() {
         position.set(spawnLocation);
+        chaseCamPosition.set(position, 0);
         velocity.setZero();
         facing = Direction.RIGHT;
         groundState = GroundState.AIRBORNE;
@@ -508,48 +514,67 @@ public class GigaGal implements Physical {
         canHover = false;
         canRicochet = false;
         canShoot = true;
+        turboDuration = 0;
         canCharge = false;
         canChangeDirection = false;
         ammoIntensity = AmmoIntensity.SHOT;
         slidPlatform = false;
         groundedPlatform = false;
         knockedBack = false;
+        lookStartTime = 0;
         chargeStartTime = 0;
         strideStartTime = 0;
         jumpStartTime = 0;
         dashStartTime = 0;
         pauseDuration = 0;
+        turboDuration = 0;
         recoveryStartTime = TimeUtils.nanoTime();
         health = Constants.MAX_HEALTH;
         turbo = Constants.MAX_TURBO;
         startTurbo = turbo;
-        turboDuration = 0;
     }
 
     private void enableLook() {
-        if (canLook) {
-            look();
-        }
-    }
-
-    private void look() {
-
         boolean up = inputControls.upButtonPressed;
         boolean down = inputControls.downButtonPressed;
         boolean looking = up || down;
-        if (looking) {
+        if (canLook && looking) {
             if (up) {
                 lookDirection = Direction.UP;
             } else if (down) {
                 lookDirection = Direction.DOWN;
             }
-            canHover = false;
-            canJump = false;
             enableToggle(lookDirection);
-        } else {
-            canLook = false;
-            lookDirection = null;
+            look();
+        }  else {
+            if (Math.abs(chaseCamPosition.y - position.y) < 5) {
+                chaseCamPosition.set(position, 0);
+                lookDirection = null;
+                canLook = false;
+            } else {
+                chaseCamPosition.y -= Utils.absoluteToDirectionalValue(3, lookDirection, Orientation.VERTICAL);
+                lookStartTime = 0;
+            }
         }
+    }
+
+    private void look() {
+        float offset = 0;
+        if (groundState == GroundState.STANDING) {
+            if (lookStartTime == 0) {
+                lookStartTime = TimeUtils.nanoTime();
+            } else {
+                lookTimeSeconds = Utils.secondsSince(lookStartTime) - pauseDuration;
+                if (lookTimeSeconds > 1) {
+                    offset += 1.5f;
+                    if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {
+                        chaseCamPosition.y += Utils.absoluteToDirectionalValue(offset, lookDirection, Orientation.VERTICAL);
+                    }
+                }
+            }
+        }
+        canJump = false;
+        canHover = false;
     }
 
     private void enableStride() {
@@ -647,7 +672,7 @@ public class GigaGal implements Physical {
 
     private void hover() {
         // canHover can only be true just before beginning to hover
-        if (hoverStartTime == 0) {
+        if (aerialState != AerialState.HOVERING) {
             startTurbo = turbo;
             turboDuration = Constants.MAX_HOVER_DURATION * ((float) startTurbo / Constants.MAX_TURBO);
             aerialState = AerialState.HOVERING; // indicates currently hovering
@@ -796,6 +821,8 @@ public class GigaGal implements Physical {
     public List<WeaponType> getWeaponList() { return weaponList; }
     public float getPauseDuration() { return pauseDuration; }
     public boolean getPauseState() { return pauseState; }
+    public Vector3 getChaseCamPosition() { return chaseCamPosition; }
+    public boolean isLooking() { return lookDirection != null; }
 
     // Setters
     public void setFacing(Direction facing) { this.facing = facing; }
@@ -805,6 +832,7 @@ public class GigaGal implements Physical {
     public void setPauseDuration(float pauseDuration) { this.pauseDuration = pauseDuration; }
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public void isPaused(boolean pauseState) { this.pauseState = pauseState; }
+    public void setChaseCamPosition(Vector3 position) { this.chaseCamPosition = position;}
     
     public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
 }

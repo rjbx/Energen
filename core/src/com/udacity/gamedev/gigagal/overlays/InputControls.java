@@ -192,13 +192,13 @@ public class InputControls extends InputAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             upButtonPressed = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             downButtonPressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             leftButtonPressed = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             rightButtonPressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.BACKSLASH)) {
@@ -213,13 +213,13 @@ public class InputControls extends InputAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
             upButtonJustPressed = true;
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             downButtonJustPressed = true;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
             leftButtonJustPressed = true;
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             rightButtonJustPressed = true;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH)) {
@@ -253,10 +253,10 @@ public class InputControls extends InputAdapter {
             leftButtonJustPressed = false;
             leftPointer = 0;
         }
-        if (!Gdx.input.isTouched(rightPointer) && !Gdx.input.isKeyPressed(Input.Keys.S)) {
+        if (!Gdx.input.isTouched(rightPointer) && !Gdx.input.isKeyPressed(Input.Keys.D)) {
             rightButtonPressed = false;
         }
-        if (!Gdx.input.isKeyJustPressed(rightPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+        if (!Gdx.input.isKeyJustPressed(rightPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             rightButtonJustPressed = false;
             rightPointer = 0;
         }
@@ -269,10 +269,10 @@ public class InputControls extends InputAdapter {
             upPointer = 0;
         }
 
-        if (!Gdx.input.isTouched(downPointer) && !Gdx.input.isKeyPressed(Input.Keys.Z)) {
+        if (!Gdx.input.isTouched(downPointer) && !Gdx.input.isKeyPressed(Input.Keys.S)) {
             downButtonPressed = false;
         }
-        if (!Gdx.input.isKeyJustPressed(downPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+        if (!Gdx.input.isKeyJustPressed(downPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             downButtonJustPressed = false;
             downPointer = 0;
         }

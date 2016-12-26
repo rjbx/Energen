@@ -2,7 +2,6 @@ package com.udacity.gamedev.gigagal;
 
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
@@ -85,7 +84,7 @@ public class GameplayScreen extends ScreenAdapter {
         // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
         Gdx.input.setInputProcessor(inputControls);
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
-        // onMobile();
+        onMobile();
         startNewLevel();
     }
 
