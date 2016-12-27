@@ -242,6 +242,7 @@ public class GigaGal implements Physical {
                     canHover = true; // enable hover
                     // if groundstate is airborne, set to standing
                     if (groundState == GroundState.AIRBORNE) {
+                        lookStartTime = 0;
                         stand(); // set groundstate to standing
                     }
                 }
@@ -538,23 +539,27 @@ public class GigaGal implements Physical {
         boolean up = inputControls.upButtonPressed;
         boolean down = inputControls.downButtonPressed;
         boolean looking = up || down;
-        if (canLook && looking) {
-            if (up) {
-                lookDirection = Direction.UP;
-            } else if (down) {
-                lookDirection = Direction.DOWN;
-            }
-            enableToggle(lookDirection);
-            look();
-        }  else {
-            if (Math.abs(chaseCamPosition.y - position.y) < 5) {
-                chaseCamPosition.set(position, 0);
-                lookDirection = null;
-                canLook = false;
+        if (canLook) {
+            if (looking) {
+                if (up) {
+                    lookDirection = Direction.UP;
+                } else if (down) {
+                    lookDirection = Direction.DOWN;
+                }
+                enableToggle(lookDirection);
+                look();
             } else {
-                chaseCamPosition.y -= Utils.absoluteToDirectionalValue(3, lookDirection, Orientation.VERTICAL);
-                lookStartTime = 0;
+                if (Math.abs(chaseCamPosition.y - position.y) < 5) {
+                    chaseCamPosition.set(position, 0);
+                    lookDirection = null;
+                    canLook = false;
+                } else {
+                    chaseCamPosition.y -= Utils.absoluteToDirectionalValue(3, lookDirection, Orientation.VERTICAL);
+                    lookStartTime = 0;
+                }
             }
+        } else {
+            lookTimeSeconds = 0;
         }
     }
 

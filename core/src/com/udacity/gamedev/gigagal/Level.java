@@ -52,7 +52,6 @@ public class Level {
     private DelayedRemovalArray<Powerup> powerups;
     private StopWatch levelTime;
 
-
     // default ctor
     public Level() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
