@@ -118,6 +118,12 @@ public final class Constants {
     public static final String SPRING_SPRITE_3 = "spring-3";
     public static final float SPRING_DURATION = 1.5f;
 
+    // Sink
+    public static final Vector2 SINK_CENTER = new Vector2(9.75f, 4);
+    public static final String SINK_SPRITE_1 = "sink-1";
+    public static final String SINK_SPRITE_2 = "sink-2";
+    public static final float SINK_DURATION = 1.25f;
+
     // Cannon
     public static final Vector2 LATERAL_CANNON_CENTER = new Vector2(10, 6);
     public static final String LATERAL_CANNON_SPRITE = "cannon-lateral";

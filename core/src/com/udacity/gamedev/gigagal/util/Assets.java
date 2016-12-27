@@ -26,6 +26,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private SlickAssets slickAssets;
     private TreadmillAssets treadmillAssets;
     private SpringAssets springAssets;
+    private SinkAssets sinkAssets;
     private AmmoAssets ammoAssets;
     private ZoombaAssets zoombaAssets;
     private FieryZoombaAssets fieryZoombaAssets;
@@ -74,6 +75,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         slickAssets = new SlickAssets(atlas);
         treadmillAssets = new TreadmillAssets(atlas);
         springAssets = new SpringAssets(atlas);
+        sinkAssets = new SinkAssets(atlas);
         ammoAssets = new AmmoAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
         fieryZoombaAssets = new FieryZoombaAssets(atlas);
@@ -322,7 +324,20 @@ public final class Assets implements Disposable, AssetErrorListener {
                     springRegions, PlayMode.LOOP_PINGPONG);
         }
     }
-    
+
+    public class SinkAssets {
+
+        public final Animation sink;
+
+        public SinkAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> sinkRegions = new Array<AtlasRegion>();
+            sinkRegions.add(atlas.findRegion(Constants.SINK_SPRITE_1));
+            sinkRegions.add(atlas.findRegion(Constants.SINK_SPRITE_2));
+
+            sink = new Animation(Constants.SINK_DURATION / sinkRegions.size,
+                    sinkRegions, PlayMode.NORMAL);
+        }
+    }
 
     public class ZoombaAssets {
 
@@ -676,6 +691,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final SlickAssets getSlickAssets() { return slickAssets; }
     public final TreadmillAssets getTreadmillAssets() { return treadmillAssets; }
     public final SpringAssets getSpringAssets() { return springAssets; }
+    public final SinkAssets getSinkAssets() { return sinkAssets; }
     public final AmmoAssets getAmmoAssets() { return ammoAssets; }
     public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
     public final FieryZoombaAssets getFieryZoombaAssets() { return fieryZoombaAssets; }
