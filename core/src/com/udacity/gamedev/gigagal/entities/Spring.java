@@ -18,7 +18,8 @@ public class Spring implements Ground {
     // ctor
     public Spring(Vector2 position) {
         this.position = position;
-        this.startTime = TimeUtils.nanoTime();
+        startTime = 0;
+        active = false;
     }
 
     public void render(SpriteBatch batch) {
@@ -27,10 +28,14 @@ public class Spring implements Ground {
         final TextureRegion inactiveSpring = Assets.getInstance().getSpringAssets().spring.getKeyFrame(0, false);
         final TextureRegion activeSpring = Assets.getInstance().getSpringAssets().spring.getKeyFrame(elapsedTime, true);
 
-        Utils.drawTextureRegion(batch, inactiveSpring, Constants.SPRING_CENTER);
-
         if (active) {
+            if (startTime == 0) {
+                startTime = TimeUtils.nanoTime();
+            }
             Utils.drawTextureRegion(batch, activeSpring, position, Constants.SPRING_CENTER);
+        } else {
+            startTime = 0;
+            Utils.drawTextureRegion(batch, inactiveSpring, Constants.SPRING_CENTER);
         }
     }
 
