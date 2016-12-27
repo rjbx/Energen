@@ -24,6 +24,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private PillarAssets pillarAssets;
     private LadderAssets ladderAssets;
     private SlickAssets slickAssets;
+    private TreadmillAssets treadmillAssets;
     private AmmoAssets ammoAssets;
     private ZoombaAssets zoombaAssets;
     private FieryZoombaAssets fieryZoombaAssets;
@@ -70,6 +71,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         pillarAssets = new PillarAssets(atlas);
         ladderAssets = new LadderAssets(atlas);
         slickAssets = new SlickAssets(atlas);
+        treadmillAssets = new TreadmillAssets(atlas);
         ammoAssets = new AmmoAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
         fieryZoombaAssets = new FieryZoombaAssets(atlas);
@@ -287,6 +289,20 @@ public final class Assets implements Disposable, AssetErrorListener {
 
             slick = new Animation(Constants.SLICK_DURATION / slickRegions.size,
                     slickRegions, PlayMode.NORMAL);
+        }
+    }
+
+    public class TreadmillAssets {
+
+        public final Animation treadmill;
+
+        public TreadmillAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> treadmillRegions = new Array<AtlasRegion>();
+            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_SPRITE_1));
+            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_SPRITE_2));
+
+            treadmill = new Animation(Constants.TREADMILL_DURATION / treadmillRegions.size,
+                    treadmillRegions, PlayMode.NORMAL);
         }
     }
     
@@ -641,6 +657,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final PillarAssets getPillarAssets() { return pillarAssets; }
     public final LadderAssets getLadderAssets() { return ladderAssets; }
     public final SlickAssets getSlickAssets() { return slickAssets; }
+    public final TreadmillAssets getTreadmillAssets() { return treadmillAssets; }
     public final AmmoAssets getAmmoAssets() { return ammoAssets; }
     public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
     public final FieryZoombaAssets getFieryZoombaAssets() { return fieryZoombaAssets; }
