@@ -326,6 +326,8 @@ public final class Assets implements Disposable, AssetErrorListener {
             retract = new Animation(Constants.SPRING_RETRACTION_DURATION / springRegions.size,
                     springRegions, PlayMode.NORMAL);
 
+            springRegions.add(atlas.findRegion(Constants.SPRING_SPRITE_4));
+
             propel = new Animation(Constants.SPRING_PROPULSION_DURATION / springRegions.size,
                     springRegions, PlayMode.REVERSED);
         }
