@@ -22,6 +22,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private PlatformAssets platformAssets;
     private CannonAssets cannonAssets;
     private PillarAssets pillarAssets;
+    private LadderAssets ladderAssets;
     private AmmoAssets ammoAssets;
     private ZoombaAssets zoombaAssets;
     private FieryZoombaAssets fieryZoombaAssets;
@@ -66,6 +67,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         platformAssets = new PlatformAssets(atlas, levelNumber);
         cannonAssets = new CannonAssets(atlas);
         pillarAssets = new PillarAssets(atlas);
+        ladderAssets = new LadderAssets(atlas);
         ammoAssets = new AmmoAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
         fieryZoombaAssets = new FieryZoombaAssets(atlas);
@@ -252,7 +254,16 @@ public final class Assets implements Disposable, AssetErrorListener {
             lateralCannon = atlas.findRegion(Constants.LATERAL_CANNON_SPRITE);
         }
     }
-    
+
+    public class LadderAssets {
+
+        public final AtlasRegion ladder;
+
+
+        public LadderAssets(TextureAtlas atlas) {
+            ladder = atlas.findRegion(Constants.LADDER_SPRITE);
+        }
+    }
 
     public class PillarAssets {
 
@@ -612,6 +623,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final PlatformAssets getPlatformAssets() { return platformAssets; }
     public final CannonAssets getCannonAssets() { return cannonAssets; }
     public final PillarAssets getPillarAssets() { return pillarAssets; }
+    public final LadderAssets getLadderAssets() { return ladderAssets; }
     public final AmmoAssets getAmmoAssets() { return ammoAssets; }
     public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
     public final FieryZoombaAssets getFieryZoombaAssets() { return fieryZoombaAssets; }
