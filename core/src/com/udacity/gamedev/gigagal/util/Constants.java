@@ -111,6 +111,13 @@ public final class Constants {
     public static final String TREADMILL_SPRITE_2 = "treadmill-2";
     public static final float TREADMILL_DURATION = .75f;
 
+    // Spring
+    public static final Vector2 SPRING_CENTER = new Vector2(9.5f, 9);
+    public static final String SPRING_SPRITE_1 = "spring-1";
+    public static final String SPRING_SPRITE_2 = "spring-2";
+    public static final String SPRING_SPRITE_3 = "spring-3";
+    public static final float SPRING_DURATION = 1.5f;
+
     // Cannon
     public static final Vector2 LATERAL_CANNON_CENTER = new Vector2(10, 6);
     public static final String LATERAL_CANNON_SPRITE = "cannon-lateral";
