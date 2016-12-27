@@ -94,6 +94,16 @@ public final class Constants {
     // Pillar
     public static final Vector2 PILLAR_CENTER = new Vector2(6, 3);
     public static final String PILLAR_SPRITE = "pillar";
+    
+    // Ladder
+    public static final Vector2 LADDER_CENTER = new Vector2(5.5f, 6);
+    public static final String LADDER_SPRITE = "ladder";
+
+    // Slick
+    public static final Vector2 SLICK_CENTER = new Vector2(12, 4);
+    public static final String SLICK_SPRITE_1 = "slick-1";
+    public static final String SLICK_SPRITE_2 = "slick-2";
+    public static final float SLICK_DURATION = 1;
 
     // Cannon
     public static final Vector2 LATERAL_CANNON_CENTER = new Vector2(10, 6);
@@ -101,10 +111,6 @@ public final class Constants {
     public static final Vector2 VERTICAL_CANNON_CENTER = new Vector2(8, 10);
     public static final String VERTICAL_CANNON_SPRITE = "cannon-vertical";
 
-    // Ladder
-    public static final Vector2 LADDER_CENTER = new Vector2(5.5f, 6);
-    public static final String LADDER_SPRITE = "ladder";
-    
     // Zoomba
     public static final Vector2 ZOOMBA_CENTER = new Vector2(14.5f, 25.5f);
     public static final float ZOOMBA_MOVEMENT_SPEED = 20;
