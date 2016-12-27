@@ -43,6 +43,7 @@ public class GigaGal implements Physical {
     private AmmoIntensity ammoIntensity;
     private Direction lookDirection;
     private Direction toggleDirection;
+    private Spring activeSpring;
     private long lookStartTime;
     private long strideStartTime;
     private long jumpStartTime;
@@ -246,8 +247,12 @@ public class GigaGal implements Physical {
                         stand(); // set groundstate to standing
                     }
                     if (ground instanceof Spring) {
-                        Spring spring = (Spring) ground;
-                        spring.setActive(true);
+                        activeSpring = (Spring) ground;
+                        activeSpring.setActive(true);
+                    } else {
+                        if (activeSpring != null) {
+                            activeSpring.setActive(false);
+                        }
                     }
                 }
                 // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
