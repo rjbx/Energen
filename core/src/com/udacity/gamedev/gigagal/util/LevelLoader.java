@@ -14,10 +14,15 @@ import com.udacity.gamedev.gigagal.entities.FierySwoopa;
 import com.udacity.gamedev.gigagal.entities.FieryZoomba;
 import com.udacity.gamedev.gigagal.entities.GushingSwoopa;
 import com.udacity.gamedev.gigagal.entities.GushingZoomba;
+import com.udacity.gamedev.gigagal.entities.Ladder;
 import com.udacity.gamedev.gigagal.entities.Pillar;
 import com.udacity.gamedev.gigagal.entities.SharpSwoopa;
 import com.udacity.gamedev.gigagal.entities.SharpZoomba;
+import com.udacity.gamedev.gigagal.entities.Sink;
+import com.udacity.gamedev.gigagal.entities.Slick;
+import com.udacity.gamedev.gigagal.entities.Spring;
 import com.udacity.gamedev.gigagal.entities.Swoopa;
+import com.udacity.gamedev.gigagal.entities.Treadmill;
 import com.udacity.gamedev.gigagal.entities.TurboPowerup;
 import com.udacity.gamedev.gigagal.entities.Vacuum;
 import com.udacity.gamedev.gigagal.entities.Flame;
@@ -143,6 +148,26 @@ public final class LevelLoader {
                 final Vector2 pillarPosition = imagePosition.add(Constants.PILLAR_CENTER);
                 Gdx.app.log(TAG, "Loaded the pillar at " + pillarPosition);
                 level.getGrounds().add(new Pillar(pillarPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
+                final Vector2 ladderPosition = imagePosition.add(Constants.LADDER_CENTER);
+                Gdx.app.log(TAG, "Loaded the ladder at " + ladderPosition);
+                level.getGrounds().add(new Ladder(ladderPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_SPRITE_1)) {
+                final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
+                Gdx.app.log(TAG, "Loaded the treadmill at " + treadmillPosition);
+                level.getGrounds().add(new Treadmill(treadmillPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SINK_SPRITE_1)) {
+                final Vector2 sinkPosition = imagePosition.add(Constants.SINK_CENTER);
+                Gdx.app.log(TAG, "Loaded the sink at " + sinkPosition);
+                level.getGrounds().add(new Sink(sinkPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPRING_SPRITE_1)) {
+                final Vector2 springPosition = imagePosition.add(Constants.SPRING_CENTER);
+                Gdx.app.log(TAG, "Loaded the spring at " + springPosition);
+                level.getGrounds().add(new Spring(springPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SLICK_SPRITE_1)) {
+                final Vector2 slickPosition = imagePosition.add(Constants.SLICK_CENTER);
+                Gdx.app.log(TAG, "Loaded the slick at " + slickPosition);
+                level.getGrounds().add(new Slick(slickPosition));
             }
         }
     }
