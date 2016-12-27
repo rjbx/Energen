@@ -112,7 +112,7 @@ public final class Constants {
     public static final float TREADMILL_DURATION = .75f;
 
     // Spring
-    public static final Vector2 SPRING_CENTER = new Vector2(9.5f, 9);
+    public static final Vector2 SPRING_CENTER = new Vector2(9.5f, 4.5f);
     public static final String SPRING_SPRITE_1 = "spring-1";
     public static final String SPRING_SPRITE_2 = "spring-2";
     public static final String SPRING_SPRITE_3 = "spring-3";

@@ -245,6 +245,10 @@ public class GigaGal implements Physical {
                         lookStartTime = 0;
                         stand(); // set groundstate to standing
                     }
+                    if (ground instanceof Spring) {
+                        Spring spring = (Spring) ground;
+                        spring.setActive(true);
+                    }
                 }
                 // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
                 // caution when crossing plane between ground top and minimum hover height / ground distance
