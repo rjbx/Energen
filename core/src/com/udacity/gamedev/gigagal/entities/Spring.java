@@ -25,14 +25,15 @@ public class Spring implements Ground {
     public void render(SpriteBatch batch) {
         
         final float elapsedTime = Utils.secondsSince(startTime);
-        final TextureRegion inactiveSpring = Assets.getInstance().getSpringAssets().spring.getKeyFrame(0, true);
-        final TextureRegion activeSpring = Assets.getInstance().getSpringAssets().spring.getKeyFrame(elapsedTime, true);
+        final TextureRegion inactiveSpring = Assets.getInstance().getSpringAssets().inactive;
+        final TextureRegion retractedSpring = Assets.getInstance().getSpringAssets().retract.getKeyFrame(elapsedTime, false);
+        final TextureRegion propelledSpring = Assets.getInstance().getSpringAssets().retract.getKeyFrame(elapsedTime, false);
 
         if (active) {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Utils.drawTextureRegion(batch, activeSpring, position, Constants.SPRING_CENTER);
+            Utils.drawTextureRegion(batch, retractedSpring, position, Constants.SPRING_CENTER);
         } else {
             startTime = 0;
             Utils.drawTextureRegion(batch, inactiveSpring, position, Constants.SPRING_CENTER);
