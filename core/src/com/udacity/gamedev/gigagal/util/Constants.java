@@ -117,8 +117,8 @@ public final class Constants {
     public static final String SPRING_SPRITE_2 = "spring-2";
     public static final String SPRING_SPRITE_3 = "spring-3";
     public static final String SPRING_SPRITE_4 = "spring-4";
-    public static final float SPRING_RETRACTION_DURATION = 1;
-    public static final float SPRING_PROPULSION_DURATION = 0.25f;
+    public static final float SPRING_RETRACTION_DURATION = 0.5f;
+    public static final float SPRING_PROPULSION_DURATION = 0.5f;
 
     // Sink
     public static final Vector2 SINK_CENTER = new Vector2(9.75f, 4);

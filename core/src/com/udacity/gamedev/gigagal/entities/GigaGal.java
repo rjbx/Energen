@@ -1,8 +1,5 @@
 package com.udacity.gamedev.gigagal.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -13,7 +10,6 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.overlays.InputControls;
-import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -243,15 +239,19 @@ public class GigaGal implements Physical {
                     canHover = true; // enable hover
                     // if groundstate is airborne, set to standing
                     if (groundState == GroundState.AIRBORNE) {
-                        lookStartTime = 0;
+                        
                         stand(); // set groundstate to standing
                     }
                     if (ground instanceof Spring) {
                         activeSpring = (Spring) ground;
-                        activeSpring.setActive(true);
+                        activeSpring.setState(SpringState.RETRACTED);
                     } else {
                         if (activeSpring != null) {
-                            activeSpring.setActive(false);
+                            activeSpring.resetStartTime();
+                            activeSpring.setState(SpringState.PROPELLED);
+                        } else {
+                            activeSpring.setState(SpringState.INACTIVE);
+                            activeSpring = null;
                         }
                     }
                 }
@@ -371,8 +371,6 @@ public class GigaGal implements Physical {
                     ammoIntensity = AmmoIntensity.SHOT;
                     recoveryStartTime = TimeUtils.nanoTime();
                     chargeStartTime = 0;
-                    lookDirection = null;
-                    canLook = false;
                     int damage = hazard.getDamage();
                     float margin = 0;
                     if (hazard instanceof Destructible) {
@@ -427,6 +425,8 @@ public class GigaGal implements Physical {
         canHover = false;
         canRicochet = false;
         canChangeDirection = false;
+        canLook = false;
+        lookStartTime = 0;
         this.velocity.x = velocity.x;
         this.velocity.y = velocity.y;
     }
@@ -531,7 +531,7 @@ public class GigaGal implements Physical {
         slidPlatform = false;
         groundedPlatform = false;
         knockedBack = false;
-        lookStartTime = 0;
+        
         chargeStartTime = 0;
         strideStartTime = 0;
         jumpStartTime = 0;
@@ -550,25 +550,32 @@ public class GigaGal implements Physical {
         boolean looking = up || down;
         if (canLook) {
             if (looking) {
+                canStride = false;
                 if (up) {
                     lookDirection = Direction.UP;
+                    if (chaseCamPosition.y < position.y) {
+                        chaseCamPosition.set(position, 0);
+                    }
                 } else if (down) {
                     lookDirection = Direction.DOWN;
+                    if (chaseCamPosition.y > position.y) {
+                        chaseCamPosition.set(position, 0);
+                    }
                 }
                 enableToggle(lookDirection);
                 look();
+            } else if ( Math.abs(chaseCamPosition.y - position.y) > 5 ){
+                chaseCamPosition.y -= Utils.absoluteToDirectionalValue(3, lookDirection, Orientation.VERTICAL);
+                chaseCamPosition.x = position.x;
+                lookTimeSeconds = 0;
+            } else if (chaseCamPosition.y != position.y && lookStartTime != 0){
+                chaseCamPosition.set(position, 0);
+                lookDirection = null;
+                canLook = false;
             } else {
-                if (Math.abs(chaseCamPosition.y - position.y) < 5) {
-                    chaseCamPosition.set(position, 0);
-                    lookDirection = null;
-                    canLook = false;
-                } else {
-                    chaseCamPosition.y -= Utils.absoluteToDirectionalValue(3, lookDirection, Orientation.VERTICAL);
-                    lookStartTime = 0;
-                }
+                lookDirection = null;
+                lookStartTime = 0;
             }
-        } else {
-            lookTimeSeconds = 0;
         }
     }
 
@@ -577,6 +584,7 @@ public class GigaGal implements Physical {
         if (groundState == GroundState.STANDING) {
             if (lookStartTime == 0) {
                 lookStartTime = TimeUtils.nanoTime();
+                chaseCamPosition.set(position, 0);
             } else {
                 lookTimeSeconds = Utils.secondsSince(lookStartTime) - pauseDuration;
                 if (lookTimeSeconds > 1) {
@@ -603,7 +611,6 @@ public class GigaGal implements Physical {
             turbo += Constants.STRIDE_TURBO_INCREMENT;
         }
         canLook = false;
-        lookDirection = null;
         if (strideStartTime == 0) {
             groundState = GroundState.STRIDING;
             strideStartTime = TimeUtils.nanoTime();
@@ -836,17 +843,14 @@ public class GigaGal implements Physical {
     public float getPauseDuration() { return pauseDuration; }
     public boolean getPauseState() { return pauseState; }
     public Vector3 getChaseCamPosition() { return chaseCamPosition; }
-    public boolean isLooking() { return lookDirection != null; }
+    public long getLookStartTime() { return lookStartTime; }
 
     // Setters
     public void setFacing(Direction facing) { this.facing = facing; }
-    public void setChargeStartTime(long chargeStartTime) { this.chargeStartTime = chargeStartTime; }
     public void setLives(int lives) { this.lives = lives; }
     public void setHealth(int health) { this.health = health; }
     public void setPauseDuration(float pauseDuration) { this.pauseDuration = pauseDuration; }
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
-    public void isPaused(boolean pauseState) { this.pauseState = pauseState; }
-    public void setChaseCamPosition(Vector3 position) { this.chaseCamPosition = position;}
     
     public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
 }

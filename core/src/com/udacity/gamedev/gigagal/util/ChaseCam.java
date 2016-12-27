@@ -33,7 +33,7 @@ public final class ChaseCam {
 
         if (following) {
             camera.position.x = target.getPosition().x;
-            if (target.isLooking()) {
+            if (target.getLookStartTime() != 0) {
                 camera.position.y = target.getChaseCamPosition().y;
             } else {
                 camera.position.y = target.getPosition().y;

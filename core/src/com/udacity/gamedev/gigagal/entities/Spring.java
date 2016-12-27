@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 public class Spring implements Ground {
@@ -13,13 +14,13 @@ public class Spring implements Ground {
     // fields
     private Vector2 position;
     private long startTime;
-    private boolean active;
+    private Enums.SpringState state;
 
     // ctor
     public Spring(Vector2 position) {
         this.position = position;
         startTime = 0;
-        active = false;
+        state = Enums.SpringState.INACTIVE;
     }
 
     public void render(SpriteBatch batch) {
@@ -27,13 +28,18 @@ public class Spring implements Ground {
         final float elapsedTime = Utils.secondsSince(startTime);
         final TextureRegion inactiveSpring = Assets.getInstance().getSpringAssets().inactive;
         final TextureRegion retractedSpring = Assets.getInstance().getSpringAssets().retract.getKeyFrame(elapsedTime, false);
-        final TextureRegion propelledSpring = Assets.getInstance().getSpringAssets().retract.getKeyFrame(elapsedTime, false);
+        final TextureRegion propelledSpring = Assets.getInstance().getSpringAssets().propel.getKeyFrame(elapsedTime, false);
 
-        if (active) {
+        if (state == Enums.SpringState.RETRACTED) {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
             Utils.drawTextureRegion(batch, retractedSpring, position, Constants.SPRING_CENTER);
+        } else if (state == Enums.SpringState.PROPELLED) {
+            if (startTime == 0) {
+                startTime = TimeUtils.nanoTime();
+            }
+            Utils.drawTextureRegion(batch, propelledSpring, position, Constants.SPRING_CENTER);
         } else {
             startTime = 0;
             Utils.drawTextureRegion(batch, inactiveSpring, position, Constants.SPRING_CENTER);
@@ -47,6 +53,9 @@ public class Spring implements Ground {
     public final float getRight() { return position.x + Constants.SPRING_CENTER.x; }
     public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
+    public final long getStartTime() { return startTime; }
     public final Class getSubclass() { return this.getClass(); }
-    public final void setActive(boolean state) { this.active = state; }
+    public final Enums.SpringState getState() { return state; }
+    public final void setState(Enums.SpringState state) { this.state = state; }
+    public final void resetStartTime() { this.startTime = 0; }
 }
