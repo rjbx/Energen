@@ -196,7 +196,7 @@ public class GigaGal implements Physical {
                                 slidPlatform = false;
                                 fall(); // fall regardless of whether or not inner condition met
                             }
-                        // only when grounded
+                            // only when grounded
                         } else if (aerialState == AerialState.GROUNDED) {
                             stand();
                         }
@@ -368,15 +368,13 @@ public class GigaGal implements Physical {
         for (Hazard hazard : hazards) {
             recoveryTimeSeconds = Utils.secondsSince(recoveryStartTime) - pauseDuration;
             if (!knockedBack
-                &&  recoveryTimeSeconds > Constants.RECOVERY_TIME) {
+                    &&  recoveryTimeSeconds > Constants.RECOVERY_TIME) {
                 Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                 if (getBounds().overlaps(bounds)) {
                     knockedBack = true;
                     ammoIntensity = AmmoIntensity.SHOT;
                     recoveryStartTime = TimeUtils.nanoTime();
                     chargeStartTime = 0;
-                    chaseCamPosition.set(position, 0);
-                    lookDirection = null;
                     int damage = hazard.getDamage();
                     float margin = 0;
                     if (hazard instanceof Destructible) {
@@ -384,6 +382,8 @@ public class GigaGal implements Physical {
                     }
                     if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
 
+                        lookDirection = null;
+                        chaseCamPosition.set(position, 0);
                         Vector2 intersection = new Vector2();
                         intersection.x = Math.max(getBounds().x, bounds.x);
                         intersection.y = Math.max(getBounds().y, bounds.y);
@@ -485,8 +485,8 @@ public class GigaGal implements Physical {
                 int ammoUsed;
 
                 if (weapon == WeaponType.NATIVE
-                || (ammo < Constants.BLAST_AMMO_CONSUMPTION && ammoIntensity == AmmoIntensity.BLAST)
-                || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
+                        || (ammo < Constants.BLAST_AMMO_CONSUMPTION && ammoIntensity == AmmoIntensity.BLAST)
+                        || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
                     ammoUsed = 0;
                     weapon = WeaponType.NATIVE;
                 } else {
@@ -504,8 +504,8 @@ public class GigaGal implements Physical {
     public void shoot(AmmoIntensity ammoIntensity, WeaponType weapon, int ammoUsed) {
         ammo -= ammoUsed;
         Vector2 ammoPosition = new Vector2(
-                    position.x + Utils.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, facing, Orientation.LATERAL),
-                    position.y + Constants.GIGAGAL_CANNON_OFFSET.y
+                position.x + Utils.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, facing, Orientation.LATERAL),
+                position.y + Constants.GIGAGAL_CANNON_OFFSET.y
         );
         if (lookDirection == Direction.UP || lookDirection == Direction.DOWN) {
             ammoPosition.add(Utils.absoluteToDirectionalValue(0, facing, Orientation.LATERAL),  Utils.absoluteToDirectionalValue(6, lookDirection, Orientation.VERTICAL));
@@ -673,8 +673,8 @@ public class GigaGal implements Physical {
 
     private void enableJump() {
         if (((inputControls.jumpButtonJustPressed && canJump)
-        || aerialState == AerialState.JUMPING)
-        && lookDirection == null) {
+                || aerialState == AerialState.JUMPING)
+                && lookDirection == null) {
             jump();
         }
     }
@@ -878,6 +878,6 @@ public class GigaGal implements Physical {
     public void setHealth(int health) { this.health = health; }
     public void setPauseDuration(float pauseDuration) { this.pauseDuration = pauseDuration; }
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
-    
+
     public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
 }
