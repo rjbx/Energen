@@ -381,9 +381,8 @@ public class GigaGal implements Physical {
                         margin = hazard.getWidth() / 6;
                     }
                     if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
-
-                        lookDirection = null;
                         chaseCamPosition.set(position, 0);
+                        lookDirection = null;
                         Vector2 intersection = new Vector2();
                         intersection.x = Math.max(getBounds().x, bounds.x);
                         intersection.y = Math.max(getBounds().y, bounds.y);
@@ -570,13 +569,7 @@ public class GigaGal implements Physical {
                     }
                 }
                 if (directionChanged && groundState == GroundState.STANDING) {
-                    if (Math.abs(chaseCamPosition.y - position.y) > 5) {
-                        lookStartTime = TimeUtils.nanoTime();
-                        chaseCamPosition.y += Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
-                        chaseCamPosition.x = position.x;
-                    } else {
-                        chaseCamPosition.set(position, 0);
-                    }
+                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, lookDirection, Orientation.VERTICAL);
                 }
                 enableToggle(lookDirection);
                 look();
@@ -673,8 +666,8 @@ public class GigaGal implements Physical {
 
     private void enableJump() {
         if (((inputControls.jumpButtonJustPressed && canJump)
-                || aerialState == AerialState.JUMPING)
-                && lookDirection == null) {
+        || aerialState == AerialState.JUMPING)
+        && lookDirection == null) {
             jump();
         }
     }
