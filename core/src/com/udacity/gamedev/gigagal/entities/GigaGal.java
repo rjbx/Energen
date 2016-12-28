@@ -589,10 +589,12 @@ public class GigaGal implements Physical {
                     lookDirection = null;
                     canLook = false;
                 } else {
+                    chaseCamPosition.set(position, 0);
                     lookDirection = null;
                     lookStartTime = 0;
                 }
             } else {
+                chaseCamPosition.set(position, 0);
                 lookDirection = null;
                 lookStartTime = 0;
             }
