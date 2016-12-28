@@ -2,7 +2,6 @@ package com.udacity.gamedev.gigagal.util;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -106,10 +105,10 @@ public final class Constants {
     public static final float SLICK_DURATION = 1;
     
     // Treadmill
-    public static final Vector2 TREADMILL_CENTER = new Vector2(10.5f, 4.5f);
+    public static final Vector2 TREADMILL_CENTER = new Vector2(18.5f, 9);
     public static final String TREADMILL_SPRITE_1 = "treadmill-1";
     public static final String TREADMILL_SPRITE_2 = "treadmill-2";
-    public static final float TREADMILL_DURATION = .75f;
+    public static final float TREADMILL_DURATION = .1f;
 
     // Spring
     public static final Vector2 SPRING_CENTER = new Vector2(11.5f, 4);
