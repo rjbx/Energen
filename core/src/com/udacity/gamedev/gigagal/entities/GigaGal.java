@@ -566,12 +566,13 @@ public class GigaGal implements Physical {
                     }
                 }
                 if (directionChanged) {
-                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, lookDirection, Orientation.VERTICAL);
+                    lookStartTime = TimeUtils.nanoTime();
+                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
                 }
                 enableToggle(lookDirection);
                 look();
             } else if ( Math.abs(chaseCamPosition.y - position.y) > 5 ){
-                chaseCamPosition.y -= Utils.absoluteToDirectionalValue(3, lookDirection, Orientation.VERTICAL);
+                chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
                 chaseCamPosition.x = position.x;
             } else if (chaseCamPosition.y != position.y && lookStartTime != 0){
                 chaseCamPosition.set(position, 0);
