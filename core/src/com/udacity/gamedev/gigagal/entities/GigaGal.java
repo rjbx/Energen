@@ -669,6 +669,9 @@ public class GigaGal implements Physical {
         if (jumpTimeSeconds < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
+            if (loadedSpring != null) {
+                velocity.y *= 2;
+            }
         } else {
             pauseDuration = 0;
             fall();
