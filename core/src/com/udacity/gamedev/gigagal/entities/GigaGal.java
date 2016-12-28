@@ -268,7 +268,7 @@ public class GigaGal implements Physical {
             }
         }
         // falls if no detection with grounded platform top
-        if (groundedPlatform && aerialState != AerialState.RECOILING) {
+        if (groundedPlatform) {
             if (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight) {
                 if (loadedSpring != null) {
                     loadedSpring.resetStartTime();
@@ -278,8 +278,10 @@ public class GigaGal implements Physical {
                         loadedSpring = null;
                     }
                 }
-                groundedPlatform = false;
-                fall();
+                if (aerialState != AerialState.RECOILING){
+                    groundedPlatform = false;
+                    fall();
+                }
             }
         }
     }
