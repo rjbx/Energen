@@ -251,7 +251,7 @@ public class GigaGal implements Physical {
                         loadedSpring.setLoaded(true);
                     } else if (ground instanceof Treadmill) {
                         onTreadmill = true;
-                        velocity.x += Constants.TREADMILL_SPEED;
+                        velocity.x += Math.min(Constants.TREADMILL_SPEED, Constants.GIGAGAL_MAX_SPEED + Constants.TREADMILL_SPEED);
                     }
                 }
                 // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
