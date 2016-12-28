@@ -312,23 +312,21 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class SpringAssets {
 
-        public final Animation retract;
-        public final Animation propel;
-        public final AtlasRegion inactive;
+        public final Animation load;
+        public final Animation unload;
 
         public SpringAssets(TextureAtlas atlas) {
-            inactive = atlas.findRegion(Constants.SPRING_SPRITE_1);
             Array<AtlasRegion> springRegions = new Array<AtlasRegion>();
-            springRegions.add(inactive);
+            springRegions.add(atlas.findRegion(Constants.SPRING_SPRITE_1));
             springRegions.add(atlas.findRegion(Constants.SPRING_SPRITE_2));
             springRegions.add(atlas.findRegion(Constants.SPRING_SPRITE_3));
 
-            retract = new Animation(Constants.SPRING_RETRACTION_DURATION / springRegions.size,
+            load = new Animation(Constants.SPRING_LOAD_DURATION / springRegions.size,
                     springRegions, PlayMode.NORMAL);
 
             springRegions.add(atlas.findRegion(Constants.SPRING_SPRITE_4));
 
-            propel = new Animation(Constants.SPRING_PROPULSION_DURATION / springRegions.size,
+            unload = new Animation(Constants.SPRING_UNLOAD_DURATION / springRegions.size,
                     springRegions, PlayMode.REVERSED);
         }
     }

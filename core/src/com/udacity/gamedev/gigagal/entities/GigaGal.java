@@ -39,7 +39,7 @@ public class GigaGal implements Physical {
     private AmmoIntensity ammoIntensity;
     private Direction lookDirection;
     private Direction toggleDirection;
-    private Spring activeSpring;
+    private Spring loadedSpring;
     private long lookStartTime;
     private long strideStartTime;
     private long jumpStartTime;
@@ -239,20 +239,11 @@ public class GigaGal implements Physical {
                     canHover = true; // enable hover
                     // if groundstate is airborne, set to standing
                     if (groundState == GroundState.AIRBORNE) {
-                        
                         stand(); // set groundstate to standing
                     }
                     if (ground instanceof Spring) {
-                        activeSpring = (Spring) ground;
-                        activeSpring.setState(SpringState.RETRACTED);
-                    } else {
-                        if (activeSpring != null) {
-                            activeSpring.resetStartTime();
-                            activeSpring.setState(SpringState.PROPELLED);
-                        } else {
-                            activeSpring.setState(SpringState.INACTIVE);
-                            activeSpring = null;
-                        }
+                        loadedSpring = (Spring) ground;
+                        loadedSpring.setLoaded(true);
                     }
                 }
                 // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
@@ -279,6 +270,14 @@ public class GigaGal implements Physical {
         // falls if no detection with grounded platform top
         if (groundedPlatform && aerialState != AerialState.RECOILING) {
             if (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight) {
+                if (loadedSpring != null) {
+                    loadedSpring.resetStartTime();
+                    loadedSpring.setLoaded(false);
+                    if (Utils.secondsSince(loadedSpring.getStartTime()) > Constants.SPRING_UNLOAD_DURATION) {
+                        loadedSpring.resetStartTime();
+                        loadedSpring = null;
+                    }
+                }
                 groundedPlatform = false;
                 fall();
             }
