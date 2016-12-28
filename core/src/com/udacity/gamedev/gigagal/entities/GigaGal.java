@@ -672,8 +672,9 @@ public class GigaGal implements Physical {
     }
 
     private void enableJump() {
-        if ((inputControls.jumpButtonJustPressed && canJump)
-        || aerialState == AerialState.JUMPING) {
+        if (((inputControls.jumpButtonJustPressed && canJump)
+        || aerialState == AerialState.JUMPING)
+        && lookDirection == null) {
             jump();
         }
     }
