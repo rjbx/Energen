@@ -77,6 +77,7 @@ public class GigaGal implements Physical {
     private boolean slidPlatform;
     private boolean groundedPlatform;
     private boolean pauseState;
+    private boolean onTreadmill;
     private InputControls inputControls;
 
     // ctor
@@ -152,6 +153,7 @@ public class GigaGal implements Physical {
         float slidPlatformBottom = 0;
         float groundedPlatformLeft = 0;
         float groundedPlatformRight = 0;
+        onTreadmill = false;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
             if (Utils.betweenSides(ground, position.x)) {
@@ -245,6 +247,9 @@ public class GigaGal implements Physical {
                     if (ground instanceof Spring) {
                         loadedSpring = (Spring) ground;
                         loadedSpring.setLoaded(true);
+                    } else if (ground instanceof Treadmill) {
+                        onTreadmill = true;
+                        velocity.x += 20;
                     }
                 }
                 // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
@@ -536,7 +541,7 @@ public class GigaGal implements Physical {
         slidPlatform = false;
         groundedPlatform = false;
         knockedBack = false;
-
+        onTreadmill = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         jumpStartTime = 0;
@@ -759,7 +764,9 @@ public class GigaGal implements Physical {
     }
 
     private void stand() {
-        velocity.x = 0;
+        if (!onTreadmill) {
+            velocity.x = 0;
+        }
         groundState = GroundState.STANDING;
         aerialState = AerialState.GROUNDED;
         canJump = true;
