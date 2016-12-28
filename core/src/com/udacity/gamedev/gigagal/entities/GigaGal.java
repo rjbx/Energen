@@ -299,29 +299,31 @@ public class GigaGal implements Physical {
         } else {
             isStriding = false;
         }
-        if (groundState != GroundState.AIRBORNE && lookDirection == null) {
-            if (directionChanged) {
-               if (groundState == groundState.DASHING){
-                    dashStartTime = 0;
-                    canDash = false;
-                }
-                strideStartTime = 0;
-                stand();
-            } else if (groundState != GroundState.DASHING) {
-                if (isStriding) {
-                    if (!canStride) {
-                        if (strideStartTime == 0) {
-                            canStride = true;
-                        } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
-                            strideStartTime = 0;
-                        } else {
-                            canDash = true;
-                        }
+        if (groundState != GroundState.AIRBORNE) {
+            if (lookDirection == null) {
+                if (directionChanged) {
+                    if (groundState == groundState.DASHING) {
+                        dashStartTime = 0;
+                        canDash = false;
                     }
-                } else {
-                    pauseDuration = 0;
+                    strideStartTime = 0;
                     stand();
-                    canStride = false;
+                } else if (groundState != GroundState.DASHING) {
+                    if (isStriding) {
+                        if (!canStride) {
+                            if (strideStartTime == 0) {
+                                canStride = true;
+                            } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+                                strideStartTime = 0;
+                            } else {
+                                canDash = true;
+                            }
+                        }
+                    } else {
+                        pauseDuration = 0;
+                        stand();
+                        canStride = false;
+                    }
                 }
             }
         } else if (directionChanged) {
@@ -582,7 +584,6 @@ public class GigaGal implements Physical {
                 if (Math.abs(chaseCamPosition.y - position.y) > 5) {
                     chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
                     chaseCamPosition.x = position.x;
-                    lookDirection = null;
                 } else if (chaseCamPosition.y != position.y && lookStartTime != 0) {
                     chaseCamPosition.set(position, 0);
                     lookDirection = null;
