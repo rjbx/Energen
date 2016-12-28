@@ -565,14 +565,14 @@ public class GigaGal implements Physical {
                         directionChanged = true;
                     }
                 }
-                if (directionChanged) {
-                    lookStartTime = TimeUtils.nanoTime();
-                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
-                }
                 enableToggle(lookDirection);
                 look();
-            } else if ( Math.abs(chaseCamPosition.y - position.y) > 5 ){
-                chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
+            } else if ( Math.abs(chaseCamPosition.y - position.y) > 5){
+                if (directionChanged) {
+                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
+                } else {
+                    chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
+                }
                 chaseCamPosition.x = position.x;
             } else if (chaseCamPosition.y != position.y && lookStartTime != 0){
                 chaseCamPosition.set(position, 0);
@@ -597,6 +597,7 @@ public class GigaGal implements Physical {
                     offset += 1.5f;
                     if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {
                         chaseCamPosition.y += Utils.absoluteToDirectionalValue(offset, lookDirection, Orientation.VERTICAL);
+                        chaseCamPosition.x = position.x;
                     }
                 }
             }
