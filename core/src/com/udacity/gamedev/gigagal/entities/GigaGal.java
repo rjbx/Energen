@@ -73,7 +73,6 @@ public class GigaGal implements Physical {
     private boolean canCharge;
     private boolean canChangeDirection;
     private boolean canShoot;
-    private boolean changedLookDirection;
     private boolean knockedBack;
     private boolean slidPlatform;
     private boolean groundedPlatform;
@@ -238,6 +237,7 @@ public class GigaGal implements Physical {
                     ricochetStartTime = 0; // reset ricochet
                     knockedBack = false; // reset knockback boolean
                     canHover = true; // enable hover
+                    canLook = true;
                     // if groundstate is airborne, set to standing
                     if (groundState == GroundState.AIRBORNE) {
                         stand(); // set groundstate to standing
@@ -373,6 +373,7 @@ public class GigaGal implements Physical {
                     ammoIntensity = AmmoIntensity.SHOT;
                     recoveryStartTime = TimeUtils.nanoTime();
                     chargeStartTime = 0;
+                    chaseCamPosition.set(position, 0);
                     lookDirection = null;
                     int damage = hazard.getDamage();
                     float margin = 0;
@@ -534,7 +535,7 @@ public class GigaGal implements Physical {
         slidPlatform = false;
         groundedPlatform = false;
         knockedBack = false;
-        changedLookDirection = false;
+
         chargeStartTime = 0;
         strideStartTime = 0;
         jumpStartTime = 0;
@@ -551,36 +552,45 @@ public class GigaGal implements Physical {
         boolean up = inputControls.upButtonPressed;
         boolean down = inputControls.downButtonPressed;
         boolean looking = up || down;
+        boolean directionChanged = false;
         if (canLook) {
             if (looking) {
-                changedLookDirection = false;
                 canStride = false;
                 if (up) {
                     lookDirection = Direction.UP;
                     if (chaseCamPosition.y < position.y) {
-                        changedLookDirection = true;
+                        directionChanged = true;
                     }
                 } else if (down) {
                     lookDirection = Direction.DOWN;
                     if (chaseCamPosition.y > position.y) {
-                        changedLookDirection = true;
+                        directionChanged = true;
                     }
                 }
-                if (changedLookDirection) {
-                    chaseCamPosition.x = position.x;
-                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
-                    lookStartTime = TimeUtils.nanoTime();
+                if (directionChanged && groundState == GroundState.STANDING) {
+                    if (Math.abs(chaseCamPosition.y - position.y) > 5) {
+                        lookStartTime = TimeUtils.nanoTime();
+                        chaseCamPosition.y += Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
+                        chaseCamPosition.x = position.x;
+                    } else {
+                        chaseCamPosition.set(position, 0);
+                    }
                 }
                 enableToggle(lookDirection);
                 look();
-            } else if ( Math.abs(chaseCamPosition.y - position.y) > 5 ){
-                chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
-                chaseCamPosition.x = position.x;
-            } else if (chaseCamPosition.y != position.y && lookStartTime != 0){
-                chaseCamPosition.set(position, 0);
-                changedLookDirection = false;
-                lookDirection = null;
-                canLook = false;
+            } else if ( groundState == GroundState.STANDING) {
+                if (Math.abs(chaseCamPosition.y - position.y) > 5) {
+                    chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
+                    chaseCamPosition.x = position.x;
+                    lookDirection = null;
+                } else if (chaseCamPosition.y != position.y && lookStartTime != 0) {
+                    chaseCamPosition.set(position, 0);
+                    lookDirection = null;
+                    canLook = false;
+                } else {
+                    lookDirection = null;
+                    lookStartTime = 0;
+                }
             } else {
                 lookDirection = null;
                 lookStartTime = 0;
