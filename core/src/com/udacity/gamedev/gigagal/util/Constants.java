@@ -109,6 +109,7 @@ public final class Constants {
     public static final String TREADMILL_SPRITE_1 = "treadmill-1";
     public static final String TREADMILL_SPRITE_2 = "treadmill-2";
     public static final float TREADMILL_DURATION = .1f;
+    public static final float TREADMILL_SPEED = 5;
 
     // Spring
     public static final Vector2 SPRING_CENTER = new Vector2(11.5f, 4);
