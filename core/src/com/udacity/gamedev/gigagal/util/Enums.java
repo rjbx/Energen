@@ -52,10 +52,4 @@ public final class Enums {
         DASHING,
         AIRBORNE
     }
-
-    public enum SpringState {
-        RETRACTED,
-        PROPELLED,
-        INACTIVE
-    }
 }

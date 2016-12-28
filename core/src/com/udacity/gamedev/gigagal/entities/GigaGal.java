@@ -372,6 +372,7 @@ public class GigaGal implements Physical {
                     ammoIntensity = AmmoIntensity.SHOT;
                     recoveryStartTime = TimeUtils.nanoTime();
                     chargeStartTime = 0;
+                    lookDirection = null;
                     int damage = hazard.getDamage();
                     float margin = 0;
                     if (hazard instanceof Destructible) {
@@ -549,26 +550,29 @@ public class GigaGal implements Physical {
         boolean up = inputControls.upButtonPressed;
         boolean down = inputControls.downButtonPressed;
         boolean looking = up || down;
+        boolean directionChanged = false;
         if (canLook) {
             if (looking) {
                 canStride = false;
                 if (up) {
                     lookDirection = Direction.UP;
                     if (chaseCamPosition.y < position.y) {
-                        chaseCamPosition.set(position, 0);
+                        directionChanged = true;
                     }
                 } else if (down) {
                     lookDirection = Direction.DOWN;
                     if (chaseCamPosition.y > position.y) {
-                        chaseCamPosition.set(position, 0);
+                        directionChanged = true;
                     }
+                }
+                if (directionChanged) {
+                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, lookDirection, Orientation.VERTICAL);
                 }
                 enableToggle(lookDirection);
                 look();
             } else if ( Math.abs(chaseCamPosition.y - position.y) > 5 ){
                 chaseCamPosition.y -= Utils.absoluteToDirectionalValue(3, lookDirection, Orientation.VERTICAL);
                 chaseCamPosition.x = position.x;
-                lookTimeSeconds = 0;
             } else if (chaseCamPosition.y != position.y && lookStartTime != 0){
                 chaseCamPosition.set(position, 0);
                 lookDirection = null;
