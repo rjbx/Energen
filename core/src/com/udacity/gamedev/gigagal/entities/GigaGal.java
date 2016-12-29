@@ -878,7 +878,11 @@ public class GigaGal implements Physical {
         if (climbDirection != null) {
             region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(climbTimeSeconds);
         } else if (lookTimeSeconds != 0 && canClimb && climbDirection == null && groundState == GroundState.STANDING && lookDirection == null && climbTimeSeconds != 0) {
-            region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(climbTimeSeconds);
+            if (facing == Direction.LEFT) {
+                region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
+            } else if (facing == Direction.RIGHT) {
+                region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
+            }
         } else if (facing == Direction.RIGHT) {
             if (lookDirection == Direction.UP) {
                 region = Assets.getInstance().getGigaGalAssets().lookupRight;
