@@ -809,23 +809,25 @@ public class GigaGal implements Physical {
         if (inputControls.upButtonPressed) {
             climbDirection = Direction.UP;
             velocity.y = Constants.CLIMB_SPEED;
-        } else if (inputControls.downButtonPressed) {
+        } if (inputControls.downButtonPressed) {
             climbDirection = Direction.DOWN;
             velocity.y = -Constants.CLIMB_SPEED;
         }
     }
 
     private void stand() {
-        velocity.x = 0;
-        if (onTreadmill) {
-            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, treadDirection, Orientation.LATERAL);
-        }
-        groundState = GroundState.STANDING;
-        aerialState = AerialState.GROUNDED;
-        canJump = true;
-        canLook = true;
-        if (turbo < Constants.MAX_TURBO) {
-            turbo += Constants.STAND_TURBO_INCREMENT;
+        if (climbDirection == null) {
+            velocity.x = 0;
+            if (onTreadmill) {
+                velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, treadDirection, Orientation.LATERAL);
+            }
+            groundState = GroundState.STANDING;
+            aerialState = AerialState.GROUNDED;
+            canJump = true;
+            canLook = true;
+            if (turbo < Constants.MAX_TURBO) {
+                turbo += Constants.STAND_TURBO_INCREMENT;
+            }
         }
     }
 
