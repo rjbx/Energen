@@ -822,7 +822,8 @@ public class GigaGal implements Physical {
     private void climb() {
         climbTimeSeconds = Utils.secondsSince(climbStartTime);
         if (inputControls.upButtonPressed) {
-            if (((int) (climbTimeSeconds * 100)) % 25 == 0) {
+            if (((int) (climbTimeSeconds * 100)) % 25 >= 0
+                && (((int) (climbTimeSeconds * 100)) % 25 <= 13)) {
                 facing = Direction.RIGHT;
             } else {
                 facing = Direction.LEFT;
