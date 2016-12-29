@@ -50,6 +50,7 @@ public class GigaGal implements Physical {
     private long ricochetStartTime;
     private long chargeStartTime;
     private long recoveryStartTime;
+    private long climbStartTime;
     private float pauseDuration;
     private float turboDuration;
     private float turbo;
@@ -62,6 +63,7 @@ public class GigaGal implements Physical {
     private float strideTimeSeconds;
     private float ricochetTimeSeconds;
     private float recoveryTimeSeconds;
+    private float climbTimeSeconds;
     private float aerialTakeoff;
     private int lives;
     private int ammo;
@@ -554,6 +556,7 @@ public class GigaGal implements Physical {
         onTreadmill = false;
         chargeStartTime = 0;
         strideStartTime = 0;
+        climbStartTime = 0;
         jumpStartTime = 0;
         dashStartTime = 0;
         pauseDuration = 0;
@@ -780,6 +783,7 @@ public class GigaGal implements Physical {
         if (canClimb && (inputControls.upButtonJustPressed || inputControls.downButtonPressed)) {
             if (climbDirection == null) {
                 stand();
+                climbStartTime = TimeUtils.nanoTime();
             }
             climb();
         }
@@ -794,6 +798,7 @@ public class GigaGal implements Physical {
             velocity.y = -5;
         } else {
             climbDirection = null;
+            climbStartTime = 0;
         }
     }
 
@@ -831,7 +836,10 @@ public class GigaGal implements Physical {
 
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
-        if (facing == Direction.RIGHT) {
+        if (climbDirection != null) {
+            climbTimeSeconds = Utils.secondsSince(climbStartTime);
+            region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(climbTimeSeconds);
+        } else if (facing == Direction.RIGHT) {
             if (lookDirection == Direction.UP) {
                 region = Assets.getInstance().getGigaGalAssets().lookupRight;
             } else if (lookDirection == Direction.DOWN) {
