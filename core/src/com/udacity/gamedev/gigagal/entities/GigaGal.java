@@ -584,23 +584,23 @@ public class GigaGal implements Physical {
         boolean directionChanged = false;
         if (canLook) {
             if (looking && climbDirection == null) {
-                    canStride = false;
-                    if (up) {
-                        lookDirection = Direction.UP;
-                        if (chaseCamPosition.y < position.y) {
-                            directionChanged = true;
-                        }
-                    } else if (down) {
-                        lookDirection = Direction.DOWN;
-                        if (chaseCamPosition.y > position.y) {
-                            directionChanged = true;
-                        }
+                canStride = false;
+                if (up) {
+                    lookDirection = Direction.UP;
+                    if (chaseCamPosition.y < position.y) {
+                        directionChanged = true;
                     }
-                    if (directionChanged && groundState == GroundState.STANDING) {
-                        chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, lookDirection, Orientation.VERTICAL);
+                } else if (down) {
+                    lookDirection = Direction.DOWN;
+                    if (chaseCamPosition.y > position.y) {
+                        directionChanged = true;
                     }
-                    enableToggle(lookDirection);
-                    look();
+                }
+                if (directionChanged && groundState == GroundState.STANDING) {
+                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, lookDirection, Orientation.VERTICAL);
+                }
+                enableToggle(lookDirection);
+                look();
             } else if ( groundState == GroundState.STANDING) {
                 if (Math.abs(chaseCamPosition.y - position.y) > 5) {
                     chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
@@ -807,7 +807,6 @@ public class GigaGal implements Physical {
     }
 
     private void climb() {
-        enableToggle(lookDirection);
         if (inputControls.upButtonPressed) {
             climbDirection = Direction.UP;
             velocity.y = Constants.CLIMB_SPEED;
