@@ -237,7 +237,8 @@ public class GigaGal implements Physical {
                 // if contact with ground top detected, halt downward progression and set gigagal atop ground
                 if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
                         && getBottom() <= ground.getTop()
-                        && ground.getTop() != slidPlatformTop) {
+                        && ground.getTop() != slidPlatformTop
+                        && climbDirection == null) {
                     if (groundState != GroundState.DASHING) {
                         pauseDuration = 0;
                     }
@@ -788,16 +789,18 @@ public class GigaGal implements Physical {
                 climbStartTime = TimeUtils.nanoTime();
             }
             climb();
+        } else {
+            climbDirection = null;
         }
     }
 
     private void climb() {
         if (inputControls.upButtonPressed) {
             climbDirection = Direction.UP;
-            velocity.y = 5;
+            velocity.y = Constants.CLIMB_SPEED;
         } else if (inputControls.downButtonPressed) {
             climbDirection = Direction.DOWN;
-            velocity.y = -5;
+            velocity.y = -Constants.CLIMB_SPEED;
         } else {
             climbDirection = null;
             climbStartTime = 0;
