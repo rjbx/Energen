@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.overlays.InputControls;
+import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -544,6 +545,7 @@ public class GigaGal implements Physical {
         chaseCamPosition.set(position, 0);
         velocity.setZero();
         facing = Direction.RIGHT;
+        climbDirection = null;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
         pauseState = false;
@@ -623,7 +625,7 @@ public class GigaGal implements Physical {
 
     private void look() {
         float offset = 0;
-        if (groundState == GroundState.STANDING && !canClimb) {
+        if (groundState == GroundState.STANDING) {
             if (lookStartTime == 0) {
                 lookStartTime = TimeUtils.nanoTime();
                 chaseCamPosition.set(position, 0);
@@ -790,13 +792,17 @@ public class GigaGal implements Physical {
 
     private void enableClimb() {
         canLook = false;
-        if (canClimb && inputControls.jumpButtonPressed && (inputControls.upButtonPressed || inputControls.downButtonPressed) && aerialState != AerialState.RECOILING) {
-            if (climbDirection == null) {
-                velocity.y = 0;
-                canHover = false;
-                climbStartTime = TimeUtils.nanoTime();
+        if (canClimb) {
+            if (inputControls.jumpButtonPressed && (inputControls.upButtonPressed || inputControls.downButtonPressed) && aerialState != AerialState.RECOILING) {
+                if (climbDirection == null) {
+                    velocity.y = 0;
+                    canHover = false;
+                    climbStartTime = TimeUtils.nanoTime();
+                }
+                climb();
+            } else {
+                climbDirection = null;
             }
-            climb();
         } else {
             climbDirection = null;
         }
@@ -928,6 +934,7 @@ public class GigaGal implements Physical {
     public boolean getPauseState() { return pauseState; }
     public Vector3 getChaseCamPosition() { return chaseCamPosition; }
     public long getLookStartTime() { return lookStartTime; }
+    public Direction getClimbDirection() { return climbDirection; }
 
     // Setters
     public void setFacing(Direction facing) { this.facing = facing; }
