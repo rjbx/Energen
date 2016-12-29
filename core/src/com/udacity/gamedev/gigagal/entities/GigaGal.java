@@ -171,7 +171,7 @@ public class GigaGal implements Physical {
                 // ledges only apply collision detection on top, and not on sides and bottom as do platforms
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (ground instanceof Ladder) {
-                        Rectangle ladderBounds = new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight());
+                        Rectangle ladderBounds = new Rectangle(ground.getLeft() + 18, ground.getBottom(), ground.getWidth() - 24, ground.getHeight());
                         if (getBounds().overlaps(ladderBounds)) {
                             canClimb = true;
                         }
@@ -233,7 +233,7 @@ public class GigaGal implements Physical {
                         }
                         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
                         if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()
-                                && !(ground instanceof Ladder)) {
+                                && climbDirection == null) {
                             velocity.y = 0; // prevents from ascending above ground bottom
                             position.y = previousFramePosition.y;  // sets gigagal at ground bottom
                             fall(); // descend from point of contact with ground bottom
