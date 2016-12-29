@@ -106,10 +106,12 @@ public final class Constants {
     
     // Treadmill
     public static final Vector2 TREADMILL_CENTER = new Vector2(18.5f, 9);
-    public static final String TREADMILL_SPRITE_1 = "treadmill-1";
-    public static final String TREADMILL_SPRITE_2 = "treadmill-2";
+    public static final String TREADMILL_1_RIGHT = "treadmill-1-right";
+    public static final String TREADMILL_2_RIGHT = "treadmill-2-right";
+    public static final String TREADMILL_1_LEFT = "treadmill-1-left";
+    public static final String TREADMILL_2_LEFT = "treadmill-2-left";
     public static final float TREADMILL_DURATION = .1f;
-    public static final float TREADMILL_SPEED = 5;
+    public static final float TREADMILL_SPEED = 75;
 
     // Spring
     public static final Vector2 SPRING_CENTER = new Vector2(11.5f, 4);

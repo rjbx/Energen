@@ -298,14 +298,24 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class TreadmillAssets {
 
-        public final Animation treadmill;
+        public final Animation treadmillRight;
+        public final Animation treadmillLeft;
 
         public TreadmillAssets(TextureAtlas atlas) {
             Array<AtlasRegion> treadmillRegions = new Array<AtlasRegion>();
-            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_SPRITE_1));
-            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_SPRITE_2));
+            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_1_RIGHT));
+            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_2_RIGHT));
 
-            treadmill = new Animation(Constants.TREADMILL_DURATION / treadmillRegions.size,
+            treadmillRight = new Animation(Constants.TREADMILL_DURATION / treadmillRegions.size,
+                    treadmillRegions, PlayMode.NORMAL);
+            
+            treadmillRegions.clear();
+
+            treadmillRegions = new Array<AtlasRegion>();
+            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_1_LEFT));
+            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_2_LEFT));
+
+            treadmillLeft = new Animation(Constants.TREADMILL_DURATION / treadmillRegions.size,
                     treadmillRegions, PlayMode.NORMAL);
         }
     }

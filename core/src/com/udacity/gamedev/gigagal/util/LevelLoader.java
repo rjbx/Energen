@@ -152,10 +152,14 @@ public final class LevelLoader {
                 final Vector2 ladderPosition = imagePosition.add(Constants.LADDER_CENTER);
                 Gdx.app.log(TAG, "Loaded the ladder at " + ladderPosition);
                 level.getGrounds().add(new Ladder(ladderPosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_SPRITE_1)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_RIGHT)) {
                 final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
-                Gdx.app.log(TAG, "Loaded the treadmill at " + treadmillPosition);
-                level.getGrounds().add(new Treadmill(treadmillPosition));
+                Gdx.app.log(TAG, "Loaded the treadmillRight at " + treadmillPosition);
+                level.getGrounds().add(new Treadmill(treadmillPosition, Enums.Direction.RIGHT));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_LEFT)) {
+                final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
+                Gdx.app.log(TAG, "Loaded the treadmillLeft at " + treadmillPosition);
+                level.getGrounds().add(new Treadmill(treadmillPosition, Enums.Direction.LEFT));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SINK_SPRITE_1)) {
                 final Vector2 sinkPosition = imagePosition.add(Constants.SINK_CENTER);
                 Gdx.app.log(TAG, "Loaded the sink at " + sinkPosition);

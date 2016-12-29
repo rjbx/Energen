@@ -39,6 +39,7 @@ public class GigaGal implements Physical {
     private AmmoIntensity ammoIntensity;
     private Direction lookDirection;
     private Direction toggleDirection;
+    private Direction treadDirection;
     private Spring loadedSpring;
     private long lookStartTime;
     private long strideStartTime;
@@ -154,6 +155,7 @@ public class GigaGal implements Physical {
         float groundedPlatformLeft = 0;
         float groundedPlatformRight = 0;
         onTreadmill = false;
+        treadDirection = null;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
             if (Utils.betweenSides(ground, position.x)) {
@@ -250,8 +252,9 @@ public class GigaGal implements Physical {
                         loadedSpring = (Spring) ground;
                         loadedSpring.setLoaded(true);
                     } else if (ground instanceof Treadmill) {
+                        Treadmill treadmill = (Treadmill) ground;
                         onTreadmill = true;
-                        velocity.x += Math.min(Constants.TREADMILL_SPEED, Constants.GIGAGAL_MAX_SPEED + Constants.TREADMILL_SPEED);
+                        treadDirection = treadmill.getDirection();
                     }
                 }
                 // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
@@ -641,6 +644,9 @@ public class GigaGal implements Physical {
         strideTimeSeconds = Utils.secondsSince(strideStartTime) - pauseDuration;
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
         velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing, Orientation.LATERAL);
+        if (onTreadmill) {
+            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, treadDirection, Orientation.LATERAL);
+        }
     }
 
     private void enableDash() {
@@ -766,8 +772,9 @@ public class GigaGal implements Physical {
     }
 
     private void stand() {
-        if (!onTreadmill) {
-            velocity.x = 0;
+        velocity.x = 0;
+        if (onTreadmill) {
+            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, treadDirection, Orientation.LATERAL);
         }
         groundState = GroundState.STANDING;
         aerialState = AerialState.GROUNDED;

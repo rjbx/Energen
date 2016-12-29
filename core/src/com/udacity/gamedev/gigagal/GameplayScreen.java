@@ -189,7 +189,7 @@ public class GameplayScreen extends ScreenAdapter {
             }
 
             gameOverOverlay.render(batch);
-            if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
+            if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
                 game.setScreen(game.getLevelSelectScreen());
             }
