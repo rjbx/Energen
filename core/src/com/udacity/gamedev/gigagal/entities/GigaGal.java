@@ -239,54 +239,54 @@ public class GigaGal implements Physical {
                         } else {
                             canClimb = false;
                         }
-                    }
-                    // if contact with ground top detected, halt downward progression and set gigagal atop ground
-                    if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
-                            && getBottom() <= ground.getTop()
-                            && ground.getTop() != slidPlatformTop
-                            && climbDirection == null) {
-                        if (groundState != GroundState.DASHING) {
-                            pauseDuration = 0;
+                        // if contact with ground top detected, halt downward progression and set gigagal atop ground
+                        if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
+                                && getBottom() <= ground.getTop()
+                                && ground.getTop() != slidPlatformTop
+                                && climbDirection == null) {
+                            if (groundState != GroundState.DASHING) {
+                                pauseDuration = 0;
+                            }
+                            velocity.y = 0; // prevents from descending beneath ground top
+                            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                            canChangeDirection = true; // enable change of direction
+                            groundedPlatform = true; // verify contact with ground top
+                            groundedPlatformLeft = ground.getLeft(); // capture grounded ground boundary
+                            groundedPlatformRight = ground.getRight(); // capture grounded ground boundary
+                            hoverStartTime = 0; // reset hover
+                            ricochetStartTime = 0; // reset ricochet
+                            knockedBack = false; // reset knockback boolean
+                            canHover = true; // enable hover
+                            canLook = true;
+                            // if groundstate is airborne, set to standing
+                            if (groundState == GroundState.AIRBORNE) {
+                                stand(); // set groundstate to standing
+                            }
+                            if (ground instanceof Spring) {
+                                loadedSpring = (Spring) ground;
+                                loadedSpring.setLoaded(true);
+                            } else if (ground instanceof Treadmill) {
+                                Treadmill treadmill = (Treadmill) ground;
+                                onTreadmill = true;
+                                treadDirection = treadmill.getDirection();
+                            } else if (ground instanceof Ladder) {
+                                canClimb = true;
+                            } else {
+                                canClimb = false;
+                            }
                         }
-                        velocity.y = 0; // prevents from descending beneath ground top
-                        position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
-                        canChangeDirection = true; // enable change of direction
-                        groundedPlatform = true; // verify contact with ground top
-                        groundedPlatformLeft = ground.getLeft(); // capture grounded ground boundary
-                        groundedPlatformRight = ground.getRight(); // capture grounded ground boundary
-                        hoverStartTime = 0; // reset hover
-                        ricochetStartTime = 0; // reset ricochet
-                        knockedBack = false; // reset knockback boolean
-                        canHover = true; // enable hover
-                        canLook = true;
-                        // if groundstate is airborne, set to standing
-                        if (groundState == GroundState.AIRBORNE) {
-                            stand(); // set groundstate to standing
+                        // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
+                        // caution when crossing plane between ground top and minimum hover height / ground distance
+                        // cannons, which inherit ground, can be mounted along sides of platforms causing accidental plane breakage
+                        if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
+                                && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
+                                && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
+                                && ricochetStartTime == 0 // only if have not ricocheted since last grounded
+                                && !(ground instanceof Cannon) // only if ground is not instance of platform
+                                ) {
+                            canRicochet = false; // disables ricochet
+                            canHover = false; // disables hover
                         }
-                        if (ground instanceof Spring) {
-                            loadedSpring = (Spring) ground;
-                            loadedSpring.setLoaded(true);
-                        } else if (ground instanceof Treadmill) {
-                            Treadmill treadmill = (Treadmill) ground;
-                            onTreadmill = true;
-                            treadDirection = treadmill.getDirection();
-                        } else if (ground instanceof Ladder) {
-                            canClimb = true;
-                        } else {
-                            canClimb = false;
-                        }
-                    }
-                    // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
-                    // caution when crossing plane between ground top and minimum hover height / ground distance
-                    // cannons, which inherit ground, can be mounted along sides of platforms causing accidental plane breakage
-                    if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
-                            && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
-                            && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
-                            && ricochetStartTime == 0 // only if have not ricocheted since last grounded
-                            && !(ground instanceof Cannon) // only if ground is not instance of platform
-                            ) {
-                        canRicochet = false; // disables ricochet
-                        canHover = false; // disables hover
                     }
                 }
             }
