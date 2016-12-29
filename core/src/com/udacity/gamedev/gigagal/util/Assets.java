@@ -116,8 +116,6 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final AtlasRegion standLeft;
         public final AtlasRegion standRight;
-        public final AtlasRegion strideLeft;
-        public final AtlasRegion strideRight;
         public final AtlasRegion recoilLeft;
         public final AtlasRegion recoilRight;
         public final AtlasRegion fallLeft;
@@ -130,16 +128,15 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion dashRight;
         public final AtlasRegion ricochetLeft;
         public final AtlasRegion ricochetRight;
-        public final Animation hoverLeftAnimation;
-        public final Animation hoverRightAnimation;
-        public final Animation strideLeftAnimation;
-        public final Animation strideRightAnimation;
+        public final Animation hoverLeft;
+        public final Animation hoverRight;
+        public final Animation strideLeft;
+        public final Animation strideRight;
+        public final Animation climb;
 
         public GigaGalAssets(TextureAtlas atlas) {
             standLeft = atlas.findRegion(Constants.STAND_LEFT);
             standRight = atlas.findRegion(Constants.STAND_RIGHT);
-            strideLeft = atlas.findRegion(Constants.STRIDE_LEFT_2);
-            strideRight = atlas.findRegion(Constants.STRIDE_RIGHT_2);
             recoilLeft = atlas.findRegion(Constants.RECOIL_LEFT);
             recoilRight = atlas.findRegion(Constants.RECOIL_RIGHT);
             fallLeft = atlas.findRegion(Constants.FALL_LEFT);
@@ -156,26 +153,31 @@ public final class Assets implements Disposable, AssetErrorListener {
             Array<AtlasRegion> hoverLeftFrames = new Array<AtlasRegion>();
             hoverLeftFrames.add(atlas.findRegion(Constants.HOVER_LEFT_1));
             hoverLeftFrames.add(atlas.findRegion(Constants.HOVER_LEFT_2));
-            hoverLeftAnimation = new Animation(Constants.HOVER_LOOP_DURATION, hoverLeftFrames, PlayMode.LOOP);
+            hoverLeft = new Animation(Constants.HOVER_LOOP_DURATION, hoverLeftFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> hoverRightFrames = new Array<AtlasRegion>();
             hoverRightFrames.add(atlas.findRegion(Constants.HOVER_RIGHT_1));
             hoverRightFrames.add(atlas.findRegion(Constants.HOVER_RIGHT_2));
-            hoverRightAnimation = new Animation(Constants.HOVER_LOOP_DURATION, hoverRightFrames, PlayMode.LOOP);
+            hoverRight = new Animation(Constants.HOVER_LOOP_DURATION, hoverRightFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> strideLeftFrames = new Array<AtlasRegion>();
             strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_2));
             strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_1));
             strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_2));
             strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_3));
-            strideLeftAnimation = new Animation(Constants.STRIDE_LOOP_DURATION, strideLeftFrames, PlayMode.LOOP);
+            strideLeft = new Animation(Constants.STRIDE_LOOP_DURATION, strideLeftFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> strideRightFrames = new Array<AtlasRegion>();
             strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_2));
             strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_1));
             strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_2));
             strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_3));
-            strideRightAnimation = new Animation(Constants.STRIDE_LOOP_DURATION, strideRightFrames, PlayMode.LOOP);
+            strideRight = new Animation(Constants.STRIDE_LOOP_DURATION, strideRightFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> climbFrames = new Array<AtlasRegion>();
+            climbFrames.add(atlas.findRegion(Constants.HOVER_RIGHT_1));
+            climbFrames.add(atlas.findRegion(Constants.HOVER_RIGHT_2));
+            climb = new Animation(Constants.HOVER_LOOP_DURATION, climbFrames, PlayMode.LOOP);
         }
     }
 

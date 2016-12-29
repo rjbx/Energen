@@ -77,6 +77,9 @@ public final class Constants {
     public static final String STRIDE_RIGHT_3 = "stride-3-right";
     public static final String STRIDE_LEFT_3 = "stride-3-left";
     public static final float STRIDE_LOOP_DURATION = 0.1f;
+    public static final String CLIMB_1 = "climb-1";
+    public static final String CLIMB_2 = "climb-2";
+    public static final float CLIMB_LOOP_DURATION = 0.5f;
 
     // Platform
     public static final int PLATFORM_EDGE = 8;

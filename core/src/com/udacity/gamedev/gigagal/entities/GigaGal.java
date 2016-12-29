@@ -74,6 +74,7 @@ public class GigaGal implements Physical {
     private boolean canCharge;
     private boolean canChangeDirection;
     private boolean canShoot;
+    private boolean canClimb;
     private boolean knockedBack;
     private boolean slidPlatform;
     private boolean groundedPlatform;
@@ -213,6 +214,8 @@ public class GigaGal implements Physical {
                             canStride = false; // disable stride
                             canDash = false; // disable dash
                             position.x = previousFramePosition.x; // halt lateral progression
+                        } else if (ground instanceof Ladder) {
+                            canClimb = true;
                         }
                     // else if no detection with ground sides, disable ricochet
                     } else {
@@ -813,7 +816,7 @@ public class GigaGal implements Physical {
             } else if (aerialState != AerialState.GROUNDED) {
                 if (aerialState == AerialState.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
-                    region = Assets.getInstance().getGigaGalAssets().hoverRightAnimation.getKeyFrame(hoverTimeSeconds);
+                    region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
                 } else if (aerialState == AerialState.RICOCHETING) {
                     region = Assets.getInstance().getGigaGalAssets().ricochetLeft;
                 } else if (aerialState == AerialState.RECOILING){
@@ -824,7 +827,7 @@ public class GigaGal implements Physical {
             } else if (groundState == GroundState.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standRight;
             } else if (groundState == GroundState.STRIDING) {
-                region = Assets.getInstance().getGigaGalAssets().strideRightAnimation.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = Assets.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (groundState == GroundState.DASHING) {
                 region = Assets.getInstance().getGigaGalAssets().dashRight;
             }
@@ -836,7 +839,7 @@ public class GigaGal implements Physical {
             } else if (aerialState != AerialState.GROUNDED) {
                 if (aerialState == AerialState.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
-                    region = Assets.getInstance().getGigaGalAssets().hoverLeftAnimation.getKeyFrame(hoverTimeSeconds);
+                    region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
                 } else if (aerialState == AerialState.RICOCHETING) {
                     region = Assets.getInstance().getGigaGalAssets().ricochetRight;
                 } else if (aerialState == AerialState.RECOILING){
@@ -847,7 +850,7 @@ public class GigaGal implements Physical {
             } else if (groundState == GroundState.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standLeft;
             } else if (groundState == GroundState.STRIDING) {
-                region = Assets.getInstance().getGigaGalAssets().strideLeftAnimation.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (groundState == GroundState.DASHING ) {
                 region = Assets.getInstance().getGigaGalAssets().dashLeft;
             }
