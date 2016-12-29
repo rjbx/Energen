@@ -173,7 +173,6 @@ public class GigaGal implements Physical {
                     if (ground instanceof Ladder) {
                         Rectangle ladderBounds = new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight());
                         if (getBounds().overlaps(ladderBounds)) {
-                            canJump = false;
                             canClimb = true;
                         }
                     }
@@ -583,8 +582,8 @@ public class GigaGal implements Physical {
         boolean down = inputControls.downButtonPressed;
         boolean looking = up || down;
         boolean directionChanged = false;
-        if (canLook && climbDirection == null) {
-            if (looking) {
+        if (canLook) {
+            if (looking && climbDirection == null) {
                 canStride = false;
                 if (up) {
                     lookDirection = Direction.UP;
@@ -828,6 +827,9 @@ public class GigaGal implements Physical {
             aerialState = AerialState.GROUNDED;
             if (!canClimb) {
                 canJump = true;
+            } else {
+                canJump = false;
+
             }
             canLook = true;
             if (turbo < Constants.MAX_TURBO) {
