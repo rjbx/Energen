@@ -179,7 +179,6 @@ public class GigaGal implements Physical {
                                     fall(); // begin descent from ground side sans access to hover
                                     canHover = false; // disable hover if not already
                                 }
-
                                 if (aerialState != AerialState.RICOCHETING) {
                                     if (!slidPlatform) {
                                         startTurbo = Math.max(turbo, Constants.PLATFORM_SLIDE_MIN_TURBO);
@@ -194,22 +193,21 @@ public class GigaGal implements Physical {
                             // if absval lateral velocity  not greater than one third max speed but aerial and bumping ground side, fall
                             } else {
                                 // if not already hovering and descending, also disable hover
-                                if (aerialState != AerialState.HOVERING && velocity.y < 0) {
-                                    canHover = false; // disable hover
+                                if (aerialState != AerialState.HOVERING && velocity.y < 0) {  canHover = false; // disable hover
                                 }
                                 slidPlatform = false;
                                 fall(); // fall regardless of whether or not inner condition met
                             }
-                            // only when grounded
+                        // only when grounded
                         } else if (aerialState == AerialState.GROUNDED) {
-                            stand();
-                        }
-                        // if contact with ground sides detected without concern for ground state (either grounded or airborne),
-                        // reset stride acceleration, disable stride and dash, and set gigagal at ground side
-                        if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
-                            strideStartTime = 0; // reset stride acceleration
+                         //   stand();
                         }
                         if (!(ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+                            // if contact with ground sides detected without concern for ground state (either grounded or airborne),
+                            // reset stride acceleration, disable stride and dash, and set gigagal at ground side
+                            if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
+                                strideStartTime = 0; // reset stride acceleration
+                            }
                             canStride = false; // disable stride
                             canDash = false; // disable dash
                             position.x = previousFramePosition.x; // halt lateral progression
