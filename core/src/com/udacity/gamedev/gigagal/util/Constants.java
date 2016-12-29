@@ -28,7 +28,7 @@ public final class Constants {
     public static final float GIGAGAL_HEAD_RADIUS = 5;
     public static final float GIGAGAL_MAX_SPEED = 200;
     public static final float JUMP_SPEED = 200;
-    public static final float CLIMB_SPEED = 20;
+    public static final float CLIMB_SPEED = 40;
     public static final float GIGAGAL_STARTING_SPEED = 0.3f;
     public static final float STRIDING_JUMP_MULTIPLIER = 1.1f;
     public static final float VERTICAL_KNOCKBACK = 150;
@@ -80,7 +80,7 @@ public final class Constants {
     public static final float STRIDE_LOOP_DURATION = 0.1f;
     public static final String CLIMB_1 = "climb-1";
     public static final String CLIMB_2 = "climb-2";
-    public static final float CLIMB_LOOP_DURATION = 0.5f;
+    public static final float CLIMB_LOOP_DURATION = 0.25f;
 
     // Platform
     public static final int PLATFORM_EDGE = 8;

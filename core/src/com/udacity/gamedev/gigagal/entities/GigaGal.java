@@ -264,6 +264,10 @@ public class GigaGal implements Physical {
                         Treadmill treadmill = (Treadmill) ground;
                         onTreadmill = true;
                         treadDirection = treadmill.getDirection();
+                    } else if (ground instanceof Ladder) {
+                        canClimb = true;
+                    } else {
+                        canClimb = false;
                     }
                 }
                 // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
