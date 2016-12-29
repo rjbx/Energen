@@ -41,9 +41,9 @@ geiser-1
   index: -1
 ladder
   rotate: false
-  xy: 197, 57
-  size: 11, 12
-  orig: 11, 12
+  xy: 197, 55
+  size: 11, 14
+  orig: 11, 14
   offset: 0, 0
   index: -1
 pillar

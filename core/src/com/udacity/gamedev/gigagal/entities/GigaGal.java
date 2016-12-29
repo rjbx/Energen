@@ -203,7 +203,8 @@ public class GigaGal implements Physical {
                         } else if (aerialState == AerialState.GROUNDED) {
                          //   stand();
                         }
-                        if (!(ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+                        if (!((ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1)
+                            || ground instanceof Ladder))) {
                             // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                             // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                             if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
