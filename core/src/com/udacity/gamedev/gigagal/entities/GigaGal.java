@@ -220,6 +220,8 @@ public class GigaGal implements Physical {
                             position.x = previousFramePosition.x; // halt lateral progression
                         } else if (ground instanceof Ladder) {
                             canClimb = true;
+                        } else {
+                            canClimb = false;
                         }
                     // else if no detection with ground sides, disable ricochet
                     } else {
@@ -232,6 +234,10 @@ public class GigaGal implements Physical {
                         velocity.y = 0; // prevents from ascending above ground bottom
                         position.y = previousFramePosition.y;  // sets gigagal at ground bottom
                         fall(); // descend from point of contact with ground bottom
+                    } else if (ground instanceof Ladder) {
+                        canClimb = true;
+                    } else {
+                        canClimb = false;
                     }
                 }
                 // if contact with ground top detected, halt downward progression and set gigagal atop ground
@@ -579,7 +585,7 @@ public class GigaGal implements Physical {
         boolean down = inputControls.downButtonPressed;
         boolean looking = up || down;
         boolean directionChanged = false;
-        if (canLook) {
+        if (canLook && !canClimb) {
             if (looking) {
                 canStride = false;
                 if (up) {
@@ -787,6 +793,7 @@ public class GigaGal implements Physical {
     }
 
     private void enableClimb() {
+        canLook = false;
         if (canClimb && (inputControls.upButtonJustPressed || inputControls.downButtonPressed) && aerialState != AerialState.RECOILING) {
             if (climbDirection == null) {
                 stand();
@@ -805,9 +812,6 @@ public class GigaGal implements Physical {
         } else if (inputControls.downButtonPressed) {
             climbDirection = Direction.DOWN;
             velocity.y = -Constants.CLIMB_SPEED;
-        } else {
-            climbDirection = null;
-            climbStartTime = 0;
         }
     }
 
