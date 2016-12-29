@@ -162,6 +162,7 @@ public class GigaGal implements Physical {
         float groundedPlatformRight = 0;
         onTreadmill = false;
         treadDirection = null;
+        canClimb = false;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
             if (Utils.betweenSides(ground, position.x)) {
@@ -169,7 +170,10 @@ public class GigaGal implements Physical {
                 // ledges only apply collision detection on top, and not on sides and bottom as do platforms
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (ground instanceof Ladder) {
-                      overlappingLadder = (Ladder) ground;
+                        Rectangle ladderBounds = new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight());
+                        if (getBounds().overlaps(ladderBounds)) {
+                            canClimb = true;
+                        }
                     } else if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                         // if during previous frame was not, while currently is, between ground left and right sides
                         if (!Utils.betweenSides(ground, previousFramePosition.x)) {
