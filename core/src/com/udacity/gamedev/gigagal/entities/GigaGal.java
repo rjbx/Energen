@@ -42,6 +42,7 @@ public class GigaGal implements Physical {
     private Direction treadDirection;
     private Direction climbDirection;
     private Spring loadedSpring;
+    private Ladder overlappingLadder;
     private long lookStartTime;
     private long strideStartTime;
     private long jumpStartTime;
@@ -167,7 +168,9 @@ public class GigaGal implements Physical {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do platforms
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
-                    if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
+                    if (ground instanceof Ladder) {
+                      overlappingLadder = (Ladder) ground;
+                    } else if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                         // if during previous frame was not, while currently is, between ground left and right sides
                         if (!Utils.betweenSides(ground, previousFramePosition.x)) {
                             // only when not grounded and not recoiling
@@ -207,8 +210,7 @@ public class GigaGal implements Physical {
                             } else if (aerialState == AerialState.GROUNDED) {
                                 //   stand();
                             }
-                            if (!((ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1)
-                                    || ground instanceof Ladder))) {
+                            if (!(ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                                 // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                                 // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                                 if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
@@ -217,11 +219,6 @@ public class GigaGal implements Physical {
                                 canStride = false; // disable stride
                                 canDash = false; // disable dash
                                 position.x = previousFramePosition.x; // halt lateral progression
-                            } else if (ground instanceof Ladder) {
-                                canClimb = true;
-                                canJump = false;
-                            } else {
-                                canClimb = false;
                             }
                             // else if no detection with ground sides, disable ricochet
                         } else {
@@ -234,10 +231,6 @@ public class GigaGal implements Physical {
                             velocity.y = 0; // prevents from ascending above ground bottom
                             position.y = previousFramePosition.y;  // sets gigagal at ground bottom
                             fall(); // descend from point of contact with ground bottom
-                        } else if (ground instanceof Ladder) {
-                            canClimb = true;
-                        } else {
-                            canClimb = false;
                         }
                         // if contact with ground top detected, halt downward progression and set gigagal atop ground
                         if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
@@ -269,10 +262,6 @@ public class GigaGal implements Physical {
                                 Treadmill treadmill = (Treadmill) ground;
                                 onTreadmill = true;
                                 treadDirection = treadmill.getDirection();
-                            } else if (ground instanceof Ladder) {
-                                canClimb = true;
-                            } else {
-                                canClimb = false;
                             }
                         }
                         // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
