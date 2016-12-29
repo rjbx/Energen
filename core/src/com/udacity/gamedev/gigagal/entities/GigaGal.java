@@ -172,9 +172,11 @@ public class GigaGal implements Physical {
                     if (ground instanceof Ladder) {
                         Rectangle ladderBounds = new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight());
                         if (getBounds().overlaps(ladderBounds)) {
+                            canJump = false;
                             canClimb = true;
                         }
-                    } else if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
+                    }
+                    if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                         // if during previous frame was not, while currently is, between ground left and right sides
                         if (!Utils.betweenSides(ground, previousFramePosition.x)) {
                             // only when not grounded and not recoiling
@@ -818,7 +820,9 @@ public class GigaGal implements Physical {
             }
             groundState = GroundState.STANDING;
             aerialState = AerialState.GROUNDED;
-            canJump = true;
+            if (!canClimb) {
+                canJump = true;
+            }
             canLook = true;
             if (turbo < Constants.MAX_TURBO) {
                 turbo += Constants.STAND_TURBO_INCREMENT;
