@@ -173,9 +173,7 @@ public class GigaGal implements Physical {
                     if (ground instanceof Ladder) {
                         Rectangle ladderBounds = new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight());
                         if (getBounds().overlaps(ladderBounds)) {
-                            if (!inputControls.jumpButtonPressed) {
-                                canClimb = true;
-                            }
+                            canClimb = true;
                         }
                     }
                     if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
@@ -586,23 +584,23 @@ public class GigaGal implements Physical {
         boolean directionChanged = false;
         if (canLook) {
             if (looking && climbDirection == null) {
-                canStride = false;
-                if (up) {
-                    lookDirection = Direction.UP;
-                    if (chaseCamPosition.y < position.y) {
-                        directionChanged = true;
+                    canStride = false;
+                    if (up) {
+                        lookDirection = Direction.UP;
+                        if (chaseCamPosition.y < position.y) {
+                            directionChanged = true;
+                        }
+                    } else if (down) {
+                        lookDirection = Direction.DOWN;
+                        if (chaseCamPosition.y > position.y) {
+                            directionChanged = true;
+                        }
                     }
-                } else if (down) {
-                    lookDirection = Direction.DOWN;
-                    if (chaseCamPosition.y > position.y) {
-                        directionChanged = true;
+                    if (directionChanged && groundState == GroundState.STANDING) {
+                        chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, lookDirection, Orientation.VERTICAL);
                     }
-                }
-                if (directionChanged && groundState == GroundState.STANDING) {
-                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, lookDirection, Orientation.VERTICAL);
-                }
-                enableToggle(lookDirection);
-                look();
+                    enableToggle(lookDirection);
+                    look();
             } else if ( groundState == GroundState.STANDING) {
                 if (Math.abs(chaseCamPosition.y - position.y) > 5) {
                     chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.VERTICAL);
@@ -792,10 +790,8 @@ public class GigaGal implements Physical {
     }
 
     private void enableClimb() {
-        canHover = false;
-        canLook = false;
         if (canClimb) {
-            if ((inputControls.upButtonPressed || inputControls.downButtonPressed) && aerialState != AerialState.RECOILING) {
+            if (inputControls.jumpButtonPressed && (inputControls.upButtonPressed || inputControls.downButtonPressed) && aerialState != AerialState.RECOILING) {
                 if (climbDirection == null) {
                     velocity.y = 0;
                     canHover = false;
@@ -811,6 +807,7 @@ public class GigaGal implements Physical {
     }
 
     private void climb() {
+        enableToggle(lookDirection);
         if (inputControls.upButtonPressed) {
             climbDirection = Direction.UP;
             velocity.y = Constants.CLIMB_SPEED;
@@ -828,7 +825,7 @@ public class GigaGal implements Physical {
             }
             groundState = GroundState.STANDING;
             aerialState = AerialState.GROUNDED;
-            if (!canClimb && !inputControls.jumpButtonPressed) {
+            if (!canClimb) {
                 canJump = true;
             } else {
                 canJump = false;
