@@ -164,6 +164,8 @@ public class GigaGal implements Physical {
         onTreadmill = false;
         treadDirection = null;
         canClimb = false;
+        int laddersOverlapping = 0;
+        Rectangle ladderBounds = new Rectangle();
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
             if (Utils.betweenSides(ground, position.x)) {
@@ -171,7 +173,8 @@ public class GigaGal implements Physical {
                 // ledges only apply collision detection on top, and not on sides and bottom as do platforms
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (ground instanceof Ladder) {
-                        Rectangle ladderBounds = new Rectangle(ground.getLeft() + 9, ground.getBottom(), ground.getWidth() - 12, ground.getHeight());
+                        laddersOverlapping++;
+                        ladderBounds.set(ground.getLeft() + 9, ground.getBottom(), ground.getWidth() - 12, ground.getHeight());
                         if (getBounds().overlaps(ladderBounds)) {
                             canClimb = true;
                         }
@@ -284,6 +287,13 @@ public class GigaGal implements Physical {
                         canHover = false; // disables hover
                     }
                 }
+            }
+        }
+        if (laddersOverlapping == 1) {
+            if (getBottom() > ladderBounds.getY()) {
+                climbStartTime = 0;
+                climbTimeSeconds = 0;
+                climbDirection = null;
             }
         }
         // disables ricochet if no contact with slid platform side
@@ -862,7 +872,7 @@ public class GigaGal implements Physical {
             climbTimeSeconds = Utils.secondsSince(climbStartTime);
             region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(climbTimeSeconds);
         } else if (canClimb && climbDirection == null && groundState == GroundState.STANDING && lookDirection == null && climbTimeSeconds != 0) {
-            region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0);
+            region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(climbStartTime);
         } else if (facing == Direction.RIGHT) {
             if (lookDirection == Direction.UP) {
                 region = Assets.getInstance().getGigaGalAssets().lookupRight;
