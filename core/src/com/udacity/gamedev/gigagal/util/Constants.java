@@ -105,7 +105,7 @@ public final class Constants {
     public static final float SLICK_DURATION = 1;
     
     // Treadmill
-    public static final Vector2 TREADMILL_CENTER = new Vector2(18.5f, 9);
+    public static final Vector2 TREADMILL_CENTER = new Vector2(19, 9);
     public static final String TREADMILL_1_RIGHT = "treadmill-1-right";
     public static final String TREADMILL_2_RIGHT = "treadmill-2-right";
     public static final String TREADMILL_1_LEFT = "treadmill-1-left";
