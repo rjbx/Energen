@@ -111,7 +111,7 @@ public final class Constants {
     public static final String TREADMILL_1_LEFT = "treadmill-1-left";
     public static final String TREADMILL_2_LEFT = "treadmill-2-left";
     public static final float TREADMILL_DURATION = .1f;
-    public static final float TREADMILL_SPEED = 100;
+    public static final float TREADMILL_SPEED = 175;
 
     // Spring
     public static final Vector2 SPRING_CENTER = new Vector2(11.5f, 4);

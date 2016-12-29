@@ -193,7 +193,8 @@ public class GigaGal implements Physical {
                             // if absval lateral velocity  not greater than one third max speed but aerial and bumping ground side, fall
                             } else {
                                 // if not already hovering and descending, also disable hover
-                                if (aerialState != AerialState.HOVERING && velocity.y < 0) {  canHover = false; // disable hover
+                                if (aerialState != AerialState.HOVERING && velocity.y < 0) {
+                                    canHover = false; // disable hover
                                 }
                                 slidPlatform = false;
                                 fall(); // fall regardless of whether or not inner condition met
