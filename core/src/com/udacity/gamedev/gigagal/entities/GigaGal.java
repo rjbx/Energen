@@ -165,7 +165,7 @@ public class GigaGal implements Physical {
         treadDirection = null;
         canClimb = false;
         int laddersOverlapping = 0;
-        Rectangle ladderBounds = new Rectangle();
+        float ladderTop = 0;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
             if (Utils.betweenSides(ground, position.x)) {
@@ -174,7 +174,7 @@ public class GigaGal implements Physical {
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (ground instanceof Ladder) {
                         laddersOverlapping++;
-                        ladderBounds.set(ground.getLeft() + 9, ground.getBottom(), ground.getWidth() - 12, ground.getHeight());
+                        Rectangle ladderBounds = new Rectangle(ground.getLeft() + 9, ground.getBottom(), ground.getWidth() - 12, ground.getHeight());
                         if (getBounds().overlaps(ladderBounds)) {
                             canClimb = true;
                         }
@@ -289,10 +289,12 @@ public class GigaGal implements Physical {
                 }
             }
         }
-        if (laddersOverlapping == 1) {
-            if (getBottom() > ladderBounds.getY()) {
-                climbStartTime = 0;
-                climbTimeSeconds = 0;
+        if (laddersOverlapping == 0) {
+            climbStartTime = TimeUtils.nanoTime();
+            lookTimeSeconds = 0;
+        } else if (laddersOverlapping == 1) {
+            if (getBottom() > ladderTop) {
+                lookTimeSeconds = 0;
                 climbDirection = null;
             }
         }
@@ -576,7 +578,7 @@ public class GigaGal implements Physical {
         onTreadmill = false;
         chargeStartTime = 0;
         strideStartTime = 0;
-        climbStartTime = 0;
+        climbStartTime = TimeUtils.nanoTime();
         jumpStartTime = 0;
         dashStartTime = 0;
         pauseDuration = 0;
@@ -805,7 +807,6 @@ public class GigaGal implements Physical {
                 if (climbDirection == null) {
                     velocity.y = 0;
                     canHover = false;
-                    climbStartTime = TimeUtils.nanoTime();
                 }
                 if (lookDirection == null) {
                     climb();
@@ -819,7 +820,13 @@ public class GigaGal implements Physical {
     }
 
     private void climb() {
+        climbTimeSeconds = Utils.secondsSince(climbStartTime);
         if (inputControls.upButtonPressed) {
+            if (((int) (climbTimeSeconds * 100)) % 25 == 0) {
+                facing = Direction.RIGHT;
+            } else {
+                facing = Direction.LEFT;
+            }
             climbDirection = Direction.UP;
             velocity.y = Constants.CLIMB_SPEED;
         } if (inputControls.downButtonPressed) {
@@ -869,10 +876,9 @@ public class GigaGal implements Physical {
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
         if (climbDirection != null) {
-            climbTimeSeconds = Utils.secondsSince(climbStartTime);
             region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(climbTimeSeconds);
-        } else if (canClimb && climbDirection == null && groundState == GroundState.STANDING && lookDirection == null && climbTimeSeconds != 0) {
-            region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(climbStartTime);
+        } else if (lookTimeSeconds != 0 && canClimb && climbDirection == null && groundState == GroundState.STANDING && lookDirection == null && climbTimeSeconds != 0) {
+            region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(climbTimeSeconds);
         } else if (facing == Direction.RIGHT) {
             if (lookDirection == Direction.UP) {
                 region = Assets.getInstance().getGigaGalAssets().lookupRight;
