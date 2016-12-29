@@ -220,6 +220,7 @@ public class GigaGal implements Physical {
                             position.x = previousFramePosition.x; // halt lateral progression
                         } else if (ground instanceof Ladder) {
                             canClimb = true;
+                            canJump = false;
                         } else {
                             canClimb = false;
                         }
@@ -585,7 +586,7 @@ public class GigaGal implements Physical {
         boolean down = inputControls.downButtonPressed;
         boolean looking = up || down;
         boolean directionChanged = false;
-        if (canLook && !canClimb) {
+        if (canLook && climbDirection == null) {
             if (looking) {
                 canStride = false;
                 if (up) {
@@ -627,7 +628,7 @@ public class GigaGal implements Physical {
 
     private void look() {
         float offset = 0;
-        if (groundState == GroundState.STANDING) {
+        if (groundState == GroundState.STANDING && !canClimb) {
             if (lookStartTime == 0) {
                 lookStartTime = TimeUtils.nanoTime();
                 chaseCamPosition.set(position, 0);
@@ -794,9 +795,9 @@ public class GigaGal implements Physical {
 
     private void enableClimb() {
         canLook = false;
-        if (canClimb && (inputControls.upButtonPressed || inputControls.downButtonPressed) && aerialState != AerialState.RECOILING) {
+        if (canClimb && inputControls.jumpButtonPressed && (inputControls.upButtonPressed || inputControls.downButtonPressed) && aerialState != AerialState.RECOILING) {
             if (climbDirection == null) {
-                stand();
+                velocity.y = 0;
                 canHover = false;
                 climbStartTime = TimeUtils.nanoTime();
             }
