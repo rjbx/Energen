@@ -822,8 +822,9 @@ public class GigaGal implements Physical {
     private void climb() {
         climbTimeSeconds = Utils.secondsSince(climbStartTime);
         if (inputControls.upButtonPressed) {
-            if (((int) (climbTimeSeconds * 100)) % 25 >= 0
-                && (((int) (climbTimeSeconds * 100)) % 25 <= 13)) {
+            int climbAnimationPercent = (int) (climbTimeSeconds * 100);
+            if ((climbAnimationPercent) % 25 >= 0
+                && (climbAnimationPercent) % 25 <= 13) {
                 facing = Direction.RIGHT;
             } else {
                 facing = Direction.LEFT;
@@ -876,9 +877,9 @@ public class GigaGal implements Physical {
 
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
-        if (climbDirection != null) {
-            region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(climbTimeSeconds);
-        } else if (lookTimeSeconds != 0 && canClimb && climbDirection == null && groundState == GroundState.STANDING && lookDirection == null && climbTimeSeconds != 0) {
+        if (climbDirection != null
+        || (lookTimeSeconds != 0 && canClimb && climbDirection == null && groundState == GroundState.STANDING && lookDirection == null && climbTimeSeconds != 0)) {
+
             if (facing == Direction.LEFT) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (facing == Direction.RIGHT) {
