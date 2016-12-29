@@ -797,7 +797,9 @@ public class GigaGal implements Physical {
                     canHover = false;
                     climbStartTime = TimeUtils.nanoTime();
                 }
-                climb();
+                if (lookDirection == null) {
+                    climb();
+                }
             } else {
                 climbDirection = null;
             }
