@@ -40,6 +40,7 @@ public class GigaGal implements Physical {
     private Direction lookDirection;
     private Direction toggleDirection;
     private Direction treadDirection;
+    private Direction climbDirection;
     private Spring loadedSpring;
     private long lookStartTime;
     private long strideStartTime;
@@ -535,6 +536,7 @@ public class GigaGal implements Physical {
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
         pauseState = false;
+        canClimb = false;
         canLook = false;
         canStride = false;
         canJump = false;
@@ -771,6 +773,27 @@ public class GigaGal implements Physical {
             pauseDuration = 0;
             canChangeDirection = false;
             canHover = true;
+        }
+    }
+
+    private void enableClimb() {
+        if (canClimb && (inputControls.upButtonJustPressed || inputControls.downButtonPressed)) {
+            if (climbDirection == null) {
+                stand();
+            }
+            climb();
+        }
+    }
+
+    private void climb() {
+        if (inputControls.upButtonPressed) {
+            climbDirection = Direction.UP;
+            velocity.y = 5;
+        } else if (inputControls.downButtonPressed) {
+            climbDirection = Direction.DOWN;
+            velocity.y = -5;
+        } else {
+            climbDirection = null;
         }
     }
 
