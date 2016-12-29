@@ -166,128 +166,128 @@ public class GigaGal implements Physical {
             if (Utils.betweenSides(ground, position.x)) {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do platforms
-                if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT
-                        && getBottom() <= ground.getTop()
-                        && getTop() >= ground.getBottom()) {
-                    // if during previous frame was not, while currently is, between ground left and right sides
-                    if (!Utils.betweenSides(ground, previousFramePosition.x)) {
-                        // only when not grounded and not recoiling
-                        if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
-                            // if lateral velocity (magnitude, without concern for direction) greater than one third max speed,
-                            // boost lateral velocity by starting speed, enable ricochet, verify slid ground and capture slid ground boundaries
-                            if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 3) {
-                                // if already ricocheting, halt lateral progression
-                                if (aerialState == AerialState.RICOCHETING) {
-                                    velocity.x = 0; // halt lateral progression
-                                    // if not already ricocheting and hover was previously activated before grounding
-                                } else if (!canHover || aerialState == AerialState.HOVERING) {
-                                    fall(); // begin descent from ground side sans access to hover
-                                    canHover = false; // disable hover if not already
-                                }
-                                if (aerialState != AerialState.RICOCHETING) {
-                                    if (!slidPlatform) {
-                                        startTurbo = Math.max(turbo, Constants.PLATFORM_SLIDE_MIN_TURBO);
+                if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
+                    if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
+                        // if during previous frame was not, while currently is, between ground left and right sides
+                        if (!Utils.betweenSides(ground, previousFramePosition.x)) {
+                            // only when not grounded and not recoiling
+                            if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
+                                // if lateral velocity (magnitude, without concern for direction) greater than one third max speed,
+                                // boost lateral velocity by starting speed, enable ricochet, verify slid ground and capture slid ground boundaries
+                                if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 3) {
+                                    // if already ricocheting, halt lateral progression
+                                    if (aerialState == AerialState.RICOCHETING) {
+                                        velocity.x = 0; // halt lateral progression
+                                        // if not already ricocheting and hover was previously activated before grounding
+                                    } else if (!canHover || aerialState == AerialState.HOVERING) {
+                                        fall(); // begin descent from ground side sans access to hover
+                                        canHover = false; // disable hover if not already
                                     }
-                                    turbo = Math.min((Math.abs((getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), Constants.MAX_TURBO);
+                                    if (aerialState != AerialState.RICOCHETING) {
+                                        if (!slidPlatform) {
+                                            startTurbo = Math.max(turbo, Constants.PLATFORM_SLIDE_MIN_TURBO);
+                                        }
+                                        turbo = Math.min((Math.abs((getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), Constants.MAX_TURBO);
+                                    }
+                                    velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, facing, Orientation.LATERAL); // boost lateral velocity by starting speed
+                                    canRicochet = true; // enable ricochet
+                                    slidPlatform = true; // verify slid ground
+                                    slidPlatformTop = ground.getTop(); // capture slid ground boundary
+                                    slidPlatformBottom = ground.getBottom(); // capture slid ground boundary
+                                    // if absval lateral velocity  not greater than one third max speed but aerial and bumping ground side, fall
+                                } else {
+                                    // if not already hovering and descending, also disable hover
+                                    if (aerialState != AerialState.HOVERING && velocity.y < 0) {
+                                        canHover = false; // disable hover
+                                    }
+                                    slidPlatform = false;
+                                    fall(); // fall regardless of whether or not inner condition met
                                 }
-                                velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, facing, Orientation.LATERAL); // boost lateral velocity by starting speed
-                                canRicochet = true; // enable ricochet
-                                slidPlatform = true; // verify slid ground
-                                slidPlatformTop = ground.getTop(); // capture slid ground boundary
-                                slidPlatformBottom = ground.getBottom(); // capture slid ground boundary
-                            // if absval lateral velocity  not greater than one third max speed but aerial and bumping ground side, fall
+                                // only when grounded
+                            } else if (aerialState == AerialState.GROUNDED) {
+                                //   stand();
+                            }
+                            if (!((ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1)
+                                    || ground instanceof Ladder))) {
+                                // if contact with ground sides detected without concern for ground state (either grounded or airborne),
+                                // reset stride acceleration, disable stride and dash, and set gigagal at ground side
+                                if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
+                                    strideStartTime = 0; // reset stride acceleration
+                                }
+                                canStride = false; // disable stride
+                                canDash = false; // disable dash
+                                position.x = previousFramePosition.x; // halt lateral progression
+                            } else if (ground instanceof Ladder) {
+                                canClimb = true;
+                                canJump = false;
                             } else {
-                                // if not already hovering and descending, also disable hover
-                                if (aerialState != AerialState.HOVERING && velocity.y < 0) {
-                                    canHover = false; // disable hover
-                                }
-                                slidPlatform = false;
-                                fall(); // fall regardless of whether or not inner condition met
+                                canClimb = false;
                             }
-                        // only when grounded
-                        } else if (aerialState == AerialState.GROUNDED) {
-                         //   stand();
+                            // else if no detection with ground sides, disable ricochet
+                        } else {
+                            canRicochet = false; // disable ricochet
+                            slidPlatform = false;
                         }
-                        if (!((ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1)
-                            || ground instanceof Ladder))) {
-                            // if contact with ground sides detected without concern for ground state (either grounded or airborne),
-                            // reset stride acceleration, disable stride and dash, and set gigagal at ground side
-                            if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
-                                strideStartTime = 0; // reset stride acceleration
-                            }
-                            canStride = false; // disable stride
-                            canDash = false; // disable dash
-                            position.x = previousFramePosition.x; // halt lateral progression
+                        // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
+                        if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()
+                                && !(ground instanceof Ladder)) {
+                            velocity.y = 0; // prevents from ascending above ground bottom
+                            position.y = previousFramePosition.y;  // sets gigagal at ground bottom
+                            fall(); // descend from point of contact with ground bottom
                         } else if (ground instanceof Ladder) {
                             canClimb = true;
-                            canJump = false;
                         } else {
                             canClimb = false;
                         }
-                    // else if no detection with ground sides, disable ricochet
-                    } else {
-                        canRicochet = false; // disable ricochet
-                        slidPlatform = false;
                     }
-                    // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
-                    if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()
-                    && !(ground instanceof Ladder)) {
-                        velocity.y = 0; // prevents from ascending above ground bottom
-                        position.y = previousFramePosition.y;  // sets gigagal at ground bottom
-                        fall(); // descend from point of contact with ground bottom
-                    } else if (ground instanceof Ladder) {
-                        canClimb = true;
-                    } else {
-                        canClimb = false;
+                    // if contact with ground top detected, halt downward progression and set gigagal atop ground
+                    if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
+                            && getBottom() <= ground.getTop()
+                            && ground.getTop() != slidPlatformTop
+                            && climbDirection == null) {
+                        if (groundState != GroundState.DASHING) {
+                            pauseDuration = 0;
+                        }
+                        velocity.y = 0; // prevents from descending beneath ground top
+                        position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                        canChangeDirection = true; // enable change of direction
+                        groundedPlatform = true; // verify contact with ground top
+                        groundedPlatformLeft = ground.getLeft(); // capture grounded ground boundary
+                        groundedPlatformRight = ground.getRight(); // capture grounded ground boundary
+                        hoverStartTime = 0; // reset hover
+                        ricochetStartTime = 0; // reset ricochet
+                        knockedBack = false; // reset knockback boolean
+                        canHover = true; // enable hover
+                        canLook = true;
+                        // if groundstate is airborne, set to standing
+                        if (groundState == GroundState.AIRBORNE) {
+                            stand(); // set groundstate to standing
+                        }
+                        if (ground instanceof Spring) {
+                            loadedSpring = (Spring) ground;
+                            loadedSpring.setLoaded(true);
+                        } else if (ground instanceof Treadmill) {
+                            Treadmill treadmill = (Treadmill) ground;
+                            onTreadmill = true;
+                            treadDirection = treadmill.getDirection();
+                        } else if (ground instanceof Ladder) {
+                            canClimb = true;
+                        } else {
+                            canClimb = false;
+                        }
                     }
-                }
-                // if contact with ground top detected, halt downward progression and set gigagal atop ground
-                if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
-                        && getBottom() <= ground.getTop()
-                        && ground.getTop() != slidPlatformTop
-                        && climbDirection == null) {
-                    if (groundState != GroundState.DASHING) {
-                        pauseDuration = 0;
+                    // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
+                    // caution when crossing plane between ground top and minimum hover height / ground distance
+                    // cannons, which inherit ground, can be mounted along sides of platforms causing accidental plane breakage
+                    if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
+                            && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
+                            && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
+                            && ricochetStartTime == 0 // only if have not ricocheted since last grounded
+                            && !(ground instanceof Cannon) // only if ground is not instance of platform
+                            ) {
+                        canRicochet = false; // disables ricochet
+                        canHover = false; // disables hover
                     }
-                    velocity.y = 0; // prevents from descending beneath ground top
-                    position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
-                    canChangeDirection = true; // enable change of direction
-                    groundedPlatform = true; // verify contact with ground top
-                    groundedPlatformLeft = ground.getLeft(); // capture grounded ground boundary
-                    groundedPlatformRight = ground.getRight(); // capture grounded ground boundary
-                    hoverStartTime = 0; // reset hover
-                    ricochetStartTime = 0; // reset ricochet
-                    knockedBack = false; // reset knockback boolean
-                    canHover = true; // enable hover
-                    canLook = true;
-                    // if groundstate is airborne, set to standing
-                    if (groundState == GroundState.AIRBORNE) {
-                        stand(); // set groundstate to standing
-                    }
-                    if (ground instanceof Spring) {
-                        loadedSpring = (Spring) ground;
-                        loadedSpring.setLoaded(true);
-                    } else if (ground instanceof Treadmill) {
-                        Treadmill treadmill = (Treadmill) ground;
-                        onTreadmill = true;
-                        treadDirection = treadmill.getDirection();
-                    } else if (ground instanceof Ladder) {
-                        canClimb = true;
-                    } else {
-                        canClimb = false;
-                    }
-                }
-                // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
-                // caution when crossing plane between ground top and minimum hover height / ground distance
-                // cannons, which inherit ground, can be mounted along sides of platforms causing accidental plane breakage
-                if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
-                        && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
-                        && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
-                        && ricochetStartTime == 0 // only if have not ricocheted since last grounded
-                        && !(ground instanceof Cannon) // only if ground is not instance of platform
-                        ) {
-                    canRicochet = false; // disables ricochet
-                    canHover = false; // disables hover
                 }
             }
         }
