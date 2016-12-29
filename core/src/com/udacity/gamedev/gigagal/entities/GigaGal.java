@@ -171,7 +171,7 @@ public class GigaGal implements Physical {
                 // ledges only apply collision detection on top, and not on sides and bottom as do platforms
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (ground instanceof Ladder) {
-                        Rectangle ladderBounds = new Rectangle(ground.getLeft() + 18, ground.getBottom(), ground.getWidth() + 24, ground.getHeight());
+                        Rectangle ladderBounds = new Rectangle(ground.getLeft() + 18, ground.getBottom(), ground.getWidth() - 24, ground.getHeight());
                         if (getBounds().overlaps(ladderBounds)) {
                             canClimb = true;
                         }
