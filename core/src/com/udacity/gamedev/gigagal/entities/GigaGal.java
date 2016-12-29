@@ -291,10 +291,10 @@ public class GigaGal implements Physical {
         }
         if (laddersOverlapping == 0) {
             climbStartTime = TimeUtils.nanoTime();
-            lookTimeSeconds = 0;
+            climbTimeSeconds = 0;
         } else if (laddersOverlapping == 1) {
             if (getBottom() > ladderTop) {
-                lookTimeSeconds = 0;
+                climbTimeSeconds = 0;
                 climbDirection = null;
             }
         }
@@ -316,7 +316,9 @@ public class GigaGal implements Physical {
                         loadedSpring = null;
                     }
                 }
-                if (aerialState != AerialState.RECOILING){
+                if (aerialState != AerialState.RECOILING || lookTimeSeconds == 0){
+                    lookTimeSeconds = 0;
+                    lookStartTime = TimeUtils.nanoTime();
                     groundedPlatform = false;
                     fall();
                 }
@@ -709,8 +711,8 @@ public class GigaGal implements Physical {
 
     private void enableJump() {
         if (((inputControls.jumpButtonJustPressed && canJump)
-        || aerialState == AerialState.JUMPING)
-        && lookDirection == null) {
+                || aerialState == AerialState.JUMPING)
+                && lookDirection == null) {
             jump();
         }
     }
@@ -824,7 +826,7 @@ public class GigaGal implements Physical {
         if (inputControls.upButtonPressed) {
             int climbAnimationPercent = (int) (climbTimeSeconds * 100);
             if ((climbAnimationPercent) % 25 >= 0
-                && (climbAnimationPercent) % 25 <= 13) {
+                    && (climbAnimationPercent) % 25 <= 13) {
                 facing = Direction.RIGHT;
             } else {
                 facing = Direction.LEFT;
@@ -878,7 +880,7 @@ public class GigaGal implements Physical {
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
         if (climbDirection != null
-        || (lookTimeSeconds != 0 && canClimb && climbDirection == null && groundState == GroundState.STANDING && lookDirection == null && climbTimeSeconds != 0)) {
+                || (lookTimeSeconds != 0 && canClimb && climbDirection == null && groundState == GroundState.STANDING && lookDirection == null && climbTimeSeconds != 0)) {
 
             if (facing == Direction.LEFT) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
