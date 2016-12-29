@@ -114,6 +114,7 @@ public class GigaGal implements Physical {
         recoilFromHazards(level.getHazards());
         collectPowerups(level.getPowerups());
         enableShoot(weapon);
+        enableClimb();
 
         if (aerialState == AerialState.GROUNDED && groundState != GroundState.AIRBORNE) {
             velocity.y = 0;
@@ -226,7 +227,8 @@ public class GigaGal implements Physical {
                         slidPlatform = false;
                     }
                     // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
-                    if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()) {
+                    if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()
+                    && !(ground instanceof Ladder)) {
                         velocity.y = 0; // prevents from ascending above ground bottom
                         position.y = previousFramePosition.y;  // sets gigagal at ground bottom
                         fall(); // descend from point of contact with ground bottom
@@ -780,7 +782,7 @@ public class GigaGal implements Physical {
     }
 
     private void enableClimb() {
-        if (canClimb && (inputControls.upButtonJustPressed || inputControls.downButtonPressed)) {
+        if (canClimb && (inputControls.upButtonJustPressed || inputControls.downButtonPressed) && aerialState != AerialState.RECOILING) {
             if (climbDirection == null) {
                 stand();
                 climbStartTime = TimeUtils.nanoTime();

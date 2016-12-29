@@ -175,9 +175,9 @@ public final class Assets implements Disposable, AssetErrorListener {
             strideRight = new Animation(Constants.STRIDE_LOOP_DURATION, strideRightFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> climbFrames = new Array<AtlasRegion>();
-            climbFrames.add(atlas.findRegion(Constants.HOVER_RIGHT_1));
-            climbFrames.add(atlas.findRegion(Constants.HOVER_RIGHT_2));
-            climb = new Animation(Constants.HOVER_LOOP_DURATION, climbFrames, PlayMode.LOOP);
+            climbFrames.add(atlas.findRegion(Constants.CLIMB_1));
+            climbFrames.add(atlas.findRegion(Constants.CLIMB_2));
+            climb = new Animation(Constants.CLIMB_LOOP_DURATION, climbFrames, PlayMode.LOOP);
         }
     }
 
