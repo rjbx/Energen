@@ -138,10 +138,10 @@ public final class Constants {
     public static final float SINK_DURATION = 1.25f;
 
     // Coals
-    public static final Vector2 SINK_CENTER = new Vector2(9.75f, 4);
-    public static final String SINK_SPRITE_1 = "sink-1";
-    public static final String SINK_SPRITE_2 = "sink-2";
-    public static final float SINK_DURATION = 1.25f;
+    public static final Vector2 COALS_CENTER = new Vector2(21, 9);
+    public static final String COALS_SPRITE_1 = "coals-1";
+    public static final String COALS_SPRITE_2 = "coals-2";
+    public static final float COALS_DURATION = .25f;
 
     // Cannon
     public static final Vector2 LATERAL_CANNON_CENTER = new Vector2(10, 6);

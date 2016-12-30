@@ -9,6 +9,7 @@ import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.ChargedSwoopa;
 import com.udacity.gamedev.gigagal.entities.ChargedZoomba;
+import com.udacity.gamedev.gigagal.entities.Coals;
 import com.udacity.gamedev.gigagal.entities.Coil;
 import com.udacity.gamedev.gigagal.entities.FierySwoopa;
 import com.udacity.gamedev.gigagal.entities.FieryZoomba;
@@ -173,6 +174,10 @@ public final class LevelLoader {
                 final Vector2 slickPosition = imagePosition.add(Constants.SLICK_CENTER);
                 Gdx.app.log(TAG, "Loaded the slick at " + slickPosition);
                 level.getGrounds().add(new Slick(slickPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.COALS_SPRITE_1)) {
+                final Vector2 coalsPosition = imagePosition.add(Constants.COALS_CENTER);
+                Gdx.app.log(TAG, "Loaded the coals at " + coalsPosition);
+                level.getGrounds().add(new Coals(coalsPosition));
             }
         }
     }
