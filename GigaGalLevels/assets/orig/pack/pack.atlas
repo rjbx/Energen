@@ -6,14 +6,14 @@ filter: Linear,Linear
 repeat: none
 cannon-lateral
   rotate: false
-  xy: 165, 77
+  xy: 134, 41
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
   index: -1
 cannon-vertical
   rotate: false
-  xy: 234, 106
+  xy: 161, 54
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
@@ -27,22 +27,30 @@ coil-1
   index: -1
 flame-1
   rotate: false
-  xy: 101, 4
+  xy: 183, 46
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-1
   rotate: false
-  xy: 161, 58
+  xy: 101, 14
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 ladder
   rotate: false
-  xy: 197, 55
+  xy: 165, 76
+  size: 19, 50
+  orig: 19, 50
+  offset: 0, 0
+  index: -1
+ladder
+  rotate: false
+  xy: 243, 92
   size: 11, 14
+  split: 0, 0, 0, 0
   orig: 11, 14
   offset: 0, 0
   index: -1
@@ -77,21 +85,21 @@ powerup-ammo
   index: -1
 powerup-health
   rotate: false
-  xy: 231, 87
+  xy: 202, 56
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 180, 58
+  xy: 219, 62
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 sink-1
   rotate: false
-  xy: 197, 71
+  xy: 156, 44
   size: 20, 8
   orig: 20, 8
   offset: 0, 0
@@ -105,21 +113,21 @@ slick-1
   index: -1
 spike-1
   rotate: false
-  xy: 222, 90
+  xy: 236, 63
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 spring-1
   rotate: false
-  xy: 134, 39
+  xy: 186, 75
   size: 23, 14
   orig: 23, 14
   offset: 0, 0
   index: -1
 stand-right
   rotate: false
-  xy: 165, 91
+  xy: 186, 91
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
@@ -140,7 +148,7 @@ treadmill-1-left
   index: -1
 treadmill-1-right
   rotate: false
-  xy: 195, 108
+  xy: 216, 108
   size: 37, 18
   orig: 37, 18
   offset: 0, 0
@@ -154,7 +162,7 @@ vacuum-1
   index: -1
 wheel-1
   rotate: false
-  xy: 195, 81
+  xy: 216, 81
   size: 25, 25
   orig: 25, 25
   offset: 0, 0

@@ -99,7 +99,7 @@ public final class Constants {
     public static final String PILLAR_SPRITE = "pillar";
     
     // Ladder
-    public static final Vector2 LADDER_CENTER = new Vector2(8.5f, 7);
+    public static final Vector2 LADDER_CENTER = new Vector2(8.5f, 25);
     public static final String LADDER_SPRITE = "ladder";
 
     // Slick
