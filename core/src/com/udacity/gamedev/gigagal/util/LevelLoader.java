@@ -148,11 +148,6 @@ public final class LevelLoader {
                 final Vector2 pillarPosition = imagePosition.add(Constants.PILLAR_CENTER);
                 Gdx.app.log(TAG, "Loaded the pillar at " + pillarPosition);
                 level.getGrounds().add(new Pillar(pillarPosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
-                final Vector2 ladderPosition = imagePosition.add(Constants.LADDER_CENTER);
-                Gdx.app.log(TAG, "Loaded the ladder at " + ladderPosition);
-                level.getGrounds().add(new Ladder(ladderPosition));
-                final JSONObject platformObject = (JSONObject) o;
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_RIGHT)) {
                 final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
                 Gdx.app.log(TAG, "Loaded the treadmillRight at " + treadmillPosition);
@@ -212,7 +207,7 @@ public final class LevelLoader {
 
                 Vector2 ladderPosition = imagePosition.add(Constants.LADDER_CENTER);
                 Gdx.app.log(TAG, "Loaded the ladder at " + ladderPosition);
-                level.getGrounds().add(ladder);
+                level.getGrounds().addAll(ladderArray);
 
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PLATFORM_SPRITE)){
                 Vector2 bottomLeft = extractXY(item);

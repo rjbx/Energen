@@ -690,7 +690,7 @@ public class GigaGal implements Physical {
     private void dash() {
         if (groundState != GroundState.DASHING) {
             startTurbo = turbo;
-            turboDuration = Constants.MAX_DASH_DURATION * ((float) startTurbo / Constants.MAX_TURBO);
+            turboDuration = Constants.MAX_DASH_DURATION * (startTurbo / Constants.MAX_TURBO);
             groundState = GroundState.DASHING;
             dashStartTime = TimeUtils.nanoTime();
             strideStartTime = 0;

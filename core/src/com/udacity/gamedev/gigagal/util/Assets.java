@@ -267,11 +267,12 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class LadderAssets {
 
-        public final AtlasRegion ladder;
-
+        public final NinePatch ladderNinePatch;
 
         public LadderAssets(TextureAtlas atlas) {
-            ladder = atlas.findRegion(Constants.LADDER_SPRITE);
+            AtlasRegion region = atlas.findRegion(Constants.LADDER_SPRITE);
+            int edge = Constants.LADDER_EDGE;
+            ladderNinePatch = new NinePatch(region, edge, edge, edge, edge);
         }
     }
 
