@@ -185,31 +185,7 @@ public final class LevelLoader {
             Vector2 imagePosition = extractXY(item);
             String identifier = (String) item.get(Constants.LEVEL_IDENTIFIER_KEY);
 
-            if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
-                Vector2 bottomLeft = extractXY(item);
-                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
-                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
-                final Ladder ladder = new Ladder(bottomLeft.x, bottomLeft.y + height, width, height);
-
-                ladderArray.add(ladder);
-
-                ladderArray.sort(new Comparator<Ladder>() {
-                    @Override
-                    public int compare(Ladder o1, Ladder o2) {
-                        if (o1.getTop() < o2.getTop()) {
-                            return 1;
-                        } else if (o1.getTop() > o2.getTop()) {
-                            return -1;
-                        }
-                        return 0;
-                    }
-                });
-
-                Vector2 ladderPosition = imagePosition.add(Constants.LADDER_CENTER);
-                Gdx.app.log(TAG, "Loaded the ladder at " + ladderPosition);
-                level.getGrounds().addAll(ladderArray);
-
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PLATFORM_SPRITE)){
+           if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PLATFORM_SPRITE)){
                 Vector2 bottomLeft = extractXY(item);
                 float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
                 float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
@@ -256,6 +232,15 @@ public final class LevelLoader {
                         level.getDestructibles().add(sharpSwoopa);
                     }
                 }
+            } else  if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
+                Vector2 bottomLeft = extractXY(item);
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Ladder ladder = new Ladder(bottomLeft.x, bottomLeft.y + height, width, height);
+
+                ladderArray.add(ladder);
+
+
             }
 
             platformArray.sort(new Comparator<Platform>() {
@@ -270,8 +255,24 @@ public final class LevelLoader {
                 }
             });
 
+            ladderArray.sort(new Comparator<Ladder>() {
+                @Override
+                public int compare(Ladder o1, Ladder o2) {
+                    if (o1.getTop() < o2.getTop()) {
+                        return 1;
+                    } else if (o1.getTop() > o2.getTop()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+            });
+
             level.getPlatforms().addAll(platformArray);
             level.getGrounds().addAll(platformArray);
+
+            Vector2 ladderPosition = imagePosition.add(Constants.LADDER_CENTER);
+            Gdx.app.log(TAG, "Loaded the ladder at " + ladderPosition);
+            level.getGrounds().addAll(ladderArray);
         }
     }
 }
