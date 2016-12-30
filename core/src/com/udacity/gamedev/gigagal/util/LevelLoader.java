@@ -61,11 +61,12 @@ public final class LevelLoader {
 
             JSONObject composite = (JSONObject) rootJsonObject.get(Constants.LEVEL_COMPOSITE);
 
-            JSONArray ground = (JSONArray) composite.get(Constants.LEVEL_9PATCHES);
-            loadGrounds(ground, level);
-
             JSONArray nonPlatformObjects = (JSONArray) composite.get(Constants.LEVEL_IMAGES);
             loadNonPlatformEntities(level, nonPlatformObjects);
+
+
+            JSONArray ground = (JSONArray) composite.get(Constants.LEVEL_9PATCHES);
+            loadGrounds(ground, level);
 
         } catch (Exception ex) {
             Gdx.app.log(TAG, ex.getMessage());
