@@ -43,7 +43,7 @@ public class GigaGal implements Physical {
     private Direction treadDirection;
     private Direction climbDirection;
     private Spring loadedSpring;
-    private Ladder overlappingLadder;
+    private Climbable overlappingLadder;
     private long lookStartTime;
     private long strideStartTime;
     private long jumpStartTime;
@@ -172,7 +172,7 @@ public class GigaGal implements Physical {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do platforms
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
-                    if (ground instanceof Ladder) {
+                    if (ground instanceof Climbable) {
                         laddersOverlapping++;
                         Rectangle ladderBounds = new Rectangle(ground.getLeft() + 9, ground.getBottom(), ground.getWidth() - 12, ground.getHeight());
                         if (getBounds().overlaps(ladderBounds)) {
@@ -236,7 +236,7 @@ public class GigaGal implements Physical {
                         }
                         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
                         if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()
-                                && !(ground instanceof Ladder)) {
+                                && !(ground instanceof Climbable)) {
                             velocity.y = 0; // prevents from ascending above ground bottom
                             position.y = previousFramePosition.y;  // sets gigagal at ground bottom
                             fall(); // descend from point of contact with ground bottom
@@ -247,12 +247,12 @@ public class GigaGal implements Physical {
                             && getBottom() <= ground.getTop()
                             && ground.getTop() != slidPlatformTop
                             && (climbDirection == null) ||
-                            (((canClimb && getBottom() > ground.getBottom()) || (climbTimeSeconds != 0)) && ground instanceof Ladder && climbDirection == null)) {
+                            (((canClimb && getBottom() > ground.getBottom()) || (climbTimeSeconds != 0)) && ground instanceof Climbable && climbDirection == null)) {
                         if (groundState != GroundState.DASHING) {
                             pauseDuration = 0;
                         }
                         velocity.y = 0; // prevents from descending beneath ground top
-                        if (!(ground instanceof Ladder)) {
+                        if (!(ground instanceof Climbable)) {
                             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                         }
                         canChangeDirection = true; // enable change of direction
