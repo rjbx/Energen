@@ -174,7 +174,7 @@ public class GigaGal implements Physical {
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (ground instanceof Ladder) {
                         laddersOverlapping++;
-                        Rectangle ladderBounds = new Rectangle(ground.getLeft() + 9, ground.getTop(), ground.getWidth() - 12, ground.getHeight());
+                        Rectangle ladderBounds = new Rectangle(ground.getLeft() + 9, ground.getBottom(), ground.getWidth() - 12, ground.getHeight());
                         if (getBounds().overlaps(ladderBounds)) {
                             canClimb = true;
                         }
@@ -946,7 +946,7 @@ public class GigaGal implements Physical {
     public float getRight() { return position.x + (Constants.GIGAGAL_STANCE_WIDTH / 2); }
     public float getTop() { return position.y + Constants.GIGAGAL_HEAD_RADIUS; }
     public float getBottom() { return position.y - Constants.GIGAGAL_EYE_HEIGHT; }
-    public Rectangle getBounds() { return  new Rectangle(getLeft(), getTop(), getWidth(), getHeight()); }
+    public Rectangle getBounds() { return  new Rectangle(getLeft(), getBottom(), getWidth(), getHeight()); }
     public boolean getJumpStatus() { return canJump; }
     public boolean getHoverStatus() { return canHover; }
     public boolean getRicochetStatus() { return canRicochet; }
