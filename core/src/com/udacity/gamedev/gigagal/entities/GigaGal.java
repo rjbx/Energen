@@ -276,6 +276,8 @@ public class GigaGal implements Physical {
                             Treadmill treadmill = (Treadmill) ground;
                             onTreadmill = true;
                             treadDirection = treadmill.getDirection();
+                        } if (ground instanceof Coals) {
+                            recoil(new Vector2(Utils.absoluteToDirectionalValue(Constants.FLAME_KNOCKBACK.x, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y));
                         }
                     }
                     // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover

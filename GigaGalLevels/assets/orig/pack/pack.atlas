@@ -6,49 +6,49 @@ filter: Linear,Linear
 repeat: none
 cannon-lateral
   rotate: false
-  xy: 180, 5
+  xy: 190, 87
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
   index: -1
 cannon-vertical
   rotate: false
-  xy: 192, 106
+  xy: 173, 63
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 coals-1
   rotate: false
-  xy: 62, 13
+  xy: 112, 13
   size: 42, 18
   orig: 42, 18
   offset: 0, 0
   index: -1
 coil-1
   rotate: false
-  xy: 180, 19
+  xy: 186, 15
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 flame-1
   rotate: false
-  xy: 190, 53
+  xy: 212, 99
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-1
   rotate: false
-  xy: 165, 82
+  xy: 195, 68
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 ladder
   rotate: false
-  xy: 209, 35
+  xy: 222, 28
   size: 19, 50
   split: 7, 7, 0, 0
   orig: 19, 50
@@ -56,7 +56,7 @@ ladder
   index: -1
 pillar
   rotate: false
-  xy: 88, 5
+  xy: 88, 7
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
@@ -78,63 +78,71 @@ portal-1
   index: -1
 powerup-ammo
   rotate: false
-  xy: 173, 63
+  xy: 200, 49
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 184, 82
+  xy: 192, 109
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 201, 87
+  xy: 214, 80
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 rope
   rotate: false
-  xy: 230, 26
+  xy: 243, 26
   size: 6, 100
   orig: 6, 100
   offset: 0, 0
   index: -1
 sink-1
   rotate: false
-  xy: 106, 13
+  xy: 117, 42
   size: 42, 18
   orig: 42, 18
   offset: 0, 0
   index: -1
 slick-1
   rotate: false
-  xy: 62, 3
+  xy: 62, 15
+  size: 48, 16
+  orig: 48, 16
+  offset: 0, 0
+  index: -1
+slick-1
+  rotate: false
+  xy: 62, 5
   size: 24, 8
+  split: 0, 0, 0, 0
   orig: 24, 8
   offset: 0, 0
   index: -1
 spike-1
   rotate: false
-  xy: 214, 110
+  xy: 213, 31
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 spring-1
   rotate: false
-  xy: 156, 46
+  xy: 165, 85
   size: 23, 14
   orig: 23, 14
   offset: 0, 0
   index: -1
 stand-right
   rotate: false
-  xy: 150, 5
+  xy: 156, 5
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
@@ -148,14 +156,14 @@ swoopa
   index: -1
 treadmill-1-left
   rotate: false
-  xy: 117, 42
+  xy: 134, 62
   size: 37, 18
   orig: 37, 18
   offset: 0, 0
   index: -1
 treadmill-1-right
   rotate: false
-  xy: 134, 62
+  xy: 161, 42
   size: 37, 18
   orig: 37, 18
   offset: 0, 0

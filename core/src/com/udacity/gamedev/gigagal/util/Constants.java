@@ -12,7 +12,7 @@ public final class Constants {
     private Constants() {}
 
     // World/Camera
-    public static final Color BACKGROUND_COLOR = Color.SLATE;
+    public static final Color BACKGROUND_COLOR = Color.DARK_GRAY;
     public static final float WORLD_SIZE = 160;
     public static final float KILL_PLANE = -200;
     public static final float GRAVITY = 10;
