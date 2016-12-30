@@ -340,7 +340,7 @@ public class GigaGal implements Physical {
         } else {
             isStriding = false;
         }
-        if (groundState != GroundState.AIRBORNE) {
+        if (groundState != GroundState.AIRBORNE && climbTimeSeconds == 0) {
             if (lookDirection == null) {
                 if (directionChanged) {
                     if (groundState == groundState.DASHING) {
