@@ -6,42 +6,49 @@ filter: Linear,Linear
 repeat: none
 cannon-lateral
   rotate: false
-  xy: 159, 68
+  xy: 180, 5
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
   index: -1
 cannon-vertical
   rotate: false
-  xy: 156, 44
+  xy: 192, 106
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
+coals-1
+  rotate: false
+  xy: 62, 13
+  size: 42, 18
+  orig: 42, 18
+  offset: 0, 0
+  index: -1
 coil-1
   rotate: false
-  xy: 175, 17
+  xy: 180, 19
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 flame-1
   rotate: false
-  xy: 202, 20
+  xy: 190, 53
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-1
   rotate: false
-  xy: 178, 49
+  xy: 165, 82
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 ladder
   rotate: false
-  xy: 181, 76
+  xy: 209, 35
   size: 19, 50
   split: 7, 7, 0, 0
   orig: 19, 50
@@ -71,35 +78,35 @@ portal-1
   index: -1
 powerup-ammo
   rotate: false
-  xy: 221, 30
+  xy: 173, 63
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 221, 11
+  xy: 184, 82
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 238, 7
+  xy: 201, 87
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 rope
   rotate: false
-  xy: 238, 26
+  xy: 230, 26
   size: 6, 100
   orig: 6, 100
   offset: 0, 0
   index: -1
 sink-1
   rotate: false
-  xy: 62, 13
+  xy: 106, 13
   size: 42, 18
   orig: 42, 18
   offset: 0, 0
@@ -113,21 +120,21 @@ slick-1
   index: -1
 spike-1
   rotate: false
-  xy: 165, 110
+  xy: 214, 110
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 spring-1
   rotate: false
-  xy: 134, 66
+  xy: 156, 46
   size: 23, 14
   orig: 23, 14
   offset: 0, 0
   index: -1
 stand-right
   rotate: false
-  xy: 145, 5
+  xy: 150, 5
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
@@ -141,14 +148,14 @@ swoopa
   index: -1
 treadmill-1-left
   rotate: false
-  xy: 106, 13
+  xy: 117, 42
   size: 37, 18
   orig: 37, 18
   offset: 0, 0
   index: -1
 treadmill-1-right
   rotate: false
-  xy: 117, 42
+  xy: 134, 62
   size: 37, 18
   orig: 37, 18
   offset: 0, 0
@@ -162,7 +169,7 @@ vacuum-1
   index: -1
 wheel-1
   rotate: false
-  xy: 197, 49
+  xy: 165, 101
   size: 25, 25
   orig: 25, 25
   offset: 0, 0

@@ -13,63 +13,63 @@ ammo-blast-electric
   index: -1
 ammo-blast-fire
   rotate: false
-  xy: 621, 66
+  xy: 370, 31
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
 ammo-blast-fire-alt
   rotate: false
-  xy: 611, 139
+  xy: 351, 21
   size: 17, 18
   orig: 17, 18
   offset: 0, 0
   index: -1
 ammo-blast-metal
   rotate: false
-  xy: 529, 59
+  xy: 290, 2
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
 ammo-blast-metal-alt
   rotate: false
-  xy: 612, 119
+  xy: 485, 119
   size: 17, 18
   orig: 17, 18
   offset: 0, 0
   index: -1
 ammo-blast-native
   rotate: false
-  xy: 598, 54
+  xy: 330, 2
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 ammo-blast-psychic
   rotate: false
-  xy: 621, 85
+  xy: 370, 50
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 ammo-blast-rubber
   rotate: false
-  xy: 549, 57
+  xy: 484, 99
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 ammo-blast-water
   rotate: false
-  xy: 578, 54
+  xy: 310, 2
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
 ammo-blast-water-alt
   rotate: false
-  xy: 617, 46
+  xy: 504, 120
   size: 17, 18
   orig: 17, 18
   offset: 0, 0
@@ -83,77 +83,77 @@ ammo-shot-electric
   index: -1
 ammo-shot-electric-alt
   rotate: false
-  xy: 621, 167
+  xy: 391, 88
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 ammo-shot-fire
   rotate: false
-  xy: 630, 177
+  xy: 591, 131
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-fire-alt
   rotate: false
-  xy: 645, 190
+  xy: 391, 77
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 ammo-shot-metal
   rotate: false
-  xy: 665, 189
+  xy: 577, 123
   size: 8, 7
   orig: 8, 7
   offset: 0, 0
   index: -1
 ammo-shot-metal-alt
   rotate: false
-  xy: 569, 49
+  xy: 391, 67
   size: 7, 8
   orig: 7, 8
   offset: 0, 0
   index: -1
 ammo-shot-native
   rotate: false
-  xy: 630, 167
+  xy: 379, 99
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-psychic
   rotate: false
-  xy: 675, 188
+  xy: 370, 21
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 685, 188
+  xy: 380, 21
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber-alt
   rotate: false
-  xy: 695, 188
+  xy: 389, 99
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-water
   rotate: false
-  xy: 654, 189
+  xy: 602, 131
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-water-alt
   rotate: false
-  xy: 705, 187
+  xy: 383, 10
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
@@ -174,7 +174,7 @@ button-b
   index: -1
 button-center
   rotate: false
-  xy: 483, 111
+  xy: 130, 29
   size: 26, 27
   orig: 26, 27
   offset: 0, 0
@@ -188,7 +188,7 @@ button-down
   index: -1
 button-left
   rotate: false
-  xy: 404, 88
+  xy: 703, 166
   size: 25, 30
   orig: 25, 30
   offset: 0, 0
@@ -202,7 +202,7 @@ button-pause
   index: -1
 button-right
   rotate: false
-  xy: 431, 88
+  xy: 730, 166
   size: 25, 30
   orig: 25, 30
   offset: 0, 0
@@ -216,7 +216,7 @@ button-up
   index: -1
 cannon-lateral
   rotate: false
-  xy: 612, 105
+  xy: 523, 126
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
@@ -237,21 +237,35 @@ climb-1
   index: -1
 climb-2
   rotate: false
-  xy: 383, 109
+  xy: 384, 109
   size: 19, 33
   orig: 19, 33
   offset: 0, 0
   index: -1
+coals-1
+  rotate: false
+  xy: 139, 2
+  size: 42, 18
+  orig: 42, 18
+  offset: 0, 0
+  index: -1
+coals-2
+  rotate: false
+  xy: 183, 2
+  size: 42, 18
+  orig: 42, 18
+  offset: 0, 0
+  index: -1
 coil-1
   rotate: false
-  xy: 458, 77
+  xy: 757, 171
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 coil-2
   rotate: false
-  xy: 485, 84
+  xy: 784, 171
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
@@ -293,28 +307,28 @@ fall-right
   index: -1
 flame-1
   rotate: false
-  xy: 511, 111
+  xy: 838, 169
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 flame-2
   rotate: false
-  xy: 130, 29
+  xy: 351, 41
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-1
   rotate: false
-  xy: 583, 73
+  xy: 353, 70
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-2
   rotate: false
-  xy: 602, 73
+  xy: 372, 70
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
@@ -349,28 +363,28 @@ hover-2-right
   index: -1
 icon-dash
   rotate: false
-  xy: 405, 140
+  xy: 493, 140
   size: 40, 17
   orig: 40, 17
   offset: 0, 0
   index: -1
 icon-hover
   rotate: false
-  xy: 447, 140
+  xy: 535, 140
   size: 40, 17
   orig: 40, 17
   offset: 0, 0
   index: -1
 icon-life
   rotate: false
-  xy: 630, 186
+  xy: 562, 125
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
   index: -1
 icon-ricochet
   rotate: false
-  xy: 489, 140
+  xy: 577, 140
   size: 40, 17
   orig: 40, 17
   offset: 0, 0
@@ -384,35 +398,35 @@ ladder
   index: -1
 lookdown-left
   rotate: false
-  xy: 558, 104
+  xy: 158, 29
   size: 25, 33
   orig: 25, 33
   offset: 0, 0
   index: -1
 lookdown-right
   rotate: false
-  xy: 324, 72
+  xy: 354, 109
   size: 28, 33
   orig: 28, 33
   offset: 0, 0
   index: -1
 lookup-left
   rotate: false
-  xy: 530, 105
+  xy: 648, 164
   size: 26, 32
   orig: 26, 32
   offset: 0, 0
   index: -1
 lookup-right
   rotate: false
-  xy: 149, 30
+  xy: 676, 164
   size: 25, 32
   orig: 25, 32
   offset: 0, 0
   index: -1
 pillar
   rotate: false
-  xy: 290, 2
+  xy: 577, 132
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
@@ -517,21 +531,21 @@ portal-6
   index: -1
 powerup-ammo
   rotate: false
-  xy: 176, 45
+  xy: 349, 2
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 512, 92
+  xy: 366, 2
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 512, 73
+  xy: 504, 101
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -573,70 +587,70 @@ rope
   index: -1
 selection-cursor
   rotate: false
-  xy: 176, 28
+  xy: 545, 123
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 sink-1
   rotate: false
-  xy: 139, 2
+  xy: 405, 139
   size: 42, 18
   orig: 42, 18
   offset: 0, 0
   index: -1
 sink-2
   rotate: false
-  xy: 183, 2
+  xy: 449, 139
   size: 42, 18
   orig: 42, 18
   offset: 0, 0
   index: -1
 slick-1
   rotate: false
-  xy: 998, 173
+  xy: 907, 179
   size: 24, 8
   orig: 24, 8
   offset: 0, 0
   index: -1
 slick-2
   rotate: false
-  xy: 485, 74
+  xy: 998, 173
   size: 24, 8
   orig: 24, 8
   offset: 0, 0
   index: -1
 spike-1
   rotate: false
-  xy: 569, 59
+  xy: 185, 46
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 spike-2
   rotate: false
-  xy: 621, 178
+  xy: 185, 28
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 spring-1
   rotate: false
-  xy: 458, 104
+  xy: 857, 173
   size: 23, 14
   orig: 23, 14
   offset: 0, 0
   index: -1
 spring-2
   rotate: false
-  xy: 294, 20
+  xy: 882, 176
   size: 23, 11
   orig: 23, 11
   offset: 0, 0
   index: -1
 spring-3
   rotate: false
-  xy: 290, 10
+  xy: 354, 99
   size: 23, 8
   orig: 23, 8
   offset: 0, 0
@@ -664,42 +678,42 @@ stand-right
   index: -1
 stride-1-left
   rotate: false
-  xy: 324, 107
+  xy: 294, 70
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
   index: -1
 stride-1-right
   rotate: false
-  xy: 294, 70
+  xy: 324, 107
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
   index: -1
 stride-2-left
   rotate: false
-  xy: 585, 102
+  xy: 621, 159
   size: 25, 35
   orig: 25, 35
   offset: 0, 0
   index: -1
 stride-2-right
   rotate: false
-  xy: 354, 70
+  xy: 323, 33
   size: 26, 35
   orig: 26, 35
   offset: 0, 0
   index: -1
 stride-3-left
   rotate: false
-  xy: 354, 107
+  xy: 294, 33
   size: 27, 35
   orig: 27, 35
   offset: 0, 0
   index: -1
 stride-3-right
   rotate: false
-  xy: 294, 33
+  xy: 324, 70
   size: 27, 35
   orig: 27, 35
   offset: 0, 0
@@ -783,28 +797,28 @@ swoopa-water-2
   index: -1
 treadmill-1-left
   rotate: false
-  xy: 531, 139
+  xy: 405, 119
   size: 38, 18
   orig: 38, 18
   offset: 0, 0
   index: -1
 treadmill-1-right
   rotate: false
-  xy: 444, 120
+  xy: 445, 99
   size: 37, 18
   orig: 37, 18
   offset: 0, 0
   index: -1
 treadmill-2-left
   rotate: false
-  xy: 571, 139
+  xy: 445, 119
   size: 38, 18
   orig: 38, 18
   offset: 0, 0
   index: -1
 treadmill-2-right
   rotate: false
-  xy: 404, 120
+  xy: 405, 99
   size: 38, 18
   orig: 38, 18
   offset: 0, 0
@@ -832,14 +846,14 @@ vacuum-3
   index: -1
 wheel-1
   rotate: false
-  xy: 529, 78
+  xy: 811, 171
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 wheel-2
   rotate: false
-  xy: 556, 77
+  xy: 619, 132
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
