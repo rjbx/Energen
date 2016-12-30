@@ -85,6 +85,7 @@ public class GigaGal implements Physical {
     private boolean groundedPlatform;
     private boolean pauseState;
     private boolean onTreadmill;
+    private boolean onSlick;
     private InputControls inputControls;
 
     // ctor
@@ -162,6 +163,7 @@ public class GigaGal implements Physical {
         float groundedPlatformLeft = 0;
         float groundedPlatformRight = 0;
         onTreadmill = false;
+        onSlick = false;
         treadDirection = null;
         canClimb = false;
         int laddersOverlapping = 0;
@@ -220,7 +222,8 @@ public class GigaGal implements Physical {
                                 //   stand();
                             }
                             if ((!(ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1)))
-                            && (!(ground instanceof Rope))) {
+                            && (!(ground instanceof Rope))
+                            && !(ground instanceof Slick && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                                 // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                                 // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                                 if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
@@ -278,6 +281,8 @@ public class GigaGal implements Physical {
                             treadDirection = treadmill.getDirection();
                         } if (ground instanceof Coals) {
                             recoil(new Vector2(Utils.absoluteToDirectionalValue(Constants.FLAME_KNOCKBACK.x, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y));
+                        } if (ground instanceof Slick) {
+                            onSlick = true;
                         }
                     }
                     // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
@@ -583,6 +588,7 @@ public class GigaGal implements Physical {
         groundedPlatform = false;
         knockedBack = false;
         onTreadmill = false;
+        onSlick = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         climbStartTime = TimeUtils.nanoTime();
@@ -683,6 +689,10 @@ public class GigaGal implements Physical {
         velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing, Orientation.LATERAL);
         if (onTreadmill) {
             velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, treadDirection, Orientation.LATERAL);
+        }
+        if (onSlick) {
+            velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 3 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing, Orientation.LATERAL);
+
         }
     }
 
@@ -845,21 +855,29 @@ public class GigaGal implements Physical {
     }
 
     private void stand() {
-            velocity.x = 0;
-            if (onTreadmill) {
-                velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, treadDirection, Orientation.LATERAL);
-            }
-            groundState = GroundState.STANDING;
-            aerialState = AerialState.GROUNDED;
-            if (!canClimb) {
-                canJump = true;
+        if (onSlick) {
+            if (Math.abs(velocity.x) > 0.1f) {
+                velocity.x /= 1.01;
             } else {
-                canJump = false;
+                velocity.x = 0;
             }
-            canLook = true;
-            if (turbo < Constants.MAX_TURBO) {
-                turbo += Constants.STAND_TURBO_INCREMENT;
-            }
+        } else {
+            velocity.x = 0;
+        }
+        if (onTreadmill) {
+            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, treadDirection, Orientation.LATERAL);
+        }
+        groundState = GroundState.STANDING;
+        aerialState = AerialState.GROUNDED;
+        if (!canClimb) {
+            canJump = true;
+        } else {
+            canJump = false;
+        }
+        canLook = true;
+        if (turbo < Constants.MAX_TURBO) {
+            turbo += Constants.STAND_TURBO_INCREMENT;
+        }
     }
 
     private void fall() {
