@@ -8,13 +8,10 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-import java.util.Vector;
-
 public class Coals implements Ground {
 
     // fields
     private Vector2 position;
-    private float rotation;
     private long startTime;
 
     // ctor
@@ -26,7 +23,7 @@ public class Coals implements Ground {
     public void render(SpriteBatch batch) {
         final float elapsedTime = Utils.secondsSince(startTime);
         final TextureRegion region = Assets.getInstance().getCoalsAssets().coals.getKeyFrame(elapsedTime, true);
-        Utils.drawTextureRegion(batch, region, position, Constants.COALS_CENTER, 1, rotation);
+        Utils.drawTextureRegion(batch, region, position, Constants.COALS_CENTER);
     }
 
     public final Vector2 getPosition() { return position; }
@@ -37,6 +34,4 @@ public class Coals implements Ground {
     public final float getTop() { return position.y + Constants.COALS_CENTER.y; }
     public final float getBottom() { return position.y - Constants.COALS_CENTER.y; }
     public final Class getSubclass() { return this.getClass(); }
-
-    public void setRotation(float rotation) { this.rotation = rotation; }
 }
