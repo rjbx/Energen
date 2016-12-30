@@ -246,12 +246,15 @@ public class GigaGal implements Physical {
                     if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
                             && getBottom() <= ground.getTop()
                             && ground.getTop() != slidPlatformTop
-                            && climbDirection == null) {
+                            && (climbDirection == null) ||
+                    (canClimb && ground instanceof Ladder && climbDirection == null)) {
                         if (groundState != GroundState.DASHING) {
                             pauseDuration = 0;
                         }
                         velocity.y = 0; // prevents from descending beneath ground top
-                        position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                        if (!(ground instanceof Ladder)) {
+                            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                        }
                         canChangeDirection = true; // enable change of direction
                         groundedPlatform = true; // verify contact with ground top
                         groundedPlatformLeft = ground.getLeft(); // capture grounded ground boundary

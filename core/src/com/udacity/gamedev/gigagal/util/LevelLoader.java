@@ -177,8 +177,6 @@ public final class LevelLoader {
         Array<Ladder> ladderArray = new Array<Ladder>();
         Array<Platform> platformArray = new Array<Platform>();
 
-
-
         for (Object o : array) {
 
             final JSONObject item = (JSONObject) o;
@@ -239,8 +237,6 @@ public final class LevelLoader {
                 final Ladder ladder = new Ladder(bottomLeft.x, bottomLeft.y + height, width, height);
 
                 ladderArray.add(ladder);
-
-
             }
 
             platformArray.sort(new Comparator<Platform>() {
