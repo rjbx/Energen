@@ -62,12 +62,11 @@ public final class LevelLoader {
 
             JSONObject composite = (JSONObject) rootJsonObject.get(Constants.LEVEL_COMPOSITE);
 
-            JSONArray nonPlatformObjects = (JSONArray) composite.get(Constants.LEVEL_IMAGES);
-            loadNonPlatformEntities(level, nonPlatformObjects);
-
-
             JSONArray ground = (JSONArray) composite.get(Constants.LEVEL_9PATCHES);
             loadGrounds(ground, level);
+
+            JSONArray nonGrounds = (JSONArray) composite.get(Constants.LEVEL_IMAGES);
+            loadNonGrounds(level, nonGrounds);
 
         } catch (Exception ex) {
             Gdx.app.log(TAG, ex.getMessage());
@@ -89,8 +88,8 @@ public final class LevelLoader {
     }
 
 
-    private static final void loadNonPlatformEntities(Level level, JSONArray nonPlatformObjects) {
-        for (Object o : nonPlatformObjects) {
+    private static final void loadNonGrounds(Level level, JSONArray nonGrounds) {
+        for (Object o : nonGrounds) {
             final JSONObject item = (JSONObject) o;
             final Vector2 imagePosition = extractXY(item);
 
