@@ -108,7 +108,7 @@ public final class Constants {
     public static final String ROPE_SPRITE = "rope";
 
     // Slick
-    public static final Vector2 SLICK_CENTER = new Vector2(12, 4);
+    public static final Vector2 SLICK_CENTER = new Vector2(24, 8);
     public static final String SLICK_SPRITE_1 = "slick-1";
     public static final String SLICK_SPRITE_2 = "slick-2";
     public static final float SLICK_DURATION = 1;
