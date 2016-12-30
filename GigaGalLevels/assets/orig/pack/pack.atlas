@@ -47,14 +47,6 @@ ladder
   orig: 19, 50
   offset: 0, 0
   index: -1
-ladder
-  rotate: false
-  xy: 243, 92
-  size: 11, 14
-  split: 0, 0, 0, 0
-  orig: 11, 14
-  offset: 0, 0
-  index: -1
 pillar
   rotate: false
   xy: 117, 35
@@ -98,6 +90,13 @@ powerup-turbo
   orig: 15, 17
   offset: 0, 0
   index: -1
+rope
+  rotate: false
+  xy: 243, 6
+  size: 6, 100
+  orig: 6, 100
+  offset: 0, 0
+  index: -1
 sink-1
   rotate: false
   xy: 156, 44
@@ -114,7 +113,7 @@ slick-1
   index: -1
 spike-1
   rotate: false
-  xy: 236, 63
+  xy: 120, 17
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
