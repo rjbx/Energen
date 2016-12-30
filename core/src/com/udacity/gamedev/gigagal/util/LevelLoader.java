@@ -61,8 +61,8 @@ public final class LevelLoader {
 
             JSONObject composite = (JSONObject) rootJsonObject.get(Constants.LEVEL_COMPOSITE);
 
-            JSONArray platforms = (JSONArray) composite.get(Constants.LEVEL_9PATCHES);
-            loadPlatforms(platforms, level);
+            JSONArray ground = (JSONArray) composite.get(Constants.LEVEL_9PATCHES);
+            loadGrounds(ground, level);
 
             JSONArray nonPlatformObjects = (JSONArray) composite.get(Constants.LEVEL_IMAGES);
             loadNonPlatformEntities(level, nonPlatformObjects);
@@ -152,6 +152,7 @@ public final class LevelLoader {
                 final Vector2 ladderPosition = imagePosition.add(Constants.LADDER_CENTER);
                 Gdx.app.log(TAG, "Loaded the ladder at " + ladderPosition);
                 level.getGrounds().add(new Ladder(ladderPosition));
+                final JSONObject platformObject = (JSONObject) o;
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_RIGHT)) {
                 final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
                 Gdx.app.log(TAG, "Loaded the treadmillRight at " + treadmillPosition);
@@ -176,74 +177,106 @@ public final class LevelLoader {
         }
     }
 
-    private static final void loadPlatforms(JSONArray array, Level level) {
+    private static final void loadGrounds(JSONArray array, Level level) {
 
+        Array<Ladder> ladderArray = new Array<Ladder>();
         Array<Platform> platformArray = new Array<Platform>();
 
+
+
         for (Object o : array) {
-            final JSONObject platformObject = (JSONObject) o;
-            final String identifier = (String) platformObject.get(Constants.LEVEL_IDENTIFIER_KEY);
-            final Vector2 bottomLeft = extractXY(platformObject);
-            final float width = ((Number) platformObject.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
-            final float height = ((Number) platformObject.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
-            final Platform platform = new Platform(bottomLeft.x, bottomLeft.y + height, width, height);
 
-            platformArray.add(platform);
+            final JSONObject item = (JSONObject) o;
+            Vector2 imagePosition = extractXY(item);
+            String identifier = (String) item.get(Constants.LEVEL_IDENTIFIER_KEY);
 
-            if (identifier != null) {
-                if (identifier.equals(Constants.LEVEL_ZOOMBA_TAG)) {
-                    final Zoomba zoomba = new Zoomba(platform);
-                    level.getDestructibles().add(zoomba);
-                } else if (identifier.equals(Constants.LEVEL_FIERYZOOMBA_TAG)) {
-                    final FieryZoomba fieryZoomba = new FieryZoomba(platform);
-                    level.getDestructibles().add(fieryZoomba);
-                } else if (identifier.equals(Constants.LEVEL_GUSHINGZOOMBA_TAG)) {
-                    final GushingZoomba gushingZoomba = new GushingZoomba(platform);
-                    level.getDestructibles().add(gushingZoomba);
-                } else if (identifier.equals(Constants.LEVEL_CHARGEDZOOMBA_TAG)) {
-                    final ChargedZoomba chargedZoomba = new ChargedZoomba(platform);
-                    level.getDestructibles().add(chargedZoomba);
-                } else if (identifier.equals(Constants.LEVEL_WHIRLINGZOOMBA_TAG)) {
-                    final WhirlingZoomba whirlingZoomba = new WhirlingZoomba(platform);
-                    level.getDestructibles().add(whirlingZoomba);
-                } else if (identifier.equals(Constants.LEVEL_SHARPZOOMBA_TAG)) {
-                    final SharpZoomba sharpZoomba = new SharpZoomba(platform);
-                    level.getDestructibles().add(sharpZoomba);
-                }  else if (identifier.equals(Constants.LEVEL_SWOOPA_TAG)) {
-                    final Swoopa swoopa = new Swoopa(platform, level);
-                    level.getDestructibles().add(swoopa);
-                } else if (identifier.equals(Constants.LEVEL_FIERYSWOOPA_TAG)) {
-                    final FierySwoopa fierySwoopa = new FierySwoopa(platform, level);
-                    level.getDestructibles().add(fierySwoopa);
-                } else if (identifier.equals(Constants.LEVEL_GUSHINGSWOOPA_TAG)) {
-                    final GushingSwoopa gushingSwoopa = new GushingSwoopa(platform, level);
-                    level.getDestructibles().add(gushingSwoopa);
-                } else if (identifier.equals(Constants.LEVEL_CHARGEDSWOOPA_TAG)) {
-                    final ChargedSwoopa chargedSwoopa = new ChargedSwoopa(platform, level);
-                    level.getDestructibles().add(chargedSwoopa);
-                } else if (identifier.equals(Constants.LEVEL_WHIRLINGSWOOPA_TAG)) {
-                    final WhirlingSwoopa whirlingSwoopa = new WhirlingSwoopa(platform, level);
-                    level.getDestructibles().add(whirlingSwoopa);
-                } else if (identifier.equals(Constants.LEVEL_SHARPSWOOPA_TAG)) {
-                    final SharpSwoopa sharpSwoopa = new SharpSwoopa(platform, level);
-                    level.getDestructibles().add(sharpSwoopa);
+            if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
+                Vector2 bottomLeft = extractXY(item);
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Ladder ladder = new Ladder(bottomLeft.x, bottomLeft.y + height, width, height);
+
+                ladderArray.add(ladder);
+
+                ladderArray.sort(new Comparator<Ladder>() {
+                    @Override
+                    public int compare(Ladder o1, Ladder o2) {
+                        if (o1.getTop() < o2.getTop()) {
+                            return 1;
+                        } else if (o1.getTop() > o2.getTop()) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                });
+
+                Vector2 ladderPosition = imagePosition.add(Constants.LADDER_CENTER);
+                Gdx.app.log(TAG, "Loaded the ladder at " + ladderPosition);
+                level.getGrounds().add(ladder);
+
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PLATFORM_SPRITE)){
+                Vector2 bottomLeft = extractXY(item);
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Platform platform = new Platform(bottomLeft.x, bottomLeft.y + height, width, height);
+
+                platformArray.add(platform);
+
+                if (identifier != null) {
+                    if (identifier.equals(Constants.LEVEL_ZOOMBA_TAG)) {
+                        final Zoomba zoomba = new Zoomba(platform);
+                        level.getDestructibles().add(zoomba);
+                    } else if (identifier.equals(Constants.LEVEL_FIERYZOOMBA_TAG)) {
+                        final FieryZoomba fieryZoomba = new FieryZoomba(platform);
+                        level.getDestructibles().add(fieryZoomba);
+                    } else if (identifier.equals(Constants.LEVEL_GUSHINGZOOMBA_TAG)) {
+                        final GushingZoomba gushingZoomba = new GushingZoomba(platform);
+                        level.getDestructibles().add(gushingZoomba);
+                    } else if (identifier.equals(Constants.LEVEL_CHARGEDZOOMBA_TAG)) {
+                        final ChargedZoomba chargedZoomba = new ChargedZoomba(platform);
+                        level.getDestructibles().add(chargedZoomba);
+                    } else if (identifier.equals(Constants.LEVEL_WHIRLINGZOOMBA_TAG)) {
+                        final WhirlingZoomba whirlingZoomba = new WhirlingZoomba(platform);
+                        level.getDestructibles().add(whirlingZoomba);
+                    } else if (identifier.equals(Constants.LEVEL_SHARPZOOMBA_TAG)) {
+                        final SharpZoomba sharpZoomba = new SharpZoomba(platform);
+                        level.getDestructibles().add(sharpZoomba);
+                    } else if (identifier.equals(Constants.LEVEL_SWOOPA_TAG)) {
+                        final Swoopa swoopa = new Swoopa(platform, level);
+                        level.getDestructibles().add(swoopa);
+                    } else if (identifier.equals(Constants.LEVEL_FIERYSWOOPA_TAG)) {
+                        final FierySwoopa fierySwoopa = new FierySwoopa(platform, level);
+                        level.getDestructibles().add(fierySwoopa);
+                    } else if (identifier.equals(Constants.LEVEL_GUSHINGSWOOPA_TAG)) {
+                        final GushingSwoopa gushingSwoopa = new GushingSwoopa(platform, level);
+                        level.getDestructibles().add(gushingSwoopa);
+                    } else if (identifier.equals(Constants.LEVEL_CHARGEDSWOOPA_TAG)) {
+                        final ChargedSwoopa chargedSwoopa = new ChargedSwoopa(platform, level);
+                        level.getDestructibles().add(chargedSwoopa);
+                    } else if (identifier.equals(Constants.LEVEL_WHIRLINGSWOOPA_TAG)) {
+                        final WhirlingSwoopa whirlingSwoopa = new WhirlingSwoopa(platform, level);
+                        level.getDestructibles().add(whirlingSwoopa);
+                    } else if (identifier.equals(Constants.LEVEL_SHARPSWOOPA_TAG)) {
+                        final SharpSwoopa sharpSwoopa = new SharpSwoopa(platform, level);
+                        level.getDestructibles().add(sharpSwoopa);
+                    }
                 }
             }
+
+            platformArray.sort(new Comparator<Platform>() {
+                @Override
+                public int compare(Platform o1, Platform o2) {
+                    if (o1.getTop() < o2.getTop()) {
+                        return 1;
+                    } else if (o1.getTop() > o2.getTop()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+            });
+
+            level.getPlatforms().addAll(platformArray);
+            level.getGrounds().addAll(platformArray);
         }
-
-        platformArray.sort(new Comparator<Platform>() {
-            @Override
-            public int compare(Platform o1, Platform o2) {
-                if (o1.getTop() < o2.getTop()) {
-                    return 1;
-                } else if (o1.getTop() > o2.getTop()) {
-                    return -1;
-                }
-                return 0;
-            }
-        });
-
-        level.getPlatforms().addAll(platformArray);
-        level.getGrounds().addAll(platformArray);
     }
 }

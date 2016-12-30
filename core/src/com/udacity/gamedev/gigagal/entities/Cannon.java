@@ -38,8 +38,8 @@ public class Cannon implements Ground {
     }
 
     public final Vector2 getPosition() { return position; }
-    public final float getHeight() { return center.x * 2; }
-    public final float getWidth() { return center.y * 2; }
+    public final float getWidth() { return center.x * 2; }
+    public final float getHeight() { return center.y * 2; }
     public final float getLeft() { return position.x - center.x; }
     public final float getRight() { return position.x + center.x; }
     public final float getTop() { return position.y + center.y; }

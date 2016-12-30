@@ -43,6 +43,7 @@ ladder
   rotate: false
   xy: 165, 76
   size: 19, 50
+  split: 7, 7, 0, 0
   orig: 19, 50
   offset: 0, 0
   index: -1

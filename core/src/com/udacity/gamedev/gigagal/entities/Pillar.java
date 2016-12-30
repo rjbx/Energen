@@ -24,8 +24,8 @@ public class Pillar implements Ground {
     }
 
     public final Vector2 getPosition() { return position; }
-    public final float getHeight() { return Constants.PILLAR_CENTER.x * 2; }
-    public final float getWidth() { return Constants.PILLAR_CENTER.y * 2; }
+    public final float getHeight() { return Constants.PILLAR_CENTER.y * 2; }
+    public final float getWidth() { return Constants.PILLAR_CENTER.x * 2; }
     public final float getLeft() { return position.x - Constants.PILLAR_CENTER.x; }
     public final float getRight() { return position.x + Constants.PILLAR_CENTER.x; }
     public final float getTop() { return position.y + Constants.PILLAR_CENTER.y; }

@@ -11,11 +11,22 @@ public class Ladder implements Ground {
 
     // fields
     private Vector2 position;
+    private float width;
+    private float height;
 
     // ctor
     public Ladder(Vector2 position) {
         this.position = position;
+        this.width = Constants.LADDER_CENTER.x * 2;
+        this.height = Constants.LADDER_CENTER.y * 2;
     }
+
+    public Ladder (float x, float y, float width, float height) {
+        this.position = new Vector2(x, y);
+        this.width = width;
+        this.height = height;
+    }
+
 
     public void render(SpriteBatch batch) {
         final TextureRegion region = Assets.getInstance().getLadderAssets().ladder;
@@ -23,8 +34,8 @@ public class Ladder implements Ground {
     }
 
     public final Vector2 getPosition() { return position; }
-    public final float getHeight() { return Constants.LADDER_CENTER.x * 2; }
-    public final float getWidth() { return Constants.LADDER_CENTER.y * 2; }
+    public final float getWidth() { return height; }
+    public final float getHeight() { return width; }
     public final float getLeft() { return position.x - Constants.LADDER_CENTER.x; }
     public final float getRight() { return position.x + Constants.LADDER_CENTER.x; }
     public final float getTop() { return position.y + Constants.LADDER_CENTER.y; }
