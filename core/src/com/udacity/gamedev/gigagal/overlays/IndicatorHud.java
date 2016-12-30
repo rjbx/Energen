@@ -101,7 +101,7 @@ public class IndicatorHud {
             default:
                 offset.set(Constants.SHOT_CENTER);
         }
-        Utils.drawTextureRegion(batch, weaponIcon, drawPosition, offset, 1.5f);
+        Utils.drawTextureRegion(batch, weaponIcon, drawPosition, offset, 1.5f, 0);
 
         final String scoreString = level.getLevelScore() + "";
         timerString = Utils.stopWatchToString(level.getLevelTime());

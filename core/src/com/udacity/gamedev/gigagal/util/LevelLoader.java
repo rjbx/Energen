@@ -175,9 +175,13 @@ public final class LevelLoader {
                 Gdx.app.log(TAG, "Loaded the slick at " + slickPosition);
                 level.getGrounds().add(new Slick(slickPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.COALS_SPRITE_1)) {
+                Number rotation = (Number) item.get(Constants.LEVEL_ROTATION_KEY);
                 final Vector2 coalsPosition = imagePosition.add(Constants.COALS_CENTER);
                 Gdx.app.log(TAG, "Loaded the coals at " + coalsPosition);
-                level.getGrounds().add(new Coals(coalsPosition));
+                Coals coals = new Coals(coalsPosition);
+                coals.setRotation(rotation.floatValue());
+                level.getGrounds().add(coals);
+
             }
         }
     }

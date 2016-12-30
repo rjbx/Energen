@@ -18,22 +18,22 @@ public class Utils {
     private Utils() {}
 
     public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, float x, float y) {
-        drawTextureRegion(batch, region, x, y, 1);
+        drawTextureRegion(batch, region, x, y, 1, 0);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position) {
-        drawTextureRegion(batch, region, position.x, position.y, 1);
+        drawTextureRegion(batch, region, position.x, position.y, 1, 0);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position, Vector2 offset) {
-        drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y, 1);
+        drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y, 1, 0);
     }
 
-    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position, Vector2 offset, float scale) {
-        drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y, scale);
+    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position, Vector2 offset, float scale, float rotation) {
+        drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y, scale, rotation);
     }
 
-    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, float x, float y, float scale) {
+    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, float x, float y, float scale, float rotation) {
         batch.draw(
                 region.getTexture(),
                 x,
@@ -44,7 +44,7 @@ public class Utils {
                 region.getRegionHeight(),
                 scale,
                 scale,
-                0,
+                rotation,
                 region.getRegionX(),
                 region.getRegionY(),
                 region.getRegionWidth(),
