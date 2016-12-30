@@ -16,6 +16,7 @@ import com.udacity.gamedev.gigagal.entities.GushingSwoopa;
 import com.udacity.gamedev.gigagal.entities.GushingZoomba;
 import com.udacity.gamedev.gigagal.entities.Ladder;
 import com.udacity.gamedev.gigagal.entities.Pillar;
+import com.udacity.gamedev.gigagal.entities.Rope;
 import com.udacity.gamedev.gigagal.entities.SharpSwoopa;
 import com.udacity.gamedev.gigagal.entities.SharpZoomba;
 import com.udacity.gamedev.gigagal.entities.Sink;
@@ -149,6 +150,10 @@ public final class LevelLoader {
                 final Vector2 pillarPosition = imagePosition.add(Constants.PILLAR_CENTER);
                 Gdx.app.log(TAG, "Loaded the pillar at " + pillarPosition);
                 level.getGrounds().add(new Pillar(pillarPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ROPE_SPRITE)) {
+                final Vector2 ropePosition = imagePosition.add(Constants.ROPE_CENTER);
+                Gdx.app.log(TAG, "Loaded the rope at " + ropePosition);
+                level.getGrounds().add(new Rope(ropePosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_RIGHT)) {
                 final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
                 Gdx.app.log(TAG, "Loaded the treadmillRight at " + treadmillPosition);

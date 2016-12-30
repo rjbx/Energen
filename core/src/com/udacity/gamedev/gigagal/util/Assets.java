@@ -23,6 +23,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private CannonAssets cannonAssets;
     private PillarAssets pillarAssets;
     private LadderAssets ladderAssets;
+    private RopeAssets ropeAssets;
     private SlickAssets slickAssets;
     private TreadmillAssets treadmillAssets;
     private SpringAssets springAssets;
@@ -72,6 +73,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         cannonAssets = new CannonAssets(atlas);
         pillarAssets = new PillarAssets(atlas);
         ladderAssets = new LadderAssets(atlas);
+        ropeAssets = new RopeAssets(atlas);
         slickAssets = new SlickAssets(atlas);
         treadmillAssets = new TreadmillAssets(atlas);
         springAssets = new SpringAssets(atlas);
@@ -273,6 +275,15 @@ public final class Assets implements Disposable, AssetErrorListener {
             AtlasRegion region = atlas.findRegion(Constants.LADDER_SPRITE);
             int edge = Constants.LADDER_EDGE;
             ladderNinePatch = new NinePatch(region, edge, edge, edge, edge);
+        }
+    }
+
+    public class RopeAssets {
+
+        public final AtlasRegion rope;
+
+        public RopeAssets(TextureAtlas atlas) {
+            rope = atlas.findRegion(Constants.ROPE_SPRITE);
         }
     }
 
@@ -707,6 +718,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final CannonAssets getCannonAssets() { return cannonAssets; }
     public final PillarAssets getPillarAssets() { return pillarAssets; }
     public final LadderAssets getLadderAssets() { return ladderAssets; }
+    public final RopeAssets getRopeAssets() { return ropeAssets; }
     public final SlickAssets getSlickAssets() { return slickAssets; }
     public final TreadmillAssets getTreadmillAssets() { return treadmillAssets; }
     public final SpringAssets getSpringAssets() { return springAssets; }
