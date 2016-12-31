@@ -249,6 +249,9 @@ public class GigaGal implements Physical {
                                 canHover = false;
                                 sinking = true;
                                 velocity.y = -3;
+                                groundedAtop = true; // verify contact with ground top
+                                groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
+                                groundedAtopRight = ground.getRight(); // capture grounded ground boundary
                             } else {
                                 sinking = false;
                             }
