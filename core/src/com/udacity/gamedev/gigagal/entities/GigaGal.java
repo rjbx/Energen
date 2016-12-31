@@ -19,6 +19,7 @@ import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Random;
 
 // mutable
 public class GigaGal implements Physical {
@@ -287,7 +288,8 @@ public class GigaGal implements Physical {
                             onTreadmill = true;
                             treadDirection = treadmill.getDirection();
                         } else if (ground instanceof Coals) {
-                            recoil(new Vector2(Utils.absoluteToDirectionalValue(Constants.FLAME_KNOCKBACK.x, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y));
+                            Random lateralKnockback = new Random();
+                            recoil(new Vector2(Utils.absoluteToDirectionalValue(lateralKnockback.nextFloat() * 100, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y));
                         }
                     }
                     // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
