@@ -269,9 +269,6 @@ public class GigaGal implements Physical {
                         canHover = true; // enable hover
                         canLook = true;
                         // if groundstate is airborne, set to standing
-                        if (groundState == GroundState.AIRBORNE) {
-                            stand(); // set groundstate to standing
-                        }
                         if (ground instanceof Spring) {
                             loadedSpring = (Spring) ground;
                             loadedSpring.setLoaded(true);
@@ -283,6 +280,9 @@ public class GigaGal implements Physical {
                             recoil(new Vector2(Utils.absoluteToDirectionalValue(Constants.FLAME_KNOCKBACK.x, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y));
                         } if (ground instanceof Slick) {
                             onSlick = true;
+                        }
+                        if (groundState == GroundState.AIRBORNE) {
+                            stand(); // set groundstate to standing
                         }
                     }
                     // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
@@ -691,8 +691,7 @@ public class GigaGal implements Physical {
             velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, treadDirection, Orientation.LATERAL);
         }
         if (onSlick) {
-            velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 3 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing, Orientation.LATERAL);
-
+            velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), facing, Orientation.LATERAL);
         }
     }
 
@@ -714,8 +713,12 @@ public class GigaGal implements Physical {
         }
         dashTimeSeconds = Utils.secondsSince(dashStartTime) - pauseDuration;
         turbo = ((turboDuration - dashTimeSeconds) / turboDuration) * startTurbo;
+        float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
+        if (onSlick) {
+            dashSpeed *= 1.75f;
+        }
         if (turbo >= 1) {
-            velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, facing, Orientation.LATERAL);
+            velocity.x = Utils.absoluteToDirectionalValue(dashSpeed, facing, Orientation.LATERAL);
         } else {
             canDash = false;
             dashStartTime = 0;
@@ -856,8 +859,8 @@ public class GigaGal implements Physical {
 
     private void stand() {
         if (onSlick) {
-            if (Math.abs(velocity.x) > 0.1f) {
-                velocity.x /= 1.01;
+            if (Math.abs(velocity.x) > 0.005f) {
+                velocity.x /= 1.005;
             } else {
                 velocity.x = 0;
             }
@@ -881,7 +884,9 @@ public class GigaGal implements Physical {
     }
 
     private void fall() {
-        strideStartTime = 0;
+        if (!onSlick) {
+            strideStartTime = 0;
+        }
         aerialState = AerialState.FALLING;
         if (groundState != GroundState.AIRBORNE) {
             aerialTakeoff = position.x;
