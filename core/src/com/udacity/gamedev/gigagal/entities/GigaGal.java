@@ -44,7 +44,6 @@ public class GigaGal implements Physical {
     private Direction treadDirection;
     private Direction climbDirection;
     private Spring loadedSpring;
-    private Climbable overlappingLadder;
     private long lookStartTime;
     private long strideStartTime;
     private long jumpStartTime;
@@ -164,13 +163,12 @@ public class GigaGal implements Physical {
         float slidGroundBottom = 0;
         float groundedAtopLeft = 0;
         float groundedAtopRight = 0;
-        boolean onClimbable = false;
         onTreadmill = false;
         onSlick = false;
         treadDirection = null;
         canClimb = false;
-        int laddersOverlapping = 0;
-        float ladderTop = 0;
+        boolean overlapsClimbable = false;
+        float climbableTop = 0;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
             if (Utils.betweenSides(ground, position.x)) {
@@ -178,9 +176,9 @@ public class GigaGal implements Physical {
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (ground instanceof Climbable) {
-                        laddersOverlapping++;
-                        Rectangle ladderBounds = new Rectangle(ground.getLeft() + 9, ground.getBottom(), ground.getWidth() - 12, ground.getHeight());
-                        if (getBounds().overlaps(ladderBounds)) {
+                        overlapsClimbable = true;
+                        Rectangle climbableBounds = new Rectangle(ground.getLeft() + 9, ground.getBottom(), ground.getWidth() - 12, ground.getHeight());
+                        if (getBounds().overlaps(climbableBounds)) {
                             canClimb = true;
                         }
                     }
@@ -314,11 +312,11 @@ public class GigaGal implements Physical {
                 }
             }
         }
-        if (laddersOverlapping == 0) {
+        if (!overlapsClimbable) {
             climbStartTime = TimeUtils.nanoTime();
             climbTimeSeconds = 0;
-        } else if (laddersOverlapping == 1) {
-            if (getBottom() > ladderTop) {
+        } else {
+            if (getBottom() > climbableTop) {
                 climbDirection = null;
             }
         }
