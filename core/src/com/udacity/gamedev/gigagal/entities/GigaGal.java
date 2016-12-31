@@ -223,12 +223,14 @@ public class GigaGal implements Physical {
                             } else if (aerialState == AerialState.GROUNDED) {
                                 if (Math.abs(getBottom() - ground.getTop()) > 1) {
                                     speedAtChangeFacing = 0;
+                                    velocity.x = 0;
                                 }
                                 //   stand();
                             }
                             if ((!(ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1)))
                             && (!(ground instanceof Rope))
-                            && !(ground instanceof Slick && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+                            && !(ground instanceof Slick && (Math.abs(getBottom() - ground.getTop()) <= 1))
+                            && !(ground instanceof Coals && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                                 // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                                 // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                                 if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
@@ -289,7 +291,7 @@ public class GigaGal implements Physical {
                             treadDirection = treadmill.getDirection();
                         } else if (ground instanceof Coals) {
                             Random lateralKnockback = new Random();
-                            recoil(new Vector2(Utils.absoluteToDirectionalValue(lateralKnockback.nextFloat() * 100, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y));
+                            recoil(new Vector2(Utils.absoluteToDirectionalValue(lateralKnockback.nextFloat() * 200, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y));
                         }
                     }
                     // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
