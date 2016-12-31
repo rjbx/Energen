@@ -220,6 +220,9 @@ public class GigaGal implements Physical {
                                 }
                                 // only when grounded
                             } else if (aerialState == AerialState.GROUNDED) {
+                                if (Math.abs(getBottom() - ground.getTop()) > 1) {
+                                    speedAtChangeFacing = 0;
+                                }
                                 //   stand();
                             }
                             if ((!(ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1)))
