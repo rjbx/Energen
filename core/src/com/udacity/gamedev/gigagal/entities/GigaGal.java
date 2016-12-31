@@ -649,6 +649,9 @@ public class GigaGal implements Physical {
                     if (chaseCamPosition.y > position.y) {
                         directionChanged = true;
                     }
+                    if (sinking) {
+                        velocity.y *= 3;
+                    }
                 }
                 if (directionChanged && groundState == GroundState.STANDING) {
                     chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, lookDirection, Orientation.VERTICAL);
