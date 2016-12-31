@@ -687,6 +687,7 @@ public class GigaGal implements Physical {
         }
         canLook = false;
         if (strideStartTime == 0) {
+            speedAtChangeFacing = velocity.x;
             groundState = GroundState.STRIDING;
             strideStartTime = TimeUtils.nanoTime();
         }
