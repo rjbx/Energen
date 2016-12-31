@@ -189,7 +189,7 @@ public class GigaGal implements Physical {
                             if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
                                 // if lateral velocity (magnitude, without concern for direction) greater than one third max speed,
                                 // boost lateral velocity by starting speed, enable ricochet, verify slid ground and capture slid ground boundaries
-                                if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 3) {
+                                if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 3 && !(ground instanceof Sink)) {
                                     // if already ricocheting, halt lateral progression
                                     if (aerialState == AerialState.RICOCHETING) {
                                         velocity.x = 0; // halt lateral progression
@@ -218,7 +218,7 @@ public class GigaGal implements Physical {
                                     slidGround = false;
                                     fall(); // fall regardless of whether or not inner condition met
                                 }
-                                // only when grounded
+                            // only when grounded
                             } else if (aerialState == AerialState.GROUNDED) {
                                 if (Math.abs(getBottom() - ground.getTop()) > 1) {
                                     speedAtChangeFacing = 0;
@@ -229,7 +229,8 @@ public class GigaGal implements Physical {
                             if ((!(ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1)))
                             && (!(ground instanceof Rope))
                             && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
-                            && !(ground instanceof Coals && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+                            && !(ground instanceof Coals && (Math.abs(getBottom() - ground.getTop()) <= 1))
+                            && !(ground instanceof Sink)) {
                                 // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                                 // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                                 if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
@@ -269,11 +270,10 @@ public class GigaGal implements Physical {
                     }
                     // if contact with ground top detected, halt downward progression and set gigagal atop ground
                     if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
-                            && getBottom() <= ground.getTop()
-                            && ground.getTop() != slidGroundTop
-                            && (climbDirection == null)
-                            ||
-                            (((canClimb && getBottom() > ground.getBottom()) ||  (climbTimeSeconds != 0)) && ground instanceof Climbable && climbDirection == null)) {
+                    && getBottom() <= ground.getTop()
+                    && ground.getTop() != slidGroundTop
+                    && (climbDirection == null)
+                    || (((canClimb && getBottom() > ground.getBottom()) ||  (climbTimeSeconds != 0)) && ground instanceof Climbable && climbDirection == null)) {
                         if (groundState != GroundState.DASHING) {
                             pauseDuration = 0;
                         }
