@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.overlays.InputControls;
-import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -87,6 +86,7 @@ public class GigaGal implements Physical {
     private boolean pauseState;
     private boolean onTreadmill;
     private boolean onSkateable;
+    private boolean sinking;
     private InputControls inputControls;
 
     // ctor
@@ -239,8 +239,19 @@ public class GigaGal implements Physical {
                                 canDash = false; // disable dash
                                 position.x = previousFramePosition.x; // halt lateral progression
                             }
-                            // else if no detection with ground sides, disable ricochet
+                        // else if no detection with ground sides, disable ricochet
                         } else {
+                            if (ground instanceof Sink) {
+                                if (sinking == false) {
+                                    stand();
+                                }
+                                canDash = false;
+                                canHover = false;
+                                sinking = true;
+                                velocity.y = -3;
+                            } else {
+                                sinking = false;
+                            }
                             canRicochet = false; // disable ricochet
                             slidGround = false;
                         }
@@ -256,13 +267,14 @@ public class GigaGal implements Physical {
                     if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
                             && getBottom() <= ground.getTop()
                             && ground.getTop() != slidGroundTop
-                            && (climbDirection == null) ||
-                            (((canClimb && getBottom() > ground.getBottom()) || (climbTimeSeconds != 0)) && ground instanceof Climbable && climbDirection == null)) {
+                            && (climbDirection == null)
+                            ||
+                            (((canClimb && getBottom() > ground.getBottom()) ||  (climbTimeSeconds != 0)) && ground instanceof Climbable && climbDirection == null)) {
                         if (groundState != GroundState.DASHING) {
                             pauseDuration = 0;
                         }
                         velocity.y = 0; // prevents from descending beneath ground top
-                        if (!(ground instanceof Climbable)) {
+                        if (!(ground instanceof Climbable) && !sinking) {
                             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                         }
                         canChangeDirection = true; // enable change of direction
@@ -339,6 +351,7 @@ public class GigaGal implements Physical {
                     }
                 }
                 if (aerialState != AerialState.RECOILING || climbTimeSeconds == 0){
+                    sinking = false;
                     lookTimeSeconds = 0;
                     lookStartTime = TimeUtils.nanoTime();
                     groundedAtop = false;
@@ -377,7 +390,7 @@ public class GigaGal implements Physical {
                                 canStride = true;
                             } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
                                 strideStartTime = 0;
-                            } else {
+                            } else if (!sinking){
                                 canDash = true;
                             }
                         }
@@ -703,9 +716,11 @@ public class GigaGal implements Physical {
         velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), facing, Orientation.LATERAL);
         if (onTreadmill) {
             velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, treadDirection, Orientation.LATERAL);
-        }
-        if (onSkateable) {
+        } else if (onSkateable) {
             velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), facing, Orientation.LATERAL);
+        } else if (sinking) {
+            velocity.x = Utils.absoluteToDirectionalValue(10, facing, Orientation.LATERAL);
+            velocity.y = -3;
         }
     }
 
@@ -765,9 +780,14 @@ public class GigaGal implements Physical {
             if (loadedSpring != null) {
                 velocity.y *= 2;
             }
-        } else {
+            if (sinking) {
+                velocity.y /= 4;
+            }
+        } else if (!sinking) {
             pauseDuration = 0;
             fall();
+        } else {
+            stand();
         }
     }
 
@@ -873,6 +893,9 @@ public class GigaGal implements Physical {
     }
 
     private void stand() {
+        if (sinking) {
+            velocity.y = -3;
+        }
         if (onSkateable) {
             if (Math.abs(velocity.x) > 0.005f) {
                 velocity.x /= 1.005;
