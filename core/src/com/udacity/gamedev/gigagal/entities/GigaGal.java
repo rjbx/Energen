@@ -268,7 +268,13 @@ public class GigaGal implements Physical {
                         knockedBack = false; // reset knockback boolean
                         canHover = true; // enable hover
                         canLook = true;
+                        if (ground instanceof Slick) {
+                            onSlick = true;
+                        }
                         // if groundstate is airborne, set to standing
+                        if (groundState == GroundState.AIRBORNE) {
+                            stand(); // set groundstate to standing
+                        }
                         if (ground instanceof Spring) {
                             loadedSpring = (Spring) ground;
                             loadedSpring.setLoaded(true);
@@ -276,13 +282,8 @@ public class GigaGal implements Physical {
                             Treadmill treadmill = (Treadmill) ground;
                             onTreadmill = true;
                             treadDirection = treadmill.getDirection();
-                        } if (ground instanceof Coals) {
+                        } else if (ground instanceof Coals) {
                             recoil(new Vector2(Utils.absoluteToDirectionalValue(Constants.FLAME_KNOCKBACK.x, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y));
-                        } if (ground instanceof Slick) {
-                            onSlick = true;
-                        }
-                        if (groundState == GroundState.AIRBORNE) {
-                            stand(); // set groundstate to standing
                         }
                     }
                     // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
