@@ -86,7 +86,7 @@ public class GigaGal implements Physical {
     private boolean groundedAtop;
     private boolean pauseState;
     private boolean onTreadmill;
-    private boolean onSlick;
+    private boolean onSkateable;
     private InputControls inputControls;
 
     // ctor
@@ -164,7 +164,7 @@ public class GigaGal implements Physical {
         float groundedAtopLeft = 0;
         float groundedAtopRight = 0;
         onTreadmill = false;
-        onSlick = false;
+        onSkateable = false;
         treadDirection = null;
         canClimb = false;
         boolean overlapsClimbable = false;
@@ -228,7 +228,7 @@ public class GigaGal implements Physical {
                             }
                             if ((!(ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1)))
                             && (!(ground instanceof Rope))
-                            && !(ground instanceof Slick && (Math.abs(getBottom() - ground.getTop()) <= 1))
+                            && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
                             && !(ground instanceof Coals && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                                 // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                                 // reset stride acceleration, disable stride and dash, and set gigagal at ground side
@@ -274,8 +274,8 @@ public class GigaGal implements Physical {
                         knockedBack = false; // reset knockback boolean
                         canHover = true; // enable hover
                         canLook = true;
-                        if (ground instanceof Slick) {
-                            onSlick = true;
+                        if (ground instanceof Skateable) {
+                            onSkateable = true;
                         }
                         // if groundstate is airborne, set to standing
                         if (groundState == GroundState.AIRBORNE) {
@@ -601,7 +601,7 @@ public class GigaGal implements Physical {
         groundedAtop = false;
         knockedBack = false;
         onTreadmill = false;
-        onSlick = false;
+        onSkateable = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         climbStartTime = TimeUtils.nanoTime();
@@ -704,7 +704,7 @@ public class GigaGal implements Physical {
         if (onTreadmill) {
             velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, treadDirection, Orientation.LATERAL);
         }
-        if (onSlick) {
+        if (onSkateable) {
             velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), facing, Orientation.LATERAL);
         }
     }
@@ -728,7 +728,7 @@ public class GigaGal implements Physical {
         dashTimeSeconds = Utils.secondsSince(dashStartTime) - pauseDuration;
         turbo = ((turboDuration - dashTimeSeconds) / turboDuration) * startTurbo;
         float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
-        if (onSlick) {
+        if (onSkateable) {
             dashSpeed *= 1.75f;
         }
         if (turbo >= 1) {
@@ -873,7 +873,7 @@ public class GigaGal implements Physical {
     }
 
     private void stand() {
-        if (onSlick) {
+        if (onSkateable) {
             if (Math.abs(velocity.x) > 0.005f) {
                 velocity.x /= 1.005;
             } else {
@@ -899,7 +899,7 @@ public class GigaGal implements Physical {
     }
 
     private void fall() {
-        if (!onSlick) {
+        if (!onSkateable) {
             strideStartTime = 0;
         }
         aerialState = AerialState.FALLING;
