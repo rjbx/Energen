@@ -83,8 +83,8 @@ public class GigaGal implements Physical {
     private boolean canShoot;
     private boolean canClimb;
     private boolean knockedBack;
-    private boolean slidPlatform;
-    private boolean groundedPlatform;
+    private boolean slidGround;
+    private boolean groundedAtop;
     private boolean pauseState;
     private boolean onTreadmill;
     private boolean onSlick;
@@ -160,10 +160,11 @@ public class GigaGal implements Physical {
     }
 
     private void touchGround(Array<Ground> grounds) {
-        float slidPlatformTop = 0;
-        float slidPlatformBottom = 0;
-        float groundedPlatformLeft = 0;
-        float groundedPlatformRight = 0;
+        float slidGroundTop = 0;
+        float slidGroundBottom = 0;
+        float groundedAtopLeft = 0;
+        float groundedAtopRight = 0;
+        boolean onClimbable = false;
         onTreadmill = false;
         onSlick = false;
         treadDirection = null;
@@ -174,7 +175,7 @@ public class GigaGal implements Physical {
             // if currently within ground left and right sides
             if (Utils.betweenSides(ground, position.x)) {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
-                // ledges only apply collision detection on top, and not on sides and bottom as do platforms
+                // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (ground instanceof Climbable) {
                         laddersOverlapping++;
@@ -200,23 +201,23 @@ public class GigaGal implements Physical {
                                         canHover = false; // disable hover if not already
                                     }
                                     if (aerialState != AerialState.RICOCHETING) {
-                                        if (!slidPlatform) {
-                                            startTurbo = Math.max(turbo, Constants.PLATFORM_SLIDE_MIN_TURBO);
+                                        if (!slidGround) {
+                                            startTurbo = Math.max(turbo, Constants.GROUND_SLIDE_MIN_TURBO);
                                         }
                                         turbo = Math.min((Math.abs((getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), Constants.MAX_TURBO);
                                     }
                                     velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, facing, Orientation.LATERAL); // boost lateral velocity by starting speed
                                     canRicochet = true; // enable ricochet
-                                    slidPlatform = true; // verify slid ground
-                                    slidPlatformTop = ground.getTop(); // capture slid ground boundary
-                                    slidPlatformBottom = ground.getBottom(); // capture slid ground boundary
+                                    slidGround = true; // verify slid ground
+                                    slidGroundTop = ground.getTop(); // capture slid ground boundary
+                                    slidGroundBottom = ground.getBottom(); // capture slid ground boundary
                                     // if absval lateral velocity  not greater than one third max speed but aerial and bumping ground side, fall
                                 } else {
                                     // if not already hovering and descending, also disable hover
                                     if (aerialState != AerialState.HOVERING && velocity.y < 0) {
                                         canHover = false; // disable hover
                                     }
-                                    slidPlatform = false;
+                                    slidGround = false;
                                     fall(); // fall regardless of whether or not inner condition met
                                 }
                                 // only when grounded
@@ -243,7 +244,7 @@ public class GigaGal implements Physical {
                             // else if no detection with ground sides, disable ricochet
                         } else {
                             canRicochet = false; // disable ricochet
-                            slidPlatform = false;
+                            slidGround = false;
                         }
                         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
                         if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()
@@ -256,7 +257,7 @@ public class GigaGal implements Physical {
                     // if contact with ground top detected, halt downward progression and set gigagal atop ground
                     if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
                             && getBottom() <= ground.getTop()
-                            && ground.getTop() != slidPlatformTop
+                            && ground.getTop() != slidGroundTop
                             && (climbDirection == null) ||
                             (((canClimb && getBottom() > ground.getBottom()) || (climbTimeSeconds != 0)) && ground instanceof Climbable && climbDirection == null)) {
                         if (groundState != GroundState.DASHING) {
@@ -267,9 +268,9 @@ public class GigaGal implements Physical {
                             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                         }
                         canChangeDirection = true; // enable change of direction
-                        groundedPlatform = true; // verify contact with ground top
-                        groundedPlatformLeft = ground.getLeft(); // capture grounded ground boundary
-                        groundedPlatformRight = ground.getRight(); // capture grounded ground boundary
+                        groundedAtop = true; // verify contact with ground top
+                        groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
+                        groundedAtopRight = ground.getRight(); // capture grounded ground boundary
                         hoverStartTime = 0; // reset hover
                         ricochetStartTime = 0; // reset ricochet
                         knockedBack = false; // reset knockback boolean
@@ -292,16 +293,20 @@ public class GigaGal implements Physical {
                         } else if (ground instanceof Coals) {
                             Random lateralKnockback = new Random();
                             recoil(new Vector2(Utils.absoluteToDirectionalValue(lateralKnockback.nextFloat() * 200, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y));
+                        } else if (ground instanceof Climbable) {
+                            canHover = false;
                         }
+                    } else if (ground instanceof Climbable) {
+                        canHover = true;
                     }
                     // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
                     // caution when crossing plane between ground top and minimum hover height / ground distance
-                    // cannons, which inherit ground, can be mounted along sides of platforms causing accidental plane breakage
+                    // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
                     if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
                             && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
                             && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
                             && ricochetStartTime == 0 // only if have not ricocheted since last grounded
-                            && !(ground instanceof Cannon) // only if ground is not instance of platform
+                            && !(ground instanceof Cannon) // only if ground is not instance of ground
                             ) {
                         canRicochet = false; // disables ricochet
                         canHover = false; // disables hover
@@ -317,16 +322,16 @@ public class GigaGal implements Physical {
                 climbDirection = null;
             }
         }
-        // disables ricochet if no contact with slid platform side
-        if (slidPlatform) {
-            if (getBottom() > slidPlatformTop  || getTop() < slidPlatformBottom) {
+        // disables ricochet if no contact with slid ground side
+        if (slidGround) {
+            if (getBottom() > slidGroundTop  || getTop() < slidGroundBottom) {
                 canRicochet = false;
-                slidPlatform = false;
+                slidGround = false;
             }
         }
-        // falls if no detection with grounded platform top
-        if (groundedPlatform) {
-            if (getRight() < groundedPlatformLeft || getLeft() > groundedPlatformRight) {
+        // falls if no detection with grounded ground top
+        if (groundedAtop) {
+            if (getRight() < groundedAtopLeft || getLeft() > groundedAtopRight) {
                 if (loadedSpring != null) {
                     loadedSpring.resetStartTime();
                     loadedSpring.setLoaded(false);
@@ -338,7 +343,7 @@ public class GigaGal implements Physical {
                 if (aerialState != AerialState.RECOILING || climbTimeSeconds == 0){
                     lookTimeSeconds = 0;
                     lookStartTime = TimeUtils.nanoTime();
-                    groundedPlatform = false;
+                    groundedAtop = false;
                     fall();
                 }
             }
@@ -594,8 +599,8 @@ public class GigaGal implements Physical {
         canCharge = false;
         canChangeDirection = false;
         ammoIntensity = AmmoIntensity.SHOT;
-        slidPlatform = false;
-        groundedPlatform = false;
+        slidGround = false;
+        groundedAtop = false;
         knockedBack = false;
         onTreadmill = false;
         onSlick = false;
@@ -824,7 +829,7 @@ public class GigaGal implements Physical {
             facing = Utils.getOppositeDirection(facing);
             velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, facing, Orientation.LATERAL);
             jump();
-            turbo = Math.max(turbo, Constants.PLATFORM_SLIDE_MIN_TURBO);
+            turbo = Math.max(turbo, Constants.GROUND_SLIDE_MIN_TURBO);
         } else {
             pauseDuration = 0;
             canChangeDirection = false;
@@ -851,6 +856,7 @@ public class GigaGal implements Physical {
     }
 
     private void climb() {
+        canHover = false;
         climbTimeSeconds = Utils.secondsSince(climbStartTime);
         int climbAnimationPercent = (int) (climbTimeSeconds * 100);
         if ((climbAnimationPercent) % 25 >= 0
