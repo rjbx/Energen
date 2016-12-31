@@ -67,6 +67,7 @@ public class GigaGal implements Physical {
     private float recoveryTimeSeconds;
     private float climbTimeSeconds;
     private float aerialTakeoff;
+    private float speedAtChangeFacing;
     private int lives;
     private int ammo;
     private int health;
@@ -356,6 +357,7 @@ public class GigaGal implements Physical {
                         dashStartTime = 0;
                         canDash = false;
                     }
+                    speedAtChangeFacing = velocity.x;
                     strideStartTime = 0;
                     stand();
                 } else if (groundState != GroundState.DASHING) {
@@ -692,7 +694,7 @@ public class GigaGal implements Physical {
             velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, treadDirection, Orientation.LATERAL);
         }
         if (onSlick) {
-            velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), facing, Orientation.LATERAL);
+            velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), facing, Orientation.LATERAL);
         }
     }
 
