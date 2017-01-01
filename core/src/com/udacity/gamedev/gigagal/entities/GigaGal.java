@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.overlays.InputControls;
+import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -291,7 +292,11 @@ public class GigaGal implements Physical {
                         hoverStartTime = 0; // reset hover
                         ricochetStartTime = 0; // reset ricochet
                         knockedBack = false; // reset knockback boolean
-                        canHover = true; // enable hover
+                        if (climbDirection == null) {
+                            canHover = true; // enable hover
+                        } else {
+                            canHover = false;
+                        }
                         if (lookDirection != null && aerialState != AerialState.GROUNDED) {
                             lookStartTime = 0;
                             lookDirection = null;
@@ -314,11 +319,7 @@ public class GigaGal implements Physical {
                         } else if (ground instanceof Coals) {
                             Random lateralKnockback = new Random();
                             recoil(new Vector2(Utils.absoluteToDirectionalValue(lateralKnockback.nextFloat() * 200, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y));
-                        } else if (ground instanceof Climbable) {
-                            canHover = false;
                         }
-                    } else if (ground instanceof Climbable) {
-                        canHover = true;
                     }
                     // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
                     // caution when crossing plane between ground top and minimum hover height / ground distance
@@ -682,7 +683,12 @@ public class GigaGal implements Physical {
                     lookStartTime = 0;
                 }
             } else {
-                canHover = true;
+                if (climbDirection != null
+                || (canClimb && lookDirection == null && climbTimeSeconds != 0)) {
+                    canHover = false;
+                } else {
+                    canHover = true;
+                }
                 chaseCamPosition.set(position, 0);
                 lookDirection = null;
                 lookStartTime = 0;
@@ -873,10 +879,11 @@ public class GigaGal implements Physical {
 
     private void enableClimb() {
         if (canClimb) {
+            canHover = false;
             if (inputControls.jumpButtonPressed && (inputControls.upButtonPressed || inputControls.downButtonPressed) && aerialState != AerialState.RECOILING) {
+
                 if (climbDirection == null) {
                     velocity.y = 0;
-                    canHover = false;
                 }
                 if (lookDirection == null) {
                     climb();
@@ -960,7 +967,7 @@ public class GigaGal implements Physical {
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
         if (climbDirection != null
-        || (canClimb && climbDirection == null && groundState == GroundState.STANDING && lookDirection == null && climbTimeSeconds != 0)) {
+        || (canClimb && lookDirection == null && climbTimeSeconds != 0)) {
             if (facing == Direction.LEFT) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (facing == Direction.RIGHT) {
