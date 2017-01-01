@@ -686,7 +686,7 @@ public class GigaGal implements Physical {
                 if (climbDirection != null
                 || (canClimb && lookDirection == null && climbTimeSeconds != 0)) {
                     canHover = false;
-                } else {
+                } else if (hoverStartTime == 0) {
                     canHover = true;
                 }
                 chaseCamPosition.set(position, 0);
