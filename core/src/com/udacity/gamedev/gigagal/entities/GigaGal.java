@@ -519,6 +519,7 @@ public class GigaGal implements Physical {
     public void enableToggle(Direction toggleDirection) {
         boolean directionChanged = (this.toggleDirection != toggleDirection);
         if (inputControls.jumpButtonJustPressed) {
+            lookStartTime = TimeUtils.nanoTime();
             if (directionChanged) {
                 toggle(toggleDirection);
             }
