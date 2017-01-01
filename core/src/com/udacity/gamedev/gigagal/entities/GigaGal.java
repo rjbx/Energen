@@ -246,6 +246,8 @@ public class GigaGal implements Physical {
                                 if (sinking == false) {
                                     stand();
                                 }
+                                lookTimeSeconds = 0;
+                                lookStartTime = 0;
                                 canDash = false;
                                 canHover = false;
                                 sinking = true;
@@ -290,6 +292,10 @@ public class GigaGal implements Physical {
                         ricochetStartTime = 0; // reset ricochet
                         knockedBack = false; // reset knockback boolean
                         canHover = true; // enable hover
+                        if (lookDirection != null) {
+                            lookStartTime = 0;
+                            lookDirection = null;
+                        }
                         canLook = true;
                         if (ground instanceof Skateable) {
                             onSkateable = true;
