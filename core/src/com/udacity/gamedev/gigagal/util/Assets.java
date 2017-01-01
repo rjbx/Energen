@@ -714,6 +714,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion jump;
         public final AtlasRegion hover;
         public final AtlasRegion ricochet;
+        public final AtlasRegion climb;
         public final AtlasRegion dash;
         public final AtlasRegion life;
 
@@ -723,6 +724,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             jump = atlas.findRegion(Constants.JUMP_ICON);
             hover = atlas.findRegion(Constants.HOVER_ICON);
             ricochet = atlas.findRegion(Constants.RICOCHET_ICON);
+            climb = atlas.findRegion(Constants.CLIMB_ICON);
             dash = atlas.findRegion(Constants.DASH_ICON);
             life = atlas.findRegion(Constants.LIFE_ICON);
         }

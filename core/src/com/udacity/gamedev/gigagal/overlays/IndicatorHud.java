@@ -69,6 +69,15 @@ public class IndicatorHud {
             );
         }
 
+        if (gigaGal.getClimbStatus()) {
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getHudAssets().climb,
+                    drawPosition,
+                    Constants.ICON_CENTER
+            );
+        }
+
         final TextureRegion lifeIcon = Assets.getInstance().getHudAssets().life;
         for (int i = 1; i <= gigaGal.getLives(); i++) {
             drawPosition = new Vector2(
