@@ -648,6 +648,7 @@ public class GigaGal implements Physical {
         if (canLook) {
             if (looking && climbDirection == null) {
                 canStride = false;
+                canHover = false;
                 if (up) {
                     lookDirection = Direction.UP;
                     if (chaseCamPosition.y < position.y) {
@@ -681,6 +682,7 @@ public class GigaGal implements Physical {
                     lookStartTime = 0;
                 }
             } else {
+                canHover = true;
                 chaseCamPosition.set(position, 0);
                 lookDirection = null;
                 lookStartTime = 0;
@@ -706,7 +708,6 @@ public class GigaGal implements Physical {
             }
         }
         canJump = false;
-        canHover = false;
     }
 
     private void enableStride() {
