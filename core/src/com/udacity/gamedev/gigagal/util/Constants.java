@@ -377,7 +377,7 @@ public final class Constants {
     public static final String SHOOT_ICON = "icon-shoot";
     public static final String BLAST_ICON = "icon-blast";
     public static final String JUMP_ICON = "icon-jump";
-    public static final String HOVER_ICON = "icon-hover";
+    public static final String HOVER_ICON = "icon-climb";
     public static final String RICOCHET_ICON = "icon-ricochet";
     public static final String DASH_ICON = "icon-dash";
     public static final String LIFE_ICON = "icon-life";
