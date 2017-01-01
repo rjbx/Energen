@@ -292,7 +292,7 @@ public class GigaGal implements Physical {
                         ricochetStartTime = 0; // reset ricochet
                         knockedBack = false; // reset knockback boolean
                         canHover = true; // enable hover
-                        if (lookDirection != null) {
+                        if (lookDirection != null && aerialState != AerialState.GROUNDED) {
                             lookStartTime = 0;
                             lookDirection = null;
                         }
@@ -1041,6 +1041,8 @@ public class GigaGal implements Physical {
     public Vector3 getChaseCamPosition() { return chaseCamPosition; }
     public long getLookStartTime() { return lookStartTime; }
     public Direction getClimbDirection() { return climbDirection; }
+    public AerialState getAerialState() { return aerialState; }
+    public GroundState getGroundState() { return groundState; }
 
     // Setters
     public void setFacing(Direction facing) { this.facing = facing; }
