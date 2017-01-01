@@ -87,6 +87,7 @@ public class GigaGal implements Physical {
     private boolean pauseState;
     private boolean onTreadmill;
     private boolean onSkateable;
+    private boolean onCoals;
     private boolean sinking;
     private InputControls inputControls;
 
@@ -292,7 +293,7 @@ public class GigaGal implements Physical {
                         hoverStartTime = 0; // reset hover
                         ricochetStartTime = 0; // reset ricochet
                         knockedBack = false; // reset knockback boolean
-                        if (climbDirection == null) {
+                        if (climbDirection == null && !onCoals) {
                             canHover = true; // enable hover
                         } else {
                             canHover = false;
@@ -317,8 +318,12 @@ public class GigaGal implements Physical {
                             onTreadmill = true;
                             treadDirection = treadmill.getDirection();
                         } else if (ground instanceof Coals) {
+                            onCoals = true;
+                            canHover = false;
                             Random lateralKnockback = new Random();
                             recoil(new Vector2(Utils.absoluteToDirectionalValue(lateralKnockback.nextFloat() * 200, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y));
+                        } else {
+                            onCoals = false;
                         }
                     }
                     // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
@@ -628,6 +633,7 @@ public class GigaGal implements Physical {
         knockedBack = false;
         onTreadmill = false;
         onSkateable = false;
+        onCoals = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         climbStartTime = TimeUtils.nanoTime();
@@ -686,7 +692,7 @@ public class GigaGal implements Physical {
                 if (climbDirection != null
                 || (canClimb && lookDirection == null && climbTimeSeconds != 0)) {
                     canHover = false;
-                } else if (hoverStartTime == 0) {
+                } else if (hoverStartTime == 0 && !onCoals) {
                     canHover = true;
                 }
                 chaseCamPosition.set(position, 0);
