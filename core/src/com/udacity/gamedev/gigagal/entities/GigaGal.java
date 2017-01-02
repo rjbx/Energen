@@ -367,7 +367,8 @@ public class GigaGal implements Physical {
                         loadedSpring = null;
                     }
                 }
-                if (aerialState != AerialState.RECOILING || climbTimeSeconds == 0){
+                if ((aerialState != AerialState.RECOILING || climbTimeSeconds == 0)
+                && !onCoals){
                     sinking = false;
                     lookTimeSeconds = 0;
                     lookStartTime = TimeUtils.nanoTime();
@@ -967,6 +968,10 @@ public class GigaGal implements Physical {
         }
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.FALL_TURBO_INCREMENT;
+        }
+        if (Utils.movingOppositeDirectionFacing(velocity.x, facing) || onCoals) {
+            canHover = false;
+            recoil(velocity);
         }
     }
 

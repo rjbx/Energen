@@ -97,6 +97,10 @@ public class Utils {
         return null;
     }
 
+    public static boolean movingOppositeDirectionFacing (float delta, Enums.Direction facing) {
+        return (facing == Enums.Direction.RIGHT && delta < 0) || (facing == Enums.Direction.LEFT && delta > 0);
+    }
+
     public static final boolean betweenSides(Physical entity, float delta) {
         float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
         if ((delta - frontHalf) <= entity.getRight()
