@@ -1,6 +1,7 @@
 package com.udacity.gamedev.gigagal;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
@@ -104,11 +105,11 @@ public class Level {
                 if (ground instanceof Cannon) {
                     Cannon cannon = (Cannon) ground;
                     if (cannon.getOffset() == 0) {
-                        cannonOffset += 0.1f;
+                        cannonOffset += 0.25f;
                         cannon.setOffset(cannonOffset);
-                        cannon.setStartTime(TimeUtils.nanoTime());
+                        cannon.setStartTime(TimeUtils.nanoTime() + ((long) (cannon.getOffset() / MathUtils.nanoToSec)));
                     }
-                    if ((Utils.secondsSince(cannon.getStartTime()) + cannon.getOffset()) > 2) {
+                    if ((Utils.secondsSince(cannon.getStartTime())  > 1.5f)) {
                         cannon.setStartTime(TimeUtils.nanoTime());
                         Enums.Orientation orientation = cannon.getOrientation();
                         if (orientation == Enums.Orientation.LATERAL) {
