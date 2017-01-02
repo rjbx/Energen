@@ -39,6 +39,7 @@ public class Level {
     private boolean victory;
     private boolean gameOver;
     private int levelScore;
+    private float cannonOffset;
     private long cannonStartTime;
     private GigaGal gigaGal;
     private Portal portal;
@@ -71,6 +72,7 @@ public class Level {
         gameOver = false;
         victory = false;
         cannonStartTime = TimeUtils.nanoTime();
+        cannonOffset = 0;
     }
 
     public static Level debugLevel() {
@@ -98,10 +100,16 @@ public class Level {
                 }
             }
 
-            if (Utils.secondsSince(cannonStartTime) > 1) {
-                for (Ground ground : grounds) {
-                    if (ground instanceof Cannon) {
-                        Cannon cannon = (Cannon) ground;
+            for (Ground ground : grounds) {
+                if (ground instanceof Cannon) {
+                    Cannon cannon = (Cannon) ground;
+                    if (cannon.getOffset() == 0) {
+                        cannonOffset += 0.1f;
+                        cannon.setOffset(cannonOffset);
+                        cannon.setStartTime(TimeUtils.nanoTime());
+                    }
+                    if ((Utils.secondsSince(cannon.getStartTime()) + cannon.getOffset()) > 2) {
+                        cannon.setStartTime(TimeUtils.nanoTime());
                         Enums.Orientation orientation = cannon.getOrientation();
                         if (orientation == Enums.Orientation.LATERAL) {
                             Vector2 ammoPositionLeft = new Vector2(cannon.getPosition().x - (cannon.getWidth() / 2), ground.getPosition().y);
@@ -122,7 +130,6 @@ public class Level {
                         }
                     }
                 }
-                cannonStartTime = TimeUtils.nanoTime();
             }
 
             // Update Bullets
