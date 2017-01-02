@@ -293,7 +293,7 @@ public class GigaGal implements Physical {
                         hoverStartTime = 0; // reset hover
                         ricochetStartTime = 0; // reset ricochet
                         knockedBack = false; // reset knockback boolean
-                        if (climbDirection == null && !onCoals) {
+                        if (climbDirection == null && !onCoals && !Utils.movingOppositeDirectionFacing(velocity.x, facing)) {
                             canHover = true; // enable hover
                         } else {
                             canHover = false;
@@ -321,7 +321,8 @@ public class GigaGal implements Physical {
                             onCoals = true;
                             canHover = false;
                             Random lateralKnockback = new Random();
-                            recoil(new Vector2(Utils.absoluteToDirectionalValue(lateralKnockback.nextFloat() * 200, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y));
+                            velocity.set(Utils.absoluteToDirectionalValue(lateralKnockback.nextFloat() * 200, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y);
+                            recoil(velocity);
                         } else {
                             onCoals = false;
                         }
@@ -367,8 +368,7 @@ public class GigaGal implements Physical {
                         loadedSpring = null;
                     }
                 }
-                if ((aerialState != AerialState.RECOILING || climbTimeSeconds == 0)
-                && !onCoals){
+                if ((aerialState != AerialState.RECOILING || climbTimeSeconds == 0)){
                     sinking = false;
                     lookTimeSeconds = 0;
                     lookStartTime = TimeUtils.nanoTime();
@@ -691,7 +691,8 @@ public class GigaGal implements Physical {
                 }
             } else {
                 if (climbDirection != null
-                || (canClimb && lookDirection == null && climbTimeSeconds != 0)) {
+                || (canClimb && lookDirection == null && climbTimeSeconds != 0)
+                || (Utils.movingOppositeDirectionFacing(velocity.x, facing))) {
                     canHover = false;
                 } else if (hoverStartTime == 0 && !onCoals && !sinking) {
                     canHover = true;
