@@ -87,8 +87,8 @@ public class GigaGal implements Physical {
     private boolean onTreadmill;
     private boolean onSkateable;
     private boolean onCoals;
+    private boolean onClimbable;
     private boolean onSink;
-    private boolean overlapsClimbable;
     private InputControls inputControls;
 
     // ctor
@@ -168,8 +168,8 @@ public class GigaGal implements Physical {
         onTreadmill = false;
         onSkateable = false;
         treadDirection = null;
-        groundedAtop = false;
-        overlapsClimbable = false;
+        canClimb = false;
+        onClimbable = false;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
             if (Utils.contactingSides(ground, position.x)) {
@@ -177,10 +177,8 @@ public class GigaGal implements Physical {
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (ground instanceof Climbable && Utils.betweenSides(ground, position.x)) {
-                        overlapsClimbable = true;
-                        if (getBottom() >= ground.getTop()) {
-                            groundedAtop = true;
-                        }
+                            onClimbable = true;
+                            canClimb = true;
                     }
                     if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                         // if during previous frame was not, while currently is, between ground left and right sides
@@ -218,7 +216,7 @@ public class GigaGal implements Physical {
                                     slidGround = false;
                                     fall(); // fall regardless of whether or not inner condition met
                                 }
-                            // only when grounded
+                                // only when grounded
                             } else if (aerialState == AerialState.GROUNDED) {
                                 if (Math.abs(getBottom() - ground.getTop()) > 1) {
                                     speedAtChangeFacing = 0;
@@ -227,10 +225,10 @@ public class GigaGal implements Physical {
                                 //   stand();
                             }
                             if ((!(ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1)))
-                            && (!(ground instanceof Rope))
-                            && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
-                            && !(ground instanceof Coals && (Math.abs(getBottom() - ground.getTop()) <= 1))
-                            && !(ground instanceof Sink)) {
+                                    && (!(ground instanceof Rope))
+                                    && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
+                                    && !(ground instanceof Coals && (Math.abs(getBottom() - ground.getTop()) <= 1))
+                                    && !(ground instanceof Sink)) {
                                 // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                                 // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                                 if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
@@ -240,7 +238,7 @@ public class GigaGal implements Physical {
                                 canDash = false; // disable dash
                                 position.x = previousFramePosition.x; // halt lateral progression
                             }
-                        // else if no detection with ground sides, disable ricochet
+                            // else if no detection with ground sides, disable ricochet
                         } else {
                             if (ground instanceof Sink) {
                                 if (onSink == false) {
@@ -263,9 +261,9 @@ public class GigaGal implements Physical {
                         }
                         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
                         if (((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()
-                        && !(ground instanceof Climbable)
-                        && !onSink)
-                        && climbDirection == null) {
+                                && !(ground instanceof Climbable)
+                                && !onSink)
+                                && climbDirection == null) {
                             velocity.y = 0; // prevents from ascending above ground bottom
                             position.y = previousFramePosition.y;  // sets gigagal at ground bottom
                             fall(); // descend from point of contact with ground bottom
@@ -273,9 +271,10 @@ public class GigaGal implements Physical {
                     }
                     // if contact with ground top detected, halt downward progression and set gigagal atop ground
                     if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
-                    && getBottom() <= ground.getTop()
-                    && ground.getTop() != slidGroundTop
-                    && !canClimb) {
+                            && getBottom() <= ground.getTop()
+                            && ground.getTop() != slidGroundTop
+                            && (climbDirection == null)
+                            || (((canClimb && getBottom() > ground.getBottom()) ||  (climbStartTime != 0)) && ground instanceof Climbable && climbDirection == null)) {
                         if (groundState != GroundState.DASHING) {
                             pauseDuration = 0;
                         }
@@ -292,7 +291,7 @@ public class GigaGal implements Physical {
                         hoverStartTime = 0; // reset hover
                         ricochetStartTime = 0; // reset ricochet
                         knockedBack = false; // reset knockback boolean
-                        if (!onCoals && !Utils.movingOppositeDirectionFacing(velocity.x, facing)) {
+                        if (climbDirection == null && !onCoals && !Utils.movingOppositeDirectionFacing(velocity.x, facing)) {
                             canHover = true; // enable hover
                         } else {
                             canHover = false;
@@ -310,8 +309,8 @@ public class GigaGal implements Physical {
                             stand(); // set groundstate to standing
                         }
                         if (ground instanceof Spring) {
-                                loadedSpring = (Spring) ground;
-                                loadedSpring.setLoaded(true);
+                            loadedSpring = (Spring) ground;
+                            loadedSpring.setLoaded(true);
                         } else if (ground instanceof Treadmill) {
                             Treadmill treadmill = (Treadmill) ground;
                             onTreadmill = true;
@@ -341,7 +340,7 @@ public class GigaGal implements Physical {
                 }
             }
         }
-        if (!overlapsClimbable || (groundedAtop && getBottom() >= slidGroundTop)) {
+        if (!onClimbable) {
             climbStartTime = 0;
             climbTimeSeconds = 0;
             climbDirection = null;
@@ -354,21 +353,23 @@ public class GigaGal implements Physical {
             }
         }
         // falls if no detection with grounded ground top
-        if (!(Utils.contactingSides(groundedAtopLeft, groundedAtopRight, position.x) || Utils.betweenSides(groundedAtopLeft, groundedAtopRight, position.x))) {
-            if (loadedSpring != null) {
-                loadedSpring.resetStartTime();
-                loadedSpring.setLoaded(false);
-                if (Utils.secondsSince(loadedSpring.getStartTime()) > Constants.SPRING_UNLOAD_DURATION) {
+        if (groundedAtop) {
+            if (getRight() < groundedAtopLeft || getLeft() > groundedAtopRight) {
+                if (loadedSpring != null) {
                     loadedSpring.resetStartTime();
-                    loadedSpring = null;
+                    loadedSpring.setLoaded(false);
+                    if (Utils.secondsSince(loadedSpring.getStartTime()) > Constants.SPRING_UNLOAD_DURATION) {
+                        loadedSpring.resetStartTime();
+                        loadedSpring = null;
+                    }
                 }
-            }
-            if ((aerialState != AerialState.RECOILING)){
-                onSink = false;
-                lookTimeSeconds = 0;
-                lookStartTime = TimeUtils.nanoTime();
-                groundedAtop = false;
-                fall();
+                if ((aerialState != AerialState.RECOILING || climbStartTime == 0)){
+                    onSink = false;
+                    lookTimeSeconds = 0;
+                    lookStartTime = TimeUtils.nanoTime();
+                    groundedAtop = false;
+                    fall();
+                }
             }
         }
     }
@@ -385,7 +386,7 @@ public class GigaGal implements Physical {
         } else {
             isStriding = false;
         }
-        if (groundState != GroundState.AIRBORNE) {
+        if (groundState != GroundState.AIRBORNE && climbStartTime == 0) {
             if (lookDirection == null) {
                 if (directionChanged) {
                     if (groundState == groundState.DASHING) {
@@ -629,7 +630,8 @@ public class GigaGal implements Physical {
         onTreadmill = false;
         onSkateable = false;
         onCoals = false;
-        overlapsClimbable = false;
+        onClimbable = false;
+        onSink = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         climbStartTime = 0;
@@ -686,8 +688,8 @@ public class GigaGal implements Physical {
                 }
             } else {
                 if (climbDirection != null
-                || (canClimb && lookDirection == null && climbStartTime != 0)
-                || (Utils.movingOppositeDirectionFacing(velocity.x, facing))) {
+                        || (canClimb && lookDirection == null && climbStartTime != 0)
+                        || (Utils.movingOppositeDirectionFacing(velocity.x, facing))) {
                     canHover = false;
                 } else if (hoverStartTime == 0 && !onCoals && !onSink) {
                     canHover = true;
@@ -881,44 +883,29 @@ public class GigaGal implements Physical {
     }
 
     private void enableClimb() {
-        if (overlapsClimbable) {
+        if (canClimb) {
             canHover = false;
-            if (inputControls.jumpButtonPressed && aerialState != AerialState.RECOILING) {
-                canClimb = true;
-                if (!groundedAtop) {
-                    canStride = false;
-                    canDash = false;
-                }
+            if (inputControls.jumpButtonPressed && (inputControls.upButtonPressed || inputControls.downButtonPressed) && aerialState != AerialState.RECOILING) {
+
                 if (climbDirection == null) {
                     velocity.y = 0;
                 }
-                if (inputControls.upButtonPressed || inputControls.downButtonPressed) {
-                    if (lookDirection == null) {
-                        climb();
-                    }
-                } else {
-                    climbDirection = null;
-                    velocity.y = Constants.GRAVITY;
+                if (lookDirection == null) {
+                    climb();
                 }
             } else {
-                if (!groundedAtop) {
-                    fall();
-                } else {
-                    stand();
-                }
                 climbDirection = null;
             }
         } else {
-            climbStartTime = 0;
-            canClimb = false;
+            climbDirection = null;
         }
     }
 
     private void climb() {
-        canHover = false;
         if (climbStartTime == 0) {
             climbStartTime = TimeUtils.nanoTime();
         }
+        canHover = false;
         climbTimeSeconds = Utils.secondsSince(climbStartTime);
         int climbAnimationPercent = (int) (climbTimeSeconds * 100);
         if ((climbAnimationPercent) % 25 >= 0
@@ -937,27 +924,31 @@ public class GigaGal implements Physical {
     }
 
     private void stand() {
-        groundState = GroundState.STANDING;
-        aerialState = AerialState.GROUNDED;
-        canLook = true;
-        if (turbo < Constants.MAX_TURBO) {
-            turbo += Constants.STAND_TURBO_INCREMENT;
-        }
-
         if (onSink) {
             velocity.y = -3;
-        } else if (onSkateable && Math.abs(velocity.x) > 0.005f) {
+        }
+        if (onSkateable) {
+            if (Math.abs(velocity.x) > 0.005f) {
                 velocity.x /= 1.005;
-        } else if (onTreadmill) {
-            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, treadDirection, Orientation.LATERAL);
-        } else  {
+            } else {
+                velocity.x = 0;
+            }
+        } else {
             velocity.x = 0;
         }
-
+        if (onTreadmill) {
+            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, treadDirection, Orientation.LATERAL);
+        }
+        groundState = GroundState.STANDING;
+        aerialState = AerialState.GROUNDED;
         if (!canClimb) {
             canJump = true;
         } else {
             canJump = false;
+        }
+        canLook = true;
+        if (turbo < Constants.MAX_TURBO) {
+            turbo += Constants.STAND_TURBO_INCREMENT;
         }
     }
 
@@ -987,7 +978,8 @@ public class GigaGal implements Physical {
 
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
-        if ((canClimb && lookDirection == null && !groundedAtop)) {
+        if (climbDirection != null
+                || (canClimb && lookDirection == null && climbStartTime != 0)) {
             if (facing == Direction.LEFT) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (facing == Direction.RIGHT) {
