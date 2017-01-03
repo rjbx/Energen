@@ -274,7 +274,7 @@ public class GigaGal implements Physical {
                             && getBottom() <= ground.getTop()
                             && ground.getTop() != slidGroundTop
                             && (climbDirection == null)
-                            || (((canClimb && getBottom() > ground.getBottom()) ||  (climbStartTime != 0)) && ground instanceof Climbable && climbDirection == null)) {
+                            || (ground instanceof Climbable && (climbStartTime != 0 && climbDirection == null)  || (canClimb && getBottom() > ground.getTop()))) {
                         if (groundState != GroundState.DASHING) {
                             pauseDuration = 0;
                         }
