@@ -268,11 +268,10 @@ public class GigaGal implements Physical {
                         }
                     }
                     // if contact with ground top detected, halt downward progression and set gigagal atop ground
-                    if ((previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT) >= ground.getTop()
-                            && getBottom() <= ground.getTop()
-                            && ground.getTop() != slidGroundTop
-                            && (climbDirection == null)
-                            || (ground instanceof Climbable && (climbStartTime != 0 && climbDirection == null)  || (canClimb && getBottom() > ground.getTop()))) {
+                    if (((getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop
+                            && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
+                            && climbDirection == null)
+                            || (ground instanceof Climbable && climbStartTime != 0 && climbDirection == null && canClimb)) {
                         if (groundState != GroundState.DASHING) {
                             pauseDuration = 0;
                         }
@@ -361,7 +360,7 @@ public class GigaGal implements Physical {
                         loadedSpring = null;
                     }
                 }
-                if ((aerialState != AerialState.RECOILING || climbStartTime == 0)){
+                if ((aerialState != AerialState.RECOILING)){
                     onSink = false;
                     lookTimeSeconds = 0;
                     lookStartTime = TimeUtils.nanoTime();
@@ -886,7 +885,7 @@ public class GigaGal implements Physical {
             if (inputControls.jumpButtonPressed && aerialState != AerialState.RECOILING) {
                 canClimb = true;
                 if (inputControls.upButtonPressed || inputControls.downButtonPressed) {
-
+                    velocity.x = 0;
                     if (climbDirection == null) {
                         velocity.y = 0;
                     }
