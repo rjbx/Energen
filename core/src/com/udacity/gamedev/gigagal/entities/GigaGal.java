@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.overlays.InputControls;
-import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -89,6 +88,7 @@ public class GigaGal implements Physical {
     private boolean onSkateable;
     private boolean onCoals;
     private boolean sinking;
+    private boolean overlapsClimbable
     private InputControls inputControls;
 
     // ctor
@@ -169,24 +169,20 @@ public class GigaGal implements Physical {
         onSkateable = false;
         treadDirection = null;
         canClimb = false;
-        boolean overlapsClimbable = false;
-        float climbableTop = 0;
+        overlapsClimbable = false;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
-            if (Utils.betweenSides(ground, position.x)) {
+            if (Utils.contactingSides(ground, position.x)) {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
-                    if (ground instanceof Climbable) {
+                    if (ground instanceof Climbable && Utils.betweenSides(ground, position.x)) {
                         overlapsClimbable = true;
-                        Rectangle climbableBounds = new Rectangle(ground.getLeft() + 9, ground.getBottom(), ground.getWidth() - 12, ground.getHeight());
-                        if (getBounds().overlaps(climbableBounds)) {
-                            canClimb = true;
-                        }
+                        canClimb = true;
                     }
                     if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                         // if during previous frame was not, while currently is, between ground left and right sides
-                        if (!Utils.betweenSides(ground, previousFramePosition.x)) {
+                        if (!Utils.contactingSides(ground, previousFramePosition.x)) {
                             // only when not grounded and not recoiling
                             if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
                                 // if lateral velocity (magnitude, without concern for direction) greater than one third max speed,
@@ -282,9 +278,11 @@ public class GigaGal implements Physical {
                         if (groundState != GroundState.DASHING) {
                             pauseDuration = 0;
                         }
-                        velocity.y = 0; // prevents from descending beneath ground top
-                        if (!(ground instanceof Climbable) && !sinking) {
-                            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                        if (!(ground instanceof Climbable)) {
+                            velocity.y = 0; // prevents from descending beneath ground top
+                            if (!sinking) {
+                                position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                            }
                         }
                         canChangeDirection = true; // enable change of direction
                         groundedAtop = true; // verify contact with ground top
@@ -311,8 +309,8 @@ public class GigaGal implements Physical {
                             stand(); // set groundstate to standing
                         }
                         if (ground instanceof Spring) {
-                            loadedSpring = (Spring) ground;
-                            loadedSpring.setLoaded(true);
+                                loadedSpring = (Spring) ground;
+                                loadedSpring.setLoaded(true);
                         } else if (ground instanceof Treadmill) {
                             Treadmill treadmill = (Treadmill) ground;
                             onTreadmill = true;
@@ -342,13 +340,11 @@ public class GigaGal implements Physical {
                 }
             }
         }
-        if (!overlapsClimbable) {
+        if (!overlapsClimbable || (groundedAtop && getBottom() >= slidGroundTop)) {
+            overlapsClimbable = false;
             climbStartTime = TimeUtils.nanoTime();
             climbTimeSeconds = 0;
-        } else {
-            if (getBottom() > climbableTop) {
-                climbDirection = null;
-            }
+            climbDirection = null;
         }
         // disables ricochet if no contact with slid ground side
         if (slidGround) {
@@ -635,6 +631,7 @@ public class GigaGal implements Physical {
         onTreadmill = false;
         onSkateable = false;
         onCoals = false;
+        overlapsClimbable = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         climbStartTime = TimeUtils.nanoTime();
@@ -978,8 +975,7 @@ public class GigaGal implements Physical {
 
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
-        if (climbDirection != null
-        || (canClimb && lookDirection == null && climbTimeSeconds != 0)) {
+        if ((canClimb && lookDirection == null && climbTimeSeconds != 0) || (overlapsClimbable)) {
             if (facing == Direction.LEFT) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (facing == Direction.RIGHT) {

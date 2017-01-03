@@ -101,13 +101,15 @@ public class Utils {
         return (facing == Enums.Direction.RIGHT && delta < 0) || (facing == Enums.Direction.LEFT && delta > 0);
     }
 
+    public static final boolean contactingSides(Physical entity, float delta) {
+        float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
+        return ((delta - frontHalf) <= entity.getRight() && (delta + frontHalf) >= entity.getLeft());
+    }
+
     public static final boolean betweenSides(Physical entity, float delta) {
         float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
-        if ((delta - frontHalf) <= entity.getRight()
-        && (delta + frontHalf) >= entity.getLeft()) {
-            return true;
-        }
-        return false;
+        return ((delta + frontHalf) <= entity.getRight() && (delta - frontHalf) >= entity.getLeft())
+                || (Math.abs(delta - entity.getPosition().x) < 5);
     }
 
     public static final int useAmmo(Enums.AmmoIntensity intensity) {
