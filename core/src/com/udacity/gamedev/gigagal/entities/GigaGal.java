@@ -168,7 +168,6 @@ public class GigaGal implements Physical {
         onTreadmill = false;
         onSkateable = false;
         treadDirection = null;
-        canClimb = false;
         onClimbable = false;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
@@ -178,7 +177,6 @@ public class GigaGal implements Physical {
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (ground instanceof Climbable && Utils.betweenSides(ground, position.x)) {
                             onClimbable = true;
-                            canClimb = true;
                     }
                     if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                         // if during previous frame was not, while currently is, between ground left and right sides
@@ -883,21 +881,26 @@ public class GigaGal implements Physical {
     }
 
     private void enableClimb() {
-        if (canClimb) {
+        if (onClimbable) {
             canHover = false;
-            if (inputControls.jumpButtonPressed && (inputControls.upButtonPressed || inputControls.downButtonPressed) && aerialState != AerialState.RECOILING) {
+            if (inputControls.jumpButtonPressed && aerialState != AerialState.RECOILING) {
+                canClimb = true;
+                if (inputControls.upButtonPressed || inputControls.downButtonPressed) {
 
-                if (climbDirection == null) {
-                    velocity.y = 0;
-                }
-                if (lookDirection == null) {
-                    climb();
+                    if (climbDirection == null) {
+                        velocity.y = 0;
+                    }
+                    if (lookDirection == null) {
+                        climb();
+                    }
+                } else {
+                    climbDirection = null;
                 }
             } else {
                 climbDirection = null;
             }
         } else {
-            climbDirection = null;
+            canClimb = false;
         }
     }
 
