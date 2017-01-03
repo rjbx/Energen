@@ -106,10 +106,21 @@ public class Utils {
         return ((delta - frontHalf) <= entity.getRight() && (delta + frontHalf) >= entity.getLeft());
     }
 
+    public static final boolean contactingSides(float leftSide, float rightSide, float delta) {
+        float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
+        return (((delta - frontHalf) <= rightSide) && ((delta + frontHalf) >= leftSide));
+    }
+
     public static final boolean betweenSides(Physical entity, float delta) {
         float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
         return ((delta + frontHalf) <= entity.getRight() && (delta - frontHalf) >= entity.getLeft())
                 || (Math.abs(delta - entity.getPosition().x) < 5);
+    }
+
+    public static final boolean betweenSides(float leftSide, float rightSide, float delta) {
+        float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
+        return ((delta + frontHalf) <= rightSide && (delta - frontHalf) >= leftSide)
+                || (Math.abs(delta - ((leftSide + rightSide) / 2)) < 5);
     }
 
     public static final int useAmmo(Enums.AmmoIntensity intensity) {
