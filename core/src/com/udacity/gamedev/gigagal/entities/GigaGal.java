@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
+import sun.util.locale.LanguageTag;
+
 // mutable
 public class GigaGal implements Physical {
 
@@ -269,9 +271,9 @@ public class GigaGal implements Physical {
                     }
                     // if contact with ground top detected, halt downward progression and set gigagal atop ground
                     if (((getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop
-                            && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
-                            && climbDirection == null)
-                            || (ground instanceof Climbable && climbStartTime != 0 && climbDirection == null && canClimb)) {
+                    && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
+                    && climbDirection == null)
+                    || (ground instanceof Climbable && climbStartTime != 0 && climbDirection == null && canClimb)) {
                         if (groundState != GroundState.DASHING) {
                             pauseDuration = 0;
                         }
@@ -821,6 +823,7 @@ public class GigaGal implements Physical {
                 if (aerialState == AerialState.HOVERING) {
                     canHover = false;
                     hoverStartTime = 0;
+                    velocity.x -= velocity.x / 2;
                     fall();
                 } else {
                     hover(); // else hover if canHover is true (set to false after beginning hover)
@@ -881,8 +884,8 @@ public class GigaGal implements Physical {
 
     private void enableClimb() {
         if (onClimbable) {
-            canHover = false;
             if (inputControls.jumpButtonPressed && aerialState != AerialState.RECOILING) {
+                canHover = false;
                 canClimb = true;
                 if (inputControls.upButtonPressed || inputControls.downButtonPressed) {
                     velocity.x = 0;
