@@ -310,18 +310,16 @@ public class GigaGal implements Physical {
                             if (onSink == false) {
                                 stand();
                             }
+                            groundedAtop = true; // verify contact with ground top
+                            groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
+                            groundedAtopRight = ground.getRight(); // capture grounded ground boundary
                             knockedBack = false; // reset knockback boolean
                             canDash = false;
                             canHover = false;
                             onSink = true;
                             velocity.y = -3;
-                            groundedAtop = true; // verify contact with ground top
-                            groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
-                            groundedAtopRight = ground.getRight(); // capture grounded ground boundary
-                            if (lookDirection != null && aerialState != AerialState.GROUNDED) {
-                                lookStartTime = 0;
-                                lookDirection = null;
-                            }
+                            lookStartTime = 0;
+                            lookTimeSeconds = 0;
                         } else if (ground instanceof Climbable) {
                             if (Utils.betweenSides(ground, position.x)) {
                                 onClimbable = true;
