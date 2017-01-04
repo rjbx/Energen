@@ -171,15 +171,13 @@ public class GigaGal implements Physical {
         onSkateable = false;
         treadDirection = null;
         onClimbable = false;
+        onSink = false;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
             if (Utils.contactingSides(ground, position.x)) {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
-                    if (ground instanceof Climbable && Utils.betweenSides(ground, position.x)) {
-                            onClimbable = true;
-                    }
                     if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                         // if during previous frame was not, while currently is, between ground left and right sides
                         if (!Utils.contactingSides(ground, previousFramePosition.x)) {
@@ -245,12 +243,16 @@ public class GigaGal implements Physical {
                         }
                         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
                         if (((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()
-                                && !(ground instanceof Climbable)
-                                && !onSink)) {
+                        && !(ground instanceof Climbable)
+                        && climbDirection == null
+                        && !onSink)) {
                             velocity.y = 0; // prevents from ascending above ground bottom
                             position.y = previousFramePosition.y;  // sets gigagal at ground bottom
                             fall(); // descend from point of contact with ground bottom
                         }
+                    } else {
+                        canRicochet = false;
+                        slidGround = false;
                     }
                     if (!(ground instanceof Descendable)) {
                         // if contact with ground top detected, halt downward progression and set gigagal atop ground
@@ -308,20 +310,26 @@ public class GigaGal implements Physical {
                             if (onSink == false) {
                                 stand();
                             }
+                            knockedBack = false; // reset knockback boolean
+                            canDash = false;
+                            canHover = false;
+                            onSink = true;
+                            velocity.y = -3;
+                            groundedAtop = true; // verify contact with ground top
+                            groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
+                            groundedAtopRight = ground.getRight(); // capture grounded ground boundary
+                            if (lookDirection != null && aerialState != AerialState.GROUNDED) {
+                                lookStartTime = 0;
+                                lookDirection = null;
+                            }
                         } else if (ground instanceof Climbable) {
+                            if (Utils.betweenSides(ground, position.x)) {
+                                onClimbable = true;
+                            }
                             if (climbStartTime != 0 && climbDirection == null && canClimb) {
 
                             }
                         }
-                        lookTimeSeconds = 0;
-                        lookStartTime = 0;
-                        canDash = false;
-                        canHover = false;
-                        onSink = true;
-                        groundedAtop = true; // verify contact with ground top
-                        groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
-                        groundedAtopRight = ground.getRight(); // capture grounded ground boundary
-                        canChangeDirection = true; // enable change of direction
                     }
                     // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
                     // caution when crossing plane between ground top and minimum hover height / ground distance
