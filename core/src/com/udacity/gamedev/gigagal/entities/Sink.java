@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class Sink implements Ground {
+public class Sink implements Ground, Descendable {
 
     // fields
     private Vector2 position;

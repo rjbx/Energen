@@ -240,89 +240,88 @@ public class GigaGal implements Physical {
                             }
                             // else if no detection with ground sides, disable ricochet
                         } else {
-                            if (ground instanceof Sink) {
-                                if (onSink == false) {
-                                    stand();
-                                }
-                                lookTimeSeconds = 0;
-                                lookStartTime = 0;
-                                canDash = false;
-                                canHover = false;
-                                onSink = true;
-                                velocity.y = -3;
-                                groundedAtop = true; // verify contact with ground top
-                                groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
-                                groundedAtopRight = ground.getRight(); // capture grounded ground boundary
-                            } else {
-                                onSink = false;
-                            }
                             canRicochet = false; // disable ricochet
                             slidGround = false;
                         }
                         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
                         if (((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()
                                 && !(ground instanceof Climbable)
-                                && !onSink)
-                                && climbDirection == null) {
+                                && !onSink)) {
                             velocity.y = 0; // prevents from ascending above ground bottom
                             position.y = previousFramePosition.y;  // sets gigagal at ground bottom
                             fall(); // descend from point of contact with ground bottom
                         }
                     }
-                    // if contact with ground top detected, halt downward progression and set gigagal atop ground
-                    if (((getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop
-                    && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
-                    && climbDirection == null)
-                    || (ground instanceof Climbable && climbStartTime != 0 && climbDirection == null && canClimb)) {
-                        if (groundState != GroundState.DASHING) {
-                            pauseDuration = 0;
-                        }
-                        if (!(ground instanceof Climbable)) {
+                    if (!(ground instanceof Descendable)) {
+                        // if contact with ground top detected, halt downward progression and set gigagal atop ground
+                        if (getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop
+                        && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop()) {
                             velocity.y = 0; // prevents from descending beneath ground top
-                            if (!onSink) {
-                                position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                            canChangeDirection = true; // enable change of direction
+                            groundedAtop = true; // verify contact with ground top
+                            groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
+                            groundedAtopRight = ground.getRight(); // capture grounded ground boundary
+                            hoverStartTime = 0; // reset hover
+                            ricochetStartTime = 0; // reset ricochet
+                            knockedBack = false; // reset knockback boolean
+                            canLook = true;
+                            if (groundState != GroundState.DASHING) {
+                                pauseDuration = 0;
+                            }
+                            if (lookDirection != null && aerialState != AerialState.GROUNDED) {
+                                lookStartTime = 0;
+                                lookDirection = null;
+                            }
+                            if (groundState == GroundState.AIRBORNE) {
+                                stand(); // set groundstate to standing
+                            }
+                            if (ground instanceof Skateable) {
+                                onSkateable = true;
+                                if (groundState == GroundState.AIRBORNE) {
+                                    stand(); // set groundstate to standing
+                                }
+                            } else if (ground instanceof Spring) {
+                                loadedSpring = (Spring) ground;
+                                loadedSpring.setLoaded(true);
+                            } else if (ground instanceof Treadmill) {
+                                Treadmill treadmill = (Treadmill) ground;
+                                onTreadmill = true;
+                                treadDirection = treadmill.getDirection();
+                            } else if (ground instanceof Coals) {
+                                onCoals = true;
+                                canHover = false;
+                                Random lateralKnockback = new Random();
+                                velocity.set(Utils.absoluteToDirectionalValue(lateralKnockback.nextFloat() * 200, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y);
+                                recoil(velocity);
+                            } else if (!Utils.movingOppositeDirectionFacing(velocity.x, facing)) {
+                                canHover = true; // enable hover
+                            } else {
+                                canHover = false;
+                                onCoals = false;
+                                onSkateable = false;
+                                onTreadmill = false;
                             }
                         }
-                        canChangeDirection = true; // enable change of direction
+                    } else {
+                        if (ground instanceof Sink) {
+                            if (onSink == false) {
+                                stand();
+                            }
+                        } else if (ground instanceof Climbable) {
+                            if (climbStartTime != 0 && climbDirection == null && canClimb) {
+
+                            }
+                        }
+                        lookTimeSeconds = 0;
+                        lookStartTime = 0;
+                        canDash = false;
+                        canHover = false;
+                        onSink = true;
                         groundedAtop = true; // verify contact with ground top
                         groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
                         groundedAtopRight = ground.getRight(); // capture grounded ground boundary
-                        hoverStartTime = 0; // reset hover
-                        ricochetStartTime = 0; // reset ricochet
-                        knockedBack = false; // reset knockback boolean
-                        if (climbDirection == null && !onCoals && !Utils.movingOppositeDirectionFacing(velocity.x, facing)) {
-                            canHover = true; // enable hover
-                        } else {
-                            canHover = false;
-                        }
-                        if (lookDirection != null && aerialState != AerialState.GROUNDED) {
-                            lookStartTime = 0;
-                            lookDirection = null;
-                        }
-                        canLook = true;
-                        if (ground instanceof Skateable) {
-                            onSkateable = true;
-                        }
-                        // if groundstate is airborne, set to standing
-                        if (groundState == GroundState.AIRBORNE) {
-                            stand(); // set groundstate to standing
-                        }
-                        if (ground instanceof Spring) {
-                            loadedSpring = (Spring) ground;
-                            loadedSpring.setLoaded(true);
-                        } else if (ground instanceof Treadmill) {
-                            Treadmill treadmill = (Treadmill) ground;
-                            onTreadmill = true;
-                            treadDirection = treadmill.getDirection();
-                        } else if (ground instanceof Coals) {
-                            onCoals = true;
-                            canHover = false;
-                            Random lateralKnockback = new Random();
-                            velocity.set(Utils.absoluteToDirectionalValue(lateralKnockback.nextFloat() * 200, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y);
-                            recoil(velocity);
-                        } else {
-                            onCoals = false;
-                        }
+                        canChangeDirection = true; // enable change of direction
                     }
                     // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
                     // caution when crossing plane between ground top and minimum hover height / ground distance

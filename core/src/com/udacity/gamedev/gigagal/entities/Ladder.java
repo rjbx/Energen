@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 
-public class Ladder implements Ground, Climbable {
+public class Ladder implements Ground, Climbable, Descendable {
 
     // fields
     private final float top;
