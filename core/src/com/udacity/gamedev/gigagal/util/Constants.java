@@ -33,7 +33,7 @@ public final class Constants {
     public static final float STRIDING_JUMP_MULTIPLIER = 1.1f;
     public static final float VERTICAL_KNOCKBACK = 150;
     public static final float MAX_JUMP_DURATION = 0.025f;
-    public static final float MAX_HOVER_DURATION = 2;
+    public static final float MAX_HOVER_DURATION = 1.5f;
     public static final float MIN_GROUND_DISTANCE = 20;
     public static final float MAX_DASH_DURATION = 0.35f;
     public static final float MAX_LOOK_DISTANCE = 60;
@@ -286,7 +286,7 @@ public final class Constants {
     public static final String PORTAL_SPRITE_6 = "portal-6";
 
     // Ammo
-    public static final float CHARGE_DURATION = 0.8f;
+    public static final float CHARGE_DURATION = 0.75f;
     public static final float AMMO_MAX_SPEED = 500;
     public static final float AMMO_NORMAL_SPEED = 375;
     public static final int AMMO_STANDARD_DAMAGE = 10;

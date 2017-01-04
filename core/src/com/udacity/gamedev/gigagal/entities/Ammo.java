@@ -210,7 +210,7 @@ public final class Ammo extends Indestructible {
         if (ammoIntensity == AmmoIntensity.BLAST) {
             ammoCenter.set(Constants.BLAST_CENTER);
         } else if (ammoIntensity == AmmoIntensity.CHARGE_SHOT) {
-            scale = 1.5f;
+            scale += .5;
             ammoCenter.set(Constants.SHOT_CENTER);
             ammoCenter.scl(scale);
         } else {
