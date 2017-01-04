@@ -305,21 +305,28 @@ public class GigaGal implements Physical {
                                 onTreadmill = false;
                             }
                         }
+                        climbStartTime = 0;
+                        climbTimeSeconds = 0;
+                        climbDirection = null;
                     } else {
                         if (ground instanceof Sink) {
-                            if (onSink == false) {
-                                stand();
-                            }
                             groundedAtop = true; // verify contact with ground top
                             groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
                             groundedAtopRight = ground.getRight(); // capture grounded ground boundary
+                            onSink = true;
                             knockedBack = false; // reset knockback boolean
                             canDash = false;
                             canHover = false;
-                            onSink = true;
+                            canLook = true;
+                            canChangeDirection = true;
                             velocity.y = -3;
                             lookStartTime = 0;
                             lookTimeSeconds = 0;
+                            hoverStartTime = 0;
+                            ricochetStartTime = 0;
+                            if (groundState == GroundState.AIRBORNE) {
+                                stand();
+                            }
                         } else if (ground instanceof Climbable) {
                             if (Utils.betweenSides(ground, position.x)) {
                                 onClimbable = true;
@@ -343,11 +350,6 @@ public class GigaGal implements Physical {
                     }
                 }
             }
-        }
-        if (!onClimbable) {
-            climbStartTime = 0;
-            climbTimeSeconds = 0;
-            climbDirection = null;
         }
         // disables ricochet if no contact with slid ground side
         if (slidGround) {
@@ -409,6 +411,8 @@ public class GigaGal implements Physical {
                                 strideStartTime = 0;
                             } else if (!onSink){
                                 canDash = true;
+                            } else {
+                                canDash = false;
                             }
                         }
                     } else {
