@@ -109,6 +109,7 @@ public class IndicatorHud {
                 break;
             default:
                 offset.set(Constants.SHOT_CENTER);
+                offset.scl(1.5f);
         }
         Utils.drawTextureRegion(batch, weaponIcon, drawPosition, offset, 1.5f);
 

@@ -42,7 +42,6 @@ public final class Ammo extends Indestructible {
     }
 
     public void update(float delta) {
-
         switch (weapon) {
             case NATIVE:
                 damage = Constants.AMMO_STANDARD_DAMAGE;
@@ -207,13 +206,18 @@ public final class Ammo extends Indestructible {
 
     public void render(SpriteBatch batch) {
         Vector2 ammoCenter = new Vector2();
+        float scale = 1;
         if (ammoIntensity == AmmoIntensity.BLAST) {
             ammoCenter.set(Constants.BLAST_CENTER);
+        } else if (ammoIntensity == AmmoIntensity.CHARGE_SHOT) {
+            scale = 1.5f;
+            ammoCenter.set(Constants.SHOT_CENTER);
+            ammoCenter.scl(scale);
         } else {
             ammoCenter.set(Constants.SHOT_CENTER);
         }
         if (!level.getGigaGal().getPauseState()) {
-            Utils.drawTextureRegion(batch, region, position, ammoCenter);
+            Utils.drawTextureRegion(batch, region, position, ammoCenter, scale);
         }
     }
 

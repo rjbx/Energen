@@ -566,6 +566,8 @@ public class GigaGal implements Physical {
                     chargeStartTime = TimeUtils.nanoTime();
                 } else if (chargeTimeSeconds > Constants.CHARGE_DURATION) {
                     ammoIntensity = AmmoIntensity.BLAST;
+                } else if (chargeTimeSeconds > 0.125f) {
+                    ammoIntensity = AmmoIntensity.CHARGE_SHOT;
                 }
                 chargeTimeSeconds = Utils.secondsSince(chargeStartTime);
             } else if (canCharge) {

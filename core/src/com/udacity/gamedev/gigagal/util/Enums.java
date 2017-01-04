@@ -5,7 +5,7 @@ public final class Enums {
     private Enums() {}
 
     public enum AmmoIntensity {
-        SHOT, BLAST,
+        SHOT, CHARGE_SHOT, BLAST,
     }
 
     public enum WeaponType {
