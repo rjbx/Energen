@@ -9,6 +9,7 @@ import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
+import com.udacity.gamedev.gigagal.util.Utils;
 
 // immutable
 public final class GaugeHud {
@@ -16,11 +17,13 @@ public final class GaugeHud {
     // fields
     private final ExtendViewport viewport;
     private final GigaGal gigaGal;
+    private float flickerFrequency;
 
     // default ctor
     public GaugeHud(Level level) {
         this.gigaGal = level.getGigaGal();
         this.viewport = new ExtendViewport(Constants.HUD_VIEWPORT_SIZE, Constants.HUD_VIEWPORT_SIZE);
+        flickerFrequency = 1;
     }
 
     public void render(SpriteBatch batch, ShapeRenderer renderer) {
@@ -60,11 +63,18 @@ public final class GaugeHud {
 
 
         // ammo
-        if (gigaGal.getAmmoIntensity() == Enums.AmmoIntensity.BLAST) {
+        if (gigaGal.getChargeTimeSeconds() == 0) {
+            flickerFrequency = 1;
+        }
+
+        if (gigaGal.getChargeStatus()
+        && ((gigaGal.getChargeTimeSeconds() % flickerFrequency > flickerFrequency / 2) || flickerFrequency < .01f)) {
             renderer.setColor(Constants.AMMO_CHARGED_COLOR);
+            flickerFrequency /= 2;
         } else {
             renderer.setColor(Constants.AMMO_NORMAL_COLOR);
         }
+
         renderer.set(ShapeRenderer.ShapeType.Filled);
         renderer.rect(viewport.getWorldWidth() / 3 * 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, ((float) gigaGal.getAmmo() / Constants.MAX_AMMO) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
         renderer.end();

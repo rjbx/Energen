@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
-import sun.util.locale.LanguageTag;
-
 // mutable
 public class GigaGal implements Physical {
 
@@ -67,6 +65,7 @@ public class GigaGal implements Physical {
     private float ricochetTimeSeconds;
     private float recoveryTimeSeconds;
     private float climbTimeSeconds;
+    private float chargeTimeSeconds;
     private float aerialTakeoff;
     private float speedAtChangeFacing;
     private int lives;
@@ -562,10 +561,11 @@ public class GigaGal implements Physical {
     private void enableShoot(WeaponType weapon) {
         if (canShoot) {
             if (inputControls.shootButtonPressed) {
+                chargeTimeSeconds = Utils.secondsSince(chargeStartTime);
                 if (chargeStartTime == 0) {
                     canCharge = true;
                     chargeStartTime = TimeUtils.nanoTime();
-                } else if (Utils.secondsSince(chargeStartTime) > Constants.CHARGE_DURATION) {
+                } else if (chargeTimeSeconds > Constants.CHARGE_DURATION) {
                     ammoIntensity = AmmoIntensity.BLAST;
                 }
             } else if (canCharge) {
@@ -582,6 +582,7 @@ public class GigaGal implements Physical {
 
                 shoot(ammoIntensity, weapon, ammoUsed);
                 chargeStartTime = 0;
+                chargeTimeSeconds = 0;
                 this.ammoIntensity = AmmoIntensity.SHOT;
                 canCharge = false;
             }
@@ -636,6 +637,7 @@ public class GigaGal implements Physical {
         climbStartTime = 0;
         jumpStartTime = 0;
         dashStartTime = 0;
+        chargeTimeSeconds = 0;
         pauseDuration = 0;
         turboDuration = 0;
         recoveryStartTime = TimeUtils.nanoTime();
@@ -1059,6 +1061,7 @@ public class GigaGal implements Physical {
     public boolean getRicochetStatus() { return canRicochet; }
     public boolean getDashStatus() { return canDash; }
     public boolean getClimbStatus() { return canClimb; }
+    public boolean getChargeStatus() { return canCharge; }
     public AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
     public WeaponType getWeapon() { return weapon; }
     public List<WeaponType> getWeaponList() { return weaponList; }
@@ -1066,6 +1069,7 @@ public class GigaGal implements Physical {
     public boolean getPauseState() { return pauseState; }
     public Vector3 getChaseCamPosition() { return chaseCamPosition; }
     public long getLookStartTime() { return lookStartTime; }
+    public float getChargeTimeSeconds() { return chargeTimeSeconds; }
     public Direction getClimbDirection() { return climbDirection; }
     public AerialState getAerialState() { return aerialState; }
     public GroundState getGroundState() { return groundState; }
