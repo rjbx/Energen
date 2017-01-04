@@ -153,6 +153,7 @@ public class GigaGal implements Physical {
                 enableJump();
                 enableRicochet();
             } else if (aerialState == AerialState.HOVERING) {
+                enableLook();
                 enableHover();
                 enableRicochet();
             } else if (aerialState == AerialState.RICOCHETING) {
@@ -656,7 +657,7 @@ public class GigaGal implements Physical {
         if (canLook) {
             if (looking && climbDirection == null) {
                 canStride = false;
-                canHover = false;
+              //  canHover = false;
                 if (up) {
                     lookDirection = Direction.UP;
                     if (chaseCamPosition.y < position.y) {

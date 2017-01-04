@@ -12,7 +12,7 @@ public final class Constants {
     private Constants() {}
 
     // World/Camera
-    public static final Color BACKGROUND_COLOR = Color.DARK_GRAY;
+    public static final Color BACKGROUND_COLOR = Color.SLATE;
     public static final float WORLD_SIZE = 160;
     public static final float KILL_PLANE = -200;
     public static final float GRAVITY = 10;
@@ -59,10 +59,10 @@ public final class Constants {
     public static final String RECOIL_LEFT = "recoil-left";
     public static final String FALL_RIGHT = "fall-right";
     public static final String FALL_LEFT = "fall-left";
-    public static final String LOOKUP_RIGHT = "lookup-right";
-    public static final String LOOKUP_LEFT = "lookup-left";
-    public static final String LOOKDOWN_RIGHT = "lookdown-right";
-    public static final String LOOKDOWN_LEFT = "lookdown-left";
+    public static final String LOOKUP_RIGHT = "stand-lookup-right";
+    public static final String LOOKUP_LEFT = "stand-lookup-left";
+    public static final String LOOKDOWN_RIGHT = "stand-lookdown-right";
+    public static final String LOOKDOWN_LEFT = "stand-lookdown-left";
     public static final String RICOCHET_RIGHT = "ricochet-right";
     public static final String RICOCHET_LEFT = "ricochet-left";
     public static final float RICOCHET_FRAME_DURATION = 0.05f;
@@ -286,7 +286,7 @@ public final class Constants {
     public static final String PORTAL_SPRITE_6 = "portal-6";
 
     // Ammo
-    public static final float CHARGE_DURATION = 0.75f;
+    public static final float CHARGE_DURATION = 1;
     public static final float AMMO_MAX_SPEED = 500;
     public static final float AMMO_NORMAL_SPEED = 375;
     public static final int AMMO_STANDARD_DAMAGE = 10;
