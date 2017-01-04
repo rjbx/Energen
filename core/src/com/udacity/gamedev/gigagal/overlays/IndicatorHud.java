@@ -101,17 +101,17 @@ public class IndicatorHud {
         switch (intensity) {
             case SHOT:
                 offset.set(Constants.SHOT_CENTER);
-                offset.scl(1.5f);
+                offset.scl(Constants.AMMO_ICON_SCALE);
                 break;
             case BLAST:
                 offset.set(Constants.BLAST_CENTER);
-                offset.scl(1.5f);
+                offset.scl(Constants.AMMO_ICON_SCALE);
                 break;
             default:
                 offset.set(Constants.SHOT_CENTER);
-                offset.scl(1.5f);
+                offset.scl(Constants.AMMO_ICON_SCALE);
         }
-        Utils.drawTextureRegion(batch, weaponIcon, drawPosition, offset, 1.5f);
+        Utils.drawTextureRegion(batch, weaponIcon, drawPosition, offset, Constants.AMMO_ICON_SCALE);
 
         final String scoreString = level.getLevelScore() + "";
         timerString = Utils.stopWatchToString(level.getLevelTime());

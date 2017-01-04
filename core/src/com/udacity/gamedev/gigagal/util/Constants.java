@@ -370,10 +370,7 @@ public final class Constants {
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;
     public static final float HUD_MARGIN = 20;
-    public static final String HUD_AMMO_LABEL = "Ammo: ";
-    public static final String HUD_SCORE_LABEL = "Score: ";
-    public static final String HUD_HEALTH_LABEL = "Health: ";
-    public static final String HUD_WEAPON_LABEL = "WeaponType: ";
+    public static final float AMMO_ICON_SCALE = 1.5f;
     public static final String SHOOT_ICON = "icon-shoot";
     public static final String BLAST_ICON = "icon-blast";
     public static final String JUMP_ICON = "icon-jump";
@@ -382,6 +379,10 @@ public final class Constants {
     public static final String CLIMB_ICON = "icon-climb";
     public static final String DASH_ICON = "icon-dash";
     public static final String LIFE_ICON = "icon-life";
+    public static final String HUD_AMMO_LABEL = "Ammo: ";
+    public static final String HUD_SCORE_LABEL = "Score: ";
+    public static final String HUD_HEALTH_LABEL = "Health: ";
+    public static final String HUD_WEAPON_LABEL = "WeaponType: ";
     public static final Vector2 ICON_CENTER = new Vector2(20, 8.5f);
     public static final Color HEALTH_CRITICAL_COLOR = Color.RED;
     public static final Color HEALTH_LOW_COLOR = Color.CORAL;
