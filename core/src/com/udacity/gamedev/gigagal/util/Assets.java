@@ -124,16 +124,24 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion recoilRight;
         public final AtlasRegion fallLeft;
         public final AtlasRegion fallRight;
-        public final AtlasRegion lookupLeft;
-        public final AtlasRegion lookupRight;
-        public final AtlasRegion lookdownLeft;
-        public final AtlasRegion lookdownRight;
+        public final AtlasRegion lookupStandLeft;
+        public final AtlasRegion lookupStandRight;
+        public final AtlasRegion lookdownStandLeft;
+        public final AtlasRegion lookdownStandRight;
+        public final AtlasRegion lookupFallLeft;
+        public final AtlasRegion lookupFallRight;
+        public final AtlasRegion lookdownFallLeft;
+        public final AtlasRegion lookdownFallRight;
         public final AtlasRegion dashLeft;
         public final AtlasRegion dashRight;
         public final AtlasRegion ricochetLeft;
         public final AtlasRegion ricochetRight;
         public final Animation hoverLeft;
         public final Animation hoverRight;
+        public final Animation lookupHoverLeft;
+        public final Animation lookupHoverRight;
+        public final Animation lookdownHoverLeft;
+        public final Animation lookdownHoverRight;
         public final Animation strideLeft;
         public final Animation strideRight;
         public final Animation climb;
@@ -145,10 +153,14 @@ public final class Assets implements Disposable, AssetErrorListener {
             recoilRight = atlas.findRegion(Constants.RECOIL_RIGHT);
             fallLeft = atlas.findRegion(Constants.FALL_LEFT);
             fallRight = atlas.findRegion(Constants.FALL_RIGHT);
-            lookupLeft = atlas.findRegion(Constants.LOOKUP_LEFT);
-            lookupRight = atlas.findRegion(Constants.LOOKUP_RIGHT);
-            lookdownLeft = atlas.findRegion(Constants.LOOKDOWN_LEFT);
-            lookdownRight = atlas.findRegion(Constants.LOOKDOWN_RIGHT);
+            lookupStandLeft = atlas.findRegion(Constants.LOOKUP_STAND_LEFT);
+            lookupStandRight = atlas.findRegion(Constants.LOOKUP_STAND_RIGHT);
+            lookdownStandLeft = atlas.findRegion(Constants.LOOKDOWN_STAND_LEFT);
+            lookdownStandRight = atlas.findRegion(Constants.LOOKDOWN_STAND_RIGHT);
+            lookupFallLeft = atlas.findRegion(Constants.LOOKUP_FALL_LEFT);
+            lookupFallRight = atlas.findRegion(Constants.LOOKUP_FALL_RIGHT);
+            lookdownFallLeft = atlas.findRegion(Constants.LOOKDOWN_FALL_LEFT);
+            lookdownFallRight = atlas.findRegion(Constants.LOOKDOWN_FALL_RIGHT);
             dashLeft = atlas.findRegion(Constants.STRIDE_LEFT_2);
             dashRight = atlas.findRegion(Constants.STRIDE_RIGHT_2);
             ricochetLeft = atlas.findRegion(Constants.RICOCHET_LEFT);
@@ -182,6 +194,26 @@ public final class Assets implements Disposable, AssetErrorListener {
             climbFrames.add(atlas.findRegion(Constants.CLIMB_1));
             climbFrames.add(atlas.findRegion(Constants.CLIMB_2));
             climb = new Animation(Constants.CLIMB_LOOP_DURATION, climbFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> lookupHoverLeftFrames = new Array<AtlasRegion>();
+            lookupHoverLeftFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_LEFT_1));
+            lookupHoverLeftFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_LEFT_2));
+            lookupHoverLeft = new Animation(Constants.HOVER_LOOP_DURATION, lookupHoverLeftFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> lookupHoverRightFrames = new Array<AtlasRegion>();
+            lookupHoverRightFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_RIGHT_1));
+            lookupHoverRightFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_RIGHT_2));
+            lookupHoverRight = new Animation(Constants.HOVER_LOOP_DURATION, lookupHoverRightFrames, PlayMode.LOOP);
+            
+            Array<AtlasRegion> lookdownHoverLeftFrames = new Array<AtlasRegion>();
+            lookdownHoverLeftFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_LEFT_1));
+            lookdownHoverLeftFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_LEFT_2));
+            lookdownHoverLeft = new Animation(Constants.HOVER_LOOP_DURATION, lookdownHoverLeftFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> lookdownHoverRightFrames = new Array<AtlasRegion>();
+            lookdownHoverRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_RIGHT_1));
+            lookdownHoverRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_RIGHT_2));
+            lookdownHoverRight = new Animation(Constants.HOVER_LOOP_DURATION, lookdownHoverRightFrames, PlayMode.LOOP);
         }
     }
 

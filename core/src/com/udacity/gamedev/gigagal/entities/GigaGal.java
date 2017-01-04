@@ -997,9 +997,9 @@ public class GigaGal implements Physical {
             }
         } else if (facing == Direction.RIGHT) {
             if (lookDirection == Direction.UP) {
-                region = Assets.getInstance().getGigaGalAssets().lookupRight;
+                region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
             } else if (lookDirection == Direction.DOWN) {
-                region = Assets.getInstance().getGigaGalAssets().lookdownRight;
+                region = Assets.getInstance().getGigaGalAssets().lookdownStandRight;
             } else if (aerialState != AerialState.GROUNDED) {
                 if (aerialState == AerialState.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
@@ -1020,9 +1020,9 @@ public class GigaGal implements Physical {
             }
         } else if (facing == Direction.LEFT) {
             if (lookDirection == Direction.UP) {
-                region = Assets.getInstance().getGigaGalAssets().lookupLeft;
+                region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
             } else if (lookDirection == Direction.DOWN) {
-                region = Assets.getInstance().getGigaGalAssets().lookdownLeft;
+                region = Assets.getInstance().getGigaGalAssets().lookdownStandLeft;
             } else if (aerialState != AerialState.GROUNDED) {
                 if (aerialState == AerialState.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
