@@ -243,7 +243,7 @@ public class GigaGal implements Physical {
                         }
                         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
                         if (((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()
-                        && !(ground instanceof Climbable)
+                        && !(ground instanceof Descendable)
                         && climbDirection == null
                         && !onSink)) {
                             velocity.y = 0; // prevents from ascending above ground bottom
