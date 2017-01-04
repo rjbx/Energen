@@ -23,7 +23,7 @@ public final class GaugeHud {
     public GaugeHud(Level level) {
         this.gigaGal = level.getGigaGal();
         this.viewport = new ExtendViewport(Constants.HUD_VIEWPORT_SIZE, Constants.HUD_VIEWPORT_SIZE);
-        flickerFrequency = 1;
+        flickerFrequency = 0.5f;
     }
 
     public void render(SpriteBatch batch, ShapeRenderer renderer) {
@@ -61,16 +61,9 @@ public final class GaugeHud {
         renderer.set(ShapeRenderer.ShapeType.Filled);
         renderer.rect(viewport.getWorldWidth() / 3, viewport.getWorldHeight() - Constants.HUD_MARGIN, (gigaGal.getTurbo() / Constants.MAX_TURBO) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
 
-
         // ammo
-        if (gigaGal.getChargeTimeSeconds() == 0) {
-            flickerFrequency = 1;
-        }
-
-        if (gigaGal.getChargeStatus()
-        && ((gigaGal.getChargeTimeSeconds() % flickerFrequency > flickerFrequency / 2) || flickerFrequency < .01f)) {
+        if (gigaGal.getChargeTimeSeconds() >  0.125f) {
             renderer.setColor(Constants.AMMO_CHARGED_COLOR);
-            flickerFrequency /= 2;
         } else {
             renderer.setColor(Constants.AMMO_NORMAL_COLOR);
         }

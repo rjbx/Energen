@@ -561,13 +561,13 @@ public class GigaGal implements Physical {
     private void enableShoot(WeaponType weapon) {
         if (canShoot) {
             if (inputControls.shootButtonPressed) {
-                chargeTimeSeconds = Utils.secondsSince(chargeStartTime);
                 if (chargeStartTime == 0) {
                     canCharge = true;
                     chargeStartTime = TimeUtils.nanoTime();
                 } else if (chargeTimeSeconds > Constants.CHARGE_DURATION) {
                     ammoIntensity = AmmoIntensity.BLAST;
                 }
+                chargeTimeSeconds = Utils.secondsSince(chargeStartTime);
             } else if (canCharge) {
                 int ammoUsed;
 
