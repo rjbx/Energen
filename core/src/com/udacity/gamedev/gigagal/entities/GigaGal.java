@@ -167,6 +167,7 @@ public class GigaGal implements Physical {
         float slidGroundBottom = 0;
         float groundedAtopLeft = 0;
         float groundedAtopRight = 0;
+        onCoals = false;
         onTreadmill = false;
         onSkateable = false;
         onClimbable = false;
@@ -277,8 +278,8 @@ public class GigaGal implements Physical {
                                 loadedSpring = (Spring) ground;
                                 loadedSpring.setLoaded(true);
                             } else if (ground instanceof Treadmill) {
-                                Treadmill treadmill = (Treadmill) ground;
                                 onTreadmill = true;
+                                Treadmill treadmill = (Treadmill) ground;
                                 treadDirection = treadmill.getDirection();
                             } else if (ground instanceof Coals) {
                                 onCoals = true;
@@ -290,9 +291,6 @@ public class GigaGal implements Physical {
                                 canHover = true; // enable hover
                             } else {
                                 canHover = false;
-                                onCoals = false;
-                                onSkateable = false;
-                                onTreadmill = false;
                             }
                         }
                     } else {
