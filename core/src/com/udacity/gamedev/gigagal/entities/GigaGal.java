@@ -263,8 +263,6 @@ public class GigaGal implements Physical {
                             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                             if (groundState == GroundState.AIRBORNE) {
                                 stand(); // set groundstate to standing
-                            }
-                            if (lookDirection != null && aerialState != AerialState.GROUNDED) {
                                 lookStartTime = 0;
                                 lookDirection = null;
                             }
@@ -275,6 +273,8 @@ public class GigaGal implements Physical {
                                 onSkateable = true;
                                 if (groundState == GroundState.AIRBORNE) {
                                     stand(); // set groundstate to standing
+                                    lookStartTime = 0;
+                                    lookDirection = null;
                                 }
                             } else if (ground instanceof Spring) {
                                 loadedSpring = (Spring) ground;
@@ -998,10 +998,7 @@ public class GigaGal implements Physical {
             strideStartTime = 0;
         }
         aerialState = AerialState.FALLING;
-        if (groundState != GroundState.AIRBORNE) {
-            aerialTakeoff = position.x;
-            groundState = GroundState.AIRBORNE;
-        }
+        groundState = GroundState.AIRBORNE;
         canJump = false;
         canDash = false;
         canLook = true;
