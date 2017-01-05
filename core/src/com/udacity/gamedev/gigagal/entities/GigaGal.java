@@ -312,11 +312,8 @@ public class GigaGal implements Physical {
                                 onClimbable = true;
                             }
                             if (climbDirection == null) {
-                                if (getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop
-                                && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop()) {
-                                }
                                 if ((getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop
-                                && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() )
+                                && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
                                 || canClimb && climbStartTime != 0) {
                                     setAtop();
                                     groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
@@ -1032,7 +1029,7 @@ public class GigaGal implements Physical {
                     }
                 } else if (aerialState == AerialState.RICOCHETING) {
                     region = Assets.getInstance().getGigaGalAssets().ricochetLeft;
-                } else if (aerialState == AerialState.RECOILING){
+                } else if (aerialState == AerialState.RECOILING && knockedBack == true){
                     region = Assets.getInstance().getGigaGalAssets().recoilRight;
                 } else {
                     if (lookDirection == Direction.UP) {
@@ -1069,7 +1066,7 @@ public class GigaGal implements Physical {
                     }
                 } else if (aerialState == AerialState.RICOCHETING) {
                     region = Assets.getInstance().getGigaGalAssets().ricochetLeft;
-                } else if (aerialState == AerialState.RECOILING) {
+                } else if (aerialState == AerialState.RECOILING && knockedBack == true) {
                     region = Assets.getInstance().getGigaGalAssets().recoilLeft;
                 } else {
                     if (lookDirection == Direction.UP) {
