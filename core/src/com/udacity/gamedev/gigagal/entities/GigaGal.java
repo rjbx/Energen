@@ -169,9 +169,9 @@ public class GigaGal implements Physical {
         float groundedAtopRight = 0;
         onTreadmill = false;
         onSkateable = false;
-        treadDirection = null;
         onClimbable = false;
         onSink = false;
+        treadDirection = null;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
             if (Utils.contactingSides(ground, position.x)) {
@@ -315,7 +315,6 @@ public class GigaGal implements Physical {
                             }
                             if (Utils.betweenSides(ground, position.x)) {
                                 onClimbable = true;
-
                             }
                             if (climbStartTime != 0 && climbDirection == null && canClimb) {
                                 setAtop();
