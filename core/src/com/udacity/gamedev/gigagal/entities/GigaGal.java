@@ -314,10 +314,7 @@ public class GigaGal implements Physical {
                             if (climbDirection == null) {
                                 if (getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop
                                 && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop()) {
-                                    velocity.y = 0; // prevents from descending beneath ground top
-                                    position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                                 }
-
                                 if ((getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop
                                 && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() )
                                 || canClimb && climbStartTime != 0) {
@@ -328,13 +325,18 @@ public class GigaGal implements Physical {
                                         lookStartTime = 0;
                                         lookDirection = null;
                                     }
-                                    // if groundstate is airborne, set to standing
-                                    if (canClimb && !inputControls.jumpButtonPressed && climbStartTime == 0) {
-                                        lookDirection = null;
-                                        canJump = true;
-                                        jump();
-                                    } else if (groundState == GroundState.AIRBORNE) {
+                                    if (groundState == GroundState.AIRBORNE) {
                                         stand(); // set groundstate to standing
+                                    }
+                                    // if groundstate is airborne, set to standing
+                                    if (climbStartTime == 0) {
+                                        velocity.y = 0; // prevents from descending beneath ground top
+                                        position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                                        if (canClimb && !inputControls.jumpButtonPressed && groundState == GroundState.STANDING) {
+                                            lookDirection = null;
+                                            canJump = true;
+                                            jump();
+                                        }
                                     }
                                 }
                             }
