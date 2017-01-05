@@ -158,6 +158,8 @@ public class GigaGal implements Physical {
                 enableRicochet();
             } else if (aerialState == AerialState.RICOCHETING) {
                 enableRicochet();
+            } else if (aerialState == AerialState.RECOILING && !knockedBack) {
+                enableLook();
             }
         }
     }
@@ -543,10 +545,18 @@ public class GigaGal implements Physical {
         canHover = false;
         canRicochet = false;
         canChangeDirection = false;
-        canLook = false;
-        lookStartTime = 0;
         this.velocity.x = velocity.x;
         this.velocity.y = velocity.y;
+        if (!knockedBack) {
+            if (!canLook) {
+                lookStartTime = 0;
+                lookDirection = null;
+            }
+            canLook = true;
+        } else {
+            canLook = false;
+            lookStartTime = 0;
+        }
     }
 
     public void enableToggle(Direction toggleDirection) {
@@ -1029,7 +1039,7 @@ public class GigaGal implements Physical {
                     }
                 } else if (aerialState == AerialState.RICOCHETING) {
                     region = Assets.getInstance().getGigaGalAssets().ricochetLeft;
-                } else if (aerialState == AerialState.RECOILING && knockedBack == true){
+                } else if (aerialState == AerialState.RECOILING && knockedBack){
                     region = Assets.getInstance().getGigaGalAssets().recoilRight;
                 } else {
                     if (lookDirection == Direction.UP) {
@@ -1066,7 +1076,7 @@ public class GigaGal implements Physical {
                     }
                 } else if (aerialState == AerialState.RICOCHETING) {
                     region = Assets.getInstance().getGigaGalAssets().ricochetLeft;
-                } else if (aerialState == AerialState.RECOILING && knockedBack == true) {
+                } else if (aerialState == AerialState.RECOILING && knockedBack) {
                     region = Assets.getInstance().getGigaGalAssets().recoilLeft;
                 } else {
                     if (lookDirection == Direction.UP) {
