@@ -921,7 +921,7 @@ public class GigaGal implements Physical {
             if (inputControls.jumpButtonPressed && aerialState != AerialState.RECOILING) {
                 canHover = false;
                 canClimb = true;
-                if (inputControls.upButtonPressed || inputControls.downButtonPressed) {
+                if ((inputControls.upButtonPressed && !(groundState == GroundState.STANDING && climbStartTime == 0))|| inputControls.downButtonPressed) {
                     velocity.x = 0;
                     if (lookDirection == null) {
                         climb();
