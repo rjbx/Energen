@@ -271,11 +271,6 @@ public class GigaGal implements Physical {
                             }
                             if (ground instanceof Skateable) {
                                 onSkateable = true;
-                                if (groundState == GroundState.AIRBORNE) {
-                                    stand(); // set groundstate to standing
-                                    lookStartTime = 0;
-                                    lookDirection = null;
-                                }
                             } else if (ground instanceof Spring) {
                                 loadedSpring = (Spring) ground;
                                 loadedSpring.setLoaded(true);
