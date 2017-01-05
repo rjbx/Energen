@@ -855,7 +855,7 @@ public class GigaGal implements Physical {
         if (canHover) {
             if (inputControls.jumpButtonJustPressed) {
                 if (aerialState == AerialState.HOVERING) {
-                    canHover = false;
+                 //   canHover = false;
                     hoverStartTime = 0;
                     velocity.x -= velocity.x / 2;
                     fall();
