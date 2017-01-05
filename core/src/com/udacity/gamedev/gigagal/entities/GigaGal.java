@@ -314,20 +314,29 @@ public class GigaGal implements Physical {
                             if (climbDirection == null) {
                                 if (getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop
                                 && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop()) {
-                                    velocity.y = 0; // prevents from descending beneath ground top
-                                    position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
-
+                                    if (canClimb && !inputControls.jumpButtonPressed && climbStartTime == 0) {
+                                        lookDirection = null;
+                                        canJump = true;
+                                        jump();
+                                    } else {
+                                        velocity.y = 0; // prevents from descending beneath ground top
+                                        position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                                    }
                                 }
-                                setAtop();
-                                groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
-                                groundedAtopRight = ground.getRight(); // capture grounded ground boundary
-                                if (lookDirection != null && aerialState != AerialState.GROUNDED) {
-                                    lookStartTime = 0;
-                                    lookDirection = null;
-                                }
-                                // if groundstate is airborne, set to standing
-                                if (groundState == GroundState.AIRBORNE) {
-                                    stand(); // set groundstate to standing
+                                if ((getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop
+                                && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() )
+                                || canClimb && climbStartTime != 0) {
+                                    setAtop();
+                                    groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
+                                    groundedAtopRight = ground.getRight(); // capture grounded ground boundary
+                                    if (lookDirection != null && aerialState != AerialState.GROUNDED) {
+                                        lookStartTime = 0;
+                                        lookDirection = null;
+                                    }
+                                    // if groundstate is airborne, set to standing
+                                    if (groundState == GroundState.AIRBORNE) {
+                                        stand(); // set groundstate to standing
+                                    }
                                 }
                             }
                         }
@@ -833,11 +842,9 @@ public class GigaGal implements Physical {
             if (onSink) {
                 velocity.y /= 1.25f;
             }
-        } else if (!onSink) {
+        } else {
             pauseDuration = 0;
             fall();
-        } else {
-            stand();
         }
     }
 
@@ -913,9 +920,6 @@ public class GigaGal implements Physical {
                 canClimb = true;
                 if (inputControls.upButtonPressed || inputControls.downButtonPressed) {
                     velocity.x = 0;
-                    if (climbDirection == null) {
-                        velocity.y = 0;
-                    }
                     if (lookDirection == null) {
                         climb();
                     }
