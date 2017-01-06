@@ -114,10 +114,21 @@ public final class Constants {
     public static final Vector2 LADDER_CENTER = new Vector2(8.5f, 25);
     public static final String LADDER_SPRITE = "ladder";
     public static final int LADDER_EDGE = 8;
+
+    // VINES
+    public static final Vector2 VINES_CENTER = new Vector2(3, 50);
+    public static final String VINES_SPRITE = "vines";
     
     // Rope    
     public static final Vector2 ROPE_CENTER = new Vector2(3, 50);
     public static final String ROPE_SPRITE = "rope";
+    
+    // Pole
+    public static final Vector2 POLE_CENTER = new Vector2(24, 8);
+    public static final String POLE_SPRITE_1 = "pole-1";
+    public static final String POLE_SPRITE_2 = "pole-2";
+    public static final float POLE_DURATION = 1;
+
 
     // Slick
     public static final Vector2 SLICK_CENTER = new Vector2(24, 8);

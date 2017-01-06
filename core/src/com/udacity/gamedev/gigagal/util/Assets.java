@@ -23,7 +23,9 @@ public final class Assets implements Disposable, AssetErrorListener {
     private CannonAssets cannonAssets;
     private PillarAssets pillarAssets;
     private LadderAssets ladderAssets;
+    private VinesAssets vinesAssets;
     private RopeAssets ropeAssets;
+    private PoleAssets poleAssets;
     private SlickAssets slickAssets;
     private TreadmillAssets treadmillAssets;
     private SpringAssets springAssets;
@@ -74,7 +76,9 @@ public final class Assets implements Disposable, AssetErrorListener {
         cannonAssets = new CannonAssets(atlas);
         pillarAssets = new PillarAssets(atlas);
         ladderAssets = new LadderAssets(atlas);
+        vinesAssets = new VinesAssets(atlas);
         ropeAssets = new RopeAssets(atlas);
+        poleAssets = new PoleAssets(atlas);
         slickAssets = new SlickAssets(atlas);
         treadmillAssets = new TreadmillAssets(atlas);
         springAssets = new SpringAssets(atlas);
@@ -312,12 +316,35 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    public class VinesAssets {
+    
+        public final AtlasRegion vines;
+    
+        public VinesAssets(TextureAtlas atlas) {
+            vines = atlas.findRegion(Constants.VINES_SPRITE);
+        }
+    }
+
     public class RopeAssets {
 
         public final AtlasRegion rope;
 
         public RopeAssets(TextureAtlas atlas) {
             rope = atlas.findRegion(Constants.ROPE_SPRITE);
+        }
+    }
+
+    public class PoleAssets {
+
+        public final Animation pole;
+
+        public PoleAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> poleRegions = new Array<AtlasRegion>();
+            poleRegions.add(atlas.findRegion(Constants.POLE_SPRITE_1));
+            poleRegions.add(atlas.findRegion(Constants.POLE_SPRITE_2));
+
+            pole = new Animation(Constants.POLE_DURATION / poleRegions.size,
+                    poleRegions, PlayMode.NORMAL);
         }
     }
 
@@ -768,7 +795,9 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final CannonAssets getCannonAssets() { return cannonAssets; }
     public final PillarAssets getPillarAssets() { return pillarAssets; }
     public final LadderAssets getLadderAssets() { return ladderAssets; }
+    public final VinesAssets getVinesAssets() { return vinesAssets; }
     public final RopeAssets getRopeAssets() { return ropeAssets; }
+    public final PoleAssets getPoleAssets() { return poleAssets; }
     public final SlickAssets getSlickAssets() { return slickAssets; }
     public final TreadmillAssets getTreadmillAssets() { return treadmillAssets; }
     public final SpringAssets getSpringAssets() { return springAssets; }
