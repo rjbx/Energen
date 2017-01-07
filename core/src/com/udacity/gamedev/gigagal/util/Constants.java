@@ -113,6 +113,8 @@ public final class Constants {
     // Lift
     public static final Vector2 LIFT_CENTER = new Vector2(18, 4);
     public static final String LIFT_SPRITE = "lift";
+    public static final float LIFT_RANGE = 20;
+    public static final float LIFT_SPEED = 35;
     
     // Ladder
     public static final Vector2 LADDER_CENTER = new Vector2(8.5f, 25);

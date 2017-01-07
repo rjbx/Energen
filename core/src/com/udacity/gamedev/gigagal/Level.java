@@ -15,6 +15,7 @@ import com.udacity.gamedev.gigagal.entities.Destructible;
 import com.udacity.gamedev.gigagal.entities.Ground;
 import com.udacity.gamedev.gigagal.entities.Hazard;
 import com.udacity.gamedev.gigagal.entities.Indestructible;
+import com.udacity.gamedev.gigagal.entities.Moving;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.Explosion;
@@ -102,6 +103,10 @@ public class Level {
             }
 
             for (Ground ground : grounds) {
+                if (ground instanceof Moving) {
+                    Moving m = (Moving) ground;
+                    m.update(delta);
+                }
                 if (ground instanceof Cannon) {
                     Cannon cannon = (Cannon) ground;
                     if (cannon.getOffset() == 0) {
