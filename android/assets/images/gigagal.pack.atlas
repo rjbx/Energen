@@ -90,7 +90,7 @@ ammo-shot-electric-alt
   index: -1
 ammo-shot-fire
   rotate: false
-  xy: 775, 118
+  xy: 804, 118
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
@@ -104,49 +104,49 @@ ammo-shot-fire-alt
   index: -1
 ammo-shot-metal
   rotate: false
-  xy: 797, 118
+  xy: 830, 125
   size: 8, 7
   orig: 8, 7
   offset: 0, 0
   index: -1
 ammo-shot-metal-alt
   rotate: false
-  xy: 471, 74
+  xy: 501, 74
   size: 7, 8
   orig: 7, 8
   offset: 0, 0
   index: -1
 ammo-shot-native
   rotate: false
-  xy: 807, 117
+  xy: 461, 74
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-psychic
   rotate: false
-  xy: 817, 117
+  xy: 471, 74
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 827, 117
+  xy: 481, 74
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber-alt
   rotate: false
-  xy: 461, 74
+  xy: 491, 74
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-water
   rotate: false
-  xy: 786, 118
+  xy: 819, 125
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
@@ -216,7 +216,7 @@ button-up
   index: -1
 cannon-lateral
   rotate: false
-  xy: 679, 113
+  xy: 708, 113
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
@@ -398,7 +398,7 @@ icon-hover
   index: -1
 icon-life
   rotate: false
-  xy: 760, 112
+  xy: 789, 112
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
@@ -415,6 +415,13 @@ ladder
   xy: 260, 138
   size: 19, 50
   orig: 19, 50
+  offset: 0, 0
+  index: -1
+lift
+  rotate: false
+  xy: 654, 117
+  size: 27, 8
+  orig: 27, 8
   offset: 0, 0
   index: -1
 lookdown-fall-left
@@ -578,13 +585,6 @@ platform-magenta
   orig: 58, 58
   offset: 0, 0
   index: -1
-platform-moving
-  rotate: false
-  xy: 819, 127
-  size: 19, 5
-  orig: 19, 5
-  offset: 0, 0
-  index: -1
 platform-red
   rotate: false
   xy: 506, 196
@@ -671,7 +671,7 @@ powerup-health
   index: -1
 powerup-turbo
   rotate: false
-  xy: 726, 108
+  xy: 755, 108
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -713,7 +713,7 @@ rope
   index: -1
 selection-cursor
   rotate: false
-  xy: 743, 110
+  xy: 772, 110
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
@@ -769,14 +769,14 @@ spring-1
   index: -1
 spring-2
   rotate: false
-  xy: 654, 114
+  xy: 683, 114
   size: 23, 11
   orig: 23, 11
   offset: 0, 0
   index: -1
 spring-3
   rotate: false
-  xy: 701, 117
+  xy: 730, 117
   size: 23, 8
   orig: 23, 8
   offset: 0, 0

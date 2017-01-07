@@ -111,7 +111,7 @@ public final class Constants {
     public static final String PILLAR_SPRITE = "pillar";
 
     // Lift
-    public static final Vector2 LIFT_CENTER = new Vector2(9.5f, 2.5f);
+    public static final Vector2 LIFT_CENTER = new Vector2(13.5f, 4);
     public static final String LIFT_SPRITE = "lift";
     
     // Ladder

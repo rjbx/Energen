@@ -61,6 +61,13 @@ ladder
   orig: 19, 50
   offset: 0, 0
   index: -1
+lift
+  rotate: false
+  xy: 102, 84
+  size: 19, 5
+  orig: 19, 5
+  offset: 0, 0
+  index: -1
 pillar
   rotate: false
   xy: 114, 122
