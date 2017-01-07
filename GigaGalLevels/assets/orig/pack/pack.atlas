@@ -1,54 +1,61 @@
 
 pack.png
-size: 256,128
+size: 128,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 cannon-lateral
   rotate: false
-  xy: 219, 62
+  xy: 91, 27
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
   index: -1
 cannon-vertical
   rotate: false
-  xy: 161, 40
+  xy: 88, 57
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 coals-1
   rotate: false
-  xy: 134, 62
+  xy: 2, 2
   size: 42, 18
   orig: 42, 18
   offset: 0, 0
   index: -1
 coil-1
   rotate: false
-  xy: 156, 13
+  xy: 41, 97
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 flame-1
   rotate: false
-  xy: 190, 35
+  xy: 95, 101
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-1
   rotate: false
-  xy: 209, 27
+  xy: 38, 22
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
+ice-1
+  rotate: false
+  xy: 38, 59
+  size: 48, 16
+  orig: 48, 16
+  offset: 0, 0
+  index: -1
 ladder
   rotate: false
-  xy: 222, 76
+  xy: 10, 26
   size: 19, 50
   split: 7, 7, 0, 0
   orig: 19, 50
@@ -56,14 +63,14 @@ ladder
   index: -1
 pillar
   rotate: false
-  xy: 178, 78
+  xy: 114, 122
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
   index: -1
 platform
   rotate: false
-  xy: 2, 2
+  xy: 68, 196
   size: 58, 58
   split: 11, 9, 10, 9
   orig: 58, 58
@@ -71,63 +78,63 @@ platform
   index: -1
 pole-1
   rotate: false
-  xy: 183, 26
+  xy: 31, 28
   size: 5, 48
   orig: 5, 48
   offset: 0, 0
   index: -1
 portal-1
   rotate: false
-  xy: 2, 62
+  xy: 2, 190
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 powerup-ammo
   rotate: false
-  xy: 190, 16
+  xy: 57, 22
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 207, 8
+  xy: 74, 22
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 224, 8
+  xy: 85, 79
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 rope
   rotate: false
-  xy: 243, 26
+  xy: 2, 22
   size: 6, 100
   orig: 6, 100
   offset: 0, 0
   index: -1
 sink-1
   rotate: false
-  xy: 117, 42
+  xy: 41, 77
   size: 42, 18
   orig: 42, 18
   offset: 0, 0
   index: -1
 slick-1
   rotate: false
-  xy: 62, 15
+  xy: 38, 41
   size: 48, 16
   orig: 48, 16
   offset: 0, 0
   index: -1
 slick-1
   rotate: false
-  xy: 62, 5
+  xy: 102, 91
   size: 24, 8
   split: 0, 0, 0, 0
   orig: 24, 8
@@ -135,70 +142,70 @@ slick-1
   index: -1
 spike-1
   rotate: false
-  xy: 234, 44
+  xy: 114, 104
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 spring-1
   rotate: false
-  xy: 209, 46
+  xy: 88, 41
   size: 23, 14
   orig: 23, 14
   offset: 0, 0
   index: -1
 stand-right
   rotate: false
-  xy: 192, 91
+  xy: 95, 130
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
   index: -1
 swoopa
   rotate: false
-  xy: 62, 33
+  xy: 68, 167
   size: 53, 27
   orig: 53, 27
   offset: 0, 0
   index: -1
 treadmill-1-left
   rotate: false
-  xy: 117, 22
+  xy: 46, 2
   size: 37, 18
   orig: 37, 18
   offset: 0, 0
   index: -1
 treadmill-1-right
   rotate: false
-  xy: 112, 2
+  xy: 85, 2
   size: 37, 18
   orig: 37, 18
   offset: 0, 0
   index: -1
 vacuum-1
   rotate: false
-  xy: 68, 62
+  xy: 2, 124
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 vines
   rotate: false
-  xy: 165, 86
+  xy: 68, 125
   size: 25, 40
   orig: 25, 40
   offset: 0, 0
   index: -1
 wheel-1
   rotate: false
-  xy: 192, 64
+  xy: 68, 98
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 zoomba
   rotate: false
-  xy: 134, 82
+  xy: 10, 78
   size: 29, 44
   orig: 29, 44
   offset: 0, 0

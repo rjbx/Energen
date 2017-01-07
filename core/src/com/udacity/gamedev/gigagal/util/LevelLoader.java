@@ -15,6 +15,7 @@ import com.udacity.gamedev.gigagal.entities.FierySwoopa;
 import com.udacity.gamedev.gigagal.entities.FieryZoomba;
 import com.udacity.gamedev.gigagal.entities.GushingSwoopa;
 import com.udacity.gamedev.gigagal.entities.GushingZoomba;
+import com.udacity.gamedev.gigagal.entities.Ice;
 import com.udacity.gamedev.gigagal.entities.Ladder;
 import com.udacity.gamedev.gigagal.entities.Pillar;
 import com.udacity.gamedev.gigagal.entities.Pole;
@@ -184,6 +185,10 @@ public final class LevelLoader {
                 final Vector2 slickPosition = imagePosition.add(Constants.SLICK_CENTER);
                 Gdx.app.log(TAG, "Loaded the slick at " + slickPosition);
                 level.getGrounds().add(new Slick(slickPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ICE_SPRITE_1)) {
+                final Vector2 icePosition = imagePosition.add(Constants.ICE_CENTER);
+                Gdx.app.log(TAG, "Loaded the ice at " + icePosition);
+                level.getGrounds().add(new Ice(icePosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.COALS_SPRITE_1)) {
                 final Vector2 coalsPosition = imagePosition.add(Constants.COALS_CENTER);
                 Gdx.app.log(TAG, "Loaded the coals at " + coalsPosition);

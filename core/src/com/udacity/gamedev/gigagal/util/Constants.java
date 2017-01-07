@@ -135,6 +135,12 @@ public final class Constants {
     public static final String SLICK_SPRITE_1 = "slick-1";
     public static final String SLICK_SPRITE_2 = "slick-2";
     public static final float SLICK_DURATION = 1;
+
+    // Ice
+    public static final Vector2 ICE_CENTER = new Vector2(24, 8);
+    public static final String ICE_SPRITE_1 = "ice-1";
+    public static final String ICE_SPRITE_2 = "ice-2";
+    public static final float ICE_DURATION = 1;
     
     // Treadmill
     public static final Vector2 TREADMILL_CENTER = new Vector2(19, 9);

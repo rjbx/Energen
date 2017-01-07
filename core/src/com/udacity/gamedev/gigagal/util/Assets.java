@@ -30,6 +30,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private TreadmillAssets treadmillAssets;
     private SpringAssets springAssets;
     private SinkAssets sinkAssets;
+    private IceAssets iceAssets;
     private CoalsAssets coalsAssets;
     private AmmoAssets ammoAssets;
     private ZoombaAssets zoombaAssets;
@@ -80,6 +81,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         ropeAssets = new RopeAssets(atlas);
         poleAssets = new PoleAssets(atlas);
         slickAssets = new SlickAssets(atlas);
+        iceAssets = new IceAssets(atlas);
         treadmillAssets = new TreadmillAssets(atlas);
         springAssets = new SpringAssets(atlas);
         sinkAssets = new SinkAssets(atlas);
@@ -368,6 +370,20 @@ public final class Assets implements Disposable, AssetErrorListener {
 
             slick = new Animation(Constants.SLICK_DURATION / slickRegions.size,
                     slickRegions, PlayMode.NORMAL);
+        }
+    }
+
+    public class IceAssets {
+
+        public final Animation ice;
+
+        public IceAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> iceRegions = new Array<AtlasRegion>();
+            iceRegions.add(atlas.findRegion(Constants.ICE_SPRITE_1));
+            iceRegions.add(atlas.findRegion(Constants.ICE_SPRITE_2));
+
+            ice = new Animation(Constants.ICE_DURATION / iceRegions.size,
+                    iceRegions, PlayMode.NORMAL);
         }
     }
 
@@ -799,6 +815,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final RopeAssets getRopeAssets() { return ropeAssets; }
     public final PoleAssets getPoleAssets() { return poleAssets; }
     public final SlickAssets getSlickAssets() { return slickAssets; }
+    public final IceAssets getIceAssets() { return iceAssets; }
     public final TreadmillAssets getTreadmillAssets() { return treadmillAssets; }
     public final SpringAssets getSpringAssets() { return springAssets; }
     public final SinkAssets getSinkAssets() { return sinkAssets; }
