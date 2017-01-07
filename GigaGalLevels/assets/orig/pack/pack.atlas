@@ -6,49 +6,49 @@ filter: Linear,Linear
 repeat: none
 cannon-lateral
   rotate: false
-  xy: 190, 87
+  xy: 219, 62
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
   index: -1
 cannon-vertical
   rotate: false
-  xy: 173, 63
+  xy: 161, 40
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 coals-1
   rotate: false
-  xy: 112, 13
+  xy: 134, 62
   size: 42, 18
   orig: 42, 18
   offset: 0, 0
   index: -1
 coil-1
   rotate: false
-  xy: 186, 15
+  xy: 156, 13
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 flame-1
   rotate: false
-  xy: 212, 99
+  xy: 190, 35
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-1
   rotate: false
-  xy: 195, 68
+  xy: 209, 27
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 ladder
   rotate: false
-  xy: 222, 28
+  xy: 222, 76
   size: 19, 50
   split: 7, 7, 0, 0
   orig: 19, 50
@@ -56,7 +56,7 @@ ladder
   index: -1
 pillar
   rotate: false
-  xy: 88, 7
+  xy: 178, 78
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
@@ -69,6 +69,13 @@ platform
   orig: 58, 58
   offset: 0, 0
   index: -1
+pole-1
+  rotate: false
+  xy: 183, 26
+  size: 5, 48
+  orig: 5, 48
+  offset: 0, 0
+  index: -1
 portal-1
   rotate: false
   xy: 2, 62
@@ -78,21 +85,21 @@ portal-1
   index: -1
 powerup-ammo
   rotate: false
-  xy: 200, 49
+  xy: 190, 16
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 192, 109
+  xy: 207, 8
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 214, 80
+  xy: 224, 8
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -128,21 +135,21 @@ slick-1
   index: -1
 spike-1
   rotate: false
-  xy: 213, 31
+  xy: 234, 44
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 spring-1
   rotate: false
-  xy: 165, 85
+  xy: 209, 46
   size: 23, 14
   orig: 23, 14
   offset: 0, 0
   index: -1
 stand-right
   rotate: false
-  xy: 156, 5
+  xy: 192, 91
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
@@ -156,14 +163,14 @@ swoopa
   index: -1
 treadmill-1-left
   rotate: false
-  xy: 134, 62
+  xy: 117, 22
   size: 37, 18
   orig: 37, 18
   offset: 0, 0
   index: -1
 treadmill-1-right
   rotate: false
-  xy: 161, 42
+  xy: 112, 2
   size: 37, 18
   orig: 37, 18
   offset: 0, 0
@@ -175,9 +182,16 @@ vacuum-1
   orig: 64, 64
   offset: 0, 0
   index: -1
+vines
+  rotate: false
+  xy: 165, 86
+  size: 25, 40
+  orig: 25, 40
+  offset: 0, 0
+  index: -1
 wheel-1
   rotate: false
-  xy: 165, 101
+  xy: 192, 64
   size: 25, 25
   orig: 25, 25
   offset: 0, 0

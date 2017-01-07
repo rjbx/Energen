@@ -7,7 +7,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class Vines {
+public class Vines implements Ground, Climbable{
 
     // fields
     private Vector2 position;
