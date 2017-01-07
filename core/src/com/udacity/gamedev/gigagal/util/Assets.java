@@ -22,6 +22,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private PlatformAssets platformAssets;
     private CannonAssets cannonAssets;
     private PillarAssets pillarAssets;
+    private LiftAssets liftAssets;
     private LadderAssets ladderAssets;
     private VinesAssets vinesAssets;
     private RopeAssets ropeAssets;
@@ -76,6 +77,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         platformAssets = new PlatformAssets(atlas, levelNumber);
         cannonAssets = new CannonAssets(atlas);
         pillarAssets = new PillarAssets(atlas);
+        liftAssets = new LiftAssets(atlas);
         ladderAssets = new LadderAssets(atlas);
         vinesAssets = new VinesAssets(atlas);
         ropeAssets = new RopeAssets(atlas);
@@ -295,6 +297,24 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    public class LiftAssets {
+
+        public final AtlasRegion lift;
+
+        public LiftAssets(TextureAtlas atlas) {
+            lift = atlas.findRegion(Constants.LIFT_SPRITE);
+        }
+    }
+
+    public class PillarAssets {
+
+        public final AtlasRegion pillar;
+
+        public PillarAssets(TextureAtlas atlas) {
+            pillar = atlas.findRegion(Constants.PILLAR_SPRITE);
+        }
+    }
+
     public class CannonAssets {
 
         public final AtlasRegion verticalCannon;
@@ -347,15 +367,6 @@ public final class Assets implements Disposable, AssetErrorListener {
 
             pole = new Animation(Constants.POLE_DURATION / poleRegions.size,
                     poleRegions, PlayMode.NORMAL);
-        }
-    }
-
-    public class PillarAssets {
-
-        public final AtlasRegion pillar;
-
-        public PillarAssets(TextureAtlas atlas) {
-            pillar = atlas.findRegion(Constants.PILLAR_SPRITE);
         }
     }
 
@@ -810,6 +821,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final PlatformAssets getPlatformAssets() { return platformAssets; }
     public final CannonAssets getCannonAssets() { return cannonAssets; }
     public final PillarAssets getPillarAssets() { return pillarAssets; }
+    public final LiftAssets getLiftAssets() { return liftAssets; }
     public final LadderAssets getLadderAssets() { return ladderAssets; }
     public final VinesAssets getVinesAssets() { return vinesAssets; }
     public final RopeAssets getRopeAssets() { return ropeAssets; }

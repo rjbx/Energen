@@ -109,6 +109,10 @@ public final class Constants {
     // Pillar
     public static final Vector2 PILLAR_CENTER = new Vector2(6, 3);
     public static final String PILLAR_SPRITE = "pillar";
+
+    // Lift
+    public static final Vector2 LIFT_CENTER = new Vector2(9.5f, 2.5f);
+    public static final String LIFT_SPRITE = "lift";
     
     // Ladder
     public static final Vector2 LADDER_CENTER = new Vector2(8.5f, 25);
