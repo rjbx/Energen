@@ -96,7 +96,7 @@ public final class Constants {
 
     // Platform
     public static final int PLATFORM_EDGE = 8;
-    public static final float MAX_LEDGE_HEIGHT = 5;
+    public static final float MAX_LEDGE_HEIGHT = 8;
     public static final String PLATFORM_SPRITE = "platform";
     public static final String BLUE_PLATFORM_SPRITE = "platform-blue";
     public static final String YELLOW_PLATFORM_SPRITE = "platform-yellow";
@@ -113,7 +113,7 @@ public final class Constants {
     // Lift
     public static final Vector2 LIFT_CENTER = new Vector2(18, 4);
     public static final String LIFT_SPRITE = "lift";
-    public static final float LIFT_RANGE = 20;
+    public static final float LIFT_RANGE = 40;
     public static final float LIFT_SPEED = 35;
     
     // Ladder

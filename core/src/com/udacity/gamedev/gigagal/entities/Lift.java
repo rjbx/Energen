@@ -14,24 +14,27 @@ public class Lift implements Ground, Moving {
     private Vector2 position;
     private Enums.Direction direction;
     private final float startingY;
+    private float velocityY;
 
     // ctor
     public Lift(Vector2 position) {
         this.position = position;
-        startingY = position.y;
         direction = Enums.Direction.UP;
+        startingY = position.y;
+        velocityY = Constants.LIFT_SPEED;
     }
 
     public void update(float delta) {
-
         switch (direction) {
             case UP:
-                position.y -= Constants.LIFT_SPEED * delta;
+                velocityY = Constants.LIFT_SPEED * delta;
                 break;
             case DOWN:
-                position.y += Constants.LIFT_SPEED * delta;
+                velocityY = -Constants.LIFT_SPEED * delta;
                 break;
         }
+
+        position.y += velocityY;
 
         if (position.y < (startingY - (Constants.LIFT_RANGE / 2))) {
             position.y = startingY - (Constants.LIFT_RANGE / 2);
@@ -40,6 +43,11 @@ public class Lift implements Ground, Moving {
             position.y = startingY + (Constants.LIFT_RANGE / 2);
             direction = Enums.Direction.DOWN;
         }
+    }
+
+    @Override
+    public Enums.Direction getDirection() {
+        return direction;
     }
 
     public void render(SpriteBatch batch) {
@@ -55,4 +63,5 @@ public class Lift implements Ground, Moving {
     public final float getTop() { return position.y + Constants.LIFT_CENTER.y; }
     public final float getBottom() { return position.y - Constants.LIFT_CENTER.y; }
     public final Class getSubclass() { return this.getClass(); }
+    public final float getVelocityY() { return velocityY; }
 }
