@@ -115,8 +115,8 @@ public final class Constants {
     public static final String LADDER_SPRITE = "ladder";
     public static final int LADDER_EDGE = 8;
 
-    // VINES
-    public static final Vector2 VINES_CENTER = new Vector2(3, 50);
+    // Vines
+    public static final Vector2 VINES_CENTER = new Vector2(12.5f, 20);
     public static final String VINES_SPRITE = "vines";
     
     // Rope    
@@ -124,7 +124,7 @@ public final class Constants {
     public static final String ROPE_SPRITE = "rope";
     
     // Pole
-    public static final Vector2 POLE_CENTER = new Vector2(24, 8);
+    public static final Vector2 POLE_CENTER = new Vector2(2.5f, 24);
     public static final String POLE_SPRITE_1 = "pole-1";
     public static final String POLE_SPRITE_2 = "pole-2";
     public static final float POLE_DURATION = 1;

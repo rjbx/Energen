@@ -17,6 +17,7 @@ import com.udacity.gamedev.gigagal.entities.GushingSwoopa;
 import com.udacity.gamedev.gigagal.entities.GushingZoomba;
 import com.udacity.gamedev.gigagal.entities.Ladder;
 import com.udacity.gamedev.gigagal.entities.Pillar;
+import com.udacity.gamedev.gigagal.entities.Pole;
 import com.udacity.gamedev.gigagal.entities.Rope;
 import com.udacity.gamedev.gigagal.entities.SharpSwoopa;
 import com.udacity.gamedev.gigagal.entities.SharpZoomba;
@@ -31,6 +32,7 @@ import com.udacity.gamedev.gigagal.entities.Flame;
 import com.udacity.gamedev.gigagal.entities.Geiser;
 import com.udacity.gamedev.gigagal.entities.HealthPowerup;
 import com.udacity.gamedev.gigagal.entities.Spike;
+import com.udacity.gamedev.gigagal.entities.Vines;
 import com.udacity.gamedev.gigagal.entities.Wheel;
 import com.udacity.gamedev.gigagal.entities.WhirlingSwoopa;
 import com.udacity.gamedev.gigagal.entities.WhirlingZoomba;
@@ -154,6 +156,14 @@ public final class LevelLoader {
                 final Vector2 ropePosition = imagePosition.add(Constants.ROPE_CENTER);
                 Gdx.app.log(TAG, "Loaded the rope at " + ropePosition);
                 level.getGrounds().add(new Rope(ropePosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VINES_SPRITE)) {
+                final Vector2 vinesPosition = imagePosition.add(Constants.VINES_CENTER);
+                Gdx.app.log(TAG, "Loaded the vines at " + vinesPosition);
+                level.getGrounds().add(new Vines(vinesPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POLE_SPRITE_1)) {
+                final Vector2 polePosition = imagePosition.add(Constants.POLE_CENTER);
+                Gdx.app.log(TAG, "Loaded the pole at " + polePosition);
+                level.getGrounds().add(new Pole(polePosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_RIGHT)) {
                 final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
                 Gdx.app.log(TAG, "Loaded the treadmillRight at " + treadmillPosition);
