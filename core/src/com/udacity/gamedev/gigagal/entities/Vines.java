@@ -9,7 +9,6 @@ import com.udacity.gamedev.gigagal.util.Utils;
 
 public class Vines {
 
-
     // fields
     private Vector2 position;
 
