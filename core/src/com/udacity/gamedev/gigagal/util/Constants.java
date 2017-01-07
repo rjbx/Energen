@@ -129,7 +129,6 @@ public final class Constants {
     public static final String POLE_SPRITE_2 = "pole-2";
     public static final float POLE_DURATION = 1;
 
-
     // Slick
     public static final Vector2 SLICK_CENTER = new Vector2(24, 8);
     public static final String SLICK_SPRITE_1 = "slick-1";
