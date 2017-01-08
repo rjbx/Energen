@@ -113,9 +113,9 @@ public final class Constants {
     // Lift
     public static final Vector2 LIFT_CENTER = new Vector2(18, 4);
     public static final String LIFT_SPRITE = "lift";
-    public static final float LIFT_RANGE = 40;
-    public static final float LIFT_SPEED = 35;
-    
+    public static final float LIFT_RANGE = 80;
+    public static final float LIFT_SPEED = 40;
+
     // Ladder
     public static final Vector2 LADDER_CENTER = new Vector2(8.5f, 25);
     public static final String LADDER_SPRITE = "ladder";
@@ -124,11 +124,11 @@ public final class Constants {
     // Vines
     public static final Vector2 VINES_CENTER = new Vector2(12.5f, 20);
     public static final String VINES_SPRITE = "vines";
-    
-    // Rope    
+
+    // Rope
     public static final Vector2 ROPE_CENTER = new Vector2(3, 50);
     public static final String ROPE_SPRITE = "rope";
-    
+
     // Pole
     public static final Vector2 POLE_CENTER = new Vector2(2.5f, 24);
     public static final String POLE_SPRITE_1 = "pole-1";
@@ -146,7 +146,7 @@ public final class Constants {
     public static final String ICE_SPRITE_1 = "ice-1";
     public static final String ICE_SPRITE_2 = "ice-2";
     public static final float ICE_DURATION = 1;
-    
+
     // Treadmill
     public static final Vector2 TREADMILL_CENTER = new Vector2(19, 9);
     public static final String TREADMILL_1_RIGHT = "treadmill-1-right";
@@ -207,7 +207,7 @@ public final class Constants {
     // Charged-Zoomba
     public static final String CHARGEDZOOMBA_SPRITE_1 = "zoomba-electric-1";
     public static final String CHARGEDZOOMBA_SPRITE_2 = "zoomba-electric-2";
-    
+
     // Whirling-Zoomba
     public static final String WHIRLINGZOOMBA_SPRITE_1 = "zoomba-rubber-1";
     public static final String WHIRLINGZOOMBA_SPRITE_2 = "zoomba-rubber-2";
@@ -276,7 +276,7 @@ public final class Constants {
     public static final float GEISER_COLLISION_HEIGHT = 25;
     public static final String GEISER_SPRITE_1 = "geiser-1";
     public static final String GEISER_SPRITE_2 = "geiser-2";
-    
+
     // Wheel
     public static final Vector2 WHEEL_CENTER = new Vector2(12.5f, 12.5f);
     public static final float WHEEL_DURATION = 0.1f;
@@ -286,7 +286,7 @@ public final class Constants {
     public static final float WHEEL_COLLISION_HEIGHT = 25;
     public static final String WHEEL_SPRITE_1 = "wheel-1";
     public static final String WHEEL_SPRITE_2 = "wheel-2";
-    
+
     // Coil
     public static final Vector2 COIL_CENTER = new Vector2(12.5f, 12.5f);
     public static final float COIL_DURATION = 0.5f;
