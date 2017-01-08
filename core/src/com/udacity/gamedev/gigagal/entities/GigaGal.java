@@ -448,7 +448,11 @@ public class GigaGal implements Physical {
                 }
             }
         } else if (directionChanged) {
-            recoil(new Vector2(velocity.x / 2, velocity.y));
+            if (aerialState != AerialState.HOVERING) {
+                recoil(new Vector2(velocity.x / 2, velocity.y));
+            } else {
+                velocity.x = 0;
+            }
         }
     }
 
@@ -896,6 +900,9 @@ public class GigaGal implements Physical {
             canHover = false;
             fall(); // when max hover time is exceeded
             pauseDuration = 0;
+        }
+        if (canChangeDirection) {
+            handleLateralInputs();
         }
     }
 
