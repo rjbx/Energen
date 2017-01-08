@@ -22,13 +22,7 @@ public class WhirlingZoomba extends Zoomba {
         Utils.drawTextureRegion(batch, region, super.getPosition(), Constants.ZOOMBA_CENTER);
     }
 
-    @Override
-    public Vector2 getMountKnockback() { return Constants.WHEEL_KNOCKBACK; }
-
-
-    @Override
-    public int getMountDamage() {return Constants.WHEEL_DAMAGE; }
-
-    @Override
-    public Enums.WeaponType getType() { return Enums.WeaponType.RUBBER; }
+    @Override public Vector2 getMountKnockback() { return Constants.WHEEL_KNOCKBACK; }
+    @Override public int getMountDamage() {return Constants.WHEEL_DAMAGE; }
+    @Override public Enums.WeaponType getType() { return Enums.WeaponType.RUBBER; }
 }

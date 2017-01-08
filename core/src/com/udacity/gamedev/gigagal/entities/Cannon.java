@@ -37,19 +37,19 @@ public class Cannon implements Ground {
         }
     }
 
+    @Override
     public void render(SpriteBatch batch) {
         Utils.drawTextureRegion(batch, region, position, center);
     }
 
-    public final Vector2 getPosition() { return position; }
-    public final float getWidth() { return center.x * 2; }
-    public final float getHeight() { return center.y * 2; }
-    public final float getLeft() { return position.x - center.x; }
-    public final float getRight() { return position.x + center.x; }
-    public final float getTop() { return position.y + center.y; }
-    public final float getBottom() { return position.y - center.y; }
+    @Override public final Vector2 getPosition() { return position; }
+    @Override public final float getWidth() { return center.x * 2; }
+    @Override public final float getHeight() { return center.y * 2; }
+    @Override public final float getLeft() { return position.x - center.x; }
+    @Override public final float getRight() { return position.x + center.x; }
+    @Override public final float getTop() { return position.y + center.y; }
+    @Override public final float getBottom() { return position.y - center.y; }
     public final Enums.Orientation getOrientation() { return orientation; }
-    public final Class getSubclass() { return this.getClass(); }
     public final float getOffset() { return offset; }
     public final void setOffset(float offset) { this.offset = offset; }
     public final long getStartTime() { return startTime; }

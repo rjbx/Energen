@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // immutable
-public final class Ammo extends Indestructible {
+public final class Ammo implements IndestructibleHazard {
 
     // fields
     public final static String TAG = Ammo.class.getName();
@@ -133,7 +133,7 @@ public final class Ammo extends Indestructible {
                 knockback = Constants.ZOOMBA_KNOCKBACK;
         }
 
-        for (Destructible destructible : level.getDestructibles()) {
+        for (DestructibleHazard destructible : level.getDestructibles()) {
             if (position.dst(destructible.getPosition()) < destructible.getShotRadius()) {
                 level.spawnExplosion(position);
                 active = false;
@@ -204,6 +204,7 @@ public final class Ammo extends Indestructible {
         }
     }
 
+    @Override
     public void render(SpriteBatch batch) {
         Vector2 ammoCenter = new Vector2();
         float scale = 1;
@@ -222,14 +223,13 @@ public final class Ammo extends Indestructible {
     }
 
     public final boolean isActive() { return active; }
-    public final Vector2 getPosition() { return position; }
-    public final float getWidth() { return Constants.SHOT_CENTER.x * 2; }
-    public final float getHeight() { return Constants.SHOT_CENTER.y * 2; }
-    public final float getLeft() { return position.x - Constants.SHOT_CENTER.x; }
-    public final float getRight() { return position.x + Constants.SHOT_CENTER.x; }
-    public final float getTop() { return position.y + Constants.SHOT_CENTER.y; }
-    public final float getBottom() { return position.y - Constants.SHOT_CENTER.y; }
-    public final Class getSubclass() { return this.getClass(); }
+    @Override public final Vector2 getPosition() { return position; }
+    @Override public final float getWidth() { return Constants.SHOT_CENTER.x * 2; }
+    @Override public final float getHeight() { return Constants.SHOT_CENTER.y * 2; }
+    @Override public final float getLeft() { return position.x - Constants.SHOT_CENTER.x; }
+    @Override public final float getRight() { return position.x + Constants.SHOT_CENTER.x; }
+    @Override public final float getTop() { return position.y + Constants.SHOT_CENTER.y; }
+    @Override public final float getBottom() { return position.y - Constants.SHOT_CENTER.y; }
     public final int getDamage() { return damage; }
     public final Vector2 getKnockback() { return knockback; }
     public final AmmoIntensity getAmmoIntensity() { return ammoIntensity; }

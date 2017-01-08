@@ -23,13 +23,7 @@ public class WhirlingSwoopa extends Swoopa {
         Utils.drawTextureRegion(batch, region, super.getPosition(), Constants.SWOOPA_CENTER);
     }
 
-    @Override
-    public Vector2 getMountKnockback() { return Constants.WHEEL_KNOCKBACK; }
-
-
-    @Override
-    public int getMountDamage() {return Constants.WHEEL_DAMAGE; }
-
-    @Override
-    public Enums.WeaponType getType() { return Enums.WeaponType.RUBBER; }
+    @Override public Vector2 getMountKnockback() { return Constants.WHEEL_KNOCKBACK; }
+    @Override public int getMountDamage() {return Constants.WHEEL_DAMAGE; }
+    @Override public Enums.WeaponType getType() { return Enums.WeaponType.RUBBER; }
 }

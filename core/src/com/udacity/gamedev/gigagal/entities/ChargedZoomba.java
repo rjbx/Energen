@@ -22,13 +22,7 @@ public class ChargedZoomba extends Zoomba {
         Utils.drawTextureRegion(batch, region, super.getPosition(), Constants.ZOOMBA_CENTER);
     }
 
-    @Override
-    public Vector2 getMountKnockback() { return Constants.COIL_KNOCKBACK; }
-
-
-    @Override
-    public int getMountDamage() {return Constants.COIL_DAMAGE; }
-
-    @Override
-    public Enums.WeaponType getType() { return Enums.WeaponType.ELECTRIC; }
+    @Override public Vector2 getMountKnockback() { return Constants.COIL_KNOCKBACK; }
+    @Override public int getMountDamage() {return Constants.COIL_DAMAGE; }
+    @Override public Enums.WeaponType getType() { return Enums.WeaponType.ELECTRIC; }
 }

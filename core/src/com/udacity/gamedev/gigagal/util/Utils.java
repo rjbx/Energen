@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.udacity.gamedev.gigagal.entities.Destructible;
+import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
-import com.udacity.gamedev.gigagal.entities.Physical;
+import com.udacity.gamedev.gigagal.entities.Entity;
 
 import org.apache.commons.lang3.time.StopWatch;
 
@@ -101,7 +101,7 @@ public class Utils {
         return (facing == Enums.Direction.RIGHT && delta < 0) || (facing == Enums.Direction.LEFT && delta > 0);
     }
 
-    public static final boolean contactingSides(Physical entity, float delta) {
+    public static final boolean contactingSides(Entity entity, float delta) {
         float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
         return ((delta - frontHalf) <= entity.getRight() && (delta + frontHalf) >= entity.getLeft());
     }
@@ -111,7 +111,7 @@ public class Utils {
         return (((delta - frontHalf) <= rightSide) && ((delta + frontHalf) >= leftSide));
     }
 
-    public static final boolean betweenSides(Physical entity, float delta) {
+    public static final boolean betweenSides(Entity entity, float delta) {
         float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
         return ((delta + frontHalf) <= entity.getRight() && (delta - frontHalf) >= entity.getLeft())
                 || (Math.abs(delta - entity.getPosition().x) < 5);
@@ -132,7 +132,7 @@ public class Utils {
         return 0;
     }
 
-    public static final void applyDamage(Destructible destructible, Enums.AmmoIntensity ammoIntensity, int damage) {
+    public static final void applyDamage(DestructibleHazard destructible, Enums.AmmoIntensity ammoIntensity, int damage) {
         if (ammoIntensity == Enums.AmmoIntensity.BLAST) {
             destructible.setHealth(destructible.getHealth() - damage);
         } else {

@@ -32,6 +32,7 @@ public class Platform implements Ground {
         this.right = left + width;
     }
 
+    @Override
     public void render(SpriteBatch batch) {
         final float width = right - left;
         final float height = top - bottom;
@@ -39,12 +40,12 @@ public class Platform implements Ground {
     }
 
     // Getters
-    public float getTop() { return top; }
-    public float getBottom() {return bottom; }
-    public float getLeft() { return left; }
-    public float getRight() { return right; }
-    public Vector2 getPosition() { return new Vector2(left + (getWidth() / 2), bottom + (getHeight() / 2)); }
-    public float getWidth() { return right - left;}
-    public float getHeight() {return top - bottom; }
+    @Override public float getTop() { return top; }
+    public @Override float getBottom() {return bottom; }
+    public @Override float getLeft() { return left; }
+    public @Override float getRight() { return right; }
+    public @Override Vector2 getPosition() { return new Vector2(left + (getWidth() / 2), bottom + (getHeight() / 2)); }
+    public @Override float getWidth() { return right - left;}
+    public @Override float getHeight() {return top - bottom; }
     public static final String getIdentifier() { return identifier; }
 }

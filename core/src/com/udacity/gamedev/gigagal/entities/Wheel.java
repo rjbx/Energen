@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class Wheel extends Indestructible {
+public class Wheel implements IndestructibleHazard {
 
     // fields
     private Vector2 position;
@@ -20,20 +20,20 @@ public class Wheel extends Indestructible {
         this.startTime = TimeUtils.nanoTime();
     }
 
+    @Override
     public void render(SpriteBatch batch) {
         final float elapsedTime = Utils.secondsSince(startTime);
         final TextureRegion region = Assets.getInstance().getWheelAssets().wheel.getKeyFrame(elapsedTime, true);
         Utils.drawTextureRegion(batch, region, position, Constants.WHEEL_CENTER);
     }
 
-    public final Vector2 getPosition() { return position; }
-    public final float getWidth() { return Constants.WHEEL_COLLISION_WIDTH; }
-    public final float getHeight() { return Constants.WHEEL_COLLISION_HEIGHT; }
-    public final float getLeft() { return position.x - Constants.WHEEL_CENTER.x; }
-    public final float getRight() { return position.x + Constants.WHEEL_CENTER.x; }
-    public final float getTop() { return position.y + Constants.WHEEL_CENTER.y; }
-    public final float getBottom() { return position.y - Constants.WHEEL_CENTER.y; }
-    public final int getDamage() { return Constants.WHEEL_DAMAGE; }
-    public final Vector2 getKnockback() { return Constants.WHEEL_KNOCKBACK; }
-    public final Class getSubclass() { return this.getClass(); }
+    @Override public final Vector2 getPosition() { return position; }
+    @Override public final float getWidth() { return Constants.WHEEL_COLLISION_WIDTH; }
+    @Override public final float getHeight() { return Constants.WHEEL_COLLISION_HEIGHT; }
+    @Override public final float getLeft() { return position.x - Constants.WHEEL_CENTER.x; }
+    @Override public final float getRight() { return position.x + Constants.WHEEL_CENTER.x; }
+    @Override public final float getTop() { return position.y + Constants.WHEEL_CENTER.y; }
+    @Override public final float getBottom() { return position.y - Constants.WHEEL_CENTER.y; }
+    @Override public final int getDamage() { return Constants.WHEEL_DAMAGE; }
+    @Override public final Vector2 getKnockback() { return Constants.WHEEL_KNOCKBACK; }
 }

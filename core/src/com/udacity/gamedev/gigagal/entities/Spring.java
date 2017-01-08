@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class Spring implements Ground {
+public class Spring implements BounceableGround {
 
     // fields
     private Vector2 position;
@@ -22,12 +22,11 @@ public class Spring implements Ground {
         loaded = false;
     }
 
+    @Override
     public void render(SpriteBatch batch) {
-        
         final float elapsedTime = Utils.secondsSince(startTime);
         final TextureRegion retractedSpring = Assets.getInstance().getSpringAssets().load.getKeyFrame(elapsedTime, false);
         final TextureRegion propelledSpring = Assets.getInstance().getSpringAssets().unload.getKeyFrame(elapsedTime, false);
-
         if (loaded == true) {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
@@ -41,15 +40,14 @@ public class Spring implements Ground {
         }
     }
 
-    public final Vector2 getPosition() { return position; }
-    public final float getHeight() { return Constants.SPRING_CENTER.x * 2; }
-    public final float getWidth() { return Constants.SPRING_CENTER.y * 2; }
-    public final float getLeft() { return position.x - Constants.SPRING_CENTER.x; }
-    public final float getRight() { return position.x + Constants.SPRING_CENTER.x; }
-    public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
-    public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
-    public final long getStartTime() { return startTime; }
-    public final Class getSubclass() { return this.getClass(); }
-    public final void setLoaded(boolean state) { this.loaded = state; }
-    public final void resetStartTime() { this.startTime = 0; }
+    @Override public final Vector2 getPosition() { return position; }
+    @Override public final float getHeight() { return Constants.SPRING_CENTER.x * 2; }
+    @Override public final float getWidth() { return Constants.SPRING_CENTER.y * 2; }
+    @Override public final float getLeft() { return position.x - Constants.SPRING_CENTER.x; }
+    @Override public final float getRight() { return position.x + Constants.SPRING_CENTER.x; }
+    @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
+    @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
+    @Override public final long getStartTime() { return startTime; }
+    @Override public final void setLoaded(boolean state) { this.loaded = state; }
+    @Override public final void resetStartTime() { this.startTime = 0; }
 }

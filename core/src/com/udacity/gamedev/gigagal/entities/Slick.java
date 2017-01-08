@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class Slick implements Ground, Skateable {
+public class Slick implements SkateableGround {
     
     // fields
     private Vector2 position;
@@ -20,18 +20,18 @@ public class Slick implements Ground, Skateable {
         this.startTime = TimeUtils.nanoTime();
     }
 
+    @Override
     public void render(SpriteBatch batch) {
         final float elapsedTime = Utils.secondsSince(startTime);
         final TextureRegion region = Assets.getInstance().getSlickAssets().slick.getKeyFrame(elapsedTime, true);
         Utils.drawTextureRegion(batch, region, position, Constants.SLICK_CENTER);
     }
 
-    public final Vector2 getPosition() { return position; }
-    public final float getHeight() { return Constants.SLICK_CENTER.x * 2; }
-    public final float getWidth() { return Constants.SLICK_CENTER.y * 2; }
-    public final float getLeft() { return position.x - Constants.SLICK_CENTER.x; }
-    public final float getRight() { return position.x + Constants.SLICK_CENTER.x; }
-    public final float getTop() { return position.y + Constants.SLICK_CENTER.y; }
-    public final float getBottom() { return position.y - Constants.SLICK_CENTER.y; }
-    public final Class getSubclass() { return this.getClass(); }
+    @Override public final Vector2 getPosition() { return position; }
+    @Override public final float getHeight() { return Constants.SLICK_CENTER.x * 2; }
+    @Override public final float getWidth() { return Constants.SLICK_CENTER.y * 2; }
+    @Override public final float getLeft() { return position.x - Constants.SLICK_CENTER.x; }
+    @Override public final float getRight() { return position.x + Constants.SLICK_CENTER.x; }
+    @Override public final float getTop() { return position.y + Constants.SLICK_CENTER.y; }
+    @Override public final float getBottom() { return position.y - Constants.SLICK_CENTER.y; }
 }

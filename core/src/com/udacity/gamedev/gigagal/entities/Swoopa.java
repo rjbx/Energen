@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // mutable
-public class Swoopa extends Destructible {
+public class Swoopa implements DestructibleHazard {
 
     // fields
     private final long startTime;
@@ -64,28 +64,28 @@ public class Swoopa extends Destructible {
         }
     }
 
+    @Override
     public void render(SpriteBatch batch) {
         final TextureRegion region = Assets.getInstance().getSwoopaAssets().swoopa;
         Utils.drawTextureRegion(batch, region, position, Constants.SWOOPA_CENTER);
     }
 
-    public final long getStartTime() { return startTime; }
-    public Vector2 getPosition() { return position; }
-    public final int getHealth() { return health; }
-    public final float getWidth() { return Constants.SWOOPA_COLLISION_WIDTH; }
-    public final float getHeight() { return Constants.SWOOPA_COLLISION_HEIGHT; }
-    public final float getLeft() { return position.x - Constants.SWOOPA_CENTER.x; }
-    public final float getRight() { return position.x + Constants.SWOOPA_CENTER.x; }
-    public final float getTop() { return position.y + Constants.SWOOPA_CENTER.y; }
-    public final float getBottom() { return position.y - Constants.SWOOPA_CENTER.y; }
-    public final float getShotRadius() { return Constants.SWOOPA_SHOT_RADIUS; }
-    public final int getHitScore() { return Constants.SWOOPA_HIT_SCORE; }
-    public final int getKillScore() { return Constants.SWOOPA_KILL_SCORE; }
-    public final int getDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
+    @Override public Vector2 getPosition() { return position; }
+    @Override public final int getHealth() { return health; }
+    @Override public final float getWidth() { return Constants.SWOOPA_COLLISION_WIDTH; }
+    @Override public final float getHeight() { return Constants.SWOOPA_COLLISION_HEIGHT; }
+    @Override public final float getLeft() { return position.x - Constants.SWOOPA_CENTER.x; }
+    @Override public final float getRight() { return position.x + Constants.SWOOPA_CENTER.x; }
+    @Override public final float getTop() { return position.y + Constants.SWOOPA_CENTER.y; }
+    @Override public final float getBottom() { return position.y - Constants.SWOOPA_CENTER.y; }
+    @Override public final float getShotRadius() { return Constants.SWOOPA_SHOT_RADIUS; }
+    @Override public final int getHitScore() { return Constants.SWOOPA_HIT_SCORE; }
+    @Override public final int getKillScore() { return Constants.SWOOPA_KILL_SCORE; }
+    @Override public final int getDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
+    @Override public final Vector2 getKnockback() { return Constants.SWOOPA_KNOCKBACK; }
+    @Override public final void setHealth( int health ) { this.health = health; }
+    @Override public Enums.WeaponType getType() { return null; }
     public int getMountDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
-    public final Vector2 getKnockback() { return Constants.SWOOPA_KNOCKBACK; }
     public Vector2 getMountKnockback() { return Constants.SWOOPA_KNOCKBACK; }
-    public final Class getSubclass() { return this.getClass(); }
-    public final void setHealth( int health ) { this.health = health; }
-    public Enums.WeaponType getType() { return null; }
+    public final long getStartTime() { return startTime; }
 }

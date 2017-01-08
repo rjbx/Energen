@@ -11,11 +11,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Ammo;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Cannon;
-import com.udacity.gamedev.gigagal.entities.Destructible;
+import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.Ground;
 import com.udacity.gamedev.gigagal.entities.Hazard;
-import com.udacity.gamedev.gigagal.entities.Indestructible;
-import com.udacity.gamedev.gigagal.entities.Moving;
+import com.udacity.gamedev.gigagal.entities.IndestructibleHazard;
+import com.udacity.gamedev.gigagal.entities.HoveringGround;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.Explosion;
@@ -46,8 +46,8 @@ public class Level {
     private GigaGal gigaGal;
     private Portal portal;
     private Array<Platform> platforms;
-    private Array<Indestructible> indestructibles;
-    private DelayedRemovalArray<Destructible> destructibles;
+    private Array<IndestructibleHazard> indestructibles;
+    private DelayedRemovalArray<DestructibleHazard> destructibles;
     private Array<Hazard> hazards;
     private Array<Ground> grounds;
     private DelayedRemovalArray<Ammo> ammoList;
@@ -64,8 +64,8 @@ public class Level {
         levelTime.start();
         platforms = new Array<Platform>();
         grounds = new Array<Ground>();
-        destructibles = new DelayedRemovalArray<Destructible>();
-        indestructibles = new DelayedRemovalArray<Indestructible>();
+        destructibles = new DelayedRemovalArray<DestructibleHazard>();
+        indestructibles = new DelayedRemovalArray<IndestructibleHazard>();
         hazards = new Array<Hazard>(indestructibles);
         ammoList = new DelayedRemovalArray<Ammo>();
         explosions = new DelayedRemovalArray<Explosion>();
@@ -103,8 +103,8 @@ public class Level {
             }
 
             for (Ground ground : grounds) {
-                if (ground instanceof Moving) {
-                    Moving m = (Moving) ground;
+                if (ground instanceof HoveringGround) {
+                    HoveringGround m = (HoveringGround) ground;
                     m.update(delta);
                 }
                 if (ground instanceof Cannon) {
@@ -151,7 +151,7 @@ public class Level {
             // Update Enemies
             destructibles.begin();
             for (int i = 0; i < destructibles.size; i++) {
-                Destructible destructible = destructibles.get(i);
+                DestructibleHazard destructible = destructibles.get(i);
                 destructible.update(delta);
                 if (destructible.getHealth() < 1) {
                     spawnExplosion(destructible.getPosition());
@@ -190,11 +190,11 @@ public class Level {
             powerup.render(batch);
         }
 
-        for (Indestructible indestructible : indestructibles) {
+        for (IndestructibleHazard indestructible : indestructibles) {
             indestructible.render(batch);
         }
 
-        for (Destructible destructible : destructibles) {
+        for (DestructibleHazard destructible : destructibles) {
             destructible.render(batch);
         }
         gigaGal.render(batch);
@@ -218,7 +218,7 @@ public class Level {
 
         platforms = new Array<Platform>();
         ammoList = new DelayedRemovalArray<Ammo>();
-        destructibles = new DelayedRemovalArray<Destructible>();
+        destructibles = new DelayedRemovalArray<DestructibleHazard>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
 
@@ -255,8 +255,8 @@ public class Level {
 
     // Getters
     public final Array<Platform> getPlatforms() { return platforms; }
-    public final Array<Indestructible> getIndestructibles() { return indestructibles; }
-    public final DelayedRemovalArray<Destructible> getDestructibles() { return destructibles; }
+    public final Array<IndestructibleHazard> getIndestructibles() { return indestructibles; }
+    public final DelayedRemovalArray<DestructibleHazard> getDestructibles() { return destructibles; }
     public final Array<Hazard> getHazards() { hazards = new Array<Hazard>(destructibles); hazards.addAll(indestructibles); hazards.addAll(ammoList); return hazards; }
     public final Array<Ground> getGrounds() { return grounds; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }

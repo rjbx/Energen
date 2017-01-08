@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class Treadmill implements Ground {
+public class Treadmill implements RideableGround {
 
     // fields
     private Vector2 position;
@@ -23,6 +23,7 @@ public class Treadmill implements Ground {
         this.startTime = TimeUtils.nanoTime();
     }
 
+    @Override
     public void render(SpriteBatch batch) {
         final float elapsedTime = Utils.secondsSince(startTime);
         TextureRegion region;
@@ -35,13 +36,12 @@ public class Treadmill implements Ground {
         Utils.drawTextureRegion(batch, region, position, Constants.TREADMILL_CENTER);
     }
 
-    public final Vector2 getPosition() { return position; }
+    @Override public final Vector2 getPosition() { return position; }
+    @Override public final float getHeight() { return Constants.TREADMILL_CENTER.x * 2; }
+    @Override public final float getWidth() { return Constants.TREADMILL_CENTER.y * 2; }
+    @Override public final float getLeft() { return position.x - Constants.TREADMILL_CENTER.x; }
+    @Override public final float getRight() { return position.x + Constants.TREADMILL_CENTER.x; }
+    @Override public final float getTop() { return position.y + Constants.TREADMILL_CENTER.y; }
+    @Override public final float getBottom() { return position.y - Constants.TREADMILL_CENTER.y; }
     public final Enums.Direction getDirection() { return direction; }
-    public final float getHeight() { return Constants.TREADMILL_CENTER.x * 2; }
-    public final float getWidth() { return Constants.TREADMILL_CENTER.y * 2; }
-    public final float getLeft() { return position.x - Constants.TREADMILL_CENTER.x; }
-    public final float getRight() { return position.x + Constants.TREADMILL_CENTER.x; }
-    public final float getTop() { return position.y + Constants.TREADMILL_CENTER.y; }
-    public final float getBottom() { return position.y - Constants.TREADMILL_CENTER.y; }
-    public final Class getSubclass() { return this.getClass(); }
 }

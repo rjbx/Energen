@@ -4,16 +4,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 
-public class Ladder implements Ground, Climbable {
+public class Ladder implements ClimbableGround {
 
     // fields
     private final float top;
     private final float bottom;
     private final float left;
     private final float right;
-
-    // This is used by the level loading code to link enemies and ladders.
-    private static String identifier;
 
     // default ctor
     public Ladder() {
@@ -31,6 +28,7 @@ public class Ladder implements Ground, Climbable {
         this.right = left + width;
     }
 
+    @Override
     public void render(SpriteBatch batch) {
         final float width = right - left;
         final float height = top - bottom;
@@ -38,12 +36,11 @@ public class Ladder implements Ground, Climbable {
     }
 
     // Getters
-    public float getTop() { return top; }
-    public float getBottom() {return bottom; }
-    public float getLeft() { return left; }
-    public float getRight() { return right; }
-    public Vector2 getPosition() { return new Vector2(left + (getWidth() / 2), bottom + (getHeight() / 2)); }
-    public float getWidth() { return right - left;}
-    public float getHeight() {return top - bottom; }
-    public static final String getIdentifier() { return identifier; }
+    @Override public float getTop() { return top; }
+    @Override public float getBottom() {return bottom; }
+    @Override public float getLeft() { return left; }
+    @Override public float getRight() { return right; }
+    @Override public Vector2 getPosition() { return new Vector2(left + (getWidth() / 2), bottom + (getHeight() / 2)); }
+    @Override public float getWidth() { return right - left;}
+    @Override public float getHeight() { return top - bottom; }
 }

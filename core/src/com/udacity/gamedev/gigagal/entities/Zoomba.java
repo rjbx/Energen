@@ -12,7 +12,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // mutable
-public class Zoomba extends Destructible {
+public class Zoomba implements DestructibleHazard {
 
     // fields
     private final long startTime;
@@ -54,29 +54,29 @@ public class Zoomba extends Destructible {
         position.y = platform.getTop() + Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier;
     }
 
+    @Override
     public void render(SpriteBatch batch) {
         final TextureRegion region = Assets.getInstance().getZoombaAssets().zoomba;
         Utils.drawTextureRegion(batch, region, position, Constants.ZOOMBA_CENTER);
     }
 
+    @Override public  final Vector2 getPosition() { return position; }
+    @Override public  final int getHealth() { return health; }
+    @Override public  final float getWidth() { return Constants.ZOOMBA_COLLISION_WIDTH; }
+    @Override public  final float getHeight() { return Constants.ZOOMBA_COLLISION_HEIGHT; }
+    @Override public  final float getLeft() { return position.x - Constants.ZOOMBA_CENTER.x; }
+    @Override public  final float getRight() { return position.x + Constants.ZOOMBA_CENTER.x; }
+    @Override public  final float getTop() { return position.y + Constants.ZOOMBA_CENTER.y; }
+    @Override public  final float getBottom() { return position.y - Constants.ZOOMBA_CENTER.y; }
+    @Override public final float getShotRadius() { return Constants.ZOOMBA_SHOT_RADIUS; }
+    @Override public final int getHitScore() { return Constants.ZOOMBA_HIT_SCORE; }
+    @Override  public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
+    @Override public final int getDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
+    @Override public Enums.WeaponType getType() { return null; }
+    @Override public final void setHealth( int health ) { this.health = health; }
+    @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
+    public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
+    public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public final Direction getDirection() { return direction; }
     public final long getStartTime() { return startTime; }
-    public final Vector2 getPosition() { return position; }
-    public final int getHealth() { return health; }
-    public final float getWidth() { return Constants.ZOOMBA_COLLISION_WIDTH; }
-    public final float getHeight() { return Constants.ZOOMBA_COLLISION_HEIGHT; }
-    public final float getLeft() { return position.x - Constants.ZOOMBA_CENTER.x; }
-    public final float getRight() { return position.x + Constants.ZOOMBA_CENTER.x; }
-    public final float getTop() { return position.y + Constants.ZOOMBA_CENTER.y; }
-    public final float getBottom() { return position.y - Constants.ZOOMBA_CENTER.y; }
-    public final float getShotRadius() { return Constants.ZOOMBA_SHOT_RADIUS; }
-    public final int getHitScore() { return Constants.ZOOMBA_HIT_SCORE; }
-    public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
-    public final int getDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
-    public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
-    public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
-    public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
-    public final Class getSubclass() { return this.getClass(); }
-    public final void setHealth( int health ) { this.health = health; }
-    public Enums.WeaponType getType() { return null; }
 }

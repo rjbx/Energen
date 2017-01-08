@@ -23,13 +23,7 @@ public class GushingSwoopa extends Swoopa {
         Utils.drawTextureRegion(batch, region, super.getPosition(), Constants.SWOOPA_CENTER);
     }
 
-    @Override
-    public Vector2 getMountKnockback() { return Constants.GEISER_KNOCKBACK; }
-
-
-    @Override
-    public int getMountDamage() {return Constants.GEISER_DAMAGE; }
-
-    @Override
-    public Enums.WeaponType getType() { return Enums.WeaponType.WATER; }
+    @Override public Vector2 getMountKnockback() { return Constants.GEISER_KNOCKBACK; }
+    @Override public int getMountDamage() {return Constants.GEISER_DAMAGE; }
+    @Override public Enums.WeaponType getType() { return Enums.WeaponType.WATER; }
 }
