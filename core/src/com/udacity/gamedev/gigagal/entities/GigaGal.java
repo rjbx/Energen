@@ -450,8 +450,8 @@ public class GigaGal implements Physical {
         } else if (directionChanged) {
             if (aerialState != AerialState.HOVERING) {
                 recoil(new Vector2(velocity.x / 2, velocity.y));
-            } else {
-                velocity.x = 0;
+            } else if (Math.abs(velocity.x) > 1){
+                velocity.x /= 4;
             }
         }
     }
@@ -740,7 +740,7 @@ public class GigaGal implements Physical {
                 if (climbDirection != null
                         || (canClimb && lookDirection == null && climbStartTime != 0)
                         || (Utils.movingOppositeDirectionFacing(velocity.x, facing))) {
-                    canHover = false;
+                 //   canHover = false;
                 } else if (hoverStartTime == 0 && !onCoals && !onSink) {
                     canHover = true;
                 }
