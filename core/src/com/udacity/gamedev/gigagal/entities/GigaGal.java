@@ -450,7 +450,7 @@ public class GigaGal implements Physical {
         } else if (directionChanged) {
             if (aerialState != AerialState.HOVERING) {
                 recoil(new Vector2(velocity.x / 2, velocity.y));
-            } else if (Math.abs(velocity.x) > 1){
+            } else {
                 velocity.x /= 4;
             }
         }
