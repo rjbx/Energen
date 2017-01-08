@@ -57,7 +57,6 @@ public final class Assets implements Disposable, AssetErrorListener {
     private PortalAssets portalAssets;
     private OnscreenControlsAssets onscreenControlsAssets;
     private HudAssets hudAssets;
-
     private AssetManager assetManager;
 
     // non-instantiable; cannot be subclassed

@@ -399,6 +399,8 @@ public final class Constants {
     public static final String LEVEL_CHARGEDSWOOPA_TAG = "ChargedSwoopa";
     public static final String LEVEL_WHIRLINGSWOOPA_TAG = "WhirlingSwoopa";
     public static final String LEVEL_SHARPSWOOPA_TAG = "SharpSwoopa";
+    public static final String LEVEL_VERTICAL_LIFT_TAG = "VerticalLift";
+    public static final String LEVEL_LATERAL_LIFT_TAG = "LateralLift";
     public static final String[] LEVELS =  {"levels/METAL.dt", "levels/RUBBER.dt", "levels/ELECTRIC.dt", "levels/WATER.dt", "levels/FIRE.dt", "levels/PSYCHIC.dt", "levels/FINAL.dt"};
 
     // HUD

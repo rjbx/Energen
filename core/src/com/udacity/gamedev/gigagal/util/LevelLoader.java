@@ -97,6 +97,7 @@ public final class LevelLoader {
         for (Object o : nonGrounds) {
             final JSONObject item = (JSONObject) o;
             final Vector2 imagePosition = extractXY(item);
+            String identifier = (String) item.get(Constants.LEVEL_IDENTIFIER_KEY);
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.AMMO_POWERUP_SPRITE)) {
                 final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
@@ -157,7 +158,7 @@ public final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LIFT_SPRITE)) {
                 final Vector2 liftPosition = imagePosition.add(Constants.LIFT_CENTER);
                 Gdx.app.log(TAG, "Loaded the lift at " + liftPosition);
-                level.getGrounds().add(new Lift(liftPosition));
+                level.getGrounds().add(new Lift(liftPosition, Enums.Orientation.valueOf(identifier)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ROPE_SPRITE)) {
                 final Vector2 ropePosition = imagePosition.add(Constants.ROPE_CENTER);
                 Gdx.app.log(TAG, "Loaded the rope at " + ropePosition);
