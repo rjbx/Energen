@@ -41,11 +41,11 @@ public class Platform implements Ground {
 
     // Getters
     @Override public float getTop() { return top; }
-    public @Override float getBottom() {return bottom; }
-    public @Override float getLeft() { return left; }
-    public @Override float getRight() { return right; }
-    public @Override Vector2 getPosition() { return new Vector2(left + (getWidth() / 2), bottom + (getHeight() / 2)); }
-    public @Override float getWidth() { return right - left;}
-    public @Override float getHeight() {return top - bottom; }
+    @Override public float getBottom() {return bottom; }
+    @Override public float getLeft() { return left; }
+    @Override public float getRight() { return right; }
+    @Override public Vector2 getPosition() { return new Vector2(left + (getWidth() / 2), bottom + (getHeight() / 2)); }
+    @Override public float getWidth() { return right - left;}
+    @Override public float getHeight() {return top - bottom; }
     public static final String getIdentifier() { return identifier; }
 }
