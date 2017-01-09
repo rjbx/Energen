@@ -339,15 +339,18 @@ public class GigaGal implements Humanoid {
                                     if (groundState == GroundState.AIRBORNE) {
                                         stand(); // set groundstate to standing
                                     }
-                                    // if groundstate is airborne, set to standing
                                     if (climbStartTime == 0) {
                                         velocity.y = 0; // prevents from descending beneath ground top
                                         position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
-                                        if (canClimb && !inputControls.jumpButtonPressed && groundState == GroundState.STANDING) {
-                                            lookDirection = null;
-                                            canJump = true;
-                                            jump();
-                                        }
+                                    }
+                                }
+                                if (climbStartTime == 0) {
+                                    if (canClimb && !inputControls.jumpButtonPressed && groundState == GroundState.STANDING) {
+                                        lookDirection = null;
+                                        canJump = true;
+                                        jump();
+                                        canHover = true;
+                                        canClimb = false;
                                     }
                                 }
                             }
@@ -943,10 +946,10 @@ public class GigaGal implements Humanoid {
     private void enableClimb() {
         if (onClimbable) {
             if (inputControls.jumpButtonPressed) {
-                canHover = false;
                 canClimb = true;
                 if ((inputControls.upButtonPressed && !(groundState == GroundState.STANDING && climbStartTime == 0))|| inputControls.downButtonPressed) {
                     velocity.x = 0;
+                    canHover = false;
                     if (lookDirection == null) {
                         climb();
                     }
