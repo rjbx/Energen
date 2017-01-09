@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class Lift implements HoveringGround {
+public class Lift implements HoverableGround {
 
     // fields
     private Vector2 position;
@@ -102,6 +102,7 @@ public class Lift implements HoveringGround {
     }
 
     @Override public final Vector2 getPosition() { return position; }
+    @Override public final Vector2 getVelocity() { return velocity; }
     @Override public final float getHeight() { return Constants.LIFT_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.LIFT_CENTER.x * 2; }
     @Override public final float getLeft() { return position.x - Constants.LIFT_CENTER.x; }
@@ -109,4 +110,5 @@ public class Lift implements HoveringGround {
     @Override public final float getTop() { return position.y + Constants.LIFT_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.LIFT_CENTER.y; }
     @Override public Enums.Direction getDirection() { return direction; }
+    @Override public Enums.Orientation getOrientation() { return orientation; }
 }

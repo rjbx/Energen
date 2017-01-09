@@ -15,7 +15,7 @@ import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.Ground;
 import com.udacity.gamedev.gigagal.entities.Hazard;
 import com.udacity.gamedev.gigagal.entities.IndestructibleHazard;
-import com.udacity.gamedev.gigagal.entities.HoveringGround;
+import com.udacity.gamedev.gigagal.entities.HoverableGround;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.Explosion;
@@ -103,8 +103,8 @@ public class Level {
             }
 
             for (Ground ground : grounds) {
-                if (ground instanceof HoveringGround) {
-                    HoveringGround m = (HoveringGround) ground;
+                if (ground instanceof HoverableGround) {
+                    HoverableGround m = (HoverableGround) ground;
                     m.update(delta);
                 }
                 if (ground instanceof Cannon) {

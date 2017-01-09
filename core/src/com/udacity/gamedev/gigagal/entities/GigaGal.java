@@ -34,14 +34,14 @@ public class GigaGal implements Humanoid {
     private Vector2 velocity;
     private Vector3 chaseCamPosition;
     private Direction facing;
-    private AerialState aerialState;
-    private GroundState groundState;
-    private WeaponType weapon;
-    private AmmoIntensity ammoIntensity;
     private Direction lookDirection;
     private Direction toggleDirection;
     private Direction rideableDirection;
     private Direction climbDirection;
+    private AerialState aerialState;
+    private GroundState groundState;
+    private WeaponType weapon;
+    private AmmoIntensity ammoIntensity;
     private BounceableGround loadedBounceable;
     private long lookStartTime;
     private long strideStartTime;
@@ -87,9 +87,9 @@ public class GigaGal implements Humanoid {
     private boolean pauseState;
     private boolean onRideable;
     private boolean onSkateable;
-    private boolean onCoals;
+    private boolean onUnbearable;
     private boolean onClimbable;
-    private boolean onSink;
+    private boolean onSinkable;
     private InputControls inputControls;
 
     // ctor
@@ -169,11 +169,11 @@ public class GigaGal implements Humanoid {
         float slidGroundBottom = 0;
         float groundedAtopLeft = 0;
         float groundedAtopRight = 0;
-        onCoals = false;
+        onUnbearable = false;
         onRideable = false;
         onSkateable = false;
         onClimbable = false;
-        onSink = false;
+        onSinkable = false;
         rideableDirection = null;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
@@ -227,8 +227,8 @@ public class GigaGal implements Humanoid {
                                     //   stand();
                                 }
                                 if ((!(ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1)))
-                                && !(ground instanceof SkateableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))
-                                && !(ground instanceof Coals && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+                                        && !(ground instanceof SkateableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))
+                                        && !(ground instanceof UnbearableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                                     // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                                     // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                                     if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
@@ -255,7 +255,7 @@ public class GigaGal implements Humanoid {
                         }
                         // if contact with ground top detected, halt downward progression and set gigagal atop ground
                         if ((getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop)
-                        && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
+                                && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
                             setAtop();
                             groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
                             groundedAtopRight = ground.getRight(); // capture grounded ground boundary
@@ -269,9 +269,10 @@ public class GigaGal implements Humanoid {
                             if (groundState != GroundState.DASHING) {
                                 pauseDuration = 0;
                             }
-                            if (ground instanceof HoveringGround) {
-                                HoveringGround m = (HoveringGround) ground;
-                                if (m.getDirection() == Direction.DOWN) {
+                            if (ground instanceof HoverableGround) {
+                                HoverableGround hoverable = (HoverableGround) ground;
+                                Direction direction = hoverable.getDirection();
+                                if (direction == Direction.DOWN) {
                                     position.y -= 1;
                                 }
                             }
@@ -290,7 +291,7 @@ public class GigaGal implements Humanoid {
                                 RideableGround rideable = (RideableGround) ground;
                                 rideableDirection = rideable.getDirection();
                             } else if (ground instanceof UnbearableGround) {
-                                onCoals = true;
+                                onUnbearable = true;
                                 canHover = false;
                                 Random lateralKnockback = new Random();
                                 velocity.set(Utils.absoluteToDirectionalValue(lateralKnockback.nextFloat() * 200, facing, Orientation.LATERAL), Constants.FLAME_KNOCKBACK.y);
@@ -302,11 +303,11 @@ public class GigaGal implements Humanoid {
                             }
                         }
                     } else if (ground instanceof DescendableGround) {
-                        if (ground instanceof Sink) {
+                        if (ground instanceof SinkableGround) {
                             setAtop();
                             groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
                             groundedAtopRight = ground.getRight(); // capture grounded ground boundary
-                            onSink = true;
+                            onSinkable = true;
                             canDash = false;
                             canHover = false;
                             velocity.y = -3;
@@ -321,8 +322,8 @@ public class GigaGal implements Humanoid {
                             }
                             if (climbDirection == null) {
                                 if ((getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop
-                                && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
-                                || canClimb && climbStartTime != 0) {
+                                        && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
+                                        || canClimb && climbStartTime != 0) {
                                     setAtop();
                                     groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
                                     groundedAtopRight = ground.getRight(); // capture grounded ground boundary
@@ -386,7 +387,7 @@ public class GigaGal implements Humanoid {
                     }
                 }
                 if (aerialState != AerialState.RECOILING) {
-                    onSink = false;
+                    onSinkable = false;
                     lookTimeSeconds = 0;
                     lookStartTime = TimeUtils.nanoTime();
                     groundedAtop = false;
@@ -434,7 +435,7 @@ public class GigaGal implements Humanoid {
                                 canStride = true;
                             } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
                                 strideStartTime = 0;
-                            } else if (!onSink){
+                            } else if (!onSinkable){
                                 canDash = true;
                             } else {
                                 canDash = false;
@@ -678,9 +679,9 @@ public class GigaGal implements Humanoid {
         knockedBack = false;
         onRideable = false;
         onSkateable = false;
-        onCoals = false;
+        onUnbearable = false;
         onClimbable = false;
-        onSink = false;
+        onSinkable = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         climbStartTime = 0;
@@ -703,7 +704,7 @@ public class GigaGal implements Humanoid {
         if (canLook) {
             if (looking && climbDirection == null) {
                 canStride = false;
-              //  canHover = false;
+                //  canHover = false;
                 if (up) {
                     lookDirection = Direction.UP;
                     if (chaseCamPosition.y < position.y) {
@@ -714,7 +715,7 @@ public class GigaGal implements Humanoid {
                     if (chaseCamPosition.y > position.y) {
                         directionChanged = true;
                     }
-                    if (onSink) {
+                    if (onSinkable) {
                         velocity.y *= 5;
                     }
                 }
@@ -740,8 +741,8 @@ public class GigaGal implements Humanoid {
                 if (climbDirection != null
                         || (canClimb && lookDirection == null && climbStartTime != 0)
                         || (Utils.movingOppositeDirectionFacing(velocity.x, facing))) {
-                 //   canHover = false;
-                } else if (hoverStartTime == 0 && !onCoals && !onSink) {
+                    //   canHover = false;
+                } else if (hoverStartTime == 0 && !onUnbearable && !onSinkable) {
                     canHover = true;
                 }
                 chaseCamPosition.set(position, 0);
@@ -795,7 +796,7 @@ public class GigaGal implements Humanoid {
             velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, rideableDirection, Orientation.LATERAL);
         } else if (onSkateable) {
             velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), facing, Orientation.LATERAL);
-        } else if (onSink) {
+        } else if (onSinkable) {
             velocity.x = Utils.absoluteToDirectionalValue(10, facing, Orientation.LATERAL);
             velocity.y = -3;
         }
@@ -857,7 +858,7 @@ public class GigaGal implements Humanoid {
             if (loadedBounceable != null) {
                 velocity.y *= 2;
             }
-            if (onSink) {
+            if (onSinkable) {
                 velocity.y /= 1.25f;
             }
         } else {
@@ -870,7 +871,7 @@ public class GigaGal implements Humanoid {
         if (canHover) {
             if (inputControls.jumpButtonJustPressed) {
                 if (aerialState == AerialState.HOVERING) {
-                 //   canHover = false;
+                    //   canHover = false;
                     hoverStartTime = 0;
                     velocity.x -= velocity.x / 2;
                     fall();
@@ -978,7 +979,7 @@ public class GigaGal implements Humanoid {
     }
 
     private void stand() {
-        if (onSink) {
+        if (onSinkable) {
             velocity.y = -3;
         }
         if (onSkateable) {
@@ -1021,7 +1022,7 @@ public class GigaGal implements Humanoid {
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.FALL_TURBO_INCREMENT;
         }
-        if (Utils.movingOppositeDirectionFacing(velocity.x, facing) || onCoals) {
+        if (Utils.movingOppositeDirectionFacing(velocity.x, facing) || onUnbearable) {
             canHover = false;
             recoil(velocity);
         }
@@ -1031,7 +1032,7 @@ public class GigaGal implements Humanoid {
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
         if (climbDirection != null
-        || (canClimb && lookDirection == null && climbStartTime != 0)) {
+                || (canClimb && lookDirection == null && climbStartTime != 0)) {
             if (facing == Direction.LEFT) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (facing == Direction.RIGHT) {
