@@ -278,6 +278,7 @@ public class GigaGal implements Humanoid {
                                     lookDirection = null;
                                 }
                             } else if (ground instanceof HoverableGround) {
+                                lookStartTime = 0;
                                 HoverableGround hoverable = (HoverableGround) ground;
                                 Orientation orientation = hoverable.getOrientation();
                                 Direction direction = hoverable.getDirection();
