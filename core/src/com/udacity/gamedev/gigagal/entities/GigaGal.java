@@ -352,10 +352,7 @@ public class GigaGal implements Humanoid {
                                     if (canClimb && !inputControls.jumpButtonPressed && groundState == GroundState.STANDING) {
                                         lookDirection = null;
                                         canHover = true;
-                                        if (ground instanceof Pole) {
-                                            onClimbable = false;
-                                            canClimb = false;
-                                        } else {
+                                        if (!(ground instanceof Pole)) {
                                             canJump = true;
                                         }
                                         jump();
