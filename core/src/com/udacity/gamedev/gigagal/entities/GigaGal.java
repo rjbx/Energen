@@ -227,8 +227,8 @@ public class GigaGal implements Humanoid {
                                     //   stand();
                                 }
                                 if ((!(ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1)))
-                                        && !(ground instanceof SkateableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))
-                                        && !(ground instanceof UnbearableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+                                && !(ground instanceof SkateableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))
+                                && !(ground instanceof UnbearableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                                     // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                                     // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                                     if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
@@ -255,7 +255,7 @@ public class GigaGal implements Humanoid {
                         }
                         // if contact with ground top detected, halt downward progression and set gigagal atop ground
                         if ((getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop)
-                                && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
+                        && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
                             setAtop();
                             groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
                             groundedAtopRight = ground.getRight(); // capture grounded ground boundary
@@ -325,12 +325,14 @@ public class GigaGal implements Humanoid {
                             }
                         } else if (ground instanceof ClimbableGround) {
                             if (Utils.betweenSides(ground, position.x)) {
-                                onClimbable = true;
+                                if ((!(ground instanceof Pole)) || (getBottom() > ground.getBottom())) {
+                                    onClimbable = true;
+                                }
                             }
                             if (climbDirection == null) {
                                 if ((getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop
-                                        && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
-                                        || canClimb && climbStartTime != 0) {
+                                && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
+                                || canClimb && climbStartTime != 0) {
                                     setAtop();
                                     groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
                                     groundedAtopRight = ground.getRight(); // capture grounded ground boundary
