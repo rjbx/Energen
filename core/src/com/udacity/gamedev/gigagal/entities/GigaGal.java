@@ -269,19 +269,24 @@ public class GigaGal implements Humanoid {
                             if (groundState != GroundState.DASHING) {
                                 pauseDuration = 0;
                             }
-                            if (ground instanceof HoverableGround) {
-                                HoverableGround hoverable = (HoverableGround) ground;
-                                Direction direction = hoverable.getDirection();
-                                if (direction == Direction.DOWN) {
-                                    position.y -= 1;
-                                }
-                            }
+
                             if (ground instanceof SkateableGround) {
                                 onSkateable = true;
                                 if (groundState == GroundState.AIRBORNE) {
                                     stand(); // set groundstate to standing
                                     lookStartTime = 0;
                                     lookDirection = null;
+                                }
+                            } else if (ground instanceof HoverableGround) {
+                                HoverableGround hoverable = (HoverableGround) ground;
+                                Orientation orientation = hoverable.getOrientation();
+                                Direction direction = hoverable.getDirection();
+                                if (orientation == Orientation.LATERAL) {
+                                    velocity.x = hoverable.getVelocity().x;
+                                    position.x += velocity.x;
+                                }
+                                if (direction == Direction.DOWN) {
+                                    position.y -= 1;
                                 }
                             } else if (ground instanceof BounceableGround) {
                                 loadedBounceable = (BounceableGround) ground;
@@ -981,19 +986,19 @@ public class GigaGal implements Humanoid {
     private void stand() {
         if (onSinkable) {
             velocity.y = -3;
-        }
-        if (onSkateable) {
+        } else if (onSkateable) {
             if (Math.abs(velocity.x) > 0.005f) {
                 velocity.x /= 1.005;
             } else {
                 velocity.x = 0;
             }
+        } else if (onRideable) {
+            velocity.x = 0;
+            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, rideableDirection, Orientation.LATERAL);
         } else {
             velocity.x = 0;
         }
-        if (onRideable) {
-            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, rideableDirection, Orientation.LATERAL);
-        }
+
         groundState = GroundState.STANDING;
         aerialState = AerialState.GROUNDED;
         if (!canClimb) {
