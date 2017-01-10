@@ -355,7 +355,7 @@ public class GigaGal implements Humanoid {
                                         if (!(ground instanceof Pole)) {
                                             canJump = true;
                                         }
-                                        jump();
+                                            jump();
                                     }
                                 }
                             }
@@ -635,8 +635,8 @@ public class GigaGal implements Humanoid {
                 int ammoUsed;
 
                 if (weapon == WeaponType.NATIVE
-                        || (ammo < Constants.BLAST_AMMO_CONSUMPTION && ammoIntensity == AmmoIntensity.BLAST)
-                        || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
+                || (ammo < Constants.BLAST_AMMO_CONSUMPTION && ammoIntensity == AmmoIntensity.BLAST)
+                || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
                     ammoUsed = 0;
                     weapon = WeaponType.NATIVE;
                 } else {
