@@ -161,19 +161,25 @@ public class GameplayScreen extends ScreenAdapter {
                         } else if (inputControls.pauseButtonJustPressed) {
                             unpause();
                         }
-                        /*    if (!chaseCam.getFollowing()) {
-                                chaseCam.setFollowing(true);
-                            } else {
-                                chaseCam.setFollowing(false);
-                            }
-                        } else if (pauseOverlay.getCursor().getPosition() == 28) {
-                            game.create();
-                        }
-                        */
                     }
                 } else {
                     optionsOverlay.render(batch);
                     gigaGal.enableToggle(Enums.Direction.DOWN);
+                    if (inputControls.shootButtonJustPressed) {
+                        if (optionsOverlay.getCursor().getPosition() == 73) {
+                            viewingOptions = false;
+                        } else if (optionsOverlay.getCursor().getPosition() == 58) {
+                            if (!chaseCam.getFollowing()) {
+                                chaseCam.setFollowing(true);
+                            } else {
+                                chaseCam.setFollowing(false);
+                            }
+                        } else if (optionsOverlay.getCursor().getPosition() == 43) {
+                            game.create();
+                        }
+                    } else if (inputControls.pauseButtonJustPressed) {
+                        viewingOptions = false;
+                    }
                 }
             } else if (inputControls.pauseButtonJustPressed) {
                 level.getLevelTime().suspend();
@@ -184,11 +190,11 @@ public class GameplayScreen extends ScreenAdapter {
                 pauseTime = TimeUtils.nanoTime();
                 pauseDuration = gigaGal.getPauseDuration();
             } else {
-            level.update(delta);
+                level.update(delta);
                 chaseCam.update(delta);
                 level.render(batch);
-            }
-            meterHud.render(batch, renderer);
+        }
+        meterHud.render(batch, renderer);
             contextHud.render(batch);
             inputControls.render(batch);
         }
