@@ -158,9 +158,9 @@ public class GameplayScreen extends ScreenAdapter {
                             game.setScreen(game.getLevelSelectScreen());
                         } else if (pauseOverlay.getCursor().getPosition() == 43) {
                             viewingOptions = true;
-                        } else if (inputControls.pauseButtonJustPressed) {
-                            unpause();
                         }
+                    } else if (inputControls.pauseButtonJustPressed) {
+                        unpause();
                     }
                 } else {
                     optionsOverlay.render(batch);
@@ -194,7 +194,7 @@ public class GameplayScreen extends ScreenAdapter {
                 chaseCam.update(delta);
                 level.render(batch);
         }
-        meterHud.render(batch, renderer);
+            meterHud.render(batch, renderer);
             contextHud.render(batch);
             inputControls.render(batch);
         }
