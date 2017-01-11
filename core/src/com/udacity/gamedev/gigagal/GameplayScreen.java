@@ -16,6 +16,7 @@ import com.udacity.gamedev.gigagal.overlays.IndicatorHud;
 import com.udacity.gamedev.gigagal.overlays.GameOverOverlay;
 import com.udacity.gamedev.gigagal.overlays.GaugeHud;
 import com.udacity.gamedev.gigagal.overlays.InputControls;
+import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
 import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.overlays.VictoryOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -44,6 +45,7 @@ public class GameplayScreen extends ScreenAdapter {
     private VictoryOverlay victoryOverlay;
     private GameOverOverlay gameOverOverlay;
     private PauseOverlay pauseOverlay;
+    private OptionsOverlay optionsOverlay;
     private Array<String> completedLevels;
     private String levelName;
     private GigaGal gigaGal;
@@ -75,11 +77,13 @@ public class GameplayScreen extends ScreenAdapter {
         renderer.setAutoShapeType(true);
         chaseCam = ChaseCam.getInstance();
         pauseOverlay = new PauseOverlay(this);
+        optionsOverlay = new OptionsOverlay(this);
         victoryOverlay = new VictoryOverlay(this);
         gameOverOverlay = new GameOverOverlay();
         inputControls = game.getInputControls();
         powerups = new Array<TurboPowerup>();
         pauseOverlay.getCursor().setInputControls(inputControls);
+        optionsOverlay.getCursor().setInputControls(inputControls);
 
         // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
         Gdx.input.setInputProcessor(inputControls);
@@ -100,6 +104,8 @@ public class GameplayScreen extends ScreenAdapter {
         gameOverOverlay.getViewport().update(width, height, true);
         pauseOverlay.getViewport().update(width, height, true);
         pauseOverlay.getCursor().getViewport().update(width, height, true);
+        optionsOverlay.getViewport().update(width, height, true);
+        optionsOverlay.getCursor().getViewport().update(width, height, true);
         level.getViewport().update(width, height, true);
         chaseCam.camera = level.getViewport().getCamera();
         inputControls.getViewport().update(width, height, true);
@@ -148,7 +154,10 @@ public class GameplayScreen extends ScreenAdapter {
                         totalTime.suspend();
                         game.setScreen(game.getLevelSelectScreen());
                     } else if (pauseOverlay.getCursor().getPosition() == 43) {
-                        if (!chaseCam.getFollowing()) {
+                        optionsOverlay.render(batch);
+                        gigaGal.enableToggle(Enums.Direction.DOWN);
+                    }
+                    /*    if (!chaseCam.getFollowing()) {
                             chaseCam.setFollowing(true);
                         } else {
                             chaseCam.setFollowing(false);
@@ -156,6 +165,7 @@ public class GameplayScreen extends ScreenAdapter {
                     } else if (pauseOverlay.getCursor().getPosition() == 28) {
                         game.create();
                     }
+                    */
                 } else if (inputControls.pauseButtonJustPressed) {
                     unpause();
                 }

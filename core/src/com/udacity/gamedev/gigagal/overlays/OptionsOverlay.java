@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // immutable
-public final class PauseOverlay {
+public final class OptionsOverlay {
 
     // fields
     public final static String TAG = VictoryOverlay.class.getName();
@@ -26,7 +26,7 @@ public final class PauseOverlay {
     private boolean debugMode;
 
     // default ctor
-    public PauseOverlay(GameplayScreen gameplayScreen) {
+    public OptionsOverlay(GameplayScreen gameplayScreen) {
         this.gameplayScreen = gameplayScreen;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
@@ -64,10 +64,9 @@ public final class PauseOverlay {
             font.draw(batch, weapons, viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, weapons.length(), 10, Align.right, false);
             font.draw(batch, "GAME TOTAL\n" + "Time: " + Utils.stopWatchToString(gameplayScreen.getTotalTime()) + "\n" + "Score: " + gameplayScreen.getTotalScore(), viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .8f, 0, Align.center, false);
             font.draw(batch, "RESUME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 18, 0, Align.center, false);
-            font.draw(batch, "EXIT LEVEL", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 3, 0, Align.center, false);
-            font.draw(batch, "OPTIONS", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 12, 0, Align.center, false);
-            // font.draw(batch, "DEBUG CAM", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 12, 0, Align.center, false);
-            // font.draw(batch, "QUIT GAME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 27, 0, Align.center, false);
+            font.draw(batch, "GO BACK", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 3, 0, Align.center, false);
+            font.draw(batch, "DEBUG CAM", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 12, 0, Align.center, false);
+            font.draw(batch, "SAVE AND QUIT GAME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 27, 0, Align.center, false);
         } else {
             font.draw(batch, "DEBUG MODE\n" + "PRESS SHOOT BUTTON TO EXIT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
         }
