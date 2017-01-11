@@ -53,6 +53,7 @@ public class GameplayScreen extends ScreenAdapter {
     private int totalScore;
     private StopWatch totalTime;
     private boolean paused;
+    private boolean viewingOptions;
     private boolean levelEnded;
     private long pauseTime;
     private float pauseDuration;
@@ -65,6 +66,7 @@ public class GameplayScreen extends ScreenAdapter {
         totalTime.start();
         totalTime.suspend();
         paused = false;
+        viewingOptions = false;
         levelEnded = false;
         pauseTime = 0;
         pauseDuration = 0;
@@ -144,40 +146,45 @@ public class GameplayScreen extends ScreenAdapter {
 
         if (!levelEnded) {
             if (paused) {
-                pauseOverlay.render(batch);
-                gigaGal.enableToggle(Enums.Direction.DOWN); // enables gigagal to toggle weapon during pause without enabling other gigagal features
-                if (inputControls.shootButtonJustPressed) {
-                    if (pauseOverlay.getCursor().getPosition() == 73 && chaseCam.getFollowing()) {
-                        unpause();
-                    } else if (pauseOverlay.getCursor().getPosition() == 58) {
-                        unpause();
-                        totalTime.suspend();
-                        game.setScreen(game.getLevelSelectScreen());
-                    } else if (pauseOverlay.getCursor().getPosition() == 43) {
-                        optionsOverlay.render(batch);
-                        gigaGal.enableToggle(Enums.Direction.DOWN);
-                    }
-                    /*    if (!chaseCam.getFollowing()) {
-                            chaseCam.setFollowing(true);
-                        } else {
-                            chaseCam.setFollowing(false);
+                if (!viewingOptions) {
+                    pauseOverlay.render(batch);
+                    gigaGal.enableToggle(Enums.Direction.DOWN); // enables gigagal to toggle weapon during pause without enabling other gigagal features
+                    if (inputControls.shootButtonJustPressed) {
+                        if (pauseOverlay.getCursor().getPosition() == 73 && chaseCam.getFollowing()) {
+                            unpause();
+                        } else if (pauseOverlay.getCursor().getPosition() == 58) {
+                            unpause();
+                            totalTime.suspend();
+                            game.setScreen(game.getLevelSelectScreen());
+                        } else if (pauseOverlay.getCursor().getPosition() == 43) {
+                            viewingOptions = true;
+                        } else if (inputControls.pauseButtonJustPressed) {
+                            unpause();
                         }
-                    } else if (pauseOverlay.getCursor().getPosition() == 28) {
-                        game.create();
+                        /*    if (!chaseCam.getFollowing()) {
+                                chaseCam.setFollowing(true);
+                            } else {
+                                chaseCam.setFollowing(false);
+                            }
+                        } else if (pauseOverlay.getCursor().getPosition() == 28) {
+                            game.create();
+                        }
+                        */
                     }
-                    */
-                } else if (inputControls.pauseButtonJustPressed) {
-                    unpause();
+                } else {
+                    optionsOverlay.render(batch);
+                    gigaGal.enableToggle(Enums.Direction.DOWN);
                 }
             } else if (inputControls.pauseButtonJustPressed) {
                 level.getLevelTime().suspend();
                 totalTime.suspend();
                 paused = true;
                 pauseOverlay.init();
+                optionsOverlay.init();
                 pauseTime = TimeUtils.nanoTime();
                 pauseDuration = gigaGal.getPauseDuration();
             } else {
-                level.update(delta);
+            level.update(delta);
                 chaseCam.update(delta);
                 level.render(batch);
             }
