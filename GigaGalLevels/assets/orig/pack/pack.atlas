@@ -46,6 +46,13 @@ geiser-1
   orig: 17, 17
   offset: 0, 0
   index: -1
+gg-stand-right
+  rotate: false
+  xy: 95, 130
+  size: 28, 35
+  orig: 28, 35
+  offset: 0, 0
+  index: -1
 ice-1
   rotate: false
   xy: 38, 59
@@ -66,6 +73,13 @@ lift
   xy: 102, 84
   size: 19, 5
   orig: 19, 5
+  offset: 0, 0
+  index: -1
+orben-dormant
+  rotate: false
+  xy: 110, 74
+  size: 10, 8
+  orig: 10, 8
   offset: 0, 0
   index: -1
 pillar
@@ -159,13 +173,6 @@ spring-1
   xy: 88, 41
   size: 23, 14
   orig: 23, 14
-  offset: 0, 0
-  index: -1
-gg-stand-right
-  rotate: false
-  xy: 95, 130
-  size: 28, 35
-  orig: 28, 35
   offset: 0, 0
   index: -1
 swoopa
