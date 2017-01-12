@@ -18,6 +18,7 @@ public class Orben implements DestructibleHazard {
     // fields
     private Level level;
     private Vector2 position;
+    private Enums.Direction direction;
     private Enums.WeaponType type;
     private Vector2 velocity;
     private final long startTime;
@@ -30,39 +31,35 @@ public class Orben implements DestructibleHazard {
         this.level = level;
         this.type = type;
         this.position = position;
+        direction = Enums.Direction.LEFT;
         velocity = new Vector2(0, -Constants.ORBEN_MOVEMENT_SPEED * 2);
         startTime = TimeUtils.nanoTime();
         health = Constants.SWOOPA_MAX_HEALTH;
     }
 
     public void update(float delta) {
-        bobOffset = MathUtils.random() * 100;
         Viewport viewport = level.getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
-        Vector3 camera = new Vector3(viewport.getCamera().position);
-        // while the swoopa is witin a screens' width from the screen center on either side, permit movement
-        if (position.x < (camera.x + worldSpan.x)
-                && position.x > (camera.x - worldSpan.x)
-                && Utils.secondsSince(descentStartTime) > 1.5f) {
-            if (position.y > (worldSpan.y + Constants.SWOOPA_COLLISION_HEIGHT)) {
-                velocity.x = -Constants.SWOOPA_MOVEMENT_SPEED;
-                velocity.y /= 1.005f;
-            } else {
-                velocity.x *= 1.05f;
-                velocity.y /= 1.1f;
-            }
-            velocity.x = Math.max(velocity.x, -Constants.SWOOPA_MOVEMENT_SPEED * 4);
-            position = position.mulAdd(velocity, delta);
+        Vector3 camera = new Vector3(viewport.getCamera().position)
+        ;switch (direction) {
+            case LEFT:
+                position.x -= Constants.ZOOMBA_MOVEMENT_SPEED * delta;
+                break;
+            case RIGHT:
+                position.x += Constants.ZOOMBA_MOVEMENT_SPEED * delta;
         }
 
-
-        // when the swoopa progresses past the center screen position with a margin of one screen's width, reset x and y position
-        if (position.x < (camera.x - worldSpan.x)) {
-            descentStartTime = TimeUtils.nanoTime();
-            position.x = worldSpan.x + (Constants.WORLD_SIZE) / 1.5f;
-            position.y = (worldSpan.y + (Constants.WORLD_SIZE));
-            velocity.y = -Constants.SWOOPA_MOVEMENT_SPEED * 2;
+        if (position.x < camera.x - worldSpan.x) {
+            position.x = camera.x - worldSpan.x;
+            direction = Enums.Direction.RIGHT;
+        } else if (position.x > camera.x) {
+            position.x = camera.x;
+            direction = Enums.Direction.LEFT;
         }
+
+        final float elapsedTime = Utils.secondsSince(startTime);
+        final float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + elapsedTime / Constants.ZOOMBA_BOB_PERIOD));
+        position.y = worldSpan.y + Constants.ORBEN_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier;
     }
 
     @Override
@@ -88,7 +85,7 @@ public class Orben implements DestructibleHazard {
             default:
                 region = null;
         }
-        Utils.drawTextureRegion(batch, region, position, Constants.ORBEN_CENTER);
+        Utils.drawTextureRegion(batch, region, position, Constants.ORBEN_CENTER, 1.5f);
     }
 
     @Override public Vector2 getPosition() { return position; }
