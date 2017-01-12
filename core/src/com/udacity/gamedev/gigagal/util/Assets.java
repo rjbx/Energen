@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -632,6 +633,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     
     public class OrbenAssets {
 
+        public final TextureRegion dormantOrben;
         public final Animation chargedOrben;
         public final Animation fieryOrben;
         public final Animation gushingOrben;
@@ -639,9 +641,10 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final Animation whirlingOrben;
 
         public OrbenAssets(TextureAtlas atlas) {
+
+            dormantOrben = atlas.findRegion(Constants.DORMANTORBEN_SPRITE);
             
             Array<AtlasRegion> chargedOrbenRegions = new Array<AtlasRegion>();
-            chargedOrbenRegions.add(atlas.findRegion(Constants.DORMANTORBEN_SPRITE));
             chargedOrbenRegions.add(atlas.findRegion(Constants.CHARGEDORBEN_SPRITE_0));
             chargedOrbenRegions.add(atlas.findRegion(Constants.CHARGEDORBEN_SPRITE_1));
             chargedOrbenRegions.add(atlas.findRegion(Constants.CHARGEDORBEN_SPRITE_2));
@@ -650,7 +653,6 @@ public final class Assets implements Disposable, AssetErrorListener {
                       chargedOrbenRegions, PlayMode.NORMAL);
     
             Array<AtlasRegion> fieryOrbenRegions = new Array<AtlasRegion>();
-            chargedOrbenRegions.add(atlas.findRegion(Constants.DORMANTORBEN_SPRITE));
             fieryOrbenRegions.add(atlas.findRegion(Constants.FIERYORBEN_SPRITE_0));
             fieryOrbenRegions.add(atlas.findRegion(Constants.FIERYORBEN_SPRITE_1));
             fieryOrbenRegions.add(atlas.findRegion(Constants.FIERYORBEN_SPRITE_2));
@@ -668,7 +670,6 @@ public final class Assets implements Disposable, AssetErrorListener {
                     gushingOrbenRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> sharpOrbenRegions = new Array<AtlasRegion>();
-            chargedOrbenRegions.add(atlas.findRegion(Constants.DORMANTORBEN_SPRITE));
             sharpOrbenRegions.add(atlas.findRegion(Constants.SHARPORBEN_SPRITE_0));
             sharpOrbenRegions.add(atlas.findRegion(Constants.SHARPORBEN_SPRITE_1));
             sharpOrbenRegions.add(atlas.findRegion(Constants.SHARPORBEN_SPRITE_2));
@@ -677,7 +678,6 @@ public final class Assets implements Disposable, AssetErrorListener {
                     sharpOrbenRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> whirlingOrbenRegions = new Array<AtlasRegion>();
-            chargedOrbenRegions.add(atlas.findRegion(Constants.DORMANTORBEN_SPRITE));
             whirlingOrbenRegions.add(atlas.findRegion(Constants.WHIRLINGORBEN_SPRITE_0));
             whirlingOrbenRegions.add(atlas.findRegion(Constants.WHIRLINGORBEN_SPRITE_1));
             whirlingOrbenRegions.add(atlas.findRegion(Constants.WHIRLINGORBEN_SPRITE_2));

@@ -249,7 +249,7 @@ public final class Constants {
 
     // Orben
     public static final Vector2 ORBEN_CENTER = new Vector2(5, 5);
-    public static final float ORBEN_MOVEMENT_SPEED = 75;
+    public static final float ORBEN_MOVEMENT_SPEED = 25;
     public static final int ORBEN_MAX_HEALTH = 30;
     public static final int ORBEN_STANDARD_DAMAGE = 1;
     public static final Vector2 ORBEN_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
