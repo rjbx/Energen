@@ -248,7 +248,7 @@ public final class Constants {
     public static final String SHARPSWOOPA_SPRITE_2 = "swoopa-metal-2";
 
     // Orben
-    public static final Vector2 ORBEN_CENTER = new Vector2(9, 9);
+    public static final Vector2 ORBEN_CENTER = new Vector2(5, 5);
     public static final float ORBEN_MOVEMENT_SPEED = 75;
     public static final int ORBEN_MAX_HEALTH = 30;
     public static final int ORBEN_STANDARD_DAMAGE = 1;

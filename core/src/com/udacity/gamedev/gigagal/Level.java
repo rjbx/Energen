@@ -153,10 +153,10 @@ public class Level {
                     Enums.WeaponType weaponType = orben.getType();
                     float secondsSinceModOne = Utils.secondsSince(orben.getStartTime()) % 1;
                     if ((secondsSinceModOne >= 0 && secondsSinceModOne < 0.01f)) {
-                        Vector2 ammoPositionLeft = new Vector2(orben.getPosition().x - (orben.getWidth()), destructible.getPosition().y);
-                        Vector2 ammoPositionRight = new Vector2(orben.getPosition().x + (orben.getWidth()), destructible.getPosition().y);
-                        Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, orben.getPosition().y + (orben.getHeight()));
-                        Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, orben.getPosition().y - (orben.getHeight()));
+                        Vector2 ammoPositionLeft = new Vector2(orben.getPosition().x - (orben.getWidth() / 2), destructible.getPosition().y);
+                        Vector2 ammoPositionRight = new Vector2(orben.getPosition().x + (orben.getWidth() / 2), destructible.getPosition().y);
+                        Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, orben.getPosition().y + (orben.getHeight() / 1.5f));
+                        Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, orben.getPosition().y - (orben.getHeight() / 1.5f));
 
                         spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.Orientation.LATERAL, Enums.AmmoIntensity.BLAST, weaponType, false);
                         spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.Orientation.LATERAL, Enums.AmmoIntensity.BLAST, weaponType, false);
