@@ -161,7 +161,7 @@ spring-1
   orig: 23, 14
   offset: 0, 0
   index: -1
-stand-right
+gg-stand-right
   rotate: false
   xy: 95, 130
   size: 28, 35
