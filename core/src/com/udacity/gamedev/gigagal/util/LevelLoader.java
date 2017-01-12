@@ -18,6 +18,7 @@ import com.udacity.gamedev.gigagal.entities.GushingZoomba;
 import com.udacity.gamedev.gigagal.entities.Ice;
 import com.udacity.gamedev.gigagal.entities.Ladder;
 import com.udacity.gamedev.gigagal.entities.Lift;
+import com.udacity.gamedev.gigagal.entities.Orben;
 import com.udacity.gamedev.gigagal.entities.Pillar;
 import com.udacity.gamedev.gigagal.entities.Pole;
 import com.udacity.gamedev.gigagal.entities.Rope;
@@ -199,6 +200,10 @@ public final class LevelLoader {
                 final Vector2 coalsPosition = imagePosition.add(Constants.COALS_CENTER);
                 Gdx.app.log(TAG, "Loaded the coals at " + coalsPosition);
                 level.getGrounds().add(new Coals(coalsPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.DORMANTORBEN_SPRITE)) {
+                final Vector2 orbenPosition = imagePosition.add(Constants.ORBEN_CENTER);
+                Gdx.app.log(TAG, "Loaded the orben at " + orbenPosition);
+                level.getDestructibles().add(new Orben(level, orbenPosition, Enums.WeaponType.valueOf(identifier)));
             }
         }
     }
