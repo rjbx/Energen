@@ -247,6 +247,42 @@ public final class Constants {
     public static final String SHARPSWOOPA_SPRITE_1 = "swoopa-metal-1";
     public static final String SHARPSWOOPA_SPRITE_2 = "swoopa-metal-2";
 
+    // Orben
+    public static final Vector2 ORBEN_CENTER = new Vector2(25f, 13.5f);
+    public static final float ORBEN_MOVEMENT_SPEED = 75;
+    public static final int ORBEN_MAX_HEALTH = 30;
+    public static final int ORBEN_STANDARD_DAMAGE = 1;
+    public static final Vector2 ORBEN_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
+    public static final float ORBEN_COLLISION_WIDTH = 60;
+    public static final float ORBEN_COLLISION_HEIGHT = 27;
+    public static final float ORBEN_SHOT_RADIUS = 17;
+    public static final String DORMANTORBEN_SPRITE = "orben-dormant";
+
+    // Fiery-Orben
+    public static final String FIERYORBEN_SPRITE_0 = "orben-fire-active-0";
+    public static final String FIERYORBEN_SPRITE_1 = "orben-fire-active-1";
+    public static final String FIERYORBEN_SPRITE_2 = "orben-fire-active-2";
+
+    // Gushing-Orben
+    public static final String GUSHINGORBEN_SPRITE_0 = "orben-water-active-0";
+    public static final String GUSHINGORBEN_SPRITE_1 = "orben-water-active-1";
+    public static final String GUSHINGORBEN_SPRITE_2 = "orben-water-active-2";
+
+    // Charged-Orben
+    public static final String CHARGEDORBEN_SPRITE_0 = "orben-electric-active-0";
+    public static final String CHARGEDORBEN_SPRITE_1 = "orben-electric-active-1";
+    public static final String CHARGEDORBEN_SPRITE_2 = "orben-electric-active-2";
+
+    // Whirling-Orben
+    public static final String WHIRLINGORBEN_SPRITE_0 = "orben-rubber-active-0";
+    public static final String WHIRLINGORBEN_SPRITE_1 = "orben-rubber-active-1";
+    public static final String WHIRLINGORBEN_SPRITE_2 = "orben-rubber-active-2";
+
+    // Sharp-Orben
+    public static final String SHARPORBEN_SPRITE_0 = "orben-metal-active-0";
+    public static final String SHARPORBEN_SPRITE_1 = "orben-metal-active-1";
+    public static final String SHARPORBEN_SPRITE_2 = "orben-metal-active-2";
+
     // Spike
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
     public static final float SPIKE_DURATION = 0.5f;
