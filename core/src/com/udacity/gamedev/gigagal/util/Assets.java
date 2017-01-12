@@ -46,6 +46,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private ChargedSwoopaAssets chargedSwoopaAssets;
     private WhirlingSwoopaAssets whirlingSwoopaAssets;
     private SharpSwoopaAssets sharpSwoopaAssets;
+    private OrbenAssets orbenAssets;
     private SpikeAssets spikeAssets;
     private FlameAssets flameAssets;
     private GeiserAssets geiserAssets;
@@ -100,6 +101,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         chargedSwoopaAssets = new ChargedSwoopaAssets(atlas);
         whirlingSwoopaAssets = new WhirlingSwoopaAssets(atlas);
         sharpSwoopaAssets = new SharpSwoopaAssets(atlas);
+        orbenAssets = new OrbenAssets(atlas);
         spikeAssets = new SpikeAssets(atlas);
         flameAssets = new FlameAssets(atlas);
         geiserAssets = new GeiserAssets(atlas);
@@ -627,6 +629,63 @@ public final class Assets implements Disposable, AssetErrorListener {
                     sharpSwoopaRegions, PlayMode.NORMAL);
         }
     }
+    
+    public class OrbenAssets {
+
+        public final Animation chargedOrben;
+        public final Animation fieryOrben;
+        public final Animation gushingOrben;
+        public final Animation sharpOrben;
+        public final Animation whirlingOrben;
+
+        public OrbenAssets(TextureAtlas atlas) {
+            
+            Array<AtlasRegion> chargedOrbenRegions = new Array<AtlasRegion>();
+            chargedOrbenRegions.add(atlas.findRegion(Constants.DORMANTORBEN_SPRITE));
+            chargedOrbenRegions.add(atlas.findRegion(Constants.CHARGEDORBEN_SPRITE_0));
+            chargedOrbenRegions.add(atlas.findRegion(Constants.CHARGEDORBEN_SPRITE_1));
+            chargedOrbenRegions.add(atlas.findRegion(Constants.CHARGEDORBEN_SPRITE_2));
+    
+            chargedOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS,
+                      chargedOrbenRegions, PlayMode.NORMAL);
+    
+            Array<AtlasRegion> fieryOrbenRegions = new Array<AtlasRegion>();
+            chargedOrbenRegions.add(atlas.findRegion(Constants.DORMANTORBEN_SPRITE));
+            fieryOrbenRegions.add(atlas.findRegion(Constants.FIERYORBEN_SPRITE_0));
+            fieryOrbenRegions.add(atlas.findRegion(Constants.FIERYORBEN_SPRITE_1));
+            fieryOrbenRegions.add(atlas.findRegion(Constants.FIERYORBEN_SPRITE_2));
+    
+            fieryOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS,
+                    fieryOrbenRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> gushingOrbenRegions = new Array<AtlasRegion>();
+            chargedOrbenRegions.add(atlas.findRegion(Constants.DORMANTORBEN_SPRITE));
+            gushingOrbenRegions.add(atlas.findRegion(Constants.GUSHINGORBEN_SPRITE_0));
+            gushingOrbenRegions.add(atlas.findRegion(Constants.GUSHINGORBEN_SPRITE_1));
+            gushingOrbenRegions.add(atlas.findRegion(Constants.GUSHINGORBEN_SPRITE_2));
+
+            gushingOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS,
+                    gushingOrbenRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> sharpOrbenRegions = new Array<AtlasRegion>();
+            chargedOrbenRegions.add(atlas.findRegion(Constants.DORMANTORBEN_SPRITE));
+            sharpOrbenRegions.add(atlas.findRegion(Constants.SHARPORBEN_SPRITE_0));
+            sharpOrbenRegions.add(atlas.findRegion(Constants.SHARPORBEN_SPRITE_1));
+            sharpOrbenRegions.add(atlas.findRegion(Constants.SHARPORBEN_SPRITE_2));
+
+            sharpOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS,
+                    sharpOrbenRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> whirlingOrbenRegions = new Array<AtlasRegion>();
+            chargedOrbenRegions.add(atlas.findRegion(Constants.DORMANTORBEN_SPRITE));
+            whirlingOrbenRegions.add(atlas.findRegion(Constants.WHIRLINGORBEN_SPRITE_0));
+            whirlingOrbenRegions.add(atlas.findRegion(Constants.WHIRLINGORBEN_SPRITE_1));
+            whirlingOrbenRegions.add(atlas.findRegion(Constants.WHIRLINGORBEN_SPRITE_2));
+
+            whirlingOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS,
+                    whirlingOrbenRegions, PlayMode.NORMAL);
+        }
+    }
 
     public class SpikeAssets {
 
@@ -844,6 +903,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final ChargedSwoopaAssets getChargedSwoopaAssets() { return chargedSwoopaAssets; }
     public final WhirlingSwoopaAssets getWhirlingSwoopaAssets() { return whirlingSwoopaAssets; }
     public final SharpSwoopaAssets getSharpSwoopaAssets() { return sharpSwoopaAssets; }
+    public final OrbenAssets getOrbenAssets() { return orbenAssets; }
     public final SpikeAssets getSpikeAssets() { return spikeAssets; }
     public final FlameAssets getFlameAssets() { return flameAssets; }
     public final GeiserAssets getGeiserAssets() { return geiserAssets; }

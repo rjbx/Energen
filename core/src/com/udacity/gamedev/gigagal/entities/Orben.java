@@ -67,9 +67,26 @@ public class Orben implements DestructibleHazard {
 
     @Override
     public void render(SpriteBatch batch) {
+        final float elapsedTime = Utils.secondsSince(startTime);
         final TextureRegion region;
         switch (type) {
-
+            case ELECTRIC:
+                region = Assets.getInstance().getOrbenAssets().chargedOrben.getKeyFrame(elapsedTime, true);
+                break;
+            case FIRE:
+                region = Assets.getInstance().getOrbenAssets().fieryOrben.getKeyFrame(elapsedTime, true);
+                break;
+            case METAL:
+                region = Assets.getInstance().getOrbenAssets().sharpOrben.getKeyFrame(elapsedTime, true);
+                break;
+            case RUBBER:
+                region = Assets.getInstance().getOrbenAssets().whirlingOrben.getKeyFrame(elapsedTime, true);
+                break;
+            case WATER:
+                region = Assets.getInstance().getOrbenAssets().gushingOrben.getKeyFrame(elapsedTime, true);
+                break;
+            default:
+                region = null;
         }
         Utils.drawTextureRegion(batch, region, position, Constants.ORBEN_CENTER);
     }

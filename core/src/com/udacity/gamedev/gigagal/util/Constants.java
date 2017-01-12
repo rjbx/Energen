@@ -256,6 +256,8 @@ public final class Constants {
     public static final float ORBEN_COLLISION_WIDTH = 60;
     public static final float ORBEN_COLLISION_HEIGHT = 27;
     public static final float ORBEN_SHOT_RADIUS = 17;
+    public static final float ORBEN_DURATION = 0.5f;
+    public static final int ORBEN_REGIONS = 4;
     public static final String DORMANTORBEN_SPRITE = "orben-dormant";
 
     // Fiery-Orben
