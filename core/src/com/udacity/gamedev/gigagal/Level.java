@@ -16,6 +16,7 @@ import com.udacity.gamedev.gigagal.entities.Ground;
 import com.udacity.gamedev.gigagal.entities.Hazard;
 import com.udacity.gamedev.gigagal.entities.IndestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.HoverableGround;
+import com.udacity.gamedev.gigagal.entities.Orben;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.Explosion;
@@ -138,6 +139,34 @@ public class Level {
                 }
             }
 
+            // Update Enemies
+            destructibles.begin();
+            for (DestructibleHazard destructible : destructibles) {
+                destructible.update(delta);
+                if (destructible.getHealth() < 1) {
+                    spawnExplosion(destructible.getPosition());
+                    destructibles.removeValue(destructible, true);
+                    levelScore += destructible.getKillScore();
+                }
+                if (destructible instanceof Orben) {
+                    Orben orben = (Orben) destructible;
+                    if ((Utils.secondsSince(orben.getStartTime()) % 1 == 0)) {
+                        Vector2 ammoPositionLeft = new Vector2(orben.getPosition().x - (orben.getWidth()), destructible.getPosition().y);
+                        Vector2 ammoPositionRight = new Vector2(orben.getPosition().x + (orben.getWidth()), destructible.getPosition().y);
+                        Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, orben.getPosition().y + (orben.getHeight()));
+                        Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, orben.getPosition().y - (orben.getHeight()));
+
+                        spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.Orientation.LATERAL, Enums.AmmoIntensity.SHOT, levelWeapon, false);
+                        spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.Orientation.LATERAL, Enums.AmmoIntensity.SHOT, levelWeapon, false);
+                        spawnAmmo(ammoPositionBottom, Direction.DOWN, Enums.Orientation.VERTICAL, Enums.AmmoIntensity.SHOT, levelWeapon, false);
+                        spawnAmmo(ammoPositionTop, Direction.UP, Enums.Orientation.VERTICAL, Enums.AmmoIntensity.SHOT, levelWeapon, false);
+                    }
+                }
+            }
+            destructibles.end();
+            hazards.addAll(destructibles);
+
+
             // Update Bullets
             ammoList.begin();
             for (Ammo ammo : ammoList) {
@@ -147,21 +176,7 @@ public class Level {
                 }
             }
             ammoList.end();
-
-            // Update Enemies
-            destructibles.begin();
-            for (int i = 0; i < destructibles.size; i++) {
-                DestructibleHazard destructible = destructibles.get(i);
-                destructible.update(delta);
-                if (destructible.getHealth() < 1) {
-                    spawnExplosion(destructible.getPosition());
-                    destructibles.removeIndex(i);
-                    levelScore += destructible.getKillScore();
-                }
-            }
-            destructibles.end();
-            hazards.addAll(destructibles);
-
+            
             // Update Explosions
             explosions.begin();
             for (int i = 0; i < explosions.size; i++) {

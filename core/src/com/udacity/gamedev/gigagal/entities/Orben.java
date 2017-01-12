@@ -24,7 +24,6 @@ public class Orben implements DestructibleHazard {
     private final long startTime;
     private float bobOffset;
     private int health;
-    private long descentStartTime;
 
     // ctor
     public Orben(Level level, Vector2 position, Enums.WeaponType type) {
@@ -57,9 +56,7 @@ public class Orben implements DestructibleHazard {
             direction = Enums.Direction.LEFT;
         }
 
-        final float elapsedTime = Utils.secondsSince(startTime);
-        final float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + elapsedTime / Constants.ZOOMBA_BOB_PERIOD));
-        position.y = worldSpan.y + Constants.ORBEN_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier;
+        position.y = worldSpan.y + Constants.ORBEN_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE;
     }
 
     @Override
