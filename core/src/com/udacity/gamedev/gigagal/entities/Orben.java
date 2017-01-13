@@ -2,7 +2,6 @@ package com.udacity.gamedev.gigagal.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -18,7 +17,8 @@ public class Orben implements DestructibleHazard {
     // fields
     private Level level;
     private Vector2 position;
-    private Enums.Direction direction;
+    private Enums.Direction lateralDirection;
+    private Enums.Direction verticalDirection;
     private Enums.WeaponType type;
     private Vector2 velocity;
     private long startTime;
@@ -31,7 +31,8 @@ public class Orben implements DestructibleHazard {
         this.level = level;
         this.type = type;
         this.position = position;
-        direction = null;
+        lateralDirection = null;
+        verticalDirection = null;
         velocity = new Vector2(0, 0);
         health = Constants.SWOOPA_MAX_HEALTH;
     }
@@ -40,11 +41,11 @@ public class Orben implements DestructibleHazard {
         Viewport viewport = level.getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
         Vector3 camera = new Vector3(viewport.getCamera().position);
-        float activationDistance = viewport.getScreenWidth() / 8;
+        Vector2 activationDistance = new Vector2(worldSpan.x / 4, worldSpan.y / 4);
 
-        if (direction != null) {
-            active = true;
-            switch (direction) {
+
+        if (lateralDirection != null) {
+            switch (lateralDirection) {
                 case LEFT:
                     velocity.x = -Constants.ORBEN_MOVEMENT_SPEED * delta;
                     break;
@@ -54,31 +55,57 @@ public class Orben implements DestructibleHazard {
             }
         } else {
             velocity.x = 0;
-            startTime = TimeUtils.nanoTime();
-            active = false;
         }
 
         position.x += velocity.x;
 
-
-
-        if ((position.x < camera.x - activationDistance)
-        || (position.x > camera.x + activationDistance)) {
-            direction = null;
-        } else if ((position.x > camera.x - activationDistance) && (position.x < camera.x)) {
-            direction = Enums.Direction.RIGHT;
-        } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance)) {
-            direction = Enums.Direction.LEFT;
+        if ((position.x < camera.x - activationDistance.x)
+        || (position.x > camera.x + activationDistance.x)) {
+            lateralDirection = null;
+        } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
+            lateralDirection = Enums.Direction.RIGHT;
+        } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {
+            lateralDirection = Enums.Direction.LEFT;
         }
 
-        position.y = worldSpan.y + Constants.ORBEN_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE;
+
+        if (verticalDirection != null) {
+            switch (verticalDirection) {
+                case DOWN:
+                    velocity.y = -Constants.ORBEN_MOVEMENT_SPEED * delta;
+                    break;
+                case UP:
+                    velocity.y = Constants.ORBEN_MOVEMENT_SPEED * delta;
+                    break;
+            }
+        } else {
+            velocity.y = 0;
+        }
+
+        position.y += velocity.y;
+
+        if ((position.y < camera.y - activationDistance.y)
+                || (position.y > camera.y + activationDistance.y)) {
+            verticalDirection = null;
+        } else if ((position.y > camera.y - activationDistance.y) && (position.y < camera.y)) {
+            verticalDirection = Enums.Direction.UP;
+        } else if ((position.y > camera.y) && (position.y < camera.y + activationDistance.y)) {
+            verticalDirection = Enums.Direction.DOWN;
+        }
+
+        if (lateralDirection != null && verticalDirection != null) {
+            active = true;
+        } else {
+            startTime = TimeUtils.nanoTime();
+            active = false;
+        }
     }
 
     @Override
     public void render(SpriteBatch batch) {
         final float elapsedTime = Utils.secondsSince(startTime);
         final TextureRegion region;
-        if (velocity.x == 0) {
+        if (lateralDirection == null || verticalDirection == null) {
             region = Assets.getInstance().getOrbenAssets().dormantOrben;
         } else {
             switch (type) {
