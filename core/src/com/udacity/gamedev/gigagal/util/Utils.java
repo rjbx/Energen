@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Entity;
+import com.udacity.gamedev.gigagal.entities.Orben;
 
 import org.apache.commons.lang3.time.StopWatch;
 
@@ -133,10 +134,12 @@ public class Utils {
     }
 
     public static final void applyDamage(DestructibleHazard destructible, Enums.AmmoIntensity ammoIntensity, int damage) {
-        if (ammoIntensity == Enums.AmmoIntensity.BLAST) {
-            destructible.setHealth(destructible.getHealth() - damage);
-        } else {
-            destructible.setHealth((int) (destructible.getHealth() - (damage * .67f)));
+        if (!(destructible instanceof Orben && !(((Orben) destructible).isActive()))) {
+            if (ammoIntensity == Enums.AmmoIntensity.BLAST) {
+                destructible.setHealth(destructible.getHealth() - damage);
+            } else {
+                destructible.setHealth((int) (destructible.getHealth() - (damage * .67f)));
+            }
         }
     }
 
