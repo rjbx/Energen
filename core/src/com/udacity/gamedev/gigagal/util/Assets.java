@@ -48,6 +48,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private WhirlingSwoopaAssets whirlingSwoopaAssets;
     private SharpSwoopaAssets sharpSwoopaAssets;
     private OrbenAssets orbenAssets;
+    private RollenAssets rollenAssets;
     private SpikeAssets spikeAssets;
     private FlameAssets flameAssets;
     private GeiserAssets geiserAssets;
@@ -103,6 +104,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         whirlingSwoopaAssets = new WhirlingSwoopaAssets(atlas);
         sharpSwoopaAssets = new SharpSwoopaAssets(atlas);
         orbenAssets = new OrbenAssets(atlas);
+        rollenAssets = new RollenAssets(atlas);
         spikeAssets = new SpikeAssets(atlas);
         flameAssets = new FlameAssets(atlas);
         geiserAssets = new GeiserAssets(atlas);
@@ -661,7 +663,6 @@ public final class Assets implements Disposable, AssetErrorListener {
                     fieryOrbenRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> gushingOrbenRegions = new Array<AtlasRegion>();
-            chargedOrbenRegions.add(atlas.findRegion(Constants.DORMANTORBEN_SPRITE));
             gushingOrbenRegions.add(atlas.findRegion(Constants.GUSHINGORBEN_SPRITE_0));
             gushingOrbenRegions.add(atlas.findRegion(Constants.GUSHINGORBEN_SPRITE_1));
             gushingOrbenRegions.add(atlas.findRegion(Constants.GUSHINGORBEN_SPRITE_2));
@@ -684,6 +685,63 @@ public final class Assets implements Disposable, AssetErrorListener {
 
             whirlingOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS,
                     whirlingOrbenRegions, PlayMode.NORMAL);
+        }
+    }
+
+    public class RollenAssets {
+
+        public final Animation chargedRollen;
+        public final Animation fieryRollen;
+        public final Animation gushingRollen;
+        public final Animation sharpRollen;
+        public final Animation whirlingRollen;
+
+        public RollenAssets(TextureAtlas atlas) {
+
+            Array<AtlasRegion> chargedRollenRegions = new Array<AtlasRegion>();
+            chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_4));
+            chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_1));
+            chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_2));
+            chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_3));
+
+            chargedRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
+                    chargedRollenRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> fieryRollenRegions = new Array<AtlasRegion>();
+            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_4));
+            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_1));
+            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_2));
+            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_3));
+
+            fieryRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
+                    fieryRollenRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> gushingRollenRegions = new Array<AtlasRegion>();
+            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_4));
+            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_1));
+            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_2));
+            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_3));
+
+            gushingRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
+                    gushingRollenRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> sharpRollenRegions = new Array<AtlasRegion>();
+            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_4));
+            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_1));
+            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_2));
+            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_3));
+
+            sharpRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
+                    sharpRollenRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> whirlingRollenRegions = new Array<AtlasRegion>();
+            whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_4));
+            whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_1));
+            whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_2));
+            whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_3));
+
+            whirlingRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
+                    whirlingRollenRegions, PlayMode.NORMAL);
         }
     }
 
@@ -904,6 +962,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final WhirlingSwoopaAssets getWhirlingSwoopaAssets() { return whirlingSwoopaAssets; }
     public final SharpSwoopaAssets getSharpSwoopaAssets() { return sharpSwoopaAssets; }
     public final OrbenAssets getOrbenAssets() { return orbenAssets; }
+    public final RollenAssets getRollenAssets() { return rollenAssets; }
     public final SpikeAssets getSpikeAssets() { return spikeAssets; }
     public final FlameAssets getFlameAssets() { return flameAssets; }
     public final GeiserAssets getGeiserAssets() { return geiserAssets; }

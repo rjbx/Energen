@@ -299,31 +299,31 @@ public final class Constants {
     public static final int ROLLEN_REGIONS = 4;
 
     // Fiery-Rollen
-    public static final String FIERYROLLEN_SPRITE_0 = "rollen-fire-4";
+    public static final String FIERYROLLEN_SPRITE_4 = "rollen-fire-4";
     public static final String FIERYROLLEN_SPRITE_1 = "rollen-fire-1";
     public static final String FIERYROLLEN_SPRITE_2 = "rollen-fire-2";
     public static final String FIERYROLLEN_SPRITE_3 = "rollen-fire-3";
 
     // Gushing-Rollen
-    public static final String GUSHINGROLLEN_SPRITE_0 = "rollen-water-4";
+    public static final String GUSHINGROLLEN_SPRITE_4 = "rollen-water-4";
     public static final String GUSHINGROLLEN_SPRITE_1 = "rollen-water-1";
     public static final String GUSHINGROLLEN_SPRITE_2 = "rollen-water-2";
     public static final String GUSHINGROLLEN_SPRITE_3 = "rollen-water-3";
 
     // Charged-Rollen
-    public static final String CHARGEDROLLEN_SPRITE_0 = "rollen-electric-4";
+    public static final String CHARGEDROLLEN_SPRITE_4 = "rollen-electric-4";
     public static final String CHARGEDROLLEN_SPRITE_1 = "rollen-electric-1";
     public static final String CHARGEDROLLEN_SPRITE_2 = "rollen-electric-2";
     public static final String CHARGEDROLLEN_SPRITE_3 = "rollen-electric-3";
 
     // Whirling-Rollen
-    public static final String WHIRLINGROLLEN_SPRITE_0 = "rollen-rubber-4";
+    public static final String WHIRLINGROLLEN_SPRITE_4 = "rollen-rubber-4";
     public static final String WHIRLINGROLLEN_SPRITE_1 = "rollen-rubber-1";
     public static final String WHIRLINGROLLEN_SPRITE_2 = "rollen-rubber-2";
     public static final String WHIRLINGROLLEN_SPRITE_3 = "rollen-rubber-3";
 
     // Sharp-Rollen
-    public static final String SHARPROLLEN_SPRITE_0 = "rollen-metal-4";
+    public static final String SHARPROLLEN_SPRITE_4 = "rollen-metal-4";
     public static final String SHARPROLLEN_SPRITE_1 = "rollen-metal-1";
     public static final String SHARPROLLEN_SPRITE_2 = "rollen-metal-2";
     public static final String SHARPROLLEN_SPRITE_3 = "rollen-metal-3";

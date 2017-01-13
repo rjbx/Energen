@@ -104,30 +104,26 @@ public class Rollen implements DestructibleHazard {
     public void render(SpriteBatch batch) {
         final float elapsedTime = Utils.secondsSince(startTime);
         final TextureRegion region;
-        if (lateralDirection == null || verticalDirection == null) {
-            region = Assets.getInstance().getRollenAssets().dormantRollen;
-        } else {
-            switch (type) {
-                case ELECTRIC:
-                    region = Assets.getInstance().getRollenAssets().chargedRollen.getKeyFrame(elapsedTime, true);
-                    break;
-                case FIRE:
-                    region = Assets.getInstance().getRollenAssets().fieryRollen.getKeyFrame(elapsedTime, true);
-                    break;
-                case METAL:
-                    region = Assets.getInstance().getRollenAssets().sharpRollen.getKeyFrame(elapsedTime, true);
-                    break;
-                case RUBBER:
-                    region = Assets.getInstance().getRollenAssets().whirlingRollen.getKeyFrame(elapsedTime, true);
-                    break;
-                case WATER:
-                    region = Assets.getInstance().getRollenAssets().gushingRollen.getKeyFrame(elapsedTime, true);
-                    break;
-                default:
-                    region = null;
-            }
+        switch (type) {
+            case ELECTRIC:
+                region = Assets.getInstance().getRollenAssets().chargedRollen.getKeyFrame(elapsedTime, true);
+                break;
+            case FIRE:
+                region = Assets.getInstance().getRollenAssets().fieryRollen.getKeyFrame(elapsedTime, true);
+                break;
+            case METAL:
+                region = Assets.getInstance().getRollenAssets().sharpRollen.getKeyFrame(elapsedTime, true);
+                break;
+            case RUBBER:
+                region = Assets.getInstance().getRollenAssets().whirlingRollen.getKeyFrame(elapsedTime, true);
+                break;
+            case WATER:
+                region = Assets.getInstance().getRollenAssets().gushingRollen.getKeyFrame(elapsedTime, true);
+                break;
+            default:
+                region = null;
         }
-        Utils.drawTextureRegion(batch, region, position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
+        Utils.drawTextureRegion(batch, region, position, Constants.ROLLEN_CENTER);
     }
 
     @Override public Vector2 getPosition() { return position; }
