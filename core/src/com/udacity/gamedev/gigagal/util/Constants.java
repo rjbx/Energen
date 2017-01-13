@@ -248,16 +248,16 @@ public final class Constants {
     public static final String SHARPSWOOPA_SPRITE_2 = "swoopa-metal-2";
 
     // Orben
-    public static final Vector2 ORBEN_CENTER = new Vector2(5, 5);
+    public static final float ORBEN_TEXTURE_SCALE = 1.5f;
+    public static final Vector2 ORBEN_CENTER = new Vector2(5 * ORBEN_TEXTURE_SCALE, 5 * ORBEN_TEXTURE_SCALE);
+    public static final float ORBEN_COLLISION_WIDTH = 10 * ORBEN_TEXTURE_SCALE;
+    public static final float ORBEN_COLLISION_HEIGHT = 10 * ORBEN_TEXTURE_SCALE;
+    public static final float ORBEN_SHOT_RADIUS = 5 * ORBEN_TEXTURE_SCALE;
     public static final float ORBEN_MOVEMENT_SPEED = 25;
     public static final int ORBEN_MAX_HEALTH = 30;
     public static final int ORBEN_STANDARD_DAMAGE = 1;
     public static final Vector2 ORBEN_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
-    public static final float ORBEN_COLLISION_WIDTH = 10;
-    public static final float ORBEN_COLLISION_HEIGHT = 10;
-    public static final float ORBEN_SHOT_RADIUS = 2.5f;
     public static final float ORBEN_DURATION = 1.5f;
-    public static final float ORBEN_BOB_AMPLITUDE = 0.5f;
     public static final int ORBEN_REGIONS = 3;
     public static final String DORMANTORBEN_SPRITE = "orben-dormant";
 
@@ -365,8 +365,10 @@ public final class Constants {
     public static final int AMMO_STANDARD_DAMAGE = 10;
     public static final int AMMO_SPECIALIZED_DAMAGE = 30;
     public static final int AMMO_WEAK_DAMAGE = 1;
-    public static final Vector2 SHOT_CENTER = new Vector2(4, 4);
-    public static final Vector2 BLAST_CENTER = new Vector2(9, 9);
+    public static final float SHOT_RADIUS = 4;
+    public static final float BLAST_RADIUS = 9;
+    public static final Vector2 SHOT_CENTER = new Vector2(SHOT_RADIUS, SHOT_RADIUS);
+    public static final Vector2 BLAST_CENTER = new Vector2(BLAST_RADIUS, BLAST_RADIUS);
     public static final String SHOT_NATIVE_SPRITE = "ammo-shot-native";
     public static final String BLAST_NATIVE_SPRITE = "ammo-blast-native";
     public static final String SHOT_FIRE_SPRITE = "ammo-shot-fire";
@@ -501,5 +503,9 @@ public final class Constants {
     public static final int ZOOMBA_HIT_SCORE = 25;
     public static final int SWOOPA_KILL_SCORE = 100;
     public static final int SWOOPA_HIT_SCORE = 25;
+    public static final int ORBEN_KILL_SCORE = 100;
+    public static final int ORBEN_HIT_SCORE = 25;
+    public static final int ROLLEN_KILL_SCORE = 100;
+    public static final int ROLLEN_HIT_SCORE = 25;
     public static final int POWERUP_SCORE = 50;
 }
