@@ -21,6 +21,7 @@ import com.udacity.gamedev.gigagal.entities.Lift;
 import com.udacity.gamedev.gigagal.entities.Orben;
 import com.udacity.gamedev.gigagal.entities.Pillar;
 import com.udacity.gamedev.gigagal.entities.Pole;
+import com.udacity.gamedev.gigagal.entities.Rollen;
 import com.udacity.gamedev.gigagal.entities.Rope;
 import com.udacity.gamedev.gigagal.entities.SharpSwoopa;
 import com.udacity.gamedev.gigagal.entities.SharpZoomba;
@@ -204,6 +205,10 @@ public final class LevelLoader {
                 final Vector2 orbenPosition = imagePosition.add(Constants.ORBEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the orben at " + orbenPosition);
                 level.getDestructibles().add(new Orben(level, orbenPosition, Enums.WeaponType.valueOf(identifier)));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WHIRLINGROLLEN_SPRITE_1)) {
+                final Vector2 rollenPosition = imagePosition.add(Constants.ROLLEN_CENTER);
+                Gdx.app.log(TAG, "Loaded the rollen at " + rollenPosition);
+                level.getDestructibles().add(new Rollen(level, rollenPosition, Enums.WeaponType.valueOf(identifier)));
             }
         }
     }
