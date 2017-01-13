@@ -13,7 +13,7 @@ ammo-blast-electric
   index: -1
 ammo-blast-fire
   rotate: false
-  xy: 578, 101
+  xy: 582, 121
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
@@ -27,7 +27,7 @@ ammo-blast-fire-alt
   index: -1
 ammo-blast-metal
   rotate: false
-  xy: 519, 79
+  xy: 519, 84
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
@@ -41,7 +41,7 @@ ammo-blast-metal-alt
   index: -1
 ammo-blast-native
   rotate: false
-  xy: 539, 81
+  xy: 839, 150
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
@@ -55,28 +55,28 @@ ammo-blast-psychic
   index: -1
 ammo-blast-rubber
   rotate: false
-  xy: 535, 120
+  xy: 562, 120
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 ammo-blast-water
   rotate: false
-  xy: 517, 60
+  xy: 539, 84
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
 ammo-blast-water-alt
   rotate: false
-  xy: 519, 98
+  xy: 544, 64
   size: 17, 18
   orig: 17, 18
   offset: 0, 0
   index: -1
 ammo-shot-electric
   rotate: false
-  xy: 840, 111
+  xy: 840, 124
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
@@ -90,70 +90,70 @@ ammo-shot-electric-alt
   index: -1
 ammo-shot-fire
   rotate: false
-  xy: 816, 99
+  xy: 816, 111
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-fire-alt
   rotate: false
-  xy: 598, 111
+  xy: 831, 121
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 ammo-shot-metal
   rotate: false
-  xy: 937, 143
+  xy: 563, 64
   size: 8, 7
   orig: 8, 7
   offset: 0, 0
   index: -1
 ammo-shot-metal-alt
   rotate: false
-  xy: 598, 101
+  xy: 559, 84
   size: 7, 8
   orig: 7, 8
   offset: 0, 0
   index: -1
 ammo-shot-native
   rotate: false
-  xy: 947, 142
+  xy: 928, 161
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-psychic
   rotate: false
-  xy: 607, 117
+  xy: 870, 147
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber
   rotate: false
-  xy: 607, 107
+  xy: 816, 101
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-rubber-alt
   rotate: false
-  xy: 617, 117
+  xy: 572, 78
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-water
   rotate: false
-  xy: 827, 99
+  xy: 940, 143
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-water-alt
   rotate: false
-  xy: 617, 106
+  xy: 563, 73
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
@@ -216,7 +216,7 @@ button-up
   index: -1
 cannon-lateral
   rotate: false
-  xy: 839, 155
+  xy: 858, 157
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
@@ -622,7 +622,7 @@ icon-hover
   index: -1
 icon-life
   rotate: false
-  xy: 838, 140
+  xy: 519, 103
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
@@ -650,7 +650,7 @@ lift
   index: -1
 orben-dormant
   rotate: false
-  xy: 1007, 142
+  xy: 858, 147
   size: 10, 8
   orig: 10, 8
   offset: 0, 0
@@ -664,147 +664,147 @@ orben-electric-active-0
   index: -1
 orben-electric-active-1
   rotate: false
-  xy: 861, 159
+  xy: 880, 159
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-electric-active-2
   rotate: false
-  xy: 873, 159
+  xy: 892, 159
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-electric-alert
   rotate: false
-  xy: 885, 159
+  xy: 904, 159
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-fire-active-0
   rotate: false
-  xy: 897, 159
+  xy: 916, 159
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-fire-active-1
   rotate: false
-  xy: 909, 159
+  xy: 568, 100
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-fire-active-2
   rotate: false
-  xy: 921, 159
+  xy: 568, 88
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-fire-alert
   rotate: false
-  xy: 853, 143
+  xy: 855, 135
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-metal-active-0
   rotate: false
-  xy: 865, 147
+  xy: 880, 147
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-metal-active-1
   rotate: false
-  xy: 877, 147
+  xy: 867, 135
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-metal-active-2
   rotate: false
-  xy: 889, 147
+  xy: 892, 147
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-metal-alert
   rotate: false
-  xy: 901, 147
+  xy: 879, 135
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-rubber-active-0
   rotate: false
-  xy: 913, 147
+  xy: 904, 147
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-rubber-active-1
   rotate: false
-  xy: 925, 147
+  xy: 891, 135
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-rubber-active-2
   rotate: false
-  xy: 937, 152
+  xy: 916, 147
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-rubber-alert
   rotate: false
-  xy: 949, 152
+  xy: 903, 135
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-shoot
   rotate: false
-  xy: 819, 120
+  xy: 915, 135
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-water-active-0
   rotate: false
-  xy: 831, 120
+  xy: 928, 149
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-water-active-1
   rotate: false
-  xy: 816, 108
+  xy: 940, 152
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-water-active-2
   rotate: false
-  xy: 828, 108
+  xy: 952, 152
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-water-alert
   rotate: false
-  xy: 843, 120
+  xy: 819, 120
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 pillar
   rotate: false
-  xy: 838, 132
+  xy: 562, 112
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
@@ -930,14 +930,14 @@ powerup-ammo
   index: -1
 powerup-health
   rotate: false
-  xy: 558, 81
+  xy: 965, 154
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 965, 154
+  xy: 1007, 150
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -972,112 +972,112 @@ rollen-electric-4
   index: -1
 rollen-fire-1
   rotate: false
-  xy: 555, 120
-  size: 18, 18
-  orig: 18, 18
-  offset: 0, 0
-  index: -1
-rollen-fire-2
-  rotate: false
-  xy: 575, 120
-  size: 18, 18
-  orig: 18, 18
-  offset: 0, 0
-  index: -1
-rollen-fire-3
-  rotate: false
-  xy: 538, 100
-  size: 18, 18
-  orig: 18, 18
-  offset: 0, 0
-  index: -1
-rollen-fire-4
-  rotate: false
-  xy: 558, 100
-  size: 18, 18
-  orig: 18, 18
-  offset: 0, 0
-  index: -1
-rollen-metal-1
-  rotate: false
   xy: 654, 100
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
-rollen-metal-2
+rollen-fire-2
   rotate: false
   xy: 681, 100
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
-rollen-metal-3
+rollen-fire-3
   rotate: false
   xy: 708, 100
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
-rollen-metal-4
+rollen-fire-4
   rotate: false
   xy: 735, 100
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
-rollen-rubber-1
+rollen-metal-1
   rotate: false
   xy: 762, 100
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
-rollen-rubber-2
+rollen-metal-2
   rotate: false
   xy: 789, 100
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
-rollen-rubber-3
+rollen-metal-3
   rotate: false
   xy: 404, 45
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
-rollen-rubber-4
+rollen-metal-4
   rotate: false
   xy: 404, 18
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
-rollen-water-1
+rollen-rubber-1
   rotate: false
   xy: 431, 35
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
-rollen-water-2
+rollen-rubber-2
   rotate: false
   xy: 431, 8
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
-rollen-water-3
+rollen-rubber-3
   rotate: false
   xy: 458, 30
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
-rollen-water-4
+rollen-rubber-4
   rotate: false
   xy: 485, 30
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+rollen-water-1
+  rotate: false
+  xy: 458, 3
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+rollen-water-2
+  rotate: false
+  xy: 485, 3
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+rollen-water-3
+  rotate: false
+  xy: 517, 57
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+rollen-water-4
+  rotate: false
+  xy: 531, 30
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
@@ -1091,7 +1091,7 @@ rope
   index: -1
 selection-cursor
   rotate: false
-  xy: 1007, 152
+  xy: 838, 133
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
@@ -1133,7 +1133,7 @@ spike-1
   index: -1
 spike-2
   rotate: false
-  xy: 595, 122
+  xy: 559, 94
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
@@ -1154,7 +1154,7 @@ spring-2
   index: -1
 spring-3
   rotate: false
-  xy: 982, 146
+  xy: 534, 103
   size: 23, 8
   orig: 23, 8
   offset: 0, 0
@@ -1301,14 +1301,14 @@ vines
   index: -1
 wheel-1
   rotate: false
-  xy: 458, 3
+  xy: 532, 3
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 wheel-2
   rotate: false
-  xy: 485, 3
+  xy: 535, 113
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
