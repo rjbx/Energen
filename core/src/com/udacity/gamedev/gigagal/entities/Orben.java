@@ -24,6 +24,7 @@ public class Orben implements DestructibleHazard {
     private long startTime;
     private float bobOffset;
     private int health;
+    private boolean active;
 
     // ctor
     public Orben(Level level, Vector2 position, Enums.WeaponType type) {
@@ -42,6 +43,7 @@ public class Orben implements DestructibleHazard {
         float activationDistance = viewport.getScreenWidth() / 8;
 
         if (direction != null) {
+            active = true;
             switch (direction) {
                 case LEFT:
                     velocity.x = -Constants.ORBEN_MOVEMENT_SPEED * delta;
@@ -53,6 +55,7 @@ public class Orben implements DestructibleHazard {
         } else {
             velocity.x = 0;
             startTime = TimeUtils.nanoTime();
+            active = false;
         }
 
         position.x += velocity.x;
@@ -117,4 +120,5 @@ public class Orben implements DestructibleHazard {
     @Override public final void setHealth( int health ) { this.health = health; }
     @Override public Enums.WeaponType getType() { return type; }
     public final long getStartTime() { return startTime; }
+    public final boolean isActive() { return active; }
 }

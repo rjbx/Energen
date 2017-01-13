@@ -253,12 +253,12 @@ public final class Constants {
     public static final int ORBEN_MAX_HEALTH = 30;
     public static final int ORBEN_STANDARD_DAMAGE = 1;
     public static final Vector2 ORBEN_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
-    public static final float ORBEN_COLLISION_WIDTH = 60;
-    public static final float ORBEN_COLLISION_HEIGHT = 27;
-    public static final float ORBEN_SHOT_RADIUS = 17;
+    public static final float ORBEN_COLLISION_WIDTH = 10;
+    public static final float ORBEN_COLLISION_HEIGHT = 10;
+    public static final float ORBEN_SHOT_RADIUS = 2.5f;
     public static final float ORBEN_DURATION = 1.5f;
     public static final float ORBEN_BOB_AMPLITUDE = 0.5f;
-    public static final int ORBEN_REGIONS = 4;
+    public static final int ORBEN_REGIONS = 3;
     public static final String DORMANTORBEN_SPRITE = "orben-dormant";
 
     // Fiery-Orben
