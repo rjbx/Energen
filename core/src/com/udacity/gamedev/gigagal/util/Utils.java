@@ -103,30 +103,30 @@ public class Utils {
     }
 
     public static final boolean contactingSides(Entity entity, float delta) {
-        float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
-        return ((delta - frontHalf) <= entity.getRight() && (delta + frontHalf) >= entity.getLeft());
-    }
-
-    public static final boolean contactingSides(Entity entity, float delta, float radius) {
-        float frontHalf = radius;
-        return ((delta - frontHalf) <= entity.getRight() && (delta + frontHalf) >= entity.getLeft());
+        float halfWidth = Constants.GIGAGAL_STANCE_WIDTH / 2;
+        return ((delta - halfWidth) <= entity.getRight() && (delta + halfWidth) >= entity.getLeft());
     }
 
     public static final boolean contactingSides(float leftSide, float rightSide, float delta) {
-        float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
-        return (((delta - frontHalf) <= rightSide) && ((delta + frontHalf) >= leftSide));
+        float halfWidth = Constants.GIGAGAL_STANCE_WIDTH / 2;
+        return (((delta - halfWidth) <= rightSide) && ((delta + halfWidth) >= leftSide));
     }
 
     public static final boolean betweenSides(Entity entity, float delta) {
-        float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
-        return ((delta + frontHalf) <= entity.getRight() && (delta - frontHalf) >= entity.getLeft())
+        float halfWidth = Constants.GIGAGAL_STANCE_WIDTH / 2;
+        return ((delta + halfWidth) <= entity.getRight() && (delta - halfWidth) >= entity.getLeft())
                 || (Math.abs(delta - entity.getPosition().x) < 5);
     }
 
     public static final boolean betweenSides(float leftSide, float rightSide, float delta) {
-        float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
-        return ((delta + frontHalf) <= rightSide && (delta - frontHalf) >= leftSide)
+        float halfWidth = Constants.GIGAGAL_STANCE_WIDTH / 2;
+        return ((delta + halfWidth) <= rightSide && (delta - halfWidth) >= leftSide)
                 || (Math.abs(delta - ((leftSide + rightSide) / 2)) < 5);
+    }
+
+    public static final boolean equilateralWithinBounds(Entity entity, float delta, float radius) {
+        return ((delta - radius) <= entity.getRight() && (delta + radius) >= entity.getLeft())
+                && ((delta - radius) <= entity.getTop() && (delta + radius) >= entity.getBottom());
     }
 
     public static final int useAmmo(Enums.AmmoIntensity intensity) {

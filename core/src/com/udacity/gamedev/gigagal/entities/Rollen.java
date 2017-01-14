@@ -67,12 +67,13 @@ public class Rollen implements DestructibleHazard {
         }
 
         for (Ground ground : grounds) {
-            if (Utils.contactingSides(ground, position.x, getWidth())) {
+            if (Utils.equilateralWithinBounds(ground, position.x, getWidth())) {
                 aerialState = Enums.AerialState.GROUNDED;
             } else {
                 aerialState = Enums.AerialState.FALLING;
             }
         }
+        grounds = new Array<Ground>();
         if (aerialState == Enums.AerialState.GROUNDED) {
             if ((position.x < camera.x - activationDistance.x)
                     || (position.x > camera.x + activationDistance.x)) {
@@ -88,6 +89,7 @@ public class Rollen implements DestructibleHazard {
                     startTime = 0;
                 }
             }
+            velocity.y = 0;
         } else {
             velocity.y = -Constants.GRAVITY;
         }
