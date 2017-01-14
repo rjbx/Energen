@@ -19,6 +19,7 @@ public class Rollen implements DestructibleHazard {
     // fields
     private Level level;
     private Vector2 position;
+    private Vector2 previousFramePosition;
     private Enums.Direction lateralDirection;
     private Enums.Direction verticalDirection;
     private Enums.WeaponType type;
@@ -38,6 +39,7 @@ public class Rollen implements DestructibleHazard {
         this.level = level;
         this.type = type;
         this.position = position;
+        this.previousFramePosition = new Vector2();
         lateralDirection = null;
         verticalDirection = null;
         speedAtChangeFacing = 0;
@@ -49,6 +51,7 @@ public class Rollen implements DestructibleHazard {
     }
 
     public void update(float delta) {
+        previousFramePosition = position;
         position.x += velocity.x;
         position.y += velocity.y;
 
@@ -56,37 +59,38 @@ public class Rollen implements DestructibleHazard {
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
         Vector3 camera = new Vector3(viewport.getCamera().position);
         Vector2 activationDistance = new Vector2(worldSpan.x / 2, worldSpan.y / 2);
-        
+
         if (lateralDirection != null) {
             if (rollStartTime == 0) {
                 speedAtChangeFacing = velocity.x;
                 rollStartTime = TimeUtils.nanoTime();
             }
             rollTimeSeconds = Utils.secondsSince(rollStartTime);
-            velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds / 2, Constants.ROLLEN_MOVEMENT_SPEED), lateralDirection, Enums.Orientation.LATERAL);
+            velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds / 10, Constants.ROLLEN_MOVEMENT_SPEED), lateralDirection, Enums.Orientation.LATERAL);
         }
 
         grounded = false;
         boolean bumpingSide = false;
-        float groundTop = 0;
         for (Ground ground : grounds) {
             if (Utils.equilateralWithinBounds(ground, position.x, position.y - getWidth() / 2, 0)) {
                 aerialState = Enums.AerialState.GROUNDED;
-                groundTop = ground.getTop();
+                float groundTop = ground.getTop();
                 grounded = true;
-                if (!(position.y < groundTop - getWidth() / 2)) {
+                if (!(Utils.equilateralWithinBounds(ground, position.x, position.y - getWidth() / 2, 0))) {
+                /*
+                if (!(position.x < Utils.absoluteToDirectionalValue(groundTop - (getWidth() / 2), lateralDirection, Enums.Orientation.LATERAL))) {
                     position.y = groundTop + getHeight() / 2;
                 } else {
-                    position.x -= Utils.absoluteToDirectionalValue(5, lateralDirection, Enums.Orientation.LATERAL);
+                    velocity.x = 0;
                     bumpingSide = true;
-                }
+                }*/
             }
         }
         if (grounded) {
             velocity.y = 0;
             if ((position.x < camera.x - activationDistance.x)
-            || (position.x > camera.x + activationDistance.x)
-            || bumpingSide) {
+                    || (position.x > camera.x + activationDistance.x)
+                    || bumpingSide) {
                 velocity.x = 0;
                 startTime = 0;
                 lateralDirection = null;

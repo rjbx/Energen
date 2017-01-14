@@ -699,46 +699,46 @@ public final class Assets implements Disposable, AssetErrorListener {
         public RollenAssets(TextureAtlas atlas) {
 
             Array<AtlasRegion> chargedRollenRegions = new Array<AtlasRegion>();
-            chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_4));
             chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_1));
             chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_2));
             chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_3));
+            chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_4));
 
             chargedRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
                     chargedRollenRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> fieryRollenRegions = new Array<AtlasRegion>();
-            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_4));
             fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_1));
             fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_2));
             fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_3));
+            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_4));
 
             fieryRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
                     fieryRollenRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> gushingRollenRegions = new Array<AtlasRegion>();
-            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_4));
             gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_1));
             gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_2));
             gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_3));
+            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_4));
 
             gushingRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
                     gushingRollenRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> sharpRollenRegions = new Array<AtlasRegion>();
-            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_4));
             sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_1));
             sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_2));
             sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_3));
+            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_4));
 
             sharpRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
                     sharpRollenRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> whirlingRollenRegions = new Array<AtlasRegion>();
-            whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_4));
             whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_1));
             whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_2));
             whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_3));
+            whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_4));
 
             whirlingRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
                     whirlingRollenRegions, PlayMode.NORMAL);

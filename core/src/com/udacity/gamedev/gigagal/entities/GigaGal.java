@@ -21,7 +21,7 @@ import java.util.ListIterator;
 import java.util.Random;
 
 // mutable
-public class GigaGal implements Humanoid {
+public class GigaGal implements Humanoid, Directional {
 
     // fields
     public final static String TAG = GigaGal.class.getName();
@@ -177,14 +177,14 @@ public class GigaGal implements Humanoid {
         rideableDirection = null;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
-            if (Utils.contactingSides(ground, position.x)) {
+            if (Utils.overlapsXVals(ground, position.x, getHalfWidth())) {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (!(ground instanceof DescendableGround) && climbDirection == null) {
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                             // if during previous frame was not, while currently is, between ground left and right sides
-                            if (!Utils.contactingSides(ground, previousFramePosition.x)) {
+                            if (!Utils.overlapsXVals(ground, previousFramePosition.x, getHalfWidth())) {
                                 // only when not grounded and not recoiling
                                 if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
                                     // if lateral velocity (magnitude, without concern for direction) greater than one third max speed,
@@ -324,7 +324,7 @@ public class GigaGal implements Humanoid {
                                 stand();
                             }
                         } else if (ground instanceof ClimbableGround) {
-                            if (Utils.betweenSides(ground, position.x)) {
+                            if (Utils.centeredOverXVals(ground, position.x)) {
                                 if ((!(ground instanceof Pole)) || (getBottom() > ground.getBottom())) {
                                     onClimbable = true;
                                 }
@@ -1152,8 +1152,8 @@ public class GigaGal implements Humanoid {
     @Override public Vector2 getPosition() { return position; }
     @Override public float getWidth() { return Constants.GIGAGAL_STANCE_WIDTH; }
     @Override public float getHeight() { return Constants.GIGAGAL_HEIGHT; }
-    @Override public float getLeft() { return position.x - (Constants.GIGAGAL_STANCE_WIDTH / 2); }
-    @Override public float getRight() { return position.x + (Constants.GIGAGAL_STANCE_WIDTH / 2); }
+    @Override public float getLeft() { return position.x - getHalfWidth(); }
+    @Override public float getRight() { return position.x + getHalfWidth(); }
     @Override public float getTop() { return position.y + Constants.GIGAGAL_HEAD_RADIUS; }
     @Override public float getBottom() { return position.y - Constants.GIGAGAL_EYE_HEIGHT; }
     @Override public Rectangle getBounds() { return  new Rectangle(getLeft(), getBottom(), getWidth(), getHeight()); }
@@ -1164,6 +1164,7 @@ public class GigaGal implements Humanoid {
     @Override public boolean getClimbStatus() { return canClimb; }
     @Override public AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
     @Override public WeaponType getWeapon() { return weapon; }
+    public float getHalfWidth() { return Constants.GIGAGAL_STANCE_WIDTH / 2; }
     public List<WeaponType> getWeaponList() { return weaponList; }
     public int getAmmo() { return ammo; }
     public int getLives() { return lives; }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
+import com.udacity.gamedev.gigagal.entities.Directional;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Entity;
 import com.udacity.gamedev.gigagal.entities.Orben;
@@ -79,9 +80,9 @@ public class Utils {
         return 0;
     }
 
-    public static final boolean setFacing(GigaGal gigaGal, Enums.Direction setTo) {
-        if (gigaGal.getFacing() != setTo){
-            gigaGal.setFacing(setTo);
+    public static final boolean setFacing(Directional directional, Enums.Direction setTo) {
+        if (directional.getFacing() != setTo){
+            directional.setFacing(setTo);
             return true;
         } else {
             return false;
@@ -101,24 +102,20 @@ public class Utils {
         return (facing == Enums.Direction.RIGHT && delta < 0) || (facing == Enums.Direction.LEFT && delta > 0);
     }
 
-    public static final boolean contactingSides(Entity entity, float delta) {
-        float halfWidth = Constants.GIGAGAL_STANCE_WIDTH / 2;
+    public static final boolean overlapsXVals(Entity entity, float delta, float halfWidth) {
         return ((delta - halfWidth) <= entity.getRight() && (delta + halfWidth) >= entity.getLeft());
     }
 
-    public static final boolean contactingSides(float leftSide, float rightSide, float delta) {
-        float halfWidth = Constants.GIGAGAL_STANCE_WIDTH / 2;
+    public static final boolean overlapsXVals(float leftSide, float rightSide, float delta, float halfWidth) {
         return (((delta - halfWidth) <= rightSide) && ((delta + halfWidth) >= leftSide));
     }
 
-    public static final boolean betweenSides(Entity entity, float delta) {
-        float halfWidth = Constants.GIGAGAL_STANCE_WIDTH / 2;
+    public static final boolean centeredOverXVals(Entity entity, float delta, float halfWidth) {
         return ((delta + halfWidth) <= entity.getRight() && (delta - halfWidth) >= entity.getLeft())
                 || (Math.abs(delta - entity.getPosition().x) < 5);
     }
 
-    public static final boolean betweenSides(float leftSide, float rightSide, float delta) {
-        float halfWidth = Constants.GIGAGAL_STANCE_WIDTH / 2;
+    public static final boolean centeredOverXVals(float leftSide, float rightSide, float delta, float halfWidth) {
         return ((delta + halfWidth) <= rightSide && (delta - halfWidth) >= leftSide)
                 || (Math.abs(delta - ((leftSide + rightSide) / 2)) < 5);
     }
