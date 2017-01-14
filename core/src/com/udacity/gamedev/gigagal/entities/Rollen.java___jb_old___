@@ -4,9 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.Level;
+import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -24,6 +26,11 @@ public class Rollen implements DestructibleHazard {
     private long startTime;
     private int health;
     private boolean active;
+    private Enums.Direction facing;
+    private Enums.AerialState aerialState;
+    private float speedAtChangeFacing;
+    private long rollStartTime;
+    private Array<Ground> grounds;
 
     // ctor
     public Rollen(Level level, Vector2 position, Enums.WeaponType type) {
@@ -34,6 +41,7 @@ public class Rollen implements DestructibleHazard {
         verticalDirection = null;
         velocity = new Vector2(0, 0);
         health = Constants.ROLLEN_MAX_HEALTH;
+        grounds = new Array<Ground>(grounds);
     }
 
     public void update(float delta) {
@@ -41,63 +49,42 @@ public class Rollen implements DestructibleHazard {
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
         Vector3 camera = new Vector3(viewport.getCamera().position);
         Vector2 activationDistance = new Vector2(worldSpan.x / 4, worldSpan.y / 4);
-
-
         if (lateralDirection != null) {
-            switch (lateralDirection) {
-                case LEFT:
-                    velocity.x = -Constants.ROLLEN_MOVEMENT_SPEED * delta;
-                    break;
-                case RIGHT:
-                    velocity.x = Constants.ROLLEN_MOVEMENT_SPEED * delta;
-                    break;
+            if (rollStartTime == 0) {
+                speedAtChangeFacing = velocity.x;
+                rollStartTime = TimeUtils.nanoTime();
             }
-        } else {
-            velocity.x = 0;
+            float rollTimeSeconds = Utils.secondsSince(rollStartTime);
+            velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds / 2, Constants.ROLLEN_MOVEMENT_SPEED * 2), facing, Enums.Orientation.LATERAL);
         }
-
         position.x += velocity.x;
 
-        if ((position.x < camera.x - activationDistance.x)
-                || (position.x > camera.x + activationDistance.x)) {
-            lateralDirection = null;
-        } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
-            lateralDirection = Enums.Direction.RIGHT;
-        } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {
-            lateralDirection = Enums.Direction.LEFT;
+        for (Ground ground : grounds) {
+            if (Utils.contactingSides(ground, position.x, getWidth())) {
+                aerialState = Enums.AerialState.GROUNDED;
+            } else {
+                aerialState = Enums.AerialState.FALLING;
+            }
         }
-
-
-        if (verticalDirection != null) {
-            switch (verticalDirection) {
-                case DOWN:
-                    velocity.y = -Constants.ROLLEN_MOVEMENT_SPEED * delta;
-                    break;
-                case UP:
-                    velocity.y = Constants.ROLLEN_MOVEMENT_SPEED * delta;
-                    break;
+        if (aerialState == Enums.AerialState.GROUNDED) {
+            if ((position.x < camera.x - activationDistance.x)
+                    || (position.x > camera.x + activationDistance.x)) {
+                lateralDirection = null;
+            } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
+                lateralDirection = Enums.Direction.RIGHT;
+                if (aerialState != Enums.AerialState.FALLING) {
+                    startTime = 0;
+                }
+            } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {
+                lateralDirection = Enums.Direction.LEFT;
+                if (aerialState != Enums.AerialState.FALLING) {
+                    startTime = 0;
+                }
             }
         } else {
-            velocity.y = 0;
+            velocity.y = -Constants.GRAVITY;
         }
-
         position.y += velocity.y;
-
-        if ((position.y < camera.y - activationDistance.y)
-                || (position.y > camera.y + activationDistance.y)) {
-            verticalDirection = null;
-        } else if ((position.y > camera.y - activationDistance.y) && (position.y < camera.y)) {
-            verticalDirection = Enums.Direction.UP;
-        } else if ((position.y > camera.y) && (position.y < camera.y + activationDistance.y)) {
-            verticalDirection = Enums.Direction.DOWN;
-        }
-
-        if (lateralDirection != null && verticalDirection != null) {
-            active = true;
-        } else {
-            startTime = TimeUtils.nanoTime();
-            active = false;
-        }
     }
 
     @Override
@@ -140,7 +127,8 @@ public class Rollen implements DestructibleHazard {
     @Override public final int getDamage() { return Constants.ROLLEN_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ROLLEN_KNOCKBACK; }
     @Override public final void setHealth( int health ) { this.health = health; }
-    @Override public Enums.WeaponType getType() { return type; }
+    @Override public final Enums.WeaponType getType() { return type; }
     public final long getStartTime() { return startTime; }
     public final boolean isActive() { return active; }
+    public void setGrounds(Array<Ground> grounds) { this.grounds.addAll(grounds); }
 }

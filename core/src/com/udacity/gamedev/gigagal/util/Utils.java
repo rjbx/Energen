@@ -107,6 +107,11 @@ public class Utils {
         return ((delta - frontHalf) <= entity.getRight() && (delta + frontHalf) >= entity.getLeft());
     }
 
+    public static final boolean contactingSides(Entity entity, float delta, float radius) {
+        float frontHalf = radius;
+        return ((delta - frontHalf) <= entity.getRight() && (delta + frontHalf) >= entity.getLeft());
+    }
+
     public static final boolean contactingSides(float leftSide, float rightSide, float delta) {
         float frontHalf = Constants.GIGAGAL_STANCE_WIDTH / 2;
         return (((delta - frontHalf) <= rightSide) && ((delta + frontHalf) >= leftSide));

@@ -17,6 +17,7 @@ import com.udacity.gamedev.gigagal.entities.Hazard;
 import com.udacity.gamedev.gigagal.entities.IndestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.HoverableGround;
 import com.udacity.gamedev.gigagal.entities.Orben;
+import com.udacity.gamedev.gigagal.entities.Rollen;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.Explosion;
@@ -163,6 +164,9 @@ public class Level {
                         spawnAmmo(ammoPositionBottom, Direction.DOWN, Enums.Orientation.VERTICAL, Enums.AmmoIntensity.BLAST, weaponType, false);
                         spawnAmmo(ammoPositionTop, Direction.UP, Enums.Orientation.VERTICAL, Enums.AmmoIntensity.BLAST, weaponType, false);
                     }
+                } else if (destructible instanceof Rollen) {
+                    Rollen rollen = (Rollen) destructible;
+                    rollen.setGrounds(grounds);
                 }
             }
             destructibles.end();
