@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.Level;
-import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -62,12 +61,12 @@ public class Rollen implements DestructibleHazard {
                 rollStartTime = TimeUtils.nanoTime();
             }
             rollTimeSeconds = Utils.secondsSince(rollStartTime);
-            velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds / 2, Constants.ROLLEN_MOVEMENT_SPEED * 2), lateralDirection, Enums.Orientation.LATERAL);
+            velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds / 2, Constants.ROLLEN_MOVEMENT_SPEED), lateralDirection, Enums.Orientation.LATERAL);
         }
 
         grounded = false;
         for (Ground ground : grounds) {
-            if (Utils.equilateralWithinBounds(ground, position.x, getWidth() / 2)) {
+            if (Utils.equilateralWithinBounds(ground, position, 0)) {
                 aerialState = Enums.AerialState.GROUNDED;
                 position.y = ground.getTop();
                 grounded = true;
@@ -86,7 +85,7 @@ public class Rollen implements DestructibleHazard {
             }
         } else {
             aerialState = Enums.AerialState.FALLING;
-            velocity.y = -Constants.GRAVITY / 10;
+            velocity.y = -Constants.GRAVITY;
         }
     }
 

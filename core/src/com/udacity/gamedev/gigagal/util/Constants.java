@@ -291,7 +291,7 @@ public final class Constants {
     public static final float ROLLEN_COLLISION_WIDTH = 12.5f;
     public static final float ROLLEN_COLLISION_HEIGHT = 12.5f;
     public static final float ROLLEN_SHOT_RADIUS = 12.5f;
-    public static final float ROLLEN_MOVEMENT_SPEED = 75;
+    public static final float ROLLEN_MOVEMENT_SPEED = 1;
     public static final int ROLLEN_MAX_HEALTH = 30;
     public static final int ROLLEN_STANDARD_DAMAGE = 1;
     public static final Vector2 ROLLEN_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);

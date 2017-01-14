@@ -54,7 +54,6 @@ public class Utils {
                 false);
     }
 
-
     public static final float secondsSincePause(long pauseTime) {
         return secondsSince(pauseTime);
     }
@@ -124,9 +123,9 @@ public class Utils {
                 || (Math.abs(delta - ((leftSide + rightSide) / 2)) < 5);
     }
 
-    public static final boolean equilateralWithinBounds(Entity entity, float delta, float radius) {
-        return ((delta - radius) <= entity.getRight() && (delta + radius) >= entity.getLeft())
-                && ((delta - radius) <= entity.getTop() && (delta + radius) >= entity.getBottom());
+    public static final boolean equilateralWithinBounds(Entity entity, Vector2 position, float radius) {
+        return ((position.x - radius) <= entity.getRight() && (position.x + radius) >= entity.getLeft())
+                && ((position.y - radius) <= entity.getTop() && (position.y + radius) >= entity.getBottom());
     }
 
     public static final int useAmmo(Enums.AmmoIntensity intensity) {
