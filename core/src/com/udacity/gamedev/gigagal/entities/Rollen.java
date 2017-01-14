@@ -12,6 +12,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
+import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class Rollen implements DestructibleHazard {
 
@@ -103,25 +104,30 @@ public class Rollen implements DestructibleHazard {
     @Override
     public void render(SpriteBatch batch) {
         final TextureRegion region;
+        final Animation animation;
         switch (type) {
             case ELECTRIC:
-                region = Assets.getInstance().getRollenAssets().chargedRollen.getKeyFrame(rollTimeSeconds, true);
+                animation = Assets.getInstance().getRollenAssets().chargedRollen;
                 break;
             case FIRE:
-                region = Assets.getInstance().getRollenAssets().fieryRollen.getKeyFrame(rollTimeSeconds, true);
+                animation = Assets.getInstance().getRollenAssets().fieryRollen;
                 break;
             case METAL:
-                region = Assets.getInstance().getRollenAssets().sharpRollen.getKeyFrame(rollTimeSeconds, true);
+                animation = Assets.getInstance().getRollenAssets().sharpRollen;
                 break;
             case RUBBER:
-                region = Assets.getInstance().getRollenAssets().whirlingRollen.getKeyFrame(rollTimeSeconds, true);
+                animation = Assets.getInstance().getRollenAssets().whirlingRollen;
                 break;
             case WATER:
-                region = Assets.getInstance().getRollenAssets().gushingRollen.getKeyFrame(rollTimeSeconds, true);
+                animation = Assets.getInstance().getRollenAssets().gushingRollen;
                 break;
             default:
-                region = null;
+                animation = Assets.getInstance().getRollenAssets().whirlingRollen;
         }
+        if (lateralDirection == Enums.Direction.RIGHT) {
+            animation.setPlayMode(Animation.PlayMode.LOOP_REVERSED);
+        }
+        region = animation.getKeyFrame(rollTimeSeconds, true);
         Utils.drawTextureRegion(batch, region, position, Constants.ROLLEN_CENTER);
     }
 
