@@ -116,8 +116,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
             iterator.next();
         }
 
-        float verticalPosition = viewport.getWorldHeight() / 2.5f;
-        namePositions.add(verticalPosition);
+        float yPosition = viewport.getWorldHeight() / 2.5f;
+        namePositions.add(yPosition);
         while (iterator.hasPrevious()) {
             levelName = iterator.previous();
             if (cursor.getPosition() >= namePositions.get(index) - 15 && cursor.getPosition() < namePositions.get(index)) {
@@ -126,8 +126,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
             levelName = levelName.replace("levels/", "");
             levelName = levelName.replace(".dt", "");
             font.draw(batch, levelName, viewport.getWorldWidth() / 2.5f, namePositions.get(index));
-            verticalPosition += 15;
-            namePositions.add(verticalPosition);
+            yPosition += 15;
+            namePositions.add(yPosition);
             index++;
         }
 

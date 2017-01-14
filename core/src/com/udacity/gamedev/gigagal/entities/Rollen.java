@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entities;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -20,8 +19,8 @@ public class Rollen implements DestructibleHazard {
     private Level level;
     private Vector2 position;
     private Vector2 previousFramePosition;
-    private Enums.Direction lateralDirection;
-    private Enums.Direction verticalDirection;
+    private Enums.Direction xDirection;
+    private Enums.Direction yDirection;
     private Enums.WeaponType type;
     private Vector2 velocity;
     private long startTime;
@@ -40,8 +39,8 @@ public class Rollen implements DestructibleHazard {
         this.type = type;
         this.position = position;
         this.previousFramePosition = new Vector2();
-        lateralDirection = null;
-        verticalDirection = null;
+        xDirection = null;
+        yDirection = null;
         speedAtChangeFacing = 0;
         rollStartTime = 0;
         rollTimeSeconds = 0;
@@ -60,13 +59,13 @@ public class Rollen implements DestructibleHazard {
         Vector3 camera = new Vector3(viewport.getCamera().position);
         Vector2 activationDistance = new Vector2(worldSpan.x / 2, worldSpan.y / 2);
 
-        if (lateralDirection != null) {
+        if (xDirection != null) {
             if (rollStartTime == 0) {
                 speedAtChangeFacing = velocity.x;
                 rollStartTime = TimeUtils.nanoTime();
             }
             rollTimeSeconds = Utils.secondsSince(rollStartTime);
-            velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds / 10, Constants.ROLLEN_MOVEMENT_SPEED), lateralDirection, Enums.Orientation.LATERAL);
+            velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds / 10, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
         }
 
         grounded = false;
@@ -78,7 +77,7 @@ public class Rollen implements DestructibleHazard {
                 grounded = true;
                 if (!(Utils.equilateralWithinBounds(ground, position.x, position.y - getWidth() / 2, 0))) {
                 /*
-                if (!(position.x < Utils.absoluteToDirectionalValue(groundTop - (getWidth() / 2), lateralDirection, Enums.Orientation.LATERAL))) {
+                if (!(position.x < Utils.absoluteToDirectionalValue(groundTop - (getWidth() / 2), xDirection, Enums.Orientation.X))) {
                     position.y = groundTop + getHeight() / 2;
                 } else {
                     velocity.x = 0;
@@ -93,11 +92,11 @@ public class Rollen implements DestructibleHazard {
                     || bumpingSide) {
                 velocity.x = 0;
                 startTime = 0;
-                lateralDirection = null;
+                xDirection = null;
             } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
-                lateralDirection = Enums.Direction.RIGHT;
+                xDirection = Enums.Direction.RIGHT;
             } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {
-                lateralDirection = Enums.Direction.LEFT;
+                xDirection = Enums.Direction.LEFT;
             }
         } else {
             aerialState = Enums.AerialState.FALLING;
@@ -128,7 +127,7 @@ public class Rollen implements DestructibleHazard {
             default:
                 animation = Assets.getInstance().getRollenAssets().whirlingRollen;
         }
-        if (lateralDirection == Enums.Direction.RIGHT) {
+        if (xDirection == Enums.Direction.RIGHT) {
             animation.setPlayMode(Animation.PlayMode.REVERSED);
         } else {
             animation.setPlayMode(Animation.PlayMode.NORMAL);

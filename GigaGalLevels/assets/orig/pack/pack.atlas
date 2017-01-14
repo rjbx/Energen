@@ -4,14 +4,14 @@ size: 512,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-cannon-lateral
+cannon-x
   rotate: false
   xy: 261, 94
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
   index: -1
-cannon-vertical
+cannon-y
   rotate: false
   xy: 481, 77
   size: 20, 20

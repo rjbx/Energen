@@ -33,8 +33,8 @@ public final class Enums {
     }
 
     public enum Orientation {
-        VERTICAL,
-        LATERAL
+        X,
+        Y
     }
 
     public enum AerialState {

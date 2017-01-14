@@ -5,7 +5,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 
 public interface Humanoid extends Entity {
 
-    Enums.Direction getFacing();
+    Enums.Direction getDirectionX();
     float getTurbo();
     int getHealth();
     Rectangle getBounds();

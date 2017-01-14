@@ -22,10 +22,10 @@ public class Lift implements HoverableGround {
         this.position = position;
         this.orientation = orientation;
         switch (orientation) {
-            case VERTICAL:
+            case Y:
                 direction = Enums.Direction.UP;
                 break;
-            case LATERAL:
+            case X:
                 direction = Enums.Direction.RIGHT;
                 break;
             default:
@@ -38,7 +38,7 @@ public class Lift implements HoverableGround {
     @Override
     public void update(float delta) {
         switch (orientation) {
-            case VERTICAL:
+            case Y:
                 switch (direction) {
                     case UP:
                         velocity.set(0, Constants.LIFT_SPEED * delta);
@@ -56,7 +56,7 @@ public class Lift implements HoverableGround {
                     direction = Enums.Direction.DOWN;
                 }
                 break;
-            case LATERAL:
+            case X:
                 switch (direction) {
                     case RIGHT:
                         velocity.set(Constants.LIFT_SPEED * delta, 0);

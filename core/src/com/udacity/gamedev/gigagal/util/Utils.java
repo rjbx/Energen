@@ -6,8 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
-import com.udacity.gamedev.gigagal.entities.Directional;
-import com.udacity.gamedev.gigagal.entities.GigaGal;
+import com.udacity.gamedev.gigagal.entities.MultidirectionalX;
 import com.udacity.gamedev.gigagal.entities.Entity;
 import com.udacity.gamedev.gigagal.entities.Orben;
 
@@ -64,13 +63,13 @@ public class Utils {
     }
 
     public static final float absoluteToDirectionalValue(float delta, Enums.Direction direction, Enums.Orientation orientation) {
-        if (orientation == Enums.Orientation.LATERAL) {
+        if (orientation == Enums.Orientation.X) {
             if (direction == Enums.Direction.RIGHT) {
                 return delta;
             } else if (direction == Enums.Direction.LEFT) {
                 return -delta;
             }
-        } else if (orientation == Enums.Orientation.VERTICAL) {
+        } else if (orientation == Enums.Orientation.Y) {
             if (direction == Enums.Direction.UP) {
                 return delta;
             } else if (direction == Enums.Direction.DOWN) {
@@ -80,9 +79,9 @@ public class Utils {
         return 0;
     }
 
-    public static final boolean setFacing(Directional directional, Enums.Direction setTo) {
-        if (directional.getFacing() != setTo){
-            directional.setFacing(setTo);
+    public static final boolean setFacing(MultidirectionalX multidirectionalX, Enums.Direction setTo) {
+        if (multidirectionalX.getFacing() != setTo){
+            multidirectionalX.setFacing(setTo);
             return true;
         } else {
             return false;
@@ -98,8 +97,12 @@ public class Utils {
         return null;
     }
 
-    public static boolean movingOppositeDirectionFacing (float delta, Enums.Direction facing) {
-        return (facing == Enums.Direction.RIGHT && delta < 0) || (facing == Enums.Direction.LEFT && delta > 0);
+    public static final boolean movingOppositeDirection (float delta, Enums.Direction facing, Enums.Orientation orientation) {
+        if (orientation == Enums.Orientation.X) {
+            return (facing == Enums.Direction.RIGHT && delta < 0) || (facing == Enums.Direction.LEFT && delta > 0);
+        } else if (orientation == Enums.Orientation.Y) {
+            return (facing == Enums.Direction.UP && delta < 0) || (facing == Enums.Direction.DOWN && delta > 0);
+        }
     }
 
     public static final boolean overlapsXVals(Entity entity, float delta, float halfWidth) {

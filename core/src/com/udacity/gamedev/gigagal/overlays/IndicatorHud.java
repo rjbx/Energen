@@ -94,7 +94,7 @@ public class IndicatorHud {
         drawPosition = new Vector2(viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN - 7);
         Enums.WeaponType weapon = gigaGal.getWeapon();
         Enums.AmmoIntensity intensity = gigaGal.getAmmoIntensity();
-        final Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.LATERAL, intensity, weapon, false);
+        final Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, false);
         ammo.update(1);
         final TextureRegion weaponIcon = new TextureRegion(ammo.getTexture());
         Vector2 offset = new Vector2();

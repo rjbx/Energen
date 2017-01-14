@@ -17,7 +17,6 @@ import com.udacity.gamedev.gigagal.entities.Hazard;
 import com.udacity.gamedev.gigagal.entities.IndestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.HoverableGround;
 import com.udacity.gamedev.gigagal.entities.Orben;
-import com.udacity.gamedev.gigagal.entities.Rollen;
 import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.Explosion;
@@ -119,7 +118,7 @@ public class Level {
                     if ((Utils.secondsSince(cannon.getStartTime())  > 1.5f)) {
                         cannon.setStartTime(TimeUtils.nanoTime());
                         Enums.Orientation orientation = cannon.getOrientation();
-                        if (orientation == Enums.Orientation.LATERAL) {
+                        if (orientation == Enums.Orientation.X) {
                             Vector2 ammoPositionLeft = new Vector2(cannon.getPosition().x - (cannon.getWidth() / 2), ground.getPosition().y);
                             Vector2 ammoPositionRight = new Vector2(cannon.getPosition().x + (cannon.getWidth() / 2), ground.getPosition().y);
                             if (gigaGal.getPosition().x < (ammoPositionLeft.x - (cannon.getWidth() / 2))) {
@@ -127,7 +126,7 @@ public class Level {
                             } else if (gigaGal.getPosition().x > (ammoPositionRight.x + (cannon.getWidth() / 2))) {
                                 spawnAmmo(ammoPositionRight, Direction.RIGHT, orientation, Enums.AmmoIntensity.SHOT, levelWeapon, false);
                             }
-                        } else if (cannon.getOrientation() == Enums.Orientation.VERTICAL) {
+                        } else if (cannon.getOrientation() == Enums.Orientation.Y) {
                             Vector2 ammoPositionTop = new Vector2(ground.getPosition().x, cannon.getPosition().y + (cannon.getHeight() / 2));
                             Vector2 ammoPositionBottom = new Vector2(ground.getPosition().x, cannon.getPosition().y - (cannon.getHeight() / 2));
                             if (gigaGal.getPosition().y < (ammoPositionBottom.y - (cannon.getHeight() / 2))) {
@@ -159,10 +158,10 @@ public class Level {
                         Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, orben.getPosition().y + (orben.getHeight() * 1.1f));
                         Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, orben.getPosition().y - (orben.getHeight() * 1.1f));
 
-                        spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.Orientation.LATERAL, Enums.AmmoIntensity.BLAST, weaponType, false);
-                        spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.Orientation.LATERAL, Enums.AmmoIntensity.BLAST, weaponType, false);
-                        spawnAmmo(ammoPositionBottom, Direction.DOWN, Enums.Orientation.VERTICAL, Enums.AmmoIntensity.BLAST, weaponType, false);
-                        spawnAmmo(ammoPositionTop, Direction.UP, Enums.Orientation.VERTICAL, Enums.AmmoIntensity.BLAST, weaponType, false);
+                        spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.Orientation.X, Enums.AmmoIntensity.BLAST, weaponType, false);
+                        spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.Orientation.X, Enums.AmmoIntensity.BLAST, weaponType, false);
+                        spawnAmmo(ammoPositionBottom, Direction.DOWN, Enums.Orientation.Y, Enums.AmmoIntensity.BLAST, weaponType, false);
+                        spawnAmmo(ammoPositionTop, Direction.UP, Enums.Orientation.Y, Enums.AmmoIntensity.BLAST, weaponType, false);
                     }
                 }
             }

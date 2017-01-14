@@ -17,8 +17,8 @@ public class Orben implements DestructibleHazard {
     // fields
     private Level level;
     private Vector2 position;
-    private Enums.Direction lateralDirection;
-    private Enums.Direction verticalDirection;
+    private Enums.Direction xDirection;
+    private Enums.Direction yDirection;
     private Enums.WeaponType type;
     private Vector2 velocity;
     private long startTime;
@@ -30,8 +30,8 @@ public class Orben implements DestructibleHazard {
         this.level = level;
         this.type = type;
         this.position = position;
-        lateralDirection = null;
-        verticalDirection = null;
+        xDirection = null;
+        yDirection = null;
         velocity = new Vector2(0, 0);
         health = Constants.ORBEN_MAX_HEALTH;
     }
@@ -45,8 +45,8 @@ public class Orben implements DestructibleHazard {
         Vector3 camera = new Vector3(viewport.getCamera().position);
         Vector2 activationDistance = new Vector2(worldSpan.x / 4, worldSpan.y / 4);
 
-        if (lateralDirection != null) {
-            switch (lateralDirection) {
+        if (xDirection != null) {
+            switch (xDirection) {
                 case LEFT:
                     velocity.x = -Constants.ORBEN_MOVEMENT_SPEED * delta;
                     break;
@@ -59,15 +59,15 @@ public class Orben implements DestructibleHazard {
         }
         if ((position.x < camera.x - activationDistance.x)
         || (position.x > camera.x + activationDistance.x)) {
-            lateralDirection = null;
+            xDirection = null;
         } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
-            lateralDirection = Enums.Direction.RIGHT;
+            xDirection = Enums.Direction.RIGHT;
         } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {
-            lateralDirection = Enums.Direction.LEFT;
+            xDirection = Enums.Direction.LEFT;
         }
 
-        if (verticalDirection != null) {
-            switch (verticalDirection) {
+        if (yDirection != null) {
+            switch (yDirection) {
                 case DOWN:
                     velocity.y = -Constants.ORBEN_MOVEMENT_SPEED * delta;
                     break;
@@ -80,14 +80,14 @@ public class Orben implements DestructibleHazard {
         }
         if ((position.y < camera.y - activationDistance.y)
                 || (position.y > camera.y + activationDistance.y)) {
-            verticalDirection = null;
+            yDirection = null;
         } else if ((position.y > camera.y - activationDistance.y) && (position.y < camera.y)) {
-            verticalDirection = Enums.Direction.UP;
+            yDirection = Enums.Direction.UP;
         } else if ((position.y > camera.y) && (position.y < camera.y + activationDistance.y)) {
-            verticalDirection = Enums.Direction.DOWN;
+            yDirection = Enums.Direction.DOWN;
         }
 
-        if (lateralDirection != null && verticalDirection != null) {
+        if (xDirection != null && yDirection != null) {
             active = true;
         } else {
             startTime = TimeUtils.nanoTime();
@@ -99,7 +99,7 @@ public class Orben implements DestructibleHazard {
     public void render(SpriteBatch batch) {
         final float elapsedTime = Utils.secondsSince(startTime);
         final TextureRegion region;
-        if (lateralDirection == null || verticalDirection == null) {
+        if (xDirection == null || yDirection == null) {
             region = Assets.getInstance().getOrbenAssets().dormantOrben;
         } else {
             switch (type) {

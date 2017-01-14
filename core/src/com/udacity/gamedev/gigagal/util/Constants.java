@@ -31,7 +31,7 @@ public final class Constants {
     public static final float CLIMB_SPEED = 40;
     public static final float GIGAGAL_STARTING_SPEED = 0.3f;
     public static final float STRIDING_JUMP_MULTIPLIER = 1.1f;
-    public static final float VERTICAL_KNOCKBACK = 150;
+    public static final float Y_KNOCKBACK = 150;
     public static final float MAX_JUMP_DURATION = 0.025f;
     public static final float MAX_HOVER_DURATION = 1.5f;
     public static final float MIN_GROUND_DISTANCE = 20;
@@ -178,10 +178,10 @@ public final class Constants {
     public static final float COALS_DURATION = .25f;
 
     // Cannon
-    public static final Vector2 LATERAL_CANNON_CENTER = new Vector2(10, 6);
-    public static final String LATERAL_CANNON_SPRITE = "cannon-lateral";
-    public static final Vector2 VERTICAL_CANNON_CENTER = new Vector2(8, 10);
-    public static final String VERTICAL_CANNON_SPRITE = "cannon-vertical";
+    public static final Vector2 X_CANNON_CENTER = new Vector2(10, 6);
+    public static final String X_CANNON_SPRITE = "cannon-x";
+    public static final Vector2 Y_CANNON_CENTER = new Vector2(8, 10);
+    public static final String Y_CANNON_SPRITE = "cannon-y";
 
     // Zoomba
     public static final Vector2 ZOOMBA_CENTER = new Vector2(14.5f, 25.5f);
@@ -190,7 +190,7 @@ public final class Constants {
     public static final float ZOOMBA_BOB_PERIOD = 2f;
     public static final int ZOOMBA_MAX_HEALTH = 30;
     public static final int ZOOMBA_STANDARD_DAMAGE = 1;
-    public static final Vector2 ZOOMBA_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
+    public static final Vector2 ZOOMBA_KNOCKBACK = new Vector2(75, Y_KNOCKBACK);
     public static final float ZOOMBA_COLLISION_WIDTH = 30;
     public static final float ZOOMBA_COLLISION_HEIGHT = 51;
     public static final float ZOOMBA_SHOT_RADIUS = 17;
@@ -221,7 +221,7 @@ public final class Constants {
     public static final float SWOOPA_MOVEMENT_SPEED = 75;
     public static final int SWOOPA_MAX_HEALTH = 30;
     public static final int SWOOPA_STANDARD_DAMAGE = 1;
-    public static final Vector2 SWOOPA_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
+    public static final Vector2 SWOOPA_KNOCKBACK = new Vector2(75, Y_KNOCKBACK);
     public static final float SWOOPA_COLLISION_WIDTH = 60;
     public static final float SWOOPA_COLLISION_HEIGHT = 27;
     public static final float SWOOPA_SHOT_RADIUS = 17;
@@ -256,7 +256,7 @@ public final class Constants {
     public static final float ORBEN_MOVEMENT_SPEED = 25;
     public static final int ORBEN_MAX_HEALTH = 30;
     public static final int ORBEN_STANDARD_DAMAGE = 1;
-    public static final Vector2 ORBEN_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
+    public static final Vector2 ORBEN_KNOCKBACK = new Vector2(75, Y_KNOCKBACK);
     public static final float ORBEN_DURATION = 1.5f;
     public static final int ORBEN_REGIONS = 3;
     public static final String DORMANTORBEN_SPRITE = "orben-dormant";
@@ -295,7 +295,7 @@ public final class Constants {
     public static final float ROLLEN_MOVEMENT_SPEED = 2;
     public static final int ROLLEN_MAX_HEALTH = 60;
     public static final int ROLLEN_STANDARD_DAMAGE = 1;
-    public static final Vector2 ROLLEN_KNOCKBACK = new Vector2(75, VERTICAL_KNOCKBACK);
+    public static final Vector2 ROLLEN_KNOCKBACK = new Vector2(75, Y_KNOCKBACK);
     public static final float ROLLEN_DURATION = .5f;
     public static final int ROLLEN_REGIONS = 4;
 
@@ -333,7 +333,7 @@ public final class Constants {
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
     public static final float SPIKE_DURATION = 0.5f;
     public static final int SPIKE_DAMAGE = 5;
-    public static final Vector2 SPIKE_KNOCKBACK = new Vector2(50, VERTICAL_KNOCKBACK);
+    public static final Vector2 SPIKE_KNOCKBACK = new Vector2(50, Y_KNOCKBACK);
     public static final float SPIKE_COLLISION_WIDTH = 9;
     public static final float SPIKE_COLLISION_HEIGHT = 17;
     public static final String SPIKE_SPRITE_1 = "spike-1";
@@ -343,7 +343,7 @@ public final class Constants {
     public static final Vector2 FLAME_CENTER = new Vector2(8.5f, 17.5f);
     public static final float FLAME_DURATION = 0.15f;
     public static final int FLAME_DAMAGE = 15;
-    public static final Vector2 FLAME_KNOCKBACK = new Vector2(100, VERTICAL_KNOCKBACK);
+    public static final Vector2 FLAME_KNOCKBACK = new Vector2(100, Y_KNOCKBACK);
     public static final float FLAME_COLLISION_WIDTH = 15;
     public static final float FLAME_COLLISION_HEIGHT = 25;
     public static final String FLAME_SPRITE_1 = "flame-1";
@@ -353,7 +353,7 @@ public final class Constants {
     public static final Vector2 GEISER_CENTER = new Vector2(8.5f, 17.5f);
     public static final float GEISER_DURATION = 0.3f;
     public static final int GEISER_DAMAGE = 10;
-    public static final Vector2 GEISER_KNOCKBACK = new Vector2(25, VERTICAL_KNOCKBACK);
+    public static final Vector2 GEISER_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
     public static final float GEISER_COLLISION_WIDTH = 15;
     public static final float GEISER_COLLISION_HEIGHT = 25;
     public static final String GEISER_SPRITE_1 = "geiser-1";
@@ -483,8 +483,8 @@ public final class Constants {
     public static final String LEVEL_CHARGEDSWOOPA_TAG = "ChargedSwoopa";
     public static final String LEVEL_WHIRLINGSWOOPA_TAG = "WhirlingSwoopa";
     public static final String LEVEL_SHARPSWOOPA_TAG = "SharpSwoopa";
-    public static final String LEVEL_VERTICAL_LIFT_TAG = "VerticalLift";
-    public static final String LEVEL_LATERAL_LIFT_TAG = "LateralLift";
+    public static final String LEVEL_Y_LIFT_TAG = "YLift";
+    public static final String LEVEL_X_LIFT_TAG = "XLift";
     public static final String[] LEVELS =  {"levels/METAL.dt", "levels/RUBBER.dt", "levels/ELECTRIC.dt", "levels/WATER.dt", "levels/FIRE.dt", "levels/PSYCHIC.dt", "levels/FINAL.dt"};
 
     // HUD

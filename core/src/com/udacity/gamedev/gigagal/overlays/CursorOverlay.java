@@ -12,7 +12,7 @@ public class CursorOverlay {
 
     // fields
     private ExtendViewport viewport;
-    private float verticalPosition;
+    private float yPosition;
     private float startingPosition;
     private float endingPosition;
     private InputControls inputControls;
@@ -20,9 +20,9 @@ public class CursorOverlay {
     // ctor
     public CursorOverlay(float startingPosition, float endingPosition) {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        verticalPosition = startingPosition;
+        yPosition = startingPosition;
         this.endingPosition = endingPosition;
-        this.startingPosition = verticalPosition;
+        this.startingPosition = yPosition;
     }
 
     public void init() {
@@ -31,17 +31,17 @@ public class CursorOverlay {
 
     public void update() {
         if (inputControls.downButtonJustPressed || inputControls.rightButtonJustPressed) {
-            if (verticalPosition >= endingPosition + 15) {
-                verticalPosition -= 15;
+            if (yPosition >= endingPosition + 15) {
+                yPosition -= 15;
             } else {
-                verticalPosition = startingPosition;
+                yPosition = startingPosition;
             }
         }
         if (inputControls.upButtonJustPressed || inputControls.leftButtonJustPressed) {
-            if (verticalPosition <= startingPosition - 15) {
-                verticalPosition += 15;
+            if (yPosition <= startingPosition - 15) {
+                yPosition += 15;
             } else {
-                verticalPosition = endingPosition;
+                yPosition = endingPosition;
             }
         }
     }
@@ -51,10 +51,10 @@ public class CursorOverlay {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         Utils.drawTextureRegion(batch,
                 Assets.getInstance().getOnscreenControlsAssets().selectionCursor,
-                viewport.getWorldWidth() / 3.5f, verticalPosition);
+                viewport.getWorldWidth() / 3.5f, yPosition);
     }
 
     public ExtendViewport getViewport() { return viewport; }
-    public float getPosition() { return verticalPosition; }
+    public float getPosition() { return yPosition; }
     public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
 }

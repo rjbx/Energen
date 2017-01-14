@@ -26,13 +26,13 @@ public class Cannon implements Ground {
         startTime = 0;
         offset = 0;
         switch (orientation) {
-            case VERTICAL:
-                region = Assets.getInstance().getCannonAssets().verticalCannon;
-                center = Constants.VERTICAL_CANNON_CENTER;
+            case Y:
+                region = Assets.getInstance().getCannonAssets().yCannon;
+                center = Constants.Y_CANNON_CENTER;
                 break;
-            case LATERAL:
-                region = Assets.getInstance().getCannonAssets().lateralCannon;
-                center = Constants.LATERAL_CANNON_CENTER;
+            case X:
+                region = Assets.getInstance().getCannonAssets().xCannon;
+                center = Constants.X_CANNON_CENTER;
                 break;
         }
     }

@@ -321,13 +321,13 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class CannonAssets {
 
-        public final AtlasRegion verticalCannon;
-        public final AtlasRegion lateralCannon;
+        public final AtlasRegion yCannon;
+        public final AtlasRegion xCannon;
 
 
         public CannonAssets(TextureAtlas atlas) {
-            verticalCannon = atlas.findRegion(Constants.VERTICAL_CANNON_SPRITE);
-            lateralCannon = atlas.findRegion(Constants.LATERAL_CANNON_SPRITE);
+            yCannon = atlas.findRegion(Constants.Y_CANNON_SPRITE);
+            xCannon = atlas.findRegion(Constants.X_CANNON_SPRITE);
         }
     }
 

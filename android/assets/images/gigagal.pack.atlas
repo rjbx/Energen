@@ -214,14 +214,14 @@ button-up
   orig: 30, 25
   offset: 0, 0
   index: -1
-cannon-lateral
+cannon-x
   rotate: false
   xy: 858, 157
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
   index: -1
-cannon-vertical
+cannon-y
   rotate: false
   xy: 252, 2
   size: 16, 20

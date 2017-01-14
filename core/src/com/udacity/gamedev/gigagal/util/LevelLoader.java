@@ -145,14 +145,14 @@ public final class LevelLoader {
                 final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
                 Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
                 level.getIndestructibles().add(new Vacuum(vacuumPosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LATERAL_CANNON_SPRITE)) {
-                final Vector2 cannonPosition = imagePosition.add(Constants.LATERAL_CANNON_CENTER);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANNON_SPRITE)) {
+                final Vector2 cannonPosition = imagePosition.add(Constants.X_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
-                level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.LATERAL));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VERTICAL_CANNON_SPRITE)) {
-                final Vector2 cannonPosition = imagePosition.add(Constants.VERTICAL_CANNON_CENTER);
+                level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.X));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.Y_CANNON_SPRITE)) {
+                final Vector2 cannonPosition = imagePosition.add(Constants.Y_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
-                level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.VERTICAL));
+                level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.Y));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PILLAR_SPRITE)) {
                 final Vector2 pillarPosition = imagePosition.add(Constants.PILLAR_CENTER);
                 Gdx.app.log(TAG, "Loaded the pillar at " + pillarPosition);

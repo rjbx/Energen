@@ -9,8 +9,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-import java.awt.Rectangle;
-
 // immutable
 public final class Ammo implements IndestructibleHazard {
 
@@ -64,12 +62,12 @@ public final class Ammo implements IndestructibleHazard {
                 damage = Constants.FLAME_DAMAGE;
                 knockback = Constants.FLAME_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
-                    if (orientation == Orientation.VERTICAL) {
+                    if (orientation == Orientation.Y) {
                         region = Assets.getInstance().getAmmoAssets().fireBlastAlt;
                     } else {
                         region = Assets.getInstance().getAmmoAssets().fireBlast;
                     }
-                } else if (orientation == Orientation.VERTICAL) {
+                } else if (orientation == Orientation.Y) {
                     region = Assets.getInstance().getAmmoAssets().fireShotAlt;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().fireShot;
@@ -79,12 +77,12 @@ public final class Ammo implements IndestructibleHazard {
                 damage = Constants.GEISER_DAMAGE;
                 knockback = Constants.GEISER_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
-                    if (orientation == Orientation.VERTICAL) {
+                    if (orientation == Orientation.Y) {
                         region = Assets.getInstance().getAmmoAssets().waterBlastAlt;
                     } else {
                         region = Assets.getInstance().getAmmoAssets().waterBlast;
                     }
-                } else if (orientation == Orientation.VERTICAL) {
+                } else if (orientation == Orientation.Y) {
                     region = Assets.getInstance().getAmmoAssets().waterShotAlt;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().waterShot;
@@ -95,7 +93,7 @@ public final class Ammo implements IndestructibleHazard {
                 knockback = Constants.COIL_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().electricBlast;
-                }  else if (orientation == Orientation.VERTICAL) {
+                }  else if (orientation == Orientation.Y) {
                     region = Assets.getInstance().getAmmoAssets().electricShotAlt;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().electricShot;
@@ -106,7 +104,7 @@ public final class Ammo implements IndestructibleHazard {
                 knockback = Constants.WHEEL_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().rubberBlast;
-                } else if (orientation == Orientation.VERTICAL) {
+                } else if (orientation == Orientation.Y) {
                     region = Assets.getInstance().getAmmoAssets().rubberShotAlt;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().rubberShot;
@@ -116,12 +114,12 @@ public final class Ammo implements IndestructibleHazard {
                 damage = Constants.SPIKE_DAMAGE;
                 knockback = Constants.SPIKE_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
-                    if (orientation == Orientation.VERTICAL) {
+                    if (orientation == Orientation.Y) {
                         region = Assets.getInstance().getAmmoAssets().metalBlastAlt;
                     } else {
                         region = Assets.getInstance().getAmmoAssets().metalBlast;
                     }
-                } else if (orientation == Orientation.VERTICAL) {
+                } else if (orientation == Orientation.Y) {
                     region = Assets.getInstance().getAmmoAssets().metalShotAlt;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().metalShot;
@@ -174,7 +172,7 @@ public final class Ammo implements IndestructibleHazard {
             ammoSpeed = Constants.AMMO_NORMAL_SPEED;
         }
 
-        if (orientation == Orientation.LATERAL) {
+        if (orientation == Orientation.X) {
             switch (direction) {
                 case LEFT:
                     position.x -= delta * ammoSpeed;
@@ -183,7 +181,7 @@ public final class Ammo implements IndestructibleHazard {
                     position.x += delta * ammoSpeed;
                     break;
             }
-        } else if (orientation == Orientation.VERTICAL) {
+        } else if (orientation == Orientation.Y) {
             switch (direction) {
                 case DOWN:
                     position.y -= delta * ammoSpeed;
@@ -195,14 +193,14 @@ public final class Ammo implements IndestructibleHazard {
         }
 
         final float margin = 25;
-        if (orientation == Orientation.LATERAL) {
+        if (orientation == Orientation.X) {
             final float halfWorldWidth = margin + level.getViewport().getWorldWidth() / 2;
             final float cameraX = level.getViewport().getCamera().position.x;
             if (position.x < (cameraX - halfWorldWidth)
             || (position.x > (cameraX + halfWorldWidth))) {
                 active = false;
             }
-        } else if (orientation == Orientation.VERTICAL) {
+        } else if (orientation == Orientation.Y) {
             final float halfWorldWidth = margin + level.getViewport().getWorldWidth() / 2;
             final float cameraY = level.getViewport().getCamera().position.y;
             if (position.y < (cameraY - halfWorldWidth)
