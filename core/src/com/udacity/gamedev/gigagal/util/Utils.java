@@ -128,6 +128,11 @@ public class Utils {
                 && ((position.y - radius) <= entity.getTop() && (position.y + radius) >= entity.getBottom());
     }
 
+    public static final boolean equilateralWithinBounds(Entity entity, float x, float y, float radius) {
+        return ((x - radius) <= entity.getRight() && (x + radius) >= entity.getLeft())
+                && ((y - radius) <= entity.getTop() && (y + radius) >= entity.getBottom());
+    }
+
     public static final int useAmmo(Enums.AmmoIntensity intensity) {
         if (intensity == Enums.AmmoIntensity.BLAST) {
             return 3;

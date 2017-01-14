@@ -30,6 +30,7 @@ public class Rollen implements DestructibleHazard {
     private long rollStartTime;
     private float rollTimeSeconds;
     private Array<Ground> grounds;
+    private float radius;
 
     // ctor
     public Rollen(Level level, Vector2 position, Enums.WeaponType type) {
@@ -65,19 +66,23 @@ public class Rollen implements DestructibleHazard {
         }
 
         grounded = false;
+        float groundTop = 0;
         for (Ground ground : grounds) {
-            if (Utils.equilateralWithinBounds(ground, position, 0)) {
+            if (Utils.equilateralWithinBounds(ground, position.x, position.y - getWidth() / 2, 0)) {
                 aerialState = Enums.AerialState.GROUNDED;
-                position.y = ground.getTop();
                 grounded = true;
+                groundTop = ground.getTop();
+                position.y = groundTop + getHeight() / 2;
             }
         }
         if (grounded) {
             velocity.y = 0;
             if ((position.x < camera.x - activationDistance.x)
-                || (position.x > camera.x + activationDistance.x)) {
-                lateralDirection = null;
+            || (position.x > camera.x + activationDistance.x)
+            || (position.y < groundTop + getHeight() / 2 - 1)) {
+                velocity.x = 0;
                 startTime = 0;
+                lateralDirection = null;
             } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
                 lateralDirection = Enums.Direction.RIGHT;
             } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {
@@ -85,7 +90,7 @@ public class Rollen implements DestructibleHazard {
             }
         } else {
             aerialState = Enums.AerialState.FALLING;
-            velocity.y = -Constants.GRAVITY;
+            velocity.y = -Constants.GRAVITY / 2;
         }
     }
 
