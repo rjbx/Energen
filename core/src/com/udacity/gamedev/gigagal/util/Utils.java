@@ -6,8 +6,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
+import com.udacity.gamedev.gigagal.entities.Multidirectional;
 import com.udacity.gamedev.gigagal.entities.MultidirectionalX;
 import com.udacity.gamedev.gigagal.entities.Entity;
+import com.udacity.gamedev.gigagal.entities.MultidirectionalY;
 import com.udacity.gamedev.gigagal.entities.Orben;
 
 import org.apache.commons.lang3.time.StopWatch;
@@ -79,20 +81,37 @@ public class Utils {
         return 0;
     }
 
-    public static final boolean setFacing(MultidirectionalX multidirectionalX, Enums.Direction setTo) {
-        if (multidirectionalX.getFacing() != setTo){
-            multidirectionalX.setFacing(setTo);
-            return true;
-        } else {
-            return false;
+    public static final boolean changeDirectional(Multidirectional multidirectional, Enums.Direction setTo, Enums.Orientation orientation) {
+        if (orientation == Enums.Orientation.X) {
+            MultidirectionalX multidirectionalX = (MultidirectionalX) multidirectional;
+            if (multidirectionalX.getDirectionX() != setTo) {
+                multidirectionalX.setDirectionX(setTo);
+                return true;
+            } else {
+                return false;
+            }
+        } else if (orientation == Enums.Orientation.Y) {
+            MultidirectionalY multidirectionalY = (MultidirectionalY) multidirectional;
+            if (multidirectionalY.getDirectionY() != setTo) {
+                multidirectionalY.setDirectionY(setTo);
+                return true;
+            } else {
+                return false;
+            }  
         }
+        return false;
     }
 
-    public static final Enums.Direction getOppositeDirection(Enums.Direction direction) {
+    public static final Enums.Direction getOppositeDirection(Enums.Direction direction, Enums.Orientation orientation) {
+        
         if (direction == Enums.Direction.LEFT) {
             return Enums.Direction.RIGHT;
         } else if (direction == Enums.Direction.RIGHT)  {
             return Enums.Direction.LEFT;
+        } else if (direction == Enums.Direction.UP) {
+            return Enums.Direction.DOWN;
+        } else if (direction == Enums.Direction.DOWN) {
+            return Enums.Direction.UP;
         }
         return null;
     }

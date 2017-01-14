@@ -425,9 +425,9 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         boolean directionChanged = false;
         boolean isStriding = true;
         if (left && !right) {
-            directionChanged = Utils.setFacing(this, Direction.LEFT);
+            directionChanged = Utils.changeDirectional(this, Direction.LEFT);
         } else if (!left && right) {
-            directionChanged = Utils.setFacing(this, Direction.RIGHT);
+            directionChanged = Utils.changeDirectional(this, Direction.RIGHT);
         } else {
             isStriding = false;
         }
