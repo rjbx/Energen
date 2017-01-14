@@ -45,7 +45,7 @@ public class Rollen implements DestructibleHazard {
         rollTimeSeconds = 0;
         velocity = new Vector2(0, 0);
         health = Constants.ROLLEN_MAX_HEALTH;
-        grounds = new Array<Ground>(grounds);
+        grounds = new Array<Ground>();
     }
 
     public void update(float delta) {
