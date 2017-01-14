@@ -26,7 +26,6 @@ public class Rollen implements DestructibleHazard {
     private long startTime;
     private int health;
     private boolean grounded;
-    private Enums.Direction facing;
     private Enums.AerialState aerialState;
     private float speedAtChangeFacing;
     private long rollStartTime;
@@ -51,11 +50,11 @@ public class Rollen implements DestructibleHazard {
     public void update(float delta) {
         position.x += velocity.x;
         position.y += velocity.y;
-        
+
         Viewport viewport = level.getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
         Vector3 camera = new Vector3(viewport.getCamera().position);
-        Vector2 activationDistance = new Vector2(worldSpan.x / 4, worldSpan.y / 4);
+        Vector2 activationDistance = new Vector2(worldSpan.x / 2, worldSpan.y / 2);
         
         if (lateralDirection != null) {
             if (rollStartTime == 0) {
@@ -63,7 +62,7 @@ public class Rollen implements DestructibleHazard {
                 rollStartTime = TimeUtils.nanoTime();
             }
             rollTimeSeconds = Utils.secondsSince(rollStartTime);
-            velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds / 2, Constants.ROLLEN_MOVEMENT_SPEED * 2), facing, Enums.Orientation.LATERAL);
+            velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds / 2, Constants.ROLLEN_MOVEMENT_SPEED * 2), lateralDirection, Enums.Orientation.LATERAL);
         }
 
         grounded = false;
@@ -76,20 +75,18 @@ public class Rollen implements DestructibleHazard {
         }
         if (grounded) {
             velocity.y = 0;
+            if ((position.x < camera.x - activationDistance.x)
+                || (position.x > camera.x + activationDistance.x)) {
+                lateralDirection = null;
+                startTime = 0;
+            } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
+                lateralDirection = Enums.Direction.RIGHT;
+            } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {
+                lateralDirection = Enums.Direction.LEFT;
+            }
         } else {
             aerialState = Enums.AerialState.FALLING;
             velocity.y = -Constants.GRAVITY / 10;
-        }
-        if ((position.x < camera.x - activationDistance.x)
-        || (position.x > camera.x + activationDistance.x)) {
-            lateralDirection = null;
-            if (aerialState != Enums.AerialState.FALLING) {
-                startTime = 0;
-            }
-        } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
-            lateralDirection = Enums.Direction.RIGHT;
-        } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {
-            lateralDirection = Enums.Direction.LEFT;
         }
     }
 
