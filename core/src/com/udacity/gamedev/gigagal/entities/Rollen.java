@@ -125,10 +125,12 @@ public class Rollen implements DestructibleHazard {
                 animation = Assets.getInstance().getRollenAssets().whirlingRollen;
         }
         if (lateralDirection == Enums.Direction.RIGHT) {
-            animation.setPlayMode(Animation.PlayMode.LOOP_REVERSED);
+            animation.setPlayMode(Animation.PlayMode.REVERSED);
+        } else {
+            animation.setPlayMode(Animation.PlayMode.NORMAL);
         }
         region = animation.getKeyFrame(rollTimeSeconds, true);
-        Utils.drawTextureRegion(batch, region, position, Constants.ROLLEN_CENTER);
+        Utils.drawTextureRegion(batch, region, position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
     }
 
     @Override public Vector2 getPosition() { return position; }
