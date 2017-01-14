@@ -145,6 +145,7 @@ public class Utils {
             return ((delta + halfWidth) <= entity.getTop() && (delta - halfWidth) >= entity.getBottom())
                     || (Math.abs(delta - entity.getPosition().x) < 5);
         }
+        return false;
     }
 
     public static final boolean centeredOverOrientationVals(float upperBound, float lowerBound, float delta, float halfWidth) {
