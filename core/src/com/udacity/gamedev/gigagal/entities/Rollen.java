@@ -28,7 +28,7 @@ public class Rollen implements DestructibleHazard {
     private int health;
     private boolean grounded;
     private Enums.AerialState aerialState;
-    private float speedAtChangeFacing;
+    private float speedAtChangeXDirection;
     private long rollStartTime;
     private float rollTimeSeconds;
     private Array<Ground> grounds;
@@ -42,7 +42,7 @@ public class Rollen implements DestructibleHazard {
         this.previousFramePosition = new Vector2();
         xDirection = null;
         yDirection = null;
-        speedAtChangeFacing = 0;
+        speedAtChangeXDirection = 0;
         rollStartTime = 0;
         rollTimeSeconds = 0;
         velocity = new Vector2(0, 0);
@@ -52,7 +52,7 @@ public class Rollen implements DestructibleHazard {
     }
 
     public void update(float delta) {
-        previousFramePosition = position;
+        previousFramePosition.set(position);
         position.x += velocity.x;
         position.y += velocity.y;
 
@@ -63,11 +63,11 @@ public class Rollen implements DestructibleHazard {
 
         if (xDirection != null) {
             if (rollStartTime == 0) {
-                speedAtChangeFacing = velocity.x;
+                speedAtChangeXDirection = velocity.x;
                 rollStartTime = TimeUtils.nanoTime();
             }
             rollTimeSeconds = Utils.secondsSince(rollStartTime);
-            velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds / 10, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
+            velocity.x = speedAtChangeXDirection + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds / 10, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
         }
 
         grounded = false;
@@ -78,7 +78,7 @@ public class Rollen implements DestructibleHazard {
                 float groundTop = ground.getTop();
                 grounded = true;
                 if (!(Utils.overlapsBetweenFourSides(ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop(), previousFramePosition.x, previousFramePosition.y, radius, radius))) {
-                    position.y = groundTop + getHeight() / 2;
+                    position.y = previousFramePosition.y;
                 } else {
                     velocity.x = 0;
                     bumpingSide = true;
@@ -93,6 +93,7 @@ public class Rollen implements DestructibleHazard {
                 velocity.x = 0;
                 startTime = 0;
                 xDirection = null;
+                position.x = previousFramePosition.x;
             } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
                 xDirection = Enums.Direction.RIGHT;
             } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {

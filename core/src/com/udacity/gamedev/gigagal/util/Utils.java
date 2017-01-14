@@ -114,11 +114,11 @@ public class Utils {
         return false;
     }
 
-    public static final boolean movingOppositeDirection (float velocity, Enums.Direction facing, Enums.Orientation orientation) {
+    public static final boolean movingOppositeDirection (float velocity, Enums.Direction xDirection, Enums.Orientation orientation) {
         if (orientation == Enums.Orientation.X) {
-            return (facing == Enums.Direction.RIGHT && velocity < 0) || (facing == Enums.Direction.LEFT && velocity > 0);
+            return (xDirection == Enums.Direction.RIGHT && velocity < 0) || (xDirection == Enums.Direction.LEFT && velocity > 0);
         } else if (orientation == Enums.Orientation.Y) {
-            return (facing == Enums.Direction.UP && velocity < 0) || (facing == Enums.Direction.DOWN && velocity > 0);
+            return (xDirection == Enums.Direction.UP && velocity < 0) || (xDirection == Enums.Direction.DOWN && velocity > 0);
         }
         return false;
     }

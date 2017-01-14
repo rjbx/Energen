@@ -67,7 +67,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
     private float climbTimeSeconds;
     private float chargeTimeSeconds;
     private float aerialTakeoff;
-    private float speedAtChangeFacing;
+    private float speedAtChangeXDirection;
     private int lives;
     private int ammo;
     private int health;
@@ -221,7 +221,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                                     // only when grounded
                                 } else if (aerialState == AerialState.GROUNDED) {
                                     if (Math.abs(getBottom() - ground.getTop()) > 1) {
-                                        speedAtChangeFacing = 0;
+                                        speedAtChangeXDirection = 0;
                                         velocity.x = 0;
                                     }
                                     //   stand();
@@ -438,7 +438,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                         dashStartTime = 0;
                         canDash = false;
                     }
-                    speedAtChangeFacing = velocity.x;
+                    speedAtChangeXDirection = velocity.x;
                     strideStartTime = 0;
                     stand();
                 } else if (groundState != GroundState.DASHING) {
@@ -798,7 +798,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         }
         canLook = false;
         if (strideStartTime == 0) {
-            speedAtChangeFacing = velocity.x;
+            speedAtChangeXDirection = velocity.x;
             groundState = GroundState.STRIDING;
             strideStartTime = TimeUtils.nanoTime();
         }
@@ -808,7 +808,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         if (onRideable) {
             velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, rideableDirection, Orientation.X);
         } else if (onSkateable) {
-            velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
+            velocity.x = speedAtChangeXDirection + Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
         } else if (onSinkable) {
             velocity.x = Utils.absoluteToDirectionalValue(10, directionX, Orientation.X);
             velocity.y = -3;
