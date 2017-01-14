@@ -172,7 +172,6 @@ public class Level {
             destructibles.end();
             hazards.addAll(destructibles);
 
-
             // Update Bullets
             ammoList.begin();
             for (Ammo ammo : ammoList) {

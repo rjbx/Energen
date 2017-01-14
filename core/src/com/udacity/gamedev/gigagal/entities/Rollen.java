@@ -67,31 +67,28 @@ public class Rollen implements DestructibleHazard {
         }
 
         for (Ground ground : grounds) {
-            if (Utils.equilateralWithinBounds(ground, position.x, getWidth())) {
+            if (Utils.equilateralWithinBounds(ground, position.x, getWidth() / 2)) {
                 aerialState = Enums.AerialState.GROUNDED;
+                velocity.y = 0;
             } else {
                 aerialState = Enums.AerialState.FALLING;
+                velocity.y = -Constants.GRAVITY / 10;
             }
         }
         grounds = new Array<Ground>();
-        if (aerialState == Enums.AerialState.GROUNDED) {
-            if ((position.x < camera.x - activationDistance.x)
-                    || (position.x > camera.x + activationDistance.x)) {
-                lateralDirection = null;
-            } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
-                lateralDirection = Enums.Direction.RIGHT;
-                if (aerialState != Enums.AerialState.FALLING) {
-                    startTime = 0;
-                }
-            } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {
-                lateralDirection = Enums.Direction.LEFT;
-                if (aerialState != Enums.AerialState.FALLING) {
-                    startTime = 0;
-                }
+        if ((position.x < camera.x - activationDistance.x)
+        || (position.x > camera.x + activationDistance.x)) {
+            lateralDirection = null;
+        } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
+            lateralDirection = Enums.Direction.RIGHT;
+            if (aerialState != Enums.AerialState.FALLING) {
+                startTime = 0;
             }
-            velocity.y = 0;
-        } else {
-            velocity.y = -Constants.GRAVITY;
+        } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {
+            lateralDirection = Enums.Direction.LEFT;
+            if (aerialState != Enums.AerialState.FALLING) {
+                startTime = 0;
+            }
         }
     }
 
