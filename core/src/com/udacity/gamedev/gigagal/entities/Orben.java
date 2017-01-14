@@ -37,11 +37,13 @@ public class Orben implements DestructibleHazard {
     }
 
     public void update(float delta) {
+        position.x += velocity.x;
+        position.y += velocity.y;
+
         Viewport viewport = level.getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
         Vector3 camera = new Vector3(viewport.getCamera().position);
         Vector2 activationDistance = new Vector2(worldSpan.x / 4, worldSpan.y / 4);
-
 
         if (lateralDirection != null) {
             switch (lateralDirection) {
@@ -55,9 +57,6 @@ public class Orben implements DestructibleHazard {
         } else {
             velocity.x = 0;
         }
-
-        position.x += velocity.x;
-
         if ((position.x < camera.x - activationDistance.x)
         || (position.x > camera.x + activationDistance.x)) {
             lateralDirection = null;
@@ -66,7 +65,6 @@ public class Orben implements DestructibleHazard {
         } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {
             lateralDirection = Enums.Direction.LEFT;
         }
-
 
         if (verticalDirection != null) {
             switch (verticalDirection) {
@@ -80,9 +78,6 @@ public class Orben implements DestructibleHazard {
         } else {
             velocity.y = 0;
         }
-
-        position.y += velocity.y;
-
         if ((position.y < camera.y - activationDistance.y)
                 || (position.y > camera.y + activationDistance.y)) {
             verticalDirection = null;
