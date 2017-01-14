@@ -177,14 +177,14 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         rideableDirection = null;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
-            if (Utils.overlapsXVals(ground, position.x, getHalfWidth())) {
+            if (Utils.overlapsOrientationVals(ground, position.x, getHalfWidth())) {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (!(ground instanceof DescendableGround) && climbDirection == null) {
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                             // if during previous frame was not, while currently is, between ground left and right sides
-                            if (!Utils.overlapsXVals(ground, previousFramePosition.x, getHalfWidth())) {
+                            if (!Utils.overlapsOrientationVals(ground, previousFramePosition.x, getHalfWidth())) {
                                 // only when not grounded and not recoiling
                                 if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
                                     // if x velocity (magnitude, without concern for direction) greater than one third max speed,
@@ -324,7 +324,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                                 stand();
                             }
                         } else if (ground instanceof ClimbableGround) {
-                            if (Utils.centeredOverXVals(ground, position.x, getHalfWidth())) {
+                            if (Utils.centeredOverOrientationVals(ground, position.x, getHalfWidth())) {
                                 if ((!(ground instanceof Pole)) || (getBottom() > ground.getBottom())) {
                                     onClimbable = true;
                                 }
@@ -425,9 +425,9 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         boolean directionChanged = false;
         boolean isStriding = true;
         if (left && !right) {
-            directionChanged = Utils.changeDirectional(this, Direction.LEFT);
+            directionChanged = Utils.changeDirectional(this, Direction.LEFT, Orientation.X);
         } else if (!left && right) {
-            directionChanged = Utils.changeDirectional(this, Direction.RIGHT);
+            directionChanged = Utils.changeDirectional(this, Direction.RIGHT, Orientation.X);
         } else {
             isStriding = false;
         }

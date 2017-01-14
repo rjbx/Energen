@@ -81,6 +81,19 @@ public class Utils {
         return 0;
     }
 
+    public static final Enums.Direction getOppositeDirection(Enums.Direction direction) {
+        if (direction == Enums.Direction.LEFT) {
+            return Enums.Direction.RIGHT;
+        } else if (direction == Enums.Direction.RIGHT)  {
+            return Enums.Direction.LEFT;
+        } else if (direction == Enums.Direction.UP) {
+            return Enums.Direction.DOWN;
+        } else if (direction == Enums.Direction.DOWN) {
+            return Enums.Direction.UP;
+        }
+        return null;
+    }
+
     public static final boolean changeDirectional(Multidirectional multidirectional, Enums.Direction setTo, Enums.Orientation orientation) {
         if (orientation == Enums.Orientation.X) {
             MultidirectionalX multidirectionalX = (MultidirectionalX) multidirectional;
@@ -102,44 +115,41 @@ public class Utils {
         return false;
     }
 
-    public static final Enums.Direction getOppositeDirection(Enums.Direction direction, Enums.Orientation orientation) {
-        
-        if (direction == Enums.Direction.LEFT) {
-            return Enums.Direction.RIGHT;
-        } else if (direction == Enums.Direction.RIGHT)  {
-            return Enums.Direction.LEFT;
-        } else if (direction == Enums.Direction.UP) {
-            return Enums.Direction.DOWN;
-        } else if (direction == Enums.Direction.DOWN) {
-            return Enums.Direction.UP;
-        }
-        return null;
-    }
-
     public static final boolean movingOppositeDirection (float delta, Enums.Direction facing, Enums.Orientation orientation) {
         if (orientation == Enums.Orientation.X) {
             return (facing == Enums.Direction.RIGHT && delta < 0) || (facing == Enums.Direction.LEFT && delta > 0);
         } else if (orientation == Enums.Orientation.Y) {
             return (facing == Enums.Direction.UP && delta < 0) || (facing == Enums.Direction.DOWN && delta > 0);
         }
+        return false;
     }
 
-    public static final boolean overlapsXVals(Entity entity, float delta, float halfWidth) {
-        return ((delta - halfWidth) <= entity.getRight() && (delta + halfWidth) >= entity.getLeft());
+    public static final boolean overlapsOrientationVals(Entity entity, float delta, float halfWidth, Enums.Orientation orientation) {
+        if (orientation == Enums.Orientation.X) {
+            return ((delta - halfWidth) <= entity.getRight() && (delta + halfWidth) >= entity.getLeft());
+        } else if (orientation == Enums.Orientation.Y) {
+            return ((delta - halfWidth) <= entity.getTop() && (delta + halfWidth) >= entity.getBottom());
+        }
+        return false;
     }
 
-    public static final boolean overlapsXVals(float leftSide, float rightSide, float delta, float halfWidth) {
-        return (((delta - halfWidth) <= rightSide) && ((delta + halfWidth) >= leftSide));
+    public static final boolean overlapsOrientationVals(float lowerBound, float upperBound, float delta, float halfWidth) {
+        return (((delta - halfWidth) <= upperBound) && ((delta + halfWidth) >= lowerBound));
     }
 
-    public static final boolean centeredOverXVals(Entity entity, float delta, float halfWidth) {
-        return ((delta + halfWidth) <= entity.getRight() && (delta - halfWidth) >= entity.getLeft())
-                || (Math.abs(delta - entity.getPosition().x) < 5);
+    public static final boolean centeredOverOrientationVals(Entity entity, float delta, float halfWidth, Enums.Orientation orientation) {
+        if (orientation == Enums.Orientation.X) {
+            return ((delta + halfWidth) <= entity.getRight() && (delta - halfWidth) >= entity.getLeft())
+                    || (Math.abs(delta - entity.getPosition().x) < 5);
+        } else if (orientation == Enums.Orientation.Y) {
+            return ((delta + halfWidth) <= entity.getTop() && (delta - halfWidth) >= entity.getBottom())
+                    || (Math.abs(delta - entity.getPosition().x) < 5);
+        }
     }
 
-    public static final boolean centeredOverXVals(float leftSide, float rightSide, float delta, float halfWidth) {
-        return ((delta + halfWidth) <= rightSide && (delta - halfWidth) >= leftSide)
-                || (Math.abs(delta - ((leftSide + rightSide) / 2)) < 5);
+    public static final boolean centeredOverOrientationVals(float upperBound, float lowerBound, float delta, float halfWidth) {
+        return ((delta + halfWidth) <= lowerBound && (delta - halfWidth) >= upperBound)
+                || (Math.abs(delta - ((upperBound + lowerBound) / 2)) < 5);
     }
 
     public static final boolean equilateralWithinBounds(Entity entity, Vector2 position, float radius) {
