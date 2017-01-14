@@ -71,11 +71,11 @@ public class Rollen implements DestructibleHazard {
         grounded = false;
         boolean bumpingSide = false;
         for (Ground ground : grounds) {
-            if (Utils.equilateralWithinBounds(ground, position.x, position.y - getWidth() / 2, 0)) {
+            if (Utils.withinBounds(ground, position.x, position.y - getWidth() / 2, 0)) {
                 aerialState = Enums.AerialState.GROUNDED;
                 float groundTop = ground.getTop();
                 grounded = true;
-                if (!(Utils.equilateralWithinBounds(ground, previousFramePosition.x, position.y - getWidth() / 2, 0))) {
+                if (!(Utils.withinBounds(ground, previousFramePosition.x, position.y - getWidth() / 2, 0))) {
                 /*
                 if (!(position.x < Utils.absoluteToDirectionalValue(groundTop - (getWidth() / 2), xDirection, Enums.Orientation.X))) {
                     position.y = groundTop + getHeight() / 2;

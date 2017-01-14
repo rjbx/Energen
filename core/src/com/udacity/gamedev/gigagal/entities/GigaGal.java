@@ -177,14 +177,14 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         rideableDirection = null;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
-            if (Utils.overlapsOrientationVals(ground, position.x, getHalfWidth(), Orientation.X)) {
+            if (Utils.overlappingBetweenTwoSides(ground, position.x, getHalfWidth(), Orientation.X)) {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (!(ground instanceof DescendableGround) && climbDirection == null) {
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                             // if during previous frame was not, while currently is, between ground left and right sides
-                            if (!Utils.overlapsOrientationVals(ground, previousFramePosition.x, getHalfWidth(), Orientation.X)) {
+                            if (!Utils.overlappingBetweenTwoSides(ground, previousFramePosition.x, getHalfWidth(), Orientation.X)) {
                                 // only when not grounded and not recoiling
                                 if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
                                     // if x velocity (magnitude, without concern for direction) greater than one third max speed,
@@ -324,7 +324,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                                 stand();
                             }
                         } else if (ground instanceof ClimbableGround) {
-                            if (Utils.centeredOverOrientationVals(ground, position.x, getHalfWidth(), Orientation.X)) {
+                            if (Utils.centeredBetweenTwoSides(ground, position.x, getHalfWidth(), Orientation.X)) {
                                 if ((!(ground instanceof Pole)) || (getBottom() > ground.getBottom())) {
                                     onClimbable = true;
                                 }

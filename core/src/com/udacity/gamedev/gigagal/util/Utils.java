@@ -115,52 +115,30 @@ public class Utils {
         return false;
     }
 
-    public static final boolean movingOppositeDirection (float delta, Enums.Direction facing, Enums.Orientation orientation) {
+    public static final boolean movingOppositeDirection (float velocity, Enums.Direction facing, Enums.Orientation orientation) {
         if (orientation == Enums.Orientation.X) {
-            return (facing == Enums.Direction.RIGHT && delta < 0) || (facing == Enums.Direction.LEFT && delta > 0);
+            return (facing == Enums.Direction.RIGHT && velocity < 0) || (facing == Enums.Direction.LEFT && velocity > 0);
         } else if (orientation == Enums.Orientation.Y) {
-            return (facing == Enums.Direction.UP && delta < 0) || (facing == Enums.Direction.DOWN && delta > 0);
+            return (facing == Enums.Direction.UP && velocity < 0) || (facing == Enums.Direction.DOWN && velocity > 0);
         }
         return false;
     }
 
-    public static final boolean overlapsOrientationVals(Entity entity, float delta, float halfWidth, Enums.Orientation orientation) {
-        if (orientation == Enums.Orientation.X) {
-            return ((delta - halfWidth) <= entity.getRight() && (delta + halfWidth) >= entity.getLeft());
-        } else if (orientation == Enums.Orientation.Y) {
-            return ((delta - halfWidth) <= entity.getTop() && (delta + halfWidth) >= entity.getBottom());
-        }
-        return false;
+    public static final boolean overlappingBetweenTwoSides(float lowerBound, float upperBound, float position, float halfSpan) {
+        return (((position - halfSpan) <= upperBound) && ((position + halfSpan) >= lowerBound));
     }
 
-    public static final boolean overlapsOrientationVals(float lowerBound, float upperBound, float delta, float halfWidth) {
-        return (((delta - halfWidth) <= upperBound) && ((delta + halfWidth) >= lowerBound));
+    public static final boolean centeredBetweenTwoSides(float lowerBound, float upperBound, float position, float halfSpan) {
+        return ((position + halfSpan) <= lowerBound && (position - halfSpan) >= upperBound)
+                || (Math.abs(position - ((upperBound + lowerBound) / 2)) < 5);
+    }
+    
+    public static final boolean overlappingBetweenFourSides(float left, float right, float bottom, float top, float x, float y, float halfWidth, float halfHeight) {
+        return (overlappingBetweenTwoSides(left, right, x, halfWidth) && overlappingBetweenTwoSides(bottom, top, y, halfHeight));
     }
 
-    public static final boolean centeredOverOrientationVals(Entity entity, float delta, float halfWidth, Enums.Orientation orientation) {
-        if (orientation == Enums.Orientation.X) {
-            return ((delta + halfWidth) <= entity.getRight() && (delta - halfWidth) >= entity.getLeft())
-                    || (Math.abs(delta - entity.getPosition().x) < 5);
-        } else if (orientation == Enums.Orientation.Y) {
-            return ((delta + halfWidth) <= entity.getTop() && (delta - halfWidth) >= entity.getBottom())
-                    || (Math.abs(delta - entity.getPosition().x) < 5);
-        }
-        return false;
-    }
-
-    public static final boolean centeredOverOrientationVals(float upperBound, float lowerBound, float delta, float halfWidth) {
-        return ((delta + halfWidth) <= lowerBound && (delta - halfWidth) >= upperBound)
-                || (Math.abs(delta - ((upperBound + lowerBound) / 2)) < 5);
-    }
-
-    public static final boolean equilateralWithinBounds(Entity entity, Vector2 position, float radius) {
-        return ((position.x - radius) <= entity.getRight() && (position.x + radius) >= entity.getLeft())
-                && ((position.y - radius) <= entity.getTop() && (position.y + radius) >= entity.getBottom());
-    }
-
-    public static final boolean equilateralWithinBounds(Entity entity, float x, float y, float radius) {
-        return ((x - radius) <= entity.getRight() && (x + radius) >= entity.getLeft())
-                && ((y - radius) <= entity.getTop() && (y + radius) >= entity.getBottom());
+    public static final boolean centeredBetweenFourSides(float left, float right, float bottom, float top, float x, float y, float halfWidth, float halfHeight) {
+        return (centeredBetweenTwoSides(left, right, x, halfWidth) && centeredBetweenTwoSides(bottom, top, y, halfHeight));
     }
 
     public static final int useAmmo(Enums.AmmoIntensity intensity) {
