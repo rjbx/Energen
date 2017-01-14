@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entities;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -47,6 +48,7 @@ public class Rollen implements DestructibleHazard {
         velocity = new Vector2(0, 0);
         health = Constants.ROLLEN_MAX_HEALTH;
         grounds = level.getGrounds();
+        radius = getWidth() / 2;
     }
 
     public void update(float delta) {
@@ -71,18 +73,16 @@ public class Rollen implements DestructibleHazard {
         grounded = false;
         boolean bumpingSide = false;
         for (Ground ground : grounds) {
-            if (Utils.withinBounds(ground, position.x, position.y - getWidth() / 2, 0)) {
+            if (Utils.overlapsBetweenFourSides(ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop(), position.x, position.y, radius, radius)) {
                 aerialState = Enums.AerialState.GROUNDED;
                 float groundTop = ground.getTop();
                 grounded = true;
-                if (!(Utils.withinBounds(ground, previousFramePosition.x, position.y - getWidth() / 2, 0))) {
-                /*
-                if (!(position.x < Utils.absoluteToDirectionalValue(groundTop - (getWidth() / 2), xDirection, Enums.Orientation.X))) {
+                if (!(Utils.overlapsBetweenFourSides(ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop(), previousFramePosition.x, previousFramePosition.y, radius, radius))) {
                     position.y = groundTop + getHeight() / 2;
                 } else {
                     velocity.x = 0;
                     bumpingSide = true;
-                }*/
+                }
             }
         }
         if (grounded) {
@@ -133,7 +133,7 @@ public class Rollen implements DestructibleHazard {
             animation.setPlayMode(Animation.PlayMode.NORMAL);
         }
         region = animation.getKeyFrame(rollTimeSeconds, true);
-        Utils.drawTextureRegion(batch, region, position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
+        Utils.drawTextureRegion(batch, region, position, Constants.ROLLEN_CENTER);
     }
 
     @Override public Vector2 getPosition() { return position; }

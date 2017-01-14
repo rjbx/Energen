@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.Multidirectional;
 import com.udacity.gamedev.gigagal.entities.MultidirectionalX;
-import com.udacity.gamedev.gigagal.entities.Entity;
 import com.udacity.gamedev.gigagal.entities.MultidirectionalY;
 import com.udacity.gamedev.gigagal.entities.Orben;
 
@@ -124,7 +123,7 @@ public class Utils {
         return false;
     }
 
-    public static final boolean overlappingBetweenTwoSides(float lowerBound, float upperBound, float position, float halfSpan) {
+    public static final boolean overlapsBetweenTwoSides(float lowerBound, float upperBound, float position, float halfSpan) {
         return (((position - halfSpan) <= upperBound) && ((position + halfSpan) >= lowerBound));
     }
 
@@ -133,8 +132,8 @@ public class Utils {
                 || (Math.abs(position - ((upperBound + lowerBound) / 2)) < 5);
     }
     
-    public static final boolean overlappingBetweenFourSides(float left, float right, float bottom, float top, float x, float y, float halfWidth, float halfHeight) {
-        return (overlappingBetweenTwoSides(left, right, x, halfWidth) && overlappingBetweenTwoSides(bottom, top, y, halfHeight));
+    public static final boolean overlapsBetweenFourSides(float left, float right, float bottom, float top, float x, float y, float halfWidth, float halfHeight) {
+        return (overlapsBetweenTwoSides(left, right, x, halfWidth) && overlapsBetweenTwoSides(bottom, top, y, halfHeight));
     }
 
     public static final boolean centeredBetweenFourSides(float left, float right, float bottom, float top, float x, float y, float halfWidth, float halfHeight) {
