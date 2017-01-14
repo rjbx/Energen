@@ -66,6 +66,7 @@ public class Rollen implements DestructibleHazard {
             velocity.x = speedAtChangeFacing + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds / 2, Constants.ROLLEN_MOVEMENT_SPEED * 2), facing, Enums.Orientation.LATERAL);
         }
 
+        grounded = false;
         for (Ground ground : grounds) {
             if (Utils.equilateralWithinBounds(ground, position.x, getWidth() / 2)) {
                 aerialState = Enums.AerialState.GROUNDED;
