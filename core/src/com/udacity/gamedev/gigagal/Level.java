@@ -164,9 +164,6 @@ public class Level {
                         spawnAmmo(ammoPositionBottom, Direction.DOWN, Enums.Orientation.VERTICAL, Enums.AmmoIntensity.BLAST, weaponType, false);
                         spawnAmmo(ammoPositionTop, Direction.UP, Enums.Orientation.VERTICAL, Enums.AmmoIntensity.BLAST, weaponType, false);
                     }
-                } else if (destructible instanceof Rollen) {
-                    Rollen rollen = (Rollen) destructible;
-                    rollen.setGrounds(grounds);
                 }
             }
             destructibles.end();

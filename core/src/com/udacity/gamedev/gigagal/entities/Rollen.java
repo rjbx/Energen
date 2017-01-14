@@ -45,7 +45,7 @@ public class Rollen implements DestructibleHazard {
         rollTimeSeconds = 0;
         velocity = new Vector2(0, 0);
         health = Constants.ROLLEN_MAX_HEALTH;
-        grounds = new Array<Ground>();
+        grounds = level.getGrounds();
     }
 
     public void update(float delta) {
@@ -70,17 +70,16 @@ public class Rollen implements DestructibleHazard {
         for (Ground ground : grounds) {
             if (Utils.equilateralWithinBounds(ground, position.x, getWidth() / 2)) {
                 aerialState = Enums.AerialState.GROUNDED;
-                velocity.y = 0;
+                position.y = ground.getTop();
                 grounded = true;
             }
         }
-
-        if (!grounded) {
+        if (grounded) {
+            velocity.y = 0;
+        } else {
             aerialState = Enums.AerialState.FALLING;
             velocity.y = -Constants.GRAVITY / 10;
         }
-
-        grounds = new Array<Ground>();
         if ((position.x < camera.x - activationDistance.x)
         || (position.x > camera.x + activationDistance.x)) {
             lateralDirection = null;
@@ -135,5 +134,4 @@ public class Rollen implements DestructibleHazard {
     @Override public final void setHealth( int health ) { this.health = health; }
     @Override public final Enums.WeaponType getType() { return type; }
     public final long getStartTime() { return startTime; }
-    public void setGrounds(Array<Ground> grounds) { this.grounds.addAll(grounds); }
 }
