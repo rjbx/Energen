@@ -25,7 +25,7 @@ public class Rollen implements DestructibleHazard {
     private Vector2 velocity;
     private long startTime;
     private int health;
-    private boolean active;
+    private boolean grounded;
     private Enums.Direction facing;
     private Enums.AerialState aerialState;
     private float speedAtChangeFacing;
@@ -70,25 +70,26 @@ public class Rollen implements DestructibleHazard {
             if (Utils.equilateralWithinBounds(ground, position.x, getWidth() / 2)) {
                 aerialState = Enums.AerialState.GROUNDED;
                 velocity.y = 0;
-            } else {
-                aerialState = Enums.AerialState.FALLING;
-                velocity.y = -Constants.GRAVITY / 10;
+                grounded = true;
             }
         }
+
+        if (!grounded) {
+            aerialState = Enums.AerialState.FALLING;
+            velocity.y = -Constants.GRAVITY / 10;
+        }
+
         grounds = new Array<Ground>();
         if ((position.x < camera.x - activationDistance.x)
         || (position.x > camera.x + activationDistance.x)) {
             lateralDirection = null;
+            if (aerialState != Enums.AerialState.FALLING) {
+                startTime = 0;
+            }
         } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
             lateralDirection = Enums.Direction.RIGHT;
-            if (aerialState != Enums.AerialState.FALLING) {
-                startTime = 0;
-            }
         } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {
             lateralDirection = Enums.Direction.LEFT;
-            if (aerialState != Enums.AerialState.FALLING) {
-                startTime = 0;
-            }
         }
     }
 
@@ -133,6 +134,5 @@ public class Rollen implements DestructibleHazard {
     @Override public final void setHealth( int health ) { this.health = health; }
     @Override public final Enums.WeaponType getType() { return type; }
     public final long getStartTime() { return startTime; }
-    public final boolean isActive() { return active; }
     public void setGrounds(Array<Ground> grounds) { this.grounds.addAll(grounds); }
 }
