@@ -26,7 +26,6 @@ public class Rollen implements DestructibleHazard {
     private Vector2 velocity;
     private long startTime;
     private int health;
-    private boolean grounded;
     private Enums.AerialState aerialState;
     private float speedAtChangeXDirection;
     private long rollStartTime;
@@ -53,8 +52,7 @@ public class Rollen implements DestructibleHazard {
 
     public void update(float delta) {
         previousFramePosition.set(position);
-        position.x += velocity.x;
-        position.y += velocity.y;
+        position.mulAdd(velocity, delta);
 
         Viewport viewport = level.getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
@@ -67,33 +65,31 @@ public class Rollen implements DestructibleHazard {
                 rollStartTime = TimeUtils.nanoTime();
             }
             rollTimeSeconds = Utils.secondsSince(rollStartTime);
-            velocity.x = speedAtChangeXDirection + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds / 10, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
+            velocity.x = speedAtChangeXDirection + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
         }
 
-        grounded = false;
-        boolean bumpingSide = false;
+        boolean touchingTop = false;
+        boolean touchingSide = false;
         for (Ground ground : grounds) {
-            if (Utils.overlapsBetweenFourSides(ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop(), position.x, position.y, radius, radius)) {
-                aerialState = Enums.AerialState.GROUNDED;
-                float groundTop = ground.getTop();
-                grounded = true;
-                if (!(Utils.overlapsBetweenFourSides(ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop(), previousFramePosition.x, previousFramePosition.y, radius, radius))) {
+            if (Utils.overlapsBetweenFourSides(ground.getLeft(), ground.getRight(), getBottom(), getTop(), position.x, position.y, radius, radius)) {
+                if (!(Utils.overlapsBetweenTwoSides(ground.getLeft(), ground.getRight(), position.x, radius))) {
+                    touchingSide = true;
+                    position.x = previousFramePosition.x;
+                }
+                if (!(Utils.overlapsBetweenTwoSides(ground.getBottom(), ground.getTop(), position.y, radius))) {
+                    touchingTop = true;
                     position.y = previousFramePosition.y;
-                } else {
-                    velocity.x = 0;
-                    bumpingSide = true;
                 }
             }
         }
-        if (grounded) {
+        if (touchingTop) {
             velocity.y = 0;
             if ((position.x < camera.x - activationDistance.x)
                     || (position.x > camera.x + activationDistance.x)
-                    || bumpingSide) {
+                    || touchingSide) {
                 velocity.x = 0;
                 startTime = 0;
                 xDirection = null;
-                position.x = previousFramePosition.x;
             } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
                 xDirection = Enums.Direction.RIGHT;
             } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {
@@ -101,7 +97,7 @@ public class Rollen implements DestructibleHazard {
             }
         } else {
             aerialState = Enums.AerialState.FALLING;
-            velocity.y = -Constants.GRAVITY / 2;
+            velocity.y -= Constants.GRAVITY;
         }
     }
 
@@ -134,7 +130,7 @@ public class Rollen implements DestructibleHazard {
             animation.setPlayMode(Animation.PlayMode.NORMAL);
         }
         region = animation.getKeyFrame(rollTimeSeconds, true);
-        Utils.drawTextureRegion(batch, region, position, Constants.ROLLEN_CENTER);
+        Utils.drawTextureRegion(batch, region, position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
     }
 
     @Override public Vector2 getPosition() { return position; }
