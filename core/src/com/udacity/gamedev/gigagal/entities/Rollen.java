@@ -21,7 +21,6 @@ public class Rollen implements DestructibleHazard {
     private Vector2 position;
     private Vector2 previousFramePosition;
     private Enums.Direction xDirection;
-    private Enums.Direction yDirection;
     private Enums.WeaponType type;
     private Vector2 velocity;
     private long startTime;
@@ -37,16 +36,15 @@ public class Rollen implements DestructibleHazard {
         this.level = level;
         this.type = type;
         this.position = position;
-        this.previousFramePosition = new Vector2();
+        previousFramePosition = new Vector2();
+        velocity = new Vector2(0, 0);
+        grounds = level.getGrounds();
+        radius = getWidth() / 2;
+        health = Constants.ROLLEN_MAX_HEALTH;
         xDirection = null;
-        yDirection = null;
         speedAtChangeXDirection = 0;
         rollStartTime = 0;
         rollTimeSeconds = 0;
-        velocity = new Vector2(0, 0);
-        health = Constants.ROLLEN_MAX_HEALTH;
-        grounds = level.getGrounds();
-        radius = getWidth() / 2;
     }
 
     public void update(float delta) {
@@ -74,16 +72,16 @@ public class Rollen implements DestructibleHazard {
                 if (!(Utils.overlapsBetweenTwoSides(ground.getLeft(), ground.getRight(), previousFramePosition.x, radius))) {
                     touchingSide = true;
                 }
-                if (!(Utils.centeredBetweenTwoSides(ground.getBottom(), ground.getTop(), previousFramePosition.y, radius))) {
+                if (!(Utils.overlapsBetweenTwoSides(ground.getBottom(), ground.getTop(), previousFramePosition.y, radius))) {
                     touchingTop = true;
                 }
             }
         }
 
         if (touchingSide) {
-            velocity.x = 0;
-            startTime = 0;
             xDirection = null;
+            startTime = 0;
+            velocity.x = 0;
             position.x = previousFramePosition.x;
         }
         if (touchingTop) {
@@ -91,9 +89,9 @@ public class Rollen implements DestructibleHazard {
             position.y = previousFramePosition.y;
             if ((position.x < camera.x - activationDistance.x)
             || (position.x > camera.x + activationDistance.x)) {
-                velocity.x = 0;
-                startTime = 0;
                 xDirection = null;
+                startTime = 0;
+                velocity.x = 0;
             } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
                 xDirection = Enums.Direction.RIGHT;
             } else if ((position.x > camera.x) && (position.x < camera.x + activationDistance.x)) {

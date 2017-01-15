@@ -324,7 +324,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                                 stand();
                             }
                         } else if (ground instanceof ClimbableGround) {
-                            if (Utils.centeredBetweenTwoSides(ground.getLeft(), ground.getRight(), position.x, getHalfWidth())) {
+                            if (Utils.encompassedBetweenTwoSides(ground.getLeft(), ground.getRight(), position.x, getHalfWidth())) {
                                 if ((!(ground instanceof Pole)) || (getBottom() > ground.getBottom())) {
                                     onClimbable = true;
                                 }

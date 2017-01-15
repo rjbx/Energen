@@ -124,20 +124,28 @@ public class Utils {
     }
 
     public static final boolean overlapsBetweenTwoSides(float lowerBound, float upperBound, float position, float halfSpan) {
-        return (((position - halfSpan) <= upperBound) && ((position + halfSpan) >= lowerBound));
+        return centeredBetweenTwoSides(lowerBound - halfSpan, upperBound + halfSpan, position);
     }
 
-    public static final boolean centeredBetweenTwoSides(float lowerBound, float upperBound, float position, float halfSpan) {
-        return ((position + halfSpan) <= lowerBound && (position - halfSpan) >= upperBound)
-                || (Math.abs(position - ((upperBound + lowerBound) / 2)) < 5);
+    public static final boolean centeredBetweenTwoSides(float lowerBound, float upperBound, float position) {
+        return position >= lowerBound && position <= upperBound;
     }
-    
+
+    public static final boolean encompassedBetweenTwoSides(float lowerBound, float upperBound, float position, float halfSpan) {
+        return centeredBetweenTwoSides(lowerBound + halfSpan, upperBound - halfSpan, position)/*
+                || (Math.abs(position - ((upperBound + lowerBound) / 2)) < 5)*/;
+    }
+
     public static final boolean overlapsBetweenFourSides(float left, float right, float bottom, float top, float x, float y, float halfWidth, float halfHeight) {
         return (overlapsBetweenTwoSides(left, right, x, halfWidth) && overlapsBetweenTwoSides(bottom, top, y, halfHeight));
     }
 
-    public static final boolean centeredBetweenFourSides(float left, float right, float bottom, float top, float x, float y, float halfWidth, float halfHeight) {
-        return (centeredBetweenTwoSides(left, right, x, halfWidth) && centeredBetweenTwoSides(bottom, top, y, halfHeight));
+    public static final boolean centeredBetweenFourSides(float left, float right, float bottom, float top, float x, float y) {
+        return (centeredBetweenTwoSides(left, right, x) && centeredBetweenTwoSides(bottom, top, y));
+    }
+
+    public static final boolean encompassedBetweenFourSides(float left, float right, float bottom, float top, float x, float y, float halfWidth, float halfHeight) {
+        return (encompassedBetweenTwoSides(left, right, x, halfWidth) && encompassedBetweenTwoSides(bottom, top, y, halfHeight));
     }
 
     public static final int useAmmo(Enums.AmmoIntensity intensity) {
