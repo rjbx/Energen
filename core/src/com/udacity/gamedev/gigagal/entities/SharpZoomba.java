@@ -11,8 +11,8 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public class SharpZoomba extends Zoomba {
 
     //ctor
-    public SharpZoomba(Platform platform) {
-        super(platform);
+    public SharpZoomba(BoxGround boxGround) {
+        super(boxGround);
     }
 
     @Override

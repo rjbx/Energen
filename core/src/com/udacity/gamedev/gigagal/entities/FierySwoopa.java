@@ -12,8 +12,8 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public class FierySwoopa extends Swoopa {
 
     // ctor
-    public FierySwoopa(Platform platform, Level level) {
-        super(platform, level);
+    public FierySwoopa(BoxGround boxGround, Level level) {
+        super(boxGround, level);
     }
 
     @Override

@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 
 // mutable
-public class Platform implements SolidGround {
+public class BoxGround implements SolidGround {
 
     // fields
     private final float top;
@@ -17,7 +17,7 @@ public class Platform implements SolidGround {
     private static String identifier;
 
     // default ctor
-    public Platform() {
+    public BoxGround() {
         top = 0;
         bottom = 0;
         left = 0;
@@ -25,7 +25,7 @@ public class Platform implements SolidGround {
     }
 
     // ctor
-    public Platform(float left, float top, float width, float height) {
+    public BoxGround(float left, float top, float width, float height) {
         this.top = top;
         this.bottom = top - height;
         this.left = left;

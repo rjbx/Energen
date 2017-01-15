@@ -11,8 +11,8 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public class WhirlingZoomba extends Zoomba {
     
     //ctor
-    public WhirlingZoomba(Platform platform) {
-        super(platform);
+    public WhirlingZoomba(BoxGround boxGround) {
+        super(boxGround);
     }
 
     @Override

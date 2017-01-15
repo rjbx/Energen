@@ -18,7 +18,7 @@ public class Swoopa implements DestructibleHazard {
     // fields
     private final long startTime;
     private final float bobOffset;
-    private final Platform platform;
+    private final BoxGround boxGround;
     private Level level;
     private Vector2 velocity;
     private Vector2 position;
@@ -26,10 +26,10 @@ public class Swoopa implements DestructibleHazard {
     private long descentStartTime;
 
     // ctor
-    public Swoopa(Platform platform, Level level) {
-        this.platform = platform;
+    public Swoopa(BoxGround boxGround, Level level) {
+        this.boxGround = boxGround;
         this.level = level;
-        position = new Vector2(platform.getRight() + Constants.SWOOPA_CENTER.x * 3, platform.getTop() + Constants.SWOOPA_CENTER.y * 3);
+        position = new Vector2(boxGround.getRight() + Constants.SWOOPA_CENTER.x * 3, boxGround.getTop() + Constants.SWOOPA_CENTER.y * 3);
         velocity = new Vector2(0, -Constants.SWOOPA_MOVEMENT_SPEED * 2);
         startTime = TimeUtils.nanoTime();
         health = Constants.SWOOPA_MAX_HEALTH;
@@ -43,7 +43,7 @@ public class Swoopa implements DestructibleHazard {
         if (position.x < (camera.x + worldSpan.x)
         && position.x > (camera.x - worldSpan.x)
         && Utils.secondsSince(descentStartTime) > 2.75f) {
-            if (position.y > (platform.getTop() + Constants.SWOOPA_COLLISION_HEIGHT)) {
+            if (position.y > (boxGround.getTop() + Constants.SWOOPA_COLLISION_HEIGHT)) {
                 velocity.x = -Constants.SWOOPA_MOVEMENT_SPEED;
                 velocity.y /= 1.005f;
             } else {
@@ -58,8 +58,8 @@ public class Swoopa implements DestructibleHazard {
         // when the swoopa progresses past the center screen position with a margin of one screen's width, reset x and y position
         if (position.x < (camera.x - worldSpan.x)) {
             descentStartTime = TimeUtils.nanoTime();
-            position.x = platform.getRight() + (Constants.WORLD_SIZE) / 1.5f;
-            position.y = (platform.getTop() + (Constants.WORLD_SIZE));
+            position.x = boxGround.getRight() + (Constants.WORLD_SIZE) / 1.5f;
+            position.y = (boxGround.getTop() + (Constants.WORLD_SIZE));
             velocity.y = -Constants.SWOOPA_MOVEMENT_SPEED * 2;
         }
     }

@@ -12,8 +12,8 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public class ChargedSwoopa extends Swoopa {
 
     //ctor
-    public ChargedSwoopa(Platform platform, Level level) {
-        super(platform, level);
+    public ChargedSwoopa(BoxGround boxGround, Level level) {
+        super(boxGround, level);
     }
 
     @Override
