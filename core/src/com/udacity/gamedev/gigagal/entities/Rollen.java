@@ -26,7 +26,6 @@ public class Rollen implements DestructibleHazard {
     private Vector2 velocity;
     private long startTime;
     private int health;
-    private Enums.AerialState aerialState;
     private float speedAtChangeXDirection;
     private long rollStartTime;
     private float rollTimeSeconds;
@@ -68,26 +67,30 @@ public class Rollen implements DestructibleHazard {
             velocity.x = speedAtChangeXDirection + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
         }
 
-        boolean touchingTop = false;
         boolean touchingSide = false;
+        boolean touchingTop = false;
         for (Ground ground : grounds) {
             if (Utils.overlapsBetweenFourSides(ground.getLeft(), ground.getRight(), getBottom(), getTop(), position.x, position.y, radius, radius)) {
                 if (!(Utils.overlapsBetweenTwoSides(ground.getLeft(), ground.getRight(), previousFramePosition.x, radius))) {
                     touchingSide = true;
-                    position.x = previousFramePosition.x;
                 }
-                if (!(Utils.overlapsBetweenTwoSides(ground.getBottom(), ground.getTop(), previousFramePosition.y, radius))) {
+                if (!(Utils.centeredBetweenTwoSides(ground.getBottom(), ground.getTop(), previousFramePosition.y, radius))) {
                     touchingTop = true;
-                    position.y = previousFramePosition.y;
                 }
             }
         }
 
+        if (touchingSide) {
+            velocity.x = 0;
+            startTime = 0;
+            xDirection = null;
+            position.x = previousFramePosition.x;
+        }
         if (touchingTop) {
             velocity.y = 0;
+            position.y = previousFramePosition.y;
             if ((position.x < camera.x - activationDistance.x)
-                    || (position.x > camera.x + activationDistance.x)
-                    || touchingSide) {
+            || (position.x > camera.x + activationDistance.x)) {
                 velocity.x = 0;
                 startTime = 0;
                 xDirection = null;
@@ -97,7 +100,6 @@ public class Rollen implements DestructibleHazard {
                 xDirection = Enums.Direction.LEFT;
             }
         } else {
-            aerialState = Enums.AerialState.FALLING;
             velocity.y -= Constants.GRAVITY;
         }
     }
