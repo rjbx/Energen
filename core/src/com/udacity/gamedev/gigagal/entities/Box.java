@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 
 // mutable
-public class BoxGround implements SolidGround {
+public class Box implements SolidGround {
 
     // fields
     private final float top;
@@ -13,11 +13,11 @@ public class BoxGround implements SolidGround {
     private final float left;
     private final float right;
 
-    // This is used by the level loading code to link enemies and platforms.
+    // This is used by the level loading code to link enemies and boxes.
     private static String identifier;
 
     // default ctor
-    public BoxGround() {
+    public Box() {
         top = 0;
         bottom = 0;
         left = 0;
@@ -25,7 +25,7 @@ public class BoxGround implements SolidGround {
     }
 
     // ctor
-    public BoxGround(float left, float top, float width, float height) {
+    public Box(float left, float top, float width, float height) {
         this.top = top;
         this.bottom = top - height;
         this.left = left;

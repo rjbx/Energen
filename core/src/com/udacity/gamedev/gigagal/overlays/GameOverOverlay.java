@@ -32,7 +32,7 @@ public final class GameOverOverlay {
 
         for (int i = 0; i < Constants.ZOOMBA_COUNT; i++) {
 
-            Platform fakePlatform = new Platform(
+            Box fakePlatform = new Box(
                     MathUtils.random(viewport.getWorldWidth()),
                     MathUtils.random(-Constants.ZOOMBA_CENTER.y/2, viewport.getWorldHeight()
                     ), 0, 0);

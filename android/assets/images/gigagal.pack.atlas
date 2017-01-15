@@ -158,6 +158,62 @@ ammo-shot-water-alt
   orig: 7, 9
   offset: 0, 0
   index: -1
+box
+  rotate: false
+  xy: 134, 64
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+box-black
+  rotate: false
+  xy: 200, 130
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+box-blue
+  rotate: false
+  xy: 266, 196
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+box-clear
+  rotate: false
+  xy: 326, 196
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+box-grey
+  rotate: false
+  xy: 386, 196
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+box-magenta
+  rotate: false
+  xy: 446, 196
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+box-red
+  rotate: false
+  xy: 506, 196
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+box-yellow
+  rotate: false
+  xy: 566, 196
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
 button-a
   rotate: false
   xy: 33, 16
@@ -807,62 +863,6 @@ pillar
   xy: 562, 112
   size: 12, 6
   orig: 12, 6
-  offset: 0, 0
-  index: -1
-platform
-  rotate: false
-  xy: 134, 64
-  size: 58, 58
-  orig: 58, 58
-  offset: 0, 0
-  index: -1
-platform-black
-  rotate: false
-  xy: 200, 130
-  size: 58, 58
-  orig: 58, 58
-  offset: 0, 0
-  index: -1
-platform-blue
-  rotate: false
-  xy: 266, 196
-  size: 58, 58
-  orig: 58, 58
-  offset: 0, 0
-  index: -1
-platform-clear
-  rotate: false
-  xy: 326, 196
-  size: 58, 58
-  orig: 58, 58
-  offset: 0, 0
-  index: -1
-platform-grey
-  rotate: false
-  xy: 386, 196
-  size: 58, 58
-  orig: 58, 58
-  offset: 0, 0
-  index: -1
-platform-magenta
-  rotate: false
-  xy: 446, 196
-  size: 58, 58
-  orig: 58, 58
-  offset: 0, 0
-  index: -1
-platform-red
-  rotate: false
-  xy: 506, 196
-  size: 58, 58
-  orig: 58, 58
-  offset: 0, 0
-  index: -1
-platform-yellow
-  rotate: false
-  xy: 566, 196
-  size: 58, 58
-  orig: 58, 58
   offset: 0, 0
   index: -1
 pole-1

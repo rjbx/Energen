@@ -89,7 +89,7 @@ pillar
   orig: 12, 6
   offset: 0, 0
   index: -1
-platform
+box
   rotate: false
   xy: 2, 2
   size: 58, 58

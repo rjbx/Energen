@@ -94,17 +94,17 @@ public final class Constants {
     public static final String CLIMB_2 = "gg-climb-2";
     public static final float CLIMB_LOOP_DURATION = 0.25f;
 
-    // Platform
-    public static final int PLATFORM_EDGE = 8;
+    // Box
+    public static final int BOX_EDGE = 8;
     public static final float MAX_LEDGE_HEIGHT = 8;
-    public static final String PLATFORM_SPRITE = "platform";
-    public static final String BLUE_PLATFORM_SPRITE = "platform-blue";
-    public static final String YELLOW_PLATFORM_SPRITE = "platform-yellow";
-    public static final String BLACK_PLATFORM_SPRITE = "platform-black";
-    public static final String RED_PLATFORM_SPRITE = "platform-red";
-    public static final String GREY_PLATFORM_SPRITE = "platform-grey";
-    public static final String CLEAR_PLATFORM_SPRITE = "platform-clear";
-    public static final String MAGENTA_PLATFORM_SPRITE = "platform-magenta";
+    public static final String BOX_SPRITE = "box";
+    public static final String BLUE_BOX_SPRITE = "box-blue";
+    public static final String YELLOW_BOX_SPRITE = "box-yellow";
+    public static final String BLACK_BOX_SPRITE = "box-black";
+    public static final String RED_BOX_SPRITE = "box-red";
+    public static final String GREY_BOX_SPRITE = "box-grey";
+    public static final String CLEAR_BOX_SPRITE = "box-clear";
+    public static final String MAGENTA_BOX_SPRITE = "box-magenta";
 
     // Pillar
     public static final Vector2 PILLAR_CENTER = new Vector2(6, 3);
@@ -289,8 +289,8 @@ public final class Constants {
     // Rollen
     public static final float ROLLEN_TEXTURE_SCALE = 1.5f;
     public static final Vector2 ROLLEN_CENTER = new Vector2(12.5f * ROLLEN_TEXTURE_SCALE, 12.5f * ROLLEN_TEXTURE_SCALE);
-    public static final float ROLLEN_COLLISION_WIDTH = 25f * ROLLEN_TEXTURE_SCALE;
-    public static final float ROLLEN_COLLISION_HEIGHT = 25f * ROLLEN_TEXTURE_SCALE;
+    public static final float ROLLEN_COLLISION_WIDTH = 25 * ROLLEN_TEXTURE_SCALE;
+    public static final float ROLLEN_COLLISION_HEIGHT = 25 * ROLLEN_TEXTURE_SCALE;
     public static final float ROLLEN_SHOT_RADIUS = 12.5f * ROLLEN_TEXTURE_SCALE;
     public static final float ROLLEN_MOVEMENT_SPEED = 75;
     public static final int ROLLEN_MAX_HEALTH = 60;

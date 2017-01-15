@@ -10,7 +10,7 @@
         "originX": 0.3625,
         "originY": 0.3625,
         "layerName": "Default",
-        "imageName": "platform"
+        "imageName": "box"
       },
       {
         "uniqueId": 5,
@@ -22,7 +22,7 @@
         "originY": 0.3625,
         "zIndex": 1,
         "layerName": "Default",
-        "imageName": "platform"
+        "imageName": "box"
       },
       {
         "uniqueId": 6,
@@ -34,7 +34,7 @@
         "originY": 0.3625,
         "zIndex": 2,
         "layerName": "Default",
-        "imageName": "platform"
+        "imageName": "box"
       },
       {
         "uniqueId": 7,
@@ -46,7 +46,7 @@
         "originY": 0.3625,
         "zIndex": 3,
         "layerName": "Default",
-        "imageName": "platform"
+        "imageName": "box"
       },
       {
         "uniqueId": 8,
@@ -57,7 +57,7 @@
         "originY": 0.3625,
         "zIndex": 4,
         "layerName": "Default",
-        "imageName": "platform"
+        "imageName": "box"
       },
       {
         "uniqueId": 9,
@@ -68,7 +68,7 @@
         "originY": 0.3625,
         "zIndex": 5,
         "layerName": "Default",
-        "imageName": "platform"
+        "imageName": "box"
       },
       {
         "uniqueId": 10,
@@ -80,7 +80,7 @@
         "originY": 0.3625,
         "zIndex": 6,
         "layerName": "Default",
-        "imageName": "platform"
+        "imageName": "box"
       },
       {
         "uniqueId": 11,
@@ -91,7 +91,7 @@
         "originY": 0.3625,
         "zIndex": 7,
         "layerName": "Default",
-        "imageName": "platform"
+        "imageName": "box"
       },
       {
         "uniqueId": 12,
@@ -102,12 +102,12 @@
         "originY": 0.3625,
         "zIndex": 8,
         "layerName": "Default",
-        "imageName": "platform"
+        "imageName": "box"
       },
       {
         "uniqueId": 4,
         "tags": [],
-        "customVars": "platform:zoombaPlatform",
+        "customVars": "box:zoombaPlatform",
         "x": 3.125,
         "y": 3.375,
         "originX": 0.18125,
@@ -126,7 +126,7 @@
         "originY": 0.3625,
         "zIndex": 11,
         "layerName": "Default",
-        "imageName": "platform"
+        "imageName": "box"
       }
     ],
     "layers": [

@@ -11,8 +11,8 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public class ChargedZoomba extends Zoomba {
 
     //ctor
-    public ChargedZoomba(BoxGround boxGround) {
-        super(boxGround);
+    public ChargedZoomba(Box box) {
+        super(box);
     }
 
     @Override

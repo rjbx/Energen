@@ -10,7 +10,7 @@
         "originX": 29,
         "originY": 29,
         "layerName": "Default",
-        "imageName": "platform"
+        "imageName": "box"
       },
       {
         "uniqueId": 3,
@@ -24,12 +24,12 @@
         "originY": 29,
         "zIndex": 1,
         "layerName": "Default",
-        "imageName": "platform"
+        "imageName": "box"
       },
       {
         "uniqueId": 4,
         "tags": [],
-        "customVars": "platform:longPlatform",
+        "customVars": "box:longPlatform",
         "x": 138,
         "y": 62,
         "originX": 14.5,

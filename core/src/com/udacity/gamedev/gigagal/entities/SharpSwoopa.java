@@ -12,8 +12,8 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public class SharpSwoopa extends Swoopa {
 
     //ctor
-    public SharpSwoopa(BoxGround boxGround, Level level) {
-        super(boxGround, level);
+    public SharpSwoopa(Box box, Level level) {
+        super(box, level);
     }
 
     @Override

@@ -12,8 +12,8 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public class GushingSwoopa extends Swoopa {
 
     //ctor
-    public GushingSwoopa(BoxGround boxGround, Level level) {
-        super(boxGround, level);
+    public GushingSwoopa(Box box, Level level) {
+        super(box, level);
     }
 
     @Override

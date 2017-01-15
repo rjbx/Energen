@@ -12,8 +12,8 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public class WhirlingSwoopa extends Swoopa {
 
     //ctor
-    public WhirlingSwoopa(BoxGround boxGround, Level level) {
-        super(boxGround, level);
+    public WhirlingSwoopa(Box box, Level level) {
+        super(box, level);
     }
 
     @Override

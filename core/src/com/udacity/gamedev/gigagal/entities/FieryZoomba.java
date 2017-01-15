@@ -11,8 +11,8 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public class FieryZoomba extends Zoomba {
 
     // ctor
-    public FieryZoomba(BoxGround boxGround) {
-        super(boxGround);
+    public FieryZoomba(Box box) {
+        super(box);
     }
 
     @Override

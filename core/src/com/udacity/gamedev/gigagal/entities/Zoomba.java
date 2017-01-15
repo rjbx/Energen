@@ -17,16 +17,16 @@ public class Zoomba implements DestructibleHazard {
     // fields
     private final long startTime;
     private final float bobOffset;
-    private final BoxGround boxGround;
+    private final Box box;
     private final Vector2 position;
     private int health;
     private Direction direction;
 
     // ctor
-    public Zoomba(BoxGround boxGround) {
-        this.boxGround = boxGround;
+    public Zoomba(Box box) {
+        this.box = box;
         direction = Direction.RIGHT;
-        position = new Vector2(boxGround.getLeft(), boxGround.getTop() + Constants.ZOOMBA_CENTER.y);
+        position = new Vector2(box.getLeft(), box.getTop() + Constants.ZOOMBA_CENTER.y);
         startTime = TimeUtils.nanoTime();
         health = Constants.ZOOMBA_MAX_HEALTH;
         bobOffset = MathUtils.random();
@@ -41,17 +41,17 @@ public class Zoomba implements DestructibleHazard {
                 position.x += Constants.ZOOMBA_MOVEMENT_SPEED * delta;
         }
 
-        if (position.x < boxGround.getLeft()) {
-            position.x = boxGround.getLeft();
+        if (position.x < box.getLeft()) {
+            position.x = box.getLeft();
             direction = Direction.RIGHT;
-        } else if (position.x > boxGround.getRight()) {
-            position.x = boxGround.getRight();
+        } else if (position.x > box.getRight()) {
+            position.x = box.getRight();
             direction = Direction.LEFT;
         }
 
         final float elapsedTime = Utils.secondsSince(startTime);
         final float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + elapsedTime / Constants.ZOOMBA_BOB_PERIOD));
-        position.y = boxGround.getTop() + Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier;
+        position.y = box.getTop() + Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier;
     }
 
     @Override

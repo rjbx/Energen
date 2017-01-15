@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Ammo;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
+import com.udacity.gamedev.gigagal.entities.Box;
 import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.Ground;
@@ -21,7 +22,6 @@ import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.Explosion;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
-import com.udacity.gamedev.gigagal.entities.BoxGround;
 import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -46,7 +46,7 @@ public class Level {
     private long cannonStartTime;
     private GigaGal gigaGal;
     private Portal portal;
-    private Array<BoxGround> platforms;
+    private Array<Box> boxes;
     private Array<IndestructibleHazard> indestructibles;
     private DelayedRemovalArray<DestructibleHazard> destructibles;
     private Array<Hazard> hazards;
@@ -63,7 +63,7 @@ public class Level {
         levelScore = 0;
         levelTime = new StopWatch();
         levelTime.start();
-        platforms = new Array<BoxGround>();
+        boxes = new Array<Box>();
         grounds = new Array<Ground>();
         destructibles = new DelayedRemovalArray<DestructibleHazard>();
         indestructibles = new DelayedRemovalArray<IndestructibleHazard>();
@@ -232,22 +232,22 @@ public class Level {
 
         portal = new Portal(new Vector2(150, 150));
 
-        platforms = new Array<BoxGround>();
+        boxes = new Array<Box>();
         ammoList = new DelayedRemovalArray<Ammo>();
         destructibles = new DelayedRemovalArray<DestructibleHazard>();
         explosions = new DelayedRemovalArray<Explosion>();
         powerups = new DelayedRemovalArray<Powerup>();
 
 
-        platforms.add(new BoxGround(15, 100, 30, 20));
+        boxes.add(new Box(15, 100, 30, 20));
 
-        BoxGround zoombaBoxGround = new BoxGround(75, 90, 100, 65);
+        Box zoombaBox = new Box(75, 90, 100, 65);
 
-        destructibles.add(new Zoomba(zoombaBoxGround));
+        destructibles.add(new Zoomba(zoombaBox));
 
-        platforms.add(zoombaBoxGround);
-        platforms.add(new BoxGround(35, 55, 50, 20));
-        platforms.add(new BoxGround(10, 20, 20, 9));
+        boxes.add(zoombaBox);
+        boxes.add(new Box(35, 55, 50, 20));
+        boxes.add(new Box(10, 20, 20, 9));
 
         powerups.add(new AmmoPowerup(new Vector2(20, 110)));
     }
@@ -270,7 +270,7 @@ public class Level {
     }
 
     // Getters
-    public final Array<BoxGround> getPlatforms() { return platforms; }
+    public final Array<Box> getBoxes() { return boxes; }
     public final Array<IndestructibleHazard> getIndestructibles() { return indestructibles; }
     public final DelayedRemovalArray<DestructibleHazard> getDestructibles() { return destructibles; }
     public final Array<Hazard> getHazards() { hazards = new Array<Hazard>(destructibles); hazards.addAll(indestructibles); hazards.addAll(ammoList); return hazards; }

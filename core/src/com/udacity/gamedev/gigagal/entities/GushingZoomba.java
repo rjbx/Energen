@@ -11,8 +11,8 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public class GushingZoomba extends Zoomba {
 
     //ctor
-    public GushingZoomba(BoxGround boxGround) {
-        super(boxGround);
+    public GushingZoomba(Box box) {
+        super(box);
     }
 
     @Override

@@ -58,7 +58,7 @@ task run(type: Exec) {
         path = "$System.env.ANDROID_HOME"
     }
 
-    def adb = path + "/platform-tools/adb"
+    def adb = path + "/box-tools/adb"
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.udacity.gamedev.gigagal.android/com.udacity.gamedev.gigagal.android.AndroidLauncher'
 }
 
