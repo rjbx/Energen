@@ -68,12 +68,14 @@ public class Rollen implements DestructibleHazard {
         boolean touchingSide = false;
         boolean touchingTop = false;
         for (Ground ground : grounds) {
-            if (Utils.overlapsBetweenFourSides(ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop(), position.x, position.y, radius, radius)) {
-                if (!(Utils.overlapsBetweenTwoSides(ground.getLeft(), ground.getRight(), previousFramePosition.x, radius))) {
-                    touchingSide = true;
-                }
-                if (!(Utils.overlapsBetweenTwoSides(ground.getBottom(), ground.getTop(), previousFramePosition.y, radius))) {
-                    touchingTop = true;
+            if (ground instanceof SolidGround) {
+                if (Utils.overlapsBetweenFourSides(ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop(), position.x, position.y, radius, radius)) {
+                    if (!(Utils.overlapsBetweenTwoSides(ground.getLeft(), ground.getRight(), previousFramePosition.x, radius))) {
+                        touchingSide = true;
+                    }
+                    if (!(Utils.overlapsBetweenTwoSides(ground.getBottom(), ground.getTop(), previousFramePosition.y, radius))) {
+                        touchingTop = true;
+                    }
                 }
             }
         }
