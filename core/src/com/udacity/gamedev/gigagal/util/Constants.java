@@ -119,7 +119,8 @@ public final class Constants {
     // Ladder
     public static final Vector2 LADDER_CENTER = new Vector2(8.5f, 25);
     public static final String LADDER_SPRITE = "ladder";
-    public static final int LADDER_EDGE = 8;
+    public static final int LADDER_X_EDGE = 4;
+    public static final int LADDER_Y_EDGE = 0;
 
     // Vines
     public static final Vector2 VINES_CENTER = new Vector2(12.5f, 20);
@@ -470,6 +471,8 @@ public final class Constants {
     public static final String LEVEL_Y_KEY = "y";
     public static final String LEVEL_WIDTH_KEY = "width";
     public static final String LEVEL_HEIGHT_KEY = "height";
+    public static final String LEVEL_X_SCALE_KEY = "scaleX";
+    public static final String LEVEL_Y_SCALE_KEY = "scaleY";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_ZOOMBA_TAG = "Zoomba";
     public static final String LEVEL_FIERYZOOMBA_TAG = "FieryZoomba";

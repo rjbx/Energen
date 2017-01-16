@@ -20,7 +20,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public static final String TAG = Assets.class.getName();
     private static final Assets INSTANCE = new Assets();
     private GigaGalAssets gigaGalAssets;
-    private PlatformAssets platformAssets;
+    private BoxAssets boxAssets;
     private CannonAssets cannonAssets;
     private PillarAssets pillarAssets;
     private LiftAssets liftAssets;
@@ -76,7 +76,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
         gigaGalAssets = new GigaGalAssets(atlas);
-        platformAssets = new PlatformAssets(atlas, levelNumber);
+        boxAssets = new BoxAssets(atlas, levelNumber);
         cannonAssets = new CannonAssets(atlas);
         pillarAssets = new PillarAssets(atlas);
         liftAssets = new LiftAssets(atlas);
@@ -229,10 +229,10 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
 
-    public class PlatformAssets {
+    public class BoxAssets {
 
-        public final NinePatch platformNinePatch;
-        public PlatformAssets(TextureAtlas atlas, int levelNumber) {
+        public final NinePatch boxNinePatch;
+        public BoxAssets(TextureAtlas atlas, int levelNumber) {
             AtlasRegion region;
             switch(levelNumber) {
                 case 0: region = atlas.findRegion(Constants.RED_BOX_SPRITE); break;
@@ -246,7 +246,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             }
 
             int edge = Constants.BOX_EDGE;
-            platformNinePatch = new NinePatch(region, edge, edge, edge, edge);
+            boxNinePatch = new NinePatch(region, edge, edge, edge, edge);
         }
     }
 
@@ -337,8 +337,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public LadderAssets(TextureAtlas atlas) {
             AtlasRegion region = atlas.findRegion(Constants.LADDER_SPRITE);
-            int edge = Constants.LADDER_EDGE;
-            ladderNinePatch = new NinePatch(region, edge, edge, edge, edge);
+            ladderNinePatch = new NinePatch(region, Constants.LADDER_X_EDGE, Constants.LADDER_X_EDGE, Constants.LADDER_Y_EDGE, Constants.LADDER_Y_EDGE);
         }
     }
 
@@ -934,7 +933,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     // Getters
     public final GigaGalAssets getGigaGalAssets() { return gigaGalAssets; }
-    public final PlatformAssets getPlatformAssets() { return platformAssets; }
+    public final BoxAssets getBoxAssets() { return boxAssets; }
     public final CannonAssets getCannonAssets() { return cannonAssets; }
     public final PillarAssets getPillarAssets() { return pillarAssets; }
     public final LiftAssets getLiftAssets() { return liftAssets; }

@@ -20,32 +20,36 @@ public class Utils {
     private Utils() {}
 
     public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, float x, float y) {
-        drawTextureRegion(batch, region, x, y, 1);
+        drawTextureRegion(batch, region, x, y, region.getRegionWidth(), region.getRegionHeight(), 1, 1);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position) {
-        drawTextureRegion(batch, region, position.x, position.y, 1);
+        drawTextureRegion(batch, region, position.x, position.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position, Vector2 offset) {
-        drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y, 1);
+        drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position, Vector2 offset, float scale) {
-        drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y, scale);
+        drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale, scale);
     }
 
-    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, float x, float y, float scale) {
+    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position, Vector2 offset, Vector2 scale) {
+        drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale.x, scale.y);
+    }
+
+    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, float x, float y, float width, float height, float scaleX, float scaleY) {
         batch.draw(
                 region.getTexture(),
                 x,
                 y,
                 0,
                 0,
-                region.getRegionWidth(),
-                region.getRegionHeight(),
-                scale,
-                scale,
+                width,
+                height,
+                scaleX,
+                scaleY,
                 0,
                 region.getRegionX(),
                 region.getRegionY(),

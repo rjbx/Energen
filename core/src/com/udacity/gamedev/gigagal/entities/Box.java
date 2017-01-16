@@ -36,7 +36,7 @@ public class Box implements SolidGround {
     public void render(SpriteBatch batch) {
         final float width = right - left;
         final float height = top - bottom;
-        Assets.getInstance().getPlatformAssets().platformNinePatch.draw(batch, left - 1, bottom - 1, width + 2, height + 2);
+        Assets.getInstance().getBoxAssets().boxNinePatch.draw(batch, left - 1, bottom - 1, width + 2, height + 2);
     }
 
     // Getters
