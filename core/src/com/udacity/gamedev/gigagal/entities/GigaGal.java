@@ -994,6 +994,9 @@ public class GigaGal implements Humanoid, MultidirectionalX {
 
     private void stand() {
         if (onSinkable) {
+            strideStartTime = 0;
+            strideTimeSeconds = 0;
+            strideAcceleration = 0;
             velocity.x = 0;
             velocity.y = -3;
         } else if (onSkateable) {
