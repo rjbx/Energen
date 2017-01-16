@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public class Treadmill implements SkateableGround {
+public class Treadmill implements RideableGround {
 
     // fields
     private Vector2 position;
@@ -46,4 +46,5 @@ public class Treadmill implements SkateableGround {
     @Override public final float getRight() { return position.x + Constants.TREADMILL_CENTER.x * scale.x; }
     @Override public final float getTop() { return position.y + Constants.TREADMILL_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.TREADMILL_CENTER.y * scale.y; }
+    @Override public final Enums.Direction getDirection() { return direction; }
 }
