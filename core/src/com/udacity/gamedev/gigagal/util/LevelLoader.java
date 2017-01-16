@@ -13,6 +13,7 @@ import com.udacity.gamedev.gigagal.entities.Coals;
 import com.udacity.gamedev.gigagal.entities.Coil;
 import com.udacity.gamedev.gigagal.entities.FierySwoopa;
 import com.udacity.gamedev.gigagal.entities.FieryZoomba;
+import com.udacity.gamedev.gigagal.entities.Ground;
 import com.udacity.gamedev.gigagal.entities.GushingSwoopa;
 import com.udacity.gamedev.gigagal.entities.GushingZoomba;
 import com.udacity.gamedev.gigagal.entities.Ice;
@@ -166,9 +167,6 @@ public final class LevelLoader {
 
     private static final void loadGrounds(JSONArray array, Level level) {
 
-        Array<Ladder> ladderArray = new Array<Ladder>();
-        Array<Box> boxArray = new Array<Box>();
-
         for (Object o : array) {
 
             final JSONObject item = (JSONObject) o;
@@ -179,9 +177,9 @@ public final class LevelLoader {
                 float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
                 float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
                 final Box box = new Box(imagePosition.x, imagePosition.y + height, width, height);
-                Vector2 boxPosition = imagePosition.add(new Vector2(width / 2, height / 2));
-                Gdx.app.log(TAG, "Loaded the box at " + boxPosition);
-                boxArray.add(box);
+                Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
+                level.getGrounds().add(box);
+                //   level.getBoxes().add(box);
                 if (identifier != null) {
                     if (identifier.equals(Constants.LEVEL_ZOOMBA_TAG)) {
                         final Zoomba zoomba = new Zoomba(box);
@@ -225,62 +223,85 @@ public final class LevelLoader {
                 float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
                 float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
                 final Ladder ladder = new Ladder(imagePosition.x, imagePosition.y + height, width, height);
-                Vector2 ladderPosition = imagePosition.add(new Vector2(width / 2, height / 2));
-                Gdx.app.log(TAG, "Loaded the ladder at " + ladderPosition);
-                ladderArray.add(ladder);
+                level.getGrounds().add(new Ladder(ladder));
+                Gdx.app.log(TAG, "Loaded the ladder at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANNON_SPRITE)) {
-               final Vector2 cannonPosition = imagePosition.add(Constants.X_CANNON_CENTER);
-               Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
-               level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.X));
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Cannon cannon = new Cannon(imagePosition.x, imagePosition.y + height, width, height, Enums.Orientation.X);
+                level.getGrounds().add(new Cannon(cannon));
+                Gdx.app.log(TAG, "Loaded the cannon at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.Y_CANNON_SPRITE)) {
-               final Vector2 cannonPosition = imagePosition.add(Constants.Y_CANNON_CENTER);
-               Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
-               level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.Y));
-            }  else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ROPE_SPRITE)) {
-               final Vector2 ropePosition = imagePosition.add(Constants.ROPE_CENTER);
-               Gdx.app.log(TAG, "Loaded the rope at " + ropePosition);
-               level.getGrounds().add(new Rope(ropePosition));
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Cannon cannon = new Cannon(imagePosition.x, imagePosition.y + height, width, height, Enums.Orientation.Y);
+                level.getGrounds().add(new Cannon(cannon));
+                Gdx.app.log(TAG, "Loaded the cannon at " + imagePosition.add(new Vector2(width / 2, height / 2)));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ROPE_SPRITE)) {
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Rope rope = new Rope(imagePosition.x, imagePosition.y + height, width, height);
+                level.getGrounds().add(new Rope(rope));
+                Gdx.app.log(TAG, "Loaded the rope at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VINES_SPRITE)) {
-               final Vector2 vinesPosition = imagePosition.add(Constants.VINES_CENTER);
-               Gdx.app.log(TAG, "Loaded the vines at " + vinesPosition);
-               level.getGrounds().add(new Vines(vinesPosition));
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Vines vines = new Vines(imagePosition.x, imagePosition.y + height, width, height);
+                level.getGrounds().add(new Vines(vines));
+                Gdx.app.log(TAG, "Loaded the vines at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POLE_SPRITE_1)) {
-               final Vector2 polePosition = imagePosition.add(Constants.POLE_CENTER);
-               Gdx.app.log(TAG, "Loaded the pole at "  polePosition);
-               level.getGrounds().add(new Pole(polePosition));
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Rope rope = new Rope(imagePosition.x, imagePosition.y + height, width, height);
+                level.getGrounds().add(new Rope(rope));
+                Gdx.app.log(TAG, "Loaded the rope at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_RIGHT)) {
-               final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
-               Gdx.app.log(TAG, "Loaded the treadmillRight at " + treadmillPosition);
-               level.getGrounds().add(new Treadmill(treadmillPosition, Enums.Direction.RIGHT));
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Treadmill treadmill = new Treadmill(imagePosition.x, imagePosition.y + height, width, height, Enums.Direction.RIGHT);
+                level.getGrounds().add(new Treadmill(treadmill));
+                Gdx.app.log(TAG, "Loaded the treadmill at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_LEFT)) {
-               final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
-               Gdx.app.log(TAG, "Loaded the treadmillLeft at " + treadmillPosition);
-               level.getGrounds().add(new Treadmill(treadmillPosition, Enums.Direction.LEFT));
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Treadmill treadmill = new Treadmill(imagePosition.x, imagePosition.y + height, width, height, Enums.Direction.LEFT);
+                level.getGrounds().add(new Treadmill(treadmill));
+                Gdx.app.log(TAG, "Loaded the treadmill at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SINK_SPRITE_1)) {
-               final Vector2 sinkPosition = imagePosition.add(Constants.SINK_CENTER);
-               Gdx.app.log(TAG, "Loaded the sink at " + sinkPosition);
-               level.getGrounds().add(new Sink(sinkPosition));
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Sink sink = new Sink(imagePosition.x, imagePosition.y + height, width, height);
+                level.getGrounds().add(new Sink(sink));
+                Gdx.app.log(TAG, "Loaded the sink at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPRING_SPRITE_1)) {
-               final Vector2 springPosition = imagePosition.add(Constants.SPRING_CENTER);
-               Gdx.app.log(TAG, "Loaded the spring at " + springPosition);
-               level.getGrounds().add(new Spring(springPosition));
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Spring spring = new Spring(imagePosition.x, imagePosition.y + height, width, height);
+                level.getGrounds().add(new Spring(spring));
+                Gdx.app.log(TAG, "Loaded the spring at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SLICK_SPRITE_1)) {
-               final Vector2 slickPosition = imagePosition.add(Constants.SLICK_CENTER);
-               Gdx.app.log(TAG, "Loaded the slick at " + slickPosition);
-               level.getGrounds().add(new Slick(slickPosition));
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Slick slick = new Slick(imagePosition.x, imagePosition.y + height, width, height);
+                level.getGrounds().add(new Slick(slick));
+                Gdx.app.log(TAG, "Loaded the slick at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ICE_SPRITE_1)) {
-               final Vector2 icePosition = imagePosition.add(Constants.ICE_CENTER);
-               Gdx.app.log(TAG, "Loaded the ice at " + icePosition);
-               level.getGrounds().add(new Ice(icePosition));
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Ice ice = new Ice(imagePosition.x, imagePosition.y + height, width, height);
+                level.getGrounds().add(new Ice(ice));
+                Gdx.app.log(TAG, "Loaded the ice at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.COALS_SPRITE_1)) {
-               final Vector2 coalsPosition = imagePosition.add(Constants.COALS_CENTER);
-               Gdx.app.log(TAG, "Loaded the coals at " + coalsPosition);
-               level.getGrounds().add(new Coals(coalsPosition));
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Coals coals = new Coals(imagePosition.x, imagePosition.y + height, width, height);
+                level.getGrounds().add(new Coals(coals));
+                Gdx.app.log(TAG, "Loaded the coals at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             }
 
-            boxArray.sort(new Comparator<Box>() {
+            level.getGrounds().sort(new Comparator<Ground>() {
                 @Override
-                public int compare(Box o1, Box o2) {
+                public int compare(Ground o1, Ground o2) {
                     if (o1.getTop() < o2.getTop()) {
                         return 1;
                     } else if (o1.getTop() > o2.getTop()) {
@@ -289,23 +310,6 @@ public final class LevelLoader {
                     return 0;
                 }
             });
-
-            ladderArray.sort(new Comparator<Ladder>() {
-                @Override
-                public int compare(Ladder o1, Ladder o2) {
-                    if (o1.getTop() < o2.getTop()) {
-                        return 1;
-                    } else if (o1.getTop() > o2.getTop()) {
-                        return -1;
-                    }
-                    return 0;
-                }
-            });
-
-            level.getBoxes().addAll(boxArray);
-            level.getGrounds().addAll(boxArray);
-
-            level.getGrounds().addAll(ladderArray);
         }
     }
 }
