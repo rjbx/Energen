@@ -8,12 +8,14 @@ import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.ChargedSwoopa;
 import com.udacity.gamedev.gigagal.entities.ChargedZoomba;
+import com.udacity.gamedev.gigagal.entities.Coals;
 import com.udacity.gamedev.gigagal.entities.Coil;
 import com.udacity.gamedev.gigagal.entities.FierySwoopa;
 import com.udacity.gamedev.gigagal.entities.FieryZoomba;
 import com.udacity.gamedev.gigagal.entities.Ground;
 import com.udacity.gamedev.gigagal.entities.GushingSwoopa;
 import com.udacity.gamedev.gigagal.entities.GushingZoomba;
+import com.udacity.gamedev.gigagal.entities.Ice;
 import com.udacity.gamedev.gigagal.entities.Ladder;
 import com.udacity.gamedev.gigagal.entities.Lift;
 import com.udacity.gamedev.gigagal.entities.Orben;
@@ -27,6 +29,7 @@ import com.udacity.gamedev.gigagal.entities.Sink;
 import com.udacity.gamedev.gigagal.entities.Slick;
 import com.udacity.gamedev.gigagal.entities.Spring;
 import com.udacity.gamedev.gigagal.entities.Swoopa;
+import com.udacity.gamedev.gigagal.entities.Treadmill;
 import com.udacity.gamedev.gigagal.entities.TurboPowerup;
 import com.udacity.gamedev.gigagal.entities.Vacuum;
 import com.udacity.gamedev.gigagal.entities.Flame;
@@ -194,14 +197,80 @@ public final class LevelLoader {
                 Gdx.app.log(TAG, "Loaded the spring at " + springPosition);
                 level.getGrounds().add(new Spring(springPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SLICK_SPRITE_1)) {
-                float scaleX = ((Number) item.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
-                float scaleY = ((Number) item.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
+                float scaleX = 1;
+                float scaleY = 1;
+                if (item.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
+                    scaleX = ((Number) item.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
+                }
+                if (item.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
+                    scaleY = ((Number) item.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
+                }
                 Vector2 scale = new Vector2(scaleX, scaleY);
                 Vector2 adjustedCenter = new Vector2(Constants.SLICK_CENTER.x * scale.x, Constants.SLICK_CENTER.y * scale.y);
                 final Vector2 slickPosition = imagePosition.add(Constants.SLICK_CENTER);
                 final Slick slick = new Slick(slickPosition, scale, adjustedCenter);
                 level.getGrounds().add(slick);
                 Gdx.app.log(TAG, "Loaded the slick at " + slickPosition);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ICE_SPRITE_1)) {
+                float scaleX = 1;
+                float scaleY = 1;
+                if (item.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
+                    scaleX = ((Number) item.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
+                }
+                if (item.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
+                    scaleY = ((Number) item.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
+                }
+                Vector2 scale = new Vector2(scaleX, scaleY);
+                Vector2 adjustedCenter = new Vector2(Constants.ICE_CENTER.x * scale.x, Constants.ICE_CENTER.y * scale.y);
+                final Vector2 icePosition = imagePosition.add(Constants.ICE_CENTER);
+                final Ice ice = new Ice(icePosition, scale, adjustedCenter);
+                level.getGrounds().add(ice);
+                Gdx.app.log(TAG, "Loaded the ice at " + icePosition);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.COALS_SPRITE_1)) {
+                float scaleX = 1;
+                float scaleY = 1;
+                if (item.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
+                    scaleX = ((Number) item.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
+                }
+                if (item.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
+                    scaleY = ((Number) item.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
+                }
+                Vector2 scale = new Vector2(scaleX, scaleY);
+                Vector2 adjustedCenter = new Vector2(Constants.COALS_CENTER.x * scale.x, Constants.COALS_CENTER.y * scale.y);
+                final Vector2 coalsPosition = imagePosition.add(Constants.COALS_CENTER);
+                final Coals coals = new Coals(coalsPosition, scale, adjustedCenter);
+                level.getGrounds().add(coals);
+                Gdx.app.log(TAG, "Loaded the coals at " + coalsPosition);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_LEFT)) {
+                float scaleX = 1;
+                float scaleY = 1;
+                if (item.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
+                    scaleX = ((Number) item.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
+                }
+                if (item.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
+                    scaleY = ((Number) item.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
+                }
+                Vector2 scale = new Vector2(scaleX, scaleY);
+                Vector2 adjustedCenter = new Vector2(Constants.TREADMILL_CENTER.x * scale.x, Constants.TREADMILL_CENTER.y * scale.y);
+                final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
+                final Treadmill treadmill = new Treadmill(treadmillPosition, scale, adjustedCenter, Enums.Direction.LEFT);
+                level.getGrounds().add(treadmill);
+                Gdx.app.log(TAG, "Loaded the treadmill at " + treadmillPosition);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_RIGHT)) {
+                float scaleX = 1;
+                float scaleY = 1;
+                if (item.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
+                    scaleX = ((Number) item.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
+                }
+                if (item.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
+                    scaleY = ((Number) item.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
+                }
+                Vector2 scale = new Vector2(scaleX, scaleY);
+                Vector2 adjustedCenter = new Vector2(Constants.TREADMILL_CENTER.x * scale.x, Constants.TREADMILL_CENTER.y * scale.y);
+                final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
+                final Treadmill treadmill = new Treadmill(treadmillPosition, scale, adjustedCenter, Enums.Direction.RIGHT);
+                level.getGrounds().add(treadmill);
+                Gdx.app.log(TAG, "Loaded the treadmill at " + treadmillPosition);
             }
         }
     }
