@@ -94,7 +94,6 @@ public final class LevelLoader {
         );
     }
 
-
     private static final void loadNonGrounds(Level level, JSONArray nonGrounds) {
         for (Object o : nonGrounds) {
             final JSONObject item = (JSONObject) o;

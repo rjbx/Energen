@@ -316,6 +316,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                             onSinkable = true;
                             canDash = false;
                             canHover = false;
+                            canHover = false;
                             canClimb = false;
                             velocity.y = -3;
                             lookStartTime = 0;
@@ -993,6 +994,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
 
     private void stand() {
         if (onSinkable) {
+            velocity.x = 0;
             velocity.y = -3;
         } else if (onSkateable) {
             if (Math.abs(velocity.x) > 0.005f) {
@@ -1021,6 +1023,9 @@ public class GigaGal implements Humanoid, MultidirectionalX {
     }
 
     private void fall() {
+        if (onSinkable) {
+            stand();
+        }
         if (!onSkateable) {
             strideStartTime = 0;
         }
