@@ -288,7 +288,7 @@ public final class LevelLoader {
                 final Box box = new Box(imagePosition.x, imagePosition.y + height, width, height);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
                 level.getGrounds().add(box);
-                //   level.getBoxes().add(box);
+                level.getBoxes().add(box);
                 if (identifier != null) {
                     if (identifier.equals(Constants.LEVEL_ZOOMBA_TAG)) {
                         final Zoomba zoomba = new Zoomba(box);
@@ -336,9 +336,9 @@ public final class LevelLoader {
                 Gdx.app.log(TAG, "Loaded the ladder at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             }
 
-            level.getGrounds().sort(new Comparator<Ground>() {
+            level.getBoxes().sort(new Comparator<Box>() {
                 @Override
-                public int compare(Ground o1, Ground o2) {
+                public int compare(Box o1, Box o2) {
                     if (o1.getTop() < o2.getTop()) {
                         return 1;
                     } else if (o1.getTop() > o2.getTop()) {
