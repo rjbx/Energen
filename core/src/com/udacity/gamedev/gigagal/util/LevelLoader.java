@@ -12,7 +12,6 @@ import com.udacity.gamedev.gigagal.entities.Coals;
 import com.udacity.gamedev.gigagal.entities.Coil;
 import com.udacity.gamedev.gigagal.entities.FierySwoopa;
 import com.udacity.gamedev.gigagal.entities.FieryZoomba;
-import com.udacity.gamedev.gigagal.entities.Ground;
 import com.udacity.gamedev.gigagal.entities.GushingSwoopa;
 import com.udacity.gamedev.gigagal.entities.GushingZoomba;
 import com.udacity.gamedev.gigagal.entities.Ice;

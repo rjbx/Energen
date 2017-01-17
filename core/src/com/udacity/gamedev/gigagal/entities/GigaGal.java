@@ -356,7 +356,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                                         if (!(ground instanceof Pole)) {
                                             canJump = true;
                                         }
-                                            jump();
+                                        jump();
                                     }
                                 }
                             }
@@ -953,7 +953,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         if (onClimbable) {
             if (inputControls.jumpButtonPressed) {
                 canClimb = true;
-                if ((inputControls.upButtonPressed && !(groundState == GroundState.STANDING && climbStartTime == 0))|| inputControls.downButtonPressed) {
+                if (inputControls.upButtonPressed || inputControls.downButtonPressed) {
                     velocity.x = 0;
                     canHover = false;
                     if (lookDirection == null) {
