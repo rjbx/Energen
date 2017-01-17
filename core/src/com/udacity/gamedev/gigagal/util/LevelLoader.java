@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.Level;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Cannon;
@@ -276,18 +277,20 @@ public final class LevelLoader {
 
     private static final void loadNinePatches(Level level, JSONArray grounds) {
 
+        Array<Box> boxArray = new Array<Box>();
+        Array<Ladder> ladderArray = new Array<Ladder>();
+        
         for (Object o : grounds) {
             final JSONObject item = (JSONObject) o;
             final Vector2 imagePosition = extractXY(item);
             String identifier = (String) item.get(Constants.LEVEL_IDENTIFIER_KEY);
 
-            if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)){
+            if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
                 float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
                 float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
                 final Box box = new Box(imagePosition.x, imagePosition.y + height, width, height);
+                boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
-                level.getGrounds().add(box);
-                level.getBoxes().add(box);
                 if (identifier != null) {
                     if (identifier.equals(Constants.LEVEL_ZOOMBA_TAG)) {
                         final Zoomba zoomba = new Zoomba(box);
@@ -331,11 +334,11 @@ public final class LevelLoader {
                 float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
                 float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
                 final Ladder ladder = new Ladder(imagePosition.x, imagePosition.y + height, width, height);
-                level.getGrounds().add(ladder);
+                ladderArray.add(ladder);
                 Gdx.app.log(TAG, "Loaded the ladder at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             }
 
-            level.getBoxes().sort(new Comparator<Box>() {
+            boxArray.sort(new Comparator<Box>() {
                 @Override
                 public int compare(Box o1, Box o2) {
                     if (o1.getTop() < o2.getTop()) {
@@ -346,6 +349,22 @@ public final class LevelLoader {
                     return 0;
                 }
             });
+
+            ladderArray.sort(new Comparator<Ladder>() {
+                @Override
+                public int compare(Ladder o1, Ladder o2) {
+                    if (o1.getTop() < o2.getTop()) {
+                        return 1;
+                    } else if (o1.getTop() > o2.getTop()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+            });
+
+            level.getBoxes().addAll(boxArray);
+            level.getGrounds().addAll(boxArray);
+            level.getGrounds().addAll(ladderArray);
         }
     }
 }
