@@ -986,7 +986,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         if (inputControls.upButtonPressed) {
             climbDirection = Direction.UP;
             velocity.y = Constants.CLIMB_SPEED;
-        } if (inputControls.downButtonPressed) {
+        } else if (inputControls.downButtonPressed) {
             climbDirection = Direction.DOWN;
             velocity.y = -Constants.CLIMB_SPEED;
         }
