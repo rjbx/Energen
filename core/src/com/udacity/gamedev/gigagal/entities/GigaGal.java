@@ -21,9 +21,9 @@ import java.util.ListIterator;
 import java.util.Random;
 
 // mutable
-public class GigaGal implements Humanoid, MultidirectionalX {
+public class GigaGal implements Humanoid {
 
-    // fields
+    //
     public final static String TAG = GigaGal.class.getName();
     private List<WeaponType> weaponList;
     private ListIterator<WeaponType> weaponToggler;
@@ -33,7 +33,8 @@ public class GigaGal implements Humanoid, MultidirectionalX {
     private Vector2 previousFramePosition;
     private Vector2 velocity;
     private Vector3 chaseCamPosition;
-    private Direction directionX;
+    private Direction moveDirectionX;
+    private Direction moveDirectionY;
     private Direction lookDirection;
     private Direction toggleDirection;
     private Direction rideableDirection;
@@ -131,7 +132,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                 enableStride();
                 enableDash();
                 enableJump();
-            } else if (groundState == GroundState.STRIDING) {
+            } else if (groundState == GroundState.TRAVERSING) {
                 enableStride();
                 enableDash();
                 enableJump();
@@ -204,7 +205,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                                             }
                                             turbo = Math.min((Math.abs((getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), Constants.MAX_TURBO);
                                         }
-                                        velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, directionX, Orientation.X); // boost x velocity by starting speed
+                                        velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, moveDirectionX, Orientation.X); // boost x velocity by starting speed
                                         canRicochet = true; // enable ricochet
                                         slidGround = true; // verify slid ground
                                         slidGroundTop = ground.getTop(); // capture slid ground boundary
@@ -231,7 +232,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                                         && !(ground instanceof UnbearableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                                     // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                                     // reset stride acceleration, disable stride and dash, and set gigagal at ground side
-                                    if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
+                                    if (groundState != GroundState.TRAVERSING || groundState != GroundState.DASHING) {
                                         strideStartTime = 0; // reset stride acceleration
                                     }
                                     canStride = false; // disable stride
@@ -300,9 +301,9 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                                 onUnbearable = true;
                                 canHover = false;
                                 Random xKnockback = new Random();
-                                velocity.set(Utils.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.FLAME_KNOCKBACK.y);
+                                velocity.set(Utils.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, moveDirectionX, Orientation.X), Constants.FLAME_KNOCKBACK.y);
                                 recoil(velocity);
-                            } else if (!Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X)) {
+                            } else if (!Utils.movingOppositeDirection(velocity.x, moveDirectionX, Orientation.X)) {
                                 canHover = true; // enable hover
                             } else {
                                 canHover = false;
@@ -424,18 +425,18 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         boolean left = inputControls.leftButtonPressed;
         boolean right = inputControls.rightButtonPressed;
         boolean directionChanged = false;
-        boolean isStriding = true;
+        boolean isLooking = true;
         if (left && !right) {
-            directionChanged = Utils.changeDirectional(this, Direction.LEFT, Orientation.X);
+            directionChanged = Utils.changeMoveDirection(this, Direction.LEFT, Orientation.X);
         } else if (!left && right) {
-            directionChanged = Utils.changeDirectional(this, Direction.RIGHT, Orientation.X);
+            directionChanged = Utils.changeMoveDirection(this, Direction.RIGHT, Orientation.X);
         } else {
-            isStriding = false;
+            isLooking = false;
         }
         if (groundState != GroundState.AIRBORNE && climbStartTime == 0) {
             if (lookDirection == null) {
                 if (directionChanged) {
-                    if (groundState == groundState.DASHING) {
+                    if (groundState == GroundState.DASHING) {
                         dashStartTime = 0;
                         canDash = false;
                     }
@@ -443,7 +444,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                     strideStartTime = 0;
                     stand();
                 } else if (groundState != GroundState.DASHING) {
-                    if (isStriding) {
+                    if (isLooking) {
                         if (!canStride) {
                             if (strideStartTime == 0) {
                                 canStride = true;
@@ -467,6 +468,56 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                 recoil(new Vector2(velocity.x / 2, velocity.y));
             } else {
                 velocity.x /= 4;
+            }
+        }
+    }
+
+    private void handleYInputs() {
+        boolean down = inputControls.downButtonPressed;
+        boolean up = inputControls.upButtonPressed;
+        boolean directionChanged = false;
+        boolean isLooking = true;
+        if (down && !up) {
+            directionChanged = Utils.changeMoveDirection(this, Direction.DOWN, Orientation.Y);
+        } else if (!down && up) {
+            directionChanged = Utils.changeMoveDirection(this, Direction.UP, Orientation.Y);
+        } else {
+            isLooking = false;
+        }
+        if (groundState != GroundState.AIRBORNE && climbStartTime == 0) {
+            if (lookDirection == null) {
+                if (directionChanged) {
+                    if (groundState == GroundState.DASHING) {
+                        dashStartTime = 0;
+                        canDash = false;
+                    }
+                    strideStartTime = 0;
+                    stand();
+                } else if (groundState != GroundState.DASHING) {
+                    if (isLooking) {
+                        if (!canStride) {
+                            if (strideStartTime == 0) {
+                                canStride = true;
+                            } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+                                strideStartTime = 0;
+                            } else if (!onSinkable){
+                                canDash = true;
+                            } else {
+                                canDash = false;
+                            }
+                        }
+                    } else {
+                        pauseDuration = 0;
+                        stand();
+                        canStride = false;
+                    }
+                }
+            }
+        } else if (directionChanged) {
+            if (aerialState != AerialState.HOVERING) {
+                recoil(new Vector2(velocity.y / 2, velocity.y));
+            } else {
+                velocity.y /= 4;
             }
         }
     }
@@ -547,10 +598,10 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                         } else {
                             if (hazard instanceof Zoomba) {
                                 Zoomba zoomba = (Zoomba) hazard;
-                                recoil(new Vector2((Utils.absoluteToDirectionalValue(zoomba.getMountKnockback().x, directionX, Orientation.X)), zoomba.getMountKnockback().y));
+                                recoil(new Vector2((Utils.absoluteToDirectionalValue(zoomba.getMountKnockback().x, moveDirectionX, Orientation.X)), zoomba.getMountKnockback().y));
                                 damage = zoomba.getMountDamage();
                             } else {
-                                recoil(new Vector2((Utils.absoluteToDirectionalValue(hazard.getKnockback().x, directionX, Orientation.X)), hazard.getKnockback().y));
+                                recoil(new Vector2((Utils.absoluteToDirectionalValue(hazard.getKnockback().x, moveDirectionX, Orientation.X)), hazard.getKnockback().y));
                             }
                         }
                         health -= damage;
@@ -656,14 +707,14 @@ public class GigaGal implements Humanoid, MultidirectionalX {
     public void shoot(AmmoIntensity ammoIntensity, WeaponType weapon, int ammoUsed) {
         ammo -= ammoUsed;
         Vector2 ammoPosition = new Vector2(
-                position.x + Utils.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, directionX, Orientation.X),
+                position.x + Utils.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, moveDirectionX, Orientation.X),
                 position.y + Constants.GIGAGAL_CANNON_OFFSET.y
         );
         if (lookDirection == Direction.UP || lookDirection == Direction.DOWN) {
-            ammoPosition.add(Utils.absoluteToDirectionalValue(0, directionX, Orientation.X),  Utils.absoluteToDirectionalValue(6, lookDirection, Orientation.Y));
+            ammoPosition.add(Utils.absoluteToDirectionalValue(0, moveDirectionX, Orientation.X),  Utils.absoluteToDirectionalValue(6, lookDirection, Orientation.Y));
             level.spawnAmmo(ammoPosition, lookDirection, Orientation.Y, ammoIntensity, weapon, true);
         } else {
-            level.spawnAmmo(ammoPosition, directionX, Orientation.X, ammoIntensity, weapon, true);
+            level.spawnAmmo(ammoPosition, moveDirectionX, Orientation.X, ammoIntensity, weapon, true);
         }
     }
 
@@ -671,7 +722,8 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         position.set(spawnLocation);
         chaseCamPosition.set(position, 0);
         velocity.setZero();
-        directionX = Direction.RIGHT;
+        moveDirectionX = Direction.RIGHT;
+        moveDirectionY = null;
         climbDirection = null;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
@@ -754,7 +806,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
             } else {
                 if (climbDirection != null
                         || (canClimb && lookDirection == null && climbStartTime != 0)
-                        || (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X))) {
+                        || (Utils.movingOppositeDirection(velocity.x, moveDirectionX, Orientation.X))) {
                     //   canHover = false;
                 } else if (hoverStartTime == 0 && !onUnbearable && !onSinkable) {
                     canHover = true;
@@ -800,18 +852,18 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         canLook = false;
         if (strideStartTime == 0) {
             speedAtChangeXDirection = velocity.x;
-            groundState = GroundState.STRIDING;
+            groundState = GroundState.TRAVERSING;
             strideStartTime = TimeUtils.nanoTime();
         }
         strideTimeSeconds = Utils.secondsSince(strideStartTime) - pauseDuration;
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
-        velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Orientation.X);
+        velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), moveDirectionX, Orientation.X);
         if (onRideable) {
             velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, rideableDirection, Orientation.X);
         } else if (onSkateable) {
-            velocity.x = speedAtChangeXDirection + Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
+            velocity.x = speedAtChangeXDirection + Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), moveDirectionX, Orientation.X);
         } else if (onSinkable) {
-            velocity.x = Utils.absoluteToDirectionalValue(10, directionX, Orientation.X);
+            velocity.x = Utils.absoluteToDirectionalValue(10, moveDirectionX, Orientation.X);
             velocity.y = -3;
         }
     }
@@ -839,7 +891,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
             dashSpeed *= 1.75f;
         }
         if (turbo >= 1) {
-            velocity.x = Utils.absoluteToDirectionalValue(dashSpeed, directionX, Orientation.X);
+            velocity.x = Utils.absoluteToDirectionalValue(dashSpeed, moveDirectionX, Orientation.X);
         } else {
             canDash = false;
             dashStartTime = 0;
@@ -864,7 +916,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
             jumpStartTime = TimeUtils.nanoTime();
             canJump = false;
         }
-        velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
+        velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, moveDirectionX, Orientation.X);
         jumpTimeSeconds = Utils.secondsSince(jumpStartTime) - pauseDuration;
         if (jumpTimeSeconds < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
@@ -938,8 +990,8 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         }
         ricochetTimeSeconds = (Utils.secondsSince(ricochetStartTime) - pauseDuration);
         if (ricochetTimeSeconds >= Constants.RICOCHET_FRAME_DURATION) {
-            directionX = Utils.getOppositeDirection(directionX);
-            velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
+            moveDirectionX = Utils.getOppositeDirection(moveDirectionX);
+            velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, moveDirectionX, Orientation.X);
             jump();
             turbo = Math.max(turbo, Constants.GROUND_SLIDE_MIN_TURBO);
         } else {
@@ -979,9 +1031,9 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         int climbAnimationPercent = (int) (climbTimeSeconds * 100);
         if ((climbAnimationPercent) % 25 >= 0
                 && (climbAnimationPercent) % 25 <= 13) {
-            directionX = Direction.RIGHT;
+            moveDirectionX = Direction.RIGHT;
         } else {
-            directionX = Direction.LEFT;
+            moveDirectionX = Direction.LEFT;
         }
         if (inputControls.upButtonPressed) {
             climbDirection = Direction.UP;
@@ -1043,7 +1095,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.FALL_TURBO_INCREMENT;
         }
-        if (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X) || onUnbearable) {
+        if (Utils.movingOppositeDirection(velocity.x, moveDirectionX, Orientation.X) || onUnbearable) {
             canHover = false;
             recoil(velocity);
         }
@@ -1054,12 +1106,12 @@ public class GigaGal implements Humanoid, MultidirectionalX {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
         if (climbDirection != null
                 || (canClimb && lookDirection == null && climbStartTime != 0)) {
-            if (directionX == Direction.LEFT) {
+            if (moveDirectionX == Direction.LEFT) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
-            } else if (directionX == Direction.RIGHT) {
+            } else if (moveDirectionX == Direction.RIGHT) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
             }
-        } else if (directionX == Direction.RIGHT) {
+        } else if (moveDirectionX == Direction.RIGHT) {
             if (aerialState != AerialState.GROUNDED) {
                 if (aerialState == AerialState.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
@@ -1099,12 +1151,12 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standRight;
                 }
-            } else if (groundState == GroundState.STRIDING) {
+            } else if (groundState == GroundState.TRAVERSING) {
                 region = Assets.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (groundState == GroundState.DASHING) {
                 region = Assets.getInstance().getGigaGalAssets().dashRight;
             }
-        } else if (directionX == Direction.LEFT) {
+        } else if (moveDirectionX == Direction.LEFT) {
             if (aerialState != AerialState.GROUNDED) {
                 if (aerialState == AerialState.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
@@ -1144,7 +1196,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standLeft;
                 }
-            } else if (groundState == GroundState.STRIDING) {
+            } else if (groundState == GroundState.TRAVERSING) {
                 region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (groundState == GroundState.DASHING) {
                 region = Assets.getInstance().getGigaGalAssets().dashLeft;
@@ -1156,7 +1208,8 @@ public class GigaGal implements Humanoid, MultidirectionalX {
     // Getters
     @Override public int getHealth() { return health; }
     @Override public float getTurbo() { return turbo; }
-    @Override public Direction getDirectionX() { return directionX; }
+    @Override public Direction getMoveDirectionX() { return moveDirectionX; }
+    @Override public Direction getMoveDirectionY() { return moveDirectionY; }
     @Override public Vector2 getPosition() { return position; }
     @Override public float getWidth() { return Constants.GIGAGAL_STANCE_WIDTH; }
     @Override public float getHeight() { return Constants.GIGAGAL_HEIGHT; }
@@ -1187,7 +1240,8 @@ public class GigaGal implements Humanoid, MultidirectionalX {
     public GroundState getGroundState() { return groundState; }
 
     // Setters
-    public void setDirectionX(Direction directionX) { this.directionX = directionX; }
+    public void setMoveDirectionX(Direction moveDirectionX) { this.moveDirectionX = moveDirectionX; }
+    public void setMoveDirectionY(Direction moveDirectionY) { this.moveDirectionY = moveDirectionY; }
     public void setLives(int lives) { this.lives = lives; }
     public void setHealth(int health) { this.health = health; }
     public void setPauseDuration(float pauseDuration) { this.pauseDuration = pauseDuration; }

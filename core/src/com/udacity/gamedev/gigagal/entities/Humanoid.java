@@ -3,9 +3,8 @@ package com.udacity.gamedev.gigagal.entities;
 import com.badlogic.gdx.math.Rectangle;
 import com.udacity.gamedev.gigagal.util.Enums;
 
-public interface Humanoid extends Entity {
+public interface Humanoid extends MultidirectionalX, MultidirectionalY {
 
-    Enums.Direction getDirectionX();
     float getTurbo();
     int getHealth();
     Rectangle getBounds();

@@ -48,7 +48,7 @@ public final class Enums {
 
     public enum GroundState {
         STANDING,
-        STRIDING,
+        TRAVERSING,
         DASHING,
         AIRBORNE
     }

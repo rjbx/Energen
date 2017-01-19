@@ -97,23 +97,21 @@ public class Utils {
         return null;
     }
 
-    public static final boolean changeDirectional(Multidirectional multidirectional, Enums.Direction setTo, Enums.Orientation orientation) {
+    public static final boolean changeMoveDirection(Multidirectional multidirectional, Enums.Direction setTo, Enums.Orientation orientation) {
         if (orientation == Enums.Orientation.X) {
             MultidirectionalX multidirectionalX = (MultidirectionalX) multidirectional;
-            if (multidirectionalX.getDirectionX() != setTo) {
-                multidirectionalX.setDirectionX(setTo);
+            if (multidirectionalX.getMoveDirectionX() != setTo) {
+                multidirectionalX.setMoveDirectionX(setTo);
                 return true;
-            } else {
-                return false;
             }
+            return false;
         } else if (orientation == Enums.Orientation.Y) {
             MultidirectionalY multidirectionalY = (MultidirectionalY) multidirectional;
-            if (multidirectionalY.getDirectionY() != setTo) {
-                multidirectionalY.setDirectionY(setTo);
+            if (multidirectionalY.getMoveDirectionY() != setTo) {
+                multidirectionalY.setMoveDirectionY(setTo);
                 return true;
-            } else {
-                return false;
-            }  
+            }
+            return false;
         }
         return false;
     }
