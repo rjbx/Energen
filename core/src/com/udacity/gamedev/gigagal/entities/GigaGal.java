@@ -226,9 +226,9 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                                     }
                                     //   stand();
                                 }
-                                if ((!(ground instanceof Treadmill && (Math.abs(getBottom() - ground.getTop()) <= 1)))
-                                && !(ground instanceof SkateableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))
-                                && !(ground instanceof UnbearableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+                                if ((!(ground instanceof RideableGround && (Math.abs(getBottom() - ground.getTop()) <= 1)))
+                                        && !(ground instanceof SkateableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))
+                                        && !(ground instanceof UnbearableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                                     // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                                     // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                                     if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
@@ -255,7 +255,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                         }
                         // if contact with ground top detected, halt downward progression and set gigagal atop ground
                         if ((getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop)
-                        && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
+                                && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
                             setAtop();
                             groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
                             groundedAtopRight = ground.getRight(); // capture grounded ground boundary
@@ -292,7 +292,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                             } else if (ground instanceof BounceableGround) {
                                 loadedBounceable = (BounceableGround) ground;
                                 loadedBounceable.setLoaded(true);
-                            } else if (ground instanceof Treadmill) {
+                            } else if (ground instanceof RideableGround) {
                                 onRideable = true;
                                 RideableGround rideable = (RideableGround) ground;
                                 rideableDirection = rideable.getDirection();
@@ -332,8 +332,8 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                             }
                             if (climbDirection == null) {
                                 if ((getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop
-                                && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
-                                || canClimb && climbStartTime != 0) {
+                                        && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
+                                        || canClimb && climbStartTime != 0) {
                                     setAtop();
                                     groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
                                     groundedAtopRight = ground.getRight(); // capture grounded ground boundary
@@ -369,7 +369,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                             && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
                             && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
                             && ricochetStartTime == 0 // only if have not ricocheted since last grounded
-                            && !(ground instanceof Cannon) // only if ground is not instance of ground
+                            && !(ground instanceof Cannon) // only if ground is not instance of cannon
                             ) {
                         canRicochet = false; // disables ricochet
                         canHover = false; // disables hover
@@ -382,7 +382,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
             climbTimeSeconds = 0;
             climbDirection = null;
         }
-        // disables ricochet if no contact with slid ground side
+        // disables ricochet if no contact with slid round side
         if (slidGround) {
             if (getBottom() > slidGroundTop  || getTop() < slidGroundBottom) {
                 canRicochet = false;
@@ -636,8 +636,8 @@ public class GigaGal implements Humanoid, MultidirectionalX {
                 int ammoUsed;
 
                 if (weapon == WeaponType.NATIVE
-                || (ammo < Constants.BLAST_AMMO_CONSUMPTION && ammoIntensity == AmmoIntensity.BLAST)
-                || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
+                        || (ammo < Constants.BLAST_AMMO_CONSUMPTION && ammoIntensity == AmmoIntensity.BLAST)
+                        || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
                     ammoUsed = 0;
                     weapon = WeaponType.NATIVE;
                 } else {
@@ -1053,7 +1053,7 @@ public class GigaGal implements Humanoid, MultidirectionalX {
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
         if (climbDirection != null
-        || (canClimb && lookDirection == null && climbStartTime != 0)) {
+                || (canClimb && lookDirection == null && climbStartTime != 0)) {
             if (directionX == Direction.LEFT) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (directionX == Direction.RIGHT) {
