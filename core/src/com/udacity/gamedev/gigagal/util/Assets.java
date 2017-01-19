@@ -427,8 +427,8 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class SpringAssets {
 
-        public final Animation load;
-        public final Animation unload;
+        public final Animation loaded;
+        public final Animation unloaded;
 
         public SpringAssets(TextureAtlas atlas) {
             Array<AtlasRegion> springRegions = new Array<AtlasRegion>();
@@ -436,12 +436,12 @@ public final class Assets implements Disposable, AssetErrorListener {
             springRegions.add(atlas.findRegion(Constants.SPRING_SPRITE_2));
             springRegions.add(atlas.findRegion(Constants.SPRING_SPRITE_3));
 
-            load = new Animation(Constants.SPRING_LOAD_DURATION / springRegions.size,
+            loaded = new Animation(Constants.SPRING_LOAD_DURATION / springRegions.size,
                     springRegions, PlayMode.NORMAL);
 
             springRegions.add(atlas.findRegion(Constants.SPRING_SPRITE_4));
 
-            unload = new Animation(Constants.SPRING_UNLOAD_DURATION / springRegions.size,
+            unloaded = new Animation(Constants.SPRING_UNLOAD_DURATION / springRegions.size,
                     springRegions, PlayMode.REVERSED);
         }
     }

@@ -25,18 +25,18 @@ public class Spring implements BounceableGround {
     @Override
     public void render(SpriteBatch batch) {
         final float elapsedTime = Utils.secondsSince(startTime);
-        final TextureRegion retractedSpring = Assets.getInstance().getSpringAssets().load.getKeyFrame(elapsedTime, false);
-        final TextureRegion propelledSpring = Assets.getInstance().getSpringAssets().unload.getKeyFrame(elapsedTime, false);
-        if (loaded == true) {
+        final TextureRegion loadedSpring = Assets.getInstance().getSpringAssets().loaded.getKeyFrame(elapsedTime, false);
+        final TextureRegion unloadedSpring = Assets.getInstance().getSpringAssets().unloaded.getKeyFrame(elapsedTime, false);
+        if (loaded) {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Utils.drawTextureRegion(batch, retractedSpring, position, Constants.SPRING_CENTER);
+            Utils.drawTextureRegion(batch, loadedSpring, position, Constants.SPRING_CENTER);
         } else {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Utils.drawTextureRegion(batch, propelledSpring, position, Constants.SPRING_CENTER);
+            Utils.drawTextureRegion(batch, unloadedSpring, position, Constants.SPRING_CENTER);
         }
     }
 
