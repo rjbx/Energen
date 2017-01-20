@@ -40,16 +40,20 @@ public final class Enums {
     public enum AerialState {
         JUMPING,
         HOVERING,
-        RICOCHETING,
         FALLING,
-        GROUNDED,
-        RECOILING
+        TWISTING,
+        RECOILING,
+        GROUNDED
     }
 
     public enum GroundState {
         STANDING,
         TRAVERSING,
         DASHING,
+        SLIDING,
+        RICOCHETING,
         AIRBORNE
     }
+
+    public enum
 }

@@ -45,8 +45,8 @@ public class GigaGal implements Humanoid {
     private WeaponType weapon;
     private AmmoIntensity ammoIntensity;
     private Ground touchedGround;
-    private long lookStartTime;
     private long strideStartTime;
+    private long lookStartTime;
     private long jumpStartTime;
     private long dashStartTime;
     private long hoverStartTime;
@@ -54,39 +54,47 @@ public class GigaGal implements Humanoid {
     private long chargeStartTime;
     private long recoveryStartTime;
     private long climbStartTime;
+    private float strideAcceleration;
+    
+    private float strideTimeSeconds;
+    private float lookTimeSeconds;
+    private float dashTimeSeconds;
+    private float jumpTimeSeconds;
+    private float hoverTimeSeconds;
+    private float ricochetTimeSeconds;
+    private float chargeTimeSeconds;
+    private float recoveryTimeSeconds;
+    private float climbTimeSeconds;
+    private float aerialTakeoff;
+    private float speedAtChangeXDirection;
+    private float startTurbo;
+    
     private float pauseDuration;
     private float turboDuration;
     private float turbo;
-    private float startTurbo;
-    private float strideAcceleration;
-    private float lookTimeSeconds;
-    private float hoverTimeSeconds;
-    private float dashTimeSeconds;
-    private float jumpTimeSeconds;
-    private float strideTimeSeconds;
-    private float ricochetTimeSeconds;
-    private float recoveryTimeSeconds;
-    private float climbTimeSeconds;
-    private float chargeTimeSeconds;
-    private float aerialTakeoff;
-    private float speedAtChangeXDirection;
     private int lives;
     private int ammo;
     private int health;
-    private boolean canLook;
+
     private boolean canStride;
+    private boolean canLook;
     private boolean canDash;
     private boolean canJump;
     private boolean canHover;
     private boolean canRicochet;
+
     private boolean canCharge;
-    private boolean canChangeDirection;
     private boolean canShoot;
+    
+    private boolean canChangeDirection;
+
     private boolean canClimb;
+
     private boolean knockedBack;
     private boolean slidGround;
     private boolean groundedAtop;
     private boolean pauseState;
+
     private boolean onRideable;
     private boolean onSkateable;
     private boolean onUnbearable;
