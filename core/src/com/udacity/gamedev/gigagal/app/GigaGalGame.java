@@ -1,10 +1,8 @@
-package com.udacity.gamedev.gigagal;
+package com.udacity.gamedev.gigagal.app;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
-import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
-import com.udacity.gamedev.gigagal.util.InputControls;
 
 // immutable
 public final class GigaGalGame extends Game {
@@ -23,7 +21,6 @@ public final class GigaGalGame extends Game {
         levelSelect = new LevelSelectScreen(this);
         AssetManager am = new AssetManager();
         Assets.getInstance().init(am, 0);
-        ControlsOverlay.getInstance().init();
         InputControls.getInstance().init();
         setScreen(levelSelect);
     }

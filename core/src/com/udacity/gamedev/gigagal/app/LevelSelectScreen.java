@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal;
+package com.udacity.gamedev.gigagal.app;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.overlays.CursorOverlay;
-import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = LevelSelectScreen.class.getName();
-    private GigaGalGame game;
+    private com.udacity.gamedev.gigagal.app.GigaGalGame game;
     private SpriteBatch batch;
     private int levelNumber;
     private Array<String> completedLevels;
@@ -39,11 +38,11 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private String selectedLevel;
     private int index;
     private GameplayScreen gameplayScreen;
-    private InputControls inputControls;
+    private com.udacity.gamedev.gigagal.app.InputControls inputControls;
     private ControlsOverlay controlsOverlay;
 
     // default ctor
-    public LevelSelectScreen(GigaGalGame game) {
+    public LevelSelectScreen(com.udacity.gamedev.gigagal.app.GigaGalGame game) {
         this.game = game;
         gameplayScreen = game.getGameplayScreen();
         cursor = new CursorOverlay(145, 55);
@@ -62,7 +61,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        inputControls = InputControls.getInstance();
+        inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
         controlsOverlay = ControlsOverlay.getInstance();
         levelNumber = 0;
         batch = new SpriteBatch();

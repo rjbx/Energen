@@ -1,13 +1,13 @@
-package com.udacity.gamedev.gigagal.util;
+package com.udacity.gamedev.gigagal.app;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
+import com.udacity.gamedev.gigagal.util.Constants;
 
 // mutable
 public class InputControls extends InputAdapter {
@@ -53,6 +53,7 @@ public class InputControls extends InputAdapter {
     public static InputControls getInstance() { return INSTANCE; }
 
     public void init() {
+        ControlsOverlay.getInstance().init();
         this.viewport = ControlsOverlay.getInstance().viewport;
 
         leftCenter = new Vector2();

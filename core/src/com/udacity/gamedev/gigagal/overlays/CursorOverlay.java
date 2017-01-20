@@ -3,7 +3,7 @@ package com.udacity.gamedev.gigagal.overlays;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.util.*;
-import com.udacity.gamedev.gigagal.util.InputControls;
+import com.udacity.gamedev.gigagal.app.InputControls;
 
 public class CursorOverlay {
 

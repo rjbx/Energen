@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal;
+package com.udacity.gamedev.gigagal.app;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
