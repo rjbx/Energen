@@ -1,39 +1,37 @@
-package com.udacity.gamedev.gigagal.overlays;
+package com.udacity.gamedev.gigagal.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
-import com.udacity.gamedev.gigagal.util.Assets;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 
 // mutable
 public class InputControls extends InputAdapter {
 
     // fields
     public static final String TAG = InputControls.class.getName();
-    private final Viewport viewport;
-    private final Vector2 leftCenter;
-    private final Vector2 rightCenter;
-    private final Vector2 upCenter;
-    private final Vector2 downCenter;
-    private final Vector2 centerCenter;
-    private final Vector2 pauseCenter;
-    private final Vector2 shootCenter;
-    private final Vector2 jumpCenter;
+    private static InputControls INSTANCE = new InputControls();
     private GigaGal gigaGal;
-    private int leftPointer;
-    private int rightPointer;
-    private int upPointer;
-    private int downPointer;
-    private int pausePointer;
-    private int jumpPointer;
-    private int shootPointer;
+    public Viewport viewport;
+    public Vector2 leftCenter;
+    public Vector2 rightCenter;
+    public Vector2 upCenter;
+    public Vector2 downCenter;
+    public Vector2 centerCenter;
+    public Vector2 pauseCenter;
+    public Vector2 shootCenter;
+    public Vector2 jumpCenter;
+    public int leftPointer;
+    public int rightPointer;
+    public int upPointer;
+    public int downPointer;
+    public int pausePointer;
+    public int jumpPointer;
+    public int shootPointer;
     public boolean leftButtonPressed;
     public boolean rightButtonPressed;
     public boolean upButtonPressed;
@@ -50,10 +48,12 @@ public class InputControls extends InputAdapter {
     public boolean pauseButtonJustPressed;
 
     // default ctor
-    public InputControls() {
-        this.viewport = new ExtendViewport(
-                Constants.ONSCREEN_CONTROLS_VIEWPORT_SIZE,
-                Constants.ONSCREEN_CONTROLS_VIEWPORT_SIZE);
+    private InputControls() {}
+
+    public static InputControls getInstance() { return INSTANCE; }
+
+    public void init() {
+        this.viewport = ControlsOverlay.getInstance().viewport;
 
         leftCenter = new Vector2();
         rightCenter = new Vector2();
@@ -63,16 +63,12 @@ public class InputControls extends InputAdapter {
         pauseCenter = new Vector2();
         shootCenter = new Vector2();
         jumpCenter = new Vector2();
-
-        // TODO: fix button positions
-        recalculateButtonPositions();
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
         Vector2 viewportPosition = viewport.unproject(new Vector2(screenX, screenY));
-
 
         if (viewportPosition.dst(jumpCenter) < Constants.TOUCH_RADIUS) {
             // : Save the jumpPointer and set jumpButtonPressed = true
@@ -124,7 +120,7 @@ public class InputControls extends InputAdapter {
             leftButtonPressed = false;
             rightButtonPressed = true;
             // Inform GigaGal that the right button is now pressed
-        
+
             // Zero leftPointer
             leftPointer = 0;
             // Save rightPointer
@@ -136,7 +132,7 @@ public class InputControls extends InputAdapter {
             // : Handle the case where the right button touch has been dragged to the left button
             rightButtonPressed = false;
             leftButtonPressed = true;
-            
+
             // Inform GigaGal that the right button is now pressed
 
             // Zero leftPointer
@@ -231,139 +227,6 @@ public class InputControls extends InputAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             pauseButtonJustPressed = true;
         }
-    }
-
-    public void render(SpriteBatch batch) {
-
-        viewport.apply();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-        batch.begin();
-
-        if (!Gdx.input.isTouched(shootPointer) && !Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-            shootButtonPressed = false;
-        }
-        if (!Gdx.input.isKeyJustPressed(shootPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            shootButtonJustPressed = false;
-            shootPointer = 0;
-        }
-        if (!Gdx.input.isTouched(leftPointer) && !Gdx.input.isKeyPressed(Input.Keys.A)) {
-            leftButtonPressed = false;
-        }
-        if (!Gdx.input.isKeyJustPressed(leftPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.A)) {
-            leftButtonJustPressed = false;
-            leftPointer = 0;
-        }
-        if (!Gdx.input.isTouched(rightPointer) && !Gdx.input.isKeyPressed(Input.Keys.D)) {
-            rightButtonPressed = false;
-        }
-        if (!Gdx.input.isKeyJustPressed(rightPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.D)) {
-            rightButtonJustPressed = false;
-            rightPointer = 0;
-        }
-
-        if (!Gdx.input.isTouched(upPointer) && !Gdx.input.isKeyPressed(Input.Keys.W)) {
-            upButtonPressed = false;
-        }
-        if (!Gdx.input.isKeyJustPressed(upPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-            upButtonJustPressed = false;
-            upPointer = 0;
-        }
-
-        if (!Gdx.input.isTouched(downPointer) && !Gdx.input.isKeyPressed(Input.Keys.S)) {
-            downButtonPressed = false;
-        }
-        if (!Gdx.input.isKeyJustPressed(downPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            downButtonJustPressed = false;
-            downPointer = 0;
-        }
-
-        if (!Gdx.input.isTouched(pausePointer) && !Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            pauseButtonPressed = false;
-        }
-        if (!Gdx.input.isKeyJustPressed(pausePointer) && !Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            pauseButtonJustPressed = false;
-            pausePointer = 0;
-        }
-
-        if (!Gdx.input.isTouched(jumpPointer) && !Gdx.input.isKeyPressed(Input.Keys.BACKSLASH)) {
-            jumpButtonPressed = false;
-        }
-        if (!Gdx.input.isKeyJustPressed(jumpPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH)) {
-            jumpButtonJustPressed = false;
-            jumpPointer = 0;
-        }
-
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOnscreenControlsAssets().left,
-                leftCenter,
-                Constants.BUTTON_CENTER
-        );
-
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOnscreenControlsAssets().right,
-                rightCenter,
-                Constants.BUTTON_CENTER
-        );
-
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOnscreenControlsAssets().up,
-                upCenter,
-                Constants.BUTTON_CENTER
-        );
-
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOnscreenControlsAssets().down,
-                downCenter,
-                Constants.BUTTON_CENTER
-        );
-
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOnscreenControlsAssets().center,
-                centerCenter,
-                Constants.BUTTON_CENTER
-        );
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOnscreenControlsAssets().shoot,
-                shootCenter,
-                Constants.BUTTON_CENTER
-        );
-        Utils.drawTextureRegion(
-             batch,
-             Assets.getInstance().getOnscreenControlsAssets().jump,
-             jumpCenter,
-             Constants.BUTTON_CENTER
-        );
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOnscreenControlsAssets().pause,
-                pauseCenter,
-                Constants.BUTTON_CENTER
-        );
-
-        batch.end();
-    }
-
-    public void recalculateButtonPositions() {
-        leftCenter.set(Constants.POSITION_DIAMETER * .975f, Constants.POSITION_DIAMETER * 1.25f);
-        rightCenter.set(Constants.POSITION_DIAMETER * 2.55f, Constants.POSITION_DIAMETER * 1.25f);
-        upCenter.set(Constants.POSITION_DIAMETER * 1.7f, Constants.POSITION_DIAMETER * 2.1f);
-        downCenter.set(Constants.POSITION_DIAMETER * 1.7f, Constants.POSITION_DIAMETER * .54f);
-        centerCenter.set(Constants.POSITION_DIAMETER * 1.74f, Constants.POSITION_DIAMETER * 1.3125f);
-        pauseCenter.set(viewport.getWorldWidth() / 2 - 6.25f, Constants.POSITION_DIAMETER * .8f);
-        jumpCenter.set(
-                viewport.getWorldWidth() - Constants.POSITION_DIAMETER * 2.5f,
-                Constants.POSITION_DIAMETER
-        );
-        shootCenter.set(
-                viewport.getWorldWidth() - Constants.POSITION_DIAMETER,
-                Constants.POSITION_DIAMETER
-        );
     }
 
     public final Viewport getViewport() { return viewport; }

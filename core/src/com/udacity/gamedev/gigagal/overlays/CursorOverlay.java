@@ -1,12 +1,9 @@
 package com.udacity.gamedev.gigagal.overlays;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.util.Assets;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.*;
+import com.udacity.gamedev.gigagal.util.InputControls;
 
 public class CursorOverlay {
 
@@ -23,6 +20,7 @@ public class CursorOverlay {
         yPosition = startingPosition;
         this.endingPosition = endingPosition;
         this.startingPosition = yPosition;
+        inputControls = InputControls.getInstance();
     }
 
     public void init() {
@@ -50,11 +48,10 @@ public class CursorOverlay {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         Utils.drawTextureRegion(batch,
-                Assets.getInstance().getOnscreenControlsAssets().selectionCursor,
+                Assets.getInstance().getOverlayAssets().selectionCursor,
                 viewport.getWorldWidth() / 3.5f, yPosition);
     }
 
     public ExtendViewport getViewport() { return viewport; }
     public float getPosition() { return yPosition; }
-    public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
 }

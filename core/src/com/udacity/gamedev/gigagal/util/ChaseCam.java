@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
-import com.udacity.gamedev.gigagal.overlays.InputControls;
 
 // immutable singleton
 public final class ChaseCam {

@@ -12,10 +12,11 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.entities.TurboPowerup;
+import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.overlays.IndicatorHud;
 import com.udacity.gamedev.gigagal.overlays.GameOverOverlay;
 import com.udacity.gamedev.gigagal.overlays.GaugeHud;
-import com.udacity.gamedev.gigagal.overlays.InputControls;
+import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
 import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.overlays.VictoryOverlay;
@@ -26,6 +27,8 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.LevelLoader;
 import com.udacity.gamedev.gigagal.util.Utils;
 import org.apache.commons.lang3.time.StopWatch;
+
+import java.awt.Cursor;
 import java.util.Arrays;
 
 public class GameplayScreen extends ScreenAdapter {
@@ -34,6 +37,7 @@ public class GameplayScreen extends ScreenAdapter {
     public static final String TAG = GameplayScreen.class.getName();
     private GigaGalGame game;
     private InputControls inputControls;
+    private ControlsOverlay controlsOverlay;
     private SpriteBatch batch;
     private ShapeRenderer renderer;
     private long levelEndOverlayStartTime;
@@ -82,10 +86,9 @@ public class GameplayScreen extends ScreenAdapter {
         optionsOverlay = new OptionsOverlay(this);
         victoryOverlay = new VictoryOverlay(this);
         gameOverOverlay = new GameOverOverlay();
-        inputControls = game.getInputControls();
+        inputControls = InputControls.getInstance();
+        controlsOverlay = ControlsOverlay.getInstance();
         powerups = new Array<TurboPowerup>();
-        pauseOverlay.getCursor().setInputControls(inputControls);
-        optionsOverlay.getCursor().setInputControls(inputControls);
 
         // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
         Gdx.input.setInputProcessor(inputControls);
@@ -110,8 +113,8 @@ public class GameplayScreen extends ScreenAdapter {
         optionsOverlay.getCursor().getViewport().update(width, height, true);
         level.getViewport().update(width, height, true);
         chaseCam.camera = level.getViewport().getCamera();
-        inputControls.getViewport().update(width, height, true);
-        inputControls.recalculateButtonPositions();
+        controlsOverlay.getViewport().update(width, height, true);
+        controlsOverlay.recalculateButtonPositions();
         gigaGal.setInputControls(inputControls);
         chaseCam.setInputControls(inputControls);
     }
@@ -193,10 +196,10 @@ public class GameplayScreen extends ScreenAdapter {
                 level.update(delta);
                 chaseCam.update(delta);
                 level.render(batch);
-        }
+            }
             meterHud.render(batch, renderer);
             contextHud.render(batch);
-            inputControls.render(batch);
+            controlsOverlay.render(batch);
         }
         inputControls.update();
     }
@@ -292,6 +295,5 @@ public class GameplayScreen extends ScreenAdapter {
     public int getTotalScore() { return totalScore; }
     public StopWatch getTotalTime() { return totalTime; }
     public ChaseCam getChaseCam() { return chaseCam; }
-    public InputControls getInputControls() { return inputControls; }
 }
 

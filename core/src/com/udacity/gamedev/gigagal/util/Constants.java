@@ -517,7 +517,7 @@ public final class Constants {
     public static final Color AMMO_CHARGED_COLOR = Color.GOLDENROD;
 
     // Onscreen Controls
-    public static final float ONSCREEN_CONTROLS_VIEWPORT_SIZE = 200;
+    public static final float CONTROLS_OVERLAY_VIEWPORT_SIZE = 200;
     public static final Vector2 BUTTON_CENTER = new Vector2(15, 15);
     public static final float POSITION_DIAMETER = 32;
     public static final float TOUCH_RADIUS = 20;

@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.Level;
-import com.udacity.gamedev.gigagal.overlays.InputControls;
+import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -117,6 +117,7 @@ public class GigaGal implements Humanoid {
     }
 
     public void init() {
+        inputControls = InputControls.getInstance();
         ammo = Constants.INITIAL_AMMO;
         health = Constants.INITIAL_HEALTH;
         lives = Constants.INITIAL_LIVES;

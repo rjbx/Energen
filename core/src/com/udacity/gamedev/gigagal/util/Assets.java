@@ -58,7 +58,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private ExplosionAssets explosionAssets;
     private PowerupAssets powerupAssets;
     private PortalAssets portalAssets;
-    private OnscreenControlsAssets onscreenControlsAssets;
+    private OverlayAssets overlayAssets;
     private HudAssets hudAssets;
     private AssetManager assetManager;
 
@@ -114,7 +114,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         explosionAssets = new ExplosionAssets(atlas);
         powerupAssets = new PowerupAssets(atlas);
         portalAssets = new PortalAssets(atlas);
-        onscreenControlsAssets = new OnscreenControlsAssets(atlas);
+        overlayAssets = new OverlayAssets(atlas);
         hudAssets = new HudAssets(atlas);
     }
 
@@ -876,7 +876,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
 
-    public class OnscreenControlsAssets {
+    public class OverlayAssets {
 
         public final AtlasRegion right;
         public final AtlasRegion left;
@@ -891,7 +891,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion pause;
         public final AtlasRegion selectionCursor;
 
-        public OnscreenControlsAssets(TextureAtlas atlas) {
+        public OverlayAssets(TextureAtlas atlas) {
             right = atlas.findRegion(Constants.RIGHT_BUTTON);
             left = atlas.findRegion(Constants.LEFT_BUTTON);
             up = atlas.findRegion(Constants.UP_BUTTON);
@@ -971,6 +971,6 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final ExplosionAssets getExplosionAssets() { return explosionAssets; }
     public final PowerupAssets getPowerupAssets() { return powerupAssets; }
     public final PortalAssets getPortalAssets() { return portalAssets; }
-    public final OnscreenControlsAssets getOnscreenControlsAssets() { return onscreenControlsAssets; }
+    public final OverlayAssets getOverlayAssets() { return overlayAssets; }
     public final HudAssets getHudAssets() { return hudAssets; }
 }

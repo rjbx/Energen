@@ -28,8 +28,8 @@ public class IndicatorHud {
         this.level = level;
         this.gigaGal = level.getGigaGal();
         this.viewport = new ExtendViewport(
-                Constants.ONSCREEN_CONTROLS_VIEWPORT_SIZE,
-                Constants.ONSCREEN_CONTROLS_VIEWPORT_SIZE);
+                Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE,
+                Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE);
         font = new BitmapFont();
         font.getData().setScale(.75f);
     }

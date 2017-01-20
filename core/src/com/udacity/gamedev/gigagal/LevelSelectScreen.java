@@ -2,7 +2,6 @@ package com.udacity.gamedev.gigagal;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,8 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.overlays.CursorOverlay;
-import com.udacity.gamedev.gigagal.overlays.InputControls;
+import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import java.util.ArrayList;
@@ -40,6 +40,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private int index;
     private GameplayScreen gameplayScreen;
     private InputControls inputControls;
+    private ControlsOverlay controlsOverlay;
 
     // default ctor
     public LevelSelectScreen(GigaGalGame game) {
@@ -61,8 +62,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        inputControls = game.getInputControls();
-        cursor.setInputControls(inputControls);
+        inputControls = InputControls.getInstance();
+        controlsOverlay = ControlsOverlay.getInstance();
         levelNumber = 0;
         batch = new SpriteBatch();
         completedLevels = new Array<String>();
@@ -77,8 +78,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         viewport.update(width, height, true);
         cursor.getViewport().update(width, height, true);
-        inputControls.getViewport().update(width, height, true);
-        inputControls.recalculateButtonPositions();
+        controlsOverlay.getViewport().update(width, height, true);
+        controlsOverlay.recalculateButtonPositions();
     }
 
     @Override
@@ -135,7 +136,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         margin = 0;
         batch.end();
 
-        inputControls.render(batch);
+        controlsOverlay.render(batch);
     }
 
     public final String getSelectedLevel() { return selectedLevel; }
