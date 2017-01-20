@@ -51,9 +51,7 @@ public final class Enums {
         TRAVERSING,
         DASHING,
         SLIDING,
-        RICOCHETING,
+        CLINGING,
         AIRBORNE
     }
-
-    public enum
 }

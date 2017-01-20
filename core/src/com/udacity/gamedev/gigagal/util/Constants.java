@@ -75,9 +75,9 @@ public final class Constants {
     public static final String LOOKUP_HOVER_LEFT_2 = "gg-lookup-hover-left-2";
     public static final String LOOKDOWN_HOVER_RIGHT_2 = "gg-lookdown-hover-right-2";
     public static final String LOOKDOWN_HOVER_LEFT_2 = "gg-lookdown-hover-left-2";
-    public static final String RICOCHET_RIGHT = "gg-ricochet-right";
-    public static final String RICOCHET_LEFT = "gg-ricochet-left";
-    public static final float RICOCHET_FRAME_DURATION = 0.05f;
+    public static final String CLING_RIGHT = "gg-cling-right";
+    public static final String CLING_LEFT = "gg-cling-left";
+    public static final float CLING_FRAME_DURATION = 0.05f;
     public static final String HOVER_RIGHT_1 = "gg-hover-1-right";
     public static final String HOVER_LEFT_1 = "gg-hover-1-left";
     public static final String HOVER_RIGHT_2 = "gg-hover-2-right";
@@ -498,7 +498,7 @@ public final class Constants {
     public static final String BLAST_ICON = "icon-blast";
     public static final String JUMP_ICON = "icon-jump";
     public static final String HOVER_ICON = "icon-hover";
-    public static final String RICOCHET_ICON = "icon-ricochet";
+    public static final String CLING_ICON = "icon-cling";
     public static final String CLIMB_ICON = "icon-climb";
     public static final String DASH_ICON = "icon-dash";
     public static final String LIFE_ICON = "icon-life";
@@ -530,7 +530,7 @@ public final class Constants {
     public static final String BLAST_BUTTON = "button-a";
     public static final String JUMP_BUTTON = "button-b";
     public static final String HOVER_BUTTON = "button-b";
-    public static final String RICOCHET_BUTTON = "button-b";
+    public static final String CLING_BUTTON = "button-b";
     public static final String PAUSE_BUTTON = "button-pause";
     public static final String SELECTION_CURSOR = "selection-cursor";
 

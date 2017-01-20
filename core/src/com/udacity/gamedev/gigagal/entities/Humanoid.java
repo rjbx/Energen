@@ -10,7 +10,7 @@ public interface Humanoid extends MultidirectionalX, MultidirectionalY {
     Rectangle getBounds();
     boolean getJumpStatus();
     boolean getHoverStatus();
-    boolean getRicochetStatus();
+    boolean getClingStatus();
     boolean getDashStatus();
     boolean getClimbStatus();
     Enums.AmmoIntensity getAmmoIntensity();

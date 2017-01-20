@@ -146,8 +146,8 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion lookdownFallRight;
         public final AtlasRegion dashLeft;
         public final AtlasRegion dashRight;
-        public final AtlasRegion ricochetLeft;
-        public final AtlasRegion ricochetRight;
+        public final AtlasRegion clingLeft;
+        public final AtlasRegion clingRight;
         public final Animation hoverLeft;
         public final Animation hoverRight;
         public final Animation lookupHoverLeft;
@@ -175,8 +175,8 @@ public final class Assets implements Disposable, AssetErrorListener {
             lookdownFallRight = atlas.findRegion(Constants.LOOKDOWN_FALL_RIGHT);
             dashLeft = atlas.findRegion(Constants.STRIDE_LEFT_2);
             dashRight = atlas.findRegion(Constants.STRIDE_RIGHT_2);
-            ricochetLeft = atlas.findRegion(Constants.RICOCHET_LEFT);
-            ricochetRight = atlas.findRegion(Constants.RICOCHET_RIGHT);
+            clingLeft = atlas.findRegion(Constants.CLING_LEFT);
+            clingRight = atlas.findRegion(Constants.CLING_RIGHT);
             
             Array<AtlasRegion> hoverLeftFrames = new Array<AtlasRegion>();
             hoverLeftFrames.add(atlas.findRegion(Constants.HOVER_LEFT_1));
@@ -887,7 +887,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion blast;
         public final AtlasRegion jump;
         public final AtlasRegion hover;
-        public final AtlasRegion ricochet;
+        public final AtlasRegion cling;
         public final AtlasRegion pause;
         public final AtlasRegion selectionCursor;
 
@@ -901,7 +901,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             blast = atlas.findRegion(Constants.BLAST_BUTTON);
             jump = atlas.findRegion(Constants.JUMP_BUTTON);
             hover = atlas.findRegion(Constants.HOVER_BUTTON);
-            ricochet = atlas.findRegion(Constants.RICOCHET_BUTTON);
+            cling = atlas.findRegion(Constants.CLING_BUTTON);
             pause = atlas.findRegion(Constants.PAUSE_BUTTON);
             selectionCursor = atlas.findRegion(Constants.SELECTION_CURSOR);
         }
@@ -914,7 +914,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion blast;
         public final AtlasRegion jump;
         public final AtlasRegion hover;
-        public final AtlasRegion ricochet;
+        public final AtlasRegion cling;
         public final AtlasRegion climb;
         public final AtlasRegion dash;
         public final AtlasRegion life;
@@ -924,7 +924,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             blast = atlas.findRegion(Constants.BLAST_ICON);
             jump = atlas.findRegion(Constants.JUMP_ICON);
             hover = atlas.findRegion(Constants.HOVER_ICON);
-            ricochet = atlas.findRegion(Constants.RICOCHET_ICON);
+            cling = atlas.findRegion(Constants.CLING_ICON);
             climb = atlas.findRegion(Constants.CLIMB_ICON);
             dash = atlas.findRegion(Constants.DASH_ICON);
             life = atlas.findRegion(Constants.LIFE_ICON);

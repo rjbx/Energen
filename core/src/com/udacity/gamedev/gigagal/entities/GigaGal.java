@@ -50,25 +50,25 @@ public class GigaGal implements Humanoid {
     private long jumpStartTime;
     private long dashStartTime;
     private long hoverStartTime;
-    private long ricochetStartTime;
+    private long clingStartTime;
     private long chargeStartTime;
     private long recoveryStartTime;
     private long climbStartTime;
     private float strideAcceleration;
-    
+
     private float strideTimeSeconds;
     private float lookTimeSeconds;
     private float dashTimeSeconds;
     private float jumpTimeSeconds;
     private float hoverTimeSeconds;
-    private float ricochetTimeSeconds;
+    private float clingTimeSeconds;
     private float chargeTimeSeconds;
     private float recoveryTimeSeconds;
     private float climbTimeSeconds;
     private float aerialTakeoff;
     private float speedAtChangeXDirection;
     private float startTurbo;
-    
+
     private float pauseDuration;
     private float turboDuration;
     private float turbo;
@@ -81,11 +81,11 @@ public class GigaGal implements Humanoid {
     private boolean canDash;
     private boolean canJump;
     private boolean canHover;
-    private boolean canRicochet;
+    private boolean canCling;
 
     private boolean canCharge;
     private boolean canShoot;
-    
+
     private boolean canChangeDirection;
 
     private boolean canClimb;
@@ -135,7 +135,7 @@ public class GigaGal implements Humanoid {
         enableShoot(weapon);
         enableClimb();
 
-        if (aerialState == AerialState.GROUNDED && groundState != GroundState.AIRBORNE) {
+        if (aerialState == AerialState.GROUNDED) {
             velocity.y = 0;
             if (groundState == GroundState.STANDING) {
                 stand();
@@ -150,26 +150,27 @@ public class GigaGal implements Humanoid {
             } else if (groundState == GroundState.DASHING) {
                 enableDash();
                 enableJump();
+            } else if (groundState == GroundState.CLINGING) {
+                enableJump();
+                enableCling();
             }
         }
 
-        if (groundState == GroundState.AIRBORNE && aerialState != AerialState.GROUNDED) {
+        if (groundState == GroundState.AIRBORNE) {
             velocity.y -= Constants.GRAVITY;
             if (aerialState == AerialState.FALLING) {
                 fall();
                 enableLook();
                 enableHover();
-                enableRicochet();
+                enableCling();
             } else if (aerialState == AerialState.JUMPING) {
                 enableLook();
                 enableJump();
-                enableRicochet();
+                enableCling();
             } else if (aerialState == AerialState.HOVERING) {
                 enableLook();
                 enableHover();
-                enableRicochet();
-            } else if (aerialState == AerialState.RICOCHETING) {
-                enableRicochet();
+                enableCling();
             } else if (aerialState == AerialState.RECOILING && !knockedBack) {
                 enableLook();
             }
@@ -198,26 +199,26 @@ public class GigaGal implements Humanoid {
                             // if during previous frame was not, while currently is, between ground left and right sides
                             if (!Utils.overlapsBetweenTwoSides(ground.getLeft(), ground.getRight(), previousFramePosition.x, getHalfWidth())) {
                                 // only when not grounded and not recoiling
-                                if (groundState == GroundState.AIRBORNE && aerialState != AerialState.RECOILING) {
+                                if (aerialState != AerialState.GROUNDED && aerialState != AerialState.RECOILING) {
                                     // if x velocity (magnitude, without concern for direction) greater than one third max speed,
-                                    // boost x velocity by starting speed, enable ricochet, verify slid ground and capture slid ground boundaries
+                                    // boost x velocity by starting speed, enable cling, verify slid ground and capture slid ground boundaries
                                     if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 3) {
-                                        // if already ricocheting, halt x progression
-                                        if (aerialState == AerialState.RICOCHETING) {
+                                        // if already clinging, halt x progression
+                                        if (groundState == GroundState.CLINGING) {
                                             velocity.x = 0; // halt x progression
-                                            // if not already ricocheting and hover was previously activated before grounding
+                                            // if not already clinging and hover was previously activated before grounding
                                         } else if (!canHover || aerialState == AerialState.HOVERING) {
                                             fall(); // begin descent from ground side sans access to hover
                                             canHover = false; // disable hover if not already
                                         }
-                                        if (aerialState != AerialState.RICOCHETING) {
+                                        if (groundState != GroundState.CLINGING) {
                                             if (!slidGround) {
                                                 startTurbo = Math.max(turbo, Constants.GROUND_SLIDE_MIN_TURBO);
                                             }
                                             turbo = Math.min((Math.abs((getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), Constants.MAX_TURBO);
                                         }
                                         velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, moveDirectionX, Orientation.X); // boost x velocity by starting speed
-                                        canRicochet = true; // enable ricochet
+                                        canCling = true; // enable cling
                                         slidGround = true; // verify slid ground
                                         slidGroundTop = ground.getTop(); // capture slid ground boundary
                                         slidGroundBottom = ground.getBottom(); // capture slid ground boundary
@@ -250,9 +251,9 @@ public class GigaGal implements Humanoid {
                                     canDash = false; // disable dash
                                     position.x = previousFramePosition.x; // halt x progression
                                 }
-                                // else if no detection with ground sides, disable ricochet
+                                // else if no detection with ground sides, disable cling
                             } else {
-                                canRicochet = false; // disable ricochet
+                                canCling = false; // disable cling
                                 slidGround = false;
                             }
                             // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
@@ -262,7 +263,7 @@ public class GigaGal implements Humanoid {
                                 fall(); // descend from point of contact with ground bottom
                             }
                         } else {
-                            canRicochet = false;
+                            canCling = false;
                             slidGround = false;
                         }
                         // if contact with ground top detected, halt downward progression and set gigagal atop ground
@@ -376,16 +377,16 @@ public class GigaGal implements Humanoid {
                             }
                         }
                     }
-                    // if below minimum ground distance while descending excluding post-ricochet, disable ricochet and hover
+                    // if below minimum ground distance while descending excluding post-cling, disable cling and hover
                     // caution when crossing plane between ground top and minimum hover height / ground distance
                     // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
                     if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
                             && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
                             && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
-                            && ricochetStartTime == 0 // only if have not ricocheted since last grounded
+                            && clingStartTime == 0 // only if have not clinged since last grounded
                             && !(ground instanceof Cannon) // only if ground is not instance of cannon
                             ) {
-                        canRicochet = false; // disables ricochet
+                        canCling = false; // disables cling
                         canHover = false; // disables hover
                     }
                 }
@@ -396,10 +397,10 @@ public class GigaGal implements Humanoid {
             climbTimeSeconds = 0;
             climbDirection = null;
         }
-        // disables ricochet if no contact with slid round side
+        // disables cling if no contact with slid round side
         if (slidGround) {
             if (getBottom() > slidGroundTop  || getTop() < slidGroundBottom) {
-                canRicochet = false;
+                canCling = false;
                 slidGround = false;
             }
         }
@@ -429,7 +430,7 @@ public class GigaGal implements Humanoid {
     private void setAtop() {
         groundedAtop = true; // verify contact with ground top
         hoverStartTime = 0;
-        ricochetStartTime = 0;
+        clingStartTime = 0;
         canLook = true;
         canChangeDirection = true;
         knockedBack = false; // reset knockback boolean
@@ -633,7 +634,7 @@ public class GigaGal implements Humanoid {
         canStride = false;
         canDash = false;
         canHover = false;
-        canRicochet = false;
+        canCling = false;
         canChangeDirection = false;
         this.velocity.x = velocity.x;
         this.velocity.y = velocity.y;
@@ -748,7 +749,7 @@ public class GigaGal implements Humanoid {
         canJump = false;
         canDash = false;
         canHover = false;
-        canRicochet = false;
+        canCling = false;
         canShoot = true;
         turboDuration = 0;
         canCharge = false;
@@ -988,23 +989,23 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    private void enableRicochet() {
-        if ((inputControls.jumpButtonJustPressed && canRicochet)
-                || aerialState == AerialState.RICOCHETING) {
-            ricochet();
+    private void enableCling() {
+        if ((inputControls.jumpButtonJustPressed && canCling)
+                || groundState == GroundState.CLINGING) {
+            cling();
         }
     }
 
-    private void ricochet() {
-        if (canRicochet) {
-            aerialState = AerialState.RICOCHETING;
-            ricochetStartTime = TimeUtils.nanoTime();
-            canRicochet = false;
+    private void cling() {
+        if (canCling) {
+            groundState = GroundState.CLINGING;
+            clingStartTime = TimeUtils.nanoTime();
+            canCling = false;
             hoverStartTime = 0;
             canJump = true;
         }
-        ricochetTimeSeconds = (Utils.secondsSince(ricochetStartTime) - pauseDuration);
-        if (ricochetTimeSeconds >= Constants.RICOCHET_FRAME_DURATION) {
+        clingTimeSeconds = (Utils.secondsSince(clingStartTime) - pauseDuration);
+        if (clingTimeSeconds >= Constants.CLING_FRAME_DURATION) {
             moveDirectionX = Utils.getOppositeDirection(moveDirectionX);
             velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, moveDirectionX, Orientation.X);
             jump();
@@ -1099,7 +1100,6 @@ public class GigaGal implements Humanoid {
         if (!onSkateable) {
             strideStartTime = 0;
         }
-
         aerialState = AerialState.FALLING;
         groundState = GroundState.AIRBORNE;
         canJump = false;
@@ -1138,8 +1138,6 @@ public class GigaGal implements Humanoid {
                     } else {
                         region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
                     }
-                } else if (aerialState == AerialState.RICOCHETING) {
-                    region = Assets.getInstance().getGigaGalAssets().ricochetLeft;
                 } else if (aerialState == AerialState.RECOILING && knockedBack){
                     region = Assets.getInstance().getGigaGalAssets().recoilRight;
                 } else {
@@ -1171,6 +1169,8 @@ public class GigaGal implements Humanoid {
                 region = Assets.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (groundState == GroundState.DASHING) {
                 region = Assets.getInstance().getGigaGalAssets().dashRight;
+            } else if (groundState == GroundState.CLINGING) {
+                region = Assets.getInstance().getGigaGalAssets().clingRight;
             }
         } else if (moveDirectionX == Direction.LEFT) {
             if (aerialState != AerialState.GROUNDED) {
@@ -1183,8 +1183,8 @@ public class GigaGal implements Humanoid {
                     } else {
                         region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
-                } else if (aerialState == AerialState.RICOCHETING) {
-                    region = Assets.getInstance().getGigaGalAssets().ricochetLeft;
+                } else if (groundState == GroundState.CLINGING) {
+                    region = Assets.getInstance().getGigaGalAssets().clingLeft;
                 } else if (aerialState == AerialState.RECOILING && knockedBack) {
                     region = Assets.getInstance().getGigaGalAssets().recoilLeft;
                 } else {
@@ -1216,6 +1216,8 @@ public class GigaGal implements Humanoid {
                 region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (groundState == GroundState.DASHING) {
                 region = Assets.getInstance().getGigaGalAssets().dashLeft;
+            } else if (groundState == GroundState.CLINGING) {
+                region = Assets.getInstance().getGigaGalAssets().clingLeft;
             }
         }
         Utils.drawTextureRegion(batch, region, position, Constants.GIGAGAL_EYE_POSITION);
@@ -1236,7 +1238,7 @@ public class GigaGal implements Humanoid {
     @Override public Rectangle getBounds() { return  new Rectangle(getLeft(), getBottom(), getWidth(), getHeight()); }
     @Override public boolean getJumpStatus() { return canJump; }
     @Override public boolean getHoverStatus() { return canHover; }
-    @Override public boolean getRicochetStatus() { return canRicochet; }
+    @Override public boolean getClingStatus() { return canCling; }
     @Override public boolean getDashStatus() { return canDash; }
     @Override public boolean getClimbStatus() { return canClimb; }
     @Override public AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
