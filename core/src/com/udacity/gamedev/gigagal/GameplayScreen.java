@@ -27,8 +27,6 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.LevelLoader;
 import com.udacity.gamedev.gigagal.util.Utils;
 import org.apache.commons.lang3.time.StopWatch;
-
-import java.awt.Cursor;
 import java.util.Arrays;
 
 public class GameplayScreen extends ScreenAdapter {

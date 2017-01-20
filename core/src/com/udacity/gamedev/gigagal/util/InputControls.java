@@ -227,6 +227,61 @@ public class InputControls extends InputAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             pauseButtonJustPressed = true;
         }
+
+
+        if (!Gdx.input.isTouched(shootPointer) && !Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            shootButtonPressed = false;
+        }
+        if (!Gdx.input.isKeyJustPressed(shootPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            shootButtonJustPressed = false;
+            shootPointer = 0;
+        }
+        if (!Gdx.input.isTouched(leftPointer) && !Gdx.input.isKeyPressed(Input.Keys.A)) {
+            leftButtonPressed = false;
+        }
+        if (!Gdx.input.isKeyJustPressed(leftPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+            leftButtonJustPressed = false;
+            leftPointer = 0;
+        }
+        if (!Gdx.input.isTouched(rightPointer) && !Gdx.input.isKeyPressed(Input.Keys.D)) {
+            rightButtonPressed = false;
+        }
+        if (!Gdx.input.isKeyJustPressed(rightPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+            rightButtonJustPressed = false;
+            rightPointer = 0;
+        }
+
+        if (!Gdx.input.isTouched(upPointer) && !Gdx.input.isKeyPressed(Input.Keys.W)) {
+            upButtonPressed = false;
+        }
+        if (!Gdx.input.isKeyJustPressed(upPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+            upButtonJustPressed = false;
+            upPointer = 0;
+        }
+
+        if (!Gdx.input.isTouched(downPointer) && !Gdx.input.isKeyPressed(Input.Keys.S)) {
+            downButtonPressed = false;
+        }
+        if (!Gdx.input.isKeyJustPressed(downPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+            downButtonJustPressed = false;
+            downPointer = 0;
+        }
+
+        if (!Gdx.input.isTouched(pausePointer) && !Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            pauseButtonPressed = false;
+        }
+        if (!Gdx.input.isKeyJustPressed(pausePointer) && !Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            pauseButtonJustPressed = false;
+            pausePointer = 0;
+        }
+
+        if (!Gdx.input.isTouched(jumpPointer) && !Gdx.input.isKeyPressed(Input.Keys.BACKSLASH)) {
+            jumpButtonPressed = false;
+        }
+        if (!Gdx.input.isKeyJustPressed(jumpPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH)) {
+            jumpButtonJustPressed = false;
+            jumpPointer = 0;
+        }
     }
 
     public final Viewport getViewport() { return viewport; }
