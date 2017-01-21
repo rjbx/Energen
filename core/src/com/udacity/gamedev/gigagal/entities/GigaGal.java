@@ -91,7 +91,7 @@ public class GigaGal implements Humanoid {
     private boolean canClimb;
 
     private boolean knockedBack;
-    private boolean slidGround;
+    public boolean rappelling;
     private boolean groundedAtop;
     private boolean pauseState;
 
@@ -213,23 +213,23 @@ public class GigaGal implements Humanoid {
                                                 fall(); // begin descent from ground side sans access to hover
                                                 canHover = false; // disable hover if not already
                                             }
-                                            if (!slidGround) {
-                                                startTurbo = Math.max(turbo, Constants.GROUND_SLIDE_MIN_TURBO);
+                                            if (!rappelling) {
+                                                startTurbo = Math.max(turbo, Constants.GROUND_RAPPEL_MIN_TURBO);
                                             }
                                             turbo = Math.min((Math.abs((getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), Constants.MAX_TURBO);
                                         }
                                         velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, moveDirectionX, Orientation.X); // boost x velocity by starting speed
                                         canCling = true; // enable cling
-                                        slidGround = true; // verify slid ground
+                                        rappelling = true; // verify slid ground
                                         slidGroundTop = ground.getTop(); // capture slid ground boundary
                                         slidGroundBottom = ground.getBottom(); // capture slid ground boundary
-                                        // if absval x velocity  not greater than one third max speed but aerial and bumping ground side, fall
+                                    // if absval x velocity  not greater than one third max speed but aerial and bumping ground side, fall
                                     } else {
                                         // if not already hovering and descending, also disable hover
                                         if (aerialState != AerialState.HOVERING && velocity.y < 0) {
                                             canHover = false; // disable hover
                                         }
-                                        slidGround = false;
+                                        rappelling = false;
                                         fall(); // fall regardless of whether or not inner condition met
                                     }
                                     // only when grounded
@@ -255,7 +255,7 @@ public class GigaGal implements Humanoid {
                                 // else if no detection with ground sides, disable cling
                             } else {
                                 canCling = false; // disable cling
-                                slidGround = false;
+                                rappelling = false;
                             }
                             // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
                             if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()) {
@@ -265,7 +265,7 @@ public class GigaGal implements Humanoid {
                             }
                         } else {
                             canCling = false;
-                            slidGround = false;
+                            rappelling = false;
                         }
                         // if contact with ground top detected, halt downward progression and set gigagal atop ground
                         if ((getBottom() <= ground.getTop() && ground.getTop() != slidGroundTop)
@@ -399,10 +399,9 @@ public class GigaGal implements Humanoid {
             climbDirection = null;
         }
         // disables cling if no contact with slid round side
-        if (slidGround) {
+        if (rappelling) {
             if (getBottom() > slidGroundTop  || getTop() < slidGroundBottom) {
                 canCling = false;
-                slidGround = false;
             }
         }
         // falls if no detection with grounded ground top
@@ -756,7 +755,7 @@ public class GigaGal implements Humanoid {
         canCharge = false;
         canChangeDirection = false;
         ammoIntensity = AmmoIntensity.SHOT;
-        slidGround = false;
+        rappelling = false;
         groundedAtop = false;
         knockedBack = false;
         onRideable = false;
@@ -1011,7 +1010,8 @@ public class GigaGal implements Humanoid {
                 moveDirectionX = Utils.getOppositeDirection(moveDirectionX);
                 velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, moveDirectionX, Orientation.X);
                 jump();
-                turbo = Math.max(turbo, Constants.GROUND_SLIDE_MIN_TURBO);
+                rappelling = false;
+                turbo = Math.max(turbo, Constants.GROUND_RAPPEL_MIN_TURBO);
             } else {
                 pauseDuration = 0;
                 canChangeDirection = false;

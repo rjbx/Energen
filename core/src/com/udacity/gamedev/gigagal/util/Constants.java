@@ -39,7 +39,7 @@ public final class Constants {
     public static final float MAX_LOOK_DISTANCE = 60;
     public static final float RECOVERY_TIME = 1;
     public static final float DOUBLE_TAP_SPEED = 0.2f;
-    public static final float GROUND_SLIDE_MIN_TURBO = 25;
+    public static final float GROUND_RAPPEL_MIN_TURBO = 25;
     public static final float STRIDE_TURBO_INCREMENT = 0.75f;
     public static final float FALL_TURBO_INCREMENT = 1;
     public static final float STAND_TURBO_INCREMENT = 1.25f;
