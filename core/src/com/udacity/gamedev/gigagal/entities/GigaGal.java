@@ -206,13 +206,14 @@ public class GigaGal implements Humanoid {
                                                 fall(); // begin descent from ground side sans access to hover
                                                 canHover = false; // disable hover if not already
                                             }
-                                            if (touchedGround == null) {
+                                            if (!canCling) {
                                                 startTurbo = Math.max(turbo, Constants.GROUND_RAPPEL_MIN_TURBO);
                                             }
                                             turbo = Math.min((Math.abs((getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), Constants.MAX_TURBO);
                                         }
                                         velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, moveDirectionX, Orientation.X); // boost x velocity by starting speed
                                         canCling = true; // enable cling
+                                        aerialState = AerialState.RAPPELLING;
                                         touchedGround = ground;
                                     // if absval x velocity  not greater than one third max speed but aerial and bumping ground side, fall
                                     } else {
@@ -259,7 +260,7 @@ public class GigaGal implements Humanoid {
                             touchedGround = null;
                         }
                         // if contact with ground top detected, halt downward progression and set gigagal atop ground
-                        if ((getBottom() <= ground.getTop() && (touchedGround == null || ground.getTop() != touchedGround.getTop()))
+                        if ((getBottom() <= ground.getTop() && (!canCling || ground.getTop() != touchedGround.getTop()))
                                 && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
                             setAtop();
                             touchedGround = ground;
@@ -294,9 +295,9 @@ public class GigaGal implements Humanoid {
                                     position.y -= 1;
                                 }
                             } else if (ground instanceof BounceableGround) {
+                                onBounceable = true;
                                 BounceableGround bounceable = (BounceableGround) ground;
                                 bounceable.setLoaded(true);
-                                onBounceable = true;
                             } else if (ground instanceof RideableGround) {
                                 onRideable = true;
                                 RideableGround rideable = (RideableGround) ground;
@@ -334,7 +335,7 @@ public class GigaGal implements Humanoid {
                                 }
                             }
                             if (climbDirection == null) {
-                                if ((getBottom() <= ground.getTop() && (touchedGround == null || touchedGround.getTop() != touchedGround.getTop())
+                                if ((getBottom() <= ground.getTop() && (!canCling || touchedGround.getTop() != touchedGround.getTop())
                                         && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
                                         || canClimb && climbStartTime != 0) {
                                     setAtop();
@@ -385,7 +386,7 @@ public class GigaGal implements Humanoid {
             climbDirection = null;
         }
         // falls if no detection with grounded ground top
-        if (touchedGround != null) {
+        if (aerialState == AerialState.GROUNDED) {
             if (getRight() < touchedGround.getLeft() || getLeft() > touchedGround.getRight()) {
                 if (onBounceable) {
                     BounceableGround bounceable = (BounceableGround) touchedGround;
