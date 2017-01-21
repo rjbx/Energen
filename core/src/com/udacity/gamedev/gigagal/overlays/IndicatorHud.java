@@ -42,7 +42,7 @@ public class IndicatorHud {
         float drawPositionX = viewport.getWorldWidth() / 2;
         final float drawPositionY = viewport.getWorldHeight() - Constants.HUD_MARGIN - 7;
         Vector2 drawPosition = new Vector2(drawPositionX, drawPositionY);
-        if (!gigaGal.rappelling)  {
+        if (!gigaGal.getClingStatus())  {
             if (!gigaGal.getJumpStatus() && !gigaGal.getClimbStatus() && gigaGal.getHoverStatus()) {
                 Utils.drawTextureRegion(
                         batch,
