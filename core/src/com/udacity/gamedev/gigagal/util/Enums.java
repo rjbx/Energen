@@ -1,7 +1,9 @@
 package com.udacity.gamedev.gigagal.util;
 
+// immutable static
 public final class Enums {
 
+    // non-instantiable; cannot be subclassed
     private Enums() {}
 
     public enum AmmoIntensity {
@@ -42,6 +44,8 @@ public final class Enums {
         HOVERING,
         FALLING,
         TWISTING,
+        CLINGING,
+        RAPPELLING,
         RECOILING,
         GROUNDED
     }
@@ -50,8 +54,6 @@ public final class Enums {
         STANDING,
         TRAVERSING,
         DASHING,
-        SLIDING,
-        CLINGING,
         AIRBORNE
     }
 }

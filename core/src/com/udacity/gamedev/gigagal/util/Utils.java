@@ -14,9 +14,9 @@ import com.udacity.gamedev.gigagal.entities.Orben;
 import org.apache.commons.lang3.time.StopWatch;
 
 // immutable static
-public class Utils {
+public final class Utils {
 
-    // non-instantiable
+    // non-instantiable; cannot be subclassed
     private Utils() {}
 
     public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, float x, float y) {

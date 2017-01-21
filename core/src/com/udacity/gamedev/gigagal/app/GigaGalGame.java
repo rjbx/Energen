@@ -12,8 +12,7 @@ public final class GigaGalGame extends Game {
     private GameplayScreen gameplay;
 
     // default ctor
-    public GigaGalGame() {
-    }
+    public GigaGalGame() {}
 
     @Override
     public void create() {

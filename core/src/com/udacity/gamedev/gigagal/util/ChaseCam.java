@@ -11,10 +11,10 @@ public final class ChaseCam {
 
     // fields
     public static final String TAG = ChaseCam.class.getName();
+    private static final ChaseCam INSTANCE = new ChaseCam();
     public Camera camera;
     public GigaGal target;
     private static Boolean following;
-    private static final ChaseCam INSTANCE = new ChaseCam();
     private InputControls inputControls;
 
     // non-instantiable; cannot be subclassed

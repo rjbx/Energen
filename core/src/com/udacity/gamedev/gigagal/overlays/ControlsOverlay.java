@@ -15,7 +15,7 @@ public class ControlsOverlay {
     private InputControls inputControls;
     public Viewport viewport;
 
-    // ctor
+    // non-instantiable; cannot be subclassed
     private ControlsOverlay() {}
 
     public static ControlsOverlay getInstance() { return INSTANCE; }

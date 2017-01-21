@@ -8,7 +8,7 @@ import org.joda.time.format.DateTimeFormatter;
 // immutable static
 public final class Constants {
 
-    // non-instantiable
+    // non-instantiable; cannot be subclassed
     private Constants() {}
 
     // World/Camera

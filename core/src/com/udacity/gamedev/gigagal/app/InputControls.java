@@ -47,7 +47,7 @@ public class InputControls extends InputAdapter {
     public boolean shootButtonJustPressed;
     public boolean pauseButtonJustPressed;
 
-    // default ctor
+    // non-instantiable; cannot be subclassed
     private InputControls() {}
 
     public static InputControls getInstance() { return INSTANCE; }

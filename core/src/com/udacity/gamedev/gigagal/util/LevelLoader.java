@@ -54,7 +54,7 @@ public final class LevelLoader {
 
     public static final String TAG = LevelLoader.class.toString();
 
-    // non-instantiable
+    // non-instantiable; cannot be subclassed
     private LevelLoader() {}
 
     public static final Level load(String path) {
