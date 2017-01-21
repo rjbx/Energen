@@ -261,6 +261,7 @@ public class GigaGal implements Humanoid {
                         // if contact with ground top detected, halt downward progression and set gigagal atop ground
                         if ((getBottom() <= ground.getTop() && (touchedGround == null || ground.getTop() != touchedGround.getTop()))
                                 && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
+                            setAtop();
                             touchedGround = ground;
                             velocity.y = 0; // prevents from descending beneath ground top
                             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
@@ -313,6 +314,7 @@ public class GigaGal implements Humanoid {
                         }
                     } else if (ground instanceof DescendableGround) {
                         if (ground instanceof SinkableGround) {
+                            setAtop();
                             touchedGround = ground;
                             onSinkable = true;
                             canDash = false;
@@ -335,6 +337,7 @@ public class GigaGal implements Humanoid {
                                 if ((getBottom() <= ground.getTop() && (touchedGround == null || touchedGround.getTop() != touchedGround.getTop())
                                         && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
                                         || canClimb && climbStartTime != 0) {
+                                    setAtop();
                                     touchedGround = ground;
                                     if (lookDirection != null && aerialState != AerialState.GROUNDED) {
                                         lookStartTime = 0;
