@@ -1069,10 +1069,9 @@ public class GigaGal implements Humanoid {
             } else {
                 pauseDuration = 0;
                 canHover = true;
-
             }
         } else {
-            if (inputControls.downButtonJustPressed || clingTimeSeconds > .75f) {
+            if (inputControls.downButtonPressed || clingTimeSeconds > Constants.MAX_CLING_DURATION) {
                 velocity.y += Constants.CLING_GRAVITY_OFFSET;
             } else {
                 turbo = ((turboDuration - clingTimeSeconds) / turboDuration * startTurbo);
