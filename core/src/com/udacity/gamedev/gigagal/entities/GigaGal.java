@@ -1056,8 +1056,9 @@ public class GigaGal implements Humanoid {
         if (canCling) {
             aerialState = AerialState.CLINGING;
             clingStartTime = TimeUtils.nanoTime();
-
-            directionX = Utils.getOppositeDirection(directionX);
+            if (!Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X)) {
+                directionX = Utils.getOppositeDirection(directionX);
+            }
             hoverStartTime = 0;
             canJump = true;
             canCling = false;
