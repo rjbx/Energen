@@ -160,6 +160,7 @@ public class GigaGal implements Humanoid {
                 enableLook();
                 enableHover();
                 enableCling();
+                enableTwist();
             } else if (aerialState == AerialState.JUMPING) {
                 enableLook();
                 enableJump();
@@ -168,10 +169,11 @@ public class GigaGal implements Humanoid {
                 enableLook();
                 enableHover();
                 enableCling();
+                enableTwist();
             } else if (aerialState == AerialState.CLINGING) {
                 enableJump();
                 enableCling();
-            } else if (aerialState == AerialState.RECOILING && !knockedBack) {
+            } else if (aerialState == AerialState.TWISTING) {
                 enableLook();
             }
         }
@@ -422,7 +424,6 @@ public class GigaGal implements Humanoid {
         hoverStartTime = 0;
         clingStartTime = 0;
         canLook = true;
-        canTwist = true;
         knockedBack = false; // reset knockback boolean
     }
 
@@ -469,11 +470,7 @@ public class GigaGal implements Humanoid {
                 }
             }
         } else if (directionChanged) {
-            if (aerialState != AerialState.HOVERING) {
-                recoil(new Vector2(velocity.x / 2, velocity.y));
-            } else {
-                velocity.x /= 4;
-            }
+            canTwist = true;
         }
     }
 /*
@@ -625,7 +622,6 @@ public class GigaGal implements Humanoid {
         canDash = false;
         canHover = false;
         canCling = false;
-        canTwist = false;
         this.velocity.x = velocity.x;
         this.velocity.y = velocity.y;
         if (!knockedBack) {
@@ -637,6 +633,60 @@ public class GigaGal implements Humanoid {
         } else {
             canLook = false;
             lookStartTime = 0;
+        }
+    }
+
+    private void stand() {
+        if (onSinkable) {
+            strideStartTime = 0;
+            strideTimeSeconds = 0;
+            strideAcceleration = 0;
+            velocity.x = 0;
+            velocity.y = -3;
+        } else if (onSkateable) {
+            if (Math.abs(velocity.x) > 0.005f) {
+                velocity.x /= 1.005;
+            } else {
+                velocity.x = 0;
+            }
+        } else if (onRideable) {
+            velocity.x = 0;
+            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Orientation.X);
+        } else {
+            velocity.x = 0;
+        }
+
+        groundState = GroundState.STANDING;
+        aerialState = AerialState.GROUNDED;
+        if (!canClimb) {
+            canJump = true;
+        } else {
+            canJump = false;
+        }
+        canLook = true;
+        if (turbo < Constants.MAX_TURBO) {
+            turbo += Constants.STAND_TURBO_INCREMENT;
+        }
+    }
+
+    private void fall() {
+        if (onSinkable) {
+            stand();
+        }
+        if (!onSkateable) {
+            strideStartTime = 0;
+        }
+        aerialState = AerialState.FALLING;
+        groundState = GroundState.AIRBORNE;
+        canJump = false;
+        canDash = false;
+        canLook = true;
+        if (turbo < Constants.MAX_TURBO) {
+            turbo += Constants.FALL_TURBO_INCREMENT;
+        }
+        if (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X) || onUnbearable) {
+            canHover = false;
+            recoil(velocity);
         }
     }
 
@@ -938,6 +988,22 @@ public class GigaGal implements Humanoid {
         }
     }
 
+    private void enableTwist() {
+        handleXInputs();
+        if (canTwist) {
+            twist();
+        }
+    }
+
+    private void twist() {
+        canTwist = false;
+        if (aerialState != AerialState.HOVERING) {
+            velocity.x /= 2;
+        } else {
+            velocity.x /= 4;
+        }
+    }
+
     private void enableHover() {
         if (canHover) {
             if (inputControls.jumpButtonJustPressed) {
@@ -973,9 +1039,6 @@ public class GigaGal implements Humanoid {
             fall(); // when max hover time is exceeded
             pauseDuration = 0;
         }
-        if (canTwist) {
-            handleXInputs();
-        }
     }
 
     private void enableCling() {
@@ -991,7 +1054,6 @@ public class GigaGal implements Humanoid {
             clingStartTime = TimeUtils.nanoTime();
 
             directionX = Utils.getOppositeDirection(directionX);
-            canTwist = false;
             hoverStartTime = 0;
             canJump = true;
             canCling = false;
@@ -1004,7 +1066,6 @@ public class GigaGal implements Humanoid {
                 turbo = Math.max(turbo, Constants.RAPPEL_MIN_TURBO);
             } else {
                 pauseDuration = 0;
-                canTwist = false;
                 canHover = true;
                 // disables cling if no contact with rappelling ground side
             }
@@ -1051,63 +1112,6 @@ public class GigaGal implements Humanoid {
         } else if (inputControls.downButtonPressed) {
             climbDirection = Direction.DOWN;
             velocity.y = -Constants.CLIMB_SPEED;
-        }
-    }
-
-    private void stand() {
-        if (onSinkable) {
-            strideStartTime = 0;
-            strideTimeSeconds = 0;
-            strideAcceleration = 0;
-            velocity.x = 0;
-            velocity.y = -3;
-        } else if (onSkateable) {
-            if (Math.abs(velocity.x) > 0.005f) {
-                velocity.x /= 1.005;
-            } else {
-                velocity.x = 0;
-            }
-        } else if (onRideable) {
-            velocity.x = 0;
-            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Orientation.X);
-        } else {
-            velocity.x = 0;
-        }
-
-        groundState = GroundState.STANDING;
-        aerialState = AerialState.GROUNDED;
-        if (!canClimb) {
-            canJump = true;
-        } else {
-            canJump = false;
-        }
-        canLook = true;
-        if (turbo < Constants.MAX_TURBO) {
-            turbo += Constants.STAND_TURBO_INCREMENT;
-        }
-    }
-
-    private void fall() {
-        if (onSinkable) {
-            stand();
-        }
-        if (!onSkateable) {
-            strideStartTime = 0;
-        }
-        aerialState = AerialState.FALLING;
-        groundState = GroundState.AIRBORNE;
-        canJump = false;
-        canDash = false;
-        canLook = true;
-        if (canTwist) {
-            handleXInputs();
-        }
-        if (turbo < Constants.MAX_TURBO) {
-            turbo += Constants.FALL_TURBO_INCREMENT;
-        }
-        if (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X) || onUnbearable) {
-            canHover = false;
-            recoil(velocity);
         }
     }
 

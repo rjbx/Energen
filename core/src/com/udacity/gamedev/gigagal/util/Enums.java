@@ -45,7 +45,6 @@ public final class Enums {
         FALLING,
         TWISTING,
         CLINGING,
-        RAPPELLING,
         RECOILING,
         GROUNDED
     }
