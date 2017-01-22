@@ -205,19 +205,7 @@ public class GigaGal implements Humanoid {
                                     // boost x velocity by starting speed, enable cling, verify rappelling ground and capture rappelling ground boundaries
                                     if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 3) {
                                         // if already clinging, halt x progression
-                                        if (aerialState == AerialState.CLINGING) {
-                                            velocity.x = 0; // halt x progression
-                                            // if not already clinging and hover was previously activated before grounding
-                                        } else {
-                                            if (!canHover || aerialState == AerialState.HOVERING) {
-                                                fall(); // begin descent from ground side sans access to hover
-                                                canHover = false; // disable hover if not already
-                                            }
-                                            if (!canCling) {
-                                                startTurbo = Math.max(turbo, Constants.RAPPEL_MIN_TURBO);
-                                            }
-                                            turbo = Math.min((Math.abs((getTop() - ground.getBottom()) / (ground.getTop() + getHeight() - ground.getBottom())) * startTurbo), Constants.MAX_TURBO);
-                                            velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, directionX, Orientation.X); // boost x velocity by starting speed
+                                        if (aerialState != AerialState.CLINGING) {
                                             canCling = true; // enable cling
                                             touchedGround = ground;
                                         }
@@ -1046,16 +1034,31 @@ public class GigaGal implements Humanoid {
     }
 
     private void enableCling() {
-        if ((inputControls.jumpButtonJustPressed && canCling)
-                || aerialState == AerialState.CLINGING) {
+        if (aerialState == AerialState.CLINGING) {
             cling();
+        } else {
+            if (inputControls.jumpButtonJustPressed && canCling) {
+                cling();
+            }
+            if (!canHover || aerialState == AerialState.HOVERING) {
+                fall(); // begin descent from ground side sans access to hover
+                canHover = false; // disable hover if not already
+            }
+            if (!canCling) {
+                startTurbo = Math.max(turbo, Constants.RAPPEL_MIN_TURBO);
+            } else {
+                turbo = Math.min((Math.abs((getTop() - touchedGround.getBottom()) / (touchedGround.getTop() + getHeight() - touchedGround.getBottom())) * startTurbo), Constants.MAX_TURBO);
+            }
         }
     }
 
     private void cling() {
         if (canCling) {
             aerialState = AerialState.CLINGING;
+            groundState = GroundState.AIRBORNE;
             clingStartTime = TimeUtils.nanoTime();
+
+            velocity.y = 0;
             if (!Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X)) {
                 directionX = Utils.getOppositeDirection(directionX);
             }
@@ -1072,7 +1075,6 @@ public class GigaGal implements Humanoid {
             } else {
                 pauseDuration = 0;
                 canHover = true;
-                // disables cling if no contact with rappelling ground side
             }
         }
     }
