@@ -468,7 +468,7 @@ public class GigaGal implements Humanoid {
                     }
                 }
             }
-        } else if (directionChanged && aerialState != AerialState.CLINGING) {
+        } else if (directionChanged) {
             if (aerialState != AerialState.HOVERING) {
                 recoil(new Vector2(velocity.x / 2, velocity.y));
             } else {
@@ -1105,7 +1105,7 @@ public class GigaGal implements Humanoid {
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.FALL_TURBO_INCREMENT;
         }
-        if (aerialState != AerialState.CLINGING && (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X) || onUnbearable)) {
+        if (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X) || onUnbearable) {
             canHover = false;
             recoil(velocity);
         }

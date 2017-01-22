@@ -94,8 +94,9 @@ public final class Utils {
                 return Enums.Direction.UP;
             case UP:
                 return Enums.Direction.DOWN;
+            default:
+                return null;
         }
-        return null;
     }
 
     public static final boolean changeDirection(Multidirectional multidirectional, Enums.Direction setTo, Enums.Orientation orientation) {
