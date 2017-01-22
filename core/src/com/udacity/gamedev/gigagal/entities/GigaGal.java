@@ -175,6 +175,8 @@ public class GigaGal implements Humanoid {
                 enableCling();
             } else if (aerialState == AerialState.TWISTING) {
                 enableLook();
+                enableHover();
+                enableCling();
             }
         }
     }
@@ -684,7 +686,7 @@ public class GigaGal implements Humanoid {
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.FALL_TURBO_INCREMENT;
         }
-        if (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X) || onUnbearable) {
+        if (onUnbearable) {
             canHover = false;
             recoil(velocity);
         }
@@ -997,6 +999,8 @@ public class GigaGal implements Humanoid {
 
     private void twist() {
         canTwist = false;
+        canHover = true;
+        canCling = true;
         if (aerialState != AerialState.HOVERING) {
             velocity.x /= 2;
         } else {
@@ -1026,7 +1030,7 @@ public class GigaGal implements Humanoid {
         // canHover can only be true just before beginning to hover
         if (aerialState != AerialState.HOVERING) {
             startTurbo = turbo;
-            turboDuration = Constants.MAX_HOVER_DURATION * ((float) startTurbo / Constants.MAX_TURBO);
+            turboDuration = Constants.MAX_HOVER_DURATION * (startTurbo / Constants.MAX_TURBO);
             aerialState = AerialState.HOVERING; // indicates currently hovering
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
