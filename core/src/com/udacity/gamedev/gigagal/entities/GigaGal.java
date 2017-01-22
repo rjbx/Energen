@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -1046,8 +1047,6 @@ public class GigaGal implements Humanoid {
             }
             if (!canCling) {
                 startTurbo = Math.max(turbo, Constants.RAPPEL_MIN_TURBO);
-            } else {
-                turbo = Math.min((Math.abs((getTop() - touchedGround.getBottom()) / (touchedGround.getTop() + getHeight() - touchedGround.getBottom())) * startTurbo), Constants.MAX_TURBO);
             }
         }
     }
@@ -1057,8 +1056,8 @@ public class GigaGal implements Humanoid {
             aerialState = AerialState.CLINGING;
             groundState = GroundState.AIRBORNE;
             clingStartTime = TimeUtils.nanoTime();
-
-            velocity.y = 0;
+            clingTimeSeconds =
+            turboDuration = 0.75f * (startTurbo / Constants.MAX_TURBO);
             if (!Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X)) {
                 directionX = Utils.getOppositeDirection(directionX);
             }
@@ -1066,15 +1065,21 @@ public class GigaGal implements Humanoid {
             canJump = true;
             canCling = false;
         }
+        clingTimeSeconds = (Utils.secondsSince(clingStartTime) - pauseDuration) + (100 - startTurbo) / .75f;
         if (!inputControls.jumpButtonPressed) {
-            clingTimeSeconds = (Utils.secondsSince(clingStartTime) - pauseDuration);
             if (clingTimeSeconds >= Constants.CLING_FRAME_DURATION) {
                 velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
                 jump();
-                turbo = Math.max(turbo, Constants.RAPPEL_MIN_TURBO);
             } else {
                 pauseDuration = 0;
                 canHover = true;
+            }
+        } else {
+            if (inputControls.downButtonJustPressed || clingTimeSeconds > .75f) {
+                velocity.y += 5;
+            } else {
+                turbo = ((turboDuration - clingTimeSeconds) / turboDuration * startTurbo);
+                velocity.y = 0;
             }
         }
     }
