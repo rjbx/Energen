@@ -32,6 +32,8 @@ public final class Constants {
     public static final float GIGAGAL_STARTING_SPEED = 0.3f;
     public static final float STRIDING_JUMP_MULTIPLIER = 1.1f;
     public static final float Y_KNOCKBACK = 150;
+    public static final float CLING_GRAVITY_OFFSET = 5;
+    public static final float MAX_CLING_DURATION = .75f;
     public static final float MAX_JUMP_DURATION = 0.025f;
     public static final float MAX_HOVER_DURATION = 1.5f;
     public static final float MIN_GROUND_DISTANCE = 20;
@@ -39,7 +41,6 @@ public final class Constants {
     public static final float MAX_LOOK_DISTANCE = 60;
     public static final float RECOVERY_TIME = 1;
     public static final float DOUBLE_TAP_SPEED = 0.2f;
-    public static final float RAPPEL_MIN_TURBO = 25;
     public static final float STRIDE_TURBO_INCREMENT = 0.75f;
     public static final float FALL_TURBO_INCREMENT = 1;
     public static final float STAND_TURBO_INCREMENT = 1.25f;

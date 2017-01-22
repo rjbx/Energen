@@ -1053,7 +1053,7 @@ public class GigaGal implements Humanoid {
             aerialState = AerialState.CLINGING;
             groundState = GroundState.AIRBORNE;
             clingStartTime = TimeUtils.nanoTime();
-            turboDuration = 0.75f * (startTurbo / Constants.MAX_TURBO);
+            turboDuration = Constants.MAX_CLING_DURATION * (startTurbo / Constants.MAX_TURBO);
             if (!Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X)) {
                 directionX = Utils.getOppositeDirection(directionX);
             }
@@ -1061,7 +1061,7 @@ public class GigaGal implements Humanoid {
             canJump = true;
             canCling = false;
         }
-        clingTimeSeconds = (Utils.secondsSince(clingStartTime) - pauseDuration) + (100 - startTurbo) / .75f;
+        clingTimeSeconds = (Utils.secondsSince(clingStartTime) - pauseDuration) + ((100 - startTurbo) / Constants.MAX_CLING_DURATION);
         if (!inputControls.jumpButtonPressed) {
             if (clingTimeSeconds >= Constants.CLING_FRAME_DURATION) {
                 velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
@@ -1073,7 +1073,7 @@ public class GigaGal implements Humanoid {
             }
         } else {
             if (inputControls.downButtonJustPressed || clingTimeSeconds > .75f) {
-                velocity.y += 5;
+                velocity.y += Constants.CLING_GRAVITY_OFFSET;
             } else {
                 turbo = ((turboDuration - clingTimeSeconds) / turboDuration * startTurbo);
                 velocity.y = 0;
