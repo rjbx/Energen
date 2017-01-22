@@ -85,30 +85,31 @@ public final class Utils {
     }
 
     public static final Enums.Direction getOppositeDirection(Enums.Direction direction) {
-        if (direction == Enums.Direction.LEFT) {
-            return Enums.Direction.RIGHT;
-        } else if (direction == Enums.Direction.RIGHT)  {
-            return Enums.Direction.LEFT;
-        } else if (direction == Enums.Direction.UP) {
-            return Enums.Direction.DOWN;
-        } else if (direction == Enums.Direction.DOWN) {
-            return Enums.Direction.UP;
+        switch (direction) {
+            case LEFT:
+                return Enums.Direction.RIGHT;
+            case RIGHT:
+                return Enums.Direction.LEFT;
+            case DOWN:
+                return Enums.Direction.UP;
+            case UP:
+                return Enums.Direction.DOWN;
         }
         return null;
     }
 
-    public static final boolean changeMoveDirection(Multidirectional multidirectional, Enums.Direction setTo, Enums.Orientation orientation) {
+    public static final boolean changeDirection(Multidirectional multidirectional, Enums.Direction setTo, Enums.Orientation orientation) {
         if (orientation == Enums.Orientation.X) {
             MultidirectionalX multidirectionalX = (MultidirectionalX) multidirectional;
-            if (multidirectionalX.getMoveDirectionX() != setTo) {
-                multidirectionalX.setMoveDirectionX(setTo);
+            if (multidirectionalX.getDirectionX() != setTo) {
+                multidirectionalX.setDirectionX(setTo);
                 return true;
             }
             return false;
         } else if (orientation == Enums.Orientation.Y) {
             MultidirectionalY multidirectionalY = (MultidirectionalY) multidirectional;
-            if (multidirectionalY.getMoveDirectionY() != setTo) {
-                multidirectionalY.setMoveDirectionY(setTo);
+            if (multidirectionalY.getDirectionY() != setTo) {
+                multidirectionalY.setDirectionY(setTo);
                 return true;
             }
             return false;
