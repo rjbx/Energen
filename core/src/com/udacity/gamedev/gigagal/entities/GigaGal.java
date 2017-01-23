@@ -356,7 +356,7 @@ public class GigaGal implements Humanoid {
                                 stand();
                             }
                         } else if (ground instanceof ClimbableGround) {
-                            if (Utils.centeredBetweenTwoSides(ground.getLeft(), ground.getRight(), position.x)) {
+                            if (Utils.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
                                 if (getBottom() > ground.getBottom()) {
                                     onClimbable = true;
                                 }

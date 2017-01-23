@@ -7,12 +7,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.overlays.CursorOverlay;
+import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Utils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,18 +38,20 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private ListIterator<String> iterator;
     private String levelName;
     private CursorOverlay cursor;
+    private OptionsOverlay optionsOverlay;
     private Array<Float> namePositions;
     private String selectedLevel;
     private int index;
     private GameplayScreen gameplayScreen;
     private com.udacity.gamedev.gigagal.app.InputControls inputControls;
     private ControlsOverlay controlsOverlay;
+    private boolean optionsVisible;
 
     // default ctor
     public LevelSelectScreen(com.udacity.gamedev.gigagal.app.GigaGalGame game) {
         this.game = game;
         gameplayScreen = game.getGameplayScreen();
-        cursor = new CursorOverlay(145, 55);
+        cursor = new CursorOverlay(145, 40);
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
@@ -61,11 +67,13 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
-        controlsOverlay = ControlsOverlay.getInstance();
         levelNumber = 0;
+        optionsVisible = false;
         batch = new SpriteBatch();
         completedLevels = new Array<String>();
+        optionsOverlay = new OptionsOverlay(this);
+        inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
+        controlsOverlay = ControlsOverlay.getInstance();
         Gdx.input.setInputProcessor(inputControls);
     }
 
@@ -79,6 +87,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
         cursor.getViewport().update(width, height, true);
         controlsOverlay.getViewport().update(width, height, true);
         controlsOverlay.recalculateButtonPositions();
+        optionsOverlay.getViewport().update(width, height, true);
+        optionsOverlay.getCursor().getViewport().update(width, height, true);
     }
 
     @Override
@@ -86,24 +96,10 @@ public final class LevelSelectScreen extends ScreenAdapter {
         Assets.getInstance().dispose();
     }
 
-    public void update() {
-    }
+    public void update() {}
 
     @Override
     public void render(float delta) {
-
-        if (inputControls.shootButtonJustPressed) {
-            gameplayScreen.setGame(game);
-            gameplayScreen.setLevelName(selectedLevel);
-            game.setScreen(gameplayScreen);
-        }
-
-        viewport.apply();
-        batch.begin();
-
-        cursor.render(batch);
-        cursor.update();
-        inputControls.update();
 
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
@@ -112,31 +108,60 @@ public final class LevelSelectScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        while (iterator.hasNext()) {
-            iterator.next();
-        }
+        if (!optionsVisible) {
+            viewport.apply();
+            batch.begin();
+            cursor.render(batch);
+            cursor.update();
 
-        float yPosition = viewport.getWorldHeight() / 2.5f;
-        namePositions.add(yPosition);
-        while (iterator.hasPrevious()) {
-            levelName = iterator.previous();
-            if (cursor.getPosition() >= namePositions.get(index) - 15 && cursor.getPosition() < namePositions.get(index)) {
-                selectedLevel = levelName;
+            while (iterator.hasNext()) {
+                iterator.next();
             }
-            levelName = levelName.replace("levels/", "");
-            levelName = levelName.replace(".dt", "");
-            font.draw(batch, levelName, viewport.getWorldWidth() / 2.5f, namePositions.get(index));
-            yPosition += 15;
+
+            float yPosition = viewport.getWorldHeight() / 2.5f;
             namePositions.add(yPosition);
-            index++;
+            while (iterator.hasPrevious()) {
+                levelName = iterator.previous();
+                if (cursor.getPosition() >= namePositions.get(index) - 15 && cursor.getPosition() < namePositions.get(index)) {
+                    selectedLevel = levelName;
+                }
+                levelName = levelName.replace("levels/", "");
+                levelName = levelName.replace(".dt", "");
+                font.draw(batch, levelName, viewport.getWorldWidth() / 2.5f, namePositions.get(index));
+                yPosition += 15;
+                namePositions.add(yPosition);
+                index++;
+            }
+            font.draw(batch, "OPTIONS", viewport.getWorldWidth() / 2.5f, viewport.getWorldHeight() / 2.5f - 15);
+
+            index = 0;
+            margin = 0;
+
+            if (inputControls.shootButtonJustPressed) {
+                if (cursor.getPosition() == viewport.getWorldHeight() / 2.5f - 24) {
+                    optionsVisible = true;
+                } else {
+                    gameplayScreen.setGame(game);
+                    gameplayScreen.setLevelName(selectedLevel);
+                    game.setScreen(gameplayScreen);
+                }
+            }
+            batch.end();
+        } else {
+            optionsOverlay.render(batch);
+            if (inputControls.shootButtonJustPressed) {
+                if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
+                    optionsVisible = false;
+                } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 7) {
+                    controlsOverlay.onMobile = Utils.toggleBoolean(controlsOverlay.onMobile);
+                } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 22) {
+                    game.create();
+                }
+            } else if (inputControls.pauseButtonJustPressed) {
+                optionsVisible = false;
+            }
         }
-
-        index = 0;
-        margin = 0;
-        batch.end();
-
+        inputControls.update();
         controlsOverlay.render(batch);
     }
-
-    public final String getSelectedLevel() { return selectedLevel; }
 }

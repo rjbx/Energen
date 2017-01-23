@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.app;
 
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
@@ -54,7 +53,7 @@ public class GameplayScreen extends ScreenAdapter {
     private int totalScore;
     private StopWatch totalTime;
     private boolean paused;
-    private boolean viewingOptions;
+    private boolean optionsVisible;
     private boolean levelEnded;
     private long pauseTime;
     private float pauseDuration;
@@ -67,7 +66,7 @@ public class GameplayScreen extends ScreenAdapter {
         totalTime.start();
         totalTime.suspend();
         paused = false;
-        viewingOptions = false;
+        optionsVisible = false;
         levelEnded = false;
         pauseTime = 0;
         pauseDuration = 0;
@@ -89,13 +88,8 @@ public class GameplayScreen extends ScreenAdapter {
 
         // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
         Gdx.input.setInputProcessor(inputControls);
-        // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
-        onMobile();
-        startNewLevel();
-    }
 
-    private boolean onMobile() {
-        return Gdx.app.getType() == ApplicationType.Android || Gdx.app.getType() == ApplicationType.iOS;
+        startNewLevel();
     }
 
     @Override
@@ -146,7 +140,7 @@ public class GameplayScreen extends ScreenAdapter {
 
         if (!levelEnded) {
             if (paused) {
-                if (!viewingOptions) {
+                if (!optionsVisible) {
                     pauseOverlay.render(batch);
                     gigaGal.enableToggle(Enums.Direction.DOWN); // enables gigagal to toggle weapon during pause without enabling other gigagal features
                     if (inputControls.shootButtonJustPressed) {
@@ -157,7 +151,7 @@ public class GameplayScreen extends ScreenAdapter {
                             totalTime.suspend();
                             game.setScreen(game.getLevelSelectScreen());
                         } else if (pauseOverlay.getCursor().getPosition() == 43) {
-                            viewingOptions = true;
+                            optionsVisible = true;
                         }
                     } else if (inputControls.pauseButtonJustPressed) {
                         unpause();
@@ -167,7 +161,7 @@ public class GameplayScreen extends ScreenAdapter {
                     gigaGal.enableToggle(Enums.Direction.DOWN);
                     if (inputControls.shootButtonJustPressed) {
                         if (optionsOverlay.getCursor().getPosition() == 73) {
-                            viewingOptions = false;
+                            optionsVisible = false;
                         } else if (optionsOverlay.getCursor().getPosition() == 58) {
                             if (!chaseCam.getFollowing()) {
                                 chaseCam.setFollowing(true);
@@ -175,10 +169,12 @@ public class GameplayScreen extends ScreenAdapter {
                                 chaseCam.setFollowing(false);
                             }
                         } else if (optionsOverlay.getCursor().getPosition() == 43) {
+                            controlsOverlay.onMobile = Utils.toggleBoolean(controlsOverlay.onMobile);
+                        } else if (optionsOverlay.getCursor().getPosition() == 28) {
                             game.create();
                         }
                     } else if (inputControls.pauseButtonJustPressed) {
-                        viewingOptions = false;
+                        optionsVisible = false;
                     }
                 }
             } else if (inputControls.pauseButtonJustPressed) {

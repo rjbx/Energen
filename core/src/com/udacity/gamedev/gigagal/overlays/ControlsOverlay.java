@@ -14,6 +14,7 @@ public class ControlsOverlay {
     private static ControlsOverlay INSTANCE = new ControlsOverlay();
     private InputControls inputControls;
     public Viewport viewport;
+    public boolean onMobile;
 
     // non-instantiable; cannot be subclassed
     private ControlsOverlay() {}
@@ -25,70 +26,69 @@ public class ControlsOverlay {
         this.viewport = new ExtendViewport(
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE,
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE);
-
-
     }
 
     public void render(SpriteBatch batch) {
+        if (onMobile) {
+            viewport.apply();
+            batch.setProjectionMatrix(viewport.getCamera().combined);
+            batch.begin();
 
-        viewport.apply();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-        batch.begin();
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getOverlayAssets().left,
+                    inputControls.leftCenter,
+                    Constants.BUTTON_CENTER
+            );
 
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOverlayAssets().left,
-                inputControls.leftCenter,
-                Constants.BUTTON_CENTER
-        );
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getOverlayAssets().right,
+                    inputControls.rightCenter,
+                    Constants.BUTTON_CENTER
+            );
 
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOverlayAssets().right,
-                inputControls.rightCenter,
-                Constants.BUTTON_CENTER
-        );
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getOverlayAssets().up,
+                    inputControls.upCenter,
+                    Constants.BUTTON_CENTER
+            );
 
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOverlayAssets().up,
-                inputControls.upCenter,
-                Constants.BUTTON_CENTER
-        );
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getOverlayAssets().down,
+                    inputControls.downCenter,
+                    Constants.BUTTON_CENTER
+            );
 
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOverlayAssets().down,
-                inputControls.downCenter,
-                Constants.BUTTON_CENTER
-        );
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getOverlayAssets().center,
+                    inputControls.centerCenter,
+                    Constants.BUTTON_CENTER
+            );
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getOverlayAssets().shoot,
+                    inputControls.shootCenter,
+                    Constants.BUTTON_CENTER
+            );
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getOverlayAssets().jump,
+                    inputControls.jumpCenter,
+                    Constants.BUTTON_CENTER
+            );
+            Utils.drawTextureRegion(
+                    batch,
+                    Assets.getInstance().getOverlayAssets().pause,
+                    inputControls.pauseCenter,
+                    Constants.BUTTON_CENTER
+            );
 
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOverlayAssets().center,
-                inputControls.centerCenter,
-                Constants.BUTTON_CENTER
-        );
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOverlayAssets().shoot,
-                inputControls.shootCenter,
-                Constants.BUTTON_CENTER
-        );
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOverlayAssets().jump,
-                inputControls.jumpCenter,
-                Constants.BUTTON_CENTER
-        );
-        Utils.drawTextureRegion(
-                batch,
-                Assets.getInstance().getOverlayAssets().pause,
-                inputControls.pauseCenter,
-                Constants.BUTTON_CENTER
-        );
-
-        batch.end();
+            batch.end();
+        }
     }
 
     public void recalculateButtonPositions() {

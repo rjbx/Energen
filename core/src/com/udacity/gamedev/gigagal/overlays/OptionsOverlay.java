@@ -1,12 +1,14 @@
 package com.udacity.gamedev.gigagal.overlays;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.GameplayScreen;
+import com.udacity.gamedev.gigagal.app.LevelSelectScreen;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -19,15 +21,15 @@ public final class OptionsOverlay {
     public final static String TAG = VictoryOverlay.class.getName();
     private final Viewport viewport;
     private final BitmapFont font;
-    private GameplayScreen gameplayScreen;
+    private ScreenAdapter screenAdapter;
     private GigaGal gigaGal;
     private CursorOverlay cursor;
     private int index;
     private boolean debugMode;
 
     // default ctor
-    public OptionsOverlay(GameplayScreen gameplayScreen) {
-        this.gameplayScreen = gameplayScreen;
+    public OptionsOverlay(ScreenAdapter screenAdapter) {
+        this.screenAdapter = screenAdapter;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.4f);
@@ -35,7 +37,6 @@ public final class OptionsOverlay {
     }
 
     public void init() {
-        gigaGal = this.gameplayScreen.getLevel().getGigaGal();
     }
 
     public void render(SpriteBatch batch) {
@@ -43,32 +44,43 @@ public final class OptionsOverlay {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
+        cursor.render(batch);
+        cursor.update();
 
-        if (gameplayScreen.getChaseCam().getFollowing()) {
-            cursor.render(batch);
-            cursor.update();
-            String stats =
-                    Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
-                            Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" +
-                            "Turbo: " + gigaGal.getTurbo();
+        if (screenAdapter instanceof GameplayScreen) {
+            GameplayScreen gameplayScreen = (GameplayScreen) screenAdapter;
+            gigaGal = gameplayScreen.getLevel().getGigaGal();
+            if (gameplayScreen.getChaseCam().getFollowing()) {
 
-            String weapons = gigaGal.getWeapon() + "";
+                String stats =
+                        Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
+                                Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" +
+                                "Turbo: " + gigaGal.getTurbo();
 
-            for (Enums.WeaponType weapon : gigaGal.getWeaponList()) {
-                if (weapon != gigaGal.getWeapon()) {
-                    weapons += "\n" + weapon.toString();
+                String weapons = gigaGal.getWeapon() + "";
+
+                for (Enums.WeaponType weapon : gigaGal.getWeaponList()) {
+                    if (weapon != gigaGal.getWeapon()) {
+                        weapons += "\n" + weapon.toString();
+                    }
                 }
-            }
 
-            font.draw(batch, stats, viewport.getScreenX() + 5, viewport.getWorldHeight() * .8f, 0, Align.left, false);
-            font.draw(batch, weapons, viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, weapons.length(), 10, Align.right, false);
-            font.draw(batch, "GAME TOTAL\n" + "Time: " + Utils.stopWatchToString(gameplayScreen.getTotalTime()) + "\n" + "Score: " + gameplayScreen.getTotalScore(), viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .8f, 0, Align.center, false);
+                font.draw(batch, stats, viewport.getScreenX() + 5, viewport.getWorldHeight() * .8f, 0, Align.left, false);
+                font.draw(batch, weapons, viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, weapons.length(), 10, Align.right, false);
+                font.draw(batch, "GAME TOTAL\n" + "Time: " + Utils.stopWatchToString(gameplayScreen.getTotalTime()) + "\n" + "Score: " + gameplayScreen.getTotalScore(), viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .8f, 0, Align.center, false);
+                font.draw(batch, "BACK", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 18, 0, Align.center, false);
+                font.draw(batch, "DEBUG CAM", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 3, 0, Align.center, false);
+                font.draw(batch, "TOUCH PAD", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 12, 0, Align.center, false);
+                font.draw(batch, "QUIT GAME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 27, 0, Align.center, false);
+            } else {
+                font.draw(batch, "DEBUG MODE\n" + "PRESS SHOOT BUTTON TO EXIT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
+            }
+        } else if (screenAdapter instanceof LevelSelectScreen) {
             font.draw(batch, "BACK", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 18, 0, Align.center, false);
-            font.draw(batch, "DEBUG CAM", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 3, 0, Align.center, false);
+            font.draw(batch, "TOUCH PAD", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 3, 0, Align.center, false);
             font.draw(batch, "QUIT GAME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 12, 0, Align.center, false);
-        } else {
-            font.draw(batch, "DEBUG MODE\n" + "PRESS SHOOT BUTTON TO EXIT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
         }
+
         batch.end();
     }
 

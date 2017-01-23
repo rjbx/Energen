@@ -127,16 +127,17 @@ public final class Utils {
         return false;
     }
 
-    public static final boolean overlapsBetweenTwoSides(float lowerBound, float upperBound, float position, float halfSpan) {
-        return centeredBetweenTwoSides(lowerBound - halfSpan, upperBound + halfSpan, position);
-    }
 
-    public static final boolean centeredBetweenTwoSides(float lowerBound, float upperBound, float position) {
+    public static final boolean betweenTwoValues(float position, float lowerBound, float upperBound) {
         return position >= lowerBound && position <= upperBound;
     }
 
+    public static final boolean overlapsBetweenTwoSides(float lowerBound, float upperBound, float position, float halfSpan) {
+        return betweenTwoValues(position, lowerBound - halfSpan, upperBound + halfSpan);
+    }
+
     public static final boolean encompassedBetweenTwoSides(float lowerBound, float upperBound, float position, float halfSpan) {
-        return centeredBetweenTwoSides(lowerBound + halfSpan, upperBound - halfSpan, position)/*
+        return betweenTwoValues(position, lowerBound + halfSpan, upperBound - halfSpan)/*
                 || (Math.abs(position - ((upperBound + lowerBound) / 2)) < 5)*/;
     }
 
@@ -145,7 +146,7 @@ public final class Utils {
     }
 
     public static final boolean centeredBetweenFourSides(float left, float right, float bottom, float top, float x, float y) {
-        return (centeredBetweenTwoSides(left, right, x) && centeredBetweenTwoSides(bottom, top, y));
+        return (betweenTwoValues(x, left, right) && betweenTwoValues(y, bottom, top));
     }
 
     public static final boolean encompassedBetweenFourSides(float left, float right, float bottom, float top, float x, float y, float halfWidth, float halfHeight) {
@@ -189,5 +190,13 @@ public final class Utils {
     public static final String stopWatchToString(StopWatch time) {
         String timeString = time + "";
         return (timeString).substring(0, timeString.length() - 4);
+    }
+
+    public static boolean toggleBoolean(Boolean b) {
+        if (b) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

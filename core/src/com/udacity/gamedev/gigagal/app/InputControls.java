@@ -1,11 +1,11 @@
 package com.udacity.gamedev.gigagal.app;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.util.Constants;
 
@@ -15,7 +15,6 @@ public class InputControls extends InputAdapter {
     // fields
     public static final String TAG = InputControls.class.getName();
     private static InputControls INSTANCE = new InputControls();
-    private GigaGal gigaGal;
     public Viewport viewport;
     public Vector2 leftCenter;
     public Vector2 rightCenter;
@@ -54,6 +53,7 @@ public class InputControls extends InputAdapter {
 
     public void init() {
         ControlsOverlay.getInstance().init();
+    //    ControlsOverlay.getInstance().onMobile = onMobile();
         this.viewport = ControlsOverlay.getInstance().viewport;
 
         leftCenter = new Vector2();
@@ -64,6 +64,10 @@ public class InputControls extends InputAdapter {
         pauseCenter = new Vector2();
         shootCenter = new Vector2();
         jumpCenter = new Vector2();
+    }
+
+    private boolean onMobile() {
+        return Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
     }
 
     @Override
