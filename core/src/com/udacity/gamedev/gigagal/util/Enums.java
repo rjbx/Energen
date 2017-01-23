@@ -39,20 +39,21 @@ public final class Enums {
         Y
     }
 
+    public enum GroundState {
+        STANDING,
+        STRIDING,
+        CLIMBING,
+        DASHING,
+        AIRBORNE
+    }
+
     public enum AerialState {
-        JUMPING,
-        HOVERING,
         FALLING,
+        JUMPING,
         TWISTING,
+        HOVERING,
         CLINGING,
         RECOILING,
         GROUNDED
-    }
-
-    public enum GroundState {
-        STANDING,
-        TRAVERSING,
-        DASHING,
-        AIRBORNE
     }
 }

@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -26,158 +25,192 @@ public class GigaGal implements Humanoid {
 
     // fields
     public final static String TAG = GigaGal.class.getName();
-    private List<WeaponType> weaponList;
-    private ListIterator<WeaponType> weaponToggler;
     private Level level;
-    private Vector2 spawnLocation;
+    private InputControls inputControls;
     private Vector2 position;
     private Vector2 previousFramePosition;
-    private Vector2 velocity;
+    private Vector2 spawnPosition;
     private Vector3 chaseCamPosition;
+    private Vector2 velocity;
     private Direction directionX;
     private Direction directionY;
-
-    private Direction lookDirection;
-    private Direction toggleDirection;
-    private Direction climbDirection;
-
     private AerialState aerialState;
     private GroundState groundState;
-    private WeaponType weapon;
-    private AmmoIntensity ammoIntensity;
     private Ground touchedGround;
-    private long strideStartTime;
-    private long lookStartTime;
-    private long jumpStartTime;
-    private long dashStartTime;
-    private long hoverStartTime;
-    private long clingStartTime;
-    private long chargeStartTime;
-    private long recoveryStartTime;
-    private long climbStartTime;
-    private float strideAcceleration;
-
-    private float strideTimeSeconds;
-    private float lookTimeSeconds;
-    private float dashTimeSeconds;
-    private float jumpTimeSeconds;
-    private float hoverTimeSeconds;
-    private float clingTimeSeconds;
-    private float chargeTimeSeconds;
-    private float recoveryTimeSeconds;
-    private float climbTimeSeconds;
-    private float aerialTakeoff;
-    private float speedAtChangeXDirection;
-    private float startTurbo;
-
-    private float pauseDuration;
-    private float turboDuration;
-    private float turbo;
-    private int lives;
-    private int ammo;
-    private int health;
-
-    private boolean canStride;
-    private boolean canLook;
-    private boolean canDash;
-    private boolean canJump;
-    private boolean canHover;
-    private boolean canCling;
-
-    private boolean canCharge;
-    private boolean canShoot;
-
-    private boolean canTwist;
-
-    private boolean canClimb;
-
-    private boolean knockedBack;
-    private boolean groundedAtop;
-    private boolean pauseState;
-
+    private AmmoIntensity ammoIntensity;
+    private WeaponType weapon;
+    private List<WeaponType> weaponList;
+    private ListIterator<WeaponType> weaponToggler;
     private boolean onRideable;
     private boolean onSkateable;
     private boolean onUnbearable;
     private boolean onClimbable;
     private boolean onSinkable;
     private boolean onBounceable;
-    private InputControls inputControls;
+    private boolean canShoot;
+    private boolean canLook;
+    private boolean canDash;
+    private boolean canJump;
+    private boolean canHover;
+    private boolean canCling;
+    private boolean canClimb;
+    private boolean canStride;
+    private long chargeStartTime;
+    private long lookStartTime;
+    private long jumpStartTime;
+    private long dashStartTime;
+    private long hoverStartTime;
+    private long clingStartTime;
+    private long climbStartTime;
+    private long strideStartTime;
+    private long recoveryStartTime;
+    private float chargeTimeSeconds;
+    private float lookTimeSeconds;
+    private float hoverTimeSeconds;
+    private float climbTimeSeconds;
+    private float strideTimeSeconds;
+    private float strideSpeed;
+    private float strideAcceleration;
+    private float turboDuration;
+    private float startTurbo;
+    private float turbo;
+    private int lives;
+    private int ammo;
+    private int health;
+
+    // chop(ping) block
+    private boolean groundedAtop;
+    private Direction lookDirection;
+    private Direction toggleDirection;
+    private Direction climbDirection;
+    private float pauseTimeSeconds;
+    private boolean paused;
 
     // ctor
-    public GigaGal(Vector2 spawnLocation, Level level) {
-        this.spawnLocation = spawnLocation;
+    public GigaGal(Level level, Vector2 spawnPosition) {
         this.level = level;
-        position = new Vector2();
+        this.spawnPosition = spawnPosition;
+        position = new Vector2(spawnPosition);
         velocity = new Vector2();
         previousFramePosition = new Vector2();
         chaseCamPosition = new Vector3();
         weaponList = new ArrayList<WeaponType>();
-        touchedGround = null;
         init();
     }
 
     public void init() {
-        inputControls = InputControls.getInstance();
         ammo = Constants.INITIAL_AMMO;
         health = Constants.INITIAL_HEALTH;
         lives = Constants.INITIAL_LIVES;
+        inputControls = InputControls.getInstance();
         weaponList.add(WeaponType.NATIVE);
         weaponToggler = weaponList.listIterator();
         weapon = weaponToggler.next();
         respawn();
     }
 
+    public void respawn() {
+        position.set(spawnPosition);
+        chaseCamPosition.set(position, 0);
+        velocity.setZero();
+        directionX = Direction.RIGHT;
+        directionY = null;
+        climbDirection = null;
+        groundState = GroundState.AIRBORNE;
+        aerialState = AerialState.FALLING;
+        touchedGround = null;
+        paused = false;
+        canClimb = false;
+        canLook = false;
+        canStride = false;
+        canJump = false;
+        canDash = false;
+        canHover = false;
+        canCling = false;
+        canShoot = true;
+        turboDuration = 0;
+        ammoIntensity = AmmoIntensity.SHOT;
+        groundedAtop = false;
+        onRideable = false;
+        onSkateable = false;
+        onUnbearable = false;
+        onClimbable = false;
+        onSinkable = false;
+        onBounceable = false;
+        chargeStartTime = 0;
+        strideStartTime = 0;
+        climbStartTime = 0;
+        jumpStartTime = 0;
+        dashStartTime = 0;
+        pauseTimeSeconds = 0;
+        turboDuration = 0;
+        recoveryStartTime = TimeUtils.nanoTime();
+        health = Constants.MAX_HEALTH;
+        turbo = Constants.MAX_TURBO;
+        startTurbo = turbo;
+    }
+
     public void update(float delta) {
+        // positioning
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
-        touchGround(level.getGrounds());
-        recoilFromHazards(level.getHazards());
-        collectPowerups(level.getPowerups());
-        enableShoot(weapon);
-        enableClimb();
 
+        // collision detection
+        touchGround(level.getGrounds());
+        touchHazards(level.getHazards());
+        touchPowerups(level.getPowerups());
+
+        // abilities
         if (aerialState == AerialState.GROUNDED) {
             velocity.y = 0;
             if (groundState == GroundState.STANDING) {
-                stand();
+                stand(); // default ground state
                 enableLook();
                 enableStride();
                 enableDash();
                 enableJump();
-            } else if (groundState == GroundState.TRAVERSING) {
+                enableClimb();
+                enableShoot(weapon);
+            } else if (groundState == GroundState.STRIDING) {
                 enableStride();
                 enableDash();
                 enableJump();
+                enableShoot(weapon);
+            } else if (groundState == GroundState.CLIMBING) {
+                enableLook();
+                enableClimb();
+                enableShoot(weapon);
             } else if (groundState == GroundState.DASHING) {
                 enableDash();
                 enableJump();
+                enableShoot(weapon);
             }
-        }
-
-        if (groundState == GroundState.AIRBORNE) {
+        } else if (groundState == GroundState.AIRBORNE) {
             velocity.y -= Constants.GRAVITY;
             if (aerialState == AerialState.FALLING) {
-                fall();
+                fall(); // default aerial state
                 enableLook();
                 enableHover();
                 enableCling();
-                enableTwist();
+                enableClimb();
+                enableShoot(weapon);
             } else if (aerialState == AerialState.JUMPING) {
                 enableLook();
                 enableJump();
                 enableCling();
+                enableShoot(weapon);
             } else if (aerialState == AerialState.HOVERING) {
                 enableLook();
                 enableHover();
                 enableCling();
-                enableTwist();
+                enableClimb();
+                enableShoot(weapon);
             } else if (aerialState == AerialState.CLINGING) {
                 enableJump();
                 enableCling();
-            } else if (aerialState == AerialState.TWISTING) {
-                enableLook();
-                enableHover();
-                enableCling();
+                enableShoot(weapon);
+            } else if (aerialState == AerialState.RECOILING) {
+                enableShoot(weapon);
             }
         }
     }
@@ -204,7 +237,7 @@ public class GigaGal implements Humanoid {
                                 if (aerialState != AerialState.GROUNDED && aerialState != AerialState.RECOILING) {
                                     // if x velocity (magnitude, without concern for direction) greater than one third max speed,
                                     // boost x velocity by starting speed, enable cling, verify rappelling ground and capture rappelling ground boundaries
-                                    if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 3) {
+                                    if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
                                         // if already clinging, halt x progression
                                         if (aerialState != AerialState.CLINGING) {
                                             canCling = true; // enable cling
@@ -222,7 +255,7 @@ public class GigaGal implements Humanoid {
                                     // only when grounded
                                 } else if (aerialState == AerialState.GROUNDED) {
                                     if (Math.abs(getBottom() - ground.getTop()) > 1) {
-                                        speedAtChangeXDirection = 0;
+                                        strideSpeed = 0;
                                         velocity.x = 0;
                                     }
                                     //   stand();
@@ -232,7 +265,7 @@ public class GigaGal implements Humanoid {
                                         && !(ground instanceof UnbearableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                                     // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                                     // reset stride acceleration, disable stride and dash, and set gigagal at ground side
-                                    if (groundState != GroundState.TRAVERSING || groundState != GroundState.DASHING) {
+                                    if (groundState != GroundState.STRIDING || groundState != GroundState.DASHING) {
                                         strideStartTime = 0; // reset stride acceleration
                                     }
                                     canStride = false; // disable stride
@@ -266,7 +299,7 @@ public class GigaGal implements Humanoid {
                                 lookDirection = null;
                             }
                             if (groundState != GroundState.DASHING) {
-                                pauseDuration = 0;
+                                pauseTimeSeconds = 0;
                             }
 
                             if (ground instanceof SkateableGround) {
@@ -381,7 +414,7 @@ public class GigaGal implements Humanoid {
             climbDirection = null;
         }
         if (canCling || aerialState == AerialState.CLINGING) {
-            if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom()) {
+            if (touchedGround != null && (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())) {
                 canCling = false;
                 fall();
             }
@@ -415,7 +448,6 @@ public class GigaGal implements Humanoid {
         hoverStartTime = 0;
         clingStartTime = 0;
         canLook = true;
-        knockedBack = false; // reset knockback boolean
     }
 
     private void handleXInputs() {
@@ -437,7 +469,7 @@ public class GigaGal implements Humanoid {
                         dashStartTime = 0;
                         canDash = false;
                     }
-                    speedAtChangeXDirection = velocity.x;
+                    strideSpeed = velocity.x;
                     strideStartTime = 0;
                     stand();
                 } else if (groundState != GroundState.DASHING) {
@@ -454,14 +486,15 @@ public class GigaGal implements Humanoid {
                             }
                         }
                     } else {
-                        pauseDuration = 0;
+                        pauseTimeSeconds = 0;
                         stand();
                         canStride = false;
                     }
                 }
             }
         } else if (directionChanged) {
-            canTwist = true;
+            twist();
+            canHover = true;
         }
     }
 /*
@@ -500,7 +533,7 @@ public class GigaGal implements Humanoid {
                             }
                         }
                     } else {
-                        pauseDuration = 0;
+                        pauseTimeSeconds = 0;
                         stand();
                         canStride = false;
                     }
@@ -515,7 +548,7 @@ public class GigaGal implements Humanoid {
         }
     }*/
 
-    private void collectPowerups(DelayedRemovalArray<Powerup> powerups) {
+    private void touchPowerups(DelayedRemovalArray<Powerup> powerups) {
         for (Powerup powerup : powerups) {
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {
@@ -548,14 +581,12 @@ public class GigaGal implements Humanoid {
     }
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    private void recoilFromHazards(Array<Hazard> hazards) {
+    private void touchHazards(Array<Hazard> hazards) {
         for (Hazard hazard : hazards) {
-            recoveryTimeSeconds = Utils.secondsSince(recoveryStartTime) - pauseDuration;
-            if (!knockedBack
-                    &&  recoveryTimeSeconds > Constants.RECOVERY_TIME) {
+            float recoveryTimeSeconds = Utils.secondsSince(recoveryStartTime) - pauseTimeSeconds;
+            if (aerialState != AerialState.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
                 Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                 if (getBounds().overlaps(bounds)) {
-                    knockedBack = true;
                     ammoIntensity = AmmoIntensity.SHOT;
                     recoveryStartTime = TimeUtils.nanoTime();
                     chargeStartTime = 0;
@@ -615,7 +646,7 @@ public class GigaGal implements Humanoid {
         canCling = false;
         this.velocity.x = velocity.x;
         this.velocity.y = velocity.y;
-        if (!knockedBack) {
+        if (aerialState != AerialState.RECOILING) {
             if (!canLook) {
                 lookStartTime = 0;
                 lookDirection = null;
@@ -679,6 +710,7 @@ public class GigaGal implements Humanoid {
             canHover = false;
             recoil(velocity);
         }
+        handleXInputs();
     }
 
     public void enableToggle(Direction toggleDirection) {
@@ -721,7 +753,6 @@ public class GigaGal implements Humanoid {
         if (canShoot) {
             if (inputControls.shootButtonPressed) {
                 if (chargeStartTime == 0) {
-                    canCharge = true;
                     chargeStartTime = TimeUtils.nanoTime();
                 } else if (chargeTimeSeconds > Constants.CHARGE_DURATION) {
                     ammoIntensity = AmmoIntensity.BLAST;
@@ -729,7 +760,7 @@ public class GigaGal implements Humanoid {
                     ammoIntensity = AmmoIntensity.CHARGE_SHOT;
                 }
                 chargeTimeSeconds = Utils.secondsSince(chargeStartTime);
-            } else if (canCharge) {
+            } else if (chargeStartTime != 0) {
                 int ammoUsed;
 
                 if (weapon == WeaponType.NATIVE
@@ -745,7 +776,6 @@ public class GigaGal implements Humanoid {
                 chargeStartTime = 0;
                 chargeTimeSeconds = 0;
                 this.ammoIntensity = AmmoIntensity.SHOT;
-                canCharge = false;
             }
         }
     }
@@ -762,50 +792,6 @@ public class GigaGal implements Humanoid {
         } else {
             level.spawnAmmo(ammoPosition, directionX, Orientation.X, ammoIntensity, weapon, true);
         }
-    }
-
-    public void respawn() {
-        position.set(spawnLocation);
-        chaseCamPosition.set(position, 0);
-        velocity.setZero();
-        directionX = Direction.RIGHT;
-        directionY = null;
-        climbDirection = null;
-        groundState = GroundState.AIRBORNE;
-        aerialState = AerialState.FALLING;
-        pauseState = false;
-        canClimb = false;
-        canLook = false;
-        canStride = false;
-        canJump = false;
-        canDash = false;
-        canHover = false;
-        canCling = false;
-        canShoot = true;
-        turboDuration = 0;
-        canCharge = false;
-        canTwist = false;
-        ammoIntensity = AmmoIntensity.SHOT;
-        groundedAtop = false;
-        knockedBack = false;
-        onRideable = false;
-        onSkateable = false;
-        onUnbearable = false;
-        onClimbable = false;
-        onSinkable = false;
-        onBounceable = false;
-        chargeStartTime = 0;
-        strideStartTime = 0;
-        climbStartTime = 0;
-        jumpStartTime = 0;
-        dashStartTime = 0;
-        chargeTimeSeconds = 0;
-        pauseDuration = 0;
-        turboDuration = 0;
-        recoveryStartTime = TimeUtils.nanoTime();
-        health = Constants.MAX_HEALTH;
-        turbo = Constants.MAX_TURBO;
-        startTurbo = turbo;
     }
 
     private void enableLook() {
@@ -871,7 +857,7 @@ public class GigaGal implements Humanoid {
                 lookStartTime = TimeUtils.nanoTime();
                 chaseCamPosition.set(position, 0);
             } else {
-                lookTimeSeconds = Utils.secondsSince(lookStartTime) - pauseDuration;
+                lookTimeSeconds = Utils.secondsSince(lookStartTime) - pauseTimeSeconds;
                 if (lookTimeSeconds > 1) {
                     offset += 1.5f;
                     if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {
@@ -897,17 +883,17 @@ public class GigaGal implements Humanoid {
         }
         canLook = false;
         if (strideStartTime == 0) {
-            speedAtChangeXDirection = velocity.x;
-            groundState = GroundState.TRAVERSING;
+            strideSpeed = velocity.x;
+            groundState = GroundState.STRIDING;
             strideStartTime = TimeUtils.nanoTime();
         }
-        strideTimeSeconds = Utils.secondsSince(strideStartTime) - pauseDuration;
+        strideTimeSeconds = Utils.secondsSince(strideStartTime) - pauseTimeSeconds;
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
         velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Orientation.X);
         if (onRideable) {
             velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Orientation.X);
         } else if (onSkateable) {
-            velocity.x = speedAtChangeXDirection + Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
+            velocity.x = strideSpeed + Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
         } else if (onSinkable) {
             velocity.x = Utils.absoluteToDirectionalValue(10, directionX, Orientation.X);
             velocity.y = -3;
@@ -930,7 +916,7 @@ public class GigaGal implements Humanoid {
             strideStartTime = 0;
             canStride = false;
         }
-        dashTimeSeconds = Utils.secondsSince(dashStartTime) - pauseDuration;
+        float dashTimeSeconds = Utils.secondsSince(dashStartTime) - pauseTimeSeconds;
         turbo = ((turboDuration - dashTimeSeconds) / turboDuration) * startTurbo;
         float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
         if (onSkateable) {
@@ -941,7 +927,7 @@ public class GigaGal implements Humanoid {
         } else {
             canDash = false;
             dashStartTime = 0;
-            pauseDuration = 0;
+            pauseTimeSeconds = 0;
             stand();
         }
     }
@@ -956,14 +942,13 @@ public class GigaGal implements Humanoid {
 
     private void jump() {
         if (canJump) {
-            aerialTakeoff = position.x;
             aerialState = AerialState.JUMPING;
             groundState = GroundState.AIRBORNE;
             jumpStartTime = TimeUtils.nanoTime();
             canJump = false;
         }
         velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
-        jumpTimeSeconds = Utils.secondsSince(jumpStartTime) - pauseDuration;
+        float jumpTimeSeconds = Utils.secondsSince(jumpStartTime) - pauseTimeSeconds;
         if (jumpTimeSeconds < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
@@ -974,22 +959,12 @@ public class GigaGal implements Humanoid {
                 velocity.y /= 1.25f;
             }
         } else {
-            pauseDuration = 0;
+            pauseTimeSeconds = 0;
             fall();
         }
     }
 
-    private void enableTwist() {
-        handleXInputs();
-        if (canTwist) {
-            twist();
-        }
-    }
-
     private void twist() {
-        canTwist = false;
-        canHover = true;
-        canCling = true;
         if (aerialState != AerialState.HOVERING) {
             velocity.x /= 2;
         } else {
@@ -1023,15 +998,16 @@ public class GigaGal implements Humanoid {
             aerialState = AerialState.HOVERING; // indicates currently hovering
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
-        hoverTimeSeconds = (Utils.secondsSince(hoverStartTime) - pauseDuration); // for comparing with max hover time
+        hoverTimeSeconds = (Utils.secondsSince(hoverStartTime) - pauseTimeSeconds); // for comparing with max hover time
         turbo = (((turboDuration - hoverTimeSeconds)) / turboDuration * startTurbo);
         if (turbo >= 1) {
             velocity.y = 0; // disables impact of gravity
         } else {
             canHover = false;
             fall(); // when max hover time is exceeded
-            pauseDuration = 0;
+            pauseTimeSeconds = 0;
         }
+        handleXInputs();
     }
 
     private void enableCling() {
@@ -1061,13 +1037,13 @@ public class GigaGal implements Humanoid {
             canJump = true;
             canCling = false;
         }
-        clingTimeSeconds = (Utils.secondsSince(clingStartTime) - pauseDuration) + ((100 - startTurbo) / Constants.MAX_CLING_DURATION);
+        float clingTimeSeconds = (Utils.secondsSince(clingStartTime) - pauseTimeSeconds) + ((100 - startTurbo) / Constants.MAX_CLING_DURATION);
         if (!inputControls.jumpButtonPressed) {
             if (clingTimeSeconds >= Constants.CLING_FRAME_DURATION) {
                 velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
                 jump();
             } else {
-                pauseDuration = 0;
+                pauseTimeSeconds = 0;
                 canHover = true;
             }
         } else {
@@ -1146,7 +1122,7 @@ public class GigaGal implements Humanoid {
                     }
                 } else if (aerialState == AerialState.CLINGING) {
                     region = Assets.getInstance().getGigaGalAssets().clingRight;
-                } else if (aerialState == AerialState.RECOILING && knockedBack){
+                } else if (aerialState == AerialState.RECOILING){
                     region = Assets.getInstance().getGigaGalAssets().recoilRight;
                 } else {
                     if (lookDirection == Direction.UP) {
@@ -1173,7 +1149,7 @@ public class GigaGal implements Humanoid {
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standRight;
                 }
-            } else if (groundState == GroundState.TRAVERSING) {
+            } else if (groundState == GroundState.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (groundState == GroundState.DASHING) {
                 region = Assets.getInstance().getGigaGalAssets().dashRight;
@@ -1191,7 +1167,7 @@ public class GigaGal implements Humanoid {
                     }
                 } else if (aerialState == AerialState.CLINGING) {
                     region = Assets.getInstance().getGigaGalAssets().clingLeft;
-                } else if (aerialState == AerialState.RECOILING && knockedBack) {
+                } else if (aerialState == AerialState.RECOILING) {
                     region = Assets.getInstance().getGigaGalAssets().recoilLeft;
                 } else {
                     if (lookDirection == Direction.UP) {
@@ -1218,7 +1194,7 @@ public class GigaGal implements Humanoid {
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standLeft;
                 }
-            } else if (groundState == GroundState.TRAVERSING) {
+            } else if (groundState == GroundState.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (groundState == GroundState.DASHING) {
                 region = Assets.getInstance().getGigaGalAssets().dashLeft;
@@ -1251,9 +1227,8 @@ public class GigaGal implements Humanoid {
     public List<WeaponType> getWeaponList() { return weaponList; }
     public int getAmmo() { return ammo; }
     public int getLives() { return lives; }
-    public boolean getChargeStatus() { return canCharge; }
-    public float getPauseDuration() { return pauseDuration; }
-    public boolean getPauseState() { return pauseState; }
+    public float getPauseTimeSeconds() { return pauseTimeSeconds; }
+    public boolean getPaused() { return paused; }
     public Vector3 getChaseCamPosition() { return chaseCamPosition; }
     public long getLookStartTime() { return lookStartTime; }
     public float getChargeTimeSeconds() { return chargeTimeSeconds; }
@@ -1266,7 +1241,7 @@ public class GigaGal implements Humanoid {
     public void setDirectionY(Direction directionY) { this.directionY = directionY; }
     public void setLives(int lives) { this.lives = lives; }
     public void setHealth(int health) { this.health = health; }
-    public void setPauseDuration(float pauseDuration) { this.pauseDuration = pauseDuration; }
+    public void setPauseTimeSeconds(float pauseTimeSeconds) { this.pauseTimeSeconds = pauseTimeSeconds; }
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
 }

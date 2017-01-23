@@ -223,7 +223,7 @@ public final class Ammo implements IndestructibleHazard {
         } else {
             ammoCenter.set(Constants.SHOT_CENTER);
         }
-        if (!level.getGigaGal().getPauseState()) {
+        if (!level.getGigaGal().getPaused()) {
             Utils.drawTextureRegion(batch, region, position, ammoCenter, scale);
         }
     }

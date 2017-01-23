@@ -188,7 +188,7 @@ public class GameplayScreen extends ScreenAdapter {
                 pauseOverlay.init();
                 optionsOverlay.init();
                 pauseTime = TimeUtils.nanoTime();
-                pauseDuration = gigaGal.getPauseDuration();
+                pauseDuration = gigaGal.getPauseTimeSeconds();
             } else {
                 level.update(delta);
                 chaseCam.update(delta);
@@ -280,7 +280,7 @@ public class GameplayScreen extends ScreenAdapter {
     }
 
     public void unpause() {
-        gigaGal.setPauseDuration(Utils.secondsSincePause(pauseTime) + pauseDuration);
+        gigaGal.setPauseTimeSeconds(Utils.secondsSincePause(pauseTime) + pauseDuration);
         level.getLevelTime().resume();
         totalTime.resume();
         paused = false;
@@ -293,4 +293,3 @@ public class GameplayScreen extends ScreenAdapter {
     public StopWatch getTotalTime() { return totalTime; }
     public ChaseCam getChaseCam() { return chaseCam; }
 }
-

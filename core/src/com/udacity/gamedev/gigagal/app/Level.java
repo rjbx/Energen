@@ -59,7 +59,7 @@ public class Level {
     // default ctor
     public Level() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        gigaGal = new GigaGal(new Vector2(50, 50), this);
+        gigaGal = new GigaGal(this, new Vector2(50, 50));
         levelScore = 0;
         levelTime = new StopWatch();
         levelTime.start();
@@ -228,7 +228,7 @@ public class Level {
 
     private void initializeDebugLevel() {
 
-        gigaGal = new GigaGal(new Vector2(15, 40), this);
+        gigaGal = new GigaGal(this, new Vector2(15, 40));
 
         portal = new Portal(new Vector2(150, 150));
 
