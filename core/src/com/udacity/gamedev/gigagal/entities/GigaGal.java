@@ -165,11 +165,11 @@ public class GigaGal implements Humanoid {
             velocity.y = 0;
             if (groundState == GroundState.STANDING) {
                 stand(); // default ground state
+                enableClimb(); // must call before look
                 enableLook();
                 enableStride();
                 enableDash();
                 enableJump();
-                enableClimb();
                 enableShoot(weapon);
             } else if (groundState == GroundState.STRIDING) {
                 enableStride();
@@ -189,10 +189,10 @@ public class GigaGal implements Humanoid {
             velocity.y -= Constants.GRAVITY;
             if (aerialState == AerialState.FALLING) {
                 fall(); // default aerial state
+                enableClimb(); // must call before look
                 enableLook();
                 enableHover();
                 enableCling();
-                enableClimb();
                 enableShoot(weapon);
             } else if (aerialState == AerialState.JUMPING) {
                 enableLook();
@@ -442,144 +442,6 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    private void setAtop(Ground ground) {
-        touchedGround = ground;
-        groundedAtop = true; // verify contact with ground top
-        hoverStartTime = 0;
-        clingStartTime = 0;
-        canLook = true;
-    }
-
-    private void handleXInputs() {
-        boolean left = inputControls.leftButtonPressed;
-        boolean right = inputControls.rightButtonPressed;
-        boolean directionChanged = false;
-        boolean isLooking = true;
-        if (left && !right) {
-            directionChanged = Utils.changeDirection(this, Direction.LEFT, Orientation.X);
-        } else if (!left && right) {
-            directionChanged = Utils.changeDirection(this, Direction.RIGHT, Orientation.X);
-        } else {
-            isLooking = false;
-        }
-        if (groundState != GroundState.AIRBORNE && climbStartTime == 0) {
-            if (lookDirection == null) {
-                if (directionChanged) {
-                    if (groundState == GroundState.DASHING) {
-                        dashStartTime = 0;
-                        canDash = false;
-                    }
-                    strideSpeed = velocity.x;
-                    strideStartTime = 0;
-                    stand();
-                } else if (groundState != GroundState.DASHING) {
-                    if (isLooking) {
-                        if (!canStride) {
-                            if (strideStartTime == 0) {
-                                canStride = true;
-                            } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
-                                strideStartTime = 0;
-                            } else if (!onSinkable){
-                                canDash = true;
-                            } else {
-                                canDash = false;
-                            }
-                        }
-                    } else {
-                        pauseTimeSeconds = 0;
-                        stand();
-                        canStride = false;
-                    }
-                }
-            }
-        } else if (directionChanged) {
-            twist();
-            canHover = true;
-        }
-    }
-/*
-    private void handleYInputs() {
-        boolean down = inputControls.downButtonPressed;
-        boolean up = inputControls.upButtonPressed;
-        boolean directionChanged = false;
-        boolean isLooking = true;
-        if (down && !up) {
-            directionChanged = Utils.changeDirection(this, Direction.DOWN, Orientation.Y);
-        } else if (!down && up) {
-            directionChanged = Utils.changeDirection(this, Direction.UP, Orientation.Y);
-        } else {
-            isLooking = false;
-        }
-        if (groundState != GroundState.AIRBORNE && climbStartTime == 0) {
-            if (lookDirection == null) {
-                if (directionChanged) {
-                    if (groundState == GroundState.DASHING) {
-                        dashStartTime = 0;
-                        canDash = false;
-                    }
-                    strideStartTime = 0;
-                    stand();
-                } else if (groundState != GroundState.DASHING) {
-                    if (isLooking) {
-                        if (!canStride) {
-                            if (strideStartTime == 0) {
-                                canStride = true;
-                            } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
-                                strideStartTime = 0;
-                            } else if (!onSinkable){
-                                canDash = true;
-                            } else {
-                                canDash = false;
-                            }
-                        }
-                    } else {
-                        pauseTimeSeconds = 0;
-                        stand();
-                        canStride = false;
-                    }
-                }
-            }
-        } else if (directionChanged) {
-            if (aerialState != AerialState.HOVERING) {
-                recoil(new Vector2(velocity.y / 2, velocity.y));
-            } else {
-                velocity.y /= 4;
-            }
-        }
-    }*/
-
-    private void touchPowerups(DelayedRemovalArray<Powerup> powerups) {
-        for (Powerup powerup : powerups) {
-            Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
-            if (getBounds().overlaps(bounds)) {
-                if (powerup instanceof AmmoPowerup) {
-                    ammo += Constants.POWERUP_AMMO;
-                    if (ammo > Constants.MAX_AMMO) {
-                        ammo = Constants.MAX_AMMO;
-                    }
-                } else if (powerup instanceof HealthPowerup) {
-                    health += Constants.POWERUP_HEALTH;
-                    if (health > Constants.MAX_HEALTH) {
-                        health = Constants.MAX_HEALTH;
-                    }
-                } else if (powerup instanceof TurboPowerup) {
-                    turbo += Constants.POWERUP_TURBO;
-                    if (aerialState == AerialState.HOVERING) {
-                        hoverStartTime = TimeUtils.nanoTime();
-                    }
-                    if (groundState == GroundState.DASHING) {
-                        dashStartTime = TimeUtils.nanoTime();
-                    }
-                }
-                level.setLevelScore(level.getLevelScore() + Constants.POWERUP_SCORE);
-                powerups.removeValue(powerup, true);
-            }
-        }
-        if (turbo > Constants.MAX_TURBO) {
-            turbo = Constants.MAX_TURBO;
-        }
-    }
-
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     private void touchHazards(Array<Hazard> hazards) {
         for (Hazard hazard : hazards) {
@@ -635,27 +497,148 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    // disables all else by virtue of neither top level update conditions being satisfied due to state
-    private void recoil(Vector2 velocity) {
-        aerialState = AerialState.RECOILING;
-        groundState = GroundState.AIRBORNE;
-        strideStartTime = 0;
-        canStride = false;
-        canDash = false;
-        canHover = false;
-        canCling = false;
-        this.velocity.x = velocity.x;
-        this.velocity.y = velocity.y;
-        if (aerialState != AerialState.RECOILING) {
-            if (!canLook) {
-                lookStartTime = 0;
-                lookDirection = null;
+    private void touchPowerups(DelayedRemovalArray<Powerup> powerups) {
+        for (Powerup powerup : powerups) {
+            Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
+            if (getBounds().overlaps(bounds)) {
+                if (powerup instanceof AmmoPowerup) {
+                    ammo += Constants.POWERUP_AMMO;
+                    if (ammo > Constants.MAX_AMMO) {
+                        ammo = Constants.MAX_AMMO;
+                    }
+                } else if (powerup instanceof HealthPowerup) {
+                    health += Constants.POWERUP_HEALTH;
+                    if (health > Constants.MAX_HEALTH) {
+                        health = Constants.MAX_HEALTH;
+                    }
+                } else if (powerup instanceof TurboPowerup) {
+                    turbo += Constants.POWERUP_TURBO;
+                    if (aerialState == AerialState.HOVERING) {
+                        hoverStartTime = TimeUtils.nanoTime();
+                    }
+                    if (groundState == GroundState.DASHING) {
+                        dashStartTime = TimeUtils.nanoTime();
+                    }
+                }
+                level.setLevelScore(level.getLevelScore() + Constants.POWERUP_SCORE);
+                powerups.removeValue(powerup, true);
             }
-            canLook = true;
-        } else {
-            canLook = false;
-            lookStartTime = 0;
         }
+        if (turbo > Constants.MAX_TURBO) {
+            turbo = Constants.MAX_TURBO;
+        }
+    }
+
+    private void handleXInputs() {
+        boolean left = inputControls.leftButtonPressed;
+        boolean right = inputControls.rightButtonPressed;
+        boolean directionChanged = false;
+        boolean isLooking = true;
+        if (left && !right) {
+            directionChanged = Utils.changeDirection(this, Direction.LEFT, Orientation.X);
+        } else if (!left && right) {
+            directionChanged = Utils.changeDirection(this, Direction.RIGHT, Orientation.X);
+        } else {
+            isLooking = false;
+        }
+        if (groundState != GroundState.AIRBORNE && climbStartTime == 0) {
+            if (lookDirection == null) {
+                if (directionChanged) {
+                    if (groundState == GroundState.DASHING) {
+                        dashStartTime = 0;
+                        canDash = false;
+                    }
+                    strideSpeed = velocity.x;
+                    strideStartTime = 0;
+                    stand();
+                } else if (groundState != GroundState.DASHING) {
+                    if (isLooking) {
+                        if (!canStride) {
+                            if (strideStartTime == 0) {
+                                canStride = true;
+                            } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+                                strideStartTime = 0;
+                            } else if (!onSinkable){
+                                canDash = true;
+                            } else {
+                                canDash = false;
+                            }
+                        }
+                    } else {
+                        pauseTimeSeconds = 0;
+                        stand();
+                        canStride = false;
+                    }
+                }
+            }
+        } else if (directionChanged) {
+            if (aerialState != AerialState.HOVERING) {
+                velocity.x /= 2;
+            } else {
+                velocity.x /= 4;
+            }
+            canHover = true;
+        }
+    }
+
+/*
+    private void handleYInputs() {
+        boolean down = inputControls.downButtonPressed;
+        boolean up = inputControls.upButtonPressed;
+        boolean directionChanged = false;
+        boolean isLooking = true;
+        if (down && !up) {
+            directionChanged = Utils.changeDirection(this, Direction.DOWN, Orientation.Y);
+        } else if (!down && up) {
+            directionChanged = Utils.changeDirection(this, Direction.UP, Orientation.Y);
+        } else {
+            isLooking = false;
+        }
+        if (groundState != GroundState.AIRBORNE && climbStartTime == 0) {
+            if (lookDirection == null) {
+                if (directionChanged) {
+                    if (groundState == GroundState.DASHING) {
+                        dashStartTime = 0;
+                        canDash = false;
+                    }
+                    strideStartTime = 0;
+                    stand();
+                } else if (groundState != GroundState.DASHING) {
+                    if (isLooking) {
+                        if (!canStride) {
+                            if (strideStartTime == 0) {
+                                canStride = true;
+                            } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+                                strideStartTime = 0;
+                            } else if (!onSinkable){
+                                canDash = true;
+                            } else {
+                                canDash = false;
+                            }
+                        }
+                    } else {
+                        pauseTimeSeconds = 0;
+                        stand();
+                        canStride = false;
+                    }
+                }
+            }
+        } else if (directionChanged) {
+            if (aerialState != AerialState.HOVERING) {
+                recoil(new Vector2(velocity.y / 2, velocity.y));
+            } else {
+                velocity.y /= 4;
+            }
+        }
+    }*/
+
+
+    private void setAtop(Ground ground) {
+        touchedGround = ground;
+        groundedAtop = true; // verify contact with ground top
+        hoverStartTime = 0;
+        clingStartTime = 0;
+        canLook = true;
     }
 
     private void stand() {
@@ -711,6 +694,29 @@ public class GigaGal implements Humanoid {
             recoil(velocity);
         }
         handleXInputs();
+    }
+
+    // disables all else by virtue of neither top level update conditions being satisfied due to state
+    private void recoil(Vector2 velocity) {
+        aerialState = AerialState.RECOILING;
+        groundState = GroundState.AIRBORNE;
+        strideStartTime = 0;
+        canStride = false;
+        canDash = false;
+        canHover = false;
+        canCling = false;
+        this.velocity.x = velocity.x;
+        this.velocity.y = velocity.y;
+        if (aerialState != AerialState.RECOILING) {
+            if (!canLook) {
+                lookStartTime = 0;
+                lookDirection = null;
+            }
+            canLook = true;
+        } else {
+            canLook = false;
+            lookStartTime = 0;
+        }
     }
 
     public void enableToggle(Direction toggleDirection) {
@@ -961,14 +967,6 @@ public class GigaGal implements Humanoid {
         } else {
             pauseTimeSeconds = 0;
             fall();
-        }
-    }
-
-    private void twist() {
-        if (aerialState != AerialState.HOVERING) {
-            velocity.x /= 2;
-        } else {
-            velocity.x /= 4;
         }
     }
 
