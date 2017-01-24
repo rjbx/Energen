@@ -243,7 +243,7 @@ public class GigaGal implements Humanoid {
                                             canCling = true; // enable cling
                                             touchedGround = ground;
                                         }
-                                    // if absval x velocity  not greater than one third max speed but aerial and bumping ground side, fall
+                                        // if absval x velocity  not greater than one third max speed but aerial and bumping ground side, fall
                                     } else {
                                         // if not already hovering and descending, also disable hover
                                         if (aerialState != AerialState.HOVERING && velocity.y < 0) {

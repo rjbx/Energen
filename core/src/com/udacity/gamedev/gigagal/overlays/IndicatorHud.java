@@ -73,7 +73,7 @@ public class IndicatorHud {
             Utils.drawTextureRegion(
                     batch,
                     Assets.getInstance().getHudAssets().climb,
-                    drawPosition,/////////////
+                    drawPosition,
                     Constants.ICON_CENTER
             );
         }
