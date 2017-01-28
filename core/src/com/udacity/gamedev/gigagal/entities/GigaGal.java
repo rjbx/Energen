@@ -586,17 +586,6 @@ public class GigaGal implements Humanoid {
         boolean down = inputControls.downButtonPressed;
         boolean looking = up || down;
         boolean directionChanged = false;
-        if (canClimb) {
-            if (up || down) {
-                velocity.x = 0;
-                canHover = false;
-                if (lookDirection == null) {
-                    climb();
-                }
-            } else {
-                climbDirection = null;
-            }
-        }
         if (canLook) {
             if (looking && climbDirection == null) {
                 canStride = false;
@@ -644,6 +633,17 @@ public class GigaGal implements Humanoid {
                 chaseCamPosition.set(position, 0);
                 lookDirection = null;
                 lookStartTime = 0;
+            }
+        }
+        if (canClimb) {
+            if (up || down) {
+                velocity.x = 0;
+                canHover = false;
+                if (lookDirection == null) {
+                    climb();
+                }
+            } else {
+                climbDirection = null;
             }
         }
      }
@@ -1020,6 +1020,7 @@ public class GigaGal implements Humanoid {
     private void enableClimb() {
         if (onClimbable) {
             if (inputControls.jumpButtonPressed) {
+                canLook = false;
                 canClimb = true;
                 handleYInputs();
             } else {
@@ -1033,7 +1034,6 @@ public class GigaGal implements Humanoid {
     private void climb() {
         if (climbStartTime == 0) {
             climbStartTime = TimeUtils.nanoTime();
-            canLook = false;
         }
         canHover = false;
         climbTimeSeconds = Utils.secondsSince(climbStartTime);
