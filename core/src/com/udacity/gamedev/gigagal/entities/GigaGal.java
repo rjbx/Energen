@@ -79,18 +79,18 @@ public class GigaGal implements Humanoid {
     private int health;
 
     // chop(ping) block
-    private boolean groundedAtop;
-    private Direction lookDirection;
-    private Direction toggleDirection;
     private Direction climbDirection;
-    private float pauseTimeSeconds;
+
+    private boolean groundedAtop;
     private boolean paused;
+    private float pauseTimeSeconds;
 
     // ctor
     public GigaGal(Level level, Vector2 spawnPosition) {
         this.level = level;
         this.spawnPosition = spawnPosition;
         position = new Vector2(spawnPosition);
+        inputControls = InputControls.getInstance();
         velocity = new Vector2();
         previousFramePosition = new Vector2();
         chaseCamPosition = new Vector3();
@@ -102,7 +102,6 @@ public class GigaGal implements Humanoid {
         ammo = Constants.INITIAL_AMMO;
         health = Constants.INITIAL_HEALTH;
         lives = Constants.INITIAL_LIVES;
-        inputControls = InputControls.getInstance();
         weaponList.add(WeaponType.NATIVE);
         weaponToggler = weaponList.listIterator();
         weapon = weaponToggler.next();
@@ -114,7 +113,6 @@ public class GigaGal implements Humanoid {
         chaseCamPosition.set(position, 0);
         velocity.setZero();
         directionX = Direction.RIGHT;
-        directionY = null;
         climbDirection = null;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
@@ -296,7 +294,6 @@ public class GigaGal implements Humanoid {
                             if (groundState == GroundState.AIRBORNE && !(ground instanceof SkateableGround)) {
                                 stand(); // set groundstate to standing
                                 lookStartTime = 0;
-                                lookDirection = null;
                             }
                             if (groundState != GroundState.DASHING) {
                                 pauseTimeSeconds = 0;
@@ -307,7 +304,6 @@ public class GigaGal implements Humanoid {
                                 if (groundState == GroundState.AIRBORNE) {
                                     stand(); // set groundstate to standing
                                     lookStartTime = 0;
-                                    lookDirection = null;
                                 }
                             } else if (ground instanceof HoverableGround) {
                                 lookStartTime = 0;
@@ -368,9 +364,8 @@ public class GigaGal implements Humanoid {
                                     setAtop(ground);
                                     groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
                                     groundedAtopRight = ground.getRight(); // capture grounded ground boundary
-                                    if (lookDirection != null && aerialState != AerialState.GROUNDED) {
+                                    if (lookStartTime != 0 && aerialState != AerialState.GROUNDED) {
                                         lookStartTime = 0;
-                                        lookDirection = null;
                                     }
                                     if (groundState == GroundState.AIRBORNE) {
                                         stand(); // set groundstate to standing
@@ -382,7 +377,6 @@ public class GigaGal implements Humanoid {
                                 }
                                 if (climbStartTime == 0) {
                                     if (canClimb && !inputControls.jumpButtonPressed && groundState == GroundState.STANDING) {
-                                        lookDirection = null;
                                         canHover = true;
                                         if (!(ground instanceof Pole)) {
                                             canJump = true;
@@ -459,7 +453,6 @@ public class GigaGal implements Humanoid {
                     }
                     if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
                         chaseCamPosition.set(position, 0);
-                        lookDirection = null;
                         Vector2 intersection = new Vector2();
                         intersection.x = Math.max(getBounds().x, bounds.x);
                         intersection.y = Math.max(getBounds().y, bounds.y);
@@ -542,7 +535,7 @@ public class GigaGal implements Humanoid {
             isLooking = false;
         }
         if (groundState != GroundState.AIRBORNE && climbStartTime == 0) {
-            if (lookDirection == null) {
+            if (lookStartTime == 0) {
                 if (directionChanged) {
                     if (groundState == GroundState.DASHING) {
                         dashStartTime = 0;
@@ -591,12 +584,12 @@ public class GigaGal implements Humanoid {
                 canStride = false;
                 //  canHover = false;
                 if (up) {
-                    lookDirection = Direction.UP;
+                    directionY = Direction.UP;
                     if (chaseCamPosition.y < position.y) {
                         directionChanged = true;
                     }
                 } else if (down) {
-                    lookDirection = Direction.DOWN;
+                    directionY = Direction.DOWN;
                     if (chaseCamPosition.y > position.y) {
                         directionChanged = true;
                     }
@@ -605,33 +598,33 @@ public class GigaGal implements Humanoid {
                     }
                 }
                 if (directionChanged && groundState == GroundState.STANDING) {
-                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, lookDirection, Orientation.Y);
+                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, directionY, Orientation.Y);
                 }
-                enableToggle(lookDirection);
+                if (directionChanged) {
+                    toggleWeapon(directionY);
+                }
+                toggleWeapon(directionY);
                 look();
-            } else if ( groundState == GroundState.STANDING) {
+            } else if (groundState == GroundState.STANDING) {
                 if (Math.abs(chaseCamPosition.y - position.y) > 5) {
-                    chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.Y);
+                    chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, directionY, Orientation.Y);
                     chaseCamPosition.x = position.x;
                 } else if (chaseCamPosition.y != position.y && lookStartTime != 0) {
                     chaseCamPosition.set(position, 0);
-                    lookDirection = null;
                     canLook = false;
                 } else {
                     chaseCamPosition.set(position, 0);
-                    lookDirection = null;
                     lookStartTime = 0;
                 }
             } else {
                 if (climbDirection != null
-                        || (canClimb && lookDirection == null && climbStartTime != 0)
+                        || (canClimb && lookStartTime == 0 && climbStartTime != 0)
                         || (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X))) {
                     //   canHover = false;
                 } else if (hoverStartTime == 0 && !onUnbearable && !onSinkable) {
                     canHover = true;
                 }
                 chaseCamPosition.set(position, 0);
-                lookDirection = null;
                 lookStartTime = 0;
             }
         }
@@ -639,7 +632,7 @@ public class GigaGal implements Humanoid {
             if (up || down) {
                 velocity.x = 0;
                 canHover = false;
-                if (lookDirection == null) {
+                if (lookStartTime == 0) {
                     climb();
                 }
             } else {
@@ -725,48 +718,11 @@ public class GigaGal implements Humanoid {
         if (aerialState != AerialState.RECOILING) {
             if (!canLook) {
                 lookStartTime = 0;
-                lookDirection = null;
             }
             canLook = true;
         } else {
             canLook = false;
             lookStartTime = 0;
-        }
-    }
-
-    public void enableToggle(Direction toggleDirection) {
-        boolean directionChanged = (this.toggleDirection != toggleDirection);
-        if (inputControls.jumpButtonJustPressed) {
-            lookStartTime = TimeUtils.nanoTime();
-            if (directionChanged) {
-                toggle(toggleDirection);
-            }
-            toggle(toggleDirection);
-            this.toggleDirection = toggleDirection;
-        }
-    }
-
-    private void toggle(Direction toggleDirection) {
-        if (toggleDirection == Direction.UP) {
-            if (weaponToggler.hasNext()) {
-                weapon = weaponToggler.next();
-            } else {
-                while (weaponToggler.hasPrevious()) {
-                    weaponToggler.previous();
-                }
-                weapon = weaponToggler.next();
-            }
-            this.toggleDirection = toggleDirection;
-        } else if (toggleDirection == Direction.DOWN) {
-            if (weaponToggler.hasPrevious()) {
-                weapon = weaponToggler.previous();
-            } else {
-                while (weaponToggler.hasNext()) {
-                    weaponToggler.next();
-                }
-                weapon = weaponToggler.previous();
-            }
-            this.toggleDirection = toggleDirection;
         }
     }
 
@@ -807,9 +763,9 @@ public class GigaGal implements Humanoid {
                 position.x + Utils.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, directionX, Orientation.X),
                 position.y + Constants.GIGAGAL_CANNON_OFFSET.y
         );
-        if (lookDirection == Direction.UP || lookDirection == Direction.DOWN) {
-            ammoPosition.add(Utils.absoluteToDirectionalValue(0, directionX, Orientation.X),  Utils.absoluteToDirectionalValue(6, lookDirection, Orientation.Y));
-            level.spawnAmmo(ammoPosition, lookDirection, Orientation.Y, ammoIntensity, weapon, true);
+        if (lookStartTime != 0) {
+            ammoPosition.add(Utils.absoluteToDirectionalValue(0, directionX, Orientation.X),  Utils.absoluteToDirectionalValue(6, directionY, Orientation.Y));
+            level.spawnAmmo(ammoPosition, directionY, Orientation.Y, ammoIntensity, weapon, true);
         } else {
             level.spawnAmmo(ammoPosition, directionX, Orientation.X, ammoIntensity, weapon, true);
         }
@@ -821,18 +777,16 @@ public class GigaGal implements Humanoid {
 
     private void look() {
         float offset = 0;
-        if (groundState == GroundState.STANDING) {
-            if (lookStartTime == 0) {
-                lookStartTime = TimeUtils.nanoTime();
-                chaseCamPosition.set(position, 0);
-            } else {
-                lookTimeSeconds = Utils.secondsSince(lookStartTime) - pauseTimeSeconds;
-                if (lookTimeSeconds > 1) {
-                    offset += 1.5f;
-                    if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {
-                        chaseCamPosition.y += Utils.absoluteToDirectionalValue(offset, lookDirection, Orientation.Y);
-                        chaseCamPosition.x = position.x;
-                    }
+        if (lookStartTime == 0) {
+            lookStartTime = TimeUtils.nanoTime();
+            chaseCamPosition.set(position, 0);
+        } else if (groundState == GroundState.STANDING) {
+            lookTimeSeconds = Utils.secondsSince(lookStartTime) - pauseTimeSeconds;
+            if (lookTimeSeconds > 1) {
+                offset += 1.5f;
+                if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {
+                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(offset, directionY, Orientation.Y);
+                    chaseCamPosition.x = position.x;
                 }
             }
         }
@@ -904,7 +858,7 @@ public class GigaGal implements Humanoid {
     private void enableJump() {
         if (((inputControls.jumpButtonJustPressed && canJump)
                 || aerialState == AerialState.JUMPING)
-                && lookDirection == null) {
+                && lookStartTime == 0) {
             jump();
         }
     }
@@ -1058,7 +1012,7 @@ public class GigaGal implements Humanoid {
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
         if (climbDirection != null
-                || (canClimb && lookDirection == null && climbStartTime != 0)) {
+                || (canClimb && lookStartTime == 0 && climbStartTime != 0)) {
             if (directionX == Direction.LEFT) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (directionX == Direction.RIGHT) {
@@ -1068,10 +1022,12 @@ public class GigaGal implements Humanoid {
             if (aerialState != AerialState.GROUNDED) {
                 if (aerialState == AerialState.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
-                    if (lookDirection == Direction.UP) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
-                    } else if (lookDirection == Direction.DOWN) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
+                    if (lookStartTime != 0) {
+                        if (directionY == Direction.UP) {
+                            region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
+                        } else if (directionY == Direction.DOWN) {
+                            region = Assets.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
+                        }
                     } else {
                         region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
                     }
@@ -1079,27 +1035,29 @@ public class GigaGal implements Humanoid {
                     region = Assets.getInstance().getGigaGalAssets().clingRight;
                 } else if (aerialState == AerialState.RECOILING){
                     region = Assets.getInstance().getGigaGalAssets().recoilRight;
-                } else {
-                    if (lookDirection == Direction.UP) {
+                } else if (lookStartTime != 0) {
+                    if (directionY == Direction.UP) {
                         region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
-                    } else if (lookDirection == Direction.DOWN) {
+                    } else if (directionY == Direction.DOWN) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
-                    } else {
-                        region = Assets.getInstance().getGigaGalAssets().fallRight;
                     }
+                } else {
+                    region = Assets.getInstance().getGigaGalAssets().fallRight;
                 }
             } else if (groundState == GroundState.STANDING) {
-                if (lookDirection == Direction.UP) {
-                    if (climbStartTime == 0) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
-                    } else {
-                        region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
-                    }
-                } else if (lookDirection == Direction.DOWN) {
-                    if (climbStartTime == 0) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownStandRight;
-                    } else {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
+                if (lookStartTime != 0) {
+                    if (directionY == Direction.UP) {
+                        if (climbStartTime == 0) {
+                            region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
+                        } else {
+                            region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
+                        }
+                    } else if (directionY == Direction.DOWN) {
+                        if (climbStartTime == 0) {
+                            region = Assets.getInstance().getGigaGalAssets().lookdownStandRight;
+                        } else {
+                            region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
+                        }
                     }
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standRight;
@@ -1113,10 +1071,12 @@ public class GigaGal implements Humanoid {
             if (aerialState != AerialState.GROUNDED) {
                 if (aerialState == AerialState.HOVERING) {
                     hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
-                    if (lookDirection == Direction.UP) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
-                    } else if (lookDirection == Direction.DOWN) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
+                    if (lookStartTime != 0) {
+                        if (directionY == Direction.UP) {
+                            region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        } else if (directionY == Direction.DOWN) {
+                            region = Assets.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        }
                     } else {
                         region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
@@ -1124,27 +1084,29 @@ public class GigaGal implements Humanoid {
                     region = Assets.getInstance().getGigaGalAssets().clingLeft;
                 } else if (aerialState == AerialState.RECOILING) {
                     region = Assets.getInstance().getGigaGalAssets().recoilLeft;
-                } else {
-                    if (lookDirection == Direction.UP) {
+                } else if (lookStartTime != 0) {
+                    if (directionY == Direction.UP) {
                         region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
-                    } else if (lookDirection == Direction.DOWN) {
+                    } else if (directionY == Direction.DOWN) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
-                    } else {
-                        region = Assets.getInstance().getGigaGalAssets().fallLeft;
                     }
+                } else {
+                    region = Assets.getInstance().getGigaGalAssets().fallLeft;
                 }
             } else if (groundState == GroundState.STANDING) {
-                if (lookDirection == Direction.UP) {
-                    if (climbStartTime == 0) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
-                    } else {
-                        region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
-                    }
-                } else if (lookDirection == Direction.DOWN) {
-                    if (climbStartTime == 0) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownStandLeft;
-                    } else {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
+                if (lookStartTime != 0) {
+                    if (directionY == Direction.UP) {
+                        if (climbStartTime == 0) {
+                            region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
+                        } else {
+                            region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
+                        }
+                    } else if (directionY == Direction.DOWN) {
+                        if (climbStartTime == 0) {
+                            region = Assets.getInstance().getGigaGalAssets().lookdownStandLeft;
+                        } else {
+                            region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
+                        }
                     }
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standLeft;
@@ -1199,4 +1161,28 @@ public class GigaGal implements Humanoid {
     public void setPauseTimeSeconds(float pauseTimeSeconds) { this.pauseTimeSeconds = pauseTimeSeconds; }
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
+    public void toggleWeapon(Direction toggleDirection) {
+        if (inputControls.jumpButtonJustPressed) {
+            
+            if (toggleDirection == Direction.UP) {
+                if (!weaponToggler.hasNext()) {
+                    while (weaponToggler.hasPrevious()) {
+                        weaponToggler.previous();
+                    }
+                }
+                if (weaponToggler.hasNext()) {
+                    weapon = weaponToggler.next();
+                }
+            } else if (toggleDirection == Direction.DOWN) {
+                if (!weaponToggler.hasPrevious()) {
+                    while (weaponToggler.hasNext()) {
+                        weaponToggler.next();
+                    }
+                }
+                if (weaponToggler.hasPrevious()) {
+                    weapon = weaponToggler.previous();
+                }
+            }
+        }
+    }
 }
