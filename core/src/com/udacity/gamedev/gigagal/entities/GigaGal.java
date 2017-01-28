@@ -596,7 +596,8 @@ public class GigaGal implements Humanoid {
             } else {
                 climbDirection = null;
             }
-        } else if (canLook) {
+        }
+        if (canLook) {
             if (looking && climbDirection == null) {
                 canStride = false;
                 //  canHover = false;
