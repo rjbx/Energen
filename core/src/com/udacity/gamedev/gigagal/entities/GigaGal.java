@@ -1020,6 +1020,7 @@ public class GigaGal implements Humanoid {
     private void enableClimb() {
         if (onClimbable) {
             if (inputControls.jumpButtonPressed) {
+                lookStartTime = 0;
                 canLook = false;
                 canClimb = true;
                 handleYInputs();
