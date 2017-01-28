@@ -581,57 +581,71 @@ public class GigaGal implements Humanoid {
         }
     }
 
-/*
     private void handleYInputs() {
-        boolean down = inputControls.downButtonPressed;
         boolean up = inputControls.upButtonPressed;
+        boolean down = inputControls.downButtonPressed;
+        boolean looking = up || down;
         boolean directionChanged = false;
-        boolean isLooking = true;
-        if (down && !up) {
-            directionChanged = Utils.changeDirection(this, Direction.DOWN, Orientation.Y);
-        } else if (!down && up) {
-            directionChanged = Utils.changeDirection(this, Direction.UP, Orientation.Y);
-        } else {
-            isLooking = false;
-        }
-        if (groundState != GroundState.AIRBORNE && climbStartTime == 0) {
-            if (lookDirection == null) {
-                if (directionChanged) {
-                    if (groundState == GroundState.DASHING) {
-                        dashStartTime = 0;
-                        canDash = false;
+        if (canClimb) {
+            if (up || down) {
+                velocity.x = 0;
+                canHover = false;
+                if (lookDirection == null) {
+                    climb();
+                }
+            } else {
+                climbDirection = null;
+            }
+        } else if (canLook) {
+            if (looking && climbDirection == null) {
+                canStride = false;
+                //  canHover = false;
+                if (up) {
+                    lookDirection = Direction.UP;
+                    if (chaseCamPosition.y < position.y) {
+                        directionChanged = true;
                     }
-                    strideStartTime = 0;
-                    stand();
-                } else if (groundState != GroundState.DASHING) {
-                    if (isLooking) {
-                        if (!canStride) {
-                            if (strideStartTime == 0) {
-                                canStride = true;
-                            } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
-                                strideStartTime = 0;
-                            } else if (!onSinkable){
-                                canDash = true;
-                            } else {
-                                canDash = false;
-                            }
-                        }
-                    } else {
-                        pauseTimeSeconds = 0;
-                        stand();
-                        canStride = false;
+                } else if (down) {
+                    lookDirection = Direction.DOWN;
+                    if (chaseCamPosition.y > position.y) {
+                        directionChanged = true;
+                    }
+                    if (onSinkable) {
+                        velocity.y *= 5;
                     }
                 }
-            }
-        } else if (directionChanged) {
-            if (aerialState != AerialState.HOVERING) {
-                recoil(new Vector2(velocity.y / 2, velocity.y));
+                if (directionChanged && groundState == GroundState.STANDING) {
+                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, lookDirection, Orientation.Y);
+                }
+                enableToggle(lookDirection);
+                look();
+            } else if ( groundState == GroundState.STANDING) {
+                if (Math.abs(chaseCamPosition.y - position.y) > 5) {
+                    chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.Y);
+                    chaseCamPosition.x = position.x;
+                } else if (chaseCamPosition.y != position.y && lookStartTime != 0) {
+                    chaseCamPosition.set(position, 0);
+                    lookDirection = null;
+                    canLook = false;
+                } else {
+                    chaseCamPosition.set(position, 0);
+                    lookDirection = null;
+                    lookStartTime = 0;
+                }
             } else {
-                velocity.y /= 4;
+                if (climbDirection != null
+                        || (canClimb && lookDirection == null && climbStartTime != 0)
+                        || (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X))) {
+                    //   canHover = false;
+                } else if (hoverStartTime == 0 && !onUnbearable && !onSinkable) {
+                    canHover = true;
+                }
+                chaseCamPosition.set(position, 0);
+                lookDirection = null;
+                lookStartTime = 0;
             }
         }
-    }*/
-
+     }
 
     private void setAtop(Ground ground) {
         touchedGround = ground;
@@ -801,59 +815,7 @@ public class GigaGal implements Humanoid {
     }
 
     private void enableLook() {
-        boolean up = inputControls.upButtonPressed;
-        boolean down = inputControls.downButtonPressed;
-        boolean looking = up || down;
-        boolean directionChanged = false;
-        if (canLook) {
-            if (looking && climbDirection == null) {
-                canStride = false;
-                //  canHover = false;
-                if (up) {
-                    lookDirection = Direction.UP;
-                    if (chaseCamPosition.y < position.y) {
-                        directionChanged = true;
-                    }
-                } else if (down) {
-                    lookDirection = Direction.DOWN;
-                    if (chaseCamPosition.y > position.y) {
-                        directionChanged = true;
-                    }
-                    if (onSinkable) {
-                        velocity.y *= 5;
-                    }
-                }
-                if (directionChanged && groundState == GroundState.STANDING) {
-                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, lookDirection, Orientation.Y);
-                }
-                enableToggle(lookDirection);
-                look();
-            } else if ( groundState == GroundState.STANDING) {
-                if (Math.abs(chaseCamPosition.y - position.y) > 5) {
-                    chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, lookDirection, Orientation.Y);
-                    chaseCamPosition.x = position.x;
-                } else if (chaseCamPosition.y != position.y && lookStartTime != 0) {
-                    chaseCamPosition.set(position, 0);
-                    lookDirection = null;
-                    canLook = false;
-                } else {
-                    chaseCamPosition.set(position, 0);
-                    lookDirection = null;
-                    lookStartTime = 0;
-                }
-            } else {
-                if (climbDirection != null
-                        || (canClimb && lookDirection == null && climbStartTime != 0)
-                        || (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X))) {
-                    //   canHover = false;
-                } else if (hoverStartTime == 0 && !onUnbearable && !onSinkable) {
-                    canHover = true;
-                }
-                chaseCamPosition.set(position, 0);
-                lookDirection = null;
-                lookStartTime = 0;
-            }
-        }
+        handleYInputs();
     }
 
     private void look() {
@@ -1058,15 +1020,7 @@ public class GigaGal implements Humanoid {
         if (onClimbable) {
             if (inputControls.jumpButtonPressed) {
                 canClimb = true;
-                if (inputControls.upButtonPressed || inputControls.downButtonPressed) {
-                    velocity.x = 0;
-                    canHover = false;
-                    if (lookDirection == null) {
-                        climb();
-                    }
-                } else {
-                    climbDirection = null;
-                }
+                handleYInputs();
             } else {
                 climbDirection = null;
             }
@@ -1078,6 +1032,7 @@ public class GigaGal implements Humanoid {
     private void climb() {
         if (climbStartTime == 0) {
             climbStartTime = TimeUtils.nanoTime();
+            canLook = false;
         }
         canHover = false;
         climbTimeSeconds = Utils.secondsSince(climbStartTime);
