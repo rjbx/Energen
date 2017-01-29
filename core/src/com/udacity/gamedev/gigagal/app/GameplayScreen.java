@@ -165,8 +165,10 @@ public class GameplayScreen extends ScreenAdapter {
                             optionsVisible = false;
                         } else if (optionsOverlay.getCursor().getPosition() == 58) {
                             if (!chaseCam.getFollowing()) {
+                                optionsOverlay.setDebugMode(false);
                                 chaseCam.setFollowing(true);
                             } else {
+                                optionsOverlay.setDebugMode(true);
                                 chaseCam.setFollowing(false);
                             }
                         } else if (optionsOverlay.getCursor().getPosition() == 43) {

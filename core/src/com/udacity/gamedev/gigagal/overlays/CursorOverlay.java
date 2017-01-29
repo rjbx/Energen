@@ -47,9 +47,9 @@ public class CursorOverlay {
     public void render(SpriteBatch batch) {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
-        Utils.drawTextureRegion(batch,
-                Assets.getInstance().getOverlayAssets().selectionCursor,
-                viewport.getWorldWidth() / 3.5f, yPosition);
+            Utils.drawTextureRegion(batch,
+                    Assets.getInstance().getOverlayAssets().selectionCursor,
+                    viewport.getWorldWidth() / 3.5f, yPosition);
     }
 
     public ExtendViewport getViewport() { return viewport; }

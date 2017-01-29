@@ -24,10 +24,7 @@ public final class PauseOverlay {
     private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
     private static boolean canToggle;
-    private Enums.GroundState groundState;
     private CursorOverlay cursor;
-    private int index;
-    private boolean debugMode;
 
     // default ctor
     public PauseOverlay(GameplayScreen gameplayScreen) {
