@@ -1174,12 +1174,10 @@ public class GigaGal implements Humanoid {
                         weaponToggler.previous();
                     }
                 }
-                if (weaponToggler.hasNext()) {
-                    if (weapon == weaponToggler.next()) {
-                        weapon = weaponToggler.next();
-                    } else {
-                        weapon = weaponToggler.previous();
-                    }
+                if (weapon == weaponToggler.next()) {
+                    toggleWeapon(toggleDirection);
+                } else {
+                    weapon = weaponToggler.previous();
                 }
             } else if (toggleDirection == Direction.DOWN) {
                 if (!weaponToggler.hasPrevious()) {
@@ -1187,12 +1185,10 @@ public class GigaGal implements Humanoid {
                         weaponToggler.next();
                     }
                 }
-                if (weaponToggler.hasPrevious()) {
-                    if (weapon == weaponToggler.previous()) {
-                        weapon = weaponToggler.previous();
-                    } else {
-                        weapon = weaponToggler.next();
-                    }
+                if (weapon == weaponToggler.previous()) {
+                    toggleWeapon(toggleDirection);
+                } else {
+                    weapon = weaponToggler.next();
                 }
             }
         }
