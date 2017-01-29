@@ -175,7 +175,6 @@ public class GigaGal implements Humanoid {
                 enableJump();
                 enableShoot(weapon);
             } else if (groundState == GroundState.CLIMBING) {
-                enableLook();
                 enableClimb();
                 enableShoot(weapon);
             } else if (groundState == GroundState.DASHING) {
@@ -256,7 +255,9 @@ public class GigaGal implements Humanoid {
                                         strideSpeed = 0;
                                         velocity.x = 0;
                                     }
-                                    //   stand();
+                                    if (groundState == GroundState.DASHING) {
+                                        stand(); // deactivates dash when bumping ground side
+                                    }
                                 }
                                 if ((!(ground instanceof RideableGround && (Math.abs(getBottom() - ground.getTop()) <= 1)))
                                         && !(ground instanceof SkateableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))
