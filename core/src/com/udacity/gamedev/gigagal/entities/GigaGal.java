@@ -578,31 +578,25 @@ public class GigaGal implements Humanoid {
         boolean up = inputControls.upButtonPressed;
         boolean down = inputControls.downButtonPressed;
         boolean looking = up || down;
-        boolean directionChanged = false;
-        if (down && !up) {
-            directionChanged = Utils.changeDirection(this, Direction.LEFT, Orientation.Y);
-        } else if (!down && up) {
-            directionChanged = Utils.changeDirection(this, Direction.RIGHT, Orientation.Y);
-        } else {
-            looking = false;
-        }
+        boolean lookInitiated = false;
         if (canLook) {
             if (looking && climbDirection == null) {
                 canStride = false;
-                //  canHover = false;
                 if (up) {
                     directionY = Direction.UP;
                     if (chaseCamPosition.y < position.y) {
+                        lookInitiated = true;
                     }
                 } else if (down) {
                     directionY = Direction.DOWN;
                     if (chaseCamPosition.y > position.y) {
+                        lookInitiated = true;
                     }
                     if (onSinkable) {
                         velocity.y *= 5;
                     }
                 }
-                if (directionChanged && groundState == GroundState.STANDING) {
+                if (lookInitiated && groundState == GroundState.STANDING) {
                     chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, directionY, Orientation.Y);
                 }
                 if (inputControls.jumpButtonJustPressed) {
@@ -621,11 +615,10 @@ public class GigaGal implements Humanoid {
                     lookStartTime = 0;
                 }
             } else {
-                if (climbDirection != null
-                        || (canClimb && lookStartTime == 0 && climbStartTime != 0)
-                        || (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X))) {
-                    //   canHover = false;
-                } else if (hoverStartTime == 0 && !onUnbearable && !onSinkable) {
+                if (!(climbDirection != null
+                || (canClimb && lookStartTime == 0 && climbStartTime != 0)
+                || (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X)))
+                && (hoverStartTime == 0 && !onUnbearable && !onSinkable)) {
                     canHover = true;
                 }
                 chaseCamPosition.set(position, 0);
