@@ -142,7 +142,7 @@ public class GameplayScreen extends ScreenAdapter {
             if (paused) {
                 if (!optionsVisible) {
                     pauseOverlay.render(batch);
-                    if (inputControls.jumpButtonJustPressed) {
+                    if (inputControls.jumpButtonJustPressed && gigaGal.getGroundState() == Enums.GroundState.STANDING) {
                         gigaGal.toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
                     }
                     if (inputControls.shootButtonJustPressed) {

@@ -596,11 +596,14 @@ public class GigaGal implements Humanoid {
                         velocity.y *= 5;
                     }
                 }
-                if (lookInitiated && groundState == GroundState.STANDING) {
-                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, directionY, Orientation.Y);
-                }
-                if (inputControls.jumpButtonJustPressed) {
-                    toggleWeapon(directionY);
+                if (groundState == GroundState.STANDING) {
+                    if (lookInitiated) {
+                        chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, directionY, Orientation.Y);
+                    }
+                    if (inputControls.jumpButtonJustPressed) {
+                        canHover = false;
+                        toggleWeapon(directionY);
+                    }
                 }
                 look();
             } else if (groundState == GroundState.STANDING) {
@@ -1159,29 +1162,27 @@ public class GigaGal implements Humanoid {
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
     public void toggleWeapon(Direction toggleDirection) {
-        if (aerialState == AerialState.GROUNDED) {
-            if (toggleDirection == Direction.UP) {
-                if (!weaponToggler.hasNext()) {
-                    while (weaponToggler.hasPrevious()) {
-                        weaponToggler.previous();
-                    }
+        if (toggleDirection == Direction.UP) {
+            if (!weaponToggler.hasNext()) {
+                while (weaponToggler.hasPrevious()) {
+                    weaponToggler.previous();
                 }
-                if (weapon == weaponToggler.next()) {
-                    toggleWeapon(toggleDirection);
-                } else {
-                    weapon = weaponToggler.previous();
+            }
+            if (weapon == weaponToggler.next()) {
+                toggleWeapon(toggleDirection);
+            } else {
+                weapon = weaponToggler.previous();
+            }
+        } else if (toggleDirection == Direction.DOWN) {
+            if (!weaponToggler.hasPrevious()) {
+                while (weaponToggler.hasNext()) {
+                    weaponToggler.next();
                 }
-            } else if (toggleDirection == Direction.DOWN) {
-                if (!weaponToggler.hasPrevious()) {
-                    while (weaponToggler.hasNext()) {
-                        weaponToggler.next();
-                    }
-                }
-                if (weapon == weaponToggler.previous()) {
-                    toggleWeapon(toggleDirection);
-                } else {
-                    weapon = weaponToggler.next();
-                }
+            }
+            if (weapon == weaponToggler.previous()) {
+                toggleWeapon(toggleDirection);
+            } else {
+                weapon = weaponToggler.next();
             }
         }
     }
