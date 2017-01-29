@@ -32,9 +32,9 @@ public final class OptionsOverlay {
     public OptionsOverlay(ScreenAdapter screenAdapter) {
         this.screenAdapter = screenAdapter;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+        cursor = new CursorOverlay(73, 28);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.4f);
-        cursor = new CursorOverlay(73, 25);
         debugMode = false;
     }
 
@@ -45,6 +45,7 @@ public final class OptionsOverlay {
             gigaGal = gameplayScreen.getLevel().getGigaGal();
         } else {
             paused = false;
+            cursor = new CursorOverlay(73, 43);
         }
     }
 
@@ -53,6 +54,7 @@ public final class OptionsOverlay {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
+
         if (!debugMode) {
             cursor.render(batch);
             cursor.update();

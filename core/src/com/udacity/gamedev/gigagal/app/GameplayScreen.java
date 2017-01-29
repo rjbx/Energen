@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.entities.TurboPowerup;
@@ -291,4 +292,5 @@ public class GameplayScreen extends ScreenAdapter {
     public int getTotalScore() { return totalScore; }
     public StopWatch getTotalTime() { return totalTime; }
     public ChaseCam getChaseCam() { return chaseCam; }
+    public Viewport getViewport() { return this.getViewport(); }
 }

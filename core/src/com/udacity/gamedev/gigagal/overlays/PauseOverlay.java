@@ -35,11 +35,11 @@ public final class PauseOverlay {
         inactiveFont = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         inactiveFont.getData().setScale(0.4f);
         inactiveFont.setColor(Color.LIGHT_GRAY);
-        cursor = new CursorOverlay(73, 25);
+        cursor = new CursorOverlay(73, 43);
     }
 
     public void init() {
-        gigaGal = this.gameplayScreen.getLevel().getGigaGal();
+        gigaGal = gameplayScreen.getLevel().getGigaGal();
         canToggle = gigaGal.getAerialState() == Enums.AerialState.GROUNDED;
     }
 
