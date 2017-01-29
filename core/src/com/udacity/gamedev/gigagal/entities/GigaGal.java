@@ -580,9 +580,9 @@ public class GigaGal implements Humanoid {
         boolean looking = up || down;
         boolean directionChanged = false;
         if (down && !up) {
-            directionChanged = Utils.changeDirection(this, Direction.LEFT, Orientation.X);
+            directionChanged = Utils.changeDirection(this, Direction.LEFT, Orientation.Y);
         } else if (!down && up) {
-            directionChanged = Utils.changeDirection(this, Direction.RIGHT, Orientation.X);
+            directionChanged = Utils.changeDirection(this, Direction.RIGHT, Orientation.Y);
         } else {
             looking = false;
         }
