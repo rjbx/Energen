@@ -22,9 +22,10 @@ public final class OptionsOverlay {
     private final Viewport viewport;
     private final BitmapFont font;
     private ScreenAdapter screenAdapter;
+    private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
     private CursorOverlay cursor;
-    private int index;
+    private boolean paused;
     private boolean debugMode;
 
     // default ctor
@@ -38,6 +39,13 @@ public final class OptionsOverlay {
     }
 
     public void init() {
+        if (screenAdapter instanceof GameplayScreen) {
+            paused = true;
+            gameplayScreen = (GameplayScreen) screenAdapter;
+            gigaGal = gameplayScreen.getLevel().getGigaGal();
+        } else {
+            paused = false;
+        }
     }
 
     public void render(SpriteBatch batch) {
@@ -50,18 +58,14 @@ public final class OptionsOverlay {
             cursor.update();
         }
 
-        if (screenAdapter instanceof GameplayScreen) {
-            GameplayScreen gameplayScreen = (GameplayScreen) screenAdapter;
-            gigaGal = gameplayScreen.getLevel().getGigaGal();
+        if (paused) {
             if (gameplayScreen.getChaseCam().getFollowing()) {
-
                 String stats =
                         Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
                                 Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" +
                                 "Turbo: " + gigaGal.getTurbo();
 
                 String weapons = gigaGal.getWeapon() + "";
-
                 for (Enums.WeaponType weapon : gigaGal.getWeaponList()) {
                     if (weapon != gigaGal.getWeapon()) {
                         weapons += "\n" + weapon.toString();
@@ -78,7 +82,7 @@ public final class OptionsOverlay {
             } else {
                 font.draw(batch, "DEBUG MODE\n" + "PRESS SHOOT BUTTON TO EXIT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
             }
-        } else if (screenAdapter instanceof LevelSelectScreen) {
+        } else {
             font.draw(batch, "BACK", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 18, 0, Align.center, false);
             font.draw(batch, "TOUCH PAD", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 3, 0, Align.center, false);
             font.draw(batch, "QUIT GAME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 12, 0, Align.center, false);

@@ -23,10 +23,6 @@ public class CursorOverlay {
         inputControls = InputControls.getInstance();
     }
 
-    public void init() {
-
-    }
-
     public void update() {
         if (inputControls.downButtonJustPressed || inputControls.rightButtonJustPressed) {
             if (yPosition >= endingPosition + 15) {

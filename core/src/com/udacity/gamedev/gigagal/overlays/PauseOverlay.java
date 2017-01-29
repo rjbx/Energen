@@ -23,7 +23,7 @@ public final class PauseOverlay {
     private final BitmapFont inactiveFont;
     private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
-    private static boolean canToggle;
+    private boolean canToggle;
     private CursorOverlay cursor;
 
     // default ctor
@@ -44,7 +44,6 @@ public final class PauseOverlay {
     }
 
     public void render(SpriteBatch batch) {
-
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();

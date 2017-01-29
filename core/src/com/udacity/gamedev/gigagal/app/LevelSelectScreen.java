@@ -72,6 +72,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         batch = new SpriteBatch();
         completedLevels = new Array<String>();
         optionsOverlay = new OptionsOverlay(this);
+        optionsOverlay.init();
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
         controlsOverlay = ControlsOverlay.getInstance();
         Gdx.input.setInputProcessor(inputControls);
