@@ -142,7 +142,9 @@ public class GameplayScreen extends ScreenAdapter {
             if (paused) {
                 if (!optionsVisible) {
                     pauseOverlay.render(batch);
-                    gigaGal.toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
+                    if (inputControls.jumpButtonJustPressed) {
+                        gigaGal.toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
+                    }
                     if (inputControls.shootButtonJustPressed) {
                         if (pauseOverlay.getCursor().getPosition() == 73 && chaseCam.getFollowing()) {
                             unpause();
@@ -158,7 +160,6 @@ public class GameplayScreen extends ScreenAdapter {
                     }
                 } else {
                     optionsOverlay.render(batch);
-                    gigaGal.toggleWeapon(Enums.Direction.DOWN);
                     if (inputControls.shootButtonJustPressed) {
                         if (optionsOverlay.getCursor().getPosition() == 73) {
                             optionsVisible = false;

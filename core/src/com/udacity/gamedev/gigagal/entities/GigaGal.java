@@ -605,7 +605,9 @@ public class GigaGal implements Humanoid {
                 if (directionChanged && groundState == GroundState.STANDING) {
                     chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, directionY, Orientation.Y);
                 }
-                toggleWeapon(directionY);
+                if (inputControls.jumpButtonJustPressed) {
+                    toggleWeapon(directionY);
+                }
                 look();
             } else if (groundState == GroundState.STANDING) {
                 if (Math.abs(chaseCamPosition.y - position.y) > 5) {
@@ -1164,29 +1166,27 @@ public class GigaGal implements Humanoid {
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
     public void toggleWeapon(Direction toggleDirection) {
-        if (inputControls.jumpButtonJustPressed) {
-            if (toggleDirection == Direction.UP) {
-                if (!weaponToggler.hasNext()) {
-                    while (weaponToggler.hasPrevious()) {
-                        weaponToggler.previous();
-                    }
+        if (toggleDirection == Direction.UP) {
+            if (!weaponToggler.hasNext()) {
+                while (weaponToggler.hasPrevious()) {
+                    weaponToggler.previous();
                 }
-                if (weapon == weaponToggler.next()) {
-                    toggleWeapon(toggleDirection);
-                } else {
-                    weapon = weaponToggler.previous();
+            }
+            if (weapon == weaponToggler.next()) {
+                toggleWeapon(toggleDirection);
+            } else {
+                weapon = weaponToggler.previous();
+            }
+        } else if (toggleDirection == Direction.DOWN) {
+            if (!weaponToggler.hasPrevious()) {
+                while (weaponToggler.hasNext()) {
+                    weaponToggler.next();
                 }
-            } else if (toggleDirection == Direction.DOWN) {
-                if (!weaponToggler.hasPrevious()) {
-                    while (weaponToggler.hasNext()) {
-                        weaponToggler.next();
-                    }
-                }
-                if (weapon == weaponToggler.previous()) {
-                    toggleWeapon(toggleDirection);
-                } else {
-                    weapon = weaponToggler.next();
-                }
+            }
+            if (weapon == weaponToggler.previous()) {
+                toggleWeapon(toggleDirection);
+            } else {
+                weapon = weaponToggler.next();
             }
         }
     }
