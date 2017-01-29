@@ -605,9 +605,6 @@ public class GigaGal implements Humanoid {
                 if (directionChanged && groundState == GroundState.STANDING) {
                     chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, directionY, Orientation.Y);
                 }
-                if (directionChanged) {
-                    toggleWeapon(directionY);
-                }
                 toggleWeapon(directionY);
                 look();
             } else if (groundState == GroundState.STANDING) {
