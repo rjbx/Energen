@@ -526,13 +526,13 @@ public class GigaGal implements Humanoid {
         boolean left = inputControls.leftButtonPressed;
         boolean right = inputControls.rightButtonPressed;
         boolean directionChanged = false;
-        boolean isLooking = true;
+        boolean striding = true;
         if (left && !right) {
             directionChanged = Utils.changeDirection(this, Direction.LEFT, Orientation.X);
         } else if (!left && right) {
             directionChanged = Utils.changeDirection(this, Direction.RIGHT, Orientation.X);
         } else {
-            isLooking = false;
+            striding = false;
         }
         if (groundState != GroundState.AIRBORNE && climbStartTime == 0) {
             if (lookStartTime == 0) {
@@ -545,7 +545,7 @@ public class GigaGal implements Humanoid {
                     strideStartTime = 0;
                     stand();
                 } else if (groundState != GroundState.DASHING) {
-                    if (isLooking) {
+                    if (striding) {
                         if (!canStride) {
                             if (strideStartTime == 0) {
                                 canStride = true;
@@ -579,6 +579,13 @@ public class GigaGal implements Humanoid {
         boolean down = inputControls.downButtonPressed;
         boolean looking = up || down;
         boolean directionChanged = false;
+        if (down && !up) {
+            directionChanged = Utils.changeDirection(this, Direction.LEFT, Orientation.X);
+        } else if (!down && up) {
+            directionChanged = Utils.changeDirection(this, Direction.RIGHT, Orientation.X);
+        } else {
+            looking = false;
+        }
         if (canLook) {
             if (looking && climbDirection == null) {
                 canStride = false;
@@ -586,12 +593,10 @@ public class GigaGal implements Humanoid {
                 if (up) {
                     directionY = Direction.UP;
                     if (chaseCamPosition.y < position.y) {
-                        directionChanged = true;
                     }
                 } else if (down) {
                     directionY = Direction.DOWN;
                     if (chaseCamPosition.y > position.y) {
-                        directionChanged = true;
                     }
                     if (onSinkable) {
                         velocity.y *= 5;
@@ -1163,7 +1168,6 @@ public class GigaGal implements Humanoid {
     public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
     public void toggleWeapon(Direction toggleDirection) {
         if (inputControls.jumpButtonJustPressed) {
-            
             if (toggleDirection == Direction.UP) {
                 if (!weaponToggler.hasNext()) {
                     while (weaponToggler.hasPrevious()) {
@@ -1171,7 +1175,11 @@ public class GigaGal implements Humanoid {
                     }
                 }
                 if (weaponToggler.hasNext()) {
-                    weapon = weaponToggler.next();
+                    if (weapon == weaponToggler.next()) {
+                        weapon = weaponToggler.next();
+                    } else {
+                        weapon = weaponToggler.previous();
+                    }
                 }
             } else if (toggleDirection == Direction.DOWN) {
                 if (!weaponToggler.hasPrevious()) {
@@ -1180,7 +1188,11 @@ public class GigaGal implements Humanoid {
                     }
                 }
                 if (weaponToggler.hasPrevious()) {
-                    weapon = weaponToggler.previous();
+                    if (weapon == weaponToggler.previous()) {
+                        weapon = weaponToggler.previous();
+                    } else {
+                        weapon = weaponToggler.next();
+                    }
                 }
             }
         }
