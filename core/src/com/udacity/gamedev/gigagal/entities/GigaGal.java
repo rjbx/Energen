@@ -1166,27 +1166,29 @@ public class GigaGal implements Humanoid {
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
     public void toggleWeapon(Direction toggleDirection) {
-        if (toggleDirection == Direction.UP) {
-            if (!weaponToggler.hasNext()) {
-                while (weaponToggler.hasPrevious()) {
-                    weaponToggler.previous();
+        if (aerialState == AerialState.GROUNDED) {
+            if (toggleDirection == Direction.UP) {
+                if (!weaponToggler.hasNext()) {
+                    while (weaponToggler.hasPrevious()) {
+                        weaponToggler.previous();
+                    }
                 }
-            }
-            if (weapon == weaponToggler.next()) {
-                toggleWeapon(toggleDirection);
-            } else {
-                weapon = weaponToggler.previous();
-            }
-        } else if (toggleDirection == Direction.DOWN) {
-            if (!weaponToggler.hasPrevious()) {
-                while (weaponToggler.hasNext()) {
-                    weaponToggler.next();
+                if (weapon == weaponToggler.next()) {
+                    toggleWeapon(toggleDirection);
+                } else {
+                    weapon = weaponToggler.previous();
                 }
-            }
-            if (weapon == weaponToggler.previous()) {
-                toggleWeapon(toggleDirection);
-            } else {
-                weapon = weaponToggler.next();
+            } else if (toggleDirection == Direction.DOWN) {
+                if (!weaponToggler.hasPrevious()) {
+                    while (weaponToggler.hasNext()) {
+                        weaponToggler.next();
+                    }
+                }
+                if (weapon == weaponToggler.previous()) {
+                    toggleWeapon(toggleDirection);
+                } else {
+                    weapon = weaponToggler.next();
+                }
             }
         }
     }
