@@ -1,6 +1,7 @@
 package com.udacity.gamedev.gigagal.overlays;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
@@ -19,8 +20,11 @@ public final class PauseOverlay {
     public final static String TAG = VictoryOverlay.class.getName();
     private final Viewport viewport;
     private final BitmapFont font;
+    private final BitmapFont inactiveFont;
     private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
+    private static boolean canToggle;
+    private Enums.GroundState groundState;
     private CursorOverlay cursor;
     private int index;
     private boolean debugMode;
@@ -31,11 +35,15 @@ public final class PauseOverlay {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.4f);
+        inactiveFont = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
+        inactiveFont.getData().setScale(0.4f);
+        inactiveFont.setColor(Color.LIGHT_GRAY);
         cursor = new CursorOverlay(73, 25);
     }
 
     public void init() {
         gigaGal = this.gameplayScreen.getLevel().getGigaGal();
+        canToggle = gigaGal.getAerialState() == Enums.AerialState.GROUNDED;
     }
 
     public void render(SpriteBatch batch) {
@@ -61,11 +69,15 @@ public final class PauseOverlay {
             }
 
             font.draw(batch, stats, viewport.getScreenX() + 5, viewport.getWorldHeight() * .8f, 0, Align.left, false);
-            font.draw(batch, weapons, viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, weapons.length(), 10, Align.right, false);
             font.draw(batch, "GAME TOTAL\n" + "Time: " + Utils.stopWatchToString(gameplayScreen.getTotalTime()) + "\n" + "Score: " + gameplayScreen.getTotalScore(), viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .8f, 0, Align.center, false);
             font.draw(batch, "RESUME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 18, 0, Align.center, false);
             font.draw(batch, "EXIT LEVEL", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 3, 0, Align.center, false);
             font.draw(batch, "OPTIONS", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 12, 0, Align.center, false);
+            if (canToggle) {
+                font.draw(batch, weapons, viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, weapons.length(), 10, Align.right, false);
+            } else {
+                inactiveFont.draw(batch, weapons, viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, weapons.length(), 10, Align.right, false);
+            }
         } else {
             font.draw(batch, "DEBUG MODE\n" + "PRESS SHOOT BUTTON TO EXIT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
         }
