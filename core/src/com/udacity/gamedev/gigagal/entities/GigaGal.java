@@ -226,7 +226,7 @@ public class GigaGal implements Humanoid {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
-                    if (!(ground instanceof DescendableGround) && climbDirection == null) {
+                    if (!(ground instanceof DescendableGround) && climbTimeSeconds == 0) {
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                             // if during previous frame was not, while currently is, between ground left and right sides
                             if (!Utils.overlapsBetweenTwoSides(ground.getLeft(), ground.getRight(), previousFramePosition.x, getHalfWidth())) {
@@ -358,7 +358,7 @@ public class GigaGal implements Humanoid {
                                     onClimbable = true;
                                 }
                             }
-                            if (climbDirection == null) {
+                            if (climbTimeSeconds == 0) {
                                 if ((getBottom() <= ground.getTop() && (!canCling || ground.getTop() != touchedGround.getTop())
                                         && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
                                         || canClimb && climbStartTime != 0) {
@@ -581,7 +581,7 @@ public class GigaGal implements Humanoid {
         boolean looking = up || down;
         boolean lookInitiated = false;
         if (canLook) {
-            if (looking && climbDirection == null) {
+            if (looking && climbTimeSeconds == 0) {
                 canStride = false;
                 if (up) {
                     directionY = Direction.UP;
@@ -619,7 +619,7 @@ public class GigaGal implements Humanoid {
                     lookStartTime = 0;
                 }
             } else {
-                if (!(climbDirection != null
+                if (!(climbTimeSeconds != 0
                 || (canClimb && lookStartTime == 0 && climbStartTime != 0)
                 || (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X)))
                 && (hoverStartTime == 0 && !onUnbearable && !onSinkable)) {
@@ -637,7 +637,7 @@ public class GigaGal implements Humanoid {
                     climb();
                 }
             } else {
-                climbDirection = null;
+                climbTimeSeconds = 0;
             }
         }
      }
@@ -980,7 +980,7 @@ public class GigaGal implements Humanoid {
                 canClimb = true;
                 handleYInputs();
             } else {
-                climbDirection = null;
+                climbTimeSeconds = 0;
             }
         } else {
             canClimb = false;
@@ -1012,7 +1012,7 @@ public class GigaGal implements Humanoid {
     @Override
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
-        if (climbDirection != null
+        if (climbTimeSeconds != 0
                 || (canClimb && lookStartTime == 0 && climbStartTime != 0)) {
             if (directionX == Direction.LEFT) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
