@@ -79,8 +79,6 @@ public class GigaGal implements Humanoid {
     private int health;
 
     // chop(ping) block
-    private Direction climbDirection;
-
     private boolean groundedAtop;
     private boolean paused;
     private float pauseTimeSeconds;
@@ -113,7 +111,6 @@ public class GigaGal implements Humanoid {
         chaseCamPosition.set(position, 0);
         velocity.setZero();
         directionX = Direction.RIGHT;
-        climbDirection = null;
         groundState = GroundState.AIRBORNE;
         aerialState = AerialState.FALLING;
         touchedGround = null;
@@ -406,7 +403,6 @@ public class GigaGal implements Humanoid {
         if (!onClimbable) {
             climbStartTime = 0;
             climbTimeSeconds = 0;
-            climbDirection = null;
         }
         if (canCling || aerialState == AerialState.CLINGING) {
             if (touchedGround != null && (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())) {
@@ -639,7 +635,6 @@ public class GigaGal implements Humanoid {
                     } else if (down) {
                         directionY = Direction.DOWN;
                     }
-                    velocity.y = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Orientation.Y);
                     climb();
                 }
             } else {
@@ -999,6 +994,7 @@ public class GigaGal implements Humanoid {
         }
         canHover = false;
         climbTimeSeconds = Utils.secondsSince(climbStartTime);
+        velocity.y = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Orientation.Y);
         int climbAnimationPercent = (int) (climbTimeSeconds * 100);
         if ((climbAnimationPercent) % 25 >= 0 && (climbAnimationPercent) % 25 <= 13) {
             directionX = Direction.RIGHT;
@@ -1148,7 +1144,6 @@ public class GigaGal implements Humanoid {
     public Vector3 getChaseCamPosition() { return chaseCamPosition; }
     public long getLookStartTime() { return lookStartTime; }
     public float getChargeTimeSeconds() { return chargeTimeSeconds; }
-    public Direction getClimbDirection() { return climbDirection; }
     public AerialState getAerialState() { return aerialState; }
     public GroundState getGroundState() { return groundState; }
 
