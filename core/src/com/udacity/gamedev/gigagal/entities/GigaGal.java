@@ -634,6 +634,12 @@ public class GigaGal implements Humanoid {
                 velocity.x = 0;
                 canHover = false;
                 if (lookStartTime == 0) {
+                    if (up) {
+                        directionY = Direction.UP;
+                    } else if (down) {
+                        directionY = Direction.DOWN;
+                    }
+                    velocity.y = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Orientation.Y);
                     climb();
                 }
             } else {
@@ -994,18 +1000,10 @@ public class GigaGal implements Humanoid {
         canHover = false;
         climbTimeSeconds = Utils.secondsSince(climbStartTime);
         int climbAnimationPercent = (int) (climbTimeSeconds * 100);
-        if ((climbAnimationPercent) % 25 >= 0
-                && (climbAnimationPercent) % 25 <= 13) {
+        if ((climbAnimationPercent) % 25 >= 0 && (climbAnimationPercent) % 25 <= 13) {
             directionX = Direction.RIGHT;
         } else {
             directionX = Direction.LEFT;
-        }
-        if (inputControls.upButtonPressed) {
-            climbDirection = Direction.UP;
-            velocity.y = Constants.CLIMB_SPEED;
-        } else if (inputControls.downButtonPressed) {
-            climbDirection = Direction.DOWN;
-            velocity.y = -Constants.CLIMB_SPEED;
         }
     }
 
