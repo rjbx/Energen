@@ -79,7 +79,6 @@ public class GigaGal implements Humanoid {
     private int health;
 
     // chop(ping) block
-    private boolean groundedAtop;
     private boolean paused;
     private float pauseTimeSeconds;
 
@@ -125,7 +124,6 @@ public class GigaGal implements Humanoid {
         canShoot = true;
         turboDuration = 0;
         ammoIntensity = AmmoIntensity.SHOT;
-        groundedAtop = false;
         onRideable = false;
         onSkateable = false;
         onUnbearable = false;
@@ -210,8 +208,6 @@ public class GigaGal implements Humanoid {
     }
 
     private void touchGround(Array<Ground> grounds) {
-        float groundedAtopLeft = 0;
-        float groundedAtopRight = 0;
         onUnbearable = false;
         onRideable = false;
         onSkateable = false;
@@ -285,8 +281,6 @@ public class GigaGal implements Humanoid {
                         if ((getBottom() <= ground.getTop() && (!canCling || ground.getTop() != touchedGround.getTop()))
                                 && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
                             setAtop(ground);
-                            groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
-                            groundedAtopRight = ground.getRight(); // capture grounded ground boundary
                             velocity.y = 0; // prevents from descending beneath ground top
                             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                             if (groundState == GroundState.AIRBORNE && !(ground instanceof SkateableGround)) {
@@ -336,8 +330,6 @@ public class GigaGal implements Humanoid {
                     } else if (ground instanceof DescendableGround) {
                         if (ground instanceof SinkableGround) {
                             setAtop(ground);
-                            groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
-                            groundedAtopRight = ground.getRight(); // capture grounded ground boundary
                             onSinkable = true;
                             canDash = false;
                             canHover = false;
@@ -360,8 +352,6 @@ public class GigaGal implements Humanoid {
                                         && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
                                         || canClimb && climbStartTime != 0) {
                                     setAtop(ground);
-                                    groundedAtopLeft = ground.getLeft(); // capture grounded ground boundary
-                                    groundedAtopRight = ground.getRight(); // capture grounded ground boundary
                                     if (lookStartTime != 0 && aerialState != AerialState.GROUNDED) {
                                         lookStartTime = 0;
                                     }
@@ -404,29 +394,28 @@ public class GigaGal implements Humanoid {
             climbStartTime = 0;
             climbTimeSeconds = 0;
         }
-        if (canCling || aerialState == AerialState.CLINGING) {
-            if (touchedGround != null && (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())) {
-                canCling = false;
-                fall();
-            }
-        }
-        // falls if no detection with grounded ground top
-        if (groundedAtop) {
-            if (getRight() < groundedAtopLeft || getLeft() > groundedAtopRight) {
+        if (touchedGround != null && aerialState != AerialState.HOVERING) {
+            if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom()) {
                 if (onBounceable) {
                     BounceableGround bounceable = (BounceableGround) touchedGround;
                     bounceable.resetStartTime();
                     bounceable.setLoaded(false);
-                    if (Utils.secondsSince(bounceable.getStartTime()) > Constants.SPRING_UNLOAD_DURATION) {
-                        bounceable.resetStartTime();
-                        onBounceable = false;
-                    }
+                    onBounceable = false;
                 }
-                if (aerialState != AerialState.RECOILING) {
-                    onSinkable = false;
-                    lookTimeSeconds = 0;
-                    lookStartTime = TimeUtils.nanoTime();
-                    groundedAtop = false;
+                canCling = false;
+                fall();
+            }
+            if (getRight() < touchedGround.getLeft() || getLeft() > touchedGround.getRight()) {
+                if (onBounceable) {
+                    BounceableGround bounceable = (BounceableGround) touchedGround;
+                    bounceable.resetStartTime();
+                    bounceable.setLoaded(false);
+                    onBounceable = false;
+                }
+                onSinkable = false;
+                lookTimeSeconds = 0;
+                lookStartTime = TimeUtils.nanoTime();
+                if (aerialState != AerialState.CLINGING) {
                     fall();
                 }
             }
@@ -645,7 +634,6 @@ public class GigaGal implements Humanoid {
 
     private void setAtop(Ground ground) {
         touchedGround = ground;
-        groundedAtop = true; // verify contact with ground top
         hoverStartTime = 0;
         clingStartTime = 0;
         canLook = true;
