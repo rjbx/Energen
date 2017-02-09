@@ -78,7 +78,6 @@ public class GigaGal implements Humanoid {
     private int ammo;
     private int health;
 
-    // chop(ping) block
     private boolean paused;
     private float pauseTimeSeconds;
 
