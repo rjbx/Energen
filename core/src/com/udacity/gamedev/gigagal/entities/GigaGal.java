@@ -597,12 +597,10 @@ public class GigaGal implements Humanoid {
                 if (Math.abs(chaseCamPosition.y - position.y) > 5) { // if chasecam offset from gigagal yposition more than five pixels
                     chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, directionY, Orientation.Y); // move chasecam back towards gigagal yposition
                     chaseCamPosition.x = position.x; // set chasecam position to gigagal xposition
-                } else if (chaseCamPosition.y != position.y && lookStartTime != 0) { // if chasecam offset less than 5 but greater than 0 and actively looking
+                } else if (chaseCamPosition.y != position.y) { // if chasecam offset less than 5 but greater than 0 and actively looking
                     chaseCamPosition.set(position, 0); // reset chasecam
                     canLook = false; // disable look
-                    lookStartTime = 0;
                 } else {
-                    chaseCamPosition.set(position, 0); // reset chasecam
                     lookStartTime = 0;
                 }
             // enable climb
@@ -971,7 +969,7 @@ public class GigaGal implements Humanoid {
                     canLook = false;
                     canClimb = true;
                     handleYInputs();
-                } 
+                }
             } else {
                 climbTimeSeconds = 0;
             }
