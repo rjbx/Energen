@@ -581,7 +581,8 @@ public class GigaGal implements Humanoid {
                         velocity.y *= 5;
                     }
                 }
-                if (groundState == GroundState.STANDING) {
+                // offset chasecam
+                if (groundState == GroundState.STANDING) { // if up or down pressed while standing and not actively climbing
                     if (lookInitiated) {
                         chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, directionY, Orientation.Y);
                     }
@@ -591,18 +592,21 @@ public class GigaGal implements Humanoid {
                     }
                 }
                 look();
-            } else if (groundState == GroundState.STANDING) {
-                if (Math.abs(chaseCamPosition.y - position.y) > 5) {
-                    chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, directionY, Orientation.Y);
-                    chaseCamPosition.x = position.x;
-                } else if (chaseCamPosition.y != position.y && lookStartTime != 0) {
-                    chaseCamPosition.set(position, 0);
-                    canLook = false;
+            // reset chasecam
+            } else if (groundState == GroundState.STANDING) { // if can look but up or down not pressed (and since standing, not in the act of climbing)
+                if (Math.abs(chaseCamPosition.y - position.y) > 5) { // if chasecam offset from gigagal yposition more than five pixels
+                    chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, directionY, Orientation.Y); // move chasecam back towards gigagal yposition
+                    chaseCamPosition.x = position.x; // set chasecam position to gigagal xposition
+                } else if (chaseCamPosition.y != position.y && lookStartTime != 0) { // if chasecam offset less than 5 but greater than 0 and actively looking
+                    chaseCamPosition.set(position, 0); // reset chasecam
+                    canLook = false; // disable look
+                    lookStartTime = 0;
                 } else {
-                    chaseCamPosition.set(position, 0);
+                    chaseCamPosition.set(position, 0); // reset chasecam
                     lookStartTime = 0;
                 }
-            } else {
+            // enable climb
+            } else { // if not standing
                 if (!(climbTimeSeconds != 0
                 || (canClimb && lookStartTime == 0 && climbStartTime != 0)
                 || (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X)))
@@ -1143,27 +1147,29 @@ public class GigaGal implements Humanoid {
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
     public void toggleWeapon(Direction toggleDirection) {
-        if (toggleDirection == Direction.UP) {
-            if (!weaponToggler.hasNext()) {
-                while (weaponToggler.hasPrevious()) {
-                    weaponToggler.previous();
+        if (weaponList.size() > 1) {
+            if (toggleDirection == Direction.UP) {
+                if (!weaponToggler.hasNext()) {
+                    while (weaponToggler.hasPrevious()) {
+                        weaponToggler.previous();
+                    }
                 }
-            }
-            if (weapon == weaponToggler.next()) {
-                toggleWeapon(toggleDirection);
-            } else {
-                weapon = weaponToggler.previous();
-            }
-        } else if (toggleDirection == Direction.DOWN) {
-            if (!weaponToggler.hasPrevious()) {
-                while (weaponToggler.hasNext()) {
-                    weaponToggler.next();
+                if (weapon == weaponToggler.next()) {
+                    toggleWeapon(toggleDirection);
+                } else {
+                    weapon = weaponToggler.previous();
                 }
-            }
-            if (weapon == weaponToggler.previous()) {
-                toggleWeapon(toggleDirection);
-            } else {
-                weapon = weaponToggler.next();
+            } else if (toggleDirection == Direction.DOWN) {
+                if (!weaponToggler.hasPrevious()) {
+                    while (weaponToggler.hasNext()) {
+                        weaponToggler.next();
+                    }
+                }
+                if (weapon == weaponToggler.previous()) {
+                    toggleWeapon(toggleDirection);
+                } else {
+                    weapon = weaponToggler.next();
+                }
             }
         }
     }
