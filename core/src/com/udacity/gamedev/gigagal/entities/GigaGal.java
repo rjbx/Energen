@@ -568,13 +568,15 @@ public class GigaGal implements Humanoid {
             if (looking && climbTimeSeconds == 0) {
                 canStride = false;
                 if (up) {
-                    directionY = Direction.UP;
-                    if (chaseCamPosition.y < position.y) {
+                    if (chaseCamPosition.y == position.y) {  // prevents change ydirection opposite chasecam offset while resetting
+                        directionY = Direction.UP; // cannot change direction to up while offset is below, causing reset to shift cam in direction of offset (below)
+                    } else if (chaseCamPosition.y < position.y) {
                         lookInitiated = true;
                     }
                 } else if (down) {
-                    directionY = Direction.DOWN;
-                    if (chaseCamPosition.y > position.y) {
+                    if (chaseCamPosition.y == position.y) {  // prevents change ydirection opposite chasecam offset while resetting
+                        directionY = Direction.DOWN; // cannot change direction to up while offset is below, causing reset to shift cam in direction of offset (below)
+                    } else if (chaseCamPosition.y > position.y) {
                         lookInitiated = true;
                     }
                     if (onSinkable) {
@@ -583,7 +585,7 @@ public class GigaGal implements Humanoid {
                 }
                 // offset chasecam
                 if (groundState == GroundState.STANDING) { // if up or down pressed while standing and not actively climbing
-                    if (lookInitiated) {
+                    if (lookInitiated ) {
                         chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, directionY, Orientation.Y);
                     }
                     if (inputControls.jumpButtonJustPressed) {
@@ -595,7 +597,7 @@ public class GigaGal implements Humanoid {
             // reset chasecam
             } else if (groundState == GroundState.STANDING) { // if can look but up or down not pressed (and since standing, not in the act of climbing)
                 if (Math.abs(chaseCamPosition.y - position.y) > 5) { // if chasecam offset from gigagal yposition more than five pixels
-                    chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, directionY, Orientation.Y); // move chasecam back towards gigagal yposition
+                    chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, directionY, Orientation.Y); // move chasecam back towards gigagal yposition provided yposition cannot be changed until fully reset
                     chaseCamPosition.x = position.x; // set chasecam position to gigagal xposition
                 } else if (chaseCamPosition.y != position.y) { // if chasecam offset less than 5 but greater than 0 and actively looking
                     chaseCamPosition.set(position, 0); // reset chasecam
