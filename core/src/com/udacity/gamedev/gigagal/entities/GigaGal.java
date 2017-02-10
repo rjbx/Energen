@@ -331,7 +331,7 @@ public class GigaGal implements Humanoid {
                     // alt ground handling
                     } else if (ground instanceof DescendableGround) {
                         // enable default set atop if passing through bottom of descendable and contacting other ground top
-                       if (touchedGround != null && !(touchedGround instanceof DescendableGround) && (touchedGround.getTop() < ground.getBottom())) {
+                        if (touchedGround != null && !(touchedGround instanceof DescendableGround) && (touchedGround.getTop() < ground.getBottom())) {
                             onClimbable = false;
                             climbStartTime = 0;
                             climbTimeSeconds = 0;
@@ -701,8 +701,9 @@ public class GigaGal implements Humanoid {
             canHover = false;
             recoil(velocity);
         }
-
-        touchedGround = null;
+        if (!canCling) {
+            touchedGround = null;
+        }
         handleXInputs();
     }
 
