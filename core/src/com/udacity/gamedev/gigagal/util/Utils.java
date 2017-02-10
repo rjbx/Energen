@@ -13,8 +13,6 @@ import com.udacity.gamedev.gigagal.entities.Orben;
 
 import org.apache.commons.lang3.time.StopWatch;
 
-import java.util.ListIterator;
-
 // immutable static
 public final class Utils {
 
@@ -131,28 +129,30 @@ public final class Utils {
 
 
     public static final boolean betweenTwoValues(float position, float lowerBound, float upperBound) {
-        return position >= lowerBound && position <= upperBound;
+        if (lowerBound < upperBound) {
+            return position >= lowerBound && position <= upperBound;
+        }
+        return false;
     }
 
-    public static final boolean overlapsBetweenTwoSides(float lowerBound, float upperBound, float position, float halfSpan) {
+    public static final boolean overlapsBetweenTwoSides(float position, float halfSpan, float lowerBound, float upperBound) {
         return betweenTwoValues(position, lowerBound - halfSpan, upperBound + halfSpan);
     }
 
-    public static final boolean encompassedBetweenTwoSides(float lowerBound, float upperBound, float position, float halfSpan) {
-        return betweenTwoValues(position, lowerBound + halfSpan, upperBound - halfSpan)/*
-                || (Math.abs(position - ((upperBound + lowerBound) / 2)) < 5)*/;
+    public static final boolean encompassedBetweenTwoSides(float position, float halfSpan, float lowerBound, float upperBound) {
+        return betweenTwoValues(position, lowerBound + halfSpan, upperBound - halfSpan);
     }
 
-    public static final boolean overlapsBetweenFourSides(float left, float right, float bottom, float top, float x, float y, float halfWidth, float halfHeight) {
-        return (overlapsBetweenTwoSides(left, right, x, halfWidth) && overlapsBetweenTwoSides(bottom, top, y, halfHeight));
+    public static final boolean overlapsBetweenFourSides(Vector2 position, float halfWidth, float halfHeight, float left, float right, float bottom, float top) {
+        return (overlapsBetweenTwoSides(position.x, halfWidth, left, right) && overlapsBetweenTwoSides(position.y, halfHeight, bottom, top));
     }
 
-    public static final boolean centeredBetweenFourSides(float left, float right, float bottom, float top, float x, float y) {
-        return (betweenTwoValues(x, left, right) && betweenTwoValues(y, bottom, top));
+    public static final boolean betweenFourValues(Vector2 position, float left, float right, float bottom, float top) {
+        return (betweenTwoValues(position.x, left, right) && betweenTwoValues(position.y, bottom, top));
     }
 
-    public static final boolean encompassedBetweenFourSides(float left, float right, float bottom, float top, float x, float y, float halfWidth, float halfHeight) {
-        return (encompassedBetweenTwoSides(left, right, x, halfWidth) && encompassedBetweenTwoSides(bottom, top, y, halfHeight));
+    public static final boolean encompassedBetweenFourSides(Vector2 position, float halfWidth, float halfHeight, float left, float right, float bottom, float top) {
+        return (encompassedBetweenTwoSides(position.x, halfWidth, left, right) && encompassedBetweenTwoSides(position.y, halfHeight, bottom, top));
     }
 
     public static final int useAmmo(Enums.AmmoIntensity intensity) {

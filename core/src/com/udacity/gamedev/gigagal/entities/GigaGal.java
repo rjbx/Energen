@@ -214,14 +214,14 @@ public class GigaGal implements Humanoid {
         onSinkable = false;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
-            if (Utils.overlapsBetweenTwoSides(ground.getLeft(), ground.getRight(), position.x, getHalfWidth())) {
+            if (Utils.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     if (!(ground instanceof DescendableGround) && climbTimeSeconds == 0) {
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                             // if during previous frame was not, while currently is, between ground left and right sides
-                            if (!Utils.overlapsBetweenTwoSides(ground.getLeft(), ground.getRight(), previousFramePosition.x, getHalfWidth())) {
+                            if (!Utils.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
                                 // only when not grounded and not recoiling
                                 if (aerialState != AerialState.GROUNDED && aerialState != AerialState.RECOILING) {
                                     // if x velocity (magnitude, without concern for direction) greater than one third max speed,
@@ -342,8 +342,14 @@ public class GigaGal implements Humanoid {
                             }
                         } else if (ground instanceof ClimbableGround) {
                             if (Utils.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
-                                if (getBottom() > ground.getBottom()) {
-                                    onClimbable = true;
+                                if (ground instanceof Pole) {
+                                    if (getBottom() > ground.getBottom()) {
+                                        onClimbable = true;
+                                    }
+                                } else {
+                                    if (getTop() > ground.getBottom()) {
+                                        onClimbable = true;
+                                    }
                                 }
                             }
                             if (climbTimeSeconds == 0) {
