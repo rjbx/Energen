@@ -327,7 +327,14 @@ public class GigaGal implements Humanoid {
                             }
                         }
                     } else if (ground instanceof DescendableGround) {
-                        if (ground instanceof SinkableGround) {
+                        // alternate collision handling to allow passing through top of descendables and prevent setting atop as with other grounds
+                        // enable set atop if passing through bottom of descendable and contacting other ground top
+                        if (!(touchedGround instanceof DescendableGround) && (touchedGround.getTop() < ground.getBottom())) {
+                            onClimbable = false;
+                            climbStartTime = 0;
+                            climbTimeSeconds = 0;
+                            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                        } else if (ground instanceof SinkableGround) {
                             setAtop(ground);
                             onSinkable = true;
                             canDash = false;
