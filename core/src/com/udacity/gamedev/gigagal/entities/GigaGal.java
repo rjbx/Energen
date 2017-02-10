@@ -335,7 +335,6 @@ public class GigaGal implements Humanoid {
                             onClimbable = false;
                             climbStartTime = 0;
                             climbTimeSeconds = 0;
-                            position.y = touchedGround.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                         } else if (ground instanceof SinkableGround) {
                             setAtop(ground);
                             onSinkable = true;
