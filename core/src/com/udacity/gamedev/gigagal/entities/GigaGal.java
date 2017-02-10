@@ -218,7 +218,9 @@ public class GigaGal implements Humanoid {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
-                    if (!(ground instanceof DescendableGround) && climbTimeSeconds == 0) {
+                    // alternate collision handling to allow passing through top of descendables and prevent setting atop as with other grounds
+                    if (!(ground instanceof DescendableGround) &&
+                            (climbTimeSeconds == 0 || (touchedGround instanceof ClimbableGround && touchedGround.getBottom() > ground.getTop()))) {
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                             // if during previous frame was not, while currently is, between ground left and right sides
                             if (!Utils.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
@@ -327,13 +329,12 @@ public class GigaGal implements Humanoid {
                             }
                         }
                     } else if (ground instanceof DescendableGround) {
-                        // alternate collision handling to allow passing through top of descendables and prevent setting atop as with other grounds
-                        // enable set atop if passing through bottom of descendable and contacting other ground top
+                        // enable default set atop if passing through bottom of descendable and contacting other ground top
                         if (!(touchedGround instanceof DescendableGround) && (touchedGround.getTop() < ground.getBottom())) {
                             onClimbable = false;
                             climbStartTime = 0;
                             climbTimeSeconds = 0;
-                            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                            position.y = touchedGround.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                         } else if (ground instanceof SinkableGround) {
                             setAtop(ground);
                             onSinkable = true;
