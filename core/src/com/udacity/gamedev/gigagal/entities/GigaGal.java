@@ -636,6 +636,7 @@ public class GigaGal implements Humanoid {
         hoverStartTime = 0;
         clingStartTime = 0;
         canLook = true;
+        canHover = false;
     }
 
     private void stand() {
