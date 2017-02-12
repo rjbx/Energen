@@ -322,10 +322,6 @@ public class GigaGal implements Humanoid {
                                 Random xKnockback = new Random();
                                 velocity.set(Utils.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.FLAME_KNOCKBACK.y);
                                 recoil(velocity);
-                            } else if (!Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X)) {
-                                canHover = true; // enable hover
-                            } else {
-                                canHover = false;
                             }
                         }
                     // alt ground handling
@@ -372,7 +368,6 @@ public class GigaGal implements Humanoid {
                                 }
                                 if (climbStartTime == 0) {
                                     if (canClimb && !inputControls.jumpButtonPressed && groundState == GroundState.STANDING) {
-                                        canHover = true;
                                         if (!(ground instanceof Pole)) {
                                             canJump = true;
                                         }
@@ -402,7 +397,8 @@ public class GigaGal implements Humanoid {
             climbTimeSeconds = 0;
         }
         if (touchedGround != null && aerialState != AerialState.HOVERING) {
-            if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom()) {
+            if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
+                /*(!Utils.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
                 if (onBounceable) {
                     BounceableGround bounceable = (BounceableGround) touchedGround;
                     bounceable.resetStartTime();
@@ -562,7 +558,6 @@ public class GigaGal implements Humanoid {
             } else {
                 velocity.x /= 4;
             }
-            canHover = true;
         }
     }
 
@@ -612,14 +607,8 @@ public class GigaGal implements Humanoid {
                 } else {
                     lookStartTime = 0;
                 }
-            // enable climb
-            } else { // if not standing
-                if (!(climbTimeSeconds != 0
-                || (canClimb && lookStartTime == 0 && climbStartTime != 0)
-                || (Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X)))
-                && (hoverStartTime == 0 && !onUnbearable && !onSinkable)) {
-                    canHover = true;
-                }
+            // if can look and not standing (either airborne or climbing) and either not inputting y and/or not actively climbing
+            } else {
                 chaseCamPosition.set(position, 0);
                 lookStartTime = 0;
             }
@@ -703,6 +692,7 @@ public class GigaGal implements Humanoid {
         }
         if (!canCling) {
             touchedGround = null;
+            canHover = true;
         }
         handleXInputs();
     }
