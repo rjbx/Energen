@@ -596,8 +596,14 @@ public class GigaGal implements Humanoid {
                 look();
             // reset chasecam
             } else if (groundState == GroundState.STANDING) { // if can look but up or down not pressed (and since standing, not in the act of climbing)
-                if (Math.abs(chaseCamPosition.y - position.y) > 5) { // if chasecam offset from gigagal yposition more than five pixels
-                    chaseCamPosition.y -= Utils.absoluteToDirectionalValue(2.5f, directionY, Orientation.Y); // move chasecam back towards gigagal yposition provided yposition cannot be changed until fully reset
+                float offset = chaseCamPosition.y - position.y;
+                // move chasecam back towards gigagal yposition provided yposition cannot be changed until fully reset
+                if (Math.abs(offset) > 5) { // if chasecam offset from gigagal yposition more than five pixels
+                    if (offset < 0) {
+                        chaseCamPosition.y += 2.5f;
+                    } else if (offset > 0) {
+                        chaseCamPosition.y -= 2.5f;
+                    }
                     chaseCamPosition.x = position.x; // set chasecam position to gigagal xposition
                 } else if (chaseCamPosition.y != position.y) { // if chasecam offset less than 5 but greater than 0 and actively looking
                     chaseCamPosition.set(position, 0); // reset chasecam
