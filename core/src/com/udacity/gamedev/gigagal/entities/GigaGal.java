@@ -570,15 +570,13 @@ public class GigaGal implements Humanoid {
             if (looking && climbTimeSeconds == 0) {
                 canStride = false;
                 if (up) {
-                    if (chaseCamPosition.y == position.y) {  // prevents change ydirection opposite chasecam offset while resetting
-                        directionY = Direction.UP; // cannot change direction to up while offset is below, causing reset to shift cam in direction of offset (below)
-                    } else if (chaseCamPosition.y < position.y) {
+                    directionY = Direction.UP;
+                    if (chaseCamPosition.y < position.y) {
                         lookInitiated = true;
                     }
                 } else if (down) {
-                    if (chaseCamPosition.y == position.y) {  // prevents change ydirection opposite chasecam offset while resetting
-                        directionY = Direction.DOWN; // cannot change direction to up while offset is below, causing reset to shift cam in direction of offset (below)
-                    } else if (chaseCamPosition.y > position.y) {
+                    directionY = Direction.DOWN;
+                    if (chaseCamPosition.y > position.y) {
                         lookInitiated = true;
                     }
                     if (onSinkable) {
