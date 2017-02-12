@@ -564,7 +564,7 @@ public class GigaGal implements Humanoid {
     private void handleYInputs() {
         boolean up = inputControls.upButtonPressed;
         boolean down = inputControls.downButtonPressed;
-        boolean looking = up || down;
+        boolean looking = (up || down) && !(up && down);
         boolean lookInitiated = false;
         if (canLook) {
             if (looking && climbTimeSeconds == 0) {
