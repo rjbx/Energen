@@ -40,7 +40,7 @@ public final class PauseOverlay {
 
     public void init() {
         gigaGal = gameplayScreen.getLevel().getGigaGal();
-        canToggle = gigaGal.getAerialState() == Enums.AerialState.GROUNDED;
+        canToggle = gigaGal.getGroundState() == Enums.GroundState.PLANTED;
     }
 
     public void render(SpriteBatch batch) {

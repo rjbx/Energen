@@ -6,6 +6,38 @@ public final class Enums {
     // non-instantiable; cannot be subclassed
     private Enums() {}
 
+    public enum Orientation {
+        X,
+        Y,
+        Z
+    }
+
+    public enum Direction {
+        LEFT,
+        RIGHT,
+        DOWN,
+        UP
+    }
+
+    public enum Action {
+        STANDING,
+        STRIDING,
+        CLIMBING,
+        DASHING,
+        FALLING,
+        JUMPING,
+        TWISTING,
+        HOVERING,
+        CLINGING,
+        RECOILING
+    }
+
+    public enum GroundState {
+        PLANTED,
+        AIRBORNE,
+        SUBMERGED
+    }
+
     public enum AmmoIntensity {
         SHOT, CHARGE_SHOT, BLAST,
     }
@@ -20,40 +52,9 @@ public final class Enums {
         NATIVE
     }
 
-
     public enum TypeEffectiveness {
         STRONG,
         NORMAL,
         WEAK
-    }
-
-    public enum Direction {
-        LEFT,
-        RIGHT,
-        DOWN,
-        UP
-    }
-
-    public enum Orientation {
-        X,
-        Y
-    }
-
-    public enum GroundState {
-        STANDING,
-        STRIDING,
-        CLIMBING,
-        DASHING,
-        AIRBORNE
-    }
-
-    public enum AerialState {
-        FALLING,
-        JUMPING,
-        TWISTING,
-        HOVERING,
-        CLINGING,
-        RECOILING,
-        GROUNDED
     }
 }
