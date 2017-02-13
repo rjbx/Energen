@@ -220,7 +220,7 @@ public class GigaGal implements Humanoid {
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     // alternate collision handling to allow passing through top of descendables and prevent setting atop as with other grounds
                     if (!(ground instanceof DescendableGround)
-                    && (climbTimeSeconds == 0 || (touchedGround != null && touchedGround instanceof DescendableGround && touchedGround.getBottom() >= ground.getTop()))) {
+                    && (climbTimeSeconds == 0 || touchedGround == null || (touchedGround instanceof DescendableGround && touchedGround.getBottom() >= ground.getTop()))) {
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                             // if during previous frame was not, while currently is, between ground left and right sides
                             if (!Utils.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
@@ -373,8 +373,6 @@ public class GigaGal implements Humanoid {
                                         jump();
                                     }
                                 }
-                            } else if (groundState == GroundState.AIRBORNE && canClimb) {
-                                climbTimeSeconds = 0;
                             }
                         }
                     }
