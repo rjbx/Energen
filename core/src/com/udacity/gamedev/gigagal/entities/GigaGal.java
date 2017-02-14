@@ -564,16 +564,19 @@ public class GigaGal implements Humanoid {
         boolean down = inputControls.downButtonPressed;
         boolean inputtingY = (up || down) && !(up && down);
         boolean camOffset = false;
+        if (up) {
+            directionY = Direction.UP;
+        } else if (down) {
+            directionY = Direction.DOWN;
+        }
         if (canLook) {
             if (inputtingY) {
                 canStride = false;
-                if (up) {
-                    directionY = Direction.UP;
+                if (directionY == Direction.UP) {
                     if (chaseCamPosition.y < position.y) {
                         camOffset = true;
                     }
-                } else if (down) {
-                    directionY = Direction.DOWN;
+                } else if (directionY == Direction.DOWN) {
                     if (chaseCamPosition.y > position.y) {
                         camOffset = true;
                     }
@@ -620,11 +623,6 @@ public class GigaGal implements Humanoid {
                 velocity.x = 0;
                 canHover = false;
                 if (lookStartTime == 0) {
-                    if (up) {
-                        directionY = Direction.UP;
-                    } else if (down) {
-                        directionY = Direction.DOWN;
-                    }
                     climb();
                 }
             } else {
@@ -969,16 +967,17 @@ public class GigaGal implements Humanoid {
 
     private void enableClimb() {
         if (onClimbable) {
-            handleXInputs();
             if (inputControls.jumpButtonPressed) {
                 if (lookStartTime == 0) {
                     canLook = false;
                     canClimb = true;
-                    handleYInputs();
+                    handleYInputs(); // enables change of y direction for looking up and down
                 }
             } else {
                 climbTimeSeconds = 0;
             }
+            handleXInputs(); // enables change of x direction for shooting left and right
+            handleYInputs(); // enables change of y direction for looking up and down
         } else {
             canClimb = false;
         }
