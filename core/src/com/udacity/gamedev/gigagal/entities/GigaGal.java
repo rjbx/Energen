@@ -356,12 +356,12 @@ public class GigaGal implements Humanoid {
                                     if (groundState == GroundState.AIRBORNE) {
                                         stand(); // set groundstate to standing
                                     }
-                                    if (climbStartTime == 0) {
+                                    if (action != Action.CLIMBING) {
                                         velocity.y = 0; // prevents from descending beneath ground top
                                         position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                                     }
                                 }
-                                if (climbStartTime == 0) {
+                                if (action != Action.CLIMBING) {
                                     if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
                                         if (!(ground instanceof Pole)) {
                                             canJump = true;
@@ -388,6 +388,9 @@ public class GigaGal implements Humanoid {
             }
         }
         if (!onClimbable) {
+            if (action == Action.CLIMBING) {
+                fall();
+            }
             climbStartTime = 0;
             climbTimeSeconds = 0;
         }
@@ -517,7 +520,7 @@ public class GigaGal implements Humanoid {
         } else {
             inputtingX = false;
         }
-        if (groundState != GroundState.AIRBORNE && climbStartTime == 0) {
+        if (groundState != GroundState.AIRBORNE && action != Action.CLIMBING) {
             if (lookStartTime == 0) {
                 if (directionChanged) {
                     if (action == Action.DASHING) {
@@ -981,8 +984,10 @@ public class GigaGal implements Humanoid {
     }
 
     private void climb() {
-        if (climbStartTime == 0) {
+        if (action != Action.CLIMBING) {
             climbStartTime = TimeUtils.nanoTime();
+            groundState = GroundState.PLANTED;
+            action = Action.CLIMBING;
         }
         canHover = false;
         climbTimeSeconds = Utils.secondsSince(climbStartTime);
@@ -1000,7 +1005,7 @@ public class GigaGal implements Humanoid {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
         if (directionX == Direction.RIGHT) {
             if (lookStartTime != 0) {
-                if (climbStartTime == 0) {
+                if (action != Action.CLIMBING) {
                     if (action == Action.HOVERING) {
                         if (directionY == Direction.UP) {
                             region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
@@ -1019,7 +1024,7 @@ public class GigaGal implements Humanoid {
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
                 }
-            } else if (climbStartTime != 0) {
+            } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
             } else if (action == Action.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standRight;
@@ -1038,7 +1043,7 @@ public class GigaGal implements Humanoid {
             }
         } else if (directionX == Direction.LEFT) {
             if (lookStartTime != 0) {
-                if (climbStartTime == 0) {
+                if (action != Action.CLIMBING) {
                     if (action == Action.HOVERING) {
                         if (directionY == Direction.UP) {
                             region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
@@ -1057,7 +1062,7 @@ public class GigaGal implements Humanoid {
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
                 }
-            } else if (climbStartTime != 0) {
+            } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (action == Action.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standLeft;
