@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.app.InputControls;
-import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -970,6 +969,7 @@ public class GigaGal implements Humanoid {
 
     private void enableClimb() {
         if (onClimbable) {
+            handleXInputs();
             if (inputControls.jumpButtonPressed) {
                 if (lookStartTime == 0) {
                     canLook = false;
@@ -1007,17 +1007,17 @@ public class GigaGal implements Humanoid {
             if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
-                    if (action == Action.HOVERING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
-                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
+                    } else if (action == Action.HOVERING) {
+                        region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
                 } else if (directionY == Direction.DOWN) {
                     region = Assets.getInstance().getGigaGalAssets().lookdownStandRight;
-                    if (action == Action.HOVERING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
-                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
+                    } else if (action == Action.HOVERING) {
+                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
                 }
             } else if (action == Action.CLIMBING) {
@@ -1041,17 +1041,17 @@ public class GigaGal implements Humanoid {
             if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
-                    if (action == Action.HOVERING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
-                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
+                    } else if (action == Action.HOVERING) {
+                        region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 } else if (directionY == Direction.DOWN) {
                     region = Assets.getInstance().getGigaGalAssets().lookdownStandLeft;
-                    if (action == Action.HOVERING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
-                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
+                    } else if (action == Action.HOVERING) {
+                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 }
             } else if (action == Action.CLIMBING) {
