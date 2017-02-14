@@ -198,6 +198,7 @@ public class GigaGal implements Humanoid {
                 enableCling();
                 enableShoot(weapon);
             } else if (action == Action.RECOILING) {
+                enableCling();
                 enableShoot(weapon);
             }
         }
@@ -636,7 +637,6 @@ public class GigaGal implements Humanoid {
     }
 
     private void stand() {
-        handleYInputs();
         if (onSinkable) {
             strideStartTime = 0;
             strideTimeSeconds = 0;
@@ -659,6 +659,7 @@ public class GigaGal implements Humanoid {
         groundState = GroundState.PLANTED;
         if (!canClimb) {
             canJump = true;
+            handleYInputs();
         } else {
             canJump = false;
         }
