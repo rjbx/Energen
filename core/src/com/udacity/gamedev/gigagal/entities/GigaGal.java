@@ -1019,7 +1019,7 @@ public class GigaGal implements Humanoid {
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
                 }
-            } else if (climbTimeSeconds != 0 || (canClimb && climbStartTime != 0)) {
+            } else if (climbStartTime != 0) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
             } else if (action == Action.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standRight;
@@ -1057,7 +1057,7 @@ public class GigaGal implements Humanoid {
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
                 }
-            } else if (climbTimeSeconds != 0 || (canClimb && climbStartTime != 0)) {
+            } else if (climbStartTime != 0) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (action == Action.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standLeft;
