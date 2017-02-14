@@ -35,8 +35,9 @@ public class GigaGal implements Humanoid {
     private Vector2 velocity;
     private Direction directionX;
     private Direction directionY;
-    private GroundState groundState;
+    private TextureRegion region;
     private Action action;
+    private GroundState groundState;
     private Ground touchedGround;
     private AmmoIntensity ammoIntensity;
     private WeaponType weapon;
@@ -1002,27 +1003,22 @@ public class GigaGal implements Humanoid {
 
     @Override
     public void render(SpriteBatch batch) {
-        TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
         if (directionX == Direction.RIGHT) {
             if (lookStartTime != 0) {
-                if (action != Action.CLIMBING) {
+                if (directionY == Direction.UP) {
+                    region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
                     if (action == Action.HOVERING) {
-                        if (directionY == Direction.UP) {
-                            region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
-                        } else if (directionY == Direction.DOWN) {
-                            region = Assets.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
-                        }
-                    } else if (action == Action.FALLING) {
-                        if (directionY == Direction.UP) {
-                            region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
-                        } else if (directionY == Direction.DOWN) {
-                            region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
-                        }
-                    } else {
-                        region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
+                        region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
+                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
+                        region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
                     }
-                } else {
-                    region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
+                } else if (directionY == Direction.DOWN) {
+                    region = Assets.getInstance().getGigaGalAssets().lookdownStandRight;
+                    if (action == Action.HOVERING) {
+                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
+                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
+                        region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
+                    }
                 }
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
@@ -1043,24 +1039,20 @@ public class GigaGal implements Humanoid {
             }
         } else if (directionX == Direction.LEFT) {
             if (lookStartTime != 0) {
-                if (action != Action.CLIMBING) {
+                if (directionY == Direction.UP) {
+                    region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
                     if (action == Action.HOVERING) {
-                        if (directionY == Direction.UP) {
-                            region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
-                        } else if (directionY == Direction.DOWN) {
-                            region = Assets.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
-                        }
-                    } else if (action == Action.FALLING) {
-                        if (directionY == Direction.UP) {
-                            region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
-                        } else if (directionY == Direction.DOWN) {
-                            region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
-                        }
-                    } else {
-                        region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
+                        region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
+                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
+                        region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
                     }
-                } else {
-                    region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
+                } else if (directionY == Direction.DOWN) {
+                    region = Assets.getInstance().getGigaGalAssets().lookdownStandLeft;
+                    if (action == Action.HOVERING) {
+                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
+                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
+                        region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
+                    }
                 }
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
