@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.app.InputControls;
+import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -323,7 +324,7 @@ public class GigaGal implements Humanoid {
                                 recoil(velocity);
                             }
                         }
-                    // alt ground collision for descendables (does not override normal ground collision, which prevents descending through nondescendable grounds)
+                    // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
                     } else if (ground instanceof DescendableGround && (touchedGround == null || touchedGround instanceof DescendableGround)) {
                         if (ground instanceof SinkableGround) {
                             setAtop(ground);
@@ -656,7 +657,7 @@ public class GigaGal implements Humanoid {
         } else {
             velocity.x = 0;
         }
-
+        
         action = Action.STANDING;
         groundState = GroundState.PLANTED;
         if (!canClimb) {
@@ -998,110 +999,80 @@ public class GigaGal implements Humanoid {
     public void render(SpriteBatch batch) {
         TextureRegion region = Assets.getInstance().getGigaGalAssets().standRight;
         if (directionX == Direction.RIGHT) {
-            if (groundState == GroundState.AIRBORNE) {
-                if (action == Action.HOVERING) {
-                    hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
-                    if (lookStartTime != 0) {
+            if (lookStartTime != 0) {
+                if (climbStartTime == 0) {
+                    if (action == Action.HOVERING) {
                         if (directionY == Direction.UP) {
                             region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
                         } else if (directionY == Direction.DOWN) {
                             region = Assets.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
                         }
-                    } else {
-                        region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
-                    }
-                } else if (action == Action.CLINGING) {
-                    region = Assets.getInstance().getGigaGalAssets().clingRight;
-                } else if (action == Action.RECOILING){
-                    region = Assets.getInstance().getGigaGalAssets().recoilRight;
-                } else if (lookStartTime != 0) {
-                    if (directionY == Direction.UP) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
-                    } else if (directionY == Direction.DOWN) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
-                    }
-                } else {
-                    region = Assets.getInstance().getGigaGalAssets().fallRight;
-                }
-            } else if (groundState == GroundState.PLANTED) {
-                if (climbTimeSeconds != 0 || (canClimb && lookStartTime == 0 && climbStartTime != 0)) {
-                    region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
-                } else if (action == Action.STANDING) {
-                    if (lookStartTime != 0) {
+                    } else if (action == Action.FALLING) {
                         if (directionY == Direction.UP) {
-                            if (climbStartTime == 0) {
-                                region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
-                            } else {
-                                region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
-                            }
+                            region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
                         } else if (directionY == Direction.DOWN) {
-                            if (climbStartTime == 0) {
-                                region = Assets.getInstance().getGigaGalAssets().lookdownStandRight;
-                            } else {
-                                region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
-                            }
+                            region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
                         }
                     } else {
-                        region = Assets.getInstance().getGigaGalAssets().standRight;
+                        region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
                     }
-                } else if (action == Action.STRIDING) {
-                    region = Assets.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
-                } else if (action == Action.DASHING) {
-                    region = Assets.getInstance().getGigaGalAssets().dashRight;
+                } else {
+                    region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
                 }
+            } else if (climbTimeSeconds != 0 || (canClimb && climbStartTime != 0)) {
+                region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
+            } else if (action == Action.STANDING) {
+                region = Assets.getInstance().getGigaGalAssets().standRight;
+            } else if (action == Action.STRIDING) {
+                region = Assets.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+            } else if (action == Action.DASHING) {
+                region = Assets.getInstance().getGigaGalAssets().dashRight;
+            } else if (action == Action.HOVERING) {
+                region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
+            } else if (action == Action.CLINGING) {
+                region = Assets.getInstance().getGigaGalAssets().clingRight;
+            } else if (action == Action.RECOILING){
+                region = Assets.getInstance().getGigaGalAssets().recoilRight;
+            } else if (action == Action.FALLING) {
+                region = Assets.getInstance().getGigaGalAssets().fallRight;
             }
         } else if (directionX == Direction.LEFT) {
-            if (groundState == GroundState.AIRBORNE) {
-                if (action == Action.HOVERING) {
-                    hoverTimeSeconds = Utils.secondsSince(hoverStartTime);
-                    if (lookStartTime != 0) {
+            if (lookStartTime != 0) {
+                if (climbStartTime == 0) {
+                    if (action == Action.HOVERING) {
                         if (directionY == Direction.UP) {
                             region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
                         } else if (directionY == Direction.DOWN) {
                             region = Assets.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
                         }
-                    } else {
-                        region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
-                    }
-                } else if (action == Action.CLINGING) {
-                    region = Assets.getInstance().getGigaGalAssets().clingLeft;
-                } else if (action == Action.RECOILING) {
-                    region = Assets.getInstance().getGigaGalAssets().recoilLeft;
-                } else if (lookStartTime != 0) {
-                    if (directionY == Direction.UP) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
-                    } else if (directionY == Direction.DOWN) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
-                    }
-                } else {
-                    region = Assets.getInstance().getGigaGalAssets().fallLeft;
-                }
-            }  else if (groundState == GroundState.PLANTED) {
-                if (climbTimeSeconds != 0 || (canClimb && lookStartTime == 0 && climbStartTime != 0)) {
-                    region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
-                } else if (action == Action.STANDING) {
-                    if (lookStartTime != 0) {
+                    } else if (action == Action.FALLING) {
                         if (directionY == Direction.UP) {
-                            if (climbStartTime == 0) {
-                                region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
-                            } else {
-                                region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
-                            }
+                            region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
                         } else if (directionY == Direction.DOWN) {
-                            if (climbStartTime == 0) {
-                                region = Assets.getInstance().getGigaGalAssets().lookdownStandLeft;
-                            } else {
-                                region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
-                            }
+                            region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
                         }
                     } else {
-                        region = Assets.getInstance().getGigaGalAssets().standLeft;
+                        region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
                     }
-                } else if (action == Action.STRIDING) {
-                    region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
-                } else if (action == Action.DASHING) {
-                    region = Assets.getInstance().getGigaGalAssets().dashLeft;
+                } else {
+                    region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
                 }
+            } else if (climbTimeSeconds != 0 || (canClimb && climbStartTime != 0)) {
+                region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
+            } else if (action == Action.STANDING) {
+                region = Assets.getInstance().getGigaGalAssets().standLeft;
+            } else if (action == Action.STRIDING) {
+                region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+            } else if (action == Action.DASHING) {
+                region = Assets.getInstance().getGigaGalAssets().dashLeft;
+            } else if (action == Action.HOVERING) {
+                region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
+            } else if (action == Action.CLINGING) {
+                region = Assets.getInstance().getGigaGalAssets().clingLeft;
+            } else if (action == Action.RECOILING) {
+                region = Assets.getInstance().getGigaGalAssets().recoilLeft;
+            } else if (action == Action.FALLING) {
+                region = Assets.getInstance().getGigaGalAssets().fallLeft;
             }
         }
         Utils.drawTextureRegion(batch, region, position, Constants.GIGAGAL_EYE_POSITION);
