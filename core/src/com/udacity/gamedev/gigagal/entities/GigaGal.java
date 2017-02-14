@@ -158,8 +158,7 @@ public class GigaGal implements Humanoid {
             velocity.y = 0;
             if (action == Action.STANDING) {
                 stand(); // default ground state
-                enableClimb(); // must call before look
-                enableLook();
+                enableClimb();
                 enableStride();
                 enableDash();
                 enableJump();
@@ -182,17 +181,14 @@ public class GigaGal implements Humanoid {
             if (action == Action.FALLING) {
                 fall(); // default aerial state
                 enableClimb(); // must call before look
-                enableLook();
                 enableHover();
                 enableCling();
                 enableShoot(weapon);
             } else if (action == Action.JUMPING) {
-                enableLook();
                 enableJump();
                 enableCling();
                 enableShoot(weapon);
             } else if (action == Action.HOVERING) {
-                enableLook();
                 enableHover();
                 enableCling();
                 enableClimb();
@@ -640,6 +636,7 @@ public class GigaGal implements Humanoid {
     }
 
     private void stand() {
+        handleYInputs();
         if (onSinkable) {
             strideStartTime = 0;
             strideTimeSeconds = 0;
@@ -658,7 +655,6 @@ public class GigaGal implements Humanoid {
         } else {
             velocity.x = 0;
         }
-        
         action = Action.STANDING;
         groundState = GroundState.PLANTED;
         if (!canClimb) {
@@ -666,13 +662,13 @@ public class GigaGal implements Humanoid {
         } else {
             canJump = false;
         }
-        canLook = true;
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.STAND_TURBO_INCREMENT;
         }
     }
 
     private void fall() {
+        handleYInputs();
         if (onSinkable) {
             stand();
         }
@@ -765,10 +761,6 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    private void enableLook() {
-        handleYInputs();
-    }
-
     private void look() {
         float offset = 0;
         if (lookStartTime == 0) {
@@ -850,10 +842,11 @@ public class GigaGal implements Humanoid {
     }
 
     private void enableJump() {
-        if (((inputControls.jumpButtonJustPressed && canJump)
-                || action == Action.JUMPING)
-                && lookStartTime == 0) {
-            jump();
+        if (canJump) {
+            if ((inputControls.jumpButtonJustPressed || action == Action.JUMPING)
+            && lookStartTime == 0) {
+                jump();
+            }
         }
     }
 
@@ -894,6 +887,7 @@ public class GigaGal implements Humanoid {
                 }
                 // if jump key not pressed, but already hovering, continue to hover
             } else if (action == Action.HOVERING) {
+                handleYInputs();
                 hover();
             }
         }
@@ -971,13 +965,12 @@ public class GigaGal implements Humanoid {
                 if (lookStartTime == 0) {
                     canLook = false;
                     canClimb = true;
-                    handleYInputs(); // enables change of y direction for looking up and down
                 }
             } else {
                 climbTimeSeconds = 0;
             }
-            handleXInputs(); // enables change of x direction for shooting left and right
-            handleYInputs(); // enables change of y direction for looking up and down
+            handleXInputs(); // enables change of x direction for shooting left or right
+            handleYInputs(); // enables change of y direction for looking and climbing up or down
         } else {
             canClimb = false;
         }
