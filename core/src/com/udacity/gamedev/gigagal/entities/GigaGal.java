@@ -328,7 +328,6 @@ public class GigaGal implements Humanoid {
                             onSinkable = true;
                             canDash = false;
                             canHover = false;
-                            canHover = false;
                             canClimb = false;
                             velocity.y = -3;
                             lookStartTime = 0;
@@ -659,7 +658,7 @@ public class GigaGal implements Humanoid {
         groundState = GroundState.PLANTED;
         if (!canClimb) {
             canJump = true;
-            handleYInputs();
+            handleYInputs(); // disabled when canclimb to prevent look from overriding climb
         } else {
             canJump = false;
         }
@@ -669,30 +668,30 @@ public class GigaGal implements Humanoid {
     }
 
     private void fall() {
+        handleXInputs();
         handleYInputs();
-        if (onSinkable) {
-            stand();
-        }
-        if (!onSkateable) {
-            strideStartTime = 0;
-        }
         action = Action.FALLING;
         groundState = GroundState.AIRBORNE;
         canJump = false;
         canDash = false;
         canLook = true;
-        if (turbo < Constants.MAX_TURBO) {
-            turbo += Constants.FALL_TURBO_INCREMENT;
-        }
-        if (onUnbearable) {
+        if (!onSkateable) {
             canHover = false;
-            recoil(velocity);
+            strideStartTime = 0;
         }
         if (!canCling) {
             touchedGround = null;
             canHover = true;
         }
-        handleXInputs();
+        if (onSinkable) {
+            canHover = false;
+        } else if (onUnbearable) {
+            canHover = false;
+            recoil(velocity);
+        }
+        if (turbo < Constants.MAX_TURBO) {
+            turbo += Constants.FALL_TURBO_INCREMENT;
+        }
     }
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
@@ -703,7 +702,6 @@ public class GigaGal implements Humanoid {
         canStride = false;
         canDash = false;
         canHover = false;
-        canCling = false;
         this.velocity.x = velocity.x;
         this.velocity.y = velocity.y;
         if (action != Action.RECOILING) {
@@ -865,9 +863,8 @@ public class GigaGal implements Humanoid {
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
             if (onBounceable) {
                 velocity.y *= 2;
-            }
-            if (onSinkable) {
-                velocity.y /= 1.25f;
+            } else if (onSinkable) {
+                fall(); // causes fall texture to render for one frame
             }
         } else {
             pauseTimeSeconds = 0;
