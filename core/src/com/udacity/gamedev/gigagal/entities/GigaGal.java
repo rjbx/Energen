@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.app.InputControls;
-import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -221,152 +220,15 @@ public class GigaGal implements Humanoid {
                     if (!(ground instanceof DescendableGround)
                     && (climbTimeSeconds == 0 || touchedGround == null || (touchedGround instanceof DescendableGround && touchedGround.getBottom() >= ground.getTop()))) {
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
-                            // if during previous frame was not, while currently is, between ground left and right sides
-                            if (!Utils.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
-                                // only when not grounded and not recoiling
-                                if (groundState != GroundState.PLANTED && action != Action.RECOILING) {
-                                    // if x velocity (magnitude, without concern for direction) greater than one third max speed,
-                                    // boost x velocity by starting speed, enable cling, verify rappelling ground and capture rappelling ground boundaries
-                                    if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
-                                        // if already clinging, halt x progression
-                                        if (action != Action.CLINGING) {
-                                            canCling = true; // enable cling
-                                            touchedGround = ground;
-                                        }
-                                    // if absval x velocity  not greater than one third max speed but aerial and bumping ground side, fall
-                                    } else {
-                                        // if not already hovering and descending, also disable hover
-                                        if (action != Action.HOVERING && velocity.y < 0) {
-                                            canHover = false; // disable hover
-                                        }
-                                        canCling = false;
-                                        fall(); // fall regardless of whether or not inner condition met
-                                    }
-                                    // only when grounded
-                                } else if (groundState == GroundState.PLANTED) {
-                                    if (Math.abs(getBottom() - ground.getTop()) > 1) {
-                                        strideSpeed = 0;
-                                        velocity.x = 0;
-                                    }
-                                    if (action == Action.DASHING) {
-                                        stand(); // deactivates dash when bumping ground side
-                                    }
-                                }
-                                if ((!(ground instanceof RideableGround && (Math.abs(getBottom() - ground.getTop()) <= 1)))
-                                        && !(ground instanceof SkateableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))
-                                        && !(ground instanceof UnbearableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
-                                    // if contact with ground sides detected without concern for ground state (either grounded or airborne),
-                                    // reset stride acceleration, disable stride and dash, and set gigagal at ground side
-                                    if (action != Action.STRIDING || action != Action.DASHING) {
-                                        strideStartTime = 0; // reset stride acceleration
-                                    }
-                                    canStride = false; // disable stride
-                                    canDash = false; // disable dash
-                                    position.x = previousFramePosition.x; // halt x progression
-                                }
-                                // else if no detection with ground sides, disable cling
-                            } else {
-                                canCling = false; // disable cling
-                            }
-                            // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
-                            if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()) {
-                                velocity.y = 0; // prevents from ascending above ground bottom
-                                position.y = previousFramePosition.y;  // sets gigagal at ground bottom
-                                fall(); // descend from point of contact with ground bottom
-                            }
+                            touchGroundSide(ground);
+                            touchGroundBottom(ground);
                         } else {
-                            canCling = false;
+                            canCling = false; // deactivate cling if ground below max ledge height
                         }
-                        // if contact with ground top detected, halt downward progression and set gigagal atop ground
-                        if ((getBottom() <= ground.getTop() && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop())))
-                                && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
-                            setAtop(ground);
-                            velocity.y = 0; // prevents from descending beneath ground top
-                            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
-                            if (groundState == GroundState.AIRBORNE && !(ground instanceof SkateableGround)) {
-                                stand(); // set groundstate to standing
-                                lookStartTime = 0;
-                            }
-                            if (action != Action.DASHING) {
-                                pauseTimeSeconds = 0;
-                            }
-                            if (ground instanceof SkateableGround) {
-                                onSkateable = true;
-                                if (groundState == GroundState.AIRBORNE) {
-                                    stand(); // set groundstate to standing
-                                    lookStartTime = 0;
-                                }
-                            } else if (ground instanceof HoverableGround) {
-                                lookStartTime = 0;
-                                HoverableGround hoverable = (HoverableGround) ground;
-                                Orientation orientation = hoverable.getOrientation();
-                                Direction direction = hoverable.getDirection();
-                                if (orientation == Orientation.X) {
-                                    velocity.x = hoverable.getVelocity().x;
-                                    position.x += velocity.x;
-                                }
-                                if (direction == Direction.DOWN) {
-                                    position.y -= 1;
-                                }
-                            } else if (ground instanceof BounceableGround) {
-                                onBounceable = true;
-                                BounceableGround bounceable = (BounceableGround) ground;
-                                bounceable.setLoaded(true);
-                            } else if (ground instanceof RideableGround) {
-                                onRideable = true;
-                            } else if (ground instanceof UnbearableGround) {
-                                onUnbearable = true;
-                                canHover = false;
-                                Random xKnockback = new Random();
-                                velocity.set(Utils.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.FLAME_KNOCKBACK.y);
-                                recoil(velocity);
-                            }
-                        }
+                    touchGroundTop(ground);
                     // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
                     } else if (ground instanceof DescendableGround && (touchedGround == null || touchedGround instanceof DescendableGround)) {
-                        if (ground instanceof SinkableGround) {
-                            setAtop(ground);
-                            onSinkable = true;
-                            canDash = false;
-                            canHover = false;
-                            canClimb = false;
-                            lookStartTime = 0;
-                            lookTimeSeconds = 0;
-                            if (groundState == GroundState.AIRBORNE) {
-                                stand();
-                            }
-                        } else if (ground instanceof ClimbableGround) {
-                            if (Utils.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
-                                if (getTop() > ground.getBottom()) {
-                                    onClimbable = true;
-                                }
-                            }
-                            if (climbTimeSeconds == 0) {
-                                if ((getBottom() <= ground.getTop() && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop()))
-                                        && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
-                                        || canClimb && climbStartTime != 0) {
-                                    setAtop(ground);
-                                    if (lookStartTime != 0 && groundState != GroundState.PLANTED) {
-                                        lookStartTime = 0;
-                                    }
-                                    if (groundState == GroundState.AIRBORNE) {
-                                        stand(); // set groundstate to standing
-                                    }
-                                    if (action != Action.CLIMBING) {
-                                        velocity.y = 0; // prevents from descending beneath ground top
-                                        position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
-                                    }
-                                }
-                                if (action != Action.CLIMBING) {
-                                    if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
-                                        if (!(ground instanceof Pole)) {
-                                            canJump = true;
-                                        }
-                                        jump();
-                                    }
-                                }
-                            }
-                        }
+                        touchDescendableGround(ground);
                     }
                     // if below minimum ground distance while descending excluding post-cling, disable cling and hover
                     // caution when crossing plane between ground top and minimum hover height / ground distance
@@ -383,6 +245,162 @@ public class GigaGal implements Humanoid {
                 }
             }
         }
+        untouchGround();
+    }
+
+    private void touchGroundSide(Ground ground) {
+        // if during previous frame was not, while currently is, between ground left and right sides
+        if (!Utils.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
+            // only when not grounded and not recoiling
+            if (groundState != GroundState.PLANTED && action != Action.RECOILING) {
+                // if x velocity (magnitude, without concern for direction) greater than one third max speed,
+                // boost x velocity by starting speed, enable cling, verify rappelling ground and capture rappelling ground boundaries
+                if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
+                    // if already clinging, halt x progression
+                    if (action != Action.CLINGING) {
+                        canCling = true; // enable cling
+                        touchedGround = ground;
+                    }
+                    // if absval x velocity  not greater than one third max speed but aerial and bumping ground side, fall
+                } else {
+                    // if not already hovering and descending, also disable hover
+                    if (action != Action.HOVERING && velocity.y < 0) {
+                        canHover = false; // disable hover
+                    }
+                    canCling = false;
+                    fall(); // fall regardless of whether or not inner condition met
+                }
+                // only when grounded
+            } else if (groundState == GroundState.PLANTED) {
+                if (Math.abs(getBottom() - ground.getTop()) > 1) {
+                    strideSpeed = 0;
+                    velocity.x = 0;
+                }
+                if (action == Action.DASHING) {
+                    stand(); // deactivates dash when bumping ground side
+                }
+            }
+            if ((!(ground instanceof RideableGround && (Math.abs(getBottom() - ground.getTop()) <= 1)))
+                    && !(ground instanceof SkateableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))
+                    && !(ground instanceof UnbearableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+                // if contact with ground sides detected without concern for ground state (either grounded or airborne),
+                // reset stride acceleration, disable stride and dash, and set gigagal at ground side
+                if (action != Action.STRIDING || action != Action.DASHING) {
+                    strideStartTime = 0; // reset stride acceleration
+                }
+                canStride = false; // disable stride
+                canDash = false; // disable dash
+                position.x = previousFramePosition.x; // halt x progression
+            }
+        } else {
+            canCling = false;
+        }
+    }
+
+    private void touchGroundBottom(Ground ground) {
+
+        // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
+        if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()) {
+            velocity.y = 0; // prevents from ascending above ground bottom
+            position.y = previousFramePosition.y;  // sets gigagal at ground bottom
+            fall(); // descend from point of contact with ground bottom
+        }
+    }
+
+    private void touchGroundTop(Ground ground) {
+        // if contact with ground top detected, halt downward progression and set gigagal atop ground
+        if ((getBottom() <= ground.getTop() && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop())))
+                && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
+            velocity.y = 0; // prevents from descending beneath ground top
+            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+            setAtopGround(ground);
+            if (action != Action.DASHING) {
+                pauseTimeSeconds = 0;
+            }
+            if (ground instanceof SkateableGround) {
+                onSkateable = true;
+                if (groundState == GroundState.AIRBORNE) {
+                    stand(); // set groundstate to standing
+                    lookStartTime = 0;
+                }
+            } else if (ground instanceof HoverableGround) {
+                lookStartTime = 0;
+                HoverableGround hoverable = (HoverableGround) ground;
+                Orientation orientation = hoverable.getOrientation();
+                Direction direction = hoverable.getDirection();
+                if (orientation == Orientation.X) {
+                    velocity.x = hoverable.getVelocity().x;
+                    position.x += velocity.x;
+                }
+                if (direction == Direction.DOWN) {
+                    position.y -= 1;
+                }
+            } else if (ground instanceof BounceableGround) {
+                onBounceable = true;
+                BounceableGround bounceable = (BounceableGround) ground;
+                bounceable.setLoaded(true);
+            } else if (ground instanceof RideableGround) {
+                onRideable = true;
+            } else if (ground instanceof UnbearableGround) {
+                onUnbearable = true;
+                canHover = false;
+                Random xKnockback = new Random();
+                velocity.set(Utils.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.FLAME_KNOCKBACK.y);
+                recoil(velocity);
+            }
+        }
+    }
+
+    private void touchDescendableGround(Ground ground) {
+        if (ground instanceof SinkableGround) {
+            setAtopGround(ground);
+            onSinkable = true;
+            canDash = false;
+            canHover = false;
+            canClimb = false;
+            lookStartTime = 0;
+            lookTimeSeconds = 0;
+        } else if (ground instanceof ClimbableGround) {
+            if (Utils.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
+                if (getTop() > ground.getBottom()) {
+                    onClimbable = true;
+                }
+            }
+            if (climbTimeSeconds == 0) {
+                if ((getBottom() <= ground.getTop() && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop()))
+                        && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
+                        || canClimb && climbStartTime != 0) {
+                    setAtopGround(ground);
+                    if (action != Action.CLIMBING) {
+                        velocity.y = 0; // prevents from descending beneath ground top
+                        position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                    }
+                }
+                if (action != Action.CLIMBING) {
+                    if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+                        if (!(ground instanceof Pole)) {
+                            canJump = true;
+                        }
+                        jump();
+                    }
+                }
+            }
+        }
+    }
+
+    private void setAtopGround(Ground ground) {
+        touchedGround = ground;
+        hoverStartTime = 0;
+        clingStartTime = 0;
+        canLook = true;
+        canHover = false;
+        if (groundState == GroundState.AIRBORNE && !(ground instanceof SkateableGround)) {
+            stand(); // set groundstate to standing
+            lookStartTime = 0;
+        }
+    }
+
+    private void untouchGround() {
         if (!onClimbable) {
             if (action == Action.CLIMBING) {
                 fall();
@@ -574,26 +592,11 @@ public class GigaGal implements Humanoid {
                     canHover = false;
                     toggleWeapon(directionY);
                 }
-                look();
+                look(); // also sets chase cam
             }
         } else if (action == Action.STANDING) { // if can look but up or down not pressed (and since standing, not in the act of climbing)
-            float offsetDistance = chaseCamPosition.y - position.y;
-            // move chasecam back towards gigagal yposition provided yposition cannot be changed until fully reset
-            if (Math.abs(offsetDistance) > 5) { // if chasecam offset from gigagal yposition more than five pixels
-                if (offsetDistance < 0) {
-                    chaseCamPosition.y += 2.5f;
-                } else if (offsetDistance > 0) {
-                    chaseCamPosition.y -= 2.5f;
-                }
-                chaseCamPosition.x = position.x; // set chasecam position to gigagal xposition
-            } else if (chaseCamPosition.y != position.y) { // if chasecam offset less than 5 but greater than 0 and actively looking
-                chaseCamPosition.set(position, 0); // reset chasecam
-                canLook = false; // disable look
-            } else {
-                lookStartTime = 0;
-                lookTimeSeconds = 0;
-            }
-            // if can look and not standing (either airborne or climbing) and not inputting y
+            resetChaseCamPosition();
+        // if can look and not standing (either airborne or climbing) and not inputting y
         } else {
             chaseCamPosition.set(position, 0);
             lookStartTime = 0;
@@ -610,14 +613,6 @@ public class GigaGal implements Humanoid {
             }
         }
      }
-
-    private void setAtop(Ground ground) {
-        touchedGround = ground;
-        hoverStartTime = 0;
-        clingStartTime = 0;
-        canLook = true;
-        canHover = false;
-    }
 
     private void stand() {
         if (onSinkable) {
@@ -750,16 +745,8 @@ public class GigaGal implements Humanoid {
             lookStartTime = TimeUtils.nanoTime();
             chaseCamPosition.set(position, 0);
         } else if (action == Action.STANDING) {
-            lookTimeSeconds = Utils.secondsSince(lookStartTime) - pauseTimeSeconds;
-            if (lookTimeSeconds > 1) {
-                offset += 1.5f;
-                if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {
-                    chaseCamPosition.y += Utils.absoluteToDirectionalValue(offset, directionY, Orientation.Y);
-                    chaseCamPosition.x = position.x;
-                }
-            }
+            setChaseCamPosition(offset);
         }
-       // canJump = false;
     }
 
     private void enableStride() {
@@ -1088,6 +1075,34 @@ public class GigaGal implements Humanoid {
     public void setHealth(int health) { this.health = health; }
     public void setPauseTimeSeconds(float pauseTimeSeconds) { this.pauseTimeSeconds = pauseTimeSeconds; }
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
+    public void setChaseCamPosition(float offset) {
+        lookTimeSeconds = Utils.secondsSince(lookStartTime) - pauseTimeSeconds;
+        if (lookTimeSeconds > 1) {
+            offset += 1.5f;
+            if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {
+                chaseCamPosition.y += Utils.absoluteToDirectionalValue(offset, directionY, Orientation.Y);
+                chaseCamPosition.x = position.x;
+            }
+        }
+    }
+    public void resetChaseCamPosition() {
+        float offsetDistance = chaseCamPosition.y - position.y;
+        // move chasecam back towards gigagal yposition provided yposition cannot be changed until fully reset
+        if (Math.abs(offsetDistance) > 5) { // if chasecam offset from gigagal yposition more than five pixels
+            if (offsetDistance < 0) {
+                chaseCamPosition.y += 2.5f;
+            } else if (offsetDistance > 0) {
+                chaseCamPosition.y -= 2.5f;
+            }
+            chaseCamPosition.x = position.x; // set chasecam position to gigagal xposition
+        } else if (chaseCamPosition.y != position.y) { // if chasecam offset less than 5 but greater than 0 and actively looking
+            chaseCamPosition.set(position, 0); // reset chasecam
+            canLook = false; // disable look
+        } else {
+            lookStartTime = 0;
+            lookTimeSeconds = 0;
+        }
+    }
     public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
     public void toggleWeapon(Direction toggleDirection) {
         if (weaponList.size() > 1) {
