@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.app.InputControls;
+import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -157,10 +158,10 @@ public class GigaGal implements Humanoid {
         if (groundState == GroundState.PLANTED) {
             velocity.y = 0;
             if (action == Action.STANDING) {
-                stand(); // default ground state
-                enableClimb();
+                stand();
                 enableStride();
                 enableDash();
+                enableClimb(); // must come before jump (for now)
                 enableJump();
                 enableShoot(weapon);
             } else if (action == Action.STRIDING) {
@@ -179,8 +180,8 @@ public class GigaGal implements Humanoid {
         } else if (groundState == GroundState.AIRBORNE) {
             velocity.y -= Constants.GRAVITY;
             if (action == Action.FALLING) {
-                fall(); // default aerial state
-                enableClimb(); // must call before look
+                fall();
+                enableClimb();
                 enableHover();
                 enableCling();
                 enableShoot(weapon);
@@ -329,7 +330,6 @@ public class GigaGal implements Humanoid {
                             canDash = false;
                             canHover = false;
                             canClimb = false;
-                            velocity.y = -3;
                             lookStartTime = 0;
                             lookTimeSeconds = 0;
                             if (groundState == GroundState.AIRBORNE) {
@@ -508,13 +508,13 @@ public class GigaGal implements Humanoid {
         boolean left = inputControls.leftButtonPressed;
         boolean right = inputControls.rightButtonPressed;
         boolean directionChanged = false;
-        boolean inputtingX = true;
-        if (left && !right) {
-            directionChanged = Utils.changeDirection(this, Direction.LEFT, Orientation.X);
-        } else if (!left && right) {
-            directionChanged = Utils.changeDirection(this, Direction.RIGHT, Orientation.X);
-        } else {
-            inputtingX = false;
+        boolean inputtingX = ((left || right) && !(left && right));
+        if (inputtingX) {
+            if (left && !right) {
+                directionChanged = Utils.changeDirection(this, Direction.LEFT, Orientation.X);
+            } else if (!left && right) {
+                directionChanged = Utils.changeDirection(this, Direction.RIGHT, Orientation.X);
+            }
         }
         if (groundState != GroundState.AIRBORNE && action != Action.CLIMBING) {
             if (lookStartTime == 0) {
@@ -558,61 +558,45 @@ public class GigaGal implements Humanoid {
     private void handleYInputs() {
         boolean up = inputControls.upButtonPressed;
         boolean down = inputControls.downButtonPressed;
-        boolean inputtingY = (up || down) && !(up && down);
-        boolean camOffset = false;
-        if (up) {
-            directionY = Direction.UP;
-        } else if (down) {
-            directionY = Direction.DOWN;
-        }
-        if (canLook) {
-            if (inputtingY) {
-                canStride = false;
-                if (directionY == Direction.UP) {
-                    if (chaseCamPosition.y < position.y) {
-                        camOffset = true;
-                    }
-                } else if (directionY == Direction.DOWN) {
-                    if (chaseCamPosition.y > position.y) {
-                        camOffset = true;
-                    }
-                    if (onSinkable) {
-                        velocity.y *= 5;
-                    }
+        boolean inputtingY = ((up || down) && !(up && down));
+        if (inputtingY) {
+            if (up) {
+                directionY = Direction.UP;
+            } else if (down) {
+                directionY = Direction.DOWN;
+                if (onSinkable) {
+                    velocity.y *= 5;
                 }
-                // offset chasecam
-                if (action == Action.STANDING) { // if up or down pressed while standing and not actively climbing
-                    if (camOffset) {
-                        chaseCamPosition.y += Utils.absoluteToDirectionalValue(.75f, directionY, Orientation.Y);
-                    }
-                    if (inputControls.jumpButtonJustPressed) {
-                        canHover = false;
-                        toggleWeapon(directionY);
-                    }
+            }
+            if (canLook) {
+                canStride = false;
+                if (inputControls.jumpButtonJustPressed) {
+                    canHover = false;
+                    toggleWeapon(directionY);
                 }
                 look();
-            // reset chasecam
-            } else if (action == Action.STANDING) { // if can look but up or down not pressed (and since standing, not in the act of climbing)
-                float offsetDistance = chaseCamPosition.y - position.y;
-                // move chasecam back towards gigagal yposition provided yposition cannot be changed until fully reset
-                if (Math.abs(offsetDistance) > 5) { // if chasecam offset from gigagal yposition more than five pixels
-                    if (offsetDistance < 0) {
-                        chaseCamPosition.y += 2.5f;
-                    } else if (offsetDistance > 0) {
-                        chaseCamPosition.y -= 2.5f;
-                    }
-                    chaseCamPosition.x = position.x; // set chasecam position to gigagal xposition
-                } else if (chaseCamPosition.y != position.y) { // if chasecam offset less than 5 but greater than 0 and actively looking
-                    chaseCamPosition.set(position, 0); // reset chasecam
-                    canLook = false; // disable look
-                } else {
-                    lookStartTime = 0;
-                }
-            // if can look and not standing (either airborne or climbing) and not inputting y
-            } else {
-                chaseCamPosition.set(position, 0);
-                lookStartTime = 0;
             }
+        } else if (action == Action.STANDING) { // if can look but up or down not pressed (and since standing, not in the act of climbing)
+            float offsetDistance = chaseCamPosition.y - position.y;
+            // move chasecam back towards gigagal yposition provided yposition cannot be changed until fully reset
+            if (Math.abs(offsetDistance) > 5) { // if chasecam offset from gigagal yposition more than five pixels
+                if (offsetDistance < 0) {
+                    chaseCamPosition.y += 2.5f;
+                } else if (offsetDistance > 0) {
+                    chaseCamPosition.y -= 2.5f;
+                }
+                chaseCamPosition.x = position.x; // set chasecam position to gigagal xposition
+            } else if (chaseCamPosition.y != position.y) { // if chasecam offset less than 5 but greater than 0 and actively looking
+                chaseCamPosition.set(position, 0); // reset chasecam
+                canLook = false; // disable look
+            } else {
+                lookStartTime = 0;
+                lookTimeSeconds = 0;
+            }
+            // if can look and not standing (either airborne or climbing) and not inputting y
+        } else {
+            chaseCamPosition.set(position, 0);
+            lookStartTime = 0;
         }
         if (canClimb) {
             if (inputtingY) {
@@ -753,7 +737,7 @@ public class GigaGal implements Humanoid {
                 position.y + Constants.GIGAGAL_CANNON_OFFSET.y
         );
         if (lookStartTime != 0) {
-            ammoPosition.add(Utils.absoluteToDirectionalValue(0, directionX, Orientation.X),  Utils.absoluteToDirectionalValue(6, directionY, Orientation.Y));
+            ammoPosition.add(Utils.absoluteToDirectionalValue(0, directionX, Orientation.X), Utils.absoluteToDirectionalValue(6, directionY, Orientation.Y));
             level.spawnAmmo(ammoPosition, directionY, Orientation.Y, ammoIntensity, weapon, true);
         } else {
             level.spawnAmmo(ammoPosition, directionX, Orientation.X, ammoIntensity, weapon, true);
@@ -775,7 +759,7 @@ public class GigaGal implements Humanoid {
                 }
             }
         }
-        canJump = false;
+       // canJump = false;
     }
 
     private void enableStride() {
