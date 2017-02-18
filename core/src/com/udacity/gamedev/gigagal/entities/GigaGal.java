@@ -561,11 +561,22 @@ public class GigaGal implements Humanoid {
                     }
                 }
             }
-        } else if (directionChanged) {
-            if (action != Action.HOVERING) {
-                velocity.x /= 2;
-            } else {
-                velocity.x /= 4;
+        } else if (groundState == GroundState.AIRBORNE) {
+            if (directionChanged) {
+                if (action != Action.HOVERING) {
+                    velocity.x /= 2;
+                } else {
+                    velocity.x /= 4;
+                }
+            }
+        } else if (onClimbable) {
+            if (inputtingX) {
+                if (inputControls.jumpButtonJustPressed) {
+                    climbStartTime = 0;
+                    onClimbable = false;
+                    velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
+                    fall();
+                }
             }
         }
     }
