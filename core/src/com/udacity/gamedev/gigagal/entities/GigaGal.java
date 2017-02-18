@@ -569,15 +569,27 @@ public class GigaGal implements Humanoid {
                     velocity.x /= 4;
                 }
             }
-        } else if (onClimbable) {
-            if (inputtingX) {
+        } else if (action == Action.CLIMBING) {
+            if (canClimb) {
+                if (inputtingX) {
+                    velocity.y = 0;
+                    canHover = false;
+                    if (inputControls.jumpButtonPressed) {
+                        climb(Orientation.X);
+                    }
+                } else {
+                    climbTimeSeconds = 0;
+                    velocity.x = 0;
+                }
+            } /*else if (onClimbable && inputtingX) {
                 if (inputControls.jumpButtonJustPressed) {
                     climbStartTime = 0;
                     onClimbable = false;
-                    velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
+                    velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED * 2, directionX, Orientation.X);
+                    velocity.y = Constants.CLIMB_SPEED * 2;
                     fall();
                 }
-            }
+            }*/
         }
     }
 
@@ -615,7 +627,7 @@ public class GigaGal implements Humanoid {
                 velocity.x = 0;
                 canHover = false;
                 if (lookStartTime == 0) {
-                    climb();
+                    climb(Orientation.Y);
                 }
             } else {
                 climbTimeSeconds = 0;
@@ -961,7 +973,7 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    private void climb() {
+    private void climb(Orientation orientation) {
         if (action != Action.CLIMBING) {
             climbStartTime = TimeUtils.nanoTime();
             groundState = GroundState.PLANTED;
@@ -969,7 +981,11 @@ public class GigaGal implements Humanoid {
         }
         canHover = false;
         climbTimeSeconds = Utils.secondsSince(climbStartTime);
-        velocity.y = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Orientation.Y);
+        if (orientation == Orientation.X) {
+            velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
+        } else if (orientation == Orientation.Y) {
+            velocity.y = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Orientation.Y);
+        }
         int climbAnimationPercent = (int) (climbTimeSeconds * 100);
         if ((climbAnimationPercent) % 25 >= 0 && (climbAnimationPercent) % 25 <= 13) {
             directionX = Direction.RIGHT;
