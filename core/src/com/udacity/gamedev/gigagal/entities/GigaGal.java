@@ -253,7 +253,7 @@ public class GigaGal implements Humanoid {
         // if during previous frame was not, while currently is, between ground left and right sides
         if (!Utils.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
             // only when not grounded and not recoiling
-            if (groundState != GroundState.PLANTED && action != Action.RECOILING) {
+            if (groundState != GroundState.PLANTED) {
                 // if x velocity (magnitude, without concern for direction) greater than one third max speed,
                 // boost x velocity by starting speed, enable cling, verify rappelling ground and capture rappelling ground boundaries
                 if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
@@ -408,7 +408,7 @@ public class GigaGal implements Humanoid {
             climbStartTime = 0;
             climbTimeSeconds = 0;
         }
-        if (touchedGround != null && action != Action.HOVERING) {
+        if (touchedGround != null && action != Action.HOVERING && action != Action.RECOILING) {
             if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
                 /*(!Utils.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
                 if (onBounceable) {
