@@ -219,6 +219,7 @@ public class GigaGal implements Humanoid {
                     // alternate collision handling to allow passing through top of descendables and prevent setting atop as with other grounds
                     if (!(ground instanceof DescendableGround)
                     && (climbTimeSeconds == 0 || touchedGround == null || (touchedGround instanceof DescendableGround && touchedGround.getBottom() >= ground.getTop()))) {
+                        // ignore ledge side and bottom collision
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                             touchGroundSide(ground);
                             touchGroundBottom(ground);
@@ -261,7 +262,7 @@ public class GigaGal implements Humanoid {
                         canCling = true; // enable cling
                         touchedGround = ground;
                     }
-                    // if absval x velocity  not greater than one third max speed but aerial and bumping ground side, fall
+                // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
                 } else {
                     // if not already hovering and descending, also disable hover
                     if (action != Action.HOVERING && velocity.y < 0) {
@@ -270,7 +271,7 @@ public class GigaGal implements Humanoid {
                     canCling = false;
                     fall(); // fall regardless of whether or not inner condition met
                 }
-                // only when grounded
+            // only when planted
             } else if (groundState == GroundState.PLANTED) {
                 if (Math.abs(getBottom() - ground.getTop()) > 1) {
                     strideSpeed = 0;
@@ -298,7 +299,6 @@ public class GigaGal implements Humanoid {
     }
 
     private void touchGroundBottom(Ground ground) {
-
         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
         if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()) {
             velocity.y = 0; // prevents from ascending above ground bottom
