@@ -571,6 +571,7 @@ public class GigaGal implements Humanoid {
     }
 
     private void handleYInputs() {
+        directionY = null;
         boolean up = inputControls.upButtonPressed;
         boolean down = inputControls.downButtonPressed;
         boolean inputtingY = ((up || down) && !(up && down));
