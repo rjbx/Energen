@@ -439,25 +439,22 @@ public class GigaGal implements Humanoid {
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     private void touchHazards(Array<Hazard> hazards) {
         for (Hazard hazard : hazards) {
-            float recoveryTimeSeconds = Utils.secondsSince(recoveryStartTime) - pauseTimeSeconds;
-            if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
-                Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
-                if (getBounds().overlaps(bounds)) {
-                    ammoIntensity = AmmoIntensity.SHOT;
-                    recoveryStartTime = TimeUtils.nanoTime();
-                    chargeStartTime = 0;
-                    int damage = hazard.getDamage();
-                    float margin = 0;
-                    if (hazard instanceof DestructibleHazard) {
-                        margin = hazard.getWidth() / 6;
-                    }
-                    if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
+            if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
+                float recoveryTimeSeconds = Utils.secondsSince(recoveryStartTime) - pauseTimeSeconds;
+                if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
+                    Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
+                    if (getBounds().overlaps(bounds)) {
+                        recoveryStartTime = TimeUtils.nanoTime();
                         chaseCamPosition.set(position, 0);
-                        Vector2 intersection = new Vector2();
-                        intersection.x = Math.max(getBounds().x, bounds.x);
-                        intersection.y = Math.max(getBounds().y, bounds.y);
-                        level.spawnExplosion(intersection);
-                        turbo = 0;
+                        Vector2 intersectionPoint = new Vector2();
+                        intersectionPoint.x = Math.max(getBounds().x, bounds.x);
+                        intersectionPoint.y = Math.max(getBounds().y, bounds.y);
+                        level.spawnExplosion(intersectionPoint);
+                        int damage = hazard.getDamage();
+                        float margin = 0;
+                        if (hazard instanceof DestructibleHazard) {
+                            margin = hazard.getWidth() / 6;
+                        }
                         if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
                             if (hazard instanceof Swoopa) {
                                 Swoopa swoopa = (Swoopa) hazard;
@@ -677,7 +674,10 @@ public class GigaGal implements Humanoid {
     private void recoil(Vector2 velocity) {
         action = Action.RECOILING;
         groundState = GroundState.AIRBORNE;
+        ammoIntensity = AmmoIntensity.SHOT;
+        chargeStartTime = 0;
         strideStartTime = 0;
+        turbo = 0;
         canStride = false;
         canDash = false;
         canHover = false;
