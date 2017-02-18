@@ -920,6 +920,7 @@ public class GigaGal implements Humanoid {
                 canHover = true;
             }
         } else {
+            lookStartTime = 0;
             if (inputControls.downButtonPressed) {
                 velocity.y += Constants.CLING_GRAVITY_OFFSET;
             } else if (turbo < 1) {
