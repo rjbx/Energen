@@ -796,13 +796,12 @@ public class GigaGal implements Humanoid {
             strideStartTime = 0;
             canStride = false;
         }
-        float dashTimeSeconds = Utils.secondsSince(dashStartTime) - pauseTimeSeconds;
-        turbo = ((turboDuration - dashTimeSeconds) / turboDuration) * startTurbo;
         float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
         if (onSkateable) {
             dashSpeed *= 1.75f;
         }
         if (turbo >= 1) {
+            turbo -= Constants.FALL_TURBO_INCREMENT * 3;
             velocity.x = Utils.absoluteToDirectionalValue(dashSpeed, directionX, Orientation.X);
         } else {
             canDash = false;
@@ -872,9 +871,9 @@ public class GigaGal implements Humanoid {
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
         hoverTimeSeconds = (Utils.secondsSince(hoverStartTime) - pauseTimeSeconds); // for comparing with max hover time
-        turbo = (((turboDuration - hoverTimeSeconds)) / turboDuration * startTurbo);
         if (turbo >= 1) {
             velocity.y = 0; // disables impact of gravity
+            turbo -= Constants.FALL_TURBO_INCREMENT;
         } else {
             canHover = false;
             fall(); // when max hover time is exceeded
@@ -921,11 +920,13 @@ public class GigaGal implements Humanoid {
                 canHover = true;
             }
         } else {
-            if (inputControls.downButtonPressed || turbo < 1) {
+            if (inputControls.downButtonPressed) {
+                velocity.y += Constants.CLING_GRAVITY_OFFSET;
+            } else if (turbo < 1) {
                 turbo = 0;
                 velocity.y += Constants.CLING_GRAVITY_OFFSET;
             } else {
-                turbo = ((turboDuration - clingTimeSeconds) / turboDuration * startTurbo);
+                turbo -= Constants.FALL_TURBO_INCREMENT;
                 velocity.y = 0;
             }
         }
