@@ -577,12 +577,12 @@ public class GigaGal implements Humanoid {
                     canHover = false;
                     if (inputControls.jumpButtonPressed) {
                         climb(Orientation.X);
-                    } else {
-                        velocity.x = 0; // disable movement when climbing but jump button not pressed
                     }
                 } else {
                     velocity.x = 0; // disable movement when climbing but directional not pressed
                 }
+            } else {
+                velocity.x = 0; // disable movement when climbing but directional not pressed
             }
         }
     }
@@ -978,20 +978,17 @@ public class GigaGal implements Humanoid {
     private void enableClimb() {
         if (onClimbable) {
             if (inputControls.jumpButtonPressed) {
-                if (lookStartTime == 0) {
-                    canLook = false;
-                    canClimb = true;
+                if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neurtralize
+                    canLook = false; // prevents look from overriding climb
+                    canClimb = true; // enables climb handling from handleY()
                 }
             } else {
-                canLook = true;
-                canClimb  = false; // prevents climb initiation without holding jumpbutton
-                climbTimeSeconds = 0;
+                canLook = true; // enables look when engaging climbable but not actively climbing
+                canClimb  = false; // prevents climb initiation when jumpbutton released
             }
             handleXInputs(); // enables change of x direction for shooting left or right
             handleYInputs(); // enables change of y direction for looking and climbing up or down
         } else {
-            climbStartTime = 0;
-            climbTimeSeconds = 0;
             canClimb = false;
         }
     }
