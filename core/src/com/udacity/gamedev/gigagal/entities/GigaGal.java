@@ -612,6 +612,7 @@ public class GigaGal implements Humanoid {
                 look(); // also sets chase cam
             }
         } else if (action == Action.STANDING) { // if neither up nor down pressed (and since standing, not in the act of climbing)
+            directionY = null;
             resetChaseCamPosition();
         } else { // if not standing (either airborne or climbing) and not inputting y
             chaseCamPosition.set(position, 0);
@@ -629,11 +630,10 @@ public class GigaGal implements Humanoid {
                                 // if difference between current time and previous tap start time is less than double tap speed
                                 if (((TimeUtils.nanoTime() - climbStartTime) * MathUtils.nanoToSec) < Constants.DOUBLE_TAP_SPEED) {
                                     if (directionY == Direction.UP) { // enable increased ascension speed
-                                        canDash = true;
-                                    }
-                                    if (directionY == Direction.DOWN) { // drop down from climbable (drop handled from climb())
-                                        lookStartTime = TimeUtils.nanoTime();
-                                        onClimbable = false;
+                                        canDash = true; // checks can dash after calling climb() to apply speed boost
+                                    } else if (directionY == Direction.DOWN) { // drop down from climbable (drop handled from climb())
+                                        lookStartTime = TimeUtils.nanoTime(); // prevents from reengaging climbable from enableclimb() while falling
+                                        onClimbable = false; // meets requirement within climb() to disable climb and enable fall
                                     }
                                 }
                                 climbStartTime = TimeUtils.nanoTime(); // replace climb start time with that of most recent tap
@@ -641,14 +641,15 @@ public class GigaGal implements Humanoid {
                         }
                         climb(Orientation.Y);
                         if (canDash) { // apply multiplier on top of speed set by climb()
-                            velocity.y *= 2;
+                            velocity.y *= 2; // double speed
                         }
                     } else {
                         velocity.y = 0; // disable movement when climbing but jump button not pressed
                     }
                 }
             } else {
-                climbTimeSeconds = 0; // detects release of directional for enabling double tap
+                climbTimeSeconds = 0; // indicates release of directional for enabling double tap
+                canDash = false; // reset dash when direction released
             }
         }
     }
@@ -982,6 +983,7 @@ public class GigaGal implements Humanoid {
                     canClimb = true;
                 }
             } else {
+                canClimb  = false;
                 climbTimeSeconds = 0;
             }
             handleXInputs(); // enables change of x direction for shooting left or right
@@ -993,8 +995,8 @@ public class GigaGal implements Humanoid {
 
     private void climb(Orientation orientation) {
         if (onClimbable) { // onclimbable set to false from handleYinputs() if double tapping down
-            if (action != Action.CLIMBING) {
-                climbStartTime = TimeUtils.nanoTime();
+            if (action != Action.CLIMBING) { // at the time of climb initiation
+                climbStartTime = 0; // overrides assignment of current time preventing nanotime - climbstarttime < doubletapspeed on next handleY() call
                 groundState = GroundState.PLANTED;
                 action = Action.CLIMBING;
             }
