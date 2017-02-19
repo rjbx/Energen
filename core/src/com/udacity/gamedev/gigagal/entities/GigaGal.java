@@ -611,10 +611,10 @@ public class GigaGal implements Humanoid {
                 }
                 look(); // also sets chase cam
             }
-        } else if (action == Action.STANDING) { // if neither up nor down pressed (and since standing, not in the act of climbing)
+        } else if (action == Action.STANDING || action == Action.CLIMBING) { // if neither up nor down pressed (and either standing or climbing)
             directionY = null;
             resetChaseCamPosition();
-        } else { // if not standing (either airborne or climbing) and not inputting y
+        } else { // if neither standing nor climbing and not inputting y
             chaseCamPosition.set(position, 0);
             lookStartTime = 0;
         }
@@ -720,21 +720,14 @@ public class GigaGal implements Humanoid {
         ammoIntensity = AmmoIntensity.SHOT;
         chargeStartTime = 0;
         strideStartTime = 0;
+        lookStartTime = 0;
         turbo = 0;
         canStride = false;
         canDash = false;
         canHover = false;
+        canLook = false;
         this.velocity.x = velocity.x;
         this.velocity.y = velocity.y;
-        if (action != Action.RECOILING) {
-            if (!canLook) {
-                lookStartTime = 0;
-            }
-            canLook = true;
-        } else {
-            canLook = false;
-            lookStartTime = 0;
-        }
     }
 
     private void enableShoot(WeaponType weapon) {
@@ -787,7 +780,7 @@ public class GigaGal implements Humanoid {
         if (lookStartTime == 0) {
             lookStartTime = TimeUtils.nanoTime();
             chaseCamPosition.set(position, 0);
-        } else if (action == Action.STANDING) {
+        } else if (action == Action.STANDING || action == Action.CLIMBING) {
             setChaseCamPosition(offset);
         }
     }
