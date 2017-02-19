@@ -983,12 +983,15 @@ public class GigaGal implements Humanoid {
                     canClimb = true;
                 }
             } else {
-                canClimb  = false;
+                canLook = true;
+                canClimb  = false; // prevents climb initiation without holding jumpbutton
                 climbTimeSeconds = 0;
             }
             handleXInputs(); // enables change of x direction for shooting left or right
             handleYInputs(); // enables change of y direction for looking and climbing up or down
         } else {
+            climbStartTime = 0;
+            climbTimeSeconds = 0;
             canClimb = false;
         }
     }
