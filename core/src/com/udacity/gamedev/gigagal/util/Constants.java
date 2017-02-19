@@ -28,7 +28,7 @@ public final class Constants {
     public static final float GIGAGAL_HEAD_RADIUS = 5;
     public static final float GIGAGAL_MAX_SPEED = 200;
     public static final float JUMP_SPEED = 200;
-    public static final float CLIMB_SPEED = 40;
+    public static final float CLIMB_SPEED = 80;
     public static final float GIGAGAL_STARTING_SPEED = 0.3f;
     public static final float STRIDING_JUMP_MULTIPLIER = 1.1f;
     public static final float Y_KNOCKBACK = 150;

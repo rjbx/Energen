@@ -218,7 +218,7 @@ public class GigaGal implements Humanoid {
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     // alternate collision handling to allow passing through top of descendables and prevent setting atop as with other grounds
                     if (!(ground instanceof DescendableGround)
-                    && (climbTimeSeconds == 0 || touchedGround == null || (touchedGround instanceof DescendableGround && touchedGround.getBottom() >= ground.getTop()))) {
+                            && (climbTimeSeconds == 0 || touchedGround == null || (touchedGround instanceof DescendableGround && touchedGround.getBottom() >= ground.getTop()))) {
                         // ignore ledge side and bottom collision
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                             touchGroundSide(ground);
@@ -226,8 +226,8 @@ public class GigaGal implements Humanoid {
                         } else {
                             canCling = false; // deactivate cling if ground below max ledge height
                         }
-                    touchGroundTop(ground);
-                    // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
+                        touchGroundTop(ground);
+                        // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
                     } else if (ground instanceof DescendableGround && (touchedGround == null || touchedGround instanceof DescendableGround)) {
                         touchDescendableGround(ground);
                     }
@@ -262,7 +262,7 @@ public class GigaGal implements Humanoid {
                         canCling = true; // enable cling
                         touchedGround = ground;
                     }
-                // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
+                    // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
                 } else {
                     // if not already hovering and descending, also disable hover
                     if (action != Action.HOVERING && velocity.y < 0) {
@@ -271,7 +271,7 @@ public class GigaGal implements Humanoid {
                     canCling = false;
                     fall(); // fall regardless of whether or not inner condition met
                 }
-            // only when planted
+                // only when planted
             } else if (groundState == GroundState.PLANTED) {
                 if (Math.abs(getBottom() - ground.getTop()) > 1) {
                     strideSpeed = 0;
@@ -408,7 +408,7 @@ public class GigaGal implements Humanoid {
             climbStartTime = 0;
             climbTimeSeconds = 0;
         }
-        if (touchedGround != null && action != Action.HOVERING && action != Action.RECOILING) {
+        if (touchedGround != null && action != Action.HOVERING) {
             if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
                 /*(!Utils.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
                 if (onBounceable) {
@@ -576,9 +576,10 @@ public class GigaGal implements Humanoid {
                     canHover = false;
                     if (inputControls.jumpButtonPressed) {
                         climb(Orientation.X);
+                    } else {
+                        velocity.x = 0;
                     }
                 } else {
-                    climbTimeSeconds = 0;
                     velocity.x = 0;
                 }
             } /*else if (onClimbable && inputtingX) {
@@ -617,7 +618,7 @@ public class GigaGal implements Humanoid {
             }
         } else if (action == Action.STANDING) { // if can look but up or down not pressed (and since standing, not in the act of climbing)
             resetChaseCamPosition();
-        // if can look and not standing (either airborne or climbing) and not inputting y
+            // if can look and not standing (either airborne or climbing) and not inputting y
         } else {
             chaseCamPosition.set(position, 0);
             lookStartTime = 0;
@@ -627,13 +628,17 @@ public class GigaGal implements Humanoid {
                 velocity.x = 0;
                 canHover = false;
                 if (lookStartTime == 0) {
-                    climb(Orientation.Y);
+                    if (inputControls.jumpButtonPressed) {
+                        climb(Orientation.Y);
+                    } else {
+                        velocity.y = 0;
+                    }
                 }
             } else {
                 climbTimeSeconds = 0;
             }
         }
-     }
+    }
 
     private void stand() {
         if (onSinkable) {
@@ -837,7 +842,7 @@ public class GigaGal implements Humanoid {
     private void enableJump() {
         if (canJump) {
             if ((inputControls.jumpButtonJustPressed || action == Action.JUMPING)
-            && lookStartTime == 0) {
+                    && lookStartTime == 0) {
                 jump();
             }
         }
