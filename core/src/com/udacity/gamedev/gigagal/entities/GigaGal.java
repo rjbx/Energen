@@ -578,10 +578,10 @@ public class GigaGal implements Humanoid {
                     if (inputControls.jumpButtonPressed) {
                         climb(Orientation.X);
                     } else {
-                        velocity.x = 0;
+                        velocity.x = 0; // disable movement when climbing but jump button not pressed
                     }
                 } else {
-                    velocity.x = 0;
+                    velocity.x = 0; // disable movement when climbing but directional not pressed
                 }
             }
         }
@@ -623,30 +623,32 @@ public class GigaGal implements Humanoid {
                 canHover = false;
                 if (lookStartTime == 0) {
                     if (inputControls.jumpButtonPressed) {
-                        if (climbTimeSeconds == 0) {
-                            if (!directionChanged) {
+                        // double tap handling while climbing
+                        if (climbTimeSeconds == 0) {  // if directional released
+                            if (!directionChanged) { // if tapping in same direction
+                                // if difference between current time and previous tap start time is less than double tap speed
                                 if (((TimeUtils.nanoTime() - climbStartTime) * MathUtils.nanoToSec) < Constants.DOUBLE_TAP_SPEED) {
-                                    if (directionY == Direction.UP) {
+                                    if (directionY == Direction.UP) { // enable increased ascension speed
                                         canDash = true;
                                     }
-                                    if (directionY == Direction.DOWN) {
+                                    if (directionY == Direction.DOWN) { // drop down from climbable (drop handled from climb())
                                         lookStartTime = TimeUtils.nanoTime();
                                         onClimbable = false;
                                     }
                                 }
-                                climbStartTime = TimeUtils.nanoTime();
+                                climbStartTime = TimeUtils.nanoTime(); // replace climb start time with that of most recent tap
                             }
                         }
                         climb(Orientation.Y);
-                        if (canDash) {
+                        if (canDash) { // apply multiplier on top of speed set by climb()
                             velocity.y *= 2;
                         }
                     } else {
-                        velocity.y = 0;
+                        velocity.y = 0; // disable movement when climbing but jump button not pressed
                     }
                 }
             } else {
-                climbTimeSeconds = 0;
+                climbTimeSeconds = 0; // detects release of directional for enabling double tap
             }
         }
     }
@@ -990,7 +992,7 @@ public class GigaGal implements Humanoid {
     }
 
     private void climb(Orientation orientation) {
-        if (onClimbable) {
+        if (onClimbable) { // onclimbable set to false from handleYinputs() if double tapping down
             if (action != Action.CLIMBING) {
                 climbStartTime = TimeUtils.nanoTime();
                 groundState = GroundState.PLANTED;
@@ -1009,12 +1011,11 @@ public class GigaGal implements Humanoid {
             } else {
                 directionX = Direction.LEFT;
             }
-        } else {
-            groundState = GroundState.AIRBORNE;
-            action = Action.FALLING;
+        } else { // if double tapping down, fall from climbable
             climbStartTime = 0;
             climbTimeSeconds = 0;
             canClimb = false;
+            fall();
         }
     }
 
