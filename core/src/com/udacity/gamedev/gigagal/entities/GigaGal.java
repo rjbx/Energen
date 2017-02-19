@@ -402,13 +402,6 @@ public class GigaGal implements Humanoid {
     }
 
     private void untouchGround() {
-        if (!onClimbable) {
-            if (action == Action.CLIMBING) {
-                fall();
-            }
-            climbStartTime = 0;
-            climbTimeSeconds = 0;
-        }
         if (touchedGround != null && action != Action.HOVERING) {
             if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
                 /*(!Utils.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
@@ -612,7 +605,6 @@ public class GigaGal implements Humanoid {
                 look(); // also sets chase cam
             }
         } else if (action == Action.STANDING || action == Action.CLIMBING) { // if neither up nor down pressed (and either standing or climbing)
-            directionY = null;
             resetChaseCamPosition();
         } else { // if neither standing nor climbing and not inputting y
             chaseCamPosition.set(position, 0);
@@ -982,6 +974,12 @@ public class GigaGal implements Humanoid {
             handleXInputs(); // enables change of x direction for shooting left or right
             handleYInputs(); // enables change of y direction for looking and climbing up or down
         } else {
+            if (action == Action.CLIMBING) {
+                fall();
+                if (!(touchedGround instanceof ClimbableGround && Utils.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())))  {
+                    velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
+                }
+            }
             canClimb = false;
         }
     }
