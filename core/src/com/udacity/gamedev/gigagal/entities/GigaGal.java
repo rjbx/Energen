@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -582,28 +583,22 @@ public class GigaGal implements Humanoid {
                 } else {
                     velocity.x = 0;
                 }
-            } /*else if (onClimbable && inputtingX) {
-                if (inputControls.jumpButtonJustPressed) {
-                    climbStartTime = 0;
-                    onClimbable = false;
-                    velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED * 2, directionX, Orientation.X);
-                    velocity.y = Constants.CLIMB_SPEED * 2;
-                    fall();
-                }
-            }*/
+            }
         }
     }
 
     private void handleYInputs() {
-        directionY = null;
         boolean up = inputControls.upButtonPressed;
         boolean down = inputControls.downButtonPressed;
+        boolean directionChanged = false;
         boolean inputtingY = ((up || down) && !(up && down));
         if (inputtingY) {
-            if (up) {
-                directionY = Direction.UP;
-            } else if (down) {
-                directionY = Direction.DOWN;
+            if (down && !up) {
+                directionChanged = Utils.changeDirection(this, Direction.DOWN, Orientation.Y);
+            } else if (!down && up) {
+                directionChanged = Utils.changeDirection(this, Direction.UP, Orientation.Y);
+            }
+            if (directionY == Direction.DOWN) {
                 if (onSinkable) {
                     velocity.y *= 5;
                 }
@@ -616,10 +611,9 @@ public class GigaGal implements Humanoid {
                 }
                 look(); // also sets chase cam
             }
-        } else if (action == Action.STANDING) { // if can look but up or down not pressed (and since standing, not in the act of climbing)
+        } else if (action == Action.STANDING) { // if neither up nor down pressed (and since standing, not in the act of climbing)
             resetChaseCamPosition();
-            // if can look and not standing (either airborne or climbing) and not inputting y
-        } else {
+        } else { // if not standing (either airborne or climbing) and not inputting y
             chaseCamPosition.set(position, 0);
             lookStartTime = 0;
         }
@@ -629,7 +623,24 @@ public class GigaGal implements Humanoid {
                 canHover = false;
                 if (lookStartTime == 0) {
                     if (inputControls.jumpButtonPressed) {
+                        if (climbTimeSeconds == 0) {
+                            if (!directionChanged) {
+                                if (((TimeUtils.nanoTime() - climbStartTime) * MathUtils.nanoToSec) < Constants.DOUBLE_TAP_SPEED) {
+                                    if (directionY == Direction.UP) {
+                                        canDash = true;
+                                    }
+                                    if (directionY == Direction.DOWN) {
+                                        lookStartTime = TimeUtils.nanoTime();
+                                        onClimbable = false;
+                                    }
+                                }
+                                climbStartTime = TimeUtils.nanoTime();
+                            }
+                        }
                         climb(Orientation.Y);
+                        if (canDash) {
+                            velocity.y *= 2;
+                        }
                     } else {
                         velocity.y = 0;
                     }
@@ -979,23 +990,31 @@ public class GigaGal implements Humanoid {
     }
 
     private void climb(Orientation orientation) {
-        if (action != Action.CLIMBING) {
-            climbStartTime = TimeUtils.nanoTime();
-            groundState = GroundState.PLANTED;
-            action = Action.CLIMBING;
-        }
-        canHover = false;
-        climbTimeSeconds = Utils.secondsSince(climbStartTime);
-        if (orientation == Orientation.X) {
-            velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
-        } else if (orientation == Orientation.Y) {
-            velocity.y = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Orientation.Y);
-        }
-        int climbAnimationPercent = (int) (climbTimeSeconds * 100);
-        if ((climbAnimationPercent) % 25 >= 0 && (climbAnimationPercent) % 25 <= 13) {
-            directionX = Direction.RIGHT;
+        if (onClimbable) {
+            if (action != Action.CLIMBING) {
+                climbStartTime = TimeUtils.nanoTime();
+                groundState = GroundState.PLANTED;
+                action = Action.CLIMBING;
+            }
+            canHover = false;
+            climbTimeSeconds = Utils.secondsSince(climbStartTime);
+            if (orientation == Orientation.X) {
+                velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
+            } else if (orientation == Orientation.Y) {
+                velocity.y = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Orientation.Y);
+            }
+            int climbAnimationPercent = (int) (climbTimeSeconds * 100);
+            if ((climbAnimationPercent) % 25 >= 0 && (climbAnimationPercent) % 25 <= 13) {
+                directionX = Direction.RIGHT;
+            } else {
+                directionX = Direction.LEFT;
+            }
         } else {
-            directionX = Direction.LEFT;
+            groundState = GroundState.AIRBORNE;
+            action = Action.FALLING;
+            climbStartTime = 0;
+            climbTimeSeconds = 0;
+            canClimb = false;
         }
     }
 
