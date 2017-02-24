@@ -547,7 +547,7 @@ public final class Constants {
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TIME_PATTERN);
 
     // Start screen
-    public static final String LOGO = "qualiv";
+    public static final String LOGO = "qualiv2";
 
     // Scoring
     public static final int ZOOMBA_KILL_SCORE = 100;

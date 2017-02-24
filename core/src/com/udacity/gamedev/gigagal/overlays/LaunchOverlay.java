@@ -34,7 +34,7 @@ public final class LaunchOverlay {
         batch.begin();
 
         font.draw(batch, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, 0, Align.center, false);
-        Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().logo, new Vector2(viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 3), new Vector2(0,0), .25f);
+        Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().logo, new Vector2(viewport.getWorldWidth() / 4.5f, viewport.getWorldHeight() / 4), new Vector2(0,0), .5f);
         batch.end();
     }
 
