@@ -696,9 +696,6 @@ public class GigaGal implements Humanoid {
         }
         if (onSinkable) {
             canHover = false;
-        } else if (onUnbearable) {
-            canHover = false;
-            recoil(velocity);
         }
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.FALL_TURBO_INCREMENT;
