@@ -546,6 +546,9 @@ public final class Constants {
     public static final String TIME_PATTERN = "HH:mm:ss";
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TIME_PATTERN);
 
+    // Start screen
+    public static final String LOGO = "qualiv";
+
     // Scoring
     public static final int ZOOMBA_KILL_SCORE = 100;
     public static final int ZOOMBA_HIT_SCORE = 25;

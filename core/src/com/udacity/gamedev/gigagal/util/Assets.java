@@ -890,6 +890,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion cling;
         public final AtlasRegion pause;
         public final AtlasRegion selectionCursor;
+        public final AtlasRegion logo;
 
         public OverlayAssets(TextureAtlas atlas) {
             right = atlas.findRegion(Constants.RIGHT_BUTTON);
@@ -904,9 +905,9 @@ public final class Assets implements Disposable, AssetErrorListener {
             cling = atlas.findRegion(Constants.CLING_BUTTON);
             pause = atlas.findRegion(Constants.PAUSE_BUTTON);
             selectionCursor = atlas.findRegion(Constants.SELECTION_CURSOR);
+            logo = atlas.findRegion(Constants.LOGO);
         }
     }
-
 
     public class HudAssets {
 
