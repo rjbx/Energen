@@ -14,7 +14,7 @@ import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.entities.TurboPowerup;
 import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.overlays.IndicatorHud;
-import com.udacity.gamedev.gigagal.overlays.GameOverOverlay;
+import com.udacity.gamedev.gigagal.overlays.DefeatOverlay;
 import com.udacity.gamedev.gigagal.overlays.GaugeHud;
 import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
 import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
@@ -44,7 +44,7 @@ public class GameplayScreen extends ScreenAdapter {
     private GaugeHud meterHud;
     private IndicatorHud contextHud;
     private VictoryOverlay victoryOverlay;
-    private GameOverOverlay gameOverOverlay;
+    private DefeatOverlay defeatOverlay;
     private PauseOverlay pauseOverlay;
     private OptionsOverlay optionsOverlay;
     private Array<String> completedLevels;
@@ -82,7 +82,7 @@ public class GameplayScreen extends ScreenAdapter {
         pauseOverlay = new PauseOverlay(this);
         optionsOverlay = new OptionsOverlay(this);
         victoryOverlay = new VictoryOverlay(this);
-        gameOverOverlay = new GameOverOverlay();
+        defeatOverlay = new DefeatOverlay();
         inputControls = InputControls.getInstance();
         controlsOverlay = ControlsOverlay.getInstance();
         powerups = new Array<TurboPowerup>();
@@ -98,7 +98,7 @@ public class GameplayScreen extends ScreenAdapter {
         meterHud.getViewport().update(width, height, true);
         contextHud.getViewport().update(width, height, true);
         victoryOverlay.getViewport().update(width, height, true);
-        gameOverOverlay.getViewport().update(width, height, true);
+        defeatOverlay.getViewport().update(width, height, true);
         pauseOverlay.getViewport().update(width, height, true);
         pauseOverlay.getCursor().getViewport().update(width, height, true);
         optionsOverlay.getViewport().update(width, height, true);
@@ -118,7 +118,6 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
         Gdx.gl.glClearColor(
@@ -208,10 +207,10 @@ public class GameplayScreen extends ScreenAdapter {
                 level.getLevelTime().suspend();
                 totalTime.suspend();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
-                gameOverOverlay.init();
+                defeatOverlay.init();
             }
 
-            gameOverOverlay.render(batch);
+            defeatOverlay.render(batch);
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
                 game.setScreen(game.getLevelSelectScreen());

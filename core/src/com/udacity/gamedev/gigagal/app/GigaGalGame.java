@@ -10,6 +10,7 @@ public final class GigaGalGame extends Game {
     // fields
     private LevelSelectScreen levelSelect;
     private GameplayScreen gameplay;
+    private StartScreen startScreen;
 
     // default ctor
     public GigaGalGame() {}
@@ -18,10 +19,11 @@ public final class GigaGalGame extends Game {
     public void create() {
         gameplay = new GameplayScreen(this);
         levelSelect = new LevelSelectScreen(this);
+        startScreen = new StartScreen(this);
         AssetManager am = new AssetManager();
         Assets.getInstance().init(am, 0);
         InputControls.getInstance().init();
-        setScreen(levelSelect);
+        setScreen(startScreen);
     }
 
     public LevelSelectScreen getLevelSelectScreen() { return levelSelect; }

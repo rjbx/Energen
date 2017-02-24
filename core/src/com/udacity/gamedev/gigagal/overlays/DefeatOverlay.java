@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Constants;
 
 // immutable
-public final class GameOverOverlay {
+public final class DefeatOverlay {
 
     // fields
     public final Viewport viewport;
@@ -18,7 +18,7 @@ public final class GameOverOverlay {
  //   long startTime;
 
     // ctor
-    public GameOverOverlay() {
+    public DefeatOverlay() {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
 
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
@@ -62,7 +62,7 @@ public final class GameOverOverlay {
         }
 
     */
-        font.draw(batch, Constants.GAME_OVER_MESSAGE, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
+        font.draw(batch, Constants.DEFEAT_MESSAGE, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
 
         batch.end();
 

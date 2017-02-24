@@ -540,7 +540,8 @@ public final class Constants {
     public static final int EXPLOSION_COUNT = 500;
   //  public static final int ZOOMBA_COUNT = 200;
     public static final String VICTORY_MESSAGE = "Boo Ya.";
-    public static final String GAME_OVER_MESSAGE = "Game Over, Gal";
+    public static final String DEFEAT_MESSAGE = "Game Over, Gal";
+    public static final String LAUNCH_MESSAGE = "Energraft v0.0.1 (c) Qualiv 2017";
     public static final String FONT_FILE = "font/header.fnt";
     public static final String TIME_PATTERN = "HH:mm:ss";
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TIME_PATTERN);
