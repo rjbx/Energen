@@ -121,7 +121,7 @@ public final class StartScreen extends ScreenAdapter {
             launchOverlay.render(batch);
         }
 
-        if (Utils.secondsSince(launchStartTime) > 3) {
+        if (Utils.secondsSince(launchStartTime) > 10) {
             launching = false;
         }
     }
