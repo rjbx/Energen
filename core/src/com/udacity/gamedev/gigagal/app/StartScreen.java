@@ -3,13 +3,13 @@ package com.udacity.gamedev.gigagal.app;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
@@ -20,9 +20,6 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ListIterator;
 
 // immutable
@@ -33,7 +30,8 @@ public final class StartScreen extends ScreenAdapter {
     private com.udacity.gamedev.gigagal.app.GigaGalGame game;
     private SpriteBatch batch;
     private ExtendViewport viewport;
-    private BitmapFont font;
+    private BitmapFont text;
+    private BitmapFont title;
     private ListIterator<String> iterator;
     private CursorOverlay cursor;
     private OptionsOverlay optionsOverlay;
@@ -50,8 +48,11 @@ public final class StartScreen extends ScreenAdapter {
         levelSelectScreen = game.getLevelSelectScreen();
         cursor = new CursorOverlay(145, 40);
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
-        font.getData().setScale(0.5f);
+        text = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
+        text.getData().setScale(0.5f);
+        title = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
+        title.getData().setScale(1);
+        title.setColor(Color.SKY);
         init();
     }
 
@@ -107,8 +108,9 @@ public final class StartScreen extends ScreenAdapter {
 //        cursor.render(batch);
 //        cursor.update();
 
-
-            font.draw(batch, "START GAME", viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, 0, Align.center, false);
+            title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
+            text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, 0, Align.center, false);
+            Utils.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2), new Vector2(Constants.GIGAGAL_HEIGHT / 2, Constants.GIGAGAL_STANCE_WIDTH / 2));
 
             batch.end();
 
@@ -121,7 +123,7 @@ public final class StartScreen extends ScreenAdapter {
             launchOverlay.render(batch);
         }
 
-        if (Utils.secondsSince(launchStartTime) > 10) {
+        if (Utils.secondsSince(launchStartTime) > 3) {
             launching = false;
         }
     }
