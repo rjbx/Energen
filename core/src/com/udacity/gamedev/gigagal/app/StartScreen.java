@@ -41,6 +41,7 @@ public final class StartScreen extends ScreenAdapter {
     private LaunchOverlay launchOverlay;
     private long launchStartTime;
     private boolean launching;
+    private final Vector2 gigagalCenter;
 
     // default ctor
     public StartScreen(com.udacity.gamedev.gigagal.app.GigaGalGame game) {
@@ -48,6 +49,7 @@ public final class StartScreen extends ScreenAdapter {
         levelSelectScreen = game.getLevelSelectScreen();
         cursor = new CursorOverlay(145, 40);
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+        gigagalCenter = new Vector2(Constants.GIGAGAL_STANCE_WIDTH / 2, Constants.GIGAGAL_HEIGHT / 2);
         text = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         text.getData().setScale(0.5f);
         title = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
@@ -110,7 +112,7 @@ public final class StartScreen extends ScreenAdapter {
 
             title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
             text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, 0, Align.center, false);
-            Utils.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2), new Vector2(Constants.GIGAGAL_HEIGHT / 2, Constants.GIGAGAL_STANCE_WIDTH / 2));
+            Utils.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2), gigagalCenter);
 
             batch.end();
 

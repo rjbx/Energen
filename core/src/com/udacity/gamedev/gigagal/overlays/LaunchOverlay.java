@@ -15,11 +15,13 @@ public final class LaunchOverlay {
 
     // fields
     public final Viewport viewport;
+    private final Vector2 logoOffset;
     final BitmapFont font;
 
     // ctor
     public LaunchOverlay() {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+        logoOffset = new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
     }
@@ -34,7 +36,7 @@ public final class LaunchOverlay {
         batch.begin();
 
         font.draw(batch, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, 0, Align.center, false);
-        Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().logo, new Vector2(viewport.getWorldWidth() / 4.5f, viewport.getWorldHeight() / 4), new Vector2(0,0), .5f);
+        Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().logo, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2), logoOffset, .375f);
         batch.end();
     }
 

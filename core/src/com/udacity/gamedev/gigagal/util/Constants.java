@@ -548,6 +548,7 @@ public final class Constants {
 
     // Start screen
     public static final String LOGO = "qualiv";
+    public static final Vector2 LOGO_CENTER = new Vector2(117.5f, 117.5f);
 
     // Scoring
     public static final int ZOOMBA_KILL_SCORE = 100;
