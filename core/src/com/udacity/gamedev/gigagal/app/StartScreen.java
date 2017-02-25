@@ -106,13 +106,14 @@ public final class StartScreen extends ScreenAdapter {
 
         if (!launching) {
             viewport.apply();
+            final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
             batch.begin();
 //        cursor.render(batch);
 //        cursor.update();
 
             title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
             text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, 0, Align.center, false);
-            Utils.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2), gigagalCenter);
+            Utils.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
 
             batch.end();
 
