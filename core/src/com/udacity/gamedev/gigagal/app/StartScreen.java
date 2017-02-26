@@ -74,6 +74,7 @@ public final class StartScreen extends ScreenAdapter {
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
         controlsOverlay = ControlsOverlay.getInstance();
         Gdx.input.setInputProcessor(inputControls);
+        init();
     }
 
     private boolean onMobile() {

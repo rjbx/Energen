@@ -118,6 +118,7 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
         Gdx.gl.glClearColor(
@@ -221,10 +222,11 @@ public class GameplayScreen extends ScreenAdapter {
                 level.getLevelTime().suspend();
                 totalTime.suspend();
                 totalScore += level.getLevelScore();
+                game.getPreferences().putInteger("Score", totalScore);
+                game.getPreferences().flush();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
                 victoryOverlay.init();
             }
-
             victoryOverlay.render(batch);
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
                 levelEndOverlayStartTime = 0;
@@ -286,10 +288,12 @@ public class GameplayScreen extends ScreenAdapter {
     }
 
     public Level getLevel() { return level; }
-    public void setGame(GigaGalGame game) { this.game = game;  }
-    public void setLevelName(String levelName) { this.levelName = levelName; }
     public int getTotalScore() { return totalScore; }
     public StopWatch getTotalTime() { return totalTime; }
     public ChaseCam getChaseCam() { return chaseCam; }
     public Viewport getViewport() { return this.getViewport(); }
+
+    public void setTotalScore(int score) { this.totalScore = score; }
+    public void setGame(GigaGalGame game) { this.game = game;  }
+    public void setLevelName(String levelName) { this.levelName = levelName; }
 }
