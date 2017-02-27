@@ -26,9 +26,8 @@ import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
+import com.udacity.gamedev.gigagal.util.Timer;
 import com.udacity.gamedev.gigagal.util.Utils;
-
-import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.Arrays;
 
@@ -54,14 +53,14 @@ public class Level {
     private DelayedRemovalArray<Ammo> ammoList;
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
-    private StopWatch levelTime;
+    private Timer levelTime;
 
     // default ctor
     public Level() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigaGal = new GigaGal(this, new Vector2(50, 50));
         levelScore = 0;
-        levelTime = new StopWatch();
+        levelTime = new Timer();
         levelTime.start();
         boxes = new Array<Box>();
         grounds = new Array<Ground>();
@@ -281,7 +280,7 @@ public class Level {
     public final GigaGal getGigaGal() { return gigaGal; }
     public final boolean isGameOver() { return gameOver; }
     public final boolean isVictory() { return victory; }
-    public final StopWatch getLevelTime() { return levelTime; }
+    public final Timer getLevelTime() { return levelTime; }
     public final int getLevelScore() { return levelScore; }
 
     // Setters

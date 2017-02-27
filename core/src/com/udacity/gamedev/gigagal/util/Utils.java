@@ -11,8 +11,6 @@ import com.udacity.gamedev.gigagal.entities.MultidirectionalX;
 import com.udacity.gamedev.gigagal.entities.MultidirectionalY;
 import com.udacity.gamedev.gigagal.entities.Orben;
 
-import org.apache.commons.lang3.time.StopWatch;
-
 // immutable static
 public final class Utils {
 
@@ -189,7 +187,7 @@ public final class Utils {
         return Enums.TypeEffectiveness.NORMAL;
     }
 
-    public static final String stopWatchToString(StopWatch time) {
+    public static final String stopWatchToString(Timer time) {
         String timeString = time + "";
         return (timeString).substring(0, timeString.length() - 4);
     }
