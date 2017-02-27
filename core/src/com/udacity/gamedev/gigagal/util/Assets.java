@@ -13,12 +13,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
+import java.util.Arrays;
+
 // immutable singleton
 public final class Assets implements Disposable, AssetErrorListener {
 
     // fields
     public static final String TAG = Assets.class.getName();
     private static final Assets INSTANCE = new Assets();
+    private String levelName;
     private GigaGalAssets gigaGalAssets;
     private BoxAssets boxAssets;
     private CannonAssets cannonAssets;
@@ -68,7 +71,9 @@ public final class Assets implements Disposable, AssetErrorListener {
     // static factory
     public static Assets getInstance() { return INSTANCE; }
 
-    public void init(AssetManager assetManager, int levelNumber) {
+    public void setLevelName(String levelName) { INSTANCE.levelName = levelName;}
+
+    public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
         assetManager.setErrorListener(this);
         assetManager.load(Constants.TEXTURE_ATLAS, TextureAtlas.class);
@@ -76,7 +81,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
         gigaGalAssets = new GigaGalAssets(atlas);
-        boxAssets = new BoxAssets(atlas, levelNumber);
+        boxAssets = new BoxAssets(atlas);
         cannonAssets = new CannonAssets(atlas);
         pillarAssets = new PillarAssets(atlas);
         liftAssets = new LiftAssets(atlas);
@@ -232,9 +237,13 @@ public final class Assets implements Disposable, AssetErrorListener {
     public class BoxAssets {
 
         public final NinePatch boxNinePatch;
-        public BoxAssets(TextureAtlas atlas, int levelNumber) {
+        public BoxAssets(TextureAtlas atlas) {
             AtlasRegion region;
-            switch(levelNumber) {
+            int levelIndex = 0;
+            if (!levelName.isEmpty()) {
+                levelIndex = (Arrays.asList(Enums.WeaponType.values())).indexOf(Enums.WeaponType.valueOf(levelName));
+            }
+            switch (levelIndex) {
                 case 0: region = atlas.findRegion(Constants.RED_BOX_SPRITE); break;
                 case 1: region = atlas.findRegion(Constants.GREY_BOX_SPRITE); break;
                 case 2: region = atlas.findRegion(Constants.BLACK_BOX_SPRITE); break;

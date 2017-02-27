@@ -242,9 +242,10 @@ public class GameplayScreen extends ScreenAdapter {
 
 //      level = Level.debugLevel();
 //      String levelName = Constants.LEVELS[levelNumber];
-        AssetManager am = new AssetManager();
-        level = LevelLoader.load(levelName);
+        level = LevelLoader.load("levels/" + levelName + ".dt");
         level.setLevelName(levelName);
+        Assets.getInstance().setLevelName(levelName);
+        Assets.getInstance().init(new AssetManager());
         levelNumber = (Arrays.asList(Constants.LEVELS)).indexOf(levelName);
         powerups = new Array<TurboPowerup>();
         for (Powerup powerup : level.getPowerups()) {
@@ -252,25 +253,25 @@ public class GameplayScreen extends ScreenAdapter {
                 powerups.add((TurboPowerup) powerup);
             }
         }
-        Assets.getInstance().init(am, levelNumber);
         meterHud = new GaugeHud(level);
         contextHud = new IndicatorHud(level);
         this.gigaGal = level.getGigaGal();
-        String savedWeapons = game.getPreferences().getString("Weapons", "NATIVE");
+        String savedWeapons = game.getPreferences().getString("Weapons", "NATIVE, METAL");
         if (savedWeapons != "NATIVE") {
             List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
             for (String weaponString : savedWeaponsList) {
-                Enums.WeaponType weapon = Enums.WeaponType.valueOf(weaponString);
-                if (!gigaGal.getWeaponList().contains(weapon)) {
-                    gigaGal.addWeapon(weapon);
+                if (!completedLevels.contains(weaponString, false)) {
+                    completedLevels.add(weaponString);
+                    System.out.println(weaponString);
                 }
             }
         }
         for (String completedLevelName : completedLevels) {
             for (Enums.WeaponType weapon : Arrays.asList(Constants.weapons)) {
-                if (completedLevelName.equals("levels/" + weapon.name() + ".dt")) {
+                if (completedLevelName.equals(weapon.name())) {
                     if (!gigaGal.getWeaponList().contains(weapon)) {
                         gigaGal.addWeapon(weapon);
+                        System.out.println(weapon.name());
                     }
                 }
             }
@@ -278,10 +279,11 @@ public class GameplayScreen extends ScreenAdapter {
         String weaponListString = gigaGal.getWeaponList().toString();
         weaponListString =  weaponListString.substring(1, weaponListString.length() - 1);
         game.getPreferences().putString("Weapons", weaponListString);
-        game.getPreferences().flush();
         chaseCam.camera = level.getViewport().getCamera();
         chaseCam.target = gigaGal;
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        totalScore = game.getPreferences().getInteger("Score", totalScore);
+        game.getPreferences().flush();
         totalTime.resume();
     }
 
@@ -308,7 +310,6 @@ public class GameplayScreen extends ScreenAdapter {
     public ChaseCam getChaseCam() { return chaseCam; }
     public Viewport getViewport() { return this.getViewport(); }
 
-    public void setTotalScore(int score) { this.totalScore = score; }
     public void setGame(GigaGalGame game) { this.game = game;  }
     public void setLevelName(String levelName) { this.levelName = levelName; }
 }

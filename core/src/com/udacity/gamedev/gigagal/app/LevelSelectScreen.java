@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
@@ -15,6 +14,7 @@ import com.udacity.gamedev.gigagal.overlays.CursorOverlay;
 import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 import java.util.ArrayList;
@@ -33,9 +33,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private Array<String> completedLevels;
     private ExtendViewport viewport;
     private BitmapFont font;
-    private List<String> levelNames;
+    private List<Enums.WeaponType> levelTypes;
     private float margin;
-    private ListIterator<String> iterator;
+    private ListIterator<Enums.WeaponType> iterator;
     private String levelName;
     private CursorOverlay cursor;
     private OptionsOverlay optionsOverlay;
@@ -55,10 +55,10 @@ public final class LevelSelectScreen extends ScreenAdapter {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
-        levelNames = new ArrayList<String>();
-        levelNames.addAll(Arrays.asList(Constants.LEVELS));
-        iterator = levelNames.listIterator();
-        levelName = iterator.next();
+        levelTypes = new ArrayList<Enums.WeaponType>();
+        levelTypes.addAll(Arrays.asList(Enums.WeaponType.values()));
+        iterator = levelTypes.listIterator();
+        levelName = iterator.next().name();
         index = 0;
         namePositions = new Array<Float>();
     }
@@ -122,12 +122,10 @@ public final class LevelSelectScreen extends ScreenAdapter {
             float yPosition = viewport.getWorldHeight() / 2.5f;
             namePositions.add(yPosition);
             while (iterator.hasPrevious()) {
-                levelName = iterator.previous();
+                levelName = iterator.previous().name();
                 if (cursor.getPosition() >= namePositions.get(index) - 15 && cursor.getPosition() < namePositions.get(index)) {
                     selectedLevel = levelName;
                 }
-                levelName = levelName.replace("levels/", "");
-                levelName = levelName.replace(".dt", "");
                 font.draw(batch, levelName, viewport.getWorldWidth() / 2.5f, namePositions.get(index));
                 yPosition += 15;
                 namePositions.add(yPosition);

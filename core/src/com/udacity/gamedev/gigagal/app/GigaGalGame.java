@@ -10,8 +10,8 @@ import com.udacity.gamedev.gigagal.util.Assets;
 public final class GigaGalGame extends Game {
 
     // fields
-    private LevelSelectScreen levelSelect;
-    private GameplayScreen gameplay;
+    private LevelSelectScreen levelSelectScreen;
+    private GameplayScreen gameplayScreen;
     private StartScreen startScreen;
     private Preferences prefs;
 
@@ -20,20 +20,17 @@ public final class GigaGalGame extends Game {
 
     @Override
     public void create() {
-        gameplay = new GameplayScreen(this);
-        levelSelect = new LevelSelectScreen(this);
+        gameplayScreen = new GameplayScreen(this);
+        levelSelectScreen = new LevelSelectScreen(this);
         startScreen = new StartScreen(this);
-        AssetManager am = new AssetManager();
-        Assets.getInstance().init(am, 0);
+        prefs = Gdx.app.getPreferences("energraft-prefs");
+        Assets.getInstance().setLevelName("");
+        Assets.getInstance().init(new AssetManager());
         InputControls.getInstance().init();
         setScreen(startScreen);
-
-        prefs = Gdx.app.getPreferences("energraft-prefs");
-        int score = prefs.getInteger("Score", 0);
-        gameplay.setTotalScore(score);
     }
 
-    public LevelSelectScreen getLevelSelectScreen() { return levelSelect; }
-    public GameplayScreen getGameplayScreen() { return gameplay; }
+    public LevelSelectScreen getLevelSelectScreen() { return levelSelectScreen; }
+    public GameplayScreen getGameplayScreen() { return gameplayScreen; }
     public Preferences getPreferences() { return prefs; }
 }
