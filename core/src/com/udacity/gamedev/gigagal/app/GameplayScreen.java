@@ -26,7 +26,10 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.LevelLoader;
 import com.udacity.gamedev.gigagal.util.Utils;
 import org.apache.commons.lang3.time.StopWatch;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class GameplayScreen extends ScreenAdapter {
 
@@ -255,6 +258,14 @@ public class GameplayScreen extends ScreenAdapter {
         meterHud = new GaugeHud(level);
         contextHud = new IndicatorHud(level);
         this.gigaGal = level.getGigaGal();
+        String savedWeapons = game.getPreferences().getString("Weapons", "NATIVE");
+        if (savedWeapons != "NATIVE") {
+            List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
+            System.out.println(savedWeaponsList);
+            for (String weaponString : savedWeaponsList) {
+                gigaGal.addWeapon(Enums.WeaponType.valueOf(weaponString));
+            }
+        }
         for (String completedLevelName : completedLevels) {
             for (Enums.WeaponType weapon : Arrays.asList(Constants.weapons)) {
                 if (completedLevelName.equals("levels/" + weapon.name() + ".dt")) {
@@ -264,6 +275,10 @@ public class GameplayScreen extends ScreenAdapter {
                 }
             }
         }
+        String weaponListString = gigaGal.getWeaponList().toString();
+        weaponListString =  weaponListString.substring(1, weaponListString.length() - 1);
+        game.getPreferences().putString("Weapons", weaponListString);
+        game.getPreferences().flush();
         chaseCam.camera = level.getViewport().getCamera();
         chaseCam.target = gigaGal;
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

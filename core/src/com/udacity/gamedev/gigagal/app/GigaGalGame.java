@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.Enums;
 
 // immutable
 public final class GigaGalGame extends Game {
