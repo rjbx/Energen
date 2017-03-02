@@ -489,7 +489,7 @@ public final class Constants {
     public static final String LEVEL_SHARPSWOOPA_TAG = "SharpSwoopa";
     public static final String LEVEL_Y_LIFT_TAG = "YLift";
     public static final String LEVEL_X_LIFT_TAG = "XLift";
-    public static final String[] LEVELS =  {"levels/METAL.dt", "levels/RUBBER.dt", "levels/ELECTRIC.dt", "levels/WATER.dt", "levels/FIRE.dt", "levels/PSYCHIC.dt", "levels/FINAL.dt"};
+    public static final String[] LEVELS =  {"levels/METAL.dt", "levels/RUBBER.dt", "levels/ELECTRIC.dt", "levels/WATER.dt", "levels/FIRE.dt", "levels/PSYCHIC.dt", "levels/NATIVE.dt"};
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;
