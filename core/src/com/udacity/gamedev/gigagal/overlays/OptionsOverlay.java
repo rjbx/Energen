@@ -53,9 +53,10 @@ public final class OptionsOverlay {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
+        if (!debugMode) {
             cursor.render(batch);
             cursor.update();
-
+        }
 
         if (screenAdapter instanceof GameplayScreen) {
             if (gameplayScreen.getChaseCam().getFollowing()) {

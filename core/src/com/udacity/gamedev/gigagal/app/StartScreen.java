@@ -144,8 +144,6 @@ public final class StartScreen extends ScreenAdapter {
                         game.create();
                     }
                 }
-                inputControls.update();
-                controlsOverlay.render(batch);
             } else {
                 launchOverlay.render(batch);
             }
@@ -173,5 +171,7 @@ public final class StartScreen extends ScreenAdapter {
                 optionsVisible = false;
             }
         }
+        inputControls.update();
+        controlsOverlay.render(batch);
     }
 }
