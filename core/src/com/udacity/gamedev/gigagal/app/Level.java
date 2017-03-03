@@ -146,7 +146,7 @@ public class Level {
                 if (destructible.getHealth() * Constants.DIFFICULTY_MULTIPLIER[difficulty] < 1) {
                     spawnExplosion(destructible.getPosition());
                     destructibles.removeValue(destructible, true);
-                    levelScore += destructible.getKillScore();
+                    levelScore += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[difficulty]);
                 }
                 if (destructible instanceof Orben) {
                     Orben orben = (Orben) destructible;
