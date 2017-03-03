@@ -8,7 +8,10 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.GameplayScreen;
+import com.udacity.gamedev.gigagal.app.LevelSelectScreen;
+import com.udacity.gamedev.gigagal.app.StartScreen;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
+import com.udacity.gamedev.gigagal.entities.Pillar;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
@@ -31,7 +34,7 @@ public final class OptionsOverlay {
     public OptionsOverlay(ScreenAdapter screenAdapter) {
         this.screenAdapter = screenAdapter;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        cursor = new CursorOverlay(73, 28);
+        cursor = new CursorOverlay(73, 43);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.4f);
         debugMode = false;
@@ -39,12 +42,8 @@ public final class OptionsOverlay {
 
     public void init() {
         if (screenAdapter instanceof GameplayScreen) {
-            paused = true;
             gameplayScreen = (GameplayScreen) screenAdapter;
             gigaGal = gameplayScreen.getLevel().getGigaGal();
-        } else {
-            paused = false;
-            cursor = new CursorOverlay(73, 43);
         }
     }
 
@@ -54,12 +53,11 @@ public final class OptionsOverlay {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
-        if (!debugMode) {
             cursor.render(batch);
             cursor.update();
-        }
 
-        if (paused) {
+
+        if (screenAdapter instanceof GameplayScreen) {
             if (gameplayScreen.getChaseCam().getFollowing()) {
                 String stats =
                         Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
@@ -83,12 +81,15 @@ public final class OptionsOverlay {
             } else {
                 font.draw(batch, "DEBUG MODE\n" + "PRESS SHOOT BUTTON TO EXIT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 15, 0, Align.center, false);
             }
-        } else {
+        } else if (screenAdapter instanceof LevelSelectScreen) {
             font.draw(batch, "BACK", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 18, 0, Align.center, false);
             font.draw(batch, "TOUCH PAD", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 3, 0, Align.center, false);
             font.draw(batch, "QUIT GAME", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 12, 0, Align.center, false);
+        } else if (screenAdapter instanceof StartScreen) {
+            font.draw(batch, "NORMAL", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 18, 0, Align.center, false);
+            font.draw(batch, "HARD", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f + 3, 0, Align.center, false);
+            font.draw(batch, "VERY HARD", viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f - 12, 0, Align.center, false);
         }
-
         batch.end();
     }
 

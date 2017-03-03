@@ -42,6 +42,7 @@ public final class StartScreen extends ScreenAdapter {
     private long launchStartTime;
     private boolean launching;
     private boolean continuing;
+    private boolean optionsVisible;
     private final Vector2 gigagalCenter;
 
     // default ctor
@@ -74,6 +75,7 @@ public final class StartScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
+        optionsVisible = false;
         batch = new SpriteBatch();
         optionsOverlay = new OptionsOverlay(this);
         optionsOverlay.init();
@@ -111,40 +113,65 @@ public final class StartScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (!launching) {
-            viewport.apply();
-            batch.setProjectionMatrix(viewport.getCamera().combined);
-            batch.begin();
-            title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
-            text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, 45, 0, Align.center, false);
-            if (continuing) {
-                cursor.render(batch);
-                cursor.update();
-                text.draw(batch, "ERASE GAME", viewport.getWorldWidth() / 2, 30, 0, Align.center, false);
-            }
-
-            final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
-            Utils.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
-
-            batch.end();
-
-            if (inputControls.shootButtonJustPressed) {
-                if (cursor.getPosition() == 35) {
-                    game.setScreen(levelSelectScreen);
-                } else if (cursor.getPosition() == 20) {
-                    prefs.clear();
-                    prefs.flush();
-                    game.create();
+        if (!optionsVisible) {
+            if (!launching) {
+                viewport.apply();
+                batch.setProjectionMatrix(viewport.getCamera().combined);
+                batch.begin();
+                title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
+                text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, 45, 0, Align.center, false);
+                if (continuing) {
+                    cursor.render(batch);
+                    cursor.update();
+                    text.draw(batch, "ERASE GAME", viewport.getWorldWidth() / 2, 30, 0, Align.center, false);
                 }
-            }
-            inputControls.update();
-            controlsOverlay.render(batch);
-        } else {
-            launchOverlay.render(batch);
-        }
 
-        if (Utils.secondsSince(launchStartTime) > 3) {
-            launching = false;
+                final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
+                Utils.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
+
+                batch.end();
+
+                if (inputControls.shootButtonJustPressed) {
+                    if (cursor.getPosition() == 35) {
+                        if (continuing) {
+                            game.setScreen(levelSelectScreen);
+                        } else {
+                            optionsVisible = true;
+                        }
+                    } else if (cursor.getPosition() == 20) {
+                        prefs.clear();
+                        prefs.flush();
+                        game.create();
+                    }
+                }
+                inputControls.update();
+                controlsOverlay.render(batch);
+            } else {
+                launchOverlay.render(batch);
+            }
+
+            if (Utils.secondsSince(launchStartTime) > 3) {
+                launching = false;
+            }
+        } else {
+            optionsOverlay.render(batch);
+            if (inputControls.shootButtonJustPressed) {
+                if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
+                    optionsVisible = false;
+                    prefs.putInteger("Difficulty", 0);
+                    game.setScreen(levelSelectScreen);
+                } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 7) {
+                    optionsVisible = false;
+                    prefs.putInteger("Difficulty", 1);
+                    game.setScreen(levelSelectScreen);
+                } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 22) {
+                    optionsVisible = false;
+                    prefs.putInteger("Difficulty", 2);
+                    game.setScreen(levelSelectScreen);
+                }
+            } else if (inputControls.pauseButtonJustPressed) {
+                optionsVisible = false;
+            }
         }
     }
 }

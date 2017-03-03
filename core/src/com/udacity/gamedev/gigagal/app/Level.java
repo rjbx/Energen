@@ -54,6 +54,7 @@ public class Level {
     private DelayedRemovalArray<Explosion> explosions;
     private DelayedRemovalArray<Powerup> powerups;
     private Timer levelTime;
+    private int difficulty;
 
     // default ctor
     public Level() {
@@ -142,7 +143,7 @@ public class Level {
             destructibles.begin();
             for (DestructibleHazard destructible : destructibles) {
                 destructible.update(delta);
-                if (destructible.getHealth() < 1) {
+                if (destructible.getHealth() * Constants.DIFFICULTY_MULTIPLIER[difficulty] < 1) {
                     spawnExplosion(destructible.getPosition());
                     destructibles.removeValue(destructible, true);
                     levelScore += destructible.getKillScore();
@@ -285,6 +286,7 @@ public class Level {
 
     // Setters
     public void setLevelScore(int levelScore) { this.levelScore = levelScore; }
+    public final void setDifficulty(int difficulty) { this.difficulty = difficulty; }
     public final void setPortal(Portal portal) { this.portal = portal; }
     public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
     public final void setLevelName(String levelName) { this.levelName = levelName; }

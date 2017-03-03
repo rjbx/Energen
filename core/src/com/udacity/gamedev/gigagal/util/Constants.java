@@ -560,4 +560,7 @@ public final class Constants {
     public static final int ROLLEN_KILL_SCORE = 100;
     public static final int ROLLEN_HIT_SCORE = 25;
     public static final int POWERUP_SCORE = 50;
+
+    // Preferences
+    public static final float[] DIFFICULTY_MULTIPLIER = {1, 1.5f, 2};
 }
