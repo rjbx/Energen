@@ -49,11 +49,9 @@ public final class VictoryOverlay {
     }
 
     public void render(SpriteBatch batch) {
-
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
-
         for (Explosion explosion : explosions){
             explosion.render(batch);
         }
@@ -63,8 +61,7 @@ public final class VictoryOverlay {
 
         font.draw(batch, Constants.VICTORY_MESSAGE, viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .9f, 0, Align.center, false);
         font.draw(batch, "GAME TOTAL\n" + "Time: " + Utils.stopWatchToString(gameplayScreen.getTotalTime()) + "\n" + "Score: " + gameplayScreen.getTotalScore(), viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .7f, 0, Align.center, false);
-        font.draw(batch, "LEVEL TOTAL\n" + "Time: " + levelTime + "\n" + "Score: " + gameplayScreen.getLevel().getLevelScore() + "\n", viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .3f, 0, Align.center, false
-                );
+        font.draw(batch, "LEVEL TOTAL\n" + "Time: " + levelTime + "\n" + "Score: " + gameplayScreen.getLevel().getLevelScore() + "\n", viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .3f, 0, Align.center, false);
 
         batch.end();
     }

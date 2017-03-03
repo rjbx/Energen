@@ -104,8 +104,8 @@ public class Level {
 
             for (Ground ground : grounds) {
                 if (ground instanceof HoverableGround) {
-                    HoverableGround m = (HoverableGround) ground;
-                    m.update(delta);
+                    HoverableGround hoverable = (HoverableGround) ground;
+                    hoverable.update(delta);
                 }
                 if (ground instanceof Cannon) {
                     Cannon cannon = (Cannon) ground;

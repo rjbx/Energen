@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal.app;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -30,6 +31,7 @@ public final class StartScreen extends ScreenAdapter {
     private com.udacity.gamedev.gigagal.app.GigaGalGame game;
     private SpriteBatch batch;
     private ExtendViewport viewport;
+    private Preferences prefs;
     private BitmapFont text;
     private BitmapFont title;
     private ListIterator<String> iterator;
@@ -41,13 +43,14 @@ public final class StartScreen extends ScreenAdapter {
     private LaunchOverlay launchOverlay;
     private long launchStartTime;
     private boolean launching;
+    private boolean continuing;
     private final Vector2 gigagalCenter;
 
     // default ctor
     public StartScreen(com.udacity.gamedev.gigagal.app.GigaGalGame game) {
         this.game = game;
+        prefs = game.getPreferences();
         levelSelectScreen = game.getLevelSelectScreen();
-        cursor = new CursorOverlay(145, 40);
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigagalCenter = new Vector2(Constants.GIGAGAL_STANCE_WIDTH / 2, Constants.GIGAGAL_HEIGHT / 2);
         text = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
@@ -61,6 +64,12 @@ public final class StartScreen extends ScreenAdapter {
     public void init() {
         launchStartTime = TimeUtils.nanoTime();
         launching = true;
+        continuing = false;
+        cursor = new CursorOverlay(35, 35);
+        if (prefs.getLong("Time", 0) != 0) {
+            cursor = new CursorOverlay(35, 20);
+            continuing = true;
+        }
     }
 
     @Override
@@ -74,7 +83,6 @@ public final class StartScreen extends ScreenAdapter {
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
         controlsOverlay = ControlsOverlay.getInstance();
         Gdx.input.setInputProcessor(inputControls);
-        init();
     }
 
     private boolean onMobile() {
@@ -107,20 +115,29 @@ public final class StartScreen extends ScreenAdapter {
 
         if (!launching) {
             viewport.apply();
-            final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
             batch.setProjectionMatrix(viewport.getCamera().combined);
             batch.begin();
-//        cursor.render(batch);
-//        cursor.update();
-
             title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
-            text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, 30, 0, Align.center, false);
+            text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, 45, 0, Align.center, false);
+            if (continuing) {
+                cursor.render(batch);
+                cursor.update();
+                text.draw(batch, "ERASE GAME", viewport.getWorldWidth() / 2, 30, 0, Align.center, false);
+            }
+
+            final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
             Utils.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
 
             batch.end();
 
             if (inputControls.shootButtonJustPressed) {
-                game.setScreen(levelSelectScreen);
+                if (cursor.getPosition() == 35) {
+                    game.setScreen(levelSelectScreen);
+                } else if (cursor.getPosition() == 20) {
+                    prefs.clear();
+                    prefs.flush();
+                    game.create();
+                }
             }
             inputControls.update();
             controlsOverlay.render(batch);

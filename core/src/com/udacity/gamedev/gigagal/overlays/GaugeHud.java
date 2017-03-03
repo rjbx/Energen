@@ -69,10 +69,6 @@ public final class GaugeHud {
         renderer.set(ShapeRenderer.ShapeType.Filled);
         renderer.rect(viewport.getWorldWidth() / 3 * 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, ((float) gigaGal.getAmmo() / Constants.MAX_AMMO) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
         renderer.end();
-
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-        batch.begin();
-        batch.end();
     }
 
     public final Viewport getViewport() { return viewport; }
