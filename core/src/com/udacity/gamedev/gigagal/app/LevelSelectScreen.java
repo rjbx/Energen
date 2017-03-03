@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal.app;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -29,6 +30,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public static final String TAG = LevelSelectScreen.class.getName();
     private com.udacity.gamedev.gigagal.app.GigaGalGame game;
     private SpriteBatch batch;
+    private Preferences prefs;
     private int levelNumber;
     private Array<String> completedLevels;
     private ExtendViewport viewport;
@@ -51,6 +53,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public LevelSelectScreen(com.udacity.gamedev.gigagal.app.GigaGalGame game) {
         this.game = game;
         gameplayScreen = game.getGameplayScreen();
+        prefs = game.getPreferences();
         cursor = new CursorOverlay(145, 40);
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
@@ -153,6 +156,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
                     optionsVisible = false;
                 } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 7) {
                     controlsOverlay.onMobile = Utils.toggleBoolean(controlsOverlay.onMobile);
+                    prefs.putBoolean("Mobile", controlsOverlay.onMobile);
                 } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 22) {
                     game.create();
                 }

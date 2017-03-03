@@ -1,6 +1,7 @@
 package com.udacity.gamedev.gigagal.app;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
@@ -34,6 +35,7 @@ public class GameplayScreen extends ScreenAdapter {
     // fields
     public static final String TAG = GameplayScreen.class.getName();
     private GigaGalGame game;
+    private Preferences prefs;
     private InputControls inputControls;
     private ControlsOverlay controlsOverlay;
     private SpriteBatch batch;
@@ -63,6 +65,7 @@ public class GameplayScreen extends ScreenAdapter {
     // default ctor
     public GameplayScreen(GigaGalGame game) {
         this.game = game;
+        prefs = game.getPreferences();
         completedLevels = new Array<String>();
         totalTime = new Timer();
         paused = false;
@@ -190,6 +193,7 @@ public class GameplayScreen extends ScreenAdapter {
                             }
                         } else if (optionsOverlay.getCursor().getPosition() == 43) {
                             controlsOverlay.onMobile = Utils.toggleBoolean(controlsOverlay.onMobile);
+                            prefs.putBoolean("Mobile", controlsOverlay.onMobile);
                         } else if (optionsOverlay.getCursor().getPosition() == 28) {
                             game.create();
                         }
