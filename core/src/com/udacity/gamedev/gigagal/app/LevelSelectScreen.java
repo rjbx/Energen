@@ -54,7 +54,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         this.game = game;
         gameplayScreen = game.getGameplayScreen();
         prefs = game.getPreferences();
-        cursor = new CursorOverlay(145, 40);
+        cursor = new CursorOverlay(145, 40, Enums.Orientation.Y);
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);

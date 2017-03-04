@@ -22,11 +22,11 @@ public final class OptionsOverlay {
     // fields
     public final static String TAG = VictoryOverlay.class.getName();
     private final Viewport viewport;
+    private CursorOverlay cursor;
     private final BitmapFont font;
     private ScreenAdapter screenAdapter;
     private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
-    private CursorOverlay cursor;
     private boolean paused;
     private boolean debugMode;
 
@@ -34,7 +34,7 @@ public final class OptionsOverlay {
     public OptionsOverlay(ScreenAdapter screenAdapter) {
         this.screenAdapter = screenAdapter;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        cursor = new CursorOverlay(73, 28);
+        cursor = new CursorOverlay(73, 28, Enums.Orientation.Y);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.4f);
         debugMode = false;
@@ -42,10 +42,10 @@ public final class OptionsOverlay {
 
     public void init() {
         if (screenAdapter instanceof GameplayScreen) {
-            gameplayScreen = ((GameplayScreen) screenAdapter);
+            gameplayScreen = (GameplayScreen) screenAdapter;
             gigaGal = gameplayScreen.getLevel().getGigaGal();
         } else {
-            cursor = new CursorOverlay(73, 43);
+            cursor = new CursorOverlay(73, 43, Enums.Orientation.Y);
         }
     }
 

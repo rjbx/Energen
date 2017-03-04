@@ -2,7 +2,6 @@ package com.udacity.gamedev.gigagal.overlays;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.*;
 import com.udacity.gamedev.gigagal.app.InputControls;
 
@@ -10,33 +9,45 @@ public class CursorOverlay {
 
     // fields
     private ExtendViewport viewport;
-    private float yPosition;
+    private Enums.Orientation orientation;
+    private float position;
     private float startingPosition;
     private float endingPosition;
     private InputControls inputControls;
 
     // ctor
-    public CursorOverlay(float startingPosition, float endingPosition) {
+    public CursorOverlay(float startingPosition, float endingPosition, Enums.Orientation orientation) {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        yPosition = startingPosition;
+        this.orientation = orientation;
+        this.startingPosition = startingPosition;
         this.endingPosition = endingPosition;
-        this.startingPosition = yPosition;
+        position = this.startingPosition;
         inputControls = InputControls.getInstance();
     }
 
     public void update() {
-        if (inputControls.downButtonJustPressed || inputControls.rightButtonJustPressed) {
-            if (yPosition >= endingPosition + 15) {
-                yPosition -= 15;
-            } else {
-                yPosition = startingPosition;
+        if (orientation == Enums.Orientation.X) {
+            if (inputControls.downButtonJustPressed || inputControls.rightButtonJustPressed || inputControls.upButtonJustPressed || inputControls.leftButtonJustPressed) {
+                if (position == endingPosition) {
+                    position = startingPosition;
+                } else {
+                    position = endingPosition;
+                }
             }
-        }
-        if (inputControls.upButtonJustPressed || inputControls.leftButtonJustPressed) {
-            if (yPosition <= startingPosition - 15) {
-                yPosition += 15;
-            } else {
-                yPosition = endingPosition;
+        } else if (orientation == Enums.Orientation.Y) {
+            if (inputControls.downButtonJustPressed || inputControls.rightButtonJustPressed) {
+                if (position >= endingPosition + 15) {
+                    position -= 15;
+                } else {
+                    position = startingPosition;
+                }
+            }
+            if (inputControls.upButtonJustPressed || inputControls.leftButtonJustPressed) {
+                if (position <= startingPosition - 15) {
+                    position += 15;
+                } else {
+                    position = endingPosition;
+                }
             }
         }
     }
@@ -44,9 +55,13 @@ public class CursorOverlay {
     public void render(SpriteBatch batch) {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
-        Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().selectionCursor, viewport.getWorldWidth() / 4, yPosition);
+        if (orientation == Enums.Orientation.X) {
+            Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().selectionCursor, position, viewport.getWorldHeight() / 3);
+        } else {
+            Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().selectionCursor, viewport.getWorldWidth() / 4, position);
+        }
     }
 
     public ExtendViewport getViewport() { return viewport; }
-    public float getPosition() { return yPosition; }
+    public float getPosition() { return position; }
 }

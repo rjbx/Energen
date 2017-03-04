@@ -35,7 +35,7 @@ public final class PauseOverlay {
         inactiveFont = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         inactiveFont.getData().setScale(0.4f);
         inactiveFont.setColor(Color.LIGHT_GRAY);
-        cursor = new CursorOverlay(73, 43);
+        cursor = new CursorOverlay(73, 43, Enums.Orientation.X);
     }
 
     public void init() {

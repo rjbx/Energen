@@ -10,15 +10,20 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.overlays.CursorOverlay;
 import com.udacity.gamedev.gigagal.overlays.LaunchOverlay;
 import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
+import com.udacity.gamedev.gigagal.overlays.PromptOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
+
+import java.util.Arrays;
 import java.util.ListIterator;
 
 // immutable
@@ -35,14 +40,18 @@ public final class StartScreen extends ScreenAdapter {
     private ListIterator<String> iterator;
     private CursorOverlay cursor;
     private OptionsOverlay optionsOverlay;
+    private PromptOverlay promptOverlay;
     private LevelSelectScreen levelSelectScreen;
     private com.udacity.gamedev.gigagal.app.InputControls inputControls;
     private ControlsOverlay controlsOverlay;
     private LaunchOverlay launchOverlay;
+    private Array<String> choices;
+    private String prompt;
     private long launchStartTime;
     private boolean launching;
     private boolean continuing;
     private boolean optionsVisible;
+    private boolean promptVisible;
     private final Vector2 gigagalCenter;
 
     // default ctor
@@ -57,6 +66,7 @@ public final class StartScreen extends ScreenAdapter {
         title = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         title.getData().setScale(1);
         title.setColor(Color.SKY);
+        choices = new Array<String>();
         init();
     }
 
@@ -64,11 +74,15 @@ public final class StartScreen extends ScreenAdapter {
         launchStartTime = TimeUtils.nanoTime();
         launching = true;
         continuing = false;
-        cursor = new CursorOverlay(35, 35);
+        cursor = new CursorOverlay(35, 35, Enums.Orientation.Y);
         if (prefs.getLong("Time", 0) != 0) {
-            cursor = new CursorOverlay(35, 20);
+            cursor = new CursorOverlay(35, 20, Enums.Orientation.Y);
             continuing = true;
         }
+        ;
+        choices.add("YES");
+        choices.add("NO");
+        prompt = "Are you sure you want to start \na new game and erase all saved data?";
     }
 
     @Override
@@ -76,9 +90,11 @@ public final class StartScreen extends ScreenAdapter {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
         optionsVisible = false;
+        promptVisible = false;
         batch = new SpriteBatch();
         optionsOverlay = new OptionsOverlay(this);
         optionsOverlay.init();
+        promptOverlay = new PromptOverlay(prompt, choices);
         launchOverlay = new LaunchOverlay();
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
         controlsOverlay = ControlsOverlay.getInstance();
@@ -97,6 +113,8 @@ public final class StartScreen extends ScreenAdapter {
         controlsOverlay.recalculateButtonPositions();
         optionsOverlay.getViewport().update(width, height, true);
         optionsOverlay.getCursor().getViewport().update(width, height, true);
+        promptOverlay.getViewport().update(width, height, true);
+        promptOverlay.getCursor().getViewport().update(width, height, true);
         launchOverlay.getViewport().update(width, height, true);
     }
 
@@ -115,33 +133,44 @@ public final class StartScreen extends ScreenAdapter {
 
         if (!optionsVisible) {
             if (!launching) {
-                viewport.apply();
-                batch.setProjectionMatrix(viewport.getCamera().combined);
-                batch.begin();
-                title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
-                text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, 45, 0, Align.center, false);
-                if (continuing) {
-                    cursor.render(batch);
-                    cursor.update();
-                    text.draw(batch, "ERASE GAME", viewport.getWorldWidth() / 2, 30, 0, Align.center, false);
-                }
+                if (!promptVisible) {
+                    viewport.apply();
+                    batch.setProjectionMatrix(viewport.getCamera().combined);
+                    batch.begin();
+                    title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
+                    text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, 45, 0, Align.center, false);
+                    if (continuing) {
+                        cursor.render(batch);
+                        cursor.update();
+                        text.draw(batch, "ERASE GAME", viewport.getWorldWidth() / 2, 30, 0, Align.center, false);
+                    }
 
-                final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
-                Utils.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
+                    final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
+                    Utils.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
 
-                batch.end();
+                    batch.end();
 
-                if (inputControls.shootButtonJustPressed) {
-                    if (cursor.getPosition() == 35) {
-                        if (continuing) {
-                            game.setScreen(levelSelectScreen);
-                        } else {
-                            optionsVisible = true;
+                    if (inputControls.shootButtonJustPressed) {
+                        if (cursor.getPosition() == 35) {
+                            if (continuing) {
+                                game.setScreen(levelSelectScreen);
+                            } else {
+                                optionsVisible = true;
+                            }
+                        } else if (cursor.getPosition() == 20) {
+                            promptVisible = true;
                         }
-                    } else if (cursor.getPosition() == 20) {
-                        prefs.clear();
-                        prefs.flush();
-                        game.create();
+                    }
+                } else {
+                    promptOverlay.render(batch);
+                    if (inputControls.shootButtonJustPressed) {
+                        if (promptOverlay.getCursor().getPosition() == (50)) {
+                            prefs.clear();
+                            prefs.flush();
+                            game.create();
+                        } else {
+                            promptVisible = false;
+                        }
                     }
                 }
             } else {
