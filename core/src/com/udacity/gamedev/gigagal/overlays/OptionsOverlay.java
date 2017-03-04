@@ -34,7 +34,7 @@ public final class OptionsOverlay {
     public OptionsOverlay(ScreenAdapter screenAdapter) {
         this.screenAdapter = screenAdapter;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        cursor = new CursorOverlay(73, 43);
+        cursor = new CursorOverlay(73, 28);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.4f);
         debugMode = false;
@@ -42,8 +42,10 @@ public final class OptionsOverlay {
 
     public void init() {
         if (screenAdapter instanceof GameplayScreen) {
-            gameplayScreen = (GameplayScreen) screenAdapter;
+            gameplayScreen = ((GameplayScreen) screenAdapter);
             gigaGal = gameplayScreen.getLevel().getGigaGal();
+        } else {
+            cursor = new CursorOverlay(73, 43);
         }
     }
 
@@ -62,9 +64,8 @@ public final class OptionsOverlay {
             if (gameplayScreen.getChaseCam().getFollowing()) {
                 String stats =
                         Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
-                                Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" +
-                                "Turbo: " + gigaGal.getTurbo();
-
+                        Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" +
+                        "Turbo: " + gigaGal.getTurbo();
                 String weapons = gigaGal.getWeapon() + "";
                 for (Enums.WeaponType weapon : gigaGal.getWeaponList()) {
                     if (weapon != gigaGal.getWeapon()) {
