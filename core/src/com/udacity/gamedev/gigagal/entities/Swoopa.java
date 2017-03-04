@@ -22,7 +22,7 @@ public class Swoopa implements DestructibleHazard {
     private Level level;
     private Vector2 velocity;
     private Vector2 position;
-    private int health;
+    private float health;
     private long descentStartTime;
 
     // ctor
@@ -71,7 +71,7 @@ public class Swoopa implements DestructibleHazard {
     }
 
     @Override public Vector2 getPosition() { return position; }
-    @Override public final int getHealth() { return health; }
+    @Override public final float getHealth() { return health; }
     @Override public final float getWidth() { return Constants.SWOOPA_COLLISION_WIDTH; }
     @Override public final float getHeight() { return Constants.SWOOPA_COLLISION_HEIGHT; }
     @Override public final float getLeft() { return position.x - Constants.SWOOPA_CENTER.x; }
@@ -83,7 +83,7 @@ public class Swoopa implements DestructibleHazard {
     @Override public final int getKillScore() { return Constants.SWOOPA_KILL_SCORE; }
     @Override public final int getDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.SWOOPA_KNOCKBACK; }
-    @Override public final void setHealth( int health ) { this.health = health; }
+    @Override public final void setHealth( float health ) { this.health = health; }
     @Override public Enums.WeaponType getType() { return null; }
     public int getMountDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.SWOOPA_KNOCKBACK; }

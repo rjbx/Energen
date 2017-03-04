@@ -143,7 +143,7 @@ public class Level {
             destructibles.begin();
             for (DestructibleHazard destructible : destructibles) {
                 destructible.update(delta);
-                if (destructible.getHealth() * Constants.DIFFICULTY_MULTIPLIER[difficulty] < 1) {
+                if (destructible.getHealth() < 1) {
                     spawnExplosion(destructible.getPosition());
                     destructibles.removeValue(destructible, true);
                     levelScore += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[difficulty]);
@@ -283,6 +283,7 @@ public class Level {
     public final boolean isVictory() { return victory; }
     public final Timer getLevelTime() { return levelTime; }
     public final int getLevelScore() { return levelScore; }
+    public final int getDifficulty() { return difficulty; }
 
     // Setters
     public void setLevelScore(int levelScore) { this.levelScore = levelScore; }

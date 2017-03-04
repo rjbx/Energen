@@ -24,7 +24,7 @@ public class Rollen implements DestructibleHazard {
     private Enums.WeaponType type;
     private Vector2 velocity;
     private long startTime;
-    private int health;
+    private float health;
     private float speedAtChangeXDirection;
     private long rollStartTime;
     private float rollTimeSeconds;
@@ -137,7 +137,7 @@ public class Rollen implements DestructibleHazard {
     }
 
     @Override public Vector2 getPosition() { return position; }
-    @Override public final int getHealth() { return health; }
+    @Override public final float getHealth() { return health; }
     @Override public final float getWidth() { return Constants.ROLLEN_COLLISION_WIDTH; }
     @Override public final float getHeight() { return Constants.ROLLEN_COLLISION_HEIGHT; }
     @Override public final float getLeft() { return position.x - Constants.ROLLEN_CENTER.x; }
@@ -149,7 +149,7 @@ public class Rollen implements DestructibleHazard {
     @Override public final int getKillScore() { return Constants.ROLLEN_KILL_SCORE; }
     @Override public final int getDamage() { return Constants.ROLLEN_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ROLLEN_KNOCKBACK; }
-    @Override public final void setHealth( int health ) { this.health = health; }
+    @Override public final void setHealth( float health ) { this.health = health; }
     @Override public final Enums.WeaponType getType() { return type; }
     public final long getStartTime() { return startTime; }
 }

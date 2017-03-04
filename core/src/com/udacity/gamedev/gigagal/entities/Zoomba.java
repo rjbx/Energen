@@ -19,7 +19,7 @@ public class Zoomba implements DestructibleHazard {
     private final float bobOffset;
     private final Box box;
     private final Vector2 position;
-    private int health;
+    private float health;
     private Direction direction;
 
     // ctor
@@ -61,7 +61,7 @@ public class Zoomba implements DestructibleHazard {
     }
 
     @Override public  final Vector2 getPosition() { return position; }
-    @Override public  final int getHealth() { return health; }
+    @Override public  final float getHealth() { return health; }
     @Override public  final float getWidth() { return Constants.ZOOMBA_COLLISION_WIDTH; }
     @Override public  final float getHeight() { return Constants.ZOOMBA_COLLISION_HEIGHT; }
     @Override public  final float getLeft() { return position.x - Constants.ZOOMBA_CENTER.x; }
@@ -73,7 +73,7 @@ public class Zoomba implements DestructibleHazard {
     @Override  public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
     @Override public final int getDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
     @Override public Enums.WeaponType getType() { return null; }
-    @Override public final void setHealth( int health ) { this.health = health; }
+    @Override public final void setHealth( float health ) { this.health = health; }
     @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }

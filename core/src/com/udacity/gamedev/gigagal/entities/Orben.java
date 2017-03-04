@@ -22,7 +22,7 @@ public class Orben implements DestructibleHazard {
     private Enums.WeaponType type;
     private Vector2 velocity;
     private long startTime;
-    private int health;
+    private float health;
     private boolean active;
 
     // ctor
@@ -126,7 +126,7 @@ public class Orben implements DestructibleHazard {
     }
 
     @Override public Vector2 getPosition() { return position; }
-    @Override public final int getHealth() { return health; }
+    @Override public final float getHealth() { return health; }
     @Override public final float getWidth() { return Constants.ORBEN_COLLISION_WIDTH; }
     @Override public final float getHeight() { return Constants.ORBEN_COLLISION_HEIGHT; }
     @Override public final float getLeft() { return position.x - Constants.ORBEN_CENTER.x; }
@@ -138,7 +138,7 @@ public class Orben implements DestructibleHazard {
     @Override public final int getKillScore() { return Constants.ORBEN_KILL_SCORE; }
     @Override public final int getDamage() { return Constants.ORBEN_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ORBEN_KNOCKBACK; }
-    @Override public final void setHealth( int health ) { this.health = health; }
+    @Override public final void setHealth( float health ) { this.health = health; }
     @Override public Enums.WeaponType getType() { return type; }
     public final long getStartTime() { return startTime; }
     public final boolean isActive() { return active; }

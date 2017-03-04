@@ -162,12 +162,12 @@ public final class Utils {
         return 0;
     }
 
-    public static final void applyDamage(DestructibleHazard destructible, Enums.AmmoIntensity ammoIntensity, int damage) {
+    public static final void applyDamage(DestructibleHazard destructible, Enums.AmmoIntensity ammoIntensity, float damage) {
         if (!(destructible instanceof Orben && !(((Orben) destructible).isActive()))) {
             if (ammoIntensity == Enums.AmmoIntensity.BLAST) {
                 destructible.setHealth(destructible.getHealth() - damage);
             } else {
-                destructible.setHealth((int) (destructible.getHealth() - (damage * .67f)));
+                destructible.setHealth((destructible.getHealth() - (damage * .67f)));
             }
         }
     }

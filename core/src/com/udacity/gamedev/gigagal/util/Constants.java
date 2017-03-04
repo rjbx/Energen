@@ -562,5 +562,5 @@ public final class Constants {
     public static final int POWERUP_SCORE = 50;
 
     // Preferences
-    public static final float[] DIFFICULTY_MULTIPLIER = {1, 1.5f, 2};
+    public static final int[] DIFFICULTY_MULTIPLIER = {1, 2, 3};
 }

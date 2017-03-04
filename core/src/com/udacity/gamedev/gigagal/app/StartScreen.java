@@ -79,9 +79,8 @@ public final class StartScreen extends ScreenAdapter {
             cursor = new CursorOverlay(35, 20, Enums.Orientation.Y);
             continuing = true;
         }
-        ;
-        choices.add("YES");
         choices.add("NO");
+        choices.add("YES");
         prompt = "Are you sure you want to start \na new game and erase all saved data?";
     }
 
@@ -164,7 +163,7 @@ public final class StartScreen extends ScreenAdapter {
                 } else {
                     promptOverlay.render(batch);
                     if (inputControls.shootButtonJustPressed) {
-                        if (promptOverlay.getCursor().getPosition() == (50)) {
+                        if (promptOverlay.getCursor().getPosition() == (150)) {
                             prefs.clear();
                             prefs.flush();
                             game.create();

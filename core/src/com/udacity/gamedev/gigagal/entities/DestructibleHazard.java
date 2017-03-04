@@ -6,8 +6,8 @@ import com.udacity.gamedev.gigagal.util.Enums;
 public interface DestructibleHazard extends Hazard {
 
     Enums.WeaponType getType();
-    int getHealth();
-    void setHealth(int health);
+    float getHealth();
+    void setHealth(float health);
     void update(float delta);
     float getShotRadius();
     int getHitScore();

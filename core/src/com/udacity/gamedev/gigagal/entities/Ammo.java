@@ -143,6 +143,7 @@ public final class Ammo implements IndestructibleHazard {
             if (position.dst(destructible.getPosition()) < (destructible.getShotRadius() + radius)) {
                 level.spawnExplosion(position);
                 active = false;
+
                 TypeEffectiveness effectiveness = Utils.getAmmoEffectiveness(destructible.getType(), weapon);
                 switch (effectiveness) {
                     case STRONG:
@@ -163,7 +164,7 @@ public final class Ammo implements IndestructibleHazard {
                 } else {
                     level.setLevelScore(level.getLevelScore() + destructible.getHitScore());
                 }
-                Utils.applyDamage(destructible, ammoIntensity, damage);
+                Utils.applyDamage(destructible, ammoIntensity, damage / Constants.DIFFICULTY_MULTIPLIER[level.getDifficulty()]);
             }
         }
 
