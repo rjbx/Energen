@@ -6,9 +6,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
-import com.udacity.gamedev.gigagal.entities.Multidirectional;
 import com.udacity.gamedev.gigagal.entities.MultidirectionalX;
 import com.udacity.gamedev.gigagal.entities.MultidirectionalY;
+import com.udacity.gamedev.gigagal.entities.Multidirectional;
 import com.udacity.gamedev.gigagal.entities.Orben;
 
 // immutable static
@@ -124,7 +124,6 @@ public final class Utils {
         }
         return false;
     }
-
 
     public static final boolean betweenTwoValues(float position, float lowerBound, float upperBound) {
         if (lowerBound < upperBound) {
