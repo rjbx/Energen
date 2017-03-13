@@ -35,9 +35,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private Array<String> completedLevels;
     private ExtendViewport viewport;
     private BitmapFont font;
-    private List<Enums.WeaponType> levelTypes;
+    private List<String> levelTypes;
     private float margin;
-    private ListIterator<Enums.WeaponType> iterator;
+    private ListIterator<String> iterator;
     private String levelName;
     private CursorOverlay cursor;
     private OptionsOverlay optionsOverlay;
@@ -58,10 +58,10 @@ public final class LevelSelectScreen extends ScreenAdapter {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
-        levelTypes = new ArrayList<Enums.WeaponType>();
-        levelTypes.addAll(Arrays.asList(Enums.WeaponType.values()));
+        levelTypes = new ArrayList<String>();
+        levelTypes.addAll(Arrays.asList(Constants.LEVELS));
         iterator = levelTypes.listIterator();
-        levelName = iterator.next().name();
+        levelName = iterator.next();
         index = 0;
         namePositions = new Array<Float>();
     }
@@ -125,7 +125,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
             float yPosition = viewport.getWorldHeight() / 2.5f;
             namePositions.add(yPosition);
             while (iterator.hasPrevious()) {
-                levelName = iterator.previous().name();
+                levelName = iterator.previous();
                 if (cursor.getPosition() >= namePositions.get(index) - 15 && cursor.getPosition() < namePositions.get(index)) {
                     selectedLevel = levelName;
                 }

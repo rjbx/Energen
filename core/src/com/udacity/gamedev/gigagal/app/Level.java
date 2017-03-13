@@ -98,7 +98,7 @@ public class Level {
 
             Enums.WeaponType levelWeapon = Enums.WeaponType.NATIVE;
             for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
-                if (weapon.name().equals(levelName)) {
+                if (weapon.levelName().equals(levelName)) {
                     levelWeapon = weapon;
                 }
             }

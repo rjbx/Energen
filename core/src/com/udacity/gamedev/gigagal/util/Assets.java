@@ -241,7 +241,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             AtlasRegion region;
             int levelIndex = 0;
             if (!levelName.isEmpty()) {
-                levelIndex = (Arrays.asList(Enums.WeaponType.values())).indexOf(Enums.WeaponType.valueOf(levelName));
+                levelIndex = Arrays.asList(Constants.LEVELS).indexOf(levelName);
             }
             switch (levelIndex) {
                 case 0: region = atlas.findRegion(Constants.RED_BOX_SPRITE); break;
