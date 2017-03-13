@@ -199,24 +199,24 @@ public final class Constants {
     public static final String ZOOMBA_SPRITE = "zoomba";
 
     // Fiery-Zoomba
-    public static final String FIERYZOOMBA_SPRITE_1 = "zoomba-fire-1";
-    public static final String FIERYZOOMBA_SPRITE_2 = "zoomba-fire-2";
+    public static final String FIERYZOOMBA_SPRITE_1 = "zoomba-gas-1";
+    public static final String FIERYZOOMBA_SPRITE_2 = "zoomba-gas-2";
 
     // Gushing-Zoomba
-    public static final String GUSHINGZOOMBA_SPRITE_1 = "zoomba-water-1";
-    public static final String GUSHINGZOOMBA_SPRITE_2 = "zoomba-water-2";
+    public static final String GUSHINGZOOMBA_SPRITE_1 = "zoomba-liquid-1";
+    public static final String GUSHINGZOOMBA_SPRITE_2 = "zoomba-liquid-2";
 
     // Charged-Zoomba
-    public static final String CHARGEDZOOMBA_SPRITE_1 = "zoomba-electric-1";
-    public static final String CHARGEDZOOMBA_SPRITE_2 = "zoomba-electric-2";
+    public static final String CHARGEDZOOMBA_SPRITE_1 = "zoomba-plasma-1";
+    public static final String CHARGEDZOOMBA_SPRITE_2 = "zoomba-plasma-2";
 
     // Whirling-Zoomba
-    public static final String WHIRLINGZOOMBA_SPRITE_1 = "zoomba-rubber-1";
-    public static final String WHIRLINGZOOMBA_SPRITE_2 = "zoomba-rubber-2";
+    public static final String WHIRLINGZOOMBA_SPRITE_1 = "zoomba-polymer-1";
+    public static final String WHIRLINGZOOMBA_SPRITE_2 = "zoomba-polymer-2";
 
     // Sharp-Zoomba
-    public static final String SHARPZOOMBA_SPRITE_1 = "zoomba-metal-1";
-    public static final String SHARPZOOMBA_SPRITE_2 = "zoomba-metal-2";
+    public static final String SHARPZOOMBA_SPRITE_1 = "zoomba-solid-1";
+    public static final String SHARPZOOMBA_SPRITE_2 = "zoomba-solid-2";
 
     // Swoopa
     public static final Vector2 SWOOPA_CENTER = new Vector2(25f, 13.5f);
@@ -230,24 +230,24 @@ public final class Constants {
     public static final String SWOOPA_SPRITE = "swoopa";
 
     // Fiery-Swoopa
-    public static final String FIERYSWOOPA_SPRITE_1 = "swoopa-fire-1";
-    public static final String FIERYSWOOPA_SPRITE_2 = "swoopa-fire-2";
+    public static final String FIERYSWOOPA_SPRITE_1 = "swoopa-gas-1";
+    public static final String FIERYSWOOPA_SPRITE_2 = "swoopa-gas-2";
 
     // Gushing-Swoopa
-    public static final String GUSHINGSWOOPA_SPRITE_1 = "swoopa-water-1";
-    public static final String GUSHINGSWOOPA_SPRITE_2 = "swoopa-water-2";
+    public static final String GUSHINGSWOOPA_SPRITE_1 = "swoopa-liquid-1";
+    public static final String GUSHINGSWOOPA_SPRITE_2 = "swoopa-liquid-2";
 
     // Charged-Swoopa
-    public static final String CHARGEDSWOOPA_SPRITE_1 = "swoopa-electric-1";
-    public static final String CHARGEDSWOOPA_SPRITE_2 = "swoopa-electric-2";
+    public static final String CHARGEDSWOOPA_SPRITE_1 = "swoopa-plasma-1";
+    public static final String CHARGEDSWOOPA_SPRITE_2 = "swoopa-plasma-2";
 
     // Whirling-Swoopa
-    public static final String WHIRLINGSWOOPA_SPRITE_1 = "swoopa-rubber-1";
-    public static final String WHIRLINGSWOOPA_SPRITE_2 = "swoopa-rubber-2";
+    public static final String WHIRLINGSWOOPA_SPRITE_1 = "swoopa-polymer-1";
+    public static final String WHIRLINGSWOOPA_SPRITE_2 = "swoopa-polymer-2";
 
     // Sharp-Swoopa
-    public static final String SHARPSWOOPA_SPRITE_1 = "swoopa-metal-1";
-    public static final String SHARPSWOOPA_SPRITE_2 = "swoopa-metal-2";
+    public static final String SHARPSWOOPA_SPRITE_1 = "swoopa-solid-1";
+    public static final String SHARPSWOOPA_SPRITE_2 = "swoopa-solid-2";
 
     // Orben
     public static final float ORBEN_TEXTURE_SCALE = 1.5f;
@@ -264,29 +264,29 @@ public final class Constants {
     public static final String DORMANTORBEN_SPRITE = "orben-dormant";
 
     // Fiery-Orben
-    public static final String FIERYORBEN_SPRITE_0 = "orben-fire-active-0";
-    public static final String FIERYORBEN_SPRITE_1 = "orben-fire-active-1";
-    public static final String FIERYORBEN_SPRITE_2 = "orben-fire-active-2";
+    public static final String FIERYORBEN_SPRITE_0 = "orben-gas-active-0";
+    public static final String FIERYORBEN_SPRITE_1 = "orben-gas-active-1";
+    public static final String FIERYORBEN_SPRITE_2 = "orben-gas-active-2";
 
     // Gushing-Orben
-    public static final String GUSHINGORBEN_SPRITE_0 = "orben-water-active-0";
-    public static final String GUSHINGORBEN_SPRITE_1 = "orben-water-active-1";
-    public static final String GUSHINGORBEN_SPRITE_2 = "orben-water-active-2";
+    public static final String GUSHINGORBEN_SPRITE_0 = "orben-liquid-active-0";
+    public static final String GUSHINGORBEN_SPRITE_1 = "orben-liquid-active-1";
+    public static final String GUSHINGORBEN_SPRITE_2 = "orben-liquid-active-2";
 
     // Charged-Orben
-    public static final String CHARGEDORBEN_SPRITE_0 = "orben-electric-active-0";
-    public static final String CHARGEDORBEN_SPRITE_1 = "orben-electric-active-1";
-    public static final String CHARGEDORBEN_SPRITE_2 = "orben-electric-active-2";
+    public static final String CHARGEDORBEN_SPRITE_0 = "orben-plasma-active-0";
+    public static final String CHARGEDORBEN_SPRITE_1 = "orben-plasma-active-1";
+    public static final String CHARGEDORBEN_SPRITE_2 = "orben-plasma-active-2";
 
     // Whirling-Orben
-    public static final String WHIRLINGORBEN_SPRITE_0 = "orben-rubber-active-0";
-    public static final String WHIRLINGORBEN_SPRITE_1 = "orben-rubber-active-1";
-    public static final String WHIRLINGORBEN_SPRITE_2 = "orben-rubber-active-2";
+    public static final String WHIRLINGORBEN_SPRITE_0 = "orben-polymer-active-0";
+    public static final String WHIRLINGORBEN_SPRITE_1 = "orben-polymer-active-1";
+    public static final String WHIRLINGORBEN_SPRITE_2 = "orben-polymer-active-2";
 
     // Sharp-Orben
-    public static final String SHARPORBEN_SPRITE_0 = "orben-metal-active-0";
-    public static final String SHARPORBEN_SPRITE_1 = "orben-metal-active-1";
-    public static final String SHARPORBEN_SPRITE_2 = "orben-metal-active-2";
+    public static final String SHARPORBEN_SPRITE_0 = "orben-solid-active-0";
+    public static final String SHARPORBEN_SPRITE_1 = "orben-solid-active-1";
+    public static final String SHARPORBEN_SPRITE_2 = "orben-solid-active-2";
 
     // Rollen
     public static final float ROLLEN_TEXTURE_SCALE = 1.5f;
@@ -302,34 +302,34 @@ public final class Constants {
     public static final int ROLLEN_REGIONS = 4;
 
     // Fiery-Rollen
-    public static final String FIERYROLLEN_SPRITE_4 = "rollen-fire-4";
-    public static final String FIERYROLLEN_SPRITE_1 = "rollen-fire-1";
-    public static final String FIERYROLLEN_SPRITE_2 = "rollen-fire-2";
-    public static final String FIERYROLLEN_SPRITE_3 = "rollen-fire-3";
+    public static final String FIERYROLLEN_SPRITE_4 = "rollen-gas-4";
+    public static final String FIERYROLLEN_SPRITE_1 = "rollen-gas-1";
+    public static final String FIERYROLLEN_SPRITE_2 = "rollen-gas-2";
+    public static final String FIERYROLLEN_SPRITE_3 = "rollen-gas-3";
 
     // Gushing-Rollen
-    public static final String GUSHINGROLLEN_SPRITE_4 = "rollen-water-4";
-    public static final String GUSHINGROLLEN_SPRITE_1 = "rollen-water-1";
-    public static final String GUSHINGROLLEN_SPRITE_2 = "rollen-water-2";
-    public static final String GUSHINGROLLEN_SPRITE_3 = "rollen-water-3";
+    public static final String GUSHINGROLLEN_SPRITE_4 = "rollen-liquid-4";
+    public static final String GUSHINGROLLEN_SPRITE_1 = "rollen-liquid-1";
+    public static final String GUSHINGROLLEN_SPRITE_2 = "rollen-liquid-2";
+    public static final String GUSHINGROLLEN_SPRITE_3 = "rollen-liquid-3";
 
     // Charged-Rollen
-    public static final String CHARGEDROLLEN_SPRITE_4 = "rollen-electric-4";
-    public static final String CHARGEDROLLEN_SPRITE_1 = "rollen-electric-1";
-    public static final String CHARGEDROLLEN_SPRITE_2 = "rollen-electric-2";
-    public static final String CHARGEDROLLEN_SPRITE_3 = "rollen-electric-3";
+    public static final String CHARGEDROLLEN_SPRITE_4 = "rollen-plasma-4";
+    public static final String CHARGEDROLLEN_SPRITE_1 = "rollen-plasma-1";
+    public static final String CHARGEDROLLEN_SPRITE_2 = "rollen-plasma-2";
+    public static final String CHARGEDROLLEN_SPRITE_3 = "rollen-plasma-3";
 
     // Whirling-Rollen
-    public static final String WHIRLINGROLLEN_SPRITE_4 = "rollen-rubber-4";
-    public static final String WHIRLINGROLLEN_SPRITE_1 = "rollen-rubber-1";
-    public static final String WHIRLINGROLLEN_SPRITE_2 = "rollen-rubber-2";
-    public static final String WHIRLINGROLLEN_SPRITE_3 = "rollen-rubber-3";
+    public static final String WHIRLINGROLLEN_SPRITE_4 = "rollen-polymer-4";
+    public static final String WHIRLINGROLLEN_SPRITE_1 = "rollen-polymer-1";
+    public static final String WHIRLINGROLLEN_SPRITE_2 = "rollen-polymer-2";
+    public static final String WHIRLINGROLLEN_SPRITE_3 = "rollen-polymer-3";
 
     // Sharp-Rollen
-    public static final String SHARPROLLEN_SPRITE_4 = "rollen-metal-4";
-    public static final String SHARPROLLEN_SPRITE_1 = "rollen-metal-1";
-    public static final String SHARPROLLEN_SPRITE_2 = "rollen-metal-2";
-    public static final String SHARPROLLEN_SPRITE_3 = "rollen-metal-3";
+    public static final String SHARPROLLEN_SPRITE_4 = "rollen-solid-4";
+    public static final String SHARPROLLEN_SPRITE_1 = "rollen-solid-1";
+    public static final String SHARPROLLEN_SPRITE_2 = "rollen-solid-2";
+    public static final String SHARPROLLEN_SPRITE_3 = "rollen-solid-3";
 
     // Spike
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
@@ -416,32 +416,32 @@ public final class Constants {
     public static final Vector2 BLAST_CENTER = new Vector2(BLAST_RADIUS, BLAST_RADIUS);
     public static final String SHOT_NATIVE_SPRITE = "ammo-shot-native";
     public static final String BLAST_NATIVE_SPRITE = "ammo-blast-native";
-    public static final String SHOT_FIRE_SPRITE = "ammo-shot-fire";
-    public static final String SHOT_FIRE_SPRITE_ALT = "ammo-shot-fire-alt";
-    public static final String BLAST_FIRE_SPRITE = "ammo-blast-fire";
-    public static final String BLAST_FIRE_SPRITE_ALT = "ammo-blast-fire-alt";
-    public static final String SHOT_WATER_SPRITE = "ammo-shot-water";
-    public static final String SHOT_WATER_SPRITE_ALT = "ammo-shot-water-alt";
-    public static final String BLAST_WATER_SPRITE = "ammo-blast-water";
-    public static final String BLAST_WATER_SPRITE_ALT = "ammo-blast-water-alt";
-    public static final String SHOT_ELECTRIC_SPRITE = "ammo-shot-electric";
-    public static final String SHOT_ELECTRIC_SPRITE_ALT = "ammo-shot-electric-alt";
-    public static final String BLAST_ELECTRIC_SPRITE = "ammo-blast-electric";
-    public static final String SHOT_RUBBER_SPRITE = "ammo-shot-rubber";
-    public static final String SHOT_RUBBER_SPRITE_ALT = "ammo-shot-rubber-alt";
-    public static final String BLAST_RUBBER_SPRITE = "ammo-blast-rubber";
-    public static final String SHOT_METAL_SPRITE = "ammo-shot-metal";
-    public static final String SHOT_METAL_SPRITE_ALT = "ammo-shot-metal-alt";
-    public static final String BLAST_METAL_SPRITE = "ammo-blast-metal";
-    public static final String BLAST_METAL_SPRITE_ALT = "ammo-blast-metal-alt";
+    public static final String SHOT_GAS_SPRITE = "ammo-shot-gas";
+    public static final String SHOT_GAS_SPRITE_ALT = "ammo-shot-gas-alt";
+    public static final String BLAST_GAS_SPRITE = "ammo-blast-gas";
+    public static final String BLAST_GAS_SPRITE_ALT = "ammo-blast-gas-alt";
+    public static final String SHOT_LIQUID_SPRITE = "ammo-shot-liquid";
+    public static final String SHOT_LIQUID_SPRITE_ALT = "ammo-shot-liquid-alt";
+    public static final String BLAST_LIQUID_SPRITE = "ammo-blast-liquid";
+    public static final String BLAST_LIQUID_SPRITE_ALT = "ammo-blast-liquid-alt";
+    public static final String SHOT_PLASMA_SPRITE = "ammo-shot-plasma";
+    public static final String SHOT_PLASMA_SPRITE_ALT = "ammo-shot-plasma-alt";
+    public static final String BLAST_PLASMA_SPRITE = "ammo-blast-plasma";
+    public static final String SHOT_POLYMER_SPRITE = "ammo-shot-polymer";
+    public static final String SHOT_POLYMER_SPRITE_ALT = "ammo-shot-polymer-alt";
+    public static final String BLAST_POLYMER_SPRITE = "ammo-blast-polymer";
+    public static final String SHOT_SOLID_SPRITE = "ammo-shot-solid";
+    public static final String SHOT_SOLID_SPRITE_ALT = "ammo-shot-solid-alt";
+    public static final String BLAST_SOLID_SPRITE = "ammo-blast-solid";
+    public static final String BLAST_SOLID_SPRITE_ALT = "ammo-blast-solid-alt";
     public static final String SHOT_PSYCHIC_SPRITE = "ammo-shot-psychic";
     public static final String BLAST_PSYCHIC_SPRITE = "ammo-blast-psychic";
     public static final Enums.WeaponType[] weapons = {
-                                    Enums.WeaponType.FIRE,
-                                    Enums.WeaponType.WATER,
-                                    Enums.WeaponType.ELECTRIC,
-                                    Enums.WeaponType.RUBBER,
-                                    Enums.WeaponType.METAL,
+                                    Enums.WeaponType.GAS,
+                                    Enums.WeaponType.LIQUID,
+                                    Enums.WeaponType.PLASMA,
+                                    Enums.WeaponType.POLYMER,
+                                    Enums.WeaponType.SOLID,
                                     Enums.WeaponType.PSYCHIC,
                                     Enums.WeaponType.NATIVE
                                     };
@@ -489,7 +489,7 @@ public final class Constants {
     public static final String LEVEL_SHARPSWOOPA_TAG = "SharpSwoopa";
     public static final String LEVEL_Y_LIFT_TAG = "YLift";
     public static final String LEVEL_X_LIFT_TAG = "XLift";
-    public static final String[] LEVELS =  {"levels/METAL.dt", "levels/RUBBER.dt", "levels/ELECTRIC.dt", "levels/WATER.dt", "levels/FIRE.dt", "levels/PSYCHIC.dt", "levels/NATIVE.dt"};
+    public static final String[] LEVELS =  {"levels/SOLID.dt", "levels/POLYMER.dt", "levels/PLASMA.dt", "levels/LIQUID.dt", "levels/GAS.dt", "levels/PSYCHIC.dt", "levels/NATIVE.dt"};
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;

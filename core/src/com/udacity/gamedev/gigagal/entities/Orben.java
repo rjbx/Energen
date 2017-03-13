@@ -103,19 +103,19 @@ public class Orben implements DestructibleHazard {
             region = Assets.getInstance().getOrbenAssets().dormantOrben;
         } else {
             switch (type) {
-                case ELECTRIC:
+                case PLASMA:
                     region = Assets.getInstance().getOrbenAssets().chargedOrben.getKeyFrame(elapsedTime, true);
                     break;
-                case FIRE:
+                case GAS:
                     region = Assets.getInstance().getOrbenAssets().fieryOrben.getKeyFrame(elapsedTime, true);
                     break;
-                case METAL:
+                case SOLID:
                     region = Assets.getInstance().getOrbenAssets().sharpOrben.getKeyFrame(elapsedTime, true);
                     break;
-                case RUBBER:
+                case POLYMER:
                     region = Assets.getInstance().getOrbenAssets().whirlingOrben.getKeyFrame(elapsedTime, true);
                     break;
-                case WATER:
+                case LIQUID:
                     region = Assets.getInstance().getOrbenAssets().gushingOrben.getKeyFrame(elapsedTime, true);
                     break;
                 default:

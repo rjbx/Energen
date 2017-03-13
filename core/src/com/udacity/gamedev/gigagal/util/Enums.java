@@ -43,11 +43,11 @@ public final class Enums {
     }
 
     public enum WeaponType {
-        METAL,
-        RUBBER,
-        ELECTRIC,
-        WATER,
-        FIRE,
+        SOLID,
+        POLYMER,
+        PLASMA,
+        LIQUID,
+        GAS,
         PSYCHIC,
         NATIVE
     }

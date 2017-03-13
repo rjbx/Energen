@@ -58,71 +58,71 @@ public final class Ammo implements IndestructibleHazard {
                     region = Assets.getInstance().getAmmoAssets().nativeShot;
                 }
                 break;
-            case FIRE:
+            case GAS:
                 damage = Constants.FLAME_DAMAGE;
                 knockback = Constants.FLAME_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
                     if (orientation == Orientation.Y) {
-                        region = Assets.getInstance().getAmmoAssets().fireBlastAlt;
+                        region = Assets.getInstance().getAmmoAssets().gasBlastAlt;
                     } else {
-                        region = Assets.getInstance().getAmmoAssets().fireBlast;
+                        region = Assets.getInstance().getAmmoAssets().gasBlast;
                     }
                 } else if (orientation == Orientation.Y) {
-                    region = Assets.getInstance().getAmmoAssets().fireShotAlt;
+                    region = Assets.getInstance().getAmmoAssets().gasShotAlt;
                 } else {
-                    region = Assets.getInstance().getAmmoAssets().fireShot;
+                    region = Assets.getInstance().getAmmoAssets().gasShot;
                 }
                 break;
-            case WATER:
+            case LIQUID:
                 damage = Constants.GEISER_DAMAGE;
                 knockback = Constants.GEISER_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
                     if (orientation == Orientation.Y) {
-                        region = Assets.getInstance().getAmmoAssets().waterBlastAlt;
+                        region = Assets.getInstance().getAmmoAssets().liquidBlastAlt;
                     } else {
-                        region = Assets.getInstance().getAmmoAssets().waterBlast;
+                        region = Assets.getInstance().getAmmoAssets().liquidBlast;
                     }
                 } else if (orientation == Orientation.Y) {
-                    region = Assets.getInstance().getAmmoAssets().waterShotAlt;
+                    region = Assets.getInstance().getAmmoAssets().liquidShotAlt;
                 } else {
-                    region = Assets.getInstance().getAmmoAssets().waterShot;
+                    region = Assets.getInstance().getAmmoAssets().liquidShot;
                 }
                 break;
-            case ELECTRIC:
+            case PLASMA:
                 damage = Constants.COIL_DAMAGE;
                 knockback = Constants.COIL_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
-                    region = Assets.getInstance().getAmmoAssets().electricBlast;
+                    region = Assets.getInstance().getAmmoAssets().plasmaBlast;
                 }  else if (orientation == Orientation.Y) {
-                    region = Assets.getInstance().getAmmoAssets().electricShotAlt;
+                    region = Assets.getInstance().getAmmoAssets().plasmaShotAlt;
                 } else {
-                    region = Assets.getInstance().getAmmoAssets().electricShot;
+                    region = Assets.getInstance().getAmmoAssets().plasmaShot;
                 }
                 break;
-            case RUBBER:
+            case POLYMER:
                 damage = Constants.WHEEL_DAMAGE;
                 knockback = Constants.WHEEL_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
-                    region = Assets.getInstance().getAmmoAssets().rubberBlast;
+                    region = Assets.getInstance().getAmmoAssets().polymerBlast;
                 } else if (orientation == Orientation.Y) {
-                    region = Assets.getInstance().getAmmoAssets().rubberShotAlt;
+                    region = Assets.getInstance().getAmmoAssets().polymerShotAlt;
                 } else {
-                    region = Assets.getInstance().getAmmoAssets().rubberShot;
+                    region = Assets.getInstance().getAmmoAssets().polymerShot;
                 }
                 break;
-            case METAL:
+            case SOLID:
                 damage = Constants.SPIKE_DAMAGE;
                 knockback = Constants.SPIKE_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
                     if (orientation == Orientation.Y) {
-                        region = Assets.getInstance().getAmmoAssets().metalBlastAlt;
+                        region = Assets.getInstance().getAmmoAssets().solidBlastAlt;
                     } else {
-                        region = Assets.getInstance().getAmmoAssets().metalBlast;
+                        region = Assets.getInstance().getAmmoAssets().solidBlast;
                     }
                 } else if (orientation == Orientation.Y) {
-                    region = Assets.getInstance().getAmmoAssets().metalShotAlt;
+                    region = Assets.getInstance().getAmmoAssets().solidShotAlt;
                 } else {
-                    region = Assets.getInstance().getAmmoAssets().metalShot;
+                    region = Assets.getInstance().getAmmoAssets().solidShot;
                 }
                 break;
             case PSYCHIC:

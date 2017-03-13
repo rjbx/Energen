@@ -109,19 +109,19 @@ public class Rollen implements DestructibleHazard {
         final TextureRegion region;
         final Animation animation;
         switch (type) {
-            case ELECTRIC:
+            case PLASMA:
                 animation = Assets.getInstance().getRollenAssets().chargedRollen;
                 break;
-            case FIRE:
+            case GAS:
                 animation = Assets.getInstance().getRollenAssets().fieryRollen;
                 break;
-            case METAL:
+            case SOLID:
                 animation = Assets.getInstance().getRollenAssets().sharpRollen;
                 break;
-            case RUBBER:
+            case POLYMER:
                 animation = Assets.getInstance().getRollenAssets().whirlingRollen;
                 break;
-            case WATER:
+            case LIQUID:
                 animation = Assets.getInstance().getRollenAssets().gushingRollen;
                 break;
             default:

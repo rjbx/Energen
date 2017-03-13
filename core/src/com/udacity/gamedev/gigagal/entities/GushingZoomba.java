@@ -24,5 +24,5 @@ public class GushingZoomba extends Zoomba {
 
     @Override public Vector2 getMountKnockback() { return Constants.GEISER_KNOCKBACK; }
     @Override public int getMountDamage() {return Constants.GEISER_DAMAGE; }
-    @Override public Enums.WeaponType getType() { return Enums.WeaponType.WATER; }
+    @Override public Enums.WeaponType getType() { return Enums.WeaponType.LIQUID; }
 }
