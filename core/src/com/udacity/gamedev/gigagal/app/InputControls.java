@@ -202,7 +202,7 @@ public class InputControls extends InputAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             rightButtonPressed = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.BACKSLASH)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT)) {
             jumpButtonPressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
@@ -223,7 +223,7 @@ public class InputControls extends InputAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             rightButtonJustPressed = true;
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_RIGHT)) {
             jumpButtonJustPressed = true;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
@@ -280,10 +280,10 @@ public class InputControls extends InputAdapter {
             pausePointer = 0;
         }
 
-        if (!Gdx.input.isTouched(jumpPointer) && !Gdx.input.isKeyPressed(Input.Keys.BACKSLASH)) {
+        if (!Gdx.input.isTouched(jumpPointer) && !Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT)) {
             jumpButtonPressed = false;
         }
-        if (!Gdx.input.isKeyJustPressed(jumpPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH)) {
+        if (!Gdx.input.isKeyJustPressed(jumpPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_RIGHT)) {
             jumpButtonJustPressed = false;
             jumpPointer = 0;
         }
