@@ -105,6 +105,15 @@ public final class LevelLoader {
                 range = ((Number) item.get(Constants.LEVEL_RANGE_KEY)).floatValue();
             }
 
+            float scaleX = 1;
+            float scaleY = 1;
+            if (item.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
+                scaleX = ((Number) item.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
+            }
+            if (item.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
+                scaleY = ((Number) item.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
+            }
+
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.AMMO_POWERUP_SPRITE)) {
                 final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded an AmmoPowerup at " + powerupPosition);
@@ -204,14 +213,6 @@ public final class LevelLoader {
                 Gdx.app.log(TAG, "Loaded the spring at " + springPosition);
                 level.getGrounds().add(new Spring(springPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SLICK_SPRITE_1)) {
-                float scaleX = 1;
-                float scaleY = 1;
-                if (item.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
-                    scaleX = ((Number) item.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
-                }
-                if (item.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
-                    scaleY = ((Number) item.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
-                }
                 Vector2 scale = new Vector2(scaleX, scaleY);
                 Vector2 adjustedCenter = new Vector2(Constants.SLICK_CENTER.x * scale.x, Constants.SLICK_CENTER.y * scale.y);
                 final Vector2 slickPosition = imagePosition.add(Constants.SLICK_CENTER);
@@ -219,14 +220,6 @@ public final class LevelLoader {
                 level.getGrounds().add(slick);
                 Gdx.app.log(TAG, "Loaded the slick at " + slickPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ICE_SPRITE_1)) {
-                float scaleX = 1;
-                float scaleY = 1;
-                if (item.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
-                    scaleX = ((Number) item.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
-                }
-                if (item.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
-                    scaleY = ((Number) item.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
-                }
                 Vector2 scale = new Vector2(scaleX, scaleY);
                 Vector2 adjustedCenter = new Vector2(Constants.ICE_CENTER.x * scale.x, Constants.ICE_CENTER.y * scale.y);
                 final Vector2 icePosition = imagePosition.add(Constants.ICE_CENTER);
@@ -234,14 +227,6 @@ public final class LevelLoader {
                 level.getGrounds().add(ice);
                 Gdx.app.log(TAG, "Loaded the ice at " + icePosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.COALS_SPRITE_1)) {
-                float scaleX = 1;
-                float scaleY = 1;
-                if (item.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
-                    scaleX = ((Number) item.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
-                }
-                if (item.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
-                    scaleY = ((Number) item.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
-                }
                 Vector2 scale = new Vector2(scaleX, scaleY);
                 Vector2 adjustedCenter = new Vector2(Constants.COALS_CENTER.x * scale.x, Constants.COALS_CENTER.y * scale.y);
                 final Vector2 coalsPosition = imagePosition.add(Constants.COALS_CENTER);
@@ -249,14 +234,6 @@ public final class LevelLoader {
                 level.getGrounds().add(coals);
                 Gdx.app.log(TAG, "Loaded the coals at " + coalsPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_LEFT)) {
-                float scaleX = 1;
-                float scaleY = 1;
-                if (item.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
-                    scaleX = ((Number) item.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
-                }
-                if (item.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
-                    scaleY = ((Number) item.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
-                }
                 Vector2 scale = new Vector2(scaleX, scaleY);
                 Vector2 adjustedCenter = new Vector2(Constants.TREADMILL_CENTER.x * scale.x, Constants.TREADMILL_CENTER.y * scale.y);
                 final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
@@ -264,14 +241,6 @@ public final class LevelLoader {
                 level.getGrounds().add(treadmill);
                 Gdx.app.log(TAG, "Loaded the treadmill at " + treadmillPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_RIGHT)) {
-                float scaleX = 1;
-                float scaleY = 1;
-                if (item.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
-                    scaleX = ((Number) item.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
-                }
-                if (item.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
-                    scaleY = ((Number) item.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
-                }
                 Vector2 scale = new Vector2(scaleX, scaleY);
                 Vector2 adjustedCenter = new Vector2(Constants.TREADMILL_CENTER.x * scale.x, Constants.TREADMILL_CENTER.y * scale.y);
                 final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
