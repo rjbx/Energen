@@ -16,6 +16,7 @@ public class Lift implements HoverableGround {
     private Enums.Orientation orientation;
     private Vector2 velocity;
     private final Vector2 startPosition;
+    private float range;
 
     // ctor
     public Lift(Vector2 position, Enums.Orientation orientation) {
@@ -33,6 +34,7 @@ public class Lift implements HoverableGround {
         }
         velocity = new Vector2();
         startPosition = new Vector2(position);
+        range = Constants.LIFT_RANGE;
     }
 
     @Override
@@ -48,11 +50,11 @@ public class Lift implements HoverableGround {
                         break;
                 }
                 position.add(velocity);
-                if (position.y < (startPosition.y - (Constants.LIFT_RANGE / 2))) {
-                    position.y = startPosition.y - (Constants.LIFT_RANGE / 2);
+                if (position.y < (startPosition.y - (range / 2))) {
+                    position.y = startPosition.y - (range / 2);
                     direction = Enums.Direction.UP;
-                } else if (position.y > (startPosition.y + (Constants.LIFT_RANGE / 2))) {
-                    position.y = startPosition.y + (Constants.LIFT_RANGE / 2);
+                } else if (position.y > (startPosition.y + (range / 2))) {
+                    position.y = startPosition.y + (range / 2);
                     direction = Enums.Direction.DOWN;
                 }
                 break;
@@ -66,11 +68,11 @@ public class Lift implements HoverableGround {
                         break;
                 }
                 position.add(velocity);
-                if (position.x < (startPosition.x - (Constants.LIFT_RANGE / 2))) {
-                    position.x = startPosition.x - (Constants.LIFT_RANGE / 2);
+                if (position.x < (startPosition.x - (range / 2))) {
+                    position.x = startPosition.x - (range / 2);
                     direction = Enums.Direction.RIGHT;
-                } else if (position.x > (startPosition.x + (Constants.LIFT_RANGE / 2))) {
-                    position.x = startPosition.x + (Constants.LIFT_RANGE / 2);
+                } else if (position.x > (startPosition.x + (range / 2))) {
+                    position.x = startPosition.x + (range / 2);
                     direction = Enums.Direction.LEFT;
                 }
                 break;
@@ -84,11 +86,11 @@ public class Lift implements HoverableGround {
                         break;
                 }
                 position.add(velocity);
-                if (position.y < (startPosition.y - (Constants.LIFT_RANGE / 2))) {
-                    position.y = startPosition.y - (Constants.LIFT_RANGE / 2);
+                if (position.y < (startPosition.y - (range / 2))) {
+                    position.y = startPosition.y - (range / 2);
                     direction = Enums.Direction.UP;
-                } else if (position.y > (startPosition.y + (Constants.LIFT_RANGE / 2))) {
-                    position.y = startPosition.y + (Constants.LIFT_RANGE / 2);
+                } else if (position.y > (startPosition.y + (range / 2))) {
+                    position.y = startPosition.y + (range / 2);
                     direction = Enums.Direction.DOWN;
                 }
                 break;
@@ -111,4 +113,7 @@ public class Lift implements HoverableGround {
     @Override public final float getBottom() { return position.y - Constants.LIFT_CENTER.y; }
     @Override public Enums.Direction getDirection() { return direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
+    public final float getRange() { return range; }
+    
+    public final void setRange(float range) { this.range = range; }
 }

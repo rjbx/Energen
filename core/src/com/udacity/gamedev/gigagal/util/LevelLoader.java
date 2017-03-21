@@ -100,6 +100,11 @@ public final class LevelLoader {
             final Vector2 imagePosition = extractXY(item);
             String identifier = (String) item.get(Constants.LEVEL_IDENTIFIER_KEY);
 
+            float range = Constants.LIFT_RANGE;
+            if (item.containsKey(Constants.LEVEL_RANGE_KEY)) {
+                range = ((Number) item.get(Constants.LEVEL_RANGE_KEY)).floatValue();
+            }
+
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.AMMO_POWERUP_SPRITE)) {
                 final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded an AmmoPowerup at " + powerupPosition);
@@ -151,7 +156,9 @@ public final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LIFT_SPRITE)) {
                 final Vector2 liftPosition = imagePosition.add(Constants.LIFT_CENTER);
                 Gdx.app.log(TAG, "Loaded the lift at " + liftPosition);
-                level.getGrounds().add(new Lift(liftPosition, Enums.Orientation.valueOf(identifier)));
+                Lift lift = new Lift(liftPosition, Enums.Orientation.valueOf(identifier));
+                lift.setRange(range);
+                level.getGrounds().add(lift);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.DORMANTORBEN_SPRITE)) {
                 final Vector2 orbenPosition = imagePosition.add(Constants.ORBEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the orben at " + orbenPosition);
