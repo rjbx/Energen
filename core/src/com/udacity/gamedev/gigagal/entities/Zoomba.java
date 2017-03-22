@@ -99,13 +99,13 @@ public class Zoomba implements DestructibleHazard {
     @Override public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
     @Override public final int getDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
     @Override public Enums.WeaponType getType() { return null; }
-    @Override public final void setHealth( float health ) { this.health = health; }
     @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public final Direction getDirection() { return direction; }
     public final long getStartTime() { return startTime; }
     public final float getRange() { return range; }
-    
+
+    @Override public final void setHealth( float health ) { this.health = health; }
     public final void setRange(float range) { this.range = range; }
 }

@@ -476,14 +476,7 @@ public final class Constants {
     public static final String LEVEL_X_SCALE_KEY = "scaleX";
     public static final String LEVEL_Y_SCALE_KEY = "scaleY";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
-    public static final String LEVEL_RANGE_KEY = "Rotation";
-    public static final String LEVEL_ZOOMBA_TAG = "Zoomba";
-    public static final String LEVEL_SWOOPA_TAG = "Swoopa";
-    public static final String LEVEL_FIERYSWOOPA_TAG = "FierySwoopa";
-    public static final String LEVEL_GUSHINGSWOOPA_TAG = "GushingSwoopa";
-    public static final String LEVEL_CHARGEDSWOOPA_TAG = "ChargedSwoopa";
-    public static final String LEVEL_WHIRLINGSWOOPA_TAG = "WhirlingSwoopa";
-    public static final String LEVEL_SHARPSWOOPA_TAG = "SharpSwoopa";
+    public static final String LEVEL_RANGE_KEY = "Range";
     public static final String LEVEL_Y_LIFT_TAG = "YLift";
     public static final String LEVEL_X_LIFT_TAG = "XLift";
     public static final String[] LEVELS =  {"GRAVITATIONAL", "MECHANICAL", "MAGNETIC", "ELECTRIC", "NUCLEAR", "PSYCHIC", "NATIVE"};

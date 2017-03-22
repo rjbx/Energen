@@ -20,6 +20,7 @@ import com.udacity.gamedev.gigagal.entities.Rope;
 import com.udacity.gamedev.gigagal.entities.Sink;
 import com.udacity.gamedev.gigagal.entities.Slick;
 import com.udacity.gamedev.gigagal.entities.Spring;
+import com.udacity.gamedev.gigagal.entities.Swoopa;
 import com.udacity.gamedev.gigagal.entities.Treadmill;
 import com.udacity.gamedev.gigagal.entities.TurboPowerup;
 import com.udacity.gamedev.gigagal.entities.Vacuum;
@@ -90,10 +91,14 @@ public final class LevelLoader {
             final Vector2 imagePosition = extractXY(item);
             float range = 1;
             String identifier = (String) item.get(Constants.LEVEL_IDENTIFIER_KEY);
+            if (identifier == null) {
+                identifier = "NATIVE";
+            }
+
             if (item.containsKey("customVars")) {
                 String customVars = (String) item.get("customVars");
-                if (customVars.contains("Range")) {
-                    String[] rangeSplit = customVars.split("Range:");
+                if (customVars.contains(Constants.LEVEL_RANGE_KEY)) {
+                    String[] rangeSplit = customVars.split(Constants.LEVEL_RANGE_KEY + ":");
                     range = Float.parseFloat(rangeSplit[1]);
                 }
             }
@@ -162,14 +167,16 @@ public final class LevelLoader {
                 lift.setRange(range);
                 level.getGrounds().add(lift);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ZOOMBA_SPRITE)) {
-                if (identifier == null) {
-                    identifier = "NATIVE";
-                }
                 final Vector2 zoombaPosition = imagePosition.add(Constants.ZOOMBA_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + zoombaPosition);
                 Zoomba zoomba = new Zoomba(zoombaPosition, Enums.WeaponType.valueOf(identifier));
                 zoomba.setRange(range);
                 level.getDestructibles().add(zoomba);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SWOOPA_SPRITE)) {
+                final Vector2 swoopaPosition = imagePosition.add(Constants.SWOOPA_CENTER);
+                Gdx.app.log(TAG, "Loaded the swoopa at " + swoopaPosition);
+                Swoopa swoopa = new Swoopa(level, swoopaPosition, Enums.WeaponType.valueOf(identifier));
+                level.getDestructibles().add(swoopa);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.DORMANTORBEN_SPRITE)) {
                 final Vector2 orbenPosition = imagePosition.add(Constants.ORBEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the orben at " + orbenPosition);

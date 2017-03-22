@@ -40,11 +40,6 @@ public final class Assets implements Disposable, AssetErrorListener {
     private AmmoAssets ammoAssets;
     private ZoombaAssets zoombaAssets;
     private SwoopaAssets swoopaAssets;
-    private FierySwoopaAssets fierySwoopaAssets;
-    private GushingSwoopaAssets gushingSwoopaAssets;
-    private ChargedSwoopaAssets chargedSwoopaAssets;
-    private WhirlingSwoopaAssets whirlingSwoopaAssets;
-    private SharpSwoopaAssets sharpSwoopaAssets;
     private OrbenAssets orbenAssets;
     private RollenAssets rollenAssets;
     private SpikeAssets spikeAssets;
@@ -93,11 +88,6 @@ public final class Assets implements Disposable, AssetErrorListener {
         ammoAssets = new AmmoAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
         swoopaAssets = new SwoopaAssets(atlas);
-        fierySwoopaAssets = new FierySwoopaAssets(atlas);
-        gushingSwoopaAssets = new GushingSwoopaAssets(atlas);
-        chargedSwoopaAssets = new ChargedSwoopaAssets(atlas);
-        whirlingSwoopaAssets = new WhirlingSwoopaAssets(atlas);
-        sharpSwoopaAssets = new SharpSwoopaAssets(atlas);
         orbenAssets = new OrbenAssets(atlas);
         rollenAssets = new RollenAssets(atlas);
         spikeAssets = new SpikeAssets(atlas);
@@ -526,73 +516,44 @@ public final class Assets implements Disposable, AssetErrorListener {
     public class SwoopaAssets {
 
         public final AtlasRegion swoopa;
+        public final Animation fierySwoopa;
+        public final Animation gushingSwoopa;
+        public final Animation chargedSwoopa;
+        public final Animation whirlingSwoopa;
+        public final Animation sharpSwoopa;
 
         public SwoopaAssets(TextureAtlas atlas) {
             swoopa = atlas.findRegion(Constants.SWOOPA_SPRITE);
-        }
-    }
 
-    public class FierySwoopaAssets {
-
-        public final Animation fierySwoopa;
-
-        public FierySwoopaAssets(TextureAtlas atlas) {
             Array<AtlasRegion> fierySwoopaRegions = new Array<AtlasRegion>();
             fierySwoopaRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_1));
             fierySwoopaRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_2));
 
             fierySwoopa = new Animation(Constants.FLAME_DURATION / fierySwoopaRegions.size,
                     fierySwoopaRegions, PlayMode.NORMAL);
-        }
-    }
 
-    public class GushingSwoopaAssets {
-
-        public final Animation gushingSwoopa;
-
-        public GushingSwoopaAssets(TextureAtlas atlas) {
             Array<AtlasRegion> gushingSwoopaRegions = new Array<AtlasRegion>();
             gushingSwoopaRegions.add(atlas.findRegion(Constants.GUSHINGSWOOPA_SPRITE_1));
             gushingSwoopaRegions.add(atlas.findRegion(Constants.GUSHINGSWOOPA_SPRITE_2));
 
             gushingSwoopa = new Animation(Constants.GEISER_DURATION / gushingSwoopaRegions.size,
                     gushingSwoopaRegions, PlayMode.NORMAL);
-        }
-    }
 
-    public class ChargedSwoopaAssets {
-
-        public final Animation chargedSwoopa;
-
-        public ChargedSwoopaAssets(TextureAtlas atlas) {
             Array<AtlasRegion> chargedSwoopaRegions = new Array<AtlasRegion>();
             chargedSwoopaRegions.add(atlas.findRegion(Constants.CHARGEDSWOOPA_SPRITE_1));
             chargedSwoopaRegions.add(atlas.findRegion(Constants.CHARGEDSWOOPA_SPRITE_2));
 
             chargedSwoopa = new Animation(Constants.COIL_DURATION / chargedSwoopaRegions.size,
                     chargedSwoopaRegions, PlayMode.NORMAL);
-        }
-    }
 
-    public class WhirlingSwoopaAssets {
 
-        public final Animation whirlingSwoopa;
-
-        public WhirlingSwoopaAssets(TextureAtlas atlas) {
             Array<AtlasRegion> whirlingSwoopaRegions = new Array<AtlasRegion>();
             whirlingSwoopaRegions.add(atlas.findRegion(Constants.WHIRLINGSWOOPA_SPRITE_1));
             whirlingSwoopaRegions.add(atlas.findRegion(Constants.WHIRLINGSWOOPA_SPRITE_2));
 
             whirlingSwoopa = new Animation(Constants.WHEEL_DURATION / whirlingSwoopaRegions.size,
                     whirlingSwoopaRegions, PlayMode.NORMAL);
-        }
-    }
 
-    public class SharpSwoopaAssets {
-
-        public final Animation sharpSwoopa;
-
-        public SharpSwoopaAssets(TextureAtlas atlas) {
             Array<AtlasRegion> sharpSwoopaRegions = new Array<AtlasRegion>();
             sharpSwoopaRegions.add(atlas.findRegion(Constants.SHARPSWOOPA_SPRITE_1));
             sharpSwoopaRegions.add(atlas.findRegion(Constants.SHARPSWOOPA_SPRITE_2));
@@ -921,11 +882,6 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final AmmoAssets getAmmoAssets() { return ammoAssets; }
     public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
     public final SwoopaAssets getSwoopaAssets() { return swoopaAssets; }
-    public final FierySwoopaAssets getFierySwoopaAssets() { return fierySwoopaAssets; }
-    public final GushingSwoopaAssets getGushingSwoopaAssets() { return gushingSwoopaAssets; }
-    public final ChargedSwoopaAssets getChargedSwoopaAssets() { return chargedSwoopaAssets; }
-    public final WhirlingSwoopaAssets getWhirlingSwoopaAssets() { return whirlingSwoopaAssets; }
-    public final SharpSwoopaAssets getSharpSwoopaAssets() { return sharpSwoopaAssets; }
     public final OrbenAssets getOrbenAssets() { return orbenAssets; }
     public final RollenAssets getRollenAssets() { return rollenAssets; }
     public final SpikeAssets getSpikeAssets() { return spikeAssets; }
