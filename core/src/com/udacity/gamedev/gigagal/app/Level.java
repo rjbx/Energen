@@ -240,12 +240,6 @@ public class Level {
 
 
         boxes.add(new Box(15, 100, 30, 20));
-
-        Box zoombaBox = new Box(75, 90, 100, 65);
-
-        destructibles.add(new Zoomba(zoombaBox));
-
-        boxes.add(zoombaBox);
         boxes.add(new Box(35, 55, 50, 20));
         boxes.add(new Box(10, 20, 20, 9));
 

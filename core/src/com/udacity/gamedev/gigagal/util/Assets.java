@@ -39,11 +39,6 @@ public final class Assets implements Disposable, AssetErrorListener {
     private CoalsAssets coalsAssets;
     private AmmoAssets ammoAssets;
     private ZoombaAssets zoombaAssets;
-    private FieryZoombaAssets fieryZoombaAssets;
-    private GushingZoombaAssets gushingZoombaAssets;
-    private ChargedZoombaAssets chargedZoombaAssets;
-    private WhirlingZoombaAssets whirlingZoombaAssets;
-    private SharpZoombaAssets sharpZoombaAssets;
     private SwoopaAssets swoopaAssets;
     private FierySwoopaAssets fierySwoopaAssets;
     private GushingSwoopaAssets gushingSwoopaAssets;
@@ -97,11 +92,6 @@ public final class Assets implements Disposable, AssetErrorListener {
         coalsAssets = new CoalsAssets(atlas);
         ammoAssets = new AmmoAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
-        fieryZoombaAssets = new FieryZoombaAssets(atlas);
-        gushingZoombaAssets = new GushingZoombaAssets(atlas);
-        chargedZoombaAssets = new ChargedZoombaAssets(atlas);
-        whirlingZoombaAssets = new WhirlingZoombaAssets(atlas);
-        sharpZoombaAssets = new SharpZoombaAssets(atlas);
         swoopaAssets = new SwoopaAssets(atlas);
         fierySwoopaAssets = new FierySwoopaAssets(atlas);
         gushingSwoopaAssets = new GushingSwoopaAssets(atlas);
@@ -486,73 +476,44 @@ public final class Assets implements Disposable, AssetErrorListener {
     public class ZoombaAssets {
 
         public final AtlasRegion zoomba;
+        public final Animation fieryZoomba;
+        public final Animation gushingZoomba;
+        public final Animation chargedZoomba;
+        public final Animation whirlingZoomba;
+        public final Animation sharpZoomba;
 
         public ZoombaAssets(TextureAtlas atlas) {
             zoomba = atlas.findRegion(Constants.ZOOMBA_SPRITE);
-        }
-    }
-    
-    public class FieryZoombaAssets {
 
-        public final Animation fieryZoomba;
-
-        public FieryZoombaAssets(TextureAtlas atlas) {
             Array<AtlasRegion> fieryZoombaRegions = new Array<AtlasRegion>();
             fieryZoombaRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_1));
             fieryZoombaRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_2));
 
             fieryZoomba = new Animation(Constants.FLAME_DURATION / fieryZoombaRegions.size,
                     fieryZoombaRegions, PlayMode.NORMAL);
-        }
-    }
 
-    public class GushingZoombaAssets {
-
-        public final Animation gushingZoomba;
-
-        public GushingZoombaAssets(TextureAtlas atlas) {
             Array<AtlasRegion> gushingZoombaRegions = new Array<AtlasRegion>();
             gushingZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_1));
             gushingZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_2));
 
             gushingZoomba = new Animation(Constants.GEISER_DURATION / gushingZoombaRegions.size,
                     gushingZoombaRegions, PlayMode.NORMAL);
-        }
-    }
 
-    public class ChargedZoombaAssets {
-
-        public final Animation chargedZoomba;
-
-        public ChargedZoombaAssets(TextureAtlas atlas) {
             Array<AtlasRegion> chargedZoombaRegions = new Array<AtlasRegion>();
             chargedZoombaRegions.add(atlas.findRegion(Constants.CHARGEDZOOMBA_SPRITE_1));
             chargedZoombaRegions.add(atlas.findRegion(Constants.CHARGEDZOOMBA_SPRITE_2));
 
             chargedZoomba = new Animation(Constants.COIL_DURATION / chargedZoombaRegions.size,
                     chargedZoombaRegions, PlayMode.NORMAL);
-        }
-    }
 
-    public class WhirlingZoombaAssets {
 
-        public final Animation whirlingZoomba;
-
-        public WhirlingZoombaAssets(TextureAtlas atlas) {
             Array<AtlasRegion> whirlingZoombaRegions = new Array<AtlasRegion>();
             whirlingZoombaRegions.add(atlas.findRegion(Constants.WHIRLINGZOOMBA_SPRITE_1));
             whirlingZoombaRegions.add(atlas.findRegion(Constants.WHIRLINGZOOMBA_SPRITE_2));
 
             whirlingZoomba = new Animation(Constants.WHEEL_DURATION / whirlingZoombaRegions.size,
                     whirlingZoombaRegions, PlayMode.NORMAL);
-        }
-    }
 
-    public class SharpZoombaAssets {
-
-        public final Animation sharpZoomba;
-
-        public SharpZoombaAssets(TextureAtlas atlas) {
             Array<AtlasRegion> sharpZoombaRegions = new Array<AtlasRegion>();
             sharpZoombaRegions.add(atlas.findRegion(Constants.SHARPZOOMBA_SPRITE_1));
             sharpZoombaRegions.add(atlas.findRegion(Constants.SHARPZOOMBA_SPRITE_2));
@@ -959,11 +920,6 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final CoalsAssets getCoalsAssets() { return coalsAssets; }
     public final AmmoAssets getAmmoAssets() { return ammoAssets; }
     public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
-    public final FieryZoombaAssets getFieryZoombaAssets() { return fieryZoombaAssets; }
-    public final GushingZoombaAssets getGushingZoombaAssets() { return gushingZoombaAssets; }
-    public final ChargedZoombaAssets getChargedZoombaAssets() { return chargedZoombaAssets; }
-    public final WhirlingZoombaAssets getWhirlingZoombaAssets() { return whirlingZoombaAssets; }
-    public final SharpZoombaAssets getSharpZoombaAssets() { return sharpZoombaAssets; }
     public final SwoopaAssets getSwoopaAssets() { return swoopaAssets; }
     public final FierySwoopaAssets getFierySwoopaAssets() { return fierySwoopaAssets; }
     public final GushingSwoopaAssets getGushingSwoopaAssets() { return gushingSwoopaAssets; }

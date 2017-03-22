@@ -7,14 +7,8 @@ import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Cannon;
-import com.udacity.gamedev.gigagal.entities.ChargedSwoopa;
-import com.udacity.gamedev.gigagal.entities.ChargedZoomba;
 import com.udacity.gamedev.gigagal.entities.Coals;
 import com.udacity.gamedev.gigagal.entities.Coil;
-import com.udacity.gamedev.gigagal.entities.FierySwoopa;
-import com.udacity.gamedev.gigagal.entities.FieryZoomba;
-import com.udacity.gamedev.gigagal.entities.GushingSwoopa;
-import com.udacity.gamedev.gigagal.entities.GushingZoomba;
 import com.udacity.gamedev.gigagal.entities.Ice;
 import com.udacity.gamedev.gigagal.entities.Ladder;
 import com.udacity.gamedev.gigagal.entities.Lift;
@@ -23,12 +17,9 @@ import com.udacity.gamedev.gigagal.entities.Pillar;
 import com.udacity.gamedev.gigagal.entities.Pole;
 import com.udacity.gamedev.gigagal.entities.Rollen;
 import com.udacity.gamedev.gigagal.entities.Rope;
-import com.udacity.gamedev.gigagal.entities.SharpSwoopa;
-import com.udacity.gamedev.gigagal.entities.SharpZoomba;
 import com.udacity.gamedev.gigagal.entities.Sink;
 import com.udacity.gamedev.gigagal.entities.Slick;
 import com.udacity.gamedev.gigagal.entities.Spring;
-import com.udacity.gamedev.gigagal.entities.Swoopa;
 import com.udacity.gamedev.gigagal.entities.Treadmill;
 import com.udacity.gamedev.gigagal.entities.TurboPowerup;
 import com.udacity.gamedev.gigagal.entities.Vacuum;
@@ -38,12 +29,11 @@ import com.udacity.gamedev.gigagal.entities.HealthPowerup;
 import com.udacity.gamedev.gigagal.entities.Spike;
 import com.udacity.gamedev.gigagal.entities.Vines;
 import com.udacity.gamedev.gigagal.entities.Wheel;
-import com.udacity.gamedev.gigagal.entities.WhirlingSwoopa;
-import com.udacity.gamedev.gigagal.entities.WhirlingZoomba;
-import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Box;
+import com.udacity.gamedev.gigagal.entities.Zoomba;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -98,11 +88,14 @@ public final class LevelLoader {
         for (Object o : nonGrounds) {
             final JSONObject item = (JSONObject) o;
             final Vector2 imagePosition = extractXY(item);
+            float range = 1;
             String identifier = (String) item.get(Constants.LEVEL_IDENTIFIER_KEY);
-
-            float range = Constants.LIFT_RANGE;
-            if (item.containsKey(Constants.LEVEL_RANGE_KEY)) {
-                range = ((Number) item.get(Constants.LEVEL_RANGE_KEY)).floatValue();
+            if (item.containsKey("customVars")) {
+                String customVars = (String) item.get("customVars");
+                if (customVars.contains("Range")) {
+                    String[] rangeSplit = customVars.split("Range:");
+                    range = Float.parseFloat(rangeSplit[1]);
+                }
             }
 
             float scaleX = 1;
@@ -168,6 +161,15 @@ public final class LevelLoader {
                 Lift lift = new Lift(liftPosition, Enums.Orientation.valueOf(identifier));
                 lift.setRange(range);
                 level.getGrounds().add(lift);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ZOOMBA_SPRITE)) {
+                if (identifier == null) {
+                    identifier = "NATIVE";
+                }
+                final Vector2 zoombaPosition = imagePosition.add(Constants.ZOOMBA_CENTER);
+                Gdx.app.log(TAG, "Loaded the zoomba at " + zoombaPosition);
+                Zoomba zoomba = new Zoomba(zoombaPosition, Enums.WeaponType.valueOf(identifier));
+                zoomba.setRange(range);
+                level.getDestructibles().add(zoomba);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.DORMANTORBEN_SPRITE)) {
                 final Vector2 orbenPosition = imagePosition.add(Constants.ORBEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the orben at " + orbenPosition);
@@ -267,45 +269,6 @@ public final class LevelLoader {
                 final Box box = new Box(imagePosition.x, imagePosition.y + height, width, height);
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
-                if (identifier != null) {
-                    if (identifier.equals(Constants.LEVEL_ZOOMBA_TAG)) {
-                        final Zoomba zoomba = new Zoomba(box);
-                        level.getDestructibles().add(zoomba);
-                    } else if (identifier.equals(Constants.LEVEL_FIERYZOOMBA_TAG)) {
-                        final FieryZoomba fieryZoomba = new FieryZoomba(box);
-                        level.getDestructibles().add(fieryZoomba);
-                    } else if (identifier.equals(Constants.LEVEL_GUSHINGZOOMBA_TAG)) {
-                        final GushingZoomba gushingZoomba = new GushingZoomba(box);
-                        level.getDestructibles().add(gushingZoomba);
-                    } else if (identifier.equals(Constants.LEVEL_CHARGEDZOOMBA_TAG)) {
-                        final ChargedZoomba chargedZoomba = new ChargedZoomba(box);
-                        level.getDestructibles().add(chargedZoomba);
-                    } else if (identifier.equals(Constants.LEVEL_WHIRLINGZOOMBA_TAG)) {
-                        final WhirlingZoomba whirlingZoomba = new WhirlingZoomba(box);
-                        level.getDestructibles().add(whirlingZoomba);
-                    } else if (identifier.equals(Constants.LEVEL_SHARPZOOMBA_TAG)) {
-                        final SharpZoomba sharpZoomba = new SharpZoomba(box);
-                        level.getDestructibles().add(sharpZoomba);
-                    } else if (identifier.equals(Constants.LEVEL_SWOOPA_TAG)) {
-                        final Swoopa swoopa = new Swoopa(box, level);
-                        level.getDestructibles().add(swoopa);
-                    } else if (identifier.equals(Constants.LEVEL_FIERYSWOOPA_TAG)) {
-                        final FierySwoopa fierySwoopa = new FierySwoopa(box, level);
-                        level.getDestructibles().add(fierySwoopa);
-                    } else if (identifier.equals(Constants.LEVEL_GUSHINGSWOOPA_TAG)) {
-                        final GushingSwoopa gushingSwoopa = new GushingSwoopa(box, level);
-                        level.getDestructibles().add(gushingSwoopa);
-                    } else if (identifier.equals(Constants.LEVEL_CHARGEDSWOOPA_TAG)) {
-                        final ChargedSwoopa chargedSwoopa = new ChargedSwoopa(box, level);
-                        level.getDestructibles().add(chargedSwoopa);
-                    } else if (identifier.equals(Constants.LEVEL_WHIRLINGSWOOPA_TAG)) {
-                        final WhirlingSwoopa whirlingSwoopa = new WhirlingSwoopa(box, level);
-                        level.getDestructibles().add(whirlingSwoopa);
-                    } else if (identifier.equals(Constants.LEVEL_SHARPSWOOPA_TAG)) {
-                        final SharpSwoopa sharpSwoopa = new SharpSwoopa(box, level);
-                        level.getDestructibles().add(sharpSwoopa);
-                    }
-                }
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
                 float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
                 float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();

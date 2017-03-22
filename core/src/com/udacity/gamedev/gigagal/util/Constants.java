@@ -196,6 +196,7 @@ public final class Constants {
     public static final float ZOOMBA_COLLISION_WIDTH = 30;
     public static final float ZOOMBA_COLLISION_HEIGHT = 51;
     public static final float ZOOMBA_SHOT_RADIUS = 17;
+    public static final float ZOOMBA_RANGE = 50;
     public static final String ZOOMBA_SPRITE = "zoomba";
 
     // Fiery-Zoomba
@@ -475,13 +476,8 @@ public final class Constants {
     public static final String LEVEL_X_SCALE_KEY = "scaleX";
     public static final String LEVEL_Y_SCALE_KEY = "scaleY";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
-    public static final String LEVEL_RANGE_KEY = "rangeKey";
+    public static final String LEVEL_RANGE_KEY = "Rotation";
     public static final String LEVEL_ZOOMBA_TAG = "Zoomba";
-    public static final String LEVEL_FIERYZOOMBA_TAG = "FieryZoomba";
-    public static final String LEVEL_GUSHINGZOOMBA_TAG = "GushingZoomba";
-    public static final String LEVEL_CHARGEDZOOMBA_TAG = "ChargedZoomba";
-    public static final String LEVEL_WHIRLINGZOOMBA_TAG = "WhirlingZoomba";
-    public static final String LEVEL_SHARPZOOMBA_TAG = "SharpZoomba";
     public static final String LEVEL_SWOOPA_TAG = "Swoopa";
     public static final String LEVEL_FIERYSWOOPA_TAG = "FierySwoopa";
     public static final String LEVEL_GUSHINGSWOOPA_TAG = "GushingSwoopa";
