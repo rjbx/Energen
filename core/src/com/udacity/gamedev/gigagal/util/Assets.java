@@ -244,23 +244,15 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion nativeShot;
         public final AtlasRegion nativeBlast;
         public final AtlasRegion gasShot;
-        public final AtlasRegion gasShotAlt;
         public final AtlasRegion gasBlast;
-        public final AtlasRegion gasBlastAlt;
         public final AtlasRegion liquidShot;
-        public final AtlasRegion liquidShotAlt;
         public final AtlasRegion liquidBlast;
-        public final AtlasRegion liquidBlastAlt;
         public final AtlasRegion plasmaShot;
-        public final AtlasRegion plasmaShotAlt;
         public final AtlasRegion plasmaBlast;
         public final AtlasRegion polymerShot;
-        public final AtlasRegion polymerShotAlt;
         public final AtlasRegion polymerBlast;
         public final AtlasRegion solidShot;
-        public final AtlasRegion solidShotAlt;
         public final AtlasRegion solidBlast;
-        public final AtlasRegion solidBlastAlt;
         public final AtlasRegion psychicShot;
         public final AtlasRegion psychicBlast;
 
@@ -268,23 +260,15 @@ public final class Assets implements Disposable, AssetErrorListener {
             nativeShot = atlas.findRegion(Constants.SHOT_NATIVE_SPRITE);
             nativeBlast = atlas.findRegion(Constants.BLAST_NATIVE_SPRITE);
             gasShot = atlas.findRegion(Constants.SHOT_GAS_SPRITE);
-            gasShotAlt = atlas.findRegion(Constants.SHOT_GAS_SPRITE_ALT);
             gasBlast = atlas.findRegion(Constants.BLAST_GAS_SPRITE);
-            gasBlastAlt = atlas.findRegion(Constants.BLAST_GAS_SPRITE_ALT);
             liquidShot = atlas.findRegion(Constants.SHOT_LIQUID_SPRITE);
-            liquidShotAlt = atlas.findRegion(Constants.SHOT_LIQUID_SPRITE_ALT);
             liquidBlast = atlas.findRegion(Constants.BLAST_LIQUID_SPRITE);
-            liquidBlastAlt = atlas.findRegion(Constants.BLAST_LIQUID_SPRITE_ALT);
             plasmaShot = atlas.findRegion(Constants.SHOT_PLASMA_SPRITE);
-            plasmaShotAlt = atlas.findRegion(Constants.SHOT_PLASMA_SPRITE_ALT);
             plasmaBlast = atlas.findRegion(Constants.BLAST_PLASMA_SPRITE);
             polymerShot = atlas.findRegion(Constants.SHOT_POLYMER_SPRITE);
-            polymerShotAlt = atlas.findRegion(Constants.SHOT_POLYMER_SPRITE_ALT);
             polymerBlast = atlas.findRegion(Constants.BLAST_POLYMER_SPRITE);
             solidShot = atlas.findRegion(Constants.SHOT_SOLID_SPRITE);
-            solidShotAlt = atlas.findRegion(Constants.SHOT_SOLID_SPRITE_ALT);
             solidBlast = atlas.findRegion(Constants.BLAST_SOLID_SPRITE);
-            solidBlastAlt = atlas.findRegion(Constants.BLAST_SOLID_SPRITE_ALT);
             psychicShot = atlas.findRegion(Constants.SHOT_PSYCHIC_SPRITE);
             psychicBlast = atlas.findRegion(Constants.BLAST_PSYCHIC_SPRITE);
         }

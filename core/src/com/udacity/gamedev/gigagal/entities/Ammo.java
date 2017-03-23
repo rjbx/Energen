@@ -62,13 +62,7 @@ public final class Ammo implements IndestructibleHazard {
                 damage = Constants.FLAME_DAMAGE;
                 knockback = Constants.FLAME_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
-                    if (orientation == Orientation.Y) {
-                        region = Assets.getInstance().getAmmoAssets().gasBlastAlt;
-                    } else {
-                        region = Assets.getInstance().getAmmoAssets().gasBlast;
-                    }
-                } else if (orientation == Orientation.Y) {
-                    region = Assets.getInstance().getAmmoAssets().gasShotAlt;
+                    region = Assets.getInstance().getAmmoAssets().gasBlast;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().gasShot;
                 }
@@ -77,13 +71,7 @@ public final class Ammo implements IndestructibleHazard {
                 damage = Constants.GEISER_DAMAGE;
                 knockback = Constants.GEISER_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
-                    if (orientation == Orientation.Y) {
-                        region = Assets.getInstance().getAmmoAssets().liquidBlastAlt;
-                    } else {
-                        region = Assets.getInstance().getAmmoAssets().liquidBlast;
-                    }
-                } else if (orientation == Orientation.Y) {
-                    region = Assets.getInstance().getAmmoAssets().liquidShotAlt;
+                    region = Assets.getInstance().getAmmoAssets().liquidBlast;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().liquidShot;
                 }
@@ -93,8 +81,6 @@ public final class Ammo implements IndestructibleHazard {
                 knockback = Constants.COIL_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().plasmaBlast;
-                }  else if (orientation == Orientation.Y) {
-                    region = Assets.getInstance().getAmmoAssets().plasmaShotAlt;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().plasmaShot;
                 }
@@ -104,8 +90,6 @@ public final class Ammo implements IndestructibleHazard {
                 knockback = Constants.WHEEL_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().polymerBlast;
-                } else if (orientation == Orientation.Y) {
-                    region = Assets.getInstance().getAmmoAssets().polymerShotAlt;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().polymerShot;
                 }
@@ -114,13 +98,7 @@ public final class Ammo implements IndestructibleHazard {
                 damage = Constants.SPIKE_DAMAGE;
                 knockback = Constants.SPIKE_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
-                    if (orientation == Orientation.Y) {
-                        region = Assets.getInstance().getAmmoAssets().solidBlastAlt;
-                    } else {
-                        region = Assets.getInstance().getAmmoAssets().solidBlast;
-                    }
-                } else if (orientation == Orientation.Y) {
-                    region = Assets.getInstance().getAmmoAssets().solidShotAlt;
+                    region = Assets.getInstance().getAmmoAssets().solidBlast;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().solidShot;
                 }
@@ -213,19 +191,27 @@ public final class Ammo implements IndestructibleHazard {
 
     @Override
     public void render(SpriteBatch batch) {
-        Vector2 ammoCenter = new Vector2();
+        float ammoRadius;
         float scale = 1;
+        float rotation = 0;
         if (ammoIntensity == AmmoIntensity.BLAST) {
-            ammoCenter.set(Constants.BLAST_CENTER);
+            ammoRadius = Constants.BLAST_RADIUS;
         } else if (ammoIntensity == AmmoIntensity.CHARGE_SHOT) {
             scale += (Constants.CHARGE_DURATION / 3);
-            ammoCenter.set(Constants.SHOT_CENTER);
-            ammoCenter.scl(scale);
+            ammoRadius = Constants.SHOT_RADIUS;
+            ammoRadius *= scale;
         } else {
-            ammoCenter.set(Constants.SHOT_CENTER);
+            ammoRadius = Constants.SHOT_RADIUS;
         }
         if (!level.getGigaGal().getPaused()) {
-            Utils.drawTextureRegion(batch, region, position, ammoCenter, scale);
+            Vector2 ammoCenter;
+            if (orientation == Orientation.Y) {
+                rotation = 90;
+                ammoCenter = new Vector2(-ammoRadius, ammoRadius);
+            } else {
+                ammoCenter = new Vector2(ammoRadius, ammoRadius);
+            }
+            Utils.drawTextureRegion(batch, region, position, ammoCenter, scale, rotation);
         }
     }
 
