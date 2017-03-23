@@ -76,24 +76,6 @@ public class Lift implements HoverableGround {
                     direction = Enums.Direction.LEFT;
                 }
                 break;
-            default:
-                switch (direction) {
-                    case UP:
-                        velocity.set(0, Constants.LIFT_SPEED * delta);
-                        break;
-                    case DOWN:
-                        velocity.set(0, -Constants.LIFT_SPEED * delta);
-                        break;
-                }
-                position.add(velocity);
-                if (position.y < (startPosition.y - (range / 2))) {
-                    position.y = startPosition.y - (range / 2);
-                    direction = Enums.Direction.UP;
-                } else if (position.y > (startPosition.y + (range / 2))) {
-                    position.y = startPosition.y + (range / 2);
-                    direction = Enums.Direction.DOWN;
-                }
-                break;
         }
     }
 
@@ -114,6 +96,6 @@ public class Lift implements HoverableGround {
     @Override public Enums.Direction getDirection() { return direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
     public final float getRange() { return range; }
-    
+
     public final void setRange(float range) { this.range = range; }
 }

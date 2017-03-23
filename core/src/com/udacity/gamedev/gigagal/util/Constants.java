@@ -469,6 +469,7 @@ public final class Constants {
     public static final String LEVEL_Y_SCALE_KEY = "scaleY";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_RANGE_KEY = "Range";
+    public static final String LEVEL_TYPE_KEY = "Type";
     public static final String LEVEL_Y_LIFT_TAG = "YLift";
     public static final String LEVEL_X_LIFT_TAG = "XLift";
     public static final String[] LEVELS =  {"GRAVITATIONAL", "MECHANICAL", "MAGNETIC", "ELECTRIC", "NUCLEAR", "PSYCHIC", "NATIVE"};

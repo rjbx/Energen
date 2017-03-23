@@ -40,6 +40,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import java.util.Comparator;
 
+import static com.udacity.gamedev.gigagal.util.Constants.LEVEL_RANGE_KEY;
+
 // immutable static
 public final class LevelLoader {
 
@@ -89,17 +91,24 @@ public final class LevelLoader {
         for (Object o : nonGrounds) {
             final JSONObject item = (JSONObject) o;
             final Vector2 imagePosition = extractXY(item);
-            float range = 1;
-            String identifier = (String) item.get(Constants.LEVEL_IDENTIFIER_KEY);
-            if (identifier == null) {
-                identifier = "NATIVE";
+            String identifier = "Z";
+            float range = Constants.ZOOMBA_RANGE;
+            String type = "NATIVE";
+
+            if (item.containsKey(Constants.LEVEL_IDENTIFIER_KEY)) {
+                identifier = (String) item.get(Constants.LEVEL_IDENTIFIER_KEY);
             }
 
             if (item.containsKey("customVars")) {
-                String customVars = (String) item.get("customVars");
-                if (customVars.contains(Constants.LEVEL_RANGE_KEY)) {
-                    String[] rangeSplit = customVars.split(Constants.LEVEL_RANGE_KEY + ":");
-                    range = Float.parseFloat(rangeSplit[1]);
+                String [] customVars = ((String) item.get("customVars")).split(";");
+                for (String customVar : customVars) {
+                    if (customVar.contains(Constants.LEVEL_RANGE_KEY)) {
+                        String[] rangeSplit = customVar.split(Constants.LEVEL_RANGE_KEY + ":");
+                        range = Float.parseFloat(rangeSplit[1]);
+                    } else if (customVar.contains(Constants.LEVEL_TYPE_KEY)) {
+                        String[] typeSplit = customVar.split(Constants.LEVEL_TYPE_KEY + ":");
+                        type = typeSplit[1];
+                    }
                 }
             }
 
@@ -156,35 +165,25 @@ public final class LevelLoader {
                 final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
                 Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
                 level.getIndestructibles().add(new Vacuum(vacuumPosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PILLAR_SPRITE)) {
-                final Vector2 pillarPosition = imagePosition.add(Constants.PILLAR_CENTER);
-                Gdx.app.log(TAG, "Loaded the pillar at " + pillarPosition);
-                level.getGrounds().add(new Pillar(pillarPosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LIFT_SPRITE)) {
-                final Vector2 liftPosition = imagePosition.add(Constants.LIFT_CENTER);
-                Gdx.app.log(TAG, "Loaded the lift at " + liftPosition);
-                Lift lift = new Lift(liftPosition, Enums.Orientation.valueOf(identifier));
-                lift.setRange(range);
-                level.getGrounds().add(lift);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ZOOMBA_SPRITE)) {
                 final Vector2 zoombaPosition = imagePosition.add(Constants.ZOOMBA_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + zoombaPosition);
-                Zoomba zoomba = new Zoomba(zoombaPosition, Enums.WeaponType.valueOf(identifier));
+                Zoomba zoomba = new Zoomba(zoombaPosition, Enums.WeaponType.valueOf(type));
                 zoomba.setRange(range);
                 level.getDestructibles().add(zoomba);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SWOOPA_SPRITE)) {
                 final Vector2 swoopaPosition = imagePosition.add(Constants.SWOOPA_CENTER);
                 Gdx.app.log(TAG, "Loaded the swoopa at " + swoopaPosition);
-                Swoopa swoopa = new Swoopa(level, swoopaPosition, Enums.WeaponType.valueOf(identifier));
+                Swoopa swoopa = new Swoopa(level, swoopaPosition, Enums.WeaponType.valueOf(type));
                 level.getDestructibles().add(swoopa);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.DORMANTORBEN_SPRITE)) {
                 final Vector2 orbenPosition = imagePosition.add(Constants.ORBEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the orben at " + orbenPosition);
-                level.getDestructibles().add(new Orben(level, orbenPosition, Enums.WeaponType.valueOf(identifier)));
+                level.getDestructibles().add(new Orben(level, orbenPosition, Enums.WeaponType.valueOf(type)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WHIRLINGROLLEN_SPRITE_1)) {
                 final Vector2 rollenPosition = imagePosition.add(Constants.ROLLEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the rollen at " + rollenPosition);
-                level.getDestructibles().add(new Rollen(level, rollenPosition, Enums.WeaponType.valueOf(identifier)));
+                level.getDestructibles().add(new Rollen(level, rollenPosition, Enums.WeaponType.valueOf(type)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANNON_SPRITE)) {
                 final Vector2 cannonPosition = imagePosition.add(Constants.X_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
@@ -199,8 +198,10 @@ public final class LevelLoader {
                 level.getGrounds().add(new Pillar(pillarPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LIFT_SPRITE)) {
                 final Vector2 liftPosition = imagePosition.add(Constants.LIFT_CENTER);
+                Lift lift = new Lift(liftPosition, Enums.Orientation.valueOf(identifier));
+                lift.setRange(range);
                 Gdx.app.log(TAG, "Loaded the lift at " + liftPosition);
-                level.getGrounds().add(new Lift(liftPosition, Enums.Orientation.valueOf(identifier)));
+                level.getGrounds().add(lift);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ROPE_SPRITE)) {
                 final Vector2 ropePosition = imagePosition.add(Constants.ROPE_CENTER);
                 Gdx.app.log(TAG, "Loaded the rope at " + ropePosition);
