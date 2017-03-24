@@ -13,16 +13,18 @@ public class Cannon implements Ground {
     // fields
     private Vector2 position;
     private Enums.Orientation orientation;
+    private Enums.AmmoIntensity intensity;
     private TextureRegion region;
     private Vector2 center;
     private float offset;
     private long startTime;
 
     // ctor
-    public Cannon(Vector2 position, Enums.Orientation orientation) {
+    public Cannon(Vector2 position, Enums.Orientation orientation, Enums.AmmoIntensity intensity) {
 
         this.position = position;
         this.orientation = orientation;
+        this.intensity = intensity;
         startTime = 0;
         offset = 0;
         switch (orientation) {
@@ -50,6 +52,7 @@ public class Cannon implements Ground {
     @Override public final float getTop() { return position.y + center.y; }
     @Override public final float getBottom() { return position.y - center.y; }
     public final Enums.Orientation getOrientation() { return orientation; }
+    public final Enums.AmmoIntensity getIntensity() { return intensity; }
     public final float getOffset() { return offset; }
     public final void setOffset(float offset) { this.offset = offset; }
     public final long getStartTime() { return startTime; }

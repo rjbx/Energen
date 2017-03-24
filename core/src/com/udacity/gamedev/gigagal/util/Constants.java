@@ -461,6 +461,7 @@ public final class Constants {
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_RANGE_KEY = "range";
     public static final String LEVEL_TYPE_KEY = "type";
+    public static final String LEVEL_INTENSITY_KEY = "intensity";
     public static final String[] LEVELS =  {"GRAVITATIONAL", "MECHANICAL", "MAGNETIC", "ELECTRIC", "NUCLEAR", "PSYCHIC", "NATIVE"};
 
     // HUD

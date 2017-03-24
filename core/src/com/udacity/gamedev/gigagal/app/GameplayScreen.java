@@ -278,7 +278,6 @@ public class GameplayScreen extends ScreenAdapter {
         contextHud = new IndicatorHud(level);
         this.gigaGal = level.getGigaGal();
         for (String completedLevelName : completedLevels) {
-            System.out.println(completedLevelName);
             for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
                 if (completedLevelName.equals(weapon.levelName())) {
                     if (!gigaGal.getWeaponList().contains(weapon)) {
