@@ -119,7 +119,7 @@ public class Orben implements DestructibleHazard {
                     region = Assets.getInstance().getOrbenAssets().gushingOrben.getKeyFrame(elapsedTime, true);
                     break;
                 default:
-                    region = null;
+                    region = Assets.getInstance().getOrbenAssets().whirlingOrben.getKeyFrame(elapsedTime, true);
             }
         }
         Utils.drawTextureRegion(batch, region, position, Constants.ORBEN_CENTER, Constants.ORBEN_TEXTURE_SCALE);

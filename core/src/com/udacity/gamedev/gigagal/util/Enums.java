@@ -47,7 +47,7 @@ public final class Enums {
         SOLID { @Override public final String levelName() { return "GRAVITATIONAL"; } },
         POLYMER { @Override public final String levelName() { return "MECHANICAL"; } },
         PLASMA { @Override public final String levelName() { return "MAGNETIC"; } },
-        LIQUID { @Override public final String levelName() { return "PLASMA"; } },
+        LIQUID { @Override public final String levelName() { return "ELECTRIC"; } },
         GAS { @Override public final String levelName() { return "NUCLEAR"; } },
         PSYCHIC { @Override public final String levelName() { return "PSYCHIC"; } },
         NATIVE { @Override public final String levelName() { return "NATIVE"; } };

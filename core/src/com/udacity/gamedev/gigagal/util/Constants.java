@@ -429,15 +429,6 @@ public final class Constants {
     public static final String BLAST_SOLID_SPRITE = "ammo-blast-solid";
     public static final String SHOT_PSYCHIC_SPRITE = "ammo-shot-psychic";
     public static final String BLAST_PSYCHIC_SPRITE = "ammo-blast-psychic";
-    public static final Enums.WeaponType[] weapons = {
-                                    Enums.WeaponType.GAS,
-                                    Enums.WeaponType.LIQUID,
-                                    Enums.WeaponType.PLASMA,
-                                    Enums.WeaponType.POLYMER,
-                                    Enums.WeaponType.SOLID,
-                                    Enums.WeaponType.PSYCHIC,
-                                    Enums.WeaponType.NATIVE
-                                    };
 
     // Explosion
     public static final Vector2 EXPLOSION_CENTER = new Vector2(8, 8);
@@ -468,10 +459,8 @@ public final class Constants {
     public static final String LEVEL_X_SCALE_KEY = "scaleX";
     public static final String LEVEL_Y_SCALE_KEY = "scaleY";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
-    public static final String LEVEL_RANGE_KEY = "Range";
-    public static final String LEVEL_TYPE_KEY = "Type";
-    public static final String LEVEL_Y_LIFT_TAG = "YLift";
-    public static final String LEVEL_X_LIFT_TAG = "XLift";
+    public static final String LEVEL_RANGE_KEY = "range";
+    public static final String LEVEL_TYPE_KEY = "type";
     public static final String[] LEVELS =  {"GRAVITATIONAL", "MECHANICAL", "MAGNETIC", "ELECTRIC", "NUCLEAR", "PSYCHIC", "NATIVE"};
 
     // HUD

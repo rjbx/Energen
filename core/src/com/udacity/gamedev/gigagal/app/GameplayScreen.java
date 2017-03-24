@@ -82,7 +82,7 @@ public class GameplayScreen extends ScreenAdapter {
             List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
             for (String weaponString : savedWeaponsList) {
                 if (!completedLevels.contains(weaponString, false)) {
-                    completedLevels.add(weaponString);
+                    completedLevels.add(Enums.WeaponType.valueOf(weaponString).levelName());
                 }
             }
         }
@@ -278,8 +278,9 @@ public class GameplayScreen extends ScreenAdapter {
         contextHud = new IndicatorHud(level);
         this.gigaGal = level.getGigaGal();
         for (String completedLevelName : completedLevels) {
-            for (Enums.WeaponType weapon : Arrays.asList(Constants.weapons)) {
-                if (completedLevelName.equals(weapon.name())) {
+            System.out.println(completedLevelName);
+            for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
+                if (completedLevelName.equals(weapon.levelName())) {
                     if (!gigaGal.getWeaponList().contains(weapon)) {
                         gigaGal.addWeapon(weapon);
                     }
