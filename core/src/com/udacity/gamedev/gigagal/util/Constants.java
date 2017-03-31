@@ -433,9 +433,21 @@ public final class Constants {
     // Explosion
     public static final Vector2 EXPLOSION_CENTER = new Vector2(8, 8);
     public static final float EXPLOSION_DURATION = 0.5f;
-    public static final String EXPLOSION_LARGE = "explosion-large";
-    public static final String EXPLOSION_MEDIUM = "explosion-medium";
-    public static final String EXPLOSION_SMALL = "explosion-small";
+    public static final String IMPACT_PLASMA_LARGE = "impact-plasma-large";
+    public static final String IMPACT_PLASMA_MEDIUM = "impact-plasma-medium";
+    public static final String IMPACT_PLASMA_SMALL = "impact-plasma-small";
+    public static final String IMPACT_GAS_LARGE = "impact-gas-large";
+    public static final String IMPACT_GAS_MEDIUM = "impact-gas-medium";
+    public static final String IMPACT_GAS_SMALL = "impact-gas-small";
+    public static final String IMPACT_LIQUID_LARGE = "impact-liquid-large";
+    public static final String IMPACT_LIQUID_MEDIUM = "impact-liquid-medium";
+    public static final String IMPACT_LIQUID_SMALL = "impact-liquid-small";
+    public static final String IMPACT_SOLID_LARGE = "impact-solid-large";
+    public static final String IMPACT_SOLID_MEDIUM = "impact-solid-medium";
+    public static final String IMPACT_SOLID_SMALL = "impact-solid-small";
+    public static final String IMPACT_NATIVE_LARGE = "impact-native-large";
+    public static final String IMPACT_NATIVE_MEDIUM = "impact-native-medium";
+    public static final String IMPACT_NATIVE_SMALL = "impact-native-small";
 
     // Powerup
     public static final Vector2 POWERUP_CENTER = new Vector2(7, 5);
