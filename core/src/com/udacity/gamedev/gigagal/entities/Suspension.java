@@ -64,12 +64,20 @@ public class Suspension implements IndestructibleHazard {
                 knockback.set(Constants.SPIKE_KNOCKBACK);
                 damage = Constants.SPIKE_DAMAGE;
                 break;
+            case PSYCHIC:
+                region = Assets.getInstance().getSuspensionAssets().vacuum.getKeyFrame(elapsedTime, true);
+                center.set(Constants.VACUUM_CENTER);
+                collisionSpan.set(Constants.VACUUM_COLLISION_WIDTH, Constants.VACUUM_COLLISION_HEIGHT);
+                knockback.set(Constants.VACUUM_KNOCKBACK);
+                damage = Constants.VACUUM_DAMAGE;
+                break;
             default:
-                region = Assets.getInstance().getSuspensionAssets().gusher.getKeyFrame(elapsedTime, true);
-                center.set(Constants.GEISER_CENTER);
-                collisionSpan.set(Constants.GEISER_COLLISION_WIDTH, Constants.GEISER_COLLISION_HEIGHT);
-                knockback.set(Constants.GEISER_KNOCKBACK);
-                damage = Constants.GEISER_DAMAGE;
+                region = Assets.getInstance().getSuspensionAssets().wheel.getKeyFrame(elapsedTime, true);
+                center.set(Constants.WHEEL_CENTER);
+                collisionSpan.set(Constants.WHEEL_COLLISION_WIDTH, Constants.WHEEL_COLLISION_HEIGHT);
+                knockback.set(Constants.WHEEL_KNOCKBACK);
+                damage = Constants.WHEEL_DAMAGE;
+                break;
         }
         Utils.drawTextureRegion(batch, region, position, center);
     }

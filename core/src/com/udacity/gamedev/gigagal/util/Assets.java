@@ -44,7 +44,6 @@ public final class Assets implements Disposable, AssetErrorListener {
     private RollenAssets rollenAssets;
     private ProtrusionAssets protrusionAssets;
     private SuspensionAssets suspensionAssets;
-    private VacuumAssets vacuumAssets;
     private ImpactAssets impactAssets;
     private PowerupAssets powerupAssets;
     private PortalAssets portalAssets;
@@ -89,7 +88,6 @@ public final class Assets implements Disposable, AssetErrorListener {
         rollenAssets = new RollenAssets(atlas);
         protrusionAssets = new ProtrusionAssets(atlas);
         suspensionAssets = new SuspensionAssets(atlas);
-        vacuumAssets = new VacuumAssets(atlas);
         impactAssets = new ImpactAssets(atlas);
         powerupAssets = new PowerupAssets(atlas);
         portalAssets = new PortalAssets(atlas);
@@ -680,11 +678,13 @@ public final class Assets implements Disposable, AssetErrorListener {
     }
 
     public class SuspensionAssets {
+
         public final Animation sharp;
         public final Animation gusher;
         public final Animation lump;
         public final Animation coil;
         public final Animation wheel;
+        public final Animation vacuum;
 
         public SuspensionAssets(TextureAtlas atlas) {
             
@@ -720,21 +720,13 @@ public final class Assets implements Disposable, AssetErrorListener {
             sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_3));
             sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_4));
             sharp = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, sharpRollenRegions, PlayMode.NORMAL);
-        }
-    }
-    
-    public class VacuumAssets {
 
-        public final Animation vacuum;
-
-        public VacuumAssets(TextureAtlas atlas) {
             Array<AtlasRegion> vacuumRegions = new Array<AtlasRegion>();
             vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_1));
             vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_2));
             vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_3));
 
-            vacuum = new Animation(Constants.VACUUM_FRAME_DURATION,
-                    vacuumRegions, PlayMode.LOOP_PINGPONG);
+            vacuum = new Animation(Constants.VACUUM_FRAME_DURATION, vacuumRegions, PlayMode.LOOP_PINGPONG);
         }
     }
 
@@ -829,10 +821,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion down;
         public final AtlasRegion center;
         public final AtlasRegion shoot;
-        public final AtlasRegion blast;
         public final AtlasRegion jump;
-        public final AtlasRegion hover;
-        public final AtlasRegion cling;
         public final AtlasRegion pause;
         public final AtlasRegion selectionCursor;
         public final AtlasRegion logo;
@@ -844,10 +833,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             down = atlas.findRegion(Constants.DOWN_BUTTON);
             center = atlas.findRegion(Constants.CENTER_BUTTON);
             shoot = atlas.findRegion(Constants.SHOOT_BUTTON);
-            blast = atlas.findRegion(Constants.BLAST_BUTTON);
             jump = atlas.findRegion(Constants.JUMP_BUTTON);
-            hover = atlas.findRegion(Constants.HOVER_BUTTON);
-            cling = atlas.findRegion(Constants.CLING_BUTTON);
             pause = atlas.findRegion(Constants.PAUSE_BUTTON);
             selectionCursor = atlas.findRegion(Constants.SELECTION_CURSOR);
             logo = atlas.findRegion(Constants.LOGO);
@@ -900,7 +886,6 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final RollenAssets getRollenAssets() { return rollenAssets; }
     public final ProtrusionAssets getProtrusionAssets() { return protrusionAssets; }
     public final SuspensionAssets getSuspensionAssets() { return suspensionAssets; }
-    public final VacuumAssets getVacuumAssets() { return vacuumAssets; }
     public final ImpactAssets getImpactAssets() { return impactAssets; }
     public final PowerupAssets getPowerupAssets() { return powerupAssets; }
     public final PortalAssets getPortalAssets() { return portalAssets; }

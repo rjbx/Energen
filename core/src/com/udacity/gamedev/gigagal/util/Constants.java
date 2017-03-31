@@ -332,6 +332,7 @@ public final class Constants {
     public static final String SHARPROLLEN_SPRITE_2 = "rollen-solid-2";
     public static final String SHARPROLLEN_SPRITE_3 = "rollen-solid-3";
 
+    // Protrusions
     // Spike
     public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
     public static final float SPIKE_DURATION = 0.5f;
@@ -339,8 +340,8 @@ public final class Constants {
     public static final Vector2 SPIKE_KNOCKBACK = new Vector2(50, Y_KNOCKBACK);
     public static final float SPIKE_COLLISION_WIDTH = 9;
     public static final float SPIKE_COLLISION_HEIGHT = 17;
-    public static final String SPIKE_SPRITE_1 = "spike-1";
-    public static final String SPIKE_SPRITE_2 = "spike-2";
+    public static final String SPIKE_SPRITE_1 = "protrusion-solid-1";
+    public static final String SPIKE_SPRITE_2 = "protrusion-solid-2";
 
     // FLame
     public static final Vector2 FLAME_CENTER = new Vector2(8.5f, 17.5f);
@@ -349,8 +350,8 @@ public final class Constants {
     public static final Vector2 FLAME_KNOCKBACK = new Vector2(100, Y_KNOCKBACK);
     public static final float FLAME_COLLISION_WIDTH = 15;
     public static final float FLAME_COLLISION_HEIGHT = 25;
-    public static final String FLAME_SPRITE_1 = "flame-1";
-    public static final String FLAME_SPRITE_2 = "flame-2";
+    public static final String FLAME_SPRITE_1 = "protrusion-gas-1";
+    public static final String FLAME_SPRITE_2 = "protrusion-gas-2";
 
     // Geiser
     public static final Vector2 GEISER_CENTER = new Vector2(8.5f, 17.5f);
@@ -359,8 +360,8 @@ public final class Constants {
     public static final Vector2 GEISER_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
     public static final float GEISER_COLLISION_WIDTH = 15;
     public static final float GEISER_COLLISION_HEIGHT = 25;
-    public static final String GEISER_SPRITE_1 = "geiser-1";
-    public static final String GEISER_SPRITE_2 = "geiser-2";
+    public static final String GEISER_SPRITE_1 = "protrusion-liquid-1";
+    public static final String GEISER_SPRITE_2 = "protrusion-liquid-2";
 
     // Rod
     public static final Vector2 ROD_CENTER = new Vector2(8.5f, 17.5f);
@@ -369,8 +370,8 @@ public final class Constants {
     public static final Vector2 ROD_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
     public static final float ROD_COLLISION_WIDTH = 15;
     public static final float ROD_COLLISION_HEIGHT = 25;
-    public static final String ROD_SPRITE_1 = "rod-1";
-    public static final String ROD_SPRITE_2 = "rod-2";
+    public static final String ROD_SPRITE_1 = "protrusion-plasma-1";
+    public static final String ROD_SPRITE_2 = "protrusion-plasma-2";
 
     // Whirl
     public static final Vector2 WHIRL_CENTER = new Vector2(8.5f, 17.5f);
@@ -379,9 +380,10 @@ public final class Constants {
     public static final Vector2 WHIRL_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
     public static final float WHIRL_COLLISION_WIDTH = 15;
     public static final float WHIRL_COLLISION_HEIGHT = 25;
-    public static final String WHIRL_SPRITE_1 = "whirl-1";
-    public static final String WHIRL_SPRITE_2 = "whirl-2";
+    public static final String WHIRL_SPRITE_1 = "protrusion-polymer-1";
+    public static final String WHIRL_SPRITE_2 = "protrusion-polymer-2";
 
+    // Suspensions
     // Wheel
     public static final Vector2 WHEEL_CENTER = new Vector2(12.5f, 12.5f);
     public static final float WHEEL_DURATION = 0.1f;
@@ -389,8 +391,8 @@ public final class Constants {
     public static final Vector2 WHEEL_KNOCKBACK = new Vector2(200, 250);
     public static final float WHEEL_COLLISION_WIDTH = 25;
     public static final float WHEEL_COLLISION_HEIGHT = 25;
-    public static final String WHEEL_SPRITE_1 = "wheel-1";
-    public static final String WHEEL_SPRITE_2 = "wheel-2";
+    public static final String WHEEL_SPRITE_1 = "suspension-polymer-1";
+    public static final String WHEEL_SPRITE_2 = "suspension-polymer-2";
 
     // Coil
     public static final Vector2 COIL_CENTER = new Vector2(12.5f, 12.5f);
@@ -399,8 +401,8 @@ public final class Constants {
     public static final Vector2 COIL_KNOCKBACK = new Vector2(200, 50);
     public static final float COIL_COLLISION_WIDTH = 25;
     public static final float COIL_COLLISION_HEIGHT = 25;
-    public static final String COIL_SPRITE_1 = "coil-1";
-    public static final String COIL_SPRITE_2 = "coil-2";
+    public static final String COIL_SPRITE_1 = "suspension-plasma-1";
+    public static final String COIL_SPRITE_2 = "suspension-plasma-2";
 
     // Vacuum
     public static final Vector2 VACUUM_CENTER = new Vector2(31, 31);
@@ -409,9 +411,9 @@ public final class Constants {
     public static final Vector2 VACUUM_KNOCKBACK = new Vector2(100, 10);
     public static final float VACUUM_COLLISION_WIDTH = 25;
     public static final float VACUUM_COLLISION_HEIGHT = 25;
-    public static final String VACUUM_SPRITE_1 = "vacuum-1";
-    public static final String VACUUM_SPRITE_2 = "vacuum-2";
-    public static final String VACUUM_SPRITE_3 = "vacuum-3";
+    public static final String VACUUM_SPRITE_1 = "suspension-psychic-1";
+    public static final String VACUUM_SPRITE_2 = "suspension-psychic-2";
+    public static final String VACUUM_SPRITE_3 = "suspension-psychic-3";
 
     // Portal
     public static final Vector2 PORTAL_CENTER = new Vector2(31, 31);
@@ -533,11 +535,8 @@ public final class Constants {
     public static final String UP_BUTTON = "button-up";
     public static final String DOWN_BUTTON = "button-down";
     public static final String CENTER_BUTTON = "button-center";
-    public static final String SHOOT_BUTTON = "button-a";
-    public static final String BLAST_BUTTON = "button-a";
-    public static final String JUMP_BUTTON = "button-b";
-    public static final String HOVER_BUTTON = "button-b";
-    public static final String CLING_BUTTON = "button-b";
+    public static final String SHOOT_BUTTON = "button-bash";
+    public static final String JUMP_BUTTON = "button-bash";
     public static final String PAUSE_BUTTON = "button-pause";
     public static final String SELECTION_CURSOR = "selection-cursor";
 

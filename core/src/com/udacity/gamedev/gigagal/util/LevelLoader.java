@@ -24,7 +24,6 @@ import com.udacity.gamedev.gigagal.entities.Suspension;
 import com.udacity.gamedev.gigagal.entities.Swoopa;
 import com.udacity.gamedev.gigagal.entities.Treadmill;
 import com.udacity.gamedev.gigagal.entities.TurboPowerup;
-import com.udacity.gamedev.gigagal.entities.Vacuum;
 import com.udacity.gamedev.gigagal.entities.HealthPowerup;
 import com.udacity.gamedev.gigagal.entities.Vines;
 import com.udacity.gamedev.gigagal.entities.Portal;
@@ -163,7 +162,7 @@ public final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VACUUM_SPRITE_1)) {
                 final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
                 Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
-                level.getIndestructibles().add(new Vacuum(vacuumPosition));
+                level.getIndestructibles().add(new Suspension(vacuumPosition, Enums.WeaponType.PSYCHIC));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ZOOMBA_SPRITE)) {
                 final Vector2 zoombaPosition = imagePosition.add(Constants.ZOOMBA_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + zoombaPosition);
