@@ -226,6 +226,7 @@ public final class Ammo implements IndestructibleHazard {
     public final int getDamage() { return damage; }
     public final Vector2 getKnockback() { return knockback; }
     public final AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
+    public final WeaponType getType() { return weapon; }
     public final TextureRegion getTexture() { return region; }
     public final boolean isFromGigagal() { return fromGigagal; }
 }

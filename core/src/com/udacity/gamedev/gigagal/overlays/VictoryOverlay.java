@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.GameplayScreen;
 import com.udacity.gamedev.gigagal.entities.Impact;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // immutable
@@ -41,7 +42,7 @@ public final class VictoryOverlay {
             Impact impact = new Impact(new Vector2(
                     MathUtils.random(viewport.getWorldWidth()),
                     MathUtils.random(viewport.getWorldHeight())
-            ));
+            ), Enums.WeaponType.NATIVE);
             impact.setOffset(MathUtils.random(Constants.LEVEL_END_DURATION));
 
             explosions.add(impact);

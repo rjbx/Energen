@@ -42,11 +42,8 @@ public final class Assets implements Disposable, AssetErrorListener {
     private SwoopaAssets swoopaAssets;
     private OrbenAssets orbenAssets;
     private RollenAssets rollenAssets;
-    private SpikeAssets spikeAssets;
-    private FlameAssets flameAssets;
-    private GeiserAssets geiserAssets;
-    private WheelAssets wheelAssets;
-    private CoilAssets coilAssets;
+    private ProtrusionAssets protrusionAssets;
+    private SuspensionAssets suspensionAssets;
     private VacuumAssets vacuumAssets;
     private ImpactAssets impactAssets;
     private PowerupAssets powerupAssets;
@@ -90,11 +87,8 @@ public final class Assets implements Disposable, AssetErrorListener {
         swoopaAssets = new SwoopaAssets(atlas);
         orbenAssets = new OrbenAssets(atlas);
         rollenAssets = new RollenAssets(atlas);
-        spikeAssets = new SpikeAssets(atlas);
-        flameAssets = new FlameAssets(atlas);
-        geiserAssets = new GeiserAssets(atlas);
-        wheelAssets = new WheelAssets(atlas);
-        coilAssets = new CoilAssets(atlas);
+        protrusionAssets = new ProtrusionAssets(atlas);
+        suspensionAssets = new SuspensionAssets(atlas);
         vacuumAssets = new VacuumAssets(atlas);
         impactAssets = new ImpactAssets(atlas);
         powerupAssets = new PowerupAssets(atlas);
@@ -296,8 +290,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final AtlasRegion yCannon;
         public final AtlasRegion xCannon;
-
-
+        
         public CannonAssets(TextureAtlas atlas) {
             yCannon = atlas.findRegion(Constants.Y_CANNON_SPRITE);
             xCannon = atlas.findRegion(Constants.X_CANNON_SPRITE);
@@ -617,115 +610,116 @@ public final class Assets implements Disposable, AssetErrorListener {
             chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_2));
             chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_3));
             chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_4));
-
-            chargedRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
-                    chargedRollenRegions, PlayMode.NORMAL);
-
+            chargedRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, chargedRollenRegions, PlayMode.NORMAL);
+            
             Array<AtlasRegion> fieryRollenRegions = new Array<AtlasRegion>();
             fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_1));
             fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_2));
             fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_3));
             fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_4));
-
-            fieryRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
-                    fieryRollenRegions, PlayMode.NORMAL);
-
+            fieryRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, fieryRollenRegions, PlayMode.NORMAL);
+            
             Array<AtlasRegion> gushingRollenRegions = new Array<AtlasRegion>();
             gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_1));
             gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_2));
             gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_3));
             gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_4));
-
-            gushingRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
-                    gushingRollenRegions, PlayMode.NORMAL);
+            gushingRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, gushingRollenRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> sharpRollenRegions = new Array<AtlasRegion>();
             sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_1));
             sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_2));
             sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_3));
             sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_4));
-
-            sharpRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
-                    sharpRollenRegions, PlayMode.NORMAL);
+            sharpRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, sharpRollenRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> whirlingRollenRegions = new Array<AtlasRegion>();
             whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_1));
             whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_2));
             whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_3));
             whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_4));
-
-            whirlingRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS,
-                    whirlingRollenRegions, PlayMode.NORMAL);
+            whirlingRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, whirlingRollenRegions, PlayMode.NORMAL);
         }
     }
 
-    public class SpikeAssets {
+    public class ProtrusionAssets {
 
         public final Animation spike;
+        public final Animation geiser;
+        public final Animation flame;
+        public final Animation rod;
+        public final Animation whirl;
 
-        public SpikeAssets(TextureAtlas atlas) {
+        public ProtrusionAssets(TextureAtlas atlas) {
+
+            Array<AtlasRegion> whirlRegions = new Array<AtlasRegion>();
+            whirlRegions.add(atlas.findRegion(Constants.WHIRL_SPRITE_1));
+            whirlRegions.add(atlas.findRegion(Constants.WHIRL_SPRITE_2));
+            whirl = new Animation(Constants.WHIRL_DURATION /whirlRegions.size, whirlRegions, PlayMode.NORMAL);
+            
+            Array<AtlasRegion> rodRegions = new Array<AtlasRegion>();
+            rodRegions.add(atlas.findRegion(Constants.ROD_SPRITE_1));
+            rodRegions.add(atlas.findRegion(Constants.ROD_SPRITE_2));
+            rod = new Animation(Constants.ROD_DURATION /rodRegions.size, rodRegions, PlayMode.NORMAL);
+
             Array<AtlasRegion> spikeRegions = new Array<AtlasRegion>();
             spikeRegions.add(atlas.findRegion(Constants.SPIKE_SPRITE_1));
             spikeRegions.add(atlas.findRegion(Constants.SPIKE_SPRITE_2));
+            spike = new Animation(Constants.SPIKE_DURATION /spikeRegions.size, spikeRegions, PlayMode.NORMAL);
 
-            spike = new Animation(Constants.SPIKE_DURATION / spikeRegions.size,
-                    spikeRegions, PlayMode.NORMAL);
-        }
-    }
-
-    public class FlameAssets {
-
-        public final Animation flame;
-
-        public FlameAssets(TextureAtlas atlas) {
-            Array<AtlasRegion> flameRegions = new Array<AtlasRegion>();
-            flameRegions.add(atlas.findRegion(Constants.FLAME_SPRITE_1));
-            flameRegions.add(atlas.findRegion(Constants.FLAME_SPRITE_2));
-
-            flame = new Animation(Constants.FLAME_DURATION / flameRegions.size,
-                    flameRegions, PlayMode.NORMAL);
-        }
-    }
-
-    public class GeiserAssets {
-
-        public final Animation geiser;
-
-        public GeiserAssets(TextureAtlas atlas) {
             Array<AtlasRegion> geiserRegions = new Array<AtlasRegion>();
             geiserRegions.add(atlas.findRegion(Constants.GEISER_SPRITE_1));
             geiserRegions.add(atlas.findRegion(Constants.GEISER_SPRITE_2));
+            geiser = new Animation(Constants.GEISER_DURATION / geiserRegions.size, geiserRegions, PlayMode.NORMAL);
 
-            geiser = new Animation(Constants.GEISER_DURATION / geiserRegions.size,
-                    geiserRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> flameRegions = new Array<AtlasRegion>();
+            flameRegions.add(atlas.findRegion(Constants.FLAME_SPRITE_1));
+            flameRegions.add(atlas.findRegion(Constants.FLAME_SPRITE_2));
+            flame = new Animation(Constants.FLAME_DURATION / flameRegions.size, flameRegions, PlayMode.NORMAL);
         }
     }
 
-    public class WheelAssets {
-
+    public class SuspensionAssets {
+        public final Animation sharp;
+        public final Animation gusher;
+        public final Animation lump;
+        public final Animation coil;
         public final Animation wheel;
 
-        public WheelAssets(TextureAtlas atlas) {
+        public SuspensionAssets(TextureAtlas atlas) {
+            
             Array<AtlasRegion> wheelRegions = new Array<AtlasRegion>();
             wheelRegions.add(atlas.findRegion(Constants.WHEEL_SPRITE_1));
             wheelRegions.add(atlas.findRegion(Constants.WHEEL_SPRITE_2));
+            wheel = new Animation(Constants.WHEEL_DURATION / wheelRegions.size, wheelRegions, PlayMode.NORMAL);
 
-            wheel = new Animation(Constants.WHEEL_DURATION / wheelRegions.size,
-                    wheelRegions, PlayMode.NORMAL);
-        }
-    }
-
-    public class CoilAssets {
-
-        public final Animation coil;
-
-        public CoilAssets(TextureAtlas atlas) {
             Array<AtlasRegion> coilRegions = new Array<AtlasRegion>();
             coilRegions.add(atlas.findRegion(Constants.COIL_SPRITE_1));
             coilRegions.add(atlas.findRegion(Constants.COIL_SPRITE_2));
+            coil = new Animation(Constants.COIL_DURATION / coilRegions.size, coilRegions, PlayMode.NORMAL);
 
-            coil = new Animation(Constants.COIL_DURATION / coilRegions.size,
-                    coilRegions, PlayMode.NORMAL);
+            //TODO: Replace rollen assets
+            
+            Array<AtlasRegion> fieryRollenRegions = new Array<AtlasRegion>();
+            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_1));
+            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_2));
+            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_3));
+            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_4));
+            lump = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, fieryRollenRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> gushingRollenRegions = new Array<AtlasRegion>();
+            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_1));
+            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_2));
+            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_3));
+            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_4));
+            gusher = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, gushingRollenRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> sharpRollenRegions = new Array<AtlasRegion>();
+            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_1));
+            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_2));
+            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_3));
+            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_4));
+            sharp = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, sharpRollenRegions, PlayMode.NORMAL);
         }
     }
     
@@ -904,11 +898,8 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final SwoopaAssets getSwoopaAssets() { return swoopaAssets; }
     public final OrbenAssets getOrbenAssets() { return orbenAssets; }
     public final RollenAssets getRollenAssets() { return rollenAssets; }
-    public final SpikeAssets getSpikeAssets() { return spikeAssets; }
-    public final FlameAssets getFlameAssets() { return flameAssets; }
-    public final GeiserAssets getGeiserAssets() { return geiserAssets; }
-    public final WheelAssets getWheelAssets() { return wheelAssets; }
-    public final CoilAssets getCoilAssets() { return coilAssets; }
+    public final ProtrusionAssets getProtrusionAssets() { return protrusionAssets; }
+    public final SuspensionAssets getSuspensionAssets() { return suspensionAssets; }
     public final VacuumAssets getVacuumAssets() { return vacuumAssets; }
     public final ImpactAssets getImpactAssets() { return impactAssets; }
     public final PowerupAssets getPowerupAssets() { return powerupAssets; }

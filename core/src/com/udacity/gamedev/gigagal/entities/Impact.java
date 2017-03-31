@@ -20,9 +20,9 @@ public class Impact implements Entity {
     private float offset = 0;
 
     // ctor
-    public Impact(Vector2 position,  Enums.WeaponType type) {
+    public Impact(Vector2 position, Enums.WeaponType type) {
         this.position = position;
-        this.type =type;
+        this.type = type;
         startTime = TimeUtils.nanoTime();
     }
 

@@ -342,7 +342,7 @@ public final class Constants {
     public static final String SPIKE_SPRITE_1 = "spike-1";
     public static final String SPIKE_SPRITE_2 = "spike-2";
 
-    // Flame
+    // FLame
     public static final Vector2 FLAME_CENTER = new Vector2(8.5f, 17.5f);
     public static final float FLAME_DURATION = 0.15f;
     public static final int FLAME_DAMAGE = 15;
@@ -361,6 +361,26 @@ public final class Constants {
     public static final float GEISER_COLLISION_HEIGHT = 25;
     public static final String GEISER_SPRITE_1 = "geiser-1";
     public static final String GEISER_SPRITE_2 = "geiser-2";
+
+    // Rod
+    public static final Vector2 ROD_CENTER = new Vector2(8.5f, 17.5f);
+    public static final float ROD_DURATION = 0.3f;
+    public static final int ROD_DAMAGE = 10;
+    public static final Vector2 ROD_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
+    public static final float ROD_COLLISION_WIDTH = 15;
+    public static final float ROD_COLLISION_HEIGHT = 25;
+    public static final String ROD_SPRITE_1 = "rod-1";
+    public static final String ROD_SPRITE_2 = "rod-2";
+
+    // Whirl
+    public static final Vector2 WHIRL_CENTER = new Vector2(8.5f, 17.5f);
+    public static final float WHIRL_DURATION = 0.3f;
+    public static final int WHIRL_DAMAGE = 10;
+    public static final Vector2 WHIRL_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
+    public static final float WHIRL_COLLISION_WIDTH = 15;
+    public static final float WHIRL_COLLISION_HEIGHT = 25;
+    public static final String WHIRL_SPRITE_1 = "whirl-1";
+    public static final String WHIRL_SPRITE_2 = "whirl-2";
 
     // Wheel
     public static final Vector2 WHEEL_CENTER = new Vector2(12.5f, 12.5f);
@@ -451,6 +471,7 @@ public final class Constants {
 
     // Powerup
     public static final Vector2 POWERUP_CENTER = new Vector2(7, 5);
+
     public static final int POWERUP_AMMO = 10;
     public static final int POWERUP_HEALTH = 50;
     public static final int POWERUP_TURBO = 100;

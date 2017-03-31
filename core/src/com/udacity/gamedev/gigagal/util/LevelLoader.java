@@ -8,28 +8,25 @@ import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.Coals;
-import com.udacity.gamedev.gigagal.entities.Coil;
 import com.udacity.gamedev.gigagal.entities.Ice;
 import com.udacity.gamedev.gigagal.entities.Ladder;
 import com.udacity.gamedev.gigagal.entities.Lift;
 import com.udacity.gamedev.gigagal.entities.Orben;
 import com.udacity.gamedev.gigagal.entities.Pillar;
 import com.udacity.gamedev.gigagal.entities.Pole;
+import com.udacity.gamedev.gigagal.entities.Protrusion;
 import com.udacity.gamedev.gigagal.entities.Rollen;
 import com.udacity.gamedev.gigagal.entities.Rope;
 import com.udacity.gamedev.gigagal.entities.Sink;
 import com.udacity.gamedev.gigagal.entities.Slick;
 import com.udacity.gamedev.gigagal.entities.Spring;
+import com.udacity.gamedev.gigagal.entities.Suspension;
 import com.udacity.gamedev.gigagal.entities.Swoopa;
 import com.udacity.gamedev.gigagal.entities.Treadmill;
 import com.udacity.gamedev.gigagal.entities.TurboPowerup;
 import com.udacity.gamedev.gigagal.entities.Vacuum;
-import com.udacity.gamedev.gigagal.entities.Flame;
-import com.udacity.gamedev.gigagal.entities.Geiser;
 import com.udacity.gamedev.gigagal.entities.HealthPowerup;
-import com.udacity.gamedev.gigagal.entities.Spike;
 import com.udacity.gamedev.gigagal.entities.Vines;
-import com.udacity.gamedev.gigagal.entities.Wheel;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Box;
@@ -39,8 +36,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import java.util.Comparator;
-
-import static com.udacity.gamedev.gigagal.util.Constants.LEVEL_RANGE_KEY;
 
 // immutable static
 public final class LevelLoader {
@@ -148,23 +143,23 @@ public final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPIKE_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SPIKE_CENTER);
                 Gdx.app.log(TAG, "Loaded the spike at " + spikePosition);
-                level.getIndestructibles().add(new Spike(spikePosition));
+                level.getIndestructibles().add(new Protrusion(spikePosition, Enums.WeaponType.SOLID));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.FLAME_SPRITE_1)) {
                 final Vector2 flamePosition = imagePosition.add(Constants.FLAME_CENTER);
                 Gdx.app.log(TAG, "Loaded the flame at " + flamePosition);
-                level.getIndestructibles().add(new Flame(flamePosition));
+                level.getIndestructibles().add(new Protrusion(flamePosition, Enums.WeaponType.GAS));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.GEISER_SPRITE_1)) {
                 final Vector2 geiserPosition = imagePosition.add(Constants.GEISER_CENTER);
                 Gdx.app.log(TAG, "Loaded the geiser at " + geiserPosition);
-                level.getIndestructibles().add(new Geiser(geiserPosition));
+                level.getIndestructibles().add(new Protrusion(geiserPosition, Enums.WeaponType.LIQUID));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WHEEL_SPRITE_1)) {
                 final Vector2 wheelPosition = imagePosition.add(Constants.WHEEL_CENTER);
                 Gdx.app.log(TAG, "Loaded the wheel at " + wheelPosition);
-                level.getIndestructibles().add(new Wheel(wheelPosition));
+                level.getIndestructibles().add(new Suspension(wheelPosition, Enums.WeaponType.POLYMER));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.COIL_SPRITE_1)) {
                 final Vector2 coilPosition = imagePosition.add(Constants.COIL_CENTER);
                 Gdx.app.log(TAG, "Loaded the coil at " + coilPosition);
-                level.getIndestructibles().add(new Coil(coilPosition));
+                level.getIndestructibles().add(new Suspension(coilPosition, Enums.WeaponType.PLASMA));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VACUUM_SPRITE_1)) {
                 final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
                 Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
