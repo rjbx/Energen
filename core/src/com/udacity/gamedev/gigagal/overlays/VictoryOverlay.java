@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.GameplayScreen;
-import com.udacity.gamedev.gigagal.entities.Explosion;
+import com.udacity.gamedev.gigagal.entities.Impact;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
@@ -22,7 +22,7 @@ public final class VictoryOverlay {
     public final static String TAG = VictoryOverlay.class.getName();
     private final Viewport viewport;
     private final BitmapFont font;
-    private Array<Explosion> explosions;
+    private Array<Impact> explosions;
     private GameplayScreen gameplayScreen;
     private String levelTime;
     private String totalTime;
@@ -36,15 +36,15 @@ public final class VictoryOverlay {
     }
 
     public void init() {
-        explosions = new Array<Explosion>(Constants.EXPLOSION_COUNT);
+        explosions = new Array<Impact>(Constants.EXPLOSION_COUNT);
         for (int i = 0; i < Constants.EXPLOSION_COUNT; i++) {
-            Explosion explosion = new Explosion(new Vector2(
+            Impact impact = new Impact(new Vector2(
                     MathUtils.random(viewport.getWorldWidth()),
                     MathUtils.random(viewport.getWorldHeight())
             ));
-            explosion.setOffset(MathUtils.random(Constants.LEVEL_END_DURATION));
+            impact.setOffset(MathUtils.random(Constants.LEVEL_END_DURATION));
 
-            explosions.add(explosion);
+            explosions.add(impact);
         }
     }
 
@@ -52,8 +52,8 @@ public final class VictoryOverlay {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
-        for (Explosion explosion : explosions){
-            explosion.render(batch);
+        for (Impact impact : explosions){
+            impact.render(batch);
         }
 
         levelTime = Utils.stopWatchToString(gameplayScreen.getLevel().getLevelTime());

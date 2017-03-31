@@ -48,7 +48,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private WheelAssets wheelAssets;
     private CoilAssets coilAssets;
     private VacuumAssets vacuumAssets;
-    private ExplosionAssets explosionAssets;
+    private ImpactAssets impactAssets;
     private PowerupAssets powerupAssets;
     private PortalAssets portalAssets;
     private OverlayAssets overlayAssets;
@@ -96,7 +96,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         wheelAssets = new WheelAssets(atlas);
         coilAssets = new CoilAssets(atlas);
         vacuumAssets = new VacuumAssets(atlas);
-        explosionAssets = new ExplosionAssets(atlas);
+        impactAssets = new ImpactAssets(atlas);
         powerupAssets = new PowerupAssets(atlas);
         portalAssets = new PortalAssets(atlas);
         overlayAssets = new OverlayAssets(atlas);
@@ -762,19 +762,55 @@ public final class Assets implements Disposable, AssetErrorListener {
         }
     }
 
-    public class ExplosionAssets {
+    public class ImpactAssets {
 
-        public final Animation explosion;
+        public final Animation impactPlasma;
+        public final Animation impactGas;
+        public final Animation impactLiquid;
+        public final Animation impactSolid;
+        public final Animation impactNative;
 
-        public ExplosionAssets(TextureAtlas atlas) {
+        public ImpactAssets(TextureAtlas atlas) {
 
-            Array<AtlasRegion> explosionRegions = new Array<AtlasRegion>();
-            explosionRegions.add(atlas.findRegion(Constants.IMPACT_GAS_LARGE));
-            explosionRegions.add(atlas.findRegion(Constants.IMPACT_GAS_MEDIUM));
-            explosionRegions.add(atlas.findRegion(Constants.IMPACT_GAS_SMALL));
+            Array<AtlasRegion> impactPlasmaRegions = new Array<AtlasRegion>();
+            impactPlasmaRegions.add(atlas.findRegion(Constants.IMPACT_PLASMA_LARGE));
+            impactPlasmaRegions.add(atlas.findRegion(Constants.IMPACT_PLASMA_MEDIUM));
+            impactPlasmaRegions.add(atlas.findRegion(Constants.IMPACT_PLASMA_SMALL));
 
-            explosion = new Animation(Constants.EXPLOSION_DURATION / explosionRegions.size,
-                    explosionRegions, PlayMode.NORMAL);
+            impactPlasma = new Animation(Constants.IMPACT_DURATION / impactPlasmaRegions.size,
+                    impactPlasmaRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> impactGasRegions = new Array<AtlasRegion>();
+            impactGasRegions.add(atlas.findRegion(Constants.IMPACT_GAS_LARGE));
+            impactGasRegions.add(atlas.findRegion(Constants.IMPACT_GAS_MEDIUM));
+            impactGasRegions.add(atlas.findRegion(Constants.IMPACT_GAS_SMALL));
+
+            impactGas = new Animation(Constants.IMPACT_DURATION / impactGasRegions.size,
+                    impactGasRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> impactLiquidRegions = new Array<AtlasRegion>();
+            impactLiquidRegions.add(atlas.findRegion(Constants.IMPACT_LIQUID_LARGE));
+            impactLiquidRegions.add(atlas.findRegion(Constants.IMPACT_LIQUID_MEDIUM));
+            impactLiquidRegions.add(atlas.findRegion(Constants.IMPACT_LIQUID_SMALL));
+
+            impactLiquid = new Animation(Constants.IMPACT_DURATION / impactLiquidRegions.size,
+                    impactLiquidRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> impactSolidRegions = new Array<AtlasRegion>();
+            impactSolidRegions.add(atlas.findRegion(Constants.IMPACT_SOLID_LARGE));
+            impactSolidRegions.add(atlas.findRegion(Constants.IMPACT_SOLID_MEDIUM));
+            impactSolidRegions.add(atlas.findRegion(Constants.IMPACT_SOLID_SMALL));
+
+            impactSolid = new Animation(Constants.IMPACT_DURATION / impactSolidRegions.size,
+                    impactSolidRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> impactNativeRegions = new Array<AtlasRegion>();
+            impactNativeRegions.add(atlas.findRegion(Constants.IMPACT_NATIVE_LARGE));
+            impactNativeRegions.add(atlas.findRegion(Constants.IMPACT_NATIVE_MEDIUM));
+            impactNativeRegions.add(atlas.findRegion(Constants.IMPACT_NATIVE_SMALL));
+
+            impactNative = new Animation(Constants.IMPACT_DURATION / impactNativeRegions.size,
+                    impactNativeRegions, PlayMode.NORMAL);
         }
     }
 
@@ -874,7 +910,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public final WheelAssets getWheelAssets() { return wheelAssets; }
     public final CoilAssets getCoilAssets() { return coilAssets; }
     public final VacuumAssets getVacuumAssets() { return vacuumAssets; }
-    public final ExplosionAssets getExplosionAssets() { return explosionAssets; }
+    public final ImpactAssets getImpactAssets() { return impactAssets; }
     public final PowerupAssets getPowerupAssets() { return powerupAssets; }
     public final PortalAssets getPortalAssets() { return portalAssets; }
     public final OverlayAssets getOverlayAssets() { return overlayAssets; }

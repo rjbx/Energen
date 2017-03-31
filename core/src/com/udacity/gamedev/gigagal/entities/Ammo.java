@@ -119,7 +119,7 @@ public final class Ammo implements IndestructibleHazard {
 
         for (DestructibleHazard destructible : level.getDestructibles()) {
             if (position.dst(destructible.getPosition()) < (destructible.getShotRadius() + radius)) {
-                level.spawnExplosion(position);
+                level.spawnExplosion(position, weapon);
                 active = false;
 
                 TypeEffectiveness effectiveness = Utils.getAmmoEffectiveness(destructible.getType(), weapon);

@@ -430,9 +430,9 @@ public final class Constants {
     public static final String SHOT_PSYCHIC_SPRITE = "ammo-shot-psychic";
     public static final String BLAST_PSYCHIC_SPRITE = "ammo-blast-psychic";
 
-    // Explosion
+    // Impact
     public static final Vector2 EXPLOSION_CENTER = new Vector2(8, 8);
-    public static final float EXPLOSION_DURATION = 0.5f;
+    public static final float IMPACT_DURATION = 0.5f;
     public static final String IMPACT_PLASMA_LARGE = "impact-plasma-large";
     public static final String IMPACT_PLASMA_MEDIUM = "impact-plasma-medium";
     public static final String IMPACT_PLASMA_SMALL = "impact-plasma-small";

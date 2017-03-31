@@ -270,21 +270,21 @@ coil-2
   orig: 25, 25
   offset: 0, 0
   index: -1
-explosion-large
+impact-large
   rotate: false
   xy: 201, 182
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
   index: -1
-explosion-medium
+impact-medium
   rotate: false
   xy: 201, 144
   size: 36, 36
   orig: 36, 36
   offset: 0, 0
   index: -1
-explosion-small
+impact-small
   rotate: false
   xy: 979, 445
   size: 36, 36

@@ -15,12 +15,11 @@ import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.Ground;
 import com.udacity.gamedev.gigagal.entities.Hazard;
+import com.udacity.gamedev.gigagal.entities.Impact;
 import com.udacity.gamedev.gigagal.entities.IndestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.HoverableGround;
 import com.udacity.gamedev.gigagal.entities.Orben;
-import com.udacity.gamedev.gigagal.entities.Zoomba;
 import com.udacity.gamedev.gigagal.entities.Portal;
-import com.udacity.gamedev.gigagal.entities.Explosion;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -51,7 +50,7 @@ public class Level {
     private Array<Hazard> hazards;
     private Array<Ground> grounds;
     private DelayedRemovalArray<Ammo> ammoList;
-    private DelayedRemovalArray<Explosion> explosions;
+    private DelayedRemovalArray<Impact> explosions;
     private DelayedRemovalArray<Powerup> powerups;
     private Timer levelTime;
     private int difficulty;
@@ -69,7 +68,7 @@ public class Level {
         indestructibles = new DelayedRemovalArray<IndestructibleHazard>();
         hazards = new Array<Hazard>(indestructibles);
         ammoList = new DelayedRemovalArray<Ammo>();
-        explosions = new DelayedRemovalArray<Explosion>();
+        explosions = new DelayedRemovalArray<Impact>();
         powerups = new DelayedRemovalArray<Powerup>();
         portal = new Portal(new Vector2(200, 200));
         gameOver = false;
@@ -144,7 +143,7 @@ public class Level {
             for (DestructibleHazard destructible : destructibles) {
                 destructible.update(delta);
                 if (destructible.getHealth() < 1) {
-                    spawnExplosion(destructible.getPosition());
+                    spawnExplosion(destructible.getPosition(), destructible.getType());
                     destructibles.removeValue(destructible, true);
                     levelScore += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[difficulty]);
                 }
@@ -219,8 +218,8 @@ public class Level {
             chargeAmmo.render(batch);
         }
 
-        for (Explosion explosion : explosions) {
-            explosion.render(batch);
+        for (Impact impact : explosions) {
+            impact.render(batch);
         }
 
         batch.end();
@@ -235,7 +234,7 @@ public class Level {
         boxes = new Array<Box>();
         ammoList = new DelayedRemovalArray<Ammo>();
         destructibles = new DelayedRemovalArray<DestructibleHazard>();
-        explosions = new DelayedRemovalArray<Explosion>();
+        explosions = new DelayedRemovalArray<Impact>();
         powerups = new DelayedRemovalArray<Powerup>();
 
 
@@ -259,8 +258,8 @@ public class Level {
         return false;
     }
 
-    public void spawnExplosion(Vector2 position) {
-        explosions.add(new Explosion(position));
+    public void spawnExplosion(Vector2 position, Enums.WeaponType type) {
+        explosions.add(new Impact(position, type));
     }
 
     // Getters
