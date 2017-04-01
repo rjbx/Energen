@@ -42,8 +42,8 @@ public final class VictoryOverlay {
             Impact impact = new Impact(new Vector2(
                     MathUtils.random(viewport.getWorldWidth()),
                     MathUtils.random(viewport.getWorldHeight())
-            ), Enums.WeaponType.NATIVE);
-            impact.setOffset(MathUtils.random(Constants.LEVEL_END_DURATION));
+            ), gameplayScreen.getLevel().getType());
+            impact.setOffset(Math.abs(MathUtils.random(Constants.LEVEL_END_DURATION)));
 
             explosions.add(impact);
         }
@@ -53,7 +53,7 @@ public final class VictoryOverlay {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
-        for (Impact impact : explosions){
+        for (Impact impact : explosions) {
             impact.render(batch);
         }
 

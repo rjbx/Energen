@@ -53,6 +53,7 @@ public class Level {
     private DelayedRemovalArray<Impact> explosions;
     private DelayedRemovalArray<Powerup> powerups;
     private Timer levelTime;
+    private Enums.WeaponType levelWeapon;
     private int difficulty;
 
     // default ctor
@@ -95,7 +96,7 @@ public class Level {
 
             gigaGal.update(delta);
 
-            Enums.WeaponType levelWeapon = Enums.WeaponType.NATIVE;
+            levelWeapon = Enums.WeaponType.NATIVE;
             for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
                 if (weapon.levelName().equals(levelName)) {
                     levelWeapon = weapon;
@@ -277,6 +278,7 @@ public class Level {
     public final Timer getLevelTime() { return levelTime; }
     public final int getLevelScore() { return levelScore; }
     public final int getDifficulty() { return difficulty; }
+    public final Enums.WeaponType getType() { return levelWeapon; }
 
     // Setters
     public void setLevelScore(int levelScore) { this.levelScore = levelScore; }

@@ -31,22 +31,22 @@ public class Impact implements Entity {
         TextureRegion region;
         switch (type) {
             case PLASMA:
-                region = Assets.getInstance().getImpactAssets().impactPlasma.getKeyFrame(Utils.secondsSince(startTime) - offset);
+                region = Assets.getInstance().getImpactAssets().impactPlasma.getKeyFrame(Utils.secondsSince(startTime) + offset);
                 break;
             case GAS:
-                region = Assets.getInstance().getImpactAssets().impactGas.getKeyFrame(Utils.secondsSince(startTime) - offset);
+                region = Assets.getInstance().getImpactAssets().impactGas.getKeyFrame(Utils.secondsSince(startTime) + offset);
                 break;
             case LIQUID:
-                region = Assets.getInstance().getImpactAssets().impactLiquid.getKeyFrame(Utils.secondsSince(startTime) - offset);
+                region = Assets.getInstance().getImpactAssets().impactLiquid.getKeyFrame(Utils.secondsSince(startTime) + offset);
                 break;
             case SOLID:
-                region = Assets.getInstance().getImpactAssets().impactSolid.getKeyFrame(Utils.secondsSince(startTime) - offset);
+                region = Assets.getInstance().getImpactAssets().impactSolid.getKeyFrame(Utils.secondsSince(startTime) + offset);
                 break;
             case NATIVE:
-                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Utils.secondsSince(startTime) - offset);
+                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Utils.secondsSince(startTime) + offset);
                 break;
             default:
-                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Utils.secondsSince(startTime) - offset);
+                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Utils.secondsSince(startTime) + offset);
         }
         if (!isFinished() && !yetToStart()) {
             Utils.drawTextureRegion(
