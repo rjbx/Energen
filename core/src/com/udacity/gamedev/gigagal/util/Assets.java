@@ -679,47 +679,39 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class SuspensionAssets {
 
+        public final Animation burner;
         public final Animation sharp;
         public final Animation gusher;
         public final Animation lump;
         public final Animation coil;
-        public final Animation wheel;
         public final Animation vacuum;
 
         public SuspensionAssets(TextureAtlas atlas) {
-            
-            Array<AtlasRegion> wheelRegions = new Array<AtlasRegion>();
-            wheelRegions.add(atlas.findRegion(Constants.WHEEL_SPRITE_1));
-            wheelRegions.add(atlas.findRegion(Constants.WHEEL_SPRITE_2));
-            wheel = new Animation(Constants.WHEEL_DURATION / wheelRegions.size, wheelRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> burnerRegions = new Array<AtlasRegion>();
+            burnerRegions.add(atlas.findRegion(Constants.BURNER_SPRITE_1));
+            burnerRegions.add(atlas.findRegion(Constants.BURNER_SPRITE_2));
+            burner = new Animation(Constants.BURNER_DURATION / burnerRegions.size, burnerRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> coilRegions = new Array<AtlasRegion>();
             coilRegions.add(atlas.findRegion(Constants.COIL_SPRITE_1));
             coilRegions.add(atlas.findRegion(Constants.COIL_SPRITE_2));
             coil = new Animation(Constants.COIL_DURATION / coilRegions.size, coilRegions, PlayMode.NORMAL);
 
-            //TODO: Replace rollen assets
-            
-            Array<AtlasRegion> fieryRollenRegions = new Array<AtlasRegion>();
-            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_1));
-            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_2));
-            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_3));
-            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_4));
-            lump = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, fieryRollenRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> lumpRegions = new Array<AtlasRegion>();
+            lumpRegions.add(atlas.findRegion(Constants.LUMP_SPRITE_1));
+            lumpRegions.add(atlas.findRegion(Constants.LUMP_SPRITE_2));
+            lump = new Animation(Constants.LUMP_DURATION / lumpRegions.size, lumpRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> gushingRollenRegions = new Array<AtlasRegion>();
-            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_1));
-            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_2));
-            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_3));
-            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_4));
-            gusher = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, gushingRollenRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> sharpRegions = new Array<AtlasRegion>();
+            sharpRegions.add(atlas.findRegion(Constants.SHARP_SPRITE_1));
+            sharpRegions.add(atlas.findRegion(Constants.SHARP_SPRITE_2));
+            sharp = new Animation(Constants.SHARP_DURATION / sharpRegions.size, sharpRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> sharpRollenRegions = new Array<AtlasRegion>();
-            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_1));
-            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_2));
-            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_3));
-            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_4));
-            sharp = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, sharpRollenRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> gusherRegions = new Array<AtlasRegion>();
+            gusherRegions.add(atlas.findRegion(Constants.GUSHER_SPRITE_1));
+            gusherRegions.add(atlas.findRegion(Constants.GUSHER_SPRITE_2));
+            gusher = new Animation(Constants.WHEEL_DURATION / gusherRegions.size, gusherRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> vacuumRegions = new Array<AtlasRegion>();
             vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_1));
