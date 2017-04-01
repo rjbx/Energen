@@ -44,25 +44,25 @@ public class Suspension implements IndestructibleHazard {
                 damage = Constants.COIL_DAMAGE;
                 break;
             case GAS:
-                region = Assets.getInstance().getSuspensionAssets().lump.getKeyFrame(elapsedTime, true);
-                center.set(Constants.FLAME_CENTER);
-                collisionSpan.set(Constants.FLAME_COLLISION_WIDTH, Constants.FLAME_COLLISION_HEIGHT);
-                knockback.set(Constants.FLAME_KNOCKBACK);
-                damage = Constants.FLAME_DAMAGE;
+                region = Assets.getInstance().getSuspensionAssets().burner.getKeyFrame(elapsedTime, true);
+                center.set(Constants.BURNER_CENTER);
+                collisionSpan.set(Constants.BURNER_COLLISION_WIDTH, Constants.BURNER_COLLISION_HEIGHT);
+                knockback.set(Constants.BURNER_KNOCKBACK);
+                damage = Constants.BURNER_DAMAGE;
                 break;
             case LIQUID:
-                region = Assets.getInstance().getSuspensionAssets().gusher.getKeyFrame(elapsedTime, true);
-                center.set(Constants.GEISER_CENTER);
-                collisionSpan.set(Constants.GEISER_COLLISION_WIDTH, Constants.GEISER_COLLISION_HEIGHT);
-                knockback.set(Constants.GEISER_KNOCKBACK);
-                damage = Constants.GEISER_DAMAGE;
+                region = Assets.getInstance().getSuspensionAssets().lump.getKeyFrame(elapsedTime, true);
+                center.set(Constants.LUMP_CENTER);
+                collisionSpan.set(Constants.LUMP_COLLISION_WIDTH, Constants.LUMP_COLLISION_HEIGHT);
+                knockback.set(Constants.LUMP_KNOCKBACK);
+                damage = Constants.LUMP_DAMAGE;
                 break;
             case SOLID:
                 region = Assets.getInstance().getSuspensionAssets().sharp.getKeyFrame(elapsedTime, true);
-                center.set(Constants.SPIKE_CENTER);
-                collisionSpan.set(Constants.SPIKE_COLLISION_WIDTH, Constants.SPIKE_COLLISION_HEIGHT);
-                knockback.set(Constants.SPIKE_KNOCKBACK);
-                damage = Constants.SPIKE_DAMAGE;
+                center.set(Constants.SHARP_CENTER);
+                collisionSpan.set(Constants.SHARP_COLLISION_WIDTH, Constants.SHARP_COLLISION_HEIGHT);
+                knockback.set(Constants.SHARP_KNOCKBACK);
+                damage = Constants.SHARP_DAMAGE;
                 break;
             case PSYCHIC:
                 region = Assets.getInstance().getSuspensionAssets().vacuum.getKeyFrame(elapsedTime, true);

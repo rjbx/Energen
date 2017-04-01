@@ -681,7 +681,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final Animation burner;
         public final Animation sharp;
-        public final Animation gusher;
+        public final Animation wheel;
         public final Animation lump;
         public final Animation coil;
         public final Animation vacuum;
@@ -709,9 +709,9 @@ public final class Assets implements Disposable, AssetErrorListener {
             sharp = new Animation(Constants.SHARP_DURATION / sharpRegions.size, sharpRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> gusherRegions = new Array<AtlasRegion>();
-            gusherRegions.add(atlas.findRegion(Constants.GUSHER_SPRITE_1));
-            gusherRegions.add(atlas.findRegion(Constants.GUSHER_SPRITE_2));
-            gusher = new Animation(Constants.WHEEL_DURATION / gusherRegions.size, gusherRegions, PlayMode.NORMAL);
+            gusherRegions.add(atlas.findRegion(Constants.WHEEL_SPRITE_1));
+            gusherRegions.add(atlas.findRegion(Constants.WHEEL_SPRITE_2));
+            wheel = new Animation(Constants.WHEEL_DURATION / gusherRegions.size, gusherRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> vacuumRegions = new Array<AtlasRegion>();
             vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_1));

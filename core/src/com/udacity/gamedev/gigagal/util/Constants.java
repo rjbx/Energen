@@ -199,23 +199,18 @@ public final class Constants {
     public static final float ZOOMBA_RANGE = 50;
     public static final String ZOOMBA_SPRITE = "zoomba";
 
-    // Fiery-Zoomba
     public static final String FIERYZOOMBA_SPRITE_1 = "zoomba-gas-1";
     public static final String FIERYZOOMBA_SPRITE_2 = "zoomba-gas-2";
 
-    // Gushing-Zoomba
     public static final String GUSHINGZOOMBA_SPRITE_1 = "zoomba-liquid-1";
     public static final String GUSHINGZOOMBA_SPRITE_2 = "zoomba-liquid-2";
 
-    // Charged-Zoomba
     public static final String CHARGEDZOOMBA_SPRITE_1 = "zoomba-plasma-1";
     public static final String CHARGEDZOOMBA_SPRITE_2 = "zoomba-plasma-2";
 
-    // Whirling-Zoomba
     public static final String WHIRLINGZOOMBA_SPRITE_1 = "zoomba-polymer-1";
     public static final String WHIRLINGZOOMBA_SPRITE_2 = "zoomba-polymer-2";
 
-    // Sharp-Zoomba
     public static final String SHARPZOOMBA_SPRITE_1 = "zoomba-solid-1";
     public static final String SHARPZOOMBA_SPRITE_2 = "zoomba-solid-2";
 
@@ -230,23 +225,18 @@ public final class Constants {
     public static final float SWOOPA_SHOT_RADIUS = 17;
     public static final String SWOOPA_SPRITE = "swoopa";
 
-    // Fiery-Swoopa
     public static final String FIERYSWOOPA_SPRITE_1 = "swoopa-gas-1";
     public static final String FIERYSWOOPA_SPRITE_2 = "swoopa-gas-2";
 
-    // Gushing-Swoopa
     public static final String GUSHINGSWOOPA_SPRITE_1 = "swoopa-liquid-1";
     public static final String GUSHINGSWOOPA_SPRITE_2 = "swoopa-liquid-2";
 
-    // Charged-Swoopa
     public static final String CHARGEDSWOOPA_SPRITE_1 = "swoopa-plasma-1";
     public static final String CHARGEDSWOOPA_SPRITE_2 = "swoopa-plasma-2";
 
-    // Whirling-Swoopa
     public static final String WHIRLINGSWOOPA_SPRITE_1 = "swoopa-polymer-1";
     public static final String WHIRLINGSWOOPA_SPRITE_2 = "swoopa-polymer-2";
 
-    // Sharp-Swoopa
     public static final String SHARPSWOOPA_SPRITE_1 = "swoopa-solid-1";
     public static final String SHARPSWOOPA_SPRITE_2 = "swoopa-solid-2";
 
@@ -264,27 +254,22 @@ public final class Constants {
     public static final int ORBEN_REGIONS = 3;
     public static final String DORMANTORBEN_SPRITE = "orben-dormant";
 
-    // Fiery-Orben
     public static final String FIERYORBEN_SPRITE_0 = "orben-gas-active-0";
     public static final String FIERYORBEN_SPRITE_1 = "orben-gas-active-1";
     public static final String FIERYORBEN_SPRITE_2 = "orben-gas-active-2";
 
-    // Gushing-Orben
     public static final String GUSHINGORBEN_SPRITE_0 = "orben-liquid-active-0";
     public static final String GUSHINGORBEN_SPRITE_1 = "orben-liquid-active-1";
     public static final String GUSHINGORBEN_SPRITE_2 = "orben-liquid-active-2";
 
-    // Charged-Orben
     public static final String CHARGEDORBEN_SPRITE_0 = "orben-plasma-active-0";
     public static final String CHARGEDORBEN_SPRITE_1 = "orben-plasma-active-1";
     public static final String CHARGEDORBEN_SPRITE_2 = "orben-plasma-active-2";
 
-    // Whirling-Orben
     public static final String WHIRLINGORBEN_SPRITE_0 = "orben-polymer-active-0";
     public static final String WHIRLINGORBEN_SPRITE_1 = "orben-polymer-active-1";
     public static final String WHIRLINGORBEN_SPRITE_2 = "orben-polymer-active-2";
 
-    // Sharp-Orben
     public static final String SHARPORBEN_SPRITE_0 = "orben-solid-active-0";
     public static final String SHARPORBEN_SPRITE_1 = "orben-solid-active-1";
     public static final String SHARPORBEN_SPRITE_2 = "orben-solid-active-2";
@@ -410,16 +395,14 @@ public final class Constants {
     public static final String SHARP_SPRITE_1 = "suspension-solid-1";
     public static final String SHARP_SPRITE_2 = "suspension-solid-2";
 
-    public static final Vector2 GUSHER_CENTER = new Vector2(12.5f, 12.5f);
+    public static final Vector2 WHEEL_CENTER = new Vector2(12.5f, 12.5f);
     public static final float WHEEL_DURATION = 0.1f;
     public static final int WHEEL_DAMAGE = 5;
     public static final Vector2 WHEEL_KNOCKBACK = new Vector2(200, 250);
     public static final float WHEEL_COLLISION_WIDTH = 25;
     public static final float WHEEL_COLLISION_HEIGHT = 25;
-    public static final String GUSHER_SPRITE_1 = "suspension-polymer-1";
-    public static final String GUSHER_SPRITE_2 = "suspension-polymer-2";
-
-
+    public static final String WHEEL_SPRITE_1 = "suspension-polymer-1";
+    public static final String WHEEL_SPRITE_2 = "suspension-polymer-2";
 
     public static final Vector2 VACUUM_CENTER = new Vector2(31, 31);
     public static final float VACUUM_FRAME_DURATION = 0.4f;
