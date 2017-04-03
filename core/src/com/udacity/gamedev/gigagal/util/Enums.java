@@ -49,27 +49,29 @@ public final class Enums {
     }
 
     public enum WeaponType {
-        
+
+        NATIVE { @Override public final LevelName levelName() { return LevelName.HOME; } },
         POLYMER { @Override public final LevelName levelName() { return LevelName.MECHANICAL; } },
-        PLASMA { @Override public final LevelName levelName() { return LevelName.MAGNETIC; } },
+        PLASMA { @Override public final LevelName levelName() { return LevelName.ELECTROMAGNETIC; } },
         GAS { @Override public final LevelName levelName() { return LevelName.NUCLEAR; } },
-        LIQUID { @Override public final LevelName levelName() { return LevelName.ELECTRIC; } },
+        LIQUID { @Override public final LevelName levelName() { return LevelName.THERMAL; } },
         SOLID { @Override public final LevelName levelName() { return LevelName.GRAVITATIONAL; } },
         PSYCHIC { @Override public final LevelName levelName() { return LevelName.PARANORMAL; } },
-        NATIVE { @Override public final LevelName levelName() { return LevelName.FINAL; } };
+        HYBRID { @Override public final LevelName levelName() { return LevelName.FINAL; } };
 
         abstract public LevelName levelName();
     }
 
     public enum LevelName {
 
+        HOME { @Override public final WeaponType weaponType() { return WeaponType.NATIVE; } },
         MECHANICAL { @Override public final WeaponType weaponType() { return WeaponType.POLYMER; } },
-        MAGNETIC { @Override public final WeaponType weaponType() { return WeaponType.PLASMA; } },
+        ELECTROMAGNETIC { @Override public final WeaponType weaponType() { return WeaponType.PLASMA; } },
         NUCLEAR { @Override public final WeaponType weaponType() { return WeaponType.GAS; } },
-        ELECTRIC { @Override public final WeaponType weaponType() { return WeaponType.LIQUID; } },
+        THERMAL { @Override public final WeaponType weaponType() { return WeaponType.LIQUID; } },
         GRAVITATIONAL { @Override public final WeaponType weaponType() { return WeaponType.SOLID; } },
         PARANORMAL { @Override public final WeaponType weaponType() { return WeaponType.PSYCHIC; } },
-        FINAL { @Override public final WeaponType weaponType() { return WeaponType.NATIVE; } };
+        FINAL { @Override public final WeaponType weaponType() { return WeaponType.HYBRID; } };
 
         abstract public WeaponType weaponType();
     }
