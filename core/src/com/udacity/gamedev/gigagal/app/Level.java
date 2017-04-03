@@ -35,7 +35,7 @@ public class Level {
 
     // fields
     public static final String TAG = Level.class.getName();
-    private String levelName;
+    private Enums.LevelName levelName;
     private Viewport viewport;
     private boolean victory;
     private boolean gameOver;
@@ -285,5 +285,5 @@ public class Level {
     public final void setDifficulty(int difficulty) { this.difficulty = difficulty; }
     public final void setPortal(Portal portal) { this.portal = portal; }
     public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
-    public final void setLevelName(String levelName) { this.levelName = levelName; }
+    public final void setLevelName(Enums.LevelName levelName) { this.levelName = levelName; }
 }

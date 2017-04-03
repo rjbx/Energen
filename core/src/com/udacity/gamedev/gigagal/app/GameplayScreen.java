@@ -41,7 +41,6 @@ public class GameplayScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private ShapeRenderer renderer;
     private long levelEndOverlayStartTime;
-    private int levelNumber;
     private Level level;
     private ChaseCam chaseCam;
     private GaugeHud meterHud;
@@ -50,8 +49,8 @@ public class GameplayScreen extends ScreenAdapter {
     private DefeatOverlay defeatOverlay;
     private PauseOverlay pauseOverlay;
     private OptionsOverlay optionsOverlay;
-    private Array<String> completedLevels;
-    private String levelName;
+    private Array<Enums.LevelName> completedLevels;
+    private Enums.LevelName levelName;
     private GigaGal gigaGal;
     private Array<TurboPowerup> powerups;
     private int totalScore;
@@ -66,7 +65,7 @@ public class GameplayScreen extends ScreenAdapter {
     public GameplayScreen(GigaGalGame game) {
         this.game = game;
         prefs = game.getPreferences();
-        completedLevels = new Array<String>();
+        completedLevels = new Array<Enums.LevelName>();
         totalTime = new Timer();
         paused = false;
         optionsVisible = false;
@@ -81,7 +80,7 @@ public class GameplayScreen extends ScreenAdapter {
         if (savedWeapons != "NATIVE") {
             List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
             for (String weaponString : savedWeaponsList) {
-                if (!completedLevels.contains(weaponString, false)) {
+                if (!completedLevels.contains(Enums.WeaponType.valueOf(weaponString).levelName(), false)) {
                     completedLevels.add(Enums.WeaponType.valueOf(weaponString).levelName());
                 }
             }
@@ -276,7 +275,7 @@ public class GameplayScreen extends ScreenAdapter {
         meterHud = new GaugeHud(level);
         contextHud = new IndicatorHud(level);
         this.gigaGal = level.getGigaGal();
-        for (String completedLevelName : completedLevels) {
+        for (Enums.LevelName completedLevelName : completedLevels) {
             for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
                 if (completedLevelName.equals(weapon.levelName())) {
                     if (!gigaGal.getWeaponList().contains(weapon)) {
@@ -321,5 +320,5 @@ public class GameplayScreen extends ScreenAdapter {
     public Viewport getViewport() { return this.getViewport(); }
 
     public void setGame(GigaGalGame game) { this.game = game;  }
-    public void setLevelName(String levelName) { this.levelName = levelName; }
+    public void setLevelName(Enums.LevelName levelName) { this.levelName = levelName; }
 }

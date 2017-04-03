@@ -31,18 +31,16 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private com.udacity.gamedev.gigagal.app.GigaGalGame game;
     private SpriteBatch batch;
     private Preferences prefs;
-    private int levelNumber;
-    private Array<String> completedLevels;
     private ExtendViewport viewport;
     private BitmapFont font;
-    private List<String> levelTypes;
-    private float margin;
-    private ListIterator<String> iterator;
-    private String levelName;
     private CursorOverlay cursor;
     private OptionsOverlay optionsOverlay;
     private Array<Float> namePositions;
-    private String selectedLevel;
+    private Array<Enums.LevelName> completedLevels;
+    private List<Enums.LevelName> levelTypes;
+    private ListIterator<Enums.LevelName> iterator;
+    private Enums.LevelName levelName;
+    private Enums.LevelName selectedLevel;
     private int index;
     private GameplayScreen gameplayScreen;
     private com.udacity.gamedev.gigagal.app.InputControls inputControls;
@@ -58,8 +56,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
-        levelTypes = new ArrayList<String>();
-        levelTypes.addAll(Arrays.asList(Constants.LEVELS));
+        levelTypes = new ArrayList<Enums.LevelName>(Arrays.asList(Enums.LevelName.values()));
         iterator = levelTypes.listIterator();
         levelName = iterator.next();
         index = 0;
@@ -70,10 +67,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        levelNumber = 0;
         optionsVisible = false;
         batch = new SpriteBatch();
-        completedLevels = new Array<String>();
+        completedLevels = new Array<Enums.LevelName>();
         optionsOverlay = new OptionsOverlay(this);
         optionsOverlay.init();
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
@@ -129,7 +125,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
                 if (cursor.getPosition() >= namePositions.get(index) - 15 && cursor.getPosition() < namePositions.get(index)) {
                     selectedLevel = levelName;
                 }
-                font.draw(batch, levelName, viewport.getWorldWidth() / 2.5f, namePositions.get(index));
+                font.draw(batch, levelName.toString(), viewport.getWorldWidth() / 2.5f, namePositions.get(index));
                 yPosition += 15;
                 namePositions.add(yPosition);
                 index++;
@@ -137,7 +133,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
             font.draw(batch, "OPTIONS", viewport.getWorldWidth() / 2.5f, viewport.getWorldHeight() / 2.5f - 15);
 
             index = 0;
-            margin = 0;
 
             if (inputControls.shootButtonJustPressed) {
                 if (cursor.getPosition() == viewport.getWorldHeight() / 2.5f - 24) {

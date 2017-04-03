@@ -19,7 +19,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     // fields
     public static final String TAG = Assets.class.getName();
     private static final Assets INSTANCE = new Assets();
-    private String levelName;
+    private Enums.LevelName levelName;
     private GigaGalAssets gigaGalAssets;
     private BoxAssets boxAssets;
     private CannonAssets cannonAssets;
@@ -55,7 +55,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     // static factory
     public static Assets getInstance() { return INSTANCE; }
 
-    public void setLevelName(String levelName) { INSTANCE.levelName = levelName;}
+    public void setLevelName(Enums.LevelName levelName) { INSTANCE.levelName = levelName;}
 
     public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -210,8 +210,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public BoxAssets(TextureAtlas atlas) {
             AtlasRegion region;
             System.out.println(levelName);
-            Enums.LevelName name = Enums.LevelName.valueOf(levelName);
-            switch (name) {
+            switch (levelName) {
                 case GRAVITATIONAL: region = atlas.findRegion(Constants.RED_BOX_SPRITE); break;
                 case MECHANICAL: region = atlas.findRegion(Constants.GREY_BOX_SPRITE); break;
                 case MAGNETIC: region = atlas.findRegion(Constants.BLACK_BOX_SPRITE); break;

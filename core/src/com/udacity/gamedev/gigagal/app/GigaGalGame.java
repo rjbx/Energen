@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.Enums;
 
 // immutable
 public final class GigaGalGame extends Game {
@@ -24,7 +25,7 @@ public final class GigaGalGame extends Game {
         gameplayScreen = new GameplayScreen(this);
         levelSelectScreen = new LevelSelectScreen(this);
         startScreen = new StartScreen(this);
-        Assets.getInstance().setLevelName("MECHANICAL");
+        Assets.getInstance().setLevelName(Enums.LevelName.MECHANICAL);
         Assets.getInstance().init(new AssetManager());
         InputControls.getInstance().init();
         setScreen(startScreen);
