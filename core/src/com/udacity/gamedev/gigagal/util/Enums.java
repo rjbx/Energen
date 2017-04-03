@@ -42,22 +42,35 @@ public final class Enums {
         SHOT, CHARGE_SHOT, BLAST,
     }
 
-    public enum WeaponType {
-
-        SOLID { @Override public final String levelName() { return "GRAVITATIONAL"; } },
-        POLYMER { @Override public final String levelName() { return "MECHANICAL"; } },
-        PLASMA { @Override public final String levelName() { return "MAGNETIC"; } },
-        LIQUID { @Override public final String levelName() { return "ELECTRIC"; } },
-        GAS { @Override public final String levelName() { return "NUCLEAR"; } },
-        PSYCHIC { @Override public final String levelName() { return "PSYCHIC"; } },
-        NATIVE { @Override public final String levelName() { return "NATIVE"; } };
-
-        abstract public String levelName();
-    }
-
     public enum TypeEffectiveness {
         STRONG,
         NORMAL,
         WEAK
+    }
+
+    public enum WeaponType {
+        
+        POLYMER { @Override public final String levelName() { return "MECHANICAL"; } },
+        PLASMA { @Override public final String levelName() { return "MAGNETIC"; } },
+        GAS { @Override public final String levelName() { return "NUCLEAR"; } },
+        LIQUID { @Override public final String levelName() { return "ELECTRIC"; } },
+        SOLID { @Override public final String levelName() { return "GRAVITATIONAL"; } },
+        PSYCHIC { @Override public final String levelName() { return "PARANORMAL"; } },
+        NATIVE { @Override public final String levelName() { return "FINAL"; } };
+
+        abstract public String levelName();
+    }
+
+    public enum LevelName {
+
+        MECHANICAL { @Override public final String weaponType() { return "POLYMER"; } },
+        MAGNETIC { @Override public final String weaponType() { return "PLASMA"; } },
+        NUCLEAR { @Override public final String weaponType() { return "GAS"; } },
+        ELECTRIC { @Override public final String weaponType() { return "LIQUID"; } },
+        GRAVITATIONAL { @Override public final String weaponType() { return "SOLID"; } },
+        PARANORMAL { @Override public final String weaponType() { return "PSYCHIC"; } },
+        FINAL { @Override public final String weaponType() { return "NATIVE"; } };
+
+        abstract public String weaponType();
     }
 }

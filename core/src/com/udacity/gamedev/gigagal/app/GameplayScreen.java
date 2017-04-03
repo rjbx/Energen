@@ -266,7 +266,6 @@ public class GameplayScreen extends ScreenAdapter {
         level.setLevelName(levelName);
         Assets.getInstance().setLevelName(levelName);
         Assets.getInstance().init(new AssetManager());
-        levelNumber = (Arrays.asList(Constants.LEVELS)).indexOf(levelName);
         level.setDifficulty(prefs.getInteger("Difficulty", 0));
         powerups = new Array<TurboPowerup>();
         for (Powerup powerup : level.getPowerups()) {

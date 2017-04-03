@@ -13,8 +13,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
-import java.util.Arrays;
-
 // immutable singleton
 public final class Assets implements Disposable, AssetErrorListener {
 
@@ -211,18 +209,16 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final NinePatch boxNinePatch;
         public BoxAssets(TextureAtlas atlas) {
             AtlasRegion region;
-            int levelIndex = 0;
-            if (!levelName.isEmpty()) {
-                levelIndex = Arrays.asList(Constants.LEVELS).indexOf(levelName);
-            }
-            switch (levelIndex) {
-                case 0: region = atlas.findRegion(Constants.RED_BOX_SPRITE); break;
-                case 1: region = atlas.findRegion(Constants.GREY_BOX_SPRITE); break;
-                case 2: region = atlas.findRegion(Constants.BLACK_BOX_SPRITE); break;
-                case 3: region = atlas.findRegion(Constants.YELLOW_BOX_SPRITE); break;
-                case 4: region = atlas.findRegion(Constants.BLUE_BOX_SPRITE); break;
-                case 5: region = atlas.findRegion(Constants.CLEAR_BOX_SPRITE); break;
-                case 6: region = atlas.findRegion(Constants.MAGENTA_BOX_SPRITE); break;
+            System.out.println(levelName);
+            Enums.LevelName name = Enums.LevelName.valueOf(levelName);
+            switch (name) {
+                case GRAVITATIONAL: region = atlas.findRegion(Constants.RED_BOX_SPRITE); break;
+                case MECHANICAL: region = atlas.findRegion(Constants.GREY_BOX_SPRITE); break;
+                case MAGNETIC: region = atlas.findRegion(Constants.BLACK_BOX_SPRITE); break;
+                case ELECTRIC: region = atlas.findRegion(Constants.YELLOW_BOX_SPRITE); break;
+                case NUCLEAR: region = atlas.findRegion(Constants.BLUE_BOX_SPRITE); break;
+                case PARANORMAL: region = atlas.findRegion(Constants.CLEAR_BOX_SPRITE); break;
+                case FINAL: region = atlas.findRegion(Constants.MAGENTA_BOX_SPRITE); break;
                 default: region = atlas.findRegion(Constants.BOX_SPRITE);
             }
 
