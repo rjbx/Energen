@@ -209,7 +209,6 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final NinePatch boxNinePatch;
         public BoxAssets(TextureAtlas atlas) {
             AtlasRegion region;
-            System.out.println(levelName);
             switch (levelName) {
                 case GRAVITATIONAL: region = atlas.findRegion(Constants.RED_BOX_SPRITE); break;
                 case MECHANICAL: region = atlas.findRegion(Constants.GREY_BOX_SPRITE); break;
