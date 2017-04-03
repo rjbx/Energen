@@ -76,6 +76,7 @@ public class GigaGal implements Humanoid {
     private float turboDuration;
     private float startTurbo;
     private float turbo;
+    private float killPlane;
     private int lives;
     private int ammo;
     private int health;
@@ -138,6 +139,7 @@ public class GigaGal implements Humanoid {
         dashStartTime = 0;
         pauseTimeSeconds = 0;
         turboDuration = 0;
+        killPlane = -10000;
         recoveryStartTime = TimeUtils.nanoTime();
         health = Constants.MAX_HEALTH;
         turbo = Constants.MAX_TURBO;
@@ -262,6 +264,7 @@ public class GigaGal implements Humanoid {
                     if (action != Action.CLINGING) {
                         canCling = true; // enable cling
                         touchedGround = ground;
+                        killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
                     }
                     // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
                 } else {
@@ -391,6 +394,7 @@ public class GigaGal implements Humanoid {
 
     private void setAtopGround(Ground ground) {
         touchedGround = ground;
+        killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
         hoverStartTime = 0;
         clingStartTime = 0;
         canLook = true;
@@ -691,7 +695,7 @@ public class GigaGal implements Humanoid {
             strideStartTime = 0;
         }
         if (!canCling) {
-    //        touchedGround = null;
+            touchedGround = null;
             canHover = true;
         }
         if (onSinkable) {
@@ -1114,7 +1118,7 @@ public class GigaGal implements Humanoid {
     public float getChargeTimeSeconds() { return chargeTimeSeconds; }
     public GroundState getGroundState() { return groundState; }
     public Action getAction() { return action; }
-    public Ground getTouchedGround() { return touchedGround; }
+    public float getKillPlane() { return killPlane; }
 
     // Setters
     public void setDirectionX(Direction directionX) { this.directionX = directionX; }

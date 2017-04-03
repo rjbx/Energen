@@ -251,8 +251,8 @@ public class Level {
     }
 
     public boolean gigaGalFailed() {
-        if (gigaGal.getTouchedGround() != null) {
-            if (gigaGal.getPosition().y < gigaGal.getTouchedGround().getPosition().y + Constants.KILL_PLANE || gigaGal.getHealth() < 1) {
+        if (gigaGal.getKillPlane() != -10000) {
+            if (gigaGal.getPosition().y < gigaGal.getKillPlane() || gigaGal.getHealth() < 1) {
                 gigaGal.setHealth(0);
                 gigaGal.setLives(gigaGal.getLives() - 1);
                 return true;
