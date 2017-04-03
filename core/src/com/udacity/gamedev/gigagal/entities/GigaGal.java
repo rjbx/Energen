@@ -691,7 +691,7 @@ public class GigaGal implements Humanoid {
             strideStartTime = 0;
         }
         if (!canCling) {
-            touchedGround = null;
+    //        touchedGround = null;
             canHover = true;
         }
         if (onSinkable) {
@@ -1114,6 +1114,7 @@ public class GigaGal implements Humanoid {
     public float getChargeTimeSeconds() { return chargeTimeSeconds; }
     public GroundState getGroundState() { return groundState; }
     public Action getAction() { return action; }
+    public Ground getTouchedGround() { return touchedGround; }
 
     // Setters
     public void setDirectionX(Direction directionX) { this.directionX = directionX; }
