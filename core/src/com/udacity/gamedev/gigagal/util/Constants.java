@@ -484,7 +484,7 @@ public final class Constants {
     public static final String LEVEL_COMPOSITE = "composite";
     public static final String LEVEL_9PATCHES = "sImage9patchs";
     public static final String LEVEL_IMAGES = "sImages";
-    public static final String LEVEL_ERROR_MESSAGE = "There was a problem loading the level.";
+    public static final String LEVEL_READ_MESSAGE = "Could not read in from the specified level JSON.";
     public static final String LEVEL_IMAGENAME_KEY = "imageName";
     public static final String LEVEL_X_KEY = "x";
     public static final String LEVEL_Y_KEY = "y";

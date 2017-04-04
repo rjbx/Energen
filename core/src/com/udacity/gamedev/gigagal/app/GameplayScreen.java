@@ -27,6 +27,10 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.LevelLoader;
 import com.udacity.gamedev.gigagal.util.Timer;
 import com.udacity.gamedev.gigagal.util.Utils;
+
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -107,8 +111,11 @@ public class GameplayScreen extends ScreenAdapter {
 
         // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
         Gdx.input.setInputProcessor(inputControls);
-
-        startNewLevel();
+        try {
+            startNewLevel();
+        } catch (Throwable ex) {
+            Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE + ex.getMessage());
+        }
     }
 
     @Override
@@ -257,11 +264,12 @@ public class GameplayScreen extends ScreenAdapter {
         }
     }
 
-    private void startNewLevel() {
+    private void startNewLevel() throws IOException, ParseException {
 
 //      level = Level.debugLevel();
 //      String levelName = Constants.LEVELS[levelNumber];
-        level = LevelLoader.load("levels/" + levelName + ".dt");
+            level = LevelLoader.load("levels/" + levelName + ".dt");
+
         level.setLevelName(levelName);
         Assets.getInstance().setLevelName(levelName);
         Assets.getInstance().init(new AssetManager());
