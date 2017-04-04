@@ -12,12 +12,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-import static com.udacity.gamedev.gigagal.util.Enums.WeaponType.GAS;
-import static com.udacity.gamedev.gigagal.util.Enums.WeaponType.LIQUID;
-import static com.udacity.gamedev.gigagal.util.Enums.WeaponType.PLASMA;
-import static com.udacity.gamedev.gigagal.util.Enums.WeaponType.POLYMER;
-import static com.udacity.gamedev.gigagal.util.Enums.WeaponType.SOLID;
-
 // mutable
 public class Swoopa implements DestructibleHazard {
 
@@ -87,7 +81,7 @@ public class Swoopa implements DestructibleHazard {
             case SOLID:
                 region = Assets.getInstance().getSwoopaAssets().sharpSwoopa.getKeyFrame(elapsedTime, true);
                 break;
-            case POLYMER:
+            case ORE:
                 region = Assets.getInstance().getSwoopaAssets().whirlingSwoopa.getKeyFrame(elapsedTime, true);
                 break;
             case LIQUID:

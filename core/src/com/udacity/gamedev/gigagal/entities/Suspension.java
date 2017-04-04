@@ -64,7 +64,7 @@ public class Suspension implements IndestructibleHazard {
                 knockback.set(Constants.SHARP_KNOCKBACK);
                 damage = Constants.SHARP_DAMAGE;
                 break;
-            case PSYCHIC:
+            case ANTIMATTER:
                 region = Assets.getInstance().getSuspensionAssets().vacuum.getKeyFrame(elapsedTime, true);
                 center.set(Constants.VACUUM_CENTER);
                 collisionSpan.set(Constants.VACUUM_COLLISION_WIDTH, Constants.VACUUM_COLLISION_HEIGHT);

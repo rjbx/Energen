@@ -25,7 +25,7 @@ public final class GigaGalGame extends Game {
         gameplayScreen = new GameplayScreen(this);
         levelSelectScreen = new LevelSelectScreen(this);
         startScreen = new StartScreen(this);
-        Assets.getInstance().setLevelName(Enums.LevelName.MECHANICAL);
+        Assets.getInstance().setLevelName(Enums.LevelName.FINAL);
         Assets.getInstance().init(new AssetManager());
         InputControls.getInstance().init();
         setScreen(startScreen);

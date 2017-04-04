@@ -74,7 +74,7 @@ public class Zoomba implements DestructibleHazard {
             case SOLID:
                 region = Assets.getInstance().getZoombaAssets().sharpZoomba.getKeyFrame(elapsedTime, true);
                 break;
-            case POLYMER:
+            case ORE:
                 region = Assets.getInstance().getZoombaAssets().whirlingZoomba.getKeyFrame(elapsedTime, true);
                 break;
             case LIQUID:

@@ -85,7 +85,7 @@ public final class Ammo implements IndestructibleHazard {
                     region = Assets.getInstance().getAmmoAssets().plasmaShot;
                 }
                 break;
-            case POLYMER:
+            case ORE:
                 damage = Constants.WHEEL_DAMAGE;
                 knockback = Constants.WHEEL_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {
@@ -103,7 +103,7 @@ public final class Ammo implements IndestructibleHazard {
                     region = Assets.getInstance().getAmmoAssets().solidShot;
                 }
                 break;
-            case PSYCHIC:
+            case ANTIMATTER:
                 damage = Constants.MAX_HEALTH / 2;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
                 if (ammoIntensity == AmmoIntensity.BLAST) {

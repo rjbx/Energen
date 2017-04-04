@@ -85,13 +85,13 @@ public final class LevelLoader {
         for (Object o : nonGrounds) {
             final JSONObject item = (JSONObject) o;
             final Vector2 imagePosition = extractXY(item);
-            String identifier = "Z";
+            Enums.Orientation orientation = Enums.Orientation.Z;
             float range = Constants.ZOOMBA_RANGE;
-            String type = "NATIVE";
-            String intensity = "SHOT";
+            Enums.WeaponType type = Enums.WeaponType.NATIVE;
+            Enums.AmmoIntensity intensity = Enums.AmmoIntensity.SHOT;
 
             if (item.containsKey(Constants.LEVEL_IDENTIFIER_KEY)) {
-                identifier = (String) item.get(Constants.LEVEL_IDENTIFIER_KEY);
+                orientation = Enums.Orientation.valueOf((String) item.get(Constants.LEVEL_IDENTIFIER_KEY));
             }
 
             if (item.containsKey("customVars")) {
@@ -102,10 +102,10 @@ public final class LevelLoader {
                         range = Float.parseFloat(rangeSplit[1]);
                     } else if (customVar.contains(Constants.LEVEL_TYPE_KEY)) {
                         String[] typeSplit = customVar.split(Constants.LEVEL_TYPE_KEY + ":");
-                        type = typeSplit[1];
+                        type = Enums.WeaponType.valueOf(typeSplit[1]);
                     } else if (customVar.contains(Constants.LEVEL_INTENSITY_KEY)) {
                         String[] intensitySplit = customVar.split(Constants.LEVEL_INTENSITY_KEY + ":");
-                        intensity = intensitySplit[1];
+                        intensity = Enums.AmmoIntensity.valueOf(intensitySplit[1]);
                     }
                 }
             }
@@ -154,7 +154,7 @@ public final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WHEEL_SPRITE_1)) {
                 final Vector2 wheelPosition = imagePosition.add(Constants.WHEEL_CENTER);
                 Gdx.app.log(TAG, "Loaded the wheel at " + wheelPosition);
-                level.getIndestructibles().add(new Suspension(wheelPosition, Enums.WeaponType.POLYMER));
+                level.getIndestructibles().add(new Suspension(wheelPosition, Enums.WeaponType.ORE));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.COIL_SPRITE_1)) {
                 final Vector2 coilPosition = imagePosition.add(Constants.COIL_CENTER);
                 Gdx.app.log(TAG, "Loaded the coil at " + coilPosition);
@@ -162,41 +162,41 @@ public final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VACUUM_SPRITE_1)) {
                 final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
                 Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
-                level.getIndestructibles().add(new Suspension(vacuumPosition, Enums.WeaponType.PSYCHIC));
+                level.getIndestructibles().add(new Suspension(vacuumPosition, Enums.WeaponType.ANTIMATTER));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ZOOMBA_SPRITE)) {
                 final Vector2 zoombaPosition = imagePosition.add(Constants.ZOOMBA_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + zoombaPosition);
-                Zoomba zoomba = new Zoomba(zoombaPosition, Enums.WeaponType.valueOf(type));
+                Zoomba zoomba = new Zoomba(zoombaPosition, type);
                 zoomba.setRange(range);
                 level.getDestructibles().add(zoomba);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SWOOPA_SPRITE)) {
                 final Vector2 swoopaPosition = imagePosition.add(Constants.SWOOPA_CENTER);
                 Gdx.app.log(TAG, "Loaded the swoopa at " + swoopaPosition);
-                Swoopa swoopa = new Swoopa(level, swoopaPosition, Enums.WeaponType.valueOf(type));
+                Swoopa swoopa = new Swoopa(level, swoopaPosition, type);
                 level.getDestructibles().add(swoopa);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.DORMANTORBEN_SPRITE)) {
                 final Vector2 orbenPosition = imagePosition.add(Constants.ORBEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the orben at " + orbenPosition);
-                level.getDestructibles().add(new Orben(level, orbenPosition, Enums.WeaponType.valueOf(type)));
+                level.getDestructibles().add(new Orben(level, orbenPosition, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WHIRLINGROLLEN_SPRITE_1)) {
                 final Vector2 rollenPosition = imagePosition.add(Constants.ROLLEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the rollen at " + rollenPosition);
-                level.getDestructibles().add(new Rollen(level, rollenPosition, Enums.WeaponType.valueOf(type)));
+                level.getDestructibles().add(new Rollen(level, rollenPosition, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANNON_SPRITE)) {
                 final Vector2 cannonPosition = imagePosition.add(Constants.X_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
-                level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.X, Enums.AmmoIntensity.valueOf(intensity)));
+                level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.X, intensity));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.Y_CANNON_SPRITE)) {
                 final Vector2 cannonPosition = imagePosition.add(Constants.Y_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
-                level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.Y, Enums.AmmoIntensity.valueOf(intensity)));
+                level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.Y, intensity));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PILLAR_SPRITE)) {
                 final Vector2 pillarPosition = imagePosition.add(Constants.PILLAR_CENTER);
                 Gdx.app.log(TAG, "Loaded the pillar at " + pillarPosition);
                 level.getGrounds().add(new Pillar(pillarPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LIFT_SPRITE)) {
                 final Vector2 liftPosition = imagePosition.add(Constants.LIFT_CENTER);
-                Lift lift = new Lift(liftPosition, Enums.Orientation.valueOf(identifier));
+                Lift lift = new Lift(liftPosition, orientation);
                 lift.setRange(range);
                 Gdx.app.log(TAG, "Loaded the lift at " + liftPosition);
                 level.getGrounds().add(lift);

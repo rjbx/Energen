@@ -76,8 +76,8 @@ public class GameplayScreen extends ScreenAdapter {
     }
 
     public void init() {
-        String savedWeapons = game.getPreferences().getString("Weapons", "NATIVE");
-        if (savedWeapons != "NATIVE") {
+        String savedWeapons = game.getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name());
+        if (savedWeapons != Enums.WeaponType.NATIVE.name()) {
             List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
             for (String weaponString : savedWeaponsList) {
                 if (!completedLevels.contains(Enums.WeaponType.valueOf(weaponString).levelName(), false)) {

@@ -118,7 +118,7 @@ public class Rollen implements DestructibleHazard {
             case SOLID:
                 animation = Assets.getInstance().getRollenAssets().sharpRollen;
                 break;
-            case POLYMER:
+            case ORE:
                 animation = Assets.getInstance().getRollenAssets().whirlingRollen;
                 break;
             case LIQUID:

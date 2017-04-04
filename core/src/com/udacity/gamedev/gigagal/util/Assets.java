@@ -215,7 +215,7 @@ public final class Assets implements Disposable, AssetErrorListener {
                 case ELECTROMAGNETIC: region = atlas.findRegion(Constants.BLACK_BOX_SPRITE); break;
                 case THERMAL: region = atlas.findRegion(Constants.YELLOW_BOX_SPRITE); break;
                 case NUCLEAR: region = atlas.findRegion(Constants.BLUE_BOX_SPRITE); break;
-                case PARANORMAL: region = atlas.findRegion(Constants.CLEAR_BOX_SPRITE); break;
+                case MYSTERIOUS: region = atlas.findRegion(Constants.CLEAR_BOX_SPRITE); break;
                 case FINAL: region = atlas.findRegion(Constants.MAGENTA_BOX_SPRITE); break;
                 default: region = atlas.findRegion(Constants.BOX_SPRITE);
             }

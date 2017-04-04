@@ -179,12 +179,13 @@ public final class Utils {
         if (enemyType == ammoType) {
             return Enums.TypeEffectiveness.WEAK;
         }
-        if ((enemyType == Enums.WeaponType.SOLID && ammoType == Enums.WeaponType.GAS)
-        || (enemyType == Enums.WeaponType.POLYMER && ammoType == Enums.WeaponType.SOLID)
-        || (enemyType == Enums.WeaponType.PLASMA && ammoType == Enums.WeaponType.POLYMER)
-        || (enemyType == Enums.WeaponType.LIQUID && ammoType == Enums.WeaponType.PLASMA)
-        || (enemyType == Enums.WeaponType.GAS && ammoType == Enums.WeaponType.LIQUID)
-        || (ammoType == Enums.WeaponType.PSYCHIC)) {
+        if (
+           (enemyType == Enums.WeaponType.SOLID && ammoType == Enums.WeaponType.LIQUID)
+        || (enemyType == Enums.WeaponType.ORE && ammoType == Enums.WeaponType.SOLID)
+        || (enemyType == Enums.WeaponType.PLASMA && ammoType == Enums.WeaponType.ORE)
+        || (enemyType == Enums.WeaponType.LIQUID && ammoType == Enums.WeaponType.GAS)
+        || (enemyType == Enums.WeaponType.GAS && ammoType == Enums.WeaponType.PLASMA)
+        || (ammoType == Enums.WeaponType.ANTIMATTER)) {
             return Enums.TypeEffectiveness.STRONG;
         }
         return Enums.TypeEffectiveness.NORMAL;

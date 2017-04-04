@@ -112,7 +112,7 @@ public class Orben implements DestructibleHazard {
                 case SOLID:
                     region = Assets.getInstance().getOrbenAssets().sharpOrben.getKeyFrame(elapsedTime, true);
                     break;
-                case POLYMER:
+                case ORE:
                     region = Assets.getInstance().getOrbenAssets().whirlingOrben.getKeyFrame(elapsedTime, true);
                     break;
                 case LIQUID:
