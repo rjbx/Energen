@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
@@ -111,11 +112,7 @@ public class GameplayScreen extends ScreenAdapter {
 
         // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
         Gdx.input.setInputProcessor(inputControls);
-        try {
-            startNewLevel();
-        } catch (Throwable ex) {
-            Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE + ex.getMessage());
-        }
+        startNewLevel();
     }
 
     @Override
@@ -137,13 +134,7 @@ public class GameplayScreen extends ScreenAdapter {
     }
 
     @Override
-    public void dispose() {
-        Assets.getInstance().dispose();
-    }
-
-    @Override
     public void render(float delta) {
-
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
         Gdx.gl.glClearColor(
@@ -264,12 +255,17 @@ public class GameplayScreen extends ScreenAdapter {
         }
     }
 
-    private void startNewLevel() throws IOException, ParseException {
+    public void readLevelFile() throws IOException, ParseException, GdxRuntimeException {
+        level = LevelLoader.load("levels/" + levelName + ".dt");
+
+    }
+
+    private void startNewLevel() {
 
 //      level = Level.debugLevel();
 //      String levelName = Constants.LEVELS[levelNumber];
-            level = LevelLoader.load("levels/" + levelName + ".dt");
 
+        // set level attributes
         level.setLevelName(levelName);
         Assets.getInstance().setLevelName(levelName);
         Assets.getInstance().init(new AssetManager());
@@ -300,6 +296,8 @@ public class GameplayScreen extends ScreenAdapter {
         totalTime.resume();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
+
+
 
 
     public void restartLevel() {

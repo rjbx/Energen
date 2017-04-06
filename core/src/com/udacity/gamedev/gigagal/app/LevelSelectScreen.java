@@ -9,15 +9,18 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.overlays.CursorOverlay;
 import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
-import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -91,11 +94,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
         optionsOverlay.getCursor().getViewport().update(width, height, true);
     }
 
-    @Override
-    public void dispose() {
-        Assets.getInstance().dispose();
-    }
-
     public void update() {}
 
     @Override
@@ -138,9 +136,22 @@ public final class LevelSelectScreen extends ScreenAdapter {
                 if (cursor.getPosition() == viewport.getWorldHeight() / 2.5f - 24) {
                     optionsVisible = true;
                 } else {
+
                     gameplayScreen.setGame(game);
                     gameplayScreen.setLevelName(selectedLevel);
-                    game.setScreen(gameplayScreen);
+                    try {
+                        gameplayScreen.readLevelFile();
+                        game.setScreen(gameplayScreen);
+                    } catch (IOException ex) {
+                        game.create();
+                        this.dispose();
+                    } catch (ParseException ex) {
+                        game.create();
+                        this.dispose();
+                    } catch (GdxRuntimeException ex) {
+                        game.create();
+                        this.dispose();
+                    }
                 }
             }
             batch.end();

@@ -210,7 +210,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public BoxAssets(TextureAtlas atlas) {
             AtlasRegion region;
             switch (levelName) {
-                case GRAVITATIONAL: region = atlas.findRegion(Constants.RED_BOX_SPRITE); break;
+                case UNINTELLIGIBLE: region = atlas.findRegion(Constants.RED_BOX_SPRITE); break;
                 case MECHANICAL: region = atlas.findRegion(Constants.GREY_BOX_SPRITE); break;
                 case ELECTROMAGNETIC: region = atlas.findRegion(Constants.BLACK_BOX_SPRITE); break;
                 case THERMAL: region = atlas.findRegion(Constants.YELLOW_BOX_SPRITE); break;

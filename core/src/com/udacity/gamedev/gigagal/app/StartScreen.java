@@ -117,11 +117,6 @@ public final class StartScreen extends ScreenAdapter {
         launchOverlay.getViewport().update(width, height, true);
     }
 
-    @Override
-    public void dispose() {
-        Assets.getInstance().dispose();
-    }
-
     public void update() {}
 
     @Override
@@ -153,6 +148,7 @@ public final class StartScreen extends ScreenAdapter {
                         if (cursor.getPosition() == 35) {
                             if (continuing) {
                                 game.setScreen(levelSelectScreen);
+                                this.dispose();
                             } else {
                                 optionsVisible = true;
                             }
@@ -195,6 +191,7 @@ public final class StartScreen extends ScreenAdapter {
                     prefs.putInteger("Difficulty", 2);
                     game.setScreen(levelSelectScreen);
                 }
+                dispose();
             } else if (inputControls.pauseButtonJustPressed) {
                 optionsVisible = false;
             }

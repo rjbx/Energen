@@ -47,10 +47,11 @@ public final class LevelLoader {
     // non-instantiable; cannot be subclassed
     private LevelLoader() {}
 
-    public static final Level load(String path) throws IOException, ParseException {
+    public static final Level load(String path) throws ParseException, IOException{
 
         final FileHandle file = Gdx.files.internal(path);
         Level level = new Level();
+
         JSONParser parser = new JSONParser();
         JSONObject rootJsonObject;
         rootJsonObject = (JSONObject) parser.parse(file.reader());
@@ -62,6 +63,7 @@ public final class LevelLoader {
         loadNinePatches(level, ninePatches);
 
         JSONArray images = (JSONArray) composite.get(Constants.LEVEL_IMAGES);
+
         loadImages(level, images);
 
         return level;
@@ -69,92 +71,114 @@ public final class LevelLoader {
 
     private static final Vector2 extractXY(JSONObject object) {
         Vector2 position = new Vector2(0, 0);
-        Number x = (Number) object.get(Constants.LEVEL_X_KEY);
-        Number y = (Number) object.get(Constants.LEVEL_Y_KEY);
 
-        position.set(
-                (x == null) ? 0 : x.floatValue(),
-                (y == null) ? 0 : y.floatValue()
-        );
+        try {
+            Number x = (Number) object.get(Constants.LEVEL_X_KEY);
+            Number y = (Number) object.get(Constants.LEVEL_Y_KEY);
+
+            position.set(
+                    (x == null) ? 0 : x.floatValue(),
+                    (y == null) ? 0 : y.floatValue()
+            );
+        } catch (NumberFormatException ex) {
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE + ": " + object.get(Constants.LEVEL_IMAGENAME_KEY) + " " + object.get(Constants.LEVEL_UNIQUE_ID_KEY));
+        }
 
         return position;
     }
 
     private static final Vector2 extractScale(JSONObject object) {
         Vector2 scale = new Vector2(1, 1);
-        if (object.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
-            scale.x = ((Number) object.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
+        try {
+            if (object.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
+                scale.x = ((Number) object.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
+            }
+            if (object.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
+                scale.y = ((Number) object.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
+            }
+        } catch (NumberFormatException ex) {
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE + ": " + object.get(Constants.LEVEL_IMAGENAME_KEY) + " " + object.get(Constants.LEVEL_UNIQUE_ID_KEY));
         }
-        if (object.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
-            scale.y = ((Number) object.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
-        }
-        
         return scale;
     }
 
     private static final Enums.Orientation extractOrientation(JSONObject object) {
         Enums.Orientation orientation = Enums.Orientation.Z;
-        if (object.containsKey(Constants.LEVEL_IDENTIFIER_KEY)) {
-            String identifierVar = (String) object.get(Constants.LEVEL_IDENTIFIER_KEY);
-            orientation = Enums.Orientation.valueOf(identifierVar);
-        }
-        
-        return orientation;
-    }
-
-    private static final float extractRange(JSONObject object) {
-        float range = Constants.ZOOMBA_RANGE;
-        if (object.containsKey("customVars")) {
-            String[] customVars = ((String) object.get("customVars")).split(";");
-            for (String customVar : customVars) {
-                if (customVar.contains(Constants.LEVEL_RANGE_KEY)) {
-                    String[] rangeSplit = customVar.split(Constants.LEVEL_RANGE_KEY + ":");
-                    range = Float.parseFloat(rangeSplit[1]);
-                }
+        try {
+            if (object.containsKey(Constants.LEVEL_IDENTIFIER_KEY)) {
+                String identifierVar = (String) object.get(Constants.LEVEL_IDENTIFIER_KEY);
+                orientation = Enums.Orientation.valueOf(identifierVar);
             }
+        } catch (IllegalArgumentException ex) {
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE + ": " + object.get(Constants.LEVEL_IMAGENAME_KEY) + " " + object.get(Constants.LEVEL_UNIQUE_ID_KEY));
         }
-        
-        return range;
+        return orientation;
     }
 
     private static final Enums.WeaponType extractType(JSONObject object) {
         Enums.WeaponType type = Enums.WeaponType.NATIVE;
-        if (object.containsKey("customVars")) {
-            String[] customVars = ((String) object.get("customVars")).split(";");
-            for (String customVar : customVars) {
-                if (customVar.contains(Constants.LEVEL_TYPE_KEY)) {
-                    String[] typeSplit = customVar.split(Constants.LEVEL_TYPE_KEY + ":");
-                    type = Enums.WeaponType.valueOf(typeSplit[1]);
+        try {
+            if (object.containsKey("customVars")) {
+                String[] customVars = ((String) object.get("customVars")).split(";");
+                for (String customVar : customVars) {
+                    if (customVar.contains(Constants.LEVEL_TYPE_KEY)) {
+                        String[] typeSplit = customVar.split(Constants.LEVEL_TYPE_KEY + ":");
+                        type = Enums.WeaponType.valueOf(typeSplit[1]);
+                    }
                 }
             }
+        } catch (IllegalArgumentException ex) {
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE + ": " + object.get(Constants.LEVEL_IMAGENAME_KEY) + " " + object.get(Constants.LEVEL_UNIQUE_ID_KEY));
         }
         return type;
     }
 
     private static final Enums.AmmoIntensity extractIntensity(JSONObject object) {
         Enums.AmmoIntensity intensity = Enums.AmmoIntensity.SHOT;
-        if (object.containsKey("customVars")) {
-            String[] customVars = ((String) object.get("customVars")).split(";");
-            for (String customVar : customVars) {
-                if (customVar.contains(Constants.LEVEL_INTENSITY_KEY)) {
-                    String[] intensitySplit = customVar.split(Constants.LEVEL_INTENSITY_KEY + ":");
-                    intensity = Enums.AmmoIntensity.valueOf(intensitySplit[1]);
+        try {
+            if (object.containsKey("customVars")) {
+                String[] customVars = ((String) object.get("customVars")).split(";");
+                for (String customVar : customVars) {
+                    if (customVar.contains(Constants.LEVEL_INTENSITY_KEY)) {
+                        String[] intensitySplit = customVar.split(Constants.LEVEL_INTENSITY_KEY + ":");
+                        intensity = Enums.AmmoIntensity.valueOf(intensitySplit[1]);
+                    }
                 }
             }
+        } catch (IllegalArgumentException ex) {
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE + ": " + object.get(Constants.LEVEL_IMAGENAME_KEY) + " " + object.get(Constants.LEVEL_UNIQUE_ID_KEY));
         }
         return intensity;
+    }
+
+    private static final float extractRange(JSONObject object) {
+        float range = Constants.ZOOMBA_RANGE;
+        try {
+            if (object.containsKey("customVars")) {
+                String[] customVars = ((String) object.get("customVars")).split(";");
+                for (String customVar : customVars) {
+                    if (customVar.contains(Constants.LEVEL_RANGE_KEY)) {
+                        String[] rangeSplit = customVar.split(Constants.LEVEL_RANGE_KEY + ":");
+                        range = Float.parseFloat(rangeSplit[1]);
+                    }
+                }
+            }
+        } catch (NumberFormatException ex) {
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE + ": " + object.get(Constants.LEVEL_IMAGENAME_KEY) + " " + object.get(Constants.LEVEL_UNIQUE_ID_KEY));
+        }
+        return range;
     }
 
     private static final void loadImages(Level level, JSONArray nonGrounds) {
         for (Object o : nonGrounds) {
             final JSONObject item = (JSONObject) o;
-            
-            final Vector2 imagePosition = extractXY(item);
-            final Vector2 scale = extractScale(item);
-            final Enums.Orientation orientation = extractOrientation(item);
-            final Enums.WeaponType type = extractType(item);
-            final Enums.AmmoIntensity intensity = extractIntensity(item);
-            final float range = extractRange(item);
+
+                final Vector2 imagePosition = extractXY(item);
+                final Vector2 scale = extractScale(item);
+                final Enums.Orientation orientation = extractOrientation(item);
+                final Enums.WeaponType type = extractType(item);
+                final Enums.AmmoIntensity intensity = extractIntensity(item);
+                final float range = extractRange(item);
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.AMMO_POWERUP_SPRITE)) {
                 final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);

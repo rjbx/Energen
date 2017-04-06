@@ -57,7 +57,7 @@ public final class Enums {
         PLASMA { @Override public final LevelName levelName() { return LevelName.ELECTROMAGNETIC; } },
         GAS { @Override public final LevelName levelName() { return LevelName.NUCLEAR; } },
         LIQUID { @Override public final LevelName levelName() { return LevelName.THERMAL; } },
-        SOLID { @Override public final LevelName levelName() { return LevelName.GRAVITATIONAL; } },
+        SOLID { @Override public final LevelName levelName() { return LevelName.UNINTELLIGIBLE; } },
         ANTIMATTER { @Override public final LevelName levelName() { return LevelName.MYSTERIOUS; } },
 
         HYBRID { @Override public final LevelName levelName() { return LevelName.FINAL; } };
@@ -73,7 +73,7 @@ public final class Enums {
         ELECTROMAGNETIC { @Override public final WeaponType weaponType() { return WeaponType.PLASMA; } },
         NUCLEAR { @Override public final WeaponType weaponType() { return WeaponType.GAS; } },
         THERMAL { @Override public final WeaponType weaponType() { return WeaponType.LIQUID; } },
-        GRAVITATIONAL { @Override public final WeaponType weaponType() { return WeaponType.SOLID; } },
+        UNINTELLIGIBLE { @Override public final WeaponType weaponType() { return WeaponType.SOLID; } },
         MYSTERIOUS { @Override public final WeaponType weaponType() { return WeaponType.ANTIMATTER; } },
 
         FINAL { @Override public final WeaponType weaponType() { return WeaponType.HYBRID; } };
