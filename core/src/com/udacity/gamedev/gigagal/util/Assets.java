@@ -241,6 +241,8 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion solidBlast;
         public final AtlasRegion psychicShot;
         public final AtlasRegion psychicBlast;
+        public final AtlasRegion hybridShot;
+        public final AtlasRegion hybridBlast;
 
         public AmmoAssets(TextureAtlas atlas) {
             nativeShot = atlas.findRegion(Constants.SHOT_NATIVE_SPRITE);
@@ -257,6 +259,8 @@ public final class Assets implements Disposable, AssetErrorListener {
             solidBlast = atlas.findRegion(Constants.BLAST_SOLID_SPRITE);
             psychicShot = atlas.findRegion(Constants.SHOT_PSYCHIC_SPRITE);
             psychicBlast = atlas.findRegion(Constants.BLAST_PSYCHIC_SPRITE);
+            hybridShot = atlas.findRegion(Constants.SHOT_HYBRID_SPRITE);
+            hybridBlast = atlas.findRegion(Constants.BLAST_HYBRID_SPRITE);
         }
     }
 

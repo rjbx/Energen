@@ -112,6 +112,15 @@ public final class Ammo implements IndestructibleHazard {
                     region = Assets.getInstance().getAmmoAssets().psychicShot;
                 }
                 break;
+            case HYBRID:
+                damage = Constants.SPIKE_DAMAGE * 2;
+                knockback = Constants.ZOOMBA_KNOCKBACK;
+                if (ammoIntensity == AmmoIntensity.BLAST) {
+                    region = Assets.getInstance().getAmmoAssets().hybridBlast;
+                } else {
+                    region = Assets.getInstance().getAmmoAssets().hybridShot;
+                }
+                break;
             default:
                 damage = Constants.AMMO_STANDARD_DAMAGE;
                 knockback = Constants.ZOOMBA_KNOCKBACK;

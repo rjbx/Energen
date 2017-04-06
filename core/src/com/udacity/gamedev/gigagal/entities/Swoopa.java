@@ -106,7 +106,7 @@ public class Swoopa implements DestructibleHazard {
     @Override public final int getKillScore() { return Constants.SWOOPA_KILL_SCORE; }
     @Override public final int getDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.SWOOPA_KNOCKBACK; }
-    @Override public Enums.WeaponType getType() { return null; }
+    @Override public Enums.WeaponType getType() { return type; }
     public int getMountDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.SWOOPA_KNOCKBACK; }
     public final long getStartTime() { return startTime; }
