@@ -39,6 +39,7 @@ public class Level {
     private Viewport viewport;
     private boolean victory;
     private boolean gameOver;
+    private boolean loadEx;
     private int levelScore;
     private float cannonOffset;
     private long cannonStartTime;
@@ -74,6 +75,7 @@ public class Level {
         portal = new Portal(new Vector2(200, 200));
         gameOver = false;
         victory = false;
+        loadEx = false;
         cannonStartTime = TimeUtils.nanoTime();
         cannonOffset = 0;
     }
@@ -281,6 +283,7 @@ public class Level {
     public final int getLevelScore() { return levelScore; }
     public final int getDifficulty() { return difficulty; }
     public final Enums.WeaponType getType() { return levelWeapon; }
+    public final boolean getLoadEx() { return loadEx; }
 
     // Setters
     public void setLevelScore(int levelScore) { this.levelScore = levelScore; }
@@ -288,4 +291,5 @@ public class Level {
     public final void setPortal(Portal portal) { this.portal = portal; }
     public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
     public final void setLevelName(Enums.LevelName levelName) { this.levelName = levelName; }
+    public final void setLoadEx(boolean state) { loadEx = state; }
 }

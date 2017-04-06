@@ -43,11 +43,12 @@ import java.util.Comparator;
 public final class LevelLoader {
 
     public static final String TAG = LevelLoader.class.toString();
+    private static boolean runtimeEx;
 
     // non-instantiable; cannot be subclassed
     private LevelLoader() {}
 
-    public static final Level load(String path) throws ParseException, IOException{
+    public static final Level load(String path) throws ParseException, IOException {
 
         final FileHandle file = Gdx.files.internal(path);
         Level level = new Level();
@@ -64,24 +65,32 @@ public final class LevelLoader {
 
         JSONArray images = (JSONArray) composite.get(Constants.LEVEL_IMAGES);
 
+        runtimeEx = false;
+
         loadImages(level, images);
+
+        level.setLoadEx(runtimeEx);
 
         return level;
     }
 
-    private static final Vector2 extractXY(JSONObject object) {
+    private static final Vector2 extractPosition(JSONObject object) {
         Vector2 position = new Vector2(0, 0);
 
         try {
-            Number x = (Number) object.get(Constants.LEVEL_X_KEY);
-            Number y = (Number) object.get(Constants.LEVEL_Y_KEY);
+            Number x = (Number) object.get(Constants.LEVEL_X_POSITION_KEY);
+            Number y = (Number) object.get(Constants.LEVEL_Y_POSITION_KEY);
 
             position.set(
                     (x == null) ? 0 : x.floatValue(),
                     (y == null) ? 0 : y.floatValue()
             );
         } catch (NumberFormatException ex) {
-            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE + ": " + object.get(Constants.LEVEL_IMAGENAME_KEY) + " " + object.get(Constants.LEVEL_UNIQUE_ID_KEY));
+            runtimeEx = true;
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
+                    + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + "; key: " + Constants.LEVEL_X_POSITION_KEY + Constants.LEVEL_Y_POSITION_KEY);
         }
 
         return position;
@@ -97,7 +106,11 @@ public final class LevelLoader {
                 scale.y = ((Number) object.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
             }
         } catch (NumberFormatException ex) {
-            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE + ": " + object.get(Constants.LEVEL_IMAGENAME_KEY) + " " + object.get(Constants.LEVEL_UNIQUE_ID_KEY));
+            runtimeEx = true;
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
+                    + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + "; key: " + Constants.LEVEL_X_SCALE_KEY + Constants.LEVEL_Y_SCALE_KEY);
         }
         return scale;
     }
@@ -110,7 +123,11 @@ public final class LevelLoader {
                 orientation = Enums.Orientation.valueOf(identifierVar);
             }
         } catch (IllegalArgumentException ex) {
-            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE + ": " + object.get(Constants.LEVEL_IMAGENAME_KEY) + " " + object.get(Constants.LEVEL_UNIQUE_ID_KEY));
+            runtimeEx = true;
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
+                    + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + "; key: " + Constants.LEVEL_IDENTIFIER_KEY);
         }
         return orientation;
     }
@@ -128,7 +145,11 @@ public final class LevelLoader {
                 }
             }
         } catch (IllegalArgumentException ex) {
-            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE + ": " + object.get(Constants.LEVEL_IMAGENAME_KEY) + " " + object.get(Constants.LEVEL_UNIQUE_ID_KEY));
+            runtimeEx = true;
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
+                    + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + "; key: " + Constants.LEVEL_TYPE_KEY);
         }
         return type;
     }
@@ -146,7 +167,11 @@ public final class LevelLoader {
                 }
             }
         } catch (IllegalArgumentException ex) {
-            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE + ": " + object.get(Constants.LEVEL_IMAGENAME_KEY) + " " + object.get(Constants.LEVEL_UNIQUE_ID_KEY));
+            runtimeEx = true;
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
+                    + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + "; key: " + Constants.LEVEL_INTENSITY_KEY);
         }
         return intensity;
     }
@@ -164,7 +189,11 @@ public final class LevelLoader {
                 }
             }
         } catch (NumberFormatException ex) {
-            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE + ": " + object.get(Constants.LEVEL_IMAGENAME_KEY) + " " + object.get(Constants.LEVEL_UNIQUE_ID_KEY));
+            runtimeEx = true;
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
+                    + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + "; key: " + Constants.LEVEL_RANGE_KEY);
         }
         return range;
     }
@@ -173,7 +202,7 @@ public final class LevelLoader {
         for (Object o : nonGrounds) {
             final JSONObject item = (JSONObject) o;
 
-                final Vector2 imagePosition = extractXY(item);
+                final Vector2 imagePosition = extractPosition(item);
                 final Vector2 scale = extractScale(item);
                 final Enums.Orientation orientation = extractOrientation(item);
                 final Enums.WeaponType type = extractType(item);
@@ -322,7 +351,7 @@ public final class LevelLoader {
         
         for (Object o : grounds) {
             final JSONObject item = (JSONObject) o;
-            final Vector2 imagePosition = extractXY(item);
+            final Vector2 imagePosition = extractPosition(item);
             String identifier = (String) item.get(Constants.LEVEL_IDENTIFIER_KEY);
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {

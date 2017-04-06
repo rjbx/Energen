@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.overlays.CursorOverlay;
+import com.udacity.gamedev.gigagal.overlays.MessageOverlay;
 import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -38,6 +39,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private BitmapFont font;
     private CursorOverlay cursor;
     private OptionsOverlay optionsOverlay;
+    private MessageOverlay messageOverlay;
     private Array<Float> namePositions;
     private Array<Enums.LevelName> completedLevels;
     private List<Enums.LevelName> levelTypes;
@@ -49,6 +51,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private com.udacity.gamedev.gigagal.app.InputControls inputControls;
     private ControlsOverlay controlsOverlay;
     private boolean optionsVisible;
+    private boolean messageVisible;
 
     // default ctor
     public LevelSelectScreen(com.udacity.gamedev.gigagal.app.GigaGalGame game) {
@@ -71,10 +74,12 @@ public final class LevelSelectScreen extends ScreenAdapter {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
         optionsVisible = false;
+        messageVisible = false;
         batch = new SpriteBatch();
         completedLevels = new Array<Enums.LevelName>();
         optionsOverlay = new OptionsOverlay(this);
         optionsOverlay.init();
+        messageOverlay = new MessageOverlay("");
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
         controlsOverlay = ControlsOverlay.getInstance();
         Gdx.input.setInputProcessor(inputControls);
@@ -92,6 +97,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         controlsOverlay.recalculateButtonPositions();
         optionsOverlay.getViewport().update(width, height, true);
         optionsOverlay.getCursor().getViewport().update(width, height, true);
+        messageOverlay.getViewport().update(width, height, true);
     }
 
     public void update() {}
@@ -132,6 +138,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
             index = 0;
 
+            batch.end();
+
             if (inputControls.shootButtonJustPressed) {
                 if (cursor.getPosition() == viewport.getWorldHeight() / 2.5f - 24) {
                     optionsVisible = true;
@@ -144,17 +152,19 @@ public final class LevelSelectScreen extends ScreenAdapter {
                         game.setScreen(gameplayScreen);
                     } catch (IOException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-                        game.create();
+                        messageOverlay.setMessage(Constants.LEVEL_READ_MESSAGE);
+                        messageVisible = true;
                     } catch (ParseException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-                        game.create();
+                        messageOverlay.setMessage(Constants.LEVEL_READ_MESSAGE);
+                        messageVisible = true;
                     } catch (GdxRuntimeException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-                        game.create();
+                        messageOverlay.setMessage(Constants.LEVEL_READ_MESSAGE);
+                        messageVisible = true;
                     }
                 }
             }
-            batch.end();
         } else {
             optionsOverlay.render(batch);
             if (inputControls.shootButtonJustPressed) {
@@ -169,6 +179,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
             } else if (inputControls.pauseButtonJustPressed) {
                 optionsVisible = false;
             }
+        }
+        if (messageVisible) {
+            messageOverlay.render(batch);
         }
         inputControls.update();
         controlsOverlay.render(batch);

@@ -207,18 +207,18 @@ button-directional-right
   orig: 25, 30
   offset: 0, 0
   index: -1
+button-directional-up
+  rotate: false
+  xy: 407, 196
+  size: 30, 25
+  orig: 30, 25
+  offset: 0, 0
+  index: -1
 button-pause
   rotate: false
   xy: 2, 5
   size: 40, 10
   orig: 40, 10
-  offset: 0, 0
-  index: -1
-button-up
-  rotate: false
-  xy: 407, 196
-  size: 30, 25
-  orig: 30, 25
   offset: 0, 0
   index: -1
 cannon-x

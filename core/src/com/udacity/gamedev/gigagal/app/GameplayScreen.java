@@ -18,6 +18,7 @@ import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.overlays.IndicatorHud;
 import com.udacity.gamedev.gigagal.overlays.DefeatOverlay;
 import com.udacity.gamedev.gigagal.overlays.GaugeHud;
+import com.udacity.gamedev.gigagal.overlays.MessageOverlay;
 import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
 import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.overlays.VictoryOverlay;
@@ -54,6 +55,7 @@ public class GameplayScreen extends ScreenAdapter {
     private DefeatOverlay defeatOverlay;
     private PauseOverlay pauseOverlay;
     private OptionsOverlay optionsOverlay;
+    private MessageOverlay messageOverlay;
     private Array<Enums.LevelName> completedLevels;
     private Enums.LevelName levelName;
     private GigaGal gigaGal;
@@ -104,6 +106,7 @@ public class GameplayScreen extends ScreenAdapter {
         chaseCam = ChaseCam.getInstance();
         pauseOverlay = new PauseOverlay(this);
         optionsOverlay = new OptionsOverlay(this);
+        messageOverlay = new MessageOverlay("");
         victoryOverlay = new VictoryOverlay(this);
         defeatOverlay = new DefeatOverlay();
         inputControls = InputControls.getInstance();
@@ -125,6 +128,7 @@ public class GameplayScreen extends ScreenAdapter {
         pauseOverlay.getCursor().getViewport().update(width, height, true);
         optionsOverlay.getViewport().update(width, height, true);
         optionsOverlay.getCursor().getViewport().update(width, height, true);
+        messageOverlay.getViewport().update(width, height, true);
         level.getViewport().update(width, height, true);
         chaseCam.camera = level.getViewport().getCamera();
         controlsOverlay.getViewport().update(width, height, true);
@@ -214,6 +218,10 @@ public class GameplayScreen extends ScreenAdapter {
             meterHud.render(batch, renderer);
             contextHud.render(batch);
             controlsOverlay.render(batch);
+        }
+        if (level.getLoadEx()) {
+            messageOverlay.setMessage(Constants.LEVEL_KEY_MESSAGE);
+            messageOverlay.render(batch);
         }
         inputControls.update();
     }
