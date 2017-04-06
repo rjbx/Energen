@@ -143,14 +143,14 @@ public final class LevelSelectScreen extends ScreenAdapter {
                         gameplayScreen.readLevelFile();
                         game.setScreen(gameplayScreen);
                     } catch (IOException ex) {
+                        Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         game.create();
-                        this.dispose();
                     } catch (ParseException ex) {
+                        Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         game.create();
-                        this.dispose();
                     } catch (GdxRuntimeException ex) {
+                        Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         game.create();
-                        this.dispose();
                     }
                 }
             }
