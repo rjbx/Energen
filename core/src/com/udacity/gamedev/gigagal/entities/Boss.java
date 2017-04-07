@@ -10,39 +10,34 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.app.Level;
-import com.udacity.gamedev.gigagal.app.InputControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums.*;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
-import java.lang.String;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
-// mutable
-public class GigaGal implements Humanoid {
-
-    // fields
-    public final static String TAG = GigaGal.class.getName();
+public class Boss implements Humanoid {
+    
     private Level level;
-    private InputControls inputControls;
     private Vector2 position;
     private Vector2 previousFramePosition;
     private Vector2 spawnPosition;
     private Vector3 chaseCamPosition;
     private Vector2 velocity;
-    private Direction directionX;
-    private Direction directionY;
+    private Enums.Direction directionX;
+    private Enums.Direction directionY;
     private TextureRegion region;
-    private Action action;
-    private GroundState groundState;
+    private Enums.Action action;
+    private Enums.GroundState groundState;
     private Ground touchedGround;
-    private AmmoIntensity ammoIntensity;
-    private WeaponType weapon;
-    private List<WeaponType> weaponList;
-    private ListIterator<WeaponType> weaponToggler;
+    private Enums.AmmoIntensity ammoIntensity;
+    private Enums.WeaponType weapon;
+    private List<Enums.WeaponType> weaponList;
+    private ListIterator<Enums.WeaponType> weaponToggler;
     private boolean onRideable;
     private boolean onSkateable;
     private boolean onUnbearable;
@@ -66,11 +61,16 @@ public class GigaGal implements Humanoid {
     private long climbStartTime;
     private long strideStartTime;
     private long recoveryStartTime;
+    private float stanceWidth;
+    private float height;
+    private float headRadius;
+    private float eyeHeight;
     private float chargeTimeSeconds;
     private float lookTimeSeconds;
     private float hoverTimeSeconds;
     private float climbTimeSeconds;
     private float strideTimeSeconds;
+    private float maxSpeed;
     private float strideSpeed;
     private float strideAcceleration;
     private float turboDuration;
@@ -83,70 +83,23 @@ public class GigaGal implements Humanoid {
 
     private boolean paused;
     private float pauseTimeSeconds;
+    
+    private GigaGal gigaGal;
 
-    // ctor
-    public GigaGal(Level level, Vector2 spawnPosition) {
+    public Boss(Level level, Vector2 spawnPosition, Enums.WeaponType type) {
         this.level = level;
         this.spawnPosition = spawnPosition;
         position = new Vector2(spawnPosition);
-        inputControls = InputControls.getInstance();
         velocity = new Vector2();
         previousFramePosition = new Vector2();
         chaseCamPosition = new Vector3();
-        weaponList = new ArrayList<WeaponType>();
-        init();
-    }
-
-    public void init() {
-        ammo = Constants.INITIAL_AMMO;
-        health = Constants.INITIAL_HEALTH;
-        lives = Constants.INITIAL_LIVES;
-        weaponList.add(WeaponType.NATIVE);
-        weaponToggler = weaponList.listIterator();
-        weapon = weaponToggler.next();
-        respawn();
-    }
-
-    public void respawn() {
-        position.set(spawnPosition);
-        chaseCamPosition.set(position, 0);
-        velocity.setZero();
-        directionX = Direction.RIGHT;
-        action = Action.FALLING;
-        groundState = GroundState.AIRBORNE;
-        touchedGround = null;
-        paused = false;
-        canClimb = false;
-        canLook = false;
-        canStride = false;
-        canJump = false;
-        canDash = false;
-        canHover = false;
-        canCling = false;
-        canShoot = true;
-        turboDuration = 0;
-        ammoIntensity = AmmoIntensity.SHOT;
-        onRideable = false;
-        onSkateable = false;
-        onUnbearable = false;
-        onClimbable = false;
-        onSinkable = false;
-        onBounceable = false;
-        chargeStartTime = 0;
-        strideStartTime = 0;
-        climbStartTime = 0;
-        jumpStartTime = 0;
-        dashStartTime = 0;
-        pauseTimeSeconds = 0;
-        turboDuration = 0;
-        killPlane = -10000;
-        recoveryStartTime = TimeUtils.nanoTime();
-        health = Constants.MAX_HEALTH;
-        turbo = Constants.MAX_TURBO;
-        startTurbo = turbo;
+        weaponList = new ArrayList<Enums.WeaponType>();
     }
 
     public void update(float delta) {
+        
+        gigaGal = level.getGigaGal();
+        
         // positioning
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
@@ -157,54 +110,87 @@ public class GigaGal implements Humanoid {
         touchPowerups(level.getPowerups());
 
         // abilities
-        if (groundState == GroundState.PLANTED) {
+        if (groundState == Enums.GroundState.PLANTED) {
             velocity.y = 0;
-            if (action == Action.STANDING) {
+            if (action == Enums.Action.STANDING) {
                 stand();
                 enableStride();
                 enableDash();
                 enableClimb(); // must come before jump (for now)
                 enableJump();
                 enableShoot(weapon);
-            } else if (action == Action.STRIDING) {
+            } else if (action == Enums.Action.STRIDING) {
                 enableStride();
                 enableDash();
                 enableJump();
                 enableShoot(weapon);
-            } else if (action == Action.CLIMBING) {
+            } else if (action == Enums.Action.CLIMBING) {
                 enableClimb();
                 enableShoot(weapon);
-            } else if (action == Action.DASHING) {
+            } else if (action == Enums.Action.DASHING) {
                 enableDash();
                 enableJump();
                 enableShoot(weapon);
             }
-        } else if (groundState == GroundState.AIRBORNE) {
+        } else if (groundState == Enums.GroundState.AIRBORNE) {
             velocity.y -= Constants.GRAVITY;
-            if (action == Action.FALLING) {
+            if (action == Enums.Action.FALLING) {
                 fall();
                 enableClimb();
                 enableHover();
                 enableCling();
                 enableShoot(weapon);
-            } else if (action == Action.JUMPING) {
+            } else if (action == Enums.Action.JUMPING) {
                 enableJump();
                 enableCling();
                 enableShoot(weapon);
-            } else if (action == Action.HOVERING) {
+            } else if (action == Enums.Action.HOVERING) {
                 enableHover();
                 enableCling();
                 enableClimb();
                 enableShoot(weapon);
-            } else if (action == Action.CLINGING) {
+            } else if (action == Enums.Action.CLINGING) {
                 enableJump();
                 enableCling();
                 enableShoot(weapon);
-            } else if (action == Action.RECOILING) {
+            } else if (action == Enums.Action.RECOILING) {
                 enableCling();
                 enableShoot(weapon);
             }
         }
+    }
+    
+    private void rush() {
+        if (gigaGal.getDirectionX() != this.getDirectionX()) {
+            if (Math.abs(gigaGal.getVelocity().x) > Constants.GIGAGAL_MAX_SPEED / 2) {
+                stride();
+            } else if (Math.abs(gigaGal.getPosition().x - this.position.x) > 5) {
+                dash();
+            } else {
+                jump();
+                if (Math.abs(gigaGal.getPosition().x - this.position.x) < 5) {
+                    directionY = Enums.Direction.DOWN;
+                    look();
+                    attack();
+                }
+            }
+
+            if (Math.abs(gigaGal.getPosition().y - this.position.y) > 15) {
+                if (Math.abs(gigaGal.getPosition().x - this.position.x) > 5) {
+                    dash();
+                } else {
+                    directionY = Enums.Direction.UP;
+                    look();
+                    attack();
+                }
+            } else if (Math.abs(gigaGal.getPosition().x - this.position.x) > 10) {
+                stride();
+            }
+        }
+    }
+    
+    private void attack() {
+        
     }
 
     private void touchGround(Array<Ground> grounds) {
@@ -256,12 +242,12 @@ public class GigaGal implements Humanoid {
         // if during previous frame was not, while currently is, between ground left and right sides
         if (!Utils.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
             // only when not grounded and not recoiling
-            if (groundState != GroundState.PLANTED) {
+            if (groundState != Enums.GroundState.PLANTED) {
                 // if x velocity (magnitude, without concern for direction) greater than one third max speed,
                 // boost x velocity by starting speed, enable cling, verify rappelling ground and capture rappelling ground boundaries
-                if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
+                if (Math.abs(velocity.x) > maxSpeed / 4) {
                     // if already clinging, halt x progression
-                    if (action != Action.CLINGING) {
+                    if (action != Enums.Action.CLINGING) {
                         canCling = true; // enable cling
                         touchedGround = ground;
                         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
@@ -269,19 +255,19 @@ public class GigaGal implements Humanoid {
                     // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
                 } else {
                     // if not already hovering and descending, also disable hover
-                    if (action != Action.HOVERING && velocity.y < 0) {
+                    if (action != Enums.Action.HOVERING && velocity.y < 0) {
                         canHover = false; // disable hover
                     }
                     canCling = false;
                     fall(); // fall regardless of whether or not inner condition met
                 }
                 // only when planted
-            } else if (groundState == GroundState.PLANTED) {
+            } else if (groundState == Enums.GroundState.PLANTED) {
                 if (Math.abs(getBottom() - ground.getTop()) > 1) {
                     strideSpeed = 0;
                     velocity.x = 0;
                 }
-                if (action == Action.DASHING) {
+                if (action == Enums.Action.DASHING) {
                     stand(); // deactivates dash when bumping ground side
                 }
             }
@@ -290,7 +276,7 @@ public class GigaGal implements Humanoid {
                     && !(ground instanceof UnbearableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                 // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                 // reset stride acceleration, disable stride and dash, and set gigagal at ground side
-                if (action != Action.STRIDING || action != Action.DASHING) {
+                if (action != Enums.Action.STRIDING || action != Enums.Action.DASHING) {
                     strideStartTime = 0; // reset stride acceleration
                 }
                 canStride = false; // disable stride
@@ -318,25 +304,25 @@ public class GigaGal implements Humanoid {
             velocity.y = 0; // prevents from descending beneath ground top
             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
             setAtopGround(ground);
-            if (action != Action.DASHING) {
+            if (action != Enums.Action.DASHING) {
                 pauseTimeSeconds = 0;
             }
             if (ground instanceof SkateableGround) {
                 onSkateable = true;
-                if (groundState == GroundState.AIRBORNE) {
+                if (groundState == Enums.GroundState.AIRBORNE) {
                     stand(); // set groundstate to standing
                     lookStartTime = 0;
                 }
             } else if (ground instanceof HoverableGround) {
                 lookStartTime = 0;
                 HoverableGround hoverable = (HoverableGround) ground;
-                Orientation orientation = hoverable.getOrientation();
-                Direction direction = hoverable.getDirection();
-                if (orientation == Orientation.X) {
+                Enums.Orientation orientation = hoverable.getOrientation();
+                Enums.Direction direction = hoverable.getDirection();
+                if (orientation == Enums.Orientation.X) {
                     velocity.x = hoverable.getVelocity().x;
                     position.x += velocity.x;
                 }
-                if (direction == Direction.DOWN) {
+                if (direction == Enums.Direction.DOWN) {
                     position.y -= 1;
                 }
             } else if (ground instanceof BounceableGround) {
@@ -349,7 +335,7 @@ public class GigaGal implements Humanoid {
                 onUnbearable = true;
                 canHover = false;
                 Random xKnockback = new Random();
-                velocity.set(Utils.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.FLAME_KNOCKBACK.y);
+                velocity.set(Utils.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Enums.Orientation.X), Constants.FLAME_KNOCKBACK.y);
                 recoil(velocity);
             }
         }
@@ -375,13 +361,13 @@ public class GigaGal implements Humanoid {
                         && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
                         || canClimb && climbStartTime != 0) {
                     setAtopGround(ground);
-                    if (action != Action.CLIMBING) {
+                    if (action != Enums.Action.CLIMBING) {
                         velocity.y = 0; // prevents from descending beneath ground top
                         position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                     }
                 }
-                if (action != Action.CLIMBING) {
-                    if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+                if (action != Enums.Action.CLIMBING) {
+                    if (canClimb /*&& !inputControls.jumpButtonPressed*/ && action == Enums.Action.STANDING) {
                         if (!(ground instanceof Pole)) {
                             canJump = true;
                         }
@@ -399,14 +385,14 @@ public class GigaGal implements Humanoid {
         clingStartTime = 0;
         canLook = true;
         canHover = false;
-        if (groundState == GroundState.AIRBORNE && !(ground instanceof SkateableGround)) {
+        if (groundState == Enums.GroundState.AIRBORNE && !(ground instanceof SkateableGround)) {
             stand(); // set groundstate to standing
             lookStartTime = 0;
         }
     }
 
     private void untouchGround() {
-        if (touchedGround != null && action != Action.HOVERING) {
+        if (touchedGround != null && action != Enums.Action.HOVERING) {
             if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
                 /*(!Utils.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
                 if (onBounceable) {
@@ -427,7 +413,7 @@ public class GigaGal implements Humanoid {
                 onSinkable = false;
                 lookTimeSeconds = 0;
                 lookStartTime = TimeUtils.nanoTime();
-                if (action != Action.CLINGING) {
+                if (action != Enums.Action.CLINGING) {
                     fall();
                 }
             }
@@ -439,7 +425,7 @@ public class GigaGal implements Humanoid {
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
                 float recoveryTimeSeconds = Utils.secondsSince(recoveryStartTime) - pauseTimeSeconds;
-                if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
+                if (action != Enums.Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
                     Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                     if (getBounds().overlaps(bounds)) {
                         recoveryStartTime = TimeUtils.nanoTime();
@@ -472,10 +458,10 @@ public class GigaGal implements Humanoid {
                         } else {
                             if (hazard instanceof Zoomba) {
                                 Zoomba zoomba = (Zoomba) hazard;
-                                recoil(new Vector2((Utils.absoluteToDirectionalValue(zoomba.getMountKnockback().x, directionX, Orientation.X)), zoomba.getMountKnockback().y));
+                                recoil(new Vector2((Utils.absoluteToDirectionalValue(zoomba.getMountKnockback().x, directionX, Enums.Orientation.X)), zoomba.getMountKnockback().y));
                                 damage = zoomba.getMountDamage();
                             } else {
-                                recoil(new Vector2((Utils.absoluteToDirectionalValue(hazard.getKnockback().x, directionX, Orientation.X)), hazard.getKnockback().y));
+                                recoil(new Vector2((Utils.absoluteToDirectionalValue(hazard.getKnockback().x, directionX, Enums.Orientation.X)), hazard.getKnockback().y));
                             }
                         }
                         health -= damage;
@@ -501,10 +487,10 @@ public class GigaGal implements Humanoid {
                     }
                 } else if (powerup instanceof TurboPowerup) {
                     turbo += Constants.POWERUP_TURBO;
-                    if (action == Action.HOVERING) {
+                    if (action == Enums.Action.HOVERING) {
                         hoverStartTime = TimeUtils.nanoTime();
                     }
-                    if (action == Action.DASHING) {
+                    if (action == Enums.Action.DASHING) {
                         dashStartTime = TimeUtils.nanoTime();
                     }
                 }
@@ -516,6 +502,7 @@ public class GigaGal implements Humanoid {
             turbo = Constants.MAX_TURBO;
         }
     }
+/*
 
     private void handleXInputs() {
         boolean left = inputControls.leftButtonPressed;
@@ -524,22 +511,22 @@ public class GigaGal implements Humanoid {
         boolean inputtingX = ((left || right) && !(left && right));
         if (inputtingX) {
             if (left && !right) {
-                directionChanged = Utils.changeDirection(this, Direction.LEFT, Orientation.X);
+                directionChanged = Utils.changeDirection(this, Enums.Direction.LEFT, Enums.Orientation.X);
             } else if (!left && right) {
-                directionChanged = Utils.changeDirection(this, Direction.RIGHT, Orientation.X);
+                directionChanged = Utils.changeDirection(this, Enums.Direction.RIGHT, Enums.Orientation.X);
             }
         }
-        if (groundState != GroundState.AIRBORNE && action != Action.CLIMBING) {
+        if (groundState != Enums.GroundState.AIRBORNE && action != Enums.Action.CLIMBING) {
             if (lookStartTime == 0) {
                 if (directionChanged) {
-                    if (action == Action.DASHING) {
+                    if (action == Enums.Action.DASHING) {
                         dashStartTime = 0;
                         canDash = false;
                     }
                     strideSpeed = velocity.x;
                     strideStartTime = 0;
                     stand();
-                } else if (action != Action.DASHING) {
+                } else if (action != Enums.Action.DASHING) {
                     if (inputtingX) {
                         if (!canStride) {
                             if (strideStartTime == 0) {
@@ -559,21 +546,21 @@ public class GigaGal implements Humanoid {
                     }
                 }
             }
-        } else if (groundState == GroundState.AIRBORNE) {
+        } else if (groundState == Enums.GroundState.AIRBORNE) {
             if (directionChanged) {
-                if (action != Action.HOVERING) {
+                if (action != Enums.Action.HOVERING) {
                     velocity.x /= 2;
                 } else {
                     velocity.x /= 4;
                 }
             }
-        } else if (action == Action.CLIMBING) {
+        } else if (action == Enums.Action.CLIMBING) {
             if (canClimb) {
                 if (inputtingX) {
                     velocity.y = 0;
                     canHover = false;
                     if (inputControls.jumpButtonPressed) {
-                        climb(Orientation.X);
+                        climb(Enums.Orientation.X);
                     }
                 } else {
                     velocity.x = 0; // disable movement when climbing but directional not pressed
@@ -591,11 +578,11 @@ public class GigaGal implements Humanoid {
         boolean inputtingY = ((up || down) && !(up && down));
         if (inputtingY) {
             if (down && !up) {
-                directionChanged = Utils.changeDirection(this, Direction.DOWN, Orientation.Y);
+                directionChanged = Utils.changeDirection(this, Enums.Direction.DOWN, Enums.Orientation.Y);
             } else if (!down && up) {
-                directionChanged = Utils.changeDirection(this, Direction.UP, Orientation.Y);
+                directionChanged = Utils.changeDirection(this, Enums.Direction.UP, Enums.Orientation.Y);
             }
-            if (directionY == Direction.DOWN) {
+            if (directionY == Enums.Direction.DOWN) {
                 if (onSinkable) {
                     velocity.y *= 5;
                 }
@@ -608,7 +595,7 @@ public class GigaGal implements Humanoid {
                 }
                 look(); // also sets chase cam
             }
-        } else if (action == Action.STANDING || action == Action.CLIMBING) { // if neither up nor down pressed (and either standing or climbing)
+        } else if (action == Enums.Action.STANDING || action == Enums.Action.CLIMBING) { // if neither up nor down pressed (and either standing or climbing)
             resetChaseCamPosition();
         } else { // if neither standing nor climbing and not inputting y
             chaseCamPosition.set(position, 0);
@@ -625,9 +612,9 @@ public class GigaGal implements Humanoid {
                             if (!directionChanged) { // if tapping in same direction
                                 // if difference between current time and previous tap start time is less than double tap speed
                                 if (((TimeUtils.nanoTime() - climbStartTime) * MathUtils.nanoToSec) < Constants.DOUBLE_TAP_SPEED) {
-                                    if (directionY == Direction.UP) { // enable increased ascension speed
+                                    if (directionY == Enums.Direction.UP) { // enable increased ascension speed
                                         canDash = true; // checks can dash after calling climb() to apply speed boost
-                                    } else if (directionY == Direction.DOWN) { // drop down from climbable (drop handled from climb())
+                                    } else if (directionY == Enums.Direction.DOWN) { // drop down from climbable (drop handled from climb())
                                         lookStartTime = TimeUtils.nanoTime(); // prevents from reengaging climbable from enableclimb() while falling
                                         onClimbable = false; // meets requirement within climb() to disable climb and enable fall
                                     }
@@ -635,7 +622,7 @@ public class GigaGal implements Humanoid {
                                 climbStartTime = TimeUtils.nanoTime(); // replace climb start time with that of most recent tap
                             }
                         }
-                        climb(Orientation.Y);
+                        climb(Enums.Orientation.Y);
                         if (canDash) { // apply multiplier on top of speed set by climb()
                             velocity.y *= 2; // double speed
                         }
@@ -649,6 +636,7 @@ public class GigaGal implements Humanoid {
             }
         }
     }
+*/
 
     private void stand() {
         if (onSinkable) {
@@ -665,15 +653,15 @@ public class GigaGal implements Humanoid {
             }
         } else if (onRideable) {
             velocity.x = 0;
-            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Orientation.X);
+            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Enums.Orientation.X);
         } else {
             velocity.x = 0;
         }
-        action = Action.STANDING;
-        groundState = GroundState.PLANTED;
+        action = Enums.Action.STANDING;
+        groundState = Enums.GroundState.PLANTED;
         if (!canClimb) {
             canJump = true;
-            handleYInputs(); // disabled when canclimb to prevent look from overriding climb
+//            handleYInputs(); // disabled when canclimb to prevent look from overriding climb
         } else {
             canJump = false;
         }
@@ -683,10 +671,10 @@ public class GigaGal implements Humanoid {
     }
 
     private void fall() {
-        handleXInputs();
-        handleYInputs();
-        action = Action.FALLING;
-        groundState = GroundState.AIRBORNE;
+//        handleXInputs();
+//        handleYInputs();
+        action = Enums.Action.FALLING;
+        groundState = Enums.GroundState.AIRBORNE;
         canJump = false;
         canDash = false;
         canLook = true;
@@ -708,9 +696,9 @@ public class GigaGal implements Humanoid {
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoil(Vector2 velocity) {
-        action = Action.RECOILING;
-        groundState = GroundState.AIRBORNE;
-        ammoIntensity = AmmoIntensity.SHOT;
+        action = Enums.Action.RECOILING;
+        groundState = Enums.GroundState.AIRBORNE;
+        ammoIntensity = Enums.AmmoIntensity.SHOT;
         chargeStartTime = 0;
         strideStartTime = 0;
         lookStartTime = 0;
@@ -723,25 +711,25 @@ public class GigaGal implements Humanoid {
         this.velocity.y = velocity.y;
     }
 
-    private void enableShoot(WeaponType weapon) {
+    private void enableShoot(Enums.WeaponType weapon) {
         if (canShoot) {
-            if (inputControls.shootButtonPressed) {
+//            if (inputControls.shootButtonPressed) {
                 if (chargeStartTime == 0) {
                     chargeStartTime = TimeUtils.nanoTime();
                 } else if (chargeTimeSeconds > Constants.CHARGE_DURATION) {
-                    ammoIntensity = AmmoIntensity.BLAST;
+                    ammoIntensity = Enums.AmmoIntensity.BLAST;
                 } else if (chargeTimeSeconds > Constants.CHARGE_DURATION / 3) {
-                    ammoIntensity = AmmoIntensity.CHARGE_SHOT;
+                    ammoIntensity = Enums.AmmoIntensity.CHARGE_SHOT;
                 }
                 chargeTimeSeconds = Utils.secondsSince(chargeStartTime);
-            } else if (chargeStartTime != 0) {
+          /*  } else */if (chargeStartTime != 0) {
                 int ammoUsed;
 
-                if (weapon == WeaponType.NATIVE
-                        || (ammo < Constants.BLAST_AMMO_CONSUMPTION && ammoIntensity == AmmoIntensity.BLAST)
+                if (weapon == Enums.WeaponType.NATIVE
+                        || (ammo < Constants.BLAST_AMMO_CONSUMPTION && ammoIntensity == Enums.AmmoIntensity.BLAST)
                         || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
                     ammoUsed = 0;
-                    weapon = WeaponType.NATIVE;
+                    weapon = Enums.WeaponType.NATIVE;
                 } else {
                     ammoUsed = Utils.useAmmo(ammoIntensity);
                 }
@@ -749,22 +737,22 @@ public class GigaGal implements Humanoid {
                 shoot(ammoIntensity, weapon, ammoUsed);
                 chargeStartTime = 0;
                 chargeTimeSeconds = 0;
-                this.ammoIntensity = AmmoIntensity.SHOT;
+                this.ammoIntensity = Enums.AmmoIntensity.SHOT;
             }
         }
     }
 
-    public void shoot(AmmoIntensity ammoIntensity, WeaponType weapon, int ammoUsed) {
+    public void shoot(Enums.AmmoIntensity ammoIntensity, Enums.WeaponType weapon, int ammoUsed) {
         ammo -= ammoUsed;
         Vector2 ammoPosition = new Vector2(
-                position.x + Utils.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, directionX, Orientation.X),
+                position.x + Utils.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, directionX, Enums.Orientation.X),
                 position.y + Constants.GIGAGAL_CANNON_OFFSET.y
         );
         if (lookStartTime != 0) {
-            ammoPosition.add(Utils.absoluteToDirectionalValue(0, directionX, Orientation.X), Utils.absoluteToDirectionalValue(6, directionY, Orientation.Y));
-            level.spawnAmmo(ammoPosition, directionY, Orientation.Y, ammoIntensity, weapon, true);
+            ammoPosition.add(Utils.absoluteToDirectionalValue(0, directionX, Enums.Orientation.X), Utils.absoluteToDirectionalValue(6, directionY, Enums.Orientation.Y));
+            level.spawnAmmo(ammoPosition, directionY, Enums.Orientation.Y, ammoIntensity, weapon, true);
         } else {
-            level.spawnAmmo(ammoPosition, directionX, Orientation.X, ammoIntensity, weapon, true);
+            level.spawnAmmo(ammoPosition, directionX, Enums.Orientation.X, ammoIntensity, weapon, true);
         }
     }
 
@@ -773,13 +761,13 @@ public class GigaGal implements Humanoid {
         if (lookStartTime == 0) {
             lookStartTime = TimeUtils.nanoTime();
             chaseCamPosition.set(position, 0);
-        } else if (action == Action.STANDING || action == Action.CLIMBING) {
-            setChaseCamPosition(offset);
+        } else if (action == Enums.Action.STANDING || action == Enums.Action.CLIMBING) {
+//            setChaseCamPosition(offset);
         }
     }
 
     private void enableStride() {
-        handleXInputs();
+//        handleXInputs();
         if (canStride) {
             stride();
         }
@@ -792,45 +780,45 @@ public class GigaGal implements Humanoid {
         canLook = false;
         if (strideStartTime == 0) {
             strideSpeed = velocity.x;
-            action = Action.STRIDING;
+            action = Enums.Action.STRIDING;
             strideStartTime = TimeUtils.nanoTime();
         }
         strideTimeSeconds = Utils.secondsSince(strideStartTime) - pauseTimeSeconds;
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
-        velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Orientation.X);
+        velocity.x = Utils.absoluteToDirectionalValue(Math.min(maxSpeed * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, maxSpeed), directionX, Enums.Orientation.X);
         if (onRideable) {
-            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Orientation.X);
+            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Enums.Orientation.X);
         } else if (onSkateable) {
-            velocity.x = strideSpeed + Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
+            velocity.x = strideSpeed + Utils.absoluteToDirectionalValue(Math.min(maxSpeed * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, maxSpeed * 2), directionX, Enums.Orientation.X);
         } else if (onSinkable) {
-            velocity.x = Utils.absoluteToDirectionalValue(10, directionX, Orientation.X);
+            velocity.x = Utils.absoluteToDirectionalValue(10, directionX, Enums.Orientation.X);
             velocity.y = -3;
         }
     }
 
     private void enableDash() {
-        handleXInputs();
+//        handleXInputs();
         if (canDash) {
             dash();
         }
     }
 
     private void dash() {
-        if (action != Action.DASHING) {
+        if (action != Enums.Action.DASHING) {
             startTurbo = turbo;
             turboDuration = Constants.MAX_DASH_DURATION * (startTurbo / Constants.MAX_TURBO);
-            action = Action.DASHING;
+            action = Enums.Action.DASHING;
             dashStartTime = TimeUtils.nanoTime();
             strideStartTime = 0;
             canStride = false;
         }
-        float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
+        float dashSpeed = maxSpeed;
         if (onSkateable) {
             dashSpeed *= 1.75f;
         }
         if (turbo >= 1) {
             turbo -= Constants.FALL_TURBO_INCREMENT * 3;
-            velocity.x = Utils.absoluteToDirectionalValue(dashSpeed, directionX, Orientation.X);
+            velocity.x = Utils.absoluteToDirectionalValue(dashSpeed, directionX, Enums.Orientation.X);
         } else {
             canDash = false;
             dashStartTime = 0;
@@ -841,7 +829,7 @@ public class GigaGal implements Humanoid {
 
     private void enableJump() {
         if (canJump) {
-            if ((inputControls.jumpButtonJustPressed || action == Action.JUMPING)
+            if ((/*inputControls.jumpButtonJustPressed || */action == Enums.Action.JUMPING)
                     && lookStartTime == 0) {
                 jump();
             }
@@ -850,12 +838,12 @@ public class GigaGal implements Humanoid {
 
     private void jump() {
         if (canJump) {
-            action = Action.JUMPING;
-            groundState = GroundState.AIRBORNE;
+            action = Enums.Action.JUMPING;
+            groundState = Enums.GroundState.AIRBORNE;
             jumpStartTime = TimeUtils.nanoTime();
             canJump = false;
         }
-        velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
+        velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Enums.Orientation.X);
         float jumpTimeSeconds = Utils.secondsSince(jumpStartTime) - pauseTimeSeconds;
         if (jumpTimeSeconds < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
@@ -873,8 +861,8 @@ public class GigaGal implements Humanoid {
 
     private void enableHover() {
         if (canHover) {
-            if (inputControls.jumpButtonJustPressed) {
-                if (action == Action.HOVERING) {
+          /*  if (inputControls.jumpButtonJustPressed) {*/
+                if (action == Enums.Action.HOVERING) {
                     //   canHover = false;
                     hoverStartTime = 0;
                     velocity.x -= velocity.x / 2;
@@ -883,8 +871,8 @@ public class GigaGal implements Humanoid {
                     hover(); // else hover if canHover is true (set to false after beginning hover)
                 }
                 // if jump key not pressed, but already hovering, continue to hover
-            } else if (action == Action.HOVERING) {
-                handleYInputs();
+         /*   } else*/ if (action == Enums.Action.HOVERING) {
+//                handleYInputs();
                 hover();
             }
         }
@@ -892,10 +880,10 @@ public class GigaGal implements Humanoid {
 
     private void hover() {
         // canHover can only be true just before beginning to hover
-        if (action != Action.HOVERING) {
+        if (action != Enums.Action.HOVERING) {
             startTurbo = turbo;
             turboDuration = Constants.MAX_HOVER_DURATION * (startTurbo / Constants.MAX_TURBO);
-            action = Action.HOVERING; // indicates currently hovering
+            action = Enums.Action.HOVERING; // indicates currently hovering
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
         hoverTimeSeconds = (Utils.secondsSince(hoverStartTime) - pauseTimeSeconds); // for comparing with max hover time
@@ -907,31 +895,31 @@ public class GigaGal implements Humanoid {
             fall(); // when max hover time is exceeded
             pauseTimeSeconds = 0;
         }
-        handleXInputs();
+//        handleXInputs();
     }
 
     private void enableCling() {
-        if (action == Action.CLINGING) {
+        if (action == Enums.Action.CLINGING) {
             cling();
         } else if (canCling){
-            if (!canHover || action == Action.HOVERING) {
+            if (!canHover || action == Enums.Action.HOVERING) {
                 fall(); // begin descent from ground side sans access to hover
                 canHover = false; // disable hover if not already
             }
-            if (inputControls.jumpButtonJustPressed) {
+//            if (inputControls.jumpButtonJustPressed) {
                 cling();
-            }
+//            }
         }
     }
 
     private void cling() {
         if (canCling) {
-            action = Action.CLINGING;
-            groundState = GroundState.AIRBORNE;
+            action = Enums.Action.CLINGING;
+            groundState = Enums.GroundState.AIRBORNE;
             startTurbo = turbo;
             clingStartTime = TimeUtils.nanoTime();
             turboDuration = Constants.MAX_CLING_DURATION * (startTurbo / Constants.MAX_TURBO);
-            if (!Utils.movingOppositeDirection(velocity.x, directionX, Orientation.X)) {
+            if (!Utils.movingOppositeDirection(velocity.x, directionX, Enums.Orientation.X)) {
                 directionX = Utils.getOppositeDirection(directionX);
             }
             hoverStartTime = 0;
@@ -939,71 +927,70 @@ public class GigaGal implements Humanoid {
             canCling = false;
         }
         float clingTimeSeconds = (Utils.secondsSince(clingStartTime) - pauseTimeSeconds);
-        if (!inputControls.jumpButtonPressed) {
+//        if (!inputControls.jumpButtonPressed) {
             if (clingTimeSeconds >= Constants.CLING_FRAME_DURATION) {
-                velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
+                velocity.x = Utils.absoluteToDirectionalValue(maxSpeed, directionX, Enums.Orientation.X);
                 jump();
             } else {
                 pauseTimeSeconds = 0;
                 canHover = true;
             }
-        } else {
+//        } else {
             lookStartTime = 0;
-            if (inputControls.downButtonPressed) {
+//            if (inputControls.downButtonPressed) {
                 velocity.y += Constants.CLING_GRAVITY_OFFSET;
-            } else if (turbo < 1) {
+        /*    } else*/ if (turbo < 1) {
                 turbo = 0;
                 velocity.y += Constants.CLING_GRAVITY_OFFSET;
-            } else {
+//            } else {
                 turbo -= Constants.FALL_TURBO_INCREMENT;
                 velocity.y = 0;
             }
-        }
     }
 
     private void enableClimb() {
         if (onClimbable) {
-            if (inputControls.jumpButtonPressed) {
+//            if (inputControls.jumpButtonPressed) {
                 if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neurtralize
                     canLook = false; // prevents look from overriding climb
                     canClimb = true; // enables climb handling from handleY()
                 }
-            } else {
+//            } else {
                 canLook = true; // enables look when engaging climbable but not actively climbing
                 canClimb  = false; // prevents climb initiation when jumpbutton released
-            }
-            handleXInputs(); // enables change of x direction for shooting left or right
-            handleYInputs(); // enables change of y direction for looking and climbing up or down
+//            }
+//            handleXInputs(); // enables change of x direction for shooting left or right
+//            handleYInputs(); // enables change of y direction for looking and climbing up or down
         } else {
-            if (action == Action.CLIMBING) {
+            if (action == Enums.Action.CLIMBING) {
                 fall();
                 if (!(touchedGround instanceof ClimbableGround && Utils.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())))  {
-                    velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
+                    velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Enums.Orientation.X);
                 }
             }
             canClimb = false;
         }
     }
 
-    private void climb(Orientation orientation) {
+    private void climb(Enums.Orientation orientation) {
         if (onClimbable) { // onclimbable set to false from handleYinputs() if double tapping down
-            if (action != Action.CLIMBING) { // at the time of climb initiation
+            if (action != Enums.Action.CLIMBING) { // at the time of climb initiation
                 climbStartTime = 0; // overrides assignment of current time preventing nanotime - climbstarttime < doubletapspeed on next handleY() call
-                groundState = GroundState.PLANTED;
-                action = Action.CLIMBING;
+                groundState = Enums.GroundState.PLANTED;
+                action = Enums.Action.CLIMBING;
             }
             canHover = false;
             climbTimeSeconds = Utils.secondsSince(climbStartTime);
-            if (orientation == Orientation.X) {
-                velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
-            } else if (orientation == Orientation.Y) {
-                velocity.y = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Orientation.Y);
+            if (orientation == Enums.Orientation.X) {
+                velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Enums.Orientation.X);
+            } else if (orientation == Enums.Orientation.Y) {
+                velocity.y = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Enums.Orientation.Y);
             }
             int climbAnimationPercent = (int) (climbTimeSeconds * 100);
             if ((climbAnimationPercent) % 25 >= 0 && (climbAnimationPercent) % 25 <= 13) {
-                directionX = Direction.RIGHT;
+                directionX = Enums.Direction.RIGHT;
             } else {
-                directionX = Direction.LEFT;
+                directionX = Enums.Direction.LEFT;
             }
         } else { // if double tapping down, fall from climbable
             climbStartTime = 0;
@@ -1013,175 +1000,100 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    @Override
     public void render(SpriteBatch batch) {
-        if (directionX == Direction.RIGHT) {
+        if (directionX == Enums.Direction.RIGHT) {
             if (lookStartTime != 0) {
-                if (directionY == Direction.UP) {
+                if (directionY == Enums.Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
-                    if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (action == Enums.Action.FALLING || action == Enums.Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
-                    } else if (action == Action.HOVERING) {
+                    } else if (action == Enums.Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
-                } else if (directionY == Direction.DOWN) {
+                } else if (directionY == Enums.Direction.DOWN) {
                     region = Assets.getInstance().getGigaGalAssets().lookdownStandRight;
-                    if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (action == Enums.Action.FALLING || action == Enums.Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
-                    } else if (action == Action.HOVERING) {
+                    } else if (action == Enums.Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
                 }
-            } else if (action == Action.CLIMBING) {
+            } else if (action == Enums.Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
-            } else if (action == Action.STANDING) {
+            } else if (action == Enums.Action.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standRight;
-            } else if (action == Action.STRIDING) {
+            } else if (action == Enums.Action.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
-            } else if (action == Action.DASHING) {
+            } else if (action == Enums.Action.DASHING) {
                 region = Assets.getInstance().getGigaGalAssets().dashRight;
-            } else if (action == Action.HOVERING) {
+            } else if (action == Enums.Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
-            } else if (action == Action.CLINGING) {
+            } else if (action == Enums.Action.CLINGING) {
                 region = Assets.getInstance().getGigaGalAssets().clingRight;
-            } else if (action == Action.RECOILING){
+            } else if (action == Enums.Action.RECOILING){
                 region = Assets.getInstance().getGigaGalAssets().recoilRight;
-            } else if (action == Action.FALLING) {
+            } else if (action == Enums.Action.FALLING) {
                 region = Assets.getInstance().getGigaGalAssets().fallRight;
             }
-        } else if (directionX == Direction.LEFT) {
+        } else if (directionX == Enums.Direction.LEFT) {
             if (lookStartTime != 0) {
-                if (directionY == Direction.UP) {
+                if (directionY == Enums.Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
-                    if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (action == Enums.Action.FALLING || action == Enums.Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
-                    } else if (action == Action.HOVERING) {
+                    } else if (action == Enums.Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
-                } else if (directionY == Direction.DOWN) {
+                } else if (directionY == Enums.Direction.DOWN) {
                     region = Assets.getInstance().getGigaGalAssets().lookdownStandLeft;
-                    if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (action == Enums.Action.FALLING || action == Enums.Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
-                    } else if (action == Action.HOVERING) {
+                    } else if (action == Enums.Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 }
-            } else if (action == Action.CLIMBING) {
+            } else if (action == Enums.Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
-            } else if (action == Action.STANDING) {
+            } else if (action == Enums.Action.STANDING) {
                 region = Assets.getInstance().getGigaGalAssets().standLeft;
-            } else if (action == Action.STRIDING) {
+            } else if (action == Enums.Action.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
-            } else if (action == Action.DASHING) {
+            } else if (action == Enums.Action.DASHING) {
                 region = Assets.getInstance().getGigaGalAssets().dashLeft;
-            } else if (action == Action.HOVERING) {
+            } else if (action == Enums.Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
-            } else if (action == Action.CLINGING) {
+            } else if (action == Enums.Action.CLINGING) {
                 region = Assets.getInstance().getGigaGalAssets().clingLeft;
-            } else if (action == Action.RECOILING) {
+            } else if (action == Enums.Action.RECOILING) {
                 region = Assets.getInstance().getGigaGalAssets().recoilLeft;
-            } else if (action == Action.FALLING) {
+            } else if (action == Enums.Action.FALLING) {
                 region = Assets.getInstance().getGigaGalAssets().fallLeft;
             }
         }
         Utils.drawTextureRegion(batch, region, position, Constants.GIGAGAL_EYE_POSITION);
     }
 
-    // Getters
-    @Override public int getHealth() { return health; }
-    @Override public float getTurbo() { return turbo; }
-    @Override public Direction getDirectionX() { return directionX; }
-    @Override public Direction getDirectionY() { return directionY; }
-    @Override public Vector2 getPosition() { return position; }
-    public Vector2 getVelocity() { return velocity; }
-    @Override public float getWidth() { return Constants.GIGAGAL_STANCE_WIDTH; }
-    @Override public float getHeight() { return Constants.GIGAGAL_HEIGHT; }
-    @Override public float getLeft() { return position.x - getHalfWidth(); }
-    @Override public float getRight() { return position.x + getHalfWidth(); }
-    @Override public float getTop() { return position.y + Constants.GIGAGAL_HEAD_RADIUS; }
-    @Override public float getBottom() { return position.y - Constants.GIGAGAL_EYE_HEIGHT; }
-    @Override public Rectangle getBounds() { return  new Rectangle(getLeft(), getBottom(), getWidth(), getHeight()); }
-    @Override public boolean getJumpStatus() { return canJump; }
-    @Override public boolean getHoverStatus() { return canHover; }
-    @Override public boolean getClingStatus() { return canCling; }
-    @Override public boolean getDashStatus() { return canDash; }
-    @Override public boolean getClimbStatus() { return canClimb; }
-    @Override public AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
-    @Override public WeaponType getWeapon() { return weapon; }
-    public float getHalfWidth() { return Constants.GIGAGAL_STANCE_WIDTH / 2; }
-    public List<WeaponType> getWeaponList() { return weaponList; }
-    public int getAmmo() { return ammo; }
-    public int getLives() { return lives; }
-    public float getPauseTimeSeconds() { return pauseTimeSeconds; }
-    public boolean getPaused() { return paused; }
-    public Vector3 getChaseCamPosition() { return chaseCamPosition; }
-    public long getLookStartTime() { return lookStartTime; }
-    public float getChargeTimeSeconds() { return chargeTimeSeconds; }
-    public GroundState getGroundState() { return groundState; }
-    public Action getAction() { return action; }
-    public float getKillPlane() { return killPlane; }
+    public final Vector2 getPosition() { return position; }
+    public final Enums.Direction getDirectionX() { return directionX; }
+    public final Enums.Direction getDirectionY() { return directionY; }
+    public final Rectangle getBounds() { return new Rectangle(getLeft(), getBottom(), getWidth(), getHeight()); }
+    public final float getWidth() { return stanceWidth; }
+    public final float getHalfWidth() { return stanceWidth / 2; }
+    public final float getHeight() { return height; }
+    public final float getLeft() { return position.x - getHalfWidth(); }
+    public final float getRight() { return position.x + getHalfWidth(); }
+    public final float getTop() { return eyeHeight + headRadius; }
+    public final float getBottom() { return position.y - eyeHeight; }
+    public final float getTurbo() { return turbo; }
+    public final int getHealth() { return health; }
+    public final boolean getJumpStatus() { return canJump; }
+    public final boolean getHoverStatus() { return canHover; }
+    public final boolean getClingStatus() { return canCling; }
+    public final boolean getDashStatus() { return canDash; }
+    public final boolean getClimbStatus() { return canClimb; }
+    public final Enums.AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
+    public final Enums.WeaponType getWeapon() { return weapon; }
 
-    // Setters
-    public void setDirectionX(Direction directionX) { this.directionX = directionX; }
-    public void setDirectionY(Direction directionY) { this.directionY = directionY; }
-    public void setLives(int lives) { this.lives = lives; }
-    public void setHealth(int health) { this.health = health; }
-    public void setPauseTimeSeconds(float pauseTimeSeconds) { this.pauseTimeSeconds = pauseTimeSeconds; }
-    public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
-    public void setChaseCamPosition(float offset) {
-        lookTimeSeconds = Utils.secondsSince(lookStartTime) - pauseTimeSeconds;
-        if (lookTimeSeconds > 1) {
-            offset += 1.5f;
-            if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {
-                chaseCamPosition.y += Utils.absoluteToDirectionalValue(offset, directionY, Orientation.Y);
-                chaseCamPosition.x = position.x;
-            }
-        }
-    }
-    public void resetChaseCamPosition() {
-        float offsetDistance = chaseCamPosition.y - position.y;
-        // move chasecam back towards gigagal yposition provided yposition cannot be changed until fully reset
-        if (Math.abs(offsetDistance) > 5) { // if chasecam offset from gigagal yposition more than five pixels
-            if (offsetDistance < 0) {
-                chaseCamPosition.y += 2.5f;
-            } else if (offsetDistance > 0) {
-                chaseCamPosition.y -= 2.5f;
-            }
-            chaseCamPosition.x = position.x; // set chasecam position to gigagal xposition
-        } else if (chaseCamPosition.y != position.y) { // if chasecam offset less than 5 but greater than 0 and actively looking
-            chaseCamPosition.set(position, 0); // reset chasecam
-            canLook = false; // disable look
-        } else {
-            lookStartTime = 0;
-            lookTimeSeconds = 0;
-        }
-    }
-    public void addWeapon(WeaponType weapon) { weaponToggler.add(weapon); }
-    public void toggleWeapon(Direction toggleDirection) {
-        if (weaponList.size() > 1) {
-            if (toggleDirection == Direction.UP) {
-                if (!weaponToggler.hasNext()) {
-                    while (weaponToggler.hasPrevious()) {
-                        weaponToggler.previous();
-                    }
-                }
-                if (weapon == weaponToggler.next()) {
-                    toggleWeapon(toggleDirection);
-                } else {
-                    weapon = weaponToggler.previous();
-                }
-            } else if (toggleDirection == Direction.DOWN) {
-                if (!weaponToggler.hasPrevious()) {
-                    while (weaponToggler.hasNext()) {
-                        weaponToggler.next();
-                    }
-                }
-                if (weapon == weaponToggler.previous()) {
-                    toggleWeapon(toggleDirection);
-                } else {
-                    weapon = weaponToggler.next();
-                }
-            }
-        }
-    }
+    public void setDirectionX(Enums.Direction direction) { this.directionX = direction; }
+    public void setDirectionY(Enums.Direction direction) { this.directionY = direction; }
 }
