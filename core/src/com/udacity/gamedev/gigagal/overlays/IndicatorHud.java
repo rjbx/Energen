@@ -121,5 +121,7 @@ public class IndicatorHud {
         batch.end();
     }
 
+    public void dispose() { font.dispose(); }
+
     public final Viewport getViewport() { return viewport; }
 }

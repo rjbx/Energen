@@ -65,8 +65,9 @@ public final class DefeatOverlay {
         font.draw(batch, Constants.DEFEAT_MESSAGE, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
 
         batch.end();
-
     }
+
+    public void dispose() { font.dispose(); }
 
     public Viewport getViewport() { return viewport; }
 }

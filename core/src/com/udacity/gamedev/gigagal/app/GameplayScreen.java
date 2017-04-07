@@ -172,8 +172,8 @@ public class GameplayScreen extends ScreenAdapter {
                         } else if (pauseOverlay.getCursor().getPosition() == 58) {
                             unpause();
                             totalTime.suspend();
-                            game.setScreen(new LevelSelectScreen(game));
                             this.dispose();
+                            game.setScreen(new LevelSelectScreen(game));
                         } else if (pauseOverlay.getCursor().getPosition() == 43) {
                             optionsVisible = true;
                         }
@@ -197,6 +197,7 @@ public class GameplayScreen extends ScreenAdapter {
                             controlsOverlay.onMobile = Utils.toggleBoolean(controlsOverlay.onMobile);
                             prefs.putBoolean("Mobile", controlsOverlay.onMobile);
                         } else if (optionsOverlay.getCursor().getPosition() == 28) {
+                            game.dispose();
                             game.create();
                         }
                     } else if (inputControls.pauseButtonJustPressed) {
@@ -240,8 +241,8 @@ public class GameplayScreen extends ScreenAdapter {
             defeatOverlay.render(batch);
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
-                game.setScreen(new LevelSelectScreen(game));
                 this.dispose();
+                game.setScreen(new LevelSelectScreen(game));
             }
         } else if (level.isVictory()) {
             levelEnded = true;
@@ -277,7 +278,6 @@ public class GameplayScreen extends ScreenAdapter {
 
         // set level attributes
         level.setLevelName(levelName);
-        Assets.getInstance().init(new AssetManager());
         level.setDifficulty(prefs.getInteger("Difficulty", 0));
         powerups = new Array<TurboPowerup>();
         for (Powerup powerup : level.getPowerups()) {
@@ -315,8 +315,9 @@ public class GameplayScreen extends ScreenAdapter {
         if (!completedLevels.contains(levelName, false)) {
             completedLevels.add(levelName);
         }
-        game.setScreen(new LevelSelectScreen(game));
+
         this.dispose();
+        game.setScreen(new LevelSelectScreen(game));
     }
 
     public void unpause() {
@@ -324,6 +325,19 @@ public class GameplayScreen extends ScreenAdapter {
         level.getLevelTime().resume();
         totalTime.resume();
         paused = false;
+    }
+
+    @Override
+    public void dispose() {
+        totalTime.stop();
+        optionsOverlay.dispose();
+        defeatOverlay.dispose();
+        messageOverlay.dispose();
+        pauseOverlay.dispose();
+        victoryOverlay.dispose();
+        renderer.dispose();
+        batch.dispose();
+        super.dispose();
     }
 
     public Level getLevel() { return level; }

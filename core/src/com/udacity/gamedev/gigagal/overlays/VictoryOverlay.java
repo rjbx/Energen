@@ -67,5 +67,7 @@ public final class VictoryOverlay {
         batch.end();
     }
 
+    public void dispose() { font.dispose(); }
+
     public final Viewport getViewport() { return viewport; }
 }

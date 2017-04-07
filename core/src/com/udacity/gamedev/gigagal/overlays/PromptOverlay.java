@@ -50,6 +50,9 @@ public class PromptOverlay {
         batch.end();
     }
 
+    public void dispose() { font.dispose(); }
+
+    // Getters
     public Viewport getViewport() { return viewport; }
     public final CursorOverlay getCursor() { return cursor; }
 

@@ -35,4 +35,10 @@ public final class GigaGalGame extends Game {
     public LevelSelectScreen getLevelSelectScreen() { return levelSelectScreen; }
     public GameplayScreen getGameplayScreen() { return gameplayScreen; }
     public Preferences getPreferences() { return prefs; }
+
+    @Override
+    public void dispose() {
+        Assets.getInstance().dispose();
+        super.dispose();
+    }
 }

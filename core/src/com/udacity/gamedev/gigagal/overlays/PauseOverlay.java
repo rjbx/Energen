@@ -80,6 +80,8 @@ public final class PauseOverlay {
         batch.end();
     }
 
+    public void dispose() { font.dispose(); inactiveFont.dispose(); }
+
     public final Viewport getViewport() { return viewport; }
     public final CursorOverlay getCursor() { return cursor; }
 }

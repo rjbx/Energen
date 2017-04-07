@@ -19,7 +19,6 @@ public final class Assets implements Disposable, AssetErrorListener {
     // fields
     public static final String TAG = Assets.class.getName();
     private static final Assets INSTANCE = new Assets();
-    private Enums.LevelName levelName;
     private GigaGalAssets gigaGalAssets;
     private BoxAssets boxAssets;
     private CannonAssets cannonAssets;
@@ -48,6 +47,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     private OverlayAssets overlayAssets;
     private HudAssets hudAssets;
     private AssetManager assetManager;
+    private TextureAtlas atlas;
 
     // non-instantiable; cannot be subclassed
     private Assets() {}
@@ -61,34 +61,34 @@ public final class Assets implements Disposable, AssetErrorListener {
         assetManager.load(Constants.TEXTURE_ATLAS, TextureAtlas.class);
         assetManager.finishLoading();
 
-        TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
-        gigaGalAssets = new GigaGalAssets(atlas);
-        boxAssets = new BoxAssets(atlas);
-        cannonAssets = new CannonAssets(atlas);
-        pillarAssets = new PillarAssets(atlas);
-        liftAssets = new LiftAssets(atlas);
-        ladderAssets = new LadderAssets(atlas);
-        vinesAssets = new VinesAssets(atlas);
-        ropeAssets = new RopeAssets(atlas);
-        poleAssets = new PoleAssets(atlas);
-        slickAssets = new SlickAssets(atlas);
-        iceAssets = new IceAssets(atlas);
-        treadmillAssets = new TreadmillAssets(atlas);
-        springAssets = new SpringAssets(atlas);
-        sinkAssets = new SinkAssets(atlas);
-        coalsAssets = new CoalsAssets(atlas);
-        ammoAssets = new AmmoAssets(atlas);
-        zoombaAssets = new ZoombaAssets(atlas);
-        swoopaAssets = new SwoopaAssets(atlas);
-        orbenAssets = new OrbenAssets(atlas);
-        rollenAssets = new RollenAssets(atlas);
-        protrusionAssets = new ProtrusionAssets(atlas);
-        suspensionAssets = new SuspensionAssets(atlas);
-        impactAssets = new ImpactAssets(atlas);
-        powerupAssets = new PowerupAssets(atlas);
-        portalAssets = new PortalAssets(atlas);
-        overlayAssets = new OverlayAssets(atlas);
-        hudAssets = new HudAssets(atlas);
+        atlas = assetManager.get(Constants.TEXTURE_ATLAS);
+        gigaGalAssets = new GigaGalAssets();
+        boxAssets = new BoxAssets();
+        cannonAssets = new CannonAssets();
+        pillarAssets = new PillarAssets();
+        liftAssets = new LiftAssets();
+        ladderAssets = new LadderAssets();
+        vinesAssets = new VinesAssets();
+        ropeAssets = new RopeAssets();
+        poleAssets = new PoleAssets();
+        slickAssets = new SlickAssets();
+        iceAssets = new IceAssets();
+        treadmillAssets = new TreadmillAssets();
+        springAssets = new SpringAssets();
+        sinkAssets = new SinkAssets();
+        coalsAssets = new CoalsAssets();
+        ammoAssets = new AmmoAssets();
+        zoombaAssets = new ZoombaAssets();
+        swoopaAssets = new SwoopaAssets();
+        orbenAssets = new OrbenAssets();
+        rollenAssets = new RollenAssets();
+        protrusionAssets = new ProtrusionAssets();
+        suspensionAssets = new SuspensionAssets();
+        impactAssets = new ImpactAssets();
+        powerupAssets = new PowerupAssets();
+        portalAssets = new PortalAssets();
+        overlayAssets = new OverlayAssets();
+        hudAssets = new HudAssets();
     }
 
     @Override
@@ -98,6 +98,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     @Override
     public void dispose() {
+        atlas.dispose();
         assetManager.dispose();
     }
 
@@ -131,7 +132,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final Animation strideRight;
         public final Animation climb;
 
-        public GigaGalAssets(TextureAtlas atlas) {
+        public GigaGalAssets() {
             standLeft = atlas.findRegion(Constants.STAND_LEFT);
             standRight = atlas.findRegion(Constants.STAND_RIGHT);
             recoilLeft = atlas.findRegion(Constants.RECOIL_LEFT);
@@ -213,7 +214,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final NinePatch magentaBox;
         public final NinePatch defaultBox;
 
-        public BoxAssets(TextureAtlas atlas) {
+        public BoxAssets() {
             int edge = Constants.BOX_EDGE;
 
             redBox = new NinePatch(atlas.findRegion(Constants.RED_BOX_SPRITE), edge, edge, edge, edge);
@@ -246,7 +247,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion hybridShot;
         public final AtlasRegion hybridBlast;
 
-        public AmmoAssets(TextureAtlas atlas) {
+        public AmmoAssets() {
             nativeShot = atlas.findRegion(Constants.SHOT_NATIVE_SPRITE);
             nativeBlast = atlas.findRegion(Constants.BLAST_NATIVE_SPRITE);
             gasShot = atlas.findRegion(Constants.SHOT_GAS_SPRITE);
@@ -270,7 +271,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final AtlasRegion lift;
 
-        public LiftAssets(TextureAtlas atlas) {
+        public LiftAssets() {
             lift = atlas.findRegion(Constants.LIFT_SPRITE);
         }
     }
@@ -279,7 +280,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final AtlasRegion pillar;
 
-        public PillarAssets(TextureAtlas atlas) {
+        public PillarAssets() {
             pillar = atlas.findRegion(Constants.PILLAR_SPRITE);
         }
     }
@@ -289,7 +290,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion yCannon;
         public final AtlasRegion xCannon;
         
-        public CannonAssets(TextureAtlas atlas) {
+        public CannonAssets() {
             yCannon = atlas.findRegion(Constants.Y_CANNON_SPRITE);
             xCannon = atlas.findRegion(Constants.X_CANNON_SPRITE);
         }
@@ -299,7 +300,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final NinePatch ladderNinePatch;
 
-        public LadderAssets(TextureAtlas atlas) {
+        public LadderAssets() {
             AtlasRegion region = atlas.findRegion(Constants.LADDER_SPRITE);
             ladderNinePatch = new NinePatch(region, Constants.LADDER_X_EDGE, Constants.LADDER_X_EDGE, Constants.LADDER_Y_EDGE, Constants.LADDER_Y_EDGE);
         }
@@ -309,7 +310,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     
         public final AtlasRegion vines;
     
-        public VinesAssets(TextureAtlas atlas) {
+        public VinesAssets() {
             vines = atlas.findRegion(Constants.VINES_SPRITE);
         }
     }
@@ -318,7 +319,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final AtlasRegion rope;
 
-        public RopeAssets(TextureAtlas atlas) {
+        public RopeAssets() {
             rope = atlas.findRegion(Constants.ROPE_SPRITE);
         }
     }
@@ -327,7 +328,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final Animation pole;
 
-        public PoleAssets(TextureAtlas atlas) {
+        public PoleAssets() {
             Array<AtlasRegion> poleRegions = new Array<AtlasRegion>();
             poleRegions.add(atlas.findRegion(Constants.POLE_SPRITE_1));
             poleRegions.add(atlas.findRegion(Constants.POLE_SPRITE_2));
@@ -341,7 +342,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final Animation slick;
 
-        public SlickAssets(TextureAtlas atlas) {
+        public SlickAssets() {
             Array<AtlasRegion> slickRegions = new Array<AtlasRegion>();
             slickRegions.add(atlas.findRegion(Constants.SLICK_SPRITE_1));
             slickRegions.add(atlas.findRegion(Constants.SLICK_SPRITE_2));
@@ -355,7 +356,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final Animation ice;
 
-        public IceAssets(TextureAtlas atlas) {
+        public IceAssets() {
             Array<AtlasRegion> iceRegions = new Array<AtlasRegion>();
             iceRegions.add(atlas.findRegion(Constants.ICE_SPRITE_1));
             iceRegions.add(atlas.findRegion(Constants.ICE_SPRITE_2));
@@ -370,7 +371,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final Animation treadmillRight;
         public final Animation treadmillLeft;
 
-        public TreadmillAssets(TextureAtlas atlas) {
+        public TreadmillAssets() {
             Array<AtlasRegion> treadmillRegions = new Array<AtlasRegion>();
             treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_1_RIGHT));
             treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_2_RIGHT));
@@ -394,7 +395,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final Animation loaded;
         public final Animation unloaded;
 
-        public SpringAssets(TextureAtlas atlas) {
+        public SpringAssets() {
             Array<AtlasRegion> springRegions = new Array<AtlasRegion>();
             springRegions.add(atlas.findRegion(Constants.SPRING_SPRITE_1));
             springRegions.add(atlas.findRegion(Constants.SPRING_SPRITE_2));
@@ -414,7 +415,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final Animation sink;
 
-        public SinkAssets(TextureAtlas atlas) {
+        public SinkAssets() {
             Array<AtlasRegion> sinkRegions = new Array<AtlasRegion>();
             sinkRegions.add(atlas.findRegion(Constants.SINK_SPRITE_1));
             sinkRegions.add(atlas.findRegion(Constants.SINK_SPRITE_2));
@@ -428,7 +429,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final Animation coals;
 
-        public CoalsAssets(TextureAtlas atlas) {
+        public CoalsAssets() {
             Array<AtlasRegion> coalsRegions = new Array<AtlasRegion>();
             coalsRegions.add(atlas.findRegion(Constants.COALS_SPRITE_1));
             coalsRegions.add(atlas.findRegion(Constants.COALS_SPRITE_2));
@@ -447,7 +448,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final Animation whirlingZoomba;
         public final Animation sharpZoomba;
 
-        public ZoombaAssets(TextureAtlas atlas) {
+        public ZoombaAssets() {
             zoomba = atlas.findRegion(Constants.ZOOMBA_SPRITE);
 
             Array<AtlasRegion> fieryZoombaRegions = new Array<AtlasRegion>();
@@ -497,7 +498,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final Animation whirlingSwoopa;
         public final Animation sharpSwoopa;
 
-        public SwoopaAssets(TextureAtlas atlas) {
+        public SwoopaAssets() {
             swoopa = atlas.findRegion(Constants.SWOOPA_SPRITE);
 
             Array<AtlasRegion> fierySwoopaRegions = new Array<AtlasRegion>();
@@ -547,7 +548,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final Animation sharpOrben;
         public final Animation whirlingOrben;
 
-        public OrbenAssets(TextureAtlas atlas) {
+        public OrbenAssets() {
 
             dormantOrben = atlas.findRegion(Constants.DORMANTORBEN_SPRITE);
             
@@ -601,7 +602,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final Animation sharpRollen;
         public final Animation whirlingRollen;
 
-        public RollenAssets(TextureAtlas atlas) {
+        public RollenAssets() {
 
             Array<AtlasRegion> chargedRollenRegions = new Array<AtlasRegion>();
             chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_1));
@@ -648,7 +649,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final Animation rod;
         public final Animation whirl;
 
-        public ProtrusionAssets(TextureAtlas atlas) {
+        public ProtrusionAssets() {
 
             Array<AtlasRegion> whirlRegions = new Array<AtlasRegion>();
             whirlRegions.add(atlas.findRegion(Constants.WHIRL_SPRITE_1));
@@ -686,7 +687,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final Animation coil;
         public final Animation vacuum;
 
-        public SuspensionAssets(TextureAtlas atlas) {
+        public SuspensionAssets() {
 
             Array<AtlasRegion> burnerRegions = new Array<AtlasRegion>();
             burnerRegions.add(atlas.findRegion(Constants.BURNER_SPRITE_1));
@@ -726,7 +727,7 @@ public final class Assets implements Disposable, AssetErrorListener {
 
         public final Animation portal;
 
-        public PortalAssets(TextureAtlas atlas) {
+        public PortalAssets() {
             Array<AtlasRegion> portalRegions = new Array<AtlasRegion>();
             portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_1));
             portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_2));
@@ -750,7 +751,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final Animation impactHybrid;
         public final Animation impactNative;
 
-        public ImpactAssets(TextureAtlas atlas) {
+        public ImpactAssets() {
 
             Array<AtlasRegion> impactPlasmaRegions = new Array<AtlasRegion>();
             impactPlasmaRegions.add(atlas.findRegion(Constants.IMPACT_PLASMA_LARGE));
@@ -815,11 +816,11 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion healthPowerup;
         public final AtlasRegion turboPowerup;
 
-        public PowerupAssets(TextureAtlas atlas) {
+        public PowerupAssets() {
             ammoPowerup = atlas.findRegion(Constants.AMMO_POWERUP_SPRITE);
             healthPowerup = atlas.findRegion(Constants.HEALTH_POWERUP_SPRITE);
             turboPowerup = atlas.findRegion(Constants.TURBO_POWERUP_SPRITE);
-            
+
         }
     }
 
@@ -836,7 +837,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion selectionCursor;
         public final AtlasRegion logo;
 
-        public OverlayAssets(TextureAtlas atlas) {
+        public OverlayAssets() {
             right = atlas.findRegion(Constants.RIGHT_BUTTON);
             left = atlas.findRegion(Constants.LEFT_BUTTON);
             up = atlas.findRegion(Constants.UP_BUTTON);
@@ -861,7 +862,7 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion dash;
         public final AtlasRegion life;
 
-        public HudAssets(TextureAtlas atlas) {
+        public HudAssets() {
             shoot = atlas.findRegion(Constants.SHOOT_ICON);
             blast = atlas.findRegion(Constants.BLAST_ICON);
             jump = atlas.findRegion(Constants.JUMP_ICON);

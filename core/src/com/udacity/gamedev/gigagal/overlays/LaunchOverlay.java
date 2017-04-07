@@ -41,5 +41,7 @@ public final class LaunchOverlay {
         batch.end();
     }
 
+    public void dispose() { font.dispose(); }
+
     public Viewport getViewport() { return viewport; }
 }

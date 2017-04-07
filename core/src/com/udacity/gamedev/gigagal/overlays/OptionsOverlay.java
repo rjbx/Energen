@@ -95,6 +95,7 @@ public final class OptionsOverlay {
         batch.end();
     }
 
+    public void dispose() { font.dispose(); }
     public final Viewport getViewport() { return viewport; }
     public final CursorOverlay getCursor() { return cursor; }
     public void setDebugMode(boolean mode) { debugMode = mode; }

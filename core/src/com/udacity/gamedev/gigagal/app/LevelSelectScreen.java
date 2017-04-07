@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,6 +16,7 @@ import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.overlays.CursorOverlay;
 import com.udacity.gamedev.gigagal.overlays.MessageOverlay;
 import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
@@ -104,7 +106,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-
         Gdx.gl.glClearColor(
                 Constants.BACKGROUND_COLOR.r,
                 Constants.BACKGROUND_COLOR.g,
@@ -149,6 +150,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
                     try {
                         gameplayScreen.readLevelFile();
                         game.setScreen(gameplayScreen);
+                        this.dispose();
                     } catch (IOException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         messageOverlay.setMessage(Constants.LEVEL_READ_MESSAGE);
@@ -173,6 +175,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
                     controlsOverlay.onMobile = Utils.toggleBoolean(controlsOverlay.onMobile);
                     prefs.putBoolean("Mobile", controlsOverlay.onMobile);
                 } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 22) {
+                    game.dispose();
                     game.create();
                 }
             } else if (inputControls.pauseButtonJustPressed) {
@@ -184,5 +187,14 @@ public final class LevelSelectScreen extends ScreenAdapter {
         }
         inputControls.update();
         controlsOverlay.render(batch);
+    }
+
+    @Override
+    public void dispose() {
+        optionsOverlay.dispose();
+        messageOverlay.dispose();
+        font.dispose();
+        batch.dispose();
+        super.dispose();
     }
 }

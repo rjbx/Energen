@@ -33,6 +33,8 @@ public class MessageOverlay {
         batch.end();
     }
 
+    public void dispose() { font.dispose(); }
+
     public Viewport getViewport() { return viewport; }
 
     // Setters

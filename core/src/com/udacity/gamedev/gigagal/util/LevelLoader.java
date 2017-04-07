@@ -59,7 +59,6 @@ public final class LevelLoader {
         JSONObject rootJsonObject;
         rootJsonObject = (JSONObject) parser.parse(file.reader());
 
-
         JSONObject composite = (JSONObject) rootJsonObject.get(Constants.LEVEL_COMPOSITE);
 
         JSONArray ninePatches = (JSONArray) composite.get(Constants.LEVEL_9PATCHES);

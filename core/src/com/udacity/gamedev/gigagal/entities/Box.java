@@ -34,7 +34,7 @@ public class Box implements SolidGround {
     @Override
     public void render(SpriteBatch batch) {
         switch (type) {
-            case GRAVITATIONAL:
+            case hi:
                 Assets.getInstance().getBoxAssets().redBox.draw(batch, left - 1, bottom - 1, width + 2, height + 2);
                 break;
             case MECHANICAL:
