@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.app.Level;
@@ -199,16 +200,16 @@ public final class LevelLoader {
         return range;
     }
 
-    private static final void loadImages(Level level, JSONArray nonGrounds) {
-        for (Object o : nonGrounds) {
+    private static final void loadImages(Level level, JSONArray images) {
+        for (Object o : images) {
             final JSONObject item = (JSONObject) o;
 
-                final Vector2 imagePosition = extractPosition(item);
-                final Vector2 scale = extractScale(item);
-                final Enums.Orientation orientation = extractOrientation(item);
-                final Enums.WeaponType type = extractType(item);
-                final Enums.AmmoIntensity intensity = extractIntensity(item);
-                final float range = extractRange(item);
+            final Vector2 imagePosition = extractPosition(item);
+            final Vector2 scale = extractScale(item);
+            final Enums.Orientation orientation = extractOrientation(item);
+            final Enums.WeaponType type = extractType(item);
+            final Enums.AmmoIntensity intensity = extractIntensity(item);
+            final float range = extractRange(item);
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.AMMO_POWERUP_SPRITE)) {
                 final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
@@ -349,20 +350,22 @@ public final class LevelLoader {
         }
     }
 
-    private static final void loadNinePatches(Level level, JSONArray grounds) {
+    private static final void loadNinePatches(Level level, JSONArray ninePatches) {
 
         Array<Box> boxArray = new Array<Box>();
         Array<Ladder> ladderArray = new Array<Ladder>();
         
-        for (Object o : grounds) {
+        for (Object o : ninePatches) {
             final JSONObject item = (JSONObject) o;
+
             final Vector2 imagePosition = extractPosition(item);
-            String identifier = (String) item.get(Constants.LEVEL_IDENTIFIER_KEY);
+            final Enums.WeaponType type = extractType(item);
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
                 float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
                 float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
-                final Box box = new Box(imagePosition.x, imagePosition.y + height, width, height);
+                final Rectangle shape = new Rectangle(imagePosition.x, imagePosition.y, width, height);
+                final Box box = new Box(shape, type.levelName());
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {

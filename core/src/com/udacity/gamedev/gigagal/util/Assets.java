@@ -55,8 +55,6 @@ public final class Assets implements Disposable, AssetErrorListener {
     // static factory
     public static Assets getInstance() { return INSTANCE; }
 
-    public void setLevelName(Enums.LevelName levelName) { INSTANCE.levelName = levelName;}
-
     public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
         assetManager.setErrorListener(this);
@@ -206,22 +204,26 @@ public final class Assets implements Disposable, AssetErrorListener {
 
     public class BoxAssets {
 
-        public final NinePatch boxNinePatch;
-        public BoxAssets(TextureAtlas atlas) {
-            AtlasRegion region;
-            switch (levelName) {
-                case GRAVITATIONAL: region = atlas.findRegion(Constants.RED_BOX_SPRITE); break;
-                case MECHANICAL: region = atlas.findRegion(Constants.GREY_BOX_SPRITE); break;
-                case ELECTROMAGNETIC: region = atlas.findRegion(Constants.BLACK_BOX_SPRITE); break;
-                case THERMAL: region = atlas.findRegion(Constants.YELLOW_BOX_SPRITE); break;
-                case NUCLEAR: region = atlas.findRegion(Constants.BLUE_BOX_SPRITE); break;
-                case MYSTERIOUS: region = atlas.findRegion(Constants.CLEAR_BOX_SPRITE); break;
-                case FINAL: region = atlas.findRegion(Constants.MAGENTA_BOX_SPRITE); break;
-                default: region = atlas.findRegion(Constants.BOX_SPRITE);
-            }
+        public final NinePatch redBox;
+        public final NinePatch greyBox;
+        public final NinePatch blackBox;
+        public final NinePatch yellowBox;
+        public final NinePatch blueBox;
+        public final NinePatch clearBox;
+        public final NinePatch magentaBox;
+        public final NinePatch defaultBox;
 
+        public BoxAssets(TextureAtlas atlas) {
             int edge = Constants.BOX_EDGE;
-            boxNinePatch = new NinePatch(region, edge, edge, edge, edge);
+
+            redBox = new NinePatch(atlas.findRegion(Constants.RED_BOX_SPRITE), edge, edge, edge, edge);
+            greyBox = new NinePatch(atlas.findRegion(Constants.GREY_BOX_SPRITE), edge, edge, edge, edge);
+            blackBox = new NinePatch(atlas.findRegion(Constants.BLACK_BOX_SPRITE), edge, edge, edge, edge);
+            yellowBox = new NinePatch(atlas.findRegion(Constants.YELLOW_BOX_SPRITE), edge, edge, edge, edge);
+            blueBox = new NinePatch(atlas.findRegion(Constants.BLUE_BOX_SPRITE), edge, edge, edge, edge);
+            clearBox = new NinePatch(atlas.findRegion(Constants.CLEAR_BOX_SPRITE), edge, edge, edge, edge);
+            magentaBox= new NinePatch(atlas.findRegion(Constants.MAGENTA_BOX_SPRITE), edge, edge, edge, edge);
+            defaultBox = new NinePatch(atlas.findRegion(Constants.BOX_SPRITE), edge, edge, edge, edge);
         }
     }
 

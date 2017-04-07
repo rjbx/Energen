@@ -56,7 +56,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     // default ctor
     public LevelSelectScreen(com.udacity.gamedev.gigagal.app.GigaGalGame game) {
         this.game = game;
-        gameplayScreen = game.getGameplayScreen();
+        gameplayScreen = new GameplayScreen(game);
         prefs = game.getPreferences();
         cursor = new CursorOverlay(145, 40, Enums.Orientation.Y);
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
@@ -144,7 +144,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
                 if (cursor.getPosition() == viewport.getWorldHeight() / 2.5f - 24) {
                     optionsVisible = true;
                 } else {
-
                     gameplayScreen.setGame(game);
                     gameplayScreen.setLevelName(selectedLevel);
                     try {

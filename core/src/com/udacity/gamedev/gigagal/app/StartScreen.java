@@ -147,7 +147,7 @@ public final class StartScreen extends ScreenAdapter {
                     if (inputControls.shootButtonJustPressed) {
                         if (cursor.getPosition() == 35) {
                             if (continuing) {
-                                game.setScreen(levelSelectScreen);
+                                game.setScreen(new LevelSelectScreen(game));
                                 this.dispose();
                             } else {
                                 optionsVisible = true;
@@ -162,6 +162,7 @@ public final class StartScreen extends ScreenAdapter {
                         if (promptOverlay.getCursor().getPosition() == (150)) {
                             prefs.clear();
                             prefs.flush();
+                            this.dispose();
                             game.create();
                         } else {
                             promptVisible = false;
@@ -181,15 +182,18 @@ public final class StartScreen extends ScreenAdapter {
                 if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
                     optionsVisible = false;
                     prefs.putInteger("Difficulty", 0);
-                    game.setScreen(levelSelectScreen);
+                    game.setScreen(new LevelSelectScreen(game));
+                    this.dispose();
                 } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 7) {
                     optionsVisible = false;
                     prefs.putInteger("Difficulty", 1);
-                    game.setScreen(levelSelectScreen);
+                    game.setScreen(new LevelSelectScreen(game));
+                    this.dispose();
                 } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 22) {
                     optionsVisible = false;
                     prefs.putInteger("Difficulty", 2);
-                    game.setScreen(levelSelectScreen);
+                    game.setScreen(new LevelSelectScreen(game));
+                    this.dispose();
                 }
                 dispose();
             } else if (inputControls.pauseButtonJustPressed) {

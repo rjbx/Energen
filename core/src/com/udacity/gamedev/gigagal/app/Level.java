@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal.app;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
@@ -247,9 +248,9 @@ public class Level {
         powerups = new DelayedRemovalArray<Powerup>();
 
 
-        boxes.add(new Box(15, 100, 30, 20));
-        boxes.add(new Box(35, 55, 50, 20));
-        boxes.add(new Box(10, 20, 20, 9));
+        boxes.add(new Box(new Rectangle(15, 100, 30, 20), Enums.LevelName.HOME));
+        boxes.add(new Box(new Rectangle(35, 55, 50, 20), Enums.LevelName.HOME));
+        boxes.add(new Box(new Rectangle(10, 20, 20, 9), Enums.LevelName.HOME));
 
         powerups.add(new AmmoPowerup(new Vector2(20, 110)));
     }

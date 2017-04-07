@@ -8,12 +8,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.udacity.gamedev.gigagal.app.InputControls;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -21,7 +21,20 @@ import java.util.Random;
 
 public class Boss implements Humanoid, Hazard  {
     
-    private Level level;
+    // fields
+    public final static String TAG = Boss.class.getName();
+
+    private final Level level;
+    private final float width;
+    private final float height;
+    private final float headRadius;
+    private final float eyeHeight;
+    private final float halfWidth;
+    private float left;
+    private float right;
+    private float top;
+    private float bottom;
+    private Rectangle bounds;
     private Vector2 position;
     private Vector2 previousFramePosition;
     private Vector2 spawnPosition;
@@ -60,16 +73,11 @@ public class Boss implements Humanoid, Hazard  {
     private long climbStartTime;
     private long strideStartTime;
     private long recoveryStartTime;
-    private float stanceWidth;
-    private float height;
-    private float headRadius;
-    private float eyeHeight;
     private float chargeTimeSeconds;
     private float lookTimeSeconds;
     private float hoverTimeSeconds;
     private float climbTimeSeconds;
     private float strideTimeSeconds;
-    private float maxSpeed;
     private float strideSpeed;
     private float strideAcceleration;
     private float turboDuration;
@@ -79,44 +87,50 @@ public class Boss implements Humanoid, Hazard  {
     private int lives;
     private int ammo;
     private int health;
-
     private boolean paused;
     private float pauseTimeSeconds;
-    
+    private InputControls inputControls;
     private GigaGal gigaGal;
 
     public Boss(Level level, Vector2 spawnPosition) {
         this.level = level;
         this.spawnPosition = spawnPosition;
         position = new Vector2(spawnPosition);
-        velocity = new Vector2();
         previousFramePosition = new Vector2();
         chaseCamPosition = new Vector3();
+        velocity = new Vector2();
         weaponList = new ArrayList<Enums.WeaponType>();
-        init();
-    }
-
-    public void init() {
-        ammo = Constants.INITIAL_AMMO;
-        health = Constants.INITIAL_HEALTH;
-        lives = Constants.INITIAL_LIVES;
         weaponList.add(Enums.WeaponType.NATIVE);
         weaponToggler = weaponList.listIterator();
         weapon = weaponToggler.next();
+        height = Constants.GIGAGAL_HEIGHT;
+        eyeHeight = Constants.GIGAGAL_EYE_HEIGHT;
+        headRadius = Constants.GIGAGAL_HEAD_RADIUS;
+        width = Constants.GIGAGAL_STANCE_WIDTH;
+        halfWidth = width / 2;
+        lives = Constants.INITIAL_LIVES;
+        killPlane = -10000;
         respawn();
     }
 
     public void respawn() {
-        height = Constants.GIGAGAL_HEIGHT;
-        eyeHeight = Constants.GIGAGAL_EYE_HEIGHT;
-        stanceWidth = Constants.GIGAGAL_STANCE_WIDTH;
-        headRadius = Constants.GIGAGAL_HEAD_RADIUS;
         position.set(spawnPosition);
         chaseCamPosition.set(position, 0);
+        left = position.x - halfWidth;
+        right = position.x + halfWidth;
+        top = position.y + headRadius;
+        bottom = position.y - eyeHeight;
+        bounds = new Rectangle(left, bottom, width, height);
         velocity.setZero();
         directionX = Enums.Direction.RIGHT;
         action = Enums.Action.FALLING;
         groundState = Enums.GroundState.AIRBORNE;
+        ammo = Constants.INITIAL_AMMO;
+        health = Constants.INITIAL_HEALTH;
+        turbo = Constants.MAX_TURBO;
+        ammoIntensity = Enums.AmmoIntensity.SHOT;
+        startTurbo = turbo;
+        turboDuration = 0;
         touchedGround = null;
         paused = false;
         canClimb = false;
@@ -127,8 +141,6 @@ public class Boss implements Humanoid, Hazard  {
         canHover = false;
         canCling = false;
         canShoot = true;
-        turboDuration = 0;
-        ammoIntensity = Enums.AmmoIntensity.SHOT;
         onRideable = false;
         onSkateable = false;
         onUnbearable = false;
@@ -142,11 +154,8 @@ public class Boss implements Humanoid, Hazard  {
         dashStartTime = 0;
         pauseTimeSeconds = 0;
         turboDuration = 0;
-        killPlane = -10000;
         recoveryStartTime = TimeUtils.nanoTime();
-        health = Constants.MAX_HEALTH;
-        turbo = Constants.MAX_TURBO;
-        startTurbo = turbo;
+        pauseTimeSeconds = 0;
     }
 
     public void update(float delta) {
@@ -155,6 +164,7 @@ public class Boss implements Humanoid, Hazard  {
         // positioning
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
+        setBounds();
 
         // collision detection
         touchGround(level.getGrounds());
@@ -212,6 +222,14 @@ public class Boss implements Humanoid, Hazard  {
         }
 
         rush();
+    }
+
+    private void setBounds() {
+        left = position.x - halfWidth;
+        right = position.x + halfWidth;
+        top = position.y + headRadius;
+        bottom = position.y - eyeHeight;
+        bounds = new Rectangle(left, bottom, width, height);
     }
     
     private void rush() {
@@ -299,7 +317,7 @@ public class Boss implements Humanoid, Hazard  {
             if (groundState != Enums.GroundState.PLANTED) {
                 // if x velocity (magnitude, without concern for direction) greater than one third max speed,
                 // boost x velocity by starting speed, enable cling, verify rappelling ground and capture rappelling ground boundaries
-                if (Math.abs(velocity.x) > maxSpeed / 4) {
+                if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
                     // if already clinging, halt x progression
                     if (action != Enums.Action.CLINGING) {
                         canCling = true; // enable cling
@@ -839,11 +857,11 @@ public class Boss implements Humanoid, Hazard  {
         }
         strideTimeSeconds = Utils.secondsSince(strideStartTime) - pauseTimeSeconds;
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
-        velocity.x = Utils.absoluteToDirectionalValue(Math.min(maxSpeed * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, maxSpeed), directionX, Enums.Orientation.X);
+        velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Enums.Orientation.X);
         if (onRideable) {
             velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Enums.Orientation.X);
         } else if (onSkateable) {
-            velocity.x = strideSpeed + Utils.absoluteToDirectionalValue(Math.min(maxSpeed * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, maxSpeed * 2), directionX, Enums.Orientation.X);
+            velocity.x = strideSpeed + Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Enums.Orientation.X);
         } else if (onSinkable) {
             velocity.x = Utils.absoluteToDirectionalValue(10, directionX, Enums.Orientation.X);
             velocity.y = -3;
@@ -866,7 +884,7 @@ public class Boss implements Humanoid, Hazard  {
             strideStartTime = 0;
             canStride = false;
         }
-        float dashSpeed = maxSpeed;
+        float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
         if (onSkateable) {
             dashSpeed *= 1.75f;
         }
@@ -983,7 +1001,7 @@ public class Boss implements Humanoid, Hazard  {
         float clingTimeSeconds = (Utils.secondsSince(clingStartTime) - pauseTimeSeconds);
 //        if (!inputControls.jumpButtonPressed) {
             if (clingTimeSeconds >= Constants.CLING_FRAME_DURATION) {
-                velocity.x = Utils.absoluteToDirectionalValue(maxSpeed, directionX, Enums.Orientation.X);
+                velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Enums.Orientation.X);
                 jump();
             } else {
                 pauseTimeSeconds = 0;
@@ -1127,31 +1145,35 @@ public class Boss implements Humanoid, Hazard  {
         Utils.drawTextureRegion(batch, region, position, Constants.GIGAGAL_EYE_POSITION);
     }
 
-    public final Vector2 getPosition() { return position; }
-    public final Enums.Direction getDirectionX() { return directionX; }
-    public final Enums.Direction getDirectionY() { return directionY; }
-    public final Rectangle getBounds() { return new Rectangle(getLeft(), getBottom(), getWidth(), getHeight()); }
-    public final float getWidth() { return stanceWidth; }
-    public final float getHalfWidth() { return stanceWidth / 2; }
-    public final float getHeight() { return height; }
-    public final float getLeft() { return position.x - getHalfWidth(); }
-    public final float getRight() { return position.x + getHalfWidth(); }
-    public final float getTop() { return position.y + headRadius; }
-    public final float getBottom() { return position.y - eyeHeight; }
-    public final float getTurbo() { return turbo; }
-    public final int getHealth() { return health; }
-    public final boolean getJumpStatus() { return canJump; }
-    public final boolean getHoverStatus() { return canHover; }
-    public final boolean getClingStatus() { return canCling; }
-    public final boolean getDashStatus() { return canDash; }
-    public final boolean getClimbStatus() { return canClimb; }
-    public final Enums.GroundState getGroundState() { return groundState; }
-    public final Enums.AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
-    public final Enums.WeaponType getWeapon() { return weapon; }
-    public final int getDamage() { return Constants.AMMO_STANDARD_DAMAGE; }
-    public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
-    public final Enums.WeaponType getType() { return weapon; }
+    // Getters
+    @Override public final Vector2 getPosition() { return position; }
+    @Override public final Vector2 getVelocity() { return velocity; }
+    @Override public final Enums.Direction getDirectionX() { return directionX; }
+    @Override public final Enums.Direction getDirectionY() { return directionY; }
+    @Override public final Rectangle getBounds() { return bounds; }
+    @Override public final float getLeft() { return left; }
+    @Override public final float getRight() { return right; }
+    @Override public final float getTop() { return top; }
+    @Override public final float getBottom() { return bottom; }
+    @Override public final float getWidth() { return width; }
+    @Override public final float getHeight() { return height; }
+    @Override public final float getTurbo() { return turbo; }
+    @Override public final int getHealth() { return health; }
+    @Override public final boolean getJumpStatus() { return canJump; }
+    @Override public final boolean getHoverStatus() { return canHover; }
+    @Override public final boolean getClingStatus() { return canCling; }
+    @Override public final boolean getDashStatus() { return canDash; }
+    @Override public final boolean getClimbStatus() { return canClimb; }
+    @Override public final Enums.GroundState getGroundState() { return groundState; }
+    @Override public final Enums.Action getAction() { return action; }
+    @Override public final Enums.AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
+    @Override public final Enums.WeaponType getWeapon() { return weapon; }
+    @Override public final int getDamage() { return Constants.AMMO_STANDARD_DAMAGE; }
+    @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
+    @Override public final Enums.WeaponType getType() { return weapon; }
+    private final float getHalfWidth() { return halfWidth; }
 
+    // Setters
     public void setDirectionX(Enums.Direction direction) { this.directionX = direction; }
     public void setDirectionY(Enums.Direction direction) { this.directionY = direction; }
 }

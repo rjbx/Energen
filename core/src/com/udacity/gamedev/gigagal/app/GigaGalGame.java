@@ -22,12 +22,13 @@ public final class GigaGalGame extends Game {
     @Override
     public void create() {
         prefs = Gdx.app.getPreferences("energraft-prefs");
-        gameplayScreen = new GameplayScreen(this);
-        levelSelectScreen = new LevelSelectScreen(this);
+//       gameplayScreen = new GameplayScreen(this);
+//       levelSelectScreen = new LevelSelectScreen(this);
         startScreen = new StartScreen(this);
-        Assets.getInstance().setLevelName(Enums.LevelName.FINAL);
+
         Assets.getInstance().init(new AssetManager());
         InputControls.getInstance().init();
+
         setScreen(startScreen);
     }
 

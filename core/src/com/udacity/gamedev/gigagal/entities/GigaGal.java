@@ -13,6 +13,7 @@ import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.app.InputControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Utils;
 import java.lang.String;
@@ -26,8 +27,18 @@ public class GigaGal implements Humanoid {
 
     // fields
     public final static String TAG = GigaGal.class.getName();
-    private Level level;
-    private InputControls inputControls;
+
+    private final Level level;
+    private final float width;
+    private final float height;
+    private final float headRadius;
+    private final float eyeHeight;
+    private final float halfWidth;
+    private float left;
+    private float right;
+    private float top;
+    private float bottom;
+    private Rectangle bounds;
     private Vector2 position;
     private Vector2 previousFramePosition;
     private Vector2 spawnPosition;
@@ -80,40 +91,51 @@ public class GigaGal implements Humanoid {
     private int lives;
     private int ammo;
     private int health;
-
     private boolean paused;
     private float pauseTimeSeconds;
+    private InputControls inputControls;
 
     // ctor
     public GigaGal(Level level, Vector2 spawnPosition) {
+
         this.level = level;
         this.spawnPosition = spawnPosition;
         position = new Vector2(spawnPosition);
-        inputControls = InputControls.getInstance();
-        velocity = new Vector2();
         previousFramePosition = new Vector2();
         chaseCamPosition = new Vector3();
-        weaponList = new ArrayList<WeaponType>();
-        init();
-    }
-
-    public void init() {
-        ammo = Constants.INITIAL_AMMO;
-        health = Constants.INITIAL_HEALTH;
-        lives = Constants.INITIAL_LIVES;
-        weaponList.add(WeaponType.NATIVE);
+        velocity = new Vector2();
+        weaponList = new ArrayList<Enums.WeaponType>();
+        weaponList.add(Enums.WeaponType.NATIVE);
         weaponToggler = weaponList.listIterator();
         weapon = weaponToggler.next();
+        height = Constants.GIGAGAL_HEIGHT;
+        eyeHeight = Constants.GIGAGAL_EYE_HEIGHT;
+        headRadius = Constants.GIGAGAL_HEAD_RADIUS;
+        width = Constants.GIGAGAL_STANCE_WIDTH;
+        halfWidth = width / 2;
+        lives = Constants.INITIAL_LIVES;
+        killPlane = -10000;
         respawn();
     }
 
     public void respawn() {
         position.set(spawnPosition);
         chaseCamPosition.set(position, 0);
+        left = position.x - halfWidth;
+        right = position.x + halfWidth;
+        top = position.y + headRadius;
+        bottom = position.y - eyeHeight;
+        bounds = new Rectangle(left, bottom, width, height);
         velocity.setZero();
-        directionX = Direction.RIGHT;
-        action = Action.FALLING;
-        groundState = GroundState.AIRBORNE;
+        directionX = Enums.Direction.RIGHT;
+        action = Enums.Action.FALLING;
+        groundState = Enums.GroundState.AIRBORNE;
+        ammo = Constants.INITIAL_AMMO;
+        health = Constants.INITIAL_HEALTH;
+        turbo = Constants.MAX_TURBO;
+        ammoIntensity = Enums.AmmoIntensity.SHOT;
+        startTurbo = turbo;
+        turboDuration = 0;
         touchedGround = null;
         paused = false;
         canClimb = false;
@@ -124,8 +146,6 @@ public class GigaGal implements Humanoid {
         canHover = false;
         canCling = false;
         canShoot = true;
-        turboDuration = 0;
-        ammoIntensity = AmmoIntensity.SHOT;
         onRideable = false;
         onSkateable = false;
         onUnbearable = false;
@@ -139,17 +159,16 @@ public class GigaGal implements Humanoid {
         dashStartTime = 0;
         pauseTimeSeconds = 0;
         turboDuration = 0;
-        killPlane = -10000;
         recoveryStartTime = TimeUtils.nanoTime();
-        health = Constants.MAX_HEALTH;
-        turbo = Constants.MAX_TURBO;
-        startTurbo = turbo;
+        pauseTimeSeconds = 0;
     }
+
 
     public void update(float delta) {
         // positioning
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
+        setBounds();
 
         // collision detection
         touchGround(level.getGrounds());
@@ -205,6 +224,14 @@ public class GigaGal implements Humanoid {
                 enableShoot(weapon);
             }
         }
+    }
+
+    private void setBounds() {
+        left = position.x - halfWidth;
+        right = position.x + halfWidth;
+        top = position.y + headRadius;
+        bottom = position.y - eyeHeight;
+        bounds = new Rectangle(left, bottom, width, height);
     }
 
     private void touchGround(Array<Ground> grounds) {
@@ -1088,27 +1115,29 @@ public class GigaGal implements Humanoid {
     }
 
     // Getters
-    @Override public int getHealth() { return health; }
-    @Override public float getTurbo() { return turbo; }
-    @Override public Direction getDirectionX() { return directionX; }
-    @Override public Direction getDirectionY() { return directionY; }
-    @Override public Vector2 getPosition() { return position; }
-    public Vector2 getVelocity() { return velocity; }
-    @Override public float getWidth() { return Constants.GIGAGAL_STANCE_WIDTH; }
-    @Override public float getHeight() { return Constants.GIGAGAL_HEIGHT; }
-    @Override public float getLeft() { return position.x - getHalfWidth(); }
-    @Override public float getRight() { return position.x + getHalfWidth(); }
-    @Override public float getTop() { return position.y + Constants.GIGAGAL_HEAD_RADIUS; }
-    @Override public float getBottom() { return position.y - Constants.GIGAGAL_EYE_HEIGHT; }
-    @Override public Rectangle getBounds() { return  new Rectangle(getLeft(), getBottom(), getWidth(), getHeight()); }
-    @Override public boolean getJumpStatus() { return canJump; }
-    @Override public boolean getHoverStatus() { return canHover; }
-    @Override public boolean getClingStatus() { return canCling; }
-    @Override public boolean getDashStatus() { return canDash; }
-    @Override public boolean getClimbStatus() { return canClimb; }
-    @Override public AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
-    @Override public WeaponType getWeapon() { return weapon; }
-    public float getHalfWidth() { return Constants.GIGAGAL_STANCE_WIDTH / 2; }
+    @Override public final Vector2 getPosition() { return position; }
+    @Override public final Vector2 getVelocity() { return velocity; }
+    @Override public final Enums.Direction getDirectionX() { return directionX; }
+    @Override public final Enums.Direction getDirectionY() { return directionY; }
+    @Override public final Rectangle getBounds() { return bounds; }
+    @Override public final float getLeft() { return left; }
+    @Override public final float getRight() { return right; }
+    @Override public final float getTop() { return top; }
+    @Override public final float getBottom() { return bottom; }
+    @Override public final float getWidth() { return width; }
+    @Override public final float getHeight() { return height; }
+    @Override public final float getTurbo() { return turbo; }
+    @Override public final int getHealth() { return health; }
+    @Override public final boolean getJumpStatus() { return canJump; }
+    @Override public final boolean getHoverStatus() { return canHover; }
+    @Override public final boolean getClingStatus() { return canCling; }
+    @Override public final boolean getDashStatus() { return canDash; }
+    @Override public final boolean getClimbStatus() { return canClimb; }
+    @Override public final Enums.GroundState getGroundState() { return groundState; }
+    @Override public final Enums.Action getAction() { return action; }
+    @Override public final Enums.AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
+    @Override public final Enums.WeaponType getWeapon() { return weapon; }
+    private final float getHalfWidth() { return halfWidth; }
     public List<WeaponType> getWeaponList() { return weaponList; }
     public int getAmmo() { return ammo; }
     public int getLives() { return lives; }
@@ -1117,8 +1146,6 @@ public class GigaGal implements Humanoid {
     public Vector3 getChaseCamPosition() { return chaseCamPosition; }
     public long getLookStartTime() { return lookStartTime; }
     public float getChargeTimeSeconds() { return chargeTimeSeconds; }
-    public GroundState getGroundState() { return groundState; }
-    public Action getAction() { return action; }
     public float getKillPlane() { return killPlane; }
 
     // Setters

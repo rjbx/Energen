@@ -172,7 +172,8 @@ public class GameplayScreen extends ScreenAdapter {
                         } else if (pauseOverlay.getCursor().getPosition() == 58) {
                             unpause();
                             totalTime.suspend();
-                            game.setScreen(game.getLevelSelectScreen());
+                            game.setScreen(new LevelSelectScreen(game));
+                            this.dispose();
                         } else if (pauseOverlay.getCursor().getPosition() == 43) {
                             optionsVisible = true;
                         }
@@ -239,7 +240,8 @@ public class GameplayScreen extends ScreenAdapter {
             defeatOverlay.render(batch);
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
-                game.setScreen(game.getLevelSelectScreen());
+                game.setScreen(new LevelSelectScreen(game));
+                this.dispose();
             }
         } else if (level.isVictory()) {
             levelEnded = true;
@@ -275,7 +277,6 @@ public class GameplayScreen extends ScreenAdapter {
 
         // set level attributes
         level.setLevelName(levelName);
-        Assets.getInstance().setLevelName(levelName);
         Assets.getInstance().init(new AssetManager());
         level.setDifficulty(prefs.getInteger("Difficulty", 0));
         powerups = new Array<TurboPowerup>();
@@ -314,7 +315,8 @@ public class GameplayScreen extends ScreenAdapter {
         if (!completedLevels.contains(levelName, false)) {
             completedLevels.add(levelName);
         }
-        game.setScreen(game.getLevelSelectScreen());
+        game.setScreen(new LevelSelectScreen(game));
+        this.dispose();
     }
 
     public void unpause() {
