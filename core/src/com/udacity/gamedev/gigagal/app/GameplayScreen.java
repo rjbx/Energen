@@ -305,9 +305,6 @@ public class GameplayScreen extends ScreenAdapter {
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
-
-
-
     public void restartLevel() {
         gigaGal.respawn();
         level.getPowerups().addAll(powerups);

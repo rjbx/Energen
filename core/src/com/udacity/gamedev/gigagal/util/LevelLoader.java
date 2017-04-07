@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
+import com.udacity.gamedev.gigagal.entities.Boss;
 import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.Coals;
 import com.udacity.gamedev.gigagal.entities.Ice;
@@ -225,6 +226,10 @@ public final class LevelLoader {
                 final Vector2 gigaGalPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);
                 level.setGigaGal(new GigaGal(level, gigaGalPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOSS_SPRITE)) {
+                final Vector2 gigaGalPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
+                Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);
+                level.setBoss(new Boss(level, gigaGalPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PORTAL_SPRITE_1)) {
                 final Vector2 portalPosition = imagePosition.add(Constants.PORTAL_CENTER);
                 Gdx.app.log(TAG, "Loaded the exit portal at " + portalPosition);

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Ammo;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
+import com.udacity.gamedev.gigagal.entities.Boss;
 import com.udacity.gamedev.gigagal.entities.Box;
 import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
@@ -57,10 +58,13 @@ public class Level {
     private Enums.WeaponType levelWeapon;
     private int difficulty;
 
+    private Boss boss;
+
     // default ctor
     public Level() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigaGal = new GigaGal(this, new Vector2(50, 50));
+        boss = new Boss(this, new Vector2(300, 300));
         levelScore = 0;
         levelTime = new Timer();
         levelTime.start();
@@ -97,6 +101,7 @@ public class Level {
         if (!gameOver && !victory) {
 
             gigaGal.update(delta);
+            boss.update(delta);
 
             levelWeapon = Enums.WeaponType.NATIVE;
             for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
@@ -216,6 +221,7 @@ public class Level {
             destructible.render(batch);
         }
         gigaGal.render(batch);
+        boss.render(batch);
 
         for (Ammo chargeAmmo : ammoList) {
             chargeAmmo.render(batch);
@@ -271,7 +277,7 @@ public class Level {
     public final Array<Box> getBoxes() { return boxes; }
     public final Array<IndestructibleHazard> getIndestructibles() { return indestructibles; }
     public final DelayedRemovalArray<DestructibleHazard> getDestructibles() { return destructibles; }
-    public final Array<Hazard> getHazards() { hazards = new Array<Hazard>(destructibles); hazards.addAll(indestructibles); hazards.addAll(ammoList); return hazards; }
+    public final Array<Hazard> getHazards() { hazards = new Array<Hazard>(destructibles); hazards.addAll(indestructibles); hazards.addAll(ammoList); hazards.add(boss); return hazards; }
     public final Array<Ground> getGrounds() { return grounds; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
@@ -290,6 +296,7 @@ public class Level {
     public final void setDifficulty(int difficulty) { this.difficulty = difficulty; }
     public final void setPortal(Portal portal) { this.portal = portal; }
     public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
+    public final void setBoss(Boss boss) { this.boss = boss; }
     public final void setLevelName(Enums.LevelName levelName) { this.levelName = levelName; }
     public final void setLoadEx(boolean state) { loadEx = state; }
 }

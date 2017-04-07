@@ -95,6 +95,9 @@ public final class Constants {
     public static final String CLIMB_2 = "gg-climb-2";
     public static final float CLIMB_LOOP_DURATION = 0.25f;
 
+    // Boss
+    public static final String BOSS_SPRITE = "beast";
+
     // Box
     public static final int BOX_EDGE = 8;
     public static final float MAX_LEDGE_HEIGHT = 8;

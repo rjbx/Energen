@@ -4,6 +4,13 @@ size: 512,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+beast
+  rotate: false
+  xy: 364, 94
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 box
   rotate: false
   xy: 2, 2
@@ -14,14 +21,14 @@ box
   index: -1
 cannon-x
   rotate: false
-  xy: 261, 94
+  xy: 134, 25
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
   index: -1
 cannon-y
   rotate: false
-  xy: 481, 77
+  xy: 457, 52
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
@@ -35,28 +42,28 @@ coals-1
   index: -1
 coil-1
   rotate: false
-  xy: 418, 101
+  xy: 134, 55
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 flame-1
   rotate: false
-  xy: 481, 99
+  xy: 491, 99
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 geiser-1
   rotate: false
-  xy: 283, 89
+  xy: 491, 80
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 gg-stand-right
   rotate: false
-  xy: 134, 45
+  xy: 398, 91
   size: 28, 35
   orig: 28, 35
   offset: 0, 0
@@ -70,7 +77,7 @@ ice-1
   index: -1
 ladder
   rotate: false
-  xy: 445, 76
+  xy: 428, 76
   size: 19, 50
   split: 7, 7, 0, 0
   orig: 19, 50
@@ -78,28 +85,28 @@ ladder
   index: -1
 lift
   rotate: false
-  xy: 62, 8
+  xy: 491, 73
   size: 19, 5
   orig: 19, 5
   offset: 0, 0
   index: -1
 orben-dormant
   rotate: false
-  xy: 500, 118
+  xy: 76, 5
   size: 10, 8
   orig: 10, 8
   offset: 0, 0
   index: -1
 pillar
   rotate: false
-  xy: 117, 35
+  xy: 62, 7
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
   index: -1
 pole-1
   rotate: false
-  xy: 474, 78
+  xy: 457, 78
   size: 5, 48
   orig: 5, 48
   offset: 0, 0
@@ -120,28 +127,28 @@ powerup-ammo
   index: -1
 powerup-health
   rotate: false
-  xy: 302, 89
+  xy: 457, 33
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 319, 89
+  xy: 117, 24
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 rollen-polymer-1
   rotate: false
-  xy: 391, 101
+  xy: 464, 74
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 rope
   rotate: false
-  xy: 466, 26
+  xy: 449, 26
   size: 6, 100
   orig: 6, 100
   offset: 0, 0
@@ -162,14 +169,14 @@ slick-1
   index: -1
 spike-1
   rotate: false
-  xy: 336, 90
+  xy: 479, 56
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 spring-1
   rotate: false
-  xy: 236, 92
+  xy: 134, 39
   size: 23, 14
   orig: 23, 14
   offset: 0, 0
@@ -211,7 +218,7 @@ vines
   index: -1
 wheel-1
   rotate: false
-  xy: 364, 101
+  xy: 464, 101
   size: 25, 25
   orig: 25, 25
   offset: 0, 0

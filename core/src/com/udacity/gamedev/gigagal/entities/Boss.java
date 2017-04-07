@@ -2,7 +2,6 @@ package com.udacity.gamedev.gigagal.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
-public class Boss implements Humanoid {
+public class Boss implements Humanoid, Hazard  {
     
     private Level level;
     private Vector2 position;
@@ -86,7 +85,7 @@ public class Boss implements Humanoid {
     
     private GigaGal gigaGal;
 
-    public Boss(Level level, Vector2 spawnPosition, Enums.WeaponType type) {
+    public Boss(Level level, Vector2 spawnPosition) {
         this.level = level;
         this.spawnPosition = spawnPosition;
         position = new Vector2(spawnPosition);
@@ -94,10 +93,63 @@ public class Boss implements Humanoid {
         previousFramePosition = new Vector2();
         chaseCamPosition = new Vector3();
         weaponList = new ArrayList<Enums.WeaponType>();
+        init();
+    }
+
+    public void init() {
+        ammo = Constants.INITIAL_AMMO;
+        health = Constants.INITIAL_HEALTH;
+        lives = Constants.INITIAL_LIVES;
+        weaponList.add(Enums.WeaponType.NATIVE);
+        weaponToggler = weaponList.listIterator();
+        weapon = weaponToggler.next();
+        respawn();
+    }
+
+    public void respawn() {
+        height = Constants.GIGAGAL_HEIGHT;
+        eyeHeight = Constants.GIGAGAL_EYE_HEIGHT;
+        stanceWidth = Constants.GIGAGAL_STANCE_WIDTH;
+        headRadius = Constants.GIGAGAL_HEAD_RADIUS;
+        position.set(spawnPosition);
+        chaseCamPosition.set(position, 0);
+        velocity.setZero();
+        directionX = Enums.Direction.RIGHT;
+        action = Enums.Action.FALLING;
+        groundState = Enums.GroundState.AIRBORNE;
+        touchedGround = null;
+        paused = false;
+        canClimb = false;
+        canLook = false;
+        canStride = false;
+        canJump = false;
+        canDash = false;
+        canHover = false;
+        canCling = false;
+        canShoot = true;
+        turboDuration = 0;
+        ammoIntensity = Enums.AmmoIntensity.SHOT;
+        onRideable = false;
+        onSkateable = false;
+        onUnbearable = false;
+        onClimbable = false;
+        onSinkable = false;
+        onBounceable = false;
+        chargeStartTime = 0;
+        strideStartTime = 0;
+        climbStartTime = 0;
+        jumpStartTime = 0;
+        dashStartTime = 0;
+        pauseTimeSeconds = 0;
+        turboDuration = 0;
+        killPlane = -10000;
+        recoveryStartTime = TimeUtils.nanoTime();
+        health = Constants.MAX_HEALTH;
+        turbo = Constants.MAX_TURBO;
+        startTurbo = turbo;
     }
 
     public void update(float delta) {
-        
         gigaGal = level.getGigaGal();
         
         // positioning
@@ -112,7 +164,7 @@ public class Boss implements Humanoid {
         // abilities
         if (groundState == Enums.GroundState.PLANTED) {
             velocity.y = 0;
-            if (action == Enums.Action.STANDING) {
+            /*if (action == Enums.Action.STANDING) {
                 stand();
                 enableStride();
                 enableDash();
@@ -131,10 +183,10 @@ public class Boss implements Humanoid {
                 enableDash();
                 enableJump();
                 enableShoot(weapon);
-            }
+            }*/
         } else if (groundState == Enums.GroundState.AIRBORNE) {
             velocity.y -= Constants.GRAVITY;
-            if (action == Enums.Action.FALLING) {
+            /*if (action == Enums.Action.FALLING) {
                 fall();
                 enableClimb();
                 enableHover();
@@ -156,8 +208,10 @@ public class Boss implements Humanoid {
             } else if (action == Enums.Action.RECOILING) {
                 enableCling();
                 enableShoot(weapon);
-            }
+            }*/
         }
+
+        rush();
     }
     
     private void rush() {
@@ -760,7 +814,7 @@ public class Boss implements Humanoid {
         float offset = 0;
         if (lookStartTime == 0) {
             lookStartTime = TimeUtils.nanoTime();
-            chaseCamPosition.set(position, 0);
+//            chaseCamPosition.set(position, 0);
         } else if (action == Enums.Action.STANDING || action == Enums.Action.CLIMBING) {
 //            setChaseCamPosition(offset);
         }
@@ -1082,7 +1136,7 @@ public class Boss implements Humanoid {
     public final float getHeight() { return height; }
     public final float getLeft() { return position.x - getHalfWidth(); }
     public final float getRight() { return position.x + getHalfWidth(); }
-    public final float getTop() { return eyeHeight + headRadius; }
+    public final float getTop() { return position.y + headRadius; }
     public final float getBottom() { return position.y - eyeHeight; }
     public final float getTurbo() { return turbo; }
     public final int getHealth() { return health; }
@@ -1091,8 +1145,12 @@ public class Boss implements Humanoid {
     public final boolean getClingStatus() { return canCling; }
     public final boolean getDashStatus() { return canDash; }
     public final boolean getClimbStatus() { return canClimb; }
+    public final Enums.GroundState getGroundState() { return groundState; }
     public final Enums.AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
     public final Enums.WeaponType getWeapon() { return weapon; }
+    public final int getDamage() { return Constants.AMMO_STANDARD_DAMAGE; }
+    public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
+    public final Enums.WeaponType getType() { return weapon; }
 
     public void setDirectionX(Enums.Direction direction) { this.directionX = direction; }
     public void setDirectionY(Enums.Direction direction) { this.directionY = direction; }
