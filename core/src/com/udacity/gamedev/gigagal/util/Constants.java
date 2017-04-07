@@ -468,6 +468,12 @@ public final class Constants {
     public static final String IMPACT_SOLID_LARGE = "impact-solid-large";
     public static final String IMPACT_SOLID_MEDIUM = "impact-solid-medium";
     public static final String IMPACT_SOLID_SMALL = "impact-solid-small";
+    public static final String IMPACT_HYBRID_LARGE = "impact-hybrid-large";
+    public static final String IMPACT_HYBRID_MEDIUM = "impact-hybrid-medium";
+    public static final String IMPACT_HYBRID_SMALL = "impact-hybrid-small";
+    public static final String IMPACT_PSYCHIC_LARGE = "impact-psychic-large";
+    public static final String IMPACT_PSYCHIC_MEDIUM = "impact-psychic-medium";
+    public static final String IMPACT_PSYCHIC_SMALL = "impact-psychic-small";
     public static final String IMPACT_NATIVE_LARGE = "impact-native-large";
     public static final String IMPACT_NATIVE_MEDIUM = "impact-native-medium";
     public static final String IMPACT_NATIVE_SMALL = "impact-native-small";

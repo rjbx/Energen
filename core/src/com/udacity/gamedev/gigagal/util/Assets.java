@@ -744,6 +744,8 @@ public final class Assets implements Disposable, AssetErrorListener {
         public final Animation impactGas;
         public final Animation impactLiquid;
         public final Animation impactSolid;
+        public final Animation impactPsychic;
+        public final Animation impactHybrid;
         public final Animation impactNative;
 
         public ImpactAssets(TextureAtlas atlas) {
@@ -779,6 +781,22 @@ public final class Assets implements Disposable, AssetErrorListener {
 
             impactSolid = new Animation(Constants.IMPACT_DURATION / impactSolidRegions.size,
                     impactSolidRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> impactPsychicRegions = new Array<AtlasRegion>();
+            impactPsychicRegions.add(atlas.findRegion(Constants.IMPACT_PSYCHIC_LARGE));
+            impactPsychicRegions.add(atlas.findRegion(Constants.IMPACT_PSYCHIC_MEDIUM));
+            impactPsychicRegions.add(atlas.findRegion(Constants.IMPACT_PSYCHIC_SMALL));
+
+            impactPsychic = new Animation(Constants.IMPACT_DURATION / impactPsychicRegions.size,
+                    impactPsychicRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> impactHybridRegions = new Array<AtlasRegion>();
+            impactHybridRegions.add(atlas.findRegion(Constants.IMPACT_HYBRID_LARGE));
+            impactHybridRegions.add(atlas.findRegion(Constants.IMPACT_HYBRID_MEDIUM));
+            impactHybridRegions.add(atlas.findRegion(Constants.IMPACT_HYBRID_SMALL));
+
+            impactHybrid = new Animation(Constants.IMPACT_DURATION / impactHybridRegions.size,
+                    impactHybridRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> impactNativeRegions = new Array<AtlasRegion>();
             impactNativeRegions.add(atlas.findRegion(Constants.IMPACT_NATIVE_LARGE));

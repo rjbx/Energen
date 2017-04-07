@@ -42,6 +42,12 @@ public class Impact implements Entity {
             case SOLID:
                 region = Assets.getInstance().getImpactAssets().impactSolid.getKeyFrame(Utils.secondsSince(startTime) + offset);
                 break;
+            case ANTIMATTER:
+                region = Assets.getInstance().getImpactAssets().impactPsychic.getKeyFrame(Utils.secondsSince(startTime) + offset);
+                break;
+            case HYBRID:
+                region = Assets.getInstance().getImpactAssets().impactHybrid.getKeyFrame(Utils.secondsSince(startTime) + offset);
+                break;
             case NATIVE:
                 region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Utils.secondsSince(startTime) + offset);
                 break;

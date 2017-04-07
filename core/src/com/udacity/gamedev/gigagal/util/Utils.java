@@ -185,6 +185,7 @@ public final class Utils {
         || (enemyType == Enums.WeaponType.PLASMA && ammoType == Enums.WeaponType.ORE)
         || (enemyType == Enums.WeaponType.LIQUID && ammoType == Enums.WeaponType.GAS)
         || (enemyType == Enums.WeaponType.GAS && ammoType == Enums.WeaponType.PLASMA)
+        || (ammoType == Enums.WeaponType.ANTIMATTER)
         || (ammoType == Enums.WeaponType.HYBRID)) {
             return Enums.TypeEffectiveness.STRONG;
         }
