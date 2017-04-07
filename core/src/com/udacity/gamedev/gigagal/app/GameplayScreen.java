@@ -3,8 +3,8 @@ package com.udacity.gamedev.gigagal.app;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
@@ -22,7 +22,6 @@ import com.udacity.gamedev.gigagal.overlays.MessageOverlay;
 import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
 import com.udacity.gamedev.gigagal.overlays.PauseOverlay;
 import com.udacity.gamedev.gigagal.overlays.VictoryOverlay;
-import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -36,6 +35,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.text.html.Option;
+
 public class GameplayScreen extends ScreenAdapter {
 
     // fields
@@ -45,11 +46,11 @@ public class GameplayScreen extends ScreenAdapter {
     private InputControls inputControls;
     private ControlsOverlay controlsOverlay;
     private SpriteBatch batch;
-    private ShapeRenderer renderer;
+    private BitmapFont font;
     private long levelEndOverlayStartTime;
     private Level level;
     private ChaseCam chaseCam;
-    private GaugeHud meterHud;
+    private GaugeHud gaugeHud;
     private IndicatorHud contextHud;
     private VictoryOverlay victoryOverlay;
     private DefeatOverlay defeatOverlay;
@@ -101,8 +102,7 @@ public class GameplayScreen extends ScreenAdapter {
     @Override
     public void show() {
         batch = new SpriteBatch();
-        renderer = new ShapeRenderer();
-        renderer.setAutoShapeType(true);
+        font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         chaseCam = ChaseCam.getInstance();
         pauseOverlay = new PauseOverlay(this);
         optionsOverlay = new OptionsOverlay(this);
@@ -120,7 +120,7 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void resize(int width, int height) {
-        meterHud.getViewport().update(width, height, true);
+        gaugeHud.getViewport().update(width, height, true);
         contextHud.getViewport().update(width, height, true);
         victoryOverlay.getViewport().update(width, height, true);
         defeatOverlay.getViewport().update(width, height, true);
@@ -172,8 +172,9 @@ public class GameplayScreen extends ScreenAdapter {
                         } else if (pauseOverlay.getCursor().getPosition() == 58) {
                             unpause();
                             totalTime.suspend();
-                            this.dispose();
                             game.setScreen(new LevelSelectScreen(game));
+                            this.dispose();
+                            return;
                         } else if (pauseOverlay.getCursor().getPosition() == 43) {
                             optionsVisible = true;
                         }
@@ -199,6 +200,7 @@ public class GameplayScreen extends ScreenAdapter {
                         } else if (optionsOverlay.getCursor().getPosition() == 28) {
                             game.dispose();
                             game.create();
+                            return;
                         }
                     } else if (inputControls.pauseButtonJustPressed) {
                         optionsVisible = false;
@@ -217,7 +219,7 @@ public class GameplayScreen extends ScreenAdapter {
                 chaseCam.update(delta);
                 level.render(batch);
             }
-            meterHud.render(batch, renderer);
+            gaugeHud.render();
             contextHud.render(batch);
             controlsOverlay.render(batch);
         }
@@ -241,8 +243,9 @@ public class GameplayScreen extends ScreenAdapter {
             defeatOverlay.render(batch);
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
-                this.dispose();
                 game.setScreen(new LevelSelectScreen(game));
+                this.dispose();
+                return;
             }
         } else if (level.isVictory()) {
             levelEnded = true;
@@ -285,7 +288,7 @@ public class GameplayScreen extends ScreenAdapter {
                 powerups.add((TurboPowerup) powerup);
             }
         }
-        meterHud = new GaugeHud(level);
+        gaugeHud = new GaugeHud(level);
         contextHud = new IndicatorHud(level);
         this.gigaGal = level.getGigaGal();
         for (Enums.LevelName completedLevelName : completedLevels) {
@@ -316,8 +319,9 @@ public class GameplayScreen extends ScreenAdapter {
             completedLevels.add(levelName);
         }
 
-        this.dispose();
         game.setScreen(new LevelSelectScreen(game));
+        this.dispose();
+        return;
     }
 
     public void unpause() {
@@ -329,17 +333,20 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
+        inputControls.clearAll();
         totalTime.stop();
+        totalTime = null;
+        victoryOverlay.dispose();
+        pauseOverlay.dispose();
+        messageOverlay.dispose();
         optionsOverlay.dispose();
         defeatOverlay.dispose();
-        messageOverlay.dispose();
-        pauseOverlay.dispose();
-        victoryOverlay.dispose();
-        renderer.dispose();
+        gaugeHud.dispose();
         batch.dispose();
         super.dispose();
     }
 
+    public BitmapFont getFont() { return font; }
     public Level getLevel() { return level; }
     public int getTotalScore() { return totalScore; }
     public Timer getTotalTime() { return totalTime; }

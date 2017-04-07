@@ -9,6 +9,8 @@ import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Constants;
 
+import java.awt.Shape;
+
 // immutable
 public final class GaugeHud {
 
@@ -16,15 +18,18 @@ public final class GaugeHud {
     private final ExtendViewport viewport;
     private final GigaGal gigaGal;
     private float flickerFrequency;
+    private ShapeRenderer renderer;
 
     // default ctor
     public GaugeHud(Level level) {
         this.gigaGal = level.getGigaGal();
         this.viewport = new ExtendViewport(Constants.HUD_VIEWPORT_SIZE, Constants.HUD_VIEWPORT_SIZE);
         flickerFrequency = 0.5f;
+        renderer = new ShapeRenderer();
+        renderer.setAutoShapeType(true);
     }
 
-    public void render(SpriteBatch batch, ShapeRenderer renderer) {
+    public void render() {
 
         viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);
@@ -70,6 +75,8 @@ public final class GaugeHud {
         renderer.rect(viewport.getWorldWidth() / 3 * 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, ((float) gigaGal.getAmmo() / Constants.MAX_AMMO) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
         renderer.end();
     }
+
+    public void dispose() { renderer.dispose(); }
 
     public final Viewport getViewport() { return viewport; }
 }

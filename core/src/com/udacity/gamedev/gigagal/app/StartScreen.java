@@ -59,7 +59,6 @@ public final class StartScreen extends ScreenAdapter {
     public StartScreen(com.udacity.gamedev.gigagal.app.GigaGalGame game) {
         this.game = game;
         prefs = game.getPreferences();
-        levelSelectScreen = game.getLevelSelectScreen();
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigagalCenter = new Vector2(Constants.GIGAGAL_STANCE_WIDTH / 2, Constants.GIGAGAL_HEIGHT / 2);
         text = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
@@ -148,8 +147,10 @@ public final class StartScreen extends ScreenAdapter {
                     if (inputControls.shootButtonJustPressed) {
                         if (cursor.getPosition() == 35) {
                             if (continuing) {
-                                this.dispose();
+                                inputControls.shootButtonJustPressed = false;
                                 game.setScreen(new LevelSelectScreen(game));
+                                this.dispose();
+                                return;
                             } else {
                                 optionsVisible = true;
                             }
@@ -180,7 +181,6 @@ public final class StartScreen extends ScreenAdapter {
         } else {
             optionsOverlay.render(batch);
             if (inputControls.shootButtonJustPressed) {
-                this.dispose();
                 if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
                     optionsVisible = false;
                     prefs.putInteger("Difficulty", 0);
@@ -194,6 +194,8 @@ public final class StartScreen extends ScreenAdapter {
                     prefs.putInteger("Difficulty", 2);
                     game.setScreen(new LevelSelectScreen(game));
                 }
+                this.dispose();
+                return;
             } else if (inputControls.pauseButtonJustPressed) {
                 optionsVisible = false;
             }
@@ -204,6 +206,7 @@ public final class StartScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
+        inputControls.clearAll();
         optionsOverlay.dispose();
         launchOverlay.dispose();
         promptOverlay.dispose();

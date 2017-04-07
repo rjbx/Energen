@@ -11,8 +11,6 @@ import com.udacity.gamedev.gigagal.util.Enums;
 public final class GigaGalGame extends Game {
 
     // fields
-    private LevelSelectScreen levelSelectScreen;
-    private GameplayScreen gameplayScreen;
     private StartScreen startScreen;
     private Preferences prefs;
 
@@ -22,8 +20,6 @@ public final class GigaGalGame extends Game {
     @Override
     public void create() {
         prefs = Gdx.app.getPreferences("energraft-prefs");
-//       gameplayScreen = new GameplayScreen(this);
-//       levelSelectScreen = new LevelSelectScreen(this);
         startScreen = new StartScreen(this);
 
         Assets.getInstance().init(new AssetManager());
@@ -32,13 +28,13 @@ public final class GigaGalGame extends Game {
         setScreen(startScreen);
     }
 
-    public LevelSelectScreen getLevelSelectScreen() { return levelSelectScreen; }
-    public GameplayScreen getGameplayScreen() { return gameplayScreen; }
-    public Preferences getPreferences() { return prefs; }
-
     @Override
     public void dispose() {
+        startScreen.dispose();
+        prefs = null;
         Assets.getInstance().dispose();
         super.dispose();
     }
+
+    public Preferences getPreferences() { return prefs; }
 }

@@ -151,6 +151,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
                         gameplayScreen.readLevelFile();
                         game.setScreen(gameplayScreen);
                         this.dispose();
+                        return;
                     } catch (IOException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         messageOverlay.setMessage(Constants.LEVEL_READ_MESSAGE);
@@ -191,6 +192,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
+        inputControls.clearAll();
         optionsOverlay.dispose();
         messageOverlay.dispose();
         font.dispose();

@@ -288,6 +288,23 @@ public class InputControls extends InputAdapter {
             jumpPointer = 0;
         }
     }
+    
+    public void clearAll() {
+         leftButtonPressed = false;
+         rightButtonPressed = false;
+         upButtonPressed = false;
+         downButtonPressed = false;
+         jumpButtonPressed = false;
+         shootButtonPressed = false;
+         pauseButtonPressed = false;
+         leftButtonJustPressed = false;
+         rightButtonJustPressed = false;
+         upButtonJustPressed = false;
+         downButtonJustPressed = false;
+         jumpButtonJustPressed = false;
+         shootButtonJustPressed = false;
+         pauseButtonJustPressed = false;
+    }
 
     public final Viewport getViewport() { return viewport; }
 }
