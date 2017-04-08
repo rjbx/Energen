@@ -23,7 +23,6 @@ public class IndicatorHud {
     private final BitmapFont font;
     private final Level level;
     private final GigaGal gigaGal;
-    private String timerString;
 
     // ctor
     public IndicatorHud(Level level) {
@@ -117,7 +116,7 @@ public class IndicatorHud {
         Utils.drawTextureRegion(batch, weaponIcon, drawPosition, offset, Constants.AMMO_ICON_SCALE);
 
         final String scoreString = level.getLevelScore() + "";
-        timerString = Utils.stopWatchToString(level.getLevelTime());
+        final String timerString = Utils.stopWatchToString(level.getLevelTime());
         font.draw(batch, scoreString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN - 0.5f, Constants.HUD_MARGIN / 2, Constants.HUD_MARGIN * 2, 1, true);
         font.draw(batch, timerString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN * 2 - 0.5f, Constants.HUD_MARGIN * 1.5f, Constants.HUD_MARGIN * 4, 1, true);
 

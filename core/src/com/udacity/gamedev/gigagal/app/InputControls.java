@@ -15,7 +15,7 @@ public class InputControls extends InputAdapter {
     // fields
     public static final String TAG = InputControls.class.getName();
     private static InputControls INSTANCE = new InputControls();
-    public Viewport viewport;
+    private Viewport viewport;
     public Vector2 leftCenter;
     public Vector2 rightCenter;
     public Vector2 upCenter;
@@ -24,13 +24,13 @@ public class InputControls extends InputAdapter {
     public Vector2 pauseCenter;
     public Vector2 shootCenter;
     public Vector2 jumpCenter;
-    public int leftPointer;
-    public int rightPointer;
-    public int upPointer;
-    public int downPointer;
-    public int pausePointer;
-    public int jumpPointer;
-    public int shootPointer;
+    private int leftPointer;
+    private int rightPointer;
+    private int upPointer;
+    private int downPointer;
+    private int pausePointer;
+    private int jumpPointer;
+    private int shootPointer;
     public boolean leftButtonPressed;
     public boolean rightButtonPressed;
     public boolean upButtonPressed;

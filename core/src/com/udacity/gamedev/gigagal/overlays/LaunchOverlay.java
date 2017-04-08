@@ -18,7 +18,7 @@ public final class LaunchOverlay {
     private final SpriteBatch batch;
     private final ExtendViewport viewport;
     private final Vector2 logoOffset;
-    final BitmapFont font;
+    private final BitmapFont font;
 
     // ctor
     public LaunchOverlay() {
@@ -27,9 +27,6 @@ public final class LaunchOverlay {
         logoOffset = new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
-    }
-
-    public void init() {
     }
 
     public void render() {

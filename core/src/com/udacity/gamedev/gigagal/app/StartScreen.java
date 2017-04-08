@@ -23,27 +23,23 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-import java.util.ListIterator;
-
 // immutable
 public final class StartScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = StartScreen.class.getName();
+    private static InputControls inputControls;
+    private static ControlsOverlay controlsOverlay;
     private com.udacity.gamedev.gigagal.app.GigaGalGame game;
     private SpriteBatch batch;
     private CursorOverlay cursorOverlay;
     private OptionsOverlay optionsOverlay;
     private PromptOverlay promptOverlay;
-    private ControlsOverlay controlsOverlay;
     private LaunchOverlay launchOverlay;
     private ExtendViewport viewport;
     private BitmapFont text;
     private BitmapFont title;
     private Preferences prefs;
-    private ListIterator<String> iterator;
-    private LevelSelectScreen levelSelectScreen;
-    private com.udacity.gamedev.gigagal.app.InputControls inputControls;
     private Array<String> choices;
     private String prompt;
     private long launchStartTime;
@@ -65,10 +61,6 @@ public final class StartScreen extends ScreenAdapter {
         title.getData().setScale(1);
         title.setColor(Color.SKY);
         choices = new Array<String>();
-        init();
-    }
-
-    public void init() {
         launchStartTime = TimeUtils.nanoTime();
         launching = true;
         continuing = false;
@@ -90,7 +82,6 @@ public final class StartScreen extends ScreenAdapter {
         promptVisible = false;
         batch = new SpriteBatch();
         optionsOverlay = new OptionsOverlay(this);
-        optionsOverlay.init();
         promptOverlay = new PromptOverlay(prompt, choices);
         launchOverlay = new LaunchOverlay();
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
@@ -114,8 +105,6 @@ public final class StartScreen extends ScreenAdapter {
         promptOverlay.getCursor().getViewport().update(width, height, true);
         launchOverlay.getViewport().update(width, height, true);
     }
-
-    public void update() {}
 
     @Override
     public void render(float delta) {
@@ -204,6 +193,7 @@ public final class StartScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
+        choices.clear();
         inputControls.clearAll();
         launchOverlay.dispose();
         optionsOverlay.dispose();

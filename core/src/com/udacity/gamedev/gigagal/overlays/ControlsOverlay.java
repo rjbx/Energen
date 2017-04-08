@@ -11,7 +11,7 @@ public class ControlsOverlay {
 
     // fields
     public static final String TAG = ControlsOverlay.class.getName();
-    private static ControlsOverlay INSTANCE = new ControlsOverlay();
+    private static final ControlsOverlay INSTANCE = new ControlsOverlay();
     private SpriteBatch batch;
     private InputControls inputControls;
     private Viewport viewport;

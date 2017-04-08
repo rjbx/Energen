@@ -16,7 +16,7 @@ public class PromptOverlay {
     public final static String TAG = PromptOverlay.class.getName();
     private final SpriteBatch batch;
     private final ExtendViewport viewport;
-    private CursorOverlay cursor;
+    private final CursorOverlay cursor;
     private final BitmapFont font;
     private String promptString;
     private Array<String> choicesStrings;
@@ -54,7 +54,7 @@ public class PromptOverlay {
         batch.end();
     }
 
-    public void dispose() { font.dispose(); batch.dispose(); }
+    public void dispose() { choicesStrings.clear(); font.dispose(); batch.dispose(); }
 
     // Getters
     public Viewport getViewport() { return viewport; }

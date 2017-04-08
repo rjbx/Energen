@@ -9,18 +9,16 @@ public class CursorOverlay {
 
     // fields
     public final static String TAG = CursorOverlay.class.getName();
-    private final SpriteBatch batch;
     private final ExtendViewport viewport;
-    private Enums.Orientation orientation;
+    private final Enums.Orientation orientation;
+    private final float startingPosition;
+    private final float endingPosition;
+    private final InputControls inputControls;
     private float position;
-    private float startingPosition;
-    private float endingPosition;
-    private InputControls inputControls;
 
     // ctor
     public CursorOverlay(float startingPosition, float endingPosition, Enums.Orientation orientation) {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        this.batch = new SpriteBatch();
         this.orientation = orientation;
         this.startingPosition = startingPosition;
         this.endingPosition = endingPosition;

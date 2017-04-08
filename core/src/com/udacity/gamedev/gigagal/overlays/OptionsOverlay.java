@@ -11,7 +11,6 @@ import com.udacity.gamedev.gigagal.app.GameplayScreen;
 import com.udacity.gamedev.gigagal.app.LevelSelectScreen;
 import com.udacity.gamedev.gigagal.app.StartScreen;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
-import com.udacity.gamedev.gigagal.entities.Pillar;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
@@ -23,9 +22,9 @@ public final class OptionsOverlay {
     public final static String TAG = OptionsOverlay.class.getName();
     private final SpriteBatch batch;
     private final ExtendViewport viewport;
-    private CursorOverlay cursor;
     private final BitmapFont font;
-    private ScreenAdapter screenAdapter;
+    private final ScreenAdapter screenAdapter;
+    private CursorOverlay cursor;
     private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
     private boolean paused;
@@ -36,14 +35,11 @@ public final class OptionsOverlay {
         this.screenAdapter = screenAdapter;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         this.batch = new SpriteBatch();
-        cursor = new CursorOverlay(73, 28, Enums.Orientation.Y);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.4f);
         debugMode = false;
-    }
-
-    public void init() {
         if (screenAdapter instanceof GameplayScreen) {
+            cursor = new CursorOverlay(73, 28, Enums.Orientation.Y);
             gameplayScreen = (GameplayScreen) screenAdapter;
             gigaGal = gameplayScreen.getLevel().getGigaGal();
         } else {

@@ -6,13 +6,11 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
-import com.udacity.gamedev.gigagal.util.Enums;
 
 // immutable
 public final class GigaGalGame extends Game {
 
     // fields
-    private StartScreen startScreen;
     private Preferences prefs;
 
     // default ctor
@@ -21,12 +19,11 @@ public final class GigaGalGame extends Game {
     @Override
     public void create() {
         prefs = Gdx.app.getPreferences("energraft-prefs");
-        startScreen = new StartScreen(this);
 
         Assets.getInstance().init(new AssetManager());
         InputControls.getInstance().init();
 
-        setScreen(startScreen);
+        setScreen(new StartScreen(this));
     }
 
     @Override

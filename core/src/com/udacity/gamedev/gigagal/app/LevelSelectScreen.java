@@ -7,7 +7,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -32,6 +31,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = LevelSelectScreen.class.getName();
+    private static InputControls inputControls;
+    private static ControlsOverlay controlsOverlay;
     private com.udacity.gamedev.gigagal.app.GigaGalGame game;
     private Preferences prefs;
     private ExtendViewport viewport;
@@ -40,7 +41,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private CursorOverlay cursorOverlay;
     private OptionsOverlay optionsOverlay;
     private MessageOverlay messageOverlay;
-    private ControlsOverlay controlsOverlay;
     private Array<Float> namePositions;
     private Array<Enums.LevelName> completedLevels;
     private List<Enums.LevelName> levelTypes;
@@ -49,7 +49,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private Enums.LevelName selectedLevel;
     private int index;
     private GameplayScreen gameplayScreen;
-    private com.udacity.gamedev.gigagal.app.InputControls inputControls;
     private boolean optionsVisible;
     private boolean messageVisible;
 
@@ -78,7 +77,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
         batch = new SpriteBatch();
         completedLevels = new Array<Enums.LevelName>();
         optionsOverlay = new OptionsOverlay(this);
-        optionsOverlay.init();
         messageOverlay = new MessageOverlay("");
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
         controlsOverlay = ControlsOverlay.getInstance();
@@ -99,8 +97,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
         optionsOverlay.getCursor().getViewport().update(width, height, true);
         messageOverlay.getViewport().update(width, height, true);
     }
-
-    public void update() {}
 
     @Override
     public void render(float delta) {
@@ -190,6 +186,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
+        completedLevels.clear();
+        levelTypes.clear();
+        iterator.remove();
         inputControls.clearAll();
         optionsOverlay.dispose();
         messageOverlay.dispose();

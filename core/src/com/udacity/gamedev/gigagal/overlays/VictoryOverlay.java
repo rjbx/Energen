@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.overlays;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.GameplayScreen;
 import com.udacity.gamedev.gigagal.entities.Impact;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
 // immutable
@@ -21,13 +19,11 @@ public final class VictoryOverlay {
 
     // fields
     public final static String TAG = VictoryOverlay.class.getName();
+    private final GameplayScreen gameplayScreen;
     private final SpriteBatch batch;
     private final ExtendViewport viewport;
     private final BitmapFont font;
     private Array<Impact> explosions;
-    private GameplayScreen gameplayScreen;
-    private String levelTime;
-    private String totalTime;
 
     // default ctor
     public VictoryOverlay(GameplayScreen gameplayScreen) {
@@ -36,9 +32,6 @@ public final class VictoryOverlay {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(.4f);
-    }
-
-    public void init() {
         explosions = new Array<Impact>(Constants.EXPLOSION_COUNT);
         for (int i = 0; i < Constants.EXPLOSION_COUNT; i++) {
             Impact impact = new Impact(new Vector2(
@@ -59,8 +52,8 @@ public final class VictoryOverlay {
             impact.render(batch);
         }
 
-        levelTime = Utils.stopWatchToString(gameplayScreen.getLevel().getLevelTime());
-        totalTime = Utils.stopWatchToString(gameplayScreen.getTotalTime());
+        final String levelTime = Utils.stopWatchToString(gameplayScreen.getLevel().getLevelTime());
+        final String totalTime = Utils.stopWatchToString(gameplayScreen.getTotalTime());
 
         font.draw(batch, Constants.VICTORY_MESSAGE, viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .9f, 0, Align.center, false);
         font.draw(batch, "GAME TOTAL\n" + "Time: " + Utils.stopWatchToString(gameplayScreen.getTotalTime()) + "\n" + "Score: " + gameplayScreen.getTotalScore(), viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .7f, 0, Align.center, false);
@@ -69,7 +62,7 @@ public final class VictoryOverlay {
         batch.end();
     }
 
-    public void dispose() { font.dispose(); batch.dispose(); }
+    public void dispose() { explosions.clear(); font.dispose(); batch.dispose(); }
 
     public final Viewport getViewport() { return viewport; }
 }

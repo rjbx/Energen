@@ -1,7 +1,6 @@
 package com.udacity.gamedev.gigagal.overlays;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -9,16 +8,14 @@ import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Constants;
 
-import java.awt.Shape;
-
 // immutable
 public final class GaugeHud {
 
     // fields
     private final ExtendViewport viewport;
     private final GigaGal gigaGal;
+    private final ShapeRenderer renderer;
     private float flickerFrequency;
-    private ShapeRenderer renderer;
 
     // default ctor
     public GaugeHud(Level level) {

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -38,10 +37,10 @@ public class GameplayScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = GameplayScreen.class.getName();
+    private static InputControls inputControls;
+    private static ControlsOverlay controlsOverlay;
     private GigaGalGame game;
     private Preferences prefs;
-    private InputControls inputControls;
-    private ControlsOverlay controlsOverlay;
     private GaugeHud gaugeHud;
     private IndicatorHud indicatorHud;
     private VictoryOverlay victoryOverlay;
@@ -56,7 +55,6 @@ public class GameplayScreen extends ScreenAdapter {
     private Array<Enums.LevelName> completedLevels;
     private Enums.LevelName levelName;
     private GigaGal gigaGal;
-    private Array<TurboPowerup> powerups;
     private int totalScore;
     private Timer totalTime;
     private boolean paused;
@@ -76,23 +74,6 @@ public class GameplayScreen extends ScreenAdapter {
         levelEnded = false;
         pauseTime = 0;
         pauseDuration = 0;
-        init();
-    }
-
-    public void init() {
-        String savedWeapons = game.getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name());
-        if (savedWeapons != Enums.WeaponType.NATIVE.name()) {
-            List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
-            for (String weaponString : savedWeaponsList) {
-                if (!completedLevels.contains(Enums.WeaponType.valueOf(weaponString).levelName(), false)) {
-                    completedLevels.add(Enums.WeaponType.valueOf(weaponString).levelName());
-                }
-            }
-        }
-        totalScore = game.getPreferences().getInteger("Score", totalScore);
-        totalTime.start(game.getPreferences().getLong("Time", totalTime.getNanoTime()));
-        totalTime.suspend();
-        game.getPreferences().flush();
     }
 
     @Override
@@ -106,7 +87,6 @@ public class GameplayScreen extends ScreenAdapter {
         defeatOverlay = new DefeatOverlay();
         inputControls = InputControls.getInstance();
         controlsOverlay = ControlsOverlay.getInstance();
-        powerups = new Array<TurboPowerup>();
 
         // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
         Gdx.input.setInputProcessor(inputControls);
@@ -206,7 +186,6 @@ public class GameplayScreen extends ScreenAdapter {
                 totalTime.suspend();
                 paused = true;
                 pauseOverlay.init();
-                optionsOverlay.init();
                 pauseTime = TimeUtils.nanoTime();
                 pauseDuration = gigaGal.getPauseTimeSeconds();
             } else {
@@ -252,7 +231,6 @@ public class GameplayScreen extends ScreenAdapter {
                 game.getPreferences().putLong("Time", totalTime.getNanoTime());
                 game.getPreferences().flush();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
-                victoryOverlay.init();
             }
             victoryOverlay.render();
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
@@ -270,19 +248,27 @@ public class GameplayScreen extends ScreenAdapter {
     }
 
     private void startNewLevel() {
-
 //      level = Level.debugLevel();
 //      String levelName = Constants.LEVELS[levelNumber];
+
+        // get prefs
+        String savedWeapons = game.getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name());
+        if (!savedWeapons.equals(Enums.WeaponType.NATIVE.name())) {
+            List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
+            for (String weaponString : savedWeaponsList) {
+                if (!completedLevels.contains(Enums.WeaponType.valueOf(weaponString).levelName(), false)) {
+                    completedLevels.add(Enums.WeaponType.valueOf(weaponString).levelName());
+                }
+            }
+        }
+        totalScore = game.getPreferences().getInteger("Score", totalScore);
+        totalTime.start(game.getPreferences().getLong("Time", totalTime.getNanoTime()));
+        totalTime.suspend();
+        game.getPreferences().flush();
 
         // set level attributes
         level.setLevelName(levelName);
         level.setDifficulty(prefs.getInteger("Difficulty", 0));
-        powerups = new Array<TurboPowerup>();
-        for (Powerup powerup : level.getPowerups()) {
-            if (powerup instanceof TurboPowerup) {
-                powerups.add((TurboPowerup) powerup);
-            }
-        }
         gaugeHud = new GaugeHud(level);
         indicatorHud = new IndicatorHud(level);
         this.gigaGal = level.getGigaGal();
@@ -304,12 +290,11 @@ public class GameplayScreen extends ScreenAdapter {
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
-    public void restartLevel() {
+    private void restartLevel() {
         gigaGal.respawn();
-        level.getPowerups().addAll(powerups);
     }
 
-    public void levelComplete() {
+    private void levelComplete() {
         if (!completedLevels.contains(levelName, false)) {
             completedLevels.add(levelName);
         }
@@ -319,7 +304,7 @@ public class GameplayScreen extends ScreenAdapter {
         return;
     }
 
-    public void unpause() {
+    private void unpause() {
         gigaGal.setPauseTimeSeconds(Utils.secondsSincePause(pauseTime) + pauseDuration);
         level.getLevelTime().resume();
         totalTime.resume();
@@ -328,6 +313,7 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
+        completedLevels.clear();
         inputControls.clearAll();
         totalTime.stop();
         totalTime = null;
@@ -346,7 +332,6 @@ public class GameplayScreen extends ScreenAdapter {
     public int getTotalScore() { return totalScore; }
     public Timer getTotalTime() { return totalTime; }
     public ChaseCam getChaseCam() { return chaseCam; }
-    public Viewport getViewport() { return this.getViewport(); }
 
     public void setGame(GigaGalGame game) { this.game = game;  }
     public void setLevelName(Enums.LevelName levelName) { this.levelName = levelName; }
