@@ -6,7 +6,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -35,8 +34,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.text.html.Option;
-
 public class GameplayScreen extends ScreenAdapter {
 
     // fields
@@ -45,18 +42,17 @@ public class GameplayScreen extends ScreenAdapter {
     private Preferences prefs;
     private InputControls inputControls;
     private ControlsOverlay controlsOverlay;
-    private SpriteBatch batch;
-    private BitmapFont font;
-    private long levelEndOverlayStartTime;
-    private Level level;
-    private ChaseCam chaseCam;
     private GaugeHud gaugeHud;
-    private IndicatorHud contextHud;
+    private IndicatorHud indicatorHud;
     private VictoryOverlay victoryOverlay;
     private DefeatOverlay defeatOverlay;
     private PauseOverlay pauseOverlay;
     private OptionsOverlay optionsOverlay;
     private MessageOverlay messageOverlay;
+    private SpriteBatch batch;
+    private long levelEndOverlayStartTime;
+    private Level level;
+    private ChaseCam chaseCam;
     private Array<Enums.LevelName> completedLevels;
     private Enums.LevelName levelName;
     private GigaGal gigaGal;
@@ -102,7 +98,6 @@ public class GameplayScreen extends ScreenAdapter {
     @Override
     public void show() {
         batch = new SpriteBatch();
-        font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         chaseCam = ChaseCam.getInstance();
         pauseOverlay = new PauseOverlay(this);
         optionsOverlay = new OptionsOverlay(this);
@@ -121,7 +116,7 @@ public class GameplayScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         gaugeHud.getViewport().update(width, height, true);
-        contextHud.getViewport().update(width, height, true);
+        indicatorHud.getViewport().update(width, height, true);
         victoryOverlay.getViewport().update(width, height, true);
         defeatOverlay.getViewport().update(width, height, true);
         pauseOverlay.getViewport().update(width, height, true);
@@ -152,7 +147,7 @@ public class GameplayScreen extends ScreenAdapter {
             chaseCam.update(delta);
         }
 
-        renderLevelEndOverlays(batch);
+        renderLevelEndOverlays();
         if (level.gigaGalFailed()) {
             if (gigaGal.getLives() > -1) {
                 restartLevel();
@@ -162,7 +157,7 @@ public class GameplayScreen extends ScreenAdapter {
         if (!levelEnded) {
             if (paused) {
                 if (!optionsVisible) {
-                    pauseOverlay.render(batch);
+                    pauseOverlay.render();
                     if (inputControls.jumpButtonJustPressed && gigaGal.getAction() == Enums.Action.STANDING) {
                         gigaGal.toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
                     }
@@ -182,7 +177,7 @@ public class GameplayScreen extends ScreenAdapter {
                         unpause();
                     }
                 } else {
-                    optionsOverlay.render(batch);
+                    optionsOverlay.render();
                     if (inputControls.shootButtonJustPressed) {
                         if (optionsOverlay.getCursor().getPosition() == 73) {
                             optionsVisible = false;
@@ -220,17 +215,17 @@ public class GameplayScreen extends ScreenAdapter {
                 level.render(batch);
             }
             gaugeHud.render();
-            contextHud.render(batch);
-            controlsOverlay.render(batch);
+            indicatorHud.render();
+            controlsOverlay.render();
         }
         if (level.getLoadEx()) {
             messageOverlay.setMessage(Constants.LEVEL_KEY_MESSAGE);
-            messageOverlay.render(batch);
+            messageOverlay.render();
         }
         inputControls.update();
     }
 
-    private void renderLevelEndOverlays(SpriteBatch batch) {
+    private void renderLevelEndOverlays() {
         if (level.isGameOver()) {
             levelEnded = true;
             if (levelEndOverlayStartTime == 0) {
@@ -240,7 +235,7 @@ public class GameplayScreen extends ScreenAdapter {
                 defeatOverlay.init();
             }
 
-            defeatOverlay.render(batch);
+            defeatOverlay.render();
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
                 game.setScreen(new LevelSelectScreen(game));
@@ -259,7 +254,7 @@ public class GameplayScreen extends ScreenAdapter {
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
                 victoryOverlay.init();
             }
-            victoryOverlay.render(batch);
+            victoryOverlay.render();
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
                 levelEndOverlayStartTime = 0;
                 levelComplete();
@@ -289,7 +284,7 @@ public class GameplayScreen extends ScreenAdapter {
             }
         }
         gaugeHud = new GaugeHud(level);
-        contextHud = new IndicatorHud(level);
+        indicatorHud = new IndicatorHud(level);
         this.gigaGal = level.getGigaGal();
         for (Enums.LevelName completedLevelName : completedLevels) {
             for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
@@ -337,16 +332,17 @@ public class GameplayScreen extends ScreenAdapter {
         totalTime.stop();
         totalTime = null;
         victoryOverlay.dispose();
-        pauseOverlay.dispose();
-        messageOverlay.dispose();
-        optionsOverlay.dispose();
         defeatOverlay.dispose();
+        controlsOverlay.dispose();
+        pauseOverlay.dispose();
+        optionsOverlay.dispose();
+        indicatorHud.dispose();
+        messageOverlay.dispose();
         gaugeHud.dispose();
         batch.dispose();
         super.dispose();
     }
 
-    public BitmapFont getFont() { return font; }
     public Level getLevel() { return level; }
     public int getTotalScore() { return totalScore; }
     public Timer getTotalTime() { return totalTime; }

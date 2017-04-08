@@ -17,7 +17,8 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public final class PauseOverlay {
 
     // fields
-    public final static String TAG = VictoryOverlay.class.getName();
+    public final static String TAG = PauseOverlay.class.getName();
+    private final SpriteBatch batch;
     private final Viewport viewport;
     private final BitmapFont font;
     private final BitmapFont inactiveFont;
@@ -29,6 +30,7 @@ public final class PauseOverlay {
     // default ctor
     public PauseOverlay(GameplayScreen gameplayScreen) {
         this.gameplayScreen = gameplayScreen;
+        this.batch = new SpriteBatch();
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.4f);
@@ -43,13 +45,13 @@ public final class PauseOverlay {
         canToggle = gigaGal.getGroundState() == Enums.GroundState.PLANTED;
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
         if (gameplayScreen.getChaseCam().getFollowing()) {
-            cursor.render(batch);
+            cursor.render();
             cursor.update();
             String stats =
                     Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
@@ -80,7 +82,7 @@ public final class PauseOverlay {
         batch.end();
     }
 
-    public void dispose() { font.dispose(); inactiveFont.dispose(); }
+    public void dispose() { font.dispose(); inactiveFont.dispose(); batch.dispose(); }
 
     public final Viewport getViewport() { return viewport; }
     public final CursorOverlay getCursor() { return cursor; }

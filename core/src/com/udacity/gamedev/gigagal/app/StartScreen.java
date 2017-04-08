@@ -4,7 +4,6 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -24,7 +23,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-import java.util.Arrays;
 import java.util.ListIterator;
 
 // immutable
@@ -34,18 +32,18 @@ public final class StartScreen extends ScreenAdapter {
     public static final String TAG = StartScreen.class.getName();
     private com.udacity.gamedev.gigagal.app.GigaGalGame game;
     private SpriteBatch batch;
-    private ExtendViewport viewport;
-    private Preferences prefs;
-    private BitmapFont text;
-    private BitmapFont title;
-    private ListIterator<String> iterator;
-    private CursorOverlay cursor;
+    private CursorOverlay cursorOverlay;
     private OptionsOverlay optionsOverlay;
     private PromptOverlay promptOverlay;
-    private LevelSelectScreen levelSelectScreen;
-    private com.udacity.gamedev.gigagal.app.InputControls inputControls;
     private ControlsOverlay controlsOverlay;
     private LaunchOverlay launchOverlay;
+    private ExtendViewport viewport;
+    private BitmapFont text;
+    private BitmapFont title;
+    private Preferences prefs;
+    private ListIterator<String> iterator;
+    private LevelSelectScreen levelSelectScreen;
+    private com.udacity.gamedev.gigagal.app.InputControls inputControls;
     private Array<String> choices;
     private String prompt;
     private long launchStartTime;
@@ -74,9 +72,9 @@ public final class StartScreen extends ScreenAdapter {
         launchStartTime = TimeUtils.nanoTime();
         launching = true;
         continuing = false;
-        cursor = new CursorOverlay(35, 35, Enums.Orientation.Y);
+        cursorOverlay = new CursorOverlay(35, 35, Enums.Orientation.Y);
         if (prefs.getLong("Time", 0) != 0) {
-            cursor = new CursorOverlay(35, 20, Enums.Orientation.Y);
+            cursorOverlay = new CursorOverlay(35, 20, Enums.Orientation.Y);
             continuing = true;
         }
         choices.add("NO");
@@ -107,7 +105,7 @@ public final class StartScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-        cursor.getViewport().update(width, height, true);
+        cursorOverlay.getViewport().update(width, height, true);
         controlsOverlay.getViewport().update(width, height, true);
         controlsOverlay.recalculateButtonPositions();
         optionsOverlay.getViewport().update(width, height, true);
@@ -134,8 +132,8 @@ public final class StartScreen extends ScreenAdapter {
                     title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
                     text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, 45, 0, Align.center, false);
                     if (continuing) {
-                        cursor.render(batch);
-                        cursor.update();
+                        cursorOverlay.render();
+                        cursorOverlay.update();
                         text.draw(batch, "ERASE GAME", viewport.getWorldWidth() / 2, 30, 0, Align.center, false);
                     }
 
@@ -145,7 +143,7 @@ public final class StartScreen extends ScreenAdapter {
                     batch.end();
 
                     if (inputControls.shootButtonJustPressed) {
-                        if (cursor.getPosition() == 35) {
+                        if (cursorOverlay.getPosition() == 35) {
                             if (continuing) {
                                 inputControls.shootButtonJustPressed = false;
                                 game.setScreen(new LevelSelectScreen(game));
@@ -154,12 +152,12 @@ public final class StartScreen extends ScreenAdapter {
                             } else {
                                 optionsVisible = true;
                             }
-                        } else if (cursor.getPosition() == 20) {
+                        } else if (cursorOverlay.getPosition() == 20) {
                             promptVisible = true;
                         }
                     }
                 } else {
-                    promptOverlay.render(batch);
+                    promptOverlay.render();
                     if (inputControls.shootButtonJustPressed) {
                         if (promptOverlay.getCursor().getPosition() == (150)) {
                             prefs.clear();
@@ -172,14 +170,14 @@ public final class StartScreen extends ScreenAdapter {
                     }
                 }
             } else {
-                launchOverlay.render(batch);
+                launchOverlay.render();
             }
 
             if (Utils.secondsSince(launchStartTime) > 3) {
                 launching = false;
             }
         } else {
-            optionsOverlay.render(batch);
+            optionsOverlay.render();
             if (inputControls.shootButtonJustPressed) {
                 if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
                     optionsVisible = false;
@@ -201,15 +199,17 @@ public final class StartScreen extends ScreenAdapter {
             }
         }
         inputControls.update();
-        controlsOverlay.render(batch);
+        controlsOverlay.render();
     }
 
     @Override
     public void dispose() {
         inputControls.clearAll();
-        optionsOverlay.dispose();
+        cursorOverlay.dispose();
         launchOverlay.dispose();
+        optionsOverlay.dispose();
         promptOverlay.dispose();
+        controlsOverlay.dispose();
         text.dispose();
         title.dispose();
         batch.dispose();

@@ -54,7 +54,7 @@ public class InputControls extends InputAdapter {
     public void init() {
         ControlsOverlay.getInstance().init();
     //    ControlsOverlay.getInstance().onMobile = onMobile();
-        this.viewport = ControlsOverlay.getInstance().viewport;
+        this.viewport = ControlsOverlay.getInstance().getViewport();
 
         leftCenter = new Vector2();
         rightCenter = new Vector2();

@@ -21,7 +21,8 @@ public final class VictoryOverlay {
 
     // fields
     public final static String TAG = VictoryOverlay.class.getName();
-    private final Viewport viewport;
+    private final SpriteBatch batch;
+    private final ExtendViewport viewport;
     private final BitmapFont font;
     private Array<Impact> explosions;
     private GameplayScreen gameplayScreen;
@@ -31,6 +32,7 @@ public final class VictoryOverlay {
     // default ctor
     public VictoryOverlay(GameplayScreen gameplayScreen) {
         this.gameplayScreen = gameplayScreen;
+        this.batch = new SpriteBatch();
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(.4f);
@@ -49,7 +51,7 @@ public final class VictoryOverlay {
         }
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
@@ -67,7 +69,7 @@ public final class VictoryOverlay {
         batch.end();
     }
 
-    public void dispose() { font.dispose(); }
+    public void dispose() { font.dispose(); batch.dispose(); }
 
     public final Viewport getViewport() { return viewport; }
 }

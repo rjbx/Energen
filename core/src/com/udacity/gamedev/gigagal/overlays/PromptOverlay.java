@@ -12,13 +12,17 @@ import com.udacity.gamedev.gigagal.util.Enums;
 
 public class PromptOverlay {
 
-    private final Viewport viewport;
+    // fields
+    public final static String TAG = PromptOverlay.class.getName();
+    private final SpriteBatch batch;
+    private final ExtendViewport viewport;
     private CursorOverlay cursor;
     private final BitmapFont font;
     private String promptString;
     private Array<String> choicesStrings;
 
     public PromptOverlay(String promptString, Array<String> choicesStrings) {
+        this.batch = new SpriteBatch();
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         cursor = new CursorOverlay(50, 150, Enums.Orientation.X);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
@@ -27,12 +31,12 @@ public class PromptOverlay {
         this.choicesStrings = choicesStrings;
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
-        cursor.render(batch);
+        cursor.render();
         cursor.update();
 
         font.draw(batch, promptString, viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .75f, 0, Align.center, false);
@@ -50,7 +54,7 @@ public class PromptOverlay {
         batch.end();
     }
 
-    public void dispose() { font.dispose(); }
+    public void dispose() { font.dispose(); batch.dispose(); }
 
     // Getters
     public Viewport getViewport() { return viewport; }

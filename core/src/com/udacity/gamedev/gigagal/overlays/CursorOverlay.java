@@ -8,7 +8,9 @@ import com.udacity.gamedev.gigagal.app.InputControls;
 public class CursorOverlay {
 
     // fields
-    private ExtendViewport viewport;
+    public final static String TAG = CursorOverlay.class.getName();
+    private final SpriteBatch batch;
+    private final ExtendViewport viewport;
     private Enums.Orientation orientation;
     private float position;
     private float startingPosition;
@@ -18,6 +20,7 @@ public class CursorOverlay {
     // ctor
     public CursorOverlay(float startingPosition, float endingPosition, Enums.Orientation orientation) {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+        this.batch = new SpriteBatch();
         this.orientation = orientation;
         this.startingPosition = startingPosition;
         this.endingPosition = endingPosition;
@@ -52,16 +55,19 @@ public class CursorOverlay {
         }
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
         if (orientation == Enums.Orientation.X) {
             Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().selectionCursor, position, viewport.getWorldHeight() / 3);
         } else {
             Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().selectionCursor, viewport.getWorldWidth() / 4, position);
         }
+        batch.end();
     }
 
+    public void dispose() { batch.dispose(); }
     public ExtendViewport getViewport() { return viewport; }
     public float getPosition() { return position; }
 }

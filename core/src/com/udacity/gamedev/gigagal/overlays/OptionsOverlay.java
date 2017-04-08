@@ -20,8 +20,9 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public final class OptionsOverlay {
 
     // fields
-    public final static String TAG = VictoryOverlay.class.getName();
-    private final Viewport viewport;
+    public final static String TAG = OptionsOverlay.class.getName();
+    private final SpriteBatch batch;
+    private final ExtendViewport viewport;
     private CursorOverlay cursor;
     private final BitmapFont font;
     private ScreenAdapter screenAdapter;
@@ -34,6 +35,7 @@ public final class OptionsOverlay {
     public OptionsOverlay(ScreenAdapter screenAdapter) {
         this.screenAdapter = screenAdapter;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+        this.batch = new SpriteBatch();
         cursor = new CursorOverlay(73, 28, Enums.Orientation.Y);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.4f);
@@ -49,14 +51,14 @@ public final class OptionsOverlay {
         }
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
 
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
         if (!debugMode) {
-            cursor.render(batch);
+            cursor.render();
             cursor.update();
         }
 
@@ -95,7 +97,7 @@ public final class OptionsOverlay {
         batch.end();
     }
 
-    public void dispose() { font.dispose(); }
+    public void dispose() { font.dispose(); batch.dispose(); }
     public final Viewport getViewport() { return viewport; }
     public final CursorOverlay getCursor() { return cursor; }
     public void setDebugMode(boolean mode) { debugMode = mode; }

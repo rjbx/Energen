@@ -12,8 +12,9 @@ public class ControlsOverlay {
     // fields
     public static final String TAG = ControlsOverlay.class.getName();
     private static ControlsOverlay INSTANCE = new ControlsOverlay();
+    private SpriteBatch batch;
     private InputControls inputControls;
-    public Viewport viewport;
+    private Viewport viewport;
     public boolean onMobile;
 
     // non-instantiable; cannot be subclassed
@@ -26,9 +27,10 @@ public class ControlsOverlay {
         this.viewport = new ExtendViewport(
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE,
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE);
+        this.batch = new SpriteBatch();
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         if (onMobile) {
             viewport.apply();
             batch.setProjectionMatrix(viewport.getCamera().combined);
@@ -107,6 +109,8 @@ public class ControlsOverlay {
                 Constants.POSITION_DIAMETER
         );
     }
+
+    public void dispose() { batch.dispose(); }
 
     public final Viewport getViewport() { return viewport; }
 }

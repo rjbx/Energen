@@ -12,18 +12,22 @@ import com.udacity.gamedev.gigagal.util.Enums;
 
 public class MessageOverlay {
 
-    private final Viewport viewport;
+    // fields
+    public final static String TAG = MessageOverlay.class.getName();
+    private final SpriteBatch batch;
+    private final ExtendViewport viewport;
     private final BitmapFont font;
     private String messageString;
 
     public MessageOverlay(String messageString) {
+        this.batch = new SpriteBatch();
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.25f);
         this.messageString = messageString;
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
@@ -33,7 +37,7 @@ public class MessageOverlay {
         batch.end();
     }
 
-    public void dispose() { font.dispose(); }
+    public void dispose() { font.dispose(); batch.dispose(); }
 
     public Viewport getViewport() { return viewport; }
 

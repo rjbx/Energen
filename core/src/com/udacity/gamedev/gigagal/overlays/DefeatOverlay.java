@@ -12,15 +12,17 @@ import com.udacity.gamedev.gigagal.util.Constants;
 public final class DefeatOverlay {
 
     // fields
-    public final Viewport viewport;
-    final BitmapFont font;
+    public final static String TAG = DefeatOverlay.class.getName();
+    private final SpriteBatch batch;
+    private final Viewport viewport;
+    private final BitmapFont font;
  //   Array<Zoomba> enemies;
  //   long startTime;
 
     // ctor
     public DefeatOverlay() {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-
+        this.batch = new SpriteBatch();
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(1);
     }
@@ -46,7 +48,7 @@ public final class DefeatOverlay {
     */
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
 
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
@@ -67,7 +69,7 @@ public final class DefeatOverlay {
         batch.end();
     }
 
-    public void dispose() { font.dispose(); }
+    public void dispose() { font.dispose(); batch.dispose(); }
 
     public Viewport getViewport() { return viewport; }
 }

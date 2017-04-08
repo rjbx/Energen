@@ -17,7 +17,9 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public class IndicatorHud {
 
     // fields
-    private final Viewport viewport;
+    public final static String TAG = IndicatorHud.class.getName();
+    private final SpriteBatch batch;
+    private final ExtendViewport viewport;
     private final BitmapFont font;
     private final Level level;
     private final GigaGal gigaGal;
@@ -27,6 +29,7 @@ public class IndicatorHud {
     public IndicatorHud(Level level) {
         this.level = level;
         this.gigaGal = level.getGigaGal();
+        this.batch = new SpriteBatch();
         this.viewport = new ExtendViewport(
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE,
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE);
@@ -34,7 +37,7 @@ public class IndicatorHud {
         font.getData().setScale(.75f);
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
@@ -121,7 +124,7 @@ public class IndicatorHud {
         batch.end();
     }
 
-    public void dispose() { font.dispose(); }
+    public void dispose() { font.dispose(); batch.dispose(); }
 
     public final Viewport getViewport() { return viewport; }
 }

@@ -14,12 +14,15 @@ import com.udacity.gamedev.gigagal.util.Utils;
 public final class LaunchOverlay {
 
     // fields
-    public final Viewport viewport;
+    public final static String TAG = LaunchOverlay.class.getName();
+    private final SpriteBatch batch;
+    private final ExtendViewport viewport;
     private final Vector2 logoOffset;
     final BitmapFont font;
 
     // ctor
     public LaunchOverlay() {
+        this.batch = new SpriteBatch();
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         logoOffset = new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
@@ -29,7 +32,7 @@ public final class LaunchOverlay {
     public void init() {
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
 
         viewport.apply();
         final Vector2 logoPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .625f);
@@ -41,7 +44,7 @@ public final class LaunchOverlay {
         batch.end();
     }
 
-    public void dispose() { font.dispose(); }
+    public void dispose() { font.dispose(); batch.dispose(); }
 
     public Viewport getViewport() { return viewport; }
 }
