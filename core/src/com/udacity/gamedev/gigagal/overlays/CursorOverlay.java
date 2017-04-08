@@ -55,19 +55,16 @@ public class CursorOverlay {
         }
     }
 
-    public void render() {
+    public void render(SpriteBatch batch) {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
-        batch.begin();
         if (orientation == Enums.Orientation.X) {
             Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().selectionCursor, position, viewport.getWorldHeight() / 3);
         } else {
             Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().selectionCursor, viewport.getWorldWidth() / 4, position);
         }
-        batch.end();
     }
 
-    public void dispose() { batch.dispose(); }
     public ExtendViewport getViewport() { return viewport; }
     public float getPosition() { return position; }
 }

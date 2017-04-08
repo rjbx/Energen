@@ -51,7 +51,7 @@ public final class PauseOverlay {
         batch.begin();
 
         if (gameplayScreen.getChaseCam().getFollowing()) {
-            cursor.render();
+            cursor.render(batch);
             cursor.update();
             String stats =
                     Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +
@@ -82,7 +82,7 @@ public final class PauseOverlay {
         batch.end();
     }
 
-    public void dispose() { font.dispose(); inactiveFont.dispose(); batch.dispose(); }
+    public void dispose() { font.dispose(); inactiveFont.dispose(); batch.dispose();}
 
     public final Viewport getViewport() { return viewport; }
     public final CursorOverlay getCursor() { return cursor; }

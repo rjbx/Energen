@@ -132,7 +132,7 @@ public final class StartScreen extends ScreenAdapter {
                     title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
                     text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, 45, 0, Align.center, false);
                     if (continuing) {
-                        cursorOverlay.render();
+                        cursorOverlay.render(batch);
                         cursorOverlay.update();
                         text.draw(batch, "ERASE GAME", viewport.getWorldWidth() / 2, 30, 0, Align.center, false);
                     }
@@ -205,11 +205,9 @@ public final class StartScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         inputControls.clearAll();
-        cursorOverlay.dispose();
         launchOverlay.dispose();
         optionsOverlay.dispose();
         promptOverlay.dispose();
-        controlsOverlay.dispose();
         text.dispose();
         title.dispose();
         batch.dispose();

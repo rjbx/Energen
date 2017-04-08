@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
+import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Enums;
 
@@ -30,8 +31,8 @@ public final class GigaGalGame extends Game {
 
     @Override
     public void dispose() {
-        startScreen.dispose();
         prefs = null;
+        ControlsOverlay.getInstance().dispose();
         Assets.getInstance().dispose();
         super.dispose();
     }

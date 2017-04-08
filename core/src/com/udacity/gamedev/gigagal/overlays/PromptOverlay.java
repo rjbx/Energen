@@ -36,7 +36,7 @@ public class PromptOverlay {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
-        cursor.render();
+        cursor.render(batch);
         cursor.update();
 
         font.draw(batch, promptString, viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .75f, 0, Align.center, false);

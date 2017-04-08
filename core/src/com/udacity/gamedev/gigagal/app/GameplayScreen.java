@@ -333,7 +333,6 @@ public class GameplayScreen extends ScreenAdapter {
         totalTime = null;
         victoryOverlay.dispose();
         defeatOverlay.dispose();
-        controlsOverlay.dispose();
         pauseOverlay.dispose();
         optionsOverlay.dispose();
         indicatorHud.dispose();

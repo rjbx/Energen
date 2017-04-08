@@ -110,7 +110,7 @@ public class ControlsOverlay {
         );
     }
 
-    public void dispose() { batch.dispose(); }
+    public void dispose() { batch.dispose();}
 
     public final Viewport getViewport() { return viewport; }
 }

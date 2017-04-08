@@ -58,7 +58,7 @@ public final class OptionsOverlay {
         batch.begin();
 
         if (!debugMode) {
-            cursor.render();
+            cursor.render(batch);
             cursor.update();
         }
 

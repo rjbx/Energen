@@ -35,10 +35,10 @@ public final class LaunchOverlay {
     public void render() {
 
         viewport.apply();
-        final Vector2 logoPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .625f);
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
+        final Vector2 logoPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .625f);
         font.draw(batch, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, 0, Align.center, false);
         Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().logo, logoPosition, logoOffset, .375f);
         batch.end();

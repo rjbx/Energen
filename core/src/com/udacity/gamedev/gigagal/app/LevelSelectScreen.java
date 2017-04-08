@@ -40,6 +40,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private CursorOverlay cursorOverlay;
     private OptionsOverlay optionsOverlay;
     private MessageOverlay messageOverlay;
+    private ControlsOverlay controlsOverlay;
     private Array<Float> namePositions;
     private Array<Enums.LevelName> completedLevels;
     private List<Enums.LevelName> levelTypes;
@@ -49,7 +50,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private int index;
     private GameplayScreen gameplayScreen;
     private com.udacity.gamedev.gigagal.app.InputControls inputControls;
-    private ControlsOverlay controlsOverlay;
     private boolean optionsVisible;
     private boolean messageVisible;
 
@@ -114,7 +114,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         if (!optionsVisible) {
             viewport.apply();
             batch.begin();
-            cursorOverlay.render();
+            cursorOverlay.render(batch);
             cursorOverlay.update();
 
             while (iterator.hasNext()) {
@@ -192,7 +192,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void dispose() {
         inputControls.clearAll();
         optionsOverlay.dispose();
-        cursorOverlay.dispose();
         messageOverlay.dispose();
         font.dispose();
         batch.dispose();
