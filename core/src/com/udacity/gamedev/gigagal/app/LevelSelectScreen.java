@@ -186,9 +186,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
+        iterator.remove();
         completedLevels.clear();
         levelTypes.clear();
-        iterator.remove();
         inputControls.clearAll();
         optionsOverlay.dispose();
         messageOverlay.dispose();
