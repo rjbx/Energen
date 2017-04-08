@@ -283,6 +283,14 @@ public class Level {
         explosions.clear();
         boss.dispose();
         gigaGal.dispose();
+        indestructibles = null;
+        destructibles = null;
+        hazards = null;
+        grounds = null;
+        ammoList = null;
+        explosions = null;
+        boss = null;
+        gigaGal = null;
     }
 
     // Getters

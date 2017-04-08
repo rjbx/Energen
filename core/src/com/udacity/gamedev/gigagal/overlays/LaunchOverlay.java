@@ -15,10 +15,10 @@ public final class LaunchOverlay {
 
     // fields
     public final static String TAG = LaunchOverlay.class.getName();
-    private final SpriteBatch batch;
-    private final ExtendViewport viewport;
-    private final Vector2 logoOffset;
-    private final BitmapFont font;
+    private final SpriteBatch batch; // class-level instantiation
+    private final ExtendViewport viewport; // class-level instantiation
+    private final Vector2 logoOffset; // class-level instantiation
+    private final BitmapFont font; // class-level instantiation
 
     // ctor
     public LaunchOverlay() {

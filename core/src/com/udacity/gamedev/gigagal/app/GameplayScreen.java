@@ -125,13 +125,13 @@ public class GameplayScreen extends ScreenAdapter {
             chaseCam.update(delta);
         }
 
-        renderLevelEndOverlays();
         if (level.gigaGalFailed()) {
             if (gigaGal.getLives() > -1) {
                 restartLevel();
             }
         }
 
+        renderLevelEndOverlays();
         if (!levelEnded) {
             if (paused) {
                 if (!optionsVisible) {
@@ -193,7 +193,10 @@ public class GameplayScreen extends ScreenAdapter {
             gaugeHud.render();
             indicatorHud.render();
             controlsOverlay.render();
+        } else {
+            return;
         }
+
         if (level.getLoadEx()) {
             messageOverlay.setMessage(Constants.LEVEL_KEY_MESSAGE);
             messageOverlay.render();
@@ -309,10 +312,9 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
+        totalTime.stop();
         completedLevels.clear();
         inputControls.clear();
-        totalTime.stop();
-        totalTime = null;
         victoryOverlay.dispose();
         defeatOverlay.dispose();
         pauseOverlay.dispose();
@@ -322,15 +324,26 @@ public class GameplayScreen extends ScreenAdapter {
         gaugeHud.dispose();
         batch.dispose();
         level.dispose();
-        System.gc();
+        totalTime = null;
+        completedLevels = null;
+        inputControls = null;
+        totalTime = null;
+        victoryOverlay = null;
+        defeatOverlay = null;
+        pauseOverlay = null;
+        optionsOverlay = null;
+        indicatorHud = null;
+        messageOverlay = null;
+        gaugeHud = null;
+        batch = null;
+        level = null;
+        this.hide();
         super.dispose();
+        System.gc();
     }
 
     public Level getLevel() { return level; }
-    public Enums.LevelName getLevelName() { return levelName; }
     public int getTotalScore() { return totalScore; }
     public Timer getTotalTime() { return totalTime; }
     public ChaseCam getChaseCam() { return chaseCam; }
-
-    public void setGame(GigaGalGame game) { this.game = game;  }
 }

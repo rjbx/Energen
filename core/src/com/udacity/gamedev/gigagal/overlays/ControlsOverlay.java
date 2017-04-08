@@ -13,9 +13,9 @@ public class ControlsOverlay {
     // fields
     public static final String TAG = ControlsOverlay.class.getName();
     private static final ControlsOverlay INSTANCE = new ControlsOverlay();
-    private SpriteBatch batch;
-    private InputControls inputControls;
-    private Viewport viewport;
+    private SpriteBatch batch; // class-level instantiation
+    private static InputControls inputControls;
+    private Viewport viewport; // class-level instantiation
     public boolean onMobile;
 
     // non-instantiable; cannot be subclassed

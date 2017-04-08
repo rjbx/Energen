@@ -14,9 +14,9 @@ public class Protrusion implements IndestructibleHazard {
     // fields
     private Vector2 position;
     private Enums.WeaponType type;
-    private Vector2 collisionSpan;
-    private Vector2 center;
-    private Vector2 knockback;
+    private Vector2 collisionSpan; // class-level instantiation
+    private Vector2 center; // class-level instantiation
+    private Vector2 knockback; // class-level instantiation
     private int damage;
     private long startTime;
 

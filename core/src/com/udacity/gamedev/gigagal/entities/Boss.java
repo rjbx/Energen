@@ -34,22 +34,22 @@ public class Boss implements Humanoid, Hazard  {
     private float right;
     private float top;
     private float bottom;
-    private Rectangle bounds;
-    private Vector2 position;
-    private Vector2 previousFramePosition;
+    private Rectangle bounds; // class-level instantiation
+    private Vector2 position; // class-level instantiation
+    private Vector2 previousFramePosition; // class-level instantiation
     private Vector2 spawnPosition;
-    private Vector3 chaseCamPosition;
-    private Vector2 velocity;
+    private Vector3 chaseCamPosition; // class-level instantiation
+    private Vector2 velocity; // class-level instantiation
     private Enums.Direction directionX;
     private Enums.Direction directionY;
-    private TextureRegion region;
+    private TextureRegion region; // class-level instantiation
     private Enums.Action action;
     private Enums.GroundState groundState;
-    private Ground touchedGround;
+    private Ground touchedGround; // class-level instantiation
     private Enums.AmmoIntensity ammoIntensity;
     private Enums.WeaponType weapon;
-    private List<Enums.WeaponType> weaponList;
-    private ListIterator<Enums.WeaponType> weaponToggler;
+    private List<Enums.WeaponType> weaponList; // class-level instantiation
+    private ListIterator<Enums.WeaponType> weaponToggler; // class-level instantiation
     private boolean onRideable;
     private boolean onSkateable;
     private boolean onUnbearable;

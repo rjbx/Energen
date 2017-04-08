@@ -192,7 +192,16 @@ public final class LevelSelectScreen extends ScreenAdapter {
         messageOverlay.dispose();
         font.dispose();
         batch.dispose();
-        System.gc();
+        iterator = null;
+        completedLevels = null;
+        levelTypes = null;
+        inputControls = null;
+        optionsOverlay = null;
+        messageOverlay = null;
+        font = null;
+        batch = null;
+        this.hide();
         super.dispose();
+        System.gc();
     }
 }

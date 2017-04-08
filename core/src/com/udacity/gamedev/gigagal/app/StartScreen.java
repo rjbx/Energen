@@ -201,7 +201,16 @@ public final class StartScreen extends ScreenAdapter {
         text.dispose();
         title.dispose();
         batch.dispose();
-        System.gc();
+        choices = null;
+        inputControls = null;
+        launchOverlay = null;
+        optionsOverlay = null;
+        promptOverlay = null;
+        text = null;
+        title = null;
+        batch = null;
+        this.hide();
         super.dispose();
+        System.gc();
     }
 }

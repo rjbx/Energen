@@ -18,9 +18,9 @@ public class IndicatorHud {
 
     // fields
     public final static String TAG = IndicatorHud.class.getName();
-    private final SpriteBatch batch;
-    private final ExtendViewport viewport;
-    private final BitmapFont font;
+    private final SpriteBatch batch; // class-level instantiation
+    private final ExtendViewport viewport; // class-level instantiation
+    private final BitmapFont font; // class-level instantiation
     private final Level level;
     private final GigaGal gigaGal;
 
@@ -96,9 +96,8 @@ public class IndicatorHud {
         drawPosition = new Vector2(viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN - 7);
         Enums.WeaponType weapon = gigaGal.getWeapon();
         Enums.AmmoIntensity intensity = gigaGal.getAmmoIntensity();
-        final Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, false);
+        Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, false);
         ammo.update(1);
-        final TextureRegion weaponIcon = new TextureRegion(ammo.getTexture());
         Vector2 offset = new Vector2();
         switch (intensity) {
             case SHOT:
@@ -113,7 +112,7 @@ public class IndicatorHud {
                 offset.set(Constants.SHOT_CENTER);
                 offset.scl(Constants.AMMO_ICON_SCALE);
         }
-        Utils.drawTextureRegion(batch, weaponIcon, drawPosition, offset, Constants.AMMO_ICON_SCALE);
+        Utils.drawTextureRegion(batch, ammo.getTexture(), drawPosition, offset, Constants.AMMO_ICON_SCALE);
 
         final String scoreString = level.getLevelScore() + "";
         final String timerString = Utils.stopWatchToString(level.getLevelTime());

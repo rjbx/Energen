@@ -11,7 +11,7 @@ public class Box implements SolidGround {
 
     // fields
     private final Enums.LevelName type;
-    private final Vector2 position;
+    private final Vector2 position; // class-level instantiation
     private final float top;
     private final float bottom;
     private final float left;

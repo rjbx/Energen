@@ -14,18 +14,19 @@ public final class Ammo implements IndestructibleHazard {
 
     // fields
     public final static String TAG = Ammo.class.getName();
+
     private final Level level;
-    private int damage;
-    private Vector2 knockback;
-    private final AmmoIntensity ammoIntensity;
-    private final WeaponType weapon;
+    private final Vector2 position;
     private final Direction direction;
     private final Orientation orientation;
-    private final Vector2 position;
+    private final AmmoIntensity ammoIntensity;
+    private final WeaponType weapon;
+    private int damage;
     private final float radius;
     private final boolean fromGigagal;
-    private TextureRegion region;
     private boolean active;
+    private Vector2 knockback; // class-level instantiation
+    private TextureRegion region; // class-level instantiation
 
     // ctor
     public Ammo(Level level, Vector2 position, Direction direction, Orientation orientation, AmmoIntensity ammoIntensity, WeaponType weapon, boolean fromGigagal) {

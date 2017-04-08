@@ -20,11 +20,11 @@ public final class OptionsOverlay {
 
     // fields
     public final static String TAG = OptionsOverlay.class.getName();
-    private final SpriteBatch batch;
-    private final ExtendViewport viewport;
-    private final BitmapFont font;
+    private final SpriteBatch batch; // class-level instantiation
+    private final ExtendViewport viewport; // class-level instantiation
+    private final BitmapFont font; // class-level instantiation
     private final ScreenAdapter screenAdapter;
-    private CursorOverlay cursor;
+    private CursorOverlay cursor; // class-level instantiation
     private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
     private boolean paused;

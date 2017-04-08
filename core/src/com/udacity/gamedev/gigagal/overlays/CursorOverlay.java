@@ -9,11 +9,11 @@ public class CursorOverlay {
 
     // fields
     public final static String TAG = CursorOverlay.class.getName();
-    private final ExtendViewport viewport;
+    private final ExtendViewport viewport; // class-level instantiation
     private final Enums.Orientation orientation;
     private final float startingPosition;
     private final float endingPosition;
-    private final InputControls inputControls;
+    private static InputControls inputControls;
     private float position;
 
     // ctor

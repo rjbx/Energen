@@ -14,8 +14,8 @@ public class Lift implements HoverableGround {
     private Vector2 position;
     private Enums.Direction direction;
     private Enums.Orientation orientation;
-    private Vector2 velocity;
-    private final Vector2 startPosition;
+    private Vector2 velocity; // class-level instantiation
+    private final Vector2 startPosition; // class-level instantiation
     private float range;
 
     // ctor

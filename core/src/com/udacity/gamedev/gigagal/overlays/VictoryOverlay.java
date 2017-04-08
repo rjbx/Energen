@@ -16,9 +16,9 @@ public final class VictoryOverlay {
     // fields
     public final static String TAG = VictoryOverlay.class.getName();
     private final GameplayScreen gameplayScreen;
-    private final SpriteBatch batch;
-    private final ExtendViewport viewport;
-    private final BitmapFont font;
+    private final SpriteBatch batch; // class-level instantiation
+    private final ExtendViewport viewport; // class-level instantiation
+    private final BitmapFont font; // class-level instantiation
 
     // default ctor
     public VictoryOverlay(GameplayScreen gameplayScreen) {

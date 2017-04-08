@@ -19,11 +19,11 @@ public final class PauseOverlay {
     // fields
     public final static String TAG = PauseOverlay.class.getName();
     private final GameplayScreen gameplayScreen;
-    private final SpriteBatch batch;
-    private final Viewport viewport;
-    private final BitmapFont font;
-    private final BitmapFont inactiveFont;
-    private final CursorOverlay cursor;
+    private final SpriteBatch batch; // class-level instantiation
+    private final Viewport viewport; // class-level instantiation
+    private final BitmapFont font; // class-level instantiation
+    private final BitmapFont inactiveFont; // class-level instantiation
+    private final CursorOverlay cursor; // class-level instantiation
     private GigaGal gigaGal;
     private boolean canToggle;
 

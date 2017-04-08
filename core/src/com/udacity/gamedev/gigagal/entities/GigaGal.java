@@ -38,22 +38,22 @@ public class GigaGal implements Humanoid {
     private float right;
     private float top;
     private float bottom;
-    private Rectangle bounds;
-    private Vector2 position;
-    private Vector2 previousFramePosition;
+    private Rectangle bounds; // class-level instantiation
+    private Vector2 position; // class-level instantiation
+    private Vector2 previousFramePosition; // class-level instantiation
     private Vector2 spawnPosition;
-    private Vector3 chaseCamPosition;
-    private Vector2 velocity;
+    private Vector3 chaseCamPosition; // class-level instantiation
+    private Vector2 velocity; // class-level instantiation
     private Direction directionX;
     private Direction directionY;
-    private TextureRegion region;
+    private TextureRegion region; // class-level instantiation
     private Action action;
     private GroundState groundState;
-    private Ground touchedGround;
+    private Ground touchedGround; // class-level instantiation
     private AmmoIntensity ammoIntensity;
     private WeaponType weapon;
-    private List<WeaponType> weaponList;
-    private ListIterator<WeaponType> weaponToggler;
+    private List<WeaponType> weaponList; // class-level instantiation
+    private ListIterator<WeaponType> weaponToggler; // class-level instantiation
     private boolean onRideable;
     private boolean onSkateable;
     private boolean onUnbearable;

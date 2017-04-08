@@ -13,9 +13,9 @@ public final class DefeatOverlay {
 
     // fields
     public final static String TAG = DefeatOverlay.class.getName();
-    private final SpriteBatch batch;
-    private final Viewport viewport;
-    private final BitmapFont font;
+    private final SpriteBatch batch; // class-level instantiation
+    private final Viewport viewport; // class-level instantiation
+    private final BitmapFont font; // class-level instantiation
  //   Array<Zoomba> enemies;
  //   long startTime;
 

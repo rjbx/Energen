@@ -19,10 +19,10 @@ public class Rollen implements DestructibleHazard {
     // fields
     private Level level;
     private Vector2 position;
-    private Vector2 previousFramePosition;
+    private Vector2 previousFramePosition; // class-level instantiation
     private Enums.Direction xDirection;
     private Enums.WeaponType type;
-    private Vector2 velocity;
+    private Vector2 velocity; // class-level instantiation
     private long startTime;
     private float health;
     private float speedAtChangeXDirection;

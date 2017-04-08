@@ -12,9 +12,9 @@ import com.udacity.gamedev.gigagal.util.Constants;
 public final class GaugeHud {
 
     // fields
-    private final ExtendViewport viewport;
+    private final ExtendViewport viewport; // class-level instantiation
     private final GigaGal gigaGal;
-    private final ShapeRenderer renderer;
+    private final ShapeRenderer renderer; // class-level instantiation
     private float flickerFrequency;
 
     // default ctor

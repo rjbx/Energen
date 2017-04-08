@@ -20,7 +20,7 @@ public class Orben implements DestructibleHazard {
     private Enums.Direction xDirection;
     private Enums.Direction yDirection;
     private Enums.WeaponType type;
-    private Vector2 velocity;
+    private Vector2 velocity; // class-level instantiation
     private long startTime;
     private float health;
     private boolean active;

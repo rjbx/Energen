@@ -12,9 +12,9 @@ public class MessageOverlay {
 
     // fields
     public final static String TAG = MessageOverlay.class.getName();
-    private final SpriteBatch batch;
-    private final ExtendViewport viewport;
-    private final BitmapFont font;
+    private final SpriteBatch batch; // class-level instantiation
+    private final ExtendViewport viewport; // class-level instantiation
+    private final BitmapFont font; // class-level instantiation
     private String messageString;
 
     public MessageOverlay(String messageString) {

@@ -14,10 +14,10 @@ public class PromptOverlay {
 
     // fields
     public final static String TAG = PromptOverlay.class.getName();
-    private final SpriteBatch batch;
-    private final ExtendViewport viewport;
-    private final CursorOverlay cursor;
-    private final BitmapFont font;
+    private final SpriteBatch batch; // class-level instantiation
+    private final ExtendViewport viewport; // class-level instantiation
+    private final CursorOverlay cursor; // class-level instantiation
+    private final BitmapFont font; // class-level instantiation
     private String promptString;
     private Array<String> choicesStrings;
 

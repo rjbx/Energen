@@ -19,10 +19,9 @@ public class Swoopa implements DestructibleHazard {
     private final long startTime;
     private final float bobOffset;
     private Level level;
-    private Vector2 velocity;
+    private Vector2 velocity; // class-level instantiation
     private Vector2 position;
     private Enums.WeaponType type;
-    private final Vector2 startingPosition;
     private float health;
     private long descentStartTime;
 
@@ -31,7 +30,6 @@ public class Swoopa implements DestructibleHazard {
         this.level = level;
         this.position = position;
         this.type = type;
-        startingPosition = new Vector2(position);
         velocity = new Vector2();
         startTime = TimeUtils.nanoTime();
         descentStartTime = 0;
