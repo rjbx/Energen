@@ -1,6 +1,7 @@
 package com.udacity.gamedev.gigagal.overlays;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.*;
@@ -110,8 +111,7 @@ public class ControlsOverlay {
         );
     }
 
-    public void dispose() { batch.dispose();}
+    public void dispose() { batch.dispose(); }
 
     public final Viewport getViewport() { return viewport; }
 }
-

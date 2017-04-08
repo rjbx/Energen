@@ -3,14 +3,10 @@ package com.udacity.gamedev.gigagal.overlays;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.GameplayScreen;
-import com.udacity.gamedev.gigagal.entities.Impact;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
@@ -23,7 +19,6 @@ public final class VictoryOverlay {
     private final SpriteBatch batch;
     private final ExtendViewport viewport;
     private final BitmapFont font;
-    private Array<Impact> explosions;
 
     // default ctor
     public VictoryOverlay(GameplayScreen gameplayScreen) {
@@ -32,25 +27,12 @@ public final class VictoryOverlay {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(.4f);
-        explosions = new Array<Impact>(Constants.EXPLOSION_COUNT);
-        for (int i = 0; i < Constants.EXPLOSION_COUNT; i++) {
-            Impact impact = new Impact(new Vector2(
-                    MathUtils.random(viewport.getWorldWidth()),
-                    MathUtils.random(viewport.getWorldHeight())
-            ), gameplayScreen.getLevel().getType());
-            impact.setOffset(Math.abs(MathUtils.random(Constants.LEVEL_END_DURATION)));
-
-            explosions.add(impact);
-        }
     }
 
     public void render() {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
-        for (Impact impact : explosions) {
-            impact.render(batch);
-        }
 
         final String levelTime = Utils.stopWatchToString(gameplayScreen.getLevel().getLevelTime());
         final String totalTime = Utils.stopWatchToString(gameplayScreen.getTotalTime());
@@ -62,7 +44,7 @@ public final class VictoryOverlay {
         batch.end();
     }
 
-    public void dispose() { explosions.clear(); font.dispose(); batch.dispose(); }
+    public void dispose() { font.dispose(); batch.dispose(); }
 
     public final Viewport getViewport() { return viewport; }
 }

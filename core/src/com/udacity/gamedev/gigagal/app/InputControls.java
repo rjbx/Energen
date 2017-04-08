@@ -289,7 +289,7 @@ public class InputControls extends InputAdapter {
         }
     }
     
-    public void clearAll() {
+    public void clear() {
          leftButtonPressed = false;
          rightButtonPressed = false;
          upButtonPressed = false;

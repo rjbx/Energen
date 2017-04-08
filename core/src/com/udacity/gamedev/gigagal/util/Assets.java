@@ -744,7 +744,7 @@ public final class Assets implements Disposable, AssetErrorListener {
     public class ImpactAssets {
 
         public final Animation impactPlasma;
-        public final Animation impactGas;
+        public final Animation impact;
         public final Animation impactLiquid;
         public final Animation impactSolid;
         public final Animation impactPsychic;
@@ -766,7 +766,7 @@ public final class Assets implements Disposable, AssetErrorListener {
             impactGasRegions.add(atlas.findRegion(Constants.IMPACT_GAS_MEDIUM));
             impactGasRegions.add(atlas.findRegion(Constants.IMPACT_GAS_SMALL));
 
-            impactGas = new Animation(Constants.IMPACT_DURATION / impactGasRegions.size,
+            impact = new Animation(Constants.IMPACT_DURATION / impactGasRegions.size,
                     impactGasRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> impactLiquidRegions = new Array<AtlasRegion>();

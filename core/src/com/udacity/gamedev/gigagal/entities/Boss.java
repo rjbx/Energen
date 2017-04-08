@@ -1176,4 +1176,9 @@ public class Boss implements Humanoid, Hazard  {
     // Setters
     public void setDirectionX(Enums.Direction direction) { this.directionX = direction; }
     public void setDirectionY(Enums.Direction direction) { this.directionY = direction; }
+
+    public void dispose() {
+        weaponToggler.remove();
+        weaponList.clear();
+    }
 }

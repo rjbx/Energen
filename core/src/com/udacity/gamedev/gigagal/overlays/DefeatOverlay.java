@@ -27,8 +27,8 @@ public final class DefeatOverlay {
         font.getData().setScale(1);
     }
 
-    public void init() {
-     /*   startTime = TimeUtils.nanoTime();
+    /*public void init() {
+        startTime = TimeUtils.nanoTime();
 
         enemies = new Array<Zoomba>(Constants.ZOOMBA_COUNT);
 
@@ -45,8 +45,7 @@ public final class DefeatOverlay {
 
 
         }
-    */
-    }
+    }*/
 
     public void render() {
 

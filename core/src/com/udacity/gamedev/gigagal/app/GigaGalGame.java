@@ -31,6 +31,7 @@ public final class GigaGalGame extends Game {
         prefs = null;
         ControlsOverlay.getInstance().dispose();
         Assets.getInstance().dispose();
+        System.gc();
         super.dispose();
     }
 

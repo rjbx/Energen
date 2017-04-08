@@ -194,13 +194,14 @@ public final class StartScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         choices.clear();
-        inputControls.clearAll();
+        inputControls.clear();
         launchOverlay.dispose();
         optionsOverlay.dispose();
         promptOverlay.dispose();
         text.dispose();
         title.dispose();
         batch.dispose();
+        System.gc();
         super.dispose();
     }
 }

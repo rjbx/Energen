@@ -274,6 +274,17 @@ public class Level {
         explosions.add(new Impact(position, type));
     }
 
+    public void dispose() {
+        indestructibles.clear();
+        destructibles.clear();
+        hazards.clear();
+        grounds.clear();
+        ammoList.clear();
+        explosions.clear();
+        boss.dispose();
+        gigaGal.dispose();
+    }
+
     // Getters
     public final Array<Box> getBoxes() { return boxes; }
     public final Array<IndestructibleHazard> getIndestructibles() { return indestructibles; }

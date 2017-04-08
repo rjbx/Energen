@@ -17,7 +17,6 @@ public class Impact implements Entity {
     private final Vector2 position;
     private final Enums.WeaponType type;
     private final long startTime;
-    private float offset = 0;
 
     // ctor
     public Impact(Vector2 position, Enums.WeaponType type) {
@@ -31,30 +30,30 @@ public class Impact implements Entity {
         TextureRegion region;
         switch (type) {
             case PLASMA:
-                region = Assets.getInstance().getImpactAssets().impactPlasma.getKeyFrame(Utils.secondsSince(startTime) + offset);
+                region = Assets.getInstance().getImpactAssets().impactPlasma.getKeyFrame(Utils.secondsSince(startTime));
                 break;
             case GAS:
-                region = Assets.getInstance().getImpactAssets().impactGas.getKeyFrame(Utils.secondsSince(startTime) + offset);
+                region = Assets.getInstance().getImpactAssets().impact.getKeyFrame(Utils.secondsSince(startTime));
                 break;
             case LIQUID:
-                region = Assets.getInstance().getImpactAssets().impactLiquid.getKeyFrame(Utils.secondsSince(startTime) + offset);
+                region = Assets.getInstance().getImpactAssets().impactLiquid.getKeyFrame(Utils.secondsSince(startTime));
                 break;
             case SOLID:
-                region = Assets.getInstance().getImpactAssets().impactSolid.getKeyFrame(Utils.secondsSince(startTime) + offset);
+                region = Assets.getInstance().getImpactAssets().impactSolid.getKeyFrame(Utils.secondsSince(startTime));
                 break;
             case ANTIMATTER:
-                region = Assets.getInstance().getImpactAssets().impactPsychic.getKeyFrame(Utils.secondsSince(startTime) + offset);
+                region = Assets.getInstance().getImpactAssets().impactPsychic.getKeyFrame(Utils.secondsSince(startTime));
                 break;
             case HYBRID:
-                region = Assets.getInstance().getImpactAssets().impactHybrid.getKeyFrame(Utils.secondsSince(startTime) + offset);
+                region = Assets.getInstance().getImpactAssets().impactHybrid.getKeyFrame(Utils.secondsSince(startTime));
                 break;
             case NATIVE:
-                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Utils.secondsSince(startTime) + offset);
+                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Utils.secondsSince(startTime));
                 break;
             default:
-                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Utils.secondsSince(startTime) + offset);
+                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Utils.secondsSince(startTime));
         }
-        if (!isFinished() && !yetToStart()) {
+        if (!isFinished()) {
             Utils.drawTextureRegion(
                     batch,
                     region,
@@ -71,11 +70,5 @@ public class Impact implements Entity {
     @Override public final float getRight() { return position.x + Constants.EXPLOSION_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.EXPLOSION_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.EXPLOSION_CENTER.y; }
-    public float getOffset() { return offset; }
-    public void setOffset(float offset) { this.offset = offset; }
-    public boolean yetToStart(){ return Utils.secondsSince(startTime) - offset < 0; }
-    public boolean isFinished() {
-        float elapsedTime = Utils.secondsSince(startTime) - offset;
-        return Assets.getInstance().getImpactAssets().impactGas.isAnimationFinished(elapsedTime);
-    }
+    public boolean isFinished() { return Assets.getInstance().getImpactAssets().impact.isAnimationFinished(Utils.secondsSince(startTime)); }
 }

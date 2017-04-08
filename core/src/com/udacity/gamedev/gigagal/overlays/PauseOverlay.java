@@ -38,9 +38,6 @@ public final class PauseOverlay {
         inactiveFont.getData().setScale(0.4f);
         inactiveFont.setColor(Color.LIGHT_GRAY);
         cursor = new CursorOverlay(73, 43, Enums.Orientation.Y);
-    }
-
-    public void init() {
         gigaGal = gameplayScreen.getLevel().getGigaGal();
         canToggle = gigaGal.getGroundState() == Enums.GroundState.PLANTED;
     }

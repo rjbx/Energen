@@ -8,10 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
-import com.udacity.gamedev.gigagal.entities.Powerup;
-import com.udacity.gamedev.gigagal.entities.TurboPowerup;
 import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
 import com.udacity.gamedev.gigagal.overlays.IndicatorHud;
 import com.udacity.gamedev.gigagal.overlays.DefeatOverlay;
@@ -64,8 +61,9 @@ public class GameplayScreen extends ScreenAdapter {
     private float pauseDuration;
 
     // default ctor
-    public GameplayScreen(GigaGalGame game) {
+    public GameplayScreen(GigaGalGame game, Enums.LevelName levelName) {
         this.game = game;
+        this.levelName = levelName;
         prefs = game.getPreferences();
         completedLevels = new Array<Enums.LevelName>();
         totalTime = new Timer();
@@ -185,7 +183,6 @@ public class GameplayScreen extends ScreenAdapter {
                 level.getLevelTime().suspend();
                 totalTime.suspend();
                 paused = true;
-                pauseOverlay.init();
                 pauseTime = TimeUtils.nanoTime();
                 pauseDuration = gigaGal.getPauseTimeSeconds();
             } else {
@@ -211,7 +208,6 @@ public class GameplayScreen extends ScreenAdapter {
                 level.getLevelTime().suspend();
                 totalTime.suspend();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
-                defeatOverlay.init();
             }
 
             defeatOverlay.render();
@@ -314,7 +310,7 @@ public class GameplayScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         completedLevels.clear();
-        inputControls.clearAll();
+        inputControls.clear();
         totalTime.stop();
         totalTime = null;
         victoryOverlay.dispose();
@@ -325,14 +321,16 @@ public class GameplayScreen extends ScreenAdapter {
         messageOverlay.dispose();
         gaugeHud.dispose();
         batch.dispose();
+        level.dispose();
+        System.gc();
         super.dispose();
     }
 
     public Level getLevel() { return level; }
+    public Enums.LevelName getLevelName() { return levelName; }
     public int getTotalScore() { return totalScore; }
     public Timer getTotalTime() { return totalTime; }
     public ChaseCam getChaseCam() { return chaseCam; }
 
     public void setGame(GigaGalGame game) { this.game = game;  }
-    public void setLevelName(Enums.LevelName levelName) { this.levelName = levelName; }
 }
