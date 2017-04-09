@@ -32,13 +32,14 @@ public final class StartScreen extends ScreenAdapter {
     private static ControlsOverlay controlsOverlay;
     private com.udacity.gamedev.gigagal.app.GigaGalGame game;
     private SpriteBatch batch;
+    private ExtendViewport viewport;
+    private BitmapFont font;
+    private BitmapFont text;
+    private BitmapFont title;
     private CursorOverlay cursorOverlay;
     private OptionsOverlay optionsOverlay;
     private PromptOverlay promptOverlay;
     private LaunchOverlay launchOverlay;
-    private ExtendViewport viewport;
-    private BitmapFont text;
-    private BitmapFont title;
     private Preferences prefs;
     private Array<String> choices;
     private String prompt;
@@ -63,12 +64,7 @@ public final class StartScreen extends ScreenAdapter {
         choices = new Array<String>();
         launchStartTime = TimeUtils.nanoTime();
         launching = true;
-        continuing = false;
-        cursorOverlay = new CursorOverlay(35, 35, Enums.Orientation.Y);
-        if (prefs.getLong("Time", 0) != 0) {
-            cursorOverlay = new CursorOverlay(35, 20, Enums.Orientation.Y);
-            continuing = true;
-        }
+        continuing = (prefs.getLong("Time", 0) != 0);
         choices.add("NO");
         choices.add("YES");
         prompt = "Are you sure you want to start \na new game and erase all saved data?";
@@ -81,6 +77,10 @@ public final class StartScreen extends ScreenAdapter {
         optionsVisible = false;
         promptVisible = false;
         batch = new SpriteBatch();
+        font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays
+        font.getData().setScale(.4f); // shared by all overlays
+        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays
+        cursorOverlay = new CursorOverlay(35, 20, Enums.Orientation.Y); // shared by all overlays
         optionsOverlay = new OptionsOverlay(this);
         promptOverlay = new PromptOverlay(prompt, choices);
         launchOverlay = new LaunchOverlay();
@@ -96,6 +96,7 @@ public final class StartScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
+
         cursorOverlay.getViewport().update(width, height, true);
         controlsOverlay.getViewport().update(width, height, true);
         controlsOverlay.recalculateButtonPositions();
@@ -111,7 +112,6 @@ public final class StartScreen extends ScreenAdapter {
 
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         if (!optionsVisible) {
             if (!launching) {
                 if (!promptVisible) {
@@ -121,7 +121,7 @@ public final class StartScreen extends ScreenAdapter {
                     title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
                     text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, 45, 0, Align.center, false);
                     if (continuing) {
-                        cursorOverlay.render(batch);
+                        cursorOverlay.render(batch, viewport);
                         cursorOverlay.update();
                         text.draw(batch, "ERASE GAME", viewport.getWorldWidth() / 2, 30, 0, Align.center, false);
                     }
@@ -148,6 +148,8 @@ public final class StartScreen extends ScreenAdapter {
                 } else {
                     promptOverlay.render();
                     if (inputControls.shootButtonJustPressed) {
+                        cursorOverlay.setRange(35, 35);
+                        cursorOverlay.setOrientation(Enums.Orientation.X);
                         if (promptOverlay.getCursor().getPosition() == (150)) {
                             prefs.clear();
                             prefs.flush();
@@ -166,7 +168,7 @@ public final class StartScreen extends ScreenAdapter {
                 launching = false;
             }
         } else {
-            optionsOverlay.render();
+            optionsOverlay.render(batch, font, viewport, cursorOverlay);
             if (inputControls.shootButtonJustPressed) {
                 if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
                     optionsVisible = false;
@@ -188,7 +190,7 @@ public final class StartScreen extends ScreenAdapter {
             }
         }
         inputControls.update();
-        controlsOverlay.render();
+        controlsOverlay.render(batch, viewport);
     }
 
     @Override

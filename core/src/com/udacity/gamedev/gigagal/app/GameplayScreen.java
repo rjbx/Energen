@@ -4,12 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
+import com.udacity.gamedev.gigagal.overlays.CursorOverlay;
 import com.udacity.gamedev.gigagal.overlays.IndicatorHud;
 import com.udacity.gamedev.gigagal.overlays.DefeatOverlay;
 import com.udacity.gamedev.gigagal.overlays.GaugeHud;
@@ -45,7 +48,10 @@ public class GameplayScreen extends ScreenAdapter {
     private PauseOverlay pauseOverlay;
     private OptionsOverlay optionsOverlay;
     private MessageOverlay messageOverlay;
+    private CursorOverlay cursorOverlay;
     private SpriteBatch batch;
+    private BitmapFont font;
+    private ExtendViewport viewport;
     private long levelEndOverlayStartTime;
     private Level level;
     private ChaseCam chaseCam;
@@ -76,8 +82,11 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        batch = new SpriteBatch();
-        chaseCam = ChaseCam.getInstance();
+        batch = new SpriteBatch(); // shared by all overlays
+        font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays
+        font.getData().setScale(.4f); // shared by all overlays
+        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays
+        cursorOverlay = new CursorOverlay(0, 0, Enums.Orientation.Z); // shared by all overlays
         pauseOverlay = new PauseOverlay(this);
         optionsOverlay = new OptionsOverlay(this);
         messageOverlay = new MessageOverlay("");
@@ -85,6 +94,7 @@ public class GameplayScreen extends ScreenAdapter {
         defeatOverlay = new DefeatOverlay();
         inputControls = InputControls.getInstance();
         controlsOverlay = ControlsOverlay.getInstance();
+        chaseCam = ChaseCam.getInstance();
 
         // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
         Gdx.input.setInputProcessor(inputControls);
@@ -93,9 +103,13 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void resize(int width, int height) {
+        viewport.update(width, height, true);
+
+
         gaugeHud.getViewport().update(width, height, true);
         indicatorHud.getViewport().update(width, height, true);
-        victoryOverlay.getViewport().update(width, height, true);
+
+
         defeatOverlay.getViewport().update(width, height, true);
         pauseOverlay.getViewport().update(width, height, true);
         pauseOverlay.getCursor().getViewport().update(width, height, true);
@@ -155,7 +169,7 @@ public class GameplayScreen extends ScreenAdapter {
                         unpause();
                     }
                 } else {
-                    optionsOverlay.render();
+                    optionsOverlay.render(batch, font, viewport, cursorOverlay);
                     if (inputControls.shootButtonJustPressed) {
                         if (optionsOverlay.getCursor().getPosition() == 73) {
                             optionsVisible = false;
@@ -192,7 +206,7 @@ public class GameplayScreen extends ScreenAdapter {
             }
             gaugeHud.render();
             indicatorHud.render();
-            controlsOverlay.render();
+            controlsOverlay.render(batch, viewport);
         } else {
             return;
         }
@@ -231,7 +245,7 @@ public class GameplayScreen extends ScreenAdapter {
                 game.getPreferences().flush();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
             }
-            victoryOverlay.render();
+            victoryOverlay.render(batch, font, viewport);
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
                 levelEndOverlayStartTime = 0;
                 levelComplete();

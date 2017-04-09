@@ -89,6 +89,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
+
         cursorOverlay.getViewport().update(width, height, true);
         controlsOverlay.getViewport().update(width, height, true);
         controlsOverlay.recalculateButtonPositions();
@@ -109,7 +110,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         if (!optionsVisible) {
             viewport.apply();
             batch.begin();
-            cursorOverlay.render(batch);
+            cursorOverlay.render(batch, viewport);
             cursorOverlay.update();
 
             while (iterator.hasNext()) {
@@ -160,7 +161,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
                 }
             }
         } else {
-            optionsOverlay.render();
+            optionsOverlay.render(batch, font, viewport, cursorOverlay);
             if (inputControls.shootButtonJustPressed) {
                 if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
                     optionsVisible = false;
@@ -179,7 +180,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
             messageOverlay.render();
         }
         inputControls.update();
-        controlsOverlay.render();
+     //   controlsOverlay.render();
     }
 
     @Override

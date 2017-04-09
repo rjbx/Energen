@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal.overlays;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
@@ -47,14 +48,14 @@ public final class OptionsOverlay {
         }
     }
 
-    public void render() {
+    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, CursorOverlay cursor) {
 
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
         if (!debugMode) {
-            cursor.render(batch);
+            cursor.render(batch, viewport);
             cursor.update();
         }
 

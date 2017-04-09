@@ -20,7 +20,7 @@ public final class PauseOverlay {
     public final static String TAG = PauseOverlay.class.getName();
     private final GameplayScreen gameplayScreen;
     private final SpriteBatch batch; // class-level instantiation
-    private final Viewport viewport; // class-level instantiation
+    private final ExtendViewport viewport; // class-level instantiation
     private final BitmapFont font; // class-level instantiation
     private final BitmapFont inactiveFont; // class-level instantiation
     private final CursorOverlay cursor; // class-level instantiation
@@ -48,7 +48,7 @@ public final class PauseOverlay {
         batch.begin();
 
         if (gameplayScreen.getChaseCam().getFollowing()) {
-            cursor.render(batch);
+            cursor.render(batch, viewport);
             cursor.update();
             String stats =
                     Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" +

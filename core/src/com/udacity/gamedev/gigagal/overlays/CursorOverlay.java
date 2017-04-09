@@ -10,9 +10,9 @@ public class CursorOverlay {
     // fields
     public final static String TAG = CursorOverlay.class.getName();
     private final ExtendViewport viewport; // class-level instantiation
-    private final Enums.Orientation orientation;
-    private final float startingPosition;
-    private final float endingPosition;
+    private Enums.Orientation orientation;
+    private float startingPosition;
+    private float endingPosition;
     private static InputControls inputControls;
     private float position;
 
@@ -53,7 +53,7 @@ public class CursorOverlay {
         }
     }
 
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, ExtendViewport viewport) {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         if (orientation == Enums.Orientation.X) {
@@ -65,4 +65,6 @@ public class CursorOverlay {
 
     public ExtendViewport getViewport() { return viewport; }
     public float getPosition() { return position; }
+    public void setRange(float start, float end) { this.startingPosition = start; this.endingPosition = end; }
+    public void setOrientation(Enums.Orientation o) { this.orientation = o; }
 }

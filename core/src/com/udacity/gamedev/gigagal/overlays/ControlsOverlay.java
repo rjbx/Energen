@@ -1,7 +1,6 @@
 package com.udacity.gamedev.gigagal.overlays;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.*;
@@ -31,7 +30,7 @@ public class ControlsOverlay {
         this.batch = new SpriteBatch();
     }
 
-    public void render() {
+    public void render(SpriteBatch batch, Viewport viewport) {
         if (onMobile) {
             viewport.apply();
             batch.setProjectionMatrix(viewport.getCamera().combined);

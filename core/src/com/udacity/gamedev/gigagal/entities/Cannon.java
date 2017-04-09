@@ -14,7 +14,8 @@ public class Cannon implements Ground {
     private Vector2 position;
     private Enums.Orientation orientation;
     private Enums.AmmoIntensity intensity;
-    private Vector2 center; // class-level instantiation
+    private TextureRegion region;
+    private Vector2 center;
     private float offset;
     private long startTime;
 
@@ -26,11 +27,6 @@ public class Cannon implements Ground {
         this.intensity = intensity;
         startTime = 0;
         offset = 0;
-    }
-
-    @Override
-    public void render(SpriteBatch batch) {
-        TextureRegion region;
         switch (orientation) {
             case Y:
                 region = Assets.getInstance().getCannonAssets().yCannon;
@@ -40,9 +36,11 @@ public class Cannon implements Ground {
                 region = Assets.getInstance().getCannonAssets().xCannon;
                 center = Constants.X_CANNON_CENTER;
                 break;
-            default:
-                region = null;
         }
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
         Utils.drawTextureRegion(batch, region, position, center);
     }
 
