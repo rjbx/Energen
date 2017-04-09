@@ -47,7 +47,7 @@ public final class DefeatOverlay {
         }
     }*/
 
-    public void render() {
+    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport) {
 
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);

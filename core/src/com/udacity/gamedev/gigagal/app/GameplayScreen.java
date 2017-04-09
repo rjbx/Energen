@@ -6,6 +6,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -50,6 +51,7 @@ public class GameplayScreen extends ScreenAdapter {
     private MessageOverlay messageOverlay;
     private CursorOverlay cursorOverlay;
     private SpriteBatch batch;
+    private ShapeRenderer renderer;
     private BitmapFont font;
     private ExtendViewport viewport;
     private long levelEndOverlayStartTime;
@@ -83,6 +85,8 @@ public class GameplayScreen extends ScreenAdapter {
     @Override
     public void show() {
         batch = new SpriteBatch(); // shared by all overlays
+        renderer = new ShapeRenderer(); // shared by all overlays
+        renderer.setAutoShapeType(true);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays
         font.getData().setScale(.4f); // shared by all overlays
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays
@@ -149,7 +153,7 @@ public class GameplayScreen extends ScreenAdapter {
         if (!levelEnded) {
             if (paused) {
                 if (!optionsVisible) {
-                    pauseOverlay.render();
+                    pauseOverlay.render(batch, font, viewport, cursorOverlay);
                     if (inputControls.jumpButtonJustPressed && gigaGal.getAction() == Enums.Action.STANDING) {
                         gigaGal.toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
                     }
@@ -175,10 +179,10 @@ public class GameplayScreen extends ScreenAdapter {
                             optionsVisible = false;
                         } else if (optionsOverlay.getCursor().getPosition() == 58) {
                             if (!chaseCam.getFollowing()) {
-                                optionsOverlay.setDebugMode(false);
+                                optionsOverlay.setSingleOption(false);
                                 chaseCam.setFollowing(true);
                             } else {
-                                optionsOverlay.setDebugMode(true);
+                                optionsOverlay.setSingleOption(true);
                                 chaseCam.setFollowing(false);
                             }
                         } else if (optionsOverlay.getCursor().getPosition() == 43) {
@@ -204,8 +208,8 @@ public class GameplayScreen extends ScreenAdapter {
                 chaseCam.update(delta);
                 level.render(batch);
             }
-            gaugeHud.render();
-            indicatorHud.render();
+            gaugeHud.render(renderer, viewport);
+            indicatorHud.render(batch, font, viewport);
             controlsOverlay.render(batch, viewport);
         } else {
             return;
@@ -213,7 +217,7 @@ public class GameplayScreen extends ScreenAdapter {
 
         if (level.getLoadEx()) {
             messageOverlay.setMessage(Constants.LEVEL_KEY_MESSAGE);
-            messageOverlay.render();
+            messageOverlay.render(batch, font, viewport);
         }
         inputControls.update();
     }
@@ -227,7 +231,7 @@ public class GameplayScreen extends ScreenAdapter {
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
             }
 
-            defeatOverlay.render();
+            defeatOverlay.render(batch, font, viewport);
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
                 game.setScreen(new LevelSelectScreen(game));

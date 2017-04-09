@@ -31,7 +31,7 @@ public class PromptOverlay {
         this.choicesStrings = choicesStrings;
     }
 
-    public void render() {
+    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, CursorOverlay cursor) {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();

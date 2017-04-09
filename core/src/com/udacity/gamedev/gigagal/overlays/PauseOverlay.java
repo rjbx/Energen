@@ -42,7 +42,7 @@ public final class PauseOverlay {
         canToggle = gigaGal.getGroundState() == Enums.GroundState.PLANTED;
     }
 
-    public void render() {
+    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, CursorOverlay cursor) {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
@@ -79,7 +79,7 @@ public final class PauseOverlay {
         batch.end();
     }
 
-    public void dispose() { font.dispose(); inactiveFont.dispose(); batch.dispose();}
+    public void dispose() { font.dispose(); inactiveFont.dispose(); batch.dispose(); }
 
     public final Viewport getViewport() { return viewport; }
     public final CursorOverlay getCursor() { return cursor; }

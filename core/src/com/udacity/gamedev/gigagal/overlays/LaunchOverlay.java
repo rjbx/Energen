@@ -29,7 +29,7 @@ public final class LaunchOverlay {
         font.getData().setScale(0.5f);
     }
 
-    public void render() {
+    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport) {
 
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);

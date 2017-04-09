@@ -67,4 +67,5 @@ public class CursorOverlay {
     public float getPosition() { return position; }
     public void setRange(float start, float end) { this.startingPosition = start; this.endingPosition = end; }
     public void setOrientation(Enums.Orientation o) { this.orientation = o; }
+    public void resetPosition() { position = startingPosition; }
 }

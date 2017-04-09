@@ -25,7 +25,7 @@ public class MessageOverlay {
         this.messageString = messageString;
     }
 
-    public void render() {
+    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport) {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();

@@ -37,7 +37,8 @@ public final class StartScreen extends ScreenAdapter {
     private BitmapFont text;
     private BitmapFont title;
     private CursorOverlay cursorOverlay;
-    private OptionsOverlay optionsOverlay;
+    private OptionsOverlay difficultyOptionsOverlay;
+    private OptionsOverlay startOptionsOverlay;
     private PromptOverlay promptOverlay;
     private LaunchOverlay launchOverlay;
     private Preferences prefs;
@@ -81,7 +82,7 @@ public final class StartScreen extends ScreenAdapter {
         font.getData().setScale(.4f); // shared by all overlays
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays
         cursorOverlay = new CursorOverlay(35, 20, Enums.Orientation.Y); // shared by all overlays
-        optionsOverlay = new OptionsOverlay(this);
+        difficultyOptionsOverlay = new OptionsOverlay(this);
         promptOverlay = new PromptOverlay(prompt, choices);
         launchOverlay = new LaunchOverlay();
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
@@ -100,8 +101,8 @@ public final class StartScreen extends ScreenAdapter {
         cursorOverlay.getViewport().update(width, height, true);
         controlsOverlay.getViewport().update(width, height, true);
         controlsOverlay.recalculateButtonPositions();
-        optionsOverlay.getViewport().update(width, height, true);
-        optionsOverlay.getCursor().getViewport().update(width, height, true);
+        difficultyOptionsOverlay.getViewport().update(width, height, true);
+        difficultyOptionsOverlay.getCursor().getViewport().update(width, height, true);
         promptOverlay.getViewport().update(width, height, true);
         promptOverlay.getCursor().getViewport().update(width, height, true);
         launchOverlay.getViewport().update(width, height, true);
@@ -119,6 +120,7 @@ public final class StartScreen extends ScreenAdapter {
                     batch.setProjectionMatrix(viewport.getCamera().combined);
                     batch.begin();
                     title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
+
                     text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, 45, 0, Align.center, false);
                     if (continuing) {
                         cursorOverlay.render(batch, viewport);
@@ -142,43 +144,49 @@ public final class StartScreen extends ScreenAdapter {
                                 optionsVisible = true;
                             }
                         } else if (cursorOverlay.getPosition() == 20) {
+                            cursorOverlay.setRange(50, 150);
+                            cursorOverlay.setOrientation(Enums.Orientation.X);
+                            cursorOverlay.resetPosition();
+                            cursorOverlay.update();
                             promptVisible = true;
                         }
                     }
                 } else {
-                    promptOverlay.render();
+                    promptOverlay.render(batch, font, viewport, cursorOverlay);
                     if (inputControls.shootButtonJustPressed) {
-                        cursorOverlay.setRange(35, 35);
-                        cursorOverlay.setOrientation(Enums.Orientation.X);
                         if (promptOverlay.getCursor().getPosition() == (150)) {
                             prefs.clear();
                             prefs.flush();
                             game.dispose();
                             game.create();
                         } else {
+                            cursorOverlay.setRange(35, 20);
+                            cursorOverlay.setOrientation(Enums.Orientation.Y);
+                            cursorOverlay.resetPosition();
+                            cursorOverlay.update();
                             promptVisible = false;
                         }
                     }
                 }
             } else {
-                launchOverlay.render();
+                launchOverlay.render(batch, font, viewport);
             }
 
             if (Utils.secondsSince(launchStartTime) > 3) {
                 launching = false;
             }
         } else {
-            optionsOverlay.render(batch, font, viewport, cursorOverlay);
+            difficultyOptionsOverlay.render(batch, font, viewport, cursorOverlay);
             if (inputControls.shootButtonJustPressed) {
-                if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
+                if (difficultyOptionsOverlay.getCursor().getPosition() > difficultyOptionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
                     optionsVisible = false;
                     prefs.putInteger("Difficulty", 0);
                     game.setScreen(new LevelSelectScreen(game));
-                } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 7) {
+                } else if (difficultyOptionsOverlay.getCursor().getPosition() > difficultyOptionsOverlay.getViewport().getWorldHeight() / 2.5f - 7) {
                     optionsVisible = false;
                     prefs.putInteger("Difficulty", 1);
                     game.setScreen(new LevelSelectScreen(game));
-                } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 22) {
+                } else if (difficultyOptionsOverlay.getCursor().getPosition() > difficultyOptionsOverlay.getViewport().getWorldHeight() / 2.5f - 22) {
                     optionsVisible = false;
                     prefs.putInteger("Difficulty", 2);
                     game.setScreen(new LevelSelectScreen(game));
@@ -198,7 +206,7 @@ public final class StartScreen extends ScreenAdapter {
         choices.clear();
         inputControls.clear();
         launchOverlay.dispose();
-        optionsOverlay.dispose();
+        difficultyOptionsOverlay.dispose();
         promptOverlay.dispose();
         text.dispose();
         title.dispose();
@@ -206,7 +214,7 @@ public final class StartScreen extends ScreenAdapter {
         choices = null;
         inputControls = null;
         launchOverlay = null;
-        optionsOverlay = null;
+        difficultyOptionsOverlay = null;
         promptOverlay = null;
         text = null;
         title = null;

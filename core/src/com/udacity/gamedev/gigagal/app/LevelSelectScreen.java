@@ -177,10 +177,10 @@ public final class LevelSelectScreen extends ScreenAdapter {
             }
         }
         if (messageVisible) {
-            messageOverlay.render();
+            messageOverlay.render(batch, font, viewport);
         }
         inputControls.update();
-     //   controlsOverlay.render();
+        controlsOverlay.render(batch, viewport);
     }
 
     @Override

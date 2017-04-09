@@ -2,7 +2,6 @@ package com.udacity.gamedev.gigagal.overlays;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
@@ -29,7 +28,7 @@ public final class OptionsOverlay {
     private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
     private boolean paused;
-    private boolean debugMode;
+    private boolean singleOption;
 
     // default ctor
     public OptionsOverlay(ScreenAdapter screenAdapter) {
@@ -38,7 +37,7 @@ public final class OptionsOverlay {
         this.batch = new SpriteBatch();
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.4f);
-        debugMode = false;
+        singleOption = false;
         if (screenAdapter instanceof GameplayScreen) {
             cursor = new CursorOverlay(73, 28, Enums.Orientation.Y);
             gameplayScreen = (GameplayScreen) screenAdapter;
@@ -54,7 +53,7 @@ public final class OptionsOverlay {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
-        if (!debugMode) {
+        if (!singleOption) {
             cursor.render(batch, viewport);
             cursor.update();
         }
@@ -97,5 +96,5 @@ public final class OptionsOverlay {
     public void dispose() { font.dispose(); batch.dispose(); }
     public final Viewport getViewport() { return viewport; }
     public final CursorOverlay getCursor() { return cursor; }
-    public void setDebugMode(boolean mode) { debugMode = mode; }
+    public void setSingleOption(boolean mode) { singleOption = mode; }
 }

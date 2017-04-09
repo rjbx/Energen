@@ -26,7 +26,7 @@ public final class GaugeHud {
         renderer.setAutoShapeType(true);
     }
 
-    public void render() {
+    public void render(ShapeRenderer renderer, ExtendViewport viewport) {
 
         viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);

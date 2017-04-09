@@ -36,7 +36,7 @@ public class IndicatorHud {
         font.getData().setScale(.75f);
     }
 
-    public void render() {
+    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport) {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
