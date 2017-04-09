@@ -23,6 +23,9 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // immutable
 public final class StartScreen extends ScreenAdapter {
 
@@ -82,6 +85,7 @@ public final class StartScreen extends ScreenAdapter {
         font.getData().setScale(.4f); // shared by all overlays
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays
         cursorOverlay = new CursorOverlay(35, 20, Enums.Orientation.Y); // shared by all overlays
+        startOptionsOverlay = new OptionsOverlay(this);
         difficultyOptionsOverlay = new OptionsOverlay(this);
         promptOverlay = new PromptOverlay(prompt, choices);
         launchOverlay = new LaunchOverlay();
@@ -100,9 +104,11 @@ public final class StartScreen extends ScreenAdapter {
 
         cursorOverlay.getViewport().update(width, height, true);
         controlsOverlay.getViewport().update(width, height, true);
-        controlsOverlay.recalculateButtonPositions();
-        difficultyOptionsOverlay.getViewport().update(width, height, true);
-        difficultyOptionsOverlay.getCursor().getViewport().update(width, height, true);
+//        controlsOverlay.recalculateButtonPositions();
+//        startOptionsOverlay.getViewport().update(width, height, true);
+//        startOptionsOverlay.getCursor().getViewport().update(width, height, true);
+//        difficultyOptionsOverlay.getViewport().update(width, height, true);
+//        difficultyOptionsOverlay.getCursor().getViewport().update(width, height, true);
         promptOverlay.getViewport().update(width, height, true);
         promptOverlay.getCursor().getViewport().update(width, height, true);
         launchOverlay.getViewport().update(width, height, true);
@@ -121,20 +127,21 @@ public final class StartScreen extends ScreenAdapter {
                     batch.begin();
                     title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
 
-                    text.draw(batch, "START GAME", viewport.getWorldWidth() / 2, 45, 0, Align.center, false);
-                    if (continuing) {
-                        cursorOverlay.render(batch, viewport);
-                        cursorOverlay.update();
-                        text.draw(batch, "ERASE GAME", viewport.getWorldWidth() / 2, 30, 0, Align.center, false);
-                    }
-
                     final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
                     Utils.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
 
-                    batch.end();
-
+                    if (continuing) {
+                        String[] optionStrings = {"START GAME", "ERASE GAME"};
+                        startOptionsOverlay.setOptionStrings(optionStrings);
+                        cursorOverlay.render(batch, viewport);
+                        cursorOverlay.update();
+                    } else {
+                        String[] optionStrings = {"START GAME"};
+                        startOptionsOverlay.setOptionStrings(optionStrings);
+                    }
+                    startOptionsOverlay.render(batch, font, viewport, cursorOverlay);
                     if (inputControls.shootButtonJustPressed) {
-                        if (cursorOverlay.getPosition() == 35) {
+                        if (startOptionsOverlay.getCursor().getPosition() == 35) {
                             if (continuing) {
                                 inputControls.shootButtonJustPressed = false;
                                 game.setScreen(new LevelSelectScreen(game));
@@ -143,7 +150,7 @@ public final class StartScreen extends ScreenAdapter {
                             } else {
                                 optionsVisible = true;
                             }
-                        } else if (cursorOverlay.getPosition() == 20) {
+                        } else if (startOptionsOverlay.getCursor().getPosition() == 20) {
                             cursorOverlay.setRange(50, 150);
                             cursorOverlay.setOrientation(Enums.Orientation.X);
                             cursorOverlay.resetPosition();
@@ -151,6 +158,9 @@ public final class StartScreen extends ScreenAdapter {
                             promptVisible = true;
                         }
                     }
+
+                    batch.end();
+
                 } else {
                     promptOverlay.render(batch, font, viewport, cursorOverlay);
                     if (inputControls.shootButtonJustPressed) {
@@ -176,6 +186,10 @@ public final class StartScreen extends ScreenAdapter {
                 launching = false;
             }
         } else {
+            String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
+            startOptionsOverlay.setOptionStrings(optionStrings);
+            cursorOverlay.render(batch, viewport);
+            cursorOverlay.update();
             difficultyOptionsOverlay.render(batch, font, viewport, cursorOverlay);
             if (inputControls.shootButtonJustPressed) {
                 if (difficultyOptionsOverlay.getCursor().getPosition() > difficultyOptionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {

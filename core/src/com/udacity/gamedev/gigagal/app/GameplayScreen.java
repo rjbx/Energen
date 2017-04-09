@@ -179,10 +179,10 @@ public class GameplayScreen extends ScreenAdapter {
                             optionsVisible = false;
                         } else if (optionsOverlay.getCursor().getPosition() == 58) {
                             if (!chaseCam.getFollowing()) {
-                                optionsOverlay.setSingleOption(false);
+                                optionsOverlay.isSingleOption(false);
                                 chaseCam.setFollowing(true);
                             } else {
-                                optionsOverlay.setSingleOption(true);
+                                optionsOverlay.isSingleOption(true);
                                 chaseCam.setFollowing(false);
                             }
                         } else if (optionsOverlay.getCursor().getPosition() == 43) {
