@@ -51,6 +51,7 @@ public final class OptionsOverlay {
 
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
 
         if (!singleOption) {
             cursor.render(batch, viewport);
@@ -69,6 +70,7 @@ public final class OptionsOverlay {
             }
         }
 
+        batch.end();
      //   cursor.resetPosition();
     }
 

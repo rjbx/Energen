@@ -127,11 +127,11 @@ public final class StartScreen extends ScreenAdapter {
                     final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
                     Utils.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
 
+                    batch.end();
+
                     if (continuing) {
                         String[] optionStrings = {"START GAME", "ERASE GAME"};
                         startOptionsOverlay.setOptionStrings(optionStrings);
-                        cursorOverlay.render(batch, viewport);
-                        cursorOverlay.update();
                     } else {
                         String[] optionStrings = {"START GAME"};
                         startOptionsOverlay.setOptionStrings(optionStrings);
@@ -155,11 +155,12 @@ public final class StartScreen extends ScreenAdapter {
                             }
                         } else {
                             difficultyOptionsVisible = true;
+                            cursorOverlay.setRange(75, 35);
+                            cursorOverlay.setOrientation(Enums.Orientation.Y);
+                            cursorOverlay.resetPosition();
+                            cursorOverlay.update();
                         }
                     }
-
-                    batch.end();
-
                 } else {
                     promptOverlay.render(batch, font, viewport, cursorOverlay);
                     if (inputControls.shootButtonJustPressed) {
@@ -186,20 +187,19 @@ public final class StartScreen extends ScreenAdapter {
             }
         } else {
             String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
-            startOptionsOverlay.setOptionStrings(optionStrings);
-            cursorOverlay.render(batch, viewport);
+            difficultyOptionsOverlay.setOptionStrings(optionStrings);
             cursorOverlay.update();
             difficultyOptionsOverlay.render(batch, font, viewport, cursorOverlay);
             if (inputControls.shootButtonJustPressed) {
-                if (difficultyOptionsOverlay.getCursor().getPosition() > difficultyOptionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
+                if (cursorOverlay.getPosition() == 75) {
                     difficultyOptionsVisible = false;
                     prefs.putInteger("Difficulty", 0);
                     game.setScreen(new LevelSelectScreen(game));
-                } else if (difficultyOptionsOverlay.getCursor().getPosition() > difficultyOptionsOverlay.getViewport().getWorldHeight() / 2.5f - 7) {
+                } else if (cursorOverlay.getPosition() == 50) {
                     difficultyOptionsVisible = false;
                     prefs.putInteger("Difficulty", 1);
                     game.setScreen(new LevelSelectScreen(game));
-                } else if (difficultyOptionsOverlay.getCursor().getPosition() > difficultyOptionsOverlay.getViewport().getWorldHeight() / 2.5f - 22) {
+                } else if (cursorOverlay.getPosition() == 35) {
                     difficultyOptionsVisible = false;
                     prefs.putInteger("Difficulty", 2);
                     game.setScreen(new LevelSelectScreen(game));
