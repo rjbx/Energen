@@ -5,6 +5,9 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.util.*;
 import com.udacity.gamedev.gigagal.app.InputControls;
 
+import java.util.ArrayList;
+import java.util.ListIterator;
+
 public class CursorOverlay {
 
     // fields
@@ -14,6 +17,7 @@ public class CursorOverlay {
     private float startingPosition;
     private float endingPosition;
     private static InputControls inputControls;
+    private ListIterator<String> iterator;
     private float position;
 
     // ctor
@@ -37,16 +41,32 @@ public class CursorOverlay {
             }
         } else if (orientation == Enums.Orientation.Y) {
             if (inputControls.downButtonJustPressed || inputControls.rightButtonJustPressed) {
-                if (position >= endingPosition + 15) {
-                    position -= 15;
-                } else {
+                if (position == endingPosition) {
                     position = startingPosition;
-                }
-            } else if (inputControls.upButtonJustPressed || inputControls.leftButtonJustPressed) {
-                if (position <= startingPosition - 15) {
-                    position += 15;
+                    while (iterator.hasPrevious()) {
+                        iterator.previous();
+                    }
+                } else if (position >= endingPosition + 15) {
+                    position -= 15;
+                    System.out.println(iterator.nextIndex());
+                    iterator.next();
+                    System.out.println(iterator.previousIndex());
                 } else {
                     position = endingPosition;
+                }
+            } else if (inputControls.upButtonJustPressed || inputControls.leftButtonJustPressed) {
+                if (position == startingPosition) {
+                    position = endingPosition;
+                    while (iterator.hasNext()) {
+                        iterator.next();
+                    }
+                } else if (position <= startingPosition - 15) {
+                    position += 15;
+                    System.out.println(iterator.previousIndex());
+                    iterator.previous();
+                    System.out.println(iterator.nextIndex());
+                } else {
+                    position = startingPosition;
                 }
             }
         }
@@ -69,4 +89,9 @@ public class CursorOverlay {
     public void setRange(float start, float end) { this.startingPosition = start; this.endingPosition = end; }
     public void setOrientation(Enums.Orientation o) { this.orientation = o; }
     public void resetPosition() { position = startingPosition; }
+    public ListIterator<String> getIterator() { return iterator; }
+    public void setIterator(ArrayList<String> optionStrings) {
+        this.iterator = optionStrings.listIterator();
+        iterator.next();
+    }
 }

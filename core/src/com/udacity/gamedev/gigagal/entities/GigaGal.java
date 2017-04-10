@@ -1213,7 +1213,6 @@ public class GigaGal implements Humanoid {
     }
 
     public void dispose() {
-        weaponToggler.remove();
         weaponList.clear();
     }
 }

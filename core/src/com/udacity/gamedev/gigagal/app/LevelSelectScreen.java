@@ -23,7 +23,6 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.ListIterator;
 
 // immutable
@@ -43,7 +42,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private OptionsOverlay selectionOverlay;
     private MessageOverlay messageOverlay;
     private Array<Float> namePositions;
-    private List<String> selectionStrings;
+    private ArrayList<String> selectionStrings;
     private Array<Enums.LevelName> completedLevels;
     private ListIterator<String> iterator;
     private Enums.LevelName levelName;
@@ -81,6 +80,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
         }
         selectionStrings.add("OPTIONS");
         iterator = selectionStrings.listIterator();
+        cursorOverlay.setIterator(selectionStrings);
+        iterator.next();
         selectionOverlay.setOptionStrings(selectionStrings);
         messageOverlay = new MessageOverlay("");
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
@@ -115,31 +116,18 @@ public final class LevelSelectScreen extends ScreenAdapter {
         if (!optionsVisible) {
             viewport.apply();
 
-            while (iterator.hasNext()) {
-                iterator.next();
-            }
             float yPosition = viewport.getWorldHeight() / 2.5f;
             namePositions.add(yPosition);
-            if (iterator.hasPrevious()) {
-                if (cursorOverlay.getPosition() >= namePositions.get(index) - 15 && cursorOverlay.getPosition() < namePositions.get(index)) {
-                    selectedLevel = Enums.LevelName.valueOf(iterator.previous());
-                }
-                yPosition += 15;
-                namePositions.add(yPosition);
-                index++;
-            }
+            yPosition += 15;
+            namePositions.add(yPosition);
+            index++;
 
             selectionOverlay.render(batch, font, viewport, cursorOverlay);
             index = 0;
 
             if (inputControls.shootButtonJustPressed) {
-                if (cursorOverlay.getPosition() == viewport.getWorldHeight() / 2.5f - 24) {
-                    optionsVisible = true;
-                    String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
-                    optionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
-                    cursorOverlay.setRange(106, 76);
-                    cursorOverlay.update();
-                } else {
+                if (cursorOverlay.getPosition() <= 145 && cursorOverlay.getPosition() >= 25) {
+                    selectedLevel = Enums.LevelName.valueOf(cursorOverlay.getIterator().previous());
                     gameplayScreen = new GameplayScreen(game, selectedLevel);
                     try {
                         gameplayScreen.readLevelFile();
@@ -159,6 +147,13 @@ public final class LevelSelectScreen extends ScreenAdapter {
                         messageOverlay.setMessage(Constants.LEVEL_READ_MESSAGE);
                         messageVisible = true;
                     }
+                } else {
+                    optionsVisible = true;
+                    String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
+                    optionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
+                    cursorOverlay.setRange(106, 76);
+                    cursorOverlay.resetPosition();
+                    cursorOverlay.update();
                 }
             }
         } else {
@@ -166,6 +161,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
             if (inputControls.shootButtonJustPressed) {
                 if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
                     cursorOverlay.setRange(145, 25);
+                    cursorOverlay.resetPosition();
                     cursorOverlay.update();
                     optionsVisible = false;
                 } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 7) {
@@ -188,7 +184,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        iterator.remove();
         completedLevels.clear();
         inputControls.clear();
         optionsOverlay.dispose();
