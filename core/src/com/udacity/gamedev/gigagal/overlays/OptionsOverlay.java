@@ -32,6 +32,7 @@ public final class OptionsOverlay {
     private Object[] optionStrings;
     private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
+    private String promptString;
     private boolean paused;
     private boolean singleOption;
 
@@ -53,6 +54,10 @@ public final class OptionsOverlay {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
+        if (promptString != null) {
+            font.draw(batch, promptString, viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .75f, 0, Align.center, false);
+        }
+
         if (!singleOption) {
             cursor.render(batch, viewport);
             cursor.update();
@@ -60,8 +65,8 @@ public final class OptionsOverlay {
 
         if (cursor.getOrientation() == Enums.Orientation.X) {
             for (Object option : optionStrings) {
-                font.draw(batch, (String) option, startingPosition , viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
-                startingPosition += 15;
+                font.draw(batch, (String) option, startingPosition, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
+                startingPosition += 100;
             }
         } else if (cursor.getOrientation() == Enums.Orientation.Y) {
             for (Object option : optionStrings) {
@@ -79,4 +84,5 @@ public final class OptionsOverlay {
     public final CursorOverlay getCursor() { return cursor; }
     public void isSingleOption(boolean mode) { singleOption = mode; }
     public void setOptionStrings(List<String> optionStrings) { this.optionStrings = optionStrings.toArray();}
+    public void setPromptString(String promptString) { this.promptString = promptString; }
 }

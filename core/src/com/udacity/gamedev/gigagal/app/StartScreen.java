@@ -41,7 +41,7 @@ public final class StartScreen extends ScreenAdapter {
     private CursorOverlay cursorOverlay;
     private OptionsOverlay difficultyOptionsOverlay;
     private OptionsOverlay startOptionsOverlay;
-    private PromptOverlay promptOverlay;
+    private OptionsOverlay promptOverlay;
     private LaunchOverlay launchOverlay;
     private Preferences prefs;
     private Array<String> choices;
@@ -70,7 +70,6 @@ public final class StartScreen extends ScreenAdapter {
         continuing = (prefs.getLong("Time", 0) != 0);
         choices.add("NO");
         choices.add("YES");
-        prompt = "Are you sure you want to start \na new game and erase all saved data?";
     }
 
     @Override
@@ -86,7 +85,7 @@ public final class StartScreen extends ScreenAdapter {
         cursorOverlay = new CursorOverlay(35, 20, Enums.Orientation.Y); // shared by all overlays instantiated from this class
         startOptionsOverlay = new OptionsOverlay(this);
         difficultyOptionsOverlay = new OptionsOverlay(this);
-        promptOverlay = new PromptOverlay(prompt, choices);
+        promptOverlay = new OptionsOverlay(this);
         launchOverlay = new LaunchOverlay();
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
         controlsOverlay = ControlsOverlay.getInstance();
@@ -149,14 +148,19 @@ public final class StartScreen extends ScreenAdapter {
                                 this.dispose();
                                 return;
                             } else if (cursorOverlay.getPosition() == 20) {
+                                String[] optionStrings = {"NO", "YES"};
+                                promptOverlay.setOptionStrings(Arrays.asList(optionStrings));
+                                promptOverlay.setPromptString("Are you sure you want to start \na new game and erase all saved data?");
+                                promptVisible = true;
                                 cursorOverlay.setRange(50, 150);
                                 cursorOverlay.setOrientation(Enums.Orientation.X);
                                 cursorOverlay.resetPosition();
                                 cursorOverlay.update();
-                                promptVisible = true;
                             }
                         } else {
                             difficultyOptionsVisible = true;
+                            String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
+                            difficultyOptionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
                             cursorOverlay.setRange(75, 35);
                             cursorOverlay.setOrientation(Enums.Orientation.Y);
                             cursorOverlay.resetPosition();
@@ -188,8 +192,6 @@ public final class StartScreen extends ScreenAdapter {
                 launching = false;
             }
         } else {
-            String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
-            difficultyOptionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
             difficultyOptionsOverlay.render(batch, font, viewport, cursorOverlay);
             if (inputControls.shootButtonJustPressed) {
                 if (cursorOverlay.getPosition() == 75) {

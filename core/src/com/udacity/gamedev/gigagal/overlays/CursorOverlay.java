@@ -43,28 +43,32 @@ public class CursorOverlay {
             if (inputControls.downButtonJustPressed || inputControls.rightButtonJustPressed) {
                 if (position == endingPosition) {
                     position = startingPosition;
-                    while (iterator.hasPrevious()) {
-                        iterator.previous();
+                    if (iterator != null) {
+                        while (iterator.hasPrevious()) {
+                            iterator.previous();
+                        }
                     }
                 } else if (position >= endingPosition + 15) {
                     position -= 15;
-                    System.out.println(iterator.nextIndex());
-                    iterator.next();
-                    System.out.println(iterator.previousIndex());
+                    if (iterator != null) {
+                        iterator.next();
+                    }
                 } else {
                     position = endingPosition;
                 }
             } else if (inputControls.upButtonJustPressed || inputControls.leftButtonJustPressed) {
                 if (position == startingPosition) {
                     position = endingPosition;
-                    while (iterator.hasNext()) {
-                        iterator.next();
+                    if (iterator != null) {
+                        while (iterator.hasNext()) {
+                            iterator.next();
+                        }
                     }
                 } else if (position <= startingPosition - 15) {
                     position += 15;
-                    System.out.println(iterator.previousIndex());
-                    iterator.previous();
-                    System.out.println(iterator.nextIndex());
+                    if (iterator != null) {
+                        iterator.previous();
+                    }
                 } else {
                     position = startingPosition;
                 }
