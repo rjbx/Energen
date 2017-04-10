@@ -7,20 +7,20 @@ import com.udacity.gamedev.gigagal.util.*;
 import com.udacity.gamedev.gigagal.app.InputControls;
 
 // mutable
-public class ControlsOverlay {
+public class OnscreenControls {
 
     // fields
-    public static final String TAG = ControlsOverlay.class.getName();
-    private static final ControlsOverlay INSTANCE = new ControlsOverlay();
+    public static final String TAG = OnscreenControls.class.getName();
+    private static final OnscreenControls INSTANCE = new OnscreenControls();
     private SpriteBatch batch; // class-level instantiation
     private static InputControls inputControls;
     private Viewport viewport; // class-level instantiation
     public boolean onMobile;
 
     // non-instantiable; cannot be subclassed
-    private ControlsOverlay() {}
+    private OnscreenControls() {}
 
-    public static ControlsOverlay getInstance() { return INSTANCE; }
+    public static OnscreenControls getInstance() { return INSTANCE; }
 
     public void init() {
         this.inputControls = InputControls.getInstance();

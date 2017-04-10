@@ -22,7 +22,7 @@ public final class OptionsOverlay {
     private final ExtendViewport viewport; // class-level instantiation
     private final BitmapFont font; // class-level instantiation
     private final ScreenAdapter screenAdapter;
-    private CursorOverlay cursor; // class-level instantiation
+    private Cursor cursor; // class-level instantiation
     private Object[] optionStrings;
     private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
@@ -42,7 +42,7 @@ public final class OptionsOverlay {
         singleOption = false;
     }
 
-    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, CursorOverlay cursor) {
+    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, Cursor cursor) {
 
         float startingPosition = cursor.getStartingPosition();
         float alignmentPosition = viewport.getWorldWidth() / 2;
@@ -83,7 +83,7 @@ public final class OptionsOverlay {
 
     public void dispose() { font.dispose(); batch.dispose(); }
     public final Viewport getViewport() { return viewport; }
-    public final CursorOverlay getCursor() { return cursor; }
+    public final Cursor getCursor() { return cursor; }
     public void isSingleOption(boolean mode) { singleOption = mode; }
     public void setOptionStrings(List<String> optionStrings) { this.optionStrings = optionStrings.toArray();}
     public void setPromptString(String promptString) { this.promptString = promptString; }

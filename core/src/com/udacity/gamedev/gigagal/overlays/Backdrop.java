@@ -11,17 +11,17 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-public final class LaunchOverlay {
+public final class Backdrop {
 
     // fields
-    public final static String TAG = LaunchOverlay.class.getName();
+    public final static String TAG = Backdrop.class.getName();
     private final SpriteBatch batch; // class-level instantiation
     private final ExtendViewport viewport; // class-level instantiation
     private final Vector2 logoOffset; // class-level instantiation
     private final BitmapFont font; // class-level instantiation
 
     // ctor
-    public LaunchOverlay() {
+    public Backdrop() {
         this.batch = new SpriteBatch();
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         logoOffset = new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f);

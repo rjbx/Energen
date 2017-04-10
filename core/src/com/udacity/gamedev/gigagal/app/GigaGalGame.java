@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
-import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
+import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 
 // immutable
@@ -29,7 +29,7 @@ public final class GigaGalGame extends Game {
     @Override
     public void dispose() {
         prefs = null;
-        ControlsOverlay.getInstance().dispose();
+        OnscreenControls.getInstance().dispose();
         Assets.getInstance().dispose();
         super.dispose();
         System.gc();

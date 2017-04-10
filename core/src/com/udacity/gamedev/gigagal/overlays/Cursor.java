@@ -8,10 +8,10 @@ import com.udacity.gamedev.gigagal.app.InputControls;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-public class CursorOverlay {
+public class Cursor {
 
     // fields
-    public final static String TAG = CursorOverlay.class.getName();
+    public final static String TAG = Cursor.class.getName();
     private final ExtendViewport viewport; // class-level instantiation
     private Enums.Orientation orientation;
     private float startingPosition;
@@ -21,7 +21,7 @@ public class CursorOverlay {
     private float position;
 
     // ctor
-    public CursorOverlay(float startingPosition, float endingPosition, Enums.Orientation orientation) {
+    public Cursor(float startingPosition, float endingPosition, Enums.Orientation orientation) {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         this.orientation = orientation;
         this.startingPosition = startingPosition;

@@ -6,7 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.overlays.ControlsOverlay;
+import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.util.Constants;
 
 // mutable
@@ -52,9 +52,9 @@ public class InputControls extends InputAdapter {
     public static InputControls getInstance() { return INSTANCE; }
 
     public void init() {
-        ControlsOverlay.getInstance().init();
-    //    ControlsOverlay.getInstance().onMobile = onMobile();
-        this.viewport = ControlsOverlay.getInstance().getViewport();
+        OnscreenControls.getInstance().init();
+    //    OnscreenControls.getInstance().onMobile = onMobile();
+        this.viewport = OnscreenControls.getInstance().getViewport();
 
         leftCenter = new Vector2();
         rightCenter = new Vector2();
