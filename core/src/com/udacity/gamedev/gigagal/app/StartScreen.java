@@ -78,10 +78,10 @@ public final class StartScreen extends ScreenAdapter {
         difficultyOptionsVisible = false;
         promptVisible = false;
         batch = new SpriteBatch();
-        font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays
-        font.getData().setScale(.4f); // shared by all overlays
-        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays
-        cursorOverlay = new CursorOverlay(35, 20, Enums.Orientation.Y); // shared by all overlays
+        font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays instantiated from this class
+        font.getData().setScale(.4f); // shared by all overlays instantiated from this class
+        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
+        cursorOverlay = new CursorOverlay(35, 20, Enums.Orientation.Y); // shared by all overlays instantiated from this class
         startOptionsOverlay = new OptionsOverlay(this);
         difficultyOptionsOverlay = new OptionsOverlay(this);
         promptOverlay = new PromptOverlay(prompt, choices);

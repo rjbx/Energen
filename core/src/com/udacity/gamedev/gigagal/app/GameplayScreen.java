@@ -46,7 +46,7 @@ public class GameplayScreen extends ScreenAdapter {
     private IndicatorHud indicatorHud;
     private VictoryOverlay victoryOverlay;
     private DefeatOverlay defeatOverlay;
-    private PauseOverlay pauseOverlay;
+    private OptionsOverlay pauseOverlay;
     private OptionsOverlay optionsOverlay;
     private MessageOverlay messageOverlay;
     private CursorOverlay cursorOverlay;
@@ -84,14 +84,14 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        batch = new SpriteBatch(); // shared by all overlays
-        renderer = new ShapeRenderer(); // shared by all overlays
+        batch = new SpriteBatch(); // shared by all overlays instantiated from this class
+        renderer = new ShapeRenderer(); // shared by all overlays instantiated from this class
         renderer.setAutoShapeType(true);
-        font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays
-        font.getData().setScale(.4f); // shared by all overlays
-        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays
-        cursorOverlay = new CursorOverlay(0, 0, Enums.Orientation.Z); // shared by all overlays
-        pauseOverlay = new PauseOverlay(this);
+        font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays instantiated from this class
+        font.getData().setScale(.4f); // shared by all overlays instantiated from this class
+        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
+        cursorOverlay = new CursorOverlay(73, 43, Enums.Orientation.Y); // shared by all overlays instantiated from this class
+        pauseOverlay = new OptionsOverlay(this);
         optionsOverlay = new OptionsOverlay(this);
         messageOverlay = new MessageOverlay("");
         victoryOverlay = new VictoryOverlay(this);
@@ -112,7 +112,6 @@ public class GameplayScreen extends ScreenAdapter {
 
 //        gaugeHud.getViewport().update(width, height, true);
 //        indicatorHud.getViewport().update(width, height, true);
-
 //
 //        defeatOverlay.getViewport().update(width, height, true);
 //        pauseOverlay.getViewport().update(width, height, true);
@@ -153,31 +152,38 @@ public class GameplayScreen extends ScreenAdapter {
         if (!levelEnded) {
             if (paused) {
                 if (!optionsVisible) {
+                    String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
+                    pauseOverlay.setOptionStrings(optionStrings);
                     pauseOverlay.render(batch, font, viewport, cursorOverlay);
                     if (inputControls.jumpButtonJustPressed && gigaGal.getAction() == Enums.Action.STANDING) {
                         gigaGal.toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
                     }
                     if (inputControls.shootButtonJustPressed) {
-                        if (pauseOverlay.getCursor().getPosition() == 73 && chaseCam.getFollowing()) {
+                        if (cursorOverlay.getPosition() == 73 && chaseCam.getFollowing()) {
                             unpause();
-                        } else if (pauseOverlay.getCursor().getPosition() == 58) {
+                        } else if (cursorOverlay.getPosition() == 58) {
                             unpause();
                             totalTime.suspend();
                             game.setScreen(new LevelSelectScreen(game));
                             this.dispose();
                             return;
-                        } else if (pauseOverlay.getCursor().getPosition() == 43) {
+                        } else if (cursorOverlay.getPosition() == 43) {
+                            cursorOverlay.setRange(73, 28);
+                            cursorOverlay.resetPosition();
+                            cursorOverlay.update();
                             optionsVisible = true;
                         }
                     } else if (inputControls.pauseButtonJustPressed) {
                         unpause();
                     }
                 } else {
+                    String[] optionStrings = {"BACK", "DEBUG CAM", "TOUCH PAD", "QUIT"};
+                    optionsOverlay.setOptionStrings(optionStrings);
                     optionsOverlay.render(batch, font, viewport, cursorOverlay);
                     if (inputControls.shootButtonJustPressed) {
-                        if (optionsOverlay.getCursor().getPosition() == 73) {
+                        if (cursorOverlay.getPosition() == 73) {
                             optionsVisible = false;
-                        } else if (optionsOverlay.getCursor().getPosition() == 58) {
+                        } else if (cursorOverlay.getPosition() == 58) {
                             if (!chaseCam.getFollowing()) {
                                 optionsOverlay.isSingleOption(false);
                                 chaseCam.setFollowing(true);
@@ -185,10 +191,10 @@ public class GameplayScreen extends ScreenAdapter {
                                 optionsOverlay.isSingleOption(true);
                                 chaseCam.setFollowing(false);
                             }
-                        } else if (optionsOverlay.getCursor().getPosition() == 43) {
+                        } else if (cursorOverlay.getPosition() == 43) {
                             controlsOverlay.onMobile = Utils.toggleBoolean(controlsOverlay.onMobile);
                             prefs.putBoolean("Mobile", controlsOverlay.onMobile);
-                        } else if (optionsOverlay.getCursor().getPosition() == 28) {
+                        } else if (cursorOverlay.getPosition() == 28) {
                             game.dispose();
                             game.create();
                             return;
