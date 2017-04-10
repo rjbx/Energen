@@ -37,14 +37,14 @@ public class CursorOverlay {
             }
         } else if (orientation == Enums.Orientation.Y) {
             if (inputControls.downButtonJustPressed || inputControls.rightButtonJustPressed) {
-                if (position >= endingPosition + 15) {
+                if (position >= endingPosition + 16) {
                     position -= 15;
                 } else {
                     position = startingPosition;
                 }
             }
             if (inputControls.upButtonJustPressed || inputControls.leftButtonJustPressed) {
-                if (position <= startingPosition - 15) {
+                if (position <= startingPosition - 16) {
                     position += 15;
                 } else {
                     position = endingPosition;
@@ -65,6 +65,7 @@ public class CursorOverlay {
 
     public ExtendViewport getViewport() { return viewport; }
     public float getPosition() { return position; }
+    public float getStartingPosition() { return startingPosition; }
     public Enums.Orientation getOrientation() { return orientation; }
     public void setRange(float start, float end) { this.startingPosition = start; this.endingPosition = end; }
     public void setOrientation(Enums.Orientation o) { this.orientation = o; }

@@ -23,9 +23,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 // immutable
 public final class StartScreen extends ScreenAdapter {
 
@@ -50,7 +47,7 @@ public final class StartScreen extends ScreenAdapter {
     private long launchStartTime;
     private boolean launching;
     private boolean continuing;
-    private boolean optionsVisible;
+    private boolean difficultyOptionsVisible;
     private boolean promptVisible;
     private final Vector2 gigagalCenter;
 
@@ -78,7 +75,7 @@ public final class StartScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        optionsVisible = false;
+        difficultyOptionsVisible = false;
         promptVisible = false;
         batch = new SpriteBatch();
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays
@@ -102,16 +99,16 @@ public final class StartScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         viewport.update(width, height, true);
 
-        cursorOverlay.getViewport().update(width, height, true);
-        controlsOverlay.getViewport().update(width, height, true);
+//        cursorOverlay.getViewport().update(width, height, true);
+//        controlsOverlay.getViewport().update(width, height, true);
 //        controlsOverlay.recalculateButtonPositions();
 //        startOptionsOverlay.getViewport().update(width, height, true);
 //        startOptionsOverlay.getCursor().getViewport().update(width, height, true);
 //        difficultyOptionsOverlay.getViewport().update(width, height, true);
 //        difficultyOptionsOverlay.getCursor().getViewport().update(width, height, true);
-        promptOverlay.getViewport().update(width, height, true);
-        promptOverlay.getCursor().getViewport().update(width, height, true);
-        launchOverlay.getViewport().update(width, height, true);
+//        promptOverlay.getViewport().update(width, height, true);
+//        promptOverlay.getCursor().getViewport().update(width, height, true);
+//        launchOverlay.getViewport().update(width, height, true);
     }
 
     @Override
@@ -119,7 +116,7 @@ public final class StartScreen extends ScreenAdapter {
 
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if (!optionsVisible) {
+        if (!difficultyOptionsVisible) {
             if (!launching) {
                 if (!promptVisible) {
                     viewport.apply();
@@ -139,23 +136,25 @@ public final class StartScreen extends ScreenAdapter {
                         String[] optionStrings = {"START GAME"};
                         startOptionsOverlay.setOptionStrings(optionStrings);
                     }
+
                     startOptionsOverlay.render(batch, font, viewport, cursorOverlay);
+
                     if (inputControls.shootButtonJustPressed) {
-                        if (startOptionsOverlay.getCursor().getPosition() == 35) {
-                            if (continuing) {
+                        if (continuing) {
+                            if (cursorOverlay.getPosition() == 35) {
                                 inputControls.shootButtonJustPressed = false;
                                 game.setScreen(new LevelSelectScreen(game));
                                 this.dispose();
                                 return;
-                            } else {
-                                optionsVisible = true;
+                            } else if (cursorOverlay.getPosition() == 20) {
+                                cursorOverlay.setRange(50, 150);
+                                cursorOverlay.setOrientation(Enums.Orientation.X);
+                                cursorOverlay.resetPosition();
+                                cursorOverlay.update();
+                                promptVisible = true;
                             }
-                        } else if (startOptionsOverlay.getCursor().getPosition() == 20) {
-                            cursorOverlay.setRange(50, 150);
-                            cursorOverlay.setOrientation(Enums.Orientation.X);
-                            cursorOverlay.resetPosition();
-                            cursorOverlay.update();
-                            promptVisible = true;
+                        } else {
+                            difficultyOptionsVisible = true;
                         }
                     }
 
@@ -164,7 +163,7 @@ public final class StartScreen extends ScreenAdapter {
                 } else {
                     promptOverlay.render(batch, font, viewport, cursorOverlay);
                     if (inputControls.shootButtonJustPressed) {
-                        if (promptOverlay.getCursor().getPosition() == (150)) {
+                        if (cursorOverlay.getPosition() == (150)) {
                             prefs.clear();
                             prefs.flush();
                             game.dispose();
@@ -193,22 +192,22 @@ public final class StartScreen extends ScreenAdapter {
             difficultyOptionsOverlay.render(batch, font, viewport, cursorOverlay);
             if (inputControls.shootButtonJustPressed) {
                 if (difficultyOptionsOverlay.getCursor().getPosition() > difficultyOptionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
-                    optionsVisible = false;
+                    difficultyOptionsVisible = false;
                     prefs.putInteger("Difficulty", 0);
                     game.setScreen(new LevelSelectScreen(game));
                 } else if (difficultyOptionsOverlay.getCursor().getPosition() > difficultyOptionsOverlay.getViewport().getWorldHeight() / 2.5f - 7) {
-                    optionsVisible = false;
+                    difficultyOptionsVisible = false;
                     prefs.putInteger("Difficulty", 1);
                     game.setScreen(new LevelSelectScreen(game));
                 } else if (difficultyOptionsOverlay.getCursor().getPosition() > difficultyOptionsOverlay.getViewport().getWorldHeight() / 2.5f - 22) {
-                    optionsVisible = false;
+                    difficultyOptionsVisible = false;
                     prefs.putInteger("Difficulty", 2);
                     game.setScreen(new LevelSelectScreen(game));
                 }
                 this.dispose();
                 return;
             } else if (inputControls.pauseButtonJustPressed) {
-                optionsVisible = false;
+                difficultyOptionsVisible = false;
             }
         }
         inputControls.update();

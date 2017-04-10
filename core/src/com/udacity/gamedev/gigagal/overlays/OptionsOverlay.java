@@ -47,7 +47,7 @@ public final class OptionsOverlay {
 
     public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, CursorOverlay cursor) {
 
-        float startingPosition = cursor.getPosition();
+        float startingPosition = cursor.getStartingPosition();
 
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
@@ -59,17 +59,17 @@ public final class OptionsOverlay {
 
         if (cursor.getOrientation() == Enums.Orientation.X) {
             for (String option : optionStrings) {
-                font.draw(batch, option, startingPosition, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
+                font.draw(batch, option, startingPosition , viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
                 startingPosition += 15;
             }
         } else if (cursor.getOrientation() == Enums.Orientation.Y) {
             for (String option : optionStrings) {
-                font.draw(batch, option, viewport.getWorldHeight() / 2.5f, startingPosition, 0, Align.center, false);
+                font.draw(batch, option, viewport.getWorldWidth() / 2, startingPosition + 10, 0, Align.center, false);
                 startingPosition -= 15;
             }
         }
 
-        cursor.resetPosition();
+     //   cursor.resetPosition();
     }
 
     public void dispose() { font.dispose(); batch.dispose(); }
