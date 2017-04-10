@@ -136,7 +136,7 @@ public final class StartScreen extends ScreenAdapter {
                         String[] optionStrings = {"START GAME", "ERASE GAME"};
                         startMenu.setOptionStrings(Arrays.asList(optionStrings));
                     } else {
-                        String[] optionStrings = {"START GAME"};
+                        String[] optionStrings = {"PRESS START"};
                         startMenu.isSingleOption(true);
                         startMenu.setOptionStrings(Arrays.asList(optionStrings));
                     }

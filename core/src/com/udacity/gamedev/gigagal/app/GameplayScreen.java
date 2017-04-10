@@ -18,9 +18,7 @@ import com.udacity.gamedev.gigagal.overlays.Message;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.overlays.Cursor;
 import com.udacity.gamedev.gigagal.overlays.IndicatorHud;
-import com.udacity.gamedev.gigagal.overlays.DefeatOverlay;
 import com.udacity.gamedev.gigagal.overlays.GaugeHud;
-import com.udacity.gamedev.gigagal.overlays.VictoryOverlay;
 import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -44,8 +42,8 @@ public class GameplayScreen extends ScreenAdapter {
     private Preferences prefs;
     private GaugeHud gaugeHud;
     private IndicatorHud indicatorHud;
-    private VictoryOverlay victoryOverlay;
-    private DefeatOverlay defeatOverlay;
+    private Message victoryOverlay;
+    private Message defeatOverlay;
     private Menu pauseOverlay;
     private Menu optionsOverlay;
     private Message errorMessage;
@@ -95,8 +93,10 @@ public class GameplayScreen extends ScreenAdapter {
         optionsOverlay = new Menu(this);
         errorMessage = new Message();
         errorMessage.setMessage(Constants.LEVEL_KEY_MESSAGE);
-        victoryOverlay = new VictoryOverlay(this);
-        defeatOverlay = new DefeatOverlay();
+        victoryOverlay = new Message();
+        victoryOverlay.setMessage(Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Utils.stopWatchToString(getTotalTime()) + "\nScore: " + getTotalScore() + "\n\nLEVEL TOTAL\n" + "Time: " + getLevel().getLevelTime() + "\n" + "Score: " + getLevel().getLevelScore());
+        defeatOverlay = new Message();
+        defeatOverlay.setMessage(Constants.DEFEAT_MESSAGE);
         inputControls = InputControls.getInstance();
         onscreenControls = OnscreenControls.getInstance();
         chaseCam = ChaseCam.getInstance();
@@ -223,7 +223,9 @@ public class GameplayScreen extends ScreenAdapter {
         }
 
         if (level.getLoadEx()) {
+            font.getData().setScale(.25f);
             errorMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5));
+            font.getData().setScale(.4f);
         }
         inputControls.update();
     }
@@ -236,8 +238,9 @@ public class GameplayScreen extends ScreenAdapter {
                 totalTime.suspend();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
             }
-
-            defeatOverlay.render(batch, font, viewport);
+            font.getData().setScale(1);
+            defeatOverlay.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f));
+            font.getData().setScale(.4f);
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
                 game.setScreen(new LevelSelectScreen(game));
@@ -255,7 +258,7 @@ public class GameplayScreen extends ScreenAdapter {
                 game.getPreferences().flush();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
             }
-            victoryOverlay.render(batch, font, viewport);
+            victoryOverlay.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .9f));
             if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
                 levelEndOverlayStartTime = 0;
                 levelComplete();
