@@ -7,14 +7,15 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.udacity.gamedev.gigagal.overlays.Menu;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.overlays.Cursor;
-import com.udacity.gamedev.gigagal.overlays.MessageOverlay;
-import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
+import com.udacity.gamedev.gigagal.overlays.Message;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
@@ -37,9 +38,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private BitmapFont font;
     private Cursor cursor;
-    private OptionsOverlay optionsOverlay;
-    private OptionsOverlay selectionOverlay;
-    private MessageOverlay messageOverlay;
+    private Menu optionsOverlay;
+    private Menu selectionOverlay;
+    private Message errorMessage;
     private Array<Float> namePositions;
     private ArrayList<String> selectionStrings;
     private Array<Enums.LevelName> completedLevels;
@@ -69,8 +70,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
         batch = new SpriteBatch();
         completedLevels = new Array<Enums.LevelName>();
         cursor = new Cursor(145, 25, Enums.Orientation.Y);
-        optionsOverlay = new OptionsOverlay(this);
-        selectionOverlay = new OptionsOverlay(this);
+        optionsOverlay = new Menu(this);
+        selectionOverlay = new Menu(this);
         selectionStrings = new ArrayList();
         for (Enums.LevelName level : Enums.LevelName.values()) {
             selectionStrings.add(level.name());
@@ -81,7 +82,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         iterator.next();
         selectionOverlay.setOptionStrings(selectionStrings);
         selectionOverlay.setAlignment(Align.left);
-        messageOverlay = new MessageOverlay("");
+        errorMessage = new Message();
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
         onscreenControls = OnscreenControls.getInstance();
         Gdx.input.setInputProcessor(inputControls);
@@ -99,7 +100,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
 //        onscreenControls.recalculateButtonPositions();
 //        optionsOverlay.getViewport().update(width, height, true);
 //        optionsOverlay.getCursor().getViewport().update(width, height, true);
-//        messageOverlay.getViewport().update(width, height, true);
+//        errorMessage.getViewport().update(width, height, true);
     }
 
     @Override
@@ -131,15 +132,15 @@ public final class LevelSelectScreen extends ScreenAdapter {
                         return;
                     } catch (IOException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-                        messageOverlay.setMessage(Constants.LEVEL_READ_MESSAGE);
+                        errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
                         messageVisible = true;
                     } catch (ParseException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-                        messageOverlay.setMessage(Constants.LEVEL_READ_MESSAGE);
+                        errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
                         messageVisible = true;
                     } catch (GdxRuntimeException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-                        messageOverlay.setMessage(Constants.LEVEL_READ_MESSAGE);
+                        errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
                         messageVisible = true;
                     }
                 } else {
@@ -172,7 +173,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
             }
         }
         if (messageVisible) {
-            messageOverlay.render(batch, font, viewport);
+            errorMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5));
         }
         inputControls.update();
         onscreenControls.render(batch, viewport);
@@ -183,14 +184,14 @@ public final class LevelSelectScreen extends ScreenAdapter {
         completedLevels.clear();
         inputControls.clear();
         optionsOverlay.dispose();
-        messageOverlay.dispose();
+        errorMessage.dispose();
         font.dispose();
         batch.dispose();
         iterator = null;
         completedLevels = null;
         inputControls = null;
         optionsOverlay = null;
-        messageOverlay = null;
+        errorMessage = null;
         font = null;
         batch = null;
         this.hide();

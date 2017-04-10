@@ -13,10 +13,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.udacity.gamedev.gigagal.overlays.Message;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.overlays.Cursor;
 import com.udacity.gamedev.gigagal.overlays.Backdrop;
-import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
+import com.udacity.gamedev.gigagal.overlays.Menu;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -38,10 +39,11 @@ public final class StartScreen extends ScreenAdapter {
     private BitmapFont text;
     private BitmapFont title;
     private Cursor cursor;
-    private OptionsOverlay difficultyOptionsOverlay;
-    private OptionsOverlay startOptionsOverlay;
-    private OptionsOverlay promptOverlay;
-    private Backdrop launchOverlay;
+    private Menu difficultyMenu;
+    private Menu startMenu;
+    private Menu eraseMenu;
+    private Backdrop launchBackdrop;
+    private Message launchMessage;
     private Preferences prefs;
     private Array<String> choices;
     private long launchStartTime;
@@ -81,10 +83,12 @@ public final class StartScreen extends ScreenAdapter {
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
         cursor = new Cursor(35, 20, Enums.Orientation.Y); // shared by all overlays instantiated from this class
-        startOptionsOverlay = new OptionsOverlay(this);
-        difficultyOptionsOverlay = new OptionsOverlay(this);
-        promptOverlay = new OptionsOverlay(this);
-        launchOverlay = new Backdrop();
+        startMenu = new Menu(this);
+        difficultyMenu = new Menu(this);
+        eraseMenu = new Menu(this);
+        launchBackdrop = new Backdrop();
+        launchMessage = new Message();
+        launchMessage.setMessage(Constants.LAUNCH_MESSAGE);
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
         onscreenControls = OnscreenControls.getInstance();
         Gdx.input.setInputProcessor(inputControls);
@@ -101,13 +105,13 @@ public final class StartScreen extends ScreenAdapter {
 //        cursor.getViewport().update(width, height, true);
 //        onscreenControls.getViewport().update(width, height, true);
 //        onscreenControls.recalculateButtonPositions();
-//        startOptionsOverlay.getViewport().update(width, height, true);
-//        startOptionsOverlay.getCursor().getViewport().update(width, height, true);
-//        difficultyOptionsOverlay.getViewport().update(width, height, true);
-//        difficultyOptionsOverlay.getCursor().getViewport().update(width, height, true);
-//        promptOverlay.getViewport().update(width, height, true);
-//        promptOverlay.getCursor().getViewport().update(width, height, true);
-//        launchOverlay.getViewport().update(width, height, true);
+//        startMenu.getViewport().update(width, height, true);
+//        startMenu.getCursor().getViewport().update(width, height, true);
+//        difficultyMenu.getViewport().update(width, height, true);
+//        difficultyMenu.getCursor().getViewport().update(width, height, true);
+//        eraseMenu.getViewport().update(width, height, true);
+//        eraseMenu.getCursor().getViewport().update(width, height, true);
+//        launchBackdrop.getViewport().update(width, height, true);
     }
 
     @Override
@@ -130,13 +134,13 @@ public final class StartScreen extends ScreenAdapter {
 
                     if (continuing) {
                         String[] optionStrings = {"START GAME", "ERASE GAME"};
-                        startOptionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
+                        startMenu.setOptionStrings(Arrays.asList(optionStrings));
                     } else {
                         String[] optionStrings = {"START GAME"};
-                        startOptionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
+                        startMenu.setOptionStrings(Arrays.asList(optionStrings));
                     }
 
-                    startOptionsOverlay.render(batch, font, viewport, cursor);
+                    startMenu.render(batch, font, viewport, cursor);
 
                     if (inputControls.shootButtonJustPressed) {
                         if (continuing) {
@@ -147,8 +151,8 @@ public final class StartScreen extends ScreenAdapter {
                                 return;
                             } else if (cursor.getPosition() == 20) {
                                 String[] optionStrings = {"NO", "YES"};
-                                promptOverlay.setOptionStrings(Arrays.asList(optionStrings));
-                                promptOverlay.setPromptString("Are you sure you want to start \na new game and erase all saved data?");
+                                eraseMenu.setOptionStrings(Arrays.asList(optionStrings));
+                                eraseMenu.setPromptString("Are you sure you want to start \na new game and erase all saved data?");
                                 promptVisible = true;
                                 cursor.setRange(50, 150);
                                 cursor.setOrientation(Enums.Orientation.X);
@@ -158,7 +162,7 @@ public final class StartScreen extends ScreenAdapter {
                         } else {
                             difficultyOptionsVisible = true;
                             String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
-                            difficultyOptionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
+                            difficultyMenu.setOptionStrings(Arrays.asList(optionStrings));
                             cursor.setRange(75, 35);
                             cursor.setOrientation(Enums.Orientation.Y);
                             cursor.resetPosition();
@@ -166,7 +170,7 @@ public final class StartScreen extends ScreenAdapter {
                         }
                     }
                 } else {
-                    promptOverlay.render(batch, font, viewport, cursor);
+                    eraseMenu.render(batch, font, viewport, cursor);
                     if (inputControls.shootButtonJustPressed) {
                         if (cursor.getPosition() == (150)) {
                             prefs.clear();
@@ -183,14 +187,17 @@ public final class StartScreen extends ScreenAdapter {
                     }
                 }
             } else {
-                launchOverlay.render(batch, font, viewport);
+                launchBackdrop.render(batch, viewport, Assets.getInstance().getOverlayAssets().logo,
+                        new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .625f),
+                        new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f));
+                launchMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, Constants.HUD_MARGIN));
             }
 
             if (Utils.secondsSince(launchStartTime) > 3) {
                 launching = false;
             }
         } else {
-            difficultyOptionsOverlay.render(batch, font, viewport, cursor);
+            difficultyMenu.render(batch, font, viewport, cursor);
             if (inputControls.shootButtonJustPressed) {
                 if (cursor.getPosition() == 75) {
                     difficultyOptionsVisible = false;
@@ -219,17 +226,16 @@ public final class StartScreen extends ScreenAdapter {
     public void dispose() {
         choices.clear();
         inputControls.clear();
-        launchOverlay.dispose();
-        difficultyOptionsOverlay.dispose();
-        promptOverlay.dispose();
+        difficultyMenu.dispose();
+        eraseMenu.dispose();
         text.dispose();
         title.dispose();
         batch.dispose();
         choices = null;
         inputControls = null;
-        launchOverlay = null;
-        difficultyOptionsOverlay = null;
-        promptOverlay = null;
+        launchBackdrop = null;
+        difficultyMenu = null;
+        eraseMenu = null;
         text = null;
         title = null;
         batch = null;

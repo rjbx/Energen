@@ -7,18 +7,19 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
+import com.udacity.gamedev.gigagal.overlays.Menu;
+import com.udacity.gamedev.gigagal.overlays.Message;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.overlays.Cursor;
 import com.udacity.gamedev.gigagal.overlays.IndicatorHud;
 import com.udacity.gamedev.gigagal.overlays.DefeatOverlay;
 import com.udacity.gamedev.gigagal.overlays.GaugeHud;
-import com.udacity.gamedev.gigagal.overlays.MessageOverlay;
-import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
 import com.udacity.gamedev.gigagal.overlays.VictoryOverlay;
 import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -45,9 +46,9 @@ public class GameplayScreen extends ScreenAdapter {
     private IndicatorHud indicatorHud;
     private VictoryOverlay victoryOverlay;
     private DefeatOverlay defeatOverlay;
-    private OptionsOverlay pauseOverlay;
-    private OptionsOverlay optionsOverlay;
-    private MessageOverlay messageOverlay;
+    private Menu pauseOverlay;
+    private Menu optionsOverlay;
+    private Message errorMessage;
     private Cursor cursor;
     private SpriteBatch batch;
     private ShapeRenderer renderer;
@@ -90,9 +91,9 @@ public class GameplayScreen extends ScreenAdapter {
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
         cursor = new Cursor(73, 43, Enums.Orientation.Y); // shared by all overlays instantiated from this class
-        pauseOverlay = new OptionsOverlay(this);
-        optionsOverlay = new OptionsOverlay(this);
-        messageOverlay = new MessageOverlay("");
+        pauseOverlay = new Menu(this);
+        optionsOverlay = new Menu(this);
+        errorMessage = new Message();
         victoryOverlay = new VictoryOverlay(this);
         defeatOverlay = new DefeatOverlay();
         inputControls = InputControls.getInstance();
@@ -117,7 +118,7 @@ public class GameplayScreen extends ScreenAdapter {
 //        pauseOverlay.getCursor().getViewport().update(width, height, true);
 //        optionsOverlay.getViewport().update(width, height, true);
 //        optionsOverlay.getCursor().getViewport().update(width, height, true);
-//        messageOverlay.getViewport().update(width, height, true);
+//        errorMessage.getViewport().update(width, height, true);
         level.getViewport().update(width, height, true);
         chaseCam.camera = level.getViewport().getCamera();
         onscreenControls.getViewport().update(width, height, true);
@@ -221,8 +222,7 @@ public class GameplayScreen extends ScreenAdapter {
         }
 
         if (level.getLoadEx()) {
-            messageOverlay.setMessage(Constants.LEVEL_KEY_MESSAGE);
-            messageOverlay.render(batch, font, viewport);
+            errorMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5));
         }
         inputControls.update();
     }
@@ -343,7 +343,7 @@ public class GameplayScreen extends ScreenAdapter {
         pauseOverlay.dispose();
         optionsOverlay.dispose();
         indicatorHud.dispose();
-        messageOverlay.dispose();
+        errorMessage.dispose();
         gaugeHud.dispose();
         batch.dispose();
         level.dispose();
@@ -356,7 +356,7 @@ public class GameplayScreen extends ScreenAdapter {
         pauseOverlay = null;
         optionsOverlay = null;
         indicatorHud = null;
-        messageOverlay = null;
+        errorMessage = null;
         gaugeHud = null;
         batch = null;
         level = null;

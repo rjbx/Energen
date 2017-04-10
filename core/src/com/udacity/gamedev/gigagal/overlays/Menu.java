@@ -14,10 +14,10 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import java.util.List;
 
 // immutable
-public final class OptionsOverlay {
+public final class Menu {
 
     // fields
-    public final static String TAG = OptionsOverlay.class.getName();
+    public final static String TAG = Menu.class.getName();
     private final SpriteBatch batch; // class-level instantiation
     private final ExtendViewport viewport; // class-level instantiation
     private final BitmapFont font; // class-level instantiation
@@ -32,7 +32,7 @@ public final class OptionsOverlay {
     private boolean singleOption;
 
     // default ctor
-    public OptionsOverlay(ScreenAdapter screenAdapter) {
+    public Menu(ScreenAdapter screenAdapter) {
         this.screenAdapter = screenAdapter;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         this.batch = new SpriteBatch();
