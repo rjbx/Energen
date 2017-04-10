@@ -95,7 +95,11 @@ public class CursorOverlay {
     public void resetPosition() { position = startingPosition; }
     public ListIterator<String> getIterator() { return iterator; }
     public void setIterator(ArrayList<String> optionStrings) {
-        this.iterator = optionStrings.listIterator();
-        iterator.next();
+        if (optionStrings == null) {
+            this.iterator = null;
+        } else {
+            this.iterator = optionStrings.listIterator();
+            iterator.next();
+        }
     }
 }

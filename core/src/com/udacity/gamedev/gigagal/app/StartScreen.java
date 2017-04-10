@@ -45,7 +45,6 @@ public final class StartScreen extends ScreenAdapter {
     private LaunchOverlay launchOverlay;
     private Preferences prefs;
     private Array<String> choices;
-    private String prompt;
     private long launchStartTime;
     private boolean launching;
     private boolean continuing;

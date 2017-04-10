@@ -7,6 +7,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -17,9 +18,7 @@ import com.udacity.gamedev.gigagal.overlays.OptionsOverlay;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
-
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +46,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private ListIterator<String> iterator;
     private Enums.LevelName levelName;
     private Enums.LevelName selectedLevel;
-    private int index;
     private GameplayScreen gameplayScreen;
     private boolean optionsVisible;
     private boolean messageVisible;
@@ -59,7 +57,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
-        index = 0;
         namePositions = new Array<Float>();
     }
 
@@ -83,6 +80,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         cursorOverlay.setIterator(selectionStrings);
         iterator.next();
         selectionOverlay.setOptionStrings(selectionStrings);
+        selectionOverlay.setAlignment(Align.left);
         messageOverlay = new MessageOverlay("");
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
         controlsOverlay = ControlsOverlay.getInstance();
@@ -120,13 +118,10 @@ public final class LevelSelectScreen extends ScreenAdapter {
             namePositions.add(yPosition);
             yPosition += 15;
             namePositions.add(yPosition);
-            index++;
-
             selectionOverlay.render(batch, font, viewport, cursorOverlay);
-            index = 0;
 
             if (inputControls.shootButtonJustPressed) {
-                if (cursorOverlay.getPosition() <= 145 && cursorOverlay.getPosition() >= 25) {
+                if (cursorOverlay.getPosition() <= 145 && cursorOverlay.getPosition() >= 40) {
                     selectedLevel = Enums.LevelName.valueOf(cursorOverlay.getIterator().previous());
                     gameplayScreen = new GameplayScreen(game, selectedLevel);
                     try {
@@ -151,6 +146,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
                     optionsVisible = true;
                     String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
                     optionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
+                    cursorOverlay.setIterator(null);
                     cursorOverlay.setRange(106, 76);
                     cursorOverlay.resetPosition();
                     cursorOverlay.update();
@@ -159,15 +155,15 @@ public final class LevelSelectScreen extends ScreenAdapter {
         } else {
             optionsOverlay.render(batch, font, viewport, cursorOverlay);
             if (inputControls.shootButtonJustPressed) {
-                if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
+                if (cursorOverlay.getPosition() == 106) {
                     cursorOverlay.setRange(145, 25);
                     cursorOverlay.resetPosition();
                     cursorOverlay.update();
                     optionsVisible = false;
-                } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 7) {
+                } else if (cursorOverlay.getPosition() == 91) {
                     controlsOverlay.onMobile = Utils.toggleBoolean(controlsOverlay.onMobile);
                     prefs.putBoolean("Mobile", controlsOverlay.onMobile);
-                } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 22) {
+                } else if (cursorOverlay.getPosition() == 76) {
                     game.dispose();
                     game.create();
                 }

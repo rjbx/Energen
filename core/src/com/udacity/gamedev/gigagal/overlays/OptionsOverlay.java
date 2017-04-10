@@ -5,18 +5,12 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.GameplayScreen;
-import com.udacity.gamedev.gigagal.app.LevelSelectScreen;
-import com.udacity.gamedev.gigagal.app.StartScreen;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Utils;
-
-import java.util.ArrayList;
 import java.util.List;
 
 // immutable
@@ -33,6 +27,7 @@ public final class OptionsOverlay {
     private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
     private String promptString;
+    private int alignment;
     private boolean paused;
     private boolean singleOption;
 
@@ -41,6 +36,7 @@ public final class OptionsOverlay {
         this.screenAdapter = screenAdapter;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         this.batch = new SpriteBatch();
+        alignment = Align.center;
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.4f);
         singleOption = false;
@@ -49,13 +45,19 @@ public final class OptionsOverlay {
     public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, CursorOverlay cursor) {
 
         float startingPosition = cursor.getStartingPosition();
+        float alignmentPosition = viewport.getWorldWidth() / 2;
+        if (alignment == Align.left) {
+            alignmentPosition = viewport.getWorldWidth() / 3;
+        } else if (alignmentPosition == Align.right) {
+            alignmentPosition = viewport.getWorldWidth() / 3 * 2;
+        }
 
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
 
         if (promptString != null) {
-            font.draw(batch, promptString, viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .75f, 0, Align.center, false);
+            font.draw(batch, promptString, viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .75f, 0, alignment, false);
         }
 
         if (!singleOption) {
@@ -65,12 +67,12 @@ public final class OptionsOverlay {
 
         if (cursor.getOrientation() == Enums.Orientation.X) {
             for (Object option : optionStrings) {
-                font.draw(batch, (String) option, startingPosition, viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
+                font.draw(batch, (String) option, startingPosition, viewport.getWorldHeight() / 2.5f, 0, alignment, false);
                 startingPosition += 100;
             }
         } else if (cursor.getOrientation() == Enums.Orientation.Y) {
             for (Object option : optionStrings) {
-                font.draw(batch, (String) option, viewport.getWorldWidth() / 2, startingPosition + 10, 0, Align.center, false);
+                font.draw(batch, (String) option, alignmentPosition, startingPosition + 10, 0, alignment, false);
                 startingPosition -= 15;
             }
         }
@@ -85,4 +87,5 @@ public final class OptionsOverlay {
     public void isSingleOption(boolean mode) { singleOption = mode; }
     public void setOptionStrings(List<String> optionStrings) { this.optionStrings = optionStrings.toArray();}
     public void setPromptString(String promptString) { this.promptString = promptString; }
+    public void setAlignment(int alignment) { this.alignment = alignment; }
 }
