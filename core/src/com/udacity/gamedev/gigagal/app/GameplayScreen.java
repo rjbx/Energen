@@ -110,16 +110,16 @@ public class GameplayScreen extends ScreenAdapter {
         viewport.update(width, height, true);
 
 
-        gaugeHud.getViewport().update(width, height, true);
-        indicatorHud.getViewport().update(width, height, true);
+//        gaugeHud.getViewport().update(width, height, true);
+//        indicatorHud.getViewport().update(width, height, true);
 
-
-        defeatOverlay.getViewport().update(width, height, true);
-        pauseOverlay.getViewport().update(width, height, true);
-        pauseOverlay.getCursor().getViewport().update(width, height, true);
-        optionsOverlay.getViewport().update(width, height, true);
-        optionsOverlay.getCursor().getViewport().update(width, height, true);
-        messageOverlay.getViewport().update(width, height, true);
+//
+//        defeatOverlay.getViewport().update(width, height, true);
+//        pauseOverlay.getViewport().update(width, height, true);
+//        pauseOverlay.getCursor().getViewport().update(width, height, true);
+//        optionsOverlay.getViewport().update(width, height, true);
+//        optionsOverlay.getCursor().getViewport().update(width, height, true);
+//        messageOverlay.getViewport().update(width, height, true);
         level.getViewport().update(width, height, true);
         chaseCam.camera = level.getViewport().getCamera();
         controlsOverlay.getViewport().update(width, height, true);

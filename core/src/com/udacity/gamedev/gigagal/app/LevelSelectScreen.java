@@ -89,13 +89,13 @@ public final class LevelSelectScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-
-        cursorOverlay.getViewport().update(width, height, true);
-        controlsOverlay.getViewport().update(width, height, true);
-        controlsOverlay.recalculateButtonPositions();
-        optionsOverlay.getViewport().update(width, height, true);
-        optionsOverlay.getCursor().getViewport().update(width, height, true);
-        messageOverlay.getViewport().update(width, height, true);
+//
+//        cursorOverlay.getViewport().update(width, height, true);
+//        controlsOverlay.getViewport().update(width, height, true);
+//        controlsOverlay.recalculateButtonPositions();
+//        optionsOverlay.getViewport().update(width, height, true);
+//        optionsOverlay.getCursor().getViewport().update(width, height, true);
+//        messageOverlay.getViewport().update(width, height, true);
     }
 
     @Override

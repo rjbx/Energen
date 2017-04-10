@@ -188,7 +188,6 @@ public final class StartScreen extends ScreenAdapter {
         } else {
             String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
             difficultyOptionsOverlay.setOptionStrings(optionStrings);
-            cursorOverlay.update();
             difficultyOptionsOverlay.render(batch, font, viewport, cursorOverlay);
             if (inputControls.shootButtonJustPressed) {
                 if (cursorOverlay.getPosition() == 75) {

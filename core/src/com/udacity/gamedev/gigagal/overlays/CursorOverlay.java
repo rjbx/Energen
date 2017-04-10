@@ -37,14 +37,13 @@ public class CursorOverlay {
             }
         } else if (orientation == Enums.Orientation.Y) {
             if (inputControls.downButtonJustPressed || inputControls.rightButtonJustPressed) {
-                if (position >= endingPosition + 16) {
+                if (position >= endingPosition + 15) {
                     position -= 15;
                 } else {
                     position = startingPosition;
                 }
-            }
-            if (inputControls.upButtonJustPressed || inputControls.leftButtonJustPressed) {
-                if (position <= startingPosition - 16) {
+            } else if (inputControls.upButtonJustPressed || inputControls.leftButtonJustPressed) {
+                if (position <= startingPosition - 15) {
                     position += 15;
                 } else {
                     position = endingPosition;
