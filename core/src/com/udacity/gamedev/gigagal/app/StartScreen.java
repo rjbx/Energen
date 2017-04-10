@@ -23,6 +23,8 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Utils;
 
+import java.util.Arrays;
+
 // immutable
 public final class StartScreen extends ScreenAdapter {
 
@@ -131,10 +133,10 @@ public final class StartScreen extends ScreenAdapter {
 
                     if (continuing) {
                         String[] optionStrings = {"START GAME", "ERASE GAME"};
-                        startOptionsOverlay.setOptionStrings(optionStrings);
+                        startOptionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
                     } else {
                         String[] optionStrings = {"START GAME"};
-                        startOptionsOverlay.setOptionStrings(optionStrings);
+                        startOptionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
                     }
 
                     startOptionsOverlay.render(batch, font, viewport, cursorOverlay);
@@ -187,7 +189,7 @@ public final class StartScreen extends ScreenAdapter {
             }
         } else {
             String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
-            difficultyOptionsOverlay.setOptionStrings(optionStrings);
+            difficultyOptionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
             difficultyOptionsOverlay.render(batch, font, viewport, cursorOverlay);
             if (inputControls.shootButtonJustPressed) {
                 if (cursorOverlay.getPosition() == 75) {

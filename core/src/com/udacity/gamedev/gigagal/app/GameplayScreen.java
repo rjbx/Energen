@@ -153,7 +153,7 @@ public class GameplayScreen extends ScreenAdapter {
             if (paused) {
                 if (!optionsVisible) {
                     String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
-                    pauseOverlay.setOptionStrings(optionStrings);
+                    pauseOverlay.setOptionStrings(Arrays.asList(optionStrings));
                     pauseOverlay.render(batch, font, viewport, cursorOverlay);
                     if (inputControls.jumpButtonJustPressed && gigaGal.getAction() == Enums.Action.STANDING) {
                         gigaGal.toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
@@ -178,7 +178,7 @@ public class GameplayScreen extends ScreenAdapter {
                     }
                 } else {
                     String[] optionStrings = {"BACK", "DEBUG CAM", "TOUCH PAD", "QUIT"};
-                    optionsOverlay.setOptionStrings(optionStrings);
+                    optionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
                     optionsOverlay.render(batch, font, viewport, cursorOverlay);
                     if (inputControls.shootButtonJustPressed) {
                         if (cursorOverlay.getPosition() == 73) {

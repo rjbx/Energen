@@ -40,11 +40,12 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private BitmapFont font;
     private CursorOverlay cursorOverlay;
     private OptionsOverlay optionsOverlay;
+    private OptionsOverlay selectionOverlay;
     private MessageOverlay messageOverlay;
     private Array<Float> namePositions;
+    private List<String> selectionStrings;
     private Array<Enums.LevelName> completedLevels;
-    private List<Enums.LevelName> levelTypes;
-    private ListIterator<Enums.LevelName> iterator;
+    private ListIterator<String> iterator;
     private Enums.LevelName levelName;
     private Enums.LevelName selectedLevel;
     private int index;
@@ -56,13 +57,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public LevelSelectScreen(com.udacity.gamedev.gigagal.app.GigaGalGame game) {
         this.game = game;
         prefs = game.getPreferences();
-        cursorOverlay = new CursorOverlay(145, 40, Enums.Orientation.Y);
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
-        levelTypes = new ArrayList<Enums.LevelName>(Arrays.asList(Enums.LevelName.values()));
-        iterator = levelTypes.listIterator();
-        levelName = iterator.next();
         index = 0;
         namePositions = new Array<Float>();
     }
@@ -75,7 +72,16 @@ public final class LevelSelectScreen extends ScreenAdapter {
         messageVisible = false;
         batch = new SpriteBatch();
         completedLevels = new Array<Enums.LevelName>();
+        cursorOverlay = new CursorOverlay(145, 25, Enums.Orientation.Y);
         optionsOverlay = new OptionsOverlay(this);
+        selectionOverlay = new OptionsOverlay(this);
+        selectionStrings = new ArrayList();
+        for (Enums.LevelName level : Enums.LevelName.values()) {
+            selectionStrings.add(level.name());
+        }
+        selectionStrings.add("OPTIONS");
+        iterator = selectionStrings.listIterator();
+        selectionOverlay.setOptionStrings(selectionStrings);
         messageOverlay = new MessageOverlay("");
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
         controlsOverlay = ControlsOverlay.getInstance();
@@ -89,7 +95,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-//
 //        cursorOverlay.getViewport().update(width, height, true);
 //        controlsOverlay.getViewport().update(width, height, true);
 //        controlsOverlay.recalculateButtonPositions();
@@ -109,35 +114,31 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
         if (!optionsVisible) {
             viewport.apply();
-            batch.begin();
-            cursorOverlay.render(batch, viewport);
-            cursorOverlay.update();
 
             while (iterator.hasNext()) {
                 iterator.next();
             }
-
             float yPosition = viewport.getWorldHeight() / 2.5f;
             namePositions.add(yPosition);
-            while (iterator.hasPrevious()) {
-                levelName = iterator.previous();
+            if (iterator.hasPrevious()) {
                 if (cursorOverlay.getPosition() >= namePositions.get(index) - 15 && cursorOverlay.getPosition() < namePositions.get(index)) {
-                    selectedLevel = levelName;
+                    selectedLevel = Enums.LevelName.valueOf(iterator.previous());
                 }
-                font.draw(batch, levelName.toString(), viewport.getWorldWidth() / 2.5f, namePositions.get(index));
                 yPosition += 15;
                 namePositions.add(yPosition);
                 index++;
             }
-            font.draw(batch, "OPTIONS", viewport.getWorldWidth() / 2.5f, viewport.getWorldHeight() / 2.5f - 15);
 
+            selectionOverlay.render(batch, font, viewport, cursorOverlay);
             index = 0;
-
-            batch.end();
 
             if (inputControls.shootButtonJustPressed) {
                 if (cursorOverlay.getPosition() == viewport.getWorldHeight() / 2.5f - 24) {
                     optionsVisible = true;
+                    String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
+                    optionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
+                    cursorOverlay.setRange(106, 76);
+                    cursorOverlay.update();
                 } else {
                     gameplayScreen = new GameplayScreen(game, selectedLevel);
                     try {
@@ -164,6 +165,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
             optionsOverlay.render(batch, font, viewport, cursorOverlay);
             if (inputControls.shootButtonJustPressed) {
                 if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f + 8) {
+                    cursorOverlay.setRange(145, 25);
+                    cursorOverlay.update();
                     optionsVisible = false;
                 } else if (optionsOverlay.getCursor().getPosition() > optionsOverlay.getViewport().getWorldHeight() / 2.5f - 7) {
                     controlsOverlay.onMobile = Utils.toggleBoolean(controlsOverlay.onMobile);
@@ -187,7 +190,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void dispose() {
         iterator.remove();
         completedLevels.clear();
-        levelTypes.clear();
         inputControls.clear();
         optionsOverlay.dispose();
         messageOverlay.dispose();
@@ -195,7 +197,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
         batch.dispose();
         iterator = null;
         completedLevels = null;
-        levelTypes = null;
         inputControls = null;
         optionsOverlay = null;
         messageOverlay = null;

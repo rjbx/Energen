@@ -29,7 +29,7 @@ public final class OptionsOverlay {
     private final BitmapFont font; // class-level instantiation
     private final ScreenAdapter screenAdapter;
     private CursorOverlay cursor; // class-level instantiation
-    private String[] optionStrings;
+    private Object[] optionStrings;
     private GameplayScreen gameplayScreen;
     private GigaGal gigaGal;
     private boolean paused;
@@ -59,13 +59,13 @@ public final class OptionsOverlay {
         }
 
         if (cursor.getOrientation() == Enums.Orientation.X) {
-            for (String option : optionStrings) {
-                font.draw(batch, option, startingPosition , viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
+            for (Object option : optionStrings) {
+                font.draw(batch, (String) option, startingPosition , viewport.getWorldHeight() / 2.5f, 0, Align.center, false);
                 startingPosition += 15;
             }
         } else if (cursor.getOrientation() == Enums.Orientation.Y) {
-            for (String option : optionStrings) {
-                font.draw(batch, option, viewport.getWorldWidth() / 2, startingPosition + 10, 0, Align.center, false);
+            for (Object option : optionStrings) {
+                font.draw(batch, (String) option, viewport.getWorldWidth() / 2, startingPosition + 10, 0, Align.center, false);
                 startingPosition -= 15;
             }
         }
@@ -78,5 +78,5 @@ public final class OptionsOverlay {
     public final Viewport getViewport() { return viewport; }
     public final CursorOverlay getCursor() { return cursor; }
     public void isSingleOption(boolean mode) { singleOption = mode; }
-    public void setOptionStrings(String[] optionStrings) { this.optionStrings = optionStrings;}
+    public void setOptionStrings(List<String> optionStrings) { this.optionStrings = optionStrings.toArray();}
 }
