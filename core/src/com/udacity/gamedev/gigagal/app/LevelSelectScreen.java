@@ -125,6 +125,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
                 if (cursor.getPosition() <= 145 && cursor.getPosition() >= 40) {
                     selectedLevel = Enums.LevelName.valueOf(cursor.getIterator().previous());
                     gameplayScreen = new GameplayScreen(game, selectedLevel);
+                    messageVisible = false;
                     try {
                         gameplayScreen.readLevelFile();
                         game.setScreen(gameplayScreen);
@@ -133,14 +134,17 @@ public final class LevelSelectScreen extends ScreenAdapter {
                     } catch (IOException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
+                        cursor.getIterator().next();
                         messageVisible = true;
                     } catch (ParseException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
+                        cursor.getIterator().next();
                         messageVisible = true;
                     } catch (GdxRuntimeException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
+                        cursor.getIterator().next();
                         messageVisible = true;
                     }
                 } else {
@@ -173,7 +177,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
             }
         }
         if (messageVisible) {
+            font.getData().setScale(0.25f);
             errorMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5));
+            font.getData().setScale(.5f);
         }
         inputControls.update();
         onscreenControls.render(batch, viewport);

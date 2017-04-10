@@ -46,7 +46,7 @@ public class Box implements SolidGround {
             case THERMAL:
                 Assets.getInstance().getBoxAssets().yellowBox.draw(batch, left - 1, bottom - 1, width + 2, height + 2);
                 break;
-            case NUCLEAR:
+            case hi:
                 Assets.getInstance().getBoxAssets().blueBox.draw(batch, left - 1, bottom - 1, width + 2, height + 2);
                 break;
             case MYSTERIOUS:

@@ -94,6 +94,7 @@ public class GameplayScreen extends ScreenAdapter {
         pauseOverlay = new Menu(this);
         optionsOverlay = new Menu(this);
         errorMessage = new Message();
+        errorMessage.setMessage(Constants.LEVEL_KEY_MESSAGE);
         victoryOverlay = new VictoryOverlay(this);
         defeatOverlay = new DefeatOverlay();
         inputControls = InputControls.getInstance();
