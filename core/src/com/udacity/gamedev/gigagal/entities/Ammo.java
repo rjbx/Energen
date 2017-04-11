@@ -9,6 +9,8 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
+import sun.security.krb5.internal.crypto.Des;
+
 // immutable
 public final class Ammo implements IndestructibleHazard {
 
@@ -127,32 +129,35 @@ public final class Ammo implements IndestructibleHazard {
                 knockback = Constants.ZOOMBA_KNOCKBACK;
         }
 
-        for (DestructibleHazard destructible : level.getDestructibles()) {
-            if (position.dst(destructible.getPosition()) < (destructible.getShotRadius() + radius)) {
-                level.spawnExplosion(position, weapon);
-                active = false;
+        for (Hazard hazard : level.getHazards()) {
+            if (hazard instanceof DestructibleHazard) {
+                DestructibleHazard destructible = (DestructibleHazard) hazard;
+                if (position.dst(destructible.getPosition()) < (destructible.getShotRadius() + radius)) {
+                    level.spawnExplosion(position, weapon);
+                    active = false;
 
-                TypeEffectiveness effectiveness = Helpers.getAmmoEffectiveness(destructible.getType(), weapon);
-                switch (effectiveness) {
-                    case STRONG:
-                        damage = Constants.AMMO_SPECIALIZED_DAMAGE;
-                        break;
-                    case WEAK:
-                        damage = Constants.AMMO_WEAK_DAMAGE;
-                        break;
-                    case NORMAL:
-                        damage = Constants.AMMO_STANDARD_DAMAGE;
-                        break;
-                    default:
-                        damage = Constants.AMMO_STANDARD_DAMAGE;
+                    TypeEffectiveness effectiveness = Helpers.getAmmoEffectiveness(destructible.getType(), weapon);
+                    switch (effectiveness) {
+                        case STRONG:
+                            damage = Constants.AMMO_SPECIALIZED_DAMAGE;
+                            break;
+                        case WEAK:
+                            damage = Constants.AMMO_WEAK_DAMAGE;
+                            break;
+                        case NORMAL:
+                            damage = Constants.AMMO_STANDARD_DAMAGE;
+                            break;
+                        default:
+                            damage = Constants.AMMO_STANDARD_DAMAGE;
+                    }
+                    if (!fromGigagal) {
+                        damage -= Constants.AMMO_WEAK_DAMAGE;
+                        damage /= 2;
+                    } else {
+                        level.setLevelScore(level.getLevelScore() + destructible.getHitScore());
+                    }
+                    Helpers.applyDamage(destructible, ammoIntensity, damage / Constants.DIFFICULTY_MULTIPLIER[level.getDifficulty()]);
                 }
-                if (!fromGigagal) {
-                    damage -= Constants.AMMO_WEAK_DAMAGE;
-                    damage /= 2;
-                } else {
-                    level.setLevelScore(level.getLevelScore() + destructible.getHitScore());
-                }
-                Helpers.applyDamage(destructible, ammoIntensity, damage / Constants.DIFFICULTY_MULTIPLIER[level.getDifficulty()]);
             }
         }
 

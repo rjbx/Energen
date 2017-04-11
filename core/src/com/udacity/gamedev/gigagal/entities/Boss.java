@@ -266,7 +266,7 @@ public class Boss implements Humanoid, Hazard  {
         
     }
 
-    private void touchGround(Array<Ground> grounds) {
+    private void touchGround(List<Ground> grounds) {
         onUnbearable = false;
         onRideable = false;
         onSkateable = false;
@@ -494,7 +494,7 @@ public class Boss implements Humanoid, Hazard  {
     }
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    private void touchHazards(Array<Hazard> hazards) {
+    private void touchHazards(List<Hazard> hazards) {
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
                 float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime) - pauseTimeSeconds;
@@ -544,8 +544,10 @@ public class Boss implements Humanoid, Hazard  {
         }
     }
 
-    private void touchPowerups(DelayedRemovalArray<Powerup> powerups) {
-        for (Powerup powerup : powerups) {
+    private void touchPowerups(List<Powerup> powerups) {
+        ListIterator<Powerup> iterator = powerups.listIterator();
+        while (iterator.hasNext()) {
+            Powerup powerup = iterator.next();
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {
                 if (powerup instanceof AmmoPowerup) {
@@ -568,7 +570,7 @@ public class Boss implements Humanoid, Hazard  {
                     }
                 }
                 level.setLevelScore(level.getLevelScore() + Constants.POWERUP_SCORE);
-                powerups.removeValue(powerup, true);
+                iterator.remove();
             }
         }
         if (turbo > Constants.MAX_TURBO) {

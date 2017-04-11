@@ -95,7 +95,7 @@ public class GameplayScreen extends ScreenAdapter {
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
         cursor = Cursor.getInstance(); // shared by all overlays instantiated from this class
-        cursor.create();
+        cursor.init();
         cursor.setRange(73, 43);
         cursor.setOrientation(Enums.Orientation.Y);
         cursor.resetPosition();

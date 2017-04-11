@@ -2,9 +2,7 @@ package com.udacity.gamedev.gigagal.app;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -12,13 +10,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Ammo;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Boss;
-import com.udacity.gamedev.gigagal.entities.Box;
 import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.Ground;
 import com.udacity.gamedev.gigagal.entities.Hazard;
 import com.udacity.gamedev.gigagal.entities.Impact;
-import com.udacity.gamedev.gigagal.entities.IndestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.HoverableGround;
 import com.udacity.gamedev.gigagal.entities.Orben;
 import com.udacity.gamedev.gigagal.entities.Portal;
@@ -30,7 +26,10 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Timer;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
 
 // mutable
 public class Level {
@@ -48,14 +47,11 @@ public class Level {
     private long cannonStartTime;
     private GigaGal gigaGal;
     private Portal portal;
-    private Array<Box> boxes;
-    private Array<IndestructibleHazard> indestructibles;
-    private DelayedRemovalArray<DestructibleHazard> destructibles;
-    private Array<Hazard> hazards;
-    private Array<Ground> grounds;
-    private DelayedRemovalArray<Ammo> ammoList;
-    private DelayedRemovalArray<Impact> explosions;
-    private DelayedRemovalArray<Powerup> powerups;
+    private List<Hazard> hazards;
+    private List<Ground> grounds;
+    private List<Ammo> ammoList;
+    private List<Impact> impacts;
+    private List<Powerup> powerups;
     private Timer levelTime;
     private Enums.WeaponType levelWeapon;
     private int difficulty;
@@ -75,14 +71,11 @@ public class Level {
         levelScore = 0;
         levelTime = new Timer();
         levelTime.start();
-        boxes = new Array<Box>();
-        grounds = new Array<Ground>();
-        destructibles = new DelayedRemovalArray<DestructibleHazard>();
-        indestructibles = new DelayedRemovalArray<IndestructibleHazard>();
-        hazards = new Array<Hazard>(indestructibles);
-        ammoList = new DelayedRemovalArray<Ammo>();
-        explosions = new DelayedRemovalArray<Impact>();
-        powerups = new DelayedRemovalArray<Powerup>();
+        grounds = new ArrayList<Ground>();
+        hazards = new ArrayList<Hazard>();
+        ammoList = new ArrayList<Ammo>();
+        impacts = new ArrayList<Impact>();
+        powerups = new ArrayList<Powerup>();
         portal = new Portal(new Vector2(200, 200));
         gameOver = false;
         victory = false;
@@ -154,52 +147,54 @@ public class Level {
             }
 
             // Update Enemies
-            destructibles.begin();
-            for (DestructibleHazard destructible : destructibles) {
-                destructible.update(delta);
-                if (destructible.getHealth() < 1) {
-                    spawnExplosion(destructible.getPosition(), destructible.getType());
-                    destructibles.removeValue(destructible, true);
-                    levelScore += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[difficulty]);
-                }
-                if (destructible instanceof Orben) {
-                    Orben orben = (Orben) destructible;
-                    Enums.WeaponType weaponType = orben.getType();
-                    float secondsSinceModOne = Helpers.secondsSince(orben.getStartTime()) % 1;
-                    if ((secondsSinceModOne >= 0 && secondsSinceModOne < 0.01f) && orben.isActive()) {
-                        Vector2 ammoPositionLeft = new Vector2(orben.getPosition().x - (orben.getWidth() * 1.1f), destructible.getPosition().y);
-                        Vector2 ammoPositionRight = new Vector2(orben.getPosition().x + (orben.getWidth() * 1.1f), destructible.getPosition().y);
-                        Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, orben.getPosition().y + (orben.getHeight() * 1.1f));
-                        Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, orben.getPosition().y - (orben.getHeight() * 1.1f));
+            ListIterator<Hazard> hazardIterator = hazards.listIterator();
+            while (hazardIterator.hasNext()) {
+                Hazard hazard = hazardIterator.next();
+                if (hazard instanceof DestructibleHazard) {
+                    DestructibleHazard destructible = (DestructibleHazard) hazard;
+                    destructible.update(delta);
+                    if (destructible.getHealth() < 1) {
+                        spawnExplosion(destructible.getPosition(), destructible.getType());
+                        hazardIterator.remove();
+                        levelScore += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[difficulty]);
+                    }
+                    if (destructible instanceof Orben) {
+                        Orben orben = (Orben) destructible;
+                        Enums.WeaponType weaponType = orben.getType();
+                        float secondsSinceModOne = Helpers.secondsSince(orben.getStartTime()) % 1;
+                        if ((secondsSinceModOne >= 0 && secondsSinceModOne < 0.01f) && orben.isActive()) {
+                            Vector2 ammoPositionLeft = new Vector2(orben.getPosition().x - (orben.getWidth() * 1.1f), destructible.getPosition().y);
+                            Vector2 ammoPositionRight = new Vector2(orben.getPosition().x + (orben.getWidth() * 1.1f), destructible.getPosition().y);
+                            Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, orben.getPosition().y + (orben.getHeight() * 1.1f));
+                            Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, orben.getPosition().y - (orben.getHeight() * 1.1f));
 
-                        spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.Orientation.X, Enums.AmmoIntensity.BLAST, weaponType, false);
-                        spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.Orientation.X, Enums.AmmoIntensity.BLAST, weaponType, false);
-                        spawnAmmo(ammoPositionBottom, Direction.DOWN, Enums.Orientation.Y, Enums.AmmoIntensity.BLAST, weaponType, false);
-                        spawnAmmo(ammoPositionTop, Direction.UP, Enums.Orientation.Y, Enums.AmmoIntensity.BLAST, weaponType, false);
+                            spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.Orientation.X, Enums.AmmoIntensity.BLAST, weaponType, false);
+                            spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.Orientation.X, Enums.AmmoIntensity.BLAST, weaponType, false);
+                            spawnAmmo(ammoPositionBottom, Direction.DOWN, Enums.Orientation.Y, Enums.AmmoIntensity.BLAST, weaponType, false);
+                            spawnAmmo(ammoPositionTop, Direction.UP, Enums.Orientation.Y, Enums.AmmoIntensity.BLAST, weaponType, false);
+                        }
                     }
                 }
             }
-            destructibles.end();
-            hazards.addAll(destructibles);
 
-            // Update Bullets
-            ammoList.begin();
-            for (Ammo ammo : ammoList) {
+            // Updatea Bullets
+            ListIterator<Ammo> ammoIterator = ammoList.listIterator();
+            while (ammoIterator.hasNext()) {
+                Ammo ammo = ammoIterator.next();
                 ammo.update(delta);
                 if (!ammo.isActive()) {
-                    ammoList.removeValue(ammo, false);
+                    ammoIterator.remove();
                 }
             }
-            ammoList.end();
-            
+
             // Update Explosions
-            explosions.begin();
-            for (int i = 0; i < explosions.size; i++) {
-                if (explosions.get(i).isFinished()) {
-                    explosions.removeIndex(i);
+            ListIterator<Impact> impactIterator = impacts.listIterator();
+            while (impactIterator.hasNext()){
+                Impact impact = impactIterator.next();
+                if (impact.isFinished()) {
+                    impactIterator.remove();
                 }
             }
-            explosions.end();
         }
     }
 
@@ -220,13 +215,10 @@ public class Level {
             powerup.render(batch);
         }
 
-        for (IndestructibleHazard indestructible : indestructibles) {
-            indestructible.render(batch);
+        for (Hazard hazard : hazards) {
+            hazard.render(batch);
         }
 
-        for (DestructibleHazard destructible : destructibles) {
-            destructible.render(batch);
-        }
         gigaGal.render(batch);
         boss.render(batch);
 
@@ -234,7 +226,7 @@ public class Level {
             chargeAmmo.render(batch);
         }
 
-        for (Impact impact : explosions) {
+        for (Impact impact : impacts) {
             impact.render(batch);
         }
 
@@ -246,17 +238,6 @@ public class Level {
         gigaGal = new GigaGal(this, new Vector2(15, 40));
 
         portal = new Portal(new Vector2(150, 150));
-
-        boxes = new Array<Box>();
-        ammoList = new DelayedRemovalArray<Ammo>();
-        destructibles = new DelayedRemovalArray<DestructibleHazard>();
-        explosions = new DelayedRemovalArray<Impact>();
-        powerups = new DelayedRemovalArray<Powerup>();
-
-
-        boxes.add(new Box(new Rectangle(15, 100, 30, 20), Enums.LevelName.HOME));
-        boxes.add(new Box(new Rectangle(35, 55, 50, 20), Enums.LevelName.HOME));
-        boxes.add(new Box(new Rectangle(10, 20, 20, 9), Enums.LevelName.HOME));
 
         powerups.add(new AmmoPowerup(new Vector2(20, 110)));
     }
@@ -277,35 +258,28 @@ public class Level {
     }
 
     public void spawnExplosion(Vector2 position, Enums.WeaponType type) {
-        explosions.add(new Impact(position, type));
+        impacts.add(new Impact(position, type));
     }
 
     public void dispose() {
-        indestructibles.clear();
-        destructibles.clear();
         hazards.clear();
         grounds.clear();
         ammoList.clear();
-        explosions.clear();
+        impacts.clear();
         boss.dispose();
         gigaGal.dispose();
-        indestructibles = null;
-        destructibles = null;
         hazards = null;
         grounds = null;
         ammoList = null;
-        explosions = null;
+        impacts = null;
         boss = null;
         gigaGal = null;
     }
 
     // Getters
-    public final Array<Box> getBoxes() { return boxes; }
-    public final Array<IndestructibleHazard> getIndestructibles() { return indestructibles; }
-    public final DelayedRemovalArray<DestructibleHazard> getDestructibles() { return destructibles; }
-    public final Array<Hazard> getHazards() { hazards = new Array<Hazard>(destructibles); hazards.addAll(indestructibles); hazards.addAll(ammoList); hazards.add(boss); return hazards; }
-    public final Array<Ground> getGrounds() { return grounds; }
-    public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
+    public final List<Hazard> getHazards() { hazards.addAll(ammoList); hazards.add(boss); return hazards; }
+    public final List<Ground> getGrounds() { return grounds; }
+    public final List<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
     public final Portal getPortal() { return portal; }
     public final GigaGal getGigaGal() { return gigaGal; }

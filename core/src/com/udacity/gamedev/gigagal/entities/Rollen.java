@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.Level;
@@ -13,6 +13,8 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
+
+import java.util.List;
 
 public class Rollen implements DestructibleHazard {
 
@@ -28,7 +30,7 @@ public class Rollen implements DestructibleHazard {
     private float speedAtChangeXDirection;
     private long rollStartTime;
     private float rollTimeSeconds;
-    private Array<Ground> grounds;
+    private List<Ground> grounds;
     private float radius;
 
     // ctor

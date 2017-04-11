@@ -24,6 +24,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 // immutable
 public final class LevelSelectScreen extends ScreenAdapter {
@@ -42,9 +43,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private Menu optionsOverlay;
     private Menu selectionOverlay;
     private Message errorMessage;
-    private Array<Float> namePositions;
-    private ArrayList<String> selectionStrings;
-    private Array<Enums.LevelName> completedLevels;
+    private List<String> selectionStrings;
+    private List<Enums.LevelName> completedLevels;
     private Enums.LevelName levelName;
     private Enums.LevelName selectedLevel;
     private GameplayScreen gameplayScreen;
@@ -63,7 +63,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
-        namePositions = new Array<Float>();
     }
 
     @Override
@@ -73,9 +72,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
         optionsVisible = false;
         messageVisible = false;
         batch = new SpriteBatch();
-        completedLevels = new Array<Enums.LevelName>();
+        completedLevels = new ArrayList<Enums.LevelName>();
         cursor = Cursor.getInstance(); // shared by all overlays instantiated from this class
-        cursor.create();
+        cursor.init();
         cursor.setRange(145, 25);
         cursor.setOrientation(Enums.Orientation.Y);
         cursor.resetPosition();
@@ -123,9 +122,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
             viewport.apply();
 
             float yPosition = viewport.getWorldHeight() / 2.5f;
-            namePositions.add(yPosition);
-            yPosition += 15;
-            namePositions.add(yPosition);
             selectionOverlay.render(batch, font, viewport, cursor);
 
             if (inputControls.shootButtonJustPressed) {

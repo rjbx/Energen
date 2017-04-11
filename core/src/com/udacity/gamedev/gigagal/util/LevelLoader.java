@@ -39,7 +39,9 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 // immutable non-instantiable static
 public final class LevelLoader {
@@ -238,46 +240,46 @@ public final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPIKE_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SPIKE_CENTER);
                 Gdx.app.log(TAG, "Loaded the spike at " + spikePosition);
-                level.getIndestructibles().add(new Protrusion(spikePosition, Enums.WeaponType.SOLID));
+                level.getHazards().add(new Protrusion(spikePosition, Enums.WeaponType.SOLID));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.FLAME_SPRITE_1)) {
                 final Vector2 flamePosition = imagePosition.add(Constants.FLAME_CENTER);
                 Gdx.app.log(TAG, "Loaded the flame at " + flamePosition);
-                level.getIndestructibles().add(new Protrusion(flamePosition, Enums.WeaponType.GAS));
+                level.getHazards().add(new Protrusion(flamePosition, Enums.WeaponType.GAS));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.GEISER_SPRITE_1)) {
                 final Vector2 geiserPosition = imagePosition.add(Constants.GEISER_CENTER);
                 Gdx.app.log(TAG, "Loaded the geiser at " + geiserPosition);
-                level.getIndestructibles().add(new Protrusion(geiserPosition, Enums.WeaponType.LIQUID));
+                level.getHazards().add(new Protrusion(geiserPosition, Enums.WeaponType.LIQUID));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WHEEL_SPRITE_1)) {
                 final Vector2 wheelPosition = imagePosition.add(Constants.WHEEL_CENTER);
                 Gdx.app.log(TAG, "Loaded the wheel at " + wheelPosition);
-                level.getIndestructibles().add(new Suspension(wheelPosition, Enums.WeaponType.ORE));
+                level.getHazards().add(new Suspension(wheelPosition, Enums.WeaponType.ORE));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.COIL_SPRITE_1)) {
                 final Vector2 coilPosition = imagePosition.add(Constants.COIL_CENTER);
                 Gdx.app.log(TAG, "Loaded the coil at " + coilPosition);
-                level.getIndestructibles().add(new Suspension(coilPosition, Enums.WeaponType.PLASMA));
+                level.getHazards().add(new Suspension(coilPosition, Enums.WeaponType.PLASMA));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VACUUM_SPRITE_1)) {
                 final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
                 Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
-                level.getIndestructibles().add(new Suspension(vacuumPosition, Enums.WeaponType.ANTIMATTER));
+                level.getHazards().add(new Suspension(vacuumPosition, Enums.WeaponType.ANTIMATTER));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ZOOMBA_SPRITE)) {
                 final Vector2 zoombaPosition = imagePosition.add(Constants.ZOOMBA_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + zoombaPosition);
                 Zoomba zoomba = new Zoomba(zoombaPosition, type);
                 zoomba.setRange(range);
-                level.getDestructibles().add(zoomba);
+                level.getHazards().add(zoomba);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SWOOPA_SPRITE)) {
                 final Vector2 swoopaPosition = imagePosition.add(Constants.SWOOPA_CENTER);
                 Gdx.app.log(TAG, "Loaded the swoopa at " + swoopaPosition);
                 Swoopa swoopa = new Swoopa(level, swoopaPosition, type);
-                level.getDestructibles().add(swoopa);
+                level.getHazards().add(swoopa);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.DORMANTORBEN_SPRITE)) {
                 final Vector2 orbenPosition = imagePosition.add(Constants.ORBEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the orben at " + orbenPosition);
-                level.getDestructibles().add(new Orben(level, orbenPosition, type));
+                level.getHazards().add(new Orben(level, orbenPosition, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WHIRLINGROLLEN_SPRITE_1)) {
                 final Vector2 rollenPosition = imagePosition.add(Constants.ROLLEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the rollen at " + rollenPosition);
-                level.getDestructibles().add(new Rollen(level, rollenPosition, type));
+                level.getHazards().add(new Rollen(level, rollenPosition, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANNON_SPRITE)) {
                 final Vector2 cannonPosition = imagePosition.add(Constants.X_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
@@ -352,8 +354,8 @@ public final class LevelLoader {
 
     private static final void loadNinePatches(Level level, JSONArray ninePatches) {
 
-        Array<Box> boxArray = new Array<Box>();
-        Array<Ladder> ladderArray = new Array<Ladder>();
+        List<Box> boxArray = new ArrayList<Box>();
+        List<Ladder> ladderArray = new ArrayList<Ladder>();
         
         for (Object o : ninePatches) {
             final JSONObject item = (JSONObject) o;
@@ -400,7 +402,6 @@ public final class LevelLoader {
                 }
             });
 
-            level.getBoxes().addAll(boxArray);
             level.getGrounds().addAll(boxArray);
             level.getGrounds().addAll(ladderArray);
         }

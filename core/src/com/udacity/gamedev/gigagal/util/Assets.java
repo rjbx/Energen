@@ -252,7 +252,7 @@ public final class Assets implements AssetErrorListener {
 
             treadmillRight = new Animation(Constants.TREADMILL_DURATION / treadmillRegions.size,
                     treadmillRegions, PlayMode.NORMAL);
-            
+
             treadmillRegions.clear();
 
             treadmillRegions = new Array<AtlasRegion>();
@@ -429,7 +429,7 @@ public final class Assets implements AssetErrorListener {
                     sharpSwoopaRegions, PlayMode.NORMAL);
         }
     }
-    
+
     public static final class OrbenAssets {
 
         public final TextureRegion dormantOrben;
@@ -442,20 +442,20 @@ public final class Assets implements AssetErrorListener {
         private OrbenAssets(TextureAtlas atlas) {
 
             dormantOrben = atlas.findRegion(Constants.DORMANTORBEN_SPRITE);
-            
+
             Array<AtlasRegion> chargedOrbenRegions = new Array<AtlasRegion>();
             chargedOrbenRegions.add(atlas.findRegion(Constants.CHARGEDORBEN_SPRITE_0));
             chargedOrbenRegions.add(atlas.findRegion(Constants.CHARGEDORBEN_SPRITE_1));
             chargedOrbenRegions.add(atlas.findRegion(Constants.CHARGEDORBEN_SPRITE_2));
-    
+
             chargedOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS,
                       chargedOrbenRegions, PlayMode.NORMAL);
-    
+
             Array<AtlasRegion> fieryOrbenRegions = new Array<AtlasRegion>();
             fieryOrbenRegions.add(atlas.findRegion(Constants.FIERYORBEN_SPRITE_0));
             fieryOrbenRegions.add(atlas.findRegion(Constants.FIERYORBEN_SPRITE_1));
             fieryOrbenRegions.add(atlas.findRegion(Constants.FIERYORBEN_SPRITE_2));
-    
+
             fieryOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS,
                     fieryOrbenRegions, PlayMode.NORMAL);
 
@@ -501,14 +501,14 @@ public final class Assets implements AssetErrorListener {
             chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_3));
             chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_4));
             chargedRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, chargedRollenRegions, PlayMode.NORMAL);
-            
+
             Array<AtlasRegion> fieryRollenRegions = new Array<AtlasRegion>();
             fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_1));
             fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_2));
             fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_3));
             fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_4));
             fieryRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, fieryRollenRegions, PlayMode.NORMAL);
-            
+
             Array<AtlasRegion> gushingRollenRegions = new Array<AtlasRegion>();
             gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_1));
             gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_2));
@@ -546,7 +546,7 @@ public final class Assets implements AssetErrorListener {
             whirlRegions.add(atlas.findRegion(Constants.WHIRL_SPRITE_1));
             whirlRegions.add(atlas.findRegion(Constants.WHIRL_SPRITE_2));
             whirl = new Animation(Constants.WHIRL_DURATION /whirlRegions.size, whirlRegions, PlayMode.NORMAL);
-            
+
             Array<AtlasRegion> rodRegions = new Array<AtlasRegion>();
             rodRegions.add(atlas.findRegion(Constants.ROD_SPRITE_1));
             rodRegions.add(atlas.findRegion(Constants.ROD_SPRITE_2));

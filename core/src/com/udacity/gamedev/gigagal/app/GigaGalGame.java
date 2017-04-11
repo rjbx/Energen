@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.Enums;
 
 // immutable singleton
 public final class GigaGalGame extends Game {
@@ -28,6 +29,8 @@ public final class GigaGalGame extends Game {
         Assets.getInstance().init(new AssetManager());
         InputControls.getInstance().init();
         StartScreen.getInstance().create();
+        LevelSelectScreen.getInstance().create();
+        GameplayScreen.getInstance().create(Enums.LevelName.HOME);
         setScreen(StartScreen.getInstance());
     }
 

@@ -10,10 +10,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.overlays.Message;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.overlays.Cursor;
@@ -24,7 +22,9 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 // immutable
 public final class StartScreen extends ScreenAdapter {
@@ -47,7 +47,7 @@ public final class StartScreen extends ScreenAdapter {
     private Backdrop launchBackdrop;
     private Message launchMessage;
     private Preferences prefs;
-    private Array<String> choices;
+    private List<String> choices;
     private long launchStartTime;
     private boolean launching;
     private boolean continuing;
@@ -71,7 +71,7 @@ public final class StartScreen extends ScreenAdapter {
         title = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         title.getData().setScale(1);
         title.setColor(Color.SKY);
-        choices = new Array<String>();
+        choices = new ArrayList<String>();
         launchStartTime = TimeUtils.nanoTime();
         launching = true;
         continuing = (prefs.getLong("Time", 0) != 0);
@@ -90,7 +90,7 @@ public final class StartScreen extends ScreenAdapter {
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
         cursor = Cursor.getInstance(); // shared by all overlays instantiated from this class
-        cursor.create();
+        cursor.init();
         cursor.setRange(35, 20);
         cursor.setOrientation(Enums.Orientation.Y);
         cursor.resetPosition();

@@ -6,6 +6,7 @@ import com.udacity.gamedev.gigagal.util.*;
 import com.udacity.gamedev.gigagal.app.InputControls;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ListIterator;
 
 // singleton
@@ -28,7 +29,7 @@ public class Cursor {
     // static factory method
     public static Cursor getInstance() { return INSTANCE; }
 
-    public void create() {
+    public void init() {
         this.orientation = Enums.Orientation.Y;
         this.startingPosition = 0;
         this.endingPosition = 0;
@@ -100,7 +101,7 @@ public class Cursor {
     public void setOrientation(Enums.Orientation o) { this.orientation = o; }
     public void resetPosition() { position = startingPosition; }
     public ListIterator<String> getIterator() { return iterator; }
-    public void setIterator(ArrayList<String> optionStrings) {
+    public void setIterator(List<String> optionStrings) {
         if (optionStrings == null) {
             this.iterator = null;
         } else {

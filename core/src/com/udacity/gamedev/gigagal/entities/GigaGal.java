@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.app.Level;
@@ -16,7 +15,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
-
 import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
@@ -235,7 +233,7 @@ public class GigaGal implements Humanoid {
         bounds = new Rectangle(left, bottom, width, height);
     }
 
-    private void touchGround(Array<Ground> grounds) {
+    private void touchGround(List<Ground> grounds) {
         onUnbearable = false;
         onRideable = false;
         onSkateable = false;
@@ -463,7 +461,7 @@ public class GigaGal implements Humanoid {
     }
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    private void touchHazards(Array<Hazard> hazards) {
+    private void touchHazards(List<Hazard> hazards) {
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
                 float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime) - pauseTimeSeconds;
@@ -513,8 +511,10 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    private void touchPowerups(DelayedRemovalArray<Powerup> powerups) {
-        for (Powerup powerup : powerups) {
+    private void touchPowerups(List<Powerup> powerups) {
+        ListIterator<Powerup> iterator = powerups.listIterator();
+        while (iterator.hasNext()) {
+            Powerup powerup = iterator.next();
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {
                 if (powerup instanceof AmmoPowerup) {
@@ -537,7 +537,7 @@ public class GigaGal implements Humanoid {
                     }
                 }
                 level.setLevelScore(level.getLevelScore() + Constants.POWERUP_SCORE);
-                powerups.removeValue(powerup, true);
+                iterator.remove();
             }
         }
         if (turbo > Constants.MAX_TURBO) {
