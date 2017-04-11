@@ -460,6 +460,7 @@ public class GigaGal implements Humanoid {
         }
     }
 
+
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     private void touchHazards(List<Hazard> hazards) {
         for (Hazard hazard : hazards) {

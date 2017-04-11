@@ -206,27 +206,29 @@ public final class Ammo implements IndestructibleHazard {
 
     @Override
     public void render(SpriteBatch batch) {
-        float ammoRadius;
-        float scale = 1;
-        float rotation = 0;
-        if (ammoIntensity == AmmoIntensity.BLAST) {
-            ammoRadius = Constants.BLAST_RADIUS;
-        } else if (ammoIntensity == AmmoIntensity.CHARGE_SHOT) {
-            scale += (Constants.CHARGE_DURATION / 3);
-            ammoRadius = Constants.SHOT_RADIUS;
-            ammoRadius *= scale;
-        } else {
-            ammoRadius = Constants.SHOT_RADIUS;
-        }
-        if (!level.getGigaGal().getPaused()) {
-            Vector2 ammoCenter;
-            if (orientation == Orientation.Y) {
-                rotation = 90;
-                ammoCenter = new Vector2(-ammoRadius, ammoRadius);
+        if (active) {
+            float ammoRadius;
+            float scale = 1;
+            float rotation = 0;
+            if (ammoIntensity == AmmoIntensity.BLAST) {
+                ammoRadius = Constants.BLAST_RADIUS;
+            } else if (ammoIntensity == AmmoIntensity.CHARGE_SHOT) {
+                scale += (Constants.CHARGE_DURATION / 3);
+                ammoRadius = Constants.SHOT_RADIUS;
+                ammoRadius *= scale;
             } else {
-                ammoCenter = new Vector2(ammoRadius, ammoRadius);
+                ammoRadius = Constants.SHOT_RADIUS;
             }
-            Helpers.drawTextureRegion(batch, region, position, ammoCenter, scale, rotation);
+            if (!level.getGigaGal().getPaused()) {
+                Vector2 ammoCenter;
+                if (orientation == Orientation.Y) {
+                    rotation = 90;
+                    ammoCenter = new Vector2(-ammoRadius, ammoRadius);
+                } else {
+                    ammoCenter = new Vector2(ammoRadius, ammoRadius);
+                }
+                Helpers.drawTextureRegion(batch, region, position, ammoCenter, scale, rotation);
+            }
         }
     }
 

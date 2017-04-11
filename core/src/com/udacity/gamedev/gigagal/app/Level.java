@@ -146,7 +146,7 @@ public class Level {
                 }
             }
 
-            // Update Enemies
+            // Update Hazards
             ListIterator<Hazard> hazardIterator = hazards.listIterator();
             while (hazardIterator.hasNext()) {
                 Hazard hazard = hazardIterator.next();
@@ -174,16 +174,12 @@ public class Level {
                             spawnAmmo(ammoPositionTop, Direction.UP, Enums.Orientation.Y, Enums.AmmoIntensity.BLAST, weaponType, false);
                         }
                     }
-                }
-            }
-
-            // Updatea Bullets
-            ListIterator<Ammo> ammoIterator = ammoList.listIterator();
-            while (ammoIterator.hasNext()) {
-                Ammo ammo = ammoIterator.next();
-                ammo.update(delta);
-                if (!ammo.isActive()) {
-                    ammoIterator.remove();
+                } else if (hazard instanceof Ammo) {
+                    Ammo ammo = (Ammo) hazard;
+                    ammo.update(delta);
+                    if (!ammo.isActive()) {
+                        hazardIterator.remove();
+                    }
                 }
             }
 
@@ -222,10 +218,6 @@ public class Level {
         gigaGal.render(batch);
         boss.render(batch);
 
-        for (Ammo chargeAmmo : ammoList) {
-            chargeAmmo.render(batch);
-        }
-
         for (Impact impact : impacts) {
             impact.render(batch);
         }
@@ -243,7 +235,7 @@ public class Level {
     }
 
     public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.AmmoIntensity ammoIntensity, Enums.WeaponType weapon, boolean targetsEnemies) {
-        ammoList.add(new Ammo(this, position, direction, orientation, ammoIntensity, weapon, targetsEnemies));
+        hazards.add(new Ammo(this, position, direction, orientation, ammoIntensity, weapon, targetsEnemies));
     }
 
     public boolean gigaGalFailed() {
@@ -262,10 +254,6 @@ public class Level {
     }
 
     public void dispose() {
-        hazards.clear();
-        grounds.clear();
-        ammoList.clear();
-        impacts.clear();
         boss.dispose();
         gigaGal.dispose();
         hazards = null;
@@ -277,8 +265,10 @@ public class Level {
     }
 
     // Getters
-    public final List<Hazard> getHazards() { hazards.addAll(ammoList); hazards.add(boss); return hazards; }
+    public final List<Hazard> getHazards() { return hazards; }
     public final List<Ground> getGrounds() { return grounds; }
+    public final List<Impact> getImpacts() { return impacts; }
+    public final List<Ammo> getAmmoList() { return ammoList; }
     public final List<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
     public final Portal getPortal() { return portal; }
