@@ -32,7 +32,7 @@ public class Ladder implements ClimbableGround {
     public void render(SpriteBatch batch) {
         final float width = right - left;
         final float height = top - bottom;
-        Assets.getInstance().getLadderAssets().ladderNinePatch.draw(batch, left - 1, bottom - 1, width + 2, height + 2);
+        Assets.getInstance().getGroundAssets().ladderNinePatch.draw(batch, left - 1, bottom - 1, width + 2, height + 2);
     }
 
     // Getters

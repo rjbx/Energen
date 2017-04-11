@@ -13,7 +13,8 @@ import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -273,7 +274,7 @@ public class Boss implements Humanoid, Hazard  {
         onSinkable = false;
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
-            if (Utils.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
+            if (Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
@@ -312,7 +313,7 @@ public class Boss implements Humanoid, Hazard  {
 
     private void touchGroundSide(Ground ground) {
         // if during previous frame was not, while currently is, between ground left and right sides
-        if (!Utils.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
+        if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
             // only when not grounded and not recoiling
             if (groundState != Enums.GroundState.PLANTED) {
                 // if x velocity (magnitude, without concern for direction) greater than one third max speed,
@@ -407,7 +408,7 @@ public class Boss implements Humanoid, Hazard  {
                 onUnbearable = true;
                 canHover = false;
                 Random xKnockback = new Random();
-                velocity.set(Utils.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Enums.Orientation.X), Constants.FLAME_KNOCKBACK.y);
+                velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Enums.Orientation.X), Constants.FLAME_KNOCKBACK.y);
                 recoil(velocity);
             }
         }
@@ -423,7 +424,7 @@ public class Boss implements Humanoid, Hazard  {
             lookStartTime = 0;
             lookTimeSeconds = 0;
         } else if (ground instanceof ClimbableGround) {
-            if (Utils.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
+            if (Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
                 if (getTop() > ground.getBottom()) {
                     onClimbable = true;
                 }
@@ -466,7 +467,7 @@ public class Boss implements Humanoid, Hazard  {
     private void untouchGround() {
         if (touchedGround != null && action != Enums.Action.HOVERING) {
             if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
-                /*(!Utils.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
+                /*(!Helpers.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
                 if (onBounceable) {
                     BounceableGround bounceable = (BounceableGround) touchedGround;
                     bounceable.resetStartTime();
@@ -475,7 +476,7 @@ public class Boss implements Humanoid, Hazard  {
                 }
                 canCling = false;
                 fall();
-            } else if (!Utils.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
+            } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
                 if (onBounceable) {
                     BounceableGround bounceable = (BounceableGround) touchedGround;
                     bounceable.resetStartTime();
@@ -496,7 +497,7 @@ public class Boss implements Humanoid, Hazard  {
     private void touchHazards(Array<Hazard> hazards) {
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
-                float recoveryTimeSeconds = Utils.secondsSince(recoveryStartTime) - pauseTimeSeconds;
+                float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime) - pauseTimeSeconds;
                 if (action != Enums.Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
                     Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                     if (getBounds().overlaps(bounds)) {
@@ -530,10 +531,10 @@ public class Boss implements Humanoid, Hazard  {
                         } else {
                             if (hazard instanceof Zoomba) {
                                 Zoomba zoomba = (Zoomba) hazard;
-                                recoil(new Vector2((Utils.absoluteToDirectionalValue(zoomba.getMountKnockback().x, directionX, Enums.Orientation.X)), zoomba.getMountKnockback().y));
+                                recoil(new Vector2((Helpers.absoluteToDirectionalValue(zoomba.getMountKnockback().x, directionX, Enums.Orientation.X)), zoomba.getMountKnockback().y));
                                 damage = zoomba.getMountDamage();
                             } else {
-                                recoil(new Vector2((Utils.absoluteToDirectionalValue(hazard.getKnockback().x, directionX, Enums.Orientation.X)), hazard.getKnockback().y));
+                                recoil(new Vector2((Helpers.absoluteToDirectionalValue(hazard.getKnockback().x, directionX, Enums.Orientation.X)), hazard.getKnockback().y));
                             }
                         }
                         health -= damage;
@@ -583,9 +584,9 @@ public class Boss implements Humanoid, Hazard  {
         boolean inputtingX = ((left || right) && !(left && right));
         if (inputtingX) {
             if (left && !right) {
-                directionChanged = Utils.changeDirection(this, Enums.Direction.LEFT, Enums.Orientation.X);
+                directionChanged = Helpers.changeDirection(this, Enums.Direction.LEFT, Enums.Orientation.X);
             } else if (!left && right) {
-                directionChanged = Utils.changeDirection(this, Enums.Direction.RIGHT, Enums.Orientation.X);
+                directionChanged = Helpers.changeDirection(this, Enums.Direction.RIGHT, Enums.Orientation.X);
             }
         }
         if (groundState != Enums.GroundState.AIRBORNE && action != Enums.Action.CLIMBING) {
@@ -603,7 +604,7 @@ public class Boss implements Humanoid, Hazard  {
                         if (!canStride) {
                             if (strideStartTime == 0) {
                                 canStride = true;
-                            } else if (Utils.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+                            } else if (Helpers.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
                                 strideStartTime = 0;
                             } else if (!onSinkable){
                                 canDash = true;
@@ -650,9 +651,9 @@ public class Boss implements Humanoid, Hazard  {
         boolean inputtingY = ((up || down) && !(up && down));
         if (inputtingY) {
             if (down && !up) {
-                directionChanged = Utils.changeDirection(this, Enums.Direction.DOWN, Enums.Orientation.Y);
+                directionChanged = Helpers.changeDirection(this, Enums.Direction.DOWN, Enums.Orientation.Y);
             } else if (!down && up) {
-                directionChanged = Utils.changeDirection(this, Enums.Direction.UP, Enums.Orientation.Y);
+                directionChanged = Helpers.changeDirection(this, Enums.Direction.UP, Enums.Orientation.Y);
             }
             if (directionY == Enums.Direction.DOWN) {
                 if (onSinkable) {
@@ -725,7 +726,7 @@ public class Boss implements Humanoid, Hazard  {
             }
         } else if (onRideable) {
             velocity.x = 0;
-            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Enums.Orientation.X);
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Enums.Orientation.X);
         } else {
             velocity.x = 0;
         }
@@ -793,7 +794,7 @@ public class Boss implements Humanoid, Hazard  {
                 } else if (chargeTimeSeconds > Constants.CHARGE_DURATION / 3) {
                     ammoIntensity = Enums.AmmoIntensity.CHARGE_SHOT;
                 }
-                chargeTimeSeconds = Utils.secondsSince(chargeStartTime);
+                chargeTimeSeconds = Helpers.secondsSince(chargeStartTime);
           /*  } else */if (chargeStartTime != 0) {
                 int ammoUsed;
 
@@ -803,7 +804,7 @@ public class Boss implements Humanoid, Hazard  {
                     ammoUsed = 0;
                     weapon = Enums.WeaponType.NATIVE;
                 } else {
-                    ammoUsed = Utils.useAmmo(ammoIntensity);
+                    ammoUsed = Helpers.useAmmo(ammoIntensity);
                 }
 
                 shoot(ammoIntensity, weapon, ammoUsed);
@@ -817,11 +818,11 @@ public class Boss implements Humanoid, Hazard  {
     public void shoot(Enums.AmmoIntensity ammoIntensity, Enums.WeaponType weapon, int ammoUsed) {
         ammo -= ammoUsed;
         Vector2 ammoPosition = new Vector2(
-                position.x + Utils.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, directionX, Enums.Orientation.X),
+                position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, directionX, Enums.Orientation.X),
                 position.y + Constants.GIGAGAL_CANNON_OFFSET.y
         );
         if (lookStartTime != 0) {
-            ammoPosition.add(Utils.absoluteToDirectionalValue(0, directionX, Enums.Orientation.X), Utils.absoluteToDirectionalValue(6, directionY, Enums.Orientation.Y));
+            ammoPosition.add(Helpers.absoluteToDirectionalValue(0, directionX, Enums.Orientation.X), Helpers.absoluteToDirectionalValue(6, directionY, Enums.Orientation.Y));
             level.spawnAmmo(ammoPosition, directionY, Enums.Orientation.Y, ammoIntensity, weapon, true);
         } else {
             level.spawnAmmo(ammoPosition, directionX, Enums.Orientation.X, ammoIntensity, weapon, true);
@@ -855,15 +856,15 @@ public class Boss implements Humanoid, Hazard  {
             action = Enums.Action.STRIDING;
             strideStartTime = TimeUtils.nanoTime();
         }
-        strideTimeSeconds = Utils.secondsSince(strideStartTime) - pauseTimeSeconds;
+        strideTimeSeconds = Helpers.secondsSince(strideStartTime) - pauseTimeSeconds;
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
-        velocity.x = Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Enums.Orientation.X);
+        velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Enums.Orientation.X);
         if (onRideable) {
-            velocity.x += Utils.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Enums.Orientation.X);
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Enums.Orientation.X);
         } else if (onSkateable) {
-            velocity.x = strideSpeed + Utils.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Enums.Orientation.X);
+            velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Enums.Orientation.X);
         } else if (onSinkable) {
-            velocity.x = Utils.absoluteToDirectionalValue(10, directionX, Enums.Orientation.X);
+            velocity.x = Helpers.absoluteToDirectionalValue(10, directionX, Enums.Orientation.X);
             velocity.y = -3;
         }
     }
@@ -890,7 +891,7 @@ public class Boss implements Humanoid, Hazard  {
         }
         if (turbo >= 1) {
             turbo -= Constants.FALL_TURBO_INCREMENT * 3;
-            velocity.x = Utils.absoluteToDirectionalValue(dashSpeed, directionX, Enums.Orientation.X);
+            velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed, directionX, Enums.Orientation.X);
         } else {
             canDash = false;
             dashStartTime = 0;
@@ -915,8 +916,8 @@ public class Boss implements Humanoid, Hazard  {
             jumpStartTime = TimeUtils.nanoTime();
             canJump = false;
         }
-        velocity.x += Utils.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Enums.Orientation.X);
-        float jumpTimeSeconds = Utils.secondsSince(jumpStartTime) - pauseTimeSeconds;
+        velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Enums.Orientation.X);
+        float jumpTimeSeconds = Helpers.secondsSince(jumpStartTime) - pauseTimeSeconds;
         if (jumpTimeSeconds < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
@@ -958,7 +959,7 @@ public class Boss implements Humanoid, Hazard  {
             action = Enums.Action.HOVERING; // indicates currently hovering
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
-        hoverTimeSeconds = (Utils.secondsSince(hoverStartTime) - pauseTimeSeconds); // for comparing with max hover time
+        hoverTimeSeconds = (Helpers.secondsSince(hoverStartTime) - pauseTimeSeconds); // for comparing with max hover time
         if (turbo >= 1) {
             velocity.y = 0; // disables impact of gravity
             turbo -= Constants.FALL_TURBO_INCREMENT;
@@ -991,17 +992,17 @@ public class Boss implements Humanoid, Hazard  {
             startTurbo = turbo;
             clingStartTime = TimeUtils.nanoTime();
             turboDuration = Constants.MAX_CLING_DURATION * (startTurbo / Constants.MAX_TURBO);
-            if (!Utils.movingOppositeDirection(velocity.x, directionX, Enums.Orientation.X)) {
-                directionX = Utils.getOppositeDirection(directionX);
+            if (!Helpers.movingOppositeDirection(velocity.x, directionX, Enums.Orientation.X)) {
+                directionX = Helpers.getOppositeDirection(directionX);
             }
             hoverStartTime = 0;
             canJump = true;
             canCling = false;
         }
-        float clingTimeSeconds = (Utils.secondsSince(clingStartTime) - pauseTimeSeconds);
+        float clingTimeSeconds = (Helpers.secondsSince(clingStartTime) - pauseTimeSeconds);
 //        if (!inputControls.jumpButtonPressed) {
             if (clingTimeSeconds >= Constants.CLING_FRAME_DURATION) {
-                velocity.x = Utils.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Enums.Orientation.X);
+                velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Enums.Orientation.X);
                 jump();
             } else {
                 pauseTimeSeconds = 0;
@@ -1036,8 +1037,8 @@ public class Boss implements Humanoid, Hazard  {
         } else {
             if (action == Enums.Action.CLIMBING) {
                 fall();
-                if (!(touchedGround instanceof ClimbableGround && Utils.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())))  {
-                    velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Enums.Orientation.X);
+                if (!(touchedGround instanceof ClimbableGround && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())))  {
+                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Enums.Orientation.X);
                 }
             }
             canClimb = false;
@@ -1052,11 +1053,11 @@ public class Boss implements Humanoid, Hazard  {
                 action = Enums.Action.CLIMBING;
             }
             canHover = false;
-            climbTimeSeconds = Utils.secondsSince(climbStartTime);
+            climbTimeSeconds = Helpers.secondsSince(climbStartTime);
             if (orientation == Enums.Orientation.X) {
-                velocity.x = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Enums.Orientation.X);
+                velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Enums.Orientation.X);
             } else if (orientation == Enums.Orientation.Y) {
-                velocity.y = Utils.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Enums.Orientation.Y);
+                velocity.y = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Enums.Orientation.Y);
             }
             int climbAnimationPercent = (int) (climbTimeSeconds * 100);
             if ((climbAnimationPercent) % 25 >= 0 && (climbAnimationPercent) % 25 <= 13) {
@@ -1142,7 +1143,7 @@ public class Boss implements Humanoid, Hazard  {
                 region = Assets.getInstance().getGigaGalAssets().fallLeft;
             }
         }
-        Utils.drawTextureRegion(batch, region, position, Constants.GIGAGAL_EYE_POSITION);
+        Helpers.drawTextureRegion(batch, region, position, Constants.GIGAGAL_EYE_POSITION);
     }
 
     // Getters

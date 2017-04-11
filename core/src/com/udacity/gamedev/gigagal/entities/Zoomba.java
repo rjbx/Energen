@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
 public class Zoomba implements DestructibleHazard {
@@ -55,14 +55,14 @@ public class Zoomba implements DestructibleHazard {
             direction = Direction.LEFT;
         }
 
-        final float elapsedTime = Utils.secondsSince(startTime);
+        final float elapsedTime = Helpers.secondsSince(startTime);
         final float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + elapsedTime / Constants.ZOOMBA_BOB_PERIOD));
         position.y = bobNadir + Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier;
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        final float elapsedTime = Utils.secondsSince(startTime);
+        final float elapsedTime = Helpers.secondsSince(startTime);
         final TextureRegion region;
         switch (type) {
             case PLASMA:
@@ -83,7 +83,7 @@ public class Zoomba implements DestructibleHazard {
             default:
                 region = Assets.getInstance().getZoombaAssets().zoomba;
         }
-        Utils.drawTextureRegion(batch, region, position, Constants.ZOOMBA_CENTER);
+        Helpers.drawTextureRegion(batch, region, position, Constants.ZOOMBA_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }

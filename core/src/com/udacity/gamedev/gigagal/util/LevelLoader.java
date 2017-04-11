@@ -53,7 +53,8 @@ public final class LevelLoader {
     public static final Level load(String path) throws ParseException, IOException {
 
         final FileHandle file = Gdx.files.internal(path);
-        Level level = new Level();
+        Level level = Level.getInstance();
+        level.create();
 
         JSONParser parser = new JSONParser();
         JSONObject rootJsonObject;

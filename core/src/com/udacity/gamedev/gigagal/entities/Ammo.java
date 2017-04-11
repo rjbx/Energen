@@ -7,7 +7,7 @@ import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
 public final class Ammo implements IndestructibleHazard {
@@ -132,7 +132,7 @@ public final class Ammo implements IndestructibleHazard {
                 level.spawnExplosion(position, weapon);
                 active = false;
 
-                TypeEffectiveness effectiveness = Utils.getAmmoEffectiveness(destructible.getType(), weapon);
+                TypeEffectiveness effectiveness = Helpers.getAmmoEffectiveness(destructible.getType(), weapon);
                 switch (effectiveness) {
                     case STRONG:
                         damage = Constants.AMMO_SPECIALIZED_DAMAGE;
@@ -152,7 +152,7 @@ public final class Ammo implements IndestructibleHazard {
                 } else {
                     level.setLevelScore(level.getLevelScore() + destructible.getHitScore());
                 }
-                Utils.applyDamage(destructible, ammoIntensity, damage / Constants.DIFFICULTY_MULTIPLIER[level.getDifficulty()]);
+                Helpers.applyDamage(destructible, ammoIntensity, damage / Constants.DIFFICULTY_MULTIPLIER[level.getDifficulty()]);
             }
         }
 
@@ -221,7 +221,7 @@ public final class Ammo implements IndestructibleHazard {
             } else {
                 ammoCenter = new Vector2(ammoRadius, ammoRadius);
             }
-            Utils.drawTextureRegion(batch, region, position, ammoCenter, scale, rotation);
+            Helpers.drawTextureRegion(batch, region, position, ammoCenter, scale, rotation);
         }
     }
 

@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Coals implements UnbearableGround {
 
@@ -26,9 +26,9 @@ public class Coals implements UnbearableGround {
 
     @Override
     public void render(SpriteBatch batch) {
-        final float elapsedTime = Utils.secondsSince(startTime);
-        final TextureRegion region = Assets.getInstance().getCoalsAssets().coals.getKeyFrame(elapsedTime, true);
-        Utils.drawTextureRegion(batch, region, position, adjustedCenter, scale);
+        final float elapsedTime = Helpers.secondsSince(startTime);
+        final TextureRegion region = Assets.getInstance().getGroundAssets().coals.getKeyFrame(elapsedTime, true);
+        Helpers.drawTextureRegion(batch, region, position, adjustedCenter, scale);
     }
 
     @Override public final Vector2 getPosition() { return position; }

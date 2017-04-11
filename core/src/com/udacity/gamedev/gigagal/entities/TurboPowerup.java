@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
 public final class TurboPowerup implements Powerup {
@@ -19,7 +19,7 @@ public final class TurboPowerup implements Powerup {
     @Override
     public void render(SpriteBatch batch) {
         final TextureRegion region = Assets.getInstance().getPowerupAssets().turboPowerup;
-        Utils.drawTextureRegion(batch, region, position, Constants.POWERUP_CENTER);
+        Helpers.drawTextureRegion(batch, region, position, Constants.POWERUP_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }

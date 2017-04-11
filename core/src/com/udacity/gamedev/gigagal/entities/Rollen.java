@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class Rollen implements DestructibleHazard {
@@ -61,19 +61,19 @@ public class Rollen implements DestructibleHazard {
                 speedAtChangeXDirection = velocity.x;
                 rollStartTime = TimeUtils.nanoTime();
             }
-            rollTimeSeconds = Utils.secondsSince(rollStartTime);
-            velocity.x = speedAtChangeXDirection + Utils.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
+            rollTimeSeconds = Helpers.secondsSince(rollStartTime);
+            velocity.x = speedAtChangeXDirection + Helpers.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
         }
 
         boolean touchingSide = false;
         boolean touchingTop = false;
         for (Ground ground : grounds) {
             if (ground instanceof SolidGround) {
-                if (Utils.overlapsBetweenFourSides(position, radius, radius, ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop())) {
-                    if (!(Utils.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
+                if (Helpers.overlapsBetweenFourSides(position, radius, radius, ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop())) {
+                    if (!(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
                         touchingSide = true;
                     }
-                    if (!(Utils.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))) {
+                    if (!(Helpers.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))) {
                         touchingTop = true;
                     }
                 }
@@ -133,7 +133,7 @@ public class Rollen implements DestructibleHazard {
             animation.setPlayMode(Animation.PlayMode.NORMAL);
         }
         region = animation.getKeyFrame(rollTimeSeconds, true);
-        Utils.drawTextureRegion(batch, region, position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
+        Helpers.drawTextureRegion(batch, region, position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
     }
 
     @Override public Vector2 getPosition() { return position; }

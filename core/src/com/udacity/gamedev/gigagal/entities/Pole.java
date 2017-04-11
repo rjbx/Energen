@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Pole implements ClimbableGround {
 
@@ -23,9 +23,9 @@ public class Pole implements ClimbableGround {
 
     @Override
     public void render(SpriteBatch batch) {
-        final float elapsedTime = Utils.secondsSince(startTime);
-        final TextureRegion region = Assets.getInstance().getPoleAssets().pole.getKeyFrame(elapsedTime, true);
-        Utils.drawTextureRegion(batch, region, position, Constants.POLE_CENTER);
+        final float elapsedTime = Helpers.secondsSince(startTime);
+        final TextureRegion region = Assets.getInstance().getGroundAssets().pole.getKeyFrame(elapsedTime, true);
+        Helpers.drawTextureRegion(batch, region, position, Constants.POLE_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }

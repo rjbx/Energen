@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Cannon implements Ground {
 
@@ -29,11 +29,11 @@ public class Cannon implements Ground {
         offset = 0;
         switch (orientation) {
             case Y:
-                region = Assets.getInstance().getCannonAssets().yCannon;
+                region = Assets.getInstance().getGroundAssets().yCannon;
                 center = Constants.Y_CANNON_CENTER;
                 break;
             case X:
-                region = Assets.getInstance().getCannonAssets().xCannon;
+                region = Assets.getInstance().getGroundAssets().xCannon;
                 center = Constants.X_CANNON_CENTER;
                 break;
         }
@@ -41,7 +41,7 @@ public class Cannon implements Ground {
 
     @Override
     public void render(SpriteBatch batch) {
-        Utils.drawTextureRegion(batch, region, position, center);
+        Helpers.drawTextureRegion(batch, region, position, center);
     }
 
     @Override public final Vector2 getPosition() { return position; }

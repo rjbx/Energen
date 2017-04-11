@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Pillar implements Ground {
 
@@ -20,8 +20,8 @@ public class Pillar implements Ground {
 
     @Override
     public void render(SpriteBatch batch) {
-        final TextureRegion region = Assets.getInstance().getPillarAssets().pillar;
-        Utils.drawTextureRegion(batch, region, position, Constants.PILLAR_CENTER);
+        final TextureRegion region = Assets.getInstance().getGroundAssets().pillar;
+        Helpers.drawTextureRegion(batch, region, position, Constants.PILLAR_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }

@@ -18,18 +18,19 @@ import com.udacity.gamedev.gigagal.overlays.Cursor;
 import com.udacity.gamedev.gigagal.overlays.Message;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
+
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.ListIterator;
 
 // immutable
 public final class LevelSelectScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = LevelSelectScreen.class.getName();
+    public static final LevelSelectScreen INSTANCE = new LevelSelectScreen();
     private static InputControls inputControls;
     private static OnscreenControls onscreenControls;
     private com.udacity.gamedev.gigagal.app.GigaGalGame game;
@@ -44,16 +45,19 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private Array<Float> namePositions;
     private ArrayList<String> selectionStrings;
     private Array<Enums.LevelName> completedLevels;
-    private ListIterator<String> iterator;
     private Enums.LevelName levelName;
     private Enums.LevelName selectedLevel;
     private GameplayScreen gameplayScreen;
     private boolean optionsVisible;
     private boolean messageVisible;
 
-    // default ctor
-    public LevelSelectScreen(com.udacity.gamedev.gigagal.app.GigaGalGame game) {
-        this.game = game;
+    // non-instantiable; cannot be subclassed
+    private LevelSelectScreen() {}
+
+    public static LevelSelectScreen getInstance() { return INSTANCE; }
+
+    public void create() {
+        this.game = GigaGalGame.getInstance();
         prefs = game.getPreferences();
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
@@ -69,7 +73,10 @@ public final class LevelSelectScreen extends ScreenAdapter {
         messageVisible = false;
         batch = new SpriteBatch();
         completedLevels = new Array<Enums.LevelName>();
-        cursor = new Cursor(145, 25, Enums.Orientation.Y);
+        cursor = new Cursor();
+        cursor.setRange(145, 25);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
         optionsOverlay = new Menu(this);
         selectionOverlay = new Menu(this);
         selectionStrings = new ArrayList();
@@ -77,9 +84,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
             selectionStrings.add(level.name());
         }
         selectionStrings.add("OPTIONS");
-        iterator = selectionStrings.listIterator();
         cursor.setIterator(selectionStrings);
-        iterator.next();
         selectionOverlay.setOptionStrings(selectionStrings);
         selectionOverlay.setAlignment(Align.left);
         errorMessage = new Message();
@@ -124,7 +129,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
             if (inputControls.shootButtonJustPressed) {
                 if (cursor.getPosition() <= 145 && cursor.getPosition() >= 40) {
                     selectedLevel = Enums.LevelName.valueOf(cursor.getIterator().previous());
-                    gameplayScreen = new GameplayScreen(game, selectedLevel);
+                    gameplayScreen = GameplayScreen.getInstance();
+                    gameplayScreen.create(selectedLevel);
                     messageVisible = false;
                     try {
                         gameplayScreen.readLevelFile();
@@ -162,11 +168,12 @@ public final class LevelSelectScreen extends ScreenAdapter {
             if (inputControls.shootButtonJustPressed) {
                 if (cursor.getPosition() == 106) {
                     cursor.setRange(145, 25);
+                    cursor.setIterator(selectionStrings);
                     cursor.resetPosition();
                     cursor.update();
                     optionsVisible = false;
                 } else if (cursor.getPosition() == 91) {
-                    onscreenControls.onMobile = Utils.toggleBoolean(onscreenControls.onMobile);
+                    onscreenControls.onMobile = Helpers.toggleBoolean(onscreenControls.onMobile);
                     prefs.putBoolean("Mobile", onscreenControls.onMobile);
                 } else if (cursor.getPosition() == 76) {
                     game.dispose();
@@ -193,7 +200,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
         errorMessage.dispose();
         font.dispose();
         batch.dispose();
-        iterator = null;
         completedLevels = null;
         inputControls = null;
         optionsOverlay = null;

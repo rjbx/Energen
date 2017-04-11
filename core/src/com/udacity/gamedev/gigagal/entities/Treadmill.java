@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Treadmill implements RideableGround {
 
@@ -29,14 +29,14 @@ public class Treadmill implements RideableGround {
 
     @Override
     public void render(SpriteBatch batch) {
-        final float elapsedTime = Utils.secondsSince(startTime);
+        final float elapsedTime = Helpers.secondsSince(startTime);
         final TextureRegion region;
         if (direction == Enums.Direction.RIGHT) {
-            region = Assets.getInstance().getTreadmillAssets().treadmillRight.getKeyFrame(elapsedTime, true);
+            region = Assets.getInstance().getGroundAssets().treadmillRight.getKeyFrame(elapsedTime, true);
         } else {
-            region = Assets.getInstance().getTreadmillAssets().treadmillLeft.getKeyFrame(elapsedTime, true);
+            region = Assets.getInstance().getGroundAssets().treadmillLeft.getKeyFrame(elapsedTime, true);
         }
-        Utils.drawTextureRegion(batch, region, position, adjustedCenter, scale);
+        Helpers.drawTextureRegion(batch, region, position, adjustedCenter, scale);
     }
 
     @Override public final Vector2 getPosition() { return position; }

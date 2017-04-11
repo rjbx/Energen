@@ -24,7 +24,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.LevelLoader;
 import com.udacity.gamedev.gigagal.util.Timer;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 import org.json.simple.parser.ParseException;
 
@@ -36,6 +36,7 @@ public class GameplayScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = GameplayScreen.class.getName();
+    public static final GameplayScreen INSTANCE = new GameplayScreen();
     private static InputControls inputControls;
     private static OnscreenControls onscreenControls;
     private GigaGalGame game;
@@ -67,8 +68,13 @@ public class GameplayScreen extends ScreenAdapter {
     private float pauseDuration;
 
     // default ctor
-    public GameplayScreen(GigaGalGame game, Enums.LevelName levelName) {
-        this.game = game;
+    private GameplayScreen() {}
+
+    public static GameplayScreen getInstance() { return INSTANCE; }
+
+    // non-instantiable; cannot be subclassed
+    public void create(Enums.LevelName levelName) {
+        this.game = GigaGalGame.getInstance();
         this.levelName = levelName;
         prefs = game.getPreferences();
         completedLevels = new Array<Enums.LevelName>();
@@ -88,14 +94,15 @@ public class GameplayScreen extends ScreenAdapter {
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays instantiated from this class
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
-        cursor = new Cursor(73, 43, Enums.Orientation.Y); // shared by all overlays instantiated from this class
+        cursor = new Cursor(); // shared by all overlays instantiated from this class
+        cursor.setRange(73, 43);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
         pauseOverlay = new Menu(this);
         optionsOverlay = new Menu(this);
         errorMessage = new Message();
         errorMessage.setMessage(Constants.LEVEL_KEY_MESSAGE);
-        victoryOverlay = new Message();
-        victoryOverlay.setMessage(Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Utils.stopWatchToString(getTotalTime()) + "\nScore: " + getTotalScore() + "\n\nLEVEL TOTAL\n" + "Time: " + getLevel().getLevelTime() + "\n" + "Score: " + getLevel().getLevelScore());
-        defeatOverlay = new Message();
+        victoryOverlay = new Message();defeatOverlay = new Message();
         defeatOverlay.setMessage(Constants.DEFEAT_MESSAGE);
         inputControls = InputControls.getInstance();
         onscreenControls = OnscreenControls.getInstance();
@@ -165,7 +172,8 @@ public class GameplayScreen extends ScreenAdapter {
                         } else if (cursor.getPosition() == 58) {
                             unpause();
                             totalTime.suspend();
-                            game.setScreen(new LevelSelectScreen(game));
+                            LevelSelectScreen.getInstance().create();
+                            game.setScreen(LevelSelectScreen.getInstance());
                             this.dispose();
                             return;
                         } else if (cursor.getPosition() == 43) {
@@ -193,7 +201,7 @@ public class GameplayScreen extends ScreenAdapter {
                                 chaseCam.setFollowing(false);
                             }
                         } else if (cursor.getPosition() == 43) {
-                            onscreenControls.onMobile = Utils.toggleBoolean(onscreenControls.onMobile);
+                            onscreenControls.onMobile = Helpers.toggleBoolean(onscreenControls.onMobile);
                             prefs.putBoolean("Mobile", onscreenControls.onMobile);
                         } else if (cursor.getPosition() == 28) {
                             game.dispose();
@@ -241,9 +249,10 @@ public class GameplayScreen extends ScreenAdapter {
             font.getData().setScale(1);
             defeatOverlay.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f));
             font.getData().setScale(.4f);
-            if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
+            if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
-                game.setScreen(new LevelSelectScreen(game));
+                LevelSelectScreen.getInstance().create();
+                game.setScreen(LevelSelectScreen.getInstance());
                 this.dispose();
                 return;
             }
@@ -257,9 +266,10 @@ public class GameplayScreen extends ScreenAdapter {
                 game.getPreferences().putLong("Time", totalTime.getNanoTime());
                 game.getPreferences().flush();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
+                victoryOverlay.setMessage(Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.stopWatchToString(getTotalTime()) + "\nScore: " + getTotalScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.stopWatchToString(getLevel().getLevelTime()) + "\n" + "Score: " + getLevel().getLevelScore());
             }
             victoryOverlay.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .9f));
-            if (Utils.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
+            if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
                 levelEndOverlayStartTime = 0;
                 levelComplete();
             }
@@ -324,14 +334,14 @@ public class GameplayScreen extends ScreenAdapter {
         if (!completedLevels.contains(levelName, false)) {
             completedLevels.add(levelName);
         }
-
-        game.setScreen(new LevelSelectScreen(game));
+        LevelSelectScreen.getInstance().create();
+        game.setScreen(LevelSelectScreen.getInstance());
         this.dispose();
         return;
     }
 
     private void unpause() {
-        gigaGal.setPauseTimeSeconds(Utils.secondsSincePause(pauseTime) + pauseDuration);
+        gigaGal.setPauseTimeSeconds(Helpers.secondsSincePause(pauseTime) + pauseDuration);
         level.getLevelTime().resume();
         totalTime.resume();
         paused = false;

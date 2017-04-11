@@ -8,11 +8,13 @@ import com.udacity.gamedev.gigagal.app.InputControls;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+// singleton
 public class Cursor {
 
     // fields
-    public final static String TAG = Cursor.class.getName();
-    private final ExtendViewport viewport; // class-level instantiation
+    public static final String TAG = Cursor.class.getName();
+    public static final Cursor INSTANCE = new Cursor();
+    private ExtendViewport viewport;
     private Enums.Orientation orientation;
     private float startingPosition;
     private float endingPosition;
@@ -20,12 +22,11 @@ public class Cursor {
     private ListIterator<String> iterator;
     private float position;
 
-    // ctor
-    public Cursor(float startingPosition, float endingPosition, Enums.Orientation orientation) {
-        this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        this.orientation = orientation;
-        this.startingPosition = startingPosition;
-        this.endingPosition = endingPosition;
+    // non-instantiable
+    public Cursor() {
+        this.orientation = Enums.Orientation.Y;
+        this.startingPosition = 0;
+        this.endingPosition = 0;
         position = this.startingPosition;
         inputControls = InputControls.getInstance();
     }
@@ -80,9 +81,9 @@ public class Cursor {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         if (orientation == Enums.Orientation.X) {
-            Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().selectionCursor, position, viewport.getWorldHeight() / 3);
+            Helpers.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().selectionCursor, position, viewport.getWorldHeight() / 3);
         } else {
-            Utils.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().selectionCursor, viewport.getWorldWidth() / 4, position);
+            Helpers.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().selectionCursor, viewport.getWorldWidth() / 4, position);
         }
     }
 

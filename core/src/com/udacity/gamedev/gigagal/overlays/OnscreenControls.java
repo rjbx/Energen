@@ -7,7 +7,7 @@ import com.udacity.gamedev.gigagal.util.*;
 import com.udacity.gamedev.gigagal.app.InputControls;
 
 // mutable
-public class OnscreenControls {
+public final class OnscreenControls {
 
     // fields
     public static final String TAG = OnscreenControls.class.getName();
@@ -22,7 +22,7 @@ public class OnscreenControls {
 
     public static OnscreenControls getInstance() { return INSTANCE; }
 
-    public void init() {
+    public final void init() {
         this.inputControls = InputControls.getInstance();
         this.viewport = new ExtendViewport(
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE,
@@ -36,53 +36,53 @@ public class OnscreenControls {
             batch.setProjectionMatrix(viewport.getCamera().combined);
             batch.begin();
 
-            Utils.drawTextureRegion(
+            Helpers.drawTextureRegion(
                     batch,
                     Assets.getInstance().getOverlayAssets().left,
                     inputControls.leftCenter,
                     Constants.BUTTON_CENTER
             );
 
-            Utils.drawTextureRegion(
+            Helpers.drawTextureRegion(
                     batch,
                     Assets.getInstance().getOverlayAssets().right,
                     inputControls.rightCenter,
                     Constants.BUTTON_CENTER
             );
 
-            Utils.drawTextureRegion(
+            Helpers.drawTextureRegion(
                     batch,
                     Assets.getInstance().getOverlayAssets().up,
                     inputControls.upCenter,
                     Constants.BUTTON_CENTER
             );
 
-            Utils.drawTextureRegion(
+            Helpers.drawTextureRegion(
                     batch,
                     Assets.getInstance().getOverlayAssets().down,
                     inputControls.downCenter,
                     Constants.BUTTON_CENTER
             );
 
-            Utils.drawTextureRegion(
+            Helpers.drawTextureRegion(
                     batch,
                     Assets.getInstance().getOverlayAssets().center,
                     inputControls.centerCenter,
                     Constants.BUTTON_CENTER
             );
-            Utils.drawTextureRegion(
+            Helpers.drawTextureRegion(
                     batch,
                     Assets.getInstance().getOverlayAssets().shoot,
                     inputControls.shootCenter,
                     Constants.BUTTON_CENTER
             );
-            Utils.drawTextureRegion(
+            Helpers.drawTextureRegion(
                     batch,
                     Assets.getInstance().getOverlayAssets().jump,
                     inputControls.jumpCenter,
                     Constants.BUTTON_CENTER
             );
-            Utils.drawTextureRegion(
+            Helpers.drawTextureRegion(
                     batch,
                     Assets.getInstance().getOverlayAssets().pause,
                     inputControls.pauseCenter,

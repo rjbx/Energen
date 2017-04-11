@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
 public final class Portal implements Entity {
@@ -24,9 +24,9 @@ public final class Portal implements Entity {
 
     @Override
     public void render(SpriteBatch batch) {
-        final float elapsedTime = Utils.secondsSince(startTime);
+        final float elapsedTime = Helpers.secondsSince(startTime);
         final TextureRegion region = Assets.getInstance().getPortalAssets().portal.getKeyFrame(elapsedTime, true);
-        Utils.drawTextureRegion(batch, region, position, Constants.PORTAL_CENTER);
+        Helpers.drawTextureRegion(batch, region, position, Constants.PORTAL_CENTER);
     }
 
     public final Vector2 getPosition() { return position; }

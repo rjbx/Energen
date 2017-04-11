@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Lift implements HoverableGround {
 
@@ -81,8 +81,8 @@ public class Lift implements HoverableGround {
 
     @Override
     public void render(SpriteBatch batch) {
-        final TextureRegion region = Assets.getInstance().getLiftAssets().lift;
-        Utils.drawTextureRegion(batch, region, position, Constants.LIFT_CENTER);
+        final TextureRegion region = Assets.getInstance().getGroundAssets().lift;
+        Helpers.drawTextureRegion(batch, region, position, Constants.LIFT_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }

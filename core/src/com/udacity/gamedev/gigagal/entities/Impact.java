@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
 public class Impact implements Entity {
@@ -30,31 +30,31 @@ public class Impact implements Entity {
         TextureRegion region;
         switch (type) {
             case PLASMA:
-                region = Assets.getInstance().getImpactAssets().impactPlasma.getKeyFrame(Utils.secondsSince(startTime));
+                region = Assets.getInstance().getImpactAssets().impactPlasma.getKeyFrame(Helpers.secondsSince(startTime));
                 break;
             case GAS:
-                region = Assets.getInstance().getImpactAssets().impact.getKeyFrame(Utils.secondsSince(startTime));
+                region = Assets.getInstance().getImpactAssets().impact.getKeyFrame(Helpers.secondsSince(startTime));
                 break;
             case LIQUID:
-                region = Assets.getInstance().getImpactAssets().impactLiquid.getKeyFrame(Utils.secondsSince(startTime));
+                region = Assets.getInstance().getImpactAssets().impactLiquid.getKeyFrame(Helpers.secondsSince(startTime));
                 break;
             case SOLID:
-                region = Assets.getInstance().getImpactAssets().impactSolid.getKeyFrame(Utils.secondsSince(startTime));
+                region = Assets.getInstance().getImpactAssets().impactSolid.getKeyFrame(Helpers.secondsSince(startTime));
                 break;
             case ANTIMATTER:
-                region = Assets.getInstance().getImpactAssets().impactPsychic.getKeyFrame(Utils.secondsSince(startTime));
+                region = Assets.getInstance().getImpactAssets().impactPsychic.getKeyFrame(Helpers.secondsSince(startTime));
                 break;
             case HYBRID:
-                region = Assets.getInstance().getImpactAssets().impactHybrid.getKeyFrame(Utils.secondsSince(startTime));
+                region = Assets.getInstance().getImpactAssets().impactHybrid.getKeyFrame(Helpers.secondsSince(startTime));
                 break;
             case NATIVE:
-                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Utils.secondsSince(startTime));
+                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Helpers.secondsSince(startTime));
                 break;
             default:
-                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Utils.secondsSince(startTime));
+                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Helpers.secondsSince(startTime));
         }
         if (!isFinished()) {
-            Utils.drawTextureRegion(
+            Helpers.drawTextureRegion(
                     batch,
                     region,
                     position.x - Constants.EXPLOSION_CENTER.x,
@@ -70,5 +70,5 @@ public class Impact implements Entity {
     @Override public final float getRight() { return position.x + Constants.EXPLOSION_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.EXPLOSION_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.EXPLOSION_CENTER.y; }
-    public boolean isFinished() { return Assets.getInstance().getImpactAssets().impact.isAnimationFinished(Utils.secondsSince(startTime)); }
+    public boolean isFinished() { return Assets.getInstance().getImpactAssets().impact.isAnimationFinished(Helpers.secondsSince(startTime)); }
 }

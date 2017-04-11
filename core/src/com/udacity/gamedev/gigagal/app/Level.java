@@ -28,7 +28,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Timer;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 import java.util.Arrays;
 
@@ -37,6 +37,7 @@ public class Level {
 
     // fields
     public static final String TAG = Level.class.getName();
+    public static final Level INSTANCE = new Level();
     private Enums.LevelName levelName;
     private Viewport viewport;
     private boolean victory;
@@ -61,8 +62,11 @@ public class Level {
 
     private Boss boss;
 
-    // default ctor
-    public Level() {
+    // non-instantiable; cannot be subclassed
+    private Level() {}
+
+    public static Level getInstance() { return INSTANCE; }
+    public void create() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigaGal = new GigaGal(this, new Vector2(50, 50));
         boss = new Boss(this, new Vector2(300, 300));
@@ -123,7 +127,7 @@ public class Level {
                         cannon.setOffset(cannonOffset);
                         cannon.setStartTime(TimeUtils.nanoTime() + ((long) (cannon.getOffset() / MathUtils.nanoToSec)));
                     }
-                    if ((Utils.secondsSince(cannon.getStartTime())  > 1.5f)) {
+                    if ((Helpers.secondsSince(cannon.getStartTime())  > 1.5f)) {
                         cannon.setStartTime(TimeUtils.nanoTime());
                         Enums.Orientation orientation = cannon.getOrientation();
                         if (orientation == Enums.Orientation.X) {
@@ -159,7 +163,7 @@ public class Level {
                 if (destructible instanceof Orben) {
                     Orben orben = (Orben) destructible;
                     Enums.WeaponType weaponType = orben.getType();
-                    float secondsSinceModOne = Utils.secondsSince(orben.getStartTime()) % 1;
+                    float secondsSinceModOne = Helpers.secondsSince(orben.getStartTime()) % 1;
                     if ((secondsSinceModOne >= 0 && secondsSinceModOne < 0.01f) && orben.isActive()) {
                         Vector2 ammoPositionLeft = new Vector2(orben.getPosition().x - (orben.getWidth() * 1.1f), destructible.getPosition().y);
                         Vector2 ammoPositionRight = new Vector2(orben.getPosition().x + (orben.getWidth() * 1.1f), destructible.getPosition().y);

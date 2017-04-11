@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Sink implements SinkableGround {
 
@@ -22,9 +22,9 @@ public class Sink implements SinkableGround {
 
     @Override
     public void render(SpriteBatch batch) {
-        final float elapsedTime = Utils.secondsSince(startTime);
-        final TextureRegion region = Assets.getInstance().getSinkAssets().sink.getKeyFrame(elapsedTime, true);
-        Utils.drawTextureRegion(batch, region, position, Constants.SINK_CENTER);
+        final float elapsedTime = Helpers.secondsSince(startTime);
+        final TextureRegion region = Assets.getInstance().getGroundAssets().sink.getKeyFrame(elapsedTime, true);
+        Helpers.drawTextureRegion(batch, region, position, Constants.SINK_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }

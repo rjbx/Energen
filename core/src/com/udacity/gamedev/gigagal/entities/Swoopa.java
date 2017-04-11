@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
 public class Swoopa implements DestructibleHazard {
@@ -46,7 +46,7 @@ public class Swoopa implements DestructibleHazard {
             if (descentStartTime == 0) {
                 descentStartTime = TimeUtils.nanoTime();
             }
-            if (Utils.secondsSince(descentStartTime) < .75f) {
+            if (Helpers.secondsSince(descentStartTime) < .75f) {
                 velocity.x = Math.min(-20, velocity.x * 1.01f);
                 velocity.y = Math.min(-Constants.SWOOPA_MOVEMENT_SPEED, velocity.y * 1.01f);
             } else {
@@ -67,7 +67,7 @@ public class Swoopa implements DestructibleHazard {
 
     @Override
     public void render(SpriteBatch batch) {
-        final float elapsedTime = Utils.secondsSince(startTime);
+        final float elapsedTime = Helpers.secondsSince(startTime);
         final TextureRegion region;
         switch (type) {
             case PLASMA:
@@ -88,7 +88,7 @@ public class Swoopa implements DestructibleHazard {
             default:
                 region = Assets.getInstance().getSwoopaAssets().swoopa;
         }
-        Utils.drawTextureRegion(batch, region, position, Constants.SWOOPA_CENTER);
+        Helpers.drawTextureRegion(batch, region, position, Constants.SWOOPA_CENTER);
     }
 
     @Override public Vector2 getPosition() { return position; }

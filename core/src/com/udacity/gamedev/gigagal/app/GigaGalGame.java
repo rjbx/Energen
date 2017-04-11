@@ -4,17 +4,21 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
+import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 
-// immutable
+// immutable singleton
 public final class GigaGalGame extends Game {
 
     // fields
+    private static final GigaGalGame INSTANCE = new GigaGalGame();
     private Preferences prefs;
 
-    // default ctor
-    public GigaGalGame() {}
+    // non-instantiable; cannot be subclassed
+    private GigaGalGame() {}
+
+    public static GigaGalGame getInstance() { return INSTANCE; }
 
     @Override
     public void create() {
@@ -22,15 +26,14 @@ public final class GigaGalGame extends Game {
 
         Assets.getInstance().init(new AssetManager());
         InputControls.getInstance().init();
-
-        setScreen(new StartScreen(this));
+        StartScreen.getInstance().create();
+        setScreen(StartScreen.getInstance());
     }
 
     @Override
     public void dispose() {
         prefs = null;
         OnscreenControls.getInstance().dispose();
-        Assets.getInstance().dispose();
         super.dispose();
         System.gc();
     }

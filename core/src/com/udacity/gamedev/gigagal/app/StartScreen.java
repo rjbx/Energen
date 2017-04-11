@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.overlays.Message;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.overlays.Cursor;
@@ -21,7 +22,7 @@ import com.udacity.gamedev.gigagal.overlays.Menu;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 import java.util.Arrays;
 
@@ -30,6 +31,7 @@ public final class StartScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = StartScreen.class.getName();
+    public static final StartScreen INSTANCE = new StartScreen();
     private static InputControls inputControls;
     private static OnscreenControls onscreenControls;
     private com.udacity.gamedev.gigagal.app.GigaGalGame game;
@@ -51,11 +53,16 @@ public final class StartScreen extends ScreenAdapter {
     private boolean continuing;
     private boolean difficultyOptionsVisible;
     private boolean promptVisible;
-    private final Vector2 gigagalCenter;
+    private Vector2 gigagalCenter;
 
     // default ctor
-    public StartScreen(com.udacity.gamedev.gigagal.app.GigaGalGame game) {
-        this.game = game;
+    private StartScreen() {}
+
+    // non-instantiable; cannot be subclassed
+    public static StartScreen getInstance() { return INSTANCE; }
+
+    public void create() {
+        game = GigaGalGame.getInstance();
         prefs = game.getPreferences();
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigagalCenter = new Vector2(Constants.GIGAGAL_STANCE_WIDTH / 2, Constants.GIGAGAL_HEIGHT / 2);
@@ -82,7 +89,10 @@ public final class StartScreen extends ScreenAdapter {
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays instantiated from this class
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
-        cursor = new Cursor(35, 20, Enums.Orientation.Y); // shared by all overlays instantiated from this class
+        cursor = new Cursor(); // shared by all overlays instantiated from this class
+        cursor.setRange(35, 20);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
         startMenu = new Menu(this);
         difficultyMenu = new Menu(this);
         eraseMenu = new Menu(this);
@@ -128,7 +138,7 @@ public final class StartScreen extends ScreenAdapter {
                     title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
 
                     final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
-                    Utils.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
+                    Helpers.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
 
                     batch.end();
 
@@ -147,7 +157,9 @@ public final class StartScreen extends ScreenAdapter {
                         if (continuing) {
                             if (cursor.getPosition() == 35) {
                                 inputControls.shootButtonJustPressed = false;
-                                game.setScreen(new LevelSelectScreen(game));
+                                LevelSelectScreen levelSelectScreen = LevelSelectScreen.getInstance();
+                                levelSelectScreen.create();
+                                game.setScreen(levelSelectScreen);
                                 this.dispose();
                                 return;
                             } else if (cursor.getPosition() == 20) {
@@ -194,27 +206,28 @@ public final class StartScreen extends ScreenAdapter {
                 launchMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, Constants.HUD_MARGIN));
             }
 
-            if (Utils.secondsSince(launchStartTime) > 3) {
+            if (Helpers.secondsSince(launchStartTime) > 3) {
                 launching = false;
             }
         } else {
             difficultyMenu.render(batch, font, viewport, cursor);
             if (inputControls.shootButtonJustPressed) {
                 if (cursor.getPosition() == 75) {
-                    difficultyOptionsVisible = false;
                     prefs.putInteger("Difficulty", 0);
-                    game.setScreen(new LevelSelectScreen(game));
                 } else if (cursor.getPosition() == 60) {
-                    difficultyOptionsVisible = false;
                     prefs.putInteger("Difficulty", 1);
-                    game.setScreen(new LevelSelectScreen(game));
                 } else if (cursor.getPosition() == 45) {
-                    difficultyOptionsVisible = false;
                     prefs.putInteger("Difficulty", 2);
-                    game.setScreen(new LevelSelectScreen(game));
                 }
-                this.dispose();
-                return;
+
+                if (prefs.contains("Difficulty")) {
+                    difficultyOptionsVisible = false;
+                    LevelSelectScreen levelSelectScreen = LevelSelectScreen.getInstance();
+                    levelSelectScreen.create();
+                    game.setScreen(levelSelectScreen);
+                    this.dispose();
+                    return;
+                }
             } else if (inputControls.pauseButtonJustPressed) {
                 difficultyOptionsVisible = false;
             }

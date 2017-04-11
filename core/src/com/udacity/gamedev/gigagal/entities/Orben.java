@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Orben implements DestructibleHazard {
 
@@ -97,7 +97,7 @@ public class Orben implements DestructibleHazard {
 
     @Override
     public void render(SpriteBatch batch) {
-        final float elapsedTime = Utils.secondsSince(startTime);
+        final float elapsedTime = Helpers.secondsSince(startTime);
         final TextureRegion region;
         if (xDirection == null || yDirection == null) {
             region = Assets.getInstance().getOrbenAssets().dormantOrben;
@@ -122,7 +122,7 @@ public class Orben implements DestructibleHazard {
                     region = Assets.getInstance().getOrbenAssets().whirlingOrben.getKeyFrame(elapsedTime, true);
             }
         }
-        Utils.drawTextureRegion(batch, region, position, Constants.ORBEN_CENTER, Constants.ORBEN_TEXTURE_SCALE);
+        Helpers.drawTextureRegion(batch, region, position, Constants.ORBEN_CENTER, Constants.ORBEN_TEXTURE_SCALE);
     }
 
     @Override public Vector2 getPosition() { return position; }

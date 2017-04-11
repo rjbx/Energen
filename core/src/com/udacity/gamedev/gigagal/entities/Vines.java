@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Vines implements ClimbableGround {
 
@@ -19,8 +19,8 @@ public class Vines implements ClimbableGround {
 
     @Override
     public void render(SpriteBatch batch) {
-        final TextureRegion region = Assets.getInstance().getVinesAssets().vines;
-        Utils.drawTextureRegion(batch, region, position, Constants.VINES_CENTER);
+        final TextureRegion region = Assets.getInstance().getGroundAssets().vines;
+        Helpers.drawTextureRegion(batch, region, position, Constants.VINES_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }

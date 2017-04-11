@@ -12,7 +12,7 @@ import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class IndicatorHud {
 
@@ -46,7 +46,7 @@ public class IndicatorHud {
         Vector2 drawPosition = new Vector2(drawPositionX, drawPositionY);
         if (!gigaGal.getClingStatus() && gigaGal.getAction() != Enums.Action.CLINGING)  {
             if (!gigaGal.getJumpStatus() && !gigaGal.getClimbStatus() && gigaGal.getHoverStatus()) {
-                Utils.drawTextureRegion(
+                Helpers.drawTextureRegion(
                         batch,
                         Assets.getInstance().getHudAssets().hover,
                         drawPosition,
@@ -54,7 +54,7 @@ public class IndicatorHud {
                 );
             }
         } else {
-            Utils.drawTextureRegion(
+            Helpers.drawTextureRegion(
                     batch,
                     Assets.getInstance().getHudAssets().cling,
                     drawPosition,
@@ -63,7 +63,7 @@ public class IndicatorHud {
         }
 
         if (gigaGal.getDashStatus()) {
-            Utils.drawTextureRegion(
+            Helpers.drawTextureRegion(
                     batch,
                     Assets.getInstance().getHudAssets().dash,
                     drawPosition,
@@ -72,7 +72,7 @@ public class IndicatorHud {
         }
 
         if (gigaGal.getClimbStatus()) {
-            Utils.drawTextureRegion(
+            Helpers.drawTextureRegion(
                     batch,
                     Assets.getInstance().getHudAssets().climb,
                     drawPosition,
@@ -86,7 +86,7 @@ public class IndicatorHud {
                     i * (Constants.HUD_MARGIN / 2 + lifeIcon.getRegionWidth()) - 15,
                     viewport.getWorldHeight() - Constants.HUD_MARGIN - lifeIcon.getRegionHeight()
             );
-            Utils.drawTextureRegion(
+            Helpers.drawTextureRegion(
                     batch,
                     lifeIcon,
                     drawPosition
@@ -112,10 +112,10 @@ public class IndicatorHud {
                 offset.set(Constants.SHOT_CENTER);
                 offset.scl(Constants.AMMO_ICON_SCALE);
         }
-        Utils.drawTextureRegion(batch, ammo.getTexture(), drawPosition, offset, Constants.AMMO_ICON_SCALE);
+        Helpers.drawTextureRegion(batch, ammo.getTexture(), drawPosition, offset, Constants.AMMO_ICON_SCALE);
 
         final String scoreString = level.getLevelScore() + "";
-        final String timerString = Utils.stopWatchToString(level.getLevelTime());
+        final String timerString = Helpers.stopWatchToString(level.getLevelTime());
         font.draw(batch, scoreString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN - 0.5f, Constants.HUD_MARGIN / 2, Constants.HUD_MARGIN * 2, 1, true);
         font.draw(batch, timerString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN * 2 - 0.5f, Constants.HUD_MARGIN * 1.5f, Constants.HUD_MARGIN * 4, 1, true);
 

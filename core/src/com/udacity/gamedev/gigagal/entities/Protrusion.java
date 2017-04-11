@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Protrusion implements IndestructibleHazard {
 
@@ -33,7 +33,7 @@ public class Protrusion implements IndestructibleHazard {
 
     @Override
     public void render(SpriteBatch batch) {
-        final float elapsedTime = Utils.secondsSince(startTime);
+        final float elapsedTime = Helpers.secondsSince(startTime);
         TextureRegion region;
         switch (type) {
             case PLASMA:
@@ -71,7 +71,7 @@ public class Protrusion implements IndestructibleHazard {
                 knockback.set(Constants.GEISER_KNOCKBACK);
                 damage = Constants.GEISER_DAMAGE;
         }
-        Utils.drawTextureRegion(batch, region, position, center);
+        Helpers.drawTextureRegion(batch, region, position, center);
     }
 
     @Override public final Vector2 getPosition() { return position; }

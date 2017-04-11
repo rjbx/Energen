@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.util.Utils;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 public final class Backdrop {
 
@@ -19,7 +19,7 @@ public final class Backdrop {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
-        Utils.drawTextureRegion(batch, region, position, offset, .375f);
+        Helpers.drawTextureRegion(batch, region, position, offset, .375f);
         batch.end();
     }
 }
