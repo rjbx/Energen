@@ -31,7 +31,7 @@ public final class StartScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = StartScreen.class.getName();
-    public static final StartScreen INSTANCE = new StartScreen();
+    private static final StartScreen INSTANCE = new StartScreen();
     private static InputControls inputControls;
     private static OnscreenControls onscreenControls;
     private com.udacity.gamedev.gigagal.app.GigaGalGame game;
@@ -55,10 +55,10 @@ public final class StartScreen extends ScreenAdapter {
     private boolean promptVisible;
     private Vector2 gigagalCenter;
 
-    // default ctor
+    // cannot be subclassed
     private StartScreen() {}
 
-    // non-instantiable; cannot be subclassed
+    // static factory method
     public static StartScreen getInstance() { return INSTANCE; }
 
     public void create() {
@@ -89,7 +89,8 @@ public final class StartScreen extends ScreenAdapter {
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays instantiated from this class
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
-        cursor = new Cursor(); // shared by all overlays instantiated from this class
+        cursor = Cursor.getInstance(); // shared by all overlays instantiated from this class
+        cursor.create();
         cursor.setRange(35, 20);
         cursor.setOrientation(Enums.Orientation.Y);
         cursor.resetPosition();

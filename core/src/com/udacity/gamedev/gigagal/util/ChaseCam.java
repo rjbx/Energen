@@ -17,7 +17,7 @@ public final class ChaseCam {
     private boolean following;
     private InputControls inputControls;
 
-    // non-instantiable; cannot be subclassed
+    // cannot be subclassed
     private ChaseCam() { following = true; }
 
     // static factory

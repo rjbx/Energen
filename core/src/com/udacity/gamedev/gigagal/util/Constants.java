@@ -5,10 +5,10 @@ import com.badlogic.gdx.math.Vector2;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-// immutable static
+// immutable non-instantiable static
 public final class Constants {
 
-    // non-instantiable; cannot be subclassed
+    // cannot be subclassed
     private Constants() {}
 
     // World/Camera

@@ -46,9 +46,10 @@ public class InputControls extends InputAdapter {
     public boolean shootButtonJustPressed;
     public boolean pauseButtonJustPressed;
 
-    // non-instantiable; cannot be subclassed
+    // cannot be subclassed
     private InputControls() {}
 
+    // static factory method
     public static InputControls getInstance() { return INSTANCE; }
 
     public void init() {

@@ -41,13 +41,13 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.Comparator;
 
-// immutable static
+// immutable non-instantiable static
 public final class LevelLoader {
 
     public static final String TAG = LevelLoader.class.toString();
     private static boolean runtimeEx;
 
-    // non-instantiable; cannot be subclassed
+    // cannot be subclassed
     private LevelLoader() {}
 
     public static final Level load(String path) throws ParseException, IOException {

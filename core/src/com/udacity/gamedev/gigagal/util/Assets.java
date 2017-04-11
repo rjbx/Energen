@@ -34,7 +34,7 @@ public final class Assets implements AssetErrorListener {
     private HudAssets hudAssets;
     private OverlayAssets overlayAssets;
 
-    // non-instantiable; cannot be subclassed
+    // cannot be subclassed
     private Assets() {}
 
     // static factory

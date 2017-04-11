@@ -1,9 +1,9 @@
 package com.udacity.gamedev.gigagal.util;
 
-// immutable static
+// immutable non-instantiable static
 public final class Enums {
 
-    // non-instantiable; cannot be subclassed
+    // cannot be subclassed
     private Enums() {}
 
     public enum Orientation {

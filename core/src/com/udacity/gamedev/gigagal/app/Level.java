@@ -37,7 +37,7 @@ public class Level {
 
     // fields
     public static final String TAG = Level.class.getName();
-    public static final Level INSTANCE = new Level();
+    private static final Level INSTANCE = new Level();
     private Enums.LevelName levelName;
     private Viewport viewport;
     private boolean victory;
@@ -62,10 +62,12 @@ public class Level {
 
     private Boss boss;
 
-    // non-instantiable; cannot be subclassed
+    // cannot be subclassed
     private Level() {}
 
+    // static factory method
     public static Level getInstance() { return INSTANCE; }
+
     public void create() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigaGal = new GigaGal(this, new Vector2(50, 50));

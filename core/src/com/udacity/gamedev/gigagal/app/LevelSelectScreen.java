@@ -30,7 +30,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = LevelSelectScreen.class.getName();
-    public static final LevelSelectScreen INSTANCE = new LevelSelectScreen();
+    private static final LevelSelectScreen INSTANCE = new LevelSelectScreen();
     private static InputControls inputControls;
     private static OnscreenControls onscreenControls;
     private com.udacity.gamedev.gigagal.app.GigaGalGame game;
@@ -51,9 +51,10 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private boolean optionsVisible;
     private boolean messageVisible;
 
-    // non-instantiable; cannot be subclassed
+    // cannot be subclassed
     private LevelSelectScreen() {}
 
+    // static factory method
     public static LevelSelectScreen getInstance() { return INSTANCE; }
 
     public void create() {
@@ -73,7 +74,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
         messageVisible = false;
         batch = new SpriteBatch();
         completedLevels = new Array<Enums.LevelName>();
-        cursor = new Cursor();
+        cursor = Cursor.getInstance(); // shared by all overlays instantiated from this class
+        cursor.create();
         cursor.setRange(145, 25);
         cursor.setOrientation(Enums.Orientation.Y);
         cursor.resetPosition();

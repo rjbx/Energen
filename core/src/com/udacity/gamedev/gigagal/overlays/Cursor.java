@@ -13,7 +13,7 @@ public class Cursor {
 
     // fields
     public static final String TAG = Cursor.class.getName();
-    public static final Cursor INSTANCE = new Cursor();
+    private static final Cursor INSTANCE = new Cursor();
     private ExtendViewport viewport;
     private Enums.Orientation orientation;
     private float startingPosition;
@@ -23,7 +23,12 @@ public class Cursor {
     private float position;
 
     // non-instantiable
-    public Cursor() {
+    private Cursor() {}
+
+    // static factory method
+    public static Cursor getInstance() { return INSTANCE; }
+
+    public void create() {
         this.orientation = Enums.Orientation.Y;
         this.startingPosition = 0;
         this.endingPosition = 0;

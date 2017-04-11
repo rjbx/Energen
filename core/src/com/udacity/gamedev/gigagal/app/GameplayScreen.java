@@ -36,7 +36,7 @@ public class GameplayScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = GameplayScreen.class.getName();
-    public static final GameplayScreen INSTANCE = new GameplayScreen();
+    private static final GameplayScreen INSTANCE = new GameplayScreen();
     private static InputControls inputControls;
     private static OnscreenControls onscreenControls;
     private GigaGalGame game;
@@ -67,12 +67,12 @@ public class GameplayScreen extends ScreenAdapter {
     private long pauseTime;
     private float pauseDuration;
 
-    // default ctor
+    // cannot be subclassed
     private GameplayScreen() {}
 
+    // static factory method
     public static GameplayScreen getInstance() { return INSTANCE; }
 
-    // non-instantiable; cannot be subclassed
     public void create(Enums.LevelName levelName) {
         this.game = GigaGalGame.getInstance();
         this.levelName = levelName;
@@ -94,7 +94,8 @@ public class GameplayScreen extends ScreenAdapter {
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays instantiated from this class
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
-        cursor = new Cursor(); // shared by all overlays instantiated from this class
+        cursor = Cursor.getInstance(); // shared by all overlays instantiated from this class
+        cursor.create();
         cursor.setRange(73, 43);
         cursor.setOrientation(Enums.Orientation.Y);
         cursor.resetPosition();

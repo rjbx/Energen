@@ -11,10 +11,10 @@ import com.udacity.gamedev.gigagal.entities.MultidirectionalY;
 import com.udacity.gamedev.gigagal.entities.Multidirectional;
 import com.udacity.gamedev.gigagal.entities.Orben;
 
-// immutable static
+// immutable non-instantiable static
 public final class Helpers {
 
-    // non-instantiable; cannot be subclassed
+    // cannot be subclassed
     private Helpers() {}
 
     public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, float x, float y) {

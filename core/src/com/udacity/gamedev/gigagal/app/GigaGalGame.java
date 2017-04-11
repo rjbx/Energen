@@ -15,9 +15,10 @@ public final class GigaGalGame extends Game {
     private static final GigaGalGame INSTANCE = new GigaGalGame();
     private Preferences prefs;
 
-    // non-instantiable; cannot be subclassed
+    // cannot be subclassed
     private GigaGalGame() {}
 
+    // static factory method
     public static GigaGalGame getInstance() { return INSTANCE; }
 
     @Override
