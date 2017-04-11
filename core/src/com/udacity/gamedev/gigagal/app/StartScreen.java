@@ -40,10 +40,6 @@ public final class StartScreen extends ScreenAdapter {
     private BitmapFont font;
     private BitmapFont text;
     private BitmapFont title;
-    private Cursor cursor;
-    private Menu difficultyMenu;
-    private Menu startMenu;
-    private Menu eraseMenu;
     private Backdrop launchBackdrop;
     private Message launchMessage;
     private Preferences prefs;
@@ -89,20 +85,44 @@ public final class StartScreen extends ScreenAdapter {
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays instantiated from this class
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
-        cursor = Cursor.getInstance(); // shared by all overlays instantiated from this class
-        cursor.init();
-        cursor.setRange(35, 20);
-        cursor.setOrientation(Enums.Orientation.Y);
-        cursor.resetPosition();
-        startMenu = new Menu(this);
-        difficultyMenu = new Menu(this);
-        eraseMenu = new Menu(this);
         launchBackdrop = new Backdrop();
         launchMessage = new Message();
         launchMessage.setMessage(Constants.LAUNCH_MESSAGE);
         inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
         onscreenControls = OnscreenControls.getInstance();
         Gdx.input.setInputProcessor(inputControls);
+    }
+
+    public static void setResumeMenu() {
+        Cursor.getInstance().setRange(35, 20);
+        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
+        Cursor.getInstance().resetPosition();
+        String[] optionStrings = {"START GAME", "ERASE GAME"};
+        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
+    }
+
+    public static void setEraseMenu() {
+        Cursor.getInstance().setRange(50, 150);
+        Cursor.getInstance().setOrientation(Enums.Orientation.X);
+        Cursor.getInstance().resetPosition();
+        Cursor.getInstance().update();
+        String[] optionStrings = {"NO", "YES"};
+        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
+        Menu.getInstance().setPromptString("Are you sure you want to start \na new game and erase all saved data?");
+    }
+
+    public static void setBeginMenu() {
+        Menu.getInstance().isSingleOption(true);
+        String[] option = {"PRESS START"};
+        Menu.getInstance().setOptionStrings(Arrays.asList(option));
+    }
+
+    public static void setDifficultyMenu() {
+        Cursor.getInstance().setRange(75, 35);
+        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
+        Cursor.getInstance().resetPosition();
+        String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
+        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
     }
 
     private boolean onMobile() {
@@ -143,59 +163,39 @@ public final class StartScreen extends ScreenAdapter {
 
                     batch.end();
 
-                    if (continuing) {
-                        String[] optionStrings = {"START GAME", "ERASE GAME"};
-                        startMenu.setOptionStrings(Arrays.asList(optionStrings));
-                    } else {
-                        String[] optionStrings = {"PRESS START"};
-                        startMenu.isSingleOption(true);
-                        startMenu.setOptionStrings(Arrays.asList(optionStrings));
-                    }
-
-                    startMenu.render(batch, font, viewport, cursor);
+                    Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
 
                     if (inputControls.shootButtonJustPressed) {
                         if (continuing) {
-                            if (cursor.getPosition() == 35) {
+                            if (Cursor.getInstance().getPosition() == 35) {
                                 inputControls.shootButtonJustPressed = false;
                                 LevelSelectScreen levelSelectScreen = LevelSelectScreen.getInstance();
                                 levelSelectScreen.create();
                                 game.setScreen(levelSelectScreen);
                                 this.dispose();
                                 return;
-                            } else if (cursor.getPosition() == 20) {
-                                String[] optionStrings = {"NO", "YES"};
-                                eraseMenu.setOptionStrings(Arrays.asList(optionStrings));
-                                eraseMenu.setPromptString("Are you sure you want to start \na new game and erase all saved data?");
+                            } else if (Cursor.getInstance().getPosition() == 20) {
+                                setEraseMenu();
                                 promptVisible = true;
-                                cursor.setRange(50, 150);
-                                cursor.setOrientation(Enums.Orientation.X);
-                                cursor.resetPosition();
-                                cursor.update();
                             }
                         } else {
                             difficultyOptionsVisible = true;
-                            String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
-                            difficultyMenu.setOptionStrings(Arrays.asList(optionStrings));
-                            cursor.setRange(75, 35);
-                            cursor.setOrientation(Enums.Orientation.Y);
-                            cursor.resetPosition();
-                            cursor.update();
+                            setDifficultyMenu();
                         }
                     }
                 } else {
-                    eraseMenu.render(batch, font, viewport, cursor);
+                    Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
                     if (inputControls.shootButtonJustPressed) {
-                        if (cursor.getPosition() == (150)) {
+                        if (Cursor.getInstance().getPosition() == (150)) {
                             prefs.clear();
                             prefs.flush();
                             game.dispose();
                             game.create();
                         } else {
-                            cursor.setRange(35, 20);
-                            cursor.setOrientation(Enums.Orientation.Y);
-                            cursor.resetPosition();
-                            cursor.update();
+                            Cursor.getInstance().setRange(35, 20);
+                            Cursor.getInstance().setOrientation(Enums.Orientation.Y);
+                            Cursor.getInstance().resetPosition();
+                            Cursor.getInstance().update();
                             promptVisible = false;
                         }
                     }
@@ -206,18 +206,24 @@ public final class StartScreen extends ScreenAdapter {
                         new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f));
                 launchMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, Constants.HUD_MARGIN));
             }
-
-            if (Helpers.secondsSince(launchStartTime) > 3) {
-                launching = false;
+            if (launching) {
+                if (Helpers.secondsSince(launchStartTime) > 3) {
+                    launching = false;
+                    if (continuing) {
+                        setResumeMenu();
+                    } else {
+                        setBeginMenu();
+                    }
+                }
             }
         } else {
-            difficultyMenu.render(batch, font, viewport, cursor);
+            Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
             if (inputControls.shootButtonJustPressed) {
-                if (cursor.getPosition() == 75) {
+                if (Cursor.getInstance().getPosition() == 75) {
                     prefs.putInteger("Difficulty", 0);
-                } else if (cursor.getPosition() == 60) {
+                } else if (Cursor.getInstance().getPosition() == 60) {
                     prefs.putInteger("Difficulty", 1);
-                } else if (cursor.getPosition() == 45) {
+                } else if (Cursor.getInstance().getPosition() == 45) {
                     prefs.putInteger("Difficulty", 2);
                 }
 
@@ -241,16 +247,12 @@ public final class StartScreen extends ScreenAdapter {
     public void dispose() {
         choices.clear();
         inputControls.clear();
-        difficultyMenu.dispose();
-        eraseMenu.dispose();
         text.dispose();
         title.dispose();
         batch.dispose();
         choices = null;
         inputControls = null;
         launchBackdrop = null;
-        difficultyMenu = null;
-        eraseMenu = null;
         text = null;
         title = null;
         batch = null;

@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.overlays.Menu;
@@ -39,16 +38,12 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private ExtendViewport viewport;
     private SpriteBatch batch;
     private BitmapFont font;
-    private Cursor cursor;
-    private Menu optionsOverlay;
-    private Menu selectionOverlay;
     private Message errorMessage;
-    private List<String> selectionStrings;
     private List<Enums.LevelName> completedLevels;
     private Enums.LevelName levelName;
     private Enums.LevelName selectedLevel;
     private GameplayScreen gameplayScreen;
-    private boolean optionsVisible;
+    private boolean viewingOptions;
     private boolean messageVisible;
 
     // cannot be subclassed
@@ -69,29 +64,38 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        optionsVisible = false;
+        viewingOptions = false;
         messageVisible = false;
         batch = new SpriteBatch();
         completedLevels = new ArrayList<Enums.LevelName>();
-        cursor = Cursor.getInstance(); // shared by all overlays instantiated from this class
-        cursor.init();
-        cursor.setRange(145, 25);
-        cursor.setOrientation(Enums.Orientation.Y);
-        cursor.resetPosition();
-        optionsOverlay = new Menu(this);
-        selectionOverlay = new Menu(this);
-        selectionStrings = new ArrayList();
+        errorMessage = new Message();
+        inputControls = InputControls.getInstance();
+        onscreenControls = OnscreenControls.getInstance();
+        Gdx.input.setInputProcessor(inputControls);
+    }
+
+    private static void setMainMenu() {
+        Cursor.getInstance().init();
+        Cursor.getInstance().setRange(145, 25);
+        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
+        Cursor.getInstance().resetPosition();
+        List<String> selectionStrings = new ArrayList();
         for (Enums.LevelName level : Enums.LevelName.values()) {
             selectionStrings.add(level.name());
         }
         selectionStrings.add("OPTIONS");
-        cursor.setIterator(selectionStrings);
-        selectionOverlay.setOptionStrings(selectionStrings);
-        selectionOverlay.setAlignment(Align.left);
-        errorMessage = new Message();
-        inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
-        onscreenControls = OnscreenControls.getInstance();
-        Gdx.input.setInputProcessor(inputControls);
+        Cursor.getInstance().setIterator(selectionStrings);
+        Menu.getInstance().setOptionStrings(selectionStrings);
+        Menu.getInstance().setAlignment(Align.left);
+    }
+
+    private static void setOptionsMenu() {
+        String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
+        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
+        Cursor.getInstance().setIterator(null);
+        Cursor.getInstance().setRange(106, 76);
+        Cursor.getInstance().resetPosition();
+        Cursor.getInstance().update();
     }
 
     private boolean onMobile() {
@@ -118,15 +122,14 @@ public final class LevelSelectScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (!optionsVisible) {
+        if (!viewingOptions) {
             viewport.apply();
 
-            float yPosition = viewport.getWorldHeight() / 2.5f;
-            selectionOverlay.render(batch, font, viewport, cursor);
+            Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
 
             if (inputControls.shootButtonJustPressed) {
-                if (cursor.getPosition() <= 145 && cursor.getPosition() >= 40) {
-                    selectedLevel = Enums.LevelName.valueOf(cursor.getIterator().previous());
+                if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
+                    selectedLevel = Enums.LevelName.valueOf(Cursor.getInstance().getIterator().previous());
                     gameplayScreen = GameplayScreen.getInstance();
                     gameplayScreen.create(selectedLevel);
                     messageVisible = false;
@@ -138,47 +141,39 @@ public final class LevelSelectScreen extends ScreenAdapter {
                     } catch (IOException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
-                        cursor.getIterator().next();
+                        Cursor.getInstance().getIterator().next();
                         messageVisible = true;
                     } catch (ParseException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
-                        cursor.getIterator().next();
+                        Cursor.getInstance().getIterator().next();
                         messageVisible = true;
                     } catch (GdxRuntimeException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
-                        cursor.getIterator().next();
+                        Cursor.getInstance().getIterator().next();
                         messageVisible = true;
                     }
                 } else {
-                    optionsVisible = true;
-                    String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
-                    optionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
-                    cursor.setIterator(null);
-                    cursor.setRange(106, 76);
-                    cursor.resetPosition();
-                    cursor.update();
+                    viewingOptions = true;
+                    setOptionsMenu();
                 }
             }
         } else {
-            optionsOverlay.render(batch, font, viewport, cursor);
+            Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
             if (inputControls.shootButtonJustPressed) {
-                if (cursor.getPosition() == 106) {
-                    cursor.setRange(145, 25);
-                    cursor.setIterator(selectionStrings);
-                    cursor.resetPosition();
-                    cursor.update();
-                    optionsVisible = false;
-                } else if (cursor.getPosition() == 91) {
+                if (Cursor.getInstance().getPosition() == 106) {
+                    setMainMenu();
+                    viewingOptions = false;
+                } else if (Cursor.getInstance().getPosition() == 91) {
                     onscreenControls.onMobile = Helpers.toggleBoolean(onscreenControls.onMobile);
                     prefs.putBoolean("Mobile", onscreenControls.onMobile);
-                } else if (cursor.getPosition() == 76) {
+                } else if (Cursor.getInstance().getPosition() == 76) {
                     game.dispose();
                     game.create();
                 }
             } else if (inputControls.pauseButtonJustPressed) {
-                optionsVisible = false;
+                viewingOptions = false;
             }
         }
         if (messageVisible) {
@@ -194,13 +189,11 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void dispose() {
         completedLevels.clear();
         inputControls.clear();
-        optionsOverlay.dispose();
         errorMessage.dispose();
         font.dispose();
         batch.dispose();
         completedLevels = null;
         inputControls = null;
-        optionsOverlay = null;
         errorMessage = null;
         font = null;
         batch = null;

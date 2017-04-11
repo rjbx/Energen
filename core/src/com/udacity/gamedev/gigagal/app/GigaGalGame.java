@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
+import com.udacity.gamedev.gigagal.overlays.Cursor;
+import com.udacity.gamedev.gigagal.overlays.Menu;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -26,11 +28,16 @@ public final class GigaGalGame extends Game {
     public void create() {
         prefs = Gdx.app.getPreferences("energraft-prefs");
 
+        // init singletons
+        Cursor.getInstance().init();
+        Menu.getInstance().create();
         Assets.getInstance().init(new AssetManager());
         InputControls.getInstance().init();
+        Level.getInstance().create();
         StartScreen.getInstance().create();
         LevelSelectScreen.getInstance().create();
         GameplayScreen.getInstance().create(Enums.LevelName.HOME);
+
         setScreen(StartScreen.getInstance());
     }
 
