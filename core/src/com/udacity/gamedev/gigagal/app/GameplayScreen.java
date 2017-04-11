@@ -62,6 +62,7 @@ public class GameplayScreen extends ScreenAdapter {
     private boolean paused;
     private boolean viewingOptions;
     private boolean levelEnded;
+    private boolean debugMode;
     private long pauseTime;
     private float pauseDuration;
 
@@ -118,12 +119,14 @@ public class GameplayScreen extends ScreenAdapter {
         Cursor.getInstance().setRange(73, 28);
         Cursor.getInstance().setOrientation(Enums.Orientation.Y);
         Cursor.getInstance().resetPosition();
+        Menu.getInstance().isSingleOption(false);
         String[] optionStrings = {"BACK", "DEBUG CAM", "TOUCH PAD", "QUIT"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
         Menu.getInstance().setAlignment(Align.center);
     }
 
     public static void setDebugMenu() {
+        Cursor.getInstance().setRange(80, 80);
         Menu.getInstance().isSingleOption(true);
         String[] option = {Constants.DEBUG_MODE_MESSAGE};
         Menu.getInstance().setOptionStrings(Arrays.asList(option));
@@ -162,15 +165,6 @@ public class GameplayScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (!chaseCam.getFollowing()) {
-            level.render(batch);
-            chaseCam.update(delta);
-            viewingOptions = false;
-            if (inputControls.shootButtonJustPressed) {
-                chaseCam.setFollowing(true);
-            }
-        }
-
         if (level.gigaGalFailed()) {
             if (gigaGal.getLives() > -1) {
                 restartLevel();
@@ -180,20 +174,24 @@ public class GameplayScreen extends ScreenAdapter {
         if (!(level.isGameOver() || level.isVictory())) {
             if (paused) {
                 renderPause();
-            } else if (inputControls.pauseButtonJustPressed) {
+            }
+            if (!paused || (paused && !chaseCam.getFollowing())) {
+                chaseCam.update(delta);
+                level.render(batch);
+            }
+            if (inputControls.pauseButtonJustPressed && chaseCam.getFollowing()) {
                 level.getLevelTime().suspend();
                 totalTime.suspend();
                 paused = true;
                 pauseTime = TimeUtils.nanoTime();
                 pauseDuration = gigaGal.getPauseTimeSeconds();
                 setMainMenu();
-            } else {
-                level.update(delta);
-                chaseCam.update(delta);
-                level.render(batch);
             }
-            gaugeHud.render(renderer, viewport);
-            indicatorHud.render(batch, font, viewport);
+            if (chaseCam.getFollowing()) {
+                level.update(delta);
+                gaugeHud.render(renderer, viewport);
+                indicatorHud.render(batch, font, viewport);
+            }
             onscreenControls.render(batch, viewport);
         } else {
             renderLevelEnd();
@@ -232,31 +230,34 @@ public class GameplayScreen extends ScreenAdapter {
                 unpause();
             }
         } else {
-            Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
-            if (inputControls.shootButtonJustPressed) {
-                if (Cursor.getInstance().getPosition() == 73) {
-                    viewingOptions = false;
-                    setMainMenu();
-                } else if (Cursor.getInstance().getPosition() == 58) {
-                    if (!chaseCam.getFollowing()) {
-                        Menu.getInstance().isSingleOption(false);
-                        chaseCam.setFollowing(true);
-                    } else {
-                        Menu.getInstance().isSingleOption(true);
-                        chaseCam.setFollowing(false);
-                        setDebugMenu();
+            if (chaseCam.getFollowing()) {
+                Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
+                if (inputControls.shootButtonJustPressed) {
+                    if (Cursor.getInstance().getPosition() == 73) {
+                        viewingOptions = false;
+                        setMainMenu();
+                    } else if (Cursor.getInstance().getPosition() == 58) {
+                        if (chaseCam.getFollowing()) {
+                            chaseCam.setFollowing(false);
+                            setDebugMenu();
+                        }
+                    } else if (Cursor.getInstance().getPosition() == 43) {
+                        onscreenControls.onMobile = Helpers.toggleBoolean(onscreenControls.onMobile);
+                        prefs.putBoolean("Mobile", onscreenControls.onMobile);
+                    } else if (Cursor.getInstance().getPosition() == 28) {
+                        game.dispose();
+                        game.create();
+                        return;
                     }
-
-                } else if (Cursor.getInstance().getPosition() == 43) {
-                    onscreenControls.onMobile = Helpers.toggleBoolean(onscreenControls.onMobile);
-                    prefs.putBoolean("Mobile", onscreenControls.onMobile);
-                } else if (Cursor.getInstance().getPosition() == 28) {
-                    game.dispose();
-                    game.create();
-                    return;
+                } else if (inputControls.pauseButtonJustPressed) {
+                    viewingOptions = false;
                 }
-            } else if (inputControls.pauseButtonJustPressed && chaseCam.getFollowing()) {
-                viewingOptions = false;
+            } else {
+                Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
+                if (inputControls.shootButtonJustPressed) {
+                    chaseCam.setFollowing(true);
+                    setOptionsMenu();
+                }
             }
         }
     }
@@ -367,30 +368,30 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        totalTime.stop();
-        completedLevels.clear();
-        inputControls.clear();
-        victoryOverlay.dispose();
-        defeatOverlay.dispose();
-        indicatorHud.dispose();
-        errorMessage.dispose();
-        gaugeHud.dispose();
-        batch.dispose();
-        level.dispose();
-        totalTime = null;
-        completedLevels = null;
-        inputControls = null;
-        totalTime = null;
-        victoryOverlay = null;
-        defeatOverlay = null;
-        indicatorHud = null;
-        errorMessage = null;
-        gaugeHud = null;
-        batch = null;
-        level = null;
-        this.hide();
-        super.dispose();
-        System.gc();
+//        totalTime.stop();
+//        completedLevels.clear();
+//        inputControls.clear();
+//        victoryOverlay.dispose();
+//        defeatOverlay.dispose();
+//        indicatorHud.dispose();
+//        errorMessage.dispose();
+//        gaugeHud.dispose();
+//        batch.dispose();
+//        level.dispose();
+//        totalTime = null;
+//        completedLevels = null;
+//        inputControls = null;
+//        totalTime = null;
+//        victoryOverlay = null;
+//        defeatOverlay = null;
+//        indicatorHud = null;
+//        errorMessage = null;
+//        gaugeHud = null;
+//        batch = null;
+//        level = null;
+//        this.hide();
+//        super.dispose();
+//        System.gc();
     }
 
     public Level getLevel() { return level; }

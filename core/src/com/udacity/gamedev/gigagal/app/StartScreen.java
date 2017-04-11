@@ -99,6 +99,7 @@ public final class StartScreen extends ScreenAdapter {
         Cursor.getInstance().resetPosition();
         String[] optionStrings = {"START GAME", "ERASE GAME"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
+        Menu.getInstance().setPromptString(" ");
     }
 
     public static void setEraseMenu() {
@@ -111,6 +112,7 @@ public final class StartScreen extends ScreenAdapter {
     }
 
     public static void setBeginMenu() {
+        Cursor.getInstance().setRange(30, 30);
         Menu.getInstance().isSingleOption(true);
         String[] option = {"PRESS START"};
         Menu.getInstance().setOptionStrings(Arrays.asList(option));
@@ -122,6 +124,7 @@ public final class StartScreen extends ScreenAdapter {
         Cursor.getInstance().resetPosition();
         String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
+        Menu.getInstance().isSingleOption(false);
     }
 
     private boolean onMobile() {
@@ -190,13 +193,11 @@ public final class StartScreen extends ScreenAdapter {
                             prefs.flush();
                             game.dispose();
                             game.create();
+                            setBeginMenu();
                         } else {
-                            Cursor.getInstance().setRange(35, 20);
-                            Cursor.getInstance().setOrientation(Enums.Orientation.Y);
-                            Cursor.getInstance().resetPosition();
-                            Cursor.getInstance().update();
-                            promptVisible = false;
+                            setResumeMenu();
                         }
+                        promptVisible = false;
                     }
                 }
             } else {
