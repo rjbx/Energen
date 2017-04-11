@@ -554,7 +554,7 @@ public final class Constants {
     // Victory/Game Over screens
     public static final float LEVEL_END_DURATION = 5;
     public static final int EXPLOSION_COUNT = 500;
-  //  public static final int ZOOMBA_COUNT = 200;
+    public static final int ZOOMBA_COUNT = 200;
     public static final String VICTORY_MESSAGE = "Boo Ya.";
     public static final String DEFEAT_MESSAGE = "Game Over, Gal";
     public static final String LAUNCH_MESSAGE = "Energraft v0.0.1 (c) Qualiv 2017";
@@ -579,4 +579,7 @@ public final class Constants {
 
     // Preferences
     public static final int[] DIFFICULTY_MULTIPLIER = {1, 2, 3};
+
+    // Overlays
+    public static final String DEBUG_MODE_MESSAGE = "DEBUG MODE\n\nPRESS SHOOT TO EXIT";
 }

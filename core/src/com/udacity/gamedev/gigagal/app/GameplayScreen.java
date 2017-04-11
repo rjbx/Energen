@@ -45,10 +45,10 @@ public class GameplayScreen extends ScreenAdapter {
     private IndicatorHud indicatorHud;
     private Message victoryOverlay;
     private Message defeatOverlay;
-    private Menu pauseOverlay;
-    private Menu optionsOverlay;
+    private Menu mainMenu;
+    private Menu optionsMenu;
     private Message errorMessage;
-    private Cursor cursor;
+    private Message debugMessage;
     private SpriteBatch batch;
     private ShapeRenderer renderer;
     private BitmapFont font;
@@ -62,7 +62,7 @@ public class GameplayScreen extends ScreenAdapter {
     private int totalScore;
     private Timer totalTime;
     private boolean paused;
-    private boolean optionsVisible;
+    private boolean viewingOptions;
     private boolean levelEnded;
     private long pauseTime;
     private float pauseDuration;
@@ -80,7 +80,7 @@ public class GameplayScreen extends ScreenAdapter {
         completedLevels = new Array<Enums.LevelName>();
         totalTime = new Timer();
         paused = false;
-        optionsVisible = false;
+        viewingOptions = false;
         levelEnded = false;
         pauseTime = 0;
         pauseDuration = 0;
@@ -94,15 +94,12 @@ public class GameplayScreen extends ScreenAdapter {
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays instantiated from this class
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
-        cursor = Cursor.getInstance(); // shared by all overlays instantiated from this class
-        cursor.init();
-        cursor.setRange(73, 43);
-        cursor.setOrientation(Enums.Orientation.Y);
-        cursor.resetPosition();
-        pauseOverlay = new Menu(this);
-        optionsOverlay = new Menu(this);
+        Cursor.getInstance().init();
+        Menu.getInstance().create();
         errorMessage = new Message();
         errorMessage.setMessage(Constants.LEVEL_KEY_MESSAGE);
+        debugMessage = new Message();
+        debugMessage.setMessage(Constants.DEBUG_MODE_MESSAGE);
         victoryOverlay = new Message();defeatOverlay = new Message();
         defeatOverlay.setMessage(Constants.DEFEAT_MESSAGE);
         inputControls = InputControls.getInstance();
@@ -114,6 +111,22 @@ public class GameplayScreen extends ScreenAdapter {
         startNewLevel();
     }
 
+    private static void setMainMenu() {
+        Cursor.getInstance().setRange(73, 43);
+        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
+        Cursor.getInstance().resetPosition();
+        String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
+        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
+    }
+
+    private static void setOptionsMenu() {
+        Cursor.getInstance().setRange(73, 28);
+        Cursor.getInstance().resetPosition();
+        Cursor.getInstance().update();
+        String[] optionStrings = {"BACK", "DEBUG CAM", "TOUCH PAD", "QUIT"};
+        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
+    }
+
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
@@ -123,10 +136,10 @@ public class GameplayScreen extends ScreenAdapter {
 //        indicatorHud.getViewport().update(width, height, true);
 //
 //        defeatOverlay.getViewport().update(width, height, true);
-//        pauseOverlay.getViewport().update(width, height, true);
-//        pauseOverlay.getCursor().getViewport().update(width, height, true);
-//        optionsOverlay.getViewport().update(width, height, true);
-//        optionsOverlay.getCursor().getViewport().update(width, height, true);
+//        mainMenu.getViewport().update(width, height, true);
+//        mainMenu.getCursor().getViewport().update(width, height, true);
+//        optionsMenu.getViewport().update(width, height, true);
+//        optionsMenu.getCursor().getViewport().update(width, height, true);
 //        errorMessage.getViewport().update(width, height, true);
         level.getViewport().update(width, height, true);
         chaseCam.camera = level.getViewport().getCamera();
@@ -146,9 +159,12 @@ public class GameplayScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.b,
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         if (!chaseCam.getFollowing()) {
             level.render(batch);
             chaseCam.update(delta);
+            debugMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() /2 ));
+            viewingOptions = false;
         }
 
         if (level.gigaGalFailed()) {
@@ -157,68 +173,16 @@ public class GameplayScreen extends ScreenAdapter {
             }
         }
 
-        renderLevelEndOverlays();
-        if (!levelEnded) {
+        if (!(level.isGameOver() || level.isVictory())) {
             if (paused) {
-                if (!optionsVisible) {
-                    String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
-                    pauseOverlay.setOptionStrings(Arrays.asList(optionStrings));
-                    pauseOverlay.render(batch, font, viewport, cursor);
-                    if (inputControls.jumpButtonJustPressed && gigaGal.getAction() == Enums.Action.STANDING) {
-                        gigaGal.toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
-                    }
-                    if (inputControls.shootButtonJustPressed) {
-                        if (cursor.getPosition() == 73 && chaseCam.getFollowing()) {
-                            unpause();
-                        } else if (cursor.getPosition() == 58) {
-                            unpause();
-                            totalTime.suspend();
-                            LevelSelectScreen.getInstance().create();
-                            game.setScreen(LevelSelectScreen.getInstance());
-                            this.dispose();
-                            return;
-                        } else if (cursor.getPosition() == 43) {
-                            cursor.setRange(73, 28);
-                            cursor.resetPosition();
-                            cursor.update();
-                            optionsVisible = true;
-                        }
-                    } else if (inputControls.pauseButtonJustPressed) {
-                        unpause();
-                    }
-                } else {
-                    String[] optionStrings = {"BACK", "DEBUG CAM", "TOUCH PAD", "QUIT"};
-                    optionsOverlay.setOptionStrings(Arrays.asList(optionStrings));
-                    optionsOverlay.render(batch, font, viewport, cursor);
-                    if (inputControls.shootButtonJustPressed) {
-                        if (cursor.getPosition() == 73) {
-                            optionsVisible = false;
-                        } else if (cursor.getPosition() == 58) {
-                            if (!chaseCam.getFollowing()) {
-                                optionsOverlay.isSingleOption(false);
-                                chaseCam.setFollowing(true);
-                            } else {
-                                optionsOverlay.isSingleOption(true);
-                                chaseCam.setFollowing(false);
-                            }
-                        } else if (cursor.getPosition() == 43) {
-                            onscreenControls.onMobile = Helpers.toggleBoolean(onscreenControls.onMobile);
-                            prefs.putBoolean("Mobile", onscreenControls.onMobile);
-                        } else if (cursor.getPosition() == 28) {
-                            game.dispose();
-                            game.create();
-                            return;
-                        }
-                    } else if (inputControls.pauseButtonJustPressed) {
-                        optionsVisible = false;
-                    }
-                }
+                renderPause();
             } else if (inputControls.pauseButtonJustPressed) {
                 level.getLevelTime().suspend();
                 totalTime.suspend();
                 paused = true;
                 pauseTime = TimeUtils.nanoTime();
                 pauseDuration = gigaGal.getPauseTimeSeconds();
+                setMainMenu();
             } else {
                 level.update(delta);
                 chaseCam.update(delta);
@@ -228,6 +192,7 @@ public class GameplayScreen extends ScreenAdapter {
             indicatorHud.render(batch, font, viewport);
             onscreenControls.render(batch, viewport);
         } else {
+            renderLevelEnd();
             return;
         }
 
@@ -239,9 +204,59 @@ public class GameplayScreen extends ScreenAdapter {
         inputControls.update();
     }
 
-    private void renderLevelEndOverlays() {
+    private void renderPause() {
+        if (!viewingOptions) {
+            mainMenu.render(batch, font, viewport, Cursor.getInstance());
+            if (inputControls.jumpButtonJustPressed && gigaGal.getAction() == Enums.Action.STANDING) {
+                gigaGal.toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
+            }
+            if (inputControls.shootButtonJustPressed) {
+                if (Cursor.getInstance().getPosition() == 73 && chaseCam.getFollowing()) {
+                    unpause();
+                } else if (Cursor.getInstance().getPosition() == 58) {
+                    unpause();
+                    totalTime.suspend();
+                    LevelSelectScreen.getInstance().create();
+                    game.setScreen(LevelSelectScreen.getInstance());
+                    this.dispose();
+                    return;
+                } else if (Cursor.getInstance().getPosition() == 43) {
+                    setOptionsMenu();
+                    viewingOptions = true;
+                }
+            } else if (inputControls.pauseButtonJustPressed) {
+                unpause();
+            }
+        } else {
+            optionsMenu.render(batch, font, viewport, Cursor.getInstance());
+            if (inputControls.shootButtonJustPressed) {
+                if (Cursor.getInstance().getPosition() == 73) {
+                    viewingOptions = false;
+                    setMainMenu();
+                } else if (Cursor.getInstance().getPosition() == 58) {
+                    if (!chaseCam.getFollowing()) {
+                        optionsMenu.isSingleOption(false);
+                        chaseCam.setFollowing(true);
+                    } else {
+                        optionsMenu.isSingleOption(true);
+                        chaseCam.setFollowing(false);
+                    }
+                } else if (Cursor.getInstance().getPosition() == 43) {
+                    onscreenControls.onMobile = Helpers.toggleBoolean(onscreenControls.onMobile);
+                    prefs.putBoolean("Mobile", onscreenControls.onMobile);
+                } else if (Cursor.getInstance().getPosition() == 28) {
+                    game.dispose();
+                    game.create();
+                    return;
+                }
+            } else if (inputControls.pauseButtonJustPressed && chaseCam.getFollowing()) {
+                viewingOptions = false;
+            }
+        }
+    }
+
+    private void renderLevelEnd() {
         if (level.isGameOver()) {
-            levelEnded = true;
             if (levelEndOverlayStartTime == 0) {
                 level.getLevelTime().suspend();
                 totalTime.suspend();
@@ -258,7 +273,6 @@ public class GameplayScreen extends ScreenAdapter {
                 return;
             }
         } else if (level.isVictory()) {
-            levelEnded = true;
             if (levelEndOverlayStartTime == 0) {
                 level.getLevelTime().suspend();
                 totalTime.suspend();
@@ -274,14 +288,11 @@ public class GameplayScreen extends ScreenAdapter {
                 levelEndOverlayStartTime = 0;
                 levelComplete();
             }
-        } else {
-            levelEnded = false;
         }
     }
 
     public void readLevelFile() throws IOException, ParseException, GdxRuntimeException {
         level = LevelLoader.load("levels/" + levelName + ".dt");
-
     }
 
     private void startNewLevel() {
@@ -355,8 +366,8 @@ public class GameplayScreen extends ScreenAdapter {
         inputControls.clear();
         victoryOverlay.dispose();
         defeatOverlay.dispose();
-        pauseOverlay.dispose();
-        optionsOverlay.dispose();
+        mainMenu.dispose();
+        optionsMenu.dispose();
         indicatorHud.dispose();
         errorMessage.dispose();
         gaugeHud.dispose();
@@ -368,8 +379,8 @@ public class GameplayScreen extends ScreenAdapter {
         totalTime = null;
         victoryOverlay = null;
         defeatOverlay = null;
-        pauseOverlay = null;
-        optionsOverlay = null;
+        mainMenu = null;
+        optionsMenu = null;
         indicatorHud = null;
         errorMessage = null;
         gaugeHud = null;

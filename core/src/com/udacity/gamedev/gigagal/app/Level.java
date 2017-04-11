@@ -49,7 +49,6 @@ public class Level {
     private Portal portal;
     private List<Hazard> hazards;
     private List<Ground> grounds;
-    private List<Ammo> ammoList;
     private List<Impact> impacts;
     private List<Powerup> powerups;
     private Timer levelTime;
@@ -73,7 +72,6 @@ public class Level {
         levelTime.start();
         grounds = new ArrayList<Ground>();
         hazards = new ArrayList<Hazard>();
-        ammoList = new ArrayList<Ammo>();
         impacts = new ArrayList<Impact>();
         powerups = new ArrayList<Powerup>();
         portal = new Portal(new Vector2(200, 200));
@@ -110,6 +108,7 @@ public class Level {
                 }
             }
 
+            // Update Grounds
             for (Ground ground : grounds) {
                 if (ground instanceof HoverableGround) {
                     HoverableGround hoverable = (HoverableGround) ground;
@@ -258,7 +257,6 @@ public class Level {
         gigaGal.dispose();
         hazards = null;
         grounds = null;
-        ammoList = null;
         impacts = null;
         boss = null;
         gigaGal = null;
@@ -268,7 +266,6 @@ public class Level {
     public final List<Hazard> getHazards() { return hazards; }
     public final List<Ground> getGrounds() { return grounds; }
     public final List<Impact> getImpacts() { return impacts; }
-    public final List<Ammo> getAmmoList() { return ammoList; }
     public final List<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
     public final Portal getPortal() { return portal; }

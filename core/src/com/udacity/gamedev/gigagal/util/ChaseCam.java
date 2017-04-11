@@ -27,10 +27,6 @@ public final class ChaseCam {
 
     public void update(float delta) {
 
-        if (Gdx.input.isKeyJustPressed(Keys.TAB)) {
-            following = !following;
-        }
-
         if (following) {
             camera.position.x = target.getPosition().x;
             if (target.getLookStartTime() != 0 && target.getGroundState() == Enums.GroundState.PLANTED) {

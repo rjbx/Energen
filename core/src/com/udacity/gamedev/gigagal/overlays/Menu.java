@@ -18,10 +18,11 @@ public final class Menu {
 
     // fields
     public final static String TAG = Menu.class.getName();
-    private final SpriteBatch batch; // class-level instantiation
-    private final ExtendViewport viewport; // class-level instantiation
-    private final BitmapFont font; // class-level instantiation
-    private final ScreenAdapter screenAdapter;
+    public static final Menu INSTANCE = new Menu();
+    private SpriteBatch batch; // class-level instantiation
+    private ExtendViewport viewport; // class-level instantiation
+    private BitmapFont font; // class-level instantiation
+    private ScreenAdapter screenAdapter;
     private Cursor cursor; // class-level instantiation
     private Object[] optionStrings;
     private GameplayScreen gameplayScreen;
@@ -32,8 +33,11 @@ public final class Menu {
     private boolean singleOption;
 
     // default ctor
-    public Menu(ScreenAdapter screenAdapter) {
-        this.screenAdapter = screenAdapter;
+    private Menu() {}
+
+    public static Menu getInstance() { return INSTANCE; }
+
+    public void create() {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         this.batch = new SpriteBatch();
         alignment = Align.center;
