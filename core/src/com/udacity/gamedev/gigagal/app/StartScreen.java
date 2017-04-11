@@ -105,7 +105,6 @@ public final class StartScreen extends ScreenAdapter {
         Cursor.getInstance().setRange(50, 150);
         Cursor.getInstance().setOrientation(Enums.Orientation.X);
         Cursor.getInstance().resetPosition();
-        Cursor.getInstance().update();
         String[] optionStrings = {"NO", "YES"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
         Menu.getInstance().setPromptString("Are you sure you want to start \na new game and erase all saved data?");

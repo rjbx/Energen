@@ -72,30 +72,31 @@ public final class LevelSelectScreen extends ScreenAdapter {
         inputControls = InputControls.getInstance();
         onscreenControls = OnscreenControls.getInstance();
         Gdx.input.setInputProcessor(inputControls);
+        setMainMenu();
     }
 
     private static void setMainMenu() {
-        Cursor.getInstance().init();
-        Cursor.getInstance().setRange(145, 25);
-        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
-        Cursor.getInstance().resetPosition();
         List<String> selectionStrings = new ArrayList();
         for (Enums.LevelName level : Enums.LevelName.values()) {
             selectionStrings.add(level.name());
         }
         selectionStrings.add("OPTIONS");
         Cursor.getInstance().setIterator(selectionStrings);
+        Cursor.getInstance().setRange(145, 25);
+        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
+        Cursor.getInstance().resetPosition();
         Menu.getInstance().setOptionStrings(selectionStrings);
         Menu.getInstance().setAlignment(Align.left);
     }
 
     private static void setOptionsMenu() {
-        String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
-        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
         Cursor.getInstance().setIterator(null);
         Cursor.getInstance().setRange(106, 76);
+        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
         Cursor.getInstance().resetPosition();
-        Cursor.getInstance().update();
+        String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
+        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
+        Menu.getInstance().setAlignment(Align.center);
     }
 
     private boolean onMobile() {

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -45,10 +46,7 @@ public class GameplayScreen extends ScreenAdapter {
     private IndicatorHud indicatorHud;
     private Message victoryOverlay;
     private Message defeatOverlay;
-    private Menu mainMenu;
-    private Menu optionsMenu;
     private Message errorMessage;
-    private Message debugMessage;
     private SpriteBatch batch;
     private ShapeRenderer renderer;
     private BitmapFont font;
@@ -96,8 +94,6 @@ public class GameplayScreen extends ScreenAdapter {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
         errorMessage = new Message();
         errorMessage.setMessage(Constants.LEVEL_KEY_MESSAGE);
-        debugMessage = new Message();
-        debugMessage.setMessage(Constants.DEBUG_MODE_MESSAGE);
         victoryOverlay = new Message();defeatOverlay = new Message();
         defeatOverlay.setMessage(Constants.DEFEAT_MESSAGE);
         inputControls = InputControls.getInstance();
@@ -115,14 +111,22 @@ public class GameplayScreen extends ScreenAdapter {
         Cursor.getInstance().resetPosition();
         String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
+        Menu.getInstance().setAlignment(Align.center);
     }
 
     private static void setOptionsMenu() {
         Cursor.getInstance().setRange(73, 28);
+        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
         Cursor.getInstance().resetPosition();
-        Cursor.getInstance().update();
         String[] optionStrings = {"BACK", "DEBUG CAM", "TOUCH PAD", "QUIT"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
+        Menu.getInstance().setAlignment(Align.center);
+    }
+
+    public static void setDebugMenu() {
+        Menu.getInstance().isSingleOption(true);
+        String[] option = {Constants.DEBUG_MODE_MESSAGE};
+        Menu.getInstance().setOptionStrings(Arrays.asList(option));
     }
 
     @Override
@@ -161,8 +165,10 @@ public class GameplayScreen extends ScreenAdapter {
         if (!chaseCam.getFollowing()) {
             level.render(batch);
             chaseCam.update(delta);
-            debugMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() /2 ));
             viewingOptions = false;
+            if (inputControls.shootButtonJustPressed) {
+                chaseCam.setFollowing(true);
+            }
         }
 
         if (level.gigaGalFailed()) {
@@ -204,7 +210,7 @@ public class GameplayScreen extends ScreenAdapter {
 
     private void renderPause() {
         if (!viewingOptions) {
-            mainMenu.render(batch, font, viewport, Cursor.getInstance());
+            Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
             if (inputControls.jumpButtonJustPressed && gigaGal.getAction() == Enums.Action.STANDING) {
                 gigaGal.toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
             }
@@ -226,19 +232,21 @@ public class GameplayScreen extends ScreenAdapter {
                 unpause();
             }
         } else {
-            optionsMenu.render(batch, font, viewport, Cursor.getInstance());
+            Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
             if (inputControls.shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() == 73) {
                     viewingOptions = false;
                     setMainMenu();
                 } else if (Cursor.getInstance().getPosition() == 58) {
                     if (!chaseCam.getFollowing()) {
-                        optionsMenu.isSingleOption(false);
+                        Menu.getInstance().isSingleOption(false);
                         chaseCam.setFollowing(true);
                     } else {
-                        optionsMenu.isSingleOption(true);
+                        Menu.getInstance().isSingleOption(true);
                         chaseCam.setFollowing(false);
+                        setDebugMenu();
                     }
+
                 } else if (Cursor.getInstance().getPosition() == 43) {
                     onscreenControls.onMobile = Helpers.toggleBoolean(onscreenControls.onMobile);
                     prefs.putBoolean("Mobile", onscreenControls.onMobile);
@@ -364,8 +372,6 @@ public class GameplayScreen extends ScreenAdapter {
         inputControls.clear();
         victoryOverlay.dispose();
         defeatOverlay.dispose();
-        mainMenu.dispose();
-        optionsMenu.dispose();
         indicatorHud.dispose();
         errorMessage.dispose();
         gaugeHud.dispose();
@@ -377,8 +383,6 @@ public class GameplayScreen extends ScreenAdapter {
         totalTime = null;
         victoryOverlay = null;
         defeatOverlay = null;
-        mainMenu = null;
-        optionsMenu = null;
         indicatorHud = null;
         errorMessage = null;
         gaugeHud = null;
