@@ -64,7 +64,6 @@ public class Level {
 
     public void create() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        boss = new Boss(this, new Vector2(300, 300));
         levelScore = 0;
         levelTime = new Timer();
         levelTime.start();
@@ -97,7 +96,6 @@ public class Level {
         if (!gameOver && !victory) {
 
             GigaGal.getInstance().update(delta);
-            boss.update(delta);
 
             levelWeapon = Enums.WeaponType.NATIVE;
             for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
@@ -213,7 +211,6 @@ public class Level {
         }
 
         GigaGal.getInstance().render(batch);
-        boss.render(batch);
 
         for (Impact impact : impacts) {
             impact.render(batch);

@@ -231,9 +231,9 @@ public final class LevelLoader {
                 GigaGal.getInstance().setSpawnPosition(gigaGalPosition);
                 GigaGal.getInstance().setLevel(level);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOSS_SPRITE)) {
-                final Vector2 gigaGalPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
-                Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);
-                level.setBoss(new Boss(level, gigaGalPosition));
+                final Vector2 bossPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
+                Gdx.app.log(TAG, "Loaded Boss at " + bossPosition);
+                level.getHazards().add(new Boss.Builder(level, bossPosition).weapon(level.getType()).build());
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PORTAL_SPRITE_1)) {
                 final Vector2 portalPosition = imagePosition.add(Constants.PORTAL_CENTER);
                 Gdx.app.log(TAG, "Loaded the exit portal at " + portalPosition);

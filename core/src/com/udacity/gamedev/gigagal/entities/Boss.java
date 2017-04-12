@@ -93,24 +93,55 @@ public class Boss implements Humanoid, Hazard  {
     private InputControls inputControls;
     private GigaGal gigaGal;
 
-    public Boss(Level level, Vector2 spawnPosition) {
-        this.level = level;
-        this.spawnPosition = spawnPosition;
+    public static class Builder {
+
+        private Level level;
+        private Vector2 spawnPosition;
+        private Enums.WeaponType weapon = Enums.WeaponType.NATIVE;
+        private float height = Constants.GIGAGAL_HEIGHT;
+        private float eyeHeight = Constants.GIGAGAL_EYE_HEIGHT;
+        private float width = Constants.GIGAGAL_STANCE_WIDTH;
+
+        public Builder(Level level, Vector2 spawnPosition) {
+            this.level = level;
+            this.spawnPosition = spawnPosition;
+        }
+
+        public Builder weapon(Enums.WeaponType weapon) {
+            this.weapon = weapon; return this;
+        }
+
+        public Builder height(float height) {
+            this.height = height; return this;
+        }
+
+        public Builder eyeHeight(float eyeHeight) {
+            this.eyeHeight = eyeHeight; return this;
+        }
+
+        public Builder width(float width) {
+            this.width = width;
+            return this;
+        }
+
+        public Boss build() {
+            return new Boss(this);
+        }
+    }
+
+    private Boss(Builder builder) {
+        level = builder.level;
+        spawnPosition = builder.spawnPosition;
         position = new Vector2(spawnPosition);
         previousFramePosition = new Vector2();
         chaseCamPosition = new Vector3();
         velocity = new Vector2();
-        weaponList = new ArrayList<Enums.WeaponType>();
-        weaponList.add(Enums.WeaponType.NATIVE);
-        weaponToggler = weaponList.listIterator();
-        weapon = weaponToggler.next();
-        height = Constants.GIGAGAL_HEIGHT;
-        eyeHeight = Constants.GIGAGAL_EYE_HEIGHT;
-        headRadius = Constants.GIGAGAL_HEAD_RADIUS;
-        width = Constants.GIGAGAL_STANCE_WIDTH;
+        weapon = builder.weapon;
+        height = builder.height;
+        eyeHeight = builder.eyeHeight;
+        width = builder.width;
+        headRadius = height - eyeHeight;
         halfWidth = width / 2;
-        lives = Constants.INITIAL_LIVES;
-        killPlane = -10000;
         respawn();
     }
 
