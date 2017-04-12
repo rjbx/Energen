@@ -65,6 +65,10 @@ public class Timer {
         }
     }
 
+    public void reset() {
+        state = State.UNSTARTED;
+    }
+
     public long getTime() {
         return TimeUtils.nanosToMillis(getNanoTime());
     }

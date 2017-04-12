@@ -211,8 +211,9 @@ public class GameplayScreen extends ScreenAdapter {
                     unpause();
                 } else if (Cursor.getInstance().getPosition() == 58) {
                     unpause();
+                    level.getLevelTime().suspend();
                     totalTime.suspend();
-                    LevelSelectScreen.getInstance().create();
+                    LevelSelectScreen.getInstance().setMainMenu();
                     game.setScreen(LevelSelectScreen.getInstance());
                     this.dispose();
                     return;
@@ -268,7 +269,7 @@ public class GameplayScreen extends ScreenAdapter {
             font.getData().setScale(.4f);
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
-                LevelSelectScreen.getInstance().create();
+                LevelSelectScreen.getInstance().setMainMenu();
                 game.setScreen(LevelSelectScreen.getInstance());
                 this.dispose();
                 return;
@@ -303,6 +304,7 @@ public class GameplayScreen extends ScreenAdapter {
 
         // get prefs
         totalScore = game.getPreferences().getInteger("Score", totalScore);
+        totalTime.reset();
         totalTime.start(game.getPreferences().getLong("Time", totalTime.getNanoTime()));
         totalTime.suspend();
         game.getPreferences().flush();
@@ -322,7 +324,7 @@ public class GameplayScreen extends ScreenAdapter {
     }
 
     private void levelComplete() {
-        LevelSelectScreen.getInstance().create();
+        LevelSelectScreen.getInstance().setMainMenu();
         game.setScreen(LevelSelectScreen.getInstance());
         this.dispose();
         return;

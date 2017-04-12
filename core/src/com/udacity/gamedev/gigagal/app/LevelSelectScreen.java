@@ -57,6 +57,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
+        setMainMenu();
     }
 
     @Override
@@ -71,10 +72,9 @@ public final class LevelSelectScreen extends ScreenAdapter {
         inputControls = InputControls.getInstance();
         onscreenControls = OnscreenControls.getInstance();
         Gdx.input.setInputProcessor(inputControls);
-        setMainMenu();
     }
 
-    private static void setMainMenu() {
+    public static void setMainMenu() {
         List<String> selectionStrings = new ArrayList();
         for (Enums.LevelName level : Enums.LevelName.values()) {
             selectionStrings.add(level.name());
@@ -86,6 +86,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         Cursor.getInstance().resetPosition();
         Menu.getInstance().setOptionStrings(selectionStrings);
         Menu.getInstance().setAlignment(Align.left);
+        Menu.getInstance().setPromptString("");
     }
 
     private static void setOptionsMenu() {
@@ -186,18 +187,18 @@ public final class LevelSelectScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        completedLevels.clear();
-        inputControls.clear();
-        errorMessage.dispose();
-        font.dispose();
-        batch.dispose();
-        completedLevels = null;
-        inputControls = null;
-        errorMessage = null;
-        font = null;
-        batch = null;
-        this.hide();
-        super.dispose();
-        System.gc();
+//        completedLevels.clear();
+//        inputControls.clear();
+//        errorMessage.dispose();
+//        font.dispose();
+//        batch.dispose();
+//        completedLevels = null;
+//        inputControls = null;
+//        errorMessage = null;
+//        font = null;
+//        batch = null;
+//        this.hide();
+//        super.dispose();
+//        System.gc();
     }
 }
