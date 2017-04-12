@@ -9,7 +9,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public final class Backdrop {
 
     // fields
-    public final static String TAG = Backdrop.class.getName();
+    public static final String TAG = Backdrop.class.getName();
+
     // ctor
     public Backdrop() {
     }

@@ -28,7 +28,6 @@ public final class GigaGalGame extends Game {
     public void create() {
         prefs = Gdx.app.getPreferences("energraft-prefs");
 
-        // init singletons
         Cursor.getInstance().init();
         Menu.getInstance().create();
         Assets.getInstance().init(new AssetManager());
@@ -36,8 +35,7 @@ public final class GigaGalGame extends Game {
         Level.getInstance().create();
         StartScreen.getInstance().create();
         LevelSelectScreen.getInstance().create();
-        GameplayScreen.getInstance().create(Enums.LevelName.HOME);
-
+        GameplayScreen.getInstance().create();
         setScreen(StartScreen.getInstance());
     }
 

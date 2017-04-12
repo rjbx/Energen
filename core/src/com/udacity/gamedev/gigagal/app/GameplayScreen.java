@@ -42,8 +42,6 @@ public class GameplayScreen extends ScreenAdapter {
     private static OnscreenControls onscreenControls;
     private GigaGalGame game;
     private Preferences prefs;
-    private GaugeHud gaugeHud;
-    private IndicatorHud indicatorHud;
     private Message victoryOverlay;
     private Message defeatOverlay;
     private Message errorMessage;
@@ -72,11 +70,9 @@ public class GameplayScreen extends ScreenAdapter {
     // static factory method
     public static GameplayScreen getInstance() { return INSTANCE; }
 
-    public void create(Enums.LevelName levelName) {
+    public void create() {
         this.game = GigaGalGame.getInstance();
-        this.levelName = levelName;
         prefs = game.getPreferences();
-        completedLevels = new Array<Enums.LevelName>();
         totalTime = new Timer();
         paused = false;
         viewingOptions = false;
@@ -189,8 +185,8 @@ public class GameplayScreen extends ScreenAdapter {
             }
             if (chaseCam.getFollowing()) {
                 level.update(delta);
-                gaugeHud.render(renderer, viewport);
-                indicatorHud.render(batch, font, viewport);
+                GaugeHud.getInstance().render(renderer, viewport, gigaGal);
+                IndicatorHud.getInstance().render(batch, font, viewport, level);
             }
             onscreenControls.render(batch, viewport);
         } else {
@@ -308,6 +304,7 @@ public class GameplayScreen extends ScreenAdapter {
 
         // get prefs
         String savedWeapons = game.getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name());
+        completedLevels = new Array<Enums.LevelName>();
         if (!savedWeapons.equals(Enums.WeaponType.NATIVE.name())) {
             List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
             for (String weaponString : savedWeaponsList) {
@@ -324,8 +321,6 @@ public class GameplayScreen extends ScreenAdapter {
         // set level attributes
         level.setLevelName(levelName);
         level.setDifficulty(prefs.getInteger("Difficulty", 0));
-        gaugeHud = new GaugeHud(level);
-        indicatorHud = new IndicatorHud(level);
         this.gigaGal = level.getGigaGal();
         for (Enums.LevelName completedLevelName : completedLevels) {
             for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
@@ -394,8 +389,9 @@ public class GameplayScreen extends ScreenAdapter {
 //        System.gc();
     }
 
-    public Level getLevel() { return level; }
     public int getTotalScore() { return totalScore; }
     public Timer getTotalTime() { return totalTime; }
     public ChaseCam getChaseCam() { return chaseCam; }
+    public Level getLevel() { return level; }
+    public void setLevel(Enums.LevelName level) { this.levelName = level; }
 }

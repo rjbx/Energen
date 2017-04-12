@@ -42,7 +42,6 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private List<Enums.LevelName> completedLevels;
     private Enums.LevelName levelName;
     private Enums.LevelName selectedLevel;
-    private GameplayScreen gameplayScreen;
     private boolean viewingOptions;
     private boolean messageVisible;
 
@@ -131,12 +130,11 @@ public final class LevelSelectScreen extends ScreenAdapter {
             if (inputControls.shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
                     selectedLevel = Enums.LevelName.valueOf(Cursor.getInstance().getIterator().previous());
-                    gameplayScreen = GameplayScreen.getInstance();
-                    gameplayScreen.create(selectedLevel);
+                    GameplayScreen.getInstance().setLevel(selectedLevel);
                     messageVisible = false;
                     try {
-                        gameplayScreen.readLevelFile();
-                        game.setScreen(gameplayScreen);
+                        GameplayScreen.getInstance().readLevelFile();
+                        game.setScreen(GameplayScreen.getInstance());
                         this.dispose();
                         return;
                     } catch (IOException ex) {

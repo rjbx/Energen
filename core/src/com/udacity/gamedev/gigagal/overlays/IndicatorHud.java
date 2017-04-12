@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.entities.Ammo;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
+import com.udacity.gamedev.gigagal.entities.IndestructibleHazard;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -18,25 +19,17 @@ public class IndicatorHud {
 
     // fields
     public final static String TAG = IndicatorHud.class.getName();
-    private final SpriteBatch batch; // class-level instantiation
-    private final ExtendViewport viewport; // class-level instantiation
-    private final BitmapFont font; // class-level instantiation
-    private final Level level;
-    private final GigaGal gigaGal;
+    public static final IndicatorHud INSTANCE = new IndicatorHud();
 
     // ctor
-    public IndicatorHud(Level level) {
-        this.level = level;
-        this.gigaGal = level.getGigaGal();
-        this.batch = new SpriteBatch();
-        this.viewport = new ExtendViewport(
-                Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE,
-                Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE);
-        font = new BitmapFont();
-        font.getData().setScale(.75f);
+    public IndicatorHud() {
     }
 
-    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport) {
+    public static IndicatorHud getInstance() { return INSTANCE; }
+
+    public void create() {}
+
+    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, Level level) {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
@@ -44,8 +37,8 @@ public class IndicatorHud {
         float drawPositionX = viewport.getWorldWidth() / 2;
         final float drawPositionY = viewport.getWorldHeight() - Constants.HUD_MARGIN - 7;
         Vector2 drawPosition = new Vector2(drawPositionX, drawPositionY);
-        if (!gigaGal.getClingStatus() && gigaGal.getAction() != Enums.Action.CLINGING)  {
-            if (!gigaGal.getJumpStatus() && !gigaGal.getClimbStatus() && gigaGal.getHoverStatus()) {
+        if (!level.getGigaGal().getClingStatus() && level.getGigaGal().getAction() != Enums.Action.CLINGING)  {
+            if (!level.getGigaGal().getJumpStatus() && !level.getGigaGal().getClimbStatus() && level.getGigaGal().getHoverStatus()) {
                 Helpers.drawTextureRegion(
                         batch,
                         Assets.getInstance().getHudAssets().hover,
@@ -62,7 +55,7 @@ public class IndicatorHud {
             );
         }
 
-        if (gigaGal.getDashStatus()) {
+        if (level.getGigaGal().getDashStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     Assets.getInstance().getHudAssets().dash,
@@ -71,7 +64,7 @@ public class IndicatorHud {
             );
         }
 
-        if (gigaGal.getClimbStatus()) {
+        if (level.getGigaGal().getClimbStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     Assets.getInstance().getHudAssets().climb,
@@ -81,7 +74,7 @@ public class IndicatorHud {
         }
 
         final TextureRegion lifeIcon = Assets.getInstance().getHudAssets().life;
-        for (int i = 1; i <= gigaGal.getLives(); i++) {
+        for (int i = 1; i <= level.getGigaGal().getLives(); i++) {
             drawPosition = new Vector2(
                     i * (Constants.HUD_MARGIN / 2 + lifeIcon.getRegionWidth()) - 15,
                     viewport.getWorldHeight() - Constants.HUD_MARGIN - lifeIcon.getRegionHeight()
@@ -94,8 +87,8 @@ public class IndicatorHud {
         }
 
         drawPosition = new Vector2(viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN - 7);
-        Enums.WeaponType weapon = gigaGal.getWeapon();
-        Enums.AmmoIntensity intensity = gigaGal.getAmmoIntensity();
+        Enums.WeaponType weapon = level.getGigaGal().getWeapon();
+        Enums.AmmoIntensity intensity = level.getGigaGal().getAmmoIntensity();
         Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, false);
         ammo.update(1);
         Vector2 offset = new Vector2();
@@ -121,8 +114,4 @@ public class IndicatorHud {
 
         batch.end();
     }
-
-    public void dispose() { font.dispose(); batch.dispose(); }
-
-    public final Viewport getViewport() { return viewport; }
 }

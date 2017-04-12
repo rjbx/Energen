@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sun.org.apache.xml.internal.dtm.ref.IncrementalSAXSource;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -12,21 +13,21 @@ import com.udacity.gamedev.gigagal.util.Constants;
 public final class GaugeHud {
 
     // fields
-    private final ExtendViewport viewport; // class-level instantiation
-    private final GigaGal gigaGal;
-    private final ShapeRenderer renderer; // class-level instantiation
+    public static final String TAG = GaugeHud.class.toString();
+    private static final GaugeHud INSTANCE = new GaugeHud();
     private float flickerFrequency;
 
     // default ctor
-    public GaugeHud(Level level) {
-        this.gigaGal = level.getGigaGal();
-        this.viewport = new ExtendViewport(Constants.HUD_VIEWPORT_SIZE, Constants.HUD_VIEWPORT_SIZE);
-        flickerFrequency = 0.5f;
-        renderer = new ShapeRenderer();
-        renderer.setAutoShapeType(true);
+    private GaugeHud() {
     }
 
-    public void render(ShapeRenderer renderer, ExtendViewport viewport) {
+    public static GaugeHud getInstance() { return INSTANCE; }
+
+    public void create() {
+        flickerFrequency = 0.5f;
+    }
+
+    public void render(ShapeRenderer renderer, ExtendViewport viewport, GigaGal gigaGal) {
 
         viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);
@@ -72,8 +73,4 @@ public final class GaugeHud {
         renderer.rect(viewport.getWorldWidth() / 3 * 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, ((float) gigaGal.getAmmo() / Constants.MAX_AMMO) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
         renderer.end();
     }
-
-    public void dispose() { renderer.dispose(); }
-
-    public final Viewport getViewport() { return viewport; }
 }
