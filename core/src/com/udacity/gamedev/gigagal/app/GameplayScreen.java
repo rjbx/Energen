@@ -52,9 +52,7 @@ public class GameplayScreen extends ScreenAdapter {
     private long levelEndOverlayStartTime;
     private Level level;
     private ChaseCam chaseCam;
-    private Array<Enums.LevelName> completedLevels;
     private Enums.LevelName levelName;
-    private GigaGal gigaGal;
     private int totalScore;
     private Timer totalTime;
     private boolean paused;
@@ -146,7 +144,7 @@ public class GameplayScreen extends ScreenAdapter {
         chaseCam.camera = level.getViewport().getCamera();
         onscreenControls.getViewport().update(width, height, true);
         onscreenControls.recalculateButtonPositions();
-        gigaGal.setInputControls(inputControls);
+        GigaGal.getInstance().setInputControls(inputControls);
         chaseCam.setInputControls(inputControls);
     }
 
@@ -162,7 +160,7 @@ public class GameplayScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (level.gigaGalFailed()) {
-            if (gigaGal.getLives() > -1) {
+            if (GigaGal.getInstance().getLives() > -1) {
                 restartLevel();
             }
         }
@@ -180,12 +178,12 @@ public class GameplayScreen extends ScreenAdapter {
                 totalTime.suspend();
                 paused = true;
                 pauseTime = TimeUtils.nanoTime();
-                pauseDuration = gigaGal.getPauseTimeSeconds();
+                pauseDuration = GigaGal.getInstance().getPauseTimeSeconds();
                 setMainMenu();
             }
             if (chaseCam.getFollowing()) {
                 level.update(delta);
-                GaugeHud.getInstance().render(renderer, viewport, gigaGal);
+                GaugeHud.getInstance().render(renderer, viewport, GigaGal.getInstance());
                 IndicatorHud.getInstance().render(batch, font, viewport, level);
             }
             onscreenControls.render(batch, viewport);
@@ -205,8 +203,8 @@ public class GameplayScreen extends ScreenAdapter {
     private void renderPause() {
         if (!viewingOptions) {
             Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
-            if (inputControls.jumpButtonJustPressed && gigaGal.getAction() == Enums.Action.STANDING) {
-                gigaGal.toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
+            if (inputControls.jumpButtonJustPressed && GigaGal.getInstance().getAction() == Enums.Action.STANDING) {
+                GigaGal.getInstance().toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
             }
             if (inputControls.shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() == 73 && chaseCam.getFollowing()) {
@@ -301,53 +299,29 @@ public class GameplayScreen extends ScreenAdapter {
     private void startNewLevel() {
 //      level = Level.debugLevel();
 //      String levelName = Constants.LEVELS[levelNumber];
+        GigaGal.getInstance().respawn();
 
         // get prefs
-        String savedWeapons = game.getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name());
-        completedLevels = new Array<Enums.LevelName>();
-        if (!savedWeapons.equals(Enums.WeaponType.NATIVE.name())) {
-            List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
-            for (String weaponString : savedWeaponsList) {
-                if (!completedLevels.contains(Enums.WeaponType.valueOf(weaponString).levelName(), false)) {
-                    completedLevels.add(Enums.WeaponType.valueOf(weaponString).levelName());
-                }
-            }
-        }
         totalScore = game.getPreferences().getInteger("Score", totalScore);
         totalTime.start(game.getPreferences().getLong("Time", totalTime.getNanoTime()));
         totalTime.suspend();
         game.getPreferences().flush();
 
         // set level attributes
-        level.setLevelName(levelName);
-        level.setDifficulty(prefs.getInteger("Difficulty", 0));
-        this.gigaGal = level.getGigaGal();
-        for (Enums.LevelName completedLevelName : completedLevels) {
-            for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
-                if (completedLevelName.equals(weapon.levelName())) {
-                    if (!gigaGal.getWeaponList().contains(weapon)) {
-                        gigaGal.addWeapon(weapon);
-                    }
-                }
-            }
-        }
-        String weaponListString = gigaGal.getWeaponList().toString();
+        String weaponListString = GigaGal.getInstance().getWeaponList().toString();
         weaponListString = weaponListString.substring(1, weaponListString.length() - 1);
         game.getPreferences().putString("Weapons", weaponListString);
         chaseCam.camera = level.getViewport().getCamera();
-        chaseCam.target = gigaGal;
+        chaseCam.target = GigaGal.getInstance();
         totalTime.resume();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     private void restartLevel() {
-        gigaGal.respawn();
+        GigaGal.getInstance().respawn();
     }
 
     private void levelComplete() {
-        if (!completedLevels.contains(levelName, false)) {
-            completedLevels.add(levelName);
-        }
         LevelSelectScreen.getInstance().create();
         game.setScreen(LevelSelectScreen.getInstance());
         this.dispose();
@@ -355,7 +329,7 @@ public class GameplayScreen extends ScreenAdapter {
     }
 
     private void unpause() {
-        gigaGal.setPauseTimeSeconds(Helpers.secondsSincePause(pauseTime) + pauseDuration);
+        GigaGal.getInstance().setPauseTimeSeconds(Helpers.secondsSincePause(pauseTime) + pauseDuration);
         level.getLevelTime().resume();
         totalTime.resume();
         paused = false;

@@ -22,8 +22,7 @@ public class IndicatorHud {
     public static final IndicatorHud INSTANCE = new IndicatorHud();
 
     // ctor
-    public IndicatorHud() {
-    }
+    private IndicatorHud() {}
 
     public static IndicatorHud getInstance() { return INSTANCE; }
 

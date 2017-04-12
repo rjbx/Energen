@@ -28,6 +28,7 @@ public final class GigaGalGame extends Game {
     public void create() {
         prefs = Gdx.app.getPreferences("energraft-prefs");
 
+        GigaGal.getInstance().create();
         Cursor.getInstance().init();
         Menu.getInstance().create();
         Assets.getInstance().init(new AssetManager());

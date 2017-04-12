@@ -45,7 +45,6 @@ public class Level {
     private int levelScore;
     private float cannonOffset;
     private long cannonStartTime;
-    private GigaGal gigaGal;
     private Portal portal;
     private List<Hazard> hazards;
     private List<Ground> grounds;
@@ -65,7 +64,6 @@ public class Level {
 
     public void create() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        gigaGal = new GigaGal(this, new Vector2(50, 50));
         boss = new Boss(this, new Vector2(300, 300));
         levelScore = 0;
         levelTime = new Timer();
@@ -90,15 +88,15 @@ public class Level {
 
     public void update(float delta) {
 
-        if (gigaGal.getLives() < 0) {
+        if (GigaGal.getInstance().getLives() < 0) {
             gameOver = true;
-        } else if (gigaGal.getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS) {
+        } else if (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS) {
             victory = true;
         }
 
         if (!gameOver && !victory) {
 
-            gigaGal.update(delta);
+            GigaGal.getInstance().update(delta);
             boss.update(delta);
 
             levelWeapon = Enums.WeaponType.NATIVE;
@@ -127,17 +125,17 @@ public class Level {
                         if (orientation == Enums.Orientation.X) {
                             Vector2 ammoPositionLeft = new Vector2(cannon.getPosition().x - (cannon.getWidth() / 2), ground.getPosition().y);
                             Vector2 ammoPositionRight = new Vector2(cannon.getPosition().x + (cannon.getWidth() / 2), ground.getPosition().y);
-                            if (gigaGal.getPosition().x < (ammoPositionLeft.x - (cannon.getWidth() / 2))) {
+                            if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (cannon.getWidth() / 2))) {
                                 spawnAmmo(ammoPositionLeft, Direction.LEFT, orientation, cannon.getIntensity(), levelWeapon, false);
-                            } else if (gigaGal.getPosition().x > (ammoPositionRight.x + (cannon.getWidth() / 2))) {
+                            } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (cannon.getWidth() / 2))) {
                                 spawnAmmo(ammoPositionRight, Direction.RIGHT, orientation, cannon.getIntensity(), levelWeapon, false);
                             }
                         } else if (cannon.getOrientation() == Enums.Orientation.Y) {
                             Vector2 ammoPositionTop = new Vector2(ground.getPosition().x, cannon.getPosition().y + (cannon.getHeight() / 2));
                             Vector2 ammoPositionBottom = new Vector2(ground.getPosition().x, cannon.getPosition().y - (cannon.getHeight() / 2));
-                            if (gigaGal.getPosition().y < (ammoPositionBottom.y - (cannon.getHeight() / 2))) {
+                            if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (cannon.getHeight() / 2))) {
                                 spawnAmmo(ammoPositionBottom, Direction.DOWN, orientation, cannon.getIntensity(), levelWeapon, false);
-                            } else if (gigaGal.getPosition().y > (ammoPositionTop.y + (cannon.getHeight() / 2))) {
+                            } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (cannon.getHeight() / 2))) {
                                 spawnAmmo(ammoPositionTop, Direction.UP, orientation, cannon.getIntensity(), levelWeapon, false);
                             }
                         }
@@ -214,7 +212,7 @@ public class Level {
             hazard.render(batch);
         }
 
-        gigaGal.render(batch);
+        GigaGal.getInstance().render(batch);
         boss.render(batch);
 
         for (Impact impact : impacts) {
@@ -226,8 +224,6 @@ public class Level {
 
     private void initializeDebugLevel() {
 
-        gigaGal = new GigaGal(this, new Vector2(15, 40));
-
         portal = new Portal(new Vector2(150, 150));
 
         powerups.add(new AmmoPowerup(new Vector2(20, 110)));
@@ -238,10 +234,10 @@ public class Level {
     }
 
     public boolean gigaGalFailed() {
-        if (gigaGal.getKillPlane() != -10000) {
-            if (gigaGal.getPosition().y < gigaGal.getKillPlane() || gigaGal.getHealth() < 1) {
-                gigaGal.setHealth(0);
-                gigaGal.setLives(gigaGal.getLives() - 1);
+        if (GigaGal.getInstance().getKillPlane() != -10000) {
+            if (GigaGal.getInstance().getPosition().y < GigaGal.getInstance().getKillPlane() || GigaGal.getInstance().getHealth() < 1) {
+                GigaGal.getInstance().setHealth(0);
+                GigaGal.getInstance().setLives(GigaGal.getInstance().getLives() - 1);
                 return true;
             }
         }
@@ -254,12 +250,11 @@ public class Level {
 
     public void dispose() {
         boss.dispose();
-        gigaGal.dispose();
+        GigaGal.getInstance().dispose();
         hazards = null;
         grounds = null;
         impacts = null;
         boss = null;
-        gigaGal = null;
     }
 
     // Getters
@@ -269,7 +264,7 @@ public class Level {
     public final List<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
     public final Portal getPortal() { return portal; }
-    public final GigaGal getGigaGal() { return gigaGal; }
+    public final GigaGal getGigaGal() { return GigaGal.getInstance(); }
     public final boolean isGameOver() { return gameOver; }
     public final boolean isVictory() { return victory; }
     public final Timer getLevelTime() { return levelTime; }
@@ -282,7 +277,6 @@ public class Level {
     public void setLevelScore(int levelScore) { this.levelScore = levelScore; }
     public final void setDifficulty(int difficulty) { this.difficulty = difficulty; }
     public final void setPortal(Portal portal) { this.portal = portal; }
-    public final void setGigaGal(GigaGal gigaGal) { this.gigaGal = gigaGal; }
     public final void setBoss(Boss boss) { this.boss = boss; }
     public final void setLevelName(Enums.LevelName levelName) { this.levelName = levelName; }
     public final void setLoadEx(boolean state) { loadEx = state; }

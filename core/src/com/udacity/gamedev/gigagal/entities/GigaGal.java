@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.app.InputControls;
@@ -17,6 +17,7 @@ import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import java.lang.String;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
@@ -26,13 +27,14 @@ public class GigaGal implements Humanoid {
 
     // fields
     public final static String TAG = GigaGal.class.getName();
+    public static final GigaGal INSTANCE = new GigaGal();
 
-    private final Level level;
-    private final float width;
-    private final float height;
-    private final float headRadius;
-    private final float eyeHeight;
-    private final float halfWidth;
+    private Level level;
+    private float width;
+    private float height;
+    private float headRadius;
+    private float eyeHeight;
+    private float halfWidth;
     private float left;
     private float right;
     private float top;
@@ -95,11 +97,14 @@ public class GigaGal implements Humanoid {
     private InputControls inputControls;
 
     // ctor
-    public GigaGal(Level level, Vector2 spawnPosition) {
+    private GigaGal() {
+    }
 
-        this.level = level;
-        this.spawnPosition = spawnPosition;
-        position = new Vector2(spawnPosition);
+    public static GigaGal getInstance() { return INSTANCE; }
+
+    public void create() {
+        position = new Vector2();
+        spawnPosition = new Vector2();
         previousFramePosition = new Vector2();
         chaseCamPosition = new Vector3();
         velocity = new Vector2();
@@ -114,7 +119,6 @@ public class GigaGal implements Humanoid {
         halfWidth = width / 2;
         lives = Constants.INITIAL_LIVES;
         killPlane = -10000;
-        respawn();
     }
 
     public void respawn() {
@@ -1213,7 +1217,9 @@ public class GigaGal implements Humanoid {
             }
         }
     }
-
+    
+    public void setLevel(Level level) { this.level = level; }
+    public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void dispose() {
         weaponList.clear();
     }
