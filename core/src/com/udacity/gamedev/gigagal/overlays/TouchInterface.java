@@ -4,23 +4,23 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.*;
-import com.udacity.gamedev.gigagal.app.InputControls;
+import com.udacity.gamedev.gigagal.util.InputControls;
 
 // mutable
-public final class OnscreenControls {
+public final class TouchInterface {
 
     // fields
-    public static final String TAG = OnscreenControls.class.getName();
-    private static final OnscreenControls INSTANCE = new OnscreenControls();
+    public static final String TAG = TouchInterface.class.getName();
+    private static final TouchInterface INSTANCE = new TouchInterface();
     private SpriteBatch batch; // class-level instantiation
     private static InputControls inputControls;
     private Viewport viewport; // class-level instantiation
     public boolean onMobile;
 
     // non-instantiable; cannot be subclassed
-    private OnscreenControls() {}
+    private TouchInterface() {}
 
-    public static OnscreenControls getInstance() { return INSTANCE; }
+    public static TouchInterface getInstance() { return INSTANCE; }
 
     public final void init() {
         this.inputControls = InputControls.getInstance();

@@ -20,7 +20,7 @@ public class Timer {
         } else if (state != State.UNSTARTED) {
             throw new IllegalStateException("Cannot start timer twice.");
         } else {
-            startTime = System.nanoTime();
+            startTime = TimeUtils.nanoTime();
             state = State.RUNNING;
         }
         return this;
@@ -32,7 +32,7 @@ public class Timer {
         } else if (state != State.UNSTARTED) {
             throw new IllegalStateException("Cannot start timer twice.");
         } else {
-            startTime = System.nanoTime() - offsetTime;
+            startTime = TimeUtils.nanoTime() - offsetTime;
             state = State.RUNNING;
         }
         return this;
@@ -43,7 +43,7 @@ public class Timer {
             throw new IllegalStateException("Cannot stop timer that is neither running nor suspended.");
         } else {
             if (state == State.RUNNING) {
-                stopTime = System.nanoTime();
+                stopTime = TimeUtils.nanoTime();
             }
             state = State.STOPPED;
         }
@@ -54,7 +54,7 @@ public class Timer {
         if (state != State.RUNNING) {
             throw new IllegalStateException("Cannot suspend timer that is not running.");
         } else {
-            stopTime = System.nanoTime();
+            stopTime = TimeUtils.nanoTime();
             state = State.SUSPENDED;
         }
         return this;
@@ -64,7 +64,7 @@ public class Timer {
         if (state != State.SUSPENDED) {
             throw new IllegalStateException("Cannot resume timer that is not suspended.");
         } else {
-            startTime += System.nanoTime() - stopTime;
+            startTime += TimeUtils.nanoTime() - stopTime;
             state = State.RUNNING;
         }
         return this;
@@ -84,7 +84,7 @@ public class Timer {
             if (state == State.UNSTARTED) {
                 return 0L;
             } else if (state == State.RUNNING) {
-                return System.nanoTime() - startTime;
+                return TimeUtils.nanoTime() - startTime;
             }
         }
         return stopTime - startTime;

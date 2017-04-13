@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.GameplayScreen;
+import com.udacity.gamedev.gigagal.screens.LevelScreen;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -25,7 +25,7 @@ public final class Menu {
     private ScreenAdapter screenAdapter;
     private Cursor cursor; // class-level instantiation
     private Object[] optionStrings;
-    private GameplayScreen gameplayScreen;
+    private LevelScreen levelScreen;
     private GigaGal gigaGal;
     private String promptString;
     private int alignment;

@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal.app;
+package com.udacity.gamedev.gigagal.screens;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
@@ -11,8 +11,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.udacity.gamedev.gigagal.app.Energraft;
+import com.udacity.gamedev.gigagal.overlays.TouchInterface;
+import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.overlays.Menu;
-import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.overlays.Cursor;
 import com.udacity.gamedev.gigagal.overlays.Message;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -26,14 +28,14 @@ import java.util.Arrays;
 import java.util.List;
 
 // immutable
-public final class LevelSelectScreen extends ScreenAdapter {
+public final class OverworldScreen extends ScreenAdapter {
 
     // fields
-    public static final String TAG = LevelSelectScreen.class.getName();
-    private static final LevelSelectScreen INSTANCE = new LevelSelectScreen();
+    public static final String TAG = OverworldScreen.class.getName();
+    private static final OverworldScreen INSTANCE = new OverworldScreen();
     private static InputControls inputControls;
-    private static OnscreenControls onscreenControls;
-    private com.udacity.gamedev.gigagal.app.GigaGalGame game;
+    private static TouchInterface touchInterface;
+    private Energraft game;
     private Preferences prefs;
     private ExtendViewport viewport;
     private SpriteBatch batch;
@@ -46,13 +48,13 @@ public final class LevelSelectScreen extends ScreenAdapter {
     private boolean messageVisible;
 
     // cannot be subclassed
-    private LevelSelectScreen() {}
+    private OverworldScreen() {}
 
     // static factory method
-    public static LevelSelectScreen getInstance() { return INSTANCE; }
+    public static OverworldScreen getInstance() { return INSTANCE; }
 
     public void create() {
-        this.game = GigaGalGame.getInstance();
+        this.game = Energraft.getInstance();
         prefs = game.getPreferences();
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
@@ -70,7 +72,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
         completedLevels = new ArrayList<Enums.LevelName>();
         errorMessage = new Message();
         inputControls = InputControls.getInstance();
-        onscreenControls = OnscreenControls.getInstance();
+        touchInterface = TouchInterface.getInstance();
         Gdx.input.setInputProcessor(inputControls);
     }
 
@@ -107,8 +109,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         viewport.update(width, height, true);
 //        cursor.getViewport().update(width, height, true);
-//        onscreenControls.getViewport().update(width, height, true);
-//        onscreenControls.recalculateButtonPositions();
+//        touchInterface.getViewport().update(width, height, true);
+//        touchInterface.recalculateButtonPositions();
 //        optionsOverlay.getViewport().update(width, height, true);
 //        optionsOverlay.getCursor().getViewport().update(width, height, true);
 //        errorMessage.getViewport().update(width, height, true);
@@ -131,11 +133,11 @@ public final class LevelSelectScreen extends ScreenAdapter {
             if (inputControls.shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
                     selectedLevel = Enums.LevelName.valueOf(Cursor.getInstance().getIterator().previous());
-                    GameplayScreen.getInstance().level(selectedLevel);
+                    LevelScreen.getInstance().level(selectedLevel);
                     messageVisible = false;
                     try {
-                        GameplayScreen.getInstance().readLevelFile();
-                        game.setScreen(GameplayScreen.getInstance());
+                        LevelScreen.getInstance().readLevelFile();
+                        game.setScreen(LevelScreen.getInstance());
                         this.dispose();
                         return;
                     } catch (IOException ex) {
@@ -166,8 +168,8 @@ public final class LevelSelectScreen extends ScreenAdapter {
                     setMainMenu();
                     viewingOptions = false;
                 } else if (Cursor.getInstance().getPosition() == 91) {
-                    onscreenControls.onMobile = Helpers.toggleBoolean(onscreenControls.onMobile);
-                    prefs.putBoolean("Mobile", onscreenControls.onMobile);
+                    touchInterface.onMobile = Helpers.toggleBoolean(touchInterface.onMobile);
+                    prefs.putBoolean("Mobile", touchInterface.onMobile);
                 } else if (Cursor.getInstance().getPosition() == 76) {
                     game.dispose();
                     game.create();
@@ -182,7 +184,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
             font.getData().setScale(.5f);
         }
         inputControls.update();
-        onscreenControls.render(batch, viewport);
+        touchInterface.render(batch, viewport);
     }
 
     @Override

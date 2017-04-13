@@ -6,48 +6,49 @@ import com.badlogic.gdx.Preferences;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.overlays.Cursor;
 import com.udacity.gamedev.gigagal.overlays.Menu;
-import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
-import com.udacity.gamedev.gigagal.util.Assets;
-import com.udacity.gamedev.gigagal.util.Timer;
+import com.udacity.gamedev.gigagal.overlays.TouchInterface;
+import com.udacity.gamedev.gigagal.screens.LaunchScreen;
+import com.udacity.gamedev.gigagal.screens.LevelScreen;
+import com.udacity.gamedev.gigagal.screens.OverworldScreen;
+import com.udacity.gamedev.gigagal.util.*;
 
 // immutable singleton
-public final class GigaGalGame extends Game {
+public final class Energraft extends Game {
 
     // fields
-    private static final GigaGalGame INSTANCE = new GigaGalGame();
+    private static final Energraft INSTANCE = new Energraft();
     private Preferences prefs;
     private Timer time;
-    private int score;
+    private Integer score;
 
     // cannot be subclassed
-    private GigaGalGame() {}
+    private Energraft() {}
 
     // static factory method
-    public static GigaGalGame getInstance() { return INSTANCE; }
+    public static Energraft getInstance() { return INSTANCE; }
 
     @Override
     public void create() {
         prefs = Gdx.app.getPreferences("energraft-prefs");
         time = new Timer().start(prefs.getLong("Time")).suspend();
-        score = Integer.valueOf(prefs.getInteger("Score"));
+        score = prefs.getInteger("Score");
 
         GigaGal.getInstance().create();
         Cursor.getInstance().create();
         Menu.getInstance().create();
         Assets.getInstance().create();
-        InputControls.getInstance().create();
+        com.udacity.gamedev.gigagal.util.InputControls.getInstance().create();
         Level.getInstance().create();
-        StartScreen.getInstance().create();
-        LevelSelectScreen.getInstance().create();
-        GameplayScreen.getInstance().create();
-
-        setScreen(StartScreen.getInstance());
+        LaunchScreen.getInstance().create();
+        OverworldScreen.getInstance().create();
+        LevelScreen.getInstance().create();
+        setScreen(LaunchScreen.getInstance());
     }
 
     @Override
     public void dispose() {
         prefs = null;
-        OnscreenControls.getInstance().dispose();
+        TouchInterface.getInstance().dispose();
         super.dispose();
         System.gc();
     }

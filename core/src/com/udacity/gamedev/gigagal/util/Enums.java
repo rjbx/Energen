@@ -80,4 +80,22 @@ public final class Enums {
 
         abstract public WeaponType weaponType();
     }
+
+    public enum LaunchMenu {
+        BEGIN,
+        RESUME,
+        MODE,
+        ERASE
+    }
+
+    public enum LevelMenu {
+        MAIN,
+        OPTIONS,
+        DEBUG
+    }
+
+    public enum OverloadMenu {
+        MAIN,
+        OPTIONS
+    }
 }

@@ -1,8 +1,7 @@
-package com.udacity.gamedev.gigagal.app;
+package com.udacity.gamedev.gigagal.screens;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,8 +11,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.udacity.gamedev.gigagal.app.Energraft;
+import com.udacity.gamedev.gigagal.overlays.TouchInterface;
+import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.overlays.Message;
-import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.overlays.Cursor;
 import com.udacity.gamedev.gigagal.overlays.Backdrop;
 import com.udacity.gamedev.gigagal.overlays.Menu;
@@ -27,14 +28,13 @@ import java.util.Arrays;
 import java.util.List;
 
 // immutable
-public final class StartScreen extends ScreenAdapter {
+public final class LaunchScreen extends ScreenAdapter {
 
     // fields
-    public static final String TAG = StartScreen.class.getName();
-    private static final StartScreen INSTANCE = new StartScreen();
+    public static final String TAG = LaunchScreen.class.getName();
+    private static final LaunchScreen INSTANCE = new LaunchScreen();
     private static InputControls inputControls;
-    private static OnscreenControls onscreenControls;
-    private com.udacity.gamedev.gigagal.app.GigaGalGame game;
+    private static TouchInterface touchInterface;
     private SpriteBatch batch;
     private ExtendViewport viewport;
     private BitmapFont font;
@@ -42,7 +42,6 @@ public final class StartScreen extends ScreenAdapter {
     private BitmapFont title;
     private Backdrop launchBackdrop;
     private Message launchMessage;
-    private Preferences prefs;
     private List<String> choices;
     private long launchStartTime;
     private boolean launching;
@@ -52,14 +51,12 @@ public final class StartScreen extends ScreenAdapter {
     private Vector2 gigagalCenter;
 
     // cannot be subclassed
-    private StartScreen() {}
+    private LaunchScreen() {}
 
     // static factory method
-    public static StartScreen getInstance() { return INSTANCE; }
+    public static LaunchScreen getInstance() { return INSTANCE; }
 
     public void create() {
-        game = GigaGalGame.getInstance();
-        prefs = game.getPreferences();
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigagalCenter = new Vector2(Constants.GIGAGAL_STANCE_WIDTH / 2, Constants.GIGAGAL_HEIGHT / 2);
         text = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
@@ -70,7 +67,7 @@ public final class StartScreen extends ScreenAdapter {
         choices = new ArrayList<String>();
         launchStartTime = TimeUtils.nanoTime();
         launching = true;
-        continuing = (prefs.getLong("Time", 0) != 0);
+        continuing = (Energraft.getInstance().getPreferences().getLong("Time", 0) != 0);
         choices.add("NO");
         choices.add("YES");
     }
@@ -88,8 +85,8 @@ public final class StartScreen extends ScreenAdapter {
         launchBackdrop = new Backdrop();
         launchMessage = new Message();
         launchMessage.setMessage(Constants.LAUNCH_MESSAGE);
-        inputControls = com.udacity.gamedev.gigagal.app.InputControls.getInstance();
-        onscreenControls = OnscreenControls.getInstance();
+        inputControls = InputControls.getInstance();
+        touchInterface = TouchInterface.getInstance();
         Gdx.input.setInputProcessor(inputControls);
     }
 
@@ -99,6 +96,7 @@ public final class StartScreen extends ScreenAdapter {
         Cursor.getInstance().resetPosition();
         String[] optionStrings = {"START GAME", "ERASE GAME"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
+        Menu.getInstance().setAlignment(Align.center);
         Menu.getInstance().setPromptString(" ");
     }
 
@@ -108,6 +106,7 @@ public final class StartScreen extends ScreenAdapter {
         Cursor.getInstance().resetPosition();
         String[] optionStrings = {"NO", "YES"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
+        Menu.getInstance().setAlignment(Align.center);
         Menu.getInstance().setPromptString("Are you sure you want to start \na new game and erase all saved data?");
     }
 
@@ -116,6 +115,7 @@ public final class StartScreen extends ScreenAdapter {
         Menu.getInstance().isSingleOption(true);
         String[] option = {"PRESS START"};
         Menu.getInstance().setOptionStrings(Arrays.asList(option));
+        Menu.getInstance().setAlignment(Align.center);
     }
 
     public static void setDifficultyMenu() {
@@ -136,8 +136,8 @@ public final class StartScreen extends ScreenAdapter {
         viewport.update(width, height, true);
 
 //        cursor.getViewport().update(width, height, true);
-//        onscreenControls.getViewport().update(width, height, true);
-//        onscreenControls.recalculateButtonPositions();
+//        touchInterface.getViewport().update(width, height, true);
+//        touchInterface.recalculateButtonPositions();
 //        startMenu.getViewport().update(width, height, true);
 //        startMenu.getCursor().getViewport().update(width, height, true);
 //        difficultyMenu.getViewport().update(width, height, true);
@@ -171,9 +171,9 @@ public final class StartScreen extends ScreenAdapter {
                         if (continuing) {
                             if (Cursor.getInstance().getPosition() == 35) {
                                 inputControls.shootButtonJustPressed = false;
-                                LevelSelectScreen levelSelectScreen = LevelSelectScreen.getInstance();
-                                levelSelectScreen.create();
-                                game.setScreen(levelSelectScreen);
+                                OverworldScreen overworldScreen = OverworldScreen.getInstance();
+                                overworldScreen.create();
+                                Energraft.getInstance().setScreen(overworldScreen);
                                 this.dispose();
                                 return;
                             } else if (Cursor.getInstance().getPosition() == 20) {
@@ -189,10 +189,10 @@ public final class StartScreen extends ScreenAdapter {
                     Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
                     if (inputControls.shootButtonJustPressed) {
                         if (Cursor.getInstance().getPosition() == (150)) {
-                            prefs.clear();
-                            prefs.flush();
-                            game.dispose();
-                            game.create();
+                            Energraft.getInstance().getPreferences().clear();
+                            Energraft.getInstance().getPreferences().flush();
+                            Energraft.getInstance().dispose();
+                            Energraft.getInstance().create();
                             setBeginMenu();
                         } else {
                             setResumeMenu();
@@ -220,18 +220,18 @@ public final class StartScreen extends ScreenAdapter {
             Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
             if (inputControls.shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() == 75) {
-                    prefs.putInteger("Difficulty", 0);
+                    Energraft.getInstance().getPreferences().putInteger("Difficulty", 0);
                 } else if (Cursor.getInstance().getPosition() == 60) {
-                    prefs.putInteger("Difficulty", 1);
+                    Energraft.getInstance().getPreferences().putInteger("Difficulty", 1);
                 } else if (Cursor.getInstance().getPosition() == 45) {
-                    prefs.putInteger("Difficulty", 2);
+                    Energraft.getInstance().getPreferences().putInteger("Difficulty", 2);
                 }
 
-                if (prefs.contains("Difficulty")) {
+                if (Energraft.getInstance().getPreferences().contains("Difficulty")) {
                     difficultyOptionsVisible = false;
-                    LevelSelectScreen levelSelectScreen = LevelSelectScreen.getInstance();
-                    levelSelectScreen.create();
-                    game.setScreen(levelSelectScreen);
+                    OverworldScreen overworldScreen = OverworldScreen.getInstance();
+                    overworldScreen.create();
+                    Energraft.getInstance().setScreen(overworldScreen);
                     this.dispose();
                     return;
                 }
@@ -240,7 +240,7 @@ public final class StartScreen extends ScreenAdapter {
             }
         }
         inputControls.update();
-        onscreenControls.render(batch, viewport);
+        touchInterface.render(batch, viewport);
     }
 
     @Override

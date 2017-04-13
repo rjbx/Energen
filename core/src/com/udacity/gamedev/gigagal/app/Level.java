@@ -85,10 +85,14 @@ public class Level {
 
     public void update(float delta) {
 
-        if (GigaGal.getInstance().getLives() < 0) {
-            gameOver = true;
-        } else if (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS) {
+        if (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS) {
             victory = true;
+        } else if (gigaGalFailed()) {
+            if (GigaGal.getInstance().getLives() > -1) {
+                GigaGal.getInstance().respawn();
+            } else if (GigaGal.getInstance().getLives() < 0) {
+                gameOver = true;
+            }
         }
 
         if (!gameOver && !victory) {
