@@ -105,7 +105,9 @@ public class Level {
             }
 
             // Update Grounds
-            for (Ground ground : grounds) {
+            ListIterator<Ground> groundsIterator = grounds.listIterator();
+            while (groundsIterator.hasNext()) {
+                Ground ground = groundsIterator.next();
                 if (ground instanceof HoverableGround) {
                     HoverableGround hoverable = (HoverableGround) ground;
                     hoverable.update(delta);
