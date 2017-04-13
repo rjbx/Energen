@@ -79,10 +79,6 @@ public class Level {
 
     public void update(float delta) {
 
-        if (!levelContinue()) {
-            time.suspend();
-        }
-
         if (levelContinue()) {
             levelWeapon = Enums.WeaponType.NATIVE;
             for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
@@ -168,6 +164,10 @@ public class Level {
             }
         }
         return false;
+    }
+
+    public void levelEnd() {
+        removeAssets();
     }
 
     public void updateAssets(float delta) {
@@ -256,6 +256,29 @@ public class Level {
             }
         }
     }
+
+    public void removeAssets() {
+        ListIterator<Ground> groundsIterator = grounds.listIterator();
+        while (groundsIterator.hasNext()) {
+            groundsIterator.next();
+            groundsIterator.remove();
+        }
+
+        // Update Hazards
+        ListIterator<Hazard> hazardIterator = hazards.listIterator();
+        while (hazardIterator.hasNext()) {
+            hazardIterator.next();
+            hazardIterator.remove();
+        }
+
+        // Update Explosions
+        ListIterator<Impact> impactIterator = impacts.listIterator();
+        while (impactIterator.hasNext()){
+            impactIterator.next();
+            impactIterator.remove();
+        }
+    }
+
 
     public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.AmmoIntensity ammoIntensity, Enums.WeaponType weapon, boolean targetsEnemies) {
         hazards.add(new Ammo(this, position, direction, orientation, ammoIntensity, weapon, targetsEnemies));

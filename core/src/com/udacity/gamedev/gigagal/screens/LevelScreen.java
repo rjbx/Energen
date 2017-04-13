@@ -184,6 +184,7 @@ public class LevelScreen extends ScreenAdapter {
                 if (Cursor.getInstance().getPosition() == 73 && ChaseCam.getInstance().getFollowing()) {
                     unpause();
                 } else if (Cursor.getInstance().getPosition() == 58) {
+                    Level.getInstance().levelEnd();
                     OverworldScreen.getInstance().setMainMenu();
                     Energraft.getInstance().setScreen(OverworldScreen.getInstance());
                     return;
@@ -206,6 +207,7 @@ public class LevelScreen extends ScreenAdapter {
                     touchInterface.onMobile = Helpers.toggleBoolean(touchInterface.onMobile);
                     Energraft.getInstance().getPreferences().putBoolean("Mobile", touchInterface.onMobile);
                 } else if (Cursor.getInstance().getPosition() == 28) {
+                    Level.getInstance().levelEnd();
                     Energraft.getInstance().create();
                     return;
                 }
@@ -236,6 +238,7 @@ public class LevelScreen extends ScreenAdapter {
                 OverworldScreen.getInstance().setMainMenu();
                 Energraft.getInstance().setScreen(OverworldScreen.getInstance());
                 font.getData().setScale(.4f);
+                Level.getInstance().levelEnd();
                 return;
             }
         } else if (Level.getInstance().levelCompleted()) {
@@ -254,6 +257,7 @@ public class LevelScreen extends ScreenAdapter {
                 OverworldScreen.getInstance().setMainMenu();
                 Energraft.getInstance().setScreen(OverworldScreen.getInstance());
                 font.getData().setScale(.4f);
+                Level.getInstance().levelEnd();
                 return;
             }
         }
