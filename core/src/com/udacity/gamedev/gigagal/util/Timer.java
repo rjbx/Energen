@@ -14,7 +14,7 @@ public class Timer {
         state = State.UNSTARTED;
     }
 
-    public void start() {
+    public Timer start() {
         if (state == State.STOPPED) {
             throw new IllegalStateException("Cannot reset timer before restart.");
         } else if (state != State.UNSTARTED) {
@@ -23,9 +23,10 @@ public class Timer {
             startTime = System.nanoTime();
             state = State.RUNNING;
         }
+        return this;
     }
 
-    public void start(long offsetTime) {
+    public Timer start(long offsetTime) {
         if (state == State.STOPPED) {
             throw new IllegalStateException("Cannot reset timer before restart.");
         } else if (state != State.UNSTARTED) {
@@ -34,9 +35,10 @@ public class Timer {
             startTime = System.nanoTime() - offsetTime;
             state = State.RUNNING;
         }
+        return this;
     }
 
-    public void stop() {
+    public Timer stop() {
         if (state != State.RUNNING && state != State.SUSPENDED) {
             throw new IllegalStateException("Cannot stop timer that is neither running nor suspended.");
         } else {
@@ -45,28 +47,32 @@ public class Timer {
             }
             state = State.STOPPED;
         }
+        return this;
     }
 
-    public void suspend() {
+    public Timer suspend() {
         if (state != State.RUNNING) {
             throw new IllegalStateException("Cannot suspend timer that is not running.");
         } else {
             stopTime = System.nanoTime();
             state = State.SUSPENDED;
         }
+        return this;
     }
 
-    public void resume() {
+    public Timer resume() {
         if (state != State.SUSPENDED) {
             throw new IllegalStateException("Cannot resume timer that is not suspended.");
         } else {
             startTime += System.nanoTime() - stopTime;
             state = State.RUNNING;
         }
+        return this;
     }
 
-    public void reset() {
+    public Timer reset() {
         state = State.UNSTARTED;
+        return this;
     }
 
     public long getTime() {

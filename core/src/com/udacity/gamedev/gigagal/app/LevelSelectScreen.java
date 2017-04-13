@@ -131,7 +131,7 @@ public final class LevelSelectScreen extends ScreenAdapter {
             if (inputControls.shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
                     selectedLevel = Enums.LevelName.valueOf(Cursor.getInstance().getIterator().previous());
-                    GameplayScreen.getInstance().setLevel(selectedLevel);
+                    GameplayScreen.getInstance().level(selectedLevel);
                     messageVisible = false;
                     try {
                         GameplayScreen.getInstance().readLevelFile();

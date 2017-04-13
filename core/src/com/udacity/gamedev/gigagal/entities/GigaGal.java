@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.app.InputControls;
@@ -17,7 +16,6 @@ import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import java.lang.String;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
@@ -97,8 +95,7 @@ public class GigaGal implements Humanoid {
     private InputControls inputControls;
 
     // ctor
-    private GigaGal() {
-    }
+    private GigaGal() {}
 
     public static GigaGal getInstance() { return INSTANCE; }
 
@@ -541,7 +538,7 @@ public class GigaGal implements Humanoid {
                         dashStartTime = TimeUtils.nanoTime();
                     }
                 }
-                level.setLevelScore(level.getLevelScore() + Constants.POWERUP_SCORE);
+                level.setScore(level.getScore() + Constants.POWERUP_SCORE);
                 iterator.remove();
             }
         }

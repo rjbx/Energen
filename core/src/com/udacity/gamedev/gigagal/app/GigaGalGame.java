@@ -3,13 +3,12 @@ package com.udacity.gamedev.gigagal.app;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.assets.AssetManager;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.overlays.Cursor;
 import com.udacity.gamedev.gigagal.overlays.Menu;
 import com.udacity.gamedev.gigagal.overlays.OnscreenControls;
 import com.udacity.gamedev.gigagal.util.Assets;
-import com.udacity.gamedev.gigagal.util.Enums;
+import com.udacity.gamedev.gigagal.util.Timer;
 
 // immutable singleton
 public final class GigaGalGame extends Game {
@@ -17,6 +16,8 @@ public final class GigaGalGame extends Game {
     // fields
     private static final GigaGalGame INSTANCE = new GigaGalGame();
     private Preferences prefs;
+    private Timer time;
+    private int score;
 
     // cannot be subclassed
     private GigaGalGame() {}
@@ -27,16 +28,19 @@ public final class GigaGalGame extends Game {
     @Override
     public void create() {
         prefs = Gdx.app.getPreferences("energraft-prefs");
+        time = new Timer().start(prefs.getLong("Time")).suspend();
+        score = Integer.valueOf(prefs.getInteger("Score"));
 
         GigaGal.getInstance().create();
-        Cursor.getInstance().init();
+        Cursor.getInstance().create();
         Menu.getInstance().create();
-        Assets.getInstance().init(new AssetManager());
-        InputControls.getInstance().init();
+        Assets.getInstance().create();
+        InputControls.getInstance().create();
         Level.getInstance().create();
         StartScreen.getInstance().create();
         LevelSelectScreen.getInstance().create();
         GameplayScreen.getInstance().create();
+
         setScreen(StartScreen.getInstance());
     }
 
@@ -49,4 +53,7 @@ public final class GigaGalGame extends Game {
     }
 
     public Preferences getPreferences() { return prefs; }
+
+    public Timer getTime() { return time; }
+    public Integer getScore() { return score; }
 }

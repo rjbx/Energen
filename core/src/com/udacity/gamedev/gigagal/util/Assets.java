@@ -40,7 +40,8 @@ public final class Assets implements AssetErrorListener {
     // static factory
     public static final Assets getInstance() { return INSTANCE; }
 
-    public final void init(AssetManager assetManager) {
+    public final void create() {
+        AssetManager assetManager = new AssetManager();
         assetManager.setErrorListener(this);
         assetManager.load(Constants.TEXTURE_ATLAS, TextureAtlas.class);
         assetManager.finishLoading();

@@ -29,7 +29,7 @@ public class Cursor {
     // static factory method
     public static Cursor getInstance() { return INSTANCE; }
 
-    public void init() {
+    public void create() {
         this.orientation = Enums.Orientation.Y;
         this.startingPosition = 0;
         this.endingPosition = 0;

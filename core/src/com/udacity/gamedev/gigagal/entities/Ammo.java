@@ -9,8 +9,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-import sun.security.krb5.internal.crypto.Des;
-
 // immutable
 public final class Ammo implements IndestructibleHazard {
 
@@ -154,7 +152,7 @@ public final class Ammo implements IndestructibleHazard {
                         damage -= Constants.AMMO_WEAK_DAMAGE;
                         damage /= 2;
                     } else {
-                        level.setLevelScore(level.getLevelScore() + destructible.getHitScore());
+                        level.setScore(level.getScore() + destructible.getHitScore());
                     }
                     Helpers.applyDamage(destructible, ammoIntensity, damage / Constants.DIFFICULTY_MULTIPLIER[level.getDifficulty()]);
                 }

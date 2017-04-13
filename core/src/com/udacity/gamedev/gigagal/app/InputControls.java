@@ -52,7 +52,7 @@ public class InputControls extends InputAdapter {
     // static factory method
     public static InputControls getInstance() { return INSTANCE; }
 
-    public void init() {
+    public void create() {
         OnscreenControls.getInstance().init();
     //    OnscreenControls.getInstance().onMobile = onMobile();
         this.viewport = OnscreenControls.getInstance().getViewport();

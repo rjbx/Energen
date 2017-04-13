@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -31,7 +30,6 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 public class GameplayScreen extends ScreenAdapter {
 
@@ -40,8 +38,6 @@ public class GameplayScreen extends ScreenAdapter {
     private static final GameplayScreen INSTANCE = new GameplayScreen();
     private static InputControls inputControls;
     private static OnscreenControls onscreenControls;
-    private GigaGalGame game;
-    private Preferences prefs;
     private Message victoryOverlay;
     private Message defeatOverlay;
     private Message errorMessage;
@@ -53,12 +49,10 @@ public class GameplayScreen extends ScreenAdapter {
     private Level level;
     private ChaseCam chaseCam;
     private Enums.LevelName levelName;
-    private int totalScore;
-    private Timer totalTime;
     private boolean paused;
     private boolean viewingOptions;
     private boolean levelEnded;
-    private boolean debugMode;
+    private boolean viewingDebug;
     private long pauseTime;
     private float pauseDuration;
 
@@ -69,9 +63,6 @@ public class GameplayScreen extends ScreenAdapter {
     public static GameplayScreen getInstance() { return INSTANCE; }
 
     public void create() {
-        this.game = GigaGalGame.getInstance();
-        prefs = game.getPreferences();
-        totalTime = new Timer();
         paused = false;
         viewingOptions = false;
         levelEnded = false;
@@ -89,7 +80,8 @@ public class GameplayScreen extends ScreenAdapter {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
         errorMessage = new Message();
         errorMessage.setMessage(Constants.LEVEL_KEY_MESSAGE);
-        victoryOverlay = new Message();defeatOverlay = new Message();
+        victoryOverlay = new Message();
+        defeatOverlay = new Message();
         defeatOverlay.setMessage(Constants.DEFEAT_MESSAGE);
         inputControls = InputControls.getInstance();
         onscreenControls = OnscreenControls.getInstance();
@@ -165,31 +157,29 @@ public class GameplayScreen extends ScreenAdapter {
             }
         }
 
+        viewingDebug = !chaseCam.getFollowing();
+
         if (!(level.isGameOver() || level.isVictory())) {
-            if (paused) {
+            if (!paused) {
+                IndicatorHud.getInstance().render(batch, font, viewport, level);
+                chaseCam.update(delta);
+                level.update(delta);
+                level.render(batch); // also rendered when viewingDebug; see renderPause()
+                if (inputControls.pauseButtonJustPressed) {
+                    level.getTime().suspend();
+                    GigaGalGame.getInstance().getTime().suspend();
+                    paused = true;
+                    pauseTime = TimeUtils.nanoTime();
+                    pauseDuration = GigaGal.getInstance().getPauseTimeSeconds();
+                    setMainMenu();
+                }
+            } else if (paused) {
                 renderPause();
             }
-            if (!paused || (paused && !chaseCam.getFollowing())) {
-                chaseCam.update(delta);
-                level.render(batch);
-            }
-            if (inputControls.pauseButtonJustPressed && chaseCam.getFollowing()) {
-                level.getLevelTime().suspend();
-                totalTime.suspend();
-                paused = true;
-                pauseTime = TimeUtils.nanoTime();
-                pauseDuration = GigaGal.getInstance().getPauseTimeSeconds();
-                setMainMenu();
-            }
-            if (chaseCam.getFollowing()) {
-                level.update(delta);
-                GaugeHud.getInstance().render(renderer, viewport, GigaGal.getInstance());
-                IndicatorHud.getInstance().render(batch, font, viewport, level);
-            }
+            GaugeHud.getInstance().render(renderer, viewport, GigaGal.getInstance());
             onscreenControls.render(batch, viewport);
         } else {
             renderLevelEnd();
-            return;
         }
 
         if (level.getLoadEx()) {
@@ -201,58 +191,55 @@ public class GameplayScreen extends ScreenAdapter {
     }
 
     private void renderPause() {
-        if (!viewingOptions) {
-            Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
-            if (inputControls.jumpButtonJustPressed && GigaGal.getInstance().getAction() == Enums.Action.STANDING) {
-                GigaGal.getInstance().toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
-            }
-            if (inputControls.shootButtonJustPressed) {
-                if (Cursor.getInstance().getPosition() == 73 && chaseCam.getFollowing()) {
-                    unpause();
-                } else if (Cursor.getInstance().getPosition() == 58) {
-                    unpause();
-                    level.getLevelTime().suspend();
-                    totalTime.suspend();
-                    LevelSelectScreen.getInstance().setMainMenu();
-                    game.setScreen(LevelSelectScreen.getInstance());
-                    this.dispose();
-                    return;
-                } else if (Cursor.getInstance().getPosition() == 43) {
-                    setOptionsMenu();
-                    viewingOptions = true;
+        Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
+        if (!viewingDebug) {
+            if (!viewingOptions) {
+                if (inputControls.jumpButtonJustPressed && GigaGal.getInstance().getAction() == Enums.Action.STANDING) {
+                    GigaGal.getInstance().toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
                 }
-            } else if (inputControls.pauseButtonJustPressed) {
-                unpause();
-            }
-        } else {
-            if (chaseCam.getFollowing()) {
-                Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
                 if (inputControls.shootButtonJustPressed) {
-                    if (Cursor.getInstance().getPosition() == 73) {
-                        viewingOptions = false;
-                        setMainMenu();
+                    if (Cursor.getInstance().getPosition() == 73 && chaseCam.getFollowing()) {
+                        unpause();
                     } else if (Cursor.getInstance().getPosition() == 58) {
-                        if (chaseCam.getFollowing()) {
-                            chaseCam.setFollowing(false);
-                            setDebugMenu();
-                        }
-                    } else if (Cursor.getInstance().getPosition() == 43) {
-                        onscreenControls.onMobile = Helpers.toggleBoolean(onscreenControls.onMobile);
-                        prefs.putBoolean("Mobile", onscreenControls.onMobile);
-                    } else if (Cursor.getInstance().getPosition() == 28) {
-                        game.dispose();
-                        game.create();
+                        LevelSelectScreen.getInstance().setMainMenu();
+                        GigaGalGame.getInstance().setScreen(LevelSelectScreen.getInstance());
+                        this.dispose();
                         return;
+                    } else if (Cursor.getInstance().getPosition() == 43) {
+                        setOptionsMenu();
+                        viewingOptions = true;
                     }
                 } else if (inputControls.pauseButtonJustPressed) {
-                    viewingOptions = false;
+                    unpause();
                 }
             } else {
-                Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
-                if (inputControls.shootButtonJustPressed) {
-                    chaseCam.setFollowing(true);
-                    setOptionsMenu();
+                if (chaseCam.getFollowing()) {
+                    if (inputControls.shootButtonJustPressed) {
+                        if (Cursor.getInstance().getPosition() == 73) {
+                            setMainMenu();
+                        } else if (Cursor.getInstance().getPosition() == 58) {
+                            if (chaseCam.getFollowing()) {
+                                chaseCam.setFollowing(false);
+                                setDebugMenu();
+                            }
+                        } else if (Cursor.getInstance().getPosition() == 43) {
+                            onscreenControls.onMobile = Helpers.toggleBoolean(onscreenControls.onMobile);
+                            GigaGalGame.getInstance().getPreferences().putBoolean("Mobile", onscreenControls.onMobile);
+                        } else if (Cursor.getInstance().getPosition() == 28) {
+                            GigaGalGame.getInstance().setScreen(StartScreen.getInstance());
+                        }
+                        viewingOptions = false;
+                    } else if (inputControls.pauseButtonJustPressed) {
+                        viewingOptions = false;
+                    }
                 }
+            }
+        } else {
+            level.render(batch);
+            if (inputControls.shootButtonJustPressed) {
+                chaseCam.setFollowing(true);
+                viewingOptions = true;
+                setOptionsMenu();
             }
         }
     }
@@ -260,8 +247,8 @@ public class GameplayScreen extends ScreenAdapter {
     private void renderLevelEnd() {
         if (level.isGameOver()) {
             if (levelEndOverlayStartTime == 0) {
-                level.getLevelTime().suspend();
-                totalTime.suspend();
+                level.getTime().suspend();
+                GigaGalGame.getInstance().getTime().suspend();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
             }
             font.getData().setScale(1);
@@ -270,20 +257,17 @@ public class GameplayScreen extends ScreenAdapter {
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
                 LevelSelectScreen.getInstance().setMainMenu();
-                game.setScreen(LevelSelectScreen.getInstance());
-                this.dispose();
-                return;
+                GigaGalGame.getInstance().setScreen(LevelSelectScreen.getInstance());
             }
         } else if (level.isVictory()) {
             if (levelEndOverlayStartTime == 0) {
-                level.getLevelTime().suspend();
-                totalTime.suspend();
-                totalScore += level.getLevelScore();
-                game.getPreferences().putInteger("Score", totalScore);
-                game.getPreferences().putLong("Time", totalTime.getNanoTime());
-                game.getPreferences().flush();
+                level.getTime().suspend();
+                GigaGalGame.getInstance().getTime().suspend();
+                GigaGalGame.getInstance().getPreferences().putInteger("Score", GigaGalGame.getInstance().getScore() + level.getScore());
+                GigaGalGame.getInstance().getPreferences().putLong("Time", GigaGalGame.getInstance().getTime().getNanoTime());
+                GigaGalGame.getInstance().getPreferences().flush();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
-                victoryOverlay.setMessage(Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.stopWatchToString(getTotalTime()) + "\nScore: " + getTotalScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.stopWatchToString(getLevel().getLevelTime()) + "\n" + "Score: " + getLevel().getLevelScore());
+                victoryOverlay.setMessage(Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.stopWatchToString(GigaGalGame.getInstance().getTime()) + "\nScore: " + GigaGalGame.getInstance().getScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.stopWatchToString(level.getTime()) + "\n" + "Score: " + level.getScore());
             }
             victoryOverlay.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .9f));
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
@@ -303,19 +287,16 @@ public class GameplayScreen extends ScreenAdapter {
         GigaGal.getInstance().respawn();
 
         // get prefs
-        totalScore = game.getPreferences().getInteger("Score", totalScore);
-        totalTime.reset();
-        totalTime.start(game.getPreferences().getLong("Time", totalTime.getNanoTime()));
-        totalTime.suspend();
-        game.getPreferences().flush();
+        GigaGalGame.getInstance().getPreferences().flush();
 
         // set level attributes
         String weaponListString = GigaGal.getInstance().getWeaponList().toString();
         weaponListString = weaponListString.substring(1, weaponListString.length() - 1);
-        game.getPreferences().putString("Weapons", weaponListString);
+        GigaGalGame.getInstance().getPreferences().putString("Weapons", weaponListString);
         chaseCam.camera = level.getViewport().getCamera();
         chaseCam.target = GigaGal.getInstance();
-        totalTime.resume();
+        level.getTime().reset().start();
+        GigaGalGame.getInstance().getTime().resume();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
@@ -325,15 +306,13 @@ public class GameplayScreen extends ScreenAdapter {
 
     private void levelComplete() {
         LevelSelectScreen.getInstance().setMainMenu();
-        game.setScreen(LevelSelectScreen.getInstance());
-        this.dispose();
-        return;
+        GigaGalGame.getInstance().setScreen(LevelSelectScreen.getInstance());
     }
 
     private void unpause() {
         GigaGal.getInstance().setPauseTimeSeconds(Helpers.secondsSincePause(pauseTime) + pauseDuration);
-        level.getLevelTime().resume();
-        totalTime.resume();
+        level.getTime().resume();
+        GigaGalGame.getInstance().getTime().resume();
         paused = false;
     }
 
@@ -365,9 +344,5 @@ public class GameplayScreen extends ScreenAdapter {
 //        System.gc();
     }
 
-    public int getTotalScore() { return totalScore; }
-    public Timer getTotalTime() { return totalTime; }
-    public ChaseCam getChaseCam() { return chaseCam; }
-    public Level getLevel() { return level; }
-    public void setLevel(Enums.LevelName level) { this.levelName = level; }
+    public void level(Enums.LevelName level) { this.levelName = level; }
 }

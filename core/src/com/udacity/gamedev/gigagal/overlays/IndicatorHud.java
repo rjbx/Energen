@@ -5,11 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.entities.Ammo;
-import com.udacity.gamedev.gigagal.entities.GigaGal;
-import com.udacity.gamedev.gigagal.entities.IndestructibleHazard;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -106,8 +103,8 @@ public class IndicatorHud {
         }
         Helpers.drawTextureRegion(batch, ammo.getTexture(), drawPosition, offset, Constants.AMMO_ICON_SCALE);
 
-        final String scoreString = level.getLevelScore() + "";
-        final String timerString = Helpers.stopWatchToString(level.getLevelTime());
+        final String scoreString = level.getScore() + "";
+        final String timerString = Helpers.stopWatchToString(level.getTime());
         font.draw(batch, scoreString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN - 0.5f, Constants.HUD_MARGIN / 2, Constants.HUD_MARGIN * 2, 1, true);
         font.draw(batch, timerString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN * 2 - 0.5f, Constants.HUD_MARGIN * 1.5f, Constants.HUD_MARGIN * 4, 1, true);
 

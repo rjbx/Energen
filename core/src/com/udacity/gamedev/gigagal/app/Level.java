@@ -3,13 +3,11 @@ package com.udacity.gamedev.gigagal.app;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Ammo;
 import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
-import com.udacity.gamedev.gigagal.entities.Boss;
 import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.Ground;
@@ -42,7 +40,6 @@ public class Level {
     private boolean victory;
     private boolean gameOver;
     private boolean loadEx;
-    private int levelScore;
     private float cannonOffset;
     private long cannonStartTime;
     private Portal portal;
@@ -50,11 +47,12 @@ public class Level {
     private List<Ground> grounds;
     private List<Impact> impacts;
     private List<Powerup> powerups;
-    private Timer levelTime;
     private Enums.WeaponType levelWeapon;
     private int difficulty;
 
-    private Boss boss;
+
+    private Timer time;
+    private int score;
 
     // cannot be subclassed
     private Level() {}
@@ -64,9 +62,9 @@ public class Level {
 
     public void create() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        levelScore = 0;
-        levelTime = new Timer();
-        levelTime.start();
+        score = 0;
+        time = new Timer();
+        time.start();
         grounds = new ArrayList<Ground>();
         hazards = new ArrayList<Hazard>();
         impacts = new ArrayList<Impact>();
@@ -153,7 +151,7 @@ public class Level {
                     if (destructible.getHealth() < 1) {
                         spawnExplosion(destructible.getPosition(), destructible.getType());
                         hazardIterator.remove();
-                        levelScore += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[difficulty]);
+                        score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[difficulty]);
                     }
                     if (destructible instanceof Orben) {
                         Orben orben = (Orben) destructible;
@@ -248,12 +246,10 @@ public class Level {
     }
 
     public void dispose() {
-        boss.dispose();
         GigaGal.getInstance().dispose();
         hazards = null;
         grounds = null;
         impacts = null;
-        boss = null;
     }
 
     // Getters
@@ -266,17 +262,16 @@ public class Level {
     public final GigaGal getGigaGal() { return GigaGal.getInstance(); }
     public final boolean isGameOver() { return gameOver; }
     public final boolean isVictory() { return victory; }
-    public final Timer getLevelTime() { return levelTime; }
-    public final int getLevelScore() { return levelScore; }
+    public final Timer getTime() { return time; }
+    public final int getScore() { return score; }
     public final int getDifficulty() { return difficulty; }
     public final Enums.WeaponType getType() { return levelWeapon; }
     public final boolean getLoadEx() { return loadEx; }
 
     // Setters
-    public void setLevelScore(int levelScore) { this.levelScore = levelScore; }
+    public void setScore(int score) { this.score = score; }
     public final void setDifficulty(int difficulty) { this.difficulty = difficulty; }
     public final void setPortal(Portal portal) { this.portal = portal; }
-    public final void setBoss(Boss boss) { this.boss = boss; }
     public final void setLevelName(Enums.LevelName levelName) { this.levelName = levelName; }
     public final void setLoadEx(boolean state) { loadEx = state; }
 }

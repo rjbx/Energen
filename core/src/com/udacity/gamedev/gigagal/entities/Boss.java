@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.app.InputControls;
 import com.udacity.gamedev.gigagal.app.Level;
@@ -15,7 +13,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
@@ -600,7 +597,7 @@ public class Boss implements Humanoid, Hazard  {
                         dashStartTime = TimeUtils.nanoTime();
                     }
                 }
-                level.setLevelScore(level.getLevelScore() + Constants.POWERUP_SCORE);
+                level.setScore(level.getScore() + Constants.POWERUP_SCORE);
                 iterator.remove();
             }
         }
