@@ -75,6 +75,8 @@ public class LevelScreen extends ScreenAdapter {
         inputControls = InputControls.getInstance();
         touchInterface = TouchInterface.getInstance();
 
+        paused = false;
+
         // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
         Gdx.input.setInputProcessor(inputControls);
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -155,13 +157,13 @@ public class LevelScreen extends ScreenAdapter {
                     pauseDuration = GigaGal.getInstance().getPauseTimeSeconds();
                     setMainMenu();
                 }
-            } else if (paused) {
-                setPauseState();
+            } else {
+                setPauseState(delta);
             }
             GaugeHud.getInstance().render(renderer, viewport, GigaGal.getInstance());
             touchInterface.render(batch, viewport);
         } else {
-            setExitOverlay(new Message());
+            setExitOverlay();
         }
 
         if (Level.getInstance().getLoadEx()) {
@@ -172,7 +174,7 @@ public class LevelScreen extends ScreenAdapter {
         inputControls.update();
     }
 
-    private void setPauseState() {
+    private void setPauseState(float delta) {
         Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
         if (menu == MAIN) {
             if (inputControls.jumpButtonJustPressed && GigaGal.getInstance().getAction() == Enums.Action.STANDING) {
@@ -184,7 +186,6 @@ public class LevelScreen extends ScreenAdapter {
                 } else if (Cursor.getInstance().getPosition() == 58) {
                     OverworldScreen.getInstance().setMainMenu();
                     Energraft.getInstance().setScreen(OverworldScreen.getInstance());
-                    this.dispose();
                     return;
                 } else if (Cursor.getInstance().getPosition() == 43) {
                     setOptionsMenu();
@@ -205,52 +206,58 @@ public class LevelScreen extends ScreenAdapter {
                     touchInterface.onMobile = Helpers.toggleBoolean(touchInterface.onMobile);
                     Energraft.getInstance().getPreferences().putBoolean("Mobile", touchInterface.onMobile);
                 } else if (Cursor.getInstance().getPosition() == 28) {
-                    Energraft.getInstance().setScreen(LaunchScreen.getInstance());
+                    Energraft.getInstance().create();
+                    return;
                 }
             } else if (inputControls.pauseButtonJustPressed) {
                 setMainMenu();
             }
         } else if (menu == DEBUG){
-          Level.getInstance().render(batch);
-          if (inputControls.shootButtonJustPressed) {
+            Level.getInstance().render(batch);
+            ChaseCam.getInstance().update(delta);
+            if (inputControls.shootButtonJustPressed) {
               ChaseCam.getInstance().setFollowing(true);
               setOptionsMenu();
-          }
+            }
         }
     }
 
-    private void setExitOverlay(Message message) {
+    private void setExitOverlay() {
+        Message message = new Message();
         if (Level.getInstance().levelAborted()) {
+            message.setMessage(Constants.DEFEAT_MESSAGE);
+            font.getData().setScale(1);
             if (levelEndOverlayStartTime == 0) {
                 Level.getInstance().getTime().suspend();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
-                message = new Message();
-                message.setMessage(Constants.DEFEAT_MESSAGE);
             }
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
                 OverworldScreen.getInstance().setMainMenu();
                 Energraft.getInstance().setScreen(OverworldScreen.getInstance());
+                font.getData().setScale(.4f);
+                return;
             }
-            font.getData().setScale(1);
-            message.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f));
-            font.getData().setScale(.4f);
         } else if (Level.getInstance().levelCompleted()) {
+            message.setMessage(Constants.VICTORY_MESSAGE /*+ "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.stopWatchToString(Level.getInstance().getTime()) + "\nScore: " + Energraft.getInstance().getScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.stopWatchToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore()*/);
+            font.getData().setScale(1);
             if (levelEndOverlayStartTime == 0) {
                 Level.getInstance().getTime().suspend();
                 Energraft.getInstance().getPreferences().putInteger("Score", Energraft.getInstance().getScore() + Level.getInstance().getScore());
                 Energraft.getInstance().getPreferences().putLong("Time", Level.getInstance().getTime().getNanoTime());
                 Energraft.getInstance().getPreferences().flush();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
-                message.setMessage(Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.stopWatchToString(Level.getInstance().getTime()) + "\nScore: " + Energraft.getInstance().getScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.stopWatchToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore());
+
             }
-            message.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .9f));
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
                 levelEndOverlayStartTime = 0;
                 OverworldScreen.getInstance().setMainMenu();
                 Energraft.getInstance().setScreen(OverworldScreen.getInstance());
+                font.getData().setScale(.4f);
+                return;
             }
         }
+        message.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f));
     }
 
     private void unpause() {

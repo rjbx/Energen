@@ -23,7 +23,7 @@ public class Message {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.25f);
-        this.message = message;
+        this.message = "";
     }
 
     public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, Vector2 position) {
