@@ -89,9 +89,11 @@ public final class Enums {
     }
 
     public enum LevelMenu {
+        NONE,
         MAIN,
         OPTIONS,
-        DEBUG
+        DEBUG,
+        END
     }
 
     public enum OverloadMenu {

@@ -52,11 +52,9 @@ public final class LevelLoader {
     // cannot be subclassed
     private LevelLoader() {}
 
-    public static final Level load(String path) throws ParseException, IOException {
+    public static final void load(String path) throws ParseException, IOException {
 
         final FileHandle file = Gdx.files.internal(path);
-        Level level = Level.getInstance();
-        level.create();
 
         JSONParser parser = new JSONParser();
         JSONObject rootJsonObject;
@@ -65,17 +63,15 @@ public final class LevelLoader {
         JSONObject composite = (JSONObject) rootJsonObject.get(Constants.LEVEL_COMPOSITE);
 
         JSONArray ninePatches = (JSONArray) composite.get(Constants.LEVEL_9PATCHES);
-        loadNinePatches(level, ninePatches);
+        loadNinePatches(Level.getInstance(), ninePatches);
 
         JSONArray images = (JSONArray) composite.get(Constants.LEVEL_IMAGES);
 
         runtimeEx = false;
 
-        loadImages(level, images);
+        loadImages(Level.getInstance(), images);
 
-        level.setLoadEx(runtimeEx);
-
-        return level;
+        Level.getInstance().setLoadEx(runtimeEx);
     }
 
     private static final Vector2 extractPosition(JSONObject object) {

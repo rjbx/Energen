@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.Ammo;
-import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.Ground;
@@ -18,6 +17,8 @@ import com.udacity.gamedev.gigagal.entities.Orben;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Powerup;
+import com.udacity.gamedev.gigagal.screens.LevelScreen;
+import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
@@ -50,7 +51,6 @@ public class Level {
     private Enums.WeaponType levelWeapon;
     private int difficulty;
 
-
     private Timer time;
     private int score;
 
@@ -61,10 +61,9 @@ public class Level {
     public static Level getInstance() { return INSTANCE; }
 
     public void create() {
+        LevelScreen.getInstance().create();
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         score = 0;
-        time = new Timer();
-        time.start();
         grounds = new ArrayList<Ground>();
         hazards = new ArrayList<Hazard>();
         impacts = new ArrayList<Impact>();
@@ -75,121 +74,24 @@ public class Level {
         loadEx = false;
         cannonStartTime = TimeUtils.nanoTime();
         cannonOffset = 0;
-    }
-
-    public static Level debugLevel() {
-        Level level = new Level();
-        level.initializeDebugLevel();
-        return level;
+        time = new Timer().start(Energraft.getInstance().getPreferences().getLong("Time")).suspend();
     }
 
     public void update(float delta) {
 
-        if (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS) {
-            victory = true;
-        } else if (gigaGalFailed()) {
-            if (GigaGal.getInstance().getLives() > -1) {
-                GigaGal.getInstance().respawn();
-            } else if (GigaGal.getInstance().getLives() < 0) {
-                gameOver = true;
-            }
+        if (!levelContinue()) {
+            time.suspend();
         }
 
-        if (!gameOver && !victory) {
-
-            GigaGal.getInstance().update(delta);
-
+        if (levelContinue()) {
             levelWeapon = Enums.WeaponType.NATIVE;
             for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
                 if (weapon.levelName().equals(levelName)) {
                     levelWeapon = weapon;
                 }
             }
-
-            // Update Grounds
-            ListIterator<Ground> groundsIterator = grounds.listIterator();
-            while (groundsIterator.hasNext()) {
-                Ground ground = groundsIterator.next();
-                if (ground instanceof HoverableGround) {
-                    HoverableGround hoverable = (HoverableGround) ground;
-                    hoverable.update(delta);
-                }
-                if (ground instanceof Cannon) {
-                    Cannon cannon = (Cannon) ground;
-                    if (cannon.getOffset() == 0) {
-                        cannonOffset += 0.25f;
-                        cannon.setOffset(cannonOffset);
-                        cannon.setStartTime(TimeUtils.nanoTime() + ((long) (cannon.getOffset() / MathUtils.nanoToSec)));
-                    }
-                    if ((Helpers.secondsSince(cannon.getStartTime())  > 1.5f)) {
-                        cannon.setStartTime(TimeUtils.nanoTime());
-                        Enums.Orientation orientation = cannon.getOrientation();
-                        if (orientation == Enums.Orientation.X) {
-                            Vector2 ammoPositionLeft = new Vector2(cannon.getPosition().x - (cannon.getWidth() / 2), ground.getPosition().y);
-                            Vector2 ammoPositionRight = new Vector2(cannon.getPosition().x + (cannon.getWidth() / 2), ground.getPosition().y);
-                            if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (cannon.getWidth() / 2))) {
-                                spawnAmmo(ammoPositionLeft, Direction.LEFT, orientation, cannon.getIntensity(), levelWeapon, false);
-                            } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (cannon.getWidth() / 2))) {
-                                spawnAmmo(ammoPositionRight, Direction.RIGHT, orientation, cannon.getIntensity(), levelWeapon, false);
-                            }
-                        } else if (cannon.getOrientation() == Enums.Orientation.Y) {
-                            Vector2 ammoPositionTop = new Vector2(ground.getPosition().x, cannon.getPosition().y + (cannon.getHeight() / 2));
-                            Vector2 ammoPositionBottom = new Vector2(ground.getPosition().x, cannon.getPosition().y - (cannon.getHeight() / 2));
-                            if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (cannon.getHeight() / 2))) {
-                                spawnAmmo(ammoPositionBottom, Direction.DOWN, orientation, cannon.getIntensity(), levelWeapon, false);
-                            } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (cannon.getHeight() / 2))) {
-                                spawnAmmo(ammoPositionTop, Direction.UP, orientation, cannon.getIntensity(), levelWeapon, false);
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Update Hazards
-            ListIterator<Hazard> hazardIterator = hazards.listIterator();
-            while (hazardIterator.hasNext()) {
-                Hazard hazard = hazardIterator.next();
-                if (hazard instanceof DestructibleHazard) {
-                    DestructibleHazard destructible = (DestructibleHazard) hazard;
-                    destructible.update(delta);
-                    if (destructible.getHealth() < 1) {
-                        spawnExplosion(destructible.getPosition(), destructible.getType());
-                        hazardIterator.remove();
-                        score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[difficulty]);
-                    }
-                    if (destructible instanceof Orben) {
-                        Orben orben = (Orben) destructible;
-                        Enums.WeaponType weaponType = orben.getType();
-                        float secondsSinceModOne = Helpers.secondsSince(orben.getStartTime()) % 1;
-                        if ((secondsSinceModOne >= 0 && secondsSinceModOne < 0.01f) && orben.isActive()) {
-                            Vector2 ammoPositionLeft = new Vector2(orben.getPosition().x - (orben.getWidth() * 1.1f), destructible.getPosition().y);
-                            Vector2 ammoPositionRight = new Vector2(orben.getPosition().x + (orben.getWidth() * 1.1f), destructible.getPosition().y);
-                            Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, orben.getPosition().y + (orben.getHeight() * 1.1f));
-                            Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, orben.getPosition().y - (orben.getHeight() * 1.1f));
-
-                            spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.Orientation.X, Enums.AmmoIntensity.BLAST, weaponType, false);
-                            spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.Orientation.X, Enums.AmmoIntensity.BLAST, weaponType, false);
-                            spawnAmmo(ammoPositionBottom, Direction.DOWN, Enums.Orientation.Y, Enums.AmmoIntensity.BLAST, weaponType, false);
-                            spawnAmmo(ammoPositionTop, Direction.UP, Enums.Orientation.Y, Enums.AmmoIntensity.BLAST, weaponType, false);
-                        }
-                    }
-                } else if (hazard instanceof Ammo) {
-                    Ammo ammo = (Ammo) hazard;
-                    ammo.update(delta);
-                    if (!ammo.isActive()) {
-                        hazardIterator.remove();
-                    }
-                }
-            }
-
-            // Update Explosions
-            ListIterator<Impact> impactIterator = impacts.listIterator();
-            while (impactIterator.hasNext()){
-                Impact impact = impactIterator.next();
-                if (impact.isFinished()) {
-                    impactIterator.remove();
-                }
-            }
+            GigaGal.getInstance().update(delta);
+            updateAssets(delta);
         }
     }
 
@@ -223,18 +125,41 @@ public class Level {
         batch.end();
     }
 
-    private void initializeDebugLevel() {
+    public void levelBegin() {
+//      level = Level.debugLevel();
+//      String levelName = Constants.LEVELS[levelNumber];
+        time.resume();
 
-        portal = new Portal(new Vector2(150, 150));
+        GigaGal.getInstance().respawn();
 
-        powerups.add(new AmmoPowerup(new Vector2(20, 110)));
+        // get prefs
+        Energraft.getInstance().getPreferences().flush();
+
+        // set level attributes
+        String weaponListString = GigaGal.getInstance().getWeaponList().toString();
+        weaponListString = weaponListString.substring(1, weaponListString.length() - 1);
+        Energraft.getInstance().getPreferences().putString("Weapons", weaponListString);
+        ChaseCam.getInstance().camera = viewport.getCamera();
+        ChaseCam.getInstance().target = GigaGal.getInstance();
+
+        getTime().reset().start();
     }
 
-    public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.AmmoIntensity ammoIntensity, Enums.WeaponType weapon, boolean targetsEnemies) {
-        hazards.add(new Ammo(this, position, direction, orientation, ammoIntensity, weapon, targetsEnemies));
+    public boolean levelContinue() { return !(levelCompleted() || levelAborted()); }
+
+    public boolean levelCompleted() { return (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS); }
+
+    public boolean levelAborted() {
+        if (levelFailed()) {
+            if (GigaGal.getInstance().getLives() < 0) {
+                return true;
+            }
+            GigaGal.getInstance().respawn();
+        }
+        return false;
     }
 
-    public boolean gigaGalFailed() {
+    public boolean levelFailed() {
         if (GigaGal.getInstance().getKillPlane() != -10000) {
             if (GigaGal.getInstance().getPosition().y < GigaGal.getInstance().getKillPlane() || GigaGal.getInstance().getHealth() < 1) {
                 GigaGal.getInstance().setHealth(0);
@@ -245,15 +170,102 @@ public class Level {
         return false;
     }
 
+    public void updateAssets(float delta) {
+        // Update Grounds
+        ListIterator<Ground> groundsIterator = grounds.listIterator();
+        while (groundsIterator.hasNext()) {
+            Ground ground = groundsIterator.next();
+            if (ground instanceof HoverableGround) {
+                HoverableGround hoverable = (HoverableGround) ground;
+                hoverable.update(delta);
+            }
+            if (ground instanceof Cannon) {
+                Cannon cannon = (Cannon) ground;
+                if (cannon.getOffset() == 0) {
+                    cannonOffset += 0.25f;
+                    cannon.setOffset(cannonOffset);
+                    cannon.setStartTime(TimeUtils.nanoTime() + ((long) (cannon.getOffset() / MathUtils.nanoToSec)));
+                }
+                if ((Helpers.secondsSince(cannon.getStartTime())  > 1.5f)) {
+                    cannon.setStartTime(TimeUtils.nanoTime());
+                    Enums.Orientation orientation = cannon.getOrientation();
+                    if (orientation == Enums.Orientation.X) {
+                        Vector2 ammoPositionLeft = new Vector2(cannon.getPosition().x - (cannon.getWidth() / 2), ground.getPosition().y);
+                        Vector2 ammoPositionRight = new Vector2(cannon.getPosition().x + (cannon.getWidth() / 2), ground.getPosition().y);
+                        if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (cannon.getWidth() / 2))) {
+                            spawnAmmo(ammoPositionLeft, Direction.LEFT, orientation, cannon.getIntensity(), levelWeapon, false);
+                        } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (cannon.getWidth() / 2))) {
+                            spawnAmmo(ammoPositionRight, Direction.RIGHT, orientation, cannon.getIntensity(), levelWeapon, false);
+                        }
+                    } else if (cannon.getOrientation() == Enums.Orientation.Y) {
+                        Vector2 ammoPositionTop = new Vector2(ground.getPosition().x, cannon.getPosition().y + (cannon.getHeight() / 2));
+                        Vector2 ammoPositionBottom = new Vector2(ground.getPosition().x, cannon.getPosition().y - (cannon.getHeight() / 2));
+                        if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (cannon.getHeight() / 2))) {
+                            spawnAmmo(ammoPositionBottom, Direction.DOWN, orientation, cannon.getIntensity(), levelWeapon, false);
+                        } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (cannon.getHeight() / 2))) {
+                            spawnAmmo(ammoPositionTop, Direction.UP, orientation, cannon.getIntensity(), levelWeapon, false);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Update Hazards
+        ListIterator<Hazard> hazardIterator = hazards.listIterator();
+        while (hazardIterator.hasNext()) {
+            Hazard hazard = hazardIterator.next();
+            if (hazard instanceof DestructibleHazard) {
+                DestructibleHazard destructible = (DestructibleHazard) hazard;
+                destructible.update(delta);
+                if (destructible.getHealth() < 1) {
+                    spawnExplosion(destructible.getPosition(), destructible.getType());
+                    hazardIterator.remove();
+                    score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[difficulty]);
+                }
+                if (destructible instanceof Orben) {
+                    Orben orben = (Orben) destructible;
+                    Enums.WeaponType weaponType = orben.getType();
+                    float secondsSinceModOne = Helpers.secondsSince(orben.getStartTime()) % 1;
+                    if ((secondsSinceModOne >= 0 && secondsSinceModOne < 0.01f) && orben.isActive()) {
+                        Vector2 ammoPositionLeft = new Vector2(orben.getPosition().x - (orben.getWidth() * 1.1f), destructible.getPosition().y);
+                        Vector2 ammoPositionRight = new Vector2(orben.getPosition().x + (orben.getWidth() * 1.1f), destructible.getPosition().y);
+                        Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, orben.getPosition().y + (orben.getHeight() * 1.1f));
+                        Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, orben.getPosition().y - (orben.getHeight() * 1.1f));
+
+                        spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.Orientation.X, Enums.AmmoIntensity.BLAST, weaponType, false);
+                        spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.Orientation.X, Enums.AmmoIntensity.BLAST, weaponType, false);
+                        spawnAmmo(ammoPositionBottom, Direction.DOWN, Enums.Orientation.Y, Enums.AmmoIntensity.BLAST, weaponType, false);
+                        spawnAmmo(ammoPositionTop, Direction.UP, Enums.Orientation.Y, Enums.AmmoIntensity.BLAST, weaponType, false);
+                    }
+                }
+            } else if (hazard instanceof Ammo) {
+                Ammo ammo = (Ammo) hazard;
+                ammo.update(delta);
+                if (!ammo.isActive()) {
+                    hazardIterator.remove();
+                }
+            }
+        }
+
+        // Update Explosions
+        ListIterator<Impact> impactIterator = impacts.listIterator();
+        while (impactIterator.hasNext()){
+            Impact impact = impactIterator.next();
+            if (impact.isFinished()) {
+                impactIterator.remove();
+            }
+        }
+    }
+
+    public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.AmmoIntensity ammoIntensity, Enums.WeaponType weapon, boolean targetsEnemies) {
+        hazards.add(new Ammo(this, position, direction, orientation, ammoIntensity, weapon, targetsEnemies));
+    }
+
     public void spawnExplosion(Vector2 position, Enums.WeaponType type) {
         impacts.add(new Impact(position, type));
     }
 
     public void dispose() {
-        GigaGal.getInstance().dispose();
-        hazards = null;
-        grounds = null;
-        impacts = null;
     }
 
     // Getters
@@ -264,8 +276,6 @@ public class Level {
     public final Viewport getViewport() { return viewport; }
     public final Portal getPortal() { return portal; }
     public final GigaGal getGigaGal() { return GigaGal.getInstance(); }
-    public final boolean isGameOver() { return gameOver; }
-    public final boolean isVictory() { return victory; }
     public final Timer getTime() { return time; }
     public final int getScore() { return score; }
     public final int getDifficulty() { return difficulty; }

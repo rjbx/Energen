@@ -20,6 +20,7 @@ import com.udacity.gamedev.gigagal.overlays.Message;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
+import com.udacity.gamedev.gigagal.util.LevelLoader;
 
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
@@ -136,23 +137,26 @@ public final class OverworldScreen extends ScreenAdapter {
                     LevelScreen.getInstance().level(selectedLevel);
                     messageVisible = false;
                     try {
-                        LevelScreen.getInstance().readLevelFile();
+                        LevelLoader.load("levels/" + selectedLevel + ".dt");
                         game.setScreen(LevelScreen.getInstance());
                         this.dispose();
                         return;
                     } catch (IOException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
+                        Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
                         Cursor.getInstance().getIterator().next();
                         messageVisible = true;
                     } catch (ParseException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
+                        Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
                         Cursor.getInstance().getIterator().next();
                         messageVisible = true;
                     } catch (GdxRuntimeException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                         errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
+                        Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
                         Cursor.getInstance().getIterator().next();
                         messageVisible = true;
                     }

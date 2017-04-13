@@ -18,7 +18,6 @@ public final class Energraft extends Game {
     // fields
     private static final Energraft INSTANCE = new Energraft();
     private Preferences prefs;
-    private Timer time;
     private Integer score;
 
     // cannot be subclassed
@@ -30,18 +29,16 @@ public final class Energraft extends Game {
     @Override
     public void create() {
         prefs = Gdx.app.getPreferences("energraft-prefs");
-        time = new Timer().start(prefs.getLong("Time")).suspend();
         score = prefs.getInteger("Score");
 
         GigaGal.getInstance().create();
         Cursor.getInstance().create();
         Menu.getInstance().create();
         Assets.getInstance().create();
-        com.udacity.gamedev.gigagal.util.InputControls.getInstance().create();
+        InputControls.getInstance().create();
         Level.getInstance().create();
         LaunchScreen.getInstance().create();
         OverworldScreen.getInstance().create();
-        LevelScreen.getInstance().create();
         setScreen(LaunchScreen.getInstance());
     }
 
@@ -55,6 +52,5 @@ public final class Energraft extends Game {
 
     public Preferences getPreferences() { return prefs; }
 
-    public Timer getTime() { return time; }
     public Integer getScore() { return score; }
 }
