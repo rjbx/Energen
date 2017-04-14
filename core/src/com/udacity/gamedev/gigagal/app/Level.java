@@ -17,7 +17,10 @@ import com.udacity.gamedev.gigagal.entities.Orben;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Powerup;
+import com.udacity.gamedev.gigagal.overlays.Cursor;
+import com.udacity.gamedev.gigagal.overlays.Menu;
 import com.udacity.gamedev.gigagal.screens.LevelScreen;
+import com.udacity.gamedev.gigagal.screens.OverworldScreen;
 import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -29,6 +32,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
+
+import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.DEBUG;
+import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.MAIN;
+import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.OPTIONS;
 
 // mutable
 public class Level {
@@ -50,6 +57,10 @@ public class Level {
     private List<Powerup> powerups;
     private Enums.WeaponType levelWeapon;
     private int difficulty;
+
+    private boolean paused;
+    private long pauseTime;
+    private float pauseDuration;
 
     private Timer time;
     private int score;
@@ -74,12 +85,17 @@ public class Level {
         loadEx = false;
         cannonStartTime = TimeUtils.nanoTime();
         cannonOffset = 0;
+
         time = new Timer().start(Energraft.getInstance().getPreferences().getLong("Time")).suspend();
+
+        paused = false;
+        pauseTime = 0;
+        pauseDuration = 0;
     }
 
     public void update(float delta) {
 
-        if (levelContinue()) {
+        if (continuing()) {
             levelWeapon = Enums.WeaponType.NATIVE;
             for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
                 if (weapon.levelName().equals(levelName)) {
@@ -121,9 +137,9 @@ public class Level {
         batch.end();
     }
 
-    public void levelBegin() {
-//      level = Level.debugLevel();
-//      String levelName = Constants.LEVELS[levelNumber];
+    // level state handling
+
+    public void begin() {
         time.resume();
 
         GigaGal.getInstance().respawn();
@@ -141,12 +157,30 @@ public class Level {
         getTime().reset().start();
     }
 
-    public boolean levelContinue() { return !(levelCompleted() || levelAborted()); }
 
-    public boolean levelCompleted() { return (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS); }
+    public void end() {
+        removeAssets();
+    }
 
-    public boolean levelAborted() {
-        if (levelFailed()) {
+    public void pause() {
+        Level.getInstance().getTime().suspend();
+        pauseTime = TimeUtils.nanoTime();
+        pauseDuration = GigaGal.getInstance().getPauseTimeSeconds();
+        paused = true;
+    }
+
+    public void unpause() {
+        GigaGal.getInstance().setPauseTimeSeconds(Helpers.secondsSincePause(pauseTime) + pauseDuration);
+        Level.getInstance().getTime().resume();
+        paused = false;
+    }
+
+    public boolean continuing() { return !(completed() || aborted()); }
+
+    public boolean completed() { return (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS); }
+
+    public boolean aborted() {
+        if (failed()) {
             if (GigaGal.getInstance().getLives() < 0) {
                 return true;
             }
@@ -155,7 +189,7 @@ public class Level {
         return false;
     }
 
-    public boolean levelFailed() {
+    public boolean failed() {
         if (GigaGal.getInstance().getKillPlane() != -10000) {
             if (GigaGal.getInstance().getPosition().y < GigaGal.getInstance().getKillPlane() || GigaGal.getInstance().getHealth() < 1) {
                 GigaGal.getInstance().setHealth(0);
@@ -166,9 +200,12 @@ public class Level {
         return false;
     }
 
-    public void levelEnd() {
-        removeAssets();
+    public boolean paused() {
+        return paused;
     }
+
+
+    // asset handling
 
     public void updateAssets(float delta) {
         // Update Grounds
