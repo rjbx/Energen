@@ -8,7 +8,6 @@ import com.udacity.gamedev.gigagal.overlays.Cursor;
 import com.udacity.gamedev.gigagal.overlays.Menu;
 import com.udacity.gamedev.gigagal.overlays.TouchInterface;
 import com.udacity.gamedev.gigagal.screens.LaunchScreen;
-import com.udacity.gamedev.gigagal.screens.LevelScreen;
 import com.udacity.gamedev.gigagal.screens.OverworldScreen;
 import com.udacity.gamedev.gigagal.util.*;
 
@@ -17,8 +16,6 @@ public final class Energraft extends Game {
 
     // fields
     private static final Energraft INSTANCE = new Energraft();
-    private Preferences prefs;
-    private Integer score;
 
     // cannot be subclassed
     private Energraft() {}
@@ -28,8 +25,6 @@ public final class Energraft extends Game {
 
     @Override
     public void create() {
-        prefs = Gdx.app.getPreferences("energraft-prefs");
-        score = prefs.getInteger("Score");
 
         GigaGal.getInstance().create();
         Cursor.getInstance().create();
@@ -44,13 +39,14 @@ public final class Energraft extends Game {
 
     @Override
     public void dispose() {
-        prefs = null;
-        TouchInterface.getInstance().dispose();
         super.dispose();
         System.gc();
     }
 
-    public Preferences getPreferences() { return prefs; }
-
-    public Integer getScore() { return score; }
+    public Preferences getPreferences() { return Gdx.app.getPreferences("energraft-prefs"); }
+    public String getWeapons() { return getPreferences().getString("Weapons", ""); }
+    public int getDifficulty() { return getPreferences().getInteger("Difficulty", 0); }
+    public int getScore() { return getPreferences().getInteger("Score", 0); }
+    public long getTime() { return getPreferences().getLong("Time", 0); }
 }
+

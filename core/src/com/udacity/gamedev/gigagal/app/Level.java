@@ -17,25 +17,18 @@ import com.udacity.gamedev.gigagal.entities.Orben;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.entities.Powerup;
-import com.udacity.gamedev.gigagal.overlays.Cursor;
-import com.udacity.gamedev.gigagal.overlays.Menu;
 import com.udacity.gamedev.gigagal.screens.LevelScreen;
-import com.udacity.gamedev.gigagal.screens.OverworldScreen;
 import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Timer;
 import com.udacity.gamedev.gigagal.util.Helpers;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
-import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.DEBUG;
-import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.MAIN;
-import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.OPTIONS;
 
 // mutable
 public class Level {
@@ -56,6 +49,8 @@ public class Level {
     private List<Impact> impacts;
     private List<Powerup> powerups;
     private Enums.WeaponType levelWeapon;
+    private Enums.LevelName level;
+
     private int difficulty;
 
     private boolean paused;
@@ -74,7 +69,6 @@ public class Level {
     public void create() {
         LevelScreen.getInstance().create();
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        score = 0;
         grounds = new ArrayList<Ground>();
         hazards = new ArrayList<Hazard>();
         impacts = new ArrayList<Impact>();
@@ -86,7 +80,9 @@ public class Level {
         cannonStartTime = TimeUtils.nanoTime();
         cannonOffset = 0;
 
-        time = new Timer().start(Energraft.getInstance().getPreferences().getLong("Time")).suspend();
+        time = new Timer().start().suspend();
+
+        score = 0;
 
         paused = false;
         pauseTime = 0;
@@ -95,13 +91,7 @@ public class Level {
 
     public void update(float delta) {
 
-        if (continuing()) {
-            levelWeapon = Enums.WeaponType.NATIVE;
-            for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
-                if (weapon.levelName().equals(levelName)) {
-                    levelWeapon = weapon;
-                }
-            }
+        if (continuing() && !paused()) {
             GigaGal.getInstance().update(delta);
             updateAssets(delta);
         }
@@ -140,8 +130,6 @@ public class Level {
     // level state handling
 
     public void begin() {
-        time.resume();
-
         GigaGal.getInstance().respawn();
 
         // get prefs
@@ -154,16 +142,29 @@ public class Level {
         ChaseCam.getInstance().camera = viewport.getCamera();
         ChaseCam.getInstance().target = GigaGal.getInstance();
 
-        getTime().reset().start();
+        levelWeapon = Enums.WeaponType.NATIVE;
+        for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
+            if (weapon.levelName().equals(levelName)) {
+                levelWeapon = weapon;
+            }
+        }
+        time.reset();
+        time.start();
     }
 
-
     public void end() {
+        time.suspend();
+        if (completed()) {
+            Energraft.getInstance().getPreferences().putInteger("Score", Energraft.getInstance().getScore() + score);
+            Energraft.getInstance().getPreferences().putLong("Time", Energraft.getInstance().getTime() + time.getNanoTime());
+            Energraft.getInstance().getPreferences().flush();
+        }
         removeAssets();
     }
 
     public void pause() {
-        Level.getInstance().getTime().suspend();
+        time.suspend();
+
         pauseTime = TimeUtils.nanoTime();
         pauseDuration = GigaGal.getInstance().getPauseTimeSeconds();
         paused = true;
@@ -171,13 +172,16 @@ public class Level {
 
     public void unpause() {
         GigaGal.getInstance().setPauseTimeSeconds(Helpers.secondsSincePause(pauseTime) + pauseDuration);
-        Level.getInstance().getTime().resume();
         paused = false;
+
+        time.resume();
     }
 
     public boolean continuing() { return !(completed() || aborted()); }
 
-    public boolean completed() { return (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS); }
+    public boolean completed() {
+        return (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS);
+    }
 
     public boolean aborted() {
         if (failed()) {
@@ -329,6 +333,8 @@ public class Level {
     }
 
     // Getters
+    public final Timer getTime() { return time; }
+    public final int getScore() { return score; }
     public final List<Hazard> getHazards() { return hazards; }
     public final List<Ground> getGrounds() { return grounds; }
     public final List<Impact> getImpacts() { return impacts; }
@@ -336,13 +342,12 @@ public class Level {
     public final Viewport getViewport() { return viewport; }
     public final Portal getPortal() { return portal; }
     public final GigaGal getGigaGal() { return GigaGal.getInstance(); }
-    public final Timer getTime() { return time; }
-    public final int getScore() { return score; }
     public final int getDifficulty() { return difficulty; }
     public final Enums.WeaponType getType() { return levelWeapon; }
     public final boolean getLoadEx() { return loadEx; }
 
     // Setters
+    public void setLevel(Enums.LevelName selectedLevel) { level = selectedLevel; }
     public void setScore(int score) { this.score = score; }
     public final void setDifficulty(int difficulty) { this.difficulty = difficulty; }
     public final void setPortal(Portal portal) { this.portal = portal; }

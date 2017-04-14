@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.app.Energraft;
+import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.overlays.TouchInterface;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.overlays.Menu;
@@ -42,8 +43,6 @@ public final class OverworldScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private BitmapFont font;
     private Message errorMessage;
-    private List<Enums.LevelName> completedLevels;
-    private Enums.LevelName levelName;
     private Enums.LevelName selectedLevel;
     private boolean viewingOptions;
     private boolean messageVisible;
@@ -70,7 +69,6 @@ public final class OverworldScreen extends ScreenAdapter {
         viewingOptions = false;
         messageVisible = false;
         batch = new SpriteBatch();
-        completedLevels = new ArrayList<Enums.LevelName>();
         errorMessage = new Message();
         inputControls = InputControls.getInstance();
         touchInterface = TouchInterface.getInstance();
@@ -134,7 +132,7 @@ public final class OverworldScreen extends ScreenAdapter {
             if (inputControls.shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
                     selectedLevel = Enums.LevelName.valueOf(Cursor.getInstance().getIterator().previous());
-                    LevelScreen.getInstance().level(selectedLevel);
+                    Level.getInstance().setLevel(selectedLevel);
                     messageVisible = false;
                     try {
                         LevelLoader.load("levels/" + selectedLevel + ".dt");

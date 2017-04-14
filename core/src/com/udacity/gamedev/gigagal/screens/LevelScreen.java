@@ -24,6 +24,7 @@ import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
+import com.udacity.gamedev.gigagal.util.Timer;
 
 import java.util.Arrays;
 
@@ -36,19 +37,13 @@ public class LevelScreen extends ScreenAdapter {
     // fields
     public static final String TAG = LevelScreen.class.getName();
     private static final LevelScreen INSTANCE = new LevelScreen();
-    private static InputControls inputControls;
-    private static TouchInterface touchInterface;
     private Message errorMessage;
     private SpriteBatch batch;
     private ShapeRenderer renderer;
     private BitmapFont font;
     private ExtendViewport viewport;
     private long levelEndOverlayStartTime;
-    private Enums.LevelName levelName;
     private static Enums.LevelMenu menu;
-    private boolean paused;
-    private long pauseTime;
-    private float pauseDuration;
 
     // cannot be subclassed
     private LevelScreen() {}
@@ -57,7 +52,6 @@ public class LevelScreen extends ScreenAdapter {
     public static LevelScreen getInstance() { return INSTANCE; }
 
     public void create() {
-        paused = false;
     }
 
     @Override
@@ -70,13 +64,9 @@ public class LevelScreen extends ScreenAdapter {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
         errorMessage = new Message();
         errorMessage.setMessage(Constants.LEVEL_KEY_MESSAGE);
-        inputControls = InputControls.getInstance();
-        touchInterface = TouchInterface.getInstance();
-
-        paused = false;
 
         // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
-        Gdx.input.setInputProcessor(inputControls);
+        Gdx.input.setInputProcessor(InputControls.getInstance());
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Level.getInstance().begin();
     }
@@ -95,10 +85,10 @@ public class LevelScreen extends ScreenAdapter {
 //        errorMessage.getViewport().update(width, height, true);
         Level.getInstance().getViewport().update(width, height, true);
         ChaseCam.getInstance().camera = Level.getInstance().getViewport().getCamera();
-        touchInterface.getViewport().update(width, height, true);
-        touchInterface.recalculateButtonPositions();
-        GigaGal.getInstance().setInputControls(inputControls);
-        ChaseCam.getInstance().setInputControls(inputControls);
+        TouchInterface.getInstance().getViewport().update(width, height, true);
+        TouchInterface.getInstance().recalculateButtonPositions();
+        GigaGal.getInstance().setInputControls(InputControls.getInstance());
+        ChaseCam.getInstance().setInputControls(InputControls.getInstance());
     }
 
     private static void setMainMenu() {
@@ -146,7 +136,7 @@ public class LevelScreen extends ScreenAdapter {
                 Level.getInstance().update(delta);
                 ChaseCam.getInstance().update(delta);
                 Level.getInstance().render(batch); // also rendered when viewingDebug; see pause()
-                if (inputControls.pauseButtonJustPressed) {
+                if (InputControls.getInstance().pauseButtonJustPressed) {
                     Level.getInstance().pause();
                     setMainMenu();
                 }
@@ -154,7 +144,7 @@ public class LevelScreen extends ScreenAdapter {
                 showPauseMenu(delta);
             }
             GaugeHud.getInstance().render(renderer, viewport, GigaGal.getInstance());
-            touchInterface.render(batch, viewport);
+            TouchInterface.getInstance().render(batch, viewport);
         } else {
             showExitOverlay();
         }
@@ -164,31 +154,32 @@ public class LevelScreen extends ScreenAdapter {
             errorMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5));
             font.getData().setScale(.4f);
         }
-        inputControls.update();
+        InputControls.getInstance().update();
     }
 
     private void showPauseMenu(float delta) {
         Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
         if (menu == MAIN) {
-            if (inputControls.jumpButtonJustPressed && GigaGal.getInstance().getAction() == Enums.Action.STANDING) {
+            if (InputControls.getInstance().jumpButtonJustPressed && GigaGal.getInstance().getAction() == Enums.Action.STANDING) {
                 GigaGal.getInstance().toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
             }
-            if (inputControls.shootButtonJustPressed) {
+            if (InputControls.getInstance().shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() == 73 && ChaseCam.getInstance().getFollowing()) {
                     Level.getInstance().unpause();
                 } else if (Cursor.getInstance().getPosition() == 58) {
-                    Level.getInstance().end();
                     OverworldScreen.getInstance().setMainMenu();
                     Energraft.getInstance().setScreen(OverworldScreen.getInstance());
+                    Level.getInstance().unpause();
+                    Level.getInstance().end();
                     return;
                 } else if (Cursor.getInstance().getPosition() == 43) {
                     setOptionsMenu();
                 }
-            } else if (inputControls.pauseButtonJustPressed) {
+            } else if (InputControls.getInstance().pauseButtonJustPressed) {
                 Level.getInstance().unpause();
             }
         } else if (menu == OPTIONS) {
-            if (inputControls.shootButtonJustPressed) {
+            if (InputControls.getInstance().shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() == 73) {
                     setMainMenu();
                 } else if (Cursor.getInstance().getPosition() == 58) {
@@ -197,20 +188,21 @@ public class LevelScreen extends ScreenAdapter {
                         setDebugMenu();
                     }
                 } else if (Cursor.getInstance().getPosition() == 43) {
-                    touchInterface.onMobile = Helpers.toggleBoolean(touchInterface.onMobile);
-                    Energraft.getInstance().getPreferences().putBoolean("Mobile", touchInterface.onMobile);
+                    TouchInterface.getInstance().onMobile = Helpers.toggleBoolean(TouchInterface.getInstance().onMobile);
+                    Energraft.getInstance().getPreferences().putBoolean("Mobile", TouchInterface.getInstance().onMobile);
                 } else if (Cursor.getInstance().getPosition() == 28) {
-                    Level.getInstance().end();
                     Energraft.getInstance().create();
+                    Level.getInstance().unpause();
+                    Level.getInstance().end();
                     return;
                 }
-            } else if (inputControls.pauseButtonJustPressed) {
+            } else if (InputControls.getInstance().pauseButtonJustPressed) {
                 setMainMenu();
             }
         } else if (menu == DEBUG){
             Level.getInstance().render(batch);
             ChaseCam.getInstance().update(delta);
-            if (inputControls.shootButtonJustPressed) {
+            if (InputControls.getInstance().shootButtonJustPressed) {
                 ChaseCam.getInstance().setFollowing(true);
                 setOptionsMenu();
             }
@@ -221,9 +213,10 @@ public class LevelScreen extends ScreenAdapter {
         Message message = new Message();
         if (Level.getInstance().aborted()) {
             message.setMessage(Constants.DEFEAT_MESSAGE);
-            font.getData().setScale(1);
+            font.getData().setScale(.6f);
             if (levelEndOverlayStartTime == 0) {
-                Level.getInstance().getTime().suspend();
+                Level.getInstance().end();
+
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
             }
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
@@ -231,30 +224,22 @@ public class LevelScreen extends ScreenAdapter {
                 OverworldScreen.getInstance().setMainMenu();
                 Energraft.getInstance().setScreen(OverworldScreen.getInstance());
                 font.getData().setScale(.4f);
-                Level.getInstance().end();
                 return;
             }
         } else if (Level.getInstance().completed()) {
-            message.setMessage(Constants.VICTORY_MESSAGE /*+ "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.stopWatchToString(Level.getInstance().getTime()) + "\nScore: " + Energraft.getInstance().getScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.stopWatchToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore()*/);
-            font.getData().setScale(1);
+            message.setMessage(Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.stopWatchToString(new Timer().start(Energraft.getInstance().getTime()).suspend()) + "\nScore: " + Energraft.getInstance().getScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.stopWatchToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore());
             if (levelEndOverlayStartTime == 0) {
-                Level.getInstance().getTime().suspend();
-                Energraft.getInstance().getPreferences().putInteger("Score", Energraft.getInstance().getScore() + Level.getInstance().getScore());
-                Energraft.getInstance().getPreferences().putLong("Time", Level.getInstance().getTime().getNanoTime());
-                Energraft.getInstance().getPreferences().flush();
+                Level.getInstance().end();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
-
             }
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
                 levelEndOverlayStartTime = 0;
                 OverworldScreen.getInstance().setMainMenu();
                 Energraft.getInstance().setScreen(OverworldScreen.getInstance());
-                font.getData().setScale(.4f);
-                Level.getInstance().end();
                 return;
             }
         }
-        message.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f));
+        message.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 1.25f));
     }
 
     @Override
@@ -284,6 +269,4 @@ public class LevelScreen extends ScreenAdapter {
 //        super.dispose();
 //        System.gc();
     }
-
-    public void level(Enums.LevelName level) { this.levelName = level; }
 }
