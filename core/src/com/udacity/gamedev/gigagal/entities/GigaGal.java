@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.udacity.gamedev.gigagal.app.Energraft;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -16,6 +17,7 @@ import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import java.lang.String;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
@@ -53,6 +55,7 @@ public class GigaGal implements Humanoid {
     private WeaponType weapon;
     private List<WeaponType> weaponList; // class-level instantiation
     private ListIterator<WeaponType> weaponToggler; // class-level instantiation
+    private List<LevelName> completedLevels;
     private boolean onRideable;
     private boolean onSkateable;
     private boolean onUnbearable;
@@ -116,6 +119,16 @@ public class GigaGal implements Humanoid {
         halfWidth = width / 2;
         lives = Constants.INITIAL_LIVES;
         killPlane = -10000;
+        String savedWeapons = Energraft.getInstance().getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name());
+        completedLevels = new ArrayList<LevelName>();
+        if (!savedWeapons.equals(Enums.WeaponType.NATIVE.name())) {
+            List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
+            for (String weaponString : savedWeaponsList) {
+                if (!completedLevels.contains(Enums.WeaponType.valueOf(weaponString).levelName())) {
+                    completedLevels.add(Enums.WeaponType.valueOf(weaponString).levelName());
+                }
+            }
+        }
     }
 
     public void respawn() {
@@ -1210,31 +1223,6 @@ public class GigaGal implements Humanoid {
                     toggleWeapon(toggleDirection);
                 } else {
                     weapon = weaponToggler.next();
-                }
-            }
-        }
-    }
-
-    public void ehhhSetGetStuff() {
-        String savedWeapons = game.getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name());
-        completedLevels = new Array<LevelName>();
-        if (!savedWeapons.equals(Enums.WeaponType.NATIVE.name())) {
-            List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
-            for (String weaponString : savedWeaponsList) {
-                if (!completedLevels.contains(Enums.WeaponType.valueOf(weaponString).levelName(), false)) {
-                    completedLevels.add(Enums.WeaponType.valueOf(weaponString).levelName());
-                }
-            }
-        }
-        level.setLevelName(levelName);
-        level.setDifficulty(prefs.getInteger("Difficulty", 0));
-        this.gigaGal = level.getGigaGal();
-        for (Enums.LevelName completedLevelName : completedLevels) {
-            for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
-                if (completedLevelName.equals(weapon.levelName())) {
-                    if (!gigaGal.getWeaponList().contains(weapon)) {
-                        gigaGal.addWeapon(weapon);
-                    }
                 }
             }
         }
