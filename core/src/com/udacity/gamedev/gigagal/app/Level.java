@@ -154,7 +154,7 @@ public class Level {
         time.suspend();
         if (completed()) {
             Energraft.getInstance().getPreferences().putInteger("Score", Energraft.getInstance().getScore() + score);
-            Energraft.getInstance().getPreferences().putLong("Time", Energraft.getInstance().getTime() + time.getNanoTime());
+            Energraft.getInstance().getPreferences().putLong("Time", Energraft.getInstance().getTime() + time.getTime());
             Energraft.getInstance().getPreferences().flush();
         }
         removeAssets();

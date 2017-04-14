@@ -11,6 +11,8 @@ import com.udacity.gamedev.gigagal.entities.MultidirectionalY;
 import com.udacity.gamedev.gigagal.entities.Multidirectional;
 import com.udacity.gamedev.gigagal.entities.Orben;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
+
 // immutable non-instantiable static
 public final class Helpers {
 
@@ -196,6 +198,9 @@ public final class Helpers {
         String timeString = time + "";
         return (timeString).substring(0, timeString.length() - 4);
     }
+
+
+    public static String timeToString(long time) { return DurationFormatUtils.formatDurationHMS(time); }
 
     public static boolean toggleBoolean(Boolean b) {
         if (b) {
