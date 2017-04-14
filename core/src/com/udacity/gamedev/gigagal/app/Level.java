@@ -80,7 +80,7 @@ public class Level {
         cannonStartTime = TimeUtils.nanoTime();
         cannonOffset = 0;
 
-        time = new Timer().start().suspend();
+        time = Timer.getInstance().start().suspend();
 
         score = 0;
 
@@ -349,7 +349,6 @@ public class Level {
     // Setters
     public void setLevel(Enums.LevelName selectedLevel) { level = selectedLevel; }
     public void setScore(int score) { this.score = score; }
-    public final void setDifficulty(int difficulty) { this.difficulty = difficulty; }
     public final void setPortal(Portal portal) { this.portal = portal; }
     public final void setLevelName(Enums.LevelName levelName) { this.levelName = levelName; }
     public final void setLoadEx(boolean state) { loadEx = state; }

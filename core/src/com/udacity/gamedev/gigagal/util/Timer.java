@@ -6,12 +6,20 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 
 // An implementation of apache.commons.lang3.time.StopWatch that eliminates unused methods and permits start time offset with additional start method
 public class Timer {
+
+    // fields
+    public static final String TAG = Timer.class.getName();
+    private static final Timer INSTANCE = new Timer();
     private State state;
     private long startTime;
     private long stopTime;
 
-    public Timer() {
+    private Timer() {
         state = State.UNSTARTED;
+    }
+
+    public static Timer getInstance() {
+        return INSTANCE;
     }
 
     public Timer start() {
