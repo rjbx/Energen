@@ -35,10 +35,6 @@ public final class OverworldScreen extends ScreenAdapter {
     // fields
     public static final String TAG = OverworldScreen.class.getName();
     private static final OverworldScreen INSTANCE = new OverworldScreen();
-    private static InputControls inputControls;
-    private static TouchInterface touchInterface;
-    private Energraft game;
-    private Preferences prefs;
     private ExtendViewport viewport;
     private SpriteBatch batch;
     private BitmapFont font;
@@ -54,9 +50,8 @@ public final class OverworldScreen extends ScreenAdapter {
     public static OverworldScreen getInstance() { return INSTANCE; }
 
     public void create() {
-        this.game = Energraft.getInstance();
-        prefs = game.getPreferences();
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+        batch = new SpriteBatch();
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
         font.getData().setScale(0.5f);
         setMainMenu();
@@ -68,11 +63,10 @@ public final class OverworldScreen extends ScreenAdapter {
         // onMobile();
         viewingOptions = false;
         messageVisible = false;
-        batch = new SpriteBatch();
         errorMessage = new Message();
-        inputControls = InputControls.getInstance();
-        touchInterface = TouchInterface.getInstance();
-        Gdx.input.setInputProcessor(inputControls);
+        InputControls.getInstance();
+        TouchInterface.getInstance();
+        Gdx.input.setInputProcessor(InputControls.getInstance());
     }
 
     public static void setMainMenu() {
@@ -129,14 +123,14 @@ public final class OverworldScreen extends ScreenAdapter {
 
             Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
 
-            if (inputControls.shootButtonJustPressed) {
+            if (InputControls.getInstance().shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
                     selectedLevel = Enums.LevelName.valueOf(Cursor.getInstance().getIterator().previous());
                     Level.getInstance().setLevel(selectedLevel);
                     messageVisible = false;
                     try {
                         LevelLoader.load("levels/" + selectedLevel + ".dt");
-                        game.setScreen(LevelScreen.getInstance());
+                        Energraft.getInstance().setScreen(LevelScreen.getInstance());
                         this.dispose();
                         return;
                     } catch (IOException ex) {
@@ -165,18 +159,18 @@ public final class OverworldScreen extends ScreenAdapter {
             }
         } else {
             Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
-            if (inputControls.shootButtonJustPressed) {
+            if (InputControls.getInstance().shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() == 106) {
                     setMainMenu();
                     viewingOptions = false;
                 } else if (Cursor.getInstance().getPosition() == 91) {
-                    touchInterface.onMobile = Helpers.toggleBoolean(touchInterface.onMobile);
-                    prefs.putBoolean("Mobile", touchInterface.onMobile);
+                    TouchInterface.getInstance().onMobile = Helpers.toggleBoolean(TouchInterface.getInstance().onMobile);
+                    Energraft.getInstance().getPreferences().putBoolean("Mobile", TouchInterface.getInstance().onMobile);
                 } else if (Cursor.getInstance().getPosition() == 76) {
-                    game.dispose();
-                    game.create();
+                    Energraft.getInstance().dispose();
+                    Energraft.getInstance().create();
                 }
-            } else if (inputControls.pauseButtonJustPressed) {
+            } else if (InputControls.getInstance().pauseButtonJustPressed) {
                 viewingOptions = false;
             }
         }
@@ -185,8 +179,8 @@ public final class OverworldScreen extends ScreenAdapter {
             errorMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5));
             font.getData().setScale(.5f);
         }
-        inputControls.update();
-        touchInterface.render(batch, viewport);
+        InputControls.getInstance().update();
+        TouchInterface.getInstance().render(batch, viewport);
     }
 
     @Override

@@ -42,6 +42,7 @@ public class LevelScreen extends ScreenAdapter {
     private ExtendViewport viewport;
     private long levelEndOverlayStartTime;
     private static Enums.LevelMenu menu;
+    private Message message;
 
     // cannot be subclassed
     private LevelScreen() {}
@@ -61,6 +62,7 @@ public class LevelScreen extends ScreenAdapter {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
         errorMessage = new Message();
         errorMessage.setMessage(Constants.LEVEL_KEY_MESSAGE);
+        message = new Message();
 
         // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
         Gdx.input.setInputProcessor(InputControls.getInstance());
@@ -207,7 +209,6 @@ public class LevelScreen extends ScreenAdapter {
     }
 
     private void showExitOverlay() {
-        Message message = new Message();
         if (Level.getInstance().aborted()) {
             message.setMessage(Constants.DEFEAT_MESSAGE);
             font.getData().setScale(.6f);

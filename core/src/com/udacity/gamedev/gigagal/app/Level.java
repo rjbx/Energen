@@ -155,6 +155,7 @@ public class Level {
             Energraft.getInstance().getPreferences().flush();
         }
         removeAssets();
+        this.dispose();
     }
 
     public void pause() {
@@ -325,6 +326,14 @@ public class Level {
     }
 
     public void dispose() {
+        getHazards().clear();
+        getGrounds().clear();
+        getImpacts().clear();
+        getPowerups().clear();
+        hazards = null;
+        grounds = null;
+        impacts = null;
+        powerups = null;
     }
 
     // Getters
