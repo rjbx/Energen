@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -25,8 +24,6 @@ import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
-import com.udacity.gamedev.gigagal.util.Timer;
-
 import java.util.Arrays;
 
 import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.DEBUG;
@@ -52,8 +49,7 @@ public class LevelScreen extends ScreenAdapter {
     // static factory method
     public static LevelScreen getInstance() { return INSTANCE; }
 
-    public void create() {
-    }
+    public void create() {}
 
     @Override
     public void show() {
@@ -192,9 +188,9 @@ public class LevelScreen extends ScreenAdapter {
                     TouchInterface.getInstance().onMobile = Helpers.toggleBoolean(TouchInterface.getInstance().onMobile);
                     Energraft.getInstance().getPreferences().putBoolean("Mobile", TouchInterface.getInstance().onMobile);
                 } else if (Cursor.getInstance().getPosition() == 28) {
-                    Energraft.getInstance().create();
                     Level.getInstance().unpause();
                     Level.getInstance().end();
+                    Energraft.getInstance().create();
                     return;
                 }
             } else if (InputControls.getInstance().pauseButtonJustPressed) {
@@ -217,7 +213,6 @@ public class LevelScreen extends ScreenAdapter {
             font.getData().setScale(.6f);
             if (levelEndOverlayStartTime == 0) {
                 Level.getInstance().end();
-
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
             }
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
@@ -228,7 +223,7 @@ public class LevelScreen extends ScreenAdapter {
                 return;
             }
         } else if (Level.getInstance().completed()) {
-            message.setMessage(Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.timeToString(Energraft.getInstance().getTime()) + "\nScore: " + Energraft.getInstance().getScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.stopWatchToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore());
+            message.setMessage(Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(Energraft.getInstance().getTime()) + "\nScore: " + Energraft.getInstance().getScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.secondsToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore());
             if (levelEndOverlayStartTime == 0) {
                 Level.getInstance().end();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();

@@ -104,7 +104,7 @@ public class IndicatorHud {
         Helpers.drawTextureRegion(batch, ammo.getTexture(), drawPosition, offset, Constants.AMMO_ICON_SCALE);
 
         final String scoreString = level.getScore() + "";
-        final String timerString = Helpers.stopWatchToString(level.getTime());
+        final String timerString = Helpers.secondsToString(level.getTime());
         font.draw(batch, scoreString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN - 0.5f, Constants.HUD_MARGIN / 2, Constants.HUD_MARGIN * 2, 1, true);
         font.draw(batch, timerString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN * 2 - 0.5f, Constants.HUD_MARGIN * 1.5f, Constants.HUD_MARGIN * 4, 1, true);
 

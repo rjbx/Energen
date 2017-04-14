@@ -29,7 +29,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
-
 // mutable
 public class Level {
 
@@ -55,8 +54,8 @@ public class Level {
     private long pauseTime;
     private float pauseDuration;
 
-    private Timer time;
     private int score;
+    private long time;
 
     // cannot be subclassed
     private Level() {}
@@ -66,6 +65,7 @@ public class Level {
 
     public void create() {
         LevelScreen.getInstance().create();
+        Timer.getInstance().create();
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         grounds = new ArrayList<Ground>();
         hazards = new ArrayList<Hazard>();
@@ -78,9 +78,8 @@ public class Level {
         cannonStartTime = TimeUtils.nanoTime();
         cannonOffset = 0;
 
-        time = Timer.getInstance().start().suspend();
-
         score = 0;
+        time = 0;
 
         paused = false;
         pauseTime = 0;
@@ -88,7 +87,6 @@ public class Level {
     }
 
     public void update(float delta) {
-
         if (continuing() && !paused()) {
             GigaGal.getInstance().update(delta);
             updateAssets(delta);
@@ -146,22 +144,21 @@ public class Level {
                 levelWeapon = weapon;
             }
         }
-        time.reset();
-        time.start();
+        Timer.getInstance().reset().start();
     }
 
     public void end() {
-        time.suspend();
+        Timer.getInstance().suspend();
         if (completed()) {
             Energraft.getInstance().getPreferences().putInteger("Score", Energraft.getInstance().getScore() + score);
-            Energraft.getInstance().getPreferences().putLong("Time", Energraft.getInstance().getTime() + time.getTime());
+            Energraft.getInstance().getPreferences().putLong("Time", Energraft.getInstance().getTime() + Timer.getInstance().getSeconds());
             Energraft.getInstance().getPreferences().flush();
         }
         removeAssets();
     }
 
     public void pause() {
-        time.suspend();
+        Timer.getInstance().suspend();
 
         pauseTime = TimeUtils.nanoTime();
         pauseDuration = GigaGal.getInstance().getPauseTimeSeconds();
@@ -172,7 +169,7 @@ public class Level {
         GigaGal.getInstance().setPauseTimeSeconds(Helpers.secondsSincePause(pauseTime) + pauseDuration);
         paused = false;
 
-        time.resume();
+        Timer.getInstance().resume();
     }
 
     public boolean continuing() { return !(completed() || aborted()); }
@@ -331,7 +328,7 @@ public class Level {
     }
 
     // Getters
-    public final Timer getTime() { return time; }
+    public final long getTime() { return Timer.getInstance().getSeconds(); }
     public final int getScore() { return score; }
     public final List<Hazard> getHazards() { return hazards; }
     public final List<Ground> getGrounds() { return grounds; }
@@ -347,6 +344,5 @@ public class Level {
     public void setLevel(Enums.LevelName selectedLevel) { level = selectedLevel; }
     public void setScore(int score) { this.score = score; }
     public final void setPortal(Portal portal) { this.portal = portal; }
-    public final void setLevelName(Enums.LevelName levelName) { this.levelName = levelName; }
     public final void setLoadEx(boolean state) { loadEx = state; }
 }

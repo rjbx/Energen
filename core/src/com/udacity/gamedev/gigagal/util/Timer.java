@@ -14,12 +14,14 @@ public class Timer {
     private long startTime;
     private long stopTime;
 
-    private Timer() {
-        state = State.UNSTARTED;
-    }
+    private Timer() {}
 
     public static Timer getInstance() {
         return INSTANCE;
+    }
+
+    public void create() {
+        state = State.UNSTARTED;
     }
 
     public Timer start() {
@@ -83,11 +85,11 @@ public class Timer {
         return this;
     }
 
-    public long getTime() {
-        return TimeUtils.nanosToMillis(getNanoTime());
+    public long getSeconds() {
+        return TimeUtils.nanosToMillis(getNanos());
     }
 
-    public long getNanoTime() {
+    public long getNanos() {
         if (state != State.STOPPED && state != State.SUSPENDED) {
             if (state == State.UNSTARTED) {
                 return 0L;
@@ -99,7 +101,7 @@ public class Timer {
     }
 
     public String toString() {
-        return DurationFormatUtils.formatDurationHMS(getTime());
+        return DurationFormatUtils.formatDurationHMS(getSeconds());
     }
 
     private enum State {

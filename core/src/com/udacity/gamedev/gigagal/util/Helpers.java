@@ -63,12 +63,13 @@ public final class Helpers {
                 false);
     }
 
-    public static final float secondsSincePause(long pauseTime) {
-        return secondsSince(pauseTime);
-    }
+    public static final float secondsSincePause(long pauseTime) { return secondsSince(pauseTime); }
 
-    public static final float secondsSince(long timeNanos) {
-        return MathUtils.nanoToSec * (TimeUtils.nanoTime() - timeNanos);
+    public static final float secondsSince(long timeNanos) { return MathUtils.nanoToSec * (TimeUtils.nanoTime() - timeNanos); }
+
+    public static String secondsToString(long seconds) {
+        String timeStr = DurationFormatUtils.formatDurationHMS(seconds);
+        return timeStr.substring(0, timeStr.length() - 4);
     }
 
     public static final float absoluteToDirectionalValue(float delta, Enums.Direction direction, Enums.Orientation orientation) {
@@ -194,13 +195,6 @@ public final class Helpers {
         return Enums.TypeEffectiveness.NORMAL;
     }
 
-    public static final String stopWatchToString(Timer time) {
-        String timeString = time + "";
-        return (timeString).substring(0, timeString.length() - 4);
-    }
-
-
-    public static String timeToString(long time) { return DurationFormatUtils.formatDurationHMS(time); }
 
     public static boolean toggleBoolean(Boolean b) {
         if (b) {
