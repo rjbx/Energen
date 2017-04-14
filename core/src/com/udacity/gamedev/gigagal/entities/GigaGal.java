@@ -1215,30 +1215,30 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    //    public void ehhhSetGetStuff() {
-//        String savedWeapons = game.getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name());
-//        completedLevels = new Array<LevelName>();
-//        if (!savedWeapons.equals(Enums.WeaponType.NATIVE.name())) {
-//            List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
-//            for (String weaponString : savedWeaponsList) {
-//                if (!completedLevels.contains(Enums.WeaponType.valueOf(weaponString).levelName(), false)) {
-//                    completedLevels.add(Enums.WeaponType.valueOf(weaponString).levelName());
-//                }
-//            }
-//        }
-//        level.setLevelName(levelName);
-//        level.setDifficulty(prefs.getInteger("Difficulty", 0));
-//        this.gigaGal = level.getGigaGal();
-//        for (Enums.LevelName completedLevelName : completedLevels) {
-//            for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
-//                if (completedLevelName.equals(weapon.levelName())) {
-//                    if (!gigaGal.getWeaponList().contains(weapon)) {
-//                        gigaGal.addWeapon(weapon);
-//                    }
-//                }
-//            }
-//        }
-//    }
+    public void ehhhSetGetStuff() {
+        String savedWeapons = game.getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name());
+        completedLevels = new Array<LevelName>();
+        if (!savedWeapons.equals(Enums.WeaponType.NATIVE.name())) {
+            List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
+            for (String weaponString : savedWeaponsList) {
+                if (!completedLevels.contains(Enums.WeaponType.valueOf(weaponString).levelName(), false)) {
+                    completedLevels.add(Enums.WeaponType.valueOf(weaponString).levelName());
+                }
+            }
+        }
+        level.setLevelName(levelName);
+        level.setDifficulty(prefs.getInteger("Difficulty", 0));
+        this.gigaGal = level.getGigaGal();
+        for (Enums.LevelName completedLevelName : completedLevels) {
+            for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
+                if (completedLevelName.equals(weapon.levelName())) {
+                    if (!gigaGal.getWeaponList().contains(weapon)) {
+                        gigaGal.addWeapon(weapon);
+                    }
+                }
+            }
+        }
+    }
 
     public void setLevel(Level level) { this.level = level; }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }

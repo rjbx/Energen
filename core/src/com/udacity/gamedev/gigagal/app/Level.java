@@ -51,8 +51,6 @@ public class Level {
     private Enums.WeaponType levelWeapon;
     private Enums.LevelName level;
 
-    private int difficulty;
-
     private boolean paused;
     private long pauseTime;
     private float pauseDuration;
@@ -261,7 +259,7 @@ public class Level {
                 if (destructible.getHealth() < 1) {
                     spawnExplosion(destructible.getPosition(), destructible.getType());
                     hazardIterator.remove();
-                    score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[difficulty]);
+                    score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[Energraft.getInstance().getDifficulty()]);
                 }
                 if (destructible instanceof Orben) {
                     Orben orben = (Orben) destructible;
@@ -342,7 +340,6 @@ public class Level {
     public final Viewport getViewport() { return viewport; }
     public final Portal getPortal() { return portal; }
     public final GigaGal getGigaGal() { return GigaGal.getInstance(); }
-    public final int getDifficulty() { return difficulty; }
     public final Enums.WeaponType getType() { return levelWeapon; }
     public final boolean getLoadEx() { return loadEx; }
 

@@ -227,7 +227,7 @@ public class LevelScreen extends ScreenAdapter {
                 return;
             }
         } else if (Level.getInstance().completed()) {
-            message.setMessage(Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.stopWatchToString(new Timer().start(Energraft.getInstance().getTime()).suspend()) + "\nScore: " + Energraft.getInstance().getScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.stopWatchToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore());
+            message.setMessage(Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.stopWatchToString(Timer.getInstance().start(Energraft.getInstance().getTime()).suspend()) + "\nScore: " + Energraft.getInstance().getScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.stopWatchToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore());
             if (levelEndOverlayStartTime == 0) {
                 Level.getInstance().end();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
