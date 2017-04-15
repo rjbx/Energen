@@ -26,6 +26,7 @@ public final class Energraft extends Game {
     @Override
     public void create() {
         GigaGal.getInstance().create();
+        ChaseCam.getInstance().create();
         Cursor.getInstance().create();
         Menu.getInstance().create();
         Assets.getInstance().create();

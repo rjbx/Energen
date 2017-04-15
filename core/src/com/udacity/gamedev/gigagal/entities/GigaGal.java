@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.Energraft;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.util.InputControls;
@@ -1058,7 +1059,7 @@ public class GigaGal implements Humanoid {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, Viewport viewport) {
         if (directionX == Direction.RIGHT) {
             if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
@@ -1128,7 +1129,7 @@ public class GigaGal implements Humanoid {
                 region = Assets.getInstance().getGigaGalAssets().fallLeft;
             }
         }
-        Helpers.drawTextureRegion(batch, region, position, Constants.GIGAGAL_EYE_POSITION);
+        Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);
     }
 
     // Getters

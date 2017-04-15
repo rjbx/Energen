@@ -95,34 +95,27 @@ public class Level {
         }
     }
 
-    public void render(SpriteBatch batch) {
-
-        viewport.apply();
-
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-        batch.begin();
+    public void render(SpriteBatch batch, Viewport viewport) {
 
         for (Ground ground : grounds) {
-            ground.render(batch);
+            ground.render(batch, viewport);
         }
 
-        portal.render(batch);
+        portal.render(batch, viewport);
 
         for (Powerup powerup : powerups) {
-            powerup.render(batch);
+            powerup.render(batch, viewport);
         }
 
         for (Hazard hazard : hazards) {
-            hazard.render(batch);
+            hazard.render(batch, viewport);
         }
 
-        GigaGal.getInstance().render(batch);
+        GigaGal.getInstance().render(batch, viewport);
 
         for (Impact impact : impacts) {
-            impact.render(batch);
+            impact.render(batch, viewport);
         }
-
-        batch.end();
     }
 
     // level state handling

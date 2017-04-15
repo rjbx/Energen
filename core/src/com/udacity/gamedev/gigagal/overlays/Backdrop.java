@@ -16,11 +16,6 @@ public final class Backdrop {
     }
 
     public void render(SpriteBatch batch, ExtendViewport viewport, TextureRegion region, Vector2 position, Vector2 offset) {
-
-        viewport.apply();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-        batch.begin();
-        Helpers.drawTextureRegion(batch, region, position, offset, .375f);
-        batch.end();
+        Helpers.drawTextureRegion(batch, viewport, region, position, offset, .375f);
     }
 }

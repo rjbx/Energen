@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.Energraft;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -18,12 +19,15 @@ public final class Ammo implements IndestructibleHazard {
 
     private final Level level;
     private final Vector2 position;
+    private final Vector2 ammoCenter;
     private final Direction direction;
     private final Orientation orientation;
     private final AmmoIntensity ammoIntensity;
     private final WeaponType weapon;
     private int damage;
-    private final float radius;
+    private float radius;
+    private float scale;
+    private float rotation;
     private final boolean fromGigagal;
     private boolean active;
     private Vector2 knockback; // class-level instantiation
@@ -42,14 +46,23 @@ public final class Ammo implements IndestructibleHazard {
         damage = 0;
         active = true;
         region = null;
+        scale = 1;
+        rotation = 0;
         if (ammoIntensity == AmmoIntensity.BLAST) {
             radius = Constants.BLAST_RADIUS;
+        } else if (ammoIntensity == AmmoIntensity.CHARGE_SHOT) {
+            scale += (Constants.CHARGE_DURATION / 3);
+            radius = Constants.SHOT_RADIUS;
+            radius *= scale;
         } else {
             radius = Constants.SHOT_RADIUS;
         }
-    }
-
-    public void update(float delta) {
+        if (orientation == Orientation.Y) {
+            rotation = 90;
+            ammoCenter = new Vector2(-radius, radius);
+        } else {
+            ammoCenter = new Vector2(radius, radius);
+        }
         switch (weapon) {
             case NATIVE:
                 damage = Constants.AMMO_STANDARD_DAMAGE;
@@ -127,7 +140,9 @@ public final class Ammo implements IndestructibleHazard {
                 damage = Constants.AMMO_STANDARD_DAMAGE;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
         }
+    }
 
+    public void update(float delta) {
         for (Hazard hazard : level.getHazards()) {
             if (hazard instanceof DestructibleHazard) {
                 DestructibleHazard destructible = (DestructibleHazard) hazard;
@@ -204,29 +219,10 @@ public final class Ammo implements IndestructibleHazard {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, Viewport viewport) {
         if (active) {
-            float ammoRadius;
-            float scale = 1;
-            float rotation = 0;
-            if (ammoIntensity == AmmoIntensity.BLAST) {
-                ammoRadius = Constants.BLAST_RADIUS;
-            } else if (ammoIntensity == AmmoIntensity.CHARGE_SHOT) {
-                scale += (Constants.CHARGE_DURATION / 3);
-                ammoRadius = Constants.SHOT_RADIUS;
-                ammoRadius *= scale;
-            } else {
-                ammoRadius = Constants.SHOT_RADIUS;
-            }
             if (!level.getGigaGal().getPaused()) {
-                Vector2 ammoCenter;
-                if (orientation == Orientation.Y) {
-                    rotation = 90;
-                    ammoCenter = new Vector2(-ammoRadius, ammoRadius);
-                } else {
-                    ammoCenter = new Vector2(ammoRadius, ammoRadius);
-                }
-                Helpers.drawTextureRegion(batch, region, position, ammoCenter, scale, rotation);
+                Helpers.drawTextureRegion(batch, viewport, region, position, ammoCenter, scale, rotation);
             }
         }
     }

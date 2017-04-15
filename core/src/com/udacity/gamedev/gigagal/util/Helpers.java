@@ -1,10 +1,13 @@
 package com.udacity.gamedev.gigagal.util;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
 import com.udacity.gamedev.gigagal.entities.MultidirectionalX;
 import com.udacity.gamedev.gigagal.entities.MultidirectionalY;
@@ -19,31 +22,34 @@ public final class Helpers {
     // cannot be subclassed
     private Helpers() {}
 
-    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, float x, float y) {
-        drawTextureRegion(batch, region, x, y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y) {
+        drawTextureRegion(batch, viewport, region, x, y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
     }
 
-    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position) {
-        drawTextureRegion(batch, region, position.x, position.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position) {
+        drawTextureRegion(batch, viewport, region, position.x, position.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
     }
 
-    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position, Vector2 offset) {
-        drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position, Vector2 offset) {
+        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
     }
 
-    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position, Vector2 offset, float scale) {
-        drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale, scale, 0);
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position, Vector2 offset, float scale) {
+        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale, scale, 0);
     }
 
-    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position, Vector2 offset, float scale, float rotation) {
-        drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale, scale, rotation);
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position, Vector2 offset, float scale, float rotation) {
+        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale, scale, rotation);
     }
 
-    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, Vector2 position, Vector2 offset, Vector2 scale) {
-        drawTextureRegion(batch, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale.x, scale.y, 0);
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position, Vector2 offset, Vector2 scale) {
+        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale.x, scale.y, 0);
     }
 
-    public static final void drawTextureRegion(SpriteBatch batch, TextureRegion region, float x, float y, float width, float height, float scaleX, float scaleY, float rotation) {
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float width, float height, float scaleX, float scaleY, float rotation) {
+        viewport.apply();
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
         batch.draw(
                 region.getTexture(),
                 x,
@@ -61,6 +67,23 @@ public final class Helpers {
                 region.getRegionHeight(),
                 false,
                 false);
+        batch.end();
+    }
+
+    public static final void drawBitmapFont(SpriteBatch batch, Viewport viewport, BitmapFont font, String text, float xPos, float yPos, int align) {
+        viewport.apply();
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
+        font.draw(batch, text, xPos, yPos, 0, align, false);
+        batch.end();
+    }
+
+    public static final void drawNinePatch(SpriteBatch batch, Viewport viewport, NinePatch ninePatch, float left, float bottom, float width, float height) {
+        viewport.apply();
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
+        ninePatch.draw(batch, left, bottom, width, height);
+        batch.end();
     }
 
     public static final float secondsSincePause(long pauseTime) { return secondsSince(pauseTime); }

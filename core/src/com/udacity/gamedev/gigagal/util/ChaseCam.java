@@ -15,11 +15,15 @@ public final class ChaseCam {
     private InputControls inputControls;
 
     // cannot be subclassed
-    private ChaseCam() { following = true; }
+    private ChaseCam() {}
 
     // static factory
     public static ChaseCam getInstance() {
         return INSTANCE;
+    }
+
+    public void create() {
+        following = true;
     }
 
     public void update(float delta) {

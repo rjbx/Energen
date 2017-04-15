@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.app.Energraft;
 import com.udacity.gamedev.gigagal.overlays.TouchInterface;
 import com.udacity.gamedev.gigagal.util.InputControls;
-import com.udacity.gamedev.gigagal.overlays.Message;
 import com.udacity.gamedev.gigagal.overlays.Cursor;
 import com.udacity.gamedev.gigagal.overlays.Backdrop;
 import com.udacity.gamedev.gigagal.overlays.Menu;
@@ -152,15 +151,9 @@ public final class LaunchScreen extends ScreenAdapter {
         if (!difficultyOptionsVisible) {
             if (!launching) {
                 if (!promptVisible) {
-                    viewport.apply();
-                    batch.setProjectionMatrix(viewport.getCamera().combined);
-                    batch.begin();
-                    title.draw(batch, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, 0, Align.center, false);
-
+                    Helpers.drawBitmapFont(batch, viewport, title, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, Align.center);
                     final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
-                    Helpers.drawTextureRegion(batch, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
-
-                    batch.end();
+                    Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
 
                     Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
 
@@ -201,9 +194,7 @@ public final class LaunchScreen extends ScreenAdapter {
                 launchBackdrop.render(batch, viewport, Assets.getInstance().getOverlayAssets().logo,
                         new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .625f),
                         new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f));
-                batch.begin();
-                font.draw(batch, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, 0, Align.center, false);
-                batch.end();
+                Helpers.drawBitmapFont(batch, viewport, font, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, Align.center);
             }
             if (launching) {
                 if (Helpers.secondsSince(launchStartTime) > 3) {

@@ -32,12 +32,10 @@ public final class TouchInterface {
 
     public void render(SpriteBatch batch, Viewport viewport) {
         if (onMobile) {
-            viewport.apply();
-            batch.setProjectionMatrix(viewport.getCamera().combined);
-            batch.begin();
 
             Helpers.drawTextureRegion(
                     batch,
+                    viewport,
                     Assets.getInstance().getOverlayAssets().left,
                     inputControls.leftCenter,
                     Constants.BUTTON_CENTER
@@ -45,6 +43,7 @@ public final class TouchInterface {
 
             Helpers.drawTextureRegion(
                     batch,
+                    viewport,
                     Assets.getInstance().getOverlayAssets().right,
                     inputControls.rightCenter,
                     Constants.BUTTON_CENTER
@@ -52,6 +51,7 @@ public final class TouchInterface {
 
             Helpers.drawTextureRegion(
                     batch,
+                    viewport,
                     Assets.getInstance().getOverlayAssets().up,
                     inputControls.upCenter,
                     Constants.BUTTON_CENTER
@@ -59,6 +59,7 @@ public final class TouchInterface {
 
             Helpers.drawTextureRegion(
                     batch,
+                    viewport,
                     Assets.getInstance().getOverlayAssets().down,
                     inputControls.downCenter,
                     Constants.BUTTON_CENTER
@@ -66,24 +67,28 @@ public final class TouchInterface {
 
             Helpers.drawTextureRegion(
                     batch,
+                    viewport,
                     Assets.getInstance().getOverlayAssets().center,
                     inputControls.centerCenter,
                     Constants.BUTTON_CENTER
             );
             Helpers.drawTextureRegion(
                     batch,
+                    viewport,
                     Assets.getInstance().getOverlayAssets().shoot,
                     inputControls.shootCenter,
                     Constants.BUTTON_CENTER
             );
             Helpers.drawTextureRegion(
                     batch,
+                    viewport,
                     Assets.getInstance().getOverlayAssets().jump,
                     inputControls.jumpCenter,
                     Constants.BUTTON_CENTER
             );
             Helpers.drawTextureRegion(
                     batch,
+                    viewport,
                     Assets.getInstance().getOverlayAssets().pause,
                     inputControls.pauseCenter,
                     Constants.BUTTON_CENTER

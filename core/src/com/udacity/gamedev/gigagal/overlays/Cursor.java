@@ -83,12 +83,10 @@ public class Cursor {
     }
 
     public void render(SpriteBatch batch, ExtendViewport viewport) {
-        viewport.apply();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
         if (orientation == Enums.Orientation.X) {
-            Helpers.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().selectionCursor, position, viewport.getWorldHeight() / 3);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getOverlayAssets().selectionCursor, position, viewport.getWorldHeight() / 3);
         } else {
-            Helpers.drawTextureRegion(batch, Assets.getInstance().getOverlayAssets().selectionCursor, viewport.getWorldWidth() / 4, position);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getOverlayAssets().selectionCursor, viewport.getWorldWidth() / 4, position);
         }
     }
 

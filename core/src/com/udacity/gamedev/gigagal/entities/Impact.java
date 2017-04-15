@@ -1,9 +1,11 @@
 package com.udacity.gamedev.gigagal.entities;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -16,6 +18,7 @@ public class Impact implements Entity {
     public static final String TAG = Impact.class.getName();
     private final Vector2 position;
     private final Enums.WeaponType type;
+    private final Animation animation;
     private final long startTime;
 
     // ctor
@@ -23,40 +26,40 @@ public class Impact implements Entity {
         this.position = position;
         this.type = type;
         startTime = TimeUtils.nanoTime();
+        switch (this.type) {
+            case PLASMA:
+                animation = Assets.getInstance().getImpactAssets().impactPlasma;
+                break;
+            case GAS:
+                animation = Assets.getInstance().getImpactAssets().impact;
+                break;
+            case LIQUID:
+                animation = Assets.getInstance().getImpactAssets().impactLiquid;
+                break;
+            case SOLID:
+                animation = Assets.getInstance().getImpactAssets().impactSolid;
+                break;
+            case ANTIMATTER:
+                animation = Assets.getInstance().getImpactAssets().impactPsychic;
+                break;
+            case HYBRID:
+                animation = Assets.getInstance().getImpactAssets().impactHybrid;
+                break;
+            case NATIVE:
+                animation = Assets.getInstance().getImpactAssets().impactNative;
+                break;
+            default:
+                animation = Assets.getInstance().getImpactAssets().impactNative;
+        }
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        TextureRegion region;
-        switch (type) {
-            case PLASMA:
-                region = Assets.getInstance().getImpactAssets().impactPlasma.getKeyFrame(Helpers.secondsSince(startTime));
-                break;
-            case GAS:
-                region = Assets.getInstance().getImpactAssets().impact.getKeyFrame(Helpers.secondsSince(startTime));
-                break;
-            case LIQUID:
-                region = Assets.getInstance().getImpactAssets().impactLiquid.getKeyFrame(Helpers.secondsSince(startTime));
-                break;
-            case SOLID:
-                region = Assets.getInstance().getImpactAssets().impactSolid.getKeyFrame(Helpers.secondsSince(startTime));
-                break;
-            case ANTIMATTER:
-                region = Assets.getInstance().getImpactAssets().impactPsychic.getKeyFrame(Helpers.secondsSince(startTime));
-                break;
-            case HYBRID:
-                region = Assets.getInstance().getImpactAssets().impactHybrid.getKeyFrame(Helpers.secondsSince(startTime));
-                break;
-            case NATIVE:
-                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Helpers.secondsSince(startTime));
-                break;
-            default:
-                region = Assets.getInstance().getImpactAssets().impactNative.getKeyFrame(Helpers.secondsSince(startTime));
-        }
+    public void render(SpriteBatch batch, Viewport viewport) {
         if (!isFinished()) {
             Helpers.drawTextureRegion(
                     batch,
-                    region,
+                    viewport,
+                    animation.getKeyFrame(Helpers.secondsSince(startTime)),
                     position.x - Constants.EXPLOSION_CENTER.x,
                     position.y - Constants.EXPLOSION_CENTER.y
             );

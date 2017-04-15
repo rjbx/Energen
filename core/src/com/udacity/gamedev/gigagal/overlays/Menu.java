@@ -19,17 +19,9 @@ public final class Menu {
     // fields
     public final static String TAG = Menu.class.getName();
     public static final Menu INSTANCE = new Menu();
-    private SpriteBatch batch; // class-level instantiation
-    private ExtendViewport viewport; // class-level instantiation
-    private BitmapFont font; // class-level instantiation
-    private ScreenAdapter screenAdapter;
-    private Cursor cursor; // class-level instantiation
     private Object[] optionStrings;
-    private LevelScreen levelScreen;
-    private GigaGal gigaGal;
     private String promptString;
     private int alignment;
-    private boolean paused;
     private boolean singleOption;
 
     // default ctor
@@ -38,11 +30,6 @@ public final class Menu {
     public static Menu getInstance() { return INSTANCE; }
 
     public void create() {
-        this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        this.batch = new SpriteBatch();
-        alignment = Align.center;
-        font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
-        font.getData().setScale(0.4f);
         singleOption = false;
     }
 
@@ -85,9 +72,6 @@ public final class Menu {
      //   cursor.resetPosition();
     }
 
-    public void dispose() { font.dispose(); batch.dispose(); }
-    public final Viewport getViewport() { return viewport; }
-    public final Cursor getCursor() { return cursor; }
     public void isSingleOption(boolean mode) { singleOption = mode; }
     public void setOptionStrings(List<String> optionStrings) { this.optionStrings = optionStrings.toArray();}
     public void setPromptString(String promptString) { this.promptString = promptString; }

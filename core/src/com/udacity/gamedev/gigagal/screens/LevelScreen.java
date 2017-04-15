@@ -15,7 +15,6 @@ import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
 import com.udacity.gamedev.gigagal.overlays.Menu;
-import com.udacity.gamedev.gigagal.overlays.Message;
 import com.udacity.gamedev.gigagal.overlays.Cursor;
 import com.udacity.gamedev.gigagal.overlays.IndicatorHud;
 import com.udacity.gamedev.gigagal.overlays.GaugeHud;
@@ -128,7 +127,7 @@ public class LevelScreen extends ScreenAdapter {
                 IndicatorHud.getInstance().render(batch, font, viewport, Level.getInstance());
                 Level.getInstance().update(delta);
                 ChaseCam.getInstance().update(delta);
-                Level.getInstance().render(batch); // also rendered when viewingDebug; see pause()
+                Level.getInstance().render(batch, viewport); // also rendered when viewingDebug; see pause()
                 if (InputControls.getInstance().pauseButtonJustPressed) {
                     Level.getInstance().pause();
                     setMainMenu();
@@ -145,9 +144,7 @@ public class LevelScreen extends ScreenAdapter {
 
         if (Level.getInstance().hasLoadEx() || Level.getInstance().hasRunEx()) {
             font.getData().setScale(.25f);
-            batch.begin();
-            font.draw(batch, Constants.LEVEL_KEY_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5, 0, Align.center, false);
-            batch.end();
+            Helpers.drawBitmapFont(batch, viewport, font, Constants.LEVEL_KEY_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5, Align.center);
             font.getData().setScale(.4f);
         }
         InputControls.getInstance().update();
@@ -162,6 +159,7 @@ public class LevelScreen extends ScreenAdapter {
             String totals = "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore();
             String weapons = GigaGal.getInstance().getWeaponList().toString().replaceAll(", ", "\n");
             weapons = weapons.substring(1, weapons.length() - 1);
+            batch.setProjectionMatrix(viewport.getCamera().combined);
             batch.begin();
             font.draw(batch, gauges, viewport.getScreenX() + 5, viewport.getWorldHeight() * .8f, 0, Align.left, false);
             font.draw(batch, totals, viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .8f, 0, Align.center, false);
@@ -207,7 +205,7 @@ public class LevelScreen extends ScreenAdapter {
                 setMainMenu();
             }
         } else if (menu == DEBUG){
-            Level.getInstance().render(batch);
+            Level.getInstance().render(batch, viewport);
             ChaseCam.getInstance().update(delta);
             if (InputControls.getInstance().shootButtonJustPressed) {
                 ChaseCam.getInstance().setFollowing(true);
@@ -245,6 +243,7 @@ public class LevelScreen extends ScreenAdapter {
                 return;
             }
         }
+        batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
         font.draw(batch, endMessage, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 1.25f, 0, Align.center, false);
         batch.end();

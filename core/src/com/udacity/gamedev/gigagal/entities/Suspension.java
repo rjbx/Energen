@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -32,7 +33,7 @@ public class Suspension implements IndestructibleHazard {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, Viewport viewport) {
         final float elapsedTime = Helpers.secondsSince(startTime);
         TextureRegion region;
         switch (type) {
@@ -79,7 +80,7 @@ public class Suspension implements IndestructibleHazard {
                 damage = Constants.WHEEL_DAMAGE;
                 break;
         }
-        Helpers.drawTextureRegion(batch, region, position, center);
+        Helpers.drawTextureRegion(batch, viewport, region, position, center);
     }
 
     @Override public final Vector2 getPosition() { return position; }
