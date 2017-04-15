@@ -33,7 +33,6 @@ public final class Energraft extends Game {
         Level.getInstance().create();
         LaunchScreen.getInstance().create();
         OverworldScreen.getInstance().create();
-
         setScreen(LaunchScreen.getInstance());
     }
 

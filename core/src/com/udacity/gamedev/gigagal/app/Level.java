@@ -128,18 +128,6 @@ public class Level {
     // level state handling
 
     public void begin() {
-        GigaGal.getInstance().setLives(3);
-        GigaGal.getInstance().respawn();
-
-        // get prefs
-        Energraft.getInstance().getPreferences().flush();
-
-        // set level attributes
-        String weaponListString = GigaGal.getInstance().getWeaponList().toString();
-        weaponListString = weaponListString.substring(1, weaponListString.length() - 1);
-        Energraft.getInstance().getPreferences().putString("Weapons", weaponListString);
-        ChaseCam.getInstance().camera = viewport.getCamera();
-        ChaseCam.getInstance().target = GigaGal.getInstance();
 
         levelWeapon = Enums.WeaponType.NATIVE;
         for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
@@ -148,15 +136,23 @@ public class Level {
             }
         }
 
-        System.out.println(level.name());
+        GigaGal.getInstance().setLives(3);
+        GigaGal.getInstance().respawn();
+
+        // set level attributes
+        ChaseCam.getInstance().camera = viewport.getCamera();
+        ChaseCam.getInstance().target = GigaGal.getInstance();
+
         Timer.getInstance().reset().start();
     }
 
     public void end() {
         Timer.getInstance().suspend();
         if (completed()) {
+            GigaGal.getInstance().addWeapon(levelWeapon);
             Energraft.getInstance().getPreferences().putInteger("Score", Energraft.getInstance().getScore() + score);
             Energraft.getInstance().getPreferences().putLong("Time", Energraft.getInstance().getTime() + Timer.getInstance().getSeconds());
+            Energraft.getInstance().getPreferences().putString("Weapons", levelWeapon.name());
             Energraft.getInstance().getPreferences().flush();
         }
         removeAssets();
@@ -198,9 +194,7 @@ public class Level {
         return false;
     }
 
-    public boolean completed() {
-        return (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS);
-    }
+    public boolean completed() { return (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS); }
 
 
     public boolean continuing() { return !(completed() || failed()); }

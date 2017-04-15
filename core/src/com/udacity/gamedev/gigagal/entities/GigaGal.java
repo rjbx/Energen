@@ -119,18 +119,15 @@ public class GigaGal implements Humanoid {
         halfWidth = width / 2;
         lives = Constants.INITIAL_LIVES;
         killPlane = -10000;
-        String savedWeapons = Energraft.getInstance().getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name());
         completedLevels = new ArrayList<LevelName>();
+        String savedWeapons = Energraft.getInstance().getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name());
         if (!savedWeapons.equals(Enums.WeaponType.NATIVE.name())) {
             List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
             for (String weaponString : savedWeaponsList) {
-                if (!completedLevels.contains(Enums.WeaponType.valueOf(weaponString).levelName())) {
-                    completedLevels.add(Enums.WeaponType.valueOf(weaponString).levelName());
-                }
+                addWeapon(WeaponType.valueOf(weaponString));
             }
         }
     }
-
     public void respawn() {
         position.set(spawnPosition);
         chaseCamPosition.set(position, 0);
