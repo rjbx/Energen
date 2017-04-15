@@ -292,6 +292,14 @@ public class Level {
                 impactIterator.remove();
             }
         }
+
+        ListIterator<Powerup> iterator = powerups.listIterator();
+        while (iterator.hasNext()) {
+            Powerup powerup = iterator.next();
+            if (!powerup.isActive()) {
+                iterator.remove();
+            }
+        }
     }
 
     public void removeAssets() {

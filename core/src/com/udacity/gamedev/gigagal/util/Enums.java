@@ -38,6 +38,12 @@ public final class Enums {
         SUBMERGED
     }
 
+    public enum PowerupType {
+        HEALTH,
+        TURBO,
+        AMMO
+    }
+
     public enum AmmoIntensity {
         SHOT, CHARGE_SHOT, BLAST,
     }

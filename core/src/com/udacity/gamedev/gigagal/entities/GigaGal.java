@@ -529,27 +529,31 @@ public class GigaGal implements Humanoid {
             Powerup powerup = iterator.next();
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {
-                if (powerup instanceof AmmoPowerup) {
-                    ammo += Constants.POWERUP_AMMO;
-                    if (ammo > Constants.MAX_AMMO) {
-                        ammo = Constants.MAX_AMMO;
-                    }
-                } else if (powerup instanceof HealthPowerup) {
-                    health += Constants.POWERUP_HEALTH;
-                    if (health > Constants.MAX_HEALTH) {
-                        health = Constants.MAX_HEALTH;
-                    }
-                } else if (powerup instanceof TurboPowerup) {
-                    turbo += Constants.POWERUP_TURBO;
-                    if (action == Action.HOVERING) {
-                        hoverStartTime = TimeUtils.nanoTime();
-                    }
-                    if (action == Action.DASHING) {
-                        dashStartTime = TimeUtils.nanoTime();
-                    }
+                switch(powerup.getType()) {
+                    case AMMO:
+                        ammo += Constants.POWERUP_AMMO;
+                        if (ammo > Constants.MAX_AMMO) {
+                            ammo = Constants.MAX_AMMO;
+                        }
+                        break;
+                    case HEALTH:
+                        health += Constants.POWERUP_HEALTH;
+                        if (health > Constants.MAX_HEALTH) {
+                            health = Constants.MAX_HEALTH;
+                        }
+                        break;
+                    case TURBO:
+                        turbo += Constants.POWERUP_TURBO;
+                        if (action == Action.HOVERING) {
+                            hoverStartTime = TimeUtils.nanoTime();
+                        }
+                        if (action == Action.DASHING) {
+                            dashStartTime = TimeUtils.nanoTime();
+                        }
+                        break;
                 }
                 level.setScore(level.getScore() + Constants.POWERUP_SCORE);
-                iterator.remove();
+                powerup.deactivate();
             }
         }
         if (turbo > Constants.MAX_TURBO) {

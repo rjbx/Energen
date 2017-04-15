@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.app.Level;
-import com.udacity.gamedev.gigagal.entities.AmmoPowerup;
 import com.udacity.gamedev.gigagal.entities.Boss;
 import com.udacity.gamedev.gigagal.entities.Cannon;
 import com.udacity.gamedev.gigagal.entities.Coals;
@@ -16,6 +14,7 @@ import com.udacity.gamedev.gigagal.entities.Lift;
 import com.udacity.gamedev.gigagal.entities.Orben;
 import com.udacity.gamedev.gigagal.entities.Pillar;
 import com.udacity.gamedev.gigagal.entities.Pole;
+import com.udacity.gamedev.gigagal.entities.Powerup;
 import com.udacity.gamedev.gigagal.entities.Protrusion;
 import com.udacity.gamedev.gigagal.entities.Rollen;
 import com.udacity.gamedev.gigagal.entities.Rope;
@@ -25,8 +24,6 @@ import com.udacity.gamedev.gigagal.entities.Spring;
 import com.udacity.gamedev.gigagal.entities.Suspension;
 import com.udacity.gamedev.gigagal.entities.Swoopa;
 import com.udacity.gamedev.gigagal.entities.Treadmill;
-import com.udacity.gamedev.gigagal.entities.TurboPowerup;
-import com.udacity.gamedev.gigagal.entities.HealthPowerup;
 import com.udacity.gamedev.gigagal.entities.Vines;
 import com.udacity.gamedev.gigagal.entities.Portal;
 import com.udacity.gamedev.gigagal.entities.GigaGal;
@@ -214,15 +211,15 @@ public final class LevelLoader {
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.AMMO_POWERUP_SPRITE)) {
                 final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded an AmmoPowerup at " + powerupPosition);
-                level.getPowerups().add(new AmmoPowerup(powerupPosition));
+                level.getPowerups().add(new Powerup(powerupPosition, Enums.PowerupType.AMMO));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.HEALTH_POWERUP_SPRITE)) {
                 final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded a HealthPowerup at " + powerupPosition);
-                level.getPowerups().add(new HealthPowerup(powerupPosition));
+                level.getPowerups().add(new Powerup(powerupPosition, Enums.PowerupType.HEALTH));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TURBO_POWERUP_SPRITE)) {
                 final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded a TurboPowerup at " + powerupPosition);
-                level.getPowerups().add(new TurboPowerup(powerupPosition));
+                level.getPowerups().add(new Powerup(powerupPosition, Enums.PowerupType.TURBO));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STAND_RIGHT)) {
                 final Vector2 gigaGalPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);
