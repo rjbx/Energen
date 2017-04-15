@@ -34,6 +34,10 @@ public final class Helpers {
         drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
     }
 
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float offsetX, float offsetY) {
+        drawTextureRegion(batch, viewport, region, x - offsetX, y - offsetY, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
+    }
+
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position, Vector2 offset, float scale) {
         drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale, scale, 0);
     }

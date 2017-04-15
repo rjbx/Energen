@@ -230,7 +230,7 @@ public final class LaunchScreen extends ScreenAdapter {
             }
         }
         inputControls.update();
-        touchInterface.render(batch, viewport);
+        touchInterface.render(batch);
     }
 
     @Override

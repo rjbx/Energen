@@ -169,7 +169,7 @@ public final class OverworldScreen extends ScreenAdapter {
             font.getData().setScale(.5f);
         }
         InputControls.getInstance().update();
-        TouchInterface.getInstance().render(batch, viewport);
+        TouchInterface.getInstance().render(batch);
     }
 
     @Override

@@ -30,7 +30,7 @@ public final class TouchInterface {
         this.batch = new SpriteBatch();
     }
 
-    public void render(SpriteBatch batch, Viewport viewport) {
+    public void render(SpriteBatch batch) {
         if (onMobile) {
             Helpers.drawTextureRegion(
                     batch,

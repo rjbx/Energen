@@ -36,7 +36,7 @@ public final class GaugeHud {
         // backdrop
         renderer.setColor(Color.BLACK);
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 2, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, viewport.getWorldWidth(), viewport.getWorldWidth() / 15);
+        renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 2, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, viewport.getWorldWidth(), viewport.getWorldHeight() / 15);
 
         // health
         if (gigaGal.getHealth() < Constants.MAX_HEALTH / 4) {

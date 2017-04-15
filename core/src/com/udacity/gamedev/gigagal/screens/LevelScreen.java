@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.Energraft;
 import com.udacity.gamedev.gigagal.overlays.TouchInterface;
 import com.udacity.gamedev.gigagal.util.InputControls;
@@ -56,6 +55,7 @@ public class LevelScreen extends ScreenAdapter {
         renderer.setAutoShapeType(true);
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays instantiated from this class
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
+        font.setUseIntegerPositions(false);
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
 
         // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
@@ -128,10 +128,11 @@ public class LevelScreen extends ScreenAdapter {
         if (Level.getInstance().continuing()) {
 
             if (!Level.getInstance().paused()) {
-                ChaseCam.getInstance().update(batch, viewport, delta);
 
-                Level.getInstance().update(delta);
                 IndicatorHud.getInstance().render(batch, font, viewport, Level.getInstance());
+                Level.getInstance().update(delta);
+
+                ChaseCam.getInstance().update(batch, viewport, delta);
                 Level.getInstance().render(batch, viewport); // also rendered when viewingDebug; see pause()
                 if (InputControls.getInstance().pauseButtonJustPressed) {
                     Level.getInstance().pause();
@@ -141,7 +142,7 @@ public class LevelScreen extends ScreenAdapter {
                 showPauseMenu(delta);
             }
             GaugeHud.getInstance().render(renderer, viewport, GigaGal.getInstance());
-            TouchInterface.getInstance().render(batch, viewport);
+            TouchInterface.getInstance().render(batch);
         } else {
             showExitOverlay();
         }
@@ -244,7 +245,7 @@ public class LevelScreen extends ScreenAdapter {
                 return;
             }
         }
-        Helpers.drawBitmapFont(batch, viewport, font, endMessage, viewport.getCamera().position.x, viewport.getCamera().position.y, Align.center);
+        Helpers.drawBitmapFont(batch, viewport, font, endMessage, viewport.getCamera().position.x, viewport.getCamera().position.y + viewport.getWorldHeight() / 3, Align.center);
     }
 
     public ExtendViewport getViewport() { return viewport; }
