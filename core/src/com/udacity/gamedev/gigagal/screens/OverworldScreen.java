@@ -112,7 +112,6 @@ public final class OverworldScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (!viewingOptions) {
-            viewport.apply();
 
             Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
 

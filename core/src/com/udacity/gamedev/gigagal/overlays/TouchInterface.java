@@ -32,7 +32,6 @@ public final class TouchInterface {
 
     public void render(SpriteBatch batch, Viewport viewport) {
         if (onMobile) {
-
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
@@ -93,8 +92,6 @@ public final class TouchInterface {
                     inputControls.pauseCenter,
                     Constants.BUTTON_CENTER
             );
-
-            batch.end();
         }
     }
 

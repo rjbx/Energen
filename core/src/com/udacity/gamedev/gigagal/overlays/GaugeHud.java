@@ -29,15 +29,13 @@ public final class GaugeHud {
 
     public void render(ShapeRenderer renderer, ExtendViewport viewport, GigaGal gigaGal) {
 
-        viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);
         renderer.begin();
-
 
         // backdrop
         renderer.setColor(Color.BLACK);
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getScreenX(), viewport.getWorldHeight() - Constants.HUD_MARGIN, viewport.getWorldWidth(), viewport.getScreenHeight() / 25);
+        renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 2, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, viewport.getWorldWidth(), viewport.getWorldWidth() / 15);
 
         // health
 
@@ -51,7 +49,7 @@ public final class GaugeHud {
             renderer.setColor(Constants.HEALTH_MAX_COLOR);
         }
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getScreenX(), viewport.getWorldHeight() - Constants.HUD_MARGIN, ((float) gigaGal.getHealth() / Constants.MAX_HEALTH) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
+        renderer.rect(viewport.getCamera().position.x - viewport.getWorldWidth() / 2, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, ((float) gigaGal.getHealth() / Constants.MAX_HEALTH) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
 
         // turbo
         if (gigaGal.getTurbo() < Constants.MAX_TURBO) {
@@ -60,7 +58,7 @@ public final class GaugeHud {
             renderer.setColor(Constants.TURBO_MAX_COLOR);
         }
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getWorldWidth() / 3, viewport.getWorldHeight() - Constants.HUD_MARGIN, (gigaGal.getTurbo() / Constants.MAX_TURBO) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
+        renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 6, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, (gigaGal.getTurbo() / Constants.MAX_TURBO) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
 
         // ammo
         if (gigaGal.getChargeTimeSeconds() >  Constants.CHARGE_DURATION / 4) {
@@ -70,7 +68,7 @@ public final class GaugeHud {
         }
 
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getWorldWidth() / 3 * 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, ((float) gigaGal.getAmmo() / Constants.MAX_AMMO) * viewport.getWorldWidth() / 3, viewport.getScreenHeight() / 25);
+        renderer.rect(viewport.getCamera().position.x  + viewport.getWorldWidth() / 6, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, ((float) gigaGal.getAmmo() / Constants.MAX_AMMO) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
         renderer.end();
     }
 }

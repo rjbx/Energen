@@ -28,9 +28,7 @@ public class IndicatorHud {
 
     public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, Level level) {
 
-        float drawPositionX = viewport.getWorldWidth() / 2;
-        final float drawPositionY = viewport.getWorldHeight() - Constants.HUD_MARGIN - 7;
-        Vector2 drawPosition = new Vector2(drawPositionX, drawPositionY);
+        Vector2 drawPosition = new Vector2(viewport.getCamera().position.x, viewport.getCamera().position.y + viewport.getWorldHeight() / 3);
         if (!level.getGigaGal().getClingStatus() && level.getGigaGal().getAction() != Enums.Action.CLINGING)  {
             if (!level.getGigaGal().getJumpStatus() && !level.getGigaGal().getClimbStatus() && level.getGigaGal().getHoverStatus()) {
                 Helpers.drawTextureRegion(
@@ -74,18 +72,19 @@ public class IndicatorHud {
         final TextureRegion lifeIcon = Assets.getInstance().getHudAssets().life;
         for (int i = 1; i <= level.getGigaGal().getLives(); i++) {
             drawPosition = new Vector2(
-                    i * (Constants.HUD_MARGIN / 2 + lifeIcon.getRegionWidth()) - 15,
-                    viewport.getWorldHeight() - Constants.HUD_MARGIN - lifeIcon.getRegionHeight()
+                    viewport.getCamera().position.x - viewport.getWorldWidth() / 3,
+                    viewport.getCamera().position.y + viewport.getWorldHeight() / 3
             );
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
                     lifeIcon,
-                    drawPosition
+                    drawPosition,
+                    Constants.LIFT_CENTER
             );
         }
 
-        drawPosition = new Vector2(viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() - Constants.HUD_MARGIN - 7);
+        drawPosition = new Vector2(viewport.getCamera().position.x + viewport.getWorldWidth() / 2.5f, viewport.getCamera().position.y + viewport.getWorldHeight() / 3);
         Enums.WeaponType weapon = level.getGigaGal().getWeapon();
         Enums.AmmoIntensity intensity = level.getGigaGal().getAmmoIntensity();
         Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, false);
@@ -108,7 +107,7 @@ public class IndicatorHud {
 
         final String scoreString = level.getScore() + "";
         final String timerString = Helpers.secondsToString(level.getTime());
-        Helpers.drawBitmapFont(batch, viewport, font, scoreString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN - 0.5f, Constants.HUD_MARGIN / 2, Align.center);
-        Helpers.drawBitmapFont(batch, viewport, font, timerString, viewport.getWorldWidth() / 2 - Constants.HUD_MARGIN * 2 - 0.5f, Constants.HUD_MARGIN * 1.5f, Align.center);
+        Helpers.drawBitmapFont(batch, viewport, font, scoreString, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldWidth() / 3, Align.center);
+        Helpers.drawBitmapFont(batch, viewport, font, timerString, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldWidth() / 4, Align.center);
     }
 }

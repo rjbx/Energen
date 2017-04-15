@@ -65,7 +65,6 @@ public class Level {
     public void create() {
         LevelScreen.getInstance().create();
         Timer.getInstance().create();
-        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         grounds = new ArrayList<Ground>();
         hazards = new ArrayList<Hazard>();
         impacts = new ArrayList<Impact>();
@@ -133,8 +132,7 @@ public class Level {
         GigaGal.getInstance().respawn();
 
         // set level attributes
-        ChaseCam.getInstance().camera = viewport.getCamera();
-        ChaseCam.getInstance().target = GigaGal.getInstance();
+        viewport = LevelScreen.getInstance().getViewport();
 
         Timer.getInstance().reset().start();
     }

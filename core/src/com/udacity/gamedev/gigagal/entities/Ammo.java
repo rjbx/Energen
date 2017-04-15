@@ -19,7 +19,7 @@ public final class Ammo implements IndestructibleHazard {
 
     private final Level level;
     private final Vector2 position;
-    private final Vector2 ammoCenter;
+    private Vector2 ammoCenter;
     private final Direction direction;
     private final Orientation orientation;
     private final AmmoIntensity ammoIntensity;

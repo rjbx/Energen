@@ -1,16 +1,12 @@
 package com.udacity.gamedev.gigagal.overlays;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.screens.LevelScreen;
-import com.udacity.gamedev.gigagal.entities.GigaGal;
-import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
+import com.udacity.gamedev.gigagal.util.Helpers;
+
 import java.util.List;
 
 // immutable
@@ -43,12 +39,8 @@ public final class Menu {
             alignmentPosition = viewport.getWorldWidth() / 3 * 2;
         }
 
-        viewport.apply();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-        batch.begin();
-
         if (promptString != null) {
-            font.draw(batch, promptString, viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .75f, 0, alignment, false);
+            Helpers.drawBitmapFont(batch, viewport, font, promptString, viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .75f, alignment);
         }
 
         if (!singleOption) {
@@ -58,17 +50,15 @@ public final class Menu {
 
         if (cursor.getOrientation() == Enums.Orientation.X) {
             for (Object option : optionStrings) {
-                font.draw(batch, (String) option, startingPosition, viewport.getWorldHeight() / 2.5f, 0, alignment, false);
+                Helpers.drawBitmapFont(batch, viewport, font, (String) option, startingPosition, viewport.getWorldHeight() / 2.5f, alignment);
                 startingPosition += 100;
             }
         } else if (cursor.getOrientation() == Enums.Orientation.Y) {
             for (Object option : optionStrings) {
-                font.draw(batch, (String) option, alignmentPosition, startingPosition + 10, 0, alignment, false);
+                Helpers.drawBitmapFont(batch, viewport, font, (String) option, alignmentPosition, startingPosition + 10, alignment);
                 startingPosition -= 15;
             }
         }
-
-        batch.end();
      //   cursor.resetPosition();
     }
 
