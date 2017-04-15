@@ -41,7 +41,6 @@ public final class LaunchScreen extends ScreenAdapter {
     private BitmapFont text;
     private BitmapFont title;
     private Backdrop launchBackdrop;
-    private Message launchMessage;
     private List<String> choices;
     private long launchStartTime;
     private boolean launching;
@@ -83,8 +82,6 @@ public final class LaunchScreen extends ScreenAdapter {
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
         launchBackdrop = new Backdrop();
-        launchMessage = new Message();
-        launchMessage.setMessage(Constants.LAUNCH_MESSAGE);
         inputControls = InputControls.getInstance();
         touchInterface = TouchInterface.getInstance();
         Gdx.input.setInputProcessor(inputControls);
@@ -204,7 +201,9 @@ public final class LaunchScreen extends ScreenAdapter {
                 launchBackdrop.render(batch, viewport, Assets.getInstance().getOverlayAssets().logo,
                         new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .625f),
                         new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f));
-                launchMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, Constants.HUD_MARGIN));
+                batch.begin();
+                font.draw(batch, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, 0, Align.center, false);
+                batch.end();
             }
             if (launching) {
                 if (Helpers.secondsSince(launchStartTime) > 3) {

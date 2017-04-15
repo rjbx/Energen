@@ -198,7 +198,7 @@ public class Boss implements Humanoid, Hazard  {
         // collision detection
         touchGround(level.getGrounds());
         touchHazards(level.getHazards());
-        touchPowerups(level.getPowerups());
+//        touchPowerups(level.getPowerups());
 
         // abilities
         if (groundState == Enums.GroundState.PLANTED) {
@@ -572,7 +572,7 @@ public class Boss implements Humanoid, Hazard  {
         }
     }
 
-    private void touchPowerups(List<Powerup> powerups) {
+    /*private void touchPowerups(List<Powerup> powerups) {
         ListIterator<Powerup> iterator = powerups.listIterator();
         while (iterator.hasNext()) {
             Powerup powerup = iterator.next();
@@ -604,7 +604,7 @@ public class Boss implements Humanoid, Hazard  {
         if (turbo > Constants.MAX_TURBO) {
             turbo = Constants.MAX_TURBO;
         }
-    }
+    }*/
 /*
 
     private void handleXInputs() {

@@ -2,22 +2,18 @@ package com.udacity.gamedev.gigagal.screens;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.app.Energraft;
-import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.overlays.TouchInterface;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.overlays.Menu;
 import com.udacity.gamedev.gigagal.overlays.Cursor;
-import com.udacity.gamedev.gigagal.overlays.Message;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -38,7 +34,6 @@ public final class OverworldScreen extends ScreenAdapter {
     private ExtendViewport viewport;
     private SpriteBatch batch;
     private BitmapFont font;
-    private Message errorMessage;
     private boolean viewingOptions;
     private boolean messageVisible;
 
@@ -62,7 +57,6 @@ public final class OverworldScreen extends ScreenAdapter {
         // onMobile();
         viewingOptions = false;
         messageVisible = false;
-        errorMessage = new Message();
         InputControls.getInstance();
         TouchInterface.getInstance();
         Gdx.input.setInputProcessor(InputControls.getInstance());
@@ -132,19 +126,16 @@ public final class OverworldScreen extends ScreenAdapter {
                         return;
                     } catch (IOException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-                        errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
                         Cursor.getInstance().getIterator().next();
                         messageVisible = true;
                     } catch (ParseException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-                        errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
                         Cursor.getInstance().getIterator().next();
                         messageVisible = true;
                     } catch (GdxRuntimeException ex) {
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-                        errorMessage.setMessage(Constants.LEVEL_READ_MESSAGE);
                         Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
                         Cursor.getInstance().getIterator().next();
                         messageVisible = true;
@@ -173,7 +164,9 @@ public final class OverworldScreen extends ScreenAdapter {
         }
         if (messageVisible) {
             font.getData().setScale(0.25f);
-            errorMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5));
+            batch.begin();
+            font.draw(batch, Constants.LEVEL_READ_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5, 0, Align.center, false);
+            batch.end();
             font.getData().setScale(.5f);
         }
         InputControls.getInstance().update();

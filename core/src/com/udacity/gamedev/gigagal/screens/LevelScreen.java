@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -35,14 +34,12 @@ public class LevelScreen extends ScreenAdapter {
     // fields
     public static final String TAG = LevelScreen.class.getName();
     private static final LevelScreen INSTANCE = new LevelScreen();
-    private Message errorMessage;
     private SpriteBatch batch;
     private ShapeRenderer renderer;
     private BitmapFont font;
     private ExtendViewport viewport;
     private long levelEndOverlayStartTime;
     private static Enums.LevelMenu menu;
-    private Message message;
 
     // cannot be subclassed
     private LevelScreen() {}
@@ -60,9 +57,6 @@ public class LevelScreen extends ScreenAdapter {
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays instantiated from this class
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
-        errorMessage = new Message();
-        errorMessage.setMessage(Constants.LEVEL_KEY_MESSAGE);
-        message = new Message();
 
         // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
         Gdx.input.setInputProcessor(InputControls.getInstance());
@@ -140,6 +134,7 @@ public class LevelScreen extends ScreenAdapter {
                     setMainMenu();
                 }
             } else {
+
                 showPauseMenu(delta);
             }
             GaugeHud.getInstance().render(renderer, viewport, GigaGal.getInstance());
@@ -150,7 +145,9 @@ public class LevelScreen extends ScreenAdapter {
 
         if (Level.getInstance().hasLoadEx() || Level.getInstance().hasRunEx()) {
             font.getData().setScale(.25f);
-            errorMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5));
+            batch.begin();
+            font.draw(batch, Constants.LEVEL_KEY_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5, 0, Align.center, false);
+            batch.end();
             font.getData().setScale(.4f);
         }
         InputControls.getInstance().update();
@@ -159,6 +156,17 @@ public class LevelScreen extends ScreenAdapter {
     private void showPauseMenu(float delta) {
         Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
         if (menu == MAIN) {
+            String gauges = Constants.HUD_AMMO_LABEL + GigaGal.getInstance().getAmmo() + "\n" +
+                    Constants.HUD_HEALTH_LABEL + GigaGal.getInstance().getHealth() + "\n" +
+                    "Turbo: " + GigaGal.getInstance().getTurbo();
+            String totals = "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore();
+            String weapons = GigaGal.getInstance().getWeaponList().toString().replaceAll(", ", "\n");
+            weapons = weapons.substring(1, weapons.length() - 1);
+            batch.begin();
+            font.draw(batch, gauges, viewport.getScreenX() + 5, viewport.getWorldHeight() * .8f, 0, Align.left, false);
+            font.draw(batch, totals, viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .8f, 0, Align.center, false);
+            font.draw(batch, weapons, viewport.getWorldWidth() - Constants.HUD_MARGIN, viewport.getWorldHeight() * .8f, 0, weapons.length(), 10, Align.right, false);
+            batch.end();
             if (InputControls.getInstance().jumpButtonJustPressed && GigaGal.getInstance().getAction() == Enums.Action.STANDING) {
                 GigaGal.getInstance().toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
             }
@@ -209,8 +217,9 @@ public class LevelScreen extends ScreenAdapter {
     }
 
     private void showExitOverlay() {
+        String endMessage = "";
         if (Level.getInstance().failed()) {
-            message.setMessage(Constants.DEFEAT_MESSAGE);
+            endMessage = Constants.DEFEAT_MESSAGE;
             font.getData().setScale(.6f);
             if (levelEndOverlayStartTime == 0) {
                 Level.getInstance().end();
@@ -224,7 +233,7 @@ public class LevelScreen extends ScreenAdapter {
                 return;
             }
         } else if (Level.getInstance().completed()) {
-            message.setMessage(Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(Energraft.getInstance().getTime()) + "\nScore: " + Energraft.getInstance().getScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.secondsToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore());
+            endMessage = Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(Energraft.getInstance().getTime()) + "\nScore: " + Energraft.getInstance().getScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.secondsToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore();
             if (levelEndOverlayStartTime == 0) {
                 Level.getInstance().end();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
@@ -236,7 +245,9 @@ public class LevelScreen extends ScreenAdapter {
                 return;
             }
         }
-        message.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 1.25f));
+        batch.begin();
+        font.draw(batch, endMessage, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 1.25f, 0, Align.center, false);
+        batch.end();
     }
 
     @Override
