@@ -39,7 +39,6 @@ public final class OverworldScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private BitmapFont font;
     private Message errorMessage;
-    private Enums.LevelName selectedLevel;
     private boolean viewingOptions;
     private boolean messageVisible;
 
@@ -125,11 +124,9 @@ public final class OverworldScreen extends ScreenAdapter {
 
             if (InputControls.getInstance().shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
-                    selectedLevel = Enums.LevelName.valueOf(Cursor.getInstance().getIterator().previous());
-                    Level.getInstance().setLevel(selectedLevel);
                     messageVisible = false;
                     try {
-                        LevelLoader.load("levels/" + selectedLevel + ".dt");
+                        LevelLoader.load(Enums.LevelName.valueOf(Cursor.getInstance().getIterator().previous()));
                         Energraft.getInstance().setScreen(LevelScreen.getInstance());
                         this.dispose();
                         return;

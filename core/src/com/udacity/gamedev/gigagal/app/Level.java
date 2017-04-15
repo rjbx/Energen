@@ -26,6 +26,7 @@ import com.udacity.gamedev.gigagal.util.Timer;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -35,11 +36,9 @@ public class Level {
     // fields
     public static final String TAG = Level.class.getName();
     private static final Level INSTANCE = new Level();
-    private Enums.LevelName levelName;
     private Viewport viewport;
-    private boolean victory;
-    private boolean gameOver;
     private boolean loadEx;
+    private boolean runEx;
     private float cannonOffset;
     private long cannonStartTime;
     private Portal portal;
@@ -72,9 +71,8 @@ public class Level {
         impacts = new ArrayList<Impact>();
         powerups = new ArrayList<Powerup>();
         portal = new Portal(new Vector2(200, 200));
-        gameOver = false;
-        victory = false;
         loadEx = false;
+        runEx = false;
         cannonStartTime = TimeUtils.nanoTime();
         cannonOffset = 0;
 
@@ -89,7 +87,11 @@ public class Level {
     public void update(float delta) {
         if (continuing() && !paused()) {
             GigaGal.getInstance().update(delta);
-            updateAssets(delta);
+            try {
+                updateAssets(delta);
+            } catch (ConcurrentModificationException ex) {
+                runEx = true;
+            }
         }
     }
 
@@ -126,6 +128,7 @@ public class Level {
     // level state handling
 
     public void begin() {
+        GigaGal.getInstance().setLives(3);
         GigaGal.getInstance().respawn();
 
         // get prefs
@@ -140,10 +143,12 @@ public class Level {
 
         levelWeapon = Enums.WeaponType.NATIVE;
         for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
-            if (weapon.levelName().equals(levelName)) {
+            if (weapon.levelName().equals(level)) {
                 levelWeapon = weapon;
             }
         }
+
+        System.out.println(level.name());
         Timer.getInstance().reset().start();
     }
 
@@ -155,7 +160,6 @@ public class Level {
             Energraft.getInstance().getPreferences().flush();
         }
         removeAssets();
-        this.dispose();
     }
 
     public void pause() {
@@ -173,23 +177,7 @@ public class Level {
         Timer.getInstance().resume();
     }
 
-    public boolean continuing() { return !(completed() || aborted()); }
-
-    public boolean completed() {
-        return (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS);
-    }
-
-    public boolean aborted() {
-        if (failed()) {
-            if (GigaGal.getInstance().getLives() < 0) {
-                return true;
-            }
-            GigaGal.getInstance().respawn();
-        }
-        return false;
-    }
-
-    public boolean failed() {
+    public boolean restarted() {
         if (GigaGal.getInstance().getKillPlane() != -10000) {
             if (GigaGal.getInstance().getPosition().y < GigaGal.getInstance().getKillPlane() || GigaGal.getInstance().getHealth() < 1) {
                 GigaGal.getInstance().setHealth(0);
@@ -199,6 +187,24 @@ public class Level {
         }
         return false;
     }
+
+    public boolean failed() {
+        if (restarted()) {
+            if (GigaGal.getInstance().getLives() < 0) {
+                return true;
+            }
+            GigaGal.getInstance().respawn();
+        }
+        return false;
+    }
+
+    public boolean completed() {
+        return (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS);
+    }
+
+
+    public boolean continuing() { return !(completed() || failed()); }
+
 
     public boolean paused() {
         return paused;
@@ -326,14 +332,6 @@ public class Level {
     }
 
     public void dispose() {
-        getHazards().clear();
-        getGrounds().clear();
-        getImpacts().clear();
-        getPowerups().clear();
-        hazards = null;
-        grounds = null;
-        impacts = null;
-        powerups = null;
     }
 
     // Getters
@@ -347,7 +345,8 @@ public class Level {
     public final Portal getPortal() { return portal; }
     public final GigaGal getGigaGal() { return GigaGal.getInstance(); }
     public final Enums.WeaponType getType() { return levelWeapon; }
-    public final boolean getLoadEx() { return loadEx; }
+    public final boolean hasLoadEx() { return loadEx; }
+    public final boolean hasRunEx() { return runEx; }
 
     // Setters
     public void setLevel(Enums.LevelName selectedLevel) { level = selectedLevel; }

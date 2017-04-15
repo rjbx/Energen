@@ -148,7 +148,7 @@ public class LevelScreen extends ScreenAdapter {
             showExitOverlay();
         }
 
-        if (Level.getInstance().getLoadEx()) {
+        if (Level.getInstance().hasLoadEx() || Level.getInstance().hasRunEx()) {
             font.getData().setScale(.25f);
             errorMessage.render(batch, font, viewport, new Vector2(viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5));
             font.getData().setScale(.4f);
@@ -209,7 +209,7 @@ public class LevelScreen extends ScreenAdapter {
     }
 
     private void showExitOverlay() {
-        if (Level.getInstance().aborted()) {
+        if (Level.getInstance().failed()) {
             message.setMessage(Constants.DEFEAT_MESSAGE);
             font.getData().setScale(.6f);
             if (levelEndOverlayStartTime == 0) {

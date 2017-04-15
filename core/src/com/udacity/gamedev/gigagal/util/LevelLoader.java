@@ -52,9 +52,9 @@ public final class LevelLoader {
     // cannot be subclassed
     private LevelLoader() {}
 
-    public static final void load(String path) throws ParseException, IOException {
+    public static final void load(Enums.LevelName level) throws ParseException, IOException {
 
-        final FileHandle file = Gdx.files.internal(path);
+        final FileHandle file = Gdx.files.internal("levels/" + level + ".dt");
 
         JSONParser parser = new JSONParser();
         JSONObject rootJsonObject;
@@ -70,6 +70,8 @@ public final class LevelLoader {
         runtimeEx = false;
 
         loadImages(Level.getInstance(), images);
+
+        Level.getInstance().setLevel(level);
 
         Level.getInstance().setLoadEx(runtimeEx);
     }
