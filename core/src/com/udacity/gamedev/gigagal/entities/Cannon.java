@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -40,8 +41,8 @@ public class Cannon implements Ground {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        Helpers.drawTextureRegion(batch, region, position, center);
+    public void render(SpriteBatch batch, Viewport viewport) {
+        Helpers.drawTextureRegion(batch, viewport, region, position, center);
     }
 
     @Override public final Vector2 getPosition() { return position; }

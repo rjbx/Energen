@@ -32,6 +32,7 @@ public class Rollen implements DestructibleHazard {
     private float rollTimeSeconds;
     private List<Ground> grounds;
     private float radius;
+    private Animation animation;
 
     // ctor
     public Rollen(Level level, Vector2 position, Enums.WeaponType type) {
@@ -47,6 +48,25 @@ public class Rollen implements DestructibleHazard {
         speedAtChangeXDirection = 0;
         rollStartTime = 0;
         rollTimeSeconds = 0;
+        switch (type) {
+            case PLASMA:
+                animation = Assets.getInstance().getRollenAssets().chargedRollen;
+                break;
+            case GAS:
+                animation = Assets.getInstance().getRollenAssets().fieryRollen;
+                break;
+            case SOLID:
+                animation = Assets.getInstance().getRollenAssets().sharpRollen;
+                break;
+            case ORE:
+                animation = Assets.getInstance().getRollenAssets().whirlingRollen;
+                break;
+            case LIQUID:
+                animation = Assets.getInstance().getRollenAssets().gushingRollen;
+                break;
+            default:
+                animation = Assets.getInstance().getRollenAssets().whirlingRollen;
+        }
     }
 
     public void update(float delta) {
@@ -107,35 +127,13 @@ public class Rollen implements DestructibleHazard {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        final TextureRegion region;
-        final Animation animation;
-        switch (type) {
-            case PLASMA:
-                animation = Assets.getInstance().getRollenAssets().chargedRollen;
-                break;
-            case GAS:
-                animation = Assets.getInstance().getRollenAssets().fieryRollen;
-                break;
-            case SOLID:
-                animation = Assets.getInstance().getRollenAssets().sharpRollen;
-                break;
-            case ORE:
-                animation = Assets.getInstance().getRollenAssets().whirlingRollen;
-                break;
-            case LIQUID:
-                animation = Assets.getInstance().getRollenAssets().gushingRollen;
-                break;
-            default:
-                animation = Assets.getInstance().getRollenAssets().whirlingRollen;
-        }
+    public void render(SpriteBatch batch, Viewport viewport) {
         if (xDirection == Enums.Direction.RIGHT) {
             animation.setPlayMode(Animation.PlayMode.REVERSED);
         } else {
             animation.setPlayMode(Animation.PlayMode.NORMAL);
         }
-        region = animation.getKeyFrame(rollTimeSeconds, true);
-        Helpers.drawTextureRegion(batch, region, position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
     }
 
     @Override public Vector2 getPosition() { return position; }

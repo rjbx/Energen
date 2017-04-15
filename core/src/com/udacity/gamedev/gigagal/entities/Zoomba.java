@@ -1,10 +1,12 @@
 package com.udacity.gamedev.gigagal.entities;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -24,6 +26,7 @@ public class Zoomba implements DestructibleHazard {
     private final Vector2 startingPosition;
     private float health;
     private Direction direction;
+    private Animation animation;
 
     // ctor
     public Zoomba(Vector2 position, Enums.WeaponType type) {
@@ -36,6 +39,25 @@ public class Zoomba implements DestructibleHazard {
         health = Constants.ZOOMBA_MAX_HEALTH;
         bobOffset = MathUtils.random();
         range = Constants.ZOOMBA_RANGE;
+        switch (type) {
+            case PLASMA:
+                animation = Assets.getInstance().getZoombaAssets().chargedZoomba;
+                break;
+            case GAS:
+                animation = Assets.getInstance().getZoombaAssets().fieryZoomba;
+                break;
+            case SOLID:
+                animation = Assets.getInstance().getZoombaAssets().sharpZoomba;
+                break;
+            case ORE:
+                animation = Assets.getInstance().getZoombaAssets().whirlingZoomba;
+                break;
+            case LIQUID:
+                animation = Assets.getInstance().getZoombaAssets().gushingZoomba;
+                break;
+            default:
+                animation = Assets.getInstance().getZoombaAssets().sharpZoomba;
+        }
     }
 
     public void update(float delta) {
@@ -61,29 +83,8 @@ public class Zoomba implements DestructibleHazard {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        final float elapsedTime = Helpers.secondsSince(startTime);
-        final TextureRegion region;
-        switch (type) {
-            case PLASMA:
-                region = Assets.getInstance().getZoombaAssets().chargedZoomba.getKeyFrame(elapsedTime, true);
-                break;
-            case GAS:
-                region = Assets.getInstance().getZoombaAssets().fieryZoomba.getKeyFrame(elapsedTime, true);
-                break;
-            case SOLID:
-                region = Assets.getInstance().getZoombaAssets().sharpZoomba.getKeyFrame(elapsedTime, true);
-                break;
-            case ORE:
-                region = Assets.getInstance().getZoombaAssets().whirlingZoomba.getKeyFrame(elapsedTime, true);
-                break;
-            case LIQUID:
-                region = Assets.getInstance().getZoombaAssets().gushingZoomba.getKeyFrame(elapsedTime, true);
-                break;
-            default:
-                region = Assets.getInstance().getZoombaAssets().zoomba;
-        }
-        Helpers.drawTextureRegion(batch, region, position, Constants.ZOOMBA_CENTER);
+    public void render(SpriteBatch batch, Viewport viewport) {
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }

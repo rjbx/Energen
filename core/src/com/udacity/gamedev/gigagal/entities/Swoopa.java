@@ -1,11 +1,13 @@
 package com.udacity.gamedev.gigagal.entities;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -24,6 +26,7 @@ public class Swoopa implements DestructibleHazard {
     private Enums.WeaponType type;
     private float health;
     private long descentStartTime;
+    private Animation animation;
 
     // ctor
     public Swoopa(Level level, Vector2 position, Enums.WeaponType type) {
@@ -35,6 +38,25 @@ public class Swoopa implements DestructibleHazard {
         descentStartTime = 0;
         health = Constants.SWOOPA_MAX_HEALTH;
         bobOffset = MathUtils.random();
+        switch (type) {
+            case PLASMA:
+                animation = Assets.getInstance().getSwoopaAssets().chargedSwoopa;
+                break;
+            case GAS:
+                animation = Assets.getInstance().getSwoopaAssets().fierySwoopa;
+                break;
+            case SOLID:
+                animation = Assets.getInstance().getSwoopaAssets().sharpSwoopa;
+                break;
+            case ORE:
+                animation = Assets.getInstance().getSwoopaAssets().whirlingSwoopa;
+                break;
+            case LIQUID:
+                animation = Assets.getInstance().getSwoopaAssets().gushingSwoopa;
+                break;
+            default:
+                animation = Assets.getInstance().getSwoopaAssets().sharpSwoopa;
+        }
     }
 
     public void update(float delta) {
@@ -66,29 +88,8 @@ public class Swoopa implements DestructibleHazard {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        final float elapsedTime = Helpers.secondsSince(startTime);
-        final TextureRegion region;
-        switch (type) {
-            case PLASMA:
-                region = Assets.getInstance().getSwoopaAssets().chargedSwoopa.getKeyFrame(elapsedTime, true);
-                break;
-            case GAS:
-                region = Assets.getInstance().getSwoopaAssets().fierySwoopa.getKeyFrame(elapsedTime, true);
-                break;
-            case SOLID:
-                region = Assets.getInstance().getSwoopaAssets().sharpSwoopa.getKeyFrame(elapsedTime, true);
-                break;
-            case ORE:
-                region = Assets.getInstance().getSwoopaAssets().whirlingSwoopa.getKeyFrame(elapsedTime, true);
-                break;
-            case LIQUID:
-                region = Assets.getInstance().getSwoopaAssets().gushingSwoopa.getKeyFrame(elapsedTime, true);
-                break;
-            default:
-                region = Assets.getInstance().getSwoopaAssets().swoopa;
-        }
-        Helpers.drawTextureRegion(batch, region, position, Constants.SWOOPA_CENTER);
+    public void render(SpriteBatch batch, Viewport viewport) {
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.SWOOPA_CENTER);
     }
 
     @Override public Vector2 getPosition() { return position; }

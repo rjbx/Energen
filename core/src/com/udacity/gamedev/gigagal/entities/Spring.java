@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -23,20 +24,17 @@ public class Spring implements BounceableGround {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        final float elapsedTime = Helpers.secondsSince(startTime);
-        final TextureRegion loadedSpring = Assets.getInstance().getGroundAssets().loaded.getKeyFrame(elapsedTime, false);
-        final TextureRegion unloadedSpring = Assets.getInstance().getGroundAssets().unloaded.getKeyFrame(elapsedTime, false);
+    public void render(SpriteBatch batch, Viewport viewport) {
         if (loaded) {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, loadedSpring, position, Constants.SPRING_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().loaded.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.SPRING_CENTER);
         } else {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, unloadedSpring, position, Constants.SPRING_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().unloaded.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.SPRING_CENTER);
         }
     }
 

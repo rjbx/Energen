@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -1103,7 +1104,7 @@ public class Boss implements Humanoid, Hazard  {
         }
     }
 
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, Viewport viewport) {
         if (directionX == Enums.Direction.RIGHT) {
             if (lookStartTime != 0) {
                 if (directionY == Enums.Direction.UP) {
@@ -1173,7 +1174,7 @@ public class Boss implements Humanoid, Hazard  {
                 region = Assets.getInstance().getGigaGalAssets().fallLeft;
             }
         }
-        Helpers.drawTextureRegion(batch, region, position, Constants.GIGAGAL_EYE_POSITION);
+        Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);
     }
 
     // Getters

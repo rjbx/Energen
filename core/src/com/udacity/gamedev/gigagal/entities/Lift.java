@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -80,9 +81,8 @@ public class Lift implements HoverableGround {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        final TextureRegion region = Assets.getInstance().getGroundAssets().lift;
-        Helpers.drawTextureRegion(batch, region, position, Constants.LIFT_CENTER);
+    public void render(SpriteBatch batch, Viewport viewport) {
+        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().lift, position, Constants.LIFT_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }

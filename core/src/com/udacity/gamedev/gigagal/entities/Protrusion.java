@@ -1,9 +1,11 @@
 package com.udacity.gamedev.gigagal.entities;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -19,6 +21,7 @@ public class Protrusion implements IndestructibleHazard {
     private Vector2 knockback; // class-level instantiation
     private int damage;
     private long startTime;
+    private Animation animation;
 
     // ctor
     public Protrusion(Vector2 position, Enums.WeaponType type) {
@@ -29,49 +32,47 @@ public class Protrusion implements IndestructibleHazard {
         center = new Vector2();
         knockback = new Vector2();
         damage = Constants.GEISER_DAMAGE;
-    }
-
-    @Override
-    public void render(SpriteBatch batch) {
-        final float elapsedTime = Helpers.secondsSince(startTime);
-        TextureRegion region;
         switch (type) {
             case PLASMA:
-                region = Assets.getInstance().getProtrusionAssets().rod.getKeyFrame(elapsedTime, true);
+                animation = Assets.getInstance().getProtrusionAssets().rod;
                 center.set(Constants.COIL_CENTER);
                 collisionSpan.set(Constants.COIL_COLLISION_WIDTH, Constants.COIL_COLLISION_HEIGHT);
                 knockback.set(Constants.COIL_KNOCKBACK);
                 damage = Constants.COIL_DAMAGE;
                 break;
             case GAS:
-                region = Assets.getInstance().getProtrusionAssets().flame.getKeyFrame(elapsedTime, true);
+                animation = Assets.getInstance().getProtrusionAssets().flame;
                 center.set(Constants.FLAME_CENTER);
                 collisionSpan.set(Constants.FLAME_COLLISION_WIDTH, Constants.FLAME_COLLISION_HEIGHT);
                 knockback.set(Constants.FLAME_KNOCKBACK);
                 damage = Constants.FLAME_DAMAGE;
                 break;
             case LIQUID:
-                region = Assets.getInstance().getProtrusionAssets().geiser.getKeyFrame(elapsedTime, true);
+                animation = Assets.getInstance().getProtrusionAssets().geiser;
                 center.set(Constants.GEISER_CENTER);
                 collisionSpan.set(Constants.GEISER_COLLISION_WIDTH, Constants.GEISER_COLLISION_HEIGHT);
                 knockback.set(Constants.GEISER_KNOCKBACK);
                 damage = Constants.GEISER_DAMAGE;
                 break;
             case SOLID:
-                region = Assets.getInstance().getProtrusionAssets().spike.getKeyFrame(elapsedTime, true);
+                animation = Assets.getInstance().getProtrusionAssets().spike;
                 center.set(Constants.SPIKE_CENTER);
                 collisionSpan.set(Constants.SPIKE_COLLISION_WIDTH, Constants.SPIKE_COLLISION_HEIGHT);
                 knockback.set(Constants.SPIKE_KNOCKBACK);
                 damage = Constants.SPIKE_DAMAGE;
                 break;
             default:
-                region = Assets.getInstance().getProtrusionAssets().geiser.getKeyFrame(elapsedTime, true);
+                animation = Assets.getInstance().getProtrusionAssets().geiser;
                 center.set(Constants.GEISER_CENTER);
                 collisionSpan.set(Constants.GEISER_COLLISION_WIDTH, Constants.GEISER_COLLISION_HEIGHT);
                 knockback.set(Constants.GEISER_KNOCKBACK);
                 damage = Constants.GEISER_DAMAGE;
         }
-        Helpers.drawTextureRegion(batch, region, position, center);
+    }
+
+    @Override
+    public void render(SpriteBatch batch, Viewport viewport) {
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center);
     }
 
     @Override public final Vector2 getPosition() { return position; }

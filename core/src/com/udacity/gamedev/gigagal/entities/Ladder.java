@@ -2,7 +2,9 @@ package com.udacity.gamedev.gigagal.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Ladder implements ClimbableGround {
 
@@ -11,6 +13,8 @@ public class Ladder implements ClimbableGround {
     private final float bottom;
     private final float left;
     private final float right;
+    private final float width;
+    private final float height;
 
     // default ctor
     public Ladder() {
@@ -18,6 +22,8 @@ public class Ladder implements ClimbableGround {
         bottom = 0;
         left = 0;
         right = 0;
+        width = 0;
+        height = 0;
     }
 
     // ctor
@@ -26,13 +32,13 @@ public class Ladder implements ClimbableGround {
         this.bottom = top - height;
         this.left = left;
         this.right = left + width;
+        this.width = width;
+        this.height = height;
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        final float width = right - left;
-        final float height = top - bottom;
-        Assets.getInstance().getGroundAssets().ladderNinePatch.draw(batch, left - 1, bottom - 1, width + 2, height + 2);
+    public void render(SpriteBatch batch, Viewport viewport) {
+        Helpers.drawNinePatch(batch, viewport, Assets.getInstance().getGroundAssets().ladderNinePatch, left - 1, bottom - 1, width, height);
     }
 
     // Getters

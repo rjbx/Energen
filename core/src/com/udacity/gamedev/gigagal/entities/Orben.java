@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entities;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -24,6 +25,8 @@ public class Orben implements DestructibleHazard {
     private long startTime;
     private float health;
     private boolean active;
+    private Animation animation;
+
 
     // ctor
     public Orben(Level level, Vector2 position, Enums.WeaponType type) {
@@ -34,6 +37,25 @@ public class Orben implements DestructibleHazard {
         yDirection = null;
         velocity = new Vector2(0, 0);
         health = Constants.ORBEN_MAX_HEALTH;
+        switch (type) {
+            case PLASMA:
+                animation = Assets.getInstance().getOrbenAssets().chargedOrben;
+                break;
+            case GAS:
+                animation = Assets.getInstance().getOrbenAssets().fieryOrben;
+                break;
+            case SOLID:
+                animation = Assets.getInstance().getOrbenAssets().sharpOrben;
+                break;
+            case ORE:
+                animation = Assets.getInstance().getOrbenAssets().whirlingOrben;
+                break;
+            case LIQUID:
+                animation = Assets.getInstance().getOrbenAssets().gushingOrben;
+                break;
+            default:
+                animation = Assets.getInstance().getOrbenAssets().whirlingOrben;
+        }
     }
 
     public void update(float delta) {
@@ -96,33 +118,14 @@ public class Orben implements DestructibleHazard {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        final float elapsedTime = Helpers.secondsSince(startTime);
+    public void render(SpriteBatch batch, Viewport viewport) {
         final TextureRegion region;
         if (xDirection == null || yDirection == null) {
             region = Assets.getInstance().getOrbenAssets().dormantOrben;
         } else {
-            switch (type) {
-                case PLASMA:
-                    region = Assets.getInstance().getOrbenAssets().chargedOrben.getKeyFrame(elapsedTime, true);
-                    break;
-                case GAS:
-                    region = Assets.getInstance().getOrbenAssets().fieryOrben.getKeyFrame(elapsedTime, true);
-                    break;
-                case SOLID:
-                    region = Assets.getInstance().getOrbenAssets().sharpOrben.getKeyFrame(elapsedTime, true);
-                    break;
-                case ORE:
-                    region = Assets.getInstance().getOrbenAssets().whirlingOrben.getKeyFrame(elapsedTime, true);
-                    break;
-                case LIQUID:
-                    region = Assets.getInstance().getOrbenAssets().gushingOrben.getKeyFrame(elapsedTime, true);
-                    break;
-                default:
-                    region = Assets.getInstance().getOrbenAssets().whirlingOrben.getKeyFrame(elapsedTime, true);
-            }
+            region = animation.getKeyFrame(Helpers.secondsSince(startTime), true);
         }
-        Helpers.drawTextureRegion(batch, region, position, Constants.ORBEN_CENTER, Constants.ORBEN_TEXTURE_SCALE);
+        Helpers.drawTextureRegion(batch, viewport, region, position, Constants.ORBEN_CENTER, Constants.ORBEN_TEXTURE_SCALE);
     }
 
     @Override public Vector2 getPosition() { return position; }
