@@ -148,7 +148,7 @@ public class LevelScreen extends ScreenAdapter {
 
         if (Level.getInstance().hasLoadEx() || Level.getInstance().hasRunEx()) {
             font.getData().setScale(.25f);
-            Helpers.drawBitmapFont(batch, viewport, font, Constants.LEVEL_KEY_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5, Align.center);
+            Helpers.drawBitmapFont(batch, viewport, font, Constants.LEVEL_KEY_MESSAGE, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldHeight() / 2.5f, Align.center);
             font.getData().setScale(.4f);
         }
         InputControls.getInstance().update();
@@ -244,7 +244,7 @@ public class LevelScreen extends ScreenAdapter {
                 return;
             }
         }
-        Helpers.drawBitmapFont(batch, viewport, font, endMessage, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 1.25f, Align.center);
+        Helpers.drawBitmapFont(batch, viewport, font, endMessage, viewport.getCamera().position.x, viewport.getCamera().position.y, Align.center);
     }
 
     public ExtendViewport getViewport() { return viewport; }
