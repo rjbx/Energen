@@ -48,6 +48,7 @@ public final class Helpers {
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float width, float height, float scaleX, float scaleY, float rotation) {
         viewport.apply();
+        batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
         batch.draw(
                 region.getTexture(),

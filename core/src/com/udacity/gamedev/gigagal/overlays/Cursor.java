@@ -86,7 +86,7 @@ public class Cursor {
         if (orientation == Enums.Orientation.X) {
             Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getOverlayAssets().selectionCursor, position, viewport.getWorldHeight() / 3);
         } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getOverlayAssets().selectionCursor, viewport.getWorldWidth() / 4, position);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getOverlayAssets().selectionCursor, viewport.getCamera().position.x - viewport.getWorldWidth() / 4, position);
         }
     }
 

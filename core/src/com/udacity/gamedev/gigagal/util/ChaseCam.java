@@ -40,7 +40,6 @@ public final class ChaseCam {
         } else {
             if (inputControls.leftButtonPressed) {
                 camera.position.x -= delta * Constants.CHASE_CAM_MOVE_SPEED;
-                System.out.println(camera.position.x);
             }
             if (inputControls.rightButtonPressed) {
                 camera.position.x += delta * Constants.CHASE_CAM_MOVE_SPEED;

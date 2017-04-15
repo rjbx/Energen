@@ -107,7 +107,7 @@ public class IndicatorHud {
 
         final String scoreString = level.getScore() + "";
         final String timerString = Helpers.secondsToString(level.getTime());
-        Helpers.drawBitmapFont(batch, viewport, font, scoreString, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldWidth() / 3, Align.center);
-        Helpers.drawBitmapFont(batch, viewport, font, timerString, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldWidth() / 4, Align.center);
+        Helpers.drawBitmapFont(batch, viewport, font, scoreString, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldHeight() / 2.25f, Align.center);
+        Helpers.drawBitmapFont(batch, viewport, font, timerString, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldHeight() / 3, Align.center);
     }
 }

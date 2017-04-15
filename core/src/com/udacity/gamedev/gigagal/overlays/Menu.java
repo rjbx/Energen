@@ -32,31 +32,30 @@ public final class Menu {
     public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, Cursor cursor) {
 
         float startingPosition = cursor.getStartingPosition();
-        float alignmentPosition = viewport.getWorldWidth() / 2;
+        float alignmentPosition = viewport.getCamera().position.x;
         if (alignment == Align.left) {
-            alignmentPosition = viewport.getWorldWidth() / 3;
+            alignmentPosition = viewport.getCamera().position.x - viewport.getWorldWidth() / 6;
         } else if (alignmentPosition == Align.right) {
-            alignmentPosition = viewport.getWorldWidth() / 3 * 2;
+            alignmentPosition = viewport.getCamera().position.x + viewport.getWorldWidth() / 6;
         }
 
         if (promptString != null) {
-            Helpers.drawBitmapFont(batch, viewport, font, promptString, viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .75f, alignment);
+            Helpers.drawBitmapFont(batch, viewport, font, promptString, viewport.getCamera().position.x, viewport.getCamera().position.y, alignment);
         }
 
         if (!singleOption) {
             cursor.render(batch, viewport);
             cursor.update();
-        }
-
-        if (cursor.getOrientation() == Enums.Orientation.X) {
-            for (Object option : optionStrings) {
-                Helpers.drawBitmapFont(batch, viewport, font, (String) option, startingPosition, viewport.getWorldHeight() / 2.5f, alignment);
-                startingPosition += 100;
-            }
-        } else if (cursor.getOrientation() == Enums.Orientation.Y) {
-            for (Object option : optionStrings) {
-                Helpers.drawBitmapFont(batch, viewport, font, (String) option, alignmentPosition, startingPosition + 10, alignment);
-                startingPosition -= 15;
+            if (cursor.getOrientation() == Enums.Orientation.X) {
+                for (Object option : optionStrings) {
+                    Helpers.drawBitmapFont(batch, viewport, font, (String) option, startingPosition, viewport.getCamera().position.y, alignment);
+                    startingPosition += 100;
+                }
+            } else if (cursor.getOrientation() == Enums.Orientation.Y) {
+                for (Object option : optionStrings) {
+                    Helpers.drawBitmapFont(batch, viewport, font, (String) option, alignmentPosition, startingPosition + 10, alignment);
+                    startingPosition -= 15;
+                }
             }
         }
      //   cursor.resetPosition();

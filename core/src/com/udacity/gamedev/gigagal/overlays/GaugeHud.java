@@ -29,6 +29,7 @@ public final class GaugeHud {
 
     public void render(ShapeRenderer renderer, ExtendViewport viewport, GigaGal gigaGal) {
 
+        viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);
         renderer.begin();
 
@@ -38,7 +39,6 @@ public final class GaugeHud {
         renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 2, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, viewport.getWorldWidth(), viewport.getWorldWidth() / 15);
 
         // health
-
         if (gigaGal.getHealth() < Constants.MAX_HEALTH / 4) {
             renderer.setColor(Constants.HEALTH_CRITICAL_COLOR);
         } else if (gigaGal.getHealth() < Constants.MAX_HEALTH / 2) {
