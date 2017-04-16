@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.overlays;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.udacity.gamedev.gigagal.app.Energraft;
 import com.udacity.gamedev.gigagal.util.*;
 import com.udacity.gamedev.gigagal.util.InputControls;
 
@@ -15,7 +16,7 @@ public final class TouchInterface {
     private SpriteBatch batch; // class-level instantiation
     private static InputControls inputControls;
     private Viewport viewport; // class-level instantiation
-    public boolean onMobile;
+    private boolean onMobile;
 
     // non-instantiable; cannot be subclassed
     private TouchInterface() {}
@@ -28,6 +29,7 @@ public final class TouchInterface {
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE,
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE);
         this.batch = new SpriteBatch();
+        onMobile = Energraft.getInstance().getTouchscreen();
     }
 
     public void render(SpriteBatch batch) {

@@ -65,7 +65,7 @@ public final class LaunchScreen extends ScreenAdapter {
         choices = new ArrayList<String>();
         launchStartTime = TimeUtils.nanoTime();
         launching = true;
-        continuing = (Energraft.getInstance().getPreferences().getLong("Time", 0) != 0);
+        continuing = Energraft.getInstance().getDifficulty() != -1;
         choices.add("NO");
         choices.add("YES");
     }
@@ -154,7 +154,6 @@ public final class LaunchScreen extends ScreenAdapter {
                     Helpers.drawBitmapFont(batch, viewport, title, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, Align.center);
                     final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
                     Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
-
                     Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
 
                     if (inputControls.shootButtonJustPressed) {
@@ -179,8 +178,7 @@ public final class LaunchScreen extends ScreenAdapter {
                     Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
                     if (inputControls.shootButtonJustPressed) {
                         if (Cursor.getInstance().getPosition() == (150)) {
-                            Energraft.getInstance().getPreferences().clear();
-                            Energraft.getInstance().getPreferences().flush();
+                            Energraft.getInstance().erase();
                             Energraft.getInstance().dispose();
                             Energraft.getInstance().create();
                             setBeginMenu();
@@ -210,21 +208,18 @@ public final class LaunchScreen extends ScreenAdapter {
             Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
             if (inputControls.shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() == 75) {
-                    Energraft.getInstance().getPreferences().putInteger("Difficulty", 0);
+                    Energraft.getInstance().setDifficulty(0);
                 } else if (Cursor.getInstance().getPosition() == 60) {
-                    Energraft.getInstance().getPreferences().putInteger("Difficulty", 1);
+                    Energraft.getInstance().setDifficulty(1);
                 } else if (Cursor.getInstance().getPosition() == 45) {
-                    Energraft.getInstance().getPreferences().putInteger("Difficulty", 2);
+                    Energraft.getInstance().setDifficulty(2);
                 }
-
-                if (Energraft.getInstance().getPreferences().contains("Difficulty")) {
-                    difficultyOptionsVisible = false;
-                    OverworldScreen overworldScreen = OverworldScreen.getInstance();
-                    overworldScreen.create();
-                    Energraft.getInstance().setScreen(overworldScreen);
-                    this.dispose();
-                    return;
-                }
+                difficultyOptionsVisible = false;
+                OverworldScreen overworldScreen = OverworldScreen.getInstance();
+                overworldScreen.create();
+                Energraft.getInstance().setScreen(overworldScreen);
+                this.dispose();
+                return;
             } else if (inputControls.pauseButtonJustPressed) {
                 difficultyOptionsVisible = false;
             }

@@ -121,7 +121,7 @@ public class GigaGal implements Humanoid {
         lives = Constants.INITIAL_LIVES;
         killPlane = -10000;
         completedLevels = new ArrayList<LevelName>();
-        String savedWeapons = Energraft.getInstance().getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name());
+        String savedWeapons = Energraft.getInstance().getWeapons();
         if (!savedWeapons.equals(Enums.WeaponType.NATIVE.name())) {
             List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
             for (String weaponString : savedWeaponsList) {

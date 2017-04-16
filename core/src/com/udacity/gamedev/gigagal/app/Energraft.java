@@ -43,10 +43,19 @@ public final class Energraft extends Game {
         System.gc();
     }
 
-    public Preferences getPreferences() { return Gdx.app.getPreferences("energraft-prefs"); }
-    public String getWeapons() { return getPreferences().getString("Weapons", ""); }
-    public int getDifficulty() { return getPreferences().getInteger("Difficulty", 0); }
+    private Preferences getPreferences() { return Gdx.app.getPreferences("energraft-prefs"); }
+
+    public String getWeapons() { return getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name()); }
+    public boolean getTouchscreen() { return getPreferences().getBoolean("Touchscreen", false); }
+    public int getDifficulty() { return getPreferences().getInteger("Difficulty", -1); }
     public int getScore() { return getPreferences().getInteger("Score", 0); }
     public long getTime() { return getPreferences().getLong("Time", 0); }
-}
 
+    public void setWeapons(String weapons) { getPreferences().putString("Weapons", weapons); getPreferences().flush(); }
+    public void setTouchscreen(boolean touchscreen) { getPreferences().putBoolean("Touchscreen", touchscreen); getPreferences().flush(); }
+    public void setDifficulty(int difficulty) { getPreferences().putInteger("Difficulty", difficulty); getPreferences().flush(); }
+    public void setScore(int score) { getPreferences().putInteger("Score", score); getPreferences().flush(); }
+    public void setTime(long time) { getPreferences().putLong("Time", time); getPreferences().flush(); }
+
+    public void erase() { getPreferences().clear(); getPreferences().flush(); }
+}

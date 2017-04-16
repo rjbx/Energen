@@ -140,11 +140,13 @@ public class Level {
     public void end() {
         Timer.getInstance().suspend();
         if (completed()) {
-            GigaGal.getInstance().addWeapon(levelWeapon);
-            Energraft.getInstance().getPreferences().putInteger("Score", Energraft.getInstance().getScore() + score);
-            Energraft.getInstance().getPreferences().putLong("Time", Energraft.getInstance().getTime() + Timer.getInstance().getSeconds());
-            Energraft.getInstance().getPreferences().putString("Weapons", levelWeapon.name());
-            Energraft.getInstance().getPreferences().flush();
+            Energraft.getInstance().setScore(Energraft.getInstance().getScore() + score);
+            Energraft.getInstance().setTime(Energraft.getInstance().getTime() + Timer.getInstance().getSeconds());
+            String savedWeapons = Energraft.getInstance().getWeapons();
+            if (!savedWeapons.contains(levelWeapon.name())) {
+                GigaGal.getInstance().addWeapon(levelWeapon);
+                Energraft.getInstance().setWeapons(levelWeapon.name() + ", " + savedWeapons);
+            }
         }
         removeAssets();
     }

@@ -162,8 +162,7 @@ public class LevelScreen extends ScreenAdapter {
                     Constants.HUD_HEALTH_LABEL + GigaGal.getInstance().getHealth() + "\n" +
                     "Turbo: " + GigaGal.getInstance().getTurbo();
             String totals = "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore();
-            String weapons = GigaGal.getInstance().getWeaponList().toString().replaceAll(", ", "\n");
-            weapons = weapons.substring(1, weapons.length() - 1);
+            String weapons = Energraft.getInstance().getWeapons().replaceAll(", ", "\n");
             Helpers.drawBitmapFont(batch, viewport, font, gauges, viewport.getCamera().position.x - viewport.getWorldWidth() / 2.25f, viewport.getCamera().position.y + viewport.getWorldHeight() / 3, Align.left);
             Helpers.drawBitmapFont(batch, viewport, font, totals, viewport.getCamera().position.x, viewport.getCamera().position.y + viewport.getWorldHeight() / 3, Align.center);
             Helpers.drawBitmapFont(batch, viewport, font, weapons, viewport.getCamera().position.x + viewport.getWorldWidth() / 2.25f, viewport.getCamera().position.y + viewport.getWorldHeight() / 3, Align.right);
@@ -195,8 +194,7 @@ public class LevelScreen extends ScreenAdapter {
                         setDebugMenu();
                     }
                 } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 30) {
-                    TouchInterface.getInstance().onMobile = Helpers.toggleBoolean(TouchInterface.getInstance().onMobile);
-                    Energraft.getInstance().getPreferences().putBoolean("Mobile", TouchInterface.getInstance().onMobile);
+                    Energraft.getInstance().setTouchscreen(Helpers.toggleBoolean(Energraft.getInstance().getTouchscreen()));
                 } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 45) {
                     Level.getInstance().unpause();
                     Level.getInstance().end();
