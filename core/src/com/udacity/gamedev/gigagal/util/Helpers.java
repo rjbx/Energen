@@ -22,9 +22,6 @@ public final class Helpers {
     // cannot be subclassed
     private Helpers() {}
 
-    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y) {
-        drawTextureRegion(batch, viewport, region, x, y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
-    }
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position) {
         drawTextureRegion(batch, viewport, region, position.x, position.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
@@ -34,8 +31,8 @@ public final class Helpers {
         drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
     }
 
-    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float offsetX, float offsetY) {
-        drawTextureRegion(batch, viewport, region, x - offsetX, y - offsetY, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position, Vector2 offset, Vector2 scale) {
+        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale.x, scale.y, 0);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position, Vector2 offset, float scale) {
@@ -46,8 +43,24 @@ public final class Helpers {
         drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale, scale, rotation);
     }
 
-    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position, Vector2 offset, Vector2 scale) {
-        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale.x, scale.y, 0);
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y) {
+        drawTextureRegion(batch, viewport, region, x, y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
+    }
+
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float offset) {
+        drawTextureRegion(batch, viewport, region, x - offset, y - offset, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
+    }
+
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float offsetX, float offsetY) {
+        drawTextureRegion(batch, viewport, region, x - offsetX, y - offsetY, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
+    }
+
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float offsetX, float offsetY, float scale) {
+        drawTextureRegion(batch, viewport, region, x - offsetX, y - offsetY, region.getRegionWidth(), region.getRegionHeight(), scale, scale, 0);
+    }
+
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float offsetX, float offsetY, float scale, float rotation) {
+        drawTextureRegion(batch, viewport, region, x - offsetX, y - offsetY, region.getRegionWidth(), region.getRegionHeight(), scale, scale, rotation);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float width, float height, float scaleX, float scaleY, float rotation) {
@@ -220,14 +233,5 @@ public final class Helpers {
             return Enums.TypeEffectiveness.STRONG;
         }
         return Enums.TypeEffectiveness.NORMAL;
-    }
-
-
-    public static boolean toggleBoolean(Boolean b) {
-        if (b) {
-            return false;
-        } else {
-            return true;
-        }
     }
 }

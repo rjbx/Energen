@@ -153,7 +153,7 @@ public final class OverworldScreen extends ScreenAdapter {
                     setMainMenu();
                     viewingOptions = false;
                 } else if (Cursor.getInstance().getPosition() == 91) {
-                    Energraft.getInstance().setTouchscreen(Helpers.toggleBoolean(Energraft.getInstance().getTouchscreen()));
+                    Energraft.getInstance().setTouchscreen(!Energraft.getInstance().getTouchscreen());
                 } else if (Cursor.getInstance().getPosition() == 76) {
                     Energraft.getInstance().dispose();
                     Energraft.getInstance().create();

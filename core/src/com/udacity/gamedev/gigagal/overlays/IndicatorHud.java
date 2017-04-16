@@ -71,20 +71,17 @@ public class IndicatorHud {
 
         final TextureRegion lifeIcon = Assets.getInstance().getHudAssets().life;
         for (int i = 1; i <= level.getGigaGal().getLives(); i++) {
-            drawPosition = new Vector2(
-                    viewport.getCamera().position.x - viewport.getWorldWidth() / 3,
-                    viewport.getCamera().position.y + viewport.getWorldHeight() / 3
-            );
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
                     lifeIcon,
-                    drawPosition,
-                    Constants.LIFT_CENTER
+                    viewport.getCamera().position.x - viewport.getWorldWidth() / 2.5f,
+                    viewport.getCamera().position.y + viewport.getWorldHeight() / 3,
+                    Constants.SHOT_CENTER.x,
+                    Constants.SHOT_CENTER.y
             );
         }
 
-        drawPosition = new Vector2(viewport.getCamera().position.x + viewport.getWorldWidth() / 2.5f, viewport.getCamera().position.y + viewport.getWorldHeight() / 3);
         Enums.WeaponType weapon = level.getGigaGal().getWeapon();
         Enums.AmmoIntensity intensity = level.getGigaGal().getAmmoIntensity();
         Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, false);
@@ -103,7 +100,16 @@ public class IndicatorHud {
                 offset.set(Constants.SHOT_CENTER);
                 offset.scl(Constants.AMMO_ICON_SCALE);
         }
-        Helpers.drawTextureRegion(batch, viewport, ammo.getTexture(), drawPosition, offset, Constants.AMMO_ICON_SCALE);
+
+        Helpers.drawTextureRegion(
+                batch,
+                viewport, ammo.getTexture(),
+                viewport.getCamera().position.x + viewport.getWorldWidth() / 2.5f,
+                viewport.getCamera().position.y + viewport.getWorldHeight() / 3,
+                offset.x,
+                offset.y,
+                Constants.AMMO_ICON_SCALE
+        );
 
         final String scoreString = level.getScore() + "";
         final String timerString = Helpers.secondsToString(level.getTime());

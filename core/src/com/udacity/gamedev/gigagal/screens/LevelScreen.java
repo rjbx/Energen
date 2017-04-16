@@ -191,7 +191,7 @@ public class LevelScreen extends ScreenAdapter {
                         setDebugMenu();
                     }
                 } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 30) {
-                    Energraft.getInstance().setTouchscreen(Helpers.toggleBoolean(Energraft.getInstance().getTouchscreen()));
+                    Energraft.getInstance().setTouchscreen(!Energraft.getInstance().getTouchscreen());
                 } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 45) {
                     Level.getInstance().unpause();
                     Level.getInstance().end();
