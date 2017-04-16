@@ -16,8 +16,10 @@ public final class Menu {
     public final static String TAG = Menu.class.getName();
     public static final Menu INSTANCE = new Menu();
     private Object[] optionStrings;
-    private String promptString;
-    private int alignment;
+    private String leftPrompt;
+    private String centerPrompt;
+    private String rightPrompt;
+    private int textAlignment;
     private boolean singleOption;
 
     // default ctor
@@ -33,27 +35,27 @@ public final class Menu {
 
         float startingPosition = cursor.getStartingPosition();
         float alignmentPosition = viewport.getCamera().position.x;
-        if (alignment == Align.left) {
+        if (textAlignment == Align.left) {
             alignmentPosition = viewport.getCamera().position.x - viewport.getWorldWidth() / 6;
         } else if (alignmentPosition == Align.right) {
             alignmentPosition = viewport.getCamera().position.x + viewport.getWorldWidth() / 6;
         }
 
-        if (promptString != null) {
-            Helpers.drawBitmapFont(batch, viewport, font, promptString, viewport.getCamera().position.x, viewport.getCamera().position.y, alignment);
-        }
+        Helpers.drawBitmapFont(batch, viewport, font, leftPrompt,  viewport.getCamera().position.x - viewport.getWorldWidth() / 2.25f, viewport.getCamera().position.y + viewport.getWorldHeight() / 3, Align.left);
+        Helpers.drawBitmapFont(batch, viewport, font, centerPrompt,  viewport.getCamera().position.x, viewport.getCamera().position.y + viewport.getWorldHeight() / 3, Align.center);
+        Helpers.drawBitmapFont(batch, viewport, font, rightPrompt,  viewport.getCamera().position.x + viewport.getWorldWidth() / 2.25f, viewport.getCamera().position.y + viewport.getWorldHeight() / 3, Align.right);
 
         if (!singleOption) {
             cursor.render(batch, viewport);
             cursor.update();
             if (cursor.getOrientation() == Enums.Orientation.X) {
                 for (Object option : optionStrings) {
-                    Helpers.drawBitmapFont(batch, viewport, font, (String) option, startingPosition, viewport.getCamera().position.y, alignment);
+                    Helpers.drawBitmapFont(batch, viewport, font, (String) option, startingPosition, viewport.getCamera().position.y, textAlignment);
                     startingPosition += 100;
                 }
             } else if (cursor.getOrientation() == Enums.Orientation.Y) {
                 for (Object option : optionStrings) {
-                    Helpers.drawBitmapFont(batch, viewport, font, (String) option, alignmentPosition, startingPosition + 10, alignment);
+                    Helpers.drawBitmapFont(batch, viewport, font, (String) option, alignmentPosition, startingPosition + 10, textAlignment);
                     startingPosition -= 15;
                 }
             }
@@ -63,6 +65,23 @@ public final class Menu {
 
     public void isSingleOption(boolean mode) { singleOption = mode; }
     public void setOptionStrings(List<String> optionStrings) { this.optionStrings = optionStrings.toArray();}
-    public void setPromptString(String promptString) { this.promptString = promptString; }
-    public void setAlignment(int alignment) { this.alignment = alignment; }
+    public void TextAlignment(int alignment) { this.textAlignment = alignment; }
+    public void setPromptString(int screenAlignment, String promptString) {
+        switch (screenAlignment) {
+            case Align.left:
+                this.leftPrompt = promptString;
+                break;
+            case Align.center:
+                this.centerPrompt = promptString;
+                break;
+            case Align.right:
+                this.rightPrompt = promptString;
+        }
+    }
+    public void clearStrings() {
+        leftPrompt = "";
+        centerPrompt = "";
+        rightPrompt = "";
+        optionStrings = null;
+    }
 }

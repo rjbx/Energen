@@ -91,9 +91,9 @@ public final class LaunchScreen extends ScreenAdapter {
         Cursor.getInstance().setOrientation(Enums.Orientation.Y);
         Cursor.getInstance().resetPosition();
         String[] optionStrings = {"START GAME", "ERASE GAME"};
+        Menu.getInstance().clearStrings();
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
-        Menu.getInstance().setAlignment(Align.center);
-        Menu.getInstance().setPromptString(" ");
+        Menu.getInstance().TextAlignment(Align.center);
     }
 
     public static void setEraseMenu() {
@@ -102,8 +102,8 @@ public final class LaunchScreen extends ScreenAdapter {
         Cursor.getInstance().resetPosition();
         String[] optionStrings = {"NO", "YES"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
-        Menu.getInstance().setAlignment(Align.center);
-        Menu.getInstance().setPromptString("Are you sure you want to start \na new game and erase all saved data?");
+        Menu.getInstance().TextAlignment(Align.center);
+        Menu.getInstance().setPromptString(Align.center, "Are you sure you want to start \na new game and erase all saved data?");
     }
 
     public static void setBeginMenu() {
@@ -111,7 +111,7 @@ public final class LaunchScreen extends ScreenAdapter {
         Menu.getInstance().isSingleOption(true);
         String[] option = {"PRESS START"};
         Menu.getInstance().setOptionStrings(Arrays.asList(option));
-        Menu.getInstance().setAlignment(Align.center);
+        Menu.getInstance().TextAlignment(Align.center);
     }
 
     public static void setDifficultyMenu() {

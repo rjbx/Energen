@@ -110,9 +110,7 @@ public class GigaGal implements Humanoid {
         chaseCamPosition = new Vector3();
         velocity = new Vector2();
         weaponList = new ArrayList<Enums.WeaponType>();
-        weaponList.add(Enums.WeaponType.NATIVE);
         weaponToggler = weaponList.listIterator();
-        weapon = weaponToggler.next();
         height = Constants.GIGAGAL_HEIGHT;
         eyeHeight = Constants.GIGAGAL_EYE_HEIGHT;
         headRadius = Constants.GIGAGAL_HEAD_RADIUS;
@@ -127,8 +125,13 @@ public class GigaGal implements Humanoid {
             for (String weaponString : savedWeaponsList) {
                 addWeapon(WeaponType.valueOf(weaponString));
             }
+            weapon = weaponToggler.previous();
+        } else {
+            weaponList.add(Enums.WeaponType.NATIVE);
+            weapon = weaponToggler.next();
         }
     }
+
     public void respawn() {
         position.set(spawnPosition);
         chaseCamPosition.set(position, 0);

@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.security.auth.callback.TextOutputCallback;
-
 // immutable
 public final class OverworldScreen extends ScreenAdapter {
 
@@ -74,9 +72,9 @@ public final class OverworldScreen extends ScreenAdapter {
         Cursor.getInstance().setRange(145, 25);
         Cursor.getInstance().setOrientation(Enums.Orientation.Y);
         Cursor.getInstance().resetPosition();
+        Menu.getInstance().clearStrings();
         Menu.getInstance().setOptionStrings(selectionStrings);
-        Menu.getInstance().setAlignment(Align.left);
-        Menu.getInstance().setPromptString("");
+        Menu.getInstance().TextAlignment(Align.left);
     }
 
     private static void setOptionsMenu() {
@@ -86,7 +84,7 @@ public final class OverworldScreen extends ScreenAdapter {
         Cursor.getInstance().resetPosition();
         String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
-        Menu.getInstance().setAlignment(Align.center);
+        Menu.getInstance().TextAlignment(Align.center);
     }
 
     private boolean onMobile() {
@@ -173,8 +171,8 @@ public final class OverworldScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-//        completedLevels.clear();
-//        inputControls.clear();
+//        completedLevels.clearStrings();
+//        inputControls.clearStrings();
 //        errorMessage.dispose();
 //        font.dispose();
 //        batch.dispose();

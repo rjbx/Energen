@@ -22,6 +22,7 @@ import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
+
 import java.util.Arrays;
 
 import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.DEBUG;
@@ -92,7 +93,10 @@ public class LevelScreen extends ScreenAdapter {
         Cursor.getInstance().resetPosition();
         String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
-        Menu.getInstance().setAlignment(Align.center);
+        Menu.getInstance().setPromptString(Align.left, Constants.HUD_AMMO_LABEL + GigaGal.getInstance().getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + GigaGal.getInstance().getHealth() + "\n" + "Turbo: " + GigaGal.getInstance().getTurbo());
+        Menu.getInstance().setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore());
+        Menu.getInstance().setPromptString(Align.right, (GigaGal.getInstance().getWeapon().name() + "\n" + Energraft.getInstance().getWeapons().replace(GigaGal.getInstance().getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
+        Menu.getInstance().TextAlignment(Align.center);
         menu = MAIN;
     }
 
@@ -101,18 +105,18 @@ public class LevelScreen extends ScreenAdapter {
         Cursor.getInstance().setOrientation(Enums.Orientation.Y);
         Cursor.getInstance().resetPosition();
         Menu.getInstance().isSingleOption(false);
-        Menu.getInstance().setPromptString("");
+        Menu.getInstance().clearStrings();
         String[] optionStrings = {"BACK", "DEBUG CAM", "TOUCH PAD", "QUIT"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
-        Menu.getInstance().setAlignment(Align.center);
+        Menu.getInstance().TextAlignment(Align.center);
         menu = OPTIONS;
     }
 
     private static void setDebugMenu() {
         Cursor.getInstance().setRange(viewport.getCamera().position.y, viewport.getCamera().position.y);
         Menu.getInstance().isSingleOption(true);
-        Menu.getInstance().setPromptString(Constants.DEBUG_MODE_MESSAGE);
-        Menu.getInstance().setAlignment(Align.center);
+        Menu.getInstance().setPromptString(Align.center, Constants.DEBUG_MODE_MESSAGE);
+        Menu.getInstance().TextAlignment(Align.center);
         menu = DEBUG;
     }
 
@@ -155,15 +159,8 @@ public class LevelScreen extends ScreenAdapter {
 
     private void showPauseMenu(float delta) {
         if (menu == MAIN) {
-            String gauges = Constants.HUD_AMMO_LABEL + GigaGal.getInstance().getAmmo() + "\n" +
-                    Constants.HUD_HEALTH_LABEL + GigaGal.getInstance().getHealth() + "\n" +
-                    "Turbo: " + GigaGal.getInstance().getTurbo();
-            String totals = "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(Level.getInstance().getTime()) + "\n" + "Score: " + Level.getInstance().getScore();
-            String weapons = Energraft.getInstance().getWeapons().replaceAll(", ", "\n");
-            Helpers.drawBitmapFont(batch, viewport, font, gauges, viewport.getCamera().position.x - viewport.getWorldWidth() / 2.25f, viewport.getCamera().position.y + viewport.getWorldHeight() / 3, Align.left);
-            Helpers.drawBitmapFont(batch, viewport, font, totals, viewport.getCamera().position.x, viewport.getCamera().position.y + viewport.getWorldHeight() / 3, Align.center);
-            Helpers.drawBitmapFont(batch, viewport, font, weapons, viewport.getCamera().position.x + viewport.getWorldWidth() / 2.25f, viewport.getCamera().position.y + viewport.getWorldHeight() / 3, Align.right);
-            if (InputControls.getInstance().jumpButtonJustPressed && GigaGal.getInstance().getAction() == Enums.Action.STANDING) {
+            if (InputControls.getInstance().jumpButtonJustPressed) {
+                Menu.getInstance().setPromptString(Align.right, (GigaGal.getInstance().getWeapon().name() + "\n" + Energraft.getInstance().getWeapons().replace(GigaGal.getInstance().getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
                 GigaGal.getInstance().toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
             }
             if (InputControls.getInstance().shootButtonJustPressed) {
@@ -249,8 +246,8 @@ public class LevelScreen extends ScreenAdapter {
     @Override
     public void dispose() {
 //        totalTime.stop();
-//        completedLevels.clear();
-//        inputControls.clear();
+//        completedLevels.clearStrings();
+//        inputControls.clearStrings();
 //        victoryMessage.dispose();
 //        defeatMessage.dispose();
 //        indicatorHud.dispose();
