@@ -160,8 +160,8 @@ public class LevelScreen extends ScreenAdapter {
     private void showPauseMenu(float delta) {
         if (menu == MAIN) {
             if (InputControls.getInstance().jumpButtonJustPressed) {
-                Menu.getInstance().setPromptString(Align.right, (GigaGal.getInstance().getWeapon().name() + "\n" + Energraft.getInstance().getWeapons().replace(GigaGal.getInstance().getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
                 GigaGal.getInstance().toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
+                Menu.getInstance().setPromptString(Align.right, (GigaGal.getInstance().getWeapon().name() + "\n" + Energraft.getInstance().getWeapons().replace(GigaGal.getInstance().getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
             }
             if (InputControls.getInstance().shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y && ChaseCam.getInstance().getFollowing()) {
