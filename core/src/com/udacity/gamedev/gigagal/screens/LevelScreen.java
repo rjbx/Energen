@@ -128,12 +128,10 @@ public class LevelScreen extends ScreenAdapter {
         if (Level.getInstance().continuing()) {
 
             if (!Level.getInstance().paused()) {
-
-                IndicatorHud.getInstance().render(batch, font, viewport, Level.getInstance());
                 Level.getInstance().update(delta);
-
                 ChaseCam.getInstance().update(batch, viewport, delta);
                 Level.getInstance().render(batch, viewport); // also rendered when viewingDebug; see pause()
+                IndicatorHud.getInstance().render(batch, font, viewport, Level.getInstance()); // renders after level which sets indicators to foreground
                 if (InputControls.getInstance().pauseButtonJustPressed) {
                     Level.getInstance().pause();
                     setMainMenu();
@@ -156,7 +154,6 @@ public class LevelScreen extends ScreenAdapter {
     }
 
     private void showPauseMenu(float delta) {
-        Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
         if (menu == MAIN) {
             String gauges = Constants.HUD_AMMO_LABEL + GigaGal.getInstance().getAmmo() + "\n" +
                     Constants.HUD_HEALTH_LABEL + GigaGal.getInstance().getHealth() + "\n" +
@@ -212,6 +209,7 @@ public class LevelScreen extends ScreenAdapter {
                 setOptionsMenu();
             }
         }
+        Menu.getInstance().render(batch, font, viewport, Cursor.getInstance()); // renders after debug level which sets menu to foreground
     }
 
     private void showExitOverlay() {
