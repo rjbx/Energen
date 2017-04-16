@@ -29,11 +29,10 @@ public final class TouchInterface {
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE,
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE);
         this.batch = new SpriteBatch();
-        onMobile = Energraft.getInstance().getTouchscreen();
     }
 
     public void render(SpriteBatch batch) {
-        if (onMobile) {
+        if (Energraft.getInstance().getTouchscreen()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
