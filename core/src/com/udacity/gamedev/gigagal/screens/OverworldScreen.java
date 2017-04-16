@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.security.auth.callback.TextOutputCallback;
+
 // immutable
 public final class OverworldScreen extends ScreenAdapter {
 
@@ -96,7 +98,7 @@ public final class OverworldScreen extends ScreenAdapter {
         viewport.update(width, height, true);
 //        cursor.getViewport().update(width, height, true);
 //        touchInterface.getViewport().update(width, height, true);
-//        touchInterface.recalculateButtonPositions();
+        TouchInterface.getInstance().recalculateButtonPositions();
 //        optionsOverlay.getViewport().update(width, height, true);
 //        optionsOverlay.getCursor().getViewport().update(width, height, true);
 //        errorMessage.getViewport().update(width, height, true);
@@ -163,9 +165,7 @@ public final class OverworldScreen extends ScreenAdapter {
         }
         if (messageVisible) {
             font.getData().setScale(0.25f);
-            batch.begin();
-            font.draw(batch, Constants.LEVEL_READ_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5, 0, Align.center, false);
-            batch.end();
+            Helpers.drawBitmapFont(batch, viewport, font, Constants.LEVEL_READ_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5, Align.center);
             font.getData().setScale(.5f);
         }
         InputControls.getInstance().update();

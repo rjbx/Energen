@@ -313,6 +313,13 @@ public class Level {
             impactIterator.next();
             impactIterator.remove();
         }
+
+        // Update Powerups
+        ListIterator<Powerup> powerupIterator = powerups.listIterator();
+        while (powerupIterator.hasNext()){
+            powerupIterator.next();
+            powerupIterator.remove();
+        }
     }
 
 
