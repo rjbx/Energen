@@ -4,13 +4,18 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
+import static com.udacity.gamedev.gigagal.util.Enums.TimerState.RUNNING;
+import static com.udacity.gamedev.gigagal.util.Enums.TimerState.STOPPED;
+import static com.udacity.gamedev.gigagal.util.Enums.TimerState.SUSPENDED;
+import static com.udacity.gamedev.gigagal.util.Enums.TimerState.UNSTARTED;
+
 // An implementation of apache.commons.lang3.time.StopWatch that eliminates unused methods and permits start time offset with additional start method
 public class Timer {
 
     // fields
     public static final String TAG = Timer.class.getName();
     private static final Timer INSTANCE = new Timer();
-    private State state;
+    private Enums.TimerState state;
     private long startTime;
     private long stopTime;
 
@@ -21,67 +26,67 @@ public class Timer {
     }
 
     public void create() {
-        state = State.UNSTARTED;
+        state = UNSTARTED;
     }
 
     public Timer start() {
-        if (state == State.STOPPED) {
+        if (state == STOPPED) {
             throw new IllegalStateException("Cannot reset timer before restart.");
-        } else if (state != State.UNSTARTED) {
+        } else if (state != UNSTARTED) {
             throw new IllegalStateException("Cannot start timer twice.");
         } else {
             startTime = TimeUtils.nanoTime();
-            state = State.RUNNING;
+            state = RUNNING;
         }
         return this;
     }
 
     public Timer start(long offsetTime) {
-        if (state == State.STOPPED) {
+        if (state == STOPPED) {
             throw new IllegalStateException("Cannot reset timer before restart.");
-        } else if (state != State.UNSTARTED) {
+        } else if (state != UNSTARTED) {
             throw new IllegalStateException("Cannot start timer twice.");
         } else {
             startTime = TimeUtils.nanoTime() - offsetTime;
-            state = State.RUNNING;
+            state = RUNNING;
         }
         return this;
     }
 
     public Timer stop() {
-        if (state != State.RUNNING && state != State.SUSPENDED) {
+        if (state != RUNNING && state != SUSPENDED) {
             throw new IllegalStateException("Cannot stop timer that is neither running nor suspended.");
         } else {
-            if (state == State.RUNNING) {
+            if (state == RUNNING) {
                 stopTime = TimeUtils.nanoTime();
             }
-            state = State.STOPPED;
+            state = STOPPED;
         }
         return this;
     }
 
     public Timer suspend() {
-        if (state != State.RUNNING) {
+        if (state != RUNNING) {
             throw new IllegalStateException("Cannot suspend timer that is not running.");
         } else {
             stopTime = TimeUtils.nanoTime();
-            state = State.SUSPENDED;
+            state = SUSPENDED;
         }
         return this;
     }
 
     public Timer resume() {
-        if (state != State.SUSPENDED) {
+        if (state != SUSPENDED) {
             throw new IllegalStateException("Cannot resume timer that is not suspended.");
         } else {
             startTime += TimeUtils.nanoTime() - stopTime;
-            state = State.RUNNING;
+            state = RUNNING;
         }
         return this;
     }
 
     public Timer reset() {
-        state = State.UNSTARTED;
+        state = UNSTARTED;
         return this;
     }
 
@@ -90,10 +95,10 @@ public class Timer {
     }
 
     public long getNanos() {
-        if (state != State.STOPPED && state != State.SUSPENDED) {
-            if (state == State.UNSTARTED) {
+        if (state != STOPPED && state != SUSPENDED) {
+            if (state == UNSTARTED) {
                 return 0L;
-            } else if (state == State.RUNNING) {
+            } else if (state == RUNNING) {
                 return TimeUtils.nanoTime() - startTime;
             }
         }
@@ -103,12 +108,6 @@ public class Timer {
     public String toString() {
         return DurationFormatUtils.formatDurationHMS(getSeconds());
     }
-
-    private enum State {
-        UNSTARTED,
-        RUNNING,
-        STOPPED,
-        SUSPENDED
-    }
+    public Enums.TimerState getState() { return state; }
 }
 

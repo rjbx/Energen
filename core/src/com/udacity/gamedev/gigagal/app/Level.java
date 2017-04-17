@@ -23,7 +23,6 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Timer;
 import com.udacity.gamedev.gigagal.util.Helpers;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 
@@ -83,11 +82,7 @@ public class Level {
     public void update(float delta) {
         if (continuing() && !paused()) {
             GigaGal.getInstance().update(delta);
-            try {
-                updateAssets(delta);
-            } catch (ConcurrentModificationException ex) {
-                runEx = true;
-            }
+            updateAssets(delta);
         }
     }
 

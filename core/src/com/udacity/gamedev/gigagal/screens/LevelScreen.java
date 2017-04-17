@@ -149,7 +149,7 @@ public class LevelScreen extends ScreenAdapter {
             showExitOverlay();
         }
 
-        if (Level.getInstance().hasLoadEx() || Level.getInstance().hasRunEx()) {
+        if (Level.getInstance().hasLoadEx()) {
             font.getData().setScale(.25f);
             Helpers.drawBitmapFont(batch, viewport, font, Constants.LEVEL_KEY_MESSAGE, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldHeight() / 2.5f, Align.center);
             font.getData().setScale(.4f);

@@ -87,13 +87,6 @@ public final class Enums {
         abstract public WeaponType weaponType();
     }
 
-    public enum LaunchMenu {
-        BEGIN,
-        RESUME,
-        MODE,
-        ERASE
-    }
-
     public enum LevelMenu {
         NONE,
         MAIN,
@@ -102,8 +95,10 @@ public final class Enums {
         END
     }
 
-    public enum OverloadMenu {
-        MAIN,
-        OPTIONS
+    public enum TimerState {
+        UNSTARTED,
+        RUNNING,
+        STOPPED,
+        SUSPENDED
     }
 }
