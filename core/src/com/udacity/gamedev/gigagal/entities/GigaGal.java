@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.Energraft;
@@ -56,7 +57,6 @@ public class GigaGal implements Humanoid {
     private WeaponType weapon;
     private List<WeaponType> weaponList; // class-level instantiation
     private ListIterator<WeaponType> weaponToggler; // class-level instantiation
-    private List<LevelName> completedLevels;
     private boolean onRideable;
     private boolean onSkateable;
     private boolean onUnbearable;
@@ -118,7 +118,6 @@ public class GigaGal implements Humanoid {
         halfWidth = width / 2;
         lives = Constants.INITIAL_LIVES;
         killPlane = -10000;
-        completedLevels = new ArrayList<LevelName>();
         String savedWeapons = Energraft.getInstance().getWeapons();
         if (!savedWeapons.equals(Enums.WeaponType.NATIVE.name())) {
             List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
@@ -248,7 +247,7 @@ public class GigaGal implements Humanoid {
         bounds = new Rectangle(left, bottom, width, height);
     }
 
-    private void touchGround(List<Ground> grounds) {
+    private void touchGround(DelayedRemovalArray<Ground> grounds) {
         onUnbearable = false;
         onRideable = false;
         onSkateable = false;
@@ -477,7 +476,7 @@ public class GigaGal implements Humanoid {
 
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    private void touchHazards(List<Hazard> hazards) {
+    private void touchHazards(DelayedRemovalArray<Hazard> hazards) {
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
                 float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime) - pauseTimeSeconds;
@@ -527,10 +526,8 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    private void touchPowerups(List<Powerup> powerups) {
-        ListIterator<Powerup> iterator = powerups.listIterator();
-        while (iterator.hasNext()) {
-            Powerup powerup = iterator.next();
+    private void touchPowerups(DelayedRemovalArray<Powerup> powerups) {
+        for (Powerup powerup : powerups) {
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {
                 switch(powerup.getType()) {

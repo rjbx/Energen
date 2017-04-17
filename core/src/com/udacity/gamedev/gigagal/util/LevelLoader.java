@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.udacity.gamedev.gigagal.app.Level;
 import com.udacity.gamedev.gigagal.entities.Boss;
 import com.udacity.gamedev.gigagal.entities.Cannon;
@@ -350,8 +352,8 @@ public final class LevelLoader {
 
     private static final void loadNinePatches(Level level, JSONArray ninePatches) {
 
-        List<Box> boxArray = new ArrayList<Box>();
-        List<Ladder> ladderArray = new ArrayList<Ladder>();
+        Array<Box> boxArray = new Array<Box>();
+        Array<Ladder> ladderArray = new Array<Ladder>();
         
         for (Object o : ninePatches) {
             final JSONObject item = (JSONObject) o;
@@ -397,9 +399,9 @@ public final class LevelLoader {
                     return 0;
                 }
             });
-
-            level.getGrounds().addAll(boxArray);
-            level.getGrounds().addAll(ladderArray);
         }
+
+        level.getGrounds().addAll(boxArray);
+        level.getGrounds().addAll(ladderArray);
     }
 }

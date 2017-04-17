@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.InputControls;
@@ -295,7 +296,7 @@ public class Boss implements Humanoid, Hazard  {
         
     }
 
-    private void touchGround(List<Ground> grounds) {
+    private void touchGround(DelayedRemovalArray<Ground> grounds) {
         onUnbearable = false;
         onRideable = false;
         onSkateable = false;
@@ -523,7 +524,7 @@ public class Boss implements Humanoid, Hazard  {
     }
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    private void touchHazards(List<Hazard> hazards) {
+    private void touchHazards(DelayedRemovalArray<Hazard> hazards) {
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
                 float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime) - pauseTimeSeconds;

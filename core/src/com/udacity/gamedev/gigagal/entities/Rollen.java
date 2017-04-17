@@ -30,7 +30,7 @@ public class Rollen implements DestructibleHazard {
     private float speedAtChangeXDirection;
     private long rollStartTime;
     private float rollTimeSeconds;
-    private List<Ground> grounds;
+    private DelayedRemovalArray<Ground> grounds;
     private float radius;
     private Animation animation;
 
