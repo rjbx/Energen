@@ -80,8 +80,8 @@ public class LevelUpdater {
     protected void update(float delta) {
 
         if (continuing() && !paused()) {
-            updateAssets(delta);
             GigaGal.getInstance().update(delta);
+            updateAssets(delta);
         }
     }
 
