@@ -8,16 +8,16 @@ import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.InputControls;
 
 // immutable singleton
-public final class Game extends com.badlogic.gdx.Game {
+public final class ScreenManager extends com.badlogic.gdx.Game {
 
     // fields
-    private static final Game INSTANCE = new Game();
+    private static final ScreenManager INSTANCE = new ScreenManager();
 
     // cannot be subclassed
-    protected Game() {}
+    protected ScreenManager() {}
 
     // static factory method
-    public static Game getInstance() { return INSTANCE; }
+    public static ScreenManager getInstance() { return INSTANCE; }
 
     @Override
     public void create() {

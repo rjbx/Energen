@@ -161,7 +161,7 @@ final class LaunchScreen extends ScreenAdapter {
                                 inputControls.shootButtonJustPressed = false;
                                 OverworldScreen overworldScreen = OverworldScreen.getInstance();
                                 overworldScreen.create();
-                                Game.getInstance().setScreen(overworldScreen);
+                                ScreenManager.getInstance().setScreen(overworldScreen);
                                 this.dispose();
                                 return;
                             } else if (Cursor.getInstance().getPosition() == 20) {
@@ -178,8 +178,8 @@ final class LaunchScreen extends ScreenAdapter {
                     if (inputControls.shootButtonJustPressed) {
                         if (Cursor.getInstance().getPosition() == (150)) {
                             SaveData.erase();
-                            Game.getInstance().dispose();
-                            Game.getInstance().create();
+                            ScreenManager.getInstance().dispose();
+                            ScreenManager.getInstance().create();
                             setBeginMenu();
                         } else {
                             setResumeMenu();
@@ -216,7 +216,7 @@ final class LaunchScreen extends ScreenAdapter {
                 difficultyOptionsVisible = false;
                 OverworldScreen overworldScreen = OverworldScreen.getInstance();
                 overworldScreen.create();
-                Game.getInstance().setScreen(overworldScreen);
+                ScreenManager.getInstance().setScreen(overworldScreen);
                 this.dispose();
                 return;
             } else if (inputControls.pauseButtonJustPressed) {

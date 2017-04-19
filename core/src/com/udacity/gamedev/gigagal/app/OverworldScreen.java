@@ -118,7 +118,7 @@ final class OverworldScreen extends ScreenAdapter {
                     messageVisible = false;
                     try {
                         LevelLoader.load(Enums.LevelName.valueOf(Cursor.getInstance().getIterator().previous()));
-                        Game.getInstance().setScreen(LevelScreen.getInstance());
+                        ScreenManager.getInstance().setScreen(LevelScreen.getInstance());
                         this.dispose();
                         return;
                     } catch (IOException ex) {
@@ -151,8 +151,8 @@ final class OverworldScreen extends ScreenAdapter {
                 } else if (Cursor.getInstance().getPosition() == 91) {
                     SaveData.toggleTouchscreen(!SaveData.hasTouchscreen());
                 } else if (Cursor.getInstance().getPosition() == 76) {
-                    Game.getInstance().dispose();
-                    Game.getInstance().create();
+                    ScreenManager.getInstance().dispose();
+                    ScreenManager.getInstance().create();
                 }
             } else if (InputControls.getInstance().pauseButtonJustPressed) {
                 viewingOptions = false;

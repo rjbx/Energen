@@ -3,7 +3,6 @@ package com.udacity.gamedev.gigagal.overlay;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.Game;
 import com.udacity.gamedev.gigagal.app.SaveData;
 import com.udacity.gamedev.gigagal.util.*;
 import com.udacity.gamedev.gigagal.util.InputControls;

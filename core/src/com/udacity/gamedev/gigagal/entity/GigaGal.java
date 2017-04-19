@@ -119,15 +119,15 @@ public class GigaGal implements Humanoid {
         lives = Constants.INITIAL_LIVES;
         killPlane = -10000;
         String savedWeapons = SaveData.getWeapons();
-        if (!savedWeapons.equals(Enums.WeaponType.NATIVE.name())) {
+        if (!savedWeapons.equals(WeaponType.NATIVE.name())) {
             List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
             for (String weaponString : savedWeaponsList) {
                 addWeapon(WeaponType.valueOf(weaponString));
             }
             weapon = weaponToggler.previous();
         } else {
-            weaponList.add(Enums.WeaponType.NATIVE);
-            weapon = weaponToggler.next();
+            addWeapon(WeaponType.NATIVE);
+            weapon = weaponToggler.previous();
         }
     }
 

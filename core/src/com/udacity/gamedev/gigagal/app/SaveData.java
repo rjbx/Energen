@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.app;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.udacity.gamedev.gigagal.util.Enums;

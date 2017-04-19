@@ -166,7 +166,7 @@ class LevelScreen extends ScreenAdapter {
                     LevelUpdater.getInstance().unpause();
                 } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 15) {
                     OverworldScreen.getInstance().setMainMenu();
-                    Game.getInstance().setScreen(OverworldScreen.getInstance());
+                    ScreenManager.getInstance().setScreen(OverworldScreen.getInstance());
                     LevelUpdater.getInstance().unpause();
                     LevelUpdater.getInstance().end();
                     return;
@@ -190,7 +190,7 @@ class LevelScreen extends ScreenAdapter {
                 } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 45) {
                     LevelUpdater.getInstance().unpause();
                     LevelUpdater.getInstance().end();
-                    Game.getInstance().create();
+                    ScreenManager.getInstance().create();
                     return;
                 }
             } else if (InputControls.getInstance().pauseButtonJustPressed) {
@@ -219,7 +219,7 @@ class LevelScreen extends ScreenAdapter {
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
                 OverworldScreen.getInstance().setMainMenu();
-                Game.getInstance().setScreen(OverworldScreen.getInstance());
+                ScreenManager.getInstance().setScreen(OverworldScreen.getInstance());
                 font.getData().setScale(.4f);
                 return;
             }
@@ -232,7 +232,7 @@ class LevelScreen extends ScreenAdapter {
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
                 levelEndOverlayStartTime = 0;
                 OverworldScreen.getInstance().setMainMenu();
-                Game.getInstance().setScreen(OverworldScreen.getInstance());
+                ScreenManager.getInstance().setScreen(OverworldScreen.getInstance());
                 return;
             }
         }
