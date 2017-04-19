@@ -5,13 +5,13 @@ import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.udacity.gamedev.gigagal.app.Energraft;
+import com.udacity.gamedev.gigagal.app.Game;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(Energraft.getInstance(), config);
+        return new IOSApplication(Game.getInstance(), config);
     }
 
     public static void main(String[] argv) {

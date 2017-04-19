@@ -3,7 +3,7 @@ package com.udacity.gamedev.gigagal.util;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.entities.GigaGal;
+import com.udacity.gamedev.gigagal.entity.GigaGal;
 
 // immutable singleton
 public final class ChaseCam {

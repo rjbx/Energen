@@ -8,11 +8,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.entities.DestructibleHazard;
-import com.udacity.gamedev.gigagal.entities.MultidirectionalX;
-import com.udacity.gamedev.gigagal.entities.MultidirectionalY;
-import com.udacity.gamedev.gigagal.entities.Multidirectional;
-import com.udacity.gamedev.gigagal.entities.Orben;
+import com.udacity.gamedev.gigagal.entity.DestructibleHazard;
+import com.udacity.gamedev.gigagal.entity.MultidirectionalX;
+import com.udacity.gamedev.gigagal.entity.MultidirectionalY;
+import com.udacity.gamedev.gigagal.entity.Multidirectional;
+import com.udacity.gamedev.gigagal.entity.Orben;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 

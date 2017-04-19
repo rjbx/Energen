@@ -6,7 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.overlays.TouchInterface;
+import com.udacity.gamedev.gigagal.overlay.TouchInterface;
 
 // mutable
 public class InputControls extends InputAdapter {
