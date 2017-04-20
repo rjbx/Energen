@@ -546,17 +546,17 @@ public final class Assets implements AssetErrorListener {
             Array<AtlasRegion> whirlRegions = new Array<AtlasRegion>();
             whirlRegions.add(atlas.findRegion(Constants.WHIRL_SPRITE_1));
             whirlRegions.add(atlas.findRegion(Constants.WHIRL_SPRITE_2));
-            whirl = new Animation(Constants.WHIRL_DURATION /whirlRegions.size, whirlRegions, PlayMode.NORMAL);
+            whirl = new Animation(Constants.WHIRL_DURATION / whirlRegions.size, whirlRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> rodRegions = new Array<AtlasRegion>();
             rodRegions.add(atlas.findRegion(Constants.ROD_SPRITE_1));
             rodRegions.add(atlas.findRegion(Constants.ROD_SPRITE_2));
-            rod = new Animation(Constants.ROD_DURATION /rodRegions.size, rodRegions, PlayMode.NORMAL);
+            rod = new Animation(Constants.ROD_DURATION / rodRegions.size, rodRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> spikeRegions = new Array<AtlasRegion>();
             spikeRegions.add(atlas.findRegion(Constants.SPIKE_SPRITE_1));
             spikeRegions.add(atlas.findRegion(Constants.SPIKE_SPRITE_2));
-            spike = new Animation(Constants.SPIKE_DURATION /spikeRegions.size, spikeRegions, PlayMode.NORMAL);
+            spike = new Animation(Constants.SPIKE_DURATION / spikeRegions.size, spikeRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> geiserRegions = new Array<AtlasRegion>();
             geiserRegions.add(atlas.findRegion(Constants.GEISER_SPRITE_1));

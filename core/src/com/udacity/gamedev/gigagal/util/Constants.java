@@ -343,12 +343,12 @@ public final class Constants {
     public static final String GEISER_SPRITE_1 = "protrusion-liquid-1";
     public static final String GEISER_SPRITE_2 = "protrusion-liquid-2";
 
-    public static final Vector2 ROD_CENTER = new Vector2(8.5f, 17.5f);
+    public static final Vector2 ROD_CENTER = new Vector2(4, 8);
     public static final float ROD_DURATION = 0.3f;
     public static final int ROD_DAMAGE = 10;
     public static final Vector2 ROD_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
-    public static final float ROD_COLLISION_WIDTH = 15;
-    public static final float ROD_COLLISION_HEIGHT = 25;
+    public static final float ROD_COLLISION_WIDTH = 8;
+    public static final float ROD_COLLISION_HEIGHT = 16;
     public static final String ROD_SPRITE_1 = "protrusion-plasma-1";
     public static final String ROD_SPRITE_2 = "protrusion-plasma-2";
 

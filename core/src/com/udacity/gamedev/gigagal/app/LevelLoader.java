@@ -237,6 +237,10 @@ final class LevelLoader {
                 final Vector2 spikePosition = imagePosition.add(Constants.SPIKE_CENTER);
                 Gdx.app.log(TAG, "Loaded the spike at " + spikePosition);
                 level.getHazards().add(new Protrusion(spikePosition, Enums.WeaponType.SOLID));
+            }  else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ROD_SPRITE_1)) {
+                final Vector2 rodPosition = imagePosition.add(Constants.ROD_CENTER);
+                Gdx.app.log(TAG, "Loaded the rod at " + rodPosition);
+                level.getHazards().add(new Protrusion(rodPosition, Enums.WeaponType.PLASMA));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.FLAME_SPRITE_1)) {
                 final Vector2 flamePosition = imagePosition.add(Constants.FLAME_CENTER);
                 Gdx.app.log(TAG, "Loaded the flame at " + flamePosition);

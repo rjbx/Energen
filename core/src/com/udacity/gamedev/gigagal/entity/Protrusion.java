@@ -34,10 +34,10 @@ public class Protrusion implements IndestructibleHazard {
         switch (type) {
             case PLASMA:
                 animation = Assets.getInstance().getProtrusionAssets().rod;
-                center.set(Constants.COIL_CENTER);
-                collisionSpan.set(Constants.COIL_COLLISION_WIDTH, Constants.COIL_COLLISION_HEIGHT);
-                knockback.set(Constants.COIL_KNOCKBACK);
-                damage = Constants.COIL_DAMAGE;
+                center.set(Constants.ROD_CENTER);
+                collisionSpan.set(Constants.ROD_COLLISION_WIDTH, Constants.ROD_COLLISION_HEIGHT);
+                knockback.set(Constants.ROD_KNOCKBACK);
+                damage = Constants.ROD_DAMAGE;
                 break;
             case GAS:
                 animation = Assets.getInstance().getProtrusionAssets().flame;
