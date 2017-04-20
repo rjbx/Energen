@@ -9,6 +9,7 @@ import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.Cannon;
 import com.udacity.gamedev.gigagal.entity.Coals;
 import com.udacity.gamedev.gigagal.entity.Ice;
+import com.udacity.gamedev.gigagal.entity.Knob;
 import com.udacity.gamedev.gigagal.entity.Ladder;
 import com.udacity.gamedev.gigagal.entity.Lift;
 import com.udacity.gamedev.gigagal.entity.Orben;
@@ -292,6 +293,10 @@ final class LevelLoader {
                 final Vector2 pillarPosition = imagePosition.add(Constants.PILLAR_CENTER);
                 Gdx.app.log(TAG, "Loaded the pillar at " + pillarPosition);
                 level.getGrounds().add(new Pillar(pillarPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.KNOB_SPRITE_1)) {
+                final Vector2 knobPosition = imagePosition.add(Constants.KNOB_CENTER);
+                Gdx.app.log(TAG, "Loaded the knob at " + knobPosition);
+                level.getGrounds().add(new Knob(knobPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LIFT_SPRITE)) {
                 final Vector2 liftPosition = imagePosition.add(Constants.LIFT_CENTER);
                 Lift lift = new Lift(liftPosition, orientation);

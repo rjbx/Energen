@@ -54,6 +54,13 @@ ice-1
   orig: 48, 16
   offset: 0, 0
   index: -1
+knob-1
+  rotate: false
+  xy: 351, 97
+  size: 11, 9
+  orig: 11, 9
+  offset: 0, 0
+  index: -1
 ladder
   rotate: false
   xy: 428, 76
@@ -71,7 +78,7 @@ lift
   index: -1
 orben-dormant
   rotate: false
-  xy: 351, 98
+  xy: 134, 26
   size: 10, 8
   orig: 10, 8
   offset: 0, 0

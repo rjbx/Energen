@@ -114,6 +114,11 @@ public final class Constants {
     public static final Vector2 PILLAR_CENTER = new Vector2(6, 3);
     public static final String PILLAR_SPRITE = "pillar";
 
+    // Knob
+    public static final Vector2 KNOB_CENTER = new Vector2(5.5f, 4.5f);
+    public static final String KNOB_SPRITE_1 = "knob-1";
+    public static final String KNOB_SPRITE_2 = "knob-2";
+
     // Lift
     public static final Vector2 LIFT_CENTER = new Vector2(18, 4);
     public static final String LIFT_SPRITE = "lift";

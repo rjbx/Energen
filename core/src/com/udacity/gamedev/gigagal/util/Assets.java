@@ -195,14 +195,15 @@ public final class Assets implements AssetErrorListener {
     }
 
     public static final class GroundAssets {
-
+        
+        public final NinePatch ladderNinePatch;
         public final AtlasRegion lift;
-        public final AtlasRegion pillar;
         public final AtlasRegion yCannon;
         public final AtlasRegion xCannon;
-        public final NinePatch ladderNinePatch;
         public final AtlasRegion vines;
         public final AtlasRegion rope;
+        public final AtlasRegion pillar;
+        public final Animation knob;
         public final Animation pole;
         public final Animation slick;
         public final Animation ice;
@@ -215,8 +216,9 @@ public final class Assets implements AssetErrorListener {
 
 
         private GroundAssets(TextureAtlas atlas) {
-            lift = atlas.findRegion(Constants.LIFT_SPRITE);
+
             pillar = atlas.findRegion(Constants.PILLAR_SPRITE);
+            lift = atlas.findRegion(Constants.LIFT_SPRITE);
             yCannon = atlas.findRegion(Constants.Y_CANNON_SPRITE);
             xCannon = atlas.findRegion(Constants.X_CANNON_SPRITE);
 
@@ -232,6 +234,12 @@ public final class Assets implements AssetErrorListener {
 
             pole = new Animation(Constants.POLE_DURATION / poleRegions.size,
                     poleRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> knobRegions = new Array<AtlasRegion>();
+            knobRegions.add(atlas.findRegion(Constants.KNOB_SPRITE_1));
+            knobRegions.add(atlas.findRegion(Constants.KNOB_SPRITE_2));
+            knob = new Animation(Constants.POLE_DURATION / knobRegions.size,
+                    knobRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> slickRegions = new Array<AtlasRegion>();
             slickRegions.add(atlas.findRegion(Constants.SLICK_SPRITE_1));
