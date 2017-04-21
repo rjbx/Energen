@@ -11,6 +11,7 @@ import com.udacity.gamedev.gigagal.entity.Coals;
 import com.udacity.gamedev.gigagal.entity.Ice;
 import com.udacity.gamedev.gigagal.entity.Knob;
 import com.udacity.gamedev.gigagal.entity.Ladder;
+import com.udacity.gamedev.gigagal.entity.Lava;
 import com.udacity.gamedev.gigagal.entity.Lift;
 import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Pillar;
@@ -349,6 +350,12 @@ final class LevelLoader {
                 final Coals coals = new Coals(coalsPosition, scale, adjustedCenter);
                 level.getGrounds().add(coals);
                 Gdx.app.log(TAG, "Loaded the coals at " + coalsPosition);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LAVA_SPRITE_1)) {
+                Vector2 adjustedCenter = new Vector2(Constants.LAVA_CENTER.x * scale.x, Constants.LAVA_CENTER.y * scale.y);
+                final Vector2 lavaPosition = imagePosition.add(Constants.LAVA_CENTER);
+                final Lava lava = new Lava(lavaPosition, scale, adjustedCenter);
+                level.getGrounds().add(lava);
+                Gdx.app.log(TAG, "Loaded the lava at " + lavaPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_LEFT)) {
                 Vector2 adjustedCenter = new Vector2(Constants.TREADMILL_CENTER.x * scale.x, Constants.TREADMILL_CENTER.y * scale.y);
                 final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);

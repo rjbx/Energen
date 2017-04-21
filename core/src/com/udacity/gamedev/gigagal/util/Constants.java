@@ -187,6 +187,13 @@ public final class Constants {
     public static final String COALS_SPRITE_2 = "coals-2";
     public static final float COALS_DURATION = .25f;
 
+    // Lava
+    public static final Vector2 LAVA_CENTER = new Vector2(16, 16);
+    public static final String LAVA_SPRITE_1 = "lava-1";
+    public static final String LAVA_SPRITE_2 = "lava-2";
+    public static final float LAVA_DURATION = .25f;
+    public static final int LAVA_DAMAGE = 25;
+
     // Cannon
     public static final Vector2 X_CANNON_CENTER = new Vector2(10, 6);
     public static final String X_CANNON_SPRITE = "cannon-x";

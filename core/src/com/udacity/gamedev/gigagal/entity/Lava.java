@@ -7,9 +7,10 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Lava implements UnbearableGround {
+public class Lava implements UnbearableGround, IndestructibleHazard {
 
     // fields
     private Vector2 position;
@@ -39,4 +40,7 @@ public class Lava implements UnbearableGround {
     @Override public final float getRight() { return position.x + Constants.LAVA_CENTER.x * scale.x; }
     @Override public final float getTop() { return position.y + Constants.LAVA_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.LAVA_CENTER.y * scale.y; }
+    @Override public final Enums.WeaponType getType() { return Enums.WeaponType.LIQUID; }
+    @Override public final Vector2 getKnockback() { return Constants.WHEEL_KNOCKBACK; }
+    @Override public final int getDamage() { return Constants.LAVA_DAMAGE; }
 }

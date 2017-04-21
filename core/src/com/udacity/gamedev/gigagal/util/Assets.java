@@ -213,6 +213,7 @@ public final class Assets implements AssetErrorListener {
         public final Animation unloaded;
         public final Animation sink;
         public final Animation coals;
+        public final Animation lava;
 
 
         private GroundAssets(TextureAtlas atlas) {
@@ -297,6 +298,13 @@ public final class Assets implements AssetErrorListener {
 
             coals = new Animation(Constants.COALS_DURATION / coalsRegions.size,
                     coalsRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> lavaRegions = new Array<AtlasRegion>();
+            lavaRegions.add(atlas.findRegion(Constants.LAVA_SPRITE_1));
+            lavaRegions.add(atlas.findRegion(Constants.LAVA_SPRITE_2));
+
+            lava = new Animation(Constants.LAVA_DURATION / lavaRegions.size,
+                    lavaRegions, PlayMode.NORMAL);
         }
     }
 
