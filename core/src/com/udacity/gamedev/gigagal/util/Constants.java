@@ -193,6 +193,7 @@ public final class Constants {
     public static final String LAVA_SPRITE_2 = "lava-2";
     public static final float LAVA_DURATION = .25f;
     public static final int LAVA_DAMAGE = 25;
+    public static final Vector2 LAVA_KNOCKBACK = new Vector2(150, 400);
 
     // Cannon
     public static final Vector2 X_CANNON_CENTER = new Vector2(10, 6);

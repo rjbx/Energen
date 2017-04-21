@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Lava implements UnbearableGround, IndestructibleHazard {
+public class Lava implements IndestructibleHazard {
 
     // fields
     private Vector2 position;
@@ -41,6 +41,6 @@ public class Lava implements UnbearableGround, IndestructibleHazard {
     @Override public final float getTop() { return position.y + Constants.LAVA_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.LAVA_CENTER.y * scale.y; }
     @Override public final Enums.WeaponType getType() { return Enums.WeaponType.LIQUID; }
-    @Override public final Vector2 getKnockback() { return Constants.WHEEL_KNOCKBACK; }
+    @Override public final Vector2 getKnockback() { return Constants.LAVA_KNOCKBACK; }
     @Override public final int getDamage() { return Constants.LAVA_DAMAGE; }
 }

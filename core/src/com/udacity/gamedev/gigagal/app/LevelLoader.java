@@ -354,7 +354,7 @@ final class LevelLoader {
                 Vector2 adjustedCenter = new Vector2(Constants.LAVA_CENTER.x * scale.x, Constants.LAVA_CENTER.y * scale.y);
                 final Vector2 lavaPosition = imagePosition.add(Constants.LAVA_CENTER);
                 final Lava lava = new Lava(lavaPosition, scale, adjustedCenter);
-                level.getGrounds().add(lava);
+                level.getHazards().add(lava);
                 Gdx.app.log(TAG, "Loaded the lava at " + lavaPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_LEFT)) {
                 Vector2 adjustedCenter = new Vector2(Constants.TREADMILL_CENTER.x * scale.x, Constants.TREADMILL_CENTER.y * scale.y);
