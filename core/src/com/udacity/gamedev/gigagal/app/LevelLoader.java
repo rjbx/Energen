@@ -258,6 +258,10 @@ final class LevelLoader {
                 final Vector2 coilPosition = imagePosition.add(Constants.COIL_CENTER);
                 Gdx.app.log(TAG, "Loaded the coil at " + coilPosition);
                 level.getHazards().add(new Suspension(coilPosition, Enums.WeaponType.PLASMA));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BURNER_SPRITE_1)) {
+                final Vector2 burnerPosition = imagePosition.add(Constants.BURNER_CENTER);
+                Gdx.app.log(TAG, "Loaded the burner at " + burnerPosition);
+                level.getHazards().add(new Suspension(burnerPosition, Enums.WeaponType.GAS));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VACUUM_SPRITE_1)) {
                 final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
                 Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
