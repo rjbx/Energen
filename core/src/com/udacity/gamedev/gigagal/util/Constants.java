@@ -119,7 +119,7 @@ public final class Constants {
     public static final String KNOB_SPRITE_1 = "knob-1";
     public static final String KNOB_SPRITE_2 = "knob-2";
 
-    // Lift
+    // 
     public static final Vector2 LIFT_CENTER = new Vector2(18, 4);
     public static final String LIFT_SPRITE = "lift";
     public static final float LIFT_RANGE = 80;
