@@ -262,6 +262,10 @@ final class LevelLoader {
                 final Vector2 burnerPosition = imagePosition.add(Constants.BURNER_CENTER);
                 Gdx.app.log(TAG, "Loaded the burner at " + burnerPosition);
                 level.getHazards().add(new Suspension(burnerPosition, Enums.WeaponType.GAS));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LUMP_SPRITE_1)) {
+                final Vector2 lumpPosition = imagePosition.add(Constants.LUMP_CENTER);
+                Gdx.app.log(TAG, "Loaded the lump at " + lumpPosition);
+                level.getHazards().add(new Suspension(lumpPosition, Enums.WeaponType.LIQUID));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VACUUM_SPRITE_1)) {
                 final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
                 Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
