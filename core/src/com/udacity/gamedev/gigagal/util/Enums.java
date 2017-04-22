@@ -58,7 +58,7 @@ public final class Enums {
 
     public enum Material {
 
-        NATIVE { @Override public final Theme theme() { return Theme.FINAL; } },
+        NATIVE { @Override public final Theme theme() { return Theme.HOME; } },
 
         ORE { @Override public final Theme theme() { return Theme.MECHANICAL; } },
         PLASMA { @Override public final Theme theme() { return Theme.ELECTROMAGNETIC; } },
