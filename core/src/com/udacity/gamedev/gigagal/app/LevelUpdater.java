@@ -149,7 +149,6 @@ public class LevelUpdater {
                 BreakableBox box = (BreakableBox) grounds.get(i);
                 if (!box.isActive()) {
                     grounds.removeIndex(i);
-                    System.out.println("2");
                 }
             }
         }
@@ -167,7 +166,6 @@ public class LevelUpdater {
                         BreakableBox box = (BreakableBox) hazards.get(i);
                         box.deactivate();
                         hazards.removeIndex(i);
-                        System.out.println("1");
                     } else {
                         hazards.removeIndex(i);
                         score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
