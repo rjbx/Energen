@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Coals implements UnbearableGround {
+public class Coals implements Unbearable, Ground {
 
     // fields
     private Vector2 position;

@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Orben implements DestructibleHazard {
+public class Orben implements Destructible, Hazard {
 
     // fields
     private LevelUpdater level;

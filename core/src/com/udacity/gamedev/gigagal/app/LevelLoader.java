@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.entity.Boss;
+import com.udacity.gamedev.gigagal.entity.BreakableBox;
 import com.udacity.gamedev.gigagal.entity.Cannon;
 import com.udacity.gamedev.gigagal.entity.Coals;
 import com.udacity.gamedev.gigagal.entity.Ice;
@@ -375,6 +376,7 @@ final class LevelLoader {
     private static final void loadNinePatches(LevelUpdater level, JSONArray ninePatches) {
 
         Array<Box> boxArray = new Array<Box>();
+        Array<BreakableBox> breakableBoxArray = new Array<BreakableBox>();
         Array<Ladder> ladderArray = new Array<Ladder>();
         
         for (Object o : ninePatches) {
@@ -390,6 +392,13 @@ final class LevelLoader {
                 final Box box = new Box(shape, type.theme());
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BREAKABLE_BOX_SPRITE)) {
+                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+                final Rectangle shape = new Rectangle(imagePosition.x, imagePosition.y, width, height);
+                final BreakableBox box = new BreakableBox(shape, type);
+                breakableBoxArray.add(box);
+                Gdx.app.log(TAG, "Loaded the breakableBox at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
                 float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
                 float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
@@ -401,6 +410,18 @@ final class LevelLoader {
             boxArray.sort(new Comparator<Box>() {
                 @Override
                 public int compare(Box o1, Box o2) {
+                    if (o1.getTop() < o2.getTop()) {
+                        return 1;
+                    } else if (o1.getTop() > o2.getTop()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+            });
+
+            breakableBoxArray.sort(new Comparator<BreakableBox>() {
+                @Override
+                public int compare(BreakableBox o1, BreakableBox o2) {
                     if (o1.getTop() < o2.getTop()) {
                         return 1;
                     } else if (o1.getTop() > o2.getTop()) {
@@ -424,6 +445,8 @@ final class LevelLoader {
         }
 
         level.getGrounds().addAll(boxArray);
+        level.getGrounds().addAll(breakableBoxArray);
+        level.getHazards().addAll(breakableBoxArray);
         level.getGrounds().addAll(ladderArray);
     }
 }

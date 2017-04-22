@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Lava implements IndestructibleHazard {
+public class Lava implements Indestructible, Hazard {
 
     // fields
     private Vector2 position;

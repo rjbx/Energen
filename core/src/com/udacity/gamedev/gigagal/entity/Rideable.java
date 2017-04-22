@@ -2,6 +2,6 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.udacity.gamedev.gigagal.util.Enums;
 
-public interface RideableGround extends SolidGround {
+public interface Rideable extends Solid {
     Enums.Direction getDirection();
 }

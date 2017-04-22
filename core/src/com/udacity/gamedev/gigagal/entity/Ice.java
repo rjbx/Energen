@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Ice implements SkateableGround {
+public class Ice implements Skateable, Ground {
 
     // fields
     private Vector2 position;

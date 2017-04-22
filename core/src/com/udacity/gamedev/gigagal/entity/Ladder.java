@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Ladder implements ClimbableGround {
+public class Ladder implements Climbable, Ground {
 
     // fields
     private final float top;

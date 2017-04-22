@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Zoomba implements DestructibleHazard {
+public class Zoomba implements Destructible, Hazard {
 
     // fields
     private final Enums.Material type;

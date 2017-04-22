@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.entity.DestructibleHazard;
+import com.udacity.gamedev.gigagal.entity.Destructible;
 import com.udacity.gamedev.gigagal.entity.MultidirectionalX;
 import com.udacity.gamedev.gigagal.entity.MultidirectionalY;
 import com.udacity.gamedev.gigagal.entity.Multidirectional;
@@ -208,7 +208,7 @@ public final class Helpers {
         return 0;
     }
 
-    public static final void applyDamage(DestructibleHazard destructible, Enums.ShotIntensity shotIntensity, float damage) {
+    public static final void applyDamage(Destructible destructible, Enums.ShotIntensity shotIntensity, float damage) {
         if (!(destructible instanceof Orben && !(((Orben) destructible).isActive()))) {
             if (shotIntensity == Enums.ShotIntensity.BLAST) {
                 destructible.setHealth(destructible.getHealth() - damage);

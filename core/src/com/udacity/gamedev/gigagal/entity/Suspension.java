@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Suspension implements IndestructibleHazard {
+public class Suspension implements Indestructible, Hazard {
 
     // fields
     private Vector2 position;

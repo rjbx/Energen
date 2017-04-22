@@ -10,10 +10,10 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Box implements Solid, Ground {
+public class BreakableBox implements Destructible, Solid, Ground, Hazard {
 
     // fields
-    private final Enums.Theme type;
+    private final Enums.Material type;
     private final Vector2 position; // class-level instantiation
     private final float top;
     private final float bottom;
@@ -21,10 +21,14 @@ public class Box implements Solid, Ground {
     private final float right;
     private final float width;
     private final float height;
+    private float damage;
+    private boolean active;
     private final NinePatch ninePatch;
 
     // ctor
-    public Box(Rectangle shape, Enums.Theme type) {
+    public BreakableBox(Rectangle shape, Enums.Material type) {
+        active = true;
+        damage = 25;
         this.width = shape.getWidth();
         this.height = shape.getHeight();
         this.top = shape.getY() + height;
@@ -33,8 +37,12 @@ public class Box implements Solid, Ground {
         this.right = shape.getX() + width;
         this.position = new Vector2(left + (width / 2), bottom + (height / 2));
         this.type = type;
-        ninePatch = Assets.getInstance().getBoxAssets().box;
-        ninePatch.setColor(type.color());
+        ninePatch = Assets.getInstance().getBoxAssets().breakableBox;
+        ninePatch.setColor(type.theme().color());
+    }
+
+    @Override
+    public void update(float delta) {
     }
 
     @Override
@@ -50,4 +58,14 @@ public class Box implements Solid, Ground {
     @Override public float getWidth() { return width;}
     @Override public float getHeight() {return height; }
     @Override public Vector2 getPosition() { return position; }
+    @Override public int getKillScore() { return 0; }
+    @Override public int getHitScore() { return 0; }
+    @Override public int getDamage() { return 0; }
+    @Override public float getShotRadius() { return 29; }
+    @Override public void setHealth(float damage) { this.damage = damage; }
+    @Override public float getHealth() { return damage; }
+    @Override public Vector2 getKnockback() { return Vector2.Zero; }
+    @Override public Enums.Material getType() { return type; }
+    public boolean isActive() { return active; }
+    public void deactivate() { this.active = false; }
 }

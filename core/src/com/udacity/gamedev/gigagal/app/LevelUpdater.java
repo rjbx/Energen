@@ -7,12 +7,13 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
+import com.udacity.gamedev.gigagal.entity.BreakableBox;
 import com.udacity.gamedev.gigagal.entity.Cannon;
-import com.udacity.gamedev.gigagal.entity.DestructibleHazard;
+import com.udacity.gamedev.gigagal.entity.Destructible;
 import com.udacity.gamedev.gigagal.entity.Ground;
 import com.udacity.gamedev.gigagal.entity.Hazard;
 import com.udacity.gamedev.gigagal.entity.Impact;
-import com.udacity.gamedev.gigagal.entity.HoverableGround;
+import com.udacity.gamedev.gigagal.entity.Hoverable;
 import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
@@ -114,10 +115,9 @@ public class LevelUpdater {
         // Update Grounds
         grounds.begin();
         for (int i = 0; i < grounds.size ; i++) {
-            if (grounds.get(i) instanceof HoverableGround) {
-                ((HoverableGround) grounds.get(i)).update(delta);
-            }
-            if (grounds.get(i) instanceof Cannon) {
+            if (grounds.get(i) instanceof Hoverable) {
+                ((Hoverable) grounds.get(i)).update(delta);
+            } else if (grounds.get(i) instanceof Cannon) {
                 Cannon cannon = (Cannon) grounds.get(i);
                 if (cannon.getOffset() == 0) {
                     cannonOffset += 0.25f;
@@ -145,6 +145,12 @@ public class LevelUpdater {
                         }
                     }
                 }
+            } else if (grounds.get(i) instanceof BreakableBox) {
+                BreakableBox box = (BreakableBox) grounds.get(i);
+                if (!box.isActive()) {
+                    grounds.removeIndex(i);
+                    System.out.println("2");
+                }
             }
         }
         grounds.end();
@@ -152,13 +158,20 @@ public class LevelUpdater {
         // Update Hazards
         hazards.begin();
         for (int i = 0; i < hazards.size; i++) {
-            if (hazards.get(i) instanceof DestructibleHazard) {
-                DestructibleHazard destructible = (DestructibleHazard) hazards.get(i);
+            if (hazards.get(i) instanceof Destructible) {
+                Destructible destructible = (Destructible) hazards.get(i);
                 destructible.update(delta);
                 if (destructible.getHealth() < 1) {
                     spawnExplosion(destructible.getPosition(), destructible.getType());
-                    hazards.removeIndex(i);
-                    score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
+                    if (hazards.get(i) instanceof BreakableBox) {
+                        BreakableBox box = (BreakableBox) hazards.get(i);
+                        box.deactivate();
+                        hazards.removeIndex(i);
+                        System.out.println("1");
+                    } else {
+                        hazards.removeIndex(i);
+                        score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
+                    }
                 }
                 if (destructible instanceof Orben) {
                     Orben orben = (Orben) destructible;

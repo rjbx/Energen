@@ -2,7 +2,7 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.udacity.gamedev.gigagal.util.Enums;
 
-public interface DestructibleHazard extends Hazard {
+public interface Destructible extends Entity {
 
     Enums.Material getType();
     float getHealth();

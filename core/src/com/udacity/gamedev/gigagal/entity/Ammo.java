@@ -12,7 +12,7 @@ import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
-public final class Ammo implements IndestructibleHazard {
+public final class Ammo implements Indestructible, Hazard {
 
     // fields
     public final static String TAG = Ammo.class.getName();
@@ -146,8 +146,8 @@ public final class Ammo implements IndestructibleHazard {
 
     public void update(float delta) {
         for (Hazard hazard : level.getHazards()) {
-            if (hazard instanceof DestructibleHazard) {
-                DestructibleHazard destructible = (DestructibleHazard) hazard;
+            if (hazard instanceof Destructible) {
+                Destructible destructible = (Destructible) hazard;
                 if (position.dst(destructible.getPosition()) < (destructible.getShotRadius() + radius)) {
                     level.spawnExplosion(position, weapon);
                     active = false;

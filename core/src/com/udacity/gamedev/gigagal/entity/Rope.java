@@ -7,7 +7,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Rope implements ClimbableGround {
+public class Rope implements Climbable, Ground {
 
     // fields
     private Vector2 position;

@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Lift implements HoverableGround {
+public class Lift implements Hoverable, Ground {
 
     // fields
     private Vector2 position;

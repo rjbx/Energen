@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Treadmill implements RideableGround {
+public class Treadmill implements Rideable, Ground {
 
     // fields
     private Vector2 position;

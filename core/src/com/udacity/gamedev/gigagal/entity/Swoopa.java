@@ -14,7 +14,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Swoopa implements DestructibleHazard {
+public class Swoopa implements Destructible, Hazard {
 
     // fields
     private final long startTime;

@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Protrusion implements IndestructibleHazard {
+public class Protrusion implements Indestructible, Hazard {
 
     // fields
     private Vector2 position;

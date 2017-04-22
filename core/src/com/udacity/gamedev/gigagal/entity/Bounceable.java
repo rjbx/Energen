@@ -1,6 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface BounceableGround extends Ground {
+public interface Bounceable extends Entity {
     void setLoaded(boolean state);
     long getStartTime();
     void resetStartTime();

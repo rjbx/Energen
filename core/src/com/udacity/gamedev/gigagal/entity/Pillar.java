@@ -7,7 +7,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Pillar implements Ground {
+public class Pillar implements Climbable, Ground {
 
 
     // fields

@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Rollen implements DestructibleHazard {
+public class Rollen implements Destructible, Hazard {
 
     // fields
     private LevelUpdater level;
@@ -87,7 +87,7 @@ public class Rollen implements DestructibleHazard {
         boolean touchingSide = false;
         boolean touchingTop = false;
         for (Ground ground : grounds) {
-            if (ground instanceof SolidGround) {
+            if (ground instanceof Solid) {
                 if (Helpers.overlapsBetweenFourSides(position, radius, radius, ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop())) {
                     if (!(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
                         touchingSide = true;

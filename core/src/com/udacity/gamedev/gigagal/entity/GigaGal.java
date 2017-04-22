@@ -260,8 +260,8 @@ public class GigaGal implements Humanoid {
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     // alternate collision handling to allow passing through top of descendables and prevent setting atop as with other grounds
-                    if (!(ground instanceof DescendableGround)
-                            && (climbTimeSeconds == 0 || touchedGround == null || (touchedGround instanceof DescendableGround && touchedGround.getBottom() >= ground.getTop()))) {
+                    if (!(ground instanceof Descendable)
+                            && (climbTimeSeconds == 0 || touchedGround == null || (touchedGround instanceof Descendable && touchedGround.getBottom() >= ground.getTop()))) {
                         // ignore ledge side and bottom collision
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                             touchGroundSide(ground);
@@ -271,7 +271,7 @@ public class GigaGal implements Humanoid {
                         }
                         touchGroundTop(ground);
                         // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
-                    } else if (ground instanceof DescendableGround && (touchedGround == null || touchedGround instanceof DescendableGround)) {
+                    } else if (ground instanceof Descendable && (touchedGround == null || touchedGround instanceof Descendable)) {
                         touchDescendableGround(ground);
                     }
                     // if below minimum ground distance while descending excluding post-cling, disable cling and hover
@@ -325,9 +325,9 @@ public class GigaGal implements Humanoid {
                     stand(); // deactivates dash when bumping ground side
                 }
             }
-            if ((!(ground instanceof RideableGround && (Math.abs(getBottom() - ground.getTop()) <= 1)))
-                    && !(ground instanceof SkateableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))
-                    && !(ground instanceof UnbearableGround && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+            if ((!(ground instanceof Rideable && (Math.abs(getBottom() - ground.getTop()) <= 1)))
+                    && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
+                    && !(ground instanceof Unbearable && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                 // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                 // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                 if (action != Action.STRIDING || action != Action.DASHING) {
@@ -361,15 +361,15 @@ public class GigaGal implements Humanoid {
             if (action != Action.DASHING) {
                 pauseTimeSeconds = 0;
             }
-            if (ground instanceof SkateableGround) {
+            if (ground instanceof Skateable) {
                 onSkateable = true;
                 if (groundState == GroundState.AIRBORNE) {
                     stand(); // set groundstate to standing
                     lookStartTime = 0;
                 }
-            } else if (ground instanceof com.udacity.gamedev.gigagal.entity.HoverableGround) {
+            } else if (ground instanceof Hoverable) {
                 lookStartTime = 0;
-                com.udacity.gamedev.gigagal.entity.HoverableGround hoverable = (com.udacity.gamedev.gigagal.entity.HoverableGround) ground;
+                Hoverable hoverable = (Hoverable) ground;
                 Orientation orientation = hoverable.getOrientation();
                 Direction direction = hoverable.getDirection();
                 if (orientation == Orientation.X) {
@@ -379,13 +379,13 @@ public class GigaGal implements Humanoid {
                 if (direction == Direction.DOWN) {
                     position.y -= 1;
                 }
-            } else if (ground instanceof com.udacity.gamedev.gigagal.entity.BounceableGround) {
+            } else if (ground instanceof Bounceable) {
                 onBounceable = true;
-                com.udacity.gamedev.gigagal.entity.BounceableGround bounceable = (com.udacity.gamedev.gigagal.entity.BounceableGround) ground;
+                Bounceable bounceable = (Bounceable) ground;
                 bounceable.setLoaded(true);
-            } else if (ground instanceof RideableGround) {
+            } else if (ground instanceof Rideable) {
                 onRideable = true;
-            } else if (ground instanceof UnbearableGround) {
+            } else if (ground instanceof Unbearable) {
                 onUnbearable = true;
                 canHover = false;
                 Random xKnockback = new Random();
@@ -396,7 +396,7 @@ public class GigaGal implements Humanoid {
     }
 
     private void touchDescendableGround(Ground ground) {
-        if (ground instanceof SinkableGround) {
+        if (ground instanceof Sinkable) {
             setAtopGround(ground);
             onSinkable = true;
             canDash = false;
@@ -404,7 +404,7 @@ public class GigaGal implements Humanoid {
             canClimb = false;
             lookStartTime = 0;
             lookTimeSeconds = 0;
-        } else if (ground instanceof com.udacity.gamedev.gigagal.entity.ClimbableGround) {
+        } else if (ground instanceof Climbable) {
             if (Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
                 if (getTop() > ground.getBottom()) {
                     onClimbable = true;
@@ -439,7 +439,7 @@ public class GigaGal implements Humanoid {
         clingStartTime = 0;
         canLook = true;
         canHover = false;
-        if (groundState == GroundState.AIRBORNE && !(ground instanceof SkateableGround)) {
+        if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
             stand(); // set groundstate to standing
             lookStartTime = 0;
         }
@@ -450,7 +450,7 @@ public class GigaGal implements Humanoid {
             if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
                 /*(!Helpers.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
                 if (onBounceable) {
-                    com.udacity.gamedev.gigagal.entity.BounceableGround bounceable = (com.udacity.gamedev.gigagal.entity.BounceableGround) touchedGround;
+                    Bounceable bounceable = (Bounceable) touchedGround;
                     bounceable.resetStartTime();
                     bounceable.setLoaded(false);
                     onBounceable = false;
@@ -459,7 +459,7 @@ public class GigaGal implements Humanoid {
                 fall();
             } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
                 if (onBounceable) {
-                    com.udacity.gamedev.gigagal.entity.BounceableGround bounceable = (com.udacity.gamedev.gigagal.entity.BounceableGround) touchedGround;
+                    Bounceable bounceable = (Bounceable) touchedGround;
                     bounceable.resetStartTime();
                     bounceable.setLoaded(false);
                     onBounceable = false;
@@ -491,7 +491,7 @@ public class GigaGal implements Humanoid {
                         level.spawnExplosion(intersectionPoint, hazard.getType());
                         int damage = hazard.getDamage();
                         float margin = 0;
-                        if (hazard instanceof DestructibleHazard) {
+                        if (hazard instanceof Destructible) {
                             margin = hazard.getWidth() / 6;
                         }
                         if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
@@ -709,7 +709,7 @@ public class GigaGal implements Humanoid {
             }
         } else if (onRideable) {
             velocity.x = 0;
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Orientation.X);
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rideable) touchedGround).getDirection(), Orientation.X);
         } else {
             velocity.x = 0;
         }
@@ -843,7 +843,7 @@ public class GigaGal implements Humanoid {
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
         velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Orientation.X);
         if (onRideable) {
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((RideableGround) touchedGround).getDirection(), Orientation.X);
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rideable) touchedGround).getDirection(), Orientation.X);
         } else if (onSkateable) {
             velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
         } else if (onSinkable) {
@@ -1021,7 +1021,7 @@ public class GigaGal implements Humanoid {
         } else {
             if (action == Action.CLIMBING) {
                 fall();
-                if (!(touchedGround instanceof com.udacity.gamedev.gigagal.entity.ClimbableGround && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())))  {
+                if (!(touchedGround instanceof Climbable && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())))  {
                     velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
                 }
             }
