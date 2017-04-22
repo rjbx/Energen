@@ -28,7 +28,7 @@ public class BreakableBox implements Destructible, Solid, Ground, Hazard {
     // ctor
     public BreakableBox(Rectangle shape, Enums.Material type) {
         active = true;
-        damage = 25;
+        damage = 50;
         this.width = shape.getWidth();
         this.height = shape.getHeight();
         this.top = shape.getY() + height;
