@@ -16,7 +16,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Zoomba implements DestructibleHazard {
 
     // fields
-    private final Enums.WeaponType type;
+    private final Enums.Material type;
     private final long startTime;
     private final float bobOffset;
     private final float bobNadir;
@@ -28,7 +28,7 @@ public class Zoomba implements DestructibleHazard {
     private Animation animation;
 
     // ctor
-    public Zoomba(Vector2 position, Enums.WeaponType type) {
+    public Zoomba(Vector2 position, Enums.Material type) {
         this.position = position;
         this.startingPosition = new Vector2(position);
         bobNadir = position.y;
@@ -98,7 +98,7 @@ public class Zoomba implements DestructibleHazard {
     @Override public final int getHitScore() { return Constants.ZOOMBA_HIT_SCORE; }
     @Override public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
     @Override public final int getDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
-    @Override public Enums.WeaponType getType() { return type; }
+    @Override public Enums.Material getType() { return type; }
     @Override public final void setHealth( float health ) { this.health = health; }
     @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }

@@ -14,7 +14,7 @@ public final class SaveData {
     protected static void erase() { getPreferences().clear(); getPreferences().flush(); }
 
     public static boolean hasTouchscreen() { return getPreferences().getBoolean("Touchscreen", false); }
-    public static String getWeapons() { return getPreferences().getString("Weapons", Enums.WeaponType.NATIVE.name()); }
+    public static String getWeapons() { return getPreferences().getString("Weapons", Enums.Material.NATIVE.name()); }
     public static int getDifficulty() { return getPreferences().getInteger("Difficulty", -1); }
     public static int getTotalScore() { return getPreferences().getInteger("Score", 0); }
     public static long getTotalTime() { return getPreferences().getLong("Time", 0); }

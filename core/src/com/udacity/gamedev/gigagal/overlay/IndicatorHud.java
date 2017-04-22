@@ -82,13 +82,13 @@ public class IndicatorHud {
             );
         }
 
-        Enums.WeaponType weapon = level.getGigaGal().getWeapon();
-        Enums.AmmoIntensity intensity = level.getGigaGal().getAmmoIntensity();
+        Enums.Material weapon = level.getGigaGal().getWeapon();
+        Enums.ShotIntensity intensity = level.getGigaGal().getShotIntensity();
         Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, false);
         ammo.update(1);
         Vector2 offset = new Vector2();
         switch (intensity) {
-            case SHOT:
+            case NORMAL:
                 offset.set(Constants.SHOT_CENTER);
                 offset.scl(Constants.AMMO_ICON_SCALE);
                 break;

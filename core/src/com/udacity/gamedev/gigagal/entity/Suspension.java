@@ -14,7 +14,7 @@ public class Suspension implements IndestructibleHazard {
 
     // fields
     private Vector2 position;
-    private Enums.WeaponType type;
+    private Enums.Material type;
     private Vector2 collisionSpan; // class-level instantiation
     private Vector2 center; // class-level instantiation
     private Vector2 knockback; // class-level instantiation
@@ -23,7 +23,7 @@ public class Suspension implements IndestructibleHazard {
     private long startTime;
 
     // ctor
-    public Suspension(Vector2 position, Enums.WeaponType type) {
+    public Suspension(Vector2 position, Enums.Material type) {
         this.position = position;
         this.type = type;
         startTime = TimeUtils.nanoTime();
@@ -91,5 +91,5 @@ public class Suspension implements IndestructibleHazard {
     @Override public final float getBottom() { return position.y - center.y; }
     @Override public final int getDamage() { return damage; }
     @Override public final Vector2 getKnockback() { return knockback; }
-    @Override public final Enums.WeaponType getType() { return type; }
+    @Override public final Enums.Material getType() { return type; }
 }

@@ -20,7 +20,7 @@ public class Orben implements DestructibleHazard {
     private Vector2 position;
     private Enums.Direction xDirection;
     private Enums.Direction yDirection;
-    private Enums.WeaponType type;
+    private Enums.Material type;
     private Vector2 velocity; // class-level instantiation
     private long startTime;
     private float health;
@@ -29,7 +29,7 @@ public class Orben implements DestructibleHazard {
 
 
     // ctor
-    public Orben(LevelUpdater level, Vector2 position, Enums.WeaponType type) {
+    public Orben(LevelUpdater level, Vector2 position, Enums.Material type) {
         this.level = level;
         this.type = type;
         this.position = position;
@@ -142,7 +142,7 @@ public class Orben implements DestructibleHazard {
     @Override public final int getDamage() { return Constants.ORBEN_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ORBEN_KNOCKBACK; }
     @Override public final void setHealth( float health ) { this.health = health; }
-    @Override public Enums.WeaponType getType() { return type; }
+    @Override public Enums.Material getType() { return type; }
     public final long getStartTime() { return startTime; }
     public final boolean isActive() { return active; }
 }

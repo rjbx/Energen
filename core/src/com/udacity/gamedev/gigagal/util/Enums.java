@@ -1,5 +1,7 @@
 package com.udacity.gamedev.gigagal.util;
 
+import com.badlogic.gdx.graphics.Color;
+
 // immutable non-instantiable static
 public final class Enums {
 
@@ -44,47 +46,46 @@ public final class Enums {
         AMMO
     }
 
-    public enum AmmoIntensity {
-        SHOT, CHARGE_SHOT, BLAST,
+    public enum ShotIntensity {
+        NORMAL, CHARGED, BLAST,
     }
 
-    public enum TypeEffectiveness {
+    public enum ReactionIntensity {
         STRONG,
         NORMAL,
         WEAK
     }
 
-    public enum WeaponType {
+    public enum Material {
 
+        NATIVE { @Override public final Theme theme() { return Theme.FINAL; } },
 
-        NATIVE { @Override public final LevelName levelName() { return LevelName.FINAL; } },
+        ORE { @Override public final Theme theme() { return Theme.MECHANICAL; } },
+        PLASMA { @Override public final Theme theme() { return Theme.ELECTROMAGNETIC; } },
+        GAS { @Override public final Theme theme() { return Theme.NUCLEAR; } },
+        LIQUID { @Override public final Theme theme() { return Theme.THERMAL; } },
+        SOLID { @Override public final Theme theme() { return Theme.GRAVITATIONAL; } },
+        ANTIMATTER { @Override public final Theme theme() { return Theme.MYSTERIOUS; } },
 
-        ORE { @Override public final LevelName levelName() { return LevelName.MECHANICAL; } },
-        PLASMA { @Override public final LevelName levelName() { return LevelName.ELECTROMAGNETIC; } },
-        GAS { @Override public final LevelName levelName() { return LevelName.NUCLEAR; } },
-        LIQUID { @Override public final LevelName levelName() { return LevelName.THERMAL; } },
-        SOLID { @Override public final LevelName levelName() { return LevelName.GRAVITATIONAL; } },
-        ANTIMATTER { @Override public final LevelName levelName() { return LevelName.MYSTERIOUS; } },
+        HYBRID { @Override public final Theme theme() { return Theme.FINAL; } };
 
-        HYBRID { @Override public final LevelName levelName() { return LevelName.FINAL; } };
-
-        abstract public LevelName levelName();
+        abstract public Theme theme();
     }
 
-    public enum LevelName {
+    public enum Theme {
 
-        HOME { @Override public final WeaponType weaponType() { return WeaponType.NATIVE; } },
+        HOME { @Override public final Color color() { return Color.CHARTREUSE; } },
 
-        MECHANICAL { @Override public final WeaponType weaponType() { return WeaponType.ORE; } },
-        ELECTROMAGNETIC { @Override public final WeaponType weaponType() { return WeaponType.PLASMA; } },
-        NUCLEAR { @Override public final WeaponType weaponType() { return WeaponType.GAS; } },
-        THERMAL { @Override public final WeaponType weaponType() { return WeaponType.LIQUID; } },
-        GRAVITATIONAL { @Override public final WeaponType weaponType() { return WeaponType.SOLID; } },
-        MYSTERIOUS { @Override public final WeaponType weaponType() { return WeaponType.ANTIMATTER; } },
+        MECHANICAL { @Override public final Color color() { return Color.LIGHT_GRAY; } },
+        ELECTROMAGNETIC { @Override public final Color color() { return Color.DARK_GRAY; } },
+        NUCLEAR { @Override public final Color color() { return Color.NAVY; } },
+        THERMAL { @Override public final Color color() { return Color.TAN; } },
+        GRAVITATIONAL { @Override public final Color color() { return Color.FIREBRICK; } },
+        MYSTERIOUS { @Override public final Color color() { return Color.CLEAR; } },
 
-        FINAL { @Override public final WeaponType weaponType() { return WeaponType.HYBRID; } };
+        FINAL { @Override public final Color color() { return Color.MAROON; } };
 
-        abstract public WeaponType weaponType();
+        abstract public Color color();
     }
 
     public enum LevelMenu {

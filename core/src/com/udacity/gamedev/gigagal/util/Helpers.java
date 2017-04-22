@@ -199,18 +199,18 @@ public final class Helpers {
         return (encompassedBetweenTwoSides(position.x, halfWidth, left, right) && encompassedBetweenTwoSides(position.y, halfHeight, bottom, top));
     }
 
-    public static final int useAmmo(Enums.AmmoIntensity intensity) {
-        if (intensity == Enums.AmmoIntensity.BLAST) {
+    public static final int useAmmo(Enums.ShotIntensity intensity) {
+        if (intensity == Enums.ShotIntensity.BLAST) {
             return 3;
-        } else if (intensity == Enums.AmmoIntensity.SHOT) {
+        } else if (intensity == Enums.ShotIntensity.NORMAL) {
             return 1;
         }
         return 0;
     }
 
-    public static final void applyDamage(DestructibleHazard destructible, Enums.AmmoIntensity ammoIntensity, float damage) {
+    public static final void applyDamage(DestructibleHazard destructible, Enums.ShotIntensity shotIntensity, float damage) {
         if (!(destructible instanceof Orben && !(((Orben) destructible).isActive()))) {
-            if (ammoIntensity == Enums.AmmoIntensity.BLAST) {
+            if (shotIntensity == Enums.ShotIntensity.BLAST) {
                 destructible.setHealth(destructible.getHealth() - damage);
             } else {
                 destructible.setHealth((destructible.getHealth() - (damage * .67f)));
@@ -218,20 +218,20 @@ public final class Helpers {
         }
     }
 
-    public static Enums.TypeEffectiveness getAmmoEffectiveness(Enums.WeaponType enemyType, Enums.WeaponType ammoType) {
+    public static Enums.ReactionIntensity getAmmoEffectiveness(Enums.Material enemyType, Enums.Material ammoType) {
         if (enemyType == ammoType) {
-            return Enums.TypeEffectiveness.WEAK;
+            return Enums.ReactionIntensity.WEAK;
         }
         if (
-           (enemyType == Enums.WeaponType.SOLID && ammoType == Enums.WeaponType.LIQUID)
-        || (enemyType == Enums.WeaponType.ORE && ammoType == Enums.WeaponType.SOLID)
-        || (enemyType == Enums.WeaponType.PLASMA && ammoType == Enums.WeaponType.ORE)
-        || (enemyType == Enums.WeaponType.LIQUID && ammoType == Enums.WeaponType.GAS)
-        || (enemyType == Enums.WeaponType.GAS && ammoType == Enums.WeaponType.PLASMA)
-        || (ammoType == Enums.WeaponType.ANTIMATTER)
-        || (ammoType == Enums.WeaponType.HYBRID)) {
-            return Enums.TypeEffectiveness.STRONG;
+           (enemyType == Enums.Material.SOLID && ammoType == Enums.Material.LIQUID)
+        || (enemyType == Enums.Material.ORE && ammoType == Enums.Material.SOLID)
+        || (enemyType == Enums.Material.PLASMA && ammoType == Enums.Material.ORE)
+        || (enemyType == Enums.Material.LIQUID && ammoType == Enums.Material.GAS)
+        || (enemyType == Enums.Material.GAS && ammoType == Enums.Material.PLASMA)
+        || (ammoType == Enums.Material.ANTIMATTER)
+        || (ammoType == Enums.Material.HYBRID)) {
+            return Enums.ReactionIntensity.STRONG;
         }
-        return Enums.TypeEffectiveness.NORMAL;
+        return Enums.ReactionIntensity.NORMAL;
     }
 }

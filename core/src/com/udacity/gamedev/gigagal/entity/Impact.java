@@ -16,12 +16,12 @@ public class Impact implements Entity {
     //fields
     public static final String TAG = Impact.class.getName();
     private final Vector2 position;
-    private final Enums.WeaponType type;
+    private final Enums.Material type;
     private final Animation animation;
     private final long startTime;
 
     // ctor
-    public Impact(Vector2 position, Enums.WeaponType type) {
+    public Impact(Vector2 position, Enums.Material type) {
         this.position = position;
         this.type = type;
         startTime = TimeUtils.nanoTime();

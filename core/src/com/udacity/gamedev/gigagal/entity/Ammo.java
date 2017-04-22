@@ -22,8 +22,8 @@ public final class Ammo implements IndestructibleHazard {
     private Vector2 ammoCenter;
     private final Direction direction;
     private final Orientation orientation;
-    private final AmmoIntensity ammoIntensity;
-    private final WeaponType weapon;
+    private final ShotIntensity shotIntensity;
+    private final Material weapon;
     private int damage;
     private float radius;
     private float scale;
@@ -35,12 +35,12 @@ public final class Ammo implements IndestructibleHazard {
     private TextureRegion region; // class-level instantiation
 
     // ctor
-    public Ammo(LevelUpdater level, Vector2 position, Direction direction, Orientation orientation, AmmoIntensity ammoIntensity, WeaponType weapon, boolean fromGigagal) {
+    public Ammo(LevelUpdater level, Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, Material weapon, boolean fromGigagal) {
         this.level = level;
         this.position = position;
         this.direction = direction;
         this.orientation = orientation;
-        this.ammoIntensity = ammoIntensity;
+        this.shotIntensity = shotIntensity;
         this.weapon = weapon;
         this.fromGigagal = fromGigagal;
         knockback = new Vector2();
@@ -50,9 +50,9 @@ public final class Ammo implements IndestructibleHazard {
         region = null;
         scale = 1;
         rotation = 0;
-        if (ammoIntensity == AmmoIntensity.BLAST) {
+        if (shotIntensity == ShotIntensity.BLAST) {
             radius = Constants.BLAST_RADIUS;
-        } else if (ammoIntensity == AmmoIntensity.CHARGE_SHOT) {
+        } else if (shotIntensity == ShotIntensity.CHARGED) {
             scale += (Constants.CHARGE_DURATION / 3);
             radius = Constants.SHOT_RADIUS;
             radius *= scale;
@@ -69,7 +69,7 @@ public final class Ammo implements IndestructibleHazard {
             case NATIVE:
                 damage = Constants.AMMO_STANDARD_DAMAGE;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
-                if (ammoIntensity == AmmoIntensity.BLAST) {
+                if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().nativeBlast;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().nativeShot;
@@ -78,7 +78,7 @@ public final class Ammo implements IndestructibleHazard {
             case GAS:
                 damage = Constants.FLAME_DAMAGE;
                 knockback = Constants.FLAME_KNOCKBACK;
-                if (ammoIntensity == AmmoIntensity.BLAST) {
+                if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().gasBlast;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().gasShot;
@@ -87,7 +87,7 @@ public final class Ammo implements IndestructibleHazard {
             case LIQUID:
                 damage = Constants.GEISER_DAMAGE;
                 knockback = Constants.GEISER_KNOCKBACK;
-                if (ammoIntensity == AmmoIntensity.BLAST) {
+                if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().liquidBlast;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().liquidShot;
@@ -96,7 +96,7 @@ public final class Ammo implements IndestructibleHazard {
             case PLASMA:
                 damage = Constants.COIL_DAMAGE;
                 knockback = Constants.COIL_KNOCKBACK;
-                if (ammoIntensity == AmmoIntensity.BLAST) {
+                if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().plasmaBlast;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().plasmaShot;
@@ -105,7 +105,7 @@ public final class Ammo implements IndestructibleHazard {
             case ORE:
                 damage = Constants.WHEEL_DAMAGE;
                 knockback = Constants.WHEEL_KNOCKBACK;
-                if (ammoIntensity == AmmoIntensity.BLAST) {
+                if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().polymerBlast;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().polymerShot;
@@ -114,7 +114,7 @@ public final class Ammo implements IndestructibleHazard {
             case SOLID:
                 damage = Constants.SPIKE_DAMAGE;
                 knockback = Constants.SPIKE_KNOCKBACK;
-                if (ammoIntensity == AmmoIntensity.BLAST) {
+                if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().solidBlast;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().solidShot;
@@ -123,7 +123,7 @@ public final class Ammo implements IndestructibleHazard {
             case ANTIMATTER:
                 damage = Constants.MAX_HEALTH / 2;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
-                if (ammoIntensity == AmmoIntensity.BLAST) {
+                if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().psychicBlast;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().psychicShot;
@@ -132,7 +132,7 @@ public final class Ammo implements IndestructibleHazard {
             case HYBRID:
                 damage = Constants.SPIKE_DAMAGE * 2;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
-                if (ammoIntensity == AmmoIntensity.BLAST) {
+                if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().hybridBlast;
                 } else {
                     region = Assets.getInstance().getAmmoAssets().hybridShot;
@@ -152,7 +152,7 @@ public final class Ammo implements IndestructibleHazard {
                     level.spawnExplosion(position, weapon);
                     active = false;
 
-                    TypeEffectiveness effectiveness = Helpers.getAmmoEffectiveness(destructible.getType(), weapon);
+                    ReactionIntensity effectiveness = Helpers.getAmmoEffectiveness(destructible.getType(), weapon);
                     switch (effectiveness) {
                         case STRONG:
                             damage = Constants.AMMO_SPECIALIZED_DAMAGE;
@@ -172,7 +172,7 @@ public final class Ammo implements IndestructibleHazard {
                     } else {
                         hitScore = destructible.getHitScore();
                     }
-                    Helpers.applyDamage(destructible, ammoIntensity, damage / Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
+                    Helpers.applyDamage(destructible, shotIntensity, damage / Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
                 }
             }
         }
@@ -239,8 +239,8 @@ public final class Ammo implements IndestructibleHazard {
     @Override public final float getBottom() { return position.y - radius; }
     public final int getDamage() { return damage; }
     public final Vector2 getKnockback() { return knockback; }
-    public final AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
-    public final WeaponType getType() { return weapon; }
+    public final ShotIntensity getShotIntensity() { return shotIntensity; }
+    public final Material getType() { return weapon; }
     public final TextureRegion getTexture() { return region; }
     public final int getHitScore() { return hitScore; }
     public final boolean isFromGigagal() { return fromGigagal; }

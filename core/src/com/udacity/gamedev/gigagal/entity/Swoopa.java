@@ -22,13 +22,13 @@ public class Swoopa implements DestructibleHazard {
     private LevelUpdater level;
     private Vector2 velocity; // class-level instantiation
     private Vector2 position;
-    private Enums.WeaponType type;
+    private Enums.Material type;
     private float health;
     private long descentStartTime;
     private Animation animation;
 
     // ctor
-    public Swoopa(LevelUpdater level, Vector2 position, Enums.WeaponType type) {
+    public Swoopa(LevelUpdater level, Vector2 position, Enums.Material type) {
         this.level = level;
         this.position = position;
         this.type = type;
@@ -104,7 +104,7 @@ public class Swoopa implements DestructibleHazard {
     @Override public final int getKillScore() { return Constants.SWOOPA_KILL_SCORE; }
     @Override public final int getDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.SWOOPA_KNOCKBACK; }
-    @Override public Enums.WeaponType getType() { return type; }
+    @Override public Enums.Material getType() { return type; }
     public int getMountDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.SWOOPA_KNOCKBACK; }
     public final long getStartTime() { return startTime; }

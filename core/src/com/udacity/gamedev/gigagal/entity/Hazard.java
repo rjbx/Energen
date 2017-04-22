@@ -8,5 +8,5 @@ public interface Hazard extends Entity {
 
     int getDamage();
     Vector2 getKnockback();
-    Enums.WeaponType getType();
+    Enums.Material getType();
 }

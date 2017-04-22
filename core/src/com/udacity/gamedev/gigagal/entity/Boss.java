@@ -46,10 +46,10 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
     private Enums.Action action;
     private Enums.GroundState groundState;
     private Ground touchedGround; // class-level instantiation
-    private Enums.AmmoIntensity ammoIntensity;
-    private Enums.WeaponType weapon;
-    private List<Enums.WeaponType> weaponList; // class-level instantiation
-    private ListIterator<Enums.WeaponType> weaponToggler; // class-level instantiation
+    private Enums.ShotIntensity shotIntensity;
+    private Enums.Material weapon;
+    private List<Enums.Material> weaponList; // class-level instantiation
+    private ListIterator<Enums.Material> weaponToggler; // class-level instantiation
     private boolean onRideable;
     private boolean onSkateable;
     private boolean onUnbearable;
@@ -96,7 +96,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
 
         private LevelUpdater level;
         private Vector2 spawnPosition;
-        private Enums.WeaponType weapon = Enums.WeaponType.NATIVE;
+        private Enums.Material weapon = Enums.Material.NATIVE;
         private float height = Constants.GIGAGAL_HEIGHT;
         private float eyeHeight = Constants.GIGAGAL_EYE_HEIGHT;
         private float width = Constants.GIGAGAL_STANCE_WIDTH;
@@ -106,7 +106,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
             this.spawnPosition = spawnPosition;
         }
 
-        public Builder weapon(Enums.WeaponType weapon) {
+        public Builder weapon(Enums.Material weapon) {
             this.weapon = weapon; return this;
         }
 
@@ -159,7 +159,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
         ammo = Constants.INITIAL_AMMO;
         health = Constants.INITIAL_HEALTH;
         turbo = Constants.MAX_TURBO;
-        ammoIntensity = Enums.AmmoIntensity.SHOT;
+        shotIntensity = Enums.ShotIntensity.NORMAL;
         startTurbo = turbo;
         turboDuration = 0;
         touchedGround = null;
@@ -803,7 +803,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
     private void recoil(Vector2 velocity) {
         action = Enums.Action.RECOILING;
         groundState = Enums.GroundState.AIRBORNE;
-        ammoIntensity = Enums.AmmoIntensity.SHOT;
+        shotIntensity = Enums.ShotIntensity.NORMAL;
         chargeStartTime = 0;
         strideStartTime = 0;
         lookStartTime = 0;
@@ -816,38 +816,38 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
         this.velocity.y = velocity.y;
     }
 
-    private void enableShoot(Enums.WeaponType weapon) {
+    private void enableShoot(Enums.Material weapon) {
         if (canShoot) {
 //            if (inputControls.shootButtonPressed) {
                 if (chargeStartTime == 0) {
                     chargeStartTime = TimeUtils.nanoTime();
                 } else if (chargeTimeSeconds > Constants.CHARGE_DURATION) {
-                    ammoIntensity = Enums.AmmoIntensity.BLAST;
+                    shotIntensity = Enums.ShotIntensity.BLAST;
                 } else if (chargeTimeSeconds > Constants.CHARGE_DURATION / 3) {
-                    ammoIntensity = Enums.AmmoIntensity.CHARGE_SHOT;
+                    shotIntensity = Enums.ShotIntensity.CHARGED;
                 }
                 chargeTimeSeconds = Helpers.secondsSince(chargeStartTime);
           /*  } else */if (chargeStartTime != 0) {
                 int ammoUsed;
 
-                if (weapon == Enums.WeaponType.NATIVE
-                        || (ammo < Constants.BLAST_AMMO_CONSUMPTION && ammoIntensity == Enums.AmmoIntensity.BLAST)
+                if (weapon == Enums.Material.NATIVE
+                        || (ammo < Constants.BLAST_AMMO_CONSUMPTION && shotIntensity == Enums.ShotIntensity.BLAST)
                         || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
                     ammoUsed = 0;
-                    weapon = Enums.WeaponType.NATIVE;
+                    weapon = Enums.Material.NATIVE;
                 } else {
-                    ammoUsed = Helpers.useAmmo(ammoIntensity);
+                    ammoUsed = Helpers.useAmmo(shotIntensity);
                 }
 
-                shoot(ammoIntensity, weapon, ammoUsed);
+                shoot(shotIntensity, weapon, ammoUsed);
                 chargeStartTime = 0;
                 chargeTimeSeconds = 0;
-                this.ammoIntensity = Enums.AmmoIntensity.SHOT;
+                this.shotIntensity = Enums.ShotIntensity.NORMAL;
             }
         }
     }
 
-    public void shoot(Enums.AmmoIntensity ammoIntensity, Enums.WeaponType weapon, int ammoUsed) {
+    public void shoot(Enums.ShotIntensity shotIntensity, Enums.Material weapon, int ammoUsed) {
         ammo -= ammoUsed;
         Vector2 ammoPosition = new Vector2(
                 position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, directionX, Enums.Orientation.X),
@@ -855,9 +855,9 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
         );
         if (lookStartTime != 0) {
             ammoPosition.add(Helpers.absoluteToDirectionalValue(0, directionX, Enums.Orientation.X), Helpers.absoluteToDirectionalValue(6, directionY, Enums.Orientation.Y));
-            level.spawnAmmo(ammoPosition, directionY, Enums.Orientation.Y, ammoIntensity, weapon, true);
+            level.spawnAmmo(ammoPosition, directionY, Enums.Orientation.Y, shotIntensity, weapon, true);
         } else {
-            level.spawnAmmo(ammoPosition, directionX, Enums.Orientation.X, ammoIntensity, weapon, true);
+            level.spawnAmmo(ammoPosition, directionX, Enums.Orientation.X, shotIntensity, weapon, true);
         }
     }
 
@@ -1199,11 +1199,11 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
     @Override public final boolean getClimbStatus() { return canClimb; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }
     @Override public final Enums.Action getAction() { return action; }
-    @Override public final Enums.AmmoIntensity getAmmoIntensity() { return ammoIntensity; }
-    @Override public final Enums.WeaponType getWeapon() { return weapon; }
+    public final Enums.ShotIntensity getShotIntensity() { return shotIntensity; }
+    @Override public final Enums.Material getWeapon() { return weapon; }
     @Override public final int getDamage() { return Constants.AMMO_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
-    @Override public final Enums.WeaponType getType() { return weapon; }
+    @Override public final Enums.Material getType() { return weapon; }
     private final float getHalfWidth() { return halfWidth; }
 
     // Setters

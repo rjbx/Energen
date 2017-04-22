@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Box implements SolidGround {
 
     // fields
-    private final Enums.LevelName type;
+    private final Enums.Theme type;
     private final Vector2 position; // class-level instantiation
     private final float top;
     private final float bottom;
@@ -24,7 +24,7 @@ public class Box implements SolidGround {
     private final NinePatch ninePatch;
 
     // ctor
-    public Box(Rectangle shape, Enums.LevelName type) {
+    public Box(Rectangle shape, Enums.Theme type) {
         this.width = shape.getWidth();
         this.height = shape.getHeight();
         this.top = shape.getY() + height;
@@ -33,31 +33,8 @@ public class Box implements SolidGround {
         this.right = shape.getX() + width;
         this.position = new Vector2(left + (width / 2), bottom + (height / 2));
         this.type = type;
-        switch (type) {
-            case GRAVITATIONAL:
-                ninePatch = Assets.getInstance().getBoxAssets().redBox;
-                break;
-            case MECHANICAL:
-                ninePatch = Assets.getInstance().getBoxAssets().greyBox;
-                break;
-            case ELECTROMAGNETIC:
-                ninePatch = Assets.getInstance().getBoxAssets().blackBox;
-                break;
-            case THERMAL:
-                ninePatch = Assets.getInstance().getBoxAssets().yellowBox;
-                break;
-            case NUCLEAR:
-                ninePatch = Assets.getInstance().getBoxAssets().blueBox;
-                break;
-            case MYSTERIOUS:
-                ninePatch = Assets.getInstance().getBoxAssets().clearBox;
-                break;
-            case FINAL:
-                ninePatch = Assets.getInstance().getBoxAssets().magentaBox;
-                break;
-            default:
-                ninePatch = Assets.getInstance().getBoxAssets().defaultBox;
-        }
+        ninePatch = Assets.getInstance().getBoxAssets().greyBox;
+        ninePatch.setColor(type.color());
     }
 
     @Override

@@ -20,7 +20,7 @@ public class Rollen implements DestructibleHazard {
     private Vector2 position;
     private Vector2 previousFramePosition; // class-level instantiation
     private Enums.Direction xDirection;
-    private Enums.WeaponType type;
+    private Enums.Material type;
     private Vector2 velocity; // class-level instantiation
     private long startTime;
     private float health;
@@ -32,7 +32,7 @@ public class Rollen implements DestructibleHazard {
     private Animation animation;
 
     // ctor
-    public Rollen(LevelUpdater level, Vector2 position, Enums.WeaponType type) {
+    public Rollen(LevelUpdater level, Vector2 position, Enums.Material type) {
         this.level = level;
         this.type = type;
         this.position = position;
@@ -147,6 +147,6 @@ public class Rollen implements DestructibleHazard {
     @Override public final int getDamage() { return Constants.ROLLEN_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ROLLEN_KNOCKBACK; }
     @Override public final void setHealth( float health ) { this.health = health; }
-    @Override public final Enums.WeaponType getType() { return type; }
+    @Override public final Enums.Material getType() { return type; }
     public final long getStartTime() { return startTime; }
 }

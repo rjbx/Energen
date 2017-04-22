@@ -62,7 +62,7 @@ final class OverworldScreen extends ScreenAdapter {
 
     public static void setMainMenu() {
         List<String> selectionStrings = new ArrayList();
-        for (Enums.LevelName level : Enums.LevelName.values()) {
+        for (Enums.Theme level : Enums.Theme.values()) {
             selectionStrings.add(level.name());
         }
         selectionStrings.add("OPTIONS");
@@ -117,7 +117,7 @@ final class OverworldScreen extends ScreenAdapter {
                 if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
                     messageVisible = false;
                     try {
-                        LevelLoader.load(Enums.LevelName.valueOf(Cursor.getInstance().getIterator().previous()));
+                        LevelLoader.load(Enums.Theme.valueOf(Cursor.getInstance().getIterator().previous()));
                         ScreenManager.getInstance().setScreen(LevelScreen.getInstance());
                         this.dispose();
                         return;

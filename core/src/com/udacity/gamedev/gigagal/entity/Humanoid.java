@@ -17,6 +17,6 @@ public interface Humanoid extends MultidirectionalX, MultidirectionalY {
     boolean getClimbStatus();
     Enums.GroundState getGroundState();
     Enums.Action getAction();
-    Enums.AmmoIntensity getAmmoIntensity();
-    Enums.WeaponType getWeapon();
+    Enums.ShotIntensity getShotIntensity();
+    Enums.Material getWeapon();
 }

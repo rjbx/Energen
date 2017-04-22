@@ -51,7 +51,7 @@ final class LevelLoader {
     // cannot be subclassed
     private LevelLoader() {}
 
-    protected static final void load(Enums.LevelName level) throws ParseException, IOException {
+    protected static final void load(Enums.Theme level) throws ParseException, IOException {
 
         final FileHandle file = Gdx.files.internal("levels/" + level + ".dt");
 
@@ -133,15 +133,15 @@ final class LevelLoader {
         return orientation;
     }
 
-    private static final Enums.WeaponType extractType(JSONObject object) {
-        Enums.WeaponType type = Enums.WeaponType.NATIVE;
+    private static final Enums.Material extractType(JSONObject object) {
+        Enums.Material type = Enums.Material.NATIVE;
         try {
             if (object.containsKey("customVars")) {
                 String[] customVars = ((String) object.get("customVars")).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_TYPE_KEY)) {
                         String[] typeSplit = customVar.split(Constants.LEVEL_TYPE_KEY + ":");
-                        type = Enums.WeaponType.valueOf(typeSplit[1]);
+                        type = Enums.Material.valueOf(typeSplit[1]);
                     }
                 }
             }
@@ -155,15 +155,15 @@ final class LevelLoader {
         return type;
     }
 
-    private static final Enums.AmmoIntensity extractIntensity(JSONObject object) {
-        Enums.AmmoIntensity intensity = Enums.AmmoIntensity.SHOT;
+    private static final Enums.ShotIntensity extractIntensity(JSONObject object) {
+        Enums.ShotIntensity intensity = Enums.ShotIntensity.NORMAL;
         try {
             if (object.containsKey("customVars")) {
                 String[] customVars = ((String) object.get("customVars")).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_INTENSITY_KEY)) {
                         String[] intensitySplit = customVar.split(Constants.LEVEL_INTENSITY_KEY + ":");
-                        intensity = Enums.AmmoIntensity.valueOf(intensitySplit[1]);
+                        intensity = Enums.ShotIntensity.valueOf(intensitySplit[1]);
                     }
                 }
             }
@@ -206,8 +206,8 @@ final class LevelLoader {
             final Vector2 imagePosition = extractPosition(item);
             final Vector2 scale = extractScale(item);
             final Enums.Orientation orientation = extractOrientation(item);
-            final Enums.WeaponType type = extractType(item);
-            final Enums.AmmoIntensity intensity = extractIntensity(item);
+            final Enums.Material type = extractType(item);
+            final Enums.ShotIntensity intensity = extractIntensity(item);
             final float range = extractRange(item);
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.AMMO_POWERUP_SPRITE)) {
@@ -238,39 +238,39 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPIKE_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SPIKE_CENTER);
                 Gdx.app.log(TAG, "Loaded the spike at " + spikePosition);
-                level.getHazards().add(new Protrusion(spikePosition, Enums.WeaponType.SOLID));
+                level.getHazards().add(new Protrusion(spikePosition, Enums.Material.SOLID));
             }  else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ROD_SPRITE_1)) {
                 final Vector2 rodPosition = imagePosition.add(Constants.ROD_CENTER);
                 Gdx.app.log(TAG, "Loaded the rod at " + rodPosition);
-                level.getHazards().add(new Protrusion(rodPosition, Enums.WeaponType.PLASMA));
+                level.getHazards().add(new Protrusion(rodPosition, Enums.Material.PLASMA));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.FLAME_SPRITE_1)) {
                 final Vector2 flamePosition = imagePosition.add(Constants.FLAME_CENTER);
                 Gdx.app.log(TAG, "Loaded the flame at " + flamePosition);
-                level.getHazards().add(new Protrusion(flamePosition, Enums.WeaponType.GAS));
+                level.getHazards().add(new Protrusion(flamePosition, Enums.Material.GAS));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.GEISER_SPRITE_1)) {
                 final Vector2 geiserPosition = imagePosition.add(Constants.GEISER_CENTER);
                 Gdx.app.log(TAG, "Loaded the geiser at " + geiserPosition);
-                level.getHazards().add(new Protrusion(geiserPosition, Enums.WeaponType.LIQUID));
+                level.getHazards().add(new Protrusion(geiserPosition, Enums.Material.LIQUID));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WHEEL_SPRITE_1)) {
                 final Vector2 wheelPosition = imagePosition.add(Constants.WHEEL_CENTER);
                 Gdx.app.log(TAG, "Loaded the wheel at " + wheelPosition);
-                level.getHazards().add(new Suspension(wheelPosition, Enums.WeaponType.ORE));
+                level.getHazards().add(new Suspension(wheelPosition, Enums.Material.ORE));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.COIL_SPRITE_1)) {
                 final Vector2 coilPosition = imagePosition.add(Constants.COIL_CENTER);
                 Gdx.app.log(TAG, "Loaded the coil at " + coilPosition);
-                level.getHazards().add(new Suspension(coilPosition, Enums.WeaponType.PLASMA));
+                level.getHazards().add(new Suspension(coilPosition, Enums.Material.PLASMA));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BURNER_SPRITE_1)) {
                 final Vector2 burnerPosition = imagePosition.add(Constants.BURNER_CENTER);
                 Gdx.app.log(TAG, "Loaded the burner at " + burnerPosition);
-                level.getHazards().add(new Suspension(burnerPosition, Enums.WeaponType.GAS));
+                level.getHazards().add(new Suspension(burnerPosition, Enums.Material.GAS));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LUMP_SPRITE_1)) {
                 final Vector2 lumpPosition = imagePosition.add(Constants.LUMP_CENTER);
                 Gdx.app.log(TAG, "Loaded the lump at " + lumpPosition);
-                level.getHazards().add(new Suspension(lumpPosition, Enums.WeaponType.LIQUID));
+                level.getHazards().add(new Suspension(lumpPosition, Enums.Material.LIQUID));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VACUUM_SPRITE_1)) {
                 final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
                 Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
-                level.getHazards().add(new Suspension(vacuumPosition, Enums.WeaponType.ANTIMATTER));
+                level.getHazards().add(new Suspension(vacuumPosition, Enums.Material.ANTIMATTER));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ZOOMBA_SPRITE)) {
                 final Vector2 zoombaPosition = imagePosition.add(Constants.ZOOMBA_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + zoombaPosition);
@@ -381,13 +381,13 @@ final class LevelLoader {
             final JSONObject item = (JSONObject) o;
 
             final Vector2 imagePosition = extractPosition(item);
-            final Enums.WeaponType type = extractType(item);
+            final Enums.Material type = extractType(item);
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
                 float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
                 float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
                 final Rectangle shape = new Rectangle(imagePosition.x, imagePosition.y, width, height);
-                final Box box = new Box(shape, type.levelName());
+                final Box box = new Box(shape, type.theme());
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {

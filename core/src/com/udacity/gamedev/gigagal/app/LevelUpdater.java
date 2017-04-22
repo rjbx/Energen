@@ -40,8 +40,8 @@ public class LevelUpdater {
     private DelayedRemovalArray<Ground> grounds;
     private DelayedRemovalArray<Impact> impacts;
     private DelayedRemovalArray<Powerup> powerups;
-    private Enums.WeaponType levelWeapon;
-    private Enums.LevelName level;
+    private Enums.Material levelWeapon;
+    private Enums.Theme level;
 
     private boolean paused;
     private long pauseTime;
@@ -162,7 +162,7 @@ public class LevelUpdater {
                 }
                 if (destructible instanceof Orben) {
                     Orben orben = (Orben) destructible;
-                    Enums.WeaponType weaponType = orben.getType();
+                    Enums.Material material = orben.getType();
                     float secondsSinceModOne = Helpers.secondsSince(orben.getStartTime()) % 1;
                     if ((secondsSinceModOne >= 0 && secondsSinceModOne < 0.01f) && orben.isActive()) {
                         Vector2 ammoPositionLeft = new Vector2(orben.getPosition().x - (orben.getWidth() * 1.1f), destructible.getPosition().y);
@@ -170,10 +170,10 @@ public class LevelUpdater {
                         Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, orben.getPosition().y + (orben.getHeight() * 1.1f));
                         Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, orben.getPosition().y - (orben.getHeight() * 1.1f));
 
-                        spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.Orientation.X, Enums.AmmoIntensity.BLAST, weaponType, false);
-                        spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.Orientation.X, Enums.AmmoIntensity.BLAST, weaponType, false);
-                        spawnAmmo(ammoPositionBottom, Direction.DOWN, Enums.Orientation.Y, Enums.AmmoIntensity.BLAST, weaponType, false);
-                        spawnAmmo(ammoPositionTop, Direction.UP, Enums.Orientation.Y, Enums.AmmoIntensity.BLAST, weaponType, false);
+                        spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, material, false);
+                        spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, material, false);
+                        spawnAmmo(ammoPositionBottom, Direction.DOWN, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, material, false);
+                        spawnAmmo(ammoPositionTop, Direction.UP, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, material, false);
                     }
                 }
             } else if (hazards.get(i) instanceof Ammo) {
@@ -207,11 +207,11 @@ public class LevelUpdater {
         powerups.end();
     }
 
-    public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.AmmoIntensity ammoIntensity, Enums.WeaponType weapon, boolean targetsEnemies) {
-        hazards.add(new Ammo(this, position, direction, orientation, ammoIntensity, weapon, targetsEnemies));
+    public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Material weapon, boolean targetsEnemies) {
+        hazards.add(new Ammo(this, position, direction, orientation, shotIntensity, weapon, targetsEnemies));
     }
 
-    public void spawnExplosion(Vector2 position, Enums.WeaponType type) {
+    public void spawnExplosion(Vector2 position, Enums.Material type) {
         impacts.add(new Impact(position, type));
     }
 
@@ -228,9 +228,9 @@ public class LevelUpdater {
     protected void begin() {
 
         runEx = false;
-        levelWeapon = Enums.WeaponType.NATIVE;
-        for (Enums.WeaponType weapon : Arrays.asList(Enums.WeaponType.values())) {
-            if (weapon.levelName().equals(level)) {
+        levelWeapon = Enums.Material.NATIVE;
+        for (Enums.Material weapon : Arrays.asList(Enums.Material.values())) {
+            if (weapon.theme().equals(level)) {
                 levelWeapon = weapon;
             }
         }
@@ -312,11 +312,11 @@ public class LevelUpdater {
     public final Viewport getViewport() { return viewport; }
     public final Portal getPortal() { return portal; }
     public final GigaGal getGigaGal() { return GigaGal.getInstance(); }
-    public final Enums.WeaponType getType() { return levelWeapon; }
+    public final Enums.Material getType() { return levelWeapon; }
     public final boolean hasLoadEx() { return loadEx; }
 
     // Setters
-    protected void setLevel(Enums.LevelName selectedLevel) { level = selectedLevel; }
+    protected void setLevel(Enums.Theme selectedLevel) { level = selectedLevel; }
     protected final void setPortal(Portal portal) { this.portal = portal; }
     protected final void setLoadEx(boolean state) { loadEx = state; }
 }
