@@ -145,11 +145,6 @@ public class LevelUpdater {
                         }
                     }
                 }
-            } else if (grounds.get(i) instanceof BreakableBox) {
-                BreakableBox box = (BreakableBox) grounds.get(i);
-                if (!box.isActive()) {
-                    grounds.removeIndex(i);
-                }
             }
         }
         grounds.end();
@@ -162,10 +157,9 @@ public class LevelUpdater {
                 destructible.update(delta);
                 if (destructible.getHealth() < 1) {
                     spawnExplosion(destructible.getPosition(), destructible.getType());
-                    if (hazards.get(i) instanceof BreakableBox) {
-                        BreakableBox box = (BreakableBox) hazards.get(i);
-                        box.deactivate();
+                    if (hazards.get(i) instanceof Ground) {
                         hazards.removeIndex(i);
+                        grounds.removeValue((Ground) hazards.get(i), true);
                     } else {
                         hazards.removeIndex(i);
                         score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);

@@ -391,11 +391,6 @@ public class GigaGal implements Humanoid {
                 Random xKnockback = new Random();
                 velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.FLAME_KNOCKBACK.y);
                 recoil(velocity);
-            } else if (ground instanceof BreakableBox) {
-                BreakableBox box = (BreakableBox) ground;
-                if (!box.isActive()) {
-                    fall();
-                }
             }
         }
     }
@@ -473,6 +468,11 @@ public class GigaGal implements Humanoid {
                 lookTimeSeconds = 0;
                 lookStartTime = TimeUtils.nanoTime();
                 if (action != Action.CLINGING) {
+                    fall();
+                }
+            } else if (touchedGround instanceof Destructible) {
+                Destructible destructible = (Destructible) touchedGround;
+                if (destructible.getHealth() < 1) {
                     fall();
                 }
             }
