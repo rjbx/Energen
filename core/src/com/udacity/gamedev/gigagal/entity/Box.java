@@ -33,7 +33,7 @@ public class Box implements SolidGround {
         this.right = shape.getX() + width;
         this.position = new Vector2(left + (width / 2), bottom + (height / 2));
         this.type = type;
-        ninePatch = Assets.getInstance().getBoxAssets().greyBox;
+        ninePatch = Assets.getInstance().getBoxAssets().box;
         ninePatch.setColor(type.color());
     }
 

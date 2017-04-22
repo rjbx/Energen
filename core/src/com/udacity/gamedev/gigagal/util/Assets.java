@@ -178,7 +178,8 @@ public final class Assets implements AssetErrorListener {
         public final NinePatch blueBox;
         public final NinePatch clearBox;
         public final NinePatch magentaBox;
-        public final NinePatch defaultBox;
+        public final NinePatch box;
+        public final NinePatch breakableBox;
 
         private BoxAssets(TextureAtlas atlas) {
             int edge = Constants.BOX_EDGE;
@@ -190,7 +191,8 @@ public final class Assets implements AssetErrorListener {
             blueBox = new NinePatch(atlas.findRegion(Constants.BLUE_BOX_SPRITE), edge, edge, edge, edge);
             clearBox = new NinePatch(atlas.findRegion(Constants.CLEAR_BOX_SPRITE), edge, edge, edge, edge);
             magentaBox= new NinePatch(atlas.findRegion(Constants.MAGENTA_BOX_SPRITE), edge, edge, edge, edge);
-            defaultBox = new NinePatch(atlas.findRegion(Constants.BOX_SPRITE), edge, edge, edge, edge);
+            box = new NinePatch(atlas.findRegion(Constants.BOX_SPRITE), edge, edge, edge, edge);
+            breakableBox = new NinePatch(atlas.findRegion(Constants.BREAKABLE_BOX_SPRITE), edge, edge, edge, edge);
         }
     }
 

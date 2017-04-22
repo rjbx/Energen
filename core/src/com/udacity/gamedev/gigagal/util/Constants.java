@@ -102,6 +102,7 @@ public final class Constants {
     public static final int BOX_EDGE = 8;
     public static final float MAX_LEDGE_HEIGHT = 8;
     public static final String BOX_SPRITE = "box";
+    public static final String BREAKABLE_BOX_SPRITE = "box-breakable";
     public static final String BLUE_BOX_SPRITE = "box-blue";
     public static final String YELLOW_BOX_SPRITE = "box-yellow";
     public static final String BLACK_BOX_SPRITE = "box-black";
