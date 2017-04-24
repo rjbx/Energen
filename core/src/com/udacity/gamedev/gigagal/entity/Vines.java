@@ -11,15 +11,19 @@ public class Vines implements Climbable, Ground {
 
     // fields
     private Vector2 position;
+    private Vector2 adjustedCenter;
+    private Vector2 scale;
 
     // ctor
-    public Vines(Vector2 position) {
+    public Vines(Vector2 position, Vector2 scale, Vector2 adjustedCenter) {
         this.position = position;
+        this.adjustedCenter = adjustedCenter;
+        this.scale = scale;
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().vines, position, Constants.VINES_CENTER);
+        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().vines, position, adjustedCenter, scale);
     }
 
     @Override public final Vector2 getPosition() { return position; }

@@ -318,9 +318,10 @@ final class LevelLoader {
                 Gdx.app.log(TAG, "Loaded the rope at " + ropePosition);
                 level.getGrounds().add(new Rope(ropePosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VINES_SPRITE)) {
+                Vector2 adjustedCenter = new Vector2(Constants.VINES_CENTER.x * scale.x, Constants.VINES_CENTER.y * scale.y);
                 final Vector2 vinesPosition = imagePosition.add(Constants.VINES_CENTER);
                 Gdx.app.log(TAG, "Loaded the vines at " + vinesPosition);
-                level.getGrounds().add(new Vines(vinesPosition));
+                level.getGrounds().add(new Vines(vinesPosition, scale, adjustedCenter));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POLE_SPRITE_1)) {
                 final Vector2 polePosition = imagePosition.add(Constants.POLE_CENTER);
                 Gdx.app.log(TAG, "Loaded the pole at " + polePosition);
