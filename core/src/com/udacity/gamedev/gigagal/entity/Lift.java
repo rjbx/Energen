@@ -94,7 +94,7 @@ public class Lift implements Hoverable, Ground {
     @Override public final float getBottom() { return position.y - Constants.LIFT_CENTER.y; }
     @Override public Enums.Direction getDirection() { return direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
-    public final float getRange() { return range; }
+    @Override public Lift clone() { return new Lift(position, orientation); }
 
     public final void setRange(float range) { this.range = range; }
 }

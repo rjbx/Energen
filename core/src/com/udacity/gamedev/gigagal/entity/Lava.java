@@ -43,4 +43,5 @@ public class Lava implements Indestructible, Hazard {
     @Override public final Enums.Material getType() { return Enums.Material.LIQUID; }
     @Override public final Vector2 getKnockback() { return Constants.LAVA_KNOCKBACK; }
     @Override public final int getDamage() { return Constants.LAVA_DAMAGE; }
+    @Override public Lava clone() { return new Lava(position, scale, adjustedCenter); }
 }

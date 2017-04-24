@@ -47,4 +47,5 @@ public class Spring implements Bounceable, Ground {
     @Override public final long getStartTime() { return startTime; }
     @Override public final void setLoaded(boolean state) { this.loaded = state; }
     @Override public final void resetStartTime() { this.startTime = 0; }
+    @Override public Spring clone() { return new Spring(position); }
 }

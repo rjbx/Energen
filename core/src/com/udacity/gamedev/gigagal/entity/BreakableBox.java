@@ -27,15 +27,15 @@ public class BreakableBox implements Destructible, Solid, Ground, Hazard {
     private final NinePatch ninePatch;
 
     // ctor
-    public BreakableBox(Rectangle shape, Enums.Material type) {
+    public BreakableBox(float xPos, float YPos, float width, float height, Enums.Material type) {
+        this.width = width;
+        this.height = height;
+        this.top = YPos + height;
+        this.bottom = YPos;
+        this.left = xPos;
+        this.right = xPos + width;
         active = true;
         damage = 50;
-        this.width = shape.getWidth();
-        this.height = shape.getHeight();
-        this.top = shape.getY() + height;
-        this.bottom = shape.getY();
-        this.left = shape.getX();
-        this.right = shape.getX() + width;
         this.position = new Vector2(left + (width / 2), bottom + (height / 2));
         this.type = type;
         ninePatch = Assets.getInstance().getBoxAssets().breakableBox;
@@ -67,6 +67,5 @@ public class BreakableBox implements Destructible, Solid, Ground, Hazard {
     @Override public float getHealth() { return damage; }
     @Override public Vector2 getKnockback() { return Vector2.Zero; }
     @Override public Enums.Material getType() { return type; }
-    public boolean isActive() { return active; }
-    public void deactivate() { this.active = false; }
+    @Override public BreakableBox clone() { return new BreakableBox(left, bottom, width, height, type); }
 }

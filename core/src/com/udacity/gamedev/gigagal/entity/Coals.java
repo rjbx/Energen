@@ -39,4 +39,5 @@ public class Coals implements Unbearable, Ground {
     @Override public final float getRight() { return position.x + Constants.COALS_CENTER.x * scale.x; }
     @Override public final float getTop() { return position.y + Constants.COALS_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.COALS_CENTER.y * scale.y; }
+    @Override public Coals clone() { return new Coals(position, scale, adjustedCenter); }
 }

@@ -79,10 +79,9 @@ public class LevelUpdater {
     }
 
     protected void update(float delta) {
-
         if (continuing() && !paused()) {
-            GigaGal.getInstance().update(delta);
             updateAssets(delta);
+            GigaGal.getInstance().update(delta);
         }
     }
 
@@ -115,9 +114,10 @@ public class LevelUpdater {
         // Update Grounds
         grounds.begin();
         for (int i = 0; i < grounds.size ; i++) {
-            if (grounds.get(i) instanceof Hoverable) {
-                ((Hoverable) grounds.get(i)).update(delta);
-            } else if (grounds.get(i) instanceof Cannon) {
+            Ground ground = grounds.get(i);
+            if (ground instanceof Hoverable) {
+                ((Hoverable) ground).update(delta);
+            } else if (ground instanceof Cannon) {
                 Cannon cannon = (Cannon) grounds.get(i);
                 if (cannon.getOffset() == 0) {
                     cannonOffset += 0.25f;
@@ -148,6 +148,8 @@ public class LevelUpdater {
             }
         }
         grounds.end();
+
+
 
         // Update Hazards
         hazards.begin();

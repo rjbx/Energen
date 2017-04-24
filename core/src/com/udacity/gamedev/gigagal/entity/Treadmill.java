@@ -49,4 +49,5 @@ public class Treadmill implements Rideable, Ground {
     @Override public final float getTop() { return position.y + Constants.TREADMILL_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.TREADMILL_CENTER.y * scale.y; }
     @Override public final Enums.Direction getDirection() { return direction; }
+    @Override public Treadmill clone() { return new Treadmill(position, scale, adjustedCenter, direction); }
 }

@@ -52,6 +52,7 @@ public class Cannon implements Solid, Ground {
     @Override public final float getRight() { return position.x + center.x; }
     @Override public final float getTop() { return position.y + center.y; }
     @Override public final float getBottom() { return position.y - center.y; }
+    @Override public Cannon clone() { return new Cannon(position, orientation, intensity); }
     public final Enums.Orientation getOrientation() { return orientation; }
     public final Enums.ShotIntensity getIntensity() { return intensity; }
     public final float getOffset() { return offset; }

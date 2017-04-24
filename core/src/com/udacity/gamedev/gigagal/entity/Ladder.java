@@ -49,4 +49,5 @@ public class Ladder implements Climbable, Ground {
     @Override public Vector2 getPosition() { return new Vector2(left + (getWidth() / 2), bottom + (getHeight() / 2)); }
     @Override public float getWidth() { return right - left;}
     @Override public float getHeight() { return top - bottom; }
+    @Override public Ladder clone() { return new Ladder(left, top, width, height); }
 }

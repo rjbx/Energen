@@ -24,13 +24,13 @@ public class Box implements Solid, Ground {
     private final NinePatch ninePatch;
 
     // ctor
-    public Box(Rectangle shape, Enums.Theme type) {
-        this.width = shape.getWidth();
-        this.height = shape.getHeight();
-        this.top = shape.getY() + height;
-        this.bottom = shape.getY();
-        this.left = shape.getX();
-        this.right = shape.getX() + width;
+    public Box(float xPos, float YPos, float width, float height, Enums.Theme type) {
+        this.width = width;
+        this.height = height;
+        this.top = YPos + height;
+        this.bottom = YPos;
+        this.left = xPos;
+        this.right = xPos + width;
         this.position = new Vector2(left + (width / 2), bottom + (height / 2));
         this.type = type;
         ninePatch = Assets.getInstance().getBoxAssets().box;
@@ -50,4 +50,5 @@ public class Box implements Solid, Ground {
     @Override public float getWidth() { return width;}
     @Override public float getHeight() {return height; }
     @Override public Vector2 getPosition() { return position; }
+    @Override public Box clone() { return new Box(left, bottom, width, height, type); }
 }

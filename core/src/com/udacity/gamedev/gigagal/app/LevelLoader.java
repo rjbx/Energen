@@ -385,24 +385,18 @@ final class LevelLoader {
 
             final Vector2 imagePosition = extractPosition(item);
             final Enums.Material type = extractType(item);
+            float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
+            float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
-                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
-                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
-                final Rectangle shape = new Rectangle(imagePosition.x, imagePosition.y, width, height);
-                final Box box = new Box(shape, type.theme());
+                final Box box = new Box(imagePosition.x, imagePosition.y, width, height, type.theme());
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BREAKABLE_BOX_SPRITE)) {
-                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
-                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
-                final Rectangle shape = new Rectangle(imagePosition.x, imagePosition.y, width, height);
-                final BreakableBox box = new BreakableBox(shape, type);
+                final BreakableBox box = new BreakableBox(imagePosition.x, imagePosition.y, width, height, type);
                 breakableBoxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the breakableBox at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
-                float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
-                float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
                 final Ladder ladder = new Ladder(imagePosition.x, imagePosition.y + height, width, height);
                 ladderArray.add(ladder);
                 Gdx.app.log(TAG, "Loaded the ladder at " + imagePosition.add(new Vector2(width / 2, height / 2)));
