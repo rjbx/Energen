@@ -173,7 +173,7 @@ public final class Constants {
     public static final String TRIP_SPRITE_2 = "trip-2";
     public static final String TRIP_SPRITE_3 = "trip-3";
     public static final String TRIP_SPRITE_4 = "trip-4";
-    public static final float TRIP_LOAD_DURATION = 0.5f;
+    public static final float TRIP_LOAD_DURATION = 0.25f;
     public static final float TRIP_UNLOAD_DURATION = 0.5f;
     public static final float TRIP_SHOT_RADIUS = 6;
 

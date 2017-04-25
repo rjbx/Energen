@@ -30,19 +30,12 @@ public class Treadmill implements Rideable, Trippable, Ground {
         startTime = TimeUtils.nanoTime();
     }
 
+    @Override
     public void update() {
-        if (tripped) {
-            if (Helpers.getOppositeDirection(direction) == Enums.Direction.RIGHT) {
-                animation = Assets.getInstance().getGroundAssets().treadmillRight;
-            } else {
-                animation = Assets.getInstance().getGroundAssets().treadmillLeft;
-            }
+        if (direction == Enums.Direction.RIGHT) {
+            animation = Assets.getInstance().getGroundAssets().treadmillRight;
         } else {
-            if (direction == Enums.Direction.RIGHT) {
-                animation = Assets.getInstance().getGroundAssets().treadmillRight;
-            } else {
-                animation = Assets.getInstance().getGroundAssets().treadmillLeft;
-            }
+            animation = Assets.getInstance().getGroundAssets().treadmillLeft;
         }
     }
 
@@ -60,6 +53,6 @@ public class Treadmill implements Rideable, Trippable, Ground {
     @Override public final float getBottom() { return position.y - Constants.TREADMILL_CENTER.y * scale.y; }
     @Override public final Enums.Direction getDirection() { return direction; }
     @Override public Treadmill clone() { return new Treadmill(position, scale, adjustedCenter, direction); }
-    @Override public void trip() { tripped = !tripped; }
+    @Override public void trip() { tripped = !tripped; direction = Helpers.getOppositeDirection(direction); }
     @Override public boolean isTripped() { return tripped; }
 }

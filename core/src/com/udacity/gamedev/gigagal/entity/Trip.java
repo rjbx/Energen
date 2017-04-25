@@ -14,7 +14,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 import static com.udacity.gamedev.gigagal.util.Enums.Material.NATIVE;
 
 public class Trip implements Bounceable, Ground, Destructible, Hazard {
-    
+
     // fields
     private Vector2 position;
     private LevelUpdater level;
@@ -33,15 +33,6 @@ public class Trip implements Bounceable, Ground, Destructible, Hazard {
 
     @Override
     public void update(float delta) {
-        if (state) {
-            for (Ground ground : level.getGrounds()) {
-                if (ground instanceof Trippable) {
-                    if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.y, bounds.width, bounds.height)) {
-                        ((Trippable) ground).trip();
-                    }
-                }
-            }
-        }
     }
 
     @Override
@@ -75,9 +66,20 @@ public class Trip implements Bounceable, Ground, Destructible, Hazard {
     @Override public float getShotRadius() { return Constants.TRIP_SHOT_RADIUS; }
     @Override public int getHitScore() { return 0; }
     @Override public int getKillScore() { return 0; }
-    public void setState(boolean state) { this.state = state; }
+    public Rectangle getBounds() { return bounds; }
     public boolean getState() { return state; }
     public int getDamage() { return 0; }
     @Override public Vector2 getKnockback() { return Vector2.Zero; }
     @Override public Trip clone() { return new Trip(level, position, bounds); }
+
+    public void setState(boolean state) {
+        this.state = state;
+        for (Ground ground : level.getGrounds()) {
+            if (ground instanceof Trippable) {
+                if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
+                    ((Treadmill) ground).trip();
+                }
+            }
+        }
+    }
 }
