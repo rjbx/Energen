@@ -28,14 +28,23 @@ public class Treadmill implements Rideable, Trippable, Ground {
         this.adjustedCenter = adjustedCenter;
         this.direction = direction;
         startTime = TimeUtils.nanoTime();
-        if (direction == Enums.Direction.RIGHT) {
-            animation = Assets.getInstance().getGroundAssets().treadmillRight;
-        } else {
-            animation = Assets.getInstance().getGroundAssets().treadmillLeft;
-        }
     }
 
-    public void update() {}
+    public void update() {
+        if (tripped) {
+            if (Helpers.getOppositeDirection(direction) == Enums.Direction.RIGHT) {
+                animation = Assets.getInstance().getGroundAssets().treadmillRight;
+            } else {
+                animation = Assets.getInstance().getGroundAssets().treadmillLeft;
+            }
+        } else {
+            if (direction == Enums.Direction.RIGHT) {
+                animation = Assets.getInstance().getGroundAssets().treadmillRight;
+            } else {
+                animation = Assets.getInstance().getGroundAssets().treadmillLeft;
+            }
+        }
+    }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {

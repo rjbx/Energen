@@ -18,6 +18,8 @@ import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Powerup;
+import com.udacity.gamedev.gigagal.entity.Treadmill;
+import com.udacity.gamedev.gigagal.entity.Trippable;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
@@ -145,6 +147,8 @@ public class LevelUpdater {
                         }
                     }
                 }
+            } else if (ground instanceof Trippable) {
+                ((Trippable) ground).update();
             }
         }
         grounds.end();

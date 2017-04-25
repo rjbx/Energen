@@ -4,4 +4,5 @@ public interface Trippable {
 
     boolean isTripped();
     void trip();
+    void update();
 }

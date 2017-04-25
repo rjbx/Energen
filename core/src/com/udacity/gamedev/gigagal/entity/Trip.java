@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 
 import static com.udacity.gamedev.gigagal.util.Enums.Material.NATIVE;
 
-public class Trip implements Bounceable, Ground, Destructible {
+public class Trip implements Bounceable, Ground, Destructible, Hazard {
     
     // fields
     private Vector2 position;
@@ -77,5 +77,7 @@ public class Trip implements Bounceable, Ground, Destructible {
     @Override public int getKillScore() { return 0; }
     public void setState(boolean state) { this.state = state; }
     public boolean getState() { return state; }
+    public int getDamage() { return 0; }
+    @Override public Vector2 getKnockback() { return Vector2.Zero; }
     @Override public Trip clone() { return new Trip(level, position, bounds); }
 }

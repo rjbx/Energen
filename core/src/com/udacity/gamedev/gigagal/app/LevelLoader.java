@@ -362,7 +362,9 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIP_SPRITE_1)) {
                 final Vector2 switchPosition = imagePosition.add(Constants.TRIP_CENTER);
                 Gdx.app.log(TAG, "Loaded the switch at " + switchPosition);
-                level.getGrounds().add(new Trip(level, switchPosition, bounds));
+                Trip trip = new Trip(level, switchPosition, bounds);
+                level.getGrounds().add(trip);
+                level.getHazards().add(trip);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SLICK_SPRITE_1)) {
                 Vector2 adjustedCenter = new Vector2(Constants.SLICK_CENTER.x * scale.x, Constants.SLICK_CENTER.y * scale.y);
                 final Vector2 slickPosition = imagePosition.add(Constants.SLICK_CENTER);
