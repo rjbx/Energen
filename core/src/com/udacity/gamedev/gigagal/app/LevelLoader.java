@@ -359,8 +359,8 @@ final class LevelLoader {
                 final Vector2 springPosition = imagePosition.add(Constants.SPRING_CENTER);
                 Gdx.app.log(TAG, "Loaded the spring at " + springPosition);
                 level.getGrounds().add(new Spring(springPosition));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SWITCH_SPRITE_1)) {
-                final Vector2 switchPosition = imagePosition.add(Constants.SWITCH_CENTER);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIP_SPRITE_1)) {
+                final Vector2 switchPosition = imagePosition.add(Constants.TRIP_CENTER);
                 Gdx.app.log(TAG, "Loaded the switch at " + switchPosition);
                 level.getGrounds().add(new Trip(level, switchPosition, bounds));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SLICK_SPRITE_1)) {

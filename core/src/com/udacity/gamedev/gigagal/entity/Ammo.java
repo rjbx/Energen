@@ -175,7 +175,6 @@ public final class Ammo implements Indestructible, Hazard {
 
                     if (destructible instanceof Trip) {
                         Trip trip = ((Trip) destructible);
-                        trip.setLoaded(true);
                         trip.setState(trip.getState());
                     }
                 }

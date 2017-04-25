@@ -1376,34 +1376,6 @@ suspension-solid-2
   orig: 25, 25
   offset: 0, 0
   index: -1
-switch-1
-  rotate: false
-  xy: 942, 431
-  size: 12, 12
-  orig: 12, 12
-  offset: 0, 0
-  index: -1
-switch-2
-  rotate: false
-  xy: 956, 431
-  size: 12, 12
-  orig: 12, 12
-  offset: 0, 0
-  index: -1
-switch-3
-  rotate: false
-  xy: 970, 431
-  size: 12, 12
-  orig: 12, 12
-  offset: 0, 0
-  index: -1
-switch-4
-  rotate: false
-  xy: 567, 200
-  size: 12, 12
-  orig: 12, 12
-  offset: 0, 0
-  index: -1
 swoopa
   rotate: false
   xy: 642, 483
@@ -1507,6 +1479,34 @@ treadmill-2-right
   xy: 984, 426
   size: 38, 18
   orig: 38, 18
+  offset: 0, 0
+  index: -1
+trip-1
+  rotate: false
+  xy: 942, 431
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+trip-2
+  rotate: false
+  xy: 956, 431
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+trip-3
+  rotate: false
+  xy: 970, 431
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+trip-4
+  rotate: false
+  xy: 567, 200
+  size: 12, 12
+  orig: 12, 12
   offset: 0, 0
   index: -1
 vines

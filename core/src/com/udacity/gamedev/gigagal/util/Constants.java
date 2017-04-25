@@ -167,15 +167,15 @@ public final class Constants {
     public static final float TREADMILL_DURATION = .1f;
     public static final float TREADMILL_SPEED = 175;
     
-    // Switch
-    public static final Vector2 SWITCH_CENTER = new Vector2(6, 6);
-    public static final String SWITCH_SPRITE_1 = "switch-1";
-    public static final String SWITCH_SPRITE_2 = "switch-2";
-    public static final String SWITCH_SPRITE_3 = "switch-3";
-    public static final String SWITCH_SPRITE_4 = "switch-4";
-    public static final float SWITCH_LOAD_DURATION = 0.5f;
-    public static final float SWITCH_UNLOAD_DURATION = 0.5f;
-    public static final float SWITCH_SHOT_RADIUS = 6;
+    // Trip
+    public static final Vector2 TRIP_CENTER = new Vector2(6, 6);
+    public static final String TRIP_SPRITE_1 = "trip-1";
+    public static final String TRIP_SPRITE_2 = "trip-2";
+    public static final String TRIP_SPRITE_3 = "trip-3";
+    public static final String TRIP_SPRITE_4 = "trip-4";
+    public static final float TRIP_LOAD_DURATION = 0.5f;
+    public static final float TRIP_UNLOAD_DURATION = 0.5f;
+    public static final float TRIP_SHOT_RADIUS = 6;
 
     // Spring
     public static final Vector2 SPRING_CENTER = new Vector2(11.5f, 4);

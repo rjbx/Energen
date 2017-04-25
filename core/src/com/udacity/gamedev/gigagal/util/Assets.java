@@ -213,8 +213,8 @@ public final class Assets implements AssetErrorListener {
         public final Animation treadmillLeft;
         public final Animation loaded;
         public final Animation unloaded;
-        public final Animation switchOn;
-        public final Animation switchOff;
+        public final Animation tripOn;
+        public final Animation tripOff;
         public final Animation sink;
         public final Animation coals;
         public final Animation lava;
@@ -290,18 +290,18 @@ public final class Assets implements AssetErrorListener {
                     springRegions, PlayMode.REVERSED);
 
 
-            Array<AtlasRegion> switchRegions = new Array<AtlasRegion>();
-            switchRegions.add(atlas.findRegion(Constants.SWITCH_SPRITE_1));
-            switchRegions.add(atlas.findRegion(Constants.SWITCH_SPRITE_2));
-            switchRegions.add(atlas.findRegion(Constants.SWITCH_SPRITE_3));
-            switchRegions.add(atlas.findRegion(Constants.SWITCH_SPRITE_4));
+            Array<AtlasRegion> tripRegions = new Array<AtlasRegion>();
+            tripRegions.add(atlas.findRegion(Constants.TRIP_SPRITE_1));
+            tripRegions.add(atlas.findRegion(Constants.TRIP_SPRITE_2));
+            tripRegions.add(atlas.findRegion(Constants.TRIP_SPRITE_3));
+            tripRegions.add(atlas.findRegion(Constants.TRIP_SPRITE_4));
 
-            switchOn = new Animation(Constants.SWITCH_LOAD_DURATION / switchRegions.size,
-                    switchRegions, PlayMode.NORMAL);
+            tripOn = new Animation(Constants.TRIP_LOAD_DURATION / tripRegions.size,
+                    tripRegions, PlayMode.NORMAL);
 
 
-            switchOff = new Animation(Constants.SWITCH_UNLOAD_DURATION / switchRegions.size,
-                    switchRegions, PlayMode.REVERSED);
+            tripOff = new Animation(Constants.TRIP_UNLOAD_DURATION / tripRegions.size,
+                    tripRegions, PlayMode.REVERSED);
 
             Array<AtlasRegion> sinkRegions = new Array<AtlasRegion>();
             sinkRegions.add(atlas.findRegion(Constants.SINK_SPRITE_1));

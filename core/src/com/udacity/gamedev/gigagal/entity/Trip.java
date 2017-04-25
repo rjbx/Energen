@@ -20,8 +20,7 @@ public class Trip implements Bounceable, Ground, Destructible {
     private LevelUpdater level;
     private Rectangle bounds;
     private long startTime;
-    private boolean loaded;
-    public boolean state;
+    private boolean state;
 
     // ctor
     public Trip(LevelUpdater level, Vector2 position, Rectangle bounds) {
@@ -29,7 +28,7 @@ public class Trip implements Bounceable, Ground, Destructible {
         this.level = level;
         this.bounds = bounds;
         startTime = 0;
-        loaded = false;
+        state = false;
     }
 
     @Override
@@ -37,7 +36,9 @@ public class Trip implements Bounceable, Ground, Destructible {
         if (state) {
             for (Ground ground : level.getGrounds()) {
                 if (ground instanceof Trippable) {
-                    if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.y, bounds.width, bounds.height));
+                    if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.y, bounds.width, bounds.height)) {
+                        ((Trippable) ground).trip();
+                    }
                 }
             }
         }
@@ -45,33 +46,33 @@ public class Trip implements Bounceable, Ground, Destructible {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        if (loaded) {
+        if (state) {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().switchOff.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.SWITCH_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOff.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.TRIP_CENTER);
         } else {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().switchOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.SWITCH_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.TRIP_CENTER);
         }
     }
 
     @Override public final Vector2 getPosition() { return position; }
-    @Override public final float getHeight() { return Constants.SWITCH_CENTER.x * 2; }
-    @Override public final float getWidth() { return Constants.SWITCH_CENTER.y * 2; }
-    @Override public final float getLeft() { return position.x - Constants.SWITCH_CENTER.x; }
-    @Override public final float getRight() { return position.x + Constants.SWITCH_CENTER.x; }
-    @Override public final float getTop() { return position.y + Constants.SWITCH_CENTER.y; }
-    @Override public final float getBottom() { return position.y - Constants.SWITCH_CENTER.y; }
+    @Override public final float getHeight() { return Constants.TRIP_CENTER.x * 2; }
+    @Override public final float getWidth() { return Constants.TRIP_CENTER.y * 2; }
+    @Override public final float getLeft() { return position.x - Constants.TRIP_CENTER.x; }
+    @Override public final float getRight() { return position.x + Constants.TRIP_CENTER.x; }
+    @Override public final float getTop() { return position.y + Constants.TRIP_CENTER.y; }
+    @Override public final float getBottom() { return position.y - Constants.TRIP_CENTER.y; }
     @Override public final long getStartTime() { return startTime; }
-    @Override public final void setLoaded(boolean state) { this.loaded = state; }
+    @Override public final void setLoaded(boolean state) { this.state = state; }
     @Override public final void resetStartTime() { this.startTime = 0; }
     @Override public Enums.Material getType() { return NATIVE; }
     @Override public float getHealth() { return 1; }
     @Override public void setHealth(float health) { ; }
-    @Override public float getShotRadius() { return Constants.SWITCH_SHOT_RADIUS; }
+    @Override public float getShotRadius() { return Constants.TRIP_SHOT_RADIUS; }
     @Override public int getHitScore() { return 0; }
     @Override public int getKillScore() { return 0; }
     public void setState(boolean state) { this.state = state; }
