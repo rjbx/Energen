@@ -151,7 +151,6 @@ public final class Ammo implements Indestructible, Hazard {
                 if (position.dst(destructible.getPosition()) < (destructible.getShotRadius() + radius)) {
                     level.spawnExplosion(position, weapon);
                     active = false;
-
                     ReactionIntensity effectiveness = Helpers.getAmmoEffectiveness(destructible.getType(), weapon);
                     switch (effectiveness) {
                         case STRONG:
@@ -173,6 +172,12 @@ public final class Ammo implements Indestructible, Hazard {
                         hitScore = destructible.getHitScore();
                     }
                     Helpers.applyDamage(destructible, shotIntensity, damage / Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
+
+                    if (destructible instanceof Trip) {
+                        Trip trip = ((Trip) destructible);
+                        trip.setLoaded(true);
+                        trip.setState(trip.getState());
+                    }
                 }
             }
         }

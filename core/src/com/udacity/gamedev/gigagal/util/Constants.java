@@ -166,6 +166,16 @@ public final class Constants {
     public static final String TREADMILL_2_LEFT = "treadmill-2-left";
     public static final float TREADMILL_DURATION = .1f;
     public static final float TREADMILL_SPEED = 175;
+    
+    // Switch
+    public static final Vector2 SWITCH_CENTER = new Vector2(6, 6);
+    public static final String SWITCH_SPRITE_1 = "switch-1";
+    public static final String SWITCH_SPRITE_2 = "switch-2";
+    public static final String SWITCH_SPRITE_3 = "switch-3";
+    public static final String SWITCH_SPRITE_4 = "switch-4";
+    public static final float SWITCH_LOAD_DURATION = 0.5f;
+    public static final float SWITCH_UNLOAD_DURATION = 0.5f;
+    public static final float SWITCH_SHOT_RADIUS = 6;
 
     // Spring
     public static final Vector2 SPRING_CENTER = new Vector2(11.5f, 4);
@@ -523,6 +533,7 @@ public final class Constants {
     public static final String LEVEL_RANGE_KEY = "range";
     public static final String LEVEL_TYPE_KEY = "type";
     public static final String LEVEL_INTENSITY_KEY = "intensity";
+    public static final String LEVEL_BOUNDS_KEY = "bounds";
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;

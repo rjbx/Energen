@@ -25,6 +25,7 @@ import com.udacity.gamedev.gigagal.entity.Sink;
 import com.udacity.gamedev.gigagal.entity.Slick;
 import com.udacity.gamedev.gigagal.entity.Spring;
 import com.udacity.gamedev.gigagal.entity.Suspension;
+import com.udacity.gamedev.gigagal.entity.Trip;
 import com.udacity.gamedev.gigagal.entity.Swoopa;
 import com.udacity.gamedev.gigagal.entity.Treadmill;
 import com.udacity.gamedev.gigagal.entity.Vines;
@@ -178,6 +179,29 @@ final class LevelLoader {
         return intensity;
     }
 
+    private static final Rectangle extractBounds(JSONObject object) {
+        Rectangle bounds = new Rectangle(0, 0, 0, 0);
+        try {
+            if (object.containsKey("customVars")) {
+                String[] customVars = ((String) object.get("customVars")).split(";");
+                for (String customVar : customVars) {
+                    if (customVar.contains(Constants.LEVEL_BOUNDS_KEY)) {
+                        String[] boundsSplit = customVar.split(Constants.LEVEL_BOUNDS_KEY + ":");
+                        String[] paramSplit = boundsSplit[1].split(",");
+                        bounds.set(Float.parseFloat(paramSplit[0]), Float.parseFloat(paramSplit[1]), Float.parseFloat(paramSplit[2]), Float.parseFloat(paramSplit[3]));
+                    }
+                }
+            }
+        } catch (NumberFormatException ex) {
+            runtimeEx = true;
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
+                    + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + "; key: " + Constants.LEVEL_BOUNDS_KEY);
+        }
+        return bounds;
+    }
+
     private static final float extractRange(JSONObject object) {
         float range = Constants.ZOOMBA_RANGE;
         try {
@@ -209,6 +233,7 @@ final class LevelLoader {
             final Enums.Orientation orientation = extractOrientation(item);
             final Enums.Material type = extractType(item);
             final Enums.ShotIntensity intensity = extractIntensity(item);
+            final Rectangle bounds = extractBounds(item);
             final float range = extractRange(item);
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.AMMO_POWERUP_SPRITE)) {
@@ -334,6 +359,10 @@ final class LevelLoader {
                 final Vector2 springPosition = imagePosition.add(Constants.SPRING_CENTER);
                 Gdx.app.log(TAG, "Loaded the spring at " + springPosition);
                 level.getGrounds().add(new Spring(springPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SWITCH_SPRITE_1)) {
+                final Vector2 switchPosition = imagePosition.add(Constants.SWITCH_CENTER);
+                Gdx.app.log(TAG, "Loaded the switch at " + switchPosition);
+                level.getGrounds().add(new Trip(level, switchPosition, bounds));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SLICK_SPRITE_1)) {
                 Vector2 adjustedCenter = new Vector2(Constants.SLICK_CENTER.x * scale.x, Constants.SLICK_CENTER.y * scale.y);
                 final Vector2 slickPosition = imagePosition.add(Constants.SLICK_CENTER);

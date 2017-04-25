@@ -252,6 +252,13 @@ suspension-solid-1
   orig: 25, 25
   offset: 0, 0
   index: -1
+switch-1
+  rotate: false
+  xy: 206, 2
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
 swoopa
   rotate: false
   xy: 134, 99

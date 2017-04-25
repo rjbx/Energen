@@ -83,14 +83,14 @@ ammo-shot-liquid
   index: -1
 ammo-shot-native
   rotate: false
-  xy: 344, 150
+  xy: 247, 123
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-plasma
   rotate: false
-  xy: 355, 150
+  xy: 284, 148
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
@@ -111,7 +111,7 @@ ammo-shot-psychic
   index: -1
 ammo-shot-solid
   rotate: false
-  xy: 156, 36
+  xy: 295, 148
   size: 8, 7
   orig: 8, 7
   offset: 0, 0
@@ -720,14 +720,14 @@ impact-solid-small
   index: -1
 knob-1
   rotate: false
-  xy: 942, 434
+  xy: 656, 336
   size: 11, 9
   orig: 11, 9
   offset: 0, 0
   index: -1
 knob-2
   rotate: false
-  xy: 955, 434
+  xy: 654, 325
   size: 11, 9
   orig: 11, 9
   offset: 0, 0
@@ -762,7 +762,7 @@ lift
   index: -1
 orben-dormant
   rotate: false
-  xy: 656, 337
+  xy: 155, 71
   size: 10, 8
   orig: 10, 8
   offset: 0, 0
@@ -797,119 +797,119 @@ orben-gas-alert
   index: -1
 orben-liquid-active-0
   rotate: false
-  xy: 567, 202
+  xy: 154, 59
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-liquid-active-1
   rotate: false
-  xy: 968, 433
+  xy: 154, 47
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-liquid-active-2
   rotate: false
-  xy: 579, 202
+  xy: 581, 202
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-liquid-alert
   rotate: false
-  xy: 654, 325
+  xy: 667, 324
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-plasma-active-0
   rotate: false
-  xy: 155, 69
+  xy: 679, 324
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-plasma-active-1
   rotate: false
-  xy: 154, 57
+  xy: 691, 324
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-plasma-active-2
   rotate: false
-  xy: 154, 45
+  xy: 703, 324
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-plasma-alert
   rotate: false
-  xy: 260, 145
+  xy: 715, 324
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-0
   rotate: false
-  xy: 247, 132
+  xy: 727, 326
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-1
   rotate: false
-  xy: 272, 145
+  xy: 739, 326
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-2
   rotate: false
-  xy: 247, 120
+  xy: 751, 326
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-alert
   rotate: false
-  xy: 284, 145
+  xy: 763, 326
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-shoot
   rotate: false
-  xy: 296, 145
+  xy: 775, 326
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-active-0
   rotate: false
-  xy: 654, 313
+  xy: 787, 326
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-active-1
   rotate: false
-  xy: 308, 145
+  xy: 260, 145
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-active-2
   rotate: false
-  xy: 320, 147
+  xy: 247, 132
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-alert
   rotate: false
-  xy: 332, 147
+  xy: 272, 145
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -1374,6 +1374,34 @@ suspension-solid-2
   xy: 699, 336
   size: 25, 25
   orig: 25, 25
+  offset: 0, 0
+  index: -1
+switch-1
+  rotate: false
+  xy: 942, 431
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+switch-2
+  rotate: false
+  xy: 956, 431
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+switch-3
+  rotate: false
+  xy: 970, 431
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+switch-4
+  rotate: false
+  xy: 567, 200
+  size: 12, 12
+  orig: 12, 12
   offset: 0, 0
   index: -1
 swoopa

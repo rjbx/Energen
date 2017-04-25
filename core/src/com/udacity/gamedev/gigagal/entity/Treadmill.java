@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Treadmill implements Rideable, Ground {
+public class Treadmill implements Rideable, Trippable, Ground {
 
     // fields
     private Vector2 position;
@@ -19,6 +19,7 @@ public class Treadmill implements Rideable, Ground {
     private Enums.Direction direction;
     private long startTime;
     private Animation animation;
+    private boolean tripped;
 
     // ctor
     public Treadmill(Vector2 position, Vector2 scale, Vector2 adjustedCenter, Enums.Direction direction) {
@@ -50,4 +51,6 @@ public class Treadmill implements Rideable, Ground {
     @Override public final float getBottom() { return position.y - Constants.TREADMILL_CENTER.y * scale.y; }
     @Override public final Enums.Direction getDirection() { return direction; }
     @Override public Treadmill clone() { return new Treadmill(position, scale, adjustedCenter, direction); }
+    @Override public void trip() { tripped = !tripped; }
+    @Override public boolean isTripped() { return tripped; }
 }
