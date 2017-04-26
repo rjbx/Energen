@@ -78,7 +78,8 @@ public class IndicatorHud {
                     viewport.getCamera().position.x - viewport.getWorldWidth() / 2.5f,
                     viewport.getCamera().position.y + viewport.getWorldHeight() / 3,
                     Constants.SHOT_CENTER.x,
-                    Constants.SHOT_CENTER.y
+                    Constants.SHOT_CENTER.y,
+                    Constants.AMMO_ICON_SCALE
             );
         }
 
