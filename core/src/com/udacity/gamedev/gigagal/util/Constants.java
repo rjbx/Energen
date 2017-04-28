@@ -538,8 +538,8 @@ public final class Constants {
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;
     public static final float HUD_MARGIN = 20;
-    public static final float AMMO_ICON_SCALE = 1.5f;
-    public static final float LIFE_ICON_SCALE = 1.25f;
+    public static final float AMMO_ICON_SCALE = 1.25f;
+    public static final float LIFE_ICON_SCALE = 1.1f;
     public static final float ACTION_ICON_SCALE = .75f;
     public static final String SHOOT_ICON = "icon-shoot";
     public static final String BLAST_ICON = "icon-blast";

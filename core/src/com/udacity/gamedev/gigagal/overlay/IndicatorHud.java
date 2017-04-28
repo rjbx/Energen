@@ -28,16 +28,19 @@ public class IndicatorHud {
     public void create() {}
 
     public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, LevelUpdater level) {
+        float yIcon = viewport.getCamera().position.y + viewport.getWorldHeight() / 2.5f;
 
-        Vector2 drawPosition = new Vector2(viewport.getCamera().position.x, viewport.getCamera().position.y + viewport.getWorldHeight() / 3);
+        float xAction = viewport.getCamera().position.x + 5;
         if (!level.getGigaGal().getClingStatus() && level.getGigaGal().getAction() != Enums.Action.CLINGING)  {
             if (!level.getGigaGal().getJumpStatus() && !level.getGigaGal().getClimbStatus() && level.getGigaGal().getHoverStatus()) {
                 Helpers.drawTextureRegion(
                         batch,
                         viewport,
                         Assets.getInstance().getHudAssets().hover,
-                        drawPosition,
-                        Constants.ICON_CENTER,
+                        xAction,
+                        yIcon,
+                        Constants.ICON_CENTER.x,
+                        Constants.ICON_CENTER.y,
                         Constants.ACTION_ICON_SCALE
                 );
             }
@@ -46,8 +49,10 @@ public class IndicatorHud {
                     batch,
                     viewport,
                     Assets.getInstance().getHudAssets().cling,
-                    drawPosition,
-                    Constants.ICON_CENTER,
+                    xAction,
+                    yIcon,
+                    Constants.ICON_CENTER.x,
+                    Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
         }
@@ -57,8 +62,10 @@ public class IndicatorHud {
                     batch,
                     viewport,
                     Assets.getInstance().getHudAssets().dash,
-                    drawPosition,
-                    Constants.ICON_CENTER,
+                    xAction,
+                    yIcon,
+                    Constants.ICON_CENTER.x,
+                    Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
         }
@@ -68,8 +75,10 @@ public class IndicatorHud {
                     batch,
                     viewport,
                     Assets.getInstance().getHudAssets().climb,
-                    drawPosition,
-                    Constants.ICON_CENTER,
+                    xAction,
+                    yIcon,
+                    Constants.ICON_CENTER.x,
+                    Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
         }
@@ -82,7 +91,7 @@ public class IndicatorHud {
                     viewport,
                     lifeIcon,
                     viewport.getCamera().position.x - viewport.getWorldWidth() / 2.1f + xLife,
-                    viewport.getCamera().position.y + viewport.getWorldHeight() / 3,
+                    yIcon,
                     Constants.SHOT_CENTER.x,
                     Constants.SHOT_CENTER.y,
                     Constants.LIFE_ICON_SCALE
@@ -113,7 +122,7 @@ public class IndicatorHud {
                 batch,
                 viewport, ammo.getTexture(),
                 viewport.getCamera().position.x + viewport.getWorldWidth() / 2.5f,
-                viewport.getCamera().position.y + viewport.getWorldHeight() / 3,
+                yIcon,
                 offset.x,
                 offset.y,
                 Constants.AMMO_ICON_SCALE
