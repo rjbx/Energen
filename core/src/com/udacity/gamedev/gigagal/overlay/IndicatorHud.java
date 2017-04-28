@@ -84,13 +84,13 @@ public class IndicatorHud {
         }
 
         final TextureRegion lifeIcon = Assets.getInstance().getHudAssets().life;
-        float xLife = 0;
+        float xLife = viewport.getCamera().position.x - viewport.getWorldWidth() / 2.1f;
         for (int i = 1; i <= GigaGal.getInstance().getLives(); i++) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
                     lifeIcon,
-                    viewport.getCamera().position.x - viewport.getWorldWidth() / 2.1f + xLife,
+                    xLife,
                     yIcon,
                     Constants.SHOT_CENTER.x,
                     Constants.SHOT_CENTER.y,
