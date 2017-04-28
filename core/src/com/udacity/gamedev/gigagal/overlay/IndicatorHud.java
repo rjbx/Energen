@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.entity.Ammo;
+import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -70,17 +71,19 @@ public class IndicatorHud {
         }
 
         final TextureRegion lifeIcon = Assets.getInstance().getHudAssets().life;
-        for (int i = 1; i <= level.getGigaGal().getLives(); i++) {
+        float xLife = 0;
+        for (int i = 1; i <= GigaGal.getInstance().getLives(); i++) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
                     lifeIcon,
-                    viewport.getCamera().position.x - viewport.getWorldWidth() / 2.5f,
+                    viewport.getCamera().position.x - viewport.getWorldWidth() / 2.25f + xLife,
                     viewport.getCamera().position.y + viewport.getWorldHeight() / 3,
                     Constants.SHOT_CENTER.x,
                     Constants.SHOT_CENTER.y,
                     Constants.AMMO_ICON_SCALE
             );
+            xLife += 30;
         }
 
         Enums.Material weapon = level.getGigaGal().getWeapon();
