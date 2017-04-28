@@ -37,7 +37,8 @@ public class IndicatorHud {
                         viewport,
                         Assets.getInstance().getHudAssets().hover,
                         drawPosition,
-                        Constants.ICON_CENTER
+                        Constants.ICON_CENTER,
+                        Constants.ACTION_ICON_SCALE
                 );
             }
         } else {
@@ -46,7 +47,8 @@ public class IndicatorHud {
                     viewport,
                     Assets.getInstance().getHudAssets().cling,
                     drawPosition,
-                    Constants.ICON_CENTER
+                    Constants.ICON_CENTER,
+                    Constants.ACTION_ICON_SCALE
             );
         }
 
@@ -56,7 +58,8 @@ public class IndicatorHud {
                     viewport,
                     Assets.getInstance().getHudAssets().dash,
                     drawPosition,
-                    Constants.ICON_CENTER
+                    Constants.ICON_CENTER,
+                    Constants.ACTION_ICON_SCALE
             );
         }
 
@@ -66,7 +69,8 @@ public class IndicatorHud {
                     viewport,
                     Assets.getInstance().getHudAssets().climb,
                     drawPosition,
-                    Constants.ICON_CENTER
+                    Constants.ICON_CENTER,
+                    Constants.ACTION_ICON_SCALE
             );
         }
 
@@ -77,13 +81,13 @@ public class IndicatorHud {
                     batch,
                     viewport,
                     lifeIcon,
-                    viewport.getCamera().position.x - viewport.getWorldWidth() / 2.25f + xLife,
+                    viewport.getCamera().position.x - viewport.getWorldWidth() / 2.1f + xLife,
                     viewport.getCamera().position.y + viewport.getWorldHeight() / 3,
                     Constants.SHOT_CENTER.x,
                     Constants.SHOT_CENTER.y,
-                    Constants.AMMO_ICON_SCALE
+                    Constants.LIFE_ICON_SCALE
             );
-            xLife += 30;
+            xLife += 20;
         }
 
         Enums.Material weapon = level.getGigaGal().getWeapon();
