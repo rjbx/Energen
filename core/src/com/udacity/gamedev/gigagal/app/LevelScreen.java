@@ -212,7 +212,7 @@ class LevelScreen extends ScreenAdapter {
             }
         } else if (menu == RESET) {
             if (InputControls.getInstance().shootButtonJustPressed) {
-                if (Cursor.getInstance().getPosition() == viewport.getCamera().position.x - 50) {
+                if (Cursor.getInstance().getPosition() == viewport.getCamera().position.x + 50) {
                     LevelUpdater.getInstance().unpause();
                     LevelUpdater.getInstance().end();
                     OverworldScreen.getInstance().loadLevel(OverworldScreen.getSelection());
