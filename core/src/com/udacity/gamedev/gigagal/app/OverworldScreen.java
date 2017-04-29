@@ -109,9 +109,7 @@ final class OverworldScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (!viewingOptions) {
-
             Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
-
             if (InputControls.getInstance().shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
                     selection = Enums.Theme.valueOf(Cursor.getInstance().getIterator().previous());
