@@ -453,7 +453,7 @@ public final class Constants {
     public static final String PORTAL_SPRITE_6 = "portal-6";
 
     public static final Vector2 TELEPORT_CENTER = new Vector2(14, 16);
-    public static final float TELEPORT_FRAME_DURATION = 0.25f;
+    public static final float TELEPORT_FRAME_DURATION = 0.125f;
     public static final String TELEPORT_SPRITE_1 = "teleport-1";
     public static final String TELEPORT_SPRITE_2 = "teleport-2";
     public static final String TELEPORT_SPRITE_3 = "teleport-3";

@@ -430,6 +430,10 @@ public class GigaGal implements Humanoid {
                     }
                 }
             }
+        } else if (ground instanceof Transportable) {
+            if (position.dst(ground.getPosition()) < (Constants.TELEPORT_CENTER.x + getHalfWidth())) {
+                position.set(((Teleport) ground).getDestination());
+            }
         }
     }
 
