@@ -101,7 +101,7 @@ class LevelScreen extends ScreenAdapter {
     }
 
     private static void setOptionsMenu() {
-        Cursor.getInstance().setRange(viewport.getCamera().position.y, viewport.getCamera().position.y - 45);
+        Cursor.getInstance().setRange(viewport.getCamera().position.y, viewport.getCamera().position.y - 60);
         Cursor.getInstance().setOrientation(Enums.Orientation.Y);
         Cursor.getInstance().resetPosition();
         Menu.getInstance().isSingleOption(false);
@@ -112,7 +112,7 @@ class LevelScreen extends ScreenAdapter {
         menu = OPTIONS;
     }
 
-    private static void setEraseMenu() {
+    private static void setResetMenu() {
         Cursor.getInstance().setRange(viewport.getCamera().position.x - 50, viewport.getCamera().position.x + 50);
         Cursor.getInstance().setOrientation(Enums.Orientation.X);
         Cursor.getInstance().resetPosition();
@@ -193,7 +193,7 @@ class LevelScreen extends ScreenAdapter {
                 if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y) {
                     setMainMenu();
                 } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 15) {
-                    setEraseMenu();
+                    setResetMenu();
                 } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 30) {
                     if (ChaseCam.getInstance().getFollowing()) {
                         ChaseCam.getInstance().setFollowing(false);

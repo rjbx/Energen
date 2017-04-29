@@ -98,11 +98,11 @@ public class Cursor {
     public void setOrientation(Enums.Orientation o) { this.orientation = o; }
     public void resetPosition() { position = startingPosition; }
     public ListIterator<String> getIterator() { return iterator; }
-    public void setIterator(List<String> optionStrings) {
-        if (optionStrings == null) {
+    public void setIterator(ListIterator<String> iterator) {
+        if (iterator == null) {
             this.iterator = null;
         } else {
-            this.iterator = optionStrings.listIterator();
+            this.iterator = iterator;
             iterator.next();
         }
     }

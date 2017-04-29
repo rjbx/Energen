@@ -64,7 +64,10 @@ public final class Menu {
     }
 
     public void isSingleOption(boolean mode) { singleOption = mode; }
-    public void setOptionStrings(List<String> optionStrings) { this.optionStrings = optionStrings.toArray();}
+    public void setOptionStrings(List<String> optionStrings) {
+        this.optionStrings = optionStrings.toArray();
+        Cursor.getInstance().setIterator(optionStrings.listIterator());
+    }
     public void TextAlignment(int alignment) { this.textAlignment = alignment; }
     public void setPromptString(int screenAlignment, String promptString) {
         switch (screenAlignment) {

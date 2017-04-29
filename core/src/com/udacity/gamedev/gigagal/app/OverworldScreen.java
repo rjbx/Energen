@@ -67,7 +67,6 @@ final class OverworldScreen extends ScreenAdapter {
             selectionStrings.add(level.name());
         }
         selectionStrings.add("OPTIONS");
-        Cursor.getInstance().setIterator(selectionStrings);
         Cursor.getInstance().setRange(145, 25);
         Cursor.getInstance().setOrientation(Enums.Orientation.Y);
         Cursor.getInstance().resetPosition();
@@ -77,7 +76,6 @@ final class OverworldScreen extends ScreenAdapter {
     }
 
     private static void setOptionsMenu() {
-        Cursor.getInstance().setIterator(null);
         Cursor.getInstance().setRange(106, 76);
         Cursor.getInstance().setOrientation(Enums.Orientation.Y);
         Cursor.getInstance().resetPosition();
