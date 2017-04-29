@@ -26,6 +26,7 @@ import java.util.Arrays;
 import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.DEBUG;
 import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.MAIN;
 import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.OPTIONS;
+import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.RESET;
 
 // package-private
 class LevelScreen extends ScreenAdapter {
@@ -105,10 +106,21 @@ class LevelScreen extends ScreenAdapter {
         Cursor.getInstance().resetPosition();
         Menu.getInstance().isSingleOption(false);
         Menu.getInstance().clearStrings();
-        String[] optionStrings = {"BACK", "DEBUG CAM", "TOUCH PAD", "QUIT"};
+        String[] optionStrings = {"BACK", "RESET LEVEL", "DEBUG CAM", "TOUCH PAD", "QUIT"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
         Menu.getInstance().TextAlignment(Align.center);
         menu = OPTIONS;
+    }
+
+    private static void setEraseMenu() {
+        Cursor.getInstance().setRange(viewport.getCamera().position.x - 50, viewport.getCamera().position.x + 50);
+        Cursor.getInstance().setOrientation(Enums.Orientation.X);
+        Cursor.getInstance().resetPosition();
+        String[] optionStrings = {"NO", "YES"};
+        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
+        Menu.getInstance().TextAlignment(Align.center);
+        Menu.getInstance().setPromptString(Align.center, "Are you sure you want to erase \n all progress on this level?");
+        menu = RESET;
     }
 
     private static void setDebugMenu() {
@@ -181,13 +193,15 @@ class LevelScreen extends ScreenAdapter {
                 if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y) {
                     setMainMenu();
                 } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 15) {
+                    setEraseMenu();
+                } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 30) {
                     if (ChaseCam.getInstance().getFollowing()) {
                         ChaseCam.getInstance().setFollowing(false);
                         setDebugMenu();
                     }
-                } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 30) {
-                    SaveData.toggleTouchscreen(!SaveData.hasTouchscreen());
                 } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 45) {
+                    SaveData.toggleTouchscreen(!SaveData.hasTouchscreen());
+                } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 60) {
                     LevelUpdater.getInstance().unpause();
                     LevelUpdater.getInstance().end();
                     ScreenManager.getInstance().create();
@@ -195,6 +209,16 @@ class LevelScreen extends ScreenAdapter {
                 }
             } else if (InputControls.getInstance().pauseButtonJustPressed) {
                 setMainMenu();
+            }
+        } else if (menu == RESET) {
+            if (InputControls.getInstance().shootButtonJustPressed) {
+                if (Cursor.getInstance().getPosition() == viewport.getCamera().position.x - 50) {
+                    LevelUpdater.getInstance().unpause();
+                    LevelUpdater.getInstance().end();
+                    OverworldScreen.getInstance().loadLevel(OverworldScreen.getSelection());
+                } else {
+                    setOptionsMenu();
+                }
             }
         } else if (menu == DEBUG){
             LevelUpdater.getInstance().render(batch, viewport);

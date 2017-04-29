@@ -92,6 +92,7 @@ public final class Enums {
         NONE,
         MAIN,
         OPTIONS,
+        RESET,
         DEBUG,
         END
     }

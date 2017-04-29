@@ -34,6 +34,7 @@ final class OverworldScreen extends ScreenAdapter {
     private BitmapFont font;
     private boolean viewingOptions;
     private boolean messageVisible;
+    private static Enums.Theme selection;
 
     // cannot be subclassed
     private OverworldScreen() {}
@@ -115,28 +116,8 @@ final class OverworldScreen extends ScreenAdapter {
 
             if (InputControls.getInstance().shootButtonJustPressed) {
                 if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
-                    messageVisible = false;
-                    try {
-                        LevelLoader.load(Enums.Theme.valueOf(Cursor.getInstance().getIterator().previous()));
-                        ScreenManager.getInstance().setScreen(LevelScreen.getInstance());
-                        this.dispose();
-                        return;
-                    } catch (IOException ex) {
-                        Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-                        Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
-                        Cursor.getInstance().getIterator().next();
-                        messageVisible = true;
-                    } catch (ParseException ex) {
-                        Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-                        Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
-                        Cursor.getInstance().getIterator().next();
-                        messageVisible = true;
-                    } catch (GdxRuntimeException ex) {
-                        Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-                        Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
-                        Cursor.getInstance().getIterator().next();
-                        messageVisible = true;
-                    }
+                    selection = Enums.Theme.valueOf(Cursor.getInstance().getIterator().previous());
+                    loadLevel(selection);
                 } else {
                     viewingOptions = true;
                     setOptionsMenu();
@@ -166,6 +147,33 @@ final class OverworldScreen extends ScreenAdapter {
         InputControls.getInstance().update();
         TouchInterface.getInstance().render(batch);
     }
+
+    protected void loadLevel(Enums.Theme level) {
+        messageVisible = false;
+        try {
+            LevelLoader.load(level);
+            ScreenManager.getInstance().setScreen(LevelScreen.getInstance());
+            this.dispose();
+            return;
+        } catch (IOException ex) {
+            Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
+            Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
+            Cursor.getInstance().getIterator().next();
+            messageVisible = true;
+        } catch (ParseException ex) {
+            Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
+            Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
+            Cursor.getInstance().getIterator().next();
+            messageVisible = true;
+        } catch (GdxRuntimeException ex) {
+            Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
+            Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
+            Cursor.getInstance().getIterator().next();
+            messageVisible = true;
+        }
+    }
+
+    protected static Enums.Theme getSelection() { return selection; }
 
     @Override
     public void dispose() {
