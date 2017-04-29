@@ -452,6 +452,12 @@ public final class Constants {
     public static final String PORTAL_SPRITE_5 = "portal-5";
     public static final String PORTAL_SPRITE_6 = "portal-6";
 
+    public static final Vector2 TELEPORT_CENTER = new Vector2(14, 16);
+    public static final float TELEPORT_FRAME_DURATION = 0.25f;
+    public static final String TELEPORT_SPRITE_1 = "teleport-1";
+    public static final String TELEPORT_SPRITE_2 = "teleport-2";
+    public static final String TELEPORT_SPRITE_3 = "teleport-3";
+    
     // Ammo
     public static final float CHARGE_DURATION = 1;
     public static final float AMMO_MAX_SPEED = 500;
@@ -534,6 +540,8 @@ public final class Constants {
     public static final String LEVEL_TYPE_KEY = "type";
     public static final String LEVEL_INTENSITY_KEY = "intensity";
     public static final String LEVEL_BOUNDS_KEY = "bounds";
+    public static final String LEVEL_DESTINATION_KEY = "destination";
+
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;

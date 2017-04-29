@@ -25,6 +25,7 @@ import com.udacity.gamedev.gigagal.entity.Sink;
 import com.udacity.gamedev.gigagal.entity.Slick;
 import com.udacity.gamedev.gigagal.entity.Spring;
 import com.udacity.gamedev.gigagal.entity.Suspension;
+import com.udacity.gamedev.gigagal.entity.Teleport;
 import com.udacity.gamedev.gigagal.entity.Trip;
 import com.udacity.gamedev.gigagal.entity.Swoopa;
 import com.udacity.gamedev.gigagal.entity.Treadmill;
@@ -224,12 +225,36 @@ final class LevelLoader {
         return range;
     }
 
+    private static final Vector2 extractDestination(JSONObject object) {
+        Vector2 destination = new Vector2(0, 0);
+        try {
+            if (object.containsKey("customVars")) {
+                String[] customVars = ((String) object.get("customVars")).split(";");
+                for (String customVar : customVars) {
+                    if (customVar.contains(Constants.LEVEL_DESTINATION_KEY)) {
+                        String[] destinationSplit = customVar.split(Constants.LEVEL_DESTINATION_KEY + ":");
+                        String[] paramSplit = destinationSplit[1].split(",");
+                        destination.set(Float.parseFloat(paramSplit[0]), Float.parseFloat(paramSplit[1]));
+                    }
+                }
+            }
+        } catch (NumberFormatException ex) {
+            runtimeEx = true;
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
+                    + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + "; key: " + Constants.LEVEL_DESTINATION_KEY);
+        }
+        return destination;
+    }
+
     private static final void loadImages(LevelUpdater level, JSONArray images) {
         for (Object o : images) {
             final JSONObject item = (JSONObject) o;
 
             final Vector2 imagePosition = extractPosition(item);
             final Vector2 scale = extractScale(item);
+            final Vector2 destination = extractDestination(item);
             final Enums.Orientation orientation = extractOrientation(item);
             final Enums.Material type = extractType(item);
             final Enums.ShotIntensity intensity = extractIntensity(item);
@@ -261,6 +286,10 @@ final class LevelLoader {
                 final Vector2 portalPosition = imagePosition.add(Constants.PORTAL_CENTER);
                 Gdx.app.log(TAG, "Loaded the exit portal at " + portalPosition);
                 level.setPortal(new Portal(portalPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TELEPORT_SPRITE_1)) {
+                final Vector2 teleportPosition = imagePosition.add(Constants.TELEPORT_CENTER);
+                Gdx.app.log(TAG, "Loaded the exit teleport at " + teleportPosition);
+                level.getGrounds().add(new Teleport(teleportPosition, destination));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPIKE_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SPIKE_CENTER);
                 Gdx.app.log(TAG, "Loaded the spike at " + spikePosition);

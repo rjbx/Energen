@@ -655,6 +655,7 @@ public final class Assets implements AssetErrorListener {
     public static final class PortalAssets {
 
         public final Animation portal;
+        public final Animation teleport;
 
         private PortalAssets(TextureAtlas atlas) {
             Array<AtlasRegion> portalRegions = new Array<AtlasRegion>();
@@ -667,7 +668,15 @@ public final class Assets implements AssetErrorListener {
 
             portal = new Animation(Constants.PORTAL_FRAME_DURATION,
                     portalRegions, PlayMode.NORMAL);
-        }
+
+            Array<AtlasRegion> teleportRegions = new Array<AtlasRegion>();
+            teleportRegions.add(atlas.findRegion(Constants.TELEPORT_SPRITE_1));
+            teleportRegions.add(atlas.findRegion(Constants.TELEPORT_SPRITE_2));
+            teleportRegions.add(atlas.findRegion(Constants.TELEPORT_SPRITE_3));
+
+            teleport = new Animation(Constants.TELEPORT_FRAME_DURATION,
+                    teleportRegions, PlayMode.NORMAL);
+        }        
     }
 
     public static final class ImpactAssets {
