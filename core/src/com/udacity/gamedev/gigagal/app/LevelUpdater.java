@@ -47,8 +47,6 @@ public class LevelUpdater {
     private Enums.Theme level;
 
     private boolean paused;
-    private long pauseTime;
-    private float pauseDuration;
 
     private int score;
     private long time;
@@ -76,8 +74,6 @@ public class LevelUpdater {
         time = 0;
 
         paused = false;
-        pauseTime = 0;
-        pauseDuration = 0;
     }
 
     protected void update(float delta) {
@@ -271,14 +267,10 @@ public class LevelUpdater {
 
     protected void pause() {
         Timer.getInstance().suspend();
-
-        pauseTime = TimeUtils.nanoTime();
-        pauseDuration = GigaGal.getInstance().getPauseTimeSeconds();
         paused = true;
     }
 
     protected void unpause() {
-        GigaGal.getInstance().setPauseTimeSeconds(Helpers.secondsSincePause(pauseTime) + pauseDuration);
         paused = false;
 
         Timer.getInstance().resume();
