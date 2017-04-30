@@ -94,8 +94,6 @@ public class GigaGal implements Humanoid {
     private int lives;
     private int ammo;
     private int health;
-    private boolean paused;
-    private float pauseTimeSeconds;
     private InputControls inputControls;
 
     // ctor
@@ -150,7 +148,6 @@ public class GigaGal implements Humanoid {
         startTurbo = turbo;
         turboDuration = 0;
         touchedGround = null;
-        paused = false;
         canClimb = false;
         canLook = false;
         canStride = false;
@@ -170,10 +167,8 @@ public class GigaGal implements Humanoid {
         climbStartTime = 0;
         jumpStartTime = 0;
         dashStartTime = 0;
-        pauseTimeSeconds = 0;
         turboDuration = 0;
         recoveryStartTime = TimeUtils.nanoTime();
-        pauseTimeSeconds = 0;
     }
 
 
@@ -359,9 +354,6 @@ public class GigaGal implements Humanoid {
             velocity.y = 0; // prevents from descending beneath ground top
             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
             setAtopGround(ground);
-            if (action != Action.DASHING) {
-                pauseTimeSeconds = 0;
-            }
             if (ground instanceof Skateable) {
                 onSkateable = true;
                 if (groundState == GroundState.AIRBORNE) {
@@ -489,7 +481,7 @@ public class GigaGal implements Humanoid {
     private void touchHazards(DelayedRemovalArray<Hazard> hazards) {
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
-                float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime) - pauseTimeSeconds;
+                float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
                 if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
                     Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                     if (getBounds().overlaps(bounds)) {
@@ -607,7 +599,6 @@ public class GigaGal implements Humanoid {
                             }
                         }
                     } else {
-                        pauseTimeSeconds = 0;
                         stand();
                         canStride = false;
                     }
@@ -849,7 +840,7 @@ public class GigaGal implements Humanoid {
             action = Action.STRIDING;
             strideStartTime = TimeUtils.nanoTime();
         }
-        strideTimeSeconds = Helpers.secondsSince(strideStartTime) - pauseTimeSeconds;
+        strideTimeSeconds = Helpers.secondsSince(strideStartTime);
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
         velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Orientation.X);
         if (onRideable) {
@@ -888,7 +879,6 @@ public class GigaGal implements Humanoid {
         } else {
             canDash = false;
             dashStartTime = 0;
-            pauseTimeSeconds = 0;
             stand();
         }
     }
@@ -910,7 +900,7 @@ public class GigaGal implements Humanoid {
             canJump = false;
         }
         velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
-        float jumpTimeSeconds = Helpers.secondsSince(jumpStartTime) - pauseTimeSeconds;
+        float jumpTimeSeconds = Helpers.secondsSince(jumpStartTime);
         if (jumpTimeSeconds < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
@@ -920,7 +910,6 @@ public class GigaGal implements Humanoid {
                 fall(); // causes fall texture to render for one frame
             }
         } else {
-            pauseTimeSeconds = 0;
             fall();
         }
     }
@@ -952,14 +941,13 @@ public class GigaGal implements Humanoid {
             action = Action.HOVERING; // indicates currently hovering
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
-        hoverTimeSeconds = (Helpers.secondsSince(hoverStartTime) - pauseTimeSeconds); // for comparing with max hover time
+        hoverTimeSeconds = Helpers.secondsSince(hoverStartTime); // for comparing with max hover time
         if (turbo >= 1) {
             velocity.y = 0; // disables impact of gravity
             turbo -= Constants.FALL_TURBO_INCREMENT;
         } else {
             canHover = false;
             fall(); // when max hover time is exceeded
-            pauseTimeSeconds = 0;
         }
         handleXInputs();
     }
@@ -992,13 +980,12 @@ public class GigaGal implements Humanoid {
             canJump = true;
             canCling = false;
         }
-        float clingTimeSeconds = (Helpers.secondsSince(clingStartTime) - pauseTimeSeconds);
+        float clingTimeSeconds = Helpers.secondsSince(clingStartTime);
         if (!inputControls.jumpButtonPressed) {
             if (clingTimeSeconds >= Constants.CLING_FRAME_DURATION) {
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
                 jump();
             } else {
-                pauseTimeSeconds = 0;
                 canHover = true;
             }
         } else {
@@ -1168,8 +1155,6 @@ public class GigaGal implements Humanoid {
     public List<Material> getWeaponList() { return weaponList; }
     public int getAmmo() { return ammo; }
     public int getLives() { return lives; }
-    public float getPauseTimeSeconds() { return pauseTimeSeconds; }
-    public boolean getPaused() { return paused; }
     public Vector3 getChaseCamPosition() { return chaseCamPosition; }
     public long getLookStartTime() { return lookStartTime; }
     public float getChargeTimeSeconds() { return chargeTimeSeconds; }
@@ -1180,10 +1165,9 @@ public class GigaGal implements Humanoid {
     public void setDirectionY(Direction directionY) { this.directionY = directionY; }
     public void setLives(int lives) { this.lives = lives; }
     public void setHealth(int health) { this.health = health; }
-    public void setPauseTimeSeconds(float pauseTimeSeconds) { this.pauseTimeSeconds = pauseTimeSeconds; }
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public void setChaseCamPosition(float offset) {
-        lookTimeSeconds = Helpers.secondsSince(lookStartTime) - pauseTimeSeconds;
+        lookTimeSeconds = Helpers.secondsSince(lookStartTime);
         if (lookTimeSeconds > 1) {
             offset += 1.5f;
             if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {

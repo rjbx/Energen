@@ -1,3 +1,4 @@
+/*
 package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -205,7 +206,8 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
         // abilities
         if (groundState == Enums.GroundState.PLANTED) {
             velocity.y = 0;
-            /*if (action == Enums.Action.STANDING) {
+            */
+/*if (action == Enums.Action.STANDING) {
                 stand();
                 enableStride();
                 enableDash();
@@ -224,10 +226,12 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 enableDash();
                 enableJump();
                 enableShoot(weapon);
-            }*/
+            }*//*
+
         } else if (groundState == Enums.GroundState.AIRBORNE) {
             velocity.y -= Constants.GRAVITY;
-            /*if (action == Enums.Action.FALLING) {
+            */
+/*if (action == Enums.Action.FALLING) {
                 fall();
                 enableClimb();
                 enableHover();
@@ -249,7 +253,8 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
             } else if (action == Enums.Action.RECOILING) {
                 enableCling();
                 enableShoot(weapon);
-            }*/
+            }*//*
+
         }
 
         rush();
@@ -470,7 +475,9 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                     }
                 }
                 if (action != Enums.Action.CLIMBING) {
-                    if (canClimb /*&& !inputControls.jumpButtonPressed*/ && action == Enums.Action.STANDING) {
+                    if (canClimb */
+/*&& !inputControls.jumpButtonPressed*//*
+ && action == Enums.Action.STANDING) {
                         if (!(ground instanceof com.udacity.gamedev.gigagal.entity.Pole)) {
                             canJump = true;
                         }
@@ -497,7 +504,9 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
     private void untouchGround() {
         if (touchedGround != null && action != Enums.Action.HOVERING) {
             if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
-                /*(!Helpers.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
+                */
+/*(!Helpers.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) *//*
+{
                 if (onBounceable) {
                     Bounceable bounceable = (Bounceable) touchedGround;
                     bounceable.resetStartTime();
@@ -574,7 +583,8 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
         }
     }
 
-    /*private void touchPowerups(List<Powerup> powerups) {
+    */
+/*private void touchPowerups(List<Powerup> powerups) {
         ListIterator<Powerup> iterator = powerups.listIterator();
         while (iterator.hasNext()) {
             Powerup powerup = iterator.next();
@@ -606,7 +616,9 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
         if (turbo > Constants.MAX_TURBO) {
             turbo = Constants.MAX_TURBO;
         }
-    }*/
+    }*//*
+
+*/
 /*
 
     private void handleXInputs() {
@@ -741,7 +753,8 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
             }
         }
     }
-*/
+*//*
+
 
     private void stand() {
         if (onSinkable) {
@@ -827,7 +840,9 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                     shotIntensity = Enums.ShotIntensity.CHARGED;
                 }
                 chargeTimeSeconds = Helpers.secondsSince(chargeStartTime);
-          /*  } else */if (chargeStartTime != 0) {
+          */
+/*  } else *//*
+if (chargeStartTime != 0) {
                 int ammoUsed;
 
                 if (weapon == Enums.Material.NATIVE
@@ -934,7 +949,9 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
 
     private void enableJump() {
         if (canJump) {
-            if ((/*inputControls.jumpButtonJustPressed || */action == Enums.Action.JUMPING)
+            if ((*/
+/*inputControls.jumpButtonJustPressed || *//*
+action == Enums.Action.JUMPING)
                     && lookStartTime == 0) {
                 jump();
             }
@@ -966,7 +983,9 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
 
     private void enableHover() {
         if (canHover) {
-          /*  if (inputControls.jumpButtonJustPressed) {*/
+          */
+/*  if (inputControls.jumpButtonJustPressed) {*//*
+
                 if (action == Enums.Action.HOVERING) {
                     //   canHover = false;
                     hoverStartTime = 0;
@@ -976,7 +995,9 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                     hover(); // else hover if canHover is true (set to false after beginning hover)
                 }
                 // if jump key not pressed, but already hovering, continue to hover
-         /*   } else*/ if (action == Enums.Action.HOVERING) {
+         */
+/*   } else*//*
+ if (action == Enums.Action.HOVERING) {
 //                handleYInputs();
                 hover();
             }
@@ -1044,7 +1065,9 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
             lookStartTime = 0;
 //            if (inputControls.downButtonPressed) {
                 velocity.y += Constants.CLING_GRAVITY_OFFSET;
-        /*    } else*/ if (turbo < 1) {
+        */
+/*    } else*//*
+ if (turbo < 1) {
                 turbo = 0;
                 velocity.y += Constants.CLING_GRAVITY_OFFSET;
 //            } else {
@@ -1214,3 +1237,4 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
         weaponList.clear();
     }
 }
+*/
