@@ -961,7 +961,8 @@ public class GigaGal implements Humanoid {
                 canHover = false; // disable hover if not already
             }
             if (inputControls.jumpButtonJustPressed) {
-                if (Math.abs(position.y - touchedGround.getTop()) < 10) {
+                if (position.y > touchedGround.getTop() - 10) {
+                    position.y = touchedGround.getTop() - 5;
                     canClimb = true;
                 }
                 cling();
@@ -1093,6 +1094,11 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
             } else if (action == Action.CLINGING) {
+                if (canClimb) {
+                    region = Assets.getInstance().getGigaGalAssets().graspRight;
+                } else {
+                    region = Assets.getInstance().getGigaGalAssets().clingRight;
+                }
                 region = Assets.getInstance().getGigaGalAssets().clingRight;
             } else if (action == Action.RECOILING){
                 region = Assets.getInstance().getGigaGalAssets().recoilRight;
@@ -1127,7 +1133,11 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
             } else if (action == Action.CLINGING) {
-                region = Assets.getInstance().getGigaGalAssets().clingLeft;
+                if (canClimb) {
+                    region = Assets.getInstance().getGigaGalAssets().graspLeft;
+                } else {
+                    region = Assets.getInstance().getGigaGalAssets().clingLeft;
+                }
             } else if (action == Action.RECOILING) {
                 region = Assets.getInstance().getGigaGalAssets().recoilLeft;
             } else if (action == Action.FALLING) {

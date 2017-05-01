@@ -76,6 +76,8 @@ public final class Constants {
     public static final String LOOKUP_HOVER_LEFT_2 = "gg-lookup-hover-left-2";
     public static final String LOOKDOWN_HOVER_RIGHT_2 = "gg-lookdown-hover-right-2";
     public static final String LOOKDOWN_HOVER_LEFT_2 = "gg-lookdown-hover-left-2";
+    public static final String GRASP_RIGHT = "gg-grasp-right";
+    public static final String GRASP_LEFT = "gg-grasp-left";
     public static final String CLING_RIGHT = "gg-cling-right";
     public static final String CLING_LEFT = "gg-cling-left";
     public static final float CLING_FRAME_DURATION = 0.05f;

@@ -88,6 +88,8 @@ public final class Assets implements AssetErrorListener {
         public final AtlasRegion dashRight;
         public final AtlasRegion clingLeft;
         public final AtlasRegion clingRight;
+        public final AtlasRegion graspLeft;
+        public final AtlasRegion graspRight;
         public final Animation hoverLeft;
         public final Animation hoverRight;
         public final Animation lookupHoverLeft;
@@ -117,6 +119,8 @@ public final class Assets implements AssetErrorListener {
             dashRight = atlas.findRegion(Constants.STRIDE_RIGHT_2);
             clingLeft = atlas.findRegion(Constants.CLING_LEFT);
             clingRight = atlas.findRegion(Constants.CLING_RIGHT);
+            graspLeft = atlas.findRegion(Constants.GRASP_LEFT);
+            graspRight = atlas.findRegion(Constants.GRASP_RIGHT);
             
             Array<AtlasRegion> hoverLeftFrames = new Array<AtlasRegion>();
             hoverLeftFrames.add(atlas.findRegion(Constants.HOVER_LEFT_1));
