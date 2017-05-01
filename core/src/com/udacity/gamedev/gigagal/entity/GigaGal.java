@@ -770,7 +770,7 @@ public class GigaGal implements Humanoid {
 
     private void enableShoot(Material weapon) {
         if (canShoot) {
-            if (inputControls.shootButtonPressed) {
+            if (inputControls.shootButtonPressed || (action == Action.CLINGING && (inputControls.rightButtonPressed || inputControls.leftButtonPressed))) {
                 if (chargeStartTime == 0) {
                     chargeStartTime = TimeUtils.nanoTime();
                 } else if (chargeTimeSeconds > Constants.CHARGE_DURATION) {
@@ -1000,7 +1000,7 @@ public class GigaGal implements Humanoid {
                 canClimb = false;
                 canCling = false;
                 directionX = Helpers.getOppositeDirection(directionX);
-                velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
+                velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
                 jump();
             } else if (turbo < 1) {
                 turbo = 0;
