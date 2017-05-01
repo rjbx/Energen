@@ -992,6 +992,12 @@ public class GigaGal implements Humanoid {
             lookStartTime = 0;
             if (inputControls.downButtonPressed) {
                 velocity.y += Constants.CLING_GRAVITY_OFFSET;
+            } else if (inputControls.upButtonPressed && Math.abs(position.y - touchedGround.getTop()) < 10) {
+                directionX = Helpers.getOppositeDirection(directionX);
+                velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
+                jump();
+                turbo = 0;
+                canCling = false;
             } else if (turbo < 1) {
                 turbo = 0;
                 velocity.y += Constants.CLING_GRAVITY_OFFSET;
