@@ -31,20 +31,18 @@ public class IndicatorHud {
         float yIcon = viewport.getCamera().position.y + viewport.getWorldHeight() / 2.5f;
 
         float xAction = viewport.getCamera().position.x + 5;
-        if (!level.getGigaGal().getClingStatus() && level.getGigaGal().getAction() != Enums.Action.CLINGING)  {
-            if (!level.getGigaGal().getJumpStatus() && !level.getGigaGal().getClimbStatus() && level.getGigaGal().getHoverStatus()) {
-                Helpers.drawTextureRegion(
-                        batch,
-                        viewport,
-                        Assets.getInstance().getHudAssets().hover,
-                        xAction,
-                        yIcon,
-                        Constants.ICON_CENTER.x,
-                        Constants.ICON_CENTER.y,
-                        Constants.ACTION_ICON_SCALE
-                );
-            }
-        } else {
+        if (GigaGal.getInstance().getClimbStatus()) {
+            Helpers.drawTextureRegion(
+                    batch,
+                    viewport,
+                    Assets.getInstance().getHudAssets().climb,
+                    xAction,
+                    yIcon,
+                    Constants.ICON_CENTER.x,
+                    Constants.ICON_CENTER.y,
+                    Constants.ACTION_ICON_SCALE
+            );
+        } else if (GigaGal.getInstance().getClingStatus() || GigaGal.getInstance().getAction() == Enums.Action.CLINGING)  {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
@@ -55,13 +53,11 @@ public class IndicatorHud {
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
-        }
-
-        if (level.getGigaGal().getDashStatus()) {
+        }  else if (!GigaGal.getInstance().getJumpStatus() && !GigaGal.getInstance().getClimbStatus() && GigaGal.getInstance().getHoverStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getHudAssets().dash,
+                    Assets.getInstance().getHudAssets().hover,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
@@ -70,11 +66,11 @@ public class IndicatorHud {
             );
         }
 
-        if (level.getGigaGal().getClimbStatus()) {
+        if (GigaGal.getInstance().getDashStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getHudAssets().climb,
+                    Assets.getInstance().getHudAssets().dash,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
@@ -99,8 +95,8 @@ public class IndicatorHud {
             xLife += 20;
         }
 
-        Enums.Material weapon = level.getGigaGal().getWeapon();
-        Enums.ShotIntensity intensity = level.getGigaGal().getShotIntensity();
+        Enums.Material weapon = GigaGal.getInstance().getWeapon();
+        Enums.ShotIntensity intensity = GigaGal.getInstance().getShotIntensity();
         Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, false);
         ammo.update(1);
         Vector2 offset = new Vector2();
