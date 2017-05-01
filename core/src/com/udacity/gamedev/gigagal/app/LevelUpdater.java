@@ -272,7 +272,6 @@ public class LevelUpdater {
 
     protected void unpause() {
         paused = false;
-
         Timer.getInstance().resume();
     }
 
