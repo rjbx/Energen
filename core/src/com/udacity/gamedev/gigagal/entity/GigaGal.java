@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.app.SaveData;
+import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -319,6 +320,18 @@ public class GigaGal implements Humanoid {
                 }
                 if (action == Action.DASHING) {
                     stand(); // deactivates dash when bumping ground side
+                }
+                if (ground instanceof Chargeable) {
+                    Chargeable chargeable = (Chargeable) ground;
+                    if (chargeStartTime != 0 && directionX == Direction.RIGHT) {
+                        if (!chargeable.isActive()) {
+                            chargeable.activate();
+                        } else if (chargeTimeSeconds > 1) {
+                            chargeable.charge(chargeTimeSeconds);
+                        }
+                    } else {
+                        chargeable.charge(0);
+                    }
                 }
             }
             if ((!(ground instanceof Rideable && (Math.abs(getBottom() - ground.getTop()) <= 1)))

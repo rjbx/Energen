@@ -210,7 +210,9 @@ public final class Assets implements AssetErrorListener {
         public final AtlasRegion rope;
         public final AtlasRegion pillar;
         public final AtlasRegion pod;
-        public final AtlasRegion chamber;
+        public final AtlasRegion inactiveChamber;
+        public final AtlasRegion activeChamber;
+        public final Animation chargedChamber;
         public final Animation knob;
         public final Animation pole;
         public final Animation slick;
@@ -229,7 +231,6 @@ public final class Assets implements AssetErrorListener {
 
         private GroundAssets(TextureAtlas atlas) {
 
-            chamber = atlas.findRegion(Constants.CHAMBER_SPRITE);
             pillar = atlas.findRegion(Constants.PILLAR_SPRITE);
             lift = atlas.findRegion(Constants.LIFT_SPRITE);
             yCannon = atlas.findRegion(Constants.Y_CANNON_SPRITE);
@@ -319,6 +320,17 @@ public final class Assets implements AssetErrorListener {
                     podRegions, PlayMode.LOOP);
 
             pod = atlas.findRegion(Constants.POD_SPRITE_3);
+
+            Array<AtlasRegion> chamberRegions = new Array<AtlasRegion>();
+            chamberRegions.add(atlas.findRegion(Constants.CHAMBER_SPRITE_1));
+            chamberRegions.add(atlas.findRegion(Constants.CHAMBER_SPRITE_2));
+
+            chargedChamber = new Animation(Constants.CHAMBER_LOAD_DURATION / chamberRegions.size,
+                    chamberRegions, PlayMode.LOOP);
+
+            inactiveChamber = atlas.findRegion(Constants.CHAMBER_SPRITE_3);
+
+            activeChamber = atlas.findRegion(Constants.CHAMBER_SPRITE);
 
             Array<AtlasRegion> sinkRegions = new Array<AtlasRegion>();
             sinkRegions.add(atlas.findRegion(Constants.SINK_SPRITE_1));

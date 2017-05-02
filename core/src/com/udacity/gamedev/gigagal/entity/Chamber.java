@@ -2,24 +2,40 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Chamber implements Ground {
+public class Chamber implements Chargeable, Ground, Hazard {
 
     // fields
     private Vector2 position;
+    private Enums.Theme level;
+    private boolean active;
+    private float chargeTimeSeconds;
 
     // ctor
     public Chamber(Vector2 position) {
         this.position = position;
+        this.active = false;
+        chargeTimeSeconds = 0;
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().chamber, position, Constants.CHAMBER_CENTER);
+        if (active) {
+            if (chargeTimeSeconds != 0) {
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().chargedChamber.getKeyFrame(chargeTimeSeconds, true), position, Constants.CHAMBER_CENTER);
+            } else {
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().activeChamber, position, Constants.CHAMBER_CENTER);
+            }
+        } else {
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().inactiveChamber, position, Constants.CHAMBER_CENTER);
+            chargeTimeSeconds = 0;
+        }
     }
 
     @Override public final Vector2 getPosition() { return position; }
@@ -29,5 +45,9 @@ public class Chamber implements Ground {
     @Override public final float getRight() { return position.x + Constants.CHAMBER_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.CHAMBER_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.CHAMBER_CENTER.y; }
+    @Override public final void activate() { this.active = true; }
+    @Override public final void deactivate() { this.active = false; }
+    @Override public final void charge(float chargeTimeSeconds) { this.chargeTimeSeconds = chargeTimeSeconds; }
+    @Override public final boolean isActive() { return active; }
     @Override public Chamber clone() { return new Chamber(position); }
 }
