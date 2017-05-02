@@ -23,6 +23,9 @@ public class Spring implements Reboundable, Ground {
     }
 
     @Override
+    public void update() {}
+
+    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (isLoaded) {
             if (startTime == 0) {

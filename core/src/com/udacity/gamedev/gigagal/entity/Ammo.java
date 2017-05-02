@@ -185,7 +185,7 @@ public final class Ammo implements Indestructible, Hazard {
                         Reboundable reboundable = ((Reboundable) strikeable);
                         reboundable.resetStartTime();
                         reboundable.setState(!reboundable.getState());
-                    } 
+                    }
                     LevelUpdater.getInstance().spawnExplosion(position, weapon);
                     active = false;
                 }

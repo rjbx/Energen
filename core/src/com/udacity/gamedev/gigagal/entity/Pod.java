@@ -23,6 +23,9 @@ public class Pod implements Reboundable, Ground {
     }
 
     @Override
+    public void update() {}
+
+    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (isActive) {
             Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().activePod.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.POD_CENTER);

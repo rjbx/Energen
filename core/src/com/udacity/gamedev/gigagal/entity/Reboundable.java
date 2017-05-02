@@ -5,4 +5,5 @@ public interface Reboundable extends Entity {
     boolean getState();
     long getStartTime();
     void resetStartTime();
+    void update();
 }

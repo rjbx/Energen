@@ -32,6 +32,20 @@ public class Trip implements Reboundable, Strikeable, Ground {
     }
 
     @Override
+    public void update() {
+        if (state) {
+            for (Ground ground : level.getGrounds()) {
+                if (ground instanceof Trippable) {
+                    if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
+                        ((Treadmill) ground).trip();
+                    }
+                }
+            }
+            state = false;
+        }
+    }
+
+    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (state) {
             if (startTime == 0) {
@@ -60,13 +74,6 @@ public class Trip implements Reboundable, Strikeable, Ground {
     @Override public float getShotRadius() { return Constants.TRIP_SHOT_RADIUS; }
     @Override public void setState(boolean state) {
         this.state = state;
-        for (Ground ground : level.getGrounds()) {
-            if (ground instanceof Trippable) {
-                if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
-                    ((Treadmill) ground).trip();
-                }
-            }
-        }
     }
     @Override public Trip clone() { return new Trip(level, position, bounds); }
 }
