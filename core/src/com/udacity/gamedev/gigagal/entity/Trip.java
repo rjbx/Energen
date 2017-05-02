@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 
 import static com.udacity.gamedev.gigagal.util.Enums.Material.NATIVE;
 
-public class Trip implements Bounceable, Ground, Destructible, Hazard {
+public class Trip implements Reboundable, Ground, Destructible, Hazard {
 
     // fields
     private Vector2 position;

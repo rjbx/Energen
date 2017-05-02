@@ -428,10 +428,10 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 if (direction == Enums.Direction.DOWN) {
                     position.y -= 1;
                 }
-            } else if (ground instanceof Bounceable) {
+            } else if (ground instanceof Reboundable) {
                 onBounceable = true;
-                Bounceable bounceable = (Bounceable) ground;
-                bounceable.setLoaded(true);
+                Reboundable reboundable = (Reboundable) ground;
+                reboundable.setLoaded(true);
             } else if (ground instanceof Rideable) {
                 onRideable = true;
             } else if (ground instanceof Unbearable) {
@@ -499,18 +499,18 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
             if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
                 /*(!Helpers.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
                 if (onBounceable) {
-                    Bounceable bounceable = (Bounceable) touchedGround;
-                    bounceable.resetStartTime();
-                    bounceable.setLoaded(false);
+                    Reboundable reboundable = (Reboundable) touchedGround;
+                    reboundable.resetStartTime();
+                    reboundable.setLoaded(false);
                     onBounceable = false;
                 }
                 canCling = false;
                 fall();
             } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
                 if (onBounceable) {
-                    Bounceable bounceable = (Bounceable) touchedGround;
-                    bounceable.resetStartTime();
-                    bounceable.setLoaded(false);
+                    Reboundable reboundable = (Reboundable) touchedGround;
+                    reboundable.resetStartTime();
+                    reboundable.setLoaded(false);
                     onBounceable = false;
                 }
                 onSinkable = false;

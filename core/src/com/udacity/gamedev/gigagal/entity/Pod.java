@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Pod implements Solid, Ground {
+public class Pod implements Reboundable, Ground {
 
     // fields
     private Vector2 position;
@@ -38,8 +38,8 @@ public class Pod implements Solid, Ground {
     @Override public final float getRight() { return position.x + Constants.POD_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.POD_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.POD_CENTER.y; }
-    public final long getStartTime() { return startTime; }
-    public final void setActive(boolean state) { this.isActive = state; }
-    public final void resetStartTime() { this.startTime = 0; }
+    @Override public final long getStartTime() { return startTime; }
+    @Override public final void setLoaded(boolean state) { this.isActive = state; }
+    @Override public final void resetStartTime() { this.startTime = 0; }
     @Override public Pod clone() { return new Pod(position); }
 }
