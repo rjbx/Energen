@@ -431,7 +431,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
             } else if (ground instanceof Reboundable) {
                 onBounceable = true;
                 Reboundable reboundable = (Reboundable) ground;
-                reboundable.setLoaded(true);
+                reboundable.setState(true);
             } else if (ground instanceof Rideable) {
                 onRideable = true;
             } else if (ground instanceof Unbearable) {
@@ -501,7 +501,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 if (onBounceable) {
                     Reboundable reboundable = (Reboundable) touchedGround;
                     reboundable.resetStartTime();
-                    reboundable.setLoaded(false);
+                    reboundable.setState(false);
                     onBounceable = false;
                 }
                 canCling = false;
@@ -510,7 +510,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 if (onBounceable) {
                     Reboundable reboundable = (Reboundable) touchedGround;
                     reboundable.resetStartTime();
-                    reboundable.setLoaded(false);
+                    reboundable.setState(false);
                     onBounceable = false;
                 }
                 onSinkable = false;

@@ -39,7 +39,8 @@ public class Pod implements Reboundable, Ground {
     @Override public final float getTop() { return position.y + Constants.POD_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.POD_CENTER.y; }
     @Override public final long getStartTime() { return startTime; }
-    @Override public final void setLoaded(boolean state) { this.isActive = state; }
+    @Override public final void setState(boolean state) { this.isActive = state; }
+    @Override public final boolean getState() { return isActive; }
     @Override public final void resetStartTime() { this.startTime = 0; }
     @Override public Pod clone() { return new Pod(position); }
 }

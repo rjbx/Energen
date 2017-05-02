@@ -2,14 +2,13 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Chamber implements Chargeable, Ground, Hazard {
+public class Chamber implements Chargeable, Strikeable, Ground {
 
     // fields
     private Vector2 position;
@@ -49,5 +48,7 @@ public class Chamber implements Chargeable, Ground, Hazard {
     @Override public final void deactivate() { this.active = false; }
     @Override public final void charge(float chargeTimeSeconds) { this.chargeTimeSeconds = chargeTimeSeconds; }
     @Override public final boolean isActive() { return active; }
+    @Override public float getShotRadius() { return Constants.CHAMBER_CENTER.x; }
+
     @Override public Chamber clone() { return new Chamber(position); }
 }

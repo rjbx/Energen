@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.app.SaveData;
-import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -388,7 +387,7 @@ public class GigaGal implements Humanoid {
             } else if (ground instanceof Reboundable) {
                 onBounceable = true;
                 Reboundable reboundable = (Reboundable) ground;
-                reboundable.setLoaded(true);
+                reboundable.setState(true);
             } else if (ground instanceof Rideable) {
                 onRideable = true;
             } else if (ground instanceof Unbearable) {
@@ -462,7 +461,7 @@ public class GigaGal implements Humanoid {
                 if (onBounceable) {
                     Reboundable reboundable = (Reboundable) touchedGround;
                     reboundable.resetStartTime();
-                    reboundable.setLoaded(false);
+                    reboundable.setState(false);
                     onBounceable = false;
                 }
                 canCling = false;
@@ -471,7 +470,7 @@ public class GigaGal implements Humanoid {
                 if (onBounceable) {
                     Reboundable reboundable = (Reboundable) touchedGround;
                     reboundable.resetStartTime();
-                    reboundable.setLoaded(false);
+                    reboundable.setState(false);
                     onBounceable = false;
                 }
                 onSinkable = false;

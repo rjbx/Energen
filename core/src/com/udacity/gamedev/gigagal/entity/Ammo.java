@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.app.SaveData;
@@ -149,7 +150,7 @@ public final class Ammo implements Indestructible, Hazard {
             if (hazard instanceof Destructible) {
                 Destructible destructible = (Destructible) hazard;
                 if (position.dst(destructible.getPosition()) < (destructible.getShotRadius() + this.radius)) {
-                    level.spawnExplosion(position, weapon);
+                    LevelUpdater.getInstance().spawnExplosion(position, weapon);
                     active = false;
                     ReactionIntensity effectiveness = Helpers.getAmmoEffectiveness(destructible.getType(), weapon);
                     switch (effectiveness) {
@@ -172,13 +173,21 @@ public final class Ammo implements Indestructible, Hazard {
                         hitScore = destructible.getHitScore();
                     }
                     Helpers.applyDamage(destructible, shotIntensity, damage / Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
+                }
+            }
+        }
 
-                    if (destructible instanceof Trip) {
-                        Trip trip = ((Trip) destructible);
-                        trip.resetStartTime();
-                        trip.setState(!trip.getState());
-                        System.out.println(trip.getBounds().toString());
-                    }
+        for (Ground ground : level.getGrounds()) {
+            if (ground instanceof Strikeable) {
+                Strikeable strikeable = (Strikeable) ground;
+                if (position.dst(strikeable.getPosition()) < (strikeable.getShotRadius() + this.radius)) {
+                    if (strikeable instanceof Reboundable) {
+                        Reboundable reboundable = ((Reboundable) strikeable);
+                        reboundable.resetStartTime();
+                        reboundable.setState(!reboundable.getState());
+                    } 
+                    LevelUpdater.getInstance().spawnExplosion(position, weapon);
+                    active = false;
                 }
             }
         }

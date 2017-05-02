@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 
 import static com.udacity.gamedev.gigagal.util.Enums.Material.NATIVE;
 
-public class Trip implements Reboundable, Ground, Destructible, Hazard {
+public class Trip implements Reboundable, Strikeable, Ground {
 
     // fields
     private Vector2 position;
@@ -29,10 +29,6 @@ public class Trip implements Reboundable, Ground, Destructible, Hazard {
         this.bounds = bounds;
         startTime = 0;
         state = false;
-    }
-
-    @Override
-    public void update(float delta) {
     }
 
     @Override
@@ -58,21 +54,11 @@ public class Trip implements Reboundable, Ground, Destructible, Hazard {
     @Override public final float getTop() { return position.y + Constants.TRIP_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.TRIP_CENTER.y; }
     @Override public final long getStartTime() { return startTime; }
-    @Override public final void setLoaded(boolean state) { this.state = state; }
     @Override public final void resetStartTime() { this.startTime = 0; }
-    @Override public Enums.Material getType() { return NATIVE; }
-    @Override public float getHealth() { return 1; }
-    @Override public void setHealth(float health) { ; }
-    @Override public float getShotRadius() { return Constants.TRIP_SHOT_RADIUS; }
-    @Override public int getHitScore() { return 0; }
-    @Override public int getKillScore() { return 0; }
     public Rectangle getBounds() { return bounds; }
     public boolean getState() { return state; }
-    public int getDamage() { return 0; }
-    @Override public Vector2 getKnockback() { return Vector2.Zero; }
-    @Override public Trip clone() { return new Trip(level, position, bounds); }
-
-    public void setState(boolean state) {
+    @Override public float getShotRadius() { return Constants.TRIP_SHOT_RADIUS; }
+    @Override public void setState(boolean state) {
         this.state = state;
         for (Ground ground : level.getGrounds()) {
             if (ground instanceof Trippable) {
@@ -82,4 +68,5 @@ public class Trip implements Reboundable, Ground, Destructible, Hazard {
             }
         }
     }
+    @Override public Trip clone() { return new Trip(level, position, bounds); }
 }

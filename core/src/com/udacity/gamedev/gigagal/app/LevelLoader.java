@@ -399,7 +399,6 @@ final class LevelLoader {
                 Gdx.app.log(TAG, "Loaded the trip at " + tripPosition);
                 Trip trip = new Trip(level, tripPosition, bounds);
                 level.getGrounds().add(trip);
-                level.getHazards().add(trip);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POD_SPRITE_1)) {
                 final Vector2 podPosition = imagePosition.add(Constants.POD_CENTER);
                 Gdx.app.log(TAG, "Loaded the pod at " + podPosition);
