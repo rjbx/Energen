@@ -384,6 +384,10 @@ public class GigaGal implements Humanoid {
                 Random xKnockback = new Random();
                 velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.FLAME_KNOCKBACK.y);
                 recoil(velocity);
+            } else if (ground instanceof Pod) {
+                ((Pod) ground).setActive(true);
+            } else {
+                ((Pod) ground).setActive(false);
             }
         }
     }

@@ -16,6 +16,7 @@ import com.udacity.gamedev.gigagal.entity.Lava;
 import com.udacity.gamedev.gigagal.entity.Lift;
 import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Pillar;
+import com.udacity.gamedev.gigagal.entity.Pod;
 import com.udacity.gamedev.gigagal.entity.Pole;
 import com.udacity.gamedev.gigagal.entity.Powerup;
 import com.udacity.gamedev.gigagal.entity.Protrusion;
@@ -389,11 +390,16 @@ final class LevelLoader {
                 Gdx.app.log(TAG, "Loaded the spring at " + springPosition);
                 level.getGrounds().add(new Spring(springPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIP_SPRITE_1)) {
-                final Vector2 switchPosition = imagePosition.add(Constants.TRIP_CENTER);
-                Gdx.app.log(TAG, "Loaded the switch at " + switchPosition);
-                Trip trip = new Trip(level, switchPosition, bounds);
+                final Vector2 tripPosition = imagePosition.add(Constants.TRIP_CENTER);
+                Gdx.app.log(TAG, "Loaded the trip at " + tripPosition);
+                Trip trip = new Trip(level, tripPosition, bounds);
                 level.getGrounds().add(trip);
                 level.getHazards().add(trip);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POD_SPRITE_1)) {
+                final Vector2 podPosition = imagePosition.add(Constants.POD_CENTER);
+                Gdx.app.log(TAG, "Loaded the pod at " + podPosition);
+                Pod pod = new Pod(podPosition);
+                level.getGrounds().add(pod);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SLICK_SPRITE_1)) {
                 Vector2 adjustedCenter = new Vector2(Constants.SLICK_CENTER.x * scale.x, Constants.SLICK_CENTER.y * scale.y);
                 final Vector2 slickPosition = imagePosition.add(Constants.SLICK_CENTER);

@@ -13,27 +13,27 @@ public class Spring implements Bounceable, Ground {
     // fields
     private Vector2 position;
     private long startTime;
-    private boolean loaded;
+    private boolean isLoaded;
 
     // ctor
     public Spring(Vector2 position) {
         this.position = position;
         startTime = 0;
-        loaded = false;
+        isLoaded = false;
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        if (loaded) {
+        if (isLoaded) {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().loaded.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.SPRING_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().loadedSpring.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.SPRING_CENTER);
         } else {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().unloaded.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.SPRING_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().unloadedSpring.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.SPRING_CENTER);
         }
     }
 
@@ -45,7 +45,7 @@ public class Spring implements Bounceable, Ground {
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final long getStartTime() { return startTime; }
-    @Override public final void setLoaded(boolean state) { this.loaded = state; }
+    @Override public final void setLoaded(boolean state) { this.isLoaded = state; }
     @Override public final void resetStartTime() { this.startTime = 0; }
     @Override public Spring clone() { return new Spring(position); }
 }

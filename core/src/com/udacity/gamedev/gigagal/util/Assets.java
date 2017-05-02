@@ -209,16 +209,18 @@ public final class Assets implements AssetErrorListener {
         public final AtlasRegion vines;
         public final AtlasRegion rope;
         public final AtlasRegion pillar;
+        public final AtlasRegion pod;
         public final Animation knob;
         public final Animation pole;
         public final Animation slick;
         public final Animation ice;
         public final Animation treadmillRight;
         public final Animation treadmillLeft;
-        public final Animation loaded;
-        public final Animation unloaded;
+        public final Animation loadedSpring;
+        public final Animation unloadedSpring;
         public final Animation tripOn;
         public final Animation tripOff;
+        public final Animation activePod;
         public final Animation sink;
         public final Animation coals;
         public final Animation lava;
@@ -285,12 +287,12 @@ public final class Assets implements AssetErrorListener {
             springRegions.add(atlas.findRegion(Constants.SPRING_SPRITE_2));
             springRegions.add(atlas.findRegion(Constants.SPRING_SPRITE_3));
 
-            loaded = new Animation(Constants.SPRING_LOAD_DURATION / springRegions.size,
+            loadedSpring = new Animation(Constants.SPRING_LOAD_DURATION / springRegions.size,
                     springRegions, PlayMode.NORMAL);
 
             springRegions.add(atlas.findRegion(Constants.SPRING_SPRITE_4));
 
-            unloaded = new Animation(Constants.SPRING_UNLOAD_DURATION / springRegions.size,
+            unloadedSpring = new Animation(Constants.SPRING_UNLOAD_DURATION / springRegions.size,
                     springRegions, PlayMode.REVERSED);
 
 
@@ -306,6 +308,15 @@ public final class Assets implements AssetErrorListener {
 
             tripOff = new Animation(Constants.TRIP_UNLOAD_DURATION / tripRegions.size,
                     tripRegions, PlayMode.REVERSED);
+
+            Array<AtlasRegion> podRegions = new Array<AtlasRegion>();
+            podRegions.add(atlas.findRegion(Constants.POD_SPRITE_1));
+            podRegions.add(atlas.findRegion(Constants.POD_SPRITE_2));
+
+            activePod = new Animation(Constants.POD_LOAD_DURATION / podRegions.size,
+                    podRegions, PlayMode.LOOP);
+
+            pod = atlas.findRegion(Constants.POD_SPRITE_3);
 
             Array<AtlasRegion> sinkRegions = new Array<AtlasRegion>();
             sinkRegions.add(atlas.findRegion(Constants.SINK_SPRITE_1));

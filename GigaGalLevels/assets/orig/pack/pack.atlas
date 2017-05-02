@@ -29,14 +29,14 @@ box-breakable
   index: -1
 cannon-x
   rotate: false
-  xy: 455, 54
+  xy: 455, 27
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
   index: -1
 cannon-y
   rotate: false
-  xy: 455, 106
+  xy: 206, 22
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
@@ -86,14 +86,14 @@ lava-1
   index: -1
 lift
   rotate: false
-  xy: 232, 73
+  xy: 455, 2
   size: 19, 5
   orig: 19, 5
   offset: 0, 0
   index: -1
 orben-dormant
   rotate: false
-  xy: 206, 15
+  xy: 480, 104
   size: 10, 8
   orig: 10, 8
   offset: 0, 0
@@ -103,6 +103,13 @@ pillar
   xy: 120, 2
   size: 12, 6
   orig: 12, 6
+  offset: 0, 0
+  index: -1
+pod-1
+  rotate: false
+  xy: 455, 114
+  size: 35, 12
+  orig: 35, 12
   offset: 0, 0
   index: -1
 pole-1
@@ -121,21 +128,21 @@ portal-1
   index: -1
 powerup-ammo
   rotate: false
-  xy: 455, 87
+  xy: 455, 79
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 206, 25
+  xy: 455, 60
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 455, 68
+  xy: 455, 41
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -156,7 +163,7 @@ protrusion-liquid-1
   index: -1
 protrusion-plasma-1
   rotate: false
-  xy: 455, 36
+  xy: 455, 9
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
@@ -170,7 +177,7 @@ protrusion-polymer-1
   index: -1
 protrusion-solid-1
   rotate: false
-  xy: 455, 18
+  xy: 466, 9
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
@@ -205,7 +212,7 @@ slick-1
   index: -1
 spring-1
   rotate: false
-  xy: 477, 112
+  xy: 455, 98
   size: 23, 14
   orig: 23, 14
   offset: 0, 0
@@ -282,7 +289,7 @@ treadmill-1-right
   index: -1
 trip-1
   rotate: false
-  xy: 225, 59
+  xy: 492, 114
   size: 12, 12
   orig: 12, 12
   offset: 0, 0

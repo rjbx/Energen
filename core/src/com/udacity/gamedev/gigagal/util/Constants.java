@@ -208,6 +208,14 @@ public final class Constants {
     public static final int LAVA_DAMAGE = 25;
     public static final Vector2 LAVA_KNOCKBACK = new Vector2(150, 400);
 
+    // Pod
+    public static final Vector2 POD_CENTER = new Vector2(17.5f, 4);
+    public static final String POD_SPRITE_1 = "pod-1";
+    public static final String POD_SPRITE_2 = "pod-2";
+    public static final String POD_SPRITE_3 = "pod-3";
+    public static final float POD_LOAD_DURATION = 0.2f;
+
+
     // Cannon
     public static final Vector2 X_CANNON_CENTER = new Vector2(10, 6);
     public static final String X_CANNON_SPRITE = "cannon-x";
