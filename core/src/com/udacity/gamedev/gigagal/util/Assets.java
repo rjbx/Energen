@@ -210,6 +210,7 @@ public final class Assets implements AssetErrorListener {
         public final AtlasRegion rope;
         public final AtlasRegion pillar;
         public final AtlasRegion pod;
+        public final AtlasRegion chamber;
         public final Animation knob;
         public final Animation pole;
         public final Animation slick;
@@ -228,6 +229,7 @@ public final class Assets implements AssetErrorListener {
 
         private GroundAssets(TextureAtlas atlas) {
 
+            chamber = atlas.findRegion(Constants.CHAMBER_SPRITE);
             pillar = atlas.findRegion(Constants.PILLAR_SPRITE);
             lift = atlas.findRegion(Constants.LIFT_SPRITE);
             yCannon = atlas.findRegion(Constants.Y_CANNON_SPRITE);

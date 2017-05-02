@@ -29,7 +29,7 @@ box-breakable
   index: -1
 cannon-x
   rotate: false
-  xy: 455, 27
+  xy: 232, 66
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
@@ -39,6 +39,13 @@ cannon-y
   xy: 206, 22
   size: 20, 20
   orig: 20, 20
+  offset: 0, 0
+  index: -1
+chamber
+  rotate: false
+  xy: 455, 19
+  size: 11, 20
+  orig: 11, 20
   offset: 0, 0
   index: -1
 coals-1
@@ -86,14 +93,14 @@ lava-1
   index: -1
 lift
   rotate: false
-  xy: 455, 2
+  xy: 206, 15
   size: 19, 5
   orig: 19, 5
   offset: 0, 0
   index: -1
 orben-dormant
   rotate: false
-  xy: 480, 104
+  xy: 500, 104
   size: 10, 8
   orig: 10, 8
   offset: 0, 0
@@ -163,7 +170,7 @@ protrusion-liquid-1
   index: -1
 protrusion-plasma-1
   rotate: false
-  xy: 455, 9
+  xy: 480, 96
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
@@ -177,7 +184,7 @@ protrusion-polymer-1
   index: -1
 protrusion-solid-1
   rotate: false
-  xy: 466, 9
+  xy: 491, 96
   size: 7, 16
   orig: 7, 16
   offset: 0, 0

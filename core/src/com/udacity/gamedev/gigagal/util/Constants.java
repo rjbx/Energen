@@ -215,7 +215,10 @@ public final class Constants {
     public static final String POD_SPRITE_3 = "pod-3";
     public static final float POD_LOAD_DURATION = 0.2f;
 
-
+    // Chamber
+    public static final Vector2 CHAMBER_CENTER = new Vector2(4.5f, 10);
+    public static final String CHAMBER_SPRITE = "chamber";
+    
     // Cannon
     public static final Vector2 X_CANNON_CENTER = new Vector2(10, 6);
     public static final String X_CANNON_SPRITE = "cannon-x";

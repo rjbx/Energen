@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.BreakableBox;
 import com.udacity.gamedev.gigagal.entity.Cannon;
+import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Coals;
 import com.udacity.gamedev.gigagal.entity.Ice;
 import com.udacity.gamedev.gigagal.entity.Knob;
@@ -362,6 +363,10 @@ final class LevelLoader {
                 final Vector2 knobPosition = imagePosition.add(Constants.KNOB_CENTER);
                 Gdx.app.log(TAG, "Loaded the knob at " + knobPosition);
                 level.getGrounds().add(new Knob(knobPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.CHAMBER_SPRITE)) {
+                final Vector2 chamberPosition = imagePosition.add(Constants.CHAMBER_CENTER);
+                Gdx.app.log(TAG, "Loaded the chamber at " + chamberPosition);
+                level.getGrounds().add(new Chamber(chamberPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LIFT_SPRITE)) {
                 final Vector2 liftPosition = imagePosition.add(Constants.LIFT_CENTER);
                 Lift lift = new Lift(liftPosition, orientation);
