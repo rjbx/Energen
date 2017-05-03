@@ -1076,8 +1076,18 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    public void setUpgrade() {
-
+    public void setUpgrade(Upgrade upgrade) {
+        switch (upgrade) {
+            case AMMO:
+                break;
+            case HEALTH:
+                break;
+            case TURBO:
+                break;
+            case CANNON:
+                break;
+            default:
+        }
     }
 
     @Override
