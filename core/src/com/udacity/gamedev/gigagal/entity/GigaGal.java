@@ -1096,6 +1096,7 @@ public class GigaGal implements Humanoid {
                 turboMultiplier = .9f;
                 break;
             case CANNON:
+                addWeapon(Material.HYBRID);
                 break;
             default:
         }
