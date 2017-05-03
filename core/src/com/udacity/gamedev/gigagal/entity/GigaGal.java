@@ -828,7 +828,9 @@ public class GigaGal implements Humanoid {
     }
 
     public void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
-        ammo -= ammoUsed * ammoMultiplier;
+        if (chargeModifier == 0) {
+            ammo -= ammoUsed * ammoMultiplier;
+        }
         Vector2 ammoPosition = new Vector2(
                 position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, directionX, Orientation.X),
                 position.y + Constants.GIGAGAL_CANNON_OFFSET.y
