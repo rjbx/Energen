@@ -88,12 +88,15 @@ public class GigaGal implements Humanoid {
     private float strideSpeed;
     private float strideAcceleration;
     private float turboDuration;
+    private float turboMultiplier;
+    private float ammoMultiplier;
+    private float healthMultiplier;
     private float startTurbo;
     private float turbo;
     private float killPlane;
+    private float ammo;
+    private float health;
     private int lives;
-    private int ammo;
-    private int health;
     private InputControls inputControls;
 
     // ctor
@@ -116,6 +119,10 @@ public class GigaGal implements Humanoid {
         halfWidth = width / 2;
         lives = Constants.INITIAL_LIVES;
         killPlane = -10000;
+        turboDuration = 1;
+        turboMultiplier = 1;
+        ammoMultiplier = 1;
+        healthMultiplier = 1;
         String savedWeapons = SaveData.getWeapons();
         if (!savedWeapons.equals(Material.NATIVE.name())) {
             List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
@@ -533,7 +540,7 @@ public class GigaGal implements Humanoid {
                                 recoil(new Vector2((Helpers.absoluteToDirectionalValue(hazard.getKnockback().x, directionX, Orientation.X)), hazard.getKnockback().y));
                             }
                         }
-                        health -= damage;
+                        health -= damage * healthMultiplier;
                     }
                 }
             }
@@ -812,7 +819,8 @@ public class GigaGal implements Humanoid {
     }
 
     public void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
-        ammo -= ammoUsed;
+        ammo -= ammoUsed * ammoMultiplier;
+        System.out.println(ammoMultiplier);
         Vector2 ammoPosition = new Vector2(
                 position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, directionX, Orientation.X),
                 position.y + Constants.GIGAGAL_CANNON_OFFSET.y
@@ -886,7 +894,7 @@ public class GigaGal implements Humanoid {
             dashSpeed *= 1.75f;
         }
         if (turbo >= 1) {
-            turbo -= Constants.FALL_TURBO_INCREMENT * 3;
+            turbo -= Constants.FALL_TURBO_INCREMENT * Constants.DASH_TURBO_MULTIPLIER * turboMultiplier;
             velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed, directionX, Orientation.X);
         } else {
             canDash = false;
@@ -956,7 +964,7 @@ public class GigaGal implements Humanoid {
         hoverTimeSeconds = Helpers.secondsSince(hoverStartTime); // for comparing with max hover time
         if (turbo >= 1) {
             velocity.y = 0; // disables impact of gravity
-            turbo -= Constants.FALL_TURBO_INCREMENT;
+            turbo -= Constants.FALL_TURBO_INCREMENT * turboMultiplier;
         } else {
             canHover = false;
             fall(); // when max hover time is exceeded
@@ -1018,7 +1026,7 @@ public class GigaGal implements Humanoid {
                 turbo = 0;
                 velocity.y += Constants.CLING_GRAVITY_OFFSET;
             } else {
-                turbo -= Constants.FALL_TURBO_INCREMENT;
+                turbo -= Constants.FALL_TURBO_INCREMENT * turboMultiplier;
                 velocity.y = 0;
             }
         }
@@ -1079,10 +1087,13 @@ public class GigaGal implements Humanoid {
     public void setUpgrade(Upgrade upgrade) {
         switch (upgrade) {
             case AMMO:
+                ammoMultiplier = .7f;
                 break;
             case HEALTH:
+                healthMultiplier = .8f;
                 break;
             case TURBO:
+                turboMultiplier = .9f;
                 break;
             case CANNON:
                 break;
@@ -1186,7 +1197,7 @@ public class GigaGal implements Humanoid {
     @Override public final float getWidth() { return width; }
     @Override public final float getHeight() { return height; }
     @Override public final float getTurbo() { return turbo; }
-    @Override public final int getHealth() { return health; }
+    @Override public final float getHealth() { return health; }
     @Override public final boolean getJumpStatus() { return canJump; }
     @Override public final boolean getHoverStatus() { return canHover; }
     @Override public final boolean getClingStatus() { return canCling; }
@@ -1198,7 +1209,7 @@ public class GigaGal implements Humanoid {
     @Override public final Material getWeapon() { return weapon; }
     private final float getHalfWidth() { return halfWidth; }
     public List<Material> getWeaponList() { return weaponList; }
-    public int getAmmo() { return ammo; }
+    public final float getAmmo() { return ammo; }
     public int getLives() { return lives; }
     public Vector3 getChaseCamPosition() { return chaseCamPosition; }
     public long getLookStartTime() { return lookStartTime; }

@@ -9,7 +9,7 @@ public interface Humanoid extends MultidirectionalX, MultidirectionalY {
     Vector2 getVelocity();
     Rectangle getBounds();
     float getTurbo();
-    int getHealth();
+    float getHealth();
     boolean getJumpStatus();
     boolean getHoverStatus();
     boolean getClingStatus();

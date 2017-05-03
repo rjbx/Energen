@@ -84,9 +84,9 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
     private float startTurbo;
     private float turbo;
     private float killPlane;
+    private float ammo;
+    private float health;
     private int lives;
-    private int ammo;
-    private int health;
     private boolean paused;
     private float pauseTimeSeconds;
     private InputControls inputControls;
@@ -1191,7 +1191,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
     @Override public final float getWidth() { return width; }
     @Override public final float getHeight() { return height; }
     @Override public final float getTurbo() { return turbo; }
-    @Override public final int getHealth() { return health; }
+    @Override public final float getHealth() { return health; }
     @Override public final boolean getJumpStatus() { return canJump; }
     @Override public final boolean getHoverStatus() { return canHover; }
     @Override public final boolean getClingStatus() { return canCling; }

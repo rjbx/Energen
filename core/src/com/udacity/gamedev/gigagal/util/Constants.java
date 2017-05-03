@@ -38,6 +38,7 @@ public final class Constants {
     public static final float MAX_HOVER_DURATION = 1.5f;
     public static final float MIN_GROUND_DISTANCE = 20;
     public static final float MAX_DASH_DURATION = 0.35f;
+    public static final float DASH_TURBO_MULTIPLIER = 3;
     public static final float MAX_LOOK_DISTANCE = 60;
     public static final float RECOVERY_TIME = 1;
     public static final float DOUBLE_TAP_SPEED = 0.2f;
