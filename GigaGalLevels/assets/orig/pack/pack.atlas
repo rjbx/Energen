@@ -71,7 +71,7 @@ ice-1
   index: -1
 icon-life
   rotate: false
-  xy: 492, 113
+  xy: 480, 99
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
@@ -107,7 +107,7 @@ lift
   index: -1
 orben-dormant
   rotate: false
-  xy: 455, 9
+  xy: 254, 70
   size: 10, 8
   orig: 10, 8
   offset: 0, 0
@@ -147,6 +147,13 @@ powerup-ammo
   orig: 15, 17
   offset: 0, 0
   index: -1
+powerup-cannon
+  rotate: false
+  xy: 492, 116
+  size: 16, 10
+  orig: 16, 10
+  offset: 0, 0
+  index: -1
 powerup-health
   rotate: false
   xy: 455, 60
@@ -177,7 +184,7 @@ protrusion-liquid-1
   index: -1
 protrusion-plasma-1
   rotate: false
-  xy: 480, 96
+  xy: 481, 81
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
@@ -191,7 +198,7 @@ protrusion-polymer-1
   index: -1
 protrusion-solid-1
   rotate: false
-  xy: 254, 62
+  xy: 472, 80
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
@@ -303,7 +310,7 @@ treadmill-1-right
   index: -1
 trip-1
   rotate: false
-  xy: 491, 99
+  xy: 455, 5
   size: 12, 12
   orig: 12, 12
   offset: 0, 0

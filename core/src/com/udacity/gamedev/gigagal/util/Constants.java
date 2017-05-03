@@ -531,7 +531,6 @@ public final class Constants {
 
     // Powerup
     public static final Vector2 POWERUP_CENTER = new Vector2(7, 5);
-
     public static final int POWERUP_AMMO = 10;
     public static final int POWERUP_HEALTH = 50;
     public static final int POWERUP_TURBO = 100;
@@ -539,6 +538,7 @@ public final class Constants {
     public static final String HEALTH_POWERUP_SPRITE = "powerup-health";
     public static final String TURBO_POWERUP_SPRITE = "powerup-turbo";
     public static final String LIFE_POWERUP_SPRITE = "icon-life";
+    public static final String CANNON_POWERUP_SPRITE = "powerup-cannon";
 
     // Level Loading
     public static final String LEVEL_COMPOSITE = "composite";

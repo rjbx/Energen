@@ -44,7 +44,8 @@ public final class Enums {
         LIFE,
         HEALTH,
         TURBO,
-        AMMO
+        AMMO,
+        CANNON
     }
 
     public enum ShotIntensity {

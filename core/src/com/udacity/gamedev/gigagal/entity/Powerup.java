@@ -32,8 +32,14 @@ public class Powerup implements Entity {
             case AMMO:
                 region = Assets.getInstance().getPowerupAssets().ammoPowerup;
                 break;
-            default:
+            case LIFE:
                 region = Assets.getInstance().getPowerupAssets().lifePowerup;
+                break;
+            case CANNON:
+                region = Assets.getInstance().getPowerupAssets().cannonPowerup;
+                break;
+            default:
+                region = Assets.getInstance().getPowerupAssets().ammoPowerup;
         }
     }
 

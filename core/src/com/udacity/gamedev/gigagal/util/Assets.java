@@ -783,12 +783,14 @@ public final class Assets implements AssetErrorListener {
         public final AtlasRegion healthPowerup;
         public final AtlasRegion turboPowerup;
         public final AtlasRegion lifePowerup;
+        public final AtlasRegion cannonPowerup;
 
         private PowerupAssets(TextureAtlas atlas) {
             ammoPowerup = atlas.findRegion(Constants.AMMO_POWERUP_SPRITE);
             healthPowerup = atlas.findRegion(Constants.HEALTH_POWERUP_SPRITE);
             turboPowerup = atlas.findRegion(Constants.TURBO_POWERUP_SPRITE);
             lifePowerup = atlas.findRegion(Constants.LIFE_POWERUP_SPRITE);
+            cannonPowerup = atlas.findRegion(Constants.CANNON_POWERUP_SPRITE);
         }
     }
 

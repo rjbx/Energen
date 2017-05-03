@@ -91,6 +91,7 @@ public class GigaGal implements Humanoid {
     private float turboMultiplier;
     private float ammoMultiplier;
     private float healthMultiplier;
+    private float chargeModifier;
     private float startTurbo;
     private float turbo;
     private float killPlane;
@@ -123,6 +124,7 @@ public class GigaGal implements Humanoid {
         turboMultiplier = 1;
         ammoMultiplier = 1;
         healthMultiplier = 1;
+        chargeModifier = 0;
         String savedWeapons = SaveData.getWeapons();
         if (!savedWeapons.equals(Material.NATIVE.name())) {
             List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
@@ -541,6 +543,7 @@ public class GigaGal implements Humanoid {
                             }
                         }
                         health -= damage * healthMultiplier;
+                        chargeModifier = 0;
                     }
                 }
             }
@@ -575,6 +578,9 @@ public class GigaGal implements Humanoid {
                         break;
                     case LIFE:
                         lives += 1;
+                        break;
+                    case CANNON:
+                        chargeModifier = 1;
                         break;
                 }
                 powerup.deactivate();
@@ -800,7 +806,7 @@ public class GigaGal implements Humanoid {
                 } else if (chargeTimeSeconds > Constants.CHARGE_DURATION / 3) {
                     shotIntensity = ShotIntensity.CHARGED;
                 }
-                chargeTimeSeconds = Helpers.secondsSince(chargeStartTime);
+                chargeTimeSeconds = Helpers.secondsSince(chargeStartTime) + chargeModifier;
             } else if (chargeStartTime != 0) {
                 int ammoUsed;
 
