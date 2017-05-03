@@ -536,7 +536,6 @@ final class LevelLoader {
 
         level.getGrounds().addAll(boxArray);
         level.getGrounds().addAll(breakableBoxArray);
-        level.getHazards().addAll(breakableBoxArray);
         level.getGrounds().addAll(ladderArray);
     }
 }

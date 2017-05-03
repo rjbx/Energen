@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class BreakableBox implements Destructible, Solid, Ground, Hazard {
+public class BreakableBox implements Destructible, Solid, Ground {
 
     // fields
     private final Enums.Material type;
@@ -61,11 +61,9 @@ public class BreakableBox implements Destructible, Solid, Ground, Hazard {
     @Override public Vector2 getPosition() { return position; }
     @Override public int getKillScore() { return 0; }
     @Override public int getHitScore() { return 0; }
-    @Override public int getDamage() { return 0; }
     @Override public float getShotRadius() { return 29; }
     @Override public void setHealth(float damage) { this.damage = damage; }
     @Override public float getHealth() { return damage; }
-    @Override public Vector2 getKnockback() { return Vector2.Zero; }
     @Override public Enums.Material getType() { return type; }
     @Override public BreakableBox clone() { return new BreakableBox(left, bottom, width, height, type); }
 }

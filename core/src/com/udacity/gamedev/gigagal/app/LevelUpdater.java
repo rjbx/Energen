@@ -149,6 +149,10 @@ public class LevelUpdater {
                 ((Trippable) ground).update();
             } else if (ground instanceof Reboundable) {
                 ((Reboundable) ground).update();
+            } else if (ground instanceof Destructible) {
+                if (((Destructible) ground).getHealth() < 1) {
+                    grounds.removeIndex(i);
+                }
             }
         }
         grounds.end();
@@ -163,13 +167,8 @@ public class LevelUpdater {
                 destructible.update(delta);
                 if (destructible.getHealth() < 1) {
                     spawnExplosion(destructible.getPosition(), destructible.getType());
-                    if (hazards.get(i) instanceof Ground) {
-                        hazards.removeIndex(i);
-                        grounds.removeValue((Ground) hazards.get(i), true);
-                    } else {
-                        hazards.removeIndex(i);
-                        score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
-                    }
+                    hazards.removeIndex(i);
+                    score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
                 }
                 if (destructible instanceof Orben) {
                     Orben orben = (Orben) destructible;

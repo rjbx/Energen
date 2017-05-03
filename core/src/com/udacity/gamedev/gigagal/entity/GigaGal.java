@@ -820,7 +820,6 @@ public class GigaGal implements Humanoid {
 
     public void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
         ammo -= ammoUsed * ammoMultiplier;
-        System.out.println(ammoMultiplier);
         Vector2 ammoPosition = new Vector2(
                 position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, directionX, Orientation.X),
                 position.y + Constants.GIGAGAL_CANNON_OFFSET.y
@@ -1087,13 +1086,13 @@ public class GigaGal implements Humanoid {
     public void setUpgrade(Upgrade upgrade) {
         switch (upgrade) {
             case AMMO:
-                ammoMultiplier = .7f;
+                ammoMultiplier = .9f;
                 break;
             case HEALTH:
                 healthMultiplier = .8f;
                 break;
             case TURBO:
-                turboMultiplier = .9f;
+                turboMultiplier = .7f;
                 break;
             case CANNON:
                 addWeapon(Material.HYBRID);

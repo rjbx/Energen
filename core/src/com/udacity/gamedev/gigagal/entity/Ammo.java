@@ -12,6 +12,8 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
+import sun.security.krb5.internal.crypto.Des;
+
 // immutable
 public final class Ammo implements Indestructible, Hazard {
 
@@ -152,27 +154,7 @@ public final class Ammo implements Indestructible, Hazard {
                 if (position.dst(destructible.getPosition()) < (destructible.getShotRadius() + this.radius)) {
                     LevelUpdater.getInstance().spawnExplosion(position, weapon);
                     active = false;
-                    ReactionIntensity effectiveness = Helpers.getAmmoEffectiveness(destructible.getType(), weapon);
-                    switch (effectiveness) {
-                        case STRONG:
-                            damage = Constants.AMMO_SPECIALIZED_DAMAGE;
-                            break;
-                        case WEAK:
-                            damage = Constants.AMMO_WEAK_DAMAGE;
-                            break;
-                        case NORMAL:
-                            damage = Constants.AMMO_STANDARD_DAMAGE;
-                            break;
-                        default:
-                            damage = Constants.AMMO_STANDARD_DAMAGE;
-                    }
-                    if (!fromGigagal) {
-                        damage -= Constants.AMMO_WEAK_DAMAGE;
-                        damage /= 2;
-                    } else {
-                        hitScore = destructible.getHitScore();
-                    }
-                    Helpers.applyDamage(destructible, shotIntensity, damage / Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
+                    Helpers.applyDamage(destructible, this);
                 }
             }
         }
@@ -188,8 +170,11 @@ public final class Ammo implements Indestructible, Hazard {
                     } else if (strikeable instanceof Chargeable) {
                         Chargeable chargeable = (Chargeable) strikeable;
                         chargeable.deactivate();
-                        if (chargeable instanceof Chamber)
-                        GigaGal.getInstance().setUpgrade(((Chamber) chargeable).getUpgrade());
+                        if (chargeable instanceof Chamber) {
+                            GigaGal.getInstance().setUpgrade(((Chamber) chargeable).getUpgrade());
+                        }
+                    } else if (strikeable instanceof Destructible) {
+                        Helpers.applyDamage((Destructible) ground, this);
                     }
                     LevelUpdater.getInstance().spawnExplosion(position, weapon);
                     active = false;
@@ -261,5 +246,6 @@ public final class Ammo implements Indestructible, Hazard {
     public final Material getType() { return weapon; }
     public final TextureRegion getTexture() { return region; }
     public final int getHitScore() { return hitScore; }
+    public final void setHitScore(int hitScore) { this.hitScore = hitScore; }
     public final boolean isFromGigagal() { return fromGigagal; }
 }
