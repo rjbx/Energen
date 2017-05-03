@@ -250,6 +250,28 @@ final class LevelLoader {
         return destination;
     }
 
+    private static final Enums.Upgrade extractUpgrade(JSONObject object) {
+       Enums.Upgrade upgrade = Enums.Upgrade.NONE;
+        try {
+            if (object.containsKey("customVars")) {
+                String[] customVars = ((String) object.get("customVars")).split(";");
+                for (String customVar : customVars) {
+                    if (customVar.contains(Constants.LEVEL_UPGRADE_KEY)) {
+                        String[] upgradeSplit = customVar.split(Constants.LEVEL_UPGRADE_KEY + ":");
+                        upgrade = Enums.Upgrade.valueOf(upgradeSplit[1]);
+                    }
+                }
+            }
+        } catch (NumberFormatException ex) {
+            runtimeEx = true;
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
+                    + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + "; key: " + Constants.LEVEL_UPGRADE_KEY);
+        }
+        return upgrade;
+    }
+
     private static final void loadImages(LevelUpdater level, JSONArray images) {
         for (Object o : images) {
             final JSONObject item = (JSONObject) o;
@@ -260,6 +282,7 @@ final class LevelLoader {
             final Enums.Orientation orientation = extractOrientation(item);
             final Enums.Material type = extractType(item);
             final Enums.ShotIntensity intensity = extractIntensity(item);
+            final Enums.Upgrade upgrade = extractUpgrade(item);
             final Rectangle bounds = extractBounds(item);
             final float range = extractRange(item);
 
@@ -366,7 +389,9 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.CHAMBER_SPRITE)) {
                 final Vector2 chamberPosition = imagePosition.add(Constants.CHAMBER_CENTER);
                 Gdx.app.log(TAG, "Loaded the chamber at " + chamberPosition);
-                level.getGrounds().add(new Chamber(chamberPosition));
+                Chamber chamber = new Chamber(chamberPosition);
+                chamber.setUpgrade(upgrade);
+                level.getGrounds().add(chamber);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LIFT_SPRITE)) {
                 final Vector2 liftPosition = imagePosition.add(Constants.LIFT_CENTER);
                 Lift lift = new Lift(liftPosition, orientation);

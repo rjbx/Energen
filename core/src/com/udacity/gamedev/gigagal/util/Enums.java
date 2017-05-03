@@ -88,6 +88,14 @@ public final class Enums {
         abstract public Color color();
     }
 
+    public enum Upgrade {
+        NONE,
+        AMMO,
+        HEALTH,
+        TURBO,
+        CANNON
+    }
+
     public enum LevelMenu {
         NONE,
         MAIN,

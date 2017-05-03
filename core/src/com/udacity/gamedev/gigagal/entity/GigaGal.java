@@ -1076,6 +1076,10 @@ public class GigaGal implements Humanoid {
         }
     }
 
+    public void setUpgrade() {
+
+    }
+
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (directionX == Direction.RIGHT) {

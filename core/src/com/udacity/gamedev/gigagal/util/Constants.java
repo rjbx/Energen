@@ -558,6 +558,7 @@ public final class Constants {
     public static final String LEVEL_INTENSITY_KEY = "intensity";
     public static final String LEVEL_BOUNDS_KEY = "bounds";
     public static final String LEVEL_DESTINATION_KEY = "destination";
+    public static final String LEVEL_UPGRADE_KEY = "upgrade";
 
 
     // HUD
