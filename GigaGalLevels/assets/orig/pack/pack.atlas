@@ -69,6 +69,13 @@ ice-1
   orig: 48, 16
   offset: 0, 0
   index: -1
+icon-life
+  rotate: false
+  xy: 492, 113
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
 knob-1
   rotate: false
   xy: 189, 99
@@ -100,7 +107,7 @@ lift
   index: -1
 orben-dormant
   rotate: false
-  xy: 500, 104
+  xy: 455, 9
   size: 10, 8
   orig: 10, 8
   offset: 0, 0
@@ -184,7 +191,7 @@ protrusion-polymer-1
   index: -1
 protrusion-solid-1
   rotate: false
-  xy: 491, 96
+  xy: 254, 62
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
@@ -296,7 +303,7 @@ treadmill-1-right
   index: -1
 trip-1
   rotate: false
-  xy: 492, 114
+  xy: 491, 99
   size: 12, 12
   orig: 12, 12
   offset: 0, 0

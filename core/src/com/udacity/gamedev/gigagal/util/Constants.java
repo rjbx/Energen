@@ -538,6 +538,7 @@ public final class Constants {
     public static final String AMMO_POWERUP_SPRITE = "powerup-ammo";
     public static final String HEALTH_POWERUP_SPRITE = "powerup-health";
     public static final String TURBO_POWERUP_SPRITE = "powerup-turbo";
+    public static final String LIFE_POWERUP_SPRITE = "icon-life";
 
     // Level Loading
     public static final String LEVEL_COMPOSITE = "composite";

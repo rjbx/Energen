@@ -573,6 +573,9 @@ public class GigaGal implements Humanoid {
                             dashStartTime = TimeUtils.nanoTime();
                         }
                         break;
+                    case LIFE:
+                        lives += 1;
+                        break;
                 }
                 powerup.deactivate();
             }

@@ -33,7 +33,7 @@ public class Powerup implements Entity {
                 region = Assets.getInstance().getPowerupAssets().ammoPowerup;
                 break;
             default:
-                region = Assets.getInstance().getPowerupAssets().ammoPowerup;
+                region = Assets.getInstance().getPowerupAssets().lifePowerup;
         }
     }
 

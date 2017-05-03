@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
-import com.udacity.gamedev.gigagal.entity.BreakableBox;
 import com.udacity.gamedev.gigagal.entity.Cannon;
 import com.udacity.gamedev.gigagal.entity.Destructible;
 import com.udacity.gamedev.gigagal.entity.Ground;
@@ -19,8 +18,6 @@ import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Powerup;
 import com.udacity.gamedev.gigagal.entity.Reboundable;
-import com.udacity.gamedev.gigagal.entity.Strikeable;
-import com.udacity.gamedev.gigagal.entity.Treadmill;
 import com.udacity.gamedev.gigagal.entity.Trippable;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -47,9 +44,7 @@ public class LevelUpdater {
     private DelayedRemovalArray<Powerup> powerups;
     private Enums.Material levelWeapon;
     private Enums.Theme level;
-
     private boolean paused;
-
     private int score;
     private long time;
 
@@ -87,11 +82,11 @@ public class LevelUpdater {
 
     protected void render(SpriteBatch batch, Viewport viewport) {
 
+        portal.render(batch, viewport);
+
         for (Ground ground : grounds) {
             ground.render(batch, viewport);
         }
-
-        portal.render(batch, viewport);
 
         for (Powerup powerup : powerups) {
             powerup.render(batch, viewport);
@@ -156,8 +151,6 @@ public class LevelUpdater {
             }
         }
         grounds.end();
-
-
 
         // Update Hazards
         hazards.begin();

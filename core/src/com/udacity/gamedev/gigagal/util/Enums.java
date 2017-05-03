@@ -41,6 +41,7 @@ public final class Enums {
     }
 
     public enum PowerupType {
+        LIFE,
         HEALTH,
         TURBO,
         AMMO
