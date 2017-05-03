@@ -221,7 +221,7 @@ public final class Constants {
     public static final String CHAMBER_SPRITE_1 = "chamber-1";
     public static final String CHAMBER_SPRITE_2 = "chamber-2";
     public static final String CHAMBER_SPRITE_3 = "chamber-3";
-    public static final float CHAMBER_LOAD_DURATION = 0.2f;
+    public static final float CHAMBER_LOAD_DURATION = 0.1f;
     
     // Cannon
     public static final Vector2 X_CANNON_CENTER = new Vector2(10, 6);

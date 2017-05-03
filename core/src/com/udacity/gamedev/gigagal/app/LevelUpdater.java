@@ -87,10 +87,6 @@ public class LevelUpdater {
 
     protected void render(SpriteBatch batch, Viewport viewport) {
 
-        for (Ground ground : grounds) {
-            ground.render(batch, viewport);
-        }
-
         portal.render(batch, viewport);
 
         for (Powerup powerup : powerups) {
@@ -102,6 +98,10 @@ public class LevelUpdater {
         }
 
         GigaGal.getInstance().render(batch, viewport);
+
+        for (Ground ground : grounds) {
+            ground.render(batch, viewport);
+        }
 
         for (Impact impact : impacts) {
             impact.render(batch, viewport);
