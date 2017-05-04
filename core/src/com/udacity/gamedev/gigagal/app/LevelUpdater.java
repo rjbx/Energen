@@ -112,21 +112,24 @@ public class LevelUpdater {
     // asset handling
 
     private void updateAssets(float delta) {
-        
+
+        time = Timer.getInstance().getNanos();
+
         // Update Restore Points
         portals.begin();
+        int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
         for (int i = 0; i < portals.size; i++) {
             if (GigaGal.getInstance().getPosition().dst(portals.get(i).getPosition()) < Constants.PORTAL_RADIUS) {
                 List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
                 List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
                 List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
-                int index = Arrays.asList(Enums.Theme.values()).indexOf(level);
-                allRestores.set(index, Integer.toString(i));
-                allTimes.set(index, Long.toString(time));
-                allScores.set(index, Integer.toString(score));
-                SaveData.setLevelRestores(allRestores.toString());
-                SaveData.setLevelTimes(allTimes.toString());
-                SaveData.setLevelScores(allScores.toString());
+                allRestores.set(level, Integer.toString(i));
+                allTimes.set(level, Long.toString(time));
+                allScores.set(level, Integer.toString(score));
+                SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
+                SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
+                SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
+                System.out.println(allRestores + "\n" + allTimes + "\n" + allScores);
             }
         }
         portals.end();
@@ -299,7 +302,7 @@ public class LevelUpdater {
         // set level attributes
         viewport = LevelScreen.getInstance().getViewport();
 
-        Timer.getInstance().reset().start();
+        Timer.getInstance().reset().start(time);
     }
 
     protected void end() {

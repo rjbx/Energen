@@ -155,13 +155,13 @@ final class OverworldScreen extends ScreenAdapter {
                 allRestores.set(index, "0");
                 allTimes.set(index, "0");
                 allScores.set(index, "0");
-                SaveData.setLevelRestores(allRestores.toString());
-                SaveData.setLevelTimes(allTimes.toString());
-                SaveData.setLevelScores(allScores.toString());
+                SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
+                SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
+                SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
                 break;
             case 1:
-                LevelUpdater.getInstance().setScore(Integer.parseInt(allScores.get(index)));
                 LevelUpdater.getInstance().setTime(Long.parseLong(allTimes.get(index)));
+                LevelUpdater.getInstance().setScore(Integer.parseInt(allScores.get(index)));
                 break;
             case 2:
                 LevelUpdater.getInstance().setTime(Long.parseLong(allTimes.get(index)));
