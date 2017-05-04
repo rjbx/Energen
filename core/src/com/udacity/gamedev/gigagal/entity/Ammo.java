@@ -170,9 +170,6 @@ public final class Ammo implements Indestructible, Hazard {
                     } else if (strikeable instanceof Chargeable) {
                         Chargeable chargeable = (Chargeable) strikeable;
                         chargeable.deactivate();
-                        if (chargeable instanceof Chamber) {
-                            GigaGal.getInstance().setUpgrade(((Chamber) chargeable).getUpgrade());
-                        }
                     } else if (strikeable instanceof Destructible) {
                         Helpers.applyDamage((Destructible) ground, this);
                     }

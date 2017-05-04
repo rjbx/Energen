@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.Cannon;
+import com.udacity.gamedev.gigagal.entity.Chamber;
+import com.udacity.gamedev.gigagal.entity.Chargeable;
 import com.udacity.gamedev.gigagal.entity.Destructible;
 import com.udacity.gamedev.gigagal.entity.Ground;
 import com.udacity.gamedev.gigagal.entity.Hazard;
@@ -147,6 +149,14 @@ public class LevelUpdater {
             } else if (ground instanceof Destructible) {
                 if (((Destructible) ground).getHealth() < 1) {
                     grounds.removeIndex(i);
+                }
+            } else if (ground instanceof Chargeable) {
+                if (ground instanceof Chamber) {
+                    Chamber chamber = (Chamber) ground;
+                    if (!chamber.isActive() && chamber.wasCharged()) {
+                        GigaGal.getInstance().setUpgrade(chamber.getUpgrade());
+                        chamber.uncharge();
+                    }
                 }
             }
         }

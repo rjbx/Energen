@@ -13,6 +13,7 @@ public class Chamber implements Chargeable, Strikeable, Ground {
     // fields
     private Vector2 position;
     private boolean active;
+    private boolean charged;
     private float chargeTimeSeconds;
     private Enums.Upgrade type;
 
@@ -20,6 +21,7 @@ public class Chamber implements Chargeable, Strikeable, Ground {
     public Chamber(Vector2 position) {
         this.position = position;
         this.active = false;
+        this.charged = false;
         chargeTimeSeconds = 0;
     }
 
@@ -27,6 +29,7 @@ public class Chamber implements Chargeable, Strikeable, Ground {
     public void render(SpriteBatch batch, Viewport viewport) {
         if (active) {
             if (chargeTimeSeconds != 0) {
+                charged = true;
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().chargedChamber.getKeyFrame(chargeTimeSeconds, true), position, Constants.CHAMBER_CENTER);
             } else {
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().activeChamber, position, Constants.CHAMBER_CENTER);
@@ -46,8 +49,11 @@ public class Chamber implements Chargeable, Strikeable, Ground {
     @Override public final float getBottom() { return position.y - Constants.CHAMBER_CENTER.y; }
     @Override public final void activate() { this.active = true; }
     @Override public final void deactivate() { this.active = false; }
-    @Override public final void charge(float chargeTimeSeconds) { this.chargeTimeSeconds = chargeTimeSeconds; }
     @Override public final boolean isActive() { return active; }
+    public final void charge() { charged = true; }
+    public final void uncharge() { charged = false;}
+    public final boolean wasCharged() { return charged; }
+    @Override public final void charge(float chargeTimeSeconds) { this.chargeTimeSeconds = chargeTimeSeconds; }
     public void setUpgrade(Enums.Upgrade type) { this.type = type; }
     public Enums.Upgrade getUpgrade() { return type; }
     @Override public float getShotRadius() { return Constants.CHAMBER_CENTER.x; }

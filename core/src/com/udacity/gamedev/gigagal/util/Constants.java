@@ -287,7 +287,7 @@ public final class Constants {
 
     // Orben
     public static final float ORBEN_TEXTURE_SCALE = 1.5f;
-    public static final Vector2 ORBEN_CENTER = new Vector2(5 * ORBEN_TEXTURE_SCALE, 5 * ORBEN_TEXTURE_SCALE);
+    public static final Vector2 ORBEN_CENTER = new Vector2(10 * ORBEN_TEXTURE_SCALE, 10 * ORBEN_TEXTURE_SCALE);
     public static final float ORBEN_COLLISION_WIDTH = 10 * ORBEN_TEXTURE_SCALE;
     public static final float ORBEN_COLLISION_HEIGHT = 10 * ORBEN_TEXTURE_SCALE;
     public static final float ORBEN_SHOT_RADIUS = 5 * ORBEN_TEXTURE_SCALE;
