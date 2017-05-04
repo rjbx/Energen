@@ -318,7 +318,7 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PORTAL_SPRITE_1)) {
                 final Vector2 portalPosition = imagePosition.add(Constants.PORTAL_CENTER);
                 Gdx.app.log(TAG, "Loaded the exit portal at " + portalPosition);
-                level.setPortal(new Portal(portalPosition));
+                level.getPortals().add(new Portal(portalPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TELEPORT_SPRITE_1)) {
                 final Vector2 teleportPosition = imagePosition.add(Constants.TELEPORT_CENTER);
                 Gdx.app.log(TAG, "Loaded the exit teleport at " + teleportPosition);

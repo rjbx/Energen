@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.app;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -27,6 +28,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Timer;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import java.util.Arrays;
+import java.util.List;
 
 // mutable
 public class LevelUpdater {
@@ -39,7 +41,7 @@ public class LevelUpdater {
     private boolean runEx;
     private float cannonOffset;
     private long cannonStartTime;
-    private Portal portal;
+    private DelayedRemovalArray<Portal> portals;
     private DelayedRemovalArray<Hazard> hazards;
     private DelayedRemovalArray<Ground> grounds;
     private DelayedRemovalArray<Impact> impacts;
@@ -63,7 +65,7 @@ public class LevelUpdater {
         hazards = new DelayedRemovalArray<Hazard>();
         impacts = new DelayedRemovalArray<Impact>();
         powerups = new DelayedRemovalArray<Powerup>();
-        portal = new Portal(new Vector2(200, 200));
+        portals = new DelayedRemovalArray<Portal>();
         loadEx = false;
         runEx = false;
         cannonStartTime = TimeUtils.nanoTime();
@@ -84,7 +86,9 @@ public class LevelUpdater {
 
     protected void render(SpriteBatch batch, Viewport viewport) {
 
-        portal.render(batch, viewport);
+        for (Portal portal : portals) {
+            portal.render(batch, viewport);
+        }
 
         for (Ground ground : grounds) {
             ground.render(batch, viewport);
@@ -108,6 +112,25 @@ public class LevelUpdater {
     // asset handling
 
     private void updateAssets(float delta) {
+        
+        // Update Restore Points
+        portals.begin();
+        for (int i = 0; i < portals.size; i++) {
+            if (GigaGal.getInstance().getPosition().dst(portals.get(i).getPosition()) < Constants.PORTAL_RADIUS) {
+                List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
+                List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
+                List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
+                int index = Arrays.asList(Enums.Theme.values()).indexOf(level);
+                allRestores.set(index, Integer.toString(i));
+                allTimes.set(index, Long.toString(time));
+                allScores.set(index, Integer.toString(score));
+                SaveData.setLevelRestores(allRestores.toString());
+                SaveData.setLevelTimes(allTimes.toString());
+                SaveData.setLevelScores(allScores.toString());
+            }
+        }
+        portals.end();
+
         // Update Grounds
         grounds.begin();
         for (int i = 0; i < grounds.size ; i++) {
@@ -324,7 +347,7 @@ public class LevelUpdater {
         return false;
     }
 
-    protected boolean completed() { return (GigaGal.getInstance().getPosition().dst(portal.getPosition()) < Constants.PORTAL_RADIUS); }
+    protected boolean completed() { return (GigaGal.getInstance().getPosition().dst(portals.get(portals.size - 1).getPosition()) < Constants.PORTAL_RADIUS); }
 
     protected boolean continuing() { return !(completed() || failed()); }
 
@@ -340,13 +363,14 @@ public class LevelUpdater {
     public final DelayedRemovalArray<Impact> getImpacts() { return impacts; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
-    public final Portal getPortal() { return portal; }
+    public final DelayedRemovalArray<Portal> getPortals() { return portals; }
     public final GigaGal getGigaGal() { return GigaGal.getInstance(); }
     public final Enums.Material getType() { return levelWeapon; }
     public final boolean hasLoadEx() { return loadEx; }
 
     // Setters
+    protected void setTime(long time) { this.time = time; }
+    protected void setScore(int score) {this.score = score; }
     protected void setLevel(Enums.Theme selectedLevel) { level = selectedLevel; }
-    protected final void setPortal(Portal portal) { this.portal = portal; }
     protected final void setLoadEx(boolean state) { loadEx = state; }
 }
