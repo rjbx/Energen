@@ -120,14 +120,12 @@ public class LevelUpdater {
         List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
         List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
         List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
-
-        System.out.println(allRestores + "\n" + allTimes + "\n" + allScores);
         int restores = Integer.parseInt(allRestores.get(level));
         for (int i = 0; i < portals.size; i++) {
             if (GigaGal.getInstance().getPosition().dst(portals.get(i).getPosition()) < Constants.PORTAL_RADIUS) {
-                if (restores < 2) {
+                if (restores == 0) {
                     allRestores.set(level, Integer.toString(i + 1));
-                } else if (i == 1) {
+                } else if (restores != (i + 1)) {
                     allRestores.set(level, Integer.toString(3));
                 }
                 allTimes.set(level, Long.toString(time));
@@ -135,7 +133,6 @@ public class LevelUpdater {
                 SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
-                System.out.println(allRestores + "\n" + allTimes + "\n" + allScores);
             }
         }
         portals.end();
@@ -267,7 +264,7 @@ public class LevelUpdater {
         powerups.begin();
         for (int i = 0; i < powerups.size; i++) {
             if (!powerups.get(i).isActive()) {
-          //      score += Constants.POWERUP_SCORE;
+                score += Constants.POWERUP_SCORE;
                 powerups.removeIndex(i);
             }
         }
@@ -287,6 +284,7 @@ public class LevelUpdater {
         grounds.clear();
         impacts.clear();
         powerups.clear();
+        portals.clear();
     }
 
 
@@ -356,7 +354,7 @@ public class LevelUpdater {
         return false;
     }
 
-    protected boolean completed() { return (GigaGal.getInstance().getPosition().dst(portals.get(portals.size - 1).getPosition()) < Constants.PORTAL_RADIUS); }
+    protected boolean completed() { return /*(GigaGal.getInstance().getPosition().dst(portals.get(portals.size - 1).getPosition()) < Constants.PORTAL_RADIUS)*/ false; }
 
     protected boolean continuing() { return !(completed() || failed()); }
 
