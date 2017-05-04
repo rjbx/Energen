@@ -153,8 +153,30 @@ public class LevelUpdater {
             } else if (ground instanceof Chargeable) {
                 if (ground instanceof Chamber) {
                     Chamber chamber = (Chamber) ground;
+                    Enums.Upgrade upgrade = chamber.getUpgrade();
                     if (!chamber.isActive() && chamber.wasCharged()) {
-                        GigaGal.getInstance().setUpgrade(chamber.getUpgrade());
+                        switch (upgrade) {
+                            case AMMO:
+                                SaveData.setAmmoMultiplier(.9f);
+                                GigaGal.getInstance().refresh();
+                                break;
+                            case HEALTH:
+                                SaveData.setHealthMultiplier(.8f);
+                                GigaGal.getInstance().refresh();
+                                break;
+                            case TURBO:
+                                SaveData.setTurboMultiplier(.7f);
+                                GigaGal.getInstance().refresh();
+                                break;
+                            case CANNON:
+                                String savedWeapons = SaveData.getWeapons();
+                                if (!savedWeapons.contains(Enums.Material.HYBRID.name())) {
+                                    GigaGal.getInstance().addWeapon(Enums.Material.HYBRID);
+                                    SaveData.setWeapons(Enums.Material.HYBRID.name() + ", " + savedWeapons);
+                                }
+                                break;
+                            default:
+                        }
                         chamber.uncharge();
                     }
                 }

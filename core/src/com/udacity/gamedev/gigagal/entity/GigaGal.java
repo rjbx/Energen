@@ -121,9 +121,9 @@ public class GigaGal implements Humanoid {
         lives = Constants.INITIAL_LIVES;
         killPlane = -10000;
         turboDuration = 1;
-        turboMultiplier = 1;
-        ammoMultiplier = 1;
-        healthMultiplier = 1;
+        turboMultiplier = SaveData.getTurboMultiplier();
+        ammoMultiplier = SaveData.getAmmoMultiplier();
+        healthMultiplier = SaveData.getHealthMultiplier();
         chargeModifier = 0;
         String savedWeapons = SaveData.getWeapons();
         if (!savedWeapons.equals(Material.NATIVE.name())) {
@@ -241,6 +241,13 @@ public class GigaGal implements Humanoid {
                 enableShoot(weapon);
             }
         }
+    }
+
+    public void refresh() {
+        turboMultiplier = SaveData.getTurboMultiplier();
+        ammoMultiplier = SaveData.getAmmoMultiplier();
+        healthMultiplier = SaveData.getHealthMultiplier();
+
     }
 
     private void setBounds() {
@@ -1091,24 +1098,6 @@ public class GigaGal implements Humanoid {
             climbTimeSeconds = 0;
             canClimb = false;
             fall();
-        }
-    }
-
-    public void setUpgrade(Upgrade upgrade) {
-        switch (upgrade) {
-            case AMMO:
-                ammoMultiplier = .9f;
-                break;
-            case HEALTH:
-                healthMultiplier = .8f;
-                break;
-            case TURBO:
-                turboMultiplier = .7f;
-                break;
-            case CANNON:
-                addWeapon(Material.HYBRID);
-                break;
-            default:
         }
     }
 
