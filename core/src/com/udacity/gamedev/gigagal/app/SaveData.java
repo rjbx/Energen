@@ -11,7 +11,7 @@ public final class SaveData {
 
     private static Preferences getPreferences() { return Gdx.app.getPreferences("energraft-prefs"); }
 
-    protected static void erase() { getPreferences().clear(); getPreferences().flush(); }
+    protected static void erase() { getPreferences().clear(); getPreferences().flush(); System.out.println(getPreferences().getString("LevelScores") + "\n" + getPreferences().getString("LevelTimes") + "\n" + getPreferences().getString("LevelRestores")); }
 
     public static boolean hasTouchscreen() { return getPreferences().getBoolean("Touchscreen", false); }
     public static int getDifficulty() { return getPreferences().getInteger("Difficulty", -1); }

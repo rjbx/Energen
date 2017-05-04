@@ -124,7 +124,7 @@ public class IndicatorHud {
                 Constants.AMMO_ICON_SCALE
         );
 
-        final String scoreString = level.getScore() + "";
+        final String scoreString = LevelUpdater.getInstance().getScore() + "";
         final String timerString = Helpers.secondsToString(level.getTime());
         Helpers.drawBitmapFont(batch, viewport, font, scoreString, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldHeight() / 2.2f, Align.center);
         Helpers.drawBitmapFont(batch, viewport, font, timerString, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldHeight() / 2.8f, Align.center);

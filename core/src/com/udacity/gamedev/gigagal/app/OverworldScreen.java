@@ -150,28 +150,18 @@ final class OverworldScreen extends ScreenAdapter {
         List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
         int index = Arrays.asList(Enums.Theme.values()).indexOf(level);
         int levelRestores = Integer.parseInt(allRestores.get(index));
-        switch (levelRestores) {
-            case 0:
-                allRestores.set(index, "0");
-                allTimes.set(index, "0");
-                allScores.set(index, "0");
-                SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
-                SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
-                SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
-                break;
-            case 1:
-                LevelUpdater.getInstance().setTime(Long.parseLong(allTimes.get(index)));
-                LevelUpdater.getInstance().setScore(Integer.parseInt(allScores.get(index)));
-                break;
-            case 2:
-                LevelUpdater.getInstance().setTime(Long.parseLong(allTimes.get(index)));
-                LevelUpdater.getInstance().setScore(Integer.parseInt(allScores.get(index)));
-                break;
-            case 3:
-                LevelUpdater.getInstance().setTime(Long.parseLong(allTimes.get(index)));
-                LevelUpdater.getInstance().setScore(Integer.parseInt(allScores.get(index)));
-                break;
+        if (levelRestores == 0) {
+            allRestores.set(index, "0");
+            allTimes.set(index, "0");
+            allScores.set(index, "0");
+            SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
+            SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
+            SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
+        } else if (levelRestores > 1) {
+
         }
+        LevelUpdater.getInstance().setTime(Long.parseLong(allTimes.get(index)));
+        LevelUpdater.getInstance().setScore(Integer.parseInt(allScores.get(index)));
         messageVisible = false;
         try {
             LevelLoader.load(level);
