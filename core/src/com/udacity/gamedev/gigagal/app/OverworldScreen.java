@@ -146,7 +146,7 @@ final class OverworldScreen extends ScreenAdapter {
 
     protected void loadLevel(Enums.Theme level) {
         List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
-        List<String> allRemovals = Arrays.asList(SaveData.getLevelRestores().split(", "));
+        List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
         List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
         List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
         int index = Arrays.asList(Enums.Theme.values()).indexOf(level);

@@ -145,8 +145,6 @@ public class LevelUpdater {
 
                 SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
                 SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
-
-                System.out.println(allRestores + "\n" + allTimes + "\n" + allScores + "\n" + allRemovals);
             }
         }
         portals.end();
@@ -236,7 +234,7 @@ public class LevelUpdater {
                 if (destructible.getHealth() < 1) {
                     spawnExplosion(destructible.getPosition(), destructible.getType());
                     hazards.removeIndex(i);
-                    removedHazards += ", " + i;
+                    removedHazards += ";" + i; // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                     score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
                 }
                 if (destructible instanceof Orben) {
@@ -288,17 +286,18 @@ public class LevelUpdater {
 
     public void restoreRemovals(String removals) {
         removedHazards = removals;
-        List<String> levelRemovalStrings = Arrays.asList(removedHazards.split(", "));
+        List<String> levelRemovalStrings = Arrays.asList(removedHazards.split(";"));
         List<Integer> levelRemovals = new ArrayList<Integer>();
         for (String removalStr : levelRemovalStrings) {
             levelRemovals.add(Integer.parseInt(removalStr));
         }
 
-        for (int removal : levelRemovals) {
-            hazards.removeIndex(removal);
+        for (Integer removal : levelRemovals) {
+            if (removal != -1) {
+                hazards.removeIndex(removal);
+            }
         }
     }
-
     public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Material weapon, boolean targetsEnemies) {
         hazards.add(new Ammo(this, position, direction, orientation, shotIntensity, weapon, targetsEnemies));
     }
