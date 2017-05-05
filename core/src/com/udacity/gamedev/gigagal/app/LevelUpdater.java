@@ -28,6 +28,8 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.util.Timer;
 import com.udacity.gamedev.gigagal.util.Helpers;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,6 +51,7 @@ public class LevelUpdater {
     private DelayedRemovalArray<Powerup> powerups;
     private Enums.Material levelWeapon;
     private Enums.Theme level;
+    private String removedHazards;
     private boolean paused;
     private int score;
     private long time;
@@ -71,6 +74,7 @@ public class LevelUpdater {
         runEx = false;
         cannonStartTime = TimeUtils.nanoTime();
         cannonOffset = 0;
+        removedHazards = "-1";
 
         score = 0;
         time = 0;
@@ -115,12 +119,14 @@ public class LevelUpdater {
     private void updateAssets(float delta) {
 
         time = Timer.getInstance().getSeconds();
+        
         // Update Restore Points
         portals.begin();
         int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
         List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
         List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
         List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
+        List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
         int restores = Integer.parseInt(allRestores.get(level));
         for (int i = 0; i < portals.size; i++) {
             if (GigaGal.getInstance().getPosition().dst(portals.get(i).getPosition()) < Constants.PORTAL_RADIUS && InputControls.getInstance().jumpButtonJustPressed) {
@@ -131,14 +137,16 @@ public class LevelUpdater {
                 }
                 allTimes.set(level, Long.toString(time));
                 allScores.set(level, Integer.toString(score));
+                allRemovals.set(level, removedHazards);
                 SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
+                SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
 
                 SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
                 SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
 
-                System.out.println(allRestores + "\n" + allTimes + "\n" + allScores);
+                System.out.println(allRestores + "\n" + allTimes + "\n" + allScores + "\n" + allRemovals);
             }
         }
         portals.end();
@@ -228,6 +236,7 @@ public class LevelUpdater {
                 if (destructible.getHealth() < 1) {
                     spawnExplosion(destructible.getPosition(), destructible.getType());
                     hazards.removeIndex(i);
+                    removedHazards += ", " + i;
                     score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
                 }
                 if (destructible instanceof Orben) {
@@ -275,6 +284,19 @@ public class LevelUpdater {
             }
         }
         powerups.end();
+    }
+
+    public void restoreRemovals(String removals) {
+        removedHazards = removals;
+        List<String> levelRemovalStrings = Arrays.asList(removedHazards.split(", "));
+        List<Integer> levelRemovals = new ArrayList<Integer>();
+        for (String removalStr : levelRemovalStrings) {
+            levelRemovals.add(Integer.parseInt(removalStr));
+        }
+
+        for (int removal : levelRemovals) {
+            hazards.removeIndex(removal);
+        }
     }
 
     public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Material weapon, boolean targetsEnemies) {

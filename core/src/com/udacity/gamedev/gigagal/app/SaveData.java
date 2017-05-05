@@ -20,6 +20,7 @@ public final class SaveData {
     public static String getLevelScores() { return getPreferences().getString("LevelScores", "0, 0, 0, 0, 0, 0, 0, 0"); }
     public static String getLevelTimes() { return getPreferences().getString("LevelTimes", "0, 0, 0, 0, 0, 0, 0, 0"); }
     public static String getLevelRestores() { return getPreferences().getString("LevelRestores", "0, 0, 0, 0, 0, 0, 0, 0"); }
+    public static String getLevelRemovals() { return getPreferences().getString("LevelRemovals", "-1, -1, -1, -1, -1, -1, -1, -1"); }
     public static float getTurboMultiplier() { return getPreferences().getFloat("TurboMultiplier", 1); }
     public static float getAmmoMultiplier() { return getPreferences().getFloat("AmmoMultiplier", 1); }
     public static float getHealthMultiplier() { return getPreferences().getFloat("HealthMultiplier", 1); }
@@ -32,6 +33,7 @@ public final class SaveData {
     protected static void setLevelScores(String scores) { getPreferences().putString("LevelScores", scores); getPreferences().flush(); }
     protected static void setLevelTimes(String times) { getPreferences().putString("LevelTimes", times); getPreferences().flush(); }
     protected static void setLevelRestores(String restores) { getPreferences().putString("LevelRestores", restores); getPreferences().flush(); }
+    protected static void setLevelRemovals(String removals) { getPreferences().putString("LevelRemovals", removals); getPreferences().flush(); }
     protected static void setTurboMultiplier(float multiplier) { getPreferences().putFloat("TurboMultiplier", multiplier); getPreferences().flush(); }
     protected static void setAmmoMultiplier(float multiplier)  { getPreferences().putFloat("AmmoMultiplier", multiplier); getPreferences().flush(); }
     protected static void setHealthMultiplier(float multiplier) { getPreferences().putFloat("HealthMultiplier", multiplier); getPreferences().flush(); }

@@ -146,25 +146,29 @@ final class OverworldScreen extends ScreenAdapter {
 
     protected void loadLevel(Enums.Theme level) {
         List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
+        List<String> allRemovals = Arrays.asList(SaveData.getLevelRestores().split(", "));
         List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
         List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
         int index = Arrays.asList(Enums.Theme.values()).indexOf(level);
         int levelRestores = Integer.parseInt(allRestores.get(index));
         if (levelRestores == 0) {
             allRestores.set(index, "0");
+            allRemovals.set(index, "-1");
             allTimes.set(index, "0");
             allScores.set(index, "0");
             SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
+            SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
             SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
             SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
-        } else if (levelRestores > 1) {
-
         }
         LevelUpdater.getInstance().setTime(Long.parseLong(allTimes.get(index)));
         LevelUpdater.getInstance().setScore(Integer.parseInt(allScores.get(index)));
         messageVisible = false;
         try {
             LevelLoader.load(level);
+            if (levelRestores > 0) {
+                LevelUpdater.getInstance().restoreRemovals(allRemovals.get(index));
+            }
             ScreenManager.getInstance().setScreen(LevelScreen.getInstance());
             this.dispose();
             return;
