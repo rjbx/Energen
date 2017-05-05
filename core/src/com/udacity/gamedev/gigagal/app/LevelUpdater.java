@@ -3,7 +3,6 @@ package com.udacity.gamedev.gigagal.app;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -277,7 +276,6 @@ public class LevelUpdater {
         powerups.begin();
         for (int i = 0; i < powerups.size; i++) {
             if (!powerups.get(i).isActive()) {
-                score += Constants.POWERUP_SCORE;
                 powerups.removeIndex(i);
             }
         }
