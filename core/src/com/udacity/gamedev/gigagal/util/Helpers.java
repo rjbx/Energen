@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.app.SaveData;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.Destructible;
@@ -18,6 +17,9 @@ import com.udacity.gamedev.gigagal.entity.Multidirectional;
 import com.udacity.gamedev.gigagal.entity.Orben;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
+
+import java.text.NumberFormat;
+import java.util.List;
 
 // immutable non-instantiable static
 public final class Helpers {
@@ -258,5 +260,13 @@ public final class Helpers {
             return Enums.ReactionIntensity.STRONG;
         }
         return Enums.ReactionIntensity.NORMAL;
+    }
+
+    public static long numStrToSum(List<String> numStrList) {
+        long sum = 0;
+        for (String numStr : numStrList) {
+            sum += Long.parseLong(numStr);
+        }
+        return sum;
     }
 }

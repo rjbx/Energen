@@ -25,6 +25,7 @@ import com.udacity.gamedev.gigagal.entity.Trippable;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
+import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.util.Timer;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import java.util.Arrays;
@@ -113,7 +114,7 @@ public class LevelUpdater {
 
     private void updateAssets(float delta) {
 
-        time = Timer.getInstance().getNanos();
+        time = Timer.getInstance().getSeconds();
         // Update Restore Points
         portals.begin();
         int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
@@ -122,7 +123,7 @@ public class LevelUpdater {
         List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
         int restores = Integer.parseInt(allRestores.get(level));
         for (int i = 0; i < portals.size; i++) {
-            if (GigaGal.getInstance().getPosition().dst(portals.get(i).getPosition()) < Constants.PORTAL_RADIUS) {
+            if (GigaGal.getInstance().getPosition().dst(portals.get(i).getPosition()) < Constants.PORTAL_RADIUS && InputControls.getInstance().jumpButtonJustPressed) {
                 if (restores == 0) {
                     allRestores.set(level, Integer.toString(i + 1));
                 } else if (restores != (i + 1)) {
@@ -133,6 +134,11 @@ public class LevelUpdater {
                 SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
+
+                SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
+                SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
+
+                System.out.println(allRestores + "\n" + allTimes + "\n" + allScores);
             }
         }
         portals.end();
