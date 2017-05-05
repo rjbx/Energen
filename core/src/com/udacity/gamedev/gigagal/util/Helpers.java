@@ -15,10 +15,7 @@ import com.udacity.gamedev.gigagal.entity.MultidirectionalX;
 import com.udacity.gamedev.gigagal.entity.MultidirectionalY;
 import com.udacity.gamedev.gigagal.entity.Multidirectional;
 import com.udacity.gamedev.gigagal.entity.Orben;
-
 import org.apache.commons.lang3.time.DurationFormatUtils;
-
-import java.text.NumberFormat;
 import java.util.List;
 
 // immutable non-instantiable static

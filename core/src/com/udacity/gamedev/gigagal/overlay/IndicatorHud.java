@@ -3,8 +3,10 @@ package com.udacity.gamedev.gigagal.overlay;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.entity.Ammo;
@@ -125,7 +127,7 @@ public class IndicatorHud {
         );
 
         final String scoreString = LevelUpdater.getInstance().getScore() + "";
-        final String timerString = Helpers.secondsToString(level.getTime());
+        final String timerString = Helpers.secondsToString(TimeUtils.nanosToMillis(level.getTime()));
         Helpers.drawBitmapFont(batch, viewport, font, scoreString, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldHeight() / 2.2f, Align.center);
         Helpers.drawBitmapFont(batch, viewport, font, timerString, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldHeight() / 2.8f, Align.center);
     }

@@ -27,7 +27,6 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.util.Timer;
 import com.udacity.gamedev.gigagal.util.Helpers;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -117,7 +116,7 @@ public class LevelUpdater {
 
     private void updateAssets(float delta) {
 
-        time = Timer.getInstance().getSeconds();
+        time = Timer.getInstance().getNanos();
         
         // Update Restore Points
         portals.begin();
@@ -296,6 +295,7 @@ public class LevelUpdater {
             }
         }
     }
+
     public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Material weapon, boolean targetsEnemies) {
         hazards.add(new Ammo(this, position, direction, orientation, shotIntensity, weapon, targetsEnemies));
     }
@@ -388,7 +388,7 @@ public class LevelUpdater {
     }
 
     // Getters
-    public final long getTime() { return Timer.getInstance().getSeconds(); }
+    public final long getTime() { return time; }
     public final int getScore() { return score; }
     public final DelayedRemovalArray<Hazard> getHazards() { return hazards; }
     public final DelayedRemovalArray<Ground> getGrounds() { return grounds; }
