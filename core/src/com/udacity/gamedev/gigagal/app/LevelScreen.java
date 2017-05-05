@@ -94,7 +94,7 @@ class LevelScreen extends ScreenAdapter {
         String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
         Menu.getInstance().setPromptString(Align.left, Constants.HUD_AMMO_LABEL + GigaGal.getInstance().getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + GigaGal.getInstance().getHealth() + "\n" + "Turbo: " + GigaGal.getInstance().getTurbo());
-        Menu.getInstance().setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(TimeUtils.nanosToMillis(SaveData.getTotalTime())) + "\n" + "Score: " + SaveData.getTotalScore());
+        Menu.getInstance().setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(TimeUtils.nanosToMillis(SaveData.getTotalTime() + LevelUpdater.getInstance().getTimeSinceStart())) + "\n" + "Score: " + SaveData.getTotalScore());
         Menu.getInstance().setPromptString(Align.right, (GigaGal.getInstance().getWeapon().name() + "\n" + SaveData.getWeapons().replace(GigaGal.getInstance().getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
         Menu.getInstance().TextAlignment(Align.center);
         menu = MAIN;

@@ -53,6 +53,7 @@ public class LevelUpdater {
     private boolean paused;
     private int score;
     private long time;
+    private long startTime;
 
     // cannot be subclassed
     private LevelUpdater() {}
@@ -332,6 +333,7 @@ public class LevelUpdater {
         viewport = LevelScreen.getInstance().getViewport();
 
         Timer.getInstance().reset().start(time);
+        startTime = time;
     }
 
     protected void end() {
@@ -388,6 +390,7 @@ public class LevelUpdater {
     }
 
     // Getters
+    public final long getTimeSinceStart() { return time - startTime; }
     public final long getTime() { return time; }
     public final int getScore() { return score; }
     public final DelayedRemovalArray<Hazard> getHazards() { return hazards; }
