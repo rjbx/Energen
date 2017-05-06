@@ -32,6 +32,13 @@ public class Protrusion implements Indestructible, Hazard {
         knockback = new Vector2();
         damage = Constants.GEISER_DAMAGE;
         switch (type) {
+            case ORE:
+                animation = Assets.getInstance().getProtrusionAssets().whirl;
+                center.set(Constants.WHIRL_CENTER);
+                collisionSpan.set(Constants.WHIRL_COLLISION_WIDTH, Constants.WHIRL_COLLISION_HEIGHT);
+                knockback.set(Constants.WHIRL_KNOCKBACK);
+                damage = Constants.WHIRL_DAMAGE;
+                break;
             case PLASMA:
                 animation = Assets.getInstance().getProtrusionAssets().rod;
                 center.set(Constants.ROD_CENTER);
@@ -61,11 +68,12 @@ public class Protrusion implements Indestructible, Hazard {
                 damage = Constants.SPIKE_DAMAGE;
                 break;
             default:
-                animation = Assets.getInstance().getProtrusionAssets().geiser;
-                center.set(Constants.GEISER_CENTER);
-                collisionSpan.set(Constants.GEISER_COLLISION_WIDTH, Constants.GEISER_COLLISION_HEIGHT);
-                knockback.set(Constants.GEISER_KNOCKBACK);
-                damage = Constants.GEISER_DAMAGE;
+                animation = Assets.getInstance().getProtrusionAssets().whirl;
+                center.set(Constants.WHIRL_CENTER);
+                collisionSpan.set(Constants.WHIRL_COLLISION_WIDTH, Constants.WHIRL_COLLISION_HEIGHT);
+                knockback.set(Constants.WHIRL_KNOCKBACK);
+                damage = Constants.WHIRL_DAMAGE;
+                break;
         }
     }
 

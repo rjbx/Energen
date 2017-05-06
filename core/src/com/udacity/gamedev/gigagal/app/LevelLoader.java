@@ -325,51 +325,20 @@ final class LevelLoader {
                 level.getGrounds().add(new Teleport(teleportPosition, destination));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPIKE_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SPIKE_CENTER);
-                Gdx.app.log(TAG, "Loaded the spike at " + spikePosition);
-                level.getHazards().add(new Protrusion(spikePosition, Enums.Material.SOLID));
-            }  else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ROD_SPRITE_1)) {
-                final Vector2 rodPosition = imagePosition.add(Constants.ROD_CENTER);
-                Gdx.app.log(TAG, "Loaded the rod at " + rodPosition);
-                level.getHazards().add(new Protrusion(rodPosition, Enums.Material.PLASMA));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.FLAME_SPRITE_1)) {
-                final Vector2 flamePosition = imagePosition.add(Constants.FLAME_CENTER);
-                Gdx.app.log(TAG, "Loaded the flame at " + flamePosition);
-                level.getHazards().add(new Protrusion(flamePosition, Enums.Material.GAS));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.GEISER_SPRITE_1)) {
-                final Vector2 geiserPosition = imagePosition.add(Constants.GEISER_CENTER);
-                Gdx.app.log(TAG, "Loaded the geiser at " + geiserPosition);
-                level.getHazards().add(new Protrusion(geiserPosition, Enums.Material.LIQUID));
+                Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
+                level.getHazards().add(new Protrusion(spikePosition, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WHEEL_SPRITE_1)) {
                 final Vector2 wheelPosition = imagePosition.add(Constants.WHEEL_CENTER);
-                Gdx.app.log(TAG, "Loaded the wheel at " + wheelPosition);
-                level.getHazards().add(new Suspension(wheelPosition, Enums.Material.ORE));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.COIL_SPRITE_1)) {
-                final Vector2 coilPosition = imagePosition.add(Constants.COIL_CENTER);
-                Gdx.app.log(TAG, "Loaded the coil at " + coilPosition);
-                level.getHazards().add(new Suspension(coilPosition, Enums.Material.PLASMA));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BURNER_SPRITE_1)) {
-                final Vector2 burnerPosition = imagePosition.add(Constants.BURNER_CENTER);
-                Gdx.app.log(TAG, "Loaded the burner at " + burnerPosition);
-                level.getHazards().add(new Suspension(burnerPosition, Enums.Material.GAS));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LUMP_SPRITE_1)) {
-                final Vector2 lumpPosition = imagePosition.add(Constants.LUMP_CENTER);
-                Gdx.app.log(TAG, "Loaded the lump at " + lumpPosition);
-                level.getHazards().add(new Suspension(lumpPosition, Enums.Material.LIQUID));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.VACUUM_SPRITE_1)) {
-                final Vector2 vacuumPosition = imagePosition.add(Constants.VACUUM_CENTER);
-                Gdx.app.log(TAG, "Loaded the vacuum at " + vacuumPosition);
-                level.getHazards().add(new Suspension(vacuumPosition, Enums.Material.ANTIMATTER));
+                Gdx.app.log(TAG, "Loaded the suspension at " + wheelPosition);
+                level.getHazards().add(new Suspension(wheelPosition, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ZOOMBA_SPRITE)) {
                 final Vector2 zoombaPosition = imagePosition.add(Constants.ZOOMBA_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + zoombaPosition);
-                Zoomba zoomba = new Zoomba(zoombaPosition, type);
-                zoomba.setRange(range);
-                level.getHazards().add(zoomba);
+                level.getHazards().add(new Zoomba(zoombaPosition, type, range));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SWOOPA_SPRITE)) {
                 final Vector2 swoopaPosition = imagePosition.add(Constants.SWOOPA_CENTER);
                 Gdx.app.log(TAG, "Loaded the swoopa at " + swoopaPosition);
-                Swoopa swoopa = new Swoopa(level, swoopaPosition, type);
-                level.getHazards().add(swoopa);
+                level.getHazards().add(new Swoopa(level, swoopaPosition, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.DORMANTORBEN_SPRITE)) {
                 final Vector2 orbenPosition = imagePosition.add(Constants.ORBEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the orben at " + orbenPosition);

@@ -32,6 +32,13 @@ public class Suspension implements Indestructible, Hazard {
         knockback = new Vector2();
         damage = Constants.GEISER_DAMAGE;
         switch (type) {
+            case ORE:
+                animation = Assets.getInstance().getSuspensionAssets().wheel;
+                center.set(Constants.WHEEL_CENTER);
+                collisionSpan.set(Constants.WHEEL_COLLISION_WIDTH, Constants.WHEEL_COLLISION_HEIGHT);
+                knockback.set(Constants.WHEEL_KNOCKBACK);
+                damage = Constants.WHEEL_DAMAGE;
+                break;
             case PLASMA:
                 animation = Assets.getInstance().getSuspensionAssets().coil;
                 center.set(Constants.COIL_CENTER);

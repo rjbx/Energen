@@ -28,7 +28,7 @@ public class Zoomba implements Destructible, Hazard {
     private Animation animation;
 
     // ctor
-    public Zoomba(Vector2 position, Enums.Material type) {
+    public Zoomba(Vector2 position, Enums.Material type, float range) {
         this.position = position;
         this.startingPosition = new Vector2(position);
         bobNadir = position.y;
@@ -37,7 +37,7 @@ public class Zoomba implements Destructible, Hazard {
         startTime = TimeUtils.nanoTime();
         health = Constants.ZOOMBA_MAX_HEALTH;
         bobOffset = MathUtils.random();
-        range = Constants.ZOOMBA_RANGE;
+        this.range = range;
         switch (type) {
             case PLASMA:
                 animation = Assets.getInstance().getZoombaAssets().chargedZoomba;
@@ -105,7 +105,4 @@ public class Zoomba implements Destructible, Hazard {
     public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public final Direction getDirection() { return direction; }
     public final long getStartTime() { return startTime; }
-    public final float getRange() { return range; }
-
-    public final void setRange(float range) { this.range = range; }
 }
