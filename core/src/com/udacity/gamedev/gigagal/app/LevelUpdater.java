@@ -382,7 +382,6 @@ public class LevelUpdater {
             if (GigaGal.getInstance().getLives() < 0) {
                 return true;
             }
-            score = 0;
             GigaGal.getInstance().respawn();
         }
         return false;
