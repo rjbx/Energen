@@ -999,7 +999,7 @@ public class GigaGal implements Humanoid {
             }
             if (inputControls.jumpButtonJustPressed) {
                 if (position.y > touchedGround.getTop() - 10) {
-                    position.y = touchedGround.getTop() - 5;
+                    position.y = touchedGround.getTop() - 10;
                     canClimb = true;
                 }
                 cling();
