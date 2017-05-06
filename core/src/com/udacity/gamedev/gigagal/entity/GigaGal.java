@@ -1136,7 +1136,6 @@ public class GigaGal implements Humanoid {
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().clingRight;
                 }
-                region = Assets.getInstance().getGigaGalAssets().clingRight;
             } else if (action == Action.RECOILING){
                 region = Assets.getInstance().getGigaGalAssets().recoilRight;
             } else if (action == Action.FALLING) {
