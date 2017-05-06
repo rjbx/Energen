@@ -53,7 +53,8 @@ public class LevelUpdater {
     private boolean paused;
     private int score;
     private long time;
-    private long elapsedTime;
+    private int savedScore;
+    private long savedTime;
 
     // cannot be subclassed
     private LevelUpdater() {}
@@ -145,7 +146,8 @@ public class LevelUpdater {
                 SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
                 SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
 
-                elapsedTime = time;
+                savedTime = time;
+                savedScore = score;
             }
         }
         portals.end();
@@ -335,7 +337,9 @@ public class LevelUpdater {
         viewport = LevelScreen.getInstance().getViewport();
 
         Timer.getInstance().reset().start(time);
-        elapsedTime = time;
+
+        savedTime = time;
+        savedScore = score;
     }
 
     protected void end() {
@@ -392,7 +396,8 @@ public class LevelUpdater {
     }
 
     // Getters
-    public final long getTimeElapsed() { return time - elapsedTime; }
+    public final long getUnsavedTime() { return time - savedTime; }
+    public final int getUnsavedScore() { return score - savedScore; }
     public final long getTime() { return time; }
     public final int getScore() { return score; }
     public final DelayedRemovalArray<Hazard> getHazards() { return hazards; }
