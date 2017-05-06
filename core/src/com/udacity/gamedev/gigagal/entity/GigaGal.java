@@ -491,7 +491,7 @@ public class GigaGal implements Humanoid {
                 }
                 onSinkable = false;
                 lookTimeSeconds = 0;
-                lookStartTime = TimeUtils.nanoTime();
+                lookStartTime = 0;
                 if (action != Action.CLINGING) {
                     fall();
                 }

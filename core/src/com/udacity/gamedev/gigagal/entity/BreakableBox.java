@@ -25,7 +25,6 @@ public class BreakableBox implements Destructible, Solid, Ground {
     private float damage;
     private boolean active;
     private final NinePatch ninePatch;
-    private int removalIndex;
 
     // ctor
     public BreakableBox(float xPos, float YPos, float width, float height, Enums.Material type) {
@@ -63,11 +62,8 @@ public class BreakableBox implements Destructible, Solid, Ground {
     @Override public int getKillScore() { return 0; }
     @Override public int getHitScore() { return 0; }
     @Override public float getShotRadius() { return 29; }
+    @Override public void setHealth(float damage) { this.damage = damage; }
     @Override public float getHealth() { return damage; }
     @Override public Enums.Material getType() { return type; }
     @Override public BreakableBox clone() { return new BreakableBox(left, bottom, width, height, type); }
-    @Override public final int getRemovalIndex() { return removalIndex; }
-
-    @Override public final void setRemovalIndex(int i) { removalIndex = i; }
-    @Override public void setHealth(float damage) { this.damage = damage; }
 }
