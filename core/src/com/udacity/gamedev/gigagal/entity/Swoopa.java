@@ -38,23 +38,23 @@ public class Swoopa implements Destructible, Hazard {
         health = Constants.SWOOPA_MAX_HEALTH;
         bobOffset = MathUtils.random();
         switch (type) {
+            case ORE:
+                animation = Assets.getInstance().getSwoopaAssets().oreSwoopa;
+                break;
             case PLASMA:
-                animation = Assets.getInstance().getSwoopaAssets().chargedSwoopa;
+                animation = Assets.getInstance().getSwoopaAssets().plasmaSwoopa;
                 break;
             case GAS:
-                animation = Assets.getInstance().getSwoopaAssets().fierySwoopa;
-                break;
-            case SOLID:
-                animation = Assets.getInstance().getSwoopaAssets().sharpSwoopa;
-                break;
-            case ORE:
-                animation = Assets.getInstance().getSwoopaAssets().whirlingSwoopa;
+                animation = Assets.getInstance().getSwoopaAssets().gasSwoopa;
                 break;
             case LIQUID:
-                animation = Assets.getInstance().getSwoopaAssets().gushingSwoopa;
+                animation = Assets.getInstance().getSwoopaAssets().liquidSwoopa;
+                break;
+            case SOLID:
+                animation = Assets.getInstance().getSwoopaAssets().solidSwoopa;
                 break;
             default:
-                animation = Assets.getInstance().getSwoopaAssets().sharpSwoopa;
+                animation = Assets.getInstance().getSwoopaAssets().oreSwoopa;
         }
     }
 

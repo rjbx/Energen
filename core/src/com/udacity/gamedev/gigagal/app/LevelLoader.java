@@ -141,8 +141,8 @@ final class LevelLoader {
     private static final Enums.Material extractType(JSONObject object) {
         Enums.Material type = Enums.Material.NATIVE;
         try {
-            if (object.containsKey("customVars")) {
-                String[] customVars = ((String) object.get("customVars")).split(";");
+            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_TYPE_KEY)) {
                         String[] typeSplit = customVar.split(Constants.LEVEL_TYPE_KEY + ":");
@@ -163,8 +163,8 @@ final class LevelLoader {
     private static final Enums.ShotIntensity extractIntensity(JSONObject object) {
         Enums.ShotIntensity intensity = Enums.ShotIntensity.NORMAL;
         try {
-            if (object.containsKey("customVars")) {
-                String[] customVars = ((String) object.get("customVars")).split(";");
+            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_INTENSITY_KEY)) {
                         String[] intensitySplit = customVar.split(Constants.LEVEL_INTENSITY_KEY + ":");
@@ -185,8 +185,8 @@ final class LevelLoader {
     private static final Rectangle extractBounds(JSONObject object) {
         Rectangle bounds = new Rectangle(0, 0, 0, 0);
         try {
-            if (object.containsKey("customVars")) {
-                String[] customVars = ((String) object.get("customVars")).split(";");
+            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_BOUNDS_KEY)) {
                         String[] boundsSplit = customVar.split(Constants.LEVEL_BOUNDS_KEY + ":");
@@ -208,8 +208,8 @@ final class LevelLoader {
     private static final float extractRange(JSONObject object) {
         float range = Constants.ZOOMBA_RANGE;
         try {
-            if (object.containsKey("customVars")) {
-                String[] customVars = ((String) object.get("customVars")).split(";");
+            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_RANGE_KEY)) {
                         String[] rangeSplit = customVar.split(Constants.LEVEL_RANGE_KEY + ":");
@@ -230,8 +230,8 @@ final class LevelLoader {
     private static final Vector2 extractDestination(JSONObject object) {
         Vector2 destination = new Vector2(0, 0);
         try {
-            if (object.containsKey("customVars")) {
-                String[] customVars = ((String) object.get("customVars")).split(";");
+            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_DESTINATION_KEY)) {
                         String[] destinationSplit = customVar.split(Constants.LEVEL_DESTINATION_KEY + ":");
@@ -253,8 +253,8 @@ final class LevelLoader {
     private static final Enums.Upgrade extractUpgrade(JSONObject object) {
        Enums.Upgrade upgrade = Enums.Upgrade.NONE;
         try {
-            if (object.containsKey("customVars")) {
-                String[] customVars = ((String) object.get("customVars")).split(";");
+            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_UPGRADE_KEY)) {
                         String[] upgradeSplit = customVar.split(Constants.LEVEL_UPGRADE_KEY + ":");
@@ -323,14 +323,46 @@ final class LevelLoader {
                 final Vector2 teleportPosition = imagePosition.add(Constants.TELEPORT_CENTER);
                 Gdx.app.log(TAG, "Loaded the exit teleport at " + teleportPosition);
                 level.getGrounds().add(new Teleport(teleportPosition, destination));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPIKE_SPRITE_1)) {
-                final Vector2 spikePosition = imagePosition.add(Constants.SPIKE_CENTER);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_ORE_SPRITE_1)) {
+                final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_ORE_CENTER);
                 Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
-                level.getHazards().add(new Protrusion(spikePosition, type));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WHEEL_SPRITE_1)) {
-                final Vector2 wheelPosition = imagePosition.add(Constants.WHEEL_CENTER);
-                Gdx.app.log(TAG, "Loaded the suspension at " + wheelPosition);
-                level.getHazards().add(new Suspension(wheelPosition, type));
+                level.getHazards().add(new Protrusion(spikePosition, Enums.Material.ORE));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_PLASMA_SPRITE_1)) {
+                final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_SOLID_CENTER);
+                Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
+                level.getHazards().add(new Protrusion(spikePosition, Enums.Material.PLASMA));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_GAS_SPRITE_1)) {
+                final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_GAS_CENTER);
+                Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
+                level.getHazards().add(new Protrusion(spikePosition, Enums.Material.GAS));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_LIQUID_SPRITE_1)) {
+                final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_LIQUID_CENTER);
+                Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
+                level.getHazards().add(new Protrusion(spikePosition, Enums.Material.LIQUID));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_SOLID_SPRITE_1)) {
+                final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_SOLID_CENTER);
+                Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
+                level.getHazards().add(new Protrusion(spikePosition, Enums.Material.SOLID));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_ORE_SPRITE_1)) {
+                final Vector2 spikePosition = imagePosition.add(Constants.SUSPENSION_ORE_CENTER);
+                Gdx.app.log(TAG, "Loaded the suspension at " + spikePosition);
+                level.getHazards().add(new Suspension(spikePosition, Enums.Material.ORE));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_PLASMA_SPRITE_1)) {
+                final Vector2 spikePosition = imagePosition.add(Constants.SUSPENSION_SOLID_CENTER);
+                Gdx.app.log(TAG, "Loaded the suspension at " + spikePosition);
+                level.getHazards().add(new Suspension(spikePosition, Enums.Material.PLASMA));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_GAS_SPRITE_1)) {
+                final Vector2 spikePosition = imagePosition.add(Constants.SUSPENSION_GAS_CENTER);
+                Gdx.app.log(TAG, "Loaded the suspension at " + spikePosition);
+                level.getHazards().add(new Suspension(spikePosition, Enums.Material.GAS));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_LIQUID_SPRITE_1)) {
+                final Vector2 spikePosition = imagePosition.add(Constants.SUSPENSION_LIQUID_CENTER);
+                Gdx.app.log(TAG, "Loaded the suspension at " + spikePosition);
+                level.getHazards().add(new Suspension(spikePosition, Enums.Material.LIQUID));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_SOLID_SPRITE_1)) {
+                final Vector2 spikePosition = imagePosition.add(Constants.SUSPENSION_SOLID_CENTER);
+                Gdx.app.log(TAG, "Loaded the suspension at " + spikePosition);
+                level.getHazards().add(new Suspension(spikePosition, Enums.Material.SOLID));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ZOOMBA_SPRITE)) {
                 final Vector2 zoombaPosition = imagePosition.add(Constants.ZOOMBA_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + zoombaPosition);
@@ -339,11 +371,11 @@ final class LevelLoader {
                 final Vector2 swoopaPosition = imagePosition.add(Constants.SWOOPA_CENTER);
                 Gdx.app.log(TAG, "Loaded the swoopa at " + swoopaPosition);
                 level.getHazards().add(new Swoopa(level, swoopaPosition, type));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.DORMANTORBEN_SPRITE)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ORBEN_SPRITE)) {
                 final Vector2 orbenPosition = imagePosition.add(Constants.ORBEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the orben at " + orbenPosition);
                 level.getHazards().add(new Orben(level, orbenPosition, type));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WHIRLINGROLLEN_SPRITE_1)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ROLLEN_ORE_SPRITE_1)) {
                 final Vector2 rollenPosition = imagePosition.add(Constants.ROLLEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the rollen at " + rollenPosition);
                 level.getHazards().add(new Rollen(level, rollenPosition, type));

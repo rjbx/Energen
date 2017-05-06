@@ -46,23 +46,23 @@ public class Rollen implements Destructible, Hazard {
         rollStartTime = 0;
         rollTimeSeconds = 0;
         switch (type) {
+            case ORE:
+                animation = Assets.getInstance().getRollenAssets().oreRollen;
+                break;
             case PLASMA:
-                animation = Assets.getInstance().getRollenAssets().chargedRollen;
+                animation = Assets.getInstance().getRollenAssets().plasmaRollen;
                 break;
             case GAS:
-                animation = Assets.getInstance().getRollenAssets().fieryRollen;
-                break;
-            case SOLID:
-                animation = Assets.getInstance().getRollenAssets().sharpRollen;
-                break;
-            case ORE:
-                animation = Assets.getInstance().getRollenAssets().whirlingRollen;
+                animation = Assets.getInstance().getRollenAssets().gasRollen;
                 break;
             case LIQUID:
-                animation = Assets.getInstance().getRollenAssets().gushingRollen;
+                animation = Assets.getInstance().getRollenAssets().liquidRollen;
+                break;
+            case SOLID:
+                animation = Assets.getInstance().getRollenAssets().solidRollen;
                 break;
             default:
-                animation = Assets.getInstance().getRollenAssets().whirlingRollen;
+                animation = Assets.getInstance().getRollenAssets().oreRollen;
         }
     }
 

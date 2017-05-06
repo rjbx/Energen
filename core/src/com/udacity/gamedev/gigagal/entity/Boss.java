@@ -246,7 +246,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 enableJump();
                 enableCling();
                 enableShoot(weapon);
-            } else if (action == Enums.Action.RECOILING) {
+            } else if (action == Enums.Action.RESUSPENSION_PLASMAING) {
                 enableCling();
                 enableShoot(weapon);
             }*/
@@ -438,7 +438,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 onUnbearable = true;
                 canHover = false;
                 Random xKnockback = new Random();
-                velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Enums.Orientation.X), Constants.FLAME_KNOCKBACK.y);
+                velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Enums.Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
                 recoil(velocity);
             }
         }
@@ -528,7 +528,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
         for (com.udacity.gamedev.gigagal.entity.Hazard hazard : hazards) {
             if (!(hazard instanceof com.udacity.gamedev.gigagal.entity.Ammo && ((com.udacity.gamedev.gigagal.entity.Ammo) hazard).isFromGigagal())) {
                 float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime) - pauseTimeSeconds;
-                if (action != Enums.Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
+                if (action != Enums.Action.RESUSPENSION_PLASMAING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
                     Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                     if (getBounds().overlaps(bounds)) {
                         recoveryStartTime = TimeUtils.nanoTime();
@@ -801,7 +801,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoil(Vector2 velocity) {
-        action = Enums.Action.RECOILING;
+        action = Enums.Action.RESUSPENSION_PLASMAING;
         groundState = Enums.GroundState.AIRBORNE;
         shotIntensity = Enums.ShotIntensity.NORMAL;
         chargeStartTime = 0;
@@ -1135,7 +1135,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
             } else if (action == Enums.Action.CLINGING) {
                 region = Assets.getInstance().getGigaGalAssets().clingRight;
-            } else if (action == Enums.Action.RECOILING){
+            } else if (action == Enums.Action.RESUSPENSION_PLASMAING){
                 region = Assets.getInstance().getGigaGalAssets().recoilRight;
             } else if (action == Enums.Action.FALLING) {
                 region = Assets.getInstance().getGigaGalAssets().fallRight;
@@ -1169,7 +1169,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
             } else if (action == Enums.Action.CLINGING) {
                 region = Assets.getInstance().getGigaGalAssets().clingLeft;
-            } else if (action == Enums.Action.RECOILING) {
+            } else if (action == Enums.Action.RESUSPENSION_PLASMAING) {
                 region = Assets.getInstance().getGigaGalAssets().recoilLeft;
             } else if (action == Enums.Action.FALLING) {
                 region = Assets.getInstance().getGigaGalAssets().fallLeft;

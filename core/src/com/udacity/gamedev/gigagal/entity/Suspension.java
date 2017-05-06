@@ -30,56 +30,56 @@ public class Suspension implements Indestructible, Hazard {
         collisionSpan = new Vector2();
         center = new Vector2();
         knockback = new Vector2();
-        damage = Constants.GEISER_DAMAGE;
+        damage = Constants.PROTRUSION_LIQUID_DAMAGE;
         switch (type) {
             case ORE:
-                animation = Assets.getInstance().getSuspensionAssets().wheel;
-                center.set(Constants.WHEEL_CENTER);
-                collisionSpan.set(Constants.WHEEL_COLLISION_WIDTH, Constants.WHEEL_COLLISION_HEIGHT);
-                knockback.set(Constants.WHEEL_KNOCKBACK);
-                damage = Constants.WHEEL_DAMAGE;
+                animation = Assets.getInstance().getSuspensionAssets().oreSuspension;
+                center.set(Constants.SUSPENSION_ORE_CENTER);
+                collisionSpan.set(Constants.SUSPENSION_ORE_COLLISION_WIDTH, Constants.SUSPENSION_ORE_COLLISION_HEIGHT);
+                knockback.set(Constants.SUSPENSION_ORE_KNOCKBACK);
+                damage = Constants.SUSPENSION_ORE_DAMAGE;
                 break;
             case PLASMA:
-                animation = Assets.getInstance().getSuspensionAssets().coil;
-                center.set(Constants.COIL_CENTER);
-                collisionSpan.set(Constants.COIL_COLLISION_WIDTH, Constants.COIL_COLLISION_HEIGHT);
-                knockback.set(Constants.COIL_KNOCKBACK);
-                damage = Constants.COIL_DAMAGE;
+                animation = Assets.getInstance().getSuspensionAssets().plasmaSuspension;
+                center.set(Constants.SUSPENSION_PLASMA_CENTER);
+                collisionSpan.set(Constants.SUSPENSION_PLASMA_COLLISION_WIDTH, Constants.SUSPENSION_PLASMA_COLLISION_HEIGHT);
+                knockback.set(Constants.SUSPENSION_PLASMA_KNOCKBACK);
+                damage = Constants.SUSPENSION_PLASMA_DAMAGE;
                 break;
             case GAS:
-                animation = Assets.getInstance().getSuspensionAssets().burner;
-                center.set(Constants.BURNER_CENTER);
-                collisionSpan.set(Constants.BURNER_COLLISION_WIDTH, Constants.BURNER_COLLISION_HEIGHT);
-                knockback.set(Constants.BURNER_KNOCKBACK);
-                damage = Constants.BURNER_DAMAGE;
+                animation = Assets.getInstance().getSuspensionAssets().gasSuspension;
+                center.set(Constants.SUSPENSION_GAS_CENTER);
+                collisionSpan.set(Constants.SUSPENSION_GAS_COLLISION_WIDTH, Constants.SUSPENSION_GAS_COLLISION_HEIGHT);
+                knockback.set(Constants.SUSPENSION_GAS_KNOCKBACK);
+                damage = Constants.SUSPENSION_GAS_DAMAGE;
                 break;
             case LIQUID:
-                animation = Assets.getInstance().getSuspensionAssets().lump;
-                center.set(Constants.LUMP_CENTER);
-                collisionSpan.set(Constants.LUMP_COLLISION_WIDTH, Constants.LUMP_COLLISION_HEIGHT);
-                knockback.set(Constants.LUMP_KNOCKBACK);
-                damage = Constants.LUMP_DAMAGE;
+                animation = Assets.getInstance().getSuspensionAssets().liquidSuspension;
+                center.set(Constants.SUSPENSION_LIQUID_CENTER);
+                collisionSpan.set(Constants.SUSPENSION_LIQUID_COLLISION_WIDTH, Constants.SUSPENSION_LIQUID_COLLISION_HEIGHT);
+                knockback.set(Constants.SUSPENSION_LIQUID_KNOCKBACK);
+                damage = Constants.SUSPENSION_LIQUID_DAMAGE;
                 break;
             case SOLID:
-                animation = Assets.getInstance().getSuspensionAssets().sharp;
-                center.set(Constants.SHARP_CENTER);
-                collisionSpan.set(Constants.SHARP_COLLISION_WIDTH, Constants.SHARP_COLLISION_HEIGHT);
-                knockback.set(Constants.SHARP_KNOCKBACK);
-                damage = Constants.SHARP_DAMAGE;
+                animation = Assets.getInstance().getSuspensionAssets().solidSuspension;
+                center.set(Constants.SUSPENSION_SOLID_CENTER);
+                collisionSpan.set(Constants.SUSPENSION_SOLID_COLLISION_WIDTH, Constants.SUSPENSION_SOLID_COLLISION_HEIGHT);
+                knockback.set(Constants.SUSPENSION_SOLID_KNOCKBACK);
+                damage = Constants.SUSPENSION_SOLID_DAMAGE;
                 break;
             case ANTIMATTER:
-                animation = Assets.getInstance().getSuspensionAssets().vacuum;
-                center.set(Constants.VACUUM_CENTER);
-                collisionSpan.set(Constants.VACUUM_COLLISION_WIDTH, Constants.VACUUM_COLLISION_HEIGHT);
-                knockback.set(Constants.VACUUM_KNOCKBACK);
-                damage = Constants.VACUUM_DAMAGE;
+                animation = Assets.getInstance().getSuspensionAssets().antimatterSuspension;
+                center.set(Constants.SUSPENSION_ANTIMATTER_CENTER);
+                collisionSpan.set(Constants.SUSPENSION_ANTIMATTER_COLLISION_WIDTH, Constants.SUSPENSION_ANTIMATTER_COLLISION_HEIGHT);
+                knockback.set(Constants.SUSPENSION_ANTIMATTER_KNOCKBACK);
+                damage = Constants.SUSPENSION_ANTIMATTER_DAMAGE;
                 break;
             default:
-                animation = Assets.getInstance().getSuspensionAssets().wheel;
-                center.set(Constants.WHEEL_CENTER);
-                collisionSpan.set(Constants.WHEEL_COLLISION_WIDTH, Constants.WHEEL_COLLISION_HEIGHT);
-                knockback.set(Constants.WHEEL_KNOCKBACK);
-                damage = Constants.WHEEL_DAMAGE;
+                animation = Assets.getInstance().getSuspensionAssets().oreSuspension;
+                center.set(Constants.SUSPENSION_ORE_CENTER);
+                collisionSpan.set(Constants.SUSPENSION_ORE_COLLISION_WIDTH, Constants.SUSPENSION_ORE_COLLISION_HEIGHT);
+                knockback.set(Constants.SUSPENSION_ORE_KNOCKBACK);
+                damage = Constants.SUSPENSION_ORE_DAMAGE;
                 break;
         }
     }

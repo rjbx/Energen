@@ -30,49 +30,49 @@ public class Protrusion implements Indestructible, Hazard {
         collisionSpan = new Vector2();
         center = new Vector2();
         knockback = new Vector2();
-        damage = Constants.GEISER_DAMAGE;
+        damage = Constants.PROTRUSION_LIQUID_DAMAGE;
         switch (type) {
             case ORE:
-                animation = Assets.getInstance().getProtrusionAssets().whirl;
-                center.set(Constants.WHIRL_CENTER);
-                collisionSpan.set(Constants.WHIRL_COLLISION_WIDTH, Constants.WHIRL_COLLISION_HEIGHT);
-                knockback.set(Constants.WHIRL_KNOCKBACK);
-                damage = Constants.WHIRL_DAMAGE;
+                animation = Assets.getInstance().getProtrusionAssets().oreProtrusion;
+                center.set(Constants.PROTRUSION_ORE_CENTER);
+                collisionSpan.set(Constants.PROTRUSION_ORE_COLLISION_WIDTH, Constants.PROTRUSION_ORE_COLLISION_HEIGHT);
+                knockback.set(Constants.PROTRUSION_ORE_KNOCKBACK);
+                damage = Constants.PROTRUSION_ORE_DAMAGE;
                 break;
             case PLASMA:
-                animation = Assets.getInstance().getProtrusionAssets().rod;
-                center.set(Constants.ROD_CENTER);
-                collisionSpan.set(Constants.ROD_COLLISION_WIDTH, Constants.ROD_COLLISION_HEIGHT);
-                knockback.set(Constants.ROD_KNOCKBACK);
-                damage = Constants.ROD_DAMAGE;
+                animation = Assets.getInstance().getProtrusionAssets().plasmaProtrusion;
+                center.set(Constants.PROTRUSION_PLASMA_CENTER);
+                collisionSpan.set(Constants.PROTRUSION_PLASMA_COLLISION_WIDTH, Constants.PROTRUSION_PLASMA_COLLISION_HEIGHT);
+                knockback.set(Constants.PROTRUSION_PLASMA_KNOCKBACK);
+                damage = Constants.PROTRUSION_PLASMA_DAMAGE;
                 break;
             case GAS:
-                animation = Assets.getInstance().getProtrusionAssets().flame;
-                center.set(Constants.FLAME_CENTER);
-                collisionSpan.set(Constants.FLAME_COLLISION_WIDTH, Constants.FLAME_COLLISION_HEIGHT);
-                knockback.set(Constants.FLAME_KNOCKBACK);
-                damage = Constants.FLAME_DAMAGE;
+                animation = Assets.getInstance().getProtrusionAssets().gasProtrusion;
+                center.set(Constants.PROTRUSION_GAS_CENTER);
+                collisionSpan.set(Constants.PROTRUSION_GAS_COLLISION_WIDTH, Constants.PROTRUSION_GAS_COLLISION_HEIGHT);
+                knockback.set(Constants.PROTRUSION_GAS_KNOCKBACK);
+                damage = Constants.PROTRUSION_GAS_DAMAGE;
                 break;
             case LIQUID:
-                animation = Assets.getInstance().getProtrusionAssets().geiser;
-                center.set(Constants.GEISER_CENTER);
-                collisionSpan.set(Constants.GEISER_COLLISION_WIDTH, Constants.GEISER_COLLISION_HEIGHT);
-                knockback.set(Constants.GEISER_KNOCKBACK);
-                damage = Constants.GEISER_DAMAGE;
+                animation = Assets.getInstance().getProtrusionAssets().liquidProtrusion;
+                center.set(Constants.PROTRUSION_LIQUID_CENTER);
+                collisionSpan.set(Constants.PROTRUSION_LIQUID_COLLISION_WIDTH, Constants.PROTRUSION_LIQUID_COLLISION_HEIGHT);
+                knockback.set(Constants.PROTRUSION_LIQUID_KNOCKBACK);
+                damage = Constants.PROTRUSION_LIQUID_DAMAGE;
                 break;
             case SOLID:
-                animation = Assets.getInstance().getProtrusionAssets().spike;
-                center.set(Constants.SPIKE_CENTER);
-                collisionSpan.set(Constants.SPIKE_COLLISION_WIDTH, Constants.SPIKE_COLLISION_HEIGHT);
-                knockback.set(Constants.SPIKE_KNOCKBACK);
-                damage = Constants.SPIKE_DAMAGE;
+                animation = Assets.getInstance().getProtrusionAssets().solidProtrustion;
+                center.set(Constants.PROTRUSION_SOLID_CENTER);
+                collisionSpan.set(Constants.PROTRUSION_SOLID_COLLISION_WIDTH, Constants.PROTRUSION_SOLID_COLLISION_HEIGHT);
+                knockback.set(Constants.PROTRUSION_SOLID_KNOCKBACK);
+                damage = Constants.PROTRUSION_SOLID_DAMAGE;
                 break;
             default:
-                animation = Assets.getInstance().getProtrusionAssets().whirl;
-                center.set(Constants.WHIRL_CENTER);
-                collisionSpan.set(Constants.WHIRL_COLLISION_WIDTH, Constants.WHIRL_COLLISION_HEIGHT);
-                knockback.set(Constants.WHIRL_KNOCKBACK);
-                damage = Constants.WHIRL_DAMAGE;
+                animation = Assets.getInstance().getProtrusionAssets().oreProtrusion;
+                center.set(Constants.PROTRUSION_ORE_CENTER);
+                collisionSpan.set(Constants.PROTRUSION_ORE_COLLISION_WIDTH, Constants.PROTRUSION_ORE_COLLISION_HEIGHT);
+                knockback.set(Constants.PROTRUSION_ORE_KNOCKBACK);
+                damage = Constants.PROTRUSION_ORE_DAMAGE;
                 break;
         }
     }

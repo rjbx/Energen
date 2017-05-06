@@ -39,23 +39,23 @@ public class Zoomba implements Destructible, Hazard {
         bobOffset = MathUtils.random();
         this.range = range;
         switch (type) {
+            case ORE:
+                animation = Assets.getInstance().getZoombaAssets().oreZoomba;
+                break;
             case PLASMA:
-                animation = Assets.getInstance().getZoombaAssets().chargedZoomba;
+                animation = Assets.getInstance().getZoombaAssets().plasmaZoomba;
                 break;
             case GAS:
-                animation = Assets.getInstance().getZoombaAssets().fieryZoomba;
-                break;
-            case SOLID:
-                animation = Assets.getInstance().getZoombaAssets().sharpZoomba;
-                break;
-            case ORE:
-                animation = Assets.getInstance().getZoombaAssets().whirlingZoomba;
+                animation = Assets.getInstance().getZoombaAssets().gasZoomba;
                 break;
             case LIQUID:
-                animation = Assets.getInstance().getZoombaAssets().gushingZoomba;
+                animation = Assets.getInstance().getZoombaAssets().liquidZoomba;
+                break;
+            case SOLID:
+                animation = Assets.getInstance().getZoombaAssets().solidZoomba;
                 break;
             default:
-                animation = Assets.getInstance().getZoombaAssets().sharpZoomba;
+                animation = Assets.getInstance().getZoombaAssets().oreZoomba;
         }
     }
 

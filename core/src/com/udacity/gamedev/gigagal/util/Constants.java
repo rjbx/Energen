@@ -57,8 +57,8 @@ public final class Constants {
     // Gigagal assets
     public static final String STAND_RIGHT = "gg-stand-right";
     public static final String STAND_LEFT = "gg-stand-left";
-    public static final String RECOIL_RIGHT = "gg-recoil-right";
-    public static final String RECOIL_LEFT = "gg-recoil-left";
+    public static final String RESUSPENSION_PLASMA_RIGHT = "gg-recoil-right";
+    public static final String RESUSPENSION_PLASMA_LEFT = "gg-recoil-left";
     public static final String FALL_RIGHT = "gg-fall-right";
     public static final String FALL_LEFT = "gg-fall-left";
     public static final String LOOKUP_STAND_RIGHT = "gg-lookup-stand-right";
@@ -253,11 +253,11 @@ public final class Constants {
     public static final String CHARGEDZOOMBA_SPRITE_1 = "zoomba-plasma-1";
     public static final String CHARGEDZOOMBA_SPRITE_2 = "zoomba-plasma-2";
 
-    public static final String WHIRLINGZOOMBA_SPRITE_1 = "zoomba-polymer-1";
-    public static final String WHIRLINGZOOMBA_SPRITE_2 = "zoomba-polymer-2";
+    public static final String PROTRUSION_OREINGZOOMBA_SPRITE_1 = "zoomba-polymer-1";
+    public static final String PROTRUSION_OREINGZOOMBA_SPRITE_2 = "zoomba-polymer-2";
 
-    public static final String SHARPZOOMBA_SPRITE_1 = "zoomba-solid-1";
-    public static final String SHARPZOOMBA_SPRITE_2 = "zoomba-solid-2";
+    public static final String SUSPENSION_SOLIDZOOMBA_SPRITE_1 = "zoomba-solid-1";
+    public static final String SUSPENSION_SOLIDZOOMBA_SPRITE_2 = "zoomba-solid-2";
 
     // Swoopa
     public static final Vector2 SWOOPA_CENTER = new Vector2(25f, 13.5f);
@@ -279,11 +279,11 @@ public final class Constants {
     public static final String CHARGEDSWOOPA_SPRITE_1 = "swoopa-plasma-1";
     public static final String CHARGEDSWOOPA_SPRITE_2 = "swoopa-plasma-2";
 
-    public static final String WHIRLINGSWOOPA_SPRITE_1 = "swoopa-polymer-1";
-    public static final String WHIRLINGSWOOPA_SPRITE_2 = "swoopa-polymer-2";
+    public static final String PROTRUSION_OREINGSWOOPA_SPRITE_1 = "swoopa-polymer-1";
+    public static final String PROTRUSION_OREINGSWOOPA_SPRITE_2 = "swoopa-polymer-2";
 
-    public static final String SHARPSWOOPA_SPRITE_1 = "swoopa-solid-1";
-    public static final String SHARPSWOOPA_SPRITE_2 = "swoopa-solid-2";
+    public static final String SUSPENSION_SOLIDSWOOPA_SPRITE_1 = "swoopa-solid-1";
+    public static final String SUSPENSION_SOLIDSWOOPA_SPRITE_2 = "swoopa-solid-2";
 
     // Orben
     public static final float ORBEN_TEXTURE_SCALE = 1.5f;
@@ -297,27 +297,27 @@ public final class Constants {
     public static final Vector2 ORBEN_KNOCKBACK = new Vector2(75, Y_KNOCKBACK);
     public static final float ORBEN_DURATION = 1.5f;
     public static final int ORBEN_REGIONS = 3;
-    public static final String DORMANTORBEN_SPRITE = "orben-dormant";
+    public static final String ORBEN_SPRITE = "orben-dormant";
 
-    public static final String FIERYORBEN_SPRITE_0 = "orben-gas-active-0";
-    public static final String FIERYORBEN_SPRITE_1 = "orben-gas-active-1";
-    public static final String FIERYORBEN_SPRITE_2 = "orben-gas-active-2";
+    public static final String ORBEN_GAS_SPRITE_0 = "orben-gas-active-0";
+    public static final String ORBEN_GAS_SPRITE_1 = "orben-gas-active-1";
+    public static final String ORBEN_GAS_SPRITE_2 = "orben-gas-active-2";
 
-    public static final String GUSHINGORBEN_SPRITE_0 = "orben-liquid-active-0";
-    public static final String GUSHINGORBEN_SPRITE_1 = "orben-liquid-active-1";
-    public static final String GUSHINGORBEN_SPRITE_2 = "orben-liquid-active-2";
+    public static final String ORBEN_LIQUID_SPRITE_0 = "orben-liquid-active-0";
+    public static final String ORBEN_LIQUID_SPRITE_1 = "orben-liquid-active-1";
+    public static final String ORBEN_LIQUID_SPRITE_2 = "orben-liquid-active-2";
 
-    public static final String CHARGEDORBEN_SPRITE_0 = "orben-plasma-active-0";
-    public static final String CHARGEDORBEN_SPRITE_1 = "orben-plasma-active-1";
-    public static final String CHARGEDORBEN_SPRITE_2 = "orben-plasma-active-2";
+    public static final String ORBEN_PLASMA_SPRITE_0 = "orben-plasma-active-0";
+    public static final String ORBEN_PLASMA_SPRITE_1 = "orben-plasma-active-1";
+    public static final String ORBEN_PLASMA_SPRITE_2 = "orben-plasma-active-2";
 
-    public static final String WHIRLINGORBEN_SPRITE_0 = "orben-polymer-active-0";
-    public static final String WHIRLINGORBEN_SPRITE_1 = "orben-polymer-active-1";
-    public static final String WHIRLINGORBEN_SPRITE_2 = "orben-polymer-active-2";
+    public static final String ORBEN_ORE_SPRITE_0 = "orben-polymer-active-0";
+    public static final String ORBEN_ORE_SPRITE_1 = "orben-polymer-active-1";
+    public static final String ORBEN_ORE_SPRITE_2 = "orben-polymer-active-2";
 
-    public static final String SHARPORBEN_SPRITE_0 = "orben-solid-active-0";
-    public static final String SHARPORBEN_SPRITE_1 = "orben-solid-active-1";
-    public static final String SHARPORBEN_SPRITE_2 = "orben-solid-active-2";
+    public static final String ORBEN_SOLID_SPRITE_0 = "orben-solid-active-0";
+    public static final String ORBEN_SOLID_SPRITE_1 = "orben-solid-active-1";
+    public static final String ORBEN_SOLID_SPRITE_2 = "orben-solid-active-2";
 
     // Rollen
     public static final float ROLLEN_TEXTURE_SCALE = 1.5f;
@@ -332,132 +332,132 @@ public final class Constants {
     public static final float ROLLEN_DURATION = .5f;
     public static final int ROLLEN_REGIONS = 4;
 
-    public static final String FIERYROLLEN_SPRITE_4 = "rollen-gas-4";
-    public static final String FIERYROLLEN_SPRITE_1 = "rollen-gas-1";
-    public static final String FIERYROLLEN_SPRITE_2 = "rollen-gas-2";
-    public static final String FIERYROLLEN_SPRITE_3 = "rollen-gas-3";
+    public static final String ROLLEN_GAS_SPRITE_4 = "rollen-gas-4";
+    public static final String ROLLEN_GAS_SPRITE_1 = "rollen-gas-1";
+    public static final String ROLLEN_GAS_SPRITE_2 = "rollen-gas-2";
+    public static final String ROLLEN_GAS_SPRITE_3 = "rollen-gas-3";
 
-    public static final String GUSHINGROLLEN_SPRITE_4 = "rollen-liquid-4";
-    public static final String GUSHINGROLLEN_SPRITE_1 = "rollen-liquid-1";
-    public static final String GUSHINGROLLEN_SPRITE_2 = "rollen-liquid-2";
-    public static final String GUSHINGROLLEN_SPRITE_3 = "rollen-liquid-3";
+    public static final String ROLLEN_LIQUID_SPRITE_4 = "rollen-liquid-4";
+    public static final String ROLLEN_LIQUID_SPRITE_1 = "rollen-liquid-1";
+    public static final String ROLLEN_LIQUID_SPRITE_2 = "rollen-liquid-2";
+    public static final String ROLLEN_LIQUID_SPRITE_3 = "rollen-liquid-3";
 
-    public static final String CHARGEDROLLEN_SPRITE_4 = "rollen-plasma-4";
-    public static final String CHARGEDROLLEN_SPRITE_1 = "rollen-plasma-1";
-    public static final String CHARGEDROLLEN_SPRITE_2 = "rollen-plasma-2";
-    public static final String CHARGEDROLLEN_SPRITE_3 = "rollen-plasma-3";
+    public static final String ROLLEN_PLASMA_SPRITE_4 = "rollen-plasma-4";
+    public static final String ROLLEN_PLASMA_SPRITE_1 = "rollen-plasma-1";
+    public static final String ROLLEN_PLASMA_SPRITE_2 = "rollen-plasma-2";
+    public static final String ROLLEN_PLASMA_SPRITE_3 = "rollen-plasma-3";
 
-    public static final String WHIRLINGROLLEN_SPRITE_4 = "rollen-polymer-4";
-    public static final String WHIRLINGROLLEN_SPRITE_1 = "rollen-polymer-1";
-    public static final String WHIRLINGROLLEN_SPRITE_2 = "rollen-polymer-2";
-    public static final String WHIRLINGROLLEN_SPRITE_3 = "rollen-polymer-3";
+    public static final String ROLLEN_ORE_SPRITE_4 = "rollen-polymer-4";
+    public static final String ROLLEN_ORE_SPRITE_1 = "rollen-polymer-1";
+    public static final String ROLLEN_ORE_SPRITE_2 = "rollen-polymer-2";
+    public static final String ROLLEN_ORE_SPRITE_3 = "rollen-polymer-3";
 
-    public static final String SHARPROLLEN_SPRITE_4 = "rollen-solid-4";
-    public static final String SHARPROLLEN_SPRITE_1 = "rollen-solid-1";
-    public static final String SHARPROLLEN_SPRITE_2 = "rollen-solid-2";
-    public static final String SHARPROLLEN_SPRITE_3 = "rollen-solid-3";
+    public static final String ROLLEN_SOLID_SPRITE_4 = "rollen-solid-4";
+    public static final String ROLLEN_SOLID_SPRITE_1 = "rollen-solid-1";
+    public static final String ROLLEN_SOLID_SPRITE_2 = "rollen-solid-2";
+    public static final String ROLLEN_SOLID_SPRITE_3 = "rollen-solid-3";
 
     // Protrusions
-    public static final Vector2 SPIKE_CENTER = new Vector2(4, 8);
-    public static final float SPIKE_DURATION = 0.5f;
-    public static final int SPIKE_DAMAGE = 5;
-    public static final Vector2 SPIKE_KNOCKBACK = new Vector2(50, Y_KNOCKBACK);
-    public static final float SPIKE_COLLISION_WIDTH = 9;
-    public static final float SPIKE_COLLISION_HEIGHT = 17;
-    public static final String SPIKE_SPRITE_1 = "protrusion-solid-1";
-    public static final String SPIKE_SPRITE_2 = "protrusion-solid-2";
+    public static final Vector2 PROTRUSION_SOLID_CENTER = new Vector2(4, 8);
+    public static final float PROTRUSION_SOLID_DURATION = 0.5f;
+    public static final int PROTRUSION_SOLID_DAMAGE = 5;
+    public static final Vector2 PROTRUSION_SOLID_KNOCKBACK = new Vector2(50, Y_KNOCKBACK);
+    public static final float PROTRUSION_SOLID_COLLISION_WIDTH = 9;
+    public static final float PROTRUSION_SOLID_COLLISION_HEIGHT = 17;
+    public static final String PROTRUSION_SOLID_SPRITE_1 = "protrusion-solid-1";
+    public static final String PROTRUSION_SOLID_SPRITE_2 = "protrusion-solid-2";
 
-    public static final Vector2 FLAME_CENTER = new Vector2(8.5f, 17.5f);
-    public static final float FLAME_DURATION = 0.15f;
-    public static final int FLAME_DAMAGE = 15;
-    public static final Vector2 FLAME_KNOCKBACK = new Vector2(100, Y_KNOCKBACK);
-    public static final float FLAME_COLLISION_WIDTH = 15;
-    public static final float FLAME_COLLISION_HEIGHT = 25;
-    public static final String FLAME_SPRITE_1 = "protrusion-gas-1";
-    public static final String FLAME_SPRITE_2 = "protrusion-gas-2";
+    public static final Vector2 PROTRUSION_GAS_CENTER = new Vector2(8.5f, 17.5f);
+    public static final float PROTRUSION_GAS_DURATION = 0.15f;
+    public static final int PROTRUSION_GAS_DAMAGE = 15;
+    public static final Vector2 PROTRUSION_GAS_KNOCKBACK = new Vector2(100, Y_KNOCKBACK);
+    public static final float PROTRUSION_GAS_COLLISION_WIDTH = 15;
+    public static final float PROTRUSION_GAS_COLLISION_HEIGHT = 25;
+    public static final String PROTRUSION_GAS_SPRITE_1 = "protrusion-gas-1";
+    public static final String PROTRUSION_GAS_SPRITE_2 = "protrusion-gas-2";
 
-    public static final Vector2 GEISER_CENTER = new Vector2(8.5f, 17.5f);
-    public static final float GEISER_DURATION = 0.3f;
-    public static final int GEISER_DAMAGE = 10;
-    public static final Vector2 GEISER_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
-    public static final float GEISER_COLLISION_WIDTH = 15;
-    public static final float GEISER_COLLISION_HEIGHT = 25;
-    public static final String GEISER_SPRITE_1 = "protrusion-liquid-1";
-    public static final String GEISER_SPRITE_2 = "protrusion-liquid-2";
+    public static final Vector2 PROTRUSION_LIQUID_CENTER = new Vector2(8.5f, 17.5f);
+    public static final float PROTRUSION_LIQUID_DURATION = 0.3f;
+    public static final int PROTRUSION_LIQUID_DAMAGE = 10;
+    public static final Vector2 PROTRUSION_LIQUID_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
+    public static final float PROTRUSION_LIQUID_COLLISION_WIDTH = 15;
+    public static final float PROTRUSION_LIQUID_COLLISION_HEIGHT = 25;
+    public static final String PROTRUSION_LIQUID_SPRITE_1 = "protrusion-liquid-1";
+    public static final String PROTRUSION_LIQUID_SPRITE_2 = "protrusion-liquid-2";
 
-    public static final Vector2 ROD_CENTER = new Vector2(4, 8);
-    public static final float ROD_DURATION = 0.3f;
-    public static final int ROD_DAMAGE = 10;
-    public static final Vector2 ROD_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
-    public static final float ROD_COLLISION_WIDTH = 8;
-    public static final float ROD_COLLISION_HEIGHT = 16;
-    public static final String ROD_SPRITE_1 = "protrusion-plasma-1";
-    public static final String ROD_SPRITE_2 = "protrusion-plasma-2";
+    public static final Vector2 PROTRUSION_PLASMA_CENTER = new Vector2(4, 8);
+    public static final float PROTRUSION_PLASMA_DURATION = 0.3f;
+    public static final int PROTRUSION_PLASMA_DAMAGE = 10;
+    public static final Vector2 PROTRUSION_PLASMA_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
+    public static final float PROTRUSION_PLASMA_COLLISION_WIDTH = 8;
+    public static final float PROTRUSION_PLASMA_COLLISION_HEIGHT = 16;
+    public static final String PROTRUSION_PLASMA_SPRITE_1 = "protrusion-plasma-1";
+    public static final String PROTRUSION_PLASMA_SPRITE_2 = "protrusion-plasma-2";
 
-    public static final Vector2 WHIRL_CENTER = new Vector2(8.5f, 17.5f);
-    public static final float WHIRL_DURATION = 0.3f;
-    public static final int WHIRL_DAMAGE = 10;
-    public static final Vector2 WHIRL_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
-    public static final float WHIRL_COLLISION_WIDTH = 15;
-    public static final float WHIRL_COLLISION_HEIGHT = 25;
-    public static final String WHIRL_SPRITE_1 = "protrusion-polymer-1";
-    public static final String WHIRL_SPRITE_2 = "protrusion-polymer-2";
+    public static final Vector2 PROTRUSION_ORE_CENTER = new Vector2(8.5f, 17.5f);
+    public static final float PROTRUSION_ORE_DURATION = 0.3f;
+    public static final int PROTRUSION_ORE_DAMAGE = 10;
+    public static final Vector2 PROTRUSION_ORE_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
+    public static final float PROTRUSION_ORE_COLLISION_WIDTH = 15;
+    public static final float PROTRUSION_ORE_COLLISION_HEIGHT = 25;
+    public static final String PROTRUSION_ORE_SPRITE_1 = "protrusion-polymer-1";
+    public static final String PROTRUSION_ORE_SPRITE_2 = "protrusion-polymer-2";
 
     // Suspensions
-    public static final Vector2 BURNER_CENTER = new Vector2(12.5f, 12.5f);
-    public static final float BURNER_DURATION = 0.1f;
-    public static final int BURNER_DAMAGE = 5;
-    public static final Vector2 BURNER_KNOCKBACK = new Vector2(200, 250);
-    public static final float BURNER_COLLISION_WIDTH = 25;
-    public static final float BURNER_COLLISION_HEIGHT = 25;
-    public static final String BURNER_SPRITE_1 = "suspension-gas-1";
-    public static final String BURNER_SPRITE_2 = "suspension-gas-2";
+    public static final Vector2 SUSPENSION_GAS_CENTER = new Vector2(12.5f, 12.5f);
+    public static final float SUSPENSION_GAS_DURATION = 0.1f;
+    public static final int SUSPENSION_GAS_DAMAGE = 5;
+    public static final Vector2 SUSPENSION_GAS_KNOCKBACK = new Vector2(200, 250);
+    public static final float SUSPENSION_GAS_COLLISION_WIDTH = 25;
+    public static final float SUSPENSION_GAS_COLLISION_HEIGHT = 25;
+    public static final String SUSPENSION_GAS_SPRITE_1 = "suspension-gas-1";
+    public static final String SUSPENSION_GAS_SPRITE_2 = "suspension-gas-2";
     
-    public static final Vector2 COIL_CENTER = new Vector2(12.5f, 12.5f);
-    public static final float COIL_DURATION = 0.5f;
-    public static final int COIL_DAMAGE = 5;
-    public static final Vector2 COIL_KNOCKBACK = new Vector2(200, 50);
-    public static final float COIL_COLLISION_WIDTH = 25;
-    public static final float COIL_COLLISION_HEIGHT = 25;
-    public static final String COIL_SPRITE_1 = "suspension-plasma-1";
-    public static final String COIL_SPRITE_2 = "suspension-plasma-2";
+    public static final Vector2 SUSPENSION_PLASMA_CENTER = new Vector2(12.5f, 12.5f);
+    public static final float SUSPENSION_PLASMA_DURATION = 0.5f;
+    public static final int SUSPENSION_PLASMA_DAMAGE = 5;
+    public static final Vector2 SUSPENSION_PLASMA_KNOCKBACK = new Vector2(200, 50);
+    public static final float SUSPENSION_PLASMA_COLLISION_WIDTH = 25;
+    public static final float SUSPENSION_PLASMA_COLLISION_HEIGHT = 25;
+    public static final String SUSPENSION_PLASMA_SPRITE_1 = "suspension-plasma-1";
+    public static final String SUSPENSION_PLASMA_SPRITE_2 = "suspension-plasma-2";
     
-    public static final Vector2 LUMP_CENTER = new Vector2(12.5f, 12.5f);
-    public static final float LUMP_DURATION = 0.5f;
-    public static final int LUMP_DAMAGE = 5;
-    public static final Vector2 LUMP_KNOCKBACK = new Vector2(200, 50);
-    public static final float LUMP_COLLISION_WIDTH = 25;
-    public static final float LUMP_COLLISION_HEIGHT = 25;
-    public static final String LUMP_SPRITE_1 = "suspension-liquid-1";
-    public static final String LUMP_SPRITE_2 = "suspension-liquid-2";
+    public static final Vector2 SUSPENSION_LIQUID_CENTER = new Vector2(12.5f, 12.5f);
+    public static final float SUSPENSION_LIQUID_DURATION = 0.5f;
+    public static final int SUSPENSION_LIQUID_DAMAGE = 5;
+    public static final Vector2 SUSPENSION_LIQUID_KNOCKBACK = new Vector2(200, 50);
+    public static final float SUSPENSION_LIQUID_COLLISION_WIDTH = 25;
+    public static final float SUSPENSION_LIQUID_COLLISION_HEIGHT = 25;
+    public static final String SUSPENSION_LIQUID_SPRITE_1 = "suspension-liquid-1";
+    public static final String SUSPENSION_LIQUID_SPRITE_2 = "suspension-liquid-2";
 
-    public static final Vector2 SHARP_CENTER = new Vector2(12.5f, 12.5f);
-    public static final float SHARP_DURATION = 0.5f;
-    public static final int SHARP_DAMAGE = 5;
-    public static final Vector2 SHARP_KNOCKBACK = new Vector2(200, 50);
-    public static final float SHARP_COLLISION_WIDTH = 25;
-    public static final float SHARP_COLLISION_HEIGHT = 25;
-    public static final String SHARP_SPRITE_1 = "suspension-solid-1";
-    public static final String SHARP_SPRITE_2 = "suspension-solid-2";
+    public static final Vector2 SUSPENSION_SOLID_CENTER = new Vector2(12.5f, 12.5f);
+    public static final float SUSPENSION_SOLID_DURATION = 0.5f;
+    public static final int SUSPENSION_SOLID_DAMAGE = 5;
+    public static final Vector2 SUSPENSION_SOLID_KNOCKBACK = new Vector2(200, 50);
+    public static final float SUSPENSION_SOLID_COLLISION_WIDTH = 25;
+    public static final float SUSPENSION_SOLID_COLLISION_HEIGHT = 25;
+    public static final String SUSPENSION_SOLID_SPRITE_1 = "suspension-solid-1";
+    public static final String SUSPENSION_SOLID_SPRITE_2 = "suspension-solid-2";
 
-    public static final Vector2 WHEEL_CENTER = new Vector2(12.5f, 12.5f);
-    public static final float WHEEL_DURATION = 0.1f;
-    public static final int WHEEL_DAMAGE = 5;
-    public static final Vector2 WHEEL_KNOCKBACK = new Vector2(200, 250);
-    public static final float WHEEL_COLLISION_WIDTH = 25;
-    public static final float WHEEL_COLLISION_HEIGHT = 25;
-    public static final String WHEEL_SPRITE_1 = "suspension-polymer-1";
-    public static final String WHEEL_SPRITE_2 = "suspension-polymer-2";
+    public static final Vector2 SUSPENSION_ORE_CENTER = new Vector2(12.5f, 12.5f);
+    public static final float SUSPENSION_ORE_DURATION = 0.1f;
+    public static final int SUSPENSION_ORE_DAMAGE = 5;
+    public static final Vector2 SUSPENSION_ORE_KNOCKBACK = new Vector2(200, 250);
+    public static final float SUSPENSION_ORE_COLLISION_WIDTH = 25;
+    public static final float SUSPENSION_ORE_COLLISION_HEIGHT = 25;
+    public static final String SUSPENSION_ORE_SPRITE_1 = "suspension-polymer-1";
+    public static final String SUSPENSION_ORE_SPRITE_2 = "suspension-polymer-2";
 
-    public static final Vector2 VACUUM_CENTER = new Vector2(31, 31);
-    public static final float VACUUM_FRAME_DURATION = 0.4f;
-    public static final int VACUUM_DAMAGE = 100;
-    public static final Vector2 VACUUM_KNOCKBACK = new Vector2(100, 10);
-    public static final float VACUUM_COLLISION_WIDTH = 25;
-    public static final float VACUUM_COLLISION_HEIGHT = 25;
-    public static final String VACUUM_SPRITE_1 = "suspension-psychic-1";
-    public static final String VACUUM_SPRITE_2 = "suspension-psychic-2";
-    public static final String VACUUM_SPRITE_3 = "suspension-psychic-3";
+    public static final Vector2 SUSPENSION_ANTIMATTER_CENTER = new Vector2(31, 31);
+    public static final float SUSPENSION_ANTIMATTER_FRAME_DURATION = 0.4f;
+    public static final int SUSPENSION_ANTIMATTER_DAMAGE = 100;
+    public static final Vector2 SUSPENSION_ANTIMATTER_KNOCKBACK = new Vector2(100, 10);
+    public static final float SUSPENSION_ANTIMATTER_COLLISION_WIDTH = 25;
+    public static final float SUSPENSION_ANTIMATTER_COLLISION_HEIGHT = 25;
+    public static final String SUSPENSION_ANTIMATTER_SPRITE_1 = "suspension-psychic-1";
+    public static final String SUSPENSION_ANTIMATTER_SPRITE_2 = "suspension-psychic-2";
+    public static final String SUSPENSION_ANTIMATTER_SPRITE_3 = "suspension-psychic-3";
 
     // Portal
     public static final Vector2 PORTAL_CENTER = new Vector2(31, 31);
@@ -555,6 +555,7 @@ public final class Constants {
     public static final String LEVEL_X_SCALE_KEY = "scaleX";
     public static final String LEVEL_Y_SCALE_KEY = "scaleY";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
+    public static final String LEVEL_CUSTOM_VARS_KEY = "customVars";
     public static final String LEVEL_RANGE_KEY = "range";
     public static final String LEVEL_TYPE_KEY = "type";
     public static final String LEVEL_INTENSITY_KEY = "intensity";

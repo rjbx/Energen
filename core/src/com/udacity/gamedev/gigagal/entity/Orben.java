@@ -27,7 +27,6 @@ public class Orben implements Destructible, Hazard {
     private boolean active;
     private Animation animation;
 
-
     // ctor
     public Orben(LevelUpdater level, Vector2 position, Enums.Material type) {
         this.level = level;
@@ -38,23 +37,23 @@ public class Orben implements Destructible, Hazard {
         velocity = new Vector2(0, 0);
         health = Constants.ORBEN_MAX_HEALTH;
         switch (type) {
+            case ORE:
+                animation = Assets.getInstance().getOrbenAssets().oreOrben;
+                break;
             case PLASMA:
-                animation = Assets.getInstance().getOrbenAssets().chargedOrben;
+                animation = Assets.getInstance().getOrbenAssets().plasmaOrben;
                 break;
             case GAS:
-                animation = Assets.getInstance().getOrbenAssets().fieryOrben;
-                break;
-            case SOLID:
-                animation = Assets.getInstance().getOrbenAssets().sharpOrben;
-                break;
-            case ORE:
-                animation = Assets.getInstance().getOrbenAssets().whirlingOrben;
+                animation = Assets.getInstance().getOrbenAssets().gasOrben;
                 break;
             case LIQUID:
-                animation = Assets.getInstance().getOrbenAssets().gushingOrben;
+                animation = Assets.getInstance().getOrbenAssets().liquidOrben;
+                break;
+            case SOLID:
+                animation = Assets.getInstance().getOrbenAssets().solidOrben;
                 break;
             default:
-                animation = Assets.getInstance().getOrbenAssets().whirlingOrben;
+                animation = Assets.getInstance().getOrbenAssets().oreOrben;
         }
     }
 

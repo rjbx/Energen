@@ -79,8 +79,8 @@ public final class Ammo implements Indestructible, Hazard {
                 }
                 break;
             case GAS:
-                damage = Constants.FLAME_DAMAGE;
-                knockback = Constants.FLAME_KNOCKBACK;
+                damage = Constants.PROTRUSION_GAS_DAMAGE;
+                knockback = Constants.PROTRUSION_GAS_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().gasBlast;
                 } else {
@@ -88,8 +88,8 @@ public final class Ammo implements Indestructible, Hazard {
                 }
                 break;
             case LIQUID:
-                damage = Constants.GEISER_DAMAGE;
-                knockback = Constants.GEISER_KNOCKBACK;
+                damage = Constants.PROTRUSION_LIQUID_DAMAGE;
+                knockback = Constants.PROTRUSION_LIQUID_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().liquidBlast;
                 } else {
@@ -97,8 +97,8 @@ public final class Ammo implements Indestructible, Hazard {
                 }
                 break;
             case PLASMA:
-                damage = Constants.COIL_DAMAGE;
-                knockback = Constants.COIL_KNOCKBACK;
+                damage = Constants.SUSPENSION_PLASMA_DAMAGE;
+                knockback = Constants.SUSPENSION_PLASMA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().plasmaBlast;
                 } else {
@@ -106,8 +106,8 @@ public final class Ammo implements Indestructible, Hazard {
                 }
                 break;
             case ORE:
-                damage = Constants.WHEEL_DAMAGE;
-                knockback = Constants.WHEEL_KNOCKBACK;
+                damage = Constants.SUSPENSION_ORE_DAMAGE;
+                knockback = Constants.SUSPENSION_ORE_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().polymerBlast;
                 } else {
@@ -115,8 +115,8 @@ public final class Ammo implements Indestructible, Hazard {
                 }
                 break;
             case SOLID:
-                damage = Constants.SPIKE_DAMAGE;
-                knockback = Constants.SPIKE_KNOCKBACK;
+                damage = Constants.PROTRUSION_SOLID_DAMAGE;
+                knockback = Constants.PROTRUSION_SOLID_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().solidBlast;
                 } else {
@@ -133,7 +133,7 @@ public final class Ammo implements Indestructible, Hazard {
                 }
                 break;
             case HYBRID:
-                damage = Constants.SPIKE_DAMAGE * 2;
+                damage = Constants.PROTRUSION_SOLID_DAMAGE * 2;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().hybridBlast;

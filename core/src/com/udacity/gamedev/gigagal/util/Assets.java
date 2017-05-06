@@ -103,8 +103,8 @@ public final class Assets implements AssetErrorListener {
         private GigaGalAssets(TextureAtlas atlas) {
             standLeft = atlas.findRegion(Constants.STAND_LEFT);
             standRight = atlas.findRegion(Constants.STAND_RIGHT);
-            recoilLeft = atlas.findRegion(Constants.RECOIL_LEFT);
-            recoilRight = atlas.findRegion(Constants.RECOIL_RIGHT);
+            recoilLeft = atlas.findRegion(Constants.RESUSPENSION_PLASMA_LEFT);
+            recoilRight = atlas.findRegion(Constants.RESUSPENSION_PLASMA_RIGHT);
             fallLeft = atlas.findRegion(Constants.FALL_LEFT);
             fallRight = atlas.findRegion(Constants.FALL_RIGHT);
             lookupStandLeft = atlas.findRegion(Constants.LOOKUP_STAND_LEFT);
@@ -400,284 +400,251 @@ public final class Assets implements AssetErrorListener {
     public static final class ZoombaAssets {
 
         public final AtlasRegion zoomba;
-        public final Animation fieryZoomba;
-        public final Animation gushingZoomba;
-        public final Animation chargedZoomba;
-        public final Animation whirlingZoomba;
-        public final Animation sharpZoomba;
+        public final Animation gasZoomba;
+        public final Animation liquidZoomba;
+        public final Animation plasmaZoomba;
+        public final Animation oreZoomba;
+        public final Animation solidZoomba;
 
         private ZoombaAssets(TextureAtlas atlas) {
             zoomba = atlas.findRegion(Constants.ZOOMBA_SPRITE);
 
-            Array<AtlasRegion> fieryZoombaRegions = new Array<AtlasRegion>();
-            fieryZoombaRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_1));
-            fieryZoombaRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_2));
+            Array<AtlasRegion> oreZoombaRegions = new Array<AtlasRegion>();
+            oreZoombaRegions.add(atlas.findRegion(Constants.PROTRUSION_OREINGZOOMBA_SPRITE_1));
+            oreZoombaRegions.add(atlas.findRegion(Constants.PROTRUSION_OREINGZOOMBA_SPRITE_2));
+            oreZoomba = new Animation(Constants.SUSPENSION_ORE_DURATION / oreZoombaRegions.size, oreZoombaRegions, PlayMode.NORMAL);
 
-            fieryZoomba = new Animation(Constants.FLAME_DURATION / fieryZoombaRegions.size,
-                    fieryZoombaRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> plasmaZoombaRegions = new Array<AtlasRegion>();
+            plasmaZoombaRegions.add(atlas.findRegion(Constants.CHARGEDZOOMBA_SPRITE_1));
+            plasmaZoombaRegions.add(atlas.findRegion(Constants.CHARGEDZOOMBA_SPRITE_2));
+            plasmaZoomba = new Animation(Constants.SUSPENSION_PLASMA_DURATION / plasmaZoombaRegions.size, plasmaZoombaRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> gushingZoombaRegions = new Array<AtlasRegion>();
-            gushingZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_1));
-            gushingZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_2));
+            Array<AtlasRegion> gasZoombaRegions = new Array<AtlasRegion>();
+            gasZoombaRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_1));
+            gasZoombaRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_2));
+            gasZoomba = new Animation(Constants.PROTRUSION_GAS_DURATION / gasZoombaRegions.size, gasZoombaRegions, PlayMode.NORMAL);
 
-            gushingZoomba = new Animation(Constants.GEISER_DURATION / gushingZoombaRegions.size,
-                    gushingZoombaRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> liquidZoombaRegions = new Array<AtlasRegion>();
+            liquidZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_1));
+            liquidZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_2));
+            liquidZoomba = new Animation(Constants.PROTRUSION_LIQUID_DURATION / liquidZoombaRegions.size, liquidZoombaRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> chargedZoombaRegions = new Array<AtlasRegion>();
-            chargedZoombaRegions.add(atlas.findRegion(Constants.CHARGEDZOOMBA_SPRITE_1));
-            chargedZoombaRegions.add(atlas.findRegion(Constants.CHARGEDZOOMBA_SPRITE_2));
-
-            chargedZoomba = new Animation(Constants.COIL_DURATION / chargedZoombaRegions.size,
-                    chargedZoombaRegions, PlayMode.NORMAL);
-
-
-            Array<AtlasRegion> whirlingZoombaRegions = new Array<AtlasRegion>();
-            whirlingZoombaRegions.add(atlas.findRegion(Constants.WHIRLINGZOOMBA_SPRITE_1));
-            whirlingZoombaRegions.add(atlas.findRegion(Constants.WHIRLINGZOOMBA_SPRITE_2));
-
-            whirlingZoomba = new Animation(Constants.WHEEL_DURATION / whirlingZoombaRegions.size,
-                    whirlingZoombaRegions, PlayMode.NORMAL);
-
-            Array<AtlasRegion> sharpZoombaRegions = new Array<AtlasRegion>();
-            sharpZoombaRegions.add(atlas.findRegion(Constants.SHARPZOOMBA_SPRITE_1));
-            sharpZoombaRegions.add(atlas.findRegion(Constants.SHARPZOOMBA_SPRITE_2));
-
-            sharpZoomba = new Animation(Constants.SPIKE_DURATION / sharpZoombaRegions.size,
-                    sharpZoombaRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> solidZoombaRegions = new Array<AtlasRegion>();
+            solidZoombaRegions.add(atlas.findRegion(Constants.SUSPENSION_SOLIDZOOMBA_SPRITE_1));
+            solidZoombaRegions.add(atlas.findRegion(Constants.SUSPENSION_SOLIDZOOMBA_SPRITE_2));
+            solidZoomba = new Animation(Constants.PROTRUSION_SOLID_DURATION / solidZoombaRegions.size, solidZoombaRegions, PlayMode.NORMAL);
         }
     }
 
     public static final class SwoopaAssets {
 
         public final AtlasRegion swoopa;
-        public final Animation fierySwoopa;
-        public final Animation gushingSwoopa;
-        public final Animation chargedSwoopa;
-        public final Animation whirlingSwoopa;
-        public final Animation sharpSwoopa;
+        public final Animation gasSwoopa;
+        public final Animation liquidSwoopa;
+        public final Animation plasmaSwoopa;
+        public final Animation oreSwoopa;
+        public final Animation solidSwoopa;
 
         private SwoopaAssets(TextureAtlas atlas) {
             swoopa = atlas.findRegion(Constants.SWOOPA_SPRITE);
 
-            Array<AtlasRegion> fierySwoopaRegions = new Array<AtlasRegion>();
-            fierySwoopaRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_1));
-            fierySwoopaRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_2));
+            Array<AtlasRegion> oreSwoopaRegions = new Array<AtlasRegion>();
+            oreSwoopaRegions.add(atlas.findRegion(Constants.PROTRUSION_OREINGSWOOPA_SPRITE_1));
+            oreSwoopaRegions.add(atlas.findRegion(Constants.PROTRUSION_OREINGSWOOPA_SPRITE_2));
+            oreSwoopa = new Animation(Constants.SUSPENSION_ORE_DURATION / oreSwoopaRegions.size, oreSwoopaRegions, PlayMode.NORMAL);
 
-            fierySwoopa = new Animation(Constants.FLAME_DURATION / fierySwoopaRegions.size,
-                    fierySwoopaRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> plasmaSwoopaRegions = new Array<AtlasRegion>();
+            plasmaSwoopaRegions.add(atlas.findRegion(Constants.CHARGEDSWOOPA_SPRITE_1));
+            plasmaSwoopaRegions.add(atlas.findRegion(Constants.CHARGEDSWOOPA_SPRITE_2));
+            plasmaSwoopa = new Animation(Constants.SUSPENSION_PLASMA_DURATION / plasmaSwoopaRegions.size, plasmaSwoopaRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> gushingSwoopaRegions = new Array<AtlasRegion>();
-            gushingSwoopaRegions.add(atlas.findRegion(Constants.GUSHINGSWOOPA_SPRITE_1));
-            gushingSwoopaRegions.add(atlas.findRegion(Constants.GUSHINGSWOOPA_SPRITE_2));
+            Array<AtlasRegion> gasSwoopaRegions = new Array<AtlasRegion>();
+            gasSwoopaRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_1));
+            gasSwoopaRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_2));
+            gasSwoopa = new Animation(Constants.PROTRUSION_GAS_DURATION / gasSwoopaRegions.size, gasSwoopaRegions, PlayMode.NORMAL);
 
-            gushingSwoopa = new Animation(Constants.GEISER_DURATION / gushingSwoopaRegions.size,
-                    gushingSwoopaRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> liquidSwoopaRegions = new Array<AtlasRegion>();
+            liquidSwoopaRegions.add(atlas.findRegion(Constants.GUSHINGSWOOPA_SPRITE_1));
+            liquidSwoopaRegions.add(atlas.findRegion(Constants.GUSHINGSWOOPA_SPRITE_2));
+            liquidSwoopa = new Animation(Constants.PROTRUSION_LIQUID_DURATION / liquidSwoopaRegions.size, liquidSwoopaRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> chargedSwoopaRegions = new Array<AtlasRegion>();
-            chargedSwoopaRegions.add(atlas.findRegion(Constants.CHARGEDSWOOPA_SPRITE_1));
-            chargedSwoopaRegions.add(atlas.findRegion(Constants.CHARGEDSWOOPA_SPRITE_2));
-
-            chargedSwoopa = new Animation(Constants.COIL_DURATION / chargedSwoopaRegions.size,
-                    chargedSwoopaRegions, PlayMode.NORMAL);
-
-
-            Array<AtlasRegion> whirlingSwoopaRegions = new Array<AtlasRegion>();
-            whirlingSwoopaRegions.add(atlas.findRegion(Constants.WHIRLINGSWOOPA_SPRITE_1));
-            whirlingSwoopaRegions.add(atlas.findRegion(Constants.WHIRLINGSWOOPA_SPRITE_2));
-
-            whirlingSwoopa = new Animation(Constants.WHEEL_DURATION / whirlingSwoopaRegions.size,
-                    whirlingSwoopaRegions, PlayMode.NORMAL);
-
-            Array<AtlasRegion> sharpSwoopaRegions = new Array<AtlasRegion>();
-            sharpSwoopaRegions.add(atlas.findRegion(Constants.SHARPSWOOPA_SPRITE_1));
-            sharpSwoopaRegions.add(atlas.findRegion(Constants.SHARPSWOOPA_SPRITE_2));
-
-            sharpSwoopa = new Animation(Constants.SPIKE_DURATION / sharpSwoopaRegions.size,
-                    sharpSwoopaRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> solidSwoopaRegions = new Array<AtlasRegion>();
+            solidSwoopaRegions.add(atlas.findRegion(Constants.SUSPENSION_SOLIDSWOOPA_SPRITE_1));
+            solidSwoopaRegions.add(atlas.findRegion(Constants.SUSPENSION_SOLIDSWOOPA_SPRITE_2));
+            solidSwoopa = new Animation(Constants.PROTRUSION_SOLID_DURATION / solidSwoopaRegions.size, solidSwoopaRegions, PlayMode.NORMAL);
         }
     }
 
     public static final class OrbenAssets {
 
         public final TextureRegion dormantOrben;
-        public final Animation chargedOrben;
-        public final Animation fieryOrben;
-        public final Animation gushingOrben;
-        public final Animation sharpOrben;
-        public final Animation whirlingOrben;
+        public final Animation plasmaOrben;
+        public final Animation gasOrben;
+        public final Animation liquidOrben;
+        public final Animation solidOrben;
+        public final Animation oreOrben;
 
         private OrbenAssets(TextureAtlas atlas) {
 
-            dormantOrben = atlas.findRegion(Constants.DORMANTORBEN_SPRITE);
+            dormantOrben = atlas.findRegion(Constants.ORBEN_SPRITE);
 
-            Array<AtlasRegion> chargedOrbenRegions = new Array<AtlasRegion>();
-            chargedOrbenRegions.add(atlas.findRegion(Constants.CHARGEDORBEN_SPRITE_0));
-            chargedOrbenRegions.add(atlas.findRegion(Constants.CHARGEDORBEN_SPRITE_1));
-            chargedOrbenRegions.add(atlas.findRegion(Constants.CHARGEDORBEN_SPRITE_2));
+            Array<AtlasRegion> oreOrbenRegions = new Array<AtlasRegion>();
+            oreOrbenRegions.add(atlas.findRegion(Constants.ORBEN_ORE_SPRITE_0));
+            oreOrbenRegions.add(atlas.findRegion(Constants.ORBEN_ORE_SPRITE_1));
+            oreOrbenRegions.add(atlas.findRegion(Constants.ORBEN_ORE_SPRITE_2));
+            oreOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS, oreOrbenRegions, PlayMode.NORMAL);
 
-            chargedOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS,
-                      chargedOrbenRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> plasmaOrbenRegions = new Array<AtlasRegion>();
+            plasmaOrbenRegions.add(atlas.findRegion(Constants.ORBEN_PLASMA_SPRITE_0));
+            plasmaOrbenRegions.add(atlas.findRegion(Constants.ORBEN_PLASMA_SPRITE_1));
+            plasmaOrbenRegions.add(atlas.findRegion(Constants.ORBEN_PLASMA_SPRITE_2));
+            plasmaOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS, plasmaOrbenRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> fieryOrbenRegions = new Array<AtlasRegion>();
-            fieryOrbenRegions.add(atlas.findRegion(Constants.FIERYORBEN_SPRITE_0));
-            fieryOrbenRegions.add(atlas.findRegion(Constants.FIERYORBEN_SPRITE_1));
-            fieryOrbenRegions.add(atlas.findRegion(Constants.FIERYORBEN_SPRITE_2));
+            Array<AtlasRegion> gasOrbenRegions = new Array<AtlasRegion>();
+            gasOrbenRegions.add(atlas.findRegion(Constants.ORBEN_GAS_SPRITE_0));
+            gasOrbenRegions.add(atlas.findRegion(Constants.ORBEN_GAS_SPRITE_1));
+            gasOrbenRegions.add(atlas.findRegion(Constants.ORBEN_GAS_SPRITE_2));
+            gasOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS, gasOrbenRegions, PlayMode.NORMAL);
 
-            fieryOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS,
-                    fieryOrbenRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> liquidOrbenRegions = new Array<AtlasRegion>();
+            liquidOrbenRegions.add(atlas.findRegion(Constants.ORBEN_LIQUID_SPRITE_0));
+            liquidOrbenRegions.add(atlas.findRegion(Constants.ORBEN_LIQUID_SPRITE_1));
+            liquidOrbenRegions.add(atlas.findRegion(Constants.ORBEN_LIQUID_SPRITE_2));
+            liquidOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS, liquidOrbenRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> gushingOrbenRegions = new Array<AtlasRegion>();
-            gushingOrbenRegions.add(atlas.findRegion(Constants.GUSHINGORBEN_SPRITE_0));
-            gushingOrbenRegions.add(atlas.findRegion(Constants.GUSHINGORBEN_SPRITE_1));
-            gushingOrbenRegions.add(atlas.findRegion(Constants.GUSHINGORBEN_SPRITE_2));
-
-            gushingOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS,
-                    gushingOrbenRegions, PlayMode.NORMAL);
-
-            Array<AtlasRegion> sharpOrbenRegions = new Array<AtlasRegion>();
-            sharpOrbenRegions.add(atlas.findRegion(Constants.SHARPORBEN_SPRITE_0));
-            sharpOrbenRegions.add(atlas.findRegion(Constants.SHARPORBEN_SPRITE_1));
-            sharpOrbenRegions.add(atlas.findRegion(Constants.SHARPORBEN_SPRITE_2));
-
-            sharpOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS,
-                    sharpOrbenRegions, PlayMode.NORMAL);
-
-            Array<AtlasRegion> whirlingOrbenRegions = new Array<AtlasRegion>();
-            whirlingOrbenRegions.add(atlas.findRegion(Constants.WHIRLINGORBEN_SPRITE_0));
-            whirlingOrbenRegions.add(atlas.findRegion(Constants.WHIRLINGORBEN_SPRITE_1));
-            whirlingOrbenRegions.add(atlas.findRegion(Constants.WHIRLINGORBEN_SPRITE_2));
-
-            whirlingOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS,
-                    whirlingOrbenRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> solidOrbenRegions = new Array<AtlasRegion>();
+            solidOrbenRegions.add(atlas.findRegion(Constants.ORBEN_SOLID_SPRITE_0));
+            solidOrbenRegions.add(atlas.findRegion(Constants.ORBEN_SOLID_SPRITE_1));
+            solidOrbenRegions.add(atlas.findRegion(Constants.ORBEN_SOLID_SPRITE_2));
+            solidOrben = new Animation(Constants.ORBEN_DURATION / Constants.ORBEN_REGIONS, solidOrbenRegions, PlayMode.NORMAL);
         }
     }
 
     public static final class RollenAssets {
 
-        public final Animation chargedRollen;
-        public final Animation fieryRollen;
-        public final Animation gushingRollen;
-        public final Animation sharpRollen;
-        public final Animation whirlingRollen;
+        public final Animation plasmaRollen;
+        public final Animation gasRollen;
+        public final Animation liquidRollen;
+        public final Animation solidRollen;
+        public final Animation oreRollen;
 
         private RollenAssets(TextureAtlas atlas) {
 
-            Array<AtlasRegion> chargedRollenRegions = new Array<AtlasRegion>();
-            chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_1));
-            chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_2));
-            chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_3));
-            chargedRollenRegions.add(atlas.findRegion(Constants.CHARGEDROLLEN_SPRITE_4));
-            chargedRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, chargedRollenRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> oreRollenRegions = new Array<AtlasRegion>();
+            oreRollenRegions.add(atlas.findRegion(Constants.ROLLEN_ORE_SPRITE_1));
+            oreRollenRegions.add(atlas.findRegion(Constants.ROLLEN_ORE_SPRITE_2));
+            oreRollenRegions.add(atlas.findRegion(Constants.ROLLEN_ORE_SPRITE_3));
+            oreRollenRegions.add(atlas.findRegion(Constants.ROLLEN_ORE_SPRITE_4));
+            oreRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, oreRollenRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> fieryRollenRegions = new Array<AtlasRegion>();
-            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_1));
-            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_2));
-            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_3));
-            fieryRollenRegions.add(atlas.findRegion(Constants.FIERYROLLEN_SPRITE_4));
-            fieryRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, fieryRollenRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> plasmaRollenRegions = new Array<AtlasRegion>();
+            plasmaRollenRegions.add(atlas.findRegion(Constants.ROLLEN_PLASMA_SPRITE_1));
+            plasmaRollenRegions.add(atlas.findRegion(Constants.ROLLEN_PLASMA_SPRITE_2));
+            plasmaRollenRegions.add(atlas.findRegion(Constants.ROLLEN_PLASMA_SPRITE_3));
+            plasmaRollenRegions.add(atlas.findRegion(Constants.ROLLEN_PLASMA_SPRITE_4));
+            plasmaRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, plasmaRollenRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> gushingRollenRegions = new Array<AtlasRegion>();
-            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_1));
-            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_2));
-            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_3));
-            gushingRollenRegions.add(atlas.findRegion(Constants.GUSHINGROLLEN_SPRITE_4));
-            gushingRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, gushingRollenRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> gasRollenRegions = new Array<AtlasRegion>();
+            gasRollenRegions.add(atlas.findRegion(Constants.ROLLEN_GAS_SPRITE_1));
+            gasRollenRegions.add(atlas.findRegion(Constants.ROLLEN_GAS_SPRITE_2));
+            gasRollenRegions.add(atlas.findRegion(Constants.ROLLEN_GAS_SPRITE_3));
+            gasRollenRegions.add(atlas.findRegion(Constants.ROLLEN_GAS_SPRITE_4));
+            gasRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, gasRollenRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> sharpRollenRegions = new Array<AtlasRegion>();
-            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_1));
-            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_2));
-            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_3));
-            sharpRollenRegions.add(atlas.findRegion(Constants.SHARPROLLEN_SPRITE_4));
-            sharpRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, sharpRollenRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> liquidRollenRegions = new Array<AtlasRegion>();
+            liquidRollenRegions.add(atlas.findRegion(Constants.ROLLEN_LIQUID_SPRITE_1));
+            liquidRollenRegions.add(atlas.findRegion(Constants.ROLLEN_LIQUID_SPRITE_2));
+            liquidRollenRegions.add(atlas.findRegion(Constants.ROLLEN_LIQUID_SPRITE_3));
+            liquidRollenRegions.add(atlas.findRegion(Constants.ROLLEN_LIQUID_SPRITE_4));
+            liquidRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, liquidRollenRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> whirlingRollenRegions = new Array<AtlasRegion>();
-            whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_1));
-            whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_2));
-            whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_3));
-            whirlingRollenRegions.add(atlas.findRegion(Constants.WHIRLINGROLLEN_SPRITE_4));
-            whirlingRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, whirlingRollenRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> solidRollenRegions = new Array<AtlasRegion>();
+            solidRollenRegions.add(atlas.findRegion(Constants.ROLLEN_SOLID_SPRITE_1));
+            solidRollenRegions.add(atlas.findRegion(Constants.ROLLEN_SOLID_SPRITE_2));
+            solidRollenRegions.add(atlas.findRegion(Constants.ROLLEN_SOLID_SPRITE_3));
+            solidRollenRegions.add(atlas.findRegion(Constants.ROLLEN_SOLID_SPRITE_4));
+            solidRollen = new Animation(Constants.ROLLEN_DURATION / Constants.ROLLEN_REGIONS, solidRollenRegions, PlayMode.NORMAL);
         }
     }
 
     public static final class ProtrusionAssets {
 
-        public final Animation spike;
-        public final Animation geiser;
-        public final Animation flame;
-        public final Animation rod;
-        public final Animation whirl;
+        public final Animation solidProtrustion;
+        public final Animation liquidProtrusion;
+        public final Animation gasProtrusion;
+        public final Animation plasmaProtrusion;
+        public final Animation oreProtrusion;
 
         private ProtrusionAssets(TextureAtlas atlas) {
 
-            Array<AtlasRegion> whirlRegions = new Array<AtlasRegion>();
-            whirlRegions.add(atlas.findRegion(Constants.WHIRL_SPRITE_1));
-            whirlRegions.add(atlas.findRegion(Constants.WHIRL_SPRITE_2));
-            whirl = new Animation(Constants.WHIRL_DURATION / whirlRegions.size, whirlRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> oreProtrusionRegions = new Array<AtlasRegion>();
+            oreProtrusionRegions.add(atlas.findRegion(Constants.PROTRUSION_ORE_SPRITE_1));
+            oreProtrusionRegions.add(atlas.findRegion(Constants.PROTRUSION_ORE_SPRITE_2));
+            oreProtrusion = new Animation(Constants.PROTRUSION_ORE_DURATION / oreProtrusionRegions.size, oreProtrusionRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> rodRegions = new Array<AtlasRegion>();
-            rodRegions.add(atlas.findRegion(Constants.ROD_SPRITE_1));
-            rodRegions.add(atlas.findRegion(Constants.ROD_SPRITE_2));
-            rod = new Animation(Constants.ROD_DURATION / rodRegions.size, rodRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> plasmaProtrusionRegions = new Array<AtlasRegion>();
+            plasmaProtrusionRegions.add(atlas.findRegion(Constants.PROTRUSION_PLASMA_SPRITE_1));
+            plasmaProtrusionRegions.add(atlas.findRegion(Constants.PROTRUSION_PLASMA_SPRITE_2));
+            plasmaProtrusion = new Animation(Constants.PROTRUSION_PLASMA_DURATION / plasmaProtrusionRegions.size, plasmaProtrusionRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> spikeRegions = new Array<AtlasRegion>();
-            spikeRegions.add(atlas.findRegion(Constants.SPIKE_SPRITE_1));
-            spikeRegions.add(atlas.findRegion(Constants.SPIKE_SPRITE_2));
-            spike = new Animation(Constants.SPIKE_DURATION / spikeRegions.size, spikeRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> solidProtrustionRegions = new Array<AtlasRegion>();
+            solidProtrustionRegions.add(atlas.findRegion(Constants.PROTRUSION_SOLID_SPRITE_1));
+            solidProtrustionRegions.add(atlas.findRegion(Constants.PROTRUSION_SOLID_SPRITE_2));
+            solidProtrustion = new Animation(Constants.PROTRUSION_SOLID_DURATION / solidProtrustionRegions.size, solidProtrustionRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> geiserRegions = new Array<AtlasRegion>();
-            geiserRegions.add(atlas.findRegion(Constants.GEISER_SPRITE_1));
-            geiserRegions.add(atlas.findRegion(Constants.GEISER_SPRITE_2));
-            geiser = new Animation(Constants.GEISER_DURATION / geiserRegions.size, geiserRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> liquidProtrusionRegions = new Array<AtlasRegion>();
+            liquidProtrusionRegions.add(atlas.findRegion(Constants.PROTRUSION_LIQUID_SPRITE_1));
+            liquidProtrusionRegions.add(atlas.findRegion(Constants.PROTRUSION_LIQUID_SPRITE_2));
+            liquidProtrusion = new Animation(Constants.PROTRUSION_LIQUID_DURATION / liquidProtrusionRegions.size, liquidProtrusionRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> flameRegions = new Array<AtlasRegion>();
-            flameRegions.add(atlas.findRegion(Constants.FLAME_SPRITE_1));
-            flameRegions.add(atlas.findRegion(Constants.FLAME_SPRITE_2));
-            flame = new Animation(Constants.FLAME_DURATION / flameRegions.size, flameRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> gasProtrusionRegions = new Array<AtlasRegion>();
+            gasProtrusionRegions.add(atlas.findRegion(Constants.PROTRUSION_GAS_SPRITE_1));
+            gasProtrusionRegions.add(atlas.findRegion(Constants.PROTRUSION_GAS_SPRITE_2));
+            gasProtrusion = new Animation(Constants.PROTRUSION_GAS_DURATION / gasProtrusionRegions.size, gasProtrusionRegions, PlayMode.NORMAL);
         }
     }
 
     public static final class SuspensionAssets {
 
-        public final Animation burner;
-        public final Animation sharp;
-        public final Animation wheel;
-        public final Animation lump;
-        public final Animation coil;
-        public final Animation vacuum;
+        public final Animation gasSuspension;
+        public final Animation solidSuspension;
+        public final Animation oreSuspension;
+        public final Animation liquidSuspension;
+        public final Animation plasmaSuspension;
+        public final Animation antimatterSuspension;
 
         private SuspensionAssets(TextureAtlas atlas) {
 
-            Array<AtlasRegion> burnerRegions = new Array<AtlasRegion>();
-            burnerRegions.add(atlas.findRegion(Constants.BURNER_SPRITE_1));
-            burnerRegions.add(atlas.findRegion(Constants.BURNER_SPRITE_2));
-            burner = new Animation(Constants.BURNER_DURATION / burnerRegions.size, burnerRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> gasSuspensionRegions = new Array<AtlasRegion>();
+            gasSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_GAS_SPRITE_1));
+            gasSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_GAS_SPRITE_2));
+            gasSuspension = new Animation(Constants.SUSPENSION_GAS_DURATION / gasSuspensionRegions.size, gasSuspensionRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> coilRegions = new Array<AtlasRegion>();
-            coilRegions.add(atlas.findRegion(Constants.COIL_SPRITE_1));
-            coilRegions.add(atlas.findRegion(Constants.COIL_SPRITE_2));
-            coil = new Animation(Constants.COIL_DURATION / coilRegions.size, coilRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> plasmaSuspensionRegions = new Array<AtlasRegion>();
+            plasmaSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_PLASMA_SPRITE_1));
+            plasmaSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_PLASMA_SPRITE_2));
+            plasmaSuspension = new Animation(Constants.SUSPENSION_PLASMA_DURATION / plasmaSuspensionRegions.size, plasmaSuspensionRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> lumpRegions = new Array<AtlasRegion>();
-            lumpRegions.add(atlas.findRegion(Constants.LUMP_SPRITE_1));
-            lumpRegions.add(atlas.findRegion(Constants.LUMP_SPRITE_2));
-            lump = new Animation(Constants.LUMP_DURATION / lumpRegions.size, lumpRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> liquidSuspensionRegions = new Array<AtlasRegion>();
+            liquidSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_LIQUID_SPRITE_1));
+            liquidSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_LIQUID_SPRITE_2));
+            liquidSuspension = new Animation(Constants.SUSPENSION_LIQUID_DURATION / liquidSuspensionRegions.size, liquidSuspensionRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> sharpRegions = new Array<AtlasRegion>();
-            sharpRegions.add(atlas.findRegion(Constants.SHARP_SPRITE_1));
-            sharpRegions.add(atlas.findRegion(Constants.SHARP_SPRITE_2));
-            sharp = new Animation(Constants.SHARP_DURATION / sharpRegions.size, sharpRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> solidSuspensionRegions = new Array<AtlasRegion>();
+            solidSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_SOLID_SPRITE_1));
+            solidSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_SOLID_SPRITE_2));
+            solidSuspension = new Animation(Constants.SUSPENSION_SOLID_DURATION / solidSuspensionRegions.size, solidSuspensionRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> gusherRegions = new Array<AtlasRegion>();
-            gusherRegions.add(atlas.findRegion(Constants.WHEEL_SPRITE_1));
-            gusherRegions.add(atlas.findRegion(Constants.WHEEL_SPRITE_2));
-            wheel = new Animation(Constants.WHEEL_DURATION / gusherRegions.size, gusherRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> oreSuspensionRegions = new Array<AtlasRegion>();
+            oreSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_ORE_SPRITE_1));
+            oreSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_ORE_SPRITE_2));
+            oreSuspension = new Animation(Constants.SUSPENSION_ORE_DURATION / oreSuspensionRegions.size, oreSuspensionRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> vacuumRegions = new Array<AtlasRegion>();
-            vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_1));
-            vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_2));
-            vacuumRegions.add(atlas.findRegion(Constants.VACUUM_SPRITE_3));
-
-            vacuum = new Animation(Constants.VACUUM_FRAME_DURATION, vacuumRegions, PlayMode.LOOP_PINGPONG);
+            Array<AtlasRegion> antimatterSuspensionRegions = new Array<AtlasRegion>();
+            antimatterSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_ANTIMATTER_SPRITE_1));
+            antimatterSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_ANTIMATTER_SPRITE_2));
+            antimatterSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_ANTIMATTER_SPRITE_3));
+            this.antimatterSuspension = new Animation(Constants.SUSPENSION_ANTIMATTER_FRAME_DURATION, antimatterSuspensionRegions, PlayMode.LOOP_PINGPONG);
         }
     }
 
