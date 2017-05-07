@@ -911,7 +911,7 @@ public class GigaGal implements Humanoid {
             canStride = false;
         }
         float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
-        if (onSkateable) {
+        if (onSkateable || onRideable) {
             dashSpeed *= 1.75f;
         }
         if (turbo >= 1) {
