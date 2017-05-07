@@ -13,6 +13,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
 public class Powerup implements Entity {
+
     // fields
     private final Vector2 position;
     private final Vector2 center;
@@ -56,7 +57,7 @@ public class Powerup implements Entity {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(startTime), position, center);
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center);
     }
 
     public void deactivate() { this.state = false; }

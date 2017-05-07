@@ -287,23 +287,23 @@ final class LevelLoader {
             final float range = extractRange(item);
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.AMMO_POWERUP_SPRITE)) {
-                final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
+                final Vector2 powerupPosition = imagePosition.add(Constants.AMMO_POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded an AmmoPowerup at " + powerupPosition);
                 level.getPowerups().add(new Powerup(powerupPosition, Enums.PowerupType.AMMO));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.HEALTH_POWERUP_SPRITE)) {
-                final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
+                final Vector2 powerupPosition = imagePosition.add(Constants.HEALTH_POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded a HealthPowerup at " + powerupPosition);
                 level.getPowerups().add(new Powerup(powerupPosition, Enums.PowerupType.HEALTH));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TURBO_POWERUP_SPRITE)) {
-                final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
+                final Vector2 powerupPosition = imagePosition.add(Constants.TURBO_POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded a TurboPowerup at " + powerupPosition);
                 level.getPowerups().add(new Powerup(powerupPosition, Enums.PowerupType.TURBO));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LIFE_POWERUP_SPRITE)) {
-                final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
+                final Vector2 powerupPosition = imagePosition.add(Constants.LIFE_POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded a LifePowerup at " + powerupPosition);
                 level.getPowerups().add(new Powerup(powerupPosition, Enums.PowerupType.LIFE));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.CANNON_POWERUP_SPRITE)) {
-                final Vector2 powerupPosition = imagePosition.add(Constants.POWERUP_CENTER);
+                final Vector2 powerupPosition = imagePosition.add(Constants.CANNON_POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded a CannonPowerup at " + powerupPosition);
                 level.getPowerups().add(new Powerup(powerupPosition, Enums.PowerupType.CANNON));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STAND_RIGHT)) {

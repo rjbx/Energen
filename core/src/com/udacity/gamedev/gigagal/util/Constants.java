@@ -537,26 +537,28 @@ public final class Constants {
 
     public static final String AMMO_POWERUP_SPRITE_1 = "powerup-ammo-1";
     public static final String AMMO_POWERUP_SPRITE_2 = "powerup-ammo-2";
+    public static final String AMMO_POWERUP_SPRITE = "powerup-ammo";
     public static final Vector2 AMMO_POWERUP_CENTER = new Vector2(6, 4);
 
     public static final String HEALTH_POWERUP_SPRITE_1 = "powerup-health-1";
     public static final String HEALTH_POWERUP_SPRITE_2 = "powerup-health-2";
-    public static final String HEALTH_POWERUP_SPRITE_3 = "powerup-health-3";
+    public static final String HEALTH_POWERUP_SPRITE = "powerup-health";
     public static final Vector2 HEALTH_POWERUP_CENTER = new Vector2(7.5f, 8.5f);
 
     public static final String TURBO_POWERUP_SPRITE_1 = "powerup-turbo-1";
     public static final String TURBO_POWERUP_SPRITE_2 = "powerup-turbo-2";
-    public static final String TURBO_POWERUP_SPRITE_3 = "powerup-turbo-3";
+    public static final String TURBO_POWERUP_SPRITE = "powerup-turbo";
     public static final Vector2 TURBO_POWERUP_CENTER = new Vector2(7.5f, 8.5f);
 
     public static final String LIFE_POWERUP_SPRITE_1 = "icon-life-1";
     public static final String LIFE_POWERUP_SPRITE_2 = "icon-life-2";
+    public static final String LIFE_POWERUP_SPRITE = "icon-life";
     public static final Vector2 LIFE_POWERUP_CENTER = new Vector2(7, 5);
 
     public static final String CANNON_POWERUP_SPRITE_1 = "powerup-cannon-1";
     public static final String CANNON_POWERUP_SPRITE_2 = "powerup-cannon-2";
     public static final String CANNON_POWERUP_SPRITE_3 = "powerup-cannon-3";
-    public static final String CANNON_POWERUP_SPRITE_4 = "powerup-cannon-4";
+    public static final String CANNON_POWERUP_SPRITE = "powerup-cannon";
     public static final Vector2 CANNON_POWERUP_CENTER = new Vector2(8, 5);
 
     // Level Loading
