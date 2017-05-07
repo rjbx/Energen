@@ -306,7 +306,7 @@ public class GigaGal implements Humanoid {
 
     private void touchGroundSide(Ground ground) {
         // if during previous frame was not, while currently is, between ground left and right sides
-        if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight()) && (touchedGround == null || touchedGround.getTop() != ground.getTop())) {
+        if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight()) && (touchedGround == null || touchedGround == ground || touchedGround.getTop() != ground.getTop())) {
             // only when not grounded and not recoiling
             if (groundState != GroundState.PLANTED) {
                 // if x velocity (magnitude, without concern for direction) greater than one third max speed,
