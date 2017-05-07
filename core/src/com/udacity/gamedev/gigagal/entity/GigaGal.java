@@ -140,6 +140,7 @@ public class GigaGal implements Humanoid {
 
     public void respawn() {
         position.set(spawnPosition);
+        killPlane = position.y + Constants.KILL_PLANE;
         chaseCamPosition.set(position, 0);
         left = position.x - halfWidth;
         right = position.x + halfWidth;
