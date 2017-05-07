@@ -480,6 +480,9 @@ public class GigaGal implements Humanoid {
                     reboundable.setState(false);
                     onBounceable = false;
                 }
+                if (action == Action.CLINGING) {
+                    velocity.x = 0; // prevents falling with backward momentum after cling-sliding down platform side through its bottom
+                }
                 canCling = false;
                 fall();
             } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
