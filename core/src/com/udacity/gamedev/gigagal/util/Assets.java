@@ -746,18 +746,42 @@ public final class Assets implements AssetErrorListener {
     }
 
     public static final class PowerupAssets {
-        public final AtlasRegion ammoPowerup;
-        public final AtlasRegion healthPowerup;
-        public final AtlasRegion turboPowerup;
-        public final AtlasRegion lifePowerup;
-        public final AtlasRegion cannonPowerup;
+        public final Animation ammoPowerup;
+        public final Animation healthPowerup;
+        public final Animation turboPowerup;
+        public final Animation lifePowerup;
+        public final Animation cannonPowerup;
 
         private PowerupAssets(TextureAtlas atlas) {
-            ammoPowerup = atlas.findRegion(Constants.AMMO_POWERUP_SPRITE);
-            healthPowerup = atlas.findRegion(Constants.HEALTH_POWERUP_SPRITE);
-            turboPowerup = atlas.findRegion(Constants.TURBO_POWERUP_SPRITE);
-            lifePowerup = atlas.findRegion(Constants.LIFE_POWERUP_SPRITE);
-            cannonPowerup = atlas.findRegion(Constants.CANNON_POWERUP_SPRITE);
+            
+            Array<AtlasRegion> ammoPowerupRegions = new Array<AtlasRegion>();
+            ammoPowerupRegions.add(atlas.findRegion(Constants.AMMO_POWERUP_SPRITE_1));
+            ammoPowerupRegions.add(atlas.findRegion(Constants.AMMO_POWERUP_SPRITE_2));
+            ammoPowerup = new Animation(Constants.POWERUP_DURATION / ammoPowerupRegions.size, ammoPowerupRegions, PlayMode.NORMAL);
+            
+            Array<AtlasRegion> healthPowerupRegions = new Array<AtlasRegion>();
+            healthPowerupRegions.add(atlas.findRegion(Constants.HEALTH_POWERUP_SPRITE_1));
+            healthPowerupRegions.add(atlas.findRegion(Constants.HEALTH_POWERUP_SPRITE_2));
+            healthPowerupRegions.add(atlas.findRegion(Constants.HEALTH_POWERUP_SPRITE_3));
+            healthPowerup = new Animation(Constants.POWERUP_DURATION / healthPowerupRegions.size, healthPowerupRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> turboPowerupRegions = new Array<AtlasRegion>();
+            turboPowerupRegions.add(atlas.findRegion(Constants.TURBO_POWERUP_SPRITE_1));
+            turboPowerupRegions.add(atlas.findRegion(Constants.TURBO_POWERUP_SPRITE_2));
+            turboPowerupRegions.add(atlas.findRegion(Constants.TURBO_POWERUP_SPRITE_3));
+            turboPowerup = new Animation(Constants.POWERUP_DURATION / turboPowerupRegions.size, turboPowerupRegions, PlayMode.NORMAL);
+            
+            Array<AtlasRegion> lifePowerupRegions = new Array<AtlasRegion>();
+            lifePowerupRegions.add(atlas.findRegion(Constants.LIFE_POWERUP_SPRITE_1));
+            lifePowerupRegions.add(atlas.findRegion(Constants.LIFE_POWERUP_SPRITE_2));
+            lifePowerup = new Animation(Constants.POWERUP_DURATION / lifePowerupRegions.size, lifePowerupRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> cannonPowerupRegions = new Array<AtlasRegion>();
+            cannonPowerupRegions.add(atlas.findRegion(Constants.CANNON_POWERUP_SPRITE_1));
+            cannonPowerupRegions.add(atlas.findRegion(Constants.CANNON_POWERUP_SPRITE_2));
+            cannonPowerupRegions.add(atlas.findRegion(Constants.CANNON_POWERUP_SPRITE_3));
+            cannonPowerupRegions.add(atlas.findRegion(Constants.CANNON_POWERUP_SPRITE_4));
+            cannonPowerup = new Animation(Constants.POWERUP_DURATION / cannonPowerupRegions.size, cannonPowerupRegions, PlayMode.NORMAL);
         }
     }
 
