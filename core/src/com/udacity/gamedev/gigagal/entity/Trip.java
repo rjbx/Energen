@@ -37,11 +37,22 @@ public class Trip implements Reboundable, Strikeable, Ground {
             for (Ground ground : level.getGrounds()) {
                 if (ground instanceof Trippable) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
-                        ((Treadmill) ground).trip();
+                        if (!((Treadmill) ground).isTripped()) {
+                            ((Treadmill) ground).trip();
+                        }
                     }
                 }
             }
-            state = false;
+        } else {
+            for (Ground ground : level.getGrounds()) {
+                if (ground instanceof Trippable) {
+                    if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
+                        if (((Treadmill) ground).isTripped()) {
+                            ((Treadmill) ground).trip();
+                        }
+                    }
+                }
+            }
         }
     }
 
