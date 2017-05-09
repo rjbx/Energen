@@ -758,8 +758,6 @@ public class GigaGal implements Humanoid {
         } else if (onRideable) {
             velocity.x = 0;
             velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rideable) touchedGround).getDirection(), Orientation.X);
-        } else {
-            velocity.x = 0;
         }
         action = Action.STANDING;
         groundState = GroundState.PLANTED;
