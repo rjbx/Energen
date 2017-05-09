@@ -483,7 +483,7 @@ public class GigaGal implements Humanoid {
         if (touchedGround != null && action != Action.HOVERING) {
             if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
                 /*(!Helpers.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
-                if (onReboundable) {
+                if (onReboundable && touchedGround instanceof Reboundable) {
                     Reboundable reboundable = (Reboundable) touchedGround;
                     reboundable.resetStartTime();
                     reboundable.setState(false);
@@ -495,12 +495,6 @@ public class GigaGal implements Humanoid {
                 canCling = false;
                 fall();
             } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
-                if (onReboundable) {
-                    Reboundable reboundable = (Reboundable) touchedGround;
-                    reboundable.resetStartTime();
-                    reboundable.setState(false);
-                    onReboundable = false;
-                }
                 onSinkable = false;
                 lookTimeSeconds = 0;
                 lookStartTime = 0;
@@ -515,7 +509,6 @@ public class GigaGal implements Humanoid {
             }
         }
     }
-
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     private void touchHazards(DelayedRemovalArray<Hazard> hazards) {
@@ -892,7 +885,7 @@ public class GigaGal implements Humanoid {
         strideTimeSeconds = Helpers.secondsSince(strideStartTime);
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
         velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Orientation.X);
-        if (onRideable) {
+        if (onRideable && touchedGround instanceof Rideable) {
             velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rideable) touchedGround).getDirection(), Orientation.X);
         } else if (onSkateable) {
             velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
