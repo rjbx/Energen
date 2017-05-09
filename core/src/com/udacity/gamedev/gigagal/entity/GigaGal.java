@@ -435,11 +435,13 @@ public class GigaGal implements Humanoid {
             lookStartTime = 0;
             lookTimeSeconds = 0;
         } else if (ground instanceof Climbable) {
-            if (Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
+            touchedGround = ground;
+            if (Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
                 if (getTop() > ground.getBottom()) {
                     onClimbable = true;
                 }
             }
+
             if (climbTimeSeconds == 0) {
                 if ((getBottom() <= ground.getTop() && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop()))
                         && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
@@ -718,6 +720,13 @@ public class GigaGal implements Humanoid {
                                     }
                                 }
                                 climbStartTime = TimeUtils.nanoTime(); // replace climb start time with that of most recent tap
+                            }
+                        }
+                        if (touchedGround instanceof Climbable) {
+                            if (position.x < touchedGround.getLeft()) {
+                                position.x = touchedGround.getLeft();
+                            } else if (position.x > touchedGround.getRight()) {
+                                position.x = touchedGround.getRight();
                             }
                         }
                         climb(Orientation.Y);
