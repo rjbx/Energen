@@ -31,7 +31,7 @@ public final class Enums {
         TWISTING,
         HOVERING,
         CLINGING,
-        RESUSPENSION_PLASMAING
+        RECOILING
     }
 
     public enum GroundState {

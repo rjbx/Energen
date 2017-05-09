@@ -229,7 +229,7 @@ public class GigaGal implements Humanoid {
                 enableJump();
                 enableCling();
                 enableShoot(weapon);
-            } else if (action == Action.RESUSPENSION_PLASMAING) {
+            } else if (action == Action.RECOILING) {
                 enableCling();
                 enableShoot(weapon);
             }
@@ -424,7 +424,6 @@ public class GigaGal implements Humanoid {
                     onClimbable = true;
                 }
             }
-
             if (climbTimeSeconds == 0) {
                 if ((getBottom() <= ground.getTop() && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop()))
                         && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
@@ -499,7 +498,7 @@ public class GigaGal implements Humanoid {
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
                 float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
-                if (action != Action.RESUSPENSION_PLASMAING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
+                if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
                     Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                     if (getBounds().overlaps(bounds)) {
                         recoveryStartTime = TimeUtils.nanoTime();
@@ -704,9 +703,9 @@ public class GigaGal implements Humanoid {
                         }
                         if (touchedGround instanceof Climbable) {
                             if (position.x < touchedGround.getLeft()) {
-                                position.x = touchedGround.getLeft();
+                                position.x = touchedGround.getLeft() + getHalfWidth();
                             } else if (position.x > touchedGround.getRight()) {
-                                position.x = touchedGround.getRight();
+                                position.x = touchedGround.getRight() - getHalfWidth();
                             }
                         }
                         climb(Orientation.Y);
@@ -781,7 +780,7 @@ public class GigaGal implements Humanoid {
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoil(Vector2 velocity) {
-        action = Action.RESUSPENSION_PLASMAING;
+        action = Action.RECOILING;
         groundState = GroundState.AIRBORNE;
         shotIntensity = ShotIntensity.NORMAL;
         chargeStartTime = 0;
@@ -1129,7 +1128,7 @@ public class GigaGal implements Humanoid {
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().clingRight;
                 }
-            } else if (action == Action.RESUSPENSION_PLASMAING){
+            } else if (action == Action.RECOILING){
                 region = Assets.getInstance().getGigaGalAssets().recoilRight;
             } else if (action == Action.FALLING) {
                 region = Assets.getInstance().getGigaGalAssets().fallRight;
@@ -1167,7 +1166,7 @@ public class GigaGal implements Humanoid {
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().clingLeft;
                 }
-            } else if (action == Action.RESUSPENSION_PLASMAING) {
+            } else if (action == Action.RECOILING) {
                 region = Assets.getInstance().getGigaGalAssets().recoilLeft;
             } else if (action == Action.FALLING) {
                 region = Assets.getInstance().getGigaGalAssets().fallLeft;
