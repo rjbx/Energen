@@ -665,8 +665,6 @@ public class GigaGal implements Humanoid {
                 } else {
                     velocity.x = 0; // disable movement when climbing but directional not pressed
                 }
-            } else {
-                velocity.x = 0; // disable movement when climbing but directional not pressed
             }
         }
     }
