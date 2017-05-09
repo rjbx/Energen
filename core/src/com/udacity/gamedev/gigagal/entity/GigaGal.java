@@ -749,7 +749,7 @@ public class GigaGal implements Humanoid {
             strideAcceleration = 0;
             velocity.x = 0;
             velocity.y = -3;
-        } else if (onSkateable) {
+        } else if (touchedGround instanceof Skateable) {
             if (Math.abs(velocity.x) > 0.005f) {
                 velocity.x /= 1.005;
             } else {
@@ -758,6 +758,8 @@ public class GigaGal implements Humanoid {
         } else if (onRideable) {
             velocity.x = 0;
             velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rideable) touchedGround).getDirection(), Orientation.X);
+        } else if (touchedGround != null) {
+            velocity.x = 0;
         }
         action = Action.STANDING;
         groundState = GroundState.PLANTED;
