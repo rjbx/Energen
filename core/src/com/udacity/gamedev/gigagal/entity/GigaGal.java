@@ -276,7 +276,7 @@ public class GigaGal implements Humanoid {
                         // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
                     } else if (ground instanceof Descendable && (primaryGround == null || primaryGround instanceof Descendable)) {
                         touchDescendableGround(ground);
-                    } else if (!(ground instanceof Descendable) && primaryGround instanceof Descendable) {
+                    } else if (ground != primaryGround && primaryGround instanceof Descendable) {
                         secondaryGround = ground;
                     }
                     // if below minimum ground distance while descending excluding post-cling, disable cling and hover
@@ -639,11 +639,7 @@ public class GigaGal implements Humanoid {
                 }
             }
         } else if (action == Action.CLIMBING) {
-            if (secondaryGround != null && primaryGround != null
-            && Helpers.encompassedBetweenFourSides(position, getHalfWidth(), getHeight() / 2, secondaryGround.getLeft(), secondaryGround.getRight(), secondaryGround.getBottom(), secondaryGround.getTop())
-            && !(Helpers.encompassedBetweenTwoSides(position.x, getHalfWidth(), primaryGround.getLeft(), primaryGround.getRight()))) {
-                position.x = previousFramePosition.x;
-            } else if (canClimb) {
+            if (canClimb) {
                 if (inputtingX) {
                     velocity.y = 0;
                     canHover = false;
@@ -763,6 +759,8 @@ public class GigaGal implements Humanoid {
     }
 
     private void fall() {
+
+        secondaryGround = null;
         handleXInputs();
         handleYInputs();
         action = Action.FALLING;
@@ -1057,10 +1055,33 @@ public class GigaGal implements Humanoid {
                 }
             } else {
                 canLook = true; // enables look when engaging climbable but not actively climbing
-                canClimb  = false; // prevents climb initiation when jumpbutton released
+                canClimb = false; // prevents climb initiation when jumpbutton released
             }
-            handleXInputs(); // enables change of x direction for shooting left or right
-            handleYInputs(); // enables change of y direction for looking and climbing up or down
+            if (secondaryGround != null && !(secondaryGround instanceof Climbable) && primaryGround != null
+                    && Helpers.overlapsBetweenFourSides(position, getHalfWidth(), getHeight() / 2, secondaryGround.getLeft(), secondaryGround.getRight(), secondaryGround.getBottom(), secondaryGround.getTop())
+                    && !(Helpers.encompassedBetweenTwoSides(position.x, getHalfWidth(), primaryGround.getLeft(), primaryGround.getRight()))) {
+                if (velocity.x >= 0) {
+                    directionX = Direction.RIGHT;
+                } else {
+                    directionX = Direction.LEFT;
+                }
+                position.x = previousFramePosition.x - Helpers.absoluteToDirectionalValue(1, directionX, Orientation.X);
+            } else {
+                handleXInputs(); // enables change of x direction for shooting left or right
+            }
+            if (secondaryGround != null && !(secondaryGround instanceof Climbable) && primaryGround != null
+                    && Helpers.overlapsBetweenFourSides(position, getHalfWidth(), getHeight() / 2, secondaryGround.getLeft(), secondaryGround.getRight(), secondaryGround.getBottom(), secondaryGround.getTop())
+                    && !(Helpers.encompassedBetweenTwoSides(position.y, getHalfWidth(), primaryGround.getBottom(), primaryGround.getTop()))) {
+                if (velocity.y >= 0) {
+                    directionY = Direction.UP;
+                } else {
+                    directionY = Direction.DOWN;
+                }
+                position.y = previousFramePosition.y - Helpers.absoluteToDirectionalValue(1, directionY, Orientation.Y);
+            } else {
+                handleYInputs(); // enables change of y direction for looking and climbing up or down
+            }
+
         } else {
             if (action == Action.CLIMBING) {
                 fall();
