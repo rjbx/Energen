@@ -531,7 +531,7 @@ public final class Constants {
 
     // Powerup
     public static final float POWERUP_DURATION = 0.5f;
-    public static final int POWERUP_AMMO = 10;
+    public static final int POWERUP_AMMO = 20;
     public static final int POWERUP_HEALTH = 50;
     public static final int POWERUP_TURBO = 100;
 

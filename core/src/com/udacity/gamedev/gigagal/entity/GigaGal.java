@@ -62,7 +62,7 @@ public class GigaGal implements Humanoid {
     private boolean onUnbearable;
     private boolean onClimbable;
     private boolean onSinkable;
-    private boolean onBounceable;
+    private boolean onReboundable;
     private boolean canShoot;
     private boolean canLook;
     private boolean canDash;
@@ -171,7 +171,7 @@ public class GigaGal implements Humanoid {
         onUnbearable = false;
         onClimbable = false;
         onSinkable = false;
-        onBounceable = false;
+        onReboundable = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         climbStartTime = 0;
@@ -300,6 +300,13 @@ public class GigaGal implements Humanoid {
                         canHover = false; // disables hover
                     }
                 }
+            } else if (ground instanceof Reboundable) {
+                Reboundable reboundable = (Reboundable) ground;
+                if (reboundable.getState()) {
+                    reboundable.resetStartTime();
+                    reboundable.setState(false);
+                    onReboundable = false;
+                }
             }
         }
         untouchGround();
@@ -378,7 +385,8 @@ public class GigaGal implements Humanoid {
 
     private void touchGroundTop(Ground ground) {
         // if contact with ground top detected, halt downward progression and set gigagal atop ground
-        if ((getBottom() <= ground.getTop() && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop())))
+        if ((getBottom() <= ground.getTop()
+                && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop()))) // distinguishes when touching two different grounds and permits uninterrupted striding atop
                 && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
             velocity.y = 0; // prevents from descending beneath ground top
             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
@@ -402,7 +410,7 @@ public class GigaGal implements Humanoid {
                     position.y -= 1;
                 }
             } else if (ground instanceof Reboundable) {
-                onBounceable = true;
+                onReboundable = true;
                 Reboundable reboundable = (Reboundable) ground;
                 reboundable.setState(true);
             } else if (ground instanceof Rideable) {
@@ -475,17 +483,23 @@ public class GigaGal implements Humanoid {
         if (touchedGround != null && action != Action.HOVERING) {
             if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
                 /*(!Helpers.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
+                if (onReboundable) {
+                    Reboundable reboundable = (Reboundable) touchedGround;
+                    reboundable.resetStartTime();
+                    reboundable.setState(false);
+                    onReboundable = false;
+                }
                 if (action == Action.CLINGING) {
                     velocity.x = 0; // prevents falling with backward momentum after cling-sliding down platform side through its bottom
                 }
                 canCling = false;
                 fall();
             } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
-                if (onBounceable) {
+                if (onReboundable) {
                     Reboundable reboundable = (Reboundable) touchedGround;
                     reboundable.resetStartTime();
                     reboundable.setState(false);
-                    onBounceable = false;
+                    onReboundable = false;
                 }
                 onSinkable = false;
                 lookTimeSeconds = 0;
@@ -939,7 +953,7 @@ public class GigaGal implements Humanoid {
         if (jumpTimeSeconds < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
-            if (onBounceable) {
+            if (onReboundable) {
                 velocity.y *= 2;
             } else if (onSinkable) {
                 fall(); // causes fall texture to render for one frame
