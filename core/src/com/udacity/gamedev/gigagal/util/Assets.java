@@ -50,17 +50,11 @@ public final class Assets implements AssetErrorListener {
     public final void create() {
         this.assetManager = new AssetManager();
         assetManager.setErrorListener(this);
-        assetManager.load(Constants.TEXTURE_ATLAS); // atlas packed on gradle build; load all at once instead of individually
+        assetManager.load(Constants.TEXTURE_ATLAS); // atlas packed upon gradle build; load all at once instead of individually
         assetManager.load(Constants.POWERUP_SOUND);
         assetManager.load(Constants.LEVEL_MUSIC);
         assetManager.finishLoading();
-        Array<Sound> sounds = new Array<Sound>();
-        Array<Music> music = new Array<Music>();
-        Array<BitmapFont> fonts = new Array<BitmapFont>();
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
-        assetManager.getAll(Sound.class, sounds);
-        assetManager.getAll(Music.class, music);
-        assetManager.getAll(BitmapFont.class, fonts);
         gigaGalAssets = new GigaGalAssets(atlas);
         boxAssets = new BoxAssets(atlas);
         groundAssets = new GroundAssets(atlas);
@@ -76,8 +70,8 @@ public final class Assets implements AssetErrorListener {
         portalAssets = new PortalAssets(atlas);
         hudAssets = new HudAssets(atlas);
         overlayAssets = new OverlayAssets(atlas);
-        soundAssets = new SoundAssets(sounds);
-        musicAssets = new MusicAssets(music);
+        soundAssets = new SoundAssets();
+        musicAssets = new MusicAssets();
 //        fontAssets = new fontAssets(fonts);
     }
 
@@ -863,8 +857,8 @@ public final class Assets implements AssetErrorListener {
 
         public final Sound powerup;
 
-        private SoundAssets(Array<Sound> sounds) {
-            powerup = assetManager.get(Constants.POWERUP_SOUND);
+        private SoundAssets() {
+            powerup = assetManager.get(Constants.POWERUP_SOUND); // use of descriptor enforces type checking
         }
     }
 
@@ -872,8 +866,8 @@ public final class Assets implements AssetErrorListener {
 
         public final Music level;
 
-        private MusicAssets(Array<Music> music) {
-            level = assetManager.get(Constants.LEVEL_MUSIC);
+        private MusicAssets() {
+            level = assetManager.get(Constants.LEVEL_MUSIC); // use of descriptor enforces type checking
         }
     }
 
