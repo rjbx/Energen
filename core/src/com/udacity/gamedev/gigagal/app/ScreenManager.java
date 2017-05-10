@@ -3,9 +3,7 @@ package com.udacity.gamedev.gigagal.app;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.overlay.Cursor;
 import com.udacity.gamedev.gigagal.overlay.Menu;
-import com.udacity.gamedev.gigagal.util.Assets;
-import com.udacity.gamedev.gigagal.util.ChaseCam;
-import com.udacity.gamedev.gigagal.util.InputControls;
+import com.udacity.gamedev.gigagal.util.*;
 
 // immutable singleton
 public final class ScreenManager extends com.badlogic.gdx.Game {
@@ -25,7 +23,7 @@ public final class ScreenManager extends com.badlogic.gdx.Game {
         ChaseCam.getInstance().create();
         Cursor.getInstance().create();
         Menu.getInstance().create();
-        Assets.getInstance().create();
+        com.udacity.gamedev.gigagal.util.ImageLoader.getInstance().create();
         InputControls.getInstance().create();
         LevelUpdater.getInstance().create();
         LaunchScreen.getInstance().create();

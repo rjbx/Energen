@@ -12,14 +12,10 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.overlay.TouchInterface;
-import com.udacity.gamedev.gigagal.util.InputControls;
+import com.udacity.gamedev.gigagal.util.*;
 import com.udacity.gamedev.gigagal.overlay.Cursor;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
 import com.udacity.gamedev.gigagal.overlay.Menu;
-import com.udacity.gamedev.gigagal.util.Assets;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Helpers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -152,7 +148,7 @@ final class LaunchScreen extends ScreenAdapter {
                 if (!promptVisible) {
                     Helpers.drawBitmapFont(batch, viewport, title, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, Align.center);
                     final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
-                    Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
+                    Helpers.drawTextureRegion(batch, viewport, com.udacity.gamedev.gigagal.util.ImageLoader.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
                     Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
 
                     if (inputControls.shootButtonJustPressed) {
@@ -188,7 +184,7 @@ final class LaunchScreen extends ScreenAdapter {
                     }
                 }
             } else {
-                launchBackdrop.render(batch, viewport, Assets.getInstance().getOverlayAssets().logo,
+                launchBackdrop.render(batch, viewport, com.udacity.gamedev.gigagal.util.ImageLoader.getInstance().getOverlayAssets().logo,
                         new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .625f),
                         new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f));
                 Helpers.drawBitmapFont(batch, viewport, font, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, Align.center);

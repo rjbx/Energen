@@ -2,11 +2,10 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.ImageLoader;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -30,27 +29,27 @@ public class Powerup implements Entity {
         state = true;
         switch (this.type) {
             case HEALTH:
-                animation = Assets.getInstance().getPowerupAssets().healthPowerup;
+                animation = ImageLoader.getInstance().getPowerupAssets().healthPowerup;
                 center = Constants.HEALTH_POWERUP_CENTER;
                 break;
             case TURBO:
-                animation = Assets.getInstance().getPowerupAssets().turboPowerup;
+                animation = ImageLoader.getInstance().getPowerupAssets().turboPowerup;
                 center = Constants.TURBO_POWERUP_CENTER;
                 break;
             case AMMO:
-                animation = Assets.getInstance().getPowerupAssets().ammoPowerup;
+                animation = ImageLoader.getInstance().getPowerupAssets().ammoPowerup;
                 center = Constants.AMMO_POWERUP_CENTER;
                 break;
             case LIFE:
-                animation = Assets.getInstance().getPowerupAssets().lifePowerup;
+                animation = ImageLoader.getInstance().getPowerupAssets().lifePowerup;
                 center = Constants.LIFE_POWERUP_CENTER;
                 break;
             case CANNON:
-                animation = Assets.getInstance().getPowerupAssets().cannonPowerup;
+                animation = ImageLoader.getInstance().getPowerupAssets().cannonPowerup;
                 center = Constants.CANNON_POWERUP_CENTER;
                 break;
             default:
-                animation = Assets.getInstance().getPowerupAssets().ammoPowerup;
+                animation = ImageLoader.getInstance().getPowerupAssets().ammoPowerup;
                 center = Constants.AMMO_POWERUP_CENTER;
         }
     }

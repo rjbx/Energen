@@ -2,10 +2,9 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.ImageLoader;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
@@ -33,7 +32,7 @@ public class Box implements Solid, Ground {
         this.right = xPos + width;
         this.position = new Vector2(left + (width / 2), bottom + (height / 2));
         this.type = type;
-        ninePatch = Assets.getInstance().getBoxAssets().box;
+        ninePatch = ImageLoader.getInstance().getBoxAssets().box;
         ninePatch.setColor(type.color());
     }
 

@@ -18,6 +18,7 @@ public final class Constants {
     public static final float GRAVITY = 10;
     public static final float CHASE_CAM_MOVE_SPEED = WORLD_SIZE;
     public static final String TEXTURE_ATLAS = "images/gigagal.pack.atlas";
+    public static final String AUDIO_DIRECTORY = "audio/";
 
     // GigaGal attributes
     public static final Vector2 GIGAGAL_EYE_POSITION = new Vector2(14f, 24);

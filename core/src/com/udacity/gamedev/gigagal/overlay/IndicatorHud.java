@@ -3,7 +3,6 @@ package com.udacity.gamedev.gigagal.overlay;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -11,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.ImageLoader;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -37,7 +36,7 @@ public class IndicatorHud {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getHudAssets().climb,
+                    ImageLoader.getInstance().getHudAssets().climb,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
@@ -48,7 +47,7 @@ public class IndicatorHud {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getHudAssets().cling,
+                    ImageLoader.getInstance().getHudAssets().cling,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
@@ -59,7 +58,7 @@ public class IndicatorHud {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getHudAssets().hover,
+                    ImageLoader.getInstance().getHudAssets().hover,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
@@ -72,7 +71,7 @@ public class IndicatorHud {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getHudAssets().dash,
+                    ImageLoader.getInstance().getHudAssets().dash,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
@@ -81,7 +80,7 @@ public class IndicatorHud {
             );
         }
 
-        final TextureRegion lifeIcon = Assets.getInstance().getHudAssets().life;
+        final TextureRegion lifeIcon = ImageLoader.getInstance().getHudAssets().life;
         float xLife = viewport.getCamera().position.x - viewport.getWorldWidth() / 2.1f;
         for (int i = 1; i <= GigaGal.getInstance().getLives(); i++) {
             Helpers.drawTextureRegion(

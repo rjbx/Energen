@@ -102,27 +102,26 @@ project(":core") {
         def pack = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack.png")
         def atlas = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack.atlas")
 
-        inputs.dir "${rootProject.getRootDir()}/core/rawAssets/sprites"
+        inputs.dir "${rootProject.getRootDir()}/core/assets/images"
         outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack.png"
         outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack.atlas"
 
         doLast {
             pack.delete()
             atlas.delete()
-            TexturePacker.process("${rootProject.getRootDir()}/core/rawAssets/sprites", "${rootProject.getRootDir()}/android/assets/images", "gigagal.pack")
+            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/android/assets/images", "gigagal.pack")
         }
     }
 
     task copyLevels(type: Copy){
-        from "../GigaGalLevels/scenes"
+        from "../core/assets/levels/scenes"
         into "../android/assets/levels"
         exclude "MainScene.dt"
     }
 
     task copyAudio(type: Copy){
-        from "../core/rawAssets/sounds"
+        from "../core/assets/audio"
         into "../android/assets/audio"
-        exclude "MainScene.dt"
     }
 
     project.tasks.compileJava.dependsOn packTextures
