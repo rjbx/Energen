@@ -119,8 +119,15 @@ project(":core") {
         exclude "MainScene.dt"
     }
 
+    task copyAudio(type: Copy){
+        from "../core/rawAssets/sounds"
+        into "../android/assets/audio"
+        exclude "MainScene.dt"
+    }
+
     project.tasks.compileJava.dependsOn packTextures
     project.tasks.compileJava.dependsOn copyLevels
+    project.tasks.compileJava.dependsOn copyAudio
 
 }
 

@@ -552,7 +552,7 @@ public class GigaGal implements Humanoid {
         for (Powerup powerup : powerups) {
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {
-                Sound sound = Gdx.audio.newSound(Gdx.files.internal("../sounds/powerup.wav"));
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("audio/powerup.wav"));
                 sound.play();
                 switch(powerup.getType()) {
                     case AMMO:
