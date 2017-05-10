@@ -291,11 +291,11 @@ public class GigaGal implements Humanoid {
                         canHover = false; // disables hover
                     }
                 }
-            } else if (ground instanceof Reboundable) {
-                Reboundable reboundable = (Reboundable) ground;
-                if (reboundable.getState()) {
-                    reboundable.resetStartTime();
-                    reboundable.setState(false);
+            } else if (ground instanceof Spring) {
+                Spring spring = (Spring) ground;
+                if (spring.getState()) {
+                    spring.resetStartTime();
+                    spring.setState(false);
                 }
             }
         }
