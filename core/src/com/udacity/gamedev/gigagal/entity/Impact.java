@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.ImageLoader;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -27,28 +27,28 @@ public class Impact implements Entity {
         startTime = TimeUtils.nanoTime();
         switch (this.type) {
             case PLASMA:
-                animation = ImageLoader.getInstance().getImpactAssets().impactPlasma;
+                animation = Assets.getInstance().getImpactAssets().impactPlasma;
                 break;
             case GAS:
-                animation = ImageLoader.getInstance().getImpactAssets().impact;
+                animation = Assets.getInstance().getImpactAssets().impact;
                 break;
             case LIQUID:
-                animation = ImageLoader.getInstance().getImpactAssets().impactLiquid;
+                animation = Assets.getInstance().getImpactAssets().impactLiquid;
                 break;
             case SOLID:
-                animation = ImageLoader.getInstance().getImpactAssets().impactSolid;
+                animation = Assets.getInstance().getImpactAssets().impactSolid;
                 break;
             case ANTIMATTER:
-                animation = ImageLoader.getInstance().getImpactAssets().impactPsychic;
+                animation = Assets.getInstance().getImpactAssets().impactPsychic;
                 break;
             case HYBRID:
-                animation = ImageLoader.getInstance().getImpactAssets().impactHybrid;
+                animation = Assets.getInstance().getImpactAssets().impactHybrid;
                 break;
             case NATIVE:
-                animation = ImageLoader.getInstance().getImpactAssets().impactNative;
+                animation = Assets.getInstance().getImpactAssets().impactNative;
                 break;
             default:
-                animation = ImageLoader.getInstance().getImpactAssets().impactNative;
+                animation = Assets.getInstance().getImpactAssets().impactNative;
         }
     }
 
@@ -72,5 +72,5 @@ public class Impact implements Entity {
     @Override public final float getRight() { return position.x + Constants.EXPLOSION_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.EXPLOSION_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.EXPLOSION_CENTER.y; }
-    public boolean isFinished() { return ImageLoader.getInstance().getImpactAssets().impact.isAnimationFinished(Helpers.secondsSince(startTime)); }
+    public boolean isFinished() { return Assets.getInstance().getImpactAssets().impact.isAnimationFinished(Helpers.secondsSince(startTime)); }
 }

@@ -23,7 +23,7 @@ public final class ScreenManager extends com.badlogic.gdx.Game {
         ChaseCam.getInstance().create();
         Cursor.getInstance().create();
         Menu.getInstance().create();
-        com.udacity.gamedev.gigagal.util.ImageLoader.getInstance().create();
+        Assets.getInstance().create();
         InputControls.getInstance().create();
         LevelUpdater.getInstance().create();
         LaunchScreen.getInstance().create();

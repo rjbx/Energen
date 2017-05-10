@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.ImageLoader;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -69,72 +69,72 @@ public final class Ammo implements Indestructible, Hazard {
                 damage = Constants.AMMO_STANDARD_DAMAGE;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = ImageLoader.getInstance().getAmmoAssets().nativeBlast;
+                    region = Assets.getInstance().getAmmoAssets().nativeBlast;
                 } else {
-                    region = ImageLoader.getInstance().getAmmoAssets().nativeShot;
+                    region = Assets.getInstance().getAmmoAssets().nativeShot;
                 }
                 break;
             case GAS:
                 damage = Constants.PROTRUSION_GAS_DAMAGE;
                 knockback = Constants.PROTRUSION_GAS_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = ImageLoader.getInstance().getAmmoAssets().gasBlast;
+                    region = Assets.getInstance().getAmmoAssets().gasBlast;
                 } else {
-                    region = ImageLoader.getInstance().getAmmoAssets().gasShot;
+                    region = Assets.getInstance().getAmmoAssets().gasShot;
                 }
                 break;
             case LIQUID:
                 damage = Constants.PROTRUSION_LIQUID_DAMAGE;
                 knockback = Constants.PROTRUSION_LIQUID_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = ImageLoader.getInstance().getAmmoAssets().liquidBlast;
+                    region = Assets.getInstance().getAmmoAssets().liquidBlast;
                 } else {
-                    region = ImageLoader.getInstance().getAmmoAssets().liquidShot;
+                    region = Assets.getInstance().getAmmoAssets().liquidShot;
                 }
                 break;
             case PLASMA:
                 damage = Constants.SUSPENSION_PLASMA_DAMAGE;
                 knockback = Constants.SUSPENSION_PLASMA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = ImageLoader.getInstance().getAmmoAssets().plasmaBlast;
+                    region = Assets.getInstance().getAmmoAssets().plasmaBlast;
                 } else {
-                    region = ImageLoader.getInstance().getAmmoAssets().plasmaShot;
+                    region = Assets.getInstance().getAmmoAssets().plasmaShot;
                 }
                 break;
             case ORE:
                 damage = Constants.SUSPENSION_ORE_DAMAGE;
                 knockback = Constants.SUSPENSION_ORE_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = ImageLoader.getInstance().getAmmoAssets().polymerBlast;
+                    region = Assets.getInstance().getAmmoAssets().polymerBlast;
                 } else {
-                    region = ImageLoader.getInstance().getAmmoAssets().polymerShot;
+                    region = Assets.getInstance().getAmmoAssets().polymerShot;
                 }
                 break;
             case SOLID:
                 damage = Constants.PROTRUSION_SOLID_DAMAGE;
                 knockback = Constants.PROTRUSION_SOLID_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = ImageLoader.getInstance().getAmmoAssets().solidBlast;
+                    region = Assets.getInstance().getAmmoAssets().solidBlast;
                 } else {
-                    region = ImageLoader.getInstance().getAmmoAssets().solidShot;
+                    region = Assets.getInstance().getAmmoAssets().solidShot;
                 }
                 break;
             case ANTIMATTER:
                 damage = Constants.MAX_HEALTH / 2;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = ImageLoader.getInstance().getAmmoAssets().psychicBlast;
+                    region = Assets.getInstance().getAmmoAssets().psychicBlast;
                 } else {
-                    region = ImageLoader.getInstance().getAmmoAssets().psychicShot;
+                    region = Assets.getInstance().getAmmoAssets().psychicShot;
                 }
                 break;
             case HYBRID:
                 damage = Constants.PROTRUSION_SOLID_DAMAGE * 2;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = ImageLoader.getInstance().getAmmoAssets().hybridBlast;
+                    region = Assets.getInstance().getAmmoAssets().hybridBlast;
                 } else {
-                    region = ImageLoader.getInstance().getAmmoAssets().hybridShot;
+                    region = Assets.getInstance().getAmmoAssets().hybridShot;
                 }
                 break;
             default:

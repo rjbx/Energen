@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.ImageLoader;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -38,22 +38,22 @@ public class Orben implements Destructible, Hazard {
         health = Constants.ORBEN_MAX_HEALTH;
         switch (type) {
             case ORE:
-                animation = ImageLoader.getInstance().getOrbenAssets().oreOrben;
+                animation = Assets.getInstance().getOrbenAssets().oreOrben;
                 break;
             case PLASMA:
-                animation = ImageLoader.getInstance().getOrbenAssets().plasmaOrben;
+                animation = Assets.getInstance().getOrbenAssets().plasmaOrben;
                 break;
             case GAS:
-                animation = ImageLoader.getInstance().getOrbenAssets().gasOrben;
+                animation = Assets.getInstance().getOrbenAssets().gasOrben;
                 break;
             case LIQUID:
-                animation = ImageLoader.getInstance().getOrbenAssets().liquidOrben;
+                animation = Assets.getInstance().getOrbenAssets().liquidOrben;
                 break;
             case SOLID:
-                animation = ImageLoader.getInstance().getOrbenAssets().solidOrben;
+                animation = Assets.getInstance().getOrbenAssets().solidOrben;
                 break;
             default:
-                animation = ImageLoader.getInstance().getOrbenAssets().oreOrben;
+                animation = Assets.getInstance().getOrbenAssets().oreOrben;
         }
     }
 
@@ -120,7 +120,7 @@ public class Orben implements Destructible, Hazard {
     public void render(SpriteBatch batch, Viewport viewport) {
         final TextureRegion region;
         if (xDirection == null || yDirection == null) {
-            region = ImageLoader.getInstance().getOrbenAssets().dormantOrben;
+            region = Assets.getInstance().getOrbenAssets().dormantOrben;
         } else {
             region = animation.getKeyFrame(Helpers.secondsSince(startTime), true);
         }

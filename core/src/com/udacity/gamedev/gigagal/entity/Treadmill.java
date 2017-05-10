@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.ImageLoader;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -33,9 +33,9 @@ public class Treadmill implements Rideable, Trippable, Ground {
     @Override
     public void update() {
         if (direction == Enums.Direction.RIGHT) {
-            animation = ImageLoader.getInstance().getGroundAssets().treadmillRight;
+            animation = Assets.getInstance().getGroundAssets().treadmillRight;
         } else {
-            animation = ImageLoader.getInstance().getGroundAssets().treadmillLeft;
+            animation = Assets.getInstance().getGroundAssets().treadmillLeft;
         }
     }
 

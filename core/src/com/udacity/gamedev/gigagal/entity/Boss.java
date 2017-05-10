@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.ImageLoader;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -1109,70 +1109,70 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
         if (directionX == Enums.Direction.RIGHT) {
             if (lookStartTime != 0) {
                 if (directionY == Enums.Direction.UP) {
-                    region = ImageLoader.getInstance().getGigaGalAssets().lookupStandRight;
+                    region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
                     if (action == Enums.Action.FALLING || action == Enums.Action.CLIMBING) {
-                        region = ImageLoader.getInstance().getGigaGalAssets().lookupFallRight;
+                        region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
                     } else if (action == Enums.Action.HOVERING) {
-                        region = ImageLoader.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
+                        region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
                 } else if (directionY == Enums.Direction.DOWN) {
-                    region = ImageLoader.getInstance().getGigaGalAssets().lookdownStandRight;
+                    region = Assets.getInstance().getGigaGalAssets().lookdownStandRight;
                     if (action == Enums.Action.FALLING || action == Enums.Action.CLIMBING) {
-                        region = ImageLoader.getInstance().getGigaGalAssets().lookdownFallRight;
+                        region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
                     } else if (action == Enums.Action.HOVERING) {
-                        region = ImageLoader.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
+                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
                 }
             } else if (action == Enums.Action.CLIMBING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
+                region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
             } else if (action == Enums.Action.STANDING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().standRight;
+                region = Assets.getInstance().getGigaGalAssets().standRight;
             } else if (action == Enums.Action.STRIDING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = Assets.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Enums.Action.DASHING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().dashRight;
+                region = Assets.getInstance().getGigaGalAssets().dashRight;
             } else if (action == Enums.Action.HOVERING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
+                region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
             } else if (action == Enums.Action.CLINGING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().clingRight;
+                region = Assets.getInstance().getGigaGalAssets().clingRight;
             } else if (action == Enums.Action.RECOILING){
-                region = ImageLoader.getInstance().getGigaGalAssets().recoilRight;
+                region = Assets.getInstance().getGigaGalAssets().recoilRight;
             } else if (action == Enums.Action.FALLING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().fallRight;
+                region = Assets.getInstance().getGigaGalAssets().fallRight;
             }
         } else if (directionX == Enums.Direction.LEFT) {
             if (lookStartTime != 0) {
                 if (directionY == Enums.Direction.UP) {
-                    region = ImageLoader.getInstance().getGigaGalAssets().lookupStandLeft;
+                    region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
                     if (action == Enums.Action.FALLING || action == Enums.Action.CLIMBING) {
-                        region = ImageLoader.getInstance().getGigaGalAssets().lookupFallLeft;
+                        region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
                     } else if (action == Enums.Action.HOVERING) {
-                        region = ImageLoader.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 } else if (directionY == Enums.Direction.DOWN) {
-                    region = ImageLoader.getInstance().getGigaGalAssets().lookdownStandLeft;
+                    region = Assets.getInstance().getGigaGalAssets().lookdownStandLeft;
                     if (action == Enums.Action.FALLING || action == Enums.Action.CLIMBING) {
-                        region = ImageLoader.getInstance().getGigaGalAssets().lookdownFallLeft;
+                        region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
                     } else if (action == Enums.Action.HOVERING) {
-                        region = ImageLoader.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 }
             } else if (action == Enums.Action.CLIMBING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
+                region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (action == Enums.Action.STANDING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().standLeft;
+                region = Assets.getInstance().getGigaGalAssets().standLeft;
             } else if (action == Enums.Action.STRIDING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Enums.Action.DASHING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().dashLeft;
+                region = Assets.getInstance().getGigaGalAssets().dashLeft;
             } else if (action == Enums.Action.HOVERING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
+                region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
             } else if (action == Enums.Action.CLINGING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().clingLeft;
+                region = Assets.getInstance().getGigaGalAssets().clingLeft;
             } else if (action == Enums.Action.RECOILING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().recoilLeft;
+                region = Assets.getInstance().getGigaGalAssets().recoilLeft;
             } else if (action == Enums.Action.FALLING) {
-                region = ImageLoader.getInstance().getGigaGalAssets().fallLeft;
+                region = Assets.getInstance().getGigaGalAssets().fallLeft;
             }
         }
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);

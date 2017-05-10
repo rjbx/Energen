@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.ImageLoader;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -25,7 +25,7 @@ public class Lava implements Indestructible, Hazard {
         this.scale = scale;
         this.adjustedCenter = adjustedCenter;
         this.startTime = TimeUtils.nanoTime();
-        animation = ImageLoader.getInstance().getGroundAssets().lava;
+        animation = Assets.getInstance().getGroundAssets().lava;
     }
 
     @Override

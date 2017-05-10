@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.ImageLoader;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -39,22 +39,22 @@ public class Swoopa implements Destructible, Hazard {
         bobOffset = MathUtils.random();
         switch (type) {
             case ORE:
-                animation = ImageLoader.getInstance().getSwoopaAssets().oreSwoopa;
+                animation = Assets.getInstance().getSwoopaAssets().oreSwoopa;
                 break;
             case PLASMA:
-                animation = ImageLoader.getInstance().getSwoopaAssets().plasmaSwoopa;
+                animation = Assets.getInstance().getSwoopaAssets().plasmaSwoopa;
                 break;
             case GAS:
-                animation = ImageLoader.getInstance().getSwoopaAssets().gasSwoopa;
+                animation = Assets.getInstance().getSwoopaAssets().gasSwoopa;
                 break;
             case LIQUID:
-                animation = ImageLoader.getInstance().getSwoopaAssets().liquidSwoopa;
+                animation = Assets.getInstance().getSwoopaAssets().liquidSwoopa;
                 break;
             case SOLID:
-                animation = ImageLoader.getInstance().getSwoopaAssets().solidSwoopa;
+                animation = Assets.getInstance().getSwoopaAssets().solidSwoopa;
                 break;
             default:
-                animation = ImageLoader.getInstance().getSwoopaAssets().oreSwoopa;
+                animation = Assets.getInstance().getSwoopaAssets().oreSwoopa;
         }
     }
 

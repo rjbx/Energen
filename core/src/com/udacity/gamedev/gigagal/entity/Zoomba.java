@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.ImageLoader;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
@@ -40,22 +40,22 @@ public class Zoomba implements Destructible, Hazard {
         this.range = range;
         switch (type) {
             case ORE:
-                animation = ImageLoader.getInstance().getZoombaAssets().oreZoomba;
+                animation = Assets.getInstance().getZoombaAssets().oreZoomba;
                 break;
             case PLASMA:
-                animation = ImageLoader.getInstance().getZoombaAssets().plasmaZoomba;
+                animation = Assets.getInstance().getZoombaAssets().plasmaZoomba;
                 break;
             case GAS:
-                animation = ImageLoader.getInstance().getZoombaAssets().gasZoomba;
+                animation = Assets.getInstance().getZoombaAssets().gasZoomba;
                 break;
             case LIQUID:
-                animation = ImageLoader.getInstance().getZoombaAssets().liquidZoomba;
+                animation = Assets.getInstance().getZoombaAssets().liquidZoomba;
                 break;
             case SOLID:
-                animation = ImageLoader.getInstance().getZoombaAssets().solidZoomba;
+                animation = Assets.getInstance().getZoombaAssets().solidZoomba;
                 break;
             default:
-                animation = ImageLoader.getInstance().getZoombaAssets().oreZoomba;
+                animation = Assets.getInstance().getZoombaAssets().oreZoomba;
         }
     }
 

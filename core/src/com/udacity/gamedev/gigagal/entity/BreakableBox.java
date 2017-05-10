@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.ImageLoader;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
@@ -36,7 +36,7 @@ public class BreakableBox implements Destructible, Solid, Ground {
         damage = 50;
         this.position = new Vector2(left + (width / 2), bottom + (height / 2));
         this.type = type;
-        ninePatch = ImageLoader.getInstance().getBoxAssets().breakableBox;
+        ninePatch = Assets.getInstance().getBoxAssets().breakableBox;
         ninePatch.setColor(type.theme().color());
     }
 

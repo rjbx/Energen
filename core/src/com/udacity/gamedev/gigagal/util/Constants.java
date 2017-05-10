@@ -1,6 +1,10 @@
 package com.udacity.gamedev.gigagal.util;
 
+import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -17,8 +21,11 @@ public final class Constants {
     public static final float KILL_PLANE = -800;
     public static final float GRAVITY = 10;
     public static final float CHASE_CAM_MOVE_SPEED = WORLD_SIZE;
-    public static final String TEXTURE_ATLAS = "images/gigagal.pack.atlas";
-    public static final String AUDIO_DIRECTORY = "audio/";
+
+    // Asset files
+    public static final AssetDescriptor<TextureAtlas> TEXTURE_ATLAS = new AssetDescriptor<TextureAtlas>("images/gigagal.pack.atlas", TextureAtlas.class);
+    public static final AssetDescriptor<Sound> POWERUP_SOUND = new AssetDescriptor<Sound>("audio/powerup.wav", Sound.class);
+    public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/level.mp3", Music.class);
 
     // GigaGal attributes
     public static final Vector2 GIGAGAL_EYE_POSITION = new Vector2(14f, 24);

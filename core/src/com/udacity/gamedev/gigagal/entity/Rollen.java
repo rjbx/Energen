@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.ImageLoader;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -47,22 +47,22 @@ public class Rollen implements Destructible, Hazard {
         rollTimeSeconds = 0;
         switch (type) {
             case ORE:
-                animation = ImageLoader.getInstance().getRollenAssets().oreRollen;
+                animation = Assets.getInstance().getRollenAssets().oreRollen;
                 break;
             case PLASMA:
-                animation = ImageLoader.getInstance().getRollenAssets().plasmaRollen;
+                animation = Assets.getInstance().getRollenAssets().plasmaRollen;
                 break;
             case GAS:
-                animation = ImageLoader.getInstance().getRollenAssets().gasRollen;
+                animation = Assets.getInstance().getRollenAssets().gasRollen;
                 break;
             case LIQUID:
-                animation = ImageLoader.getInstance().getRollenAssets().liquidRollen;
+                animation = Assets.getInstance().getRollenAssets().liquidRollen;
                 break;
             case SOLID:
-                animation = ImageLoader.getInstance().getRollenAssets().solidRollen;
+                animation = Assets.getInstance().getRollenAssets().solidRollen;
                 break;
             default:
-                animation = ImageLoader.getInstance().getRollenAssets().oreRollen;
+                animation = Assets.getInstance().getRollenAssets().oreRollen;
         }
     }
 

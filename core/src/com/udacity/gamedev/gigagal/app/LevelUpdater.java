@@ -21,6 +21,7 @@ import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Powerup;
 import com.udacity.gamedev.gigagal.entity.Reboundable;
 import com.udacity.gamedev.gigagal.entity.Trippable;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
@@ -321,7 +322,8 @@ public class LevelUpdater {
     // level state handling
 
     protected void begin() {
-
+        Assets.getInstance().getMusicAssets().level.setLooping(true);
+        Assets.getInstance().getMusicAssets().level.play();
         runEx = false;
         levelWeapon = Enums.Material.NATIVE;
         for (Enums.Material weapon : Arrays.asList(Enums.Material.values())) {
@@ -343,6 +345,7 @@ public class LevelUpdater {
     }
 
     protected void end() {
+        Assets.getInstance().getMusicAssets().level.stop();
         Timer.getInstance().suspend();
         if (completed()) {
             SaveData.setTotalScore(SaveData.getTotalScore() + score);
@@ -357,6 +360,7 @@ public class LevelUpdater {
     }
 
     protected void pause() {
+        Assets.getInstance().getMusicAssets().level.pause();
         Timer.getInstance().suspend();
         paused = true;
     }

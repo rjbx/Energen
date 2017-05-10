@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.ImageLoader;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
@@ -22,7 +22,7 @@ public class Sink implements Sinkable, Ground {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, ImageLoader.getInstance().getGroundAssets().sink.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.SINK_CENTER);
+        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().sink.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.SINK_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }
