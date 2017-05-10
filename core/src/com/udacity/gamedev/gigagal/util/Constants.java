@@ -25,7 +25,7 @@ public final class Constants {
     // Asset files
     public static final AssetDescriptor<TextureAtlas> TEXTURE_ATLAS = new AssetDescriptor<TextureAtlas>("images/gigagal.pack.atlas", TextureAtlas.class);
     public static final AssetDescriptor<Sound> POWERUP_SOUND = new AssetDescriptor<Sound>("audio/powerup.wav", Sound.class);
-    public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/level.mp3", Music.class);
+    public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/level.wav", Music.class);
 
     // GigaGal attributes
     public static final Vector2 GIGAGAL_EYE_POSITION = new Vector2(14f, 24);
