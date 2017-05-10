@@ -1,5 +1,7 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -550,6 +552,8 @@ public class GigaGal implements Humanoid {
         for (Powerup powerup : powerups) {
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("../sounds/powerup.wav"));
+                sound.play();
                 switch(powerup.getType()) {
                     case AMMO:
                         ammo += Constants.POWERUP_AMMO;
