@@ -52,8 +52,7 @@ public class GigaGal implements Humanoid {
     private TextureRegion region; // class-level instantiation
     private Action action;
     private GroundState groundState;
-    private Ground primaryGround; // class-level instantiation
-    private Ground secondaryGround;
+    private Ground touchedGround; // class-level instantiation
     private ShotIntensity shotIntensity;
     private Material weapon;
     private List<Material> weaponList; // class-level instantiation
@@ -154,7 +153,7 @@ public class GigaGal implements Humanoid {
         shotIntensity = ShotIntensity.NORMAL;
         startTurbo = turbo;
         turboDuration = 0;
-        primaryGround = null;
+        touchedGround = null;
         canClimb = false;
         canLook = false;
         canStride = false;
@@ -263,8 +262,8 @@ public class GigaGal implements Humanoid {
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     // alternate collision handling to allow passing through top of descendables and prevent setting atop as with other grounds
                     if (!(ground instanceof Descendable)
-                        && action != Action.CLIMBING
-                        && (climbTimeSeconds == 0 || primaryGround == null || (primaryGround instanceof Descendable && primaryGround.getBottom() >= ground.getTop()))) {
+                            && action != Action.CLIMBING
+                            && (climbTimeSeconds == 0 || touchedGround == null || (touchedGround instanceof Descendable && touchedGround.getBottom() >= ground.getTop()))) {
                         // ignore ledge side and bottom collision
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                             touchGroundSide(ground);
@@ -274,10 +273,8 @@ public class GigaGal implements Humanoid {
                         }
                         touchGroundTop(ground);
                         // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
-                    } else if (ground instanceof Descendable && (primaryGround == null || primaryGround instanceof Descendable)) {
+                    } else if (ground instanceof Descendable && (touchedGround == null || touchedGround instanceof Descendable)) {
                         touchDescendableGround(ground);
-                    } else if (ground != primaryGround && primaryGround instanceof Descendable) {
-                        secondaryGround = ground;
                     }
                     // if below minimum ground distance while descending excluding post-cling, disable cling and hover
                     // caution when crossing plane between ground top and minimum hover height / ground distance
@@ -305,7 +302,7 @@ public class GigaGal implements Humanoid {
 
     private void touchGroundSide(Ground ground) {
         // if during previous frame was not, while currently is, between ground left and right sides
-        if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight()) && (primaryGround == null || primaryGround == ground || primaryGround.getTop() != ground.getTop())) {
+        if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight()) && (touchedGround == null || touchedGround == ground || touchedGround.getTop() != ground.getTop())) {
             // only when not grounded and not recoiling
             if (groundState != GroundState.PLANTED) {
                 // if x velocity (magnitude, without concern for direction) greater than one third max speed,
@@ -314,8 +311,8 @@ public class GigaGal implements Humanoid {
                     // if already clinging, halt x progression
                     if (action != Action.CLINGING) {
                         canCling = true; // enable cling
-                        primaryGround = ground;
-                        killPlane = primaryGround.getBottom() + Constants.KILL_PLANE;
+                        touchedGround = ground;
+                        killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
                     }
                     // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
                 } else {
@@ -377,7 +374,7 @@ public class GigaGal implements Humanoid {
     private void touchGroundTop(Ground ground) {
         // if contact with ground top detected, halt downward progression and set gigagal atop ground
         if ((getBottom() <= ground.getTop()
-                && (!canCling || (primaryGround != null && ground.getTop() != primaryGround.getTop()))) // distinguishes when touching two different grounds and permits uninterrupted striding atop
+                && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop()))) // distinguishes when touching two different grounds and permits uninterrupted striding atop
                 && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
             velocity.y = 0; // prevents from descending beneath ground top
             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
@@ -421,14 +418,15 @@ public class GigaGal implements Humanoid {
             lookStartTime = 0;
             lookTimeSeconds = 0;
         } else if (ground instanceof Climbable) {
-            primaryGround = ground;
+            touchedGround = ground;
             if (Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
                 if (getTop() > ground.getBottom()) {
                     onClimbable = true;
                 }
             }
+
             if (climbTimeSeconds == 0) {
-                if ((getBottom() <= ground.getTop() && (!canCling || (primaryGround != null && ground.getTop() != primaryGround.getTop()))
+                if ((getBottom() <= ground.getTop() && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop()))
                         && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
                         || canClimb && climbStartTime != 0) {
                     setAtopGround(ground);
@@ -454,8 +452,8 @@ public class GigaGal implements Humanoid {
     }
 
     private void setAtopGround(Ground ground) {
-        primaryGround = ground;
-        killPlane = primaryGround.getBottom() + Constants.KILL_PLANE;
+        touchedGround = ground;
+        killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
         hoverStartTime = 0;
         clingStartTime = 0;
         canLook = true;
@@ -467,11 +465,11 @@ public class GigaGal implements Humanoid {
     }
 
     private void untouchGround() {
-        if (primaryGround != null && action != Action.HOVERING && !(primaryGround instanceof Climbable)) {
-            if (getBottom() > primaryGround.getTop() || getTop() < primaryGround.getBottom())
+        if (touchedGround != null && action != Action.HOVERING) {
+            if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
                 /*(!Helpers.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
-                if (primaryGround instanceof Reboundable) {
-                    Reboundable reboundable = (Reboundable) primaryGround;
+                if (touchedGround instanceof Reboundable) {
+                    Reboundable reboundable = (Reboundable) touchedGround;
                     reboundable.resetStartTime();
                     reboundable.setState(false);
                 }
@@ -480,15 +478,15 @@ public class GigaGal implements Humanoid {
                 }
                 canCling = false;
                 fall();
-            } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), primaryGround.getLeft(), primaryGround.getRight())) {
+            } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
                 onSinkable = false;
                 lookTimeSeconds = 0;
                 lookStartTime = 0;
                 if (action != Action.CLINGING) {
                     fall();
                 }
-            } else if (primaryGround instanceof Destructible) {
-                Destructible destructible = (Destructible) primaryGround;
+            } else if (touchedGround instanceof Destructible) {
+                Destructible destructible = (Destructible) touchedGround;
                 if (destructible.getHealth() < 1) {
                     fall();
                 }
@@ -704,11 +702,11 @@ public class GigaGal implements Humanoid {
                                 climbStartTime = TimeUtils.nanoTime(); // replace climb start time with that of most recent tap
                             }
                         }
-                        if (primaryGround instanceof Climbable) {
-                            if (position.x < primaryGround.getLeft()) {
-                                position.x = primaryGround.getLeft() + getHalfWidth();
-                            } else if (position.x > primaryGround.getRight()) {
-                                position.x = primaryGround.getRight() - getHalfWidth();
+                        if (touchedGround instanceof Climbable) {
+                            if (position.x < touchedGround.getLeft()) {
+                                position.x = touchedGround.getLeft();
+                            } else if (position.x > touchedGround.getRight()) {
+                                position.x = touchedGround.getRight();
                             }
                         }
                         climb(Orientation.Y);
@@ -727,21 +725,21 @@ public class GigaGal implements Humanoid {
     }
 
     private void stand() {
-        if (primaryGround instanceof Sinkable) {
+        if (touchedGround instanceof Sinkable) {
             strideStartTime = 0;
             strideTimeSeconds = 0;
             strideAcceleration = 0;
             velocity.x = 0;
             velocity.y = -3;
-        } else if (primaryGround instanceof Skateable) {
+        } else if (touchedGround instanceof Skateable) {
             if (Math.abs(velocity.x) > 0.005f) {
                 velocity.x /= 1.005;
             } else {
                 velocity.x = 0;
             }
-        } else if (primaryGround instanceof Rideable) {
+        } else if (touchedGround instanceof Rideable) {
             velocity.x = 0;
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rideable) primaryGround).getDirection(), Orientation.X);
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rideable) touchedGround).getDirection(), Orientation.X);
         } else {
             velocity.x = 0;
         }
@@ -759,8 +757,6 @@ public class GigaGal implements Humanoid {
     }
 
     private void fall() {
-
-        secondaryGround = null;
         handleXInputs();
         handleYInputs();
         action = Action.FALLING;
@@ -768,14 +764,14 @@ public class GigaGal implements Humanoid {
         canJump = false;
         canDash = false;
         canLook = true;
-        if (!(primaryGround instanceof Skateable)) {
+        if (!(touchedGround instanceof Skateable)) {
             canHover = false;
             strideStartTime = 0;
-        } else if (primaryGround instanceof Sinkable) {
+        } else if (touchedGround instanceof Sinkable) {
             canHover = false;
         }
         if (!canCling) {
-            primaryGround = null;
+            touchedGround = null;
             canHover = true;
         }
         if (turbo < Constants.MAX_TURBO) {
@@ -877,9 +873,9 @@ public class GigaGal implements Humanoid {
         strideTimeSeconds = Helpers.secondsSince(strideStartTime);
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
         velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Orientation.X);
-        if (primaryGround instanceof Rideable) {
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rideable) primaryGround).getDirection(), Orientation.X);
-        } else if (primaryGround instanceof Skateable) {
+        if (touchedGround instanceof Rideable) {
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rideable) touchedGround).getDirection(), Orientation.X);
+        } else if (touchedGround instanceof Skateable) {
             velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
         } else if (onSinkable) {
             velocity.x = Helpers.absoluteToDirectionalValue(10, directionX, Orientation.X);
@@ -904,7 +900,7 @@ public class GigaGal implements Humanoid {
             canStride = false;
         }
         float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
-        if (primaryGround instanceof Skateable || primaryGround instanceof Rideable) {
+        if (touchedGround instanceof Skateable || touchedGround instanceof Rideable) {
             dashSpeed *= 1.75f;
         }
         if (turbo >= 1) {
@@ -938,7 +934,7 @@ public class GigaGal implements Humanoid {
         if (jumpTimeSeconds < Constants.MAX_JUMP_DURATION) {
             velocity.y = Constants.JUMP_SPEED;
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
-            if (primaryGround instanceof Reboundable) {
+            if (touchedGround instanceof Reboundable) {
                 velocity.y *= 2;
             } else if (onSinkable) {
                 fall(); // causes fall texture to render for one frame
@@ -995,8 +991,8 @@ public class GigaGal implements Humanoid {
                 canHover = false; // disable hover if not already
             }
             if (inputControls.jumpButtonJustPressed) {
-                if (position.y > primaryGround.getTop() - 10) {
-                    position.y = primaryGround.getTop() - 10;
+                if (position.y > touchedGround.getTop() - 10) {
+                    position.y = touchedGround.getTop() - 10;
                     canClimb = true;
                 }
                 cling();
@@ -1055,37 +1051,14 @@ public class GigaGal implements Humanoid {
                 }
             } else {
                 canLook = true; // enables look when engaging climbable but not actively climbing
-                canClimb = false; // prevents climb initiation when jumpbutton released
+                canClimb  = false; // prevents climb initiation when jumpbutton released
             }
-            if (secondaryGround != null && !(secondaryGround instanceof Climbable) && primaryGround != null
-                    && Helpers.overlapsBetweenFourSides(position, getHalfWidth(), getHeight() / 2, secondaryGround.getLeft(), secondaryGround.getRight(), secondaryGround.getBottom(), secondaryGround.getTop())
-                    && !(Helpers.encompassedBetweenTwoSides(position.x, getHalfWidth(), primaryGround.getLeft(), primaryGround.getRight()))) {
-                if (velocity.x >= 0) {
-                    directionX = Direction.RIGHT;
-                } else {
-                    directionX = Direction.LEFT;
-                }
-                position.x = previousFramePosition.x - Helpers.absoluteToDirectionalValue(1, directionX, Orientation.X);
-            } else {
-                handleXInputs(); // enables change of x direction for shooting left or right
-            }
-            if (secondaryGround != null && !(secondaryGround instanceof Climbable) && primaryGround != null
-                    && Helpers.overlapsBetweenFourSides(position, getHalfWidth(), getHeight() / 2, secondaryGround.getLeft(), secondaryGround.getRight(), secondaryGround.getBottom(), secondaryGround.getTop())
-                    && !(Helpers.encompassedBetweenTwoSides(position.y, getHalfWidth(), primaryGround.getBottom(), primaryGround.getTop()))) {
-                if (velocity.y >= 0) {
-                    directionY = Direction.UP;
-                } else {
-                    directionY = Direction.DOWN;
-                }
-                position.y = previousFramePosition.y - Helpers.absoluteToDirectionalValue(1, directionY, Orientation.Y);
-            } else {
-                handleYInputs(); // enables change of y direction for looking and climbing up or down
-            }
-
+            handleXInputs(); // enables change of x direction for shooting left or right
+            handleYInputs(); // enables change of y direction for looking and climbing up or down
         } else {
             if (action == Action.CLIMBING) {
                 fall();
-                if (!(primaryGround instanceof Climbable && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), primaryGround.getLeft(), primaryGround.getRight()))) {
+                if (!(touchedGround instanceof Climbable && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())))  {
                     velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
                 }
             }

@@ -57,8 +57,8 @@ public final class Constants {
     // Gigagal assets
     public static final String STAND_RIGHT = "gg-stand-right";
     public static final String STAND_LEFT = "gg-stand-left";
-    public static final String RESUSPENSION_PLASMA_RIGHT = "gg-recoil-right";
-    public static final String RESUSPENSION_PLASMA_LEFT = "gg-recoil-left";
+    public static final String RECOILING_RIGHT = "gg-recoil-right";
+    public static final String RECOILING_LEFT = "gg-recoil-left";
     public static final String FALL_RIGHT = "gg-fall-right";
     public static final String FALL_LEFT = "gg-fall-left";
     public static final String LOOKUP_STAND_RIGHT = "gg-lookup-stand-right";
@@ -130,7 +130,7 @@ public final class Constants {
     public static final float LIFT_SPEED = 40;
 
     // Ladder
-    public static final Vector2 LADDER_CENTER = new Vector2(8.5f, 25);
+    public static final Vector2 LADDER_CENTER = new Vector2(8.5f, 20);
     public static final String LADDER_SPRITE = "ladder";
     public static final int LADDER_X_EDGE = 4;
     public static final int LADDER_Y_EDGE = 0;

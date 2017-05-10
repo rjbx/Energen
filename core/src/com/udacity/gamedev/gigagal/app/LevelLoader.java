@@ -483,7 +483,7 @@ final class LevelLoader {
         Array<Box> boxArray = new Array<Box>();
         Array<BreakableBox> breakableBoxArray = new Array<BreakableBox>();
         Array<Ladder> ladderArray = new Array<Ladder>();
-        
+
         for (Object o : ninePatches) {
             final JSONObject item = (JSONObject) o;
 
