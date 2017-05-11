@@ -366,6 +366,7 @@ public class LevelUpdater {
     }
 
     protected void unpause() {
+        Assets.getInstance().getMusicAssets().level.play();
         paused = false;
         Timer.getInstance().resume();
     }
