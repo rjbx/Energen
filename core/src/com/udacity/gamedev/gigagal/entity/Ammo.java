@@ -159,10 +159,10 @@ public final class Ammo implements Indestructible, Hazard {
             if (ground instanceof Strikeable) {
                 Strikeable strikeable = (Strikeable) ground;
                 if (position.dst(strikeable.getPosition()) < (strikeable.getShotRadius() + this.radius)) {
-                    if (strikeable instanceof Trip) {
-                        Trip trip = ((Trip) strikeable);
-                        trip.resetStartTime();
-                        trip.setState(!trip.getState());
+                    if (strikeable instanceof Button) {
+                        Switchable switchable = ((Switchable) strikeable);
+                        switchable.resetStartTime();
+                        switchable.setState(!switchable.getState());
                     } else if (strikeable instanceof Chargeable) {
                         Chargeable chargeable = (Chargeable) strikeable;
                         chargeable.deactivate();

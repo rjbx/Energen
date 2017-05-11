@@ -28,7 +28,7 @@ import com.udacity.gamedev.gigagal.entity.Slick;
 import com.udacity.gamedev.gigagal.entity.Spring;
 import com.udacity.gamedev.gigagal.entity.Suspension;
 import com.udacity.gamedev.gigagal.entity.Teleport;
-import com.udacity.gamedev.gigagal.entity.Trip;
+import com.udacity.gamedev.gigagal.entity.Button;
 import com.udacity.gamedev.gigagal.entity.Swoopa;
 import com.udacity.gamedev.gigagal.entity.Treadmill;
 import com.udacity.gamedev.gigagal.entity.Vines;
@@ -431,8 +431,8 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIP_SPRITE_1)) {
                 final Vector2 tripPosition = imagePosition.add(Constants.TRIP_CENTER);
                 Gdx.app.log(TAG, "Loaded the trip at " + tripPosition);
-                Trip trip = new Trip(level, tripPosition, bounds);
-                level.getGrounds().add(trip);
+                Button button = new Button(level, tripPosition, bounds);
+                level.getGrounds().add(button);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POD_SPRITE_1)) {
                 final Vector2 podPosition = imagePosition.add(Constants.POD_CENTER);
                 Gdx.app.log(TAG, "Loaded the pod at " + podPosition);

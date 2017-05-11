@@ -21,8 +21,8 @@ import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Powerup;
 import com.udacity.gamedev.gigagal.entity.Reboundable;
-import com.udacity.gamedev.gigagal.entity.Trip;
-import com.udacity.gamedev.gigagal.entity.Trippable;
+import com.udacity.gamedev.gigagal.entity.Convertible;
+import com.udacity.gamedev.gigagal.entity.Switchable;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -121,7 +121,6 @@ public class LevelUpdater {
     }
 
     // asset handling
-
     private void updateAssets(float delta) {
 
         time = Timer.getInstance().getNanos();
@@ -166,18 +165,13 @@ public class LevelUpdater {
                 ((Hoverable) ground).update(delta);
             } else if (ground instanceof Cannon) {
                 Cannon cannon = (Cannon) grounds.get(i);
-                if (cannon.getOffset() == 0) {
-                    cannonOffset += 0.25f;
-                    cannon.setOffset(cannonOffset);
-                    cannon.setStartTime(TimeUtils.nanoTime() + ((long) (cannon.getOffset() / MathUtils.nanoToSec)));
-                }
                 cannon.update();
             } else if (ground instanceof Reboundable) {
                 ((Reboundable) ground).update();
-            } else if (ground instanceof Trippable) {
-                ((Trippable) ground).update();
-            } else if (ground instanceof Trip) {
-                ((Trip) ground).update();
+            } else if (ground instanceof Convertible) {
+                ((Convertible) ground).update();
+            } else if (ground instanceof Switchable) {
+                ((Switchable) ground).update();
             } else if (ground instanceof Destructible) {
                 if (((Destructible) ground).getHealth() < 1) {
                     grounds.removeIndex(i);

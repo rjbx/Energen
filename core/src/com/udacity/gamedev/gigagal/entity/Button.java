@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Trip implements Strikeable, Ground {
+public class Button implements Switchable, Strikeable, Ground {
 
     // fields
     private Vector2 position;
@@ -20,7 +20,7 @@ public class Trip implements Strikeable, Ground {
     private boolean state;
 
     // ctor
-    public Trip(LevelUpdater level, Vector2 position, Rectangle bounds) {
+    public Button(LevelUpdater level, Vector2 position, Rectangle bounds) {
         this.position = position;
         this.level = level;
         this.bounds = bounds;
@@ -31,7 +31,7 @@ public class Trip implements Strikeable, Ground {
     public void update() {
         if (state) {
             for (Ground ground : level.getGrounds()) {
-                if (ground instanceof Trippable) {
+                if (ground instanceof Convertible) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
                         if (!((Treadmill) ground).isTripped()) {
                             ((Treadmill) ground).trip();
@@ -41,7 +41,7 @@ public class Trip implements Strikeable, Ground {
             }
         } else {
             for (Ground ground : level.getGrounds()) {
-                if (ground instanceof Trippable) {
+                if (ground instanceof Convertible) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
                         if (((Treadmill) ground).isTripped()) {
                             ((Treadmill) ground).trip();
@@ -75,12 +75,12 @@ public class Trip implements Strikeable, Ground {
     @Override public final float getTop() { return position.y + Constants.TRIP_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.TRIP_CENTER.y; }
     public final long getStartTime() { return startTime; }
-    public final void resetStartTime() { this.startTime = 0; }
+    @Override public final void resetStartTime() { this.startTime = 0; }
     public Rectangle getBounds() { return bounds; }
-    public boolean getState() { return state; }
+    @Override public boolean getState() { return state; }
     @Override public float getShotRadius() { return Constants.TRIP_SHOT_RADIUS; }
-    public void setState(boolean state) {
+    @Override public void setState(boolean state) {
         this.state = state;
     }
-    @Override public Trip clone() { return new Trip(level, position, bounds); }
+    @Override public Button clone() { return new Button(level, position, bounds); }
 }

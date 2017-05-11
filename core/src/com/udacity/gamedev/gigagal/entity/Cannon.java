@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -43,6 +44,10 @@ public class Cannon implements Solid, Ground {
     }
     
     public void update() {
+        if (this.getOffset() == 0) {
+            offset += 0.25f;
+            this.setStartTime(TimeUtils.nanoTime() + ((long) (this.getOffset() / MathUtils.nanoToSec)));
+        }
         if ((Helpers.secondsSince(this.getStartTime()) > 1.5f)) {
             this.setStartTime(TimeUtils.nanoTime());
             Enums.Orientation orientation = this.getOrientation();

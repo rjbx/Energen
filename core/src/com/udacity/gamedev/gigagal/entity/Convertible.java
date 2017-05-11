@@ -1,6 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Trippable {
+public interface Convertible {
 
     boolean isTripped();
     void trip();

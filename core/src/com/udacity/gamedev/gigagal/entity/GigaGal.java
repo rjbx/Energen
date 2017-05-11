@@ -1,7 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -293,7 +291,7 @@ public class GigaGal implements Humanoid {
                 }
             } else if (ground instanceof Reboundable) {
                 Reboundable reboundable = (Reboundable) ground;
-                if (reboundable.getState() && !(reboundable instanceof Trip)) {
+                if (reboundable.getState() && !(reboundable instanceof Button)) {
                     reboundable.resetStartTime();
                     reboundable.setState(false);
                 }
