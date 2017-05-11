@@ -169,67 +169,72 @@ class LevelScreen extends ScreenAdapter {
     }
 
     private void showPauseMenu(float delta) {
-        if (menu == MAIN) {
-            if (InputControls.getInstance().jumpButtonJustPressed) {
-                GigaGal.getInstance().toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
-                Menu.getInstance().setPromptString(Align.right, (GigaGal.getInstance().getWeapon().name() + "\n" + SaveData.getWeapons().replace(GigaGal.getInstance().getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
-            }
-            if (InputControls.getInstance().shootButtonJustPressed) {
-                if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y && ChaseCam.getInstance().getFollowing()) {
-                    LevelUpdater.getInstance().unpause();
-                } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 15) {
-                    OverworldScreen.getInstance().setMainMenu();
-                    ScreenManager.getInstance().setScreen(OverworldScreen.getInstance());
-                    LevelUpdater.getInstance().unpause();
-                    LevelUpdater.getInstance().end();
-                    return;
-                } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 30) {
-                    setOptionsMenu();
+        switch (menu) {
+            case MAIN:
+                if (InputControls.getInstance().jumpButtonJustPressed) {
+                    GigaGal.getInstance().toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
+                    Menu.getInstance().setPromptString(Align.right, (GigaGal.getInstance().getWeapon().name() + "\n" + SaveData.getWeapons().replace(GigaGal.getInstance().getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
                 }
-            } else if (InputControls.getInstance().pauseButtonJustPressed) {
-                LevelUpdater.getInstance().unpause();
-            }
-        } else if (menu == OPTIONS) {
-            if (InputControls.getInstance().shootButtonJustPressed) {
-                if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y + 30) {
-                    setMainMenu();
-                } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y + 15) {
-                    setResetMenu();
-                } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y) {
-                    if (ChaseCam.getInstance().getFollowing()) {
-                        ChaseCam.getInstance().setFollowing(false);
-                        setDebugMenu();
+                if (InputControls.getInstance().shootButtonJustPressed) {
+                    if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y && ChaseCam.getInstance().getFollowing()) {
+                        LevelUpdater.getInstance().unpause();
+                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 15) {
+                        OverworldScreen.getInstance().setMainMenu();
+                        ScreenManager.getInstance().setScreen(OverworldScreen.getInstance());
+                        LevelUpdater.getInstance().unpause();
+                        LevelUpdater.getInstance().end();
+                        return;
+                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 30) {
+                        setOptionsMenu();
                     }
-                } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 15) {
-                    SaveData.toggleTouchscreen(!SaveData.hasTouchscreen());
-                } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 30) {
-                    LevelUpdater.getInstance().toggleMusic();
-                } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 45) {
+                } else if (InputControls.getInstance().pauseButtonJustPressed) {
                     LevelUpdater.getInstance().unpause();
-                    LevelUpdater.getInstance().end();
-                    ScreenManager.getInstance().create();
-                    return;
                 }
-            } else if (InputControls.getInstance().pauseButtonJustPressed) {
-                setMainMenu();
-            }
-        } else if (menu == RESET) {
-            if (InputControls.getInstance().shootButtonJustPressed) {
-                if (Cursor.getInstance().getPosition() == viewport.getCamera().position.x + 50) {
-                    LevelUpdater.getInstance().unpause();
-                    LevelUpdater.getInstance().end();
-                    OverworldScreen.getInstance().loadLevel(OverworldScreen.getSelection());
-                } else {
+                break;
+            case OPTIONS:
+                if (InputControls.getInstance().shootButtonJustPressed) {
+                    if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y + 30) {
+                        setMainMenu();
+                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y + 15) {
+                        setResetMenu();
+                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y) {
+                        if (ChaseCam.getInstance().getFollowing()) {
+                            ChaseCam.getInstance().setFollowing(false);
+                            setDebugMenu();
+                        }
+                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 15) {
+                        SaveData.toggleTouchscreen(!SaveData.hasTouchscreen());
+                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 30) {
+                        LevelUpdater.getInstance().toggleMusic();
+                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 45) {
+                        LevelUpdater.getInstance().unpause();
+                        LevelUpdater.getInstance().end();
+                        ScreenManager.getInstance().create();
+                        return;
+                    }
+                } else if (InputControls.getInstance().pauseButtonJustPressed) {
+                    setMainMenu();
+                }
+                break;
+            case RESET:
+                if (InputControls.getInstance().shootButtonJustPressed) {
+                    if (Cursor.getInstance().getPosition() == viewport.getCamera().position.x + 50) {
+                        LevelUpdater.getInstance().unpause();
+                        LevelUpdater.getInstance().end();
+                        OverworldScreen.getInstance().loadLevel(OverworldScreen.getSelection());
+                    } else {
+                        setOptionsMenu();
+                    }
+                }
+                break;
+            case DEBUG:
+                LevelUpdater.getInstance().render(batch, viewport);
+                ChaseCam.getInstance().update(batch, viewport, delta);
+                if (InputControls.getInstance().shootButtonJustPressed) {
+                    ChaseCam.getInstance().setFollowing(true);
                     setOptionsMenu();
                 }
-            }
-        } else if (menu == DEBUG){
-            LevelUpdater.getInstance().render(batch, viewport);
-            ChaseCam.getInstance().update(batch, viewport, delta);
-            if (InputControls.getInstance().shootButtonJustPressed) {
-                ChaseCam.getInstance().setFollowing(true);
-                setOptionsMenu();
-            }
+                break;
         }
         Menu.getInstance().render(batch, font, viewport, Cursor.getInstance()); // renders after debug level which sets menu to foreground
     }

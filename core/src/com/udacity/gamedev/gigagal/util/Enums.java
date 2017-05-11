@@ -108,16 +108,14 @@ public final class Enums {
     }
 
     public enum OverworldMenu {
-        SELECT,
+        MAIN,
         OPTIONS
     }
 
     public enum LaunchMenu {
-        NONE,
         START,
         ERASE,
         DIFFICULTY,
-        END
     }
 
     public enum TimerState {

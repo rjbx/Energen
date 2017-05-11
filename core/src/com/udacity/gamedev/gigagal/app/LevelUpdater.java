@@ -171,27 +171,7 @@ public class LevelUpdater {
                     cannon.setOffset(cannonOffset);
                     cannon.setStartTime(TimeUtils.nanoTime() + ((long) (cannon.getOffset() / MathUtils.nanoToSec)));
                 }
-                if ((Helpers.secondsSince(cannon.getStartTime()) > 1.5f)) {
-                    cannon.setStartTime(TimeUtils.nanoTime());
-                    Enums.Orientation orientation = cannon.getOrientation();
-                    if (orientation == Enums.Orientation.X) {
-                        Vector2 ammoPositionLeft = new Vector2(cannon.getPosition().x - (cannon.getWidth() / 2), cannon.getPosition().y);
-                        Vector2 ammoPositionRight = new Vector2(cannon.getPosition().x + (cannon.getWidth() / 2), cannon.getPosition().y);
-                        if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (cannon.getWidth() / 2))) {
-                            spawnAmmo(ammoPositionLeft, Direction.LEFT, orientation, cannon.getIntensity(), levelWeapon, false);
-                        } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (cannon.getWidth() / 2))) {
-                            spawnAmmo(ammoPositionRight, Direction.RIGHT, orientation, cannon.getIntensity(), levelWeapon, false);
-                        }
-                    } else if (cannon.getOrientation() == Enums.Orientation.Y) {
-                        Vector2 ammoPositionTop = new Vector2(cannon.getPosition().x, cannon.getPosition().y + (cannon.getHeight() / 2));
-                        Vector2 ammoPositionBottom = new Vector2(cannon.getPosition().x, cannon.getPosition().y - (cannon.getHeight() / 2));
-                        if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (cannon.getHeight() / 2))) {
-                            spawnAmmo(ammoPositionBottom, Direction.DOWN, orientation, cannon.getIntensity(), levelWeapon, false);
-                        } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (cannon.getHeight() / 2))) {
-                            spawnAmmo(ammoPositionTop, Direction.UP, orientation, cannon.getIntensity(), levelWeapon, false);
-                        }
-                    }
-                }
+                cannon.update();
             } else if (ground instanceof Reboundable) {
                 ((Reboundable) ground).update();
             } else if (ground instanceof Trippable) {
@@ -205,30 +185,8 @@ public class LevelUpdater {
             } else if (ground instanceof Chargeable) {
                 if (ground instanceof Chamber) {
                     Chamber chamber = (Chamber) ground;
-                    Enums.Upgrade upgrade = chamber.getUpgrade();
                     if (!chamber.isActive() && chamber.wasCharged()) {
-                        switch (upgrade) {
-                            case AMMO:
-                                SaveData.setAmmoMultiplier(.9f);
-                                GigaGal.getInstance().refresh();
-                                break;
-                            case HEALTH:
-                                SaveData.setHealthMultiplier(.8f);
-                                GigaGal.getInstance().refresh();
-                                break;
-                            case TURBO:
-                                SaveData.setTurboMultiplier(.7f);
-                                GigaGal.getInstance().refresh();
-                                break;
-                            case CANNON:
-                                String savedWeapons = SaveData.getWeapons();
-                                if (!savedWeapons.contains(Enums.Material.HYBRID.name())) {
-                                    GigaGal.getInstance().addWeapon(Enums.Material.HYBRID);
-                                    SaveData.setWeapons(Enums.Material.HYBRID.name() + ", " + savedWeapons);
-                                }
-                                break;
-                            default:
-                        }
+                        setUpgrade(chamber.getUpgrade());
                         chamber.uncharge();
                     }
                 }
@@ -294,7 +252,32 @@ public class LevelUpdater {
         powerups.end();
     }
 
-    public void restoreRemovals(String removals) {
+    private void setUpgrade(Enums.Upgrade upgrade) {
+        switch (upgrade) {
+            case AMMO:
+                SaveData.setAmmoMultiplier(.9f);
+                GigaGal.getInstance().refresh();
+                break;
+            case HEALTH:
+                SaveData.setHealthMultiplier(.8f);
+                GigaGal.getInstance().refresh();
+                break;
+            case TURBO:
+                SaveData.setTurboMultiplier(.7f);
+                GigaGal.getInstance().refresh();
+                break;
+            case CANNON:
+                String savedWeapons = SaveData.getWeapons();
+                if (!savedWeapons.contains(Enums.Material.HYBRID.name())) {
+                    GigaGal.getInstance().addWeapon(Enums.Material.HYBRID);
+                    SaveData.setWeapons(Enums.Material.HYBRID.name() + ", " + savedWeapons);
+                }
+                break;
+            default:
+        }
+    }
+
+    protected void restoreRemovals(String removals) {
         removedHazards = removals;
         List<String> levelRemovalStrings = Arrays.asList(removedHazards.split(";"));
         List<Integer> levelRemovals = new ArrayList<Integer>();
@@ -307,14 +290,6 @@ public class LevelUpdater {
                 hazards.removeIndex(removal);
             }
         }
-    }
-
-    public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Material weapon, boolean targetsEnemies) {
-        hazards.add(new Ammo(this, position, direction, orientation, shotIntensity, weapon, targetsEnemies));
-    }
-
-    public void spawnExplosion(Vector2 position, Enums.Material type) {
-        impacts.add(new Impact(position, type));
     }
 
     protected void dispose() {
@@ -414,6 +389,14 @@ public class LevelUpdater {
 
     protected boolean paused() {
         return paused;
+    }
+
+    public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Material weapon, boolean targetsEnemies) {
+        hazards.add(new Ammo(this, position, direction, orientation, shotIntensity, weapon, targetsEnemies));
+    }
+
+    public void spawnExplosion(Vector2 position, Enums.Material type) {
+        impacts.add(new Impact(position, type));
     }
 
     // Getters

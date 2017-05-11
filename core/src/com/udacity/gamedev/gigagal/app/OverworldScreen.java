@@ -54,7 +54,7 @@ final class OverworldScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        menu = Enums.OverworldMenu.SELECT;
+        menu = Enums.OverworldMenu.MAIN;
         messageVisible = false;
         InputControls.getInstance();
         TouchInterface.getInstance();
@@ -73,7 +73,7 @@ final class OverworldScreen extends ScreenAdapter {
         Menu.getInstance().clearStrings();
         Menu.getInstance().setOptionStrings(selectionStrings);
         Menu.getInstance().TextAlignment(Align.left);
-        menu = Enums.OverworldMenu.SELECT;
+        menu = Enums.OverworldMenu.MAIN;
     }
 
     private static void setOptionsMenu() {
@@ -111,7 +111,7 @@ final class OverworldScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         switch (menu) {
-            case SELECT:
+            case MAIN:
                 Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
                 if (InputControls.getInstance().shootButtonJustPressed) {
                     if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
