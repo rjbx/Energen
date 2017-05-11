@@ -12,7 +12,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Cannon implements Solid, Ground {
+public class Cannon implements Nonstatic, Solid {
 
     // fields
     private Vector2 position;

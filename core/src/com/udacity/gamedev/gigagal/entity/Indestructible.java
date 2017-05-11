@@ -1,4 +1,4 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Indestructible extends Entity {
+public interface Indestructible extends Physical {
 }

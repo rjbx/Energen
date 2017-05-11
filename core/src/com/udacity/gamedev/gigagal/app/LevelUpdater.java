@@ -2,7 +2,6 @@ package com.udacity.gamedev.gigagal.app;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -16,6 +15,7 @@ import com.udacity.gamedev.gigagal.entity.Ground;
 import com.udacity.gamedev.gigagal.entity.Hazard;
 import com.udacity.gamedev.gigagal.entity.Impact;
 import com.udacity.gamedev.gigagal.entity.Hoverable;
+import com.udacity.gamedev.gigagal.entity.Nonstatic;
 import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
@@ -161,17 +161,8 @@ public class LevelUpdater {
         grounds.begin();
         for (int i = 0; i < grounds.size ; i++) {
             Ground ground = grounds.get(i);
-            if (ground instanceof Hoverable) {
-                ((Hoverable) ground).update(delta);
-            } else if (ground instanceof Cannon) {
-                Cannon cannon = (Cannon) grounds.get(i);
-                cannon.update();
-            } else if (ground instanceof Reboundable) {
-                ((Reboundable) ground).update();
-            } else if (ground instanceof Convertible) {
-                ((Convertible) ground).update();
-            } else if (ground instanceof Switchable) {
-                ((Switchable) ground).update();
+            if (ground instanceof Nonstatic) {
+                ((Nonstatic) ground).update();
             } else if (ground instanceof Destructible) {
                 if (((Destructible) ground).getHealth() < 1) {
                     grounds.removeIndex(i);

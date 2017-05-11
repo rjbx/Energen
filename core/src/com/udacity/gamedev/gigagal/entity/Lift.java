@@ -1,8 +1,11 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.udacity.gamedev.gigagal.app.ScreenManager;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -38,15 +41,15 @@ public class Lift implements Hoverable, Ground {
     }
 
     @Override
-    public void update(float delta) {
+    public void update() {
         switch (orientation) {
             case Y:
                 switch (direction) {
                     case UP:
-                        velocity.set(0, Constants.LIFT_SPEED * delta);
+                        velocity.set(0, Constants.LIFT_SPEED * Gdx.graphics.getDeltaTime());
                         break;
                     case DOWN:
-                        velocity.set(0, -Constants.LIFT_SPEED * delta);
+                        velocity.set(0, -Constants.LIFT_SPEED * Gdx.graphics.getDeltaTime());
                         break;
                 }
                 position.add(velocity);
@@ -61,10 +64,10 @@ public class Lift implements Hoverable, Ground {
             case X:
                 switch (direction) {
                     case RIGHT:
-                        velocity.set(Constants.LIFT_SPEED * delta, 0);
+                        velocity.set(Constants.LIFT_SPEED * Gdx.graphics.getDeltaTime(), 0);
                         break;
                     case LEFT:
-                        velocity.set(-Constants.LIFT_SPEED * delta, 0);
+                        velocity.set(-Constants.LIFT_SPEED * Gdx.graphics.getDeltaTime(), 0);
                         break;
                 }
                 position.add(velocity);

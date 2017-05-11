@@ -1,8 +1,7 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Switchable {
+public interface Switchable extends Nonstatic, Ground {
 
-    void update();
     void resetStartTime();
     void setState(boolean state);
     boolean getState();

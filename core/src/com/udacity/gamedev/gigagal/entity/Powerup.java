@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
-public class Powerup implements Entity {
+public class Powerup implements Physical {
 
     // fields
     private final Vector2 position;

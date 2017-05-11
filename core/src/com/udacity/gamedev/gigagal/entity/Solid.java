@@ -1,4 +1,4 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Solid extends Entity {
+public interface Solid extends Ground {
 }
