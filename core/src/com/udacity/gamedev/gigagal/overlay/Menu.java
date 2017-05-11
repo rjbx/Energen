@@ -59,6 +59,8 @@ public final class Menu {
                     startingPosition -= 15;
                 }
             }
+        } else {
+            Helpers.drawBitmapFont(batch, viewport, font, (String) optionStrings[0], alignmentPosition, startingPosition + 10, textAlignment);
         }
      //   cursor.resetPosition();
     }

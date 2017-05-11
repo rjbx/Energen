@@ -35,12 +35,11 @@ final class LaunchScreen extends ScreenAdapter {
     private BitmapFont text;
     private BitmapFont title;
     private Backdrop launchBackdrop;
+    private static Enums.LaunchMenu menu;
     private List<String> choices;
     private long launchStartTime;
     private boolean launching;
     private boolean continuing;
-    private boolean difficultyOptionsVisible;
-    private boolean promptVisible;
     private Vector2 gigagalCenter;
 
     // cannot be subclassed
@@ -69,8 +68,6 @@ final class LaunchScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        difficultyOptionsVisible = false;
-        promptVisible = false;
         batch = new SpriteBatch();
         font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays instantiated from this class
         font.getData().setScale(.4f); // shared by all overlays instantiated from this class
@@ -89,6 +86,7 @@ final class LaunchScreen extends ScreenAdapter {
         Menu.getInstance().clearStrings();
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
         Menu.getInstance().TextAlignment(Align.center);
+        menu = Enums.LaunchMenu.START;
     }
 
     private static void setEraseMenu() {
@@ -99,6 +97,7 @@ final class LaunchScreen extends ScreenAdapter {
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
         Menu.getInstance().TextAlignment(Align.center);
         Menu.getInstance().setPromptString(Align.center, "Are you sure you want to start \na new game and erase all saved data?");
+        menu = Enums.LaunchMenu.ERASE;
     }
 
     private static void setBeginMenu() {
@@ -107,6 +106,7 @@ final class LaunchScreen extends ScreenAdapter {
         String[] option = {"PRESS START"};
         Menu.getInstance().setOptionStrings(Arrays.asList(option));
         Menu.getInstance().TextAlignment(Align.center);
+        menu = Enums.LaunchMenu.START;
     }
 
     private static void setDifficultyMenu() {
@@ -116,6 +116,7 @@ final class LaunchScreen extends ScreenAdapter {
         String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
         Menu.getInstance().isSingleOption(false);
+        menu = Enums.LaunchMenu.DIFFICULTY;
     }
 
     private boolean onMobile() {
@@ -143,9 +144,9 @@ final class LaunchScreen extends ScreenAdapter {
 
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if (!difficultyOptionsVisible) {
-            if (!launching) {
-                if (!promptVisible) {
+        if (!launching) {
+            switch(menu) {
+                case START:
                     Helpers.drawBitmapFont(batch, viewport, title, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, Align.center);
                     final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
                     Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
@@ -162,14 +163,13 @@ final class LaunchScreen extends ScreenAdapter {
                                 return;
                             } else if (Cursor.getInstance().getPosition() == 20) {
                                 setEraseMenu();
-                                promptVisible = true;
                             }
                         } else {
-                            difficultyOptionsVisible = true;
                             setDifficultyMenu();
                         }
                     }
-                } else {
+                    break;
+                case ERASE:
                     Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
                     if (inputControls.shootButtonJustPressed) {
                         if (Cursor.getInstance().getPosition() == (150)) {
@@ -180,43 +180,38 @@ final class LaunchScreen extends ScreenAdapter {
                         } else {
                             setResumeMenu();
                         }
-                        promptVisible = false;
                     }
-                }
-            } else {
-                launchBackdrop.render(batch, viewport, Assets.getInstance().getOverlayAssets().logo,
-                        new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .625f),
-                        new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f));
-                Helpers.drawBitmapFont(batch, viewport, font, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, Align.center);
-            }
-            if (launching) {
-                if (Helpers.secondsSince(launchStartTime) > 3) {
-                    launching = false;
-                    if (continuing) {
-                        setResumeMenu();
-                    } else {
-                        setBeginMenu();
+                    break;
+                case DIFFICULTY:
+                    Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
+                    if (inputControls.shootButtonJustPressed) {
+                        if (Cursor.getInstance().getPosition() == 75) {
+                            SaveData.setDifficulty(0);
+                        } else if (Cursor.getInstance().getPosition() == 60) {
+                            SaveData.setDifficulty(1);
+                        } else if (Cursor.getInstance().getPosition() == 45) {
+                            SaveData.setDifficulty(2);
+                        }
+                        OverworldScreen overworldScreen = OverworldScreen.getInstance();
+                        overworldScreen.create();
+                        ScreenManager.getInstance().setScreen(overworldScreen);
+                        this.dispose();
+                        return;
                     }
-                }
+                    break;
             }
         } else {
-            Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
-            if (inputControls.shootButtonJustPressed) {
-                if (Cursor.getInstance().getPosition() == 75) {
-                    SaveData.setDifficulty(0);
-                } else if (Cursor.getInstance().getPosition() == 60) {
-                    SaveData.setDifficulty(1);
-                } else if (Cursor.getInstance().getPosition() == 45) {
-                    SaveData.setDifficulty(2);
+            launchBackdrop.render(batch, viewport, Assets.getInstance().getOverlayAssets().logo,
+                    new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .625f),
+                    new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f));
+            Helpers.drawBitmapFont(batch, viewport, font, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, Align.center);
+            if (Helpers.secondsSince(launchStartTime) > 3) {
+                launching = false;
+                if (continuing) {
+                    setResumeMenu();
+                } else {
+                    setBeginMenu();
                 }
-                difficultyOptionsVisible = false;
-                OverworldScreen overworldScreen = OverworldScreen.getInstance();
-                overworldScreen.create();
-                ScreenManager.getInstance().setScreen(overworldScreen);
-                this.dispose();
-                return;
-            } else if (inputControls.pauseButtonJustPressed) {
-                difficultyOptionsVisible = false;
             }
         }
         inputControls.update();

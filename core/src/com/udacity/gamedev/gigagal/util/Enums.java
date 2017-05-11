@@ -107,6 +107,19 @@ public final class Enums {
         END
     }
 
+    public enum OverworldMenu {
+        SELECT,
+        OPTIONS
+    }
+
+    public enum LaunchMenu {
+        NONE,
+        START,
+        ERASE,
+        DIFFICULTY,
+        END
+    }
+
     public enum TimerState {
         UNSTARTED,
         RUNNING,

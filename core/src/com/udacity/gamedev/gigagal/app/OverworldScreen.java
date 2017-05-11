@@ -32,7 +32,7 @@ final class OverworldScreen extends ScreenAdapter {
     private ExtendViewport viewport;
     private SpriteBatch batch;
     private BitmapFont font;
-    private boolean viewingOptions;
+    private static Enums.OverworldMenu menu;
     private boolean messageVisible;
     private static Enums.Theme selection;
 
@@ -54,7 +54,7 @@ final class OverworldScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        viewingOptions = false;
+        menu = Enums.OverworldMenu.SELECT;
         messageVisible = false;
         InputControls.getInstance();
         TouchInterface.getInstance();
@@ -73,6 +73,7 @@ final class OverworldScreen extends ScreenAdapter {
         Menu.getInstance().clearStrings();
         Menu.getInstance().setOptionStrings(selectionStrings);
         Menu.getInstance().TextAlignment(Align.left);
+        menu = Enums.OverworldMenu.SELECT;
     }
 
     private static void setOptionsMenu() {
@@ -82,6 +83,7 @@ final class OverworldScreen extends ScreenAdapter {
         String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
         Menu.getInstance().TextAlignment(Align.center);
+        menu = Enums.OverworldMenu.OPTIONS;
     }
 
     private boolean onMobile() {
@@ -108,32 +110,32 @@ final class OverworldScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (!viewingOptions) {
-            Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
-            if (InputControls.getInstance().shootButtonJustPressed) {
-                if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
-                    selection = Enums.Theme.valueOf(Cursor.getInstance().getIterator().previous());
-                    loadLevel(selection);
-                } else {
-                    viewingOptions = true;
-                    setOptionsMenu();
+        switch (menu) {
+            case SELECT:
+                Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
+                if (InputControls.getInstance().shootButtonJustPressed) {
+                    if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
+                        selection = Enums.Theme.valueOf(Cursor.getInstance().getIterator().previous());
+                        loadLevel(selection);
+                    } else {
+                        setOptionsMenu();
+                    }
                 }
-            }
-        } else {
-            Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
-            if (InputControls.getInstance().shootButtonJustPressed) {
-                if (Cursor.getInstance().getPosition() == 106) {
-                    setMainMenu();
-                    viewingOptions = false;
-                } else if (Cursor.getInstance().getPosition() == 91) {
-                    SaveData.toggleTouchscreen(!SaveData.hasTouchscreen());
-                } else if (Cursor.getInstance().getPosition() == 76) {
-                    ScreenManager.getInstance().dispose();
-                    ScreenManager.getInstance().create();
+                break;
+            case OPTIONS:
+                Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
+                if (InputControls.getInstance().shootButtonJustPressed) {
+                    if (Cursor.getInstance().getPosition() == 106) {
+                        setMainMenu();
+                    } else if (Cursor.getInstance().getPosition() == 91) {
+                        SaveData.toggleTouchscreen(!SaveData.hasTouchscreen());
+                    } else if (Cursor.getInstance().getPosition() == 76) {
+                        ScreenManager.getInstance().dispose();
+                        ScreenManager.getInstance().create();
+                    }
+                } else if (InputControls.getInstance().pauseButtonJustPressed) {
                 }
-            } else if (InputControls.getInstance().pauseButtonJustPressed) {
-                viewingOptions = false;
-            }
+                break;
         }
         if (messageVisible) {
             font.getData().setScale(0.25f);

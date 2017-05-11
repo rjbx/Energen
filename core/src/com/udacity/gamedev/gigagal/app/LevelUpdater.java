@@ -21,6 +21,7 @@ import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Powerup;
 import com.udacity.gamedev.gigagal.entity.Reboundable;
+import com.udacity.gamedev.gigagal.entity.Trip;
 import com.udacity.gamedev.gigagal.entity.Trippable;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -191,10 +192,12 @@ public class LevelUpdater {
                         }
                     }
                 }
-            } else if (ground instanceof Trippable) {
-                ((Trippable) ground).update();
             } else if (ground instanceof Reboundable) {
                 ((Reboundable) ground).update();
+            } else if (ground instanceof Trippable) {
+                ((Trippable) ground).update();
+            } else if (ground instanceof Trip) {
+                ((Trip) ground).update();
             } else if (ground instanceof Destructible) {
                 if (((Destructible) ground).getHealth() < 1) {
                     grounds.removeIndex(i);

@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Trip implements Reboundable, Strikeable, Ground {
+public class Trip implements Strikeable, Ground {
 
     // fields
     private Vector2 position;
@@ -28,7 +28,6 @@ public class Trip implements Reboundable, Strikeable, Ground {
         state = false;
     }
 
-    @Override
     public void update() {
         if (state) {
             for (Ground ground : level.getGrounds()) {
@@ -75,12 +74,12 @@ public class Trip implements Reboundable, Strikeable, Ground {
     @Override public final float getRight() { return position.x + Constants.TRIP_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.TRIP_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.TRIP_CENTER.y; }
-    @Override public final long getStartTime() { return startTime; }
-    @Override public final void resetStartTime() { this.startTime = 0; }
+    public final long getStartTime() { return startTime; }
+    public final void resetStartTime() { this.startTime = 0; }
     public Rectangle getBounds() { return bounds; }
     public boolean getState() { return state; }
     @Override public float getShotRadius() { return Constants.TRIP_SHOT_RADIUS; }
-    @Override public void setState(boolean state) {
+    public void setState(boolean state) {
         this.state = state;
     }
     @Override public Trip clone() { return new Trip(level, position, bounds); }
