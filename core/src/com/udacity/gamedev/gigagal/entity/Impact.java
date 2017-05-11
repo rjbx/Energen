@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Impact implements Physical {
+public class Impact implements Physical, Visible {
 
     //fields
     public static final String TAG = Impact.class.getName();

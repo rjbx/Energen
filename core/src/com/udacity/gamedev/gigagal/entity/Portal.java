@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
-public final class Portal implements Physical {
+public final class Portal implements Physical, Visible {
 
     // fields
     public final static String TAG = Portal.class.getName();

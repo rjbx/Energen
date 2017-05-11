@@ -1,6 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Chargeable extends Solid {
+public interface Chargeable {
 
     void activate();
     void deactivate();
