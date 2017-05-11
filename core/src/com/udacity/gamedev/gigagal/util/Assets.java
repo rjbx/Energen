@@ -8,7 +8,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -868,6 +867,29 @@ public final class Assets implements AssetErrorListener {
 
         private MusicAssets() {
             level = assetManager.get(Constants.LEVEL_MUSIC); // use of descriptor enforces type checking
+        }
+        
+        public Music getThemeMusic(Enums.Theme theme) {
+            switch (theme) {
+                case HOME:
+                    return level;
+                case MECHANICAL:
+                    return level;
+                case ELECTROMAGNETIC:
+                    return level;
+                case NUCLEAR:
+                    return level;
+                case THERMAL:
+                    return level;
+                case GRAVITATIONAL:
+                    return level;
+                case MYSTERIOUS:
+                    return level;
+                case FINAL:
+                    return level;
+                default:
+                    return level;
+            }
         }
     }
 

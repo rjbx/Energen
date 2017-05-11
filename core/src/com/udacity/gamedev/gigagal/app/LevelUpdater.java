@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.app;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -50,8 +51,10 @@ public class LevelUpdater {
     private DelayedRemovalArray<Powerup> powerups;
     private Enums.Material levelWeapon;
     private Enums.Theme level;
+    private Music music;
     private String removedHazards;
     private boolean paused;
+    private boolean musicEnabled;
     private int score;
     private long time;
     private int savedScore;
@@ -73,6 +76,7 @@ public class LevelUpdater {
         portals = new DelayedRemovalArray<Portal>();
         loadEx = false;
         runEx = false;
+        musicEnabled = true;
         cannonStartTime = TimeUtils.nanoTime();
         cannonOffset = 0;
         removedHazards = "-1";
@@ -322,8 +326,11 @@ public class LevelUpdater {
     // level state handling
 
     protected void begin() {
-        Assets.getInstance().getMusicAssets().level.setLooping(true);
-        Assets.getInstance().getMusicAssets().level.play();
+        music = Assets.getInstance().getMusicAssets().getThemeMusic(level);
+        music.setLooping(true);
+        if (musicEnabled) {
+            music.play();
+        }
         runEx = false;
         levelWeapon = Enums.Material.NATIVE;
         for (Enums.Material weapon : Arrays.asList(Enums.Material.values())) {
@@ -345,7 +352,7 @@ public class LevelUpdater {
     }
 
     protected void end() {
-        Assets.getInstance().getMusicAssets().level.stop();
+        music.stop();
         Timer.getInstance().suspend();
         if (completed()) {
             SaveData.setTotalScore(SaveData.getTotalScore() + score);
@@ -360,13 +367,15 @@ public class LevelUpdater {
     }
 
     protected void pause() {
-        Assets.getInstance().getMusicAssets().level.pause();
+        music.pause();
         Timer.getInstance().suspend();
         paused = true;
     }
 
     protected void unpause() {
-        Assets.getInstance().getMusicAssets().level.play();
+        if (musicEnabled) {
+            music.play();
+        }
         paused = false;
         Timer.getInstance().resume();
     }
@@ -386,6 +395,10 @@ public class LevelUpdater {
         if (restarted()) {
             if (GigaGal.getInstance().getLives() < 0) {
                 return true;
+            }
+            if (musicEnabled) {
+                music.stop();
+                music.play();
             }
             GigaGal.getInstance().respawn();
         }
@@ -419,5 +432,6 @@ public class LevelUpdater {
     protected void setTime(long time) { this.time = time; }
     protected void setScore(int score) {this.score = score; }
     protected void setLevel(Enums.Theme selectedLevel) { level = selectedLevel; }
+    protected void toggleMusic() { musicEnabled = !musicEnabled; }
     protected final void setLoadEx(boolean state) { loadEx = state; }
 }
