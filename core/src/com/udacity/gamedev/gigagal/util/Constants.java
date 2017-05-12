@@ -27,7 +27,7 @@ public final class Constants {
     public static final AssetDescriptor<Sound> POWERUP_SOUND = new AssetDescriptor<Sound>("audio/powerup.wav", Sound.class);
     public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/level.wav", Music.class);
     public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/boss.mp3", Music.class);
-    public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/thermal.wav", Music.class);
+    public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/thermal.mp3", Music.class);
 
     // GigaGal attributes
     public static final Vector2 GIGAGAL_EYE_POSITION = new Vector2(14f, 24);
