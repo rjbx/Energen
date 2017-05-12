@@ -81,10 +81,8 @@ public class LevelUpdater {
         cannonStartTime = TimeUtils.nanoTime();
         cannonOffset = 0;
         removedHazards = "-1";
-
         score = 0;
         time = 0;
-
         paused = false;
     }
 

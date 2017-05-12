@@ -54,6 +54,7 @@ public final class Assets implements AssetErrorListener {
         assetManager.load(Constants.POWERUP_SOUND);
         assetManager.load(Constants.LEVEL_MUSIC);
         assetManager.load(Constants.BOSS_MUSIC);
+        assetManager.load(Constants.THERMAL_MUSIC);
         assetManager.finishLoading();
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
         gigaGalAssets = new GigaGalAssets(atlas);
@@ -867,10 +868,12 @@ public final class Assets implements AssetErrorListener {
 
         public final Music level;
         public final Music boss;
+        public final Music thermal;
 
         private MusicAssets() {
             level = assetManager.get(Constants.LEVEL_MUSIC); // use of descriptor enforces type checking
             boss = assetManager.get(Constants.BOSS_MUSIC); // use of descriptor enforces type checking
+            thermal = assetManager.get(Constants.THERMAL_MUSIC); // use of descriptor enforces type checking
         }
         
         public Music getThemeMusic(Enums.Theme theme) {
@@ -884,13 +887,13 @@ public final class Assets implements AssetErrorListener {
                 case NUCLEAR:
                     return level;
                 case THERMAL:
-                    return boss;
+                    return thermal;
                 case GRAVITATIONAL:
                     return level;
                 case MYSTERIOUS:
                     return level;
                 case FINAL:
-                    return level;
+                    return boss;
                 default:
                     return level;
             }
