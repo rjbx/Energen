@@ -77,7 +77,7 @@ public class LevelUpdater {
         portals = new DelayedRemovalArray<Portal>();
         loadEx = false;
         runEx = false;
-        musicEnabled = true;
+        musicEnabled = false;
         cannonStartTime = TimeUtils.nanoTime();
         cannonOffset = 0;
         removedHazards = "-1";
