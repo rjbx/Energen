@@ -25,6 +25,8 @@ public final class Constants {
     // Asset files
     public static final AssetDescriptor<TextureAtlas> TEXTURE_ATLAS = new AssetDescriptor<TextureAtlas>("images/gigagal.pack.atlas", TextureAtlas.class);
     public static final AssetDescriptor<Sound> POWERUP_SOUND = new AssetDescriptor<Sound>("audio/powerup.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_SOUND = new AssetDescriptor<Sound>("audio/blast.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_SOUND = new AssetDescriptor<Sound>("audio/shot.wav", Sound.class);
     public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/level.wav", Music.class);
     public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/boss.mp3", Music.class);
     public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/thermal.mp3", Music.class);
@@ -601,7 +603,7 @@ public final class Constants {
     public static final float AMMO_ICON_SCALE = 1.25f;
     public static final float LIFE_ICON_SCALE = 1.1f;
     public static final float ACTION_ICON_SCALE = .75f;
-    public static final String SHOOT_ICON = "icon-shoot";
+    public static final String SHOOT_ICON = "icon-blast";
     public static final String BLAST_ICON = "icon-blast";
     public static final String JUMP_ICON = "icon-jump";
     public static final String HOVER_ICON = "icon-hover";

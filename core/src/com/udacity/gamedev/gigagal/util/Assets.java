@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.udacity.gamedev.gigagal.entity.Boss;
 
 // immutable singleton
 public final class Assets implements AssetErrorListener {
@@ -52,6 +51,8 @@ public final class Assets implements AssetErrorListener {
         assetManager.setErrorListener(this);
         assetManager.load(Constants.TEXTURE_ATLAS); // atlas packed upon gradle build; load all at once instead of individually
         assetManager.load(Constants.POWERUP_SOUND);
+        assetManager.load(Constants.SHOT_SOUND);
+        assetManager.load(Constants.BLAST_SOUND);
         assetManager.load(Constants.LEVEL_MUSIC);
         assetManager.load(Constants.BOSS_MUSIC);
         assetManager.load(Constants.THERMAL_MUSIC);
@@ -858,9 +859,13 @@ public final class Assets implements AssetErrorListener {
     public final class SoundAssets {
 
         public final Sound powerup;
+        public final Sound shot;
+        public final Sound blast;
 
         private SoundAssets() {
             powerup = assetManager.get(Constants.POWERUP_SOUND); // use of descriptor enforces type checking
+            shot = assetManager.get(Constants.SHOT_SOUND); // use of descriptor enforces type checking
+            blast = assetManager.get(Constants.BLAST_SOUND); // use of descriptor enforces type checking
         }
     }
 
