@@ -49,13 +49,11 @@ final class LaunchScreen extends ScreenAdapter {
     protected static LaunchScreen getInstance() { return INSTANCE; }
 
     protected void create() {
+        font = Assets.getInstance().getFontAssets().message;
+        title = Assets.getInstance().getFontAssets().title;
+        text = Assets.getInstance().getFontAssets().menu;
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         gigagalCenter = new Vector2(Constants.GIGAGAL_STANCE_WIDTH / 2, Constants.GIGAGAL_HEIGHT / 2);
-        text = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
-        text.getData().setScale(0.5f);
-        title = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
-        title.getData().setScale(1);
-        title.setColor(Color.SKY);
         choices = new ArrayList<String>();
         launchStartTime = TimeUtils.nanoTime();
         launching = true;
@@ -69,8 +67,6 @@ final class LaunchScreen extends ScreenAdapter {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
         batch = new SpriteBatch();
-        font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays instantiated from this class
-        font.getData().setScale(.4f); // shared by all overlays instantiated from this class
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
         launchBackdrop = new Backdrop();
         inputControls = InputControls.getInstance();

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.overlay.TouchInterface;
+import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.overlay.Menu;
 import com.udacity.gamedev.gigagal.overlay.Cursor;
@@ -45,8 +46,7 @@ final class OverworldScreen extends ScreenAdapter {
     protected void create() {
         this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         batch = new SpriteBatch();
-        font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE));
-        font.getData().setScale(0.5f);
+        font = Assets.getInstance().getFontAssets().menu;
         setMainMenu();
     }
 

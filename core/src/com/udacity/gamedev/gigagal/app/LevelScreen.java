@@ -55,8 +55,7 @@ class LevelScreen extends ScreenAdapter {
         batch = new SpriteBatch(); // shared by all overlays instantiated from this class
         renderer = new ShapeRenderer(); // shared by all overlays instantiated from this class
         renderer.setAutoShapeType(true);
-        font = new BitmapFont(Gdx.files.internal(Constants.FONT_FILE)); // shared by all overlays instantiated from this class
-        font.getData().setScale(.4f); // shared by all overlays instantiated from this class
+        font = Assets.getInstance().getFontAssets().message;
         font.setUseIntegerPositions(false);
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
 

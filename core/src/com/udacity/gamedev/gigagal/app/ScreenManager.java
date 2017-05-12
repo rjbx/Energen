@@ -19,11 +19,11 @@ public final class ScreenManager extends com.badlogic.gdx.Game {
 
     @Override
     public void create() {
+        Assets.getInstance().create();
         GigaGal.getInstance().create();
         ChaseCam.getInstance().create();
         Cursor.getInstance().create();
         Menu.getInstance().create();
-        Assets.getInstance().create();
         InputControls.getInstance().create();
         LevelUpdater.getInstance().create();
         LaunchScreen.getInstance().create();

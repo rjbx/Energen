@@ -124,9 +124,15 @@ project(":core") {
         into "../android/assets/audio"
     }
 
+    task copyFont(type: Copy){
+        from "../core/assets/font"
+        into "../android/assets/font"
+    }
+
     project.tasks.compileJava.dependsOn packTextures
     project.tasks.compileJava.dependsOn copyLevels
     project.tasks.compileJava.dependsOn copyAudio
+    project.tasks.compileJava.dependsOn copyFont
 
 }
 

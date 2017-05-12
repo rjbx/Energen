@@ -6,8 +6,10 @@ import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -56,6 +58,11 @@ public final class Assets implements AssetErrorListener {
         assetManager.load(Constants.LEVEL_MUSIC);
         assetManager.load(Constants.BOSS_MUSIC);
         assetManager.load(Constants.THERMAL_MUSIC);
+        assetManager.load(Constants.MESSAGE_FONT);
+        assetManager.load(Constants.MENU_FONT);
+        assetManager.load(Constants.INACTIVE_FONT);
+        assetManager.load(Constants.TITLE_FONT);
+
         assetManager.finishLoading();
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
         gigaGalAssets = new GigaGalAssets(atlas);
@@ -75,7 +82,7 @@ public final class Assets implements AssetErrorListener {
         overlayAssets = new OverlayAssets(atlas);
         soundAssets = new SoundAssets();
         musicAssets = new MusicAssets();
-//        fontAssets = new fontAssets(fonts);
+        fontAssets = new FontAssets();
     }
 
     @Override
@@ -905,7 +912,30 @@ public final class Assets implements AssetErrorListener {
         }
     }
 
-    public static final class FontAssets {}
+    public final class FontAssets {
+
+        public BitmapFont menu;
+        public BitmapFont message;
+        public BitmapFont title;
+        public BitmapFont inactive;
+
+        private FontAssets() {
+
+            message = assetManager.get(Constants.MESSAGE_FONT);
+            message.getData().setScale(.4f);
+
+            menu = assetManager.get(Constants.MENU_FONT);
+            menu.getData().setScale(0.5f);
+
+            inactive = assetManager.get(Constants.INACTIVE_FONT);
+            inactive.getData().scale(0.5f);
+            inactive.setColor(Color.GRAY);
+
+            title = assetManager.get(Constants.TITLE_FONT);
+            title.getData().setScale(1);
+            title.setColor(Color.SKY);
+        }
+    }
 
     // Getters
     public final GigaGalAssets getGigaGalAssets(){ return gigaGalAssets; }

@@ -1,9 +1,11 @@
 package com.udacity.gamedev.gigagal.util;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import org.joda.time.format.DateTimeFormat;
@@ -30,6 +32,10 @@ public final class Constants {
     public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/level.wav", Music.class);
     public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/boss.mp3", Music.class);
     public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/thermal.mp3", Music.class);
+    public static final AssetDescriptor<BitmapFont> MESSAGE_FONT = new AssetDescriptor<BitmapFont>("font/message.fnt", BitmapFont.class);
+    public static final AssetDescriptor<BitmapFont> MENU_FONT = new AssetDescriptor<BitmapFont>("font/menu.fnt", BitmapFont.class);
+    public static final AssetDescriptor<BitmapFont> INACTIVE_FONT = new AssetDescriptor<BitmapFont>("font/inactive.fnt", BitmapFont.class);
+    public static final AssetDescriptor<BitmapFont> TITLE_FONT = new AssetDescriptor<BitmapFont>("font/title.fnt", BitmapFont.class);
 
     // GigaGal attributes
     public static final Vector2 GIGAGAL_EYE_POSITION = new Vector2(14f, 24);
@@ -647,7 +653,6 @@ public final class Constants {
     public static final String VICTORY_MESSAGE = "Boo Ya.";
     public static final String DEFEAT_MESSAGE = "Game Over, Gal";
     public static final String LAUNCH_MESSAGE = "Energraft v0.0.1 (c) Qualiv 2017";
-    public static final String FONT_FILE = "font/header.fnt";
     public static final String TIME_PATTERN = "HH:mm:ss";
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TIME_PATTERN);
 
