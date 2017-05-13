@@ -566,6 +566,7 @@ public class GigaGal implements Humanoid {
                         }
                         break;
                     case TURBO:
+                        Assets.getInstance().getSoundAssets().turbo.play();
                         turbo += Constants.POWERUP_TURBO;
                         if (action == Action.HOVERING) {
                             hoverStartTime = TimeUtils.nanoTime();
@@ -575,9 +576,11 @@ public class GigaGal implements Humanoid {
                         }
                         break;
                     case LIFE:
+                        Assets.getInstance().getSoundAssets().life.play();
                         lives += 1;
                         break;
                     case CANNON:
+                        Assets.getInstance().getSoundAssets().cannon.play();
                         chargeModifier = 1;
                         break;
                 }

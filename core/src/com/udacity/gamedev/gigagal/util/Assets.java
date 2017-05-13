@@ -57,6 +57,9 @@ public final class Assets implements AssetErrorListener {
         assetManager.load(Constants.THERMAL_MUSIC);
         assetManager.load(Constants.HEALTH_SOUND);
         assetManager.load(Constants.AMMO_SOUND);
+        assetManager.load(Constants.TURBO_SOUND);
+        assetManager.load(Constants.CANNON_SOUND);
+        assetManager.load(Constants.LIFE_SOUND);
         assetManager.load(Constants.BLAST_SOUND);
         assetManager.load(Constants.ANTIMATTER_SOUND);
         assetManager.load(Constants.SHOT_SOUND);
@@ -868,6 +871,9 @@ public final class Assets implements AssetErrorListener {
 
         public final Sound health;
         public final Sound ammo;
+        public final Sound turbo;
+        public final Sound cannon;
+        public final Sound life;
         public final Sound shot;
         public final Sound blast;
         public final Sound antimatter;
@@ -875,6 +881,9 @@ public final class Assets implements AssetErrorListener {
         private SoundAssets() {
             health = assetManager.get(Constants.HEALTH_SOUND); // use of descriptor enforces type checking
             ammo = assetManager.get(Constants.AMMO_SOUND); // use of descriptor enforces type checking
+            turbo = assetManager.get(Constants.TURBO_SOUND); // use of descriptor enforces type checking
+            cannon = assetManager.get(Constants.CANNON_SOUND); // use of descriptor enforces type checking
+            life = assetManager.get(Constants.LIFE_SOUND); // use of descriptor enforces type checking
             shot = assetManager.get(Constants.SHOT_SOUND); // use of descriptor enforces type checking
             blast = assetManager.get(Constants.BLAST_SOUND); // use of descriptor enforces type checking
             antimatter = assetManager.get(Constants.ANTIMATTER_SOUND); // use of descriptor enforces type checking
