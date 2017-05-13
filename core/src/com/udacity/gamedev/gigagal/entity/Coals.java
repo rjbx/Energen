@@ -33,8 +33,8 @@ public class Coals implements Unbearable, Ground {
     }
 
     @Override public final Vector2 getPosition() { return position; }
-    @Override public final float getHeight() { return Constants.COALS_CENTER.x * 2 * scale.x; }
-    @Override public final float getWidth() { return Constants.COALS_CENTER.y * 2 * scale.y; }
+    @Override public final float getHeight() { return Constants.COALS_CENTER.y * 2 * scale.y; }
+    @Override public final float getWidth() { return Constants.COALS_CENTER.x * 2 * scale.x; }
     @Override public final float getLeft() { return position.x - Constants.COALS_CENTER.x * scale.x; }
     @Override public final float getRight() { return position.x + Constants.COALS_CENTER.x * scale.x; }
     @Override public final float getTop() { return position.y + Constants.COALS_CENTER.y * scale.y; }

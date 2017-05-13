@@ -30,8 +30,8 @@ public class Slick implements Skateable, Ground {
     }
 
     @Override public final Vector2 getPosition() { return position; }
-    @Override public final float getHeight() { return Constants.SLICK_CENTER.x * 2 * scale.x; }
-    @Override public final float getWidth() { return Constants.SLICK_CENTER.y * 2 * scale.y; }
+    @Override public final float getHeight() { return Constants.SLICK_CENTER.y * 2 * scale.y; }
+    @Override public final float getWidth() { return Constants.SLICK_CENTER.x * 2 * scale.x; }
     @Override public final float getLeft() { return position.x - Constants.SLICK_CENTER.x * scale.x; }
     @Override public final float getRight() { return position.x + Constants.SLICK_CENTER.x * scale.x; }
     @Override public final float getTop() { return position.y + Constants.SLICK_CENTER.y * scale.y; }

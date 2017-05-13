@@ -68,8 +68,8 @@ public class Button implements Switchable, Strikeable, Ground {
     }
 
     @Override public final Vector2 getPosition() { return position; }
-    @Override public final float getHeight() { return Constants.TRIP_CENTER.x * 2; }
-    @Override public final float getWidth() { return Constants.TRIP_CENTER.y * 2; }
+    @Override public final float getHeight() { return Constants.TRIP_CENTER.y * 2; }
+    @Override public final float getWidth() { return Constants.TRIP_CENTER.x * 2; }
     @Override public final float getLeft() { return position.x - Constants.TRIP_CENTER.x; }
     @Override public final float getRight() { return position.x + Constants.TRIP_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.TRIP_CENTER.y; }

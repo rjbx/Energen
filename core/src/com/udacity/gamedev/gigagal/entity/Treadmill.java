@@ -45,8 +45,8 @@ public class Treadmill implements Rideable, Convertible, Ground {
     }
 
     @Override public final Vector2 getPosition() { return position; }
-    @Override public final float getHeight() { return Constants.TREADMILL_CENTER.x * 2 * scale.x; }
-    @Override public final float getWidth() { return Constants.TREADMILL_CENTER.y * 2 * scale.y; }
+    @Override public final float getHeight() { return Constants.TREADMILL_CENTER.y * 2 * scale.y; }
+    @Override public final float getWidth() { return Constants.TREADMILL_CENTER.x * 2 * scale.x; }
     @Override public final float getLeft() { return position.x - Constants.TREADMILL_CENTER.x * scale.x; }
     @Override public final float getRight() { return position.x + Constants.TREADMILL_CENTER.x * scale.x; }
     @Override public final float getTop() { return position.y + Constants.TREADMILL_CENTER.y * scale.y; }

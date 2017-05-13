@@ -30,8 +30,8 @@ public class Ice implements Skateable, Ground {
     }
 
     @Override public final Vector2 getPosition() { return position; }
-    @Override public final float getHeight() { return Constants.ICE_CENTER.x * 2 * scale.x; }
-    @Override public final float getWidth() { return Constants.ICE_CENTER.y * 2 * scale.y; }
+    @Override public final float getHeight() { return Constants.ICE_CENTER.y * 2 * scale.y; }
+    @Override public final float getWidth() { return Constants.ICE_CENTER.x * 2 * scale.x; }
     @Override public final float getLeft() { return position.x - Constants.ICE_CENTER.x * scale.x; }
     @Override public final float getRight() { return position.x + Constants.ICE_CENTER.x * scale.x; }
     @Override public final float getTop() { return position.y + Constants.ICE_CENTER.y * scale.y; }

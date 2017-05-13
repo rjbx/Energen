@@ -26,8 +26,8 @@ public class Sink implements Sinkable, Ground {
     }
 
     @Override public final Vector2 getPosition() { return position; }
-    @Override public final float getHeight() { return Constants.SINK_CENTER.x * 2; }
-    @Override public final float getWidth() { return Constants.SINK_CENTER.y * 2; }
+    @Override public final float getHeight() { return Constants.SINK_CENTER.y * 2; }
+    @Override public final float getWidth() { return Constants.SINK_CENTER.x * 2; }
     @Override public final float getLeft() { return position.x - Constants.SINK_CENTER.x; }
     @Override public final float getRight() { return position.x + Constants.SINK_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.SINK_CENTER.y; }

@@ -34,8 +34,8 @@ public class Lava implements Indestructible, Hazard {
     }
 
     @Override public final Vector2 getPosition() { return position; }
-    @Override public final float getHeight() { return Constants.LAVA_CENTER.x * 2 * scale.x; }
-    @Override public final float getWidth() { return Constants.LAVA_CENTER.y * 2 * scale.y; }
+    @Override public final float getHeight() { return Constants.LAVA_CENTER.y * 2 * scale.y; }
+    @Override public final float getWidth() { return Constants.LAVA_CENTER.x * 2 * scale.x; }
     @Override public final float getLeft() { return position.x - Constants.LAVA_CENTER.x * scale.x; }
     @Override public final float getRight() { return position.x + Constants.LAVA_CENTER.x * scale.x; }
     @Override public final float getTop() { return position.y + Constants.LAVA_CENTER.y * scale.y; }
