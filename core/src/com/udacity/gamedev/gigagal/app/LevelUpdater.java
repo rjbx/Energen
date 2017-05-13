@@ -120,14 +120,14 @@ public class LevelUpdater {
         
         // Update Restore Points
         portals.begin();
-        int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
-        List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
-        List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
-        List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
-        List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
-        int restores = Integer.parseInt(allRestores.get(level));
         for (int i = 0; i < portals.size; i++) {
             if (GigaGal.getInstance().getPosition().dst(portals.get(i).getPosition()) < Constants.PORTAL_RADIUS && InputControls.getInstance().jumpButtonJustPressed) {
+                int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
+                List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
+                List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
+                List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
+                List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
+                int restores = Integer.parseInt(allRestores.get(level));
                 if (restores == 0) {
                     allRestores.set(level, Integer.toString(i + 1));
                 } else if (restores != (i + 1)) {
@@ -334,6 +334,22 @@ public class LevelUpdater {
         }
         paused = false;
         Timer.getInstance().resume();
+    }
+
+    protected void reset() {
+        int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
+        List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
+        List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
+        List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
+        List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
+        allTimes.set(level, "0");
+        allScores.set(level, "0");
+        allRestores.set(level, "0");
+        allRemovals.set(level, "-1");
+        SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
+        SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
+        SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
+        SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
     }
 
     protected boolean restarted() {
