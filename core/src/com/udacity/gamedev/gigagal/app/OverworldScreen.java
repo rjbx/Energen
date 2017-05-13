@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.overlay.TouchInterface;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.InputControls;
@@ -170,6 +171,11 @@ final class OverworldScreen extends ScreenAdapter {
             LevelLoader.load(level);
             if (levelRestores > 0) {
                 LevelUpdater.getInstance().restoreRemovals(allRemovals.get(index));
+                if (levelRestores > 2) {
+                    GigaGal.getInstance().setSpawnPosition(LevelUpdater.getInstance().getPortals().get(1).getPosition());
+                } else {
+                    GigaGal.getInstance().setSpawnPosition(LevelUpdater.getInstance().getPortals().get(0).getPosition());
+                }
             }
             ScreenManager.getInstance().setScreen(LevelScreen.getInstance());
             this.dispose();
