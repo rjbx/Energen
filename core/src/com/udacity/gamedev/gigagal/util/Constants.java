@@ -26,7 +26,8 @@ public final class Constants {
 
     // Asset files
     public static final AssetDescriptor<TextureAtlas> TEXTURE_ATLAS = new AssetDescriptor<TextureAtlas>("images/gigagal.pack.atlas", TextureAtlas.class);
-    public static final AssetDescriptor<Sound> POWERUP_SOUND = new AssetDescriptor<Sound>("audio/powerup.wav", Sound.class);
+    public static final AssetDescriptor<Sound> HEALTH_SOUND = new AssetDescriptor<Sound>("audio/health.wav", Sound.class);
+    public static final AssetDescriptor<Sound> AMMO_SOUND = new AssetDescriptor<Sound>("audio/ammo.wav", Sound.class);
     public static final AssetDescriptor<Sound> BLAST_SOUND = new AssetDescriptor<Sound>("audio/blast.wav", Sound.class);
     public static final AssetDescriptor<Sound> SHOT_SOUND = new AssetDescriptor<Sound>("audio/shot.wav", Sound.class);
     public static final AssetDescriptor<Sound> ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/antimatter.wav", Sound.class);

@@ -550,15 +550,16 @@ public class GigaGal implements Humanoid {
         for (Powerup powerup : powerups) {
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {
-                Assets.getInstance().getSoundAssets().powerup.play();
                 switch(powerup.getType()) {
                     case AMMO:
+                        Assets.getInstance().getSoundAssets().ammo.play();
                         ammo += Constants.POWERUP_AMMO;
                         if (ammo > Constants.MAX_AMMO) {
                             ammo = Constants.MAX_AMMO;
                         }
                         break;
                     case HEALTH:
+                        Assets.getInstance().getSoundAssets().health.play();
                         health += Constants.POWERUP_HEALTH;
                         if (health > Constants.MAX_HEALTH) {
                             health = Constants.MAX_HEALTH;

@@ -577,20 +577,20 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
     /*private void touchPowerups(List<Powerup> powerups) {
         ListIterator<Powerup> iterator = powerups.listIterator();
         while (iterator.hasNext()) {
-            Powerup powerup = iterator.next();
-            Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
+            Powerup health = iterator.next();
+            Rectangle bounds = new Rectangle(health.getLeft(), health.getBottom(), health.getWidth(), health.getHeight());
             if (getBounds().overlaps(bounds)) {
-                if (powerup instanceof AmmoPowerup) {
+                if (health instanceof AmmoPowerup) {
                     ammo += Constants.POWERUP_AMMO;
                     if (ammo > Constants.MAX_AMMO) {
                         ammo = Constants.MAX_AMMO;
                     }
-                } else if (powerup instanceof HealthPowerup) {
+                } else if (health instanceof HealthPowerup) {
                     health += Constants.POWERUP_HEALTH;
                     if (health > Constants.MAX_HEALTH) {
                         health = Constants.MAX_HEALTH;
                     }
-                } else if (powerup instanceof TurboPowerup) {
+                } else if (health instanceof TurboPowerup) {
                     turbo += Constants.POWERUP_TURBO;
                     if (action == Enums.Action.HOVERING) {
                         hoverStartTime = TimeUtils.nanoTime();
