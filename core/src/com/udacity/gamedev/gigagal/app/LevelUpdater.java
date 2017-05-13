@@ -305,6 +305,7 @@ public class LevelUpdater {
 
         savedTime = time;
         savedScore = score;
+        removedHazards = "-1";
     }
 
     protected void end() {
