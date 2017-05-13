@@ -60,6 +60,7 @@ public final class Assets implements AssetErrorListener {
         assetManager.load(Constants.TURBO_SOUND);
         assetManager.load(Constants.CANNON_SOUND);
         assetManager.load(Constants.LIFE_SOUND);
+        assetManager.load(Constants.UPGRADE_SOUND);
         assetManager.load(Constants.BLAST_SOUND);
         assetManager.load(Constants.ANTIMATTER_SOUND);
         assetManager.load(Constants.SHOT_SOUND);
@@ -874,6 +875,7 @@ public final class Assets implements AssetErrorListener {
         public final Sound turbo;
         public final Sound cannon;
         public final Sound life;
+        public final Sound upgrade;
         public final Sound shot;
         public final Sound blast;
         public final Sound antimatter;
@@ -884,6 +886,7 @@ public final class Assets implements AssetErrorListener {
             turbo = assetManager.get(Constants.TURBO_SOUND); // use of descriptor enforces type checking
             cannon = assetManager.get(Constants.CANNON_SOUND); // use of descriptor enforces type checking
             life = assetManager.get(Constants.LIFE_SOUND); // use of descriptor enforces type checking
+            upgrade = assetManager.get(Constants.UPGRADE_SOUND); // use of descriptor enforces type checking
             shot = assetManager.get(Constants.SHOT_SOUND); // use of descriptor enforces type checking
             blast = assetManager.get(Constants.BLAST_SOUND); // use of descriptor enforces type checking
             antimatter = assetManager.get(Constants.ANTIMATTER_SOUND); // use of descriptor enforces type checking

@@ -164,6 +164,7 @@ public class LevelUpdater {
                 if (ground instanceof Chamber) {
                     Chamber chamber = (Chamber) ground;
                     if (!chamber.isActive() && chamber.wasCharged()) {
+                        Assets.getInstance().getSoundAssets().upgrade.play();
                         setUpgrade(chamber.getUpgrade());
                         chamber.uncharge();
                     }
