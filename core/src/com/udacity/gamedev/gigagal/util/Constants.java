@@ -29,6 +29,7 @@ public final class Constants {
     public static final AssetDescriptor<Sound> POWERUP_SOUND = new AssetDescriptor<Sound>("audio/powerup.wav", Sound.class);
     public static final AssetDescriptor<Sound> BLAST_SOUND = new AssetDescriptor<Sound>("audio/blast.wav", Sound.class);
     public static final AssetDescriptor<Sound> SHOT_SOUND = new AssetDescriptor<Sound>("audio/shot.wav", Sound.class);
+    public static final AssetDescriptor<Sound> ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/antimatter.wav", Sound.class);
     public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/level.wav", Music.class);
     public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/boss.mp3", Music.class);
     public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/thermal.mp3", Music.class);

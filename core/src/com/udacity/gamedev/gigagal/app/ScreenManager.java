@@ -33,6 +33,7 @@ public final class ScreenManager extends com.badlogic.gdx.Game {
 
     @Override
     public void dispose() {
+        Assets.getInstance().dispose();
         super.dispose();
         System.gc();
     }

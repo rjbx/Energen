@@ -115,15 +115,18 @@ public class IndicatorHud {
                 offset.scl(Constants.AMMO_ICON_SCALE);
         }
 
-        Helpers.drawTextureRegion(
-                batch,
-                viewport, ammo.getTexture(),
-                viewport.getCamera().position.x + viewport.getWorldWidth() / 2.5f,
-                yIcon,
-                offset.x,
-                offset.y,
-                Constants.AMMO_ICON_SCALE
-        );
+        if (ammo.getTexture() != null) {
+
+            Helpers.drawTextureRegion(
+                    batch,
+                    viewport, ammo.getTexture(),
+                    viewport.getCamera().position.x + viewport.getWorldWidth() / 2.5f,
+                    yIcon,
+                    offset.x,
+                    offset.y,
+                    Constants.AMMO_ICON_SCALE
+            );
+        }
 
         final String scoreString = LevelUpdater.getInstance().getScore() + "";
         final String timerString = Helpers.secondsToString(TimeUtils.nanosToMillis(level.getTime()));

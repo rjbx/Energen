@@ -52,17 +52,17 @@ public final class Assets implements AssetErrorListener {
         this.assetManager = new AssetManager();
         assetManager.setErrorListener(this);
         assetManager.load(Constants.TEXTURE_ATLAS); // atlas packed upon gradle build; load all at once instead of individually
-        assetManager.load(Constants.POWERUP_SOUND);
-        assetManager.load(Constants.SHOT_SOUND);
-        assetManager.load(Constants.BLAST_SOUND);
         assetManager.load(Constants.LEVEL_MUSIC);
         assetManager.load(Constants.BOSS_MUSIC);
         assetManager.load(Constants.THERMAL_MUSIC);
+        assetManager.load(Constants.POWERUP_SOUND);
+        assetManager.load(Constants.BLAST_SOUND);
+        assetManager.load(Constants.ANTIMATTER_SOUND);
+        assetManager.load(Constants.SHOT_SOUND);
         assetManager.load(Constants.MESSAGE_FONT);
         assetManager.load(Constants.MENU_FONT);
         assetManager.load(Constants.INACTIVE_FONT);
         assetManager.load(Constants.TITLE_FONT);
-
         assetManager.finishLoading();
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
         gigaGalAssets = new GigaGalAssets(atlas);
@@ -868,11 +868,36 @@ public final class Assets implements AssetErrorListener {
         public final Sound powerup;
         public final Sound shot;
         public final Sound blast;
+        public final Sound antimatter;
 
         private SoundAssets() {
             powerup = assetManager.get(Constants.POWERUP_SOUND); // use of descriptor enforces type checking
             shot = assetManager.get(Constants.SHOT_SOUND); // use of descriptor enforces type checking
             blast = assetManager.get(Constants.BLAST_SOUND); // use of descriptor enforces type checking
+            antimatter = assetManager.get(Constants.ANTIMATTER_SOUND); // use of descriptor enforces type checking
+        }
+
+        public Sound getMaterialSound(Enums.Material material) {
+            switch (material) {
+                case NATIVE:
+                    return blast;
+                case ORE:
+                    return blast;
+                case PLASMA:
+                    return blast;
+                case GAS:
+                    return blast;
+                case LIQUID:
+                    return blast;
+                case SOLID:
+                    return blast;
+                case ANTIMATTER:
+                    return antimatter;
+                case HYBRID:
+                    return blast;
+                default:
+                    return blast;
+            }
         }
     }
 
