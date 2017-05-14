@@ -125,7 +125,8 @@ public final class Constants {
     public static final String BOSS_SPRITE = "beast";
 
     // Background
-    public static final String BACKGROUND_LIQUID_SPRITE = "background-liquid";
+    public static final String BACKGROUND_LIQUID_SPRITE = "background-liquid2";
+    public static final String BACKGROUND_GAS_SPRITE = "background-gas";
     public static final Vector2 BACKGROUND_CENTER = new Vector2(180, 180);
 
     // Box

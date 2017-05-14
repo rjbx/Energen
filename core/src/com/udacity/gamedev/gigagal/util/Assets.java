@@ -209,15 +209,19 @@ public final class Assets implements AssetErrorListener {
     public static final class BackgroundAssets {
 
         public final TextureRegion thermal;
+        public final TextureRegion gas;
 
         private BackgroundAssets(TextureAtlas atlas) {
 
             thermal = atlas.findRegion(Constants.BACKGROUND_LIQUID_SPRITE);
+            gas = atlas.findRegion(Constants.BACKGROUND_GAS_SPRITE);
         }
 
         public TextureRegion getBackground(Enums.Theme theme) {
 
             switch (theme) {
+                case NUCLEAR:
+                    return gas;
                 case THERMAL:
                     return thermal;
                 default:
