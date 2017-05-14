@@ -134,13 +134,6 @@ public final class Constants {
     public static final float MAX_LEDGE_HEIGHT = 8;
     public static final String BOX_SPRITE = "box";
     public static final String BREAKABLE_BOX_SPRITE = "box-breakable";
-    public static final String BLUE_BOX_SPRITE = "box-blue";
-    public static final String YELLOW_BOX_SPRITE = "box-yellow";
-    public static final String BLACK_BOX_SPRITE = "box-black";
-    public static final String RED_BOX_SPRITE = "box-red";
-    public static final String GREY_BOX_SPRITE = "box-grey";
-    public static final String CLEAR_BOX_SPRITE = "box-clear";
-    public static final String MAGENTA_BOX_SPRITE = "box-magenta";
 
     // Pillar
     public static final Vector2 PILLAR_CENTER = new Vector2(6, 3);

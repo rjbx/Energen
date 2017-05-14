@@ -232,28 +232,14 @@ public final class Assets implements AssetErrorListener {
 
     public static final class BoxAssets {
 
-        public final NinePatch redBox;
-        public final NinePatch greyBox;
-        public final NinePatch blackBox;
-        public final NinePatch yellowBox;
-        public final NinePatch blueBox;
-        public final NinePatch clearBox;
-        public final NinePatch magentaBox;
         public final NinePatch box;
         public final NinePatch breakableBox;
 
         private BoxAssets(TextureAtlas atlas) {
             int edge = Constants.BOX_EDGE;
 
-            redBox = new NinePatch(atlas.findRegion(Constants.RED_BOX_SPRITE), edge, edge, edge, edge);
-            greyBox = new NinePatch(atlas.findRegion(Constants.GREY_BOX_SPRITE), edge, edge, edge, edge);
-            blackBox = new NinePatch(atlas.findRegion(Constants.BLACK_BOX_SPRITE), edge, edge, edge, edge);
-            yellowBox = new NinePatch(atlas.findRegion(Constants.YELLOW_BOX_SPRITE), edge, edge, edge, edge);
-            blueBox = new NinePatch(atlas.findRegion(Constants.BLUE_BOX_SPRITE), edge, edge, edge, edge);
-            clearBox = new NinePatch(atlas.findRegion(Constants.CLEAR_BOX_SPRITE), edge, edge, edge, edge);
-            magentaBox= new NinePatch(atlas.findRegion(Constants.MAGENTA_BOX_SPRITE), edge, edge, edge, edge);
             box = new NinePatch(atlas.findRegion(Constants.BOX_SPRITE), edge, edge, edge, edge);
-            breakableBox = new NinePatch(atlas.findRegion(Constants.BREAKABLE_BOX_SPRITE), edge, edge, edge, edge);
+            breakableBox = new NinePatch(atlas.findRegion(Constants.BREAKABLE_BOX_SPRITE), 41, 16, 39, 15);
         }
     }
 
