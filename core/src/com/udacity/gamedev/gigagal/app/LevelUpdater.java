@@ -98,12 +98,12 @@ public class LevelUpdater {
             portal.render(batch, viewport);
         }
 
-        for (Ground ground : grounds) {
-            ground.render(batch, viewport);
-        }
-
         for (Powerup powerup : powerups) {
             powerup.render(batch, viewport);
+        }
+
+        for (Ground ground : grounds) {
+            ground.render(batch, viewport);
         }
 
         for (Hazard hazard : hazards) {
@@ -413,6 +413,7 @@ public class LevelUpdater {
     public final DelayedRemovalArray<Portal> getPortals() { return portals; }
     public final GigaGal getGigaGal() { return GigaGal.getInstance(); }
     public final Enums.Material getType() { return levelWeapon; }
+    protected Enums.Theme getLevel() { return level; }
     public final boolean hasLoadEx() { return loadEx; }
 
     // Setters

@@ -81,7 +81,7 @@ public final class Enums {
         MECHANICAL { @Override public final Color color() { return Color.LIGHT_GRAY; } },
         ELECTROMAGNETIC { @Override public final Color color() { return Color.DARK_GRAY; } },
         NUCLEAR { @Override public final Color color() { return Color.NAVY; } },
-        THERMAL { @Override public final Color color() { return Color.TAN; } },
+        THERMAL { @Override public final Color color() { return Color.DARK_GRAY; } },
         GRAVITATIONAL { @Override public final Color color() { return Color.FIREBRICK; } },
         MYSTERIOUS { @Override public final Color color() { return Color.CLEAR; } },
 

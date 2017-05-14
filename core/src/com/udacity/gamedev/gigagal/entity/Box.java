@@ -38,7 +38,7 @@ public class Box implements Solid, Ground {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawNinePatch(batch, viewport, ninePatch, left - 1, bottom - 1, width + 2, height + 2);
+        Helpers.drawNinePatch(batch, viewport, ninePatch, left, bottom, width, height);
     }
 
     // Getters

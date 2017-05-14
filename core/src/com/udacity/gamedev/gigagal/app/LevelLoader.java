@@ -58,6 +58,8 @@ final class LevelLoader {
 
     protected static final void load(Enums.Theme level) throws ParseException, IOException {
 
+        LevelUpdater.getInstance().setLevel(level);
+
         final FileHandle file = Gdx.files.internal("levels/" + level + ".dt");
 
         JSONParser parser = new JSONParser();
@@ -74,8 +76,6 @@ final class LevelLoader {
         runtimeEx = false;
 
         loadImages(LevelUpdater.getInstance(), images);
-
-        LevelUpdater.getInstance().setLevel(level);
 
         LevelUpdater.getInstance().setLoadEx(runtimeEx);
     }
@@ -493,7 +493,7 @@ final class LevelLoader {
             float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
-                final Box box = new Box(imagePosition.x, imagePosition.y, width, height, type.theme());
+                final Box box = new Box(imagePosition.x, imagePosition.y, width, height, level.getLevel());
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BREAKABLE_BOX_SPRITE)) {

@@ -225,7 +225,7 @@ public final class Assets implements AssetErrorListener {
                 case THERMAL:
                     return thermal;
                 default:
-                    return thermal;
+                    return gas;
             }
         }
     }
