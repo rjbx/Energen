@@ -124,6 +124,10 @@ public final class Constants {
     // Boss
     public static final String BOSS_SPRITE = "beast";
 
+    // Background
+    public static final String BACKGROUND_LIQUID_SPRITE = "background-liquid";
+    public static final Vector2 BACKGROUND_CENTER = new Vector2(180, 180);
+
     // Box
     public static final int BOX_EDGE = 8;
     public static final float MAX_LEDGE_HEIGHT = 8;

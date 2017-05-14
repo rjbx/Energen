@@ -68,7 +68,7 @@ final class LaunchScreen extends ScreenAdapter {
         // onMobile();
         batch = new SpriteBatch();
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
-        launchBackdrop = new Backdrop();
+        launchBackdrop = new Backdrop(Assets.getInstance().getOverlayAssets().logo);
         inputControls = InputControls.getInstance();
         touchInterface = TouchInterface.getInstance();
         Gdx.input.setInputProcessor(inputControls);
@@ -197,9 +197,9 @@ final class LaunchScreen extends ScreenAdapter {
                     break;
             }
         } else {
-            launchBackdrop.render(batch, viewport, Assets.getInstance().getOverlayAssets().logo,
+            launchBackdrop.render(batch, viewport,
                     new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .625f),
-                    new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f));
+                    new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f), .375f);
             Helpers.drawBitmapFont(batch, viewport, font, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, Align.center);
             if (Helpers.secondsSince(launchStartTime) > 3) {
                 launching = false;

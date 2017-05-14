@@ -18,6 +18,7 @@ import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Powerup;
+import com.udacity.gamedev.gigagal.overlay.Backdrop;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -40,6 +41,7 @@ public class LevelUpdater {
     private boolean runEx;
     private float cannonOffset;
     private long cannonStartTime;
+    private Backdrop backdrop;
     private DelayedRemovalArray<Portal> portals;
     private DelayedRemovalArray<Hazard> hazards;
     private DelayedRemovalArray<Ground> grounds;
@@ -89,6 +91,8 @@ public class LevelUpdater {
     }
 
     protected void render(SpriteBatch batch, Viewport viewport) {
+
+        backdrop.render(batch, viewport, GigaGal.getInstance().getPosition(), Constants.BACKGROUND_CENTER, 1);
 
         for (Portal portal : portals) {
             portal.render(batch, viewport);
@@ -283,6 +287,7 @@ public class LevelUpdater {
     // level state handling
 
     protected void begin() {
+        backdrop = new Backdrop(Assets.getInstance().getBackgroundAssets().getBackground(level));
         music = Assets.getInstance().getMusicAssets().getThemeMusic(level);
         music.setLooping(true);
         if (musicEnabled) {

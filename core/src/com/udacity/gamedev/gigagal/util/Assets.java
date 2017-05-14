@@ -24,6 +24,7 @@ public final class Assets implements AssetErrorListener {
     private static final Assets INSTANCE = new Assets();
     private AssetManager assetManager;
     private GigaGalAssets gigaGalAssets;
+    private BackgroundAssets backgroundAssets;
     private BoxAssets boxAssets;
     private GroundAssets groundAssets;
     private AmmoAssets ammoAssets;
@@ -71,6 +72,7 @@ public final class Assets implements AssetErrorListener {
         assetManager.finishLoading();
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
         gigaGalAssets = new GigaGalAssets(atlas);
+        backgroundAssets = new BackgroundAssets(atlas);
         boxAssets = new BoxAssets(atlas);
         groundAssets = new GroundAssets(atlas);
         ammoAssets = new AmmoAssets(atlas);
@@ -201,6 +203,26 @@ public final class Assets implements AssetErrorListener {
             lookdownHoverRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_RIGHT_1));
             lookdownHoverRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_RIGHT_2));
             lookdownHoverRight = new Animation(Constants.HOVER_LOOP_DURATION, lookdownHoverRightFrames, PlayMode.LOOP);
+        }
+    }
+
+    public static final class BackgroundAssets {
+
+        public final TextureRegion thermal;
+
+        private BackgroundAssets(TextureAtlas atlas) {
+
+            thermal = atlas.findRegion(Constants.BACKGROUND_LIQUID_SPRITE);
+        }
+
+        public TextureRegion getBackground(Enums.Theme theme) {
+
+            switch (theme) {
+                case THERMAL:
+                    return thermal;
+                default:
+                    return thermal;
+            }
         }
     }
 
@@ -979,6 +1001,7 @@ public final class Assets implements AssetErrorListener {
 
     // Getters
     public final GigaGalAssets getGigaGalAssets(){ return gigaGalAssets; }
+    public final BackgroundAssets getBackgroundAssets() { return backgroundAssets; }
     public final BoxAssets getBoxAssets(){ return boxAssets; }
     public final GroundAssets getGroundAssets(){ return groundAssets; }
     public final AmmoAssets getAmmoAssets(){ return ammoAssets; }
