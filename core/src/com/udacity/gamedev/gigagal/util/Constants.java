@@ -33,6 +33,10 @@ public final class Constants {
     public static final AssetDescriptor<Sound> UPGRADE_SOUND = new AssetDescriptor<Sound>("audio/upgrade.wav", Sound.class);
     public static final AssetDescriptor<Sound> BLAST_SOUND = new AssetDescriptor<Sound>("audio/blast.wav", Sound.class);
     public static final AssetDescriptor<Sound> SHOT_SOUND = new AssetDescriptor<Sound>("audio/shot.wav", Sound.class);
+    public static final AssetDescriptor<Sound> HIT_SOUND = new AssetDescriptor<Sound>("audio/hit_effective.wav", Sound.class);
+    public static final AssetDescriptor<Sound> HIT_GROUND_SOUND = new AssetDescriptor<Sound>("audio/hit_ground.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BREAK_GROUND_SOUND = new AssetDescriptor<Sound>("audio/break_ground.wav", Sound.class);
+    public static final AssetDescriptor<Sound> DAMAGE_SOUND = new AssetDescriptor<Sound>("audio/damage.wav", Sound.class);
     public static final AssetDescriptor<Sound> ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/antimatter.wav", Sound.class);
     public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/level.wav", Music.class);
     public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/boss.mp3", Music.class);

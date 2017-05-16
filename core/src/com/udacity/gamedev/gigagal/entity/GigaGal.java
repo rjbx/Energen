@@ -538,6 +538,7 @@ public class GigaGal implements Humanoid {
                                 recoil(new Vector2((Helpers.absoluteToDirectionalValue(hazard.getKnockback().x, directionX, Orientation.X)), hazard.getKnockback().y));
                             }
                         }
+                        Assets.getInstance().getSoundAssets().damage.play();
                         health -= damage * healthMultiplier;
                         chargeModifier = 0;
                     }
@@ -837,7 +838,7 @@ public class GigaGal implements Humanoid {
         if (shotIntensity == ShotIntensity.BLAST) {
             Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
         } else {
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1,5, 0);
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1,5,0);
         }
         if (chargeModifier == 0) {
             ammo -= ammoUsed * ammoMultiplier;

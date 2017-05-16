@@ -102,12 +102,12 @@ public class LevelUpdater {
             powerup.render(batch, viewport);
         }
 
-        for (Ground ground : grounds) {
-            ground.render(batch, viewport);
-        }
-
         for (Hazard hazard : hazards) {
             hazard.render(batch, viewport);
+        }
+
+        for (Ground ground : grounds) {
+            ground.render(batch, viewport);
         }
 
         GigaGal.getInstance().render(batch, viewport);
@@ -125,7 +125,8 @@ public class LevelUpdater {
         // Update Restore Points
         portals.begin();
         for (int i = 0; i < portals.size; i++) {
-            if (GigaGal.getInstance().getPosition().dst(portals.get(i).getPosition()) < Constants.PORTAL_RADIUS && InputControls.getInstance().jumpButtonJustPressed) {
+            if (GigaGal.getInstance().getPosition().dst(portals.get(i).getPosition()) < Constants.PORTAL_RADIUS && InputControls.getInstance().upButtonPressed && InputControls.getInstance().jumpButtonJustPressed) {
+                Assets.getInstance().getSoundAssets().life.play();
                 int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
                 List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
                 List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
@@ -162,6 +163,7 @@ public class LevelUpdater {
                 ((Nonstatic) ground).update();
             } else if (ground instanceof Destructible) {
                 if (((Destructible) ground).getHealth() < 1) {
+                    Assets.getInstance().getSoundAssets().breakGround.play();
                     grounds.removeIndex(i);
                 }
             } else if (ground instanceof Chargeable) {
