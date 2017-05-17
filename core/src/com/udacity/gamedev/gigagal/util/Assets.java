@@ -452,7 +452,9 @@ public final class Assets implements AssetErrorListener {
 
 
             Array<AtlasRegion> gasBlastRegions = new Array<AtlasRegion>();
-            gasBlastRegions.add(atlas.findRegion(Constants.BLAST_GAS_SPRITE));
+            gasBlastRegions.add(atlas.findRegion(Constants.BLAST_GAS_SPRITE_1));
+            gasBlastRegions.add(atlas.findRegion(Constants.BLAST_GAS_SPRITE_2));
+            gasBlastRegions.add(atlas.findRegion(Constants.BLAST_GAS_SPRITE_3));
             gasBlast = new Animation(Constants.AMMO_DURATION / gasBlastRegions.size, gasBlastRegions, PlayMode.LOOP);
 
 
