@@ -839,7 +839,7 @@ public class GigaGal implements Humanoid {
         if (shotIntensity == ShotIntensity.BLAST) {
             Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
         } else {
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1,5,0);
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1,2,0);
         }
         if (chargeModifier == 0) {
             ammo -= ammoUsed * ammoMultiplier;
