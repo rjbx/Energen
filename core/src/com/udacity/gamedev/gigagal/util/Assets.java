@@ -63,11 +63,11 @@ public final class Assets implements AssetErrorListener {
         assetManager.load(Constants.LIFE_SOUND);
         assetManager.load(Constants.UPGRADE_SOUND);
         assetManager.load(Constants.BLAST_SOUND);
+        assetManager.load(Constants.PLASMA_SOUND);
         assetManager.load(Constants.HIT_SOUND);
         assetManager.load(Constants.HIT_GROUND_SOUND);
         assetManager.load(Constants.BREAK_GROUND_SOUND);
         assetManager.load(Constants.DAMAGE_SOUND);
-        assetManager.load(Constants.ANTIMATTER_SOUND);
         assetManager.load(Constants.SHOT_SOUND);
         assetManager.load(Constants.MESSAGE_FONT);
         assetManager.load(Constants.MENU_FONT);
@@ -431,6 +431,7 @@ public final class Assets implements AssetErrorListener {
             gasBlast = atlas.findRegion(Constants.BLAST_GAS_SPRITE);
             liquidShot = atlas.findRegion(Constants.SHOT_LIQUID_SPRITE);
             liquidBlast = atlas.findRegion(Constants.BLAST_LIQUID_SPRITE);
+
             Array<AtlasRegion> plasmaShotRegions = new Array<AtlasRegion>();
             plasmaShotRegions.add(atlas.findRegion(Constants.SHOT_PLASMA_SPRITE_1));
             plasmaShotRegions.add(atlas.findRegion(Constants.SHOT_PLASMA_SPRITE_2));
@@ -903,7 +904,7 @@ public final class Assets implements AssetErrorListener {
         public final Sound upgrade;
         public final Sound shot;
         public final Sound blast;
-        public final Sound antimatter;
+        public final Sound plasma;
         public final Sound hit;
         public final Sound hitGround;
         public final Sound breakGround;
@@ -918,7 +919,7 @@ public final class Assets implements AssetErrorListener {
             upgrade = assetManager.get(Constants.UPGRADE_SOUND); // use of descriptor enforces type checking
             shot = assetManager.get(Constants.SHOT_SOUND); // use of descriptor enforces type checking
             blast = assetManager.get(Constants.BLAST_SOUND); // use of descriptor enforces type checking
-            antimatter = assetManager.get(Constants.ANTIMATTER_SOUND); // use of descriptor enforces type checking
+            plasma = assetManager.get(Constants.PLASMA_SOUND); // use of descriptor enforces type checking
             hit = assetManager.get(Constants.HIT_SOUND); // use of descriptor enforces type checking
             hitGround = assetManager.get(Constants.HIT_GROUND_SOUND);
             breakGround = assetManager.get(Constants.BREAK_GROUND_SOUND); // use of descriptor enforces type checking
@@ -932,7 +933,7 @@ public final class Assets implements AssetErrorListener {
                 case ORE:
                     return blast;
                 case PLASMA:
-                    return blast;
+                    return plasma;
                 case GAS:
                     return blast;
                 case LIQUID:
@@ -940,7 +941,7 @@ public final class Assets implements AssetErrorListener {
                 case SOLID:
                     return blast;
                 case ANTIMATTER:
-                    return antimatter;
+                    return blast;
                 case HYBRID:
                     return blast;
                 default:
