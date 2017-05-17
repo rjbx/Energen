@@ -64,6 +64,7 @@ public final class Assets implements AssetErrorListener {
         assetManager.load(Constants.UPGRADE_SOUND);
         assetManager.load(Constants.BLAST_SOUND);
         assetManager.load(Constants.PLASMA_SOUND);
+        assetManager.load(Constants.GAS_SOUND);
         assetManager.load(Constants.HIT_SOUND);
         assetManager.load(Constants.HIT_GROUND_SOUND);
         assetManager.load(Constants.BREAK_GROUND_SOUND);
@@ -953,6 +954,7 @@ public final class Assets implements AssetErrorListener {
         public final Sound shot;
         public final Sound blast;
         public final Sound plasma;
+        public final Sound gas;
         public final Sound hit;
         public final Sound hitGround;
         public final Sound breakGround;
@@ -968,6 +970,7 @@ public final class Assets implements AssetErrorListener {
             shot = assetManager.get(Constants.SHOT_SOUND); // use of descriptor enforces type checking
             blast = assetManager.get(Constants.BLAST_SOUND); // use of descriptor enforces type checking
             plasma = assetManager.get(Constants.PLASMA_SOUND); // use of descriptor enforces type checking
+            gas = assetManager.get(Constants.GAS_SOUND); // use of descriptor enforces type checking
             hit = assetManager.get(Constants.HIT_SOUND); // use of descriptor enforces type checking
             hitGround = assetManager.get(Constants.HIT_GROUND_SOUND);
             breakGround = assetManager.get(Constants.BREAK_GROUND_SOUND); // use of descriptor enforces type checking
@@ -983,7 +986,7 @@ public final class Assets implements AssetErrorListener {
                 case PLASMA:
                     return plasma;
                 case GAS:
-                    return blast;
+                    return gas;
                 case LIQUID:
                     return blast;
                 case SOLID:
