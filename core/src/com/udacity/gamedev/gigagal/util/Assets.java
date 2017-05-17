@@ -407,30 +407,70 @@ public final class Assets implements AssetErrorListener {
 
     public static final class AmmoAssets {
 
-        public final AtlasRegion nativeShot;
-        public final AtlasRegion nativeBlast;
-        public final AtlasRegion gasShot;
-        public final AtlasRegion gasBlast;
-        public final AtlasRegion liquidShot;
-        public final AtlasRegion liquidBlast;
+        public final Animation nativeShot;
+        public final Animation nativeBlast;
+        public final Animation gasShot;
+        public final Animation gasBlast;
+        public final Animation liquidShot;
+        public final Animation liquidBlast;
         public final Animation plasmaShot;
         public final Animation plasmaBlast;
-        public final AtlasRegion polymerShot;
-        public final AtlasRegion polymerBlast;
-        public final AtlasRegion solidShot;
-        public final AtlasRegion solidBlast;
-        public final AtlasRegion psychicShot;
-        public final AtlasRegion psychicBlast;
-        public final AtlasRegion hybridShot;
-        public final AtlasRegion hybridBlast;
+        public final Animation oreShot;
+        public final Animation oreBlast;
+        public final Animation solidShot;
+        public final Animation solidBlast;
+        public final Animation antimatterShot;
+        public final Animation antimatterBlast;
+        public final Animation hybridShot;
+        public final Animation hybridBlast;
 
         private AmmoAssets(TextureAtlas atlas) {
-            nativeShot = atlas.findRegion(Constants.SHOT_NATIVE_SPRITE);
-            nativeBlast = atlas.findRegion(Constants.BLAST_NATIVE_SPRITE);
-            gasShot = atlas.findRegion(Constants.SHOT_GAS_SPRITE);
-            gasBlast = atlas.findRegion(Constants.BLAST_GAS_SPRITE);
-            liquidShot = atlas.findRegion(Constants.SHOT_LIQUID_SPRITE);
-            liquidBlast = atlas.findRegion(Constants.BLAST_LIQUID_SPRITE);
+
+            Array<AtlasRegion> nativeShotRegions = new Array<AtlasRegion>();
+            nativeShotRegions.add(atlas.findRegion(Constants.SHOT_NATIVE_SPRITE));
+            nativeShot = new Animation(Constants.AMMO_DURATION / nativeShotRegions.size, nativeShotRegions, PlayMode.LOOP);
+
+            Array<AtlasRegion> nativeBlastRegions = new Array<AtlasRegion>();
+            nativeBlastRegions.add(atlas.findRegion(Constants.BLAST_NATIVE_SPRITE));
+            nativeBlast = new Animation(Constants.AMMO_DURATION / nativeBlastRegions.size, nativeBlastRegions, PlayMode.LOOP);
+
+
+            Array<AtlasRegion> oreShotRegions = new Array<AtlasRegion>();
+            oreShotRegions.add(atlas.findRegion(Constants.SHOT_ORE_SPRITE));
+            oreShot = new Animation(Constants.AMMO_DURATION / oreShotRegions.size, oreShotRegions, PlayMode.LOOP);
+
+            Array<AtlasRegion> oreBlastRegions = new Array<AtlasRegion>();
+            oreBlastRegions.add(atlas.findRegion(Constants.BLAST_ORE_SPRITE));
+            oreBlast = new Animation(Constants.AMMO_DURATION / oreBlastRegions.size, oreBlastRegions, PlayMode.LOOP);
+
+
+            Array<AtlasRegion> gasShotRegions = new Array<AtlasRegion>();
+            gasShotRegions.add(atlas.findRegion(Constants.SHOT_GAS_SPRITE));
+            gasShot = new Animation(Constants.AMMO_DURATION / gasShotRegions.size, gasShotRegions, PlayMode.LOOP);
+
+
+            Array<AtlasRegion> gasBlastRegions = new Array<AtlasRegion>();
+            gasBlastRegions.add(atlas.findRegion(Constants.BLAST_GAS_SPRITE));
+            gasBlast = new Animation(Constants.AMMO_DURATION / gasBlastRegions.size, gasBlastRegions, PlayMode.LOOP);
+
+
+            Array<AtlasRegion> liquidShotRegions = new Array<AtlasRegion>();
+            liquidShotRegions.add(atlas.findRegion(Constants.SHOT_LIQUID_SPRITE));
+            liquidShot = new Animation(Constants.AMMO_DURATION / liquidShotRegions.size, liquidShotRegions, PlayMode.LOOP);
+
+
+            Array<AtlasRegion> liquidBlastRegions = new Array<AtlasRegion>();
+            liquidBlastRegions.add(atlas.findRegion(Constants.BLAST_LIQUID_SPRITE));
+            liquidBlast = new Animation(Constants.AMMO_DURATION / liquidBlastRegions.size, liquidBlastRegions, PlayMode.LOOP);
+
+
+            Array<AtlasRegion> solidShotRegions = new Array<AtlasRegion>();
+            solidShotRegions.add(atlas.findRegion(Constants.SHOT_SOLID_SPRITE));
+            solidShot = new Animation(Constants.AMMO_DURATION / solidShotRegions.size, solidShotRegions, PlayMode.LOOP);
+
+            Array<AtlasRegion> solidBlastRegions = new Array<AtlasRegion>();
+            solidBlastRegions.add(atlas.findRegion(Constants.BLAST_SOLID_SPRITE));
+            solidBlast = new Animation(Constants.AMMO_DURATION / solidBlastRegions.size, solidBlastRegions, PlayMode.LOOP);
 
             Array<AtlasRegion> plasmaShotRegions = new Array<AtlasRegion>();
             plasmaShotRegions.add(atlas.findRegion(Constants.SHOT_PLASMA_SPRITE_1));
@@ -443,14 +483,21 @@ public final class Assets implements AssetErrorListener {
             plasmaBlastRegions.add(atlas.findRegion(Constants.BLAST_PLASMA_SPRITE_3));
             plasmaBlast = new Animation(Constants.AMMO_DURATION / plasmaBlastRegions.size, plasmaBlastRegions, PlayMode.LOOP_PINGPONG);
             
-            polymerShot = atlas.findRegion(Constants.SHOT_POLYMER_SPRITE);
-            polymerBlast = atlas.findRegion(Constants.BLAST_POLYMER_SPRITE);
-            solidShot = atlas.findRegion(Constants.SHOT_SOLID_SPRITE);
-            solidBlast = atlas.findRegion(Constants.BLAST_SOLID_SPRITE);
-            psychicShot = atlas.findRegion(Constants.SHOT_PSYCHIC_SPRITE);
-            psychicBlast = atlas.findRegion(Constants.BLAST_PSYCHIC_SPRITE);
-            hybridShot = atlas.findRegion(Constants.SHOT_HYBRID_SPRITE);
-            hybridBlast = atlas.findRegion(Constants.BLAST_HYBRID_SPRITE);
+            Array<AtlasRegion> antimatterShotRegions = new Array<AtlasRegion>();
+            antimatterShotRegions.add(atlas.findRegion(Constants.SHOT_ANTIMATTER_SPRITE));
+            antimatterShot = new Animation(Constants.AMMO_DURATION / antimatterShotRegions.size, antimatterShotRegions, PlayMode.LOOP);
+
+            Array<AtlasRegion> antimatterBlastRegions = new Array<AtlasRegion>();
+            antimatterBlastRegions.add(atlas.findRegion(Constants.BLAST_ANTIMATTER_SPRITE));
+            antimatterBlast = new Animation(Constants.AMMO_DURATION / antimatterBlastRegions.size, antimatterBlastRegions, PlayMode.LOOP);
+            
+            Array<AtlasRegion> hybridShotRegions = new Array<AtlasRegion>();
+            hybridShotRegions.add(atlas.findRegion(Constants.SHOT_HYBRID_SPRITE));
+            hybridShot = new Animation(Constants.AMMO_DURATION / hybridShotRegions.size, hybridShotRegions, PlayMode.LOOP);
+
+            Array<AtlasRegion> hybridBlastRegions = new Array<AtlasRegion>();
+            hybridBlastRegions.add(atlas.findRegion(Constants.BLAST_HYBRID_SPRITE));
+            hybridBlast = new Animation(Constants.AMMO_DURATION / hybridBlastRegions.size, hybridBlastRegions, PlayMode.LOOP);
         }
     }
 

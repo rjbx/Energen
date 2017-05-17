@@ -34,7 +34,6 @@ public final class Ammo implements Indestructible, Hazard {
     private boolean active;
     private int hitScore;
     private Vector2 knockback; // class-level instantiation
-    private TextureRegion region; // class-level instantiation
     private Animation animation;
     private long startTime;
 
@@ -52,7 +51,7 @@ public final class Ammo implements Indestructible, Hazard {
         damage = 0;
         active = true;
         hitScore = 0;
-        region = null;
+        animation = null;
         scale = 1;
         rotation = 0;
         if (shotIntensity == ShotIntensity.BLAST) {
@@ -75,27 +74,27 @@ public final class Ammo implements Indestructible, Hazard {
                 damage = Constants.AMMO_STANDARD_DAMAGE;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = Assets.getInstance().getAmmoAssets().nativeBlast;
+                    animation = Assets.getInstance().getAmmoAssets().nativeBlast;
                 } else {
-                    region = Assets.getInstance().getAmmoAssets().nativeShot;
+                    animation = Assets.getInstance().getAmmoAssets().nativeShot;
                 }
                 break;
             case GAS:
                 damage = Constants.PROTRUSION_GAS_DAMAGE;
                 knockback = Constants.PROTRUSION_GAS_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = Assets.getInstance().getAmmoAssets().gasBlast;
+                    animation = Assets.getInstance().getAmmoAssets().gasBlast;
                 } else {
-                    region = Assets.getInstance().getAmmoAssets().gasShot;
+                    animation = Assets.getInstance().getAmmoAssets().gasShot;
                 }
                 break;
             case LIQUID:
                 damage = Constants.PROTRUSION_LIQUID_DAMAGE;
                 knockback = Constants.PROTRUSION_LIQUID_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = Assets.getInstance().getAmmoAssets().liquidBlast;
+                    animation = Assets.getInstance().getAmmoAssets().liquidBlast;
                 } else {
-                    region = Assets.getInstance().getAmmoAssets().liquidShot;
+                    animation = Assets.getInstance().getAmmoAssets().liquidShot;
                 }
                 break;
             case PLASMA:
@@ -111,36 +110,36 @@ public final class Ammo implements Indestructible, Hazard {
                 damage = Constants.SUSPENSION_ORE_DAMAGE;
                 knockback = Constants.SUSPENSION_ORE_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = Assets.getInstance().getAmmoAssets().polymerBlast;
+                    animation = Assets.getInstance().getAmmoAssets().oreBlast;
                 } else {
-                    region = Assets.getInstance().getAmmoAssets().polymerShot;
+                    animation = Assets.getInstance().getAmmoAssets().oreShot;
                 }
                 break;
             case SOLID:
                 damage = Constants.PROTRUSION_SOLID_DAMAGE;
                 knockback = Constants.PROTRUSION_SOLID_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = Assets.getInstance().getAmmoAssets().solidBlast;
+                    animation = Assets.getInstance().getAmmoAssets().solidBlast;
                 } else {
-                    region = Assets.getInstance().getAmmoAssets().solidShot;
+                    animation = Assets.getInstance().getAmmoAssets().solidShot;
                 }
                 break;
             case ANTIMATTER:
                 damage = Constants.MAX_HEALTH / 2;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = Assets.getInstance().getAmmoAssets().psychicBlast;
+                    animation = Assets.getInstance().getAmmoAssets().antimatterBlast;
                 } else {
-                    region = Assets.getInstance().getAmmoAssets().psychicShot;
+                    animation = Assets.getInstance().getAmmoAssets().antimatterShot;
                 }
                 break;
             case HYBRID:
                 damage = Constants.PROTRUSION_SOLID_DAMAGE * 2;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = Assets.getInstance().getAmmoAssets().hybridBlast;
+                    animation = Assets.getInstance().getAmmoAssets().hybridBlast;
                 } else {
-                    region = Assets.getInstance().getAmmoAssets().hybridShot;
+                    animation = Assets.getInstance().getAmmoAssets().hybridShot;
                 }
                 break;
             default:
@@ -229,11 +228,7 @@ public final class Ammo implements Indestructible, Hazard {
     public void render(SpriteBatch batch, Viewport viewport) {
 
         if (active) {
-            if (weapon == Material.PLASMA) {
-                Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime)), position, ammoCenter, scale, rotation);
-            } else {
-                Helpers.drawTextureRegion(batch, viewport, region, position, ammoCenter, scale, rotation);
-            }
+            Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime)), position, ammoCenter, scale, rotation);
         }
     }
 
@@ -249,7 +244,7 @@ public final class Ammo implements Indestructible, Hazard {
     public final Vector2 getKnockback() { return knockback; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
     public final Material getType() { return weapon; }
-    public final TextureRegion getTexture() { if (weapon == Material.PLASMA) { return animation.getKeyFrame(0); } else { return region; } }
+    public final TextureRegion getTexture() { return animation.getKeyFrame(0); }
     public final int getHitScore() { return hitScore; }
     public final void setHitScore(int hitScore) { this.hitScore = hitScore; }
     public final boolean isFromGigagal() { return fromGigagal; }
