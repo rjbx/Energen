@@ -109,6 +109,8 @@ public final class Helpers {
 
     public static final float secondsSince(long timeNanos) { return MathUtils.nanoToSec * (TimeUtils.nanoTime() - timeNanos); }
 
+    public static final float secondsSince(float timeNanos) { return MathUtils.nanoToSec * (TimeUtils.nanoTime() - timeNanos); }
+
     public static String secondsToString(long seconds) {
         String timeStr = DurationFormatUtils.formatDurationHMS(seconds);
         return timeStr.substring(0, timeStr.length() - 4);

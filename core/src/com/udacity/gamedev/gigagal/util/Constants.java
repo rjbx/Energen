@@ -518,7 +518,8 @@ public final class Constants {
     public static final String BLAST_GAS_SPRITE = "ammo-blast-gas";
     public static final String SHOT_LIQUID_SPRITE = "ammo-shot-liquid";
     public static final String BLAST_LIQUID_SPRITE = "ammo-blast-liquid";
-    public static final String SHOT_PLASMA_SPRITE = "ammo-shot-plasma";
+    public static final String SHOT_PLASMA_SPRITE_1 = "ammo-shot-plasma-1";
+    public static final String SHOT_PLASMA_SPRITE_2 = "ammo-shot-plasma-2";
     public static final String BLAST_PLASMA_SPRITE = "ammo-blast-plasma";
     public static final String SHOT_POLYMER_SPRITE = "ammo-shot-polymer";
     public static final String BLAST_POLYMER_SPRITE = "ammo-blast-polymer";

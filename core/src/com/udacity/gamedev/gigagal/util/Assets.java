@@ -413,7 +413,7 @@ public final class Assets implements AssetErrorListener {
         public final AtlasRegion gasBlast;
         public final AtlasRegion liquidShot;
         public final AtlasRegion liquidBlast;
-        public final AtlasRegion plasmaShot;
+        public final Animation plasmaShot;
         public final AtlasRegion plasmaBlast;
         public final AtlasRegion polymerShot;
         public final AtlasRegion polymerBlast;
@@ -431,7 +431,10 @@ public final class Assets implements AssetErrorListener {
             gasBlast = atlas.findRegion(Constants.BLAST_GAS_SPRITE);
             liquidShot = atlas.findRegion(Constants.SHOT_LIQUID_SPRITE);
             liquidBlast = atlas.findRegion(Constants.BLAST_LIQUID_SPRITE);
-            plasmaShot = atlas.findRegion(Constants.SHOT_PLASMA_SPRITE);
+            Array<AtlasRegion> plasmaShotRegions = new Array<AtlasRegion>();
+            plasmaShotRegions.add(atlas.findRegion(Constants.SHOT_PLASMA_SPRITE_1));
+            plasmaShotRegions.add(atlas.findRegion(Constants.SHOT_PLASMA_SPRITE_2));
+            plasmaShot = new Animation(Constants.SUSPENSION_PLASMA_DURATION / plasmaShotRegions.size, plasmaShotRegions, PlayMode.NORMAL);
             plasmaBlast = atlas.findRegion(Constants.BLAST_PLASMA_SPRITE);
             polymerShot = atlas.findRegion(Constants.SHOT_POLYMER_SPRITE);
             polymerBlast = atlas.findRegion(Constants.BLAST_POLYMER_SPRITE);

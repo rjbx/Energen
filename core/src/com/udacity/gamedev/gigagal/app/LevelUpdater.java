@@ -386,7 +386,7 @@ public class LevelUpdater {
         return false;
     }
 
-    protected boolean completed() { return /*(GigaGal.getInstance().getPosition().dst(portals.get(portals.size - 1).getPosition()) < Constants.PORTAL_RADIUS)*/ false; }
+    protected boolean completed() { return GigaGal.getInstance().getPosition().dst(portals.get(portals.size - 1).getPosition()) < Constants.PORTAL_RADIUS; }
 
     protected boolean continuing() { return !(completed() || failed()); }
 

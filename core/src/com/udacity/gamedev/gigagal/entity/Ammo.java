@@ -1,8 +1,11 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -32,6 +35,8 @@ public final class Ammo implements Indestructible, Hazard {
     private int hitScore;
     private Vector2 knockback; // class-level instantiation
     private TextureRegion region; // class-level instantiation
+    private Animation animation;
+    private float startTime;
 
     // ctor
     public Ammo(LevelUpdater level, Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, Material weapon, boolean fromGigagal) {
@@ -42,6 +47,7 @@ public final class Ammo implements Indestructible, Hazard {
         this.shotIntensity = shotIntensity;
         this.weapon = weapon;
         this.fromGigagal = fromGigagal;
+        startTime = Gdx.graphics.getDeltaTime();
         knockback = new Vector2();
         damage = 0;
         active = true;
@@ -98,7 +104,7 @@ public final class Ammo implements Indestructible, Hazard {
                 if (shotIntensity == ShotIntensity.BLAST) {
                     region = Assets.getInstance().getAmmoAssets().plasmaBlast;
                 } else {
-                    region = Assets.getInstance().getAmmoAssets().plasmaShot;
+                    animation = Assets.getInstance().getAmmoAssets().plasmaShot;
                 }
                 break;
             case ORE:
@@ -221,8 +227,13 @@ public final class Ammo implements Indestructible, Hazard {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
+
         if (active) {
-            Helpers.drawTextureRegion(batch, viewport, region, position, ammoCenter, scale, rotation);
+            if (weapon == Material.PLASMA && shotIntensity == ShotIntensity.NORMAL) {
+                Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime)), position, ammoCenter, scale, rotation);
+            } else {
+                Helpers.drawTextureRegion(batch, viewport, region, position, ammoCenter, scale, rotation);
+            }
         }
     }
 
@@ -238,7 +249,7 @@ public final class Ammo implements Indestructible, Hazard {
     public final Vector2 getKnockback() { return knockback; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
     public final Material getType() { return weapon; }
-    public final TextureRegion getTexture() { return region; }
+    public final TextureRegion getTexture() { if (weapon == Material.PLASMA && shotIntensity == ShotIntensity.NORMAL) { return animation.getKeyFrame(0.01f); } else { return region; } }
     public final int getHitScore() { return hitScore; }
     public final void setHitScore(int hitScore) { this.hitScore = hitScore; }
     public final boolean isFromGigagal() { return fromGigagal; }
