@@ -516,7 +516,8 @@ public final class Constants {
     public static final Vector2 BLAST_CENTER = new Vector2(BLAST_RADIUS, BLAST_RADIUS);
     public static final String SHOT_NATIVE_SPRITE = "ammo-shot-native";
     public static final String BLAST_NATIVE_SPRITE = "ammo-blast-native";
-    public static final String SHOT_GAS_SPRITE = "ammo-shot-gas";
+    public static final String SHOT_GAS_SPRITE_1 = "ammo-shot-gas-1";
+    public static final String SHOT_GAS_SPRITE_2 = "ammo-shot-gas-2";
     public static final String BLAST_GAS_SPRITE = "ammo-blast-gas";
     public static final String SHOT_LIQUID_SPRITE = "ammo-shot-liquid";
     public static final String BLAST_LIQUID_SPRITE = "ammo-blast-liquid";
