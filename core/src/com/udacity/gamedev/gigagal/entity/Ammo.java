@@ -36,7 +36,7 @@ public final class Ammo implements Indestructible, Hazard {
     private Vector2 knockback; // class-level instantiation
     private TextureRegion region; // class-level instantiation
     private Animation animation;
-    private float startTime;
+    private long startTime;
 
     // ctor
     public Ammo(LevelUpdater level, Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, Material weapon, boolean fromGigagal) {
@@ -47,7 +47,7 @@ public final class Ammo implements Indestructible, Hazard {
         this.shotIntensity = shotIntensity;
         this.weapon = weapon;
         this.fromGigagal = fromGigagal;
-        startTime = Gdx.graphics.getDeltaTime();
+        startTime = TimeUtils.nanoTime();
         knockback = new Vector2();
         damage = 0;
         active = true;
@@ -102,7 +102,7 @@ public final class Ammo implements Indestructible, Hazard {
                 damage = Constants.SUSPENSION_PLASMA_DAMAGE;
                 knockback = Constants.SUSPENSION_PLASMA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    region = Assets.getInstance().getAmmoAssets().plasmaBlast;
+                    animation = Assets.getInstance().getAmmoAssets().plasmaBlast;
                 } else {
                     animation = Assets.getInstance().getAmmoAssets().plasmaShot;
                 }
@@ -229,7 +229,7 @@ public final class Ammo implements Indestructible, Hazard {
     public void render(SpriteBatch batch, Viewport viewport) {
 
         if (active) {
-            if (weapon == Material.PLASMA && shotIntensity == ShotIntensity.NORMAL) {
+            if (weapon == Material.PLASMA) {
                 Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime)), position, ammoCenter, scale, rotation);
             } else {
                 Helpers.drawTextureRegion(batch, viewport, region, position, ammoCenter, scale, rotation);
@@ -249,7 +249,7 @@ public final class Ammo implements Indestructible, Hazard {
     public final Vector2 getKnockback() { return knockback; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
     public final Material getType() { return weapon; }
-    public final TextureRegion getTexture() { if (weapon == Material.PLASMA && shotIntensity == ShotIntensity.NORMAL) { return animation.getKeyFrame(0.01f); } else { return region; } }
+    public final TextureRegion getTexture() { if (weapon == Material.PLASMA) { return animation.getKeyFrame(0); } else { return region; } }
     public final int getHitScore() { return hitScore; }
     public final void setHitScore(int hitScore) { this.hitScore = hitScore; }
     public final boolean isFromGigagal() { return fromGigagal; }

@@ -6,28 +6,28 @@ filter: Nearest,Nearest
 repeat: none
 ammo-blast-gas
   rotate: false
-  xy: 519, 706
+  xy: 539, 701
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
 ammo-blast-hybrid
   rotate: false
-  xy: 539, 701
+  xy: 559, 701
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
 ammo-blast-liquid
   rotate: false
-  xy: 559, 701
+  xy: 579, 701
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
 ammo-blast-native
   rotate: false
-  xy: 579, 701
+  xy: 989, 877
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
@@ -39,23 +39,44 @@ ammo-blast-plasma
   orig: 18, 18
   offset: 0, 0
   index: -1
-ammo-blast-polymer
+ammo-blast-plasma-1
   rotate: false
   xy: 316, 233
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
-ammo-blast-psychic
+ammo-blast-plasma-2
   rotate: false
   xy: 492, 674
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
+ammo-blast-plasma-3
+  rotate: false
+  xy: 519, 705
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+ammo-blast-polymer
+  rotate: false
+  xy: 512, 674
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+ammo-blast-psychic
+  rotate: false
+  xy: 521, 654
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
 ammo-blast-solid
   rotate: false
-  xy: 519, 687
+  xy: 173, 106
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
@@ -69,7 +90,7 @@ ammo-shot-gas
   index: -1
 ammo-shot-hybrid
   rotate: false
-  xy: 498, 376
+  xy: 495, 561
   size: 8, 7
   orig: 8, 7
   offset: 0, 0
@@ -83,42 +104,28 @@ ammo-shot-liquid
   index: -1
 ammo-shot-native
   rotate: false
-  xy: 498, 403
+  xy: 42, 24
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-plasma
   rotate: false
-  xy: 498, 394
+  xy: 53, 24
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-plasma-1
   rotate: false
-  xy: 42, 24
-  size: 18, 7
-  orig: 18, 7
+  xy: 362, 223
+  size: 9, 7
+  orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-plasma-2
   rotate: false
-  xy: 42, 24
-  size: 18, 7
-  orig: 18, 7
-  offset: 0, 0
-  index: -1
-ammo-shot-plasma-1.png
-  rotate: false
-  xy: 648, 691
-  size: 18, 7
-  orig: 18, 7
-  offset: 0, 0
-  index: -1
-ammo-shot-plasma.png
-  rotate: false
-  xy: 498, 385
+  xy: 362, 214
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
@@ -132,14 +139,14 @@ ammo-shot-polymer
   index: -1
 ammo-shot-psychic
   rotate: false
-  xy: 682, 690
+  xy: 485, 558
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ammo-shot-solid
   rotate: false
-  xy: 498, 367
+  xy: 505, 561
   size: 8, 7
   orig: 8, 7
   offset: 0, 0
@@ -608,14 +615,14 @@ icon-life
   index: -1
 icon-life-1
   rotate: false
-  xy: 427, 218
+  xy: 1009, 887
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
   index: -1
 icon-life-2
   rotate: false
-  xy: 633, 685
+  xy: 1009, 872
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
@@ -832,161 +839,161 @@ old-stride-3-right
   index: -1
 orben-dormant
   rotate: false
-  xy: 455, 201
+  xy: 500, 196
   size: 10, 8
   orig: 10, 8
   offset: 0, 0
   index: -1
 orben-gas-active-0
   rotate: false
-  xy: 129, 14
+  xy: 518, 608
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-gas-active-1
   rotate: false
-  xy: 129, 2
+  xy: 517, 596
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-gas-active-2
   rotate: false
-  xy: 141, 14
+  xy: 517, 584
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-gas-alert
   rotate: false
-  xy: 141, 2
+  xy: 530, 609
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-liquid-active-0
   rotate: false
-  xy: 153, 14
+  xy: 498, 406
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-liquid-active-1
   rotate: false
-  xy: 153, 2
+  xy: 498, 394
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-liquid-active-2
   rotate: false
-  xy: 165, 14
+  xy: 498, 382
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-liquid-alert
   rotate: false
-  xy: 165, 2
+  xy: 498, 370
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-plasma-active-0
   rotate: false
-  xy: 518, 608
+  xy: 498, 358
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-plasma-active-1
   rotate: false
-  xy: 517, 596
+  xy: 498, 346
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-plasma-active-2
   rotate: false
-  xy: 517, 584
+  xy: 498, 334
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-plasma-alert
   rotate: false
-  xy: 648, 679
+  xy: 500, 314
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-0
   rotate: false
-  xy: 485, 556
+  xy: 500, 302
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-1
   rotate: false
-  xy: 497, 558
+  xy: 500, 290
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-2
   rotate: false
-  xy: 509, 558
+  xy: 500, 278
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-alert
   rotate: false
-  xy: 512, 675
+  xy: 500, 266
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-shoot
   rotate: false
-  xy: 524, 675
+  xy: 500, 254
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-active-0
   rotate: false
-  xy: 521, 663
+  xy: 500, 242
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-active-1
   rotate: false
-  xy: 521, 651
+  xy: 500, 230
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-active-2
   rotate: false
-  xy: 498, 424
+  xy: 500, 218
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-alert
   rotate: false
-  xy: 498, 412
+  xy: 500, 206
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 pillar
   rotate: false
-  xy: 101, 2
+  xy: 498, 326
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
@@ -1070,21 +1077,21 @@ portal-6
   index: -1
 powerup-ammo
   rotate: false
-  xy: 668, 690
+  xy: 519, 695
   size: 12, 8
   orig: 12, 8
   offset: 0, 0
   index: -1
 powerup-ammo-1
   rotate: false
-  xy: 316, 223
+  xy: 334, 222
   size: 12, 8
   orig: 12, 8
   offset: 0, 0
   index: -1
 powerup-ammo-2
   rotate: false
-  xy: 441, 201
+  xy: 348, 222
   size: 12, 8
   orig: 12, 8
   offset: 0, 0
@@ -1105,14 +1112,14 @@ powerup-cannon-1
   index: -1
 powerup-cannon-2
   rotate: false
-  xy: 1006, 890
+  xy: 316, 221
   size: 16, 10
   orig: 16, 10
   offset: 0, 0
   index: -1
 powerup-cannon-3
   rotate: false
-  xy: 1006, 878
+  xy: 441, 199
   size: 16, 10
   orig: 16, 10
   offset: 0, 0
@@ -1126,35 +1133,35 @@ powerup-health
   index: -1
 powerup-health-1
   rotate: false
-  xy: 539, 682
+  xy: 87, 5
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-health-2
   rotate: false
-  xy: 556, 682
+  xy: 104, 7
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 573, 682
+  xy: 121, 7
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo-1
   rotate: false
-  xy: 590, 682
+  xy: 138, 7
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo-2
   rotate: false
-  xy: 989, 877
+  xy: 155, 7
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -1217,14 +1224,14 @@ protrusion-polymer-2
   index: -1
 protrusion-solid-1
   rotate: false
-  xy: 607, 683
+  xy: 172, 8
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 protrusion-solid-2
   rotate: false
-  xy: 173, 107
+  xy: 498, 418
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
@@ -1385,7 +1392,7 @@ rope
   index: -1
 selection-cursor
   rotate: false
-  xy: 616, 683
+  xy: 527, 637
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
@@ -1665,28 +1672,28 @@ treadmill-2-right
   index: -1
 trip-1
   rotate: false
-  xy: 427, 202
+  xy: 427, 217
   size: 12, 14
   orig: 12, 14
   offset: 0, 0
   index: -1
 trip-2
   rotate: false
-  xy: 87, 8
+  xy: 427, 201
   size: 12, 14
   orig: 12, 14
   offset: 0, 0
   index: -1
 trip-3
   rotate: false
-  xy: 101, 10
+  xy: 459, 195
   size: 12, 14
   orig: 12, 14
   offset: 0, 0
   index: -1
 trip-4
   rotate: false
-  xy: 115, 10
+  xy: 527, 621
   size: 12, 14
   orig: 12, 14
   offset: 0, 0

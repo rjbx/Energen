@@ -508,6 +508,7 @@ public final class Constants {
     public static final int AMMO_STANDARD_DAMAGE = 10;
     public static final int AMMO_SPECIALIZED_DAMAGE = 30;
     public static final int AMMO_WEAK_DAMAGE = 1;
+    public static final float AMMO_DURATION = 0.05f;
     public static final float SHOT_RADIUS = 4;
     public static final float BLAST_RADIUS = 9;
     public static final Vector2 SHOT_CENTER = new Vector2(SHOT_RADIUS, SHOT_RADIUS);
@@ -520,7 +521,9 @@ public final class Constants {
     public static final String BLAST_LIQUID_SPRITE = "ammo-blast-liquid";
     public static final String SHOT_PLASMA_SPRITE_1 = "ammo-shot-plasma-1";
     public static final String SHOT_PLASMA_SPRITE_2 = "ammo-shot-plasma-2";
-    public static final String BLAST_PLASMA_SPRITE = "ammo-blast-plasma";
+    public static final String BLAST_PLASMA_SPRITE_1 = "ammo-blast-plasma-1";
+    public static final String BLAST_PLASMA_SPRITE_2 = "ammo-blast-plasma-2";
+    public static final String BLAST_PLASMA_SPRITE_3 = "ammo-blast-plasma-3";
     public static final String SHOT_POLYMER_SPRITE = "ammo-shot-polymer";
     public static final String BLAST_POLYMER_SPRITE = "ammo-blast-polymer";
     public static final String SHOT_SOLID_SPRITE = "ammo-shot-solid";
