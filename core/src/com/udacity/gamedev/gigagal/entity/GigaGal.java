@@ -583,6 +583,7 @@ public class GigaGal implements Humanoid {
                     case CANNON:
                         Assets.getInstance().getSoundAssets().cannon.play();
                         chargeModifier = 1;
+                        ammo += Constants.POWERUP_AMMO;
                         break;
                 }
                 powerup.deactivate();
@@ -675,7 +676,7 @@ public class GigaGal implements Humanoid {
             }
             if (canLook) {
                 canStride = false;
-                if (inputControls.jumpButtonJustPressed) {
+                if (inputControls.jumpButtonJustPressed && !canCling) {
                     canHover = false;
                     toggleWeapon(directionY);
                 }
@@ -838,7 +839,7 @@ public class GigaGal implements Humanoid {
         if (shotIntensity == ShotIntensity.BLAST) {
             Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
         } else {
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1,2,0);
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1,5,0);
         }
         if (chargeModifier == 0) {
             ammo -= ammoUsed * ammoMultiplier;
