@@ -132,7 +132,7 @@ ammo-shot-gas-2
   index: -1
 ammo-shot-hybrid
   rotate: false
-  xy: 500, 317
+  xy: 500, 297
   size: 8, 7
   orig: 8, 7
   offset: 0, 0
@@ -167,14 +167,14 @@ ammo-shot-native-2
   index: -1
 ammo-shot-plasma-1
   rotate: false
-  xy: 500, 308
+  xy: 500, 288
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-plasma-2
   rotate: false
-  xy: 500, 299
+  xy: 500, 279
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
@@ -193,11 +193,18 @@ ammo-shot-psychic
   orig: 8, 8
   offset: 0, 0
   index: -1
-ammo-shot-solid
+ammo-shot-solid-1
   rotate: false
-  xy: 500, 290
-  size: 8, 7
-  orig: 8, 7
+  xy: 500, 316
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+ammo-shot-solid-2
+  rotate: false
+  xy: 500, 306
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: -1
 background-gas

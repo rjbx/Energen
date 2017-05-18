@@ -476,7 +476,8 @@ public final class Assets implements AssetErrorListener {
 
 
             Array<AtlasRegion> solidShotRegions = new Array<AtlasRegion>();
-            solidShotRegions.add(atlas.findRegion(Constants.SHOT_SOLID_SPRITE));
+            solidShotRegions.add(atlas.findRegion(Constants.SHOT_SOLID_SPRITE_1));
+            solidShotRegions.add(atlas.findRegion(Constants.SHOT_SOLID_SPRITE_2));
             solidShot = new Animation(Constants.AMMO_DURATION / solidShotRegions.size, solidShotRegions, PlayMode.LOOP);
 
             Array<AtlasRegion> solidBlastRegions = new Array<AtlasRegion>();
