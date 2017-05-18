@@ -31,8 +31,7 @@ public final class Constants {
     public static final AssetDescriptor<Sound> CANNON_SOUND = new AssetDescriptor<Sound>("audio/cannon.wav", Sound.class);
     public static final AssetDescriptor<Sound> LIFE_SOUND = new AssetDescriptor<Sound>("audio/life.wav", Sound.class);
     public static final AssetDescriptor<Sound> UPGRADE_SOUND = new AssetDescriptor<Sound>("audio/upgrade.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_SOUND = new AssetDescriptor<Sound>("audio/blast.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_SOUND = new AssetDescriptor<Sound>("audio/shot.wav", Sound.class);
+    public static final AssetDescriptor<Sound> NATIVE_SOUND = new AssetDescriptor<Sound>("audio/blast.wav", Sound.class);
     public static final AssetDescriptor<Sound> PLASMA_SOUND = new AssetDescriptor<Sound>("audio/plasma.wav", Sound.class);
     public static final AssetDescriptor<Sound> LIQUID_SOUND = new AssetDescriptor<Sound>("audio/liquid.wav", Sound.class);
     public static final AssetDescriptor<Sound> GAS_SOUND = new AssetDescriptor<Sound>("audio/gas.wav", Sound.class);
@@ -516,8 +515,11 @@ public final class Constants {
     public static final float BLAST_RADIUS = 9;
     public static final Vector2 SHOT_CENTER = new Vector2(SHOT_RADIUS, SHOT_RADIUS);
     public static final Vector2 BLAST_CENTER = new Vector2(BLAST_RADIUS, BLAST_RADIUS);
-    public static final String SHOT_NATIVE_SPRITE = "ammo-shot-native";
-    public static final String BLAST_NATIVE_SPRITE = "ammo-blast-native";
+    public static final String SHOT_NATIVE_SPRITE_1 = "ammo-shot-native-1";
+    public static final String SHOT_NATIVE_SPRITE_2 = "ammo-shot-native-2";
+    public static final String BLAST_NATIVE_SPRITE_1 = "ammo-blast-native-1";
+    public static final String BLAST_NATIVE_SPRITE_2 = "ammo-blast-native-2";
+    public static final String BLAST_NATIVE_SPRITE_3 = "ammo-blast-native-3";
     public static final String SHOT_GAS_SPRITE_1 = "ammo-shot-gas-1";
     public static final String SHOT_GAS_SPRITE_2 = "ammo-shot-gas-2";
     public static final String BLAST_GAS_SPRITE_1 = "ammo-blast-gas-1";
