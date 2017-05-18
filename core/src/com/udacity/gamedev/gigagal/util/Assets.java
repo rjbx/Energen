@@ -64,6 +64,7 @@ public final class Assets implements AssetErrorListener {
         assetManager.load(Constants.UPGRADE_SOUND);
         assetManager.load(Constants.BLAST_SOUND);
         assetManager.load(Constants.PLASMA_SOUND);
+        assetManager.load(Constants.LIQUID_SOUND);
         assetManager.load(Constants.GAS_SOUND);
         assetManager.load(Constants.HIT_SOUND);
         assetManager.load(Constants.HIT_GROUND_SOUND);
@@ -230,7 +231,7 @@ public final class Assets implements AssetErrorListener {
                 case THERMAL:
                     return thermal;
                 default:
-                    return gas;
+                    return thermal;
             }
         }
     }
@@ -445,6 +446,7 @@ public final class Assets implements AssetErrorListener {
             oreBlast = new Animation(Constants.AMMO_DURATION / oreBlastRegions.size, oreBlastRegions, PlayMode.LOOP);
 
 
+
             Array<AtlasRegion> gasShotRegions = new Array<AtlasRegion>();
             gasShotRegions.add(atlas.findRegion(Constants.SHOT_GAS_SPRITE_1));
             gasShotRegions.add(atlas.findRegion(Constants.SHOT_GAS_SPRITE_2));
@@ -459,12 +461,15 @@ public final class Assets implements AssetErrorListener {
 
 
             Array<AtlasRegion> liquidShotRegions = new Array<AtlasRegion>();
-            liquidShotRegions.add(atlas.findRegion(Constants.SHOT_LIQUID_SPRITE));
+            liquidShotRegions.add(atlas.findRegion(Constants.SHOT_LIQUID_SPRITE_1));
+            liquidShotRegions.add(atlas.findRegion(Constants.SHOT_LIQUID_SPRITE_2));
             liquidShot = new Animation(Constants.AMMO_DURATION / liquidShotRegions.size, liquidShotRegions, PlayMode.LOOP);
 
 
             Array<AtlasRegion> liquidBlastRegions = new Array<AtlasRegion>();
-            liquidBlastRegions.add(atlas.findRegion(Constants.BLAST_LIQUID_SPRITE));
+            liquidBlastRegions.add(atlas.findRegion(Constants.BLAST_LIQUID_SPRITE_1));
+            liquidBlastRegions.add(atlas.findRegion(Constants.BLAST_LIQUID_SPRITE_2));
+            liquidBlastRegions.add(atlas.findRegion(Constants.BLAST_LIQUID_SPRITE_3));
             liquidBlast = new Animation(Constants.AMMO_DURATION / liquidBlastRegions.size, liquidBlastRegions, PlayMode.LOOP);
 
 
@@ -956,6 +961,7 @@ public final class Assets implements AssetErrorListener {
         public final Sound shot;
         public final Sound blast;
         public final Sound plasma;
+        public final Sound liquid;
         public final Sound gas;
         public final Sound hit;
         public final Sound hitGround;
@@ -972,6 +978,7 @@ public final class Assets implements AssetErrorListener {
             shot = assetManager.get(Constants.SHOT_SOUND); // use of descriptor enforces type checking
             blast = assetManager.get(Constants.BLAST_SOUND); // use of descriptor enforces type checking
             plasma = assetManager.get(Constants.PLASMA_SOUND); // use of descriptor enforces type checking
+            liquid = assetManager.get(Constants.LIQUID_SOUND); // use of descriptor enforces type checking
             gas = assetManager.get(Constants.GAS_SOUND); // use of descriptor enforces type checking
             hit = assetManager.get(Constants.HIT_SOUND); // use of descriptor enforces type checking
             hitGround = assetManager.get(Constants.HIT_GROUND_SOUND);
@@ -990,7 +997,7 @@ public final class Assets implements AssetErrorListener {
                 case GAS:
                     return gas;
                 case LIQUID:
-                    return blast;
+                    return liquid;
                 case SOLID:
                     return blast;
                 case ANTIMATTER:

@@ -34,6 +34,7 @@ public final class Constants {
     public static final AssetDescriptor<Sound> BLAST_SOUND = new AssetDescriptor<Sound>("audio/blast.wav", Sound.class);
     public static final AssetDescriptor<Sound> SHOT_SOUND = new AssetDescriptor<Sound>("audio/shot.wav", Sound.class);
     public static final AssetDescriptor<Sound> PLASMA_SOUND = new AssetDescriptor<Sound>("audio/plasma.wav", Sound.class);
+    public static final AssetDescriptor<Sound> LIQUID_SOUND = new AssetDescriptor<Sound>("audio/liquid.wav", Sound.class);
     public static final AssetDescriptor<Sound> GAS_SOUND = new AssetDescriptor<Sound>("audio/gas.wav", Sound.class);
     public static final AssetDescriptor<Sound> HIT_SOUND = new AssetDescriptor<Sound>("audio/hit_effective.wav", Sound.class);
     public static final AssetDescriptor<Sound> HIT_GROUND_SOUND = new AssetDescriptor<Sound>("audio/hit_ground.wav", Sound.class);
@@ -522,8 +523,11 @@ public final class Constants {
     public static final String BLAST_GAS_SPRITE_1 = "ammo-blast-gas-1";
     public static final String BLAST_GAS_SPRITE_2 = "ammo-blast-gas-2";
     public static final String BLAST_GAS_SPRITE_3 = "ammo-blast-gas-3";
-    public static final String SHOT_LIQUID_SPRITE = "ammo-shot-liquid";
-    public static final String BLAST_LIQUID_SPRITE = "ammo-blast-liquid";
+    public static final String SHOT_LIQUID_SPRITE_1 = "ammo-shot-liquid-1";
+    public static final String SHOT_LIQUID_SPRITE_2 = "ammo-shot-liquid-2";
+    public static final String BLAST_LIQUID_SPRITE_1 = "ammo-blast-liquid-1";
+    public static final String BLAST_LIQUID_SPRITE_2 = "ammo-blast-liquid-2";
+    public static final String BLAST_LIQUID_SPRITE_3 = "ammo-blast-liquid-3";
     public static final String SHOT_PLASMA_SPRITE_1 = "ammo-shot-plasma-1";
     public static final String SHOT_PLASMA_SPRITE_2 = "ammo-shot-plasma-2";
     public static final String BLAST_PLASMA_SPRITE_1 = "ammo-blast-plasma-1";
