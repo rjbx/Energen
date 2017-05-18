@@ -34,6 +34,7 @@ public final class Constants {
     public static final AssetDescriptor<Sound> NATIVE_SOUND = new AssetDescriptor<Sound>("audio/blast.wav", Sound.class);
     public static final AssetDescriptor<Sound> PLASMA_SOUND = new AssetDescriptor<Sound>("audio/plasma.wav", Sound.class);
     public static final AssetDescriptor<Sound> LIQUID_SOUND = new AssetDescriptor<Sound>("audio/liquid.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SOLID_SOUND = new AssetDescriptor<Sound>("audio/solid.wav", Sound.class);
     public static final AssetDescriptor<Sound> GAS_SOUND = new AssetDescriptor<Sound>("audio/gas.wav", Sound.class);
     public static final AssetDescriptor<Sound> HIT_SOUND = new AssetDescriptor<Sound>("audio/hit_effective.wav", Sound.class);
     public static final AssetDescriptor<Sound> HIT_GROUND_SOUND = new AssetDescriptor<Sound>("audio/hit_ground.wav", Sound.class);
@@ -510,7 +511,7 @@ public final class Constants {
     public static final int AMMO_STANDARD_DAMAGE = 10;
     public static final int AMMO_SPECIALIZED_DAMAGE = 30;
     public static final int AMMO_WEAK_DAMAGE = 1;
-    public static final float AMMO_DURATION = 0.05f;
+    public static final float SHOT_FRAME_DURATION = 0.075f;
     public static final float SHOT_RADIUS = 4;
     public static final float BLAST_RADIUS = 9;
     public static final Vector2 SHOT_CENTER = new Vector2(SHOT_RADIUS, SHOT_RADIUS);
@@ -537,9 +538,11 @@ public final class Constants {
     public static final String BLAST_PLASMA_SPRITE_3 = "ammo-blast-plasma-3";
     public static final String SHOT_ORE_SPRITE = "ammo-shot-polymer";
     public static final String BLAST_ORE_SPRITE = "ammo-blast-polymer";
-    public static final String SHOT_SOLID_SPRITE_1 = "ammo-shot-solid-12";
-    public static final String SHOT_SOLID_SPRITE_2 = "ammo-shot-solid-13";
-    public static final String BLAST_SOLID_SPRITE = "ammo-blast-solid";
+    public static final String SHOT_SOLID_SPRITE_1 = "ammo-shot-solid-1";
+    public static final String SHOT_SOLID_SPRITE_2 = "ammo-shot-solid-2";
+    public static final String BLAST_SOLID_SPRITE_1 = "ammo-blast-solid-1";
+    public static final String BLAST_SOLID_SPRITE_2 = "ammo-blast-solid-2";
+    public static final String BLAST_SOLID_SPRITE_3 = "ammo-blast-solid-3";
     public static final String SHOT_ANTIMATTER_SPRITE = "ammo-shot-psychic";
     public static final String BLAST_ANTIMATTER_SPRITE = "ammo-blast-psychic";
     public static final String SHOT_HYBRID_SPRITE = "ammo-shot-hybrid";
