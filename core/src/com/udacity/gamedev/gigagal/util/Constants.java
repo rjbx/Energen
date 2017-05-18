@@ -33,14 +33,15 @@ public final class Constants {
     public static final AssetDescriptor<Sound> UPGRADE_SOUND = new AssetDescriptor<Sound>("audio/upgrade.wav", Sound.class);
     public static final AssetDescriptor<Sound> NATIVE_SOUND = new AssetDescriptor<Sound>("audio/blast.wav", Sound.class);
     public static final AssetDescriptor<Sound> PLASMA_SOUND = new AssetDescriptor<Sound>("audio/plasma.wav", Sound.class);
+    public static final AssetDescriptor<Sound> GAS_SOUND = new AssetDescriptor<Sound>("audio/gas.wav", Sound.class);
     public static final AssetDescriptor<Sound> LIQUID_SOUND = new AssetDescriptor<Sound>("audio/liquid.wav", Sound.class);
     public static final AssetDescriptor<Sound> SOLID_SOUND = new AssetDescriptor<Sound>("audio/solid.wav", Sound.class);
-    public static final AssetDescriptor<Sound> GAS_SOUND = new AssetDescriptor<Sound>("audio/gas.wav", Sound.class);
+    public static final AssetDescriptor<Sound> ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/antimatter.wav", Sound.class);
+    public static final AssetDescriptor<Sound> HYBRID_SOUND = new AssetDescriptor<Sound>("audio/hybrid.wav", Sound.class);
     public static final AssetDescriptor<Sound> HIT_SOUND = new AssetDescriptor<Sound>("audio/hit_effective.wav", Sound.class);
     public static final AssetDescriptor<Sound> HIT_GROUND_SOUND = new AssetDescriptor<Sound>("audio/hit_ground.wav", Sound.class);
     public static final AssetDescriptor<Sound> BREAK_GROUND_SOUND = new AssetDescriptor<Sound>("audio/break_ground.wav", Sound.class);
     public static final AssetDescriptor<Sound> DAMAGE_SOUND = new AssetDescriptor<Sound>("audio/damage.wav", Sound.class);
-    public static final AssetDescriptor<Sound> ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/antimatter.wav", Sound.class);
     public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/level.wav", Music.class);
     public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/boss.mp3", Music.class);
     public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/thermal.mp3", Music.class);
@@ -543,7 +544,6 @@ public final class Constants {
     public static final String BLAST_SOLID_SPRITE_1 = "ammo-blast-solid-1";
     public static final String BLAST_SOLID_SPRITE_2 = "ammo-blast-solid-2";
     public static final String BLAST_SOLID_SPRITE_3 = "ammo-blast-solid-3";
-    public static final String BLAST_SOLID_SPRITE_4 = "ammo-blast-solid-4";
     public static final String SHOT_ANTIMATTER_SPRITE = "ammo-shot-psychic";
     public static final String BLAST_ANTIMATTER_SPRITE = "ammo-blast-psychic";
     public static final String SHOT_HYBRID_SPRITE = "ammo-shot-hybrid";
