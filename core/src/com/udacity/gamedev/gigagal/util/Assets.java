@@ -480,7 +480,8 @@ public final class Assets implements AssetErrorListener {
             solidBlastRegions.add(atlas.findRegion(Constants.BLAST_SOLID_SPRITE_1));
             solidBlastRegions.add(atlas.findRegion(Constants.BLAST_SOLID_SPRITE_2));
             solidBlastRegions.add(atlas.findRegion(Constants.BLAST_SOLID_SPRITE_3));
-            solidBlast = new Animation(Constants.SHOT_FRAME_DURATION, solidBlastRegions, PlayMode.LOOP);
+            solidBlastRegions.add(atlas.findRegion(Constants.BLAST_SOLID_SPRITE_4));
+            solidBlast = new Animation(Constants.SHOT_FRAME_DURATION, solidBlastRegions, PlayMode.LOOP_PINGPONG);
 
             Array<AtlasRegion> plasmaShotRegions = new Array<AtlasRegion>();
             plasmaShotRegions.add(atlas.findRegion(Constants.SHOT_PLASMA_SPRITE_1));
