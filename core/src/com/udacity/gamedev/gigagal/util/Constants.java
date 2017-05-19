@@ -200,7 +200,7 @@ public final class Constants {
     public static final String TREADMILL_2_LEFT = "treadmill-2-left";
     public static final float TREADMILL_DURATION = .1f;
     public static final float TREADMILL_SPEED = 175;
-    
+
     // Trip
     public static final Vector2 TRIP_CENTER = new Vector2(6, 6);
     public static final String TRIP_SPRITE_1 = "trip-1";
@@ -254,7 +254,7 @@ public final class Constants {
     public static final String CHAMBER_SPRITE_2 = "chamber-2";
     public static final String CHAMBER_SPRITE_3 = "chamber-3";
     public static final float CHAMBER_LOAD_DURATION = 0.1f;
-    
+
     // Cannon
     public static final Vector2 X_CANNON_CENTER = new Vector2(10, 6);
     public static final String X_CANNON_SPRITE = "cannon-x";
@@ -443,7 +443,7 @@ public final class Constants {
     public static final float SUSPENSION_GAS_COLLISION_HEIGHT = 25;
     public static final String SUSPENSION_GAS_SPRITE_1 = "suspension-gas-1";
     public static final String SUSPENSION_GAS_SPRITE_2 = "suspension-gas-2";
-    
+
     public static final Vector2 SUSPENSION_PLASMA_CENTER = new Vector2(12.5f, 12.5f);
     public static final float SUSPENSION_PLASMA_DURATION = 0.5f;
     public static final int SUSPENSION_PLASMA_DAMAGE = 5;
@@ -452,7 +452,7 @@ public final class Constants {
     public static final float SUSPENSION_PLASMA_COLLISION_HEIGHT = 25;
     public static final String SUSPENSION_PLASMA_SPRITE_1 = "suspension-plasma-1";
     public static final String SUSPENSION_PLASMA_SPRITE_2 = "suspension-plasma-2";
-    
+
     public static final Vector2 SUSPENSION_LIQUID_CENTER = new Vector2(12.5f, 12.5f);
     public static final float SUSPENSION_LIQUID_DURATION = 0.5f;
     public static final int SUSPENSION_LIQUID_DAMAGE = 5;
@@ -506,7 +506,7 @@ public final class Constants {
     public static final String TELEPORT_SPRITE_1 = "teleport-1";
     public static final String TELEPORT_SPRITE_2 = "teleport-2";
     public static final String TELEPORT_SPRITE_3 = "teleport-3";
-    
+
     // Ammo
     public static final float CHARGE_DURATION = 1;
     public static final float AMMO_MAX_SPEED = 300;

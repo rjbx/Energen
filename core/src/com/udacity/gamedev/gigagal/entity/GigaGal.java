@@ -236,7 +236,7 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    public void refresh() {
+    public void updateMultipliers() {
         turboMultiplier = SaveData.getTurboMultiplier();
         ammoMultiplier = SaveData.getAmmoMultiplier();
         healthMultiplier = SaveData.getHealthMultiplier();
@@ -912,9 +912,6 @@ public class GigaGal implements Humanoid {
             canStride = false;
         }
         float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
-        if (touchedGround instanceof Skateable || touchedGround instanceof Rideable) {
-            dashSpeed *= 1.75f;
-        }
         if (turbo >= 1) {
             turbo -= Constants.FALL_TURBO_INCREMENT * Constants.DASH_TURBO_MULTIPLIER * turboMultiplier;
             velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed, directionX, Orientation.X);
@@ -922,6 +919,10 @@ public class GigaGal implements Humanoid {
             canDash = false;
             dashStartTime = 0;
             stand();
+        }
+        if (touchedGround instanceof Skateable
+        || (touchedGround instanceof Rideable && directionX == ((Rideable) touchedGround).getDirection())) {
+            velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed + Constants.TREADMILL_SPEED, directionX, Orientation.X);
         }
     }
 

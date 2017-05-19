@@ -171,7 +171,7 @@ public class LevelUpdater {
                     Chamber chamber = (Chamber) ground;
                     if (!chamber.isActive() && chamber.wasCharged()) {
                         Assets.getInstance().getSoundAssets().upgrade.play();
-                        setUpgrade(chamber.getUpgrade());
+                        dispenseUpgrade(chamber.getUpgrade());
                         chamber.uncharge();
                     }
                 }
@@ -237,19 +237,19 @@ public class LevelUpdater {
         powerups.end();
     }
 
-    private void setUpgrade(Enums.Upgrade upgrade) {
+    private void dispenseUpgrade(Enums.Upgrade upgrade) {
         switch (upgrade) {
             case AMMO:
                 SaveData.setAmmoMultiplier(.9f);
-                GigaGal.getInstance().refresh();
+                GigaGal.getInstance().updateMultipliers();
                 break;
             case HEALTH:
                 SaveData.setHealthMultiplier(.8f);
-                GigaGal.getInstance().refresh();
+                GigaGal.getInstance().updateMultipliers();
                 break;
             case TURBO:
                 SaveData.setTurboMultiplier(.7f);
-                GigaGal.getInstance().refresh();
+                GigaGal.getInstance().updateMultipliers();
                 break;
             case CANNON:
                 String savedWeapons = SaveData.getWeapons();
@@ -260,6 +260,7 @@ public class LevelUpdater {
                 break;
             default:
         }
+        GigaGal.getInstance().setHealth(100);
     }
 
     protected void restoreRemovals(String removals) {
