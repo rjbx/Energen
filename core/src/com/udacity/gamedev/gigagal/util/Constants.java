@@ -134,7 +134,8 @@ public final class Constants {
 
     // Background
     public static final String BACKGROUND_LIQUID_SPRITE = "background-liquid";
-    public static final String BACKGROUND_GAS_SPRITE = "background-gas";
+    public static final String BACKGROUND_PLASMA_SPRITE = "background-plasma";
+    public static final String BACKGROUND_GAS_SPRITE = "background-gas-1";
     public static final Vector2 BACKGROUND_CENTER = new Vector2(180, 180);
 
     // Box
@@ -507,12 +508,12 @@ public final class Constants {
     
     // Ammo
     public static final float CHARGE_DURATION = 1;
-    public static final float AMMO_MAX_SPEED = 500;
+    public static final float AMMO_MAX_SPEED = 300;
     public static final float AMMO_NORMAL_SPEED = 375;
     public static final int AMMO_STANDARD_DAMAGE = 10;
     public static final int AMMO_SPECIALIZED_DAMAGE = 30;
     public static final int AMMO_WEAK_DAMAGE = 1;
-    public static final float SHOT_FRAME_DURATION = 0.075f;
+    public static final float SHOT_FRAME_DURATION = 0.07f;
     public static final float SHOT_RADIUS = 4;
     public static final float BLAST_RADIUS = 9;
     public static final Vector2 SHOT_CENTER = new Vector2(SHOT_RADIUS, SHOT_RADIUS);
