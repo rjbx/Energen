@@ -677,7 +677,6 @@ public class GigaGal implements Humanoid {
             if (canLook) {
                 canStride = false;
                 if (inputControls.jumpButtonJustPressed && !canCling) {
-                    canHover = false;
                     toggleWeapon(directionY);
                 }
                 look(); // also sets chase cam
@@ -959,7 +958,8 @@ public class GigaGal implements Humanoid {
 
     private void enableHover() {
         if (canHover) {
-            if (inputControls.jumpButtonJustPressed) {
+            if (!(inputControls.upButtonPressed || inputControls.downButtonPressed)  // prevents from deactivating hover when toggling weapon
+            && inputControls.jumpButtonJustPressed) {
                 if (action == Action.HOVERING) {
                     //   canHover = false;
                     hoverStartTime = 0;

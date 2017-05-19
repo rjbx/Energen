@@ -449,8 +449,7 @@ public final class Assets implements AssetErrorListener {
             nativeBlastRegions.add(atlas.findRegion(Constants.BLAST_NATIVE_SPRITE_2));
             nativeBlastRegions.add(atlas.findRegion(Constants.BLAST_NATIVE_SPRITE_3));
             nativeBlast = new Animation(Constants.SHOT_FRAME_DURATION, nativeBlastRegions, PlayMode.LOOP);
-
-
+            
             Array<AtlasRegion> oreShotRegions = new Array<AtlasRegion>();
             oreShotRegions.add(atlas.findRegion(Constants.SHOT_ORE_SPRITE));
             oreShot = new Animation(Constants.SHOT_FRAME_DURATION, oreShotRegions, PlayMode.LOOP);
