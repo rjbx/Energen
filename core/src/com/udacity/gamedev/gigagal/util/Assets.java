@@ -215,12 +215,14 @@ public final class Assets implements AssetErrorListener {
 
     public static final class BackgroundAssets {
 
+        public final TextureRegion home;
         public final TextureRegion plasma;
         public final TextureRegion liquid;
         public final TextureRegion gas;
 
         private BackgroundAssets(TextureAtlas atlas) {
 
+            home = atlas.findRegion(Constants.BACKGROUND_HOME_SPRITE);
             plasma = atlas.findRegion(Constants.BACKGROUND_PLASMA_SPRITE);
             liquid = atlas.findRegion(Constants.BACKGROUND_LIQUID_SPRITE);
             gas = atlas.findRegion(Constants.BACKGROUND_GAS_SPRITE);
@@ -229,6 +231,10 @@ public final class Assets implements AssetErrorListener {
         public TextureRegion getBackground(Enums.Theme theme) {
 
             switch (theme) {
+                case HOME:
+                    return home;
+                case MECHANICAL:
+                    return home;
                 case ELECTROMAGNETIC:
                     return plasma;
                 case NUCLEAR:
@@ -236,7 +242,7 @@ public final class Assets implements AssetErrorListener {
                 case THERMAL:
                     return liquid;
                 default:
-                    return liquid;
+                    return gas;
             }
         }
     }

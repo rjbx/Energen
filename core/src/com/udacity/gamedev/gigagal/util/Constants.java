@@ -133,10 +133,11 @@ public final class Constants {
     public static final String BOSS_SPRITE = "beast";
 
     // Background
-    public static final String BACKGROUND_LIQUID_SPRITE = "background-liquid";
+    public static final String BACKGROUND_HOME_SPRITE = "background-home";
     public static final String BACKGROUND_PLASMA_SPRITE = "background-plasma";
     public static final String BACKGROUND_GAS_SPRITE = "background-gas-1";
-    public static final Vector2 BACKGROUND_CENTER = new Vector2(180, 180);
+    public static final String BACKGROUND_LIQUID_SPRITE = "background-liquid";
+    public static final Vector2 BACKGROUND_CENTER = new Vector2(270, 180);
 
     // Box
     public static final int BOX_EDGE = 8;
@@ -513,7 +514,7 @@ public final class Constants {
     public static final int AMMO_STANDARD_DAMAGE = 10;
     public static final int AMMO_SPECIALIZED_DAMAGE = 30;
     public static final int AMMO_WEAK_DAMAGE = 1;
-    public static final float SHOT_FRAME_DURATION = 0.07f;
+    public static final float SHOT_FRAME_DURATION = 0.1f;
     public static final float SHOT_RADIUS = 4;
     public static final float BLAST_RADIUS = 9;
     public static final Vector2 SHOT_CENTER = new Vector2(SHOT_RADIUS, SHOT_RADIUS);
