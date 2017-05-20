@@ -35,6 +35,7 @@ public final class Constants {
     public static final AssetDescriptor<Sound> PLASMA_SOUND = new AssetDescriptor<Sound>("audio/plasma.wav", Sound.class);
     public static final AssetDescriptor<Sound> GAS_SOUND = new AssetDescriptor<Sound>("audio/gas.wav", Sound.class);
     public static final AssetDescriptor<Sound> LIQUID_SOUND = new AssetDescriptor<Sound>("audio/liquid.wav", Sound.class);
+    public static final AssetDescriptor<Sound> ORE_SOUND = new AssetDescriptor<Sound>("audio/ore.wav", Sound.class);
     public static final AssetDescriptor<Sound> SOLID_SOUND = new AssetDescriptor<Sound>("audio/solid.wav", Sound.class);
     public static final AssetDescriptor<Sound> ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/antimatter.wav", Sound.class);
     public static final AssetDescriptor<Sound> HYBRID_SOUND = new AssetDescriptor<Sound>("audio/hybrid.wav", Sound.class);
