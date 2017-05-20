@@ -986,6 +986,7 @@ public final class Assets implements AssetErrorListener {
         public final Sound damage;
         
         private SoundAssets() {
+
             health = assetManager.get(Constants.HEALTH_SOUND); // use of descriptor enforces type checking
             ammo = assetManager.get(Constants.AMMO_SOUND); // use of descriptor enforces type checking
             turbo = assetManager.get(Constants.TURBO_SOUND); // use of descriptor enforces type checking

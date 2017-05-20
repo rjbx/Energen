@@ -169,12 +169,11 @@ final class OverworldScreen extends ScreenAdapter {
         messageVisible = false;
         try {
             LevelLoader.load(level);
+            LevelUpdater.getInstance().restoreRemovals(allRemovals.get(index));
             if (levelRestores > 0) {
-                LevelUpdater.getInstance().restoreRemovals(allRemovals.get(index));
+                GigaGal.getInstance().setSpawnPosition(LevelUpdater.getInstance().getPortals().get(0).getPosition());
                 if (levelRestores > 2) {
                     GigaGal.getInstance().setSpawnPosition(LevelUpdater.getInstance().getPortals().get(1).getPosition());
-                } else {
-                    GigaGal.getInstance().setSpawnPosition(LevelUpdater.getInstance().getPortals().get(0).getPosition());
                 }
             }
             ScreenManager.getInstance().setScreen(LevelScreen.getInstance());

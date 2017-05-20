@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.app;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -188,7 +189,7 @@ public class LevelUpdater {
                 if (destructible.getHealth() < 1) {
                     spawnExplosion(destructible.getPosition(), destructible.getType());
                     hazards.removeIndex(i);
-                    removedHazards += ";" + i; // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
+                    removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                     score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
                 }
                 if (destructible instanceof Orben) {
@@ -314,7 +315,6 @@ public class LevelUpdater {
 
         savedTime = time;
         savedScore = score;
-        removedHazards = "-1";
     }
 
     protected void end() {
