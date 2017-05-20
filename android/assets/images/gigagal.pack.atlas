@@ -1874,7 +1874,7 @@ zoomba-solid-2
   offset: 0, 0
   index: -1
 
-gigagal.pack2.png
+gigagal.pack12.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
@@ -1894,7 +1894,7 @@ background-liquid
   offset: 0, 0
   index: -1
 
-gigagal.pack3.png
+gigagal.pack13.png
 size: 1024,512
 format: RGBA8888
 filter: Nearest,Nearest
