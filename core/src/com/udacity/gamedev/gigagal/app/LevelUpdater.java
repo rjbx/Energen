@@ -260,7 +260,7 @@ public class LevelUpdater {
                 break;
             default:
         }
-        GigaGal.getInstance().setHealth(100);
+        GigaGal.getInstance().setHealth(Constants.MAX_HEALTH);
     }
 
     protected void restoreRemovals(String removals) {
