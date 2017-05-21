@@ -525,6 +525,7 @@ public final class Constants {
     public static final String BLAST_NATIVE_SPRITE_1 = "ammo-blast-native-1";
     public static final String BLAST_NATIVE_SPRITE_2 = "ammo-blast-native-2";
     public static final String BLAST_NATIVE_SPRITE_3 = "ammo-blast-native-3";
+    public static final String BLAST_NATIVE_SPRITE_4 = "ammo-blast-native-4";
     public static final String SHOT_GAS_SPRITE_1 = "ammo-shot-gas-1";
     public static final String SHOT_GAS_SPRITE_2 = "ammo-shot-gas-2";
     public static final String BLAST_GAS_SPRITE_1 = "ammo-blast-gas-1";
