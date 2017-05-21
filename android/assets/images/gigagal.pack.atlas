@@ -179,6 +179,13 @@ ammo-shot-hybrid
   orig: 8, 7
   offset: 0, 0
   index: -1
+ammo-shot-hybrid-2
+  rotate: false
+  xy: 893, 619
+  size: 8, 7
+  orig: 8, 7
+  offset: 0, 0
+  index: -1
 ammo-shot-liquid-1
   rotate: false
   xy: 656, 381
@@ -258,7 +265,7 @@ ammo-shot-solid-1
   index: -1
 ammo-shot-solid-2
   rotate: false
-  xy: 893, 618
+  xy: 903, 618
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -1895,7 +1902,7 @@ zoomba-solid-2
   offset: 0, 0
   index: -1
 
-gigagal.pack2.png
+gigagal.pack12.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
@@ -1915,7 +1922,7 @@ background-liquid
   offset: 0, 0
   index: -1
 
-gigagal.pack3.png
+gigagal.pack13.png
 size: 1024,512
 format: RGBA8888
 filter: Nearest,Nearest

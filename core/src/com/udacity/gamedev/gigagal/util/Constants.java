@@ -556,6 +556,7 @@ public final class Constants {
     public static final String BLAST_ANTIMATTER_SPRITE_2 = "ammo-blast-psychic-2";
     public static final String BLAST_ANTIMATTER_SPRITE_3 = "ammo-blast-psychic-3";
     public static final String SHOT_HYBRID_SPRITE = "ammo-shot-hybrid";
+    public static final String SHOT_HYBRID_SPRITE_2 = "ammo-shot-hybrid-2";
     public static final String BLAST_HYBRID_SPRITE = "ammo-blast-hybrid";
 
     // Impact

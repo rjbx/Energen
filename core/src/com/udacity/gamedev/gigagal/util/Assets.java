@@ -521,6 +521,7 @@ public final class Assets implements AssetErrorListener {
             
             Array<AtlasRegion> hybridShotRegions = new Array<AtlasRegion>();
             hybridShotRegions.add(atlas.findRegion(Constants.SHOT_HYBRID_SPRITE));
+            hybridShotRegions.add(atlas.findRegion(Constants.SHOT_HYBRID_SPRITE_2));
             hybridShot = new Animation(Constants.SHOT_FRAME_DURATION, hybridShotRegions, PlayMode.LOOP);
 
             Array<AtlasRegion> hybridBlastRegions = new Array<AtlasRegion>();
