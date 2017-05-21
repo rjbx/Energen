@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 // immutable singleton
 public final class Assets implements AssetErrorListener {
@@ -218,16 +219,22 @@ public final class Assets implements AssetErrorListener {
     public static final class BackgroundAssets {
 
         public final TextureRegion home;
+        public final TextureRegion ore;
         public final TextureRegion plasma;
         public final TextureRegion liquid;
         public final TextureRegion gas;
+        public final TextureRegion solid;
+        public final TextureRegion hybrid;
 
         private BackgroundAssets(TextureAtlas atlas) {
 
             home = atlas.findRegion(Constants.BACKGROUND_HOME_SPRITE);
+            ore = atlas.findRegion(Constants.BACKGROUND_ORE_SPRITE);
             plasma = atlas.findRegion(Constants.BACKGROUND_PLASMA_SPRITE);
             liquid = atlas.findRegion(Constants.BACKGROUND_LIQUID_SPRITE);
             gas = atlas.findRegion(Constants.BACKGROUND_GAS_SPRITE);
+            solid = atlas.findRegion(Constants.BACKGROUND_SOLID_SPRITE);
+            hybrid = atlas.findRegion(Constants.BACKGROUND_HYBRID_SPRITE);
         }
 
         public TextureRegion getBackground(Enums.Theme theme) {
@@ -236,13 +243,17 @@ public final class Assets implements AssetErrorListener {
                 case HOME:
                     return home;
                 case MECHANICAL:
-                    return home;
+                    return ore;
                 case ELECTROMAGNETIC:
                     return plasma;
                 case NUCLEAR:
                     return gas;
                 case THERMAL:
                     return liquid;
+                case GRAVITATIONAL:
+                    return solid;
+                case FINAL:
+                    return hybrid;
                 default:
                     return gas;
             }

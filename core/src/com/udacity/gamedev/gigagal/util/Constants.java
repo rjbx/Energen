@@ -135,9 +135,12 @@ public final class Constants {
 
     // Background
     public static final String BACKGROUND_HOME_SPRITE = "background-home";
+    public static final String BACKGROUND_ORE_SPRITE = "background-ore";
     public static final String BACKGROUND_PLASMA_SPRITE = "background-plasma";
     public static final String BACKGROUND_GAS_SPRITE = "background-gas-1";
     public static final String BACKGROUND_LIQUID_SPRITE = "background-liquid";
+    public static final String BACKGROUND_SOLID_SPRITE = "background-solid";
+    public static final String BACKGROUND_HYBRID_SPRITE = "background-hybrid";
     public static final Vector2 BACKGROUND_CENTER = new Vector2(270, 180);
 
     // Box
