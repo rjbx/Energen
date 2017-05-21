@@ -525,7 +525,6 @@ public final class Constants {
     public static final String BLAST_NATIVE_SPRITE_1 = "ammo-blast-native-1";
     public static final String BLAST_NATIVE_SPRITE_2 = "ammo-blast-native-2";
     public static final String BLAST_NATIVE_SPRITE_3 = "ammo-blast-native-3";
-    public static final String BLAST_NATIVE_SPRITE_4 = "ammo-blast-native-4";
     public static final String SHOT_GAS_SPRITE_1 = "ammo-shot-gas-1";
     public static final String SHOT_GAS_SPRITE_2 = "ammo-shot-gas-2";
     public static final String BLAST_GAS_SPRITE_1 = "ammo-blast-gas-1";
@@ -551,8 +550,11 @@ public final class Constants {
     public static final String BLAST_SOLID_SPRITE_1 = "ammo-blast-solid-1";
     public static final String BLAST_SOLID_SPRITE_2 = "ammo-blast-solid-2";
     public static final String BLAST_SOLID_SPRITE_3 = "ammo-blast-solid-3";
-    public static final String SHOT_ANTIMATTER_SPRITE = "ammo-shot-psychic";
-    public static final String BLAST_ANTIMATTER_SPRITE = "ammo-blast-psychic";
+    public static final String SHOT_ANTIMATTER_SPRITE_1 = "ammo-shot-psychic-1";
+    public static final String SHOT_ANTIMATTER_SPRITE_2 = "ammo-shot-psychic-2";
+    public static final String BLAST_ANTIMATTER_SPRITE_1 = "ammo-blast-psychic-1";
+    public static final String BLAST_ANTIMATTER_SPRITE_2 = "ammo-blast-psychic-2";
+    public static final String BLAST_ANTIMATTER_SPRITE_3 = "ammo-blast-psychic-3";
     public static final String SHOT_HYBRID_SPRITE = "ammo-shot-hybrid";
     public static final String BLAST_HYBRID_SPRITE = "ammo-blast-hybrid";
 

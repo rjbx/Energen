@@ -83,7 +83,7 @@ public final class Enums {
         NUCLEAR { @Override public final Color color() { return Color.NAVY; } },
         THERMAL { @Override public final Color color() { return Color.DARK_GRAY; } },
         GRAVITATIONAL { @Override public final Color color() { return Color.FIREBRICK; } },
-        MYSTERIOUS { @Override public final Color color() { return Color.CLEAR; } },
+        MYSTERIOUS { @Override public final Color color() { return Color.BLACK; } },
 
         FINAL { @Override public final Color color() { return Color.MAROON; } };
 

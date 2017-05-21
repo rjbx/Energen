@@ -449,7 +449,6 @@ public final class Assets implements AssetErrorListener {
             nativeBlastRegions.add(atlas.findRegion(Constants.BLAST_NATIVE_SPRITE_1));
             nativeBlastRegions.add(atlas.findRegion(Constants.BLAST_NATIVE_SPRITE_2));
             nativeBlastRegions.add(atlas.findRegion(Constants.BLAST_NATIVE_SPRITE_3));
-            nativeBlastRegions.add(atlas.findRegion(Constants.BLAST_NATIVE_SPRITE_4));
             nativeBlast = new Animation(Constants.SHOT_FRAME_DURATION, nativeBlastRegions, PlayMode.LOOP_PINGPONG);
             
             Array<AtlasRegion> oreShotRegions = new Array<AtlasRegion>();
@@ -509,12 +508,15 @@ public final class Assets implements AssetErrorListener {
             plasmaBlast = new Animation(Constants.SHOT_FRAME_DURATION, plasmaBlastRegions, PlayMode.LOOP_PINGPONG);
             
             Array<AtlasRegion> antimatterShotRegions = new Array<AtlasRegion>();
-            antimatterShotRegions.add(atlas.findRegion(Constants.SHOT_ANTIMATTER_SPRITE));
+            antimatterShotRegions.add(atlas.findRegion(Constants.SHOT_ANTIMATTER_SPRITE_1));
+            antimatterShotRegions.add(atlas.findRegion(Constants.SHOT_ANTIMATTER_SPRITE_2));
             antimatterShot = new Animation(Constants.SHOT_FRAME_DURATION, antimatterShotRegions, PlayMode.LOOP);
 
             Array<AtlasRegion> antimatterBlastRegions = new Array<AtlasRegion>();
-            antimatterBlastRegions.add(atlas.findRegion(Constants.BLAST_ANTIMATTER_SPRITE));
-            antimatterBlast = new Animation(Constants.SHOT_FRAME_DURATION, antimatterBlastRegions, PlayMode.LOOP);
+            antimatterBlastRegions.add(atlas.findRegion(Constants.BLAST_ANTIMATTER_SPRITE_1));
+            antimatterBlastRegions.add(atlas.findRegion(Constants.BLAST_ANTIMATTER_SPRITE_2));
+            antimatterBlastRegions.add(atlas.findRegion(Constants.BLAST_ANTIMATTER_SPRITE_3));
+            antimatterBlast = new Animation(Constants.SHOT_FRAME_DURATION, antimatterBlastRegions, PlayMode.LOOP_PINGPONG);
             
             Array<AtlasRegion> hybridShotRegions = new Array<AtlasRegion>();
             hybridShotRegions.add(atlas.findRegion(Constants.SHOT_HYBRID_SPRITE));
