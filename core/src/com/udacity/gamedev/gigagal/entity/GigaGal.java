@@ -270,7 +270,9 @@ public class GigaGal implements Humanoid {
                         } else {
                             canCling = false; // deactivate cling if ground below max ledge height
                         }
-                        touchGroundTop(ground);
+                        if (!(ground instanceof Box && ((Box) ground).getClimbable() && action == Action.CLIMBING && directionY == Direction.DOWN)) {
+                            touchGroundTop(ground);
+                        }
                         // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
                     } else if (ground instanceof Descendable && (touchedGround == null || touchedGround instanceof Descendable)) {
                         touchDescendableGround(ground);
