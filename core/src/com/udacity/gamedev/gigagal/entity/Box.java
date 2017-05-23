@@ -20,6 +20,7 @@ public class Box implements Solid, Ground {
     private final float right;
     private final float width;
     private final float height;
+    private boolean climbable;
     private final NinePatch ninePatch;
 
     // ctor
@@ -42,6 +43,8 @@ public class Box implements Solid, Ground {
     }
 
     // Getters
+    public void setClimbable() { climbable = true; }
+    public boolean getClimbable() { return climbable; }
     @Override public float getTop() { return top; }
     @Override public float getBottom() {return bottom; }
     @Override public float getLeft() { return left; }

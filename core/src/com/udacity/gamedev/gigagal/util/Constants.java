@@ -637,13 +637,15 @@ public final class Constants {
     public static final String LEVEL_Y_SCALE_KEY = "scaleY";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_CUSTOM_VARS_KEY = "customVars";
+    public static final String LEVEL_TAGS_KEY = "tags";
     public static final String LEVEL_RANGE_KEY = "range";
     public static final String LEVEL_TYPE_KEY = "type";
     public static final String LEVEL_INTENSITY_KEY = "intensity";
     public static final String LEVEL_BOUNDS_KEY = "bounds";
     public static final String LEVEL_DESTINATION_KEY = "destination";
     public static final String LEVEL_UPGRADE_KEY = "upgrade";
-
+    public static final String LEVEL_CLIMBABLE_TAG = "climbable";
+    public static final int LEVEL_CLIMBABLE_TAG_INDEX = 0;
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;

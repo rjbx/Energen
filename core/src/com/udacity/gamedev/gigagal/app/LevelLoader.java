@@ -272,6 +272,27 @@ final class LevelLoader {
         return upgrade;
     }
 
+    private static final boolean[] extractTags(JSONObject object) {
+        boolean[] tagBooleans = {false};
+        try {
+            if (object.containsKey(Constants.LEVEL_TAGS_KEY)) {
+                String[] customVars = ((String) object.get(Constants.LEVEL_TAGS_KEY)).split(",");
+                for (String customVar : customVars) {
+                    if (customVar.contains(Constants.LEVEL_CLIMBABLE_TAG)) {
+                        tagBooleans[Constants.LEVEL_CLIMBABLE_TAG_INDEX] = true;
+                    }
+                }
+            }
+        } catch (NumberFormatException ex) {
+            runtimeEx = true;
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
+                    + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + "; tag: " + Constants.LEVEL_TAGS_KEY);
+        }
+        return tagBooleans;
+    }
+
     private static final void loadImages(LevelUpdater level, JSONArray images) {
         for (Object o : images) {
             final JSONObject item = (JSONObject) o;
@@ -488,12 +509,16 @@ final class LevelLoader {
             final JSONObject item = (JSONObject) o;
 
             final Vector2 imagePosition = extractPosition(item);
+            final boolean[] tags = extractTags(item);
             final Enums.Material type = extractType(item);
             float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
             float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
                 final Box box = new Box(imagePosition.x, imagePosition.y, width, height, level.getLevel());
+                if (tags[Constants.LEVEL_CLIMBABLE_TAG_INDEX]) {
+                    box.setClimbable();
+                }
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BREAKABLE_BOX_SPRITE)) {
