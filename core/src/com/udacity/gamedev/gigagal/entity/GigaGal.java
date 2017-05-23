@@ -260,9 +260,8 @@ public class GigaGal implements Humanoid {
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     // alternate collision handling to allow passing through top of descendables and prevent setting atop as with other grounds
-                    if (!(ground instanceof Descendable)
-                            && action != Action.CLIMBING
-                            && (climbTimeSeconds == 0 || touchedGround == null || (touchedGround instanceof Descendable && touchedGround.getBottom() >= ground.getTop()))) {
+                    if (action != Action.CLIMBING
+                        && (climbTimeSeconds == 0 || touchedGround == null || (touchedGround instanceof Descendable && touchedGround.getBottom() >= ground.getTop()))) {
                         // ignore ledge side and bottom collision
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
                             if (!(ground instanceof Box && ((Box) ground).getClimbable())) {
@@ -274,8 +273,6 @@ public class GigaGal implements Humanoid {
                         }
                         touchGroundTop(ground);
                         // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
-                    } else if (ground instanceof Descendable && (touchedGround == null || touchedGround instanceof Descendable)) {
-                        touchDescendableGround(ground);
                     }
                     // if below minimum ground distance while descending excluding post-cling, disable cling and hover
                     // caution when crossing plane between ground top and minimum hover height / ground distance
@@ -377,8 +374,18 @@ public class GigaGal implements Humanoid {
         if ((getBottom() <= ground.getTop()
                 && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop()))) // distinguishes when touching two different grounds and permits uninterrupted striding atop
                 && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
-            velocity.y = 0; // prevents from descending beneath ground top
-            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+           if (!(ground instanceof Sinkable)) {
+               velocity.y = 0; // prevents from descending beneath ground top
+               position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+           } else {
+                setAtopGround(ground);
+                onSinkable = true;
+                canDash = false;
+                canHover = false;
+                canClimb = false;
+                lookStartTime = 0;
+                lookTimeSeconds = 0;
+            }
             setAtopGround(ground);
             if (ground instanceof Skateable) {
                 if (groundState == GroundState.AIRBORNE) {
@@ -409,7 +416,7 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    private void touchDescendableGround(Ground ground) {
+  /*  private void touchDescendableGround(Ground ground) {
         if (ground instanceof Sinkable) {
             setAtopGround(ground);
             onSinkable = true;
@@ -450,7 +457,7 @@ public class GigaGal implements Humanoid {
                 position.set(((Teleport) ground).getDestination());
             }
         }
-    }
+    }*/
 
     private void setAtopGround(Ground ground) {
         touchedGround = ground;

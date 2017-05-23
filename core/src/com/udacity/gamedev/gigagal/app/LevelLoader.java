@@ -278,8 +278,8 @@ final class LevelLoader {
             if (object.containsKey(Constants.LEVEL_TAGS_KEY)) {
                 JSONArray tags = (JSONArray) object.get(Constants.LEVEL_TAGS_KEY);
                 for (Object tag : tags) {
-                    JSONObject item = (JSONObject) tag;
-                    if (item.containsKey(Constants.LEVEL_CLIMBABLE_TAG)) {
+                    String item = (String) tag;
+                    if (item.equals(Constants.LEVEL_CLIMBABLE_TAG)) {
                         tagBooleans[Constants.LEVEL_CLIMBABLE_TAG_INDEX] = true;
                     }
                 }
