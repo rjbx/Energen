@@ -76,7 +76,7 @@ public final class Enums {
 
     public enum Theme {
 
-        HOME { @Override public final Color color() { return Color.CHARTREUSE; } },
+        HOME { @Override public final Color color() { return Color.TAN; } },
 
         MECHANICAL { @Override public final Color color() { return Color.LIGHT_GRAY; } },
         ELECTROMAGNETIC { @Override public final Color color() { return Color.DARK_GRAY; } },

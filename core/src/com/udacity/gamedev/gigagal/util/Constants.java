@@ -16,7 +16,7 @@ public final class Constants {
     // cannot be subclassed
     private Constants() {}
 
-    // World/Camera
+    // World / Camera
     public static final Color BACKGROUND_COLOR = Color.SLATE;
     public static final float WORLD_SIZE = 160;
     public static final float KILL_PLANE = -800;
@@ -52,7 +52,7 @@ public final class Constants {
     public static final AssetDescriptor<BitmapFont> TITLE_FONT = new AssetDescriptor<BitmapFont>("font/title.fnt", BitmapFont.class);
 
     // GigaGal attributes
-    public static final Vector2 GIGAGAL_EYE_POSITION = new Vector2(14f, 24);
+    public static final Vector2 GIGAGAL_EYE_POSITION = new Vector2(14, 24);
     public static final float GIGAGAL_EYE_HEIGHT = 16.0f;
     public static final float GIGAGAL_STANCE_WIDTH = 19.0f;
     public static final Vector2 GIGAGAL_CANNON_OFFSET = new Vector2(7.5f, -5.75f);
