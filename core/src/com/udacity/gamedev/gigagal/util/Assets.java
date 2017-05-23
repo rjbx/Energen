@@ -1065,19 +1065,19 @@ public final class Assets implements AssetErrorListener {
         public Music getThemeMusic(Enums.Theme theme) {
             switch (theme) {
                 case HOME:
-                    return level;
+                    return thermal;
                 case MECHANICAL:
-                    return level;
+                    return thermal;
                 case ELECTROMAGNETIC:
-                    return level;
+                    return thermal;
                 case NUCLEAR:
-                    return level;
+                    return thermal;
                 case THERMAL:
                     return thermal;
                 case GRAVITATIONAL:
-                    return level;
+                    return thermal;
                 case MYSTERIOUS:
-                    return level;
+                    return boss;
                 case FINAL:
                     return boss;
                 default:
