@@ -173,7 +173,6 @@ public class GigaGal implements Humanoid {
         recoveryStartTime = TimeUtils.nanoTime();
     }
 
-
     public void update(float delta) {
         // positioning
         previousFramePosition.set(position);
@@ -355,7 +354,7 @@ public class GigaGal implements Humanoid {
                 }
                 canStride = false; // disable stride
                 canDash = false; // disable dash
-                position.x = previousFramePosition.x; // halt x progression
+                position.x = previousFramePosition.x;
             }
         } else {
             canCling = false;
@@ -1027,6 +1026,11 @@ public class GigaGal implements Humanoid {
             hoverStartTime = 0;
             canJump = true;
             canCling = false;
+        }
+        if (directionX == Direction.LEFT) {
+            position.x = touchedGround.getLeft() - getHalfWidth();
+        } else {
+            position.x = touchedGround.getRight() + getHalfWidth();
         }
         float clingTimeSeconds = Helpers.secondsSince(clingStartTime);
         if (!inputControls.jumpButtonPressed) {

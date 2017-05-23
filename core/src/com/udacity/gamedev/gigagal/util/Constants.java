@@ -54,7 +54,7 @@ public final class Constants {
     // GigaGal attributes
     public static final Vector2 GIGAGAL_EYE_POSITION = new Vector2(14, 24);
     public static final float GIGAGAL_EYE_HEIGHT = 16.0f;
-    public static final float GIGAGAL_STANCE_WIDTH = 19.0f;
+    public static final float GIGAGAL_STANCE_WIDTH = 20.25f;
     public static final Vector2 GIGAGAL_CANNON_OFFSET = new Vector2(7.5f, -5.75f);
     public static final float GIGAGAL_HEIGHT = 21.0f;
     public static final float GIGAGAL_HEAD_RADIUS = 5;
@@ -79,7 +79,7 @@ public final class Constants {
     public static final float STAND_TURBO_INCREMENT = 1.25f;
     public static final int BLAST_AMMO_CONSUMPTION = 3;
     public static final int SHOT_AMMO_CONSUMPTION = 1;
-    public static final int INITIAL_AMMO = 10;
+    public static final int INITIAL_AMMO = 30;
     public static final int INITIAL_HEALTH = 100;
     public static final int INITIAL_LIVES = 3;
     public static final int MAX_AMMO = 100;
