@@ -262,16 +262,14 @@ public class GigaGal implements Humanoid {
                     // alternate collision handling to allow passing through top of descendables and prevent setting atop as with other grounds
                     if (!(ground instanceof Descendable)) {
                         // ignore ledge side and bottom collision
-                        if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
-                            if (!(ground instanceof Box && ((Box) ground).getClimbable())) {
-                                touchGroundBottom(ground);
-                            }
+                        if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT
+                        && !(ground instanceof Box && ((Box) ground).getClimbable())) {
+                            touchGroundBottom(ground);
                             touchGroundSide(ground);
-                        } else {
-                            canCling = false; // deactivate cling if ground below max ledge height
-                        }
-                        if (!(ground instanceof Box && ((Box) ground).getClimbable() && action == Action.CLIMBING && directionY == Direction.DOWN)) {
                             touchGroundTop(ground);
+                        } else if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) {
+                            touchGroundTop(ground);
+                            canCling = false; // deactivate cling if ground below max ledge height
                         }
                         // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
                     } else if (ground instanceof Descendable && (touchedGround == null || touchedGround instanceof Descendable)) {
