@@ -16,7 +16,7 @@ public final class Constants {
     // cannot be subclassed
     private Constants() {}
 
-    // World / Camera
+    // World Camera
     public static final Color BACKGROUND_COLOR = Color.SLATE;
     public static final float WORLD_SIZE = 160;
     public static final float KILL_PLANE = -800;
