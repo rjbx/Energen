@@ -416,7 +416,7 @@ public class GigaGal implements Humanoid {
             canClimb = false;
             lookStartTime = 0;
             lookTimeSeconds = 0;
-        } else if (ground instanceof Climbable) {
+        } else if (ground instanceof Climbable && !(touchedGround instanceof Sinkable)) {
             touchedGround = ground;
             if (Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
                 if (getTop() > ground.getBottom()) {
