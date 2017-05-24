@@ -60,7 +60,7 @@ public class Box implements Expanse {
 
     // Getters
     public void setDensity(boolean state) { dense = state; }
-    public boolean isDense() { return dense || getHeight() < Constants.MAX_LEDGE_HEIGHT; }
+    public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
     public Enums.Material getType() { return type; }
     @Override public float getTop() { return top; }
     @Override public float getBottom() {return bottom; }
