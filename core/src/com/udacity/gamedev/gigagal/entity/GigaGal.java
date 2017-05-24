@@ -256,23 +256,24 @@ public class GigaGal implements Humanoid {
         for (Ground ground : grounds) {
             // if currently within ground left and right sides
             if (Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
-                // apply following rules (bump side and bottom) only if ground height > ledge height
-                // ledges only apply collision detection on top, and not on sides and bottom as do grounds
+                // apply following rules (bump side and bottom) only if ground is dense
+                // non-dense grounds only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
-                    // alternate collision handling to allow passing through top of descendables and prevent setting atop as with other grounds
-                    // for ledge and climbable box, ignore side and bottom collision always and top collision when not climbing downward
-                    if (ground instanceof Climbable && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
-                        if (getTop() > ground.getBottom()) {
-                            onClimbable = true;
-                        }
-                    }
-                    if (ground.isDense()) {
+                    if (ground.isDense()) { // for dense grounds, apply side, bottom collision and top collision
                         touchGroundBottom(ground);
                         touchGroundSide(ground);
                         touchGroundTop(ground);
-                    } else if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) {
-                        touchGroundTop(ground);
-                        canCling = false; // deactivate cling if ground below max ledge height
+                    } else { // for non-dense grounds:
+                        if (ground instanceof Climbable
+                            && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
+                            if (getTop() > ground.getBottom()) { // when overlapping all but top, set onclimbable which if action enablesclimb will set canclimb to true
+                                onClimbable = true;
+                            }
+                        }
+                        if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
+                            touchGroundTop(ground);
+                            canCling = false; // deactivate cling if ground is not dense
+                        }
                     }
                     // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
                     // if below minimum ground distance while descending excluding post-cling, disable cling and hover
@@ -378,7 +379,12 @@ public class GigaGal implements Humanoid {
             velocity.y = 0; // prevents from descending beneath ground top
             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
             setAtopGround(ground);
-            if (ground instanceof Skateable) {
+            if (ground instanceof Climbable) {
+                if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+                    canJump = true;
+                    jump();
+                }
+            } else if (ground instanceof Skateable) {
                 if (groundState == GroundState.AIRBORNE) {
                     stand(); // set groundstate to standing
                     lookStartTime = 0;
@@ -434,14 +440,6 @@ public class GigaGal implements Humanoid {
                         position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                     }*/
                 }
-               /* if (action != Action.CLIMBING) {
-                    if (onClimbable && !inputControls.jumpButtonPressed && action == Action.STANDING) {
-                        if (!(ground instanceof Pole)) {
-                            canJump = true;
-                        }
-                        jump();
-                    }
-                }*/
             }
         } else if (ground instanceof Transportable) {
             if ((position.dst(ground.getPosition()) < (Constants.TELEPORT_CENTER.x + getHalfWidth())) && inputControls.jumpButtonPressed) {
