@@ -74,6 +74,7 @@ public final class Assets implements AssetErrorListener {
         assetManager.load(Constants.HIT_SOUND);
         assetManager.load(Constants.HIT_GROUND_SOUND);
         assetManager.load(Constants.BREAK_GROUND_SOUND);
+        assetManager.load(Constants.FLIGHT_SOUND);
         assetManager.load(Constants.DAMAGE_SOUND);
         assetManager.load(Constants.MESSAGE_FONT);
         assetManager.load(Constants.MENU_FONT);
@@ -1003,6 +1004,7 @@ public final class Assets implements AssetErrorListener {
         public final Sound hitGround;
         public final Sound breakGround;
         public final Sound damage;
+        public final Sound flight;
         
         private SoundAssets() {
 
@@ -1024,6 +1026,7 @@ public final class Assets implements AssetErrorListener {
             hitGround = assetManager.get(Constants.HIT_GROUND_SOUND);
             breakGround = assetManager.get(Constants.BREAK_GROUND_SOUND); // use of descriptor enforces type checking
             damage = assetManager.get(Constants.DAMAGE_SOUND); // use of descriptor enforces type checking
+            flight = assetManager.get(Constants.FLIGHT_SOUND);
         }
 
         public Sound getMaterialSound(Enums.Material material) {

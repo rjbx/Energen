@@ -41,6 +41,7 @@ public final class Constants {
     public static final AssetDescriptor<Sound> HYBRID_SOUND = new AssetDescriptor<Sound>("audio/hybrid.wav", Sound.class);
     public static final AssetDescriptor<Sound> HIT_SOUND = new AssetDescriptor<Sound>("audio/hit_effective.wav", Sound.class);
     public static final AssetDescriptor<Sound> HIT_GROUND_SOUND = new AssetDescriptor<Sound>("audio/hit_ground.wav", Sound.class);
+    public static final AssetDescriptor<Sound> FLIGHT_SOUND = new AssetDescriptor<Sound>("audio/flight.wav", Sound.class);
     public static final AssetDescriptor<Sound> BREAK_GROUND_SOUND = new AssetDescriptor<Sound>("audio/break_ground.wav", Sound.class);
     public static final AssetDescriptor<Sound> DAMAGE_SOUND = new AssetDescriptor<Sound>("audio/damage.wav", Sound.class);
     public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/riff-level.mp3", Music.class);
