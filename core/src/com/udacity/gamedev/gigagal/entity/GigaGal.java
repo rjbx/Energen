@@ -260,20 +260,21 @@ public class GigaGal implements Humanoid {
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
                     // alternate collision handling to allow passing through top of descendables and prevent setting atop as with other grounds
-                    if (!(ground instanceof Descendable)) {
-                        // for ledge and climbable box, ignore side and bottom collision always and top collision when not climbing downward
-                        if (ground.isDense()) {
-                            touchGroundBottom(ground);
-                            touchGroundSide(ground);
-                            touchGroundTop(ground);
-                        } else if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) {
-                            touchGroundTop(ground);
-                            canCling = false; // deactivate cling if ground below max ledge height
+                    // for ledge and climbable box, ignore side and bottom collision always and top collision when not climbing downward
+                    if (ground instanceof Climbable && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
+                        if (getTop() > ground.getBottom()) {
+                            onClimbable = true;
                         }
-                        // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
-                    } else if ((touchedGround == null || touchedGround instanceof Descendable)) {
-                        touchDescendableGround(ground);
                     }
+                    if (ground.isDense()) {
+                        touchGroundBottom(ground);
+                        touchGroundSide(ground);
+                        touchGroundTop(ground);
+                    } else if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) {
+                        touchGroundTop(ground);
+                        canCling = false; // deactivate cling if ground below max ledge height
+                    }
+                    // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
                     // if below minimum ground distance while descending excluding post-cling, disable cling and hover
                     // caution when crossing plane between ground top and minimum hover height / ground distance
                     // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
@@ -428,19 +429,19 @@ public class GigaGal implements Humanoid {
                         && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
                         || canClimb && climbStartTime != 0) {
                     setAtopGround(ground);
-                    if (action != Action.CLIMBING) {
+                 /*   if (action != Action.CLIMBING) {
                         velocity.y = 0; // prevents from descending beneath ground top
                         position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
-                    }
+                    }*/
                 }
-                if (action != Action.CLIMBING) {
-                    if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+               /* if (action != Action.CLIMBING) {
+                    if (onClimbable && !inputControls.jumpButtonPressed && action == Action.STANDING) {
                         if (!(ground instanceof Pole)) {
                             canJump = true;
                         }
                         jump();
                     }
-                }
+                }*/
             }
         } else if (ground instanceof Transportable) {
             if ((position.dst(ground.getPosition()) < (Constants.TELEPORT_CENTER.x + getHalfWidth())) && inputControls.jumpButtonPressed) {
