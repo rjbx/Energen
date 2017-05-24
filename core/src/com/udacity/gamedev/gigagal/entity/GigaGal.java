@@ -239,7 +239,6 @@ public class GigaGal implements Humanoid {
         turboMultiplier = SaveData.getTurboMultiplier();
         ammoMultiplier = SaveData.getAmmoMultiplier();
         healthMultiplier = SaveData.getHealthMultiplier();
-
     }
 
     private void setBounds() {
@@ -263,7 +262,7 @@ public class GigaGal implements Humanoid {
                     if (!(ground instanceof Descendable)) {
                         // for ledge and climbable box, ignore side and bottom collision always and top collision when not climbing downward
                         if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT
-                        && !(ground instanceof Box && ((Box) ground).getClimbable())) {
+                        && !(ground instanceof Ledge)) {
                             touchGroundBottom(ground);
                             touchGroundSide(ground);
                             touchGroundTop(ground);
@@ -272,7 +271,7 @@ public class GigaGal implements Humanoid {
                             canCling = false; // deactivate cling if ground below max ledge height
                         }
                         // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
-                    } else if (ground instanceof Descendable && (touchedGround == null || touchedGround instanceof Descendable)) {
+                    } else if (touchedGround == null || touchedGround instanceof Descendable) {
                         touchDescendableGround(ground);
                     }
                     // if below minimum ground distance while descending excluding post-cling, disable cling and hover

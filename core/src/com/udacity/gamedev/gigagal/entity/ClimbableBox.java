@@ -1,19 +1,25 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class ClimbableBox extends Box implements Climbable {
+public class ClimbableBox extends Box implements Ledge {
 
     // ctor
     public ClimbableBox(float xPos, float yPos, float width, float height, Enums.Material type) {
+
         super(xPos, yPos, width, height, type);
+        if (this.getHeight() > Constants.MAX_LEDGE_HEIGHT && !(this instanceof Box && super.getClimbable())) {
+            Gdx.app.log(ClimbableBox.class.getName(), "true");
+        }
     }
 
     @Override
