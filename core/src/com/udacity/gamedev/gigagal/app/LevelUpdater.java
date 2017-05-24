@@ -21,6 +21,7 @@ import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Powerup;
 import com.udacity.gamedev.gigagal.entity.Swoopa;
+import com.udacity.gamedev.gigagal.entity.Vines;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -109,6 +110,12 @@ public class LevelUpdater {
 
         for (Powerup powerup : powerups) {
             powerup.render(batch, viewport);
+        }
+
+        for (Ground ground : grounds) {
+            if (ground instanceof Vines) {
+                ground.render(batch, viewport);
+            }
         }
 
         for (Hazard hazard : hazards) {

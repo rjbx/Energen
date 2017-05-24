@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Box implements Solid, Ground {
+public class Box implements Ground {
 
     // fields
     private final Enums.Material type;
@@ -38,11 +38,11 @@ public class Box implements Solid, Ground {
     }
 
     // ctor
-    public Box(float xPos, float YPos, float width, float height, Enums.Material type) {
+    public Box(float xPos, float yPos, float width, float height, Enums.Material type) {
         this.width = width;
         this.height = height;
-        this.top = YPos + height;
-        this.bottom = YPos;
+        this.top = yPos + height;
+        this.bottom = yPos;
         this.left = xPos;
         this.right = xPos + width;
         this.position = new Vector2(left + (width / 2), bottom + (height / 2));
