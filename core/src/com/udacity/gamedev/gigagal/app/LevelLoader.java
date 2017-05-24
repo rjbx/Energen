@@ -9,7 +9,6 @@ import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.BreakableBox;
 import com.udacity.gamedev.gigagal.entity.Cannon;
 import com.udacity.gamedev.gigagal.entity.Chamber;
-import com.udacity.gamedev.gigagal.entity.ClimbableBox;
 import com.udacity.gamedev.gigagal.entity.Coals;
 import com.udacity.gamedev.gigagal.entity.Ice;
 import com.udacity.gamedev.gigagal.entity.Knob;
@@ -518,11 +517,8 @@ final class LevelLoader {
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
                 final Box box;
-                if (tags[Constants.LEVEL_CLIMBABLE_TAG_INDEX]) {
-                    box = new ClimbableBox(imagePosition.x, imagePosition.y, width, height, type);
-                } else {
-                    box = new Box(imagePosition.x, imagePosition.y, width, height, type);
-                }
+                box = new Box(imagePosition.x, imagePosition.y, width, height, type);
+                box.setLedge(tags[Constants.LEVEL_CLIMBABLE_TAG_INDEX]);
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BREAKABLE_BOX_SPRITE)) {

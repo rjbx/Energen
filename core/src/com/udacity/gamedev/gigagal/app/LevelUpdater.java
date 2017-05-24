@@ -7,16 +7,13 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
-import com.udacity.gamedev.gigagal.entity.Box;
-import com.udacity.gamedev.gigagal.entity.BreakableBox;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Chargeable;
-import com.udacity.gamedev.gigagal.entity.Climbable;
+import com.udacity.gamedev.gigagal.entity.Dense;
 import com.udacity.gamedev.gigagal.entity.Destructible;
 import com.udacity.gamedev.gigagal.entity.Ground;
 import com.udacity.gamedev.gigagal.entity.Hazard;
 import com.udacity.gamedev.gigagal.entity.Impact;
-import com.udacity.gamedev.gigagal.entity.Ledge;
 import com.udacity.gamedev.gigagal.entity.Nonstatic;
 import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Portal;
@@ -101,7 +98,7 @@ public class LevelUpdater {
         backdrop.render(batch, viewport, GigaGal.getInstance().getPosition(), Constants.BACKGROUND_CENTER, 1);
 
         for (Ground ground : grounds) {
-            if (!(ground instanceof Box) || ground instanceof Ledge) {
+            if (!(ground instanceof Dense) || ((Dense) ground).isLedge()) {
                 ground.render(batch, viewport);
             }
         }
@@ -125,7 +122,7 @@ public class LevelUpdater {
         }
 
         for (Ground ground : grounds) {
-            if (ground instanceof Box && !(ground instanceof Ledge)) {
+            if (ground instanceof Dense && !(((Dense) ground).isLedge())) {
                 ground.render(batch, viewport);
             }
         }

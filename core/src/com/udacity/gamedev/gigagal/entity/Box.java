@@ -5,11 +5,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Box implements Ground {
+public class Box implements Dense, Ground {
 
     // fields
     private final Enums.Material type;
@@ -20,7 +21,7 @@ public class Box implements Ground {
     private final float right;
     private final float width;
     private final float height;
-    private boolean climbable;
+    private boolean ledge;
     private NinePatch ninePatch;
 
     //default ctor
@@ -49,6 +50,7 @@ public class Box implements Ground {
         this.type = type;
         ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
         ninePatch.setColor(type.theme().color());
+        ledge = false;
     }
 
     @Override
@@ -57,8 +59,8 @@ public class Box implements Ground {
     }
 
     // Getters
-    public void setClimbable() { climbable = true; }
-    public boolean getClimbable() { return climbable; }
+    public void setLedge(boolean state) { ledge = state; }
+    public boolean isLedge() { return ledge || getHeight() < Constants.MAX_LEDGE_HEIGHT; }
     public Enums.Material getType() { return type; }
     @Override public float getTop() { return top; }
     @Override public float getBottom() {return bottom; }
