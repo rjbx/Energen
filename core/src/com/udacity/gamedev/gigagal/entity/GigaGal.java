@@ -66,6 +66,7 @@ public class GigaGal implements Humanoid {
     private boolean canHover;
     private boolean canCling;
     private boolean canClimb;
+    private boolean canGrasp;
     private boolean canStride;
     private long chargeStartTime;
     private long lookStartTime;
@@ -155,6 +156,7 @@ public class GigaGal implements Humanoid {
         turboDuration = 0;
         touchedGround = null;
         canClimb = false;
+        canGrasp = false;
         canLook = false;
         canStride = false;
         canJump = false;
@@ -435,10 +437,6 @@ public class GigaGal implements Humanoid {
                         && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
                         || canClimb && climbStartTime != 0) {
                     setAtopGround(ground);
-                 /*   if (action != Action.CLIMBING) {
-                        velocity.y = 0; // prevents from descending beneath ground top
-                        position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
-                    }*/
                 }
             }
         } else if (ground instanceof Transportable) {
@@ -1004,7 +1002,7 @@ public class GigaGal implements Humanoid {
             if (inputControls.jumpButtonJustPressed) {
                 if (position.y > touchedGround.getTop() - 10) {
                     position.y = touchedGround.getTop() - 10;
-                    canClimb = true;
+                    canGrasp = true;
                 }
                 cling();
             }
@@ -1042,8 +1040,8 @@ public class GigaGal implements Humanoid {
             lookStartTime = 0;
             if (inputControls.downButtonPressed) {
                 velocity.y += Constants.CLING_GRAVITY_OFFSET;
-            } else if (inputControls.upButtonPressed && canClimb) {
-                canClimb = false;
+            } else if (inputControls.upButtonPressed && canGrasp) {
+                canGrasp = false;
                 canCling = false;
                 directionX = Helpers.getOppositeDirection(directionX);
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
@@ -1143,7 +1141,7 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
             } else if (action == Action.CLINGING) {
-                if (canClimb) {
+                if (canGrasp) {
                     region = Assets.getInstance().getGigaGalAssets().graspRight;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().clingRight;
@@ -1181,7 +1179,7 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
             } else if (action == Action.CLINGING) {
-                if (canClimb) {
+                if (canGrasp) {
                     region = Assets.getInstance().getGigaGalAssets().graspLeft;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().clingLeft;
