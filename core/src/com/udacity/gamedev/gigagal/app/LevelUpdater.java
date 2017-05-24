@@ -97,7 +97,9 @@ public class LevelUpdater {
         backdrop.render(batch, viewport, GigaGal.getInstance().getPosition(), Constants.BACKGROUND_CENTER, 1);
 
         for (Ground ground : grounds) {
-            ground.render(batch, viewport);
+            if (!(ground instanceof BreakableBox) {
+                ground.render(batch, viewport);
+            }
         }
 
         for (Portal portal : portals) {
