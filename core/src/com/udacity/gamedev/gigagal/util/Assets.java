@@ -219,13 +219,13 @@ public final class Assets implements AssetErrorListener {
 
     public static final class BackgroundAssets {
 
-        public final TextureRegion home;
-        public final TextureRegion ore;
-        public final TextureRegion plasma;
-        public final TextureRegion liquid;
-        public final TextureRegion gas;
-        public final TextureRegion solid;
-        public final TextureRegion hybrid;
+        public final AtlasRegion home;
+        public final AtlasRegion ore;
+        public final AtlasRegion plasma;
+        public final AtlasRegion liquid;
+        public final AtlasRegion gas;
+        public final AtlasRegion solid;
+        public final AtlasRegion hybrid;
 
         private BackgroundAssets(TextureAtlas atlas) {
 
@@ -624,7 +624,7 @@ public final class Assets implements AssetErrorListener {
 
     public static final class OrbenAssets {
 
-        public final TextureRegion dormantOrben;
+        public final AtlasRegion dormantOrben;
         public final Animation plasmaOrben;
         public final Animation gasOrben;
         public final Animation liquidOrben;
