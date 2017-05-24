@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
+import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.BreakableBox;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Chargeable;
@@ -97,7 +98,7 @@ public class LevelUpdater {
         backdrop.render(batch, viewport, GigaGal.getInstance().getPosition(), Constants.BACKGROUND_CENTER, 1);
 
         for (Ground ground : grounds) {
-            if (!(ground instanceof BreakableBox) {
+            if (!(ground instanceof Box) || ((Box) ground).getClimbable()) {
                 ground.render(batch, viewport);
             }
         }
@@ -115,7 +116,7 @@ public class LevelUpdater {
         }
 
         for (Ground ground : grounds) {
-            if (ground instanceof BreakableBox) {
+            if (ground instanceof Box && !((Box) ground).getClimbable()) {
                 ground.render(batch, viewport);
             }
         }

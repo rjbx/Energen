@@ -9,35 +9,17 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class BreakableBox implements Destructible, Solid, Ground {
+public class BreakableBox extends Box implements Destructible, Solid, Ground {
 
     // fields
-    private final Enums.Material type;
-    private final Vector2 position; // class-level instantiation
-    private final float top;
-    private final float bottom;
-    private final float left;
-    private final float right;
-    private final float width;
-    private final float height;
     private float damage;
     private boolean active;
-    private final NinePatch ninePatch;
 
     // ctor
-    public BreakableBox(float xPos, float YPos, float width, float height, Enums.Material type) {
-        this.width = width;
-        this.height = height;
-        this.top = YPos + height;
-        this.bottom = YPos;
-        this.left = xPos;
-        this.right = xPos + width;
+    public BreakableBox(float xPos, float yPos, float width, float height, Enums.Material type) {
+        super(xPos, yPos, width, height, type);
         active = true;
         damage = 50;
-        this.position = new Vector2(left + (width / 2), bottom + (height / 2));
-        this.type = type;
-        ninePatch = Assets.getInstance().getBoxAssets().breakableBox;
-        ninePatch.setColor(type.theme().color());
     }
 
     @Override
@@ -46,22 +28,22 @@ public class BreakableBox implements Destructible, Solid, Ground {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawNinePatch(batch, viewport, ninePatch, left - 1, bottom - 1, width + 2, height + 2);
+        super.render(batch, viewport);
     }
 
     // Getters
-    @Override public float getTop() { return top; }
-    @Override public float getBottom() {return bottom; }
-    @Override public float getLeft() { return left; }
-    @Override public float getRight() { return right; }
-    @Override public float getWidth() { return width;}
-    @Override public float getHeight() {return height; }
-    @Override public Vector2 getPosition() { return position; }
+    @Override public float getTop() { return super.getTop(); }
+    @Override public float getBottom() {return super.getBottom(); }
+    @Override public float getLeft() { return super.getLeft(); }
+    @Override public float getRight() { return super.getRight(); }
+    @Override public float getWidth() { return super.getWidth();}
+    @Override public float getHeight() {return super.getHeight(); }
+    @Override public Vector2 getPosition() { return super.getPosition(); }
     @Override public int getKillScore() { return 0; }
     @Override public int getHitScore() { return 0; }
     @Override public float getShotRadius() { return 29; }
     @Override public void setHealth(float damage) { this.damage = damage; }
     @Override public float getHealth() { return damage; }
-    @Override public Enums.Material getType() { return type; }
-    @Override public BreakableBox clone() { return new BreakableBox(left, bottom, width, height, type); }
+    @Override public Enums.Material getType() { return super.getType(); }
+    @Override public Box clone() { return super.clone(); }
 }

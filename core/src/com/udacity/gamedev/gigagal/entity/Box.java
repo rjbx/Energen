@@ -12,7 +12,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Box implements Solid, Ground {
 
     // fields
-    private final Enums.Theme type;
+    private final Enums.Material type;
     private final Vector2 position; // class-level instantiation
     private final float top;
     private final float bottom;
@@ -23,8 +23,22 @@ public class Box implements Solid, Ground {
     private boolean climbable;
     private final NinePatch ninePatch;
 
+    //default ctor
+    public Box() {
+        this.width = 0;
+        this.height = 0;
+        this.top = 0;
+        this.bottom = 0;
+        this.left = 0;
+        this.right = 0;
+        this.position = new Vector2();
+        this.type = Enums.Material.NATIVE;
+        ninePatch = Assets.getInstance().getBoxAssets().box;
+        ninePatch.setColor(type.theme().color());
+    }
+
     // ctor
-    public Box(float xPos, float YPos, float width, float height, Enums.Theme type) {
+    public Box(float xPos, float YPos, float width, float height, Enums.Material type) {
         this.width = width;
         this.height = height;
         this.top = YPos + height;
@@ -34,7 +48,7 @@ public class Box implements Solid, Ground {
         this.position = new Vector2(left + (width / 2), bottom + (height / 2));
         this.type = type;
         ninePatch = Assets.getInstance().getBoxAssets().box;
-        ninePatch.setColor(type.color());
+        ninePatch.setColor(type.theme().color());
     }
 
     @Override
@@ -45,6 +59,7 @@ public class Box implements Solid, Ground {
     // Getters
     public void setClimbable() { climbable = true; }
     public boolean getClimbable() { return climbable; }
+    public Enums.Material getType() { return type; }
     @Override public float getTop() { return top; }
     @Override public float getBottom() {return bottom; }
     @Override public float getLeft() { return left; }

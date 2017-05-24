@@ -516,7 +516,7 @@ final class LevelLoader {
             float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
-                final Box box = new Box(imagePosition.x, imagePosition.y, width, height, level.getLevel());
+                final Box box = new Box(imagePosition.x, imagePosition.y, width, height, type);
                 if (tags[Constants.LEVEL_CLIMBABLE_TAG_INDEX]) {
                     box.setClimbable();
                 }
