@@ -1055,6 +1055,9 @@ public class GigaGal implements Humanoid {
                 velocity.y += Constants.CLING_GRAVITY_OFFSET;
             } else {
                 turbo -= Constants.FALL_TURBO_INCREMENT * turboMultiplier;
+                if (touchedGround instanceof Treadmill) {
+                    turbo -= 2;
+                }
                 velocity.y = 0;
             }
         }
