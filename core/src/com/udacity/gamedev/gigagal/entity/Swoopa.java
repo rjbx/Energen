@@ -65,13 +65,13 @@ public class Swoopa implements Destructible, Hazard {
         if (position.x < (camera.x + worldSpan.x)
         && position.x > (camera.x - worldSpan.x)) {
             if (descentStartTime == 0) {
+                Assets.getInstance().getSoundAssets().flight.play();
                 descentStartTime = TimeUtils.nanoTime();
             }
             if (Helpers.secondsSince(descentStartTime) < .75f) {
                 velocity.x = Math.min(-20, velocity.x * 1.01f);
                 velocity.y = Math.min(-Constants.SWOOPA_MOVEMENT_SPEED, velocity.y * 1.01f);
             } else {
-                Assets.getInstance().getSoundAssets().flight.play();
                 velocity.x = velocity.x * 1.035f;
                 velocity.y = velocity.y / 1.035f;
             }
