@@ -381,12 +381,8 @@ public class GigaGal implements Humanoid {
             velocity.y = 0; // prevents from descending beneath ground top
             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
             setAtopGround(ground);
-            if (ground instanceof Climbable) {
-                if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
-                    canJump = true;
-                    jump();
-                }
-            } else if (ground instanceof Skateable) {
+
+            if (ground instanceof Skateable) {
                 if (groundState == GroundState.AIRBORNE) {
                     stand(); // set groundstate to standing
                     lookStartTime = 0;
@@ -456,6 +452,9 @@ public class GigaGal implements Humanoid {
         if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
             stand(); // set groundstate to standing
             lookStartTime = 0;
+        } else if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+            canJump = true;
+            jump();
         }
     }
 
@@ -669,7 +668,7 @@ public class GigaGal implements Humanoid {
                     velocity.y *= 5;
                 }
             }
-            if (canLook) {
+            if (canLook && !canClimb) {
                 canStride = false;
                 if (inputControls.jumpButtonJustPressed && !canCling) {
                     toggleWeapon(directionY);
