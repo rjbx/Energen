@@ -29,7 +29,6 @@ public final class Assets implements AssetErrorListener {
     private AssetManager assetManager;
     private GigaGalAssets gigaGalAssets;
     private BackgroundAssets backgroundAssets;
-    private BoxAssets boxAssets;
     private GroundAssets groundAssets;
     private AmmoAssets ammoAssets;
     private ZoombaAssets zoombaAssets;
@@ -87,7 +86,6 @@ public final class Assets implements AssetErrorListener {
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
         gigaGalAssets = new GigaGalAssets(atlas);
         backgroundAssets = new BackgroundAssets(atlas);
-        boxAssets = new BoxAssets(atlas);
         groundAssets = new GroundAssets(atlas);
         ammoAssets = new AmmoAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
@@ -264,29 +262,6 @@ public final class Assets implements AssetErrorListener {
         }
     }
 
-    public static final class BoxAssets {
-
-        public final NinePatch box;
-        public final NinePatch breakableBox;
-
-        private BoxAssets(TextureAtlas atlas) {
-            int edge = Constants.BOX_EDGE;
-
-            box = new NinePatch(atlas.findRegion(Constants.BOX_SPRITE), edge, edge, edge, edge);
-            breakableBox = new NinePatch(atlas.findRegion(Constants.BREAKABLE_BOX_SPRITE), 41, 16, 39, 15);
-        }
-
-        public final NinePatch getNinePatch(Ground ground) {
-            if (ground instanceof BreakableBox) {
-                return breakableBox;
-            } else if (ground instanceof Box) {
-                return box;
-            } else {
-                return null;
-            }
-        }
-    }
-
     public static final class GroundAssets {
         
         public final NinePatch ladderNinePatch;
@@ -314,9 +289,15 @@ public final class Assets implements AssetErrorListener {
         public final Animation sink;
         public final Animation coals;
         public final Animation lava;
-
+        public final NinePatch box;
+        public final NinePatch breakableBox;
 
         private GroundAssets(TextureAtlas atlas) {
+
+            int edge = Constants.BOX_EDGE;
+
+            box = new NinePatch(atlas.findRegion(Constants.BOX_SPRITE), edge, edge, edge, edge);
+            breakableBox = new NinePatch(atlas.findRegion(Constants.BREAKABLE_BOX_SPRITE), 41, 16, 39, 15);
 
             pillar = atlas.findRegion(Constants.PILLAR_SPRITE);
             lift = atlas.findRegion(Constants.LIFT_SPRITE);
@@ -442,6 +423,16 @@ public final class Assets implements AssetErrorListener {
 
             lava = new Animation(Constants.LAVA_DURATION / lavaRegions.size,
                     lavaRegions, PlayMode.NORMAL);
+        }
+
+        public final NinePatch getNinePatch(Ground ground) {
+            if (ground instanceof BreakableBox) {
+                return breakableBox;
+            } else if (ground instanceof Box) {
+                return box;
+            } else {
+                return box;
+            }
         }
     }
 
@@ -1130,7 +1121,6 @@ public final class Assets implements AssetErrorListener {
     // Getters
     public final GigaGalAssets getGigaGalAssets(){ return gigaGalAssets; }
     public final BackgroundAssets getBackgroundAssets() { return backgroundAssets; }
-    public final BoxAssets getBoxAssets(){ return boxAssets; }
     public final GroundAssets getGroundAssets(){ return groundAssets; }
     public final AmmoAssets getAmmoAssets(){ return ammoAssets; }
     public final ZoombaAssets getZoombaAssets(){ return zoombaAssets; }

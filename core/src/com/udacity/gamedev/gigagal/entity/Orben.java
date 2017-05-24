@@ -60,6 +60,10 @@ public class Orben implements Destructible, Hazard {
     }
 
     public void update(float delta) {
+        previousFramePosition.set(position);
+        position.x += velocity.x;
+        position.y += velocity.y;
+
         boolean touchingSolid = false;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (ground instanceof Solid) {
@@ -70,15 +74,9 @@ public class Orben implements Destructible, Hazard {
         }
 
         if (touchingSolid) {
-            xDirection = null;
-            startTime = 0;
             velocity.x = 0;
             position.x = previousFramePosition.x;
         }
-        
-        previousFramePosition.set(position);
-        position.x += velocity.x;
-        position.y += velocity.y;
 
         Viewport viewport = level.getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());

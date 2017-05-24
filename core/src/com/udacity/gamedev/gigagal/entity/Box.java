@@ -33,7 +33,7 @@ public class Box implements Solid, Ground {
         this.right = 0;
         this.position = new Vector2();
         this.type = Enums.Material.NATIVE;
-        ninePatch = Assets.getInstance().getBoxAssets().getNinePatch(this);
+        ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
         ninePatch.setColor(type.theme().color());
     }
 
@@ -47,7 +47,7 @@ public class Box implements Solid, Ground {
         this.right = xPos + width;
         this.position = new Vector2(left + (width / 2), bottom + (height / 2));
         this.type = type;
-        ninePatch = Assets.getInstance().getBoxAssets().getNinePatch(this);
+        ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
         ninePatch.setColor(type.theme().color());
     }
 
