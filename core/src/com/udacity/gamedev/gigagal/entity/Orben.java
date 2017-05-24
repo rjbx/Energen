@@ -119,7 +119,7 @@ public class Orben implements Destructible, Hazard {
         }
 
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-            if (!(ground instanceof Climbable)) {
+            if (!(ground instanceof Box)) {
                 if (Helpers.overlapsBetweenFourSides(position, getWidth(), getHeight(), ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop())) {
                     velocity.setZero();
                     position.set(previousFramePosition);
