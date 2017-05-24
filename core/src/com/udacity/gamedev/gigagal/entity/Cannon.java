@@ -83,6 +83,7 @@ public class Cannon implements Nonstatic, Ground {
     @Override public final float getRight() { return position.x + center.x; }
     @Override public final float getTop() { return position.y + center.y; }
     @Override public final float getBottom() { return position.y - center.y; }
+    @Override public final boolean isLedge() { return false; }
     @Override public Cannon clone() { return new Cannon(position, orientation, intensity); }
     public final Enums.Orientation getOrientation() { return orientation; }
     public final Enums.ShotIntensity getIntensity() { return intensity; }

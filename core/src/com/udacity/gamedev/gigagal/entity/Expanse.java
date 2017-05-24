@@ -1,7 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Dense {
+public interface Expanse extends Ground {
 
     void setLedge(boolean state);
-    boolean isLedge();
 }

@@ -33,5 +33,6 @@ public class Knob implements Climbable, Ground {
     @Override public final float getRight() { return position.x + Constants.KNOB_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.KNOB_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.KNOB_CENTER.y; }
+    @Override public final boolean isLedge() { return false; }
     @Override public Knob clone() { return new Knob(position); }
 }

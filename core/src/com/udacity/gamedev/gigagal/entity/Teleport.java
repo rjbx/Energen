@@ -33,6 +33,7 @@ public class Teleport implements Transportable, Descendable, Ground {
     @Override public final float getRight() { return position.x + Constants.TELEPORT_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.TELEPORT_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.TELEPORT_CENTER.y; }
+    @Override public final boolean isLedge() { return true; }
     @Override public final Vector2 getDestination() { return destination; }
     @Override public Pole clone() { return new Pole(position); }
 }

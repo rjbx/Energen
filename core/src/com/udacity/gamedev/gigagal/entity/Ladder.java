@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Ladder implements Climbable, Ground {
@@ -49,5 +50,6 @@ public class Ladder implements Climbable, Ground {
     @Override public Vector2 getPosition() { return new Vector2(left + (getWidth() / 2), bottom + (getHeight() / 2)); }
     @Override public float getWidth() { return right - left;}
     @Override public float getHeight() { return top - bottom; }
+    @Override public final boolean isLedge() { return true; }
     @Override public Ladder clone() { return new Ladder(left, top, width, height); }
 }

@@ -51,6 +51,7 @@ public class Treadmill implements Rideable, Convertible, Ground {
     @Override public final float getRight() { return position.x + Constants.TREADMILL_CENTER.x * scale.x; }
     @Override public final float getTop() { return position.y + Constants.TREADMILL_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.TREADMILL_CENTER.y * scale.y; }
+    @Override public final boolean isLedge() { return false; }
     @Override public final Enums.Direction getDirection() { return direction; }
     @Override public Treadmill clone() { return new Treadmill(position, scale, adjustedCenter, direction); }
     @Override public void trip() { tripped = !tripped; direction = Helpers.getOppositeDirection(direction); }

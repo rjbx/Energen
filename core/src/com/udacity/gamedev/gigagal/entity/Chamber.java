@@ -47,6 +47,7 @@ public class Chamber implements Chargeable, Strikeable, Ground {
     @Override public final float getRight() { return position.x + Constants.CHAMBER_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.CHAMBER_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.CHAMBER_CENTER.y; }
+    @Override public final boolean isLedge() { return false; }
     @Override public final void activate() { this.active = true; }
     @Override public final void deactivate() { this.active = false; }
     @Override public final boolean isActive() { return active; }

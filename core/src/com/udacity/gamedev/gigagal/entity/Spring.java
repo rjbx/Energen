@@ -47,6 +47,7 @@ public class Spring implements Reboundable, Ground {
     @Override public final float getRight() { return position.x + Constants.SPRING_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
+    @Override public final boolean isLedge() { return true; }
     @Override public final long getStartTime() { return startTime; }
     @Override public final void setState(boolean state) { this.isLoaded = state; }
     @Override public final boolean getState() { return isLoaded; }

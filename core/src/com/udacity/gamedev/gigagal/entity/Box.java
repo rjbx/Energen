@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Box implements Dense, Ground {
+public class Box implements Expanse {
 
     // fields
     private final Enums.Material type;

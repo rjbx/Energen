@@ -32,5 +32,6 @@ public class Sink implements Sinkable, Ground {
     @Override public final float getRight() { return position.x + Constants.SINK_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.SINK_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SINK_CENTER.y; }
+    @Override public final boolean isLedge() { return true; }
     @Override public Sink clone() { return new Sink(position); }
 }
