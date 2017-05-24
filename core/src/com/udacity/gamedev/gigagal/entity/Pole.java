@@ -33,6 +33,6 @@ public class Pole implements Climbable, Ground {
     @Override public final float getRight() { return position.x + Constants.POLE_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.POLE_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.POLE_CENTER.y; }
-    @Override public final boolean isLedge() { return true; }
+    @Override public final boolean isDense() { return false; }
     @Override public Pole clone() { return new Pole(position); }
 }

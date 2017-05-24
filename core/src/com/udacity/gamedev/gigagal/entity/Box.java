@@ -21,7 +21,7 @@ public class Box implements Expanse {
     private final float right;
     private final float width;
     private final float height;
-    private boolean ledge;
+    private boolean dense;
     private NinePatch ninePatch;
 
     //default ctor
@@ -50,7 +50,7 @@ public class Box implements Expanse {
         this.type = type;
         ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
         ninePatch.setColor(type.theme().color());
-        ledge = false;
+        dense = true;
     }
 
     @Override
@@ -59,8 +59,8 @@ public class Box implements Expanse {
     }
 
     // Getters
-    public void setLedge(boolean state) { ledge = state; }
-    public boolean isLedge() { return ledge || getHeight() < Constants.MAX_LEDGE_HEIGHT; }
+    public void setDensity(boolean state) { dense = state; }
+    public boolean isDense() { return dense || getHeight() < Constants.MAX_LEDGE_HEIGHT; }
     public Enums.Material getType() { return type; }
     @Override public float getTop() { return top; }
     @Override public float getBottom() {return bottom; }

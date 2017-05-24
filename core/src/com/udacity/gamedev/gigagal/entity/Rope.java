@@ -29,6 +29,6 @@ public class Rope implements Climbable, Ground {
     @Override public final float getRight() { return position.x + Constants.ROPE_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.ROPE_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.ROPE_CENTER.y; }
-    @Override public final boolean isLedge() { return true; }
+    @Override public final boolean isDense() { return false; }
     @Override public Rope clone() { return new Rope(position); }
 }

@@ -98,7 +98,7 @@ public class LevelUpdater {
         backdrop.render(batch, viewport, GigaGal.getInstance().getPosition(), Constants.BACKGROUND_CENTER, 1);
 
         for (Ground ground : grounds) {
-            if (!(ground instanceof Expanse) || ((Expanse) ground).isLedge()) {
+            if (!ground.isDense()) {
                 ground.render(batch, viewport);
             }
         }
@@ -122,7 +122,7 @@ public class LevelUpdater {
         }
 
         for (Ground ground : grounds) {
-            if (ground instanceof Expanse && !(((Expanse) ground).isLedge())) {
+            if (ground.isDense()) {
                 ground.render(batch, viewport);
             }
         }

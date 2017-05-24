@@ -87,7 +87,7 @@ public class Rollen implements Destructible, Hazard {
         boolean touchingSide = false;
         boolean touchingTop = false;
         for (Ground ground : grounds) {
-            if (!(ground instanceof Climbable)) {
+            if (ground.isDense()) {
                 if (Helpers.overlapsBetweenFourSides(position, radius, radius, ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop())) {
                     if (!(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
                         touchingSide = true;

@@ -279,7 +279,7 @@ final class LevelLoader {
                 JSONArray tags = (JSONArray) object.get(Constants.LEVEL_TAGS_KEY);
                 for (Object tag : tags) {
                     String item = (String) tag;
-                    if (item.equals(Constants.LEVEL_CLIMBABLE_TAG)) {
+                    if (item.equals(Constants.LEVEL_LEDGE_TAG)) {
                         tagBooleans[Constants.LEVEL_CLIMBABLE_TAG_INDEX] = true;
                     }
                 }
@@ -518,7 +518,7 @@ final class LevelLoader {
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
                 final Box box;
                 box = new Box(imagePosition.x, imagePosition.y, width, height, type);
-                box.setLedge(tags[Constants.LEVEL_CLIMBABLE_TAG_INDEX]);
+                box.setDensity(!tags[Constants.LEVEL_CLIMBABLE_TAG_INDEX]);
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BREAKABLE_BOX_SPRITE)) {
