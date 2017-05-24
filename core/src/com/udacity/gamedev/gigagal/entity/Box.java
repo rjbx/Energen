@@ -21,7 +21,7 @@ public class Box implements Solid, Ground {
     private final float width;
     private final float height;
     private boolean climbable;
-    private final NinePatch ninePatch;
+    private NinePatch ninePatch;
 
     //default ctor
     public Box() {

@@ -64,20 +64,6 @@ public class Orben implements Destructible, Hazard {
         position.x += velocity.x;
         position.y += velocity.y;
 
-        boolean touchingSolid = false;
-        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-            if (ground instanceof Solid) {
-                if (Helpers.overlapsBetweenFourSides(position, getWidth(), getHeight(), ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop())) {
-                    touchingSolid = true;
-                }
-            }
-        }
-
-        if (touchingSolid) {
-            velocity.x = 0;
-            position.x = previousFramePosition.x;
-        }
-
         Viewport viewport = level.getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
         Vector3 camera = new Vector3(viewport.getCamera().position);
@@ -130,6 +116,15 @@ public class Orben implements Destructible, Hazard {
         } else {
             startTime = TimeUtils.nanoTime();
             active = false;
+        }
+
+        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+            if (ground instanceof Solid) {
+                if (Helpers.overlapsBetweenFourSides(position, getWidth(), getHeight(), ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop())) {
+                    velocity.setZero();
+                    position.set(previousFramePosition);
+                }
+            }
         }
     }
 
