@@ -36,6 +36,6 @@ public class Slick implements Skateable, Ground {
     @Override public final float getRight() { return position.x + Constants.SLICK_CENTER.x * scale.x; }
     @Override public final float getTop() { return position.y + Constants.SLICK_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.SLICK_CENTER.y * scale.y; }
-    @Override public final boolean isDense() { return getHeight() < Constants.MAX_LEDGE_HEIGHT; }
+    @Override public final boolean isDense() { return getHeight() > Constants.MAX_LEDGE_HEIGHT; }
     @Override public Slick clone() { return new Slick(position, scale, adjustedCenter); }
 }

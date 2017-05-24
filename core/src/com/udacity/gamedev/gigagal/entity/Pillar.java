@@ -9,7 +9,6 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Pillar implements Climbable, Ground {
 
-
     // fields
     private Vector2 position;
 
@@ -30,6 +29,6 @@ public class Pillar implements Climbable, Ground {
     @Override public final float getRight() { return position.x + Constants.PILLAR_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.PILLAR_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.PILLAR_CENTER.y; }
-    @Override public final boolean isDense() { return true; }
+    @Override public final boolean isDense() { return false; }
     @Override public Pillar clone() { return new Pillar(position); }
 }

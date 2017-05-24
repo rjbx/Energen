@@ -36,6 +36,6 @@ public class Ice implements Skateable, Ground {
     @Override public final float getRight() { return position.x + Constants.ICE_CENTER.x * scale.x; }
     @Override public final float getTop() { return position.y + Constants.ICE_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.ICE_CENTER.y * scale.y; }
-    @Override public final boolean isDense() { return getHeight() < Constants.MAX_LEDGE_HEIGHT; }
+    @Override public final boolean isDense() { return getHeight() > Constants.MAX_LEDGE_HEIGHT; }
     @Override public Ice clone() { return new Ice(position, scale, adjustedCenter); }
 }
