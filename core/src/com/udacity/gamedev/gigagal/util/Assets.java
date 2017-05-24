@@ -16,6 +16,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.sun.corba.se.impl.orbutil.closure.Constant;
+import com.udacity.gamedev.gigagal.entity.Box;
+import com.udacity.gamedev.gigagal.entity.BreakableBox;
+import com.udacity.gamedev.gigagal.entity.Ground;
 
 // immutable singleton
 public final class Assets implements AssetErrorListener {
@@ -271,6 +274,16 @@ public final class Assets implements AssetErrorListener {
 
             box = new NinePatch(atlas.findRegion(Constants.BOX_SPRITE), edge, edge, edge, edge);
             breakableBox = new NinePatch(atlas.findRegion(Constants.BREAKABLE_BOX_SPRITE), 41, 16, 39, 15);
+        }
+
+        public final NinePatch getNinePatch(Ground ground) {
+            if (ground instanceof BreakableBox) {
+                return breakableBox;
+            } else if (ground instanceof Box) {
+                return box;
+            } else {
+                return null;
+            }
         }
     }
 

@@ -18,6 +18,7 @@ public class Orben implements Destructible, Hazard {
     // fields
     private LevelUpdater level;
     private Vector2 position;
+    private Vector2 previousFramePosition;
     private Enums.Direction xDirection;
     private Enums.Direction yDirection;
     private Enums.Material type;
@@ -32,6 +33,7 @@ public class Orben implements Destructible, Hazard {
         this.level = level;
         this.type = type;
         this.position = position;
+        this.previousFramePosition = new Vector2();
         xDirection = null;
         yDirection = null;
         velocity = new Vector2(0, 0);
@@ -58,6 +60,23 @@ public class Orben implements Destructible, Hazard {
     }
 
     public void update(float delta) {
+        boolean touchingSolid = false;
+        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+            if (ground instanceof Solid) {
+                if (Helpers.overlapsBetweenFourSides(position, getWidth(), getHeight(), ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop())) {
+                    touchingSolid = true;
+                }
+            }
+        }
+
+        if (touchingSolid) {
+            xDirection = null;
+            startTime = 0;
+            velocity.x = 0;
+            position.x = previousFramePosition.x;
+        }
+        
+        previousFramePosition.set(position);
         position.x += velocity.x;
         position.y += velocity.y;
 
