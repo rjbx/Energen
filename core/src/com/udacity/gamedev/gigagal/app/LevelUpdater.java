@@ -18,6 +18,7 @@ import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Powerup;
+import com.udacity.gamedev.gigagal.entity.Swoopa;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -186,6 +187,9 @@ public class LevelUpdater {
                 Destructible destructible = (Destructible) hazards.get(i);
                 destructible.update(delta);
                 if (destructible.getHealth() < 1) {
+                    if (destructible instanceof Swoopa) {
+                        ((Swoopa) destructible).dispose();
+                    }
                     spawnExplosion(destructible.getPosition(), destructible.getType());
                     hazards.removeIndex(i);
                     removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)

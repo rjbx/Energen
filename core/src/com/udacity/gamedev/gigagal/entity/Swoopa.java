@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -26,6 +27,7 @@ public class Swoopa implements Destructible, Hazard {
     private float health;
     private long descentStartTime;
     private Animation animation;
+    private Sound sound;
 
     // ctor
     public Swoopa(LevelUpdater level, Vector2 position, Enums.Material type) {
@@ -37,6 +39,7 @@ public class Swoopa implements Destructible, Hazard {
         descentStartTime = 0;
         health = Constants.SWOOPA_MAX_HEALTH;
         bobOffset = MathUtils.random();
+        sound = Assets.getInstance().getSoundAssets().flight;
         switch (type) {
             case ORE:
                 animation = Assets.getInstance().getSwoopaAssets().oreSwoopa;
@@ -65,7 +68,7 @@ public class Swoopa implements Destructible, Hazard {
         if (position.x < (camera.x + worldSpan.x)
         && position.x > (camera.x - worldSpan.x)) {
             if (descentStartTime == 0) {
-                Assets.getInstance().getSoundAssets().flight.play();
+                sound.play();
                 descentStartTime = TimeUtils.nanoTime();
             }
             if (Helpers.secondsSince(descentStartTime) < .75f) {
@@ -111,4 +114,8 @@ public class Swoopa implements Destructible, Hazard {
     public final long getStartTime() { return startTime; }
 
     @Override public final void setHealth( float health ) { this.health = health; }
+
+    public void dispose() {
+        sound.stop();
+    }
 }
