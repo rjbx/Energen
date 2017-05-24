@@ -164,7 +164,9 @@ public final class Ammo implements Indestructible, Hazard {
             if (ground instanceof Strikeable) {
                 Strikeable strikeable = (Strikeable) ground;
                 if (position.dst(strikeable.getPosition()) < (strikeable.getShotRadius() + this.radius)) {
-                    Assets.getInstance().getSoundAssets().hitGround.play();
+                    if (isFromGigagal()) {
+                        Assets.getInstance().getSoundAssets().hitGround.play();
+                    }
                     if (strikeable instanceof Button) {
                         Switchable switchable = ((Switchable) strikeable);
                         switchable.resetStartTime();
