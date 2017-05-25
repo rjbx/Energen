@@ -264,10 +264,10 @@ public class GigaGal implements Humanoid {
                     canCling = false; // prevent from clinging to non dense grounds
 
                     if (ground instanceof Climbable) {
+                        touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                         if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
                             touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                         }
-                        touchedGround = ground;
                         // when overlapping all but top, set onclimbable which if action enablesclimb will set canclimb to true
                         if (inputControls.jumpButtonPressed) {
                             if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neutralize
@@ -920,7 +920,6 @@ public class GigaGal implements Humanoid {
             groundState = GroundState.AIRBORNE;
             jumpStartTime = TimeUtils.nanoTime();
             canJump = false;
-            fall();
         }
         velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
         float jumpTimeSeconds = Helpers.secondsSince(jumpStartTime);
@@ -932,6 +931,8 @@ public class GigaGal implements Humanoid {
             } else if (canSink) {
                 fall(); // causes fall texture to render for one frame
             }
+        } else {
+            fall();
         }
     }
 
@@ -1124,7 +1125,7 @@ public class GigaGal implements Humanoid {
                 }
             } else if (action == Action.RECOILING){
                 region = Assets.getInstance().getGigaGalAssets().recoilRight;
-            } else if (action == Action.FALLING) {
+            } else if (action == Action.FALLING || action == Action.JUMPING) {
                 region = Assets.getInstance().getGigaGalAssets().fallRight;
             }
         } else if (directionX == Direction.LEFT) {
@@ -1162,7 +1163,7 @@ public class GigaGal implements Humanoid {
                 }
             } else if (action == Action.RECOILING) {
                 region = Assets.getInstance().getGigaGalAssets().recoilLeft;
-            } else if (action == Action.FALLING) {
+            } else if (action == Action.FALLING || action == Action.JUMPING) {
                 region = Assets.getInstance().getGigaGalAssets().fallLeft;
             }
         }
