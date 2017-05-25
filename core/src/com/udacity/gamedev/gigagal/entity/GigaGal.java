@@ -272,7 +272,15 @@ public class GigaGal implements Humanoid {
                                 onClimbable = true;
                             }
                         }
-                        if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
+                        if (ground instanceof Sinkable) {
+                            setAtopGround(ground);
+                            onSinkable = true;
+                            canDash = false;
+                            canHover = false;
+                            canClimb = false;
+                            lookStartTime = 0;
+                            lookTimeSeconds = 0;
+                        } else if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
                             touchGroundTop(ground);
                             canCling = false; // deactivate cling if ground is not dense
                         }
@@ -407,22 +415,6 @@ public class GigaGal implements Humanoid {
                 Random xKnockback = new Random();
                 velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
                 recoil(velocity);
-            }
-        }
-    }
-
-    private void touchDescendableGround(Ground ground) {
-        if (ground instanceof Sinkable) {
-            setAtopGround(ground);
-            onSinkable = true;
-            canDash = false;
-            canHover = false;
-            canClimb = false;
-            lookStartTime = 0;
-            lookTimeSeconds = 0;
-        } else if (ground instanceof Transport) {
-            if ((position.dst(ground.getPosition()) < (Constants.TELEPORT_CENTER.x + getHalfWidth())) && inputControls.jumpButtonPressed) {
-                position.set(((Teleport) ground).getDestination());
             }
         }
     }
