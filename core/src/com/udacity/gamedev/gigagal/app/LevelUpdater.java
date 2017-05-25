@@ -144,8 +144,8 @@ public class LevelUpdater {
         transports.begin();
         for (int i = 0; i < transports.size; i++) {
             Transport transport = (Transport) transports.get(i);
-            if (transport instanceof Portal) {
-                if (GigaGal.getInstance().getPosition().dst(transports.get(i).getPosition()) < Constants.PORTAL_RADIUS && InputControls.getInstance().upButtonPressed && InputControls.getInstance().jumpButtonJustPressed) {
+            if (GigaGal.getInstance().getPosition().dst(transports.get(i).getPosition()) < transport.getWidth() / 2 && InputControls.getInstance().upButtonPressed && InputControls.getInstance().jumpButtonJustPressed) {
+                if (transport instanceof Portal) {
                     Assets.getInstance().getSoundAssets().life.play();
                     int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
                     List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
@@ -171,9 +171,7 @@ public class LevelUpdater {
 
                     savedTime = time;
                     savedScore = score;
-                }
-            } else if (transport instanceof Teleport) {
-                if ((GigaGal.getInstance().getPosition().dst(transport.getPosition()) < Constants.TELEPORT_CENTER.x && InputControls.getInstance().jumpButtonPressed)) {
+                } else if (transport instanceof Teleport) {
                     GigaGal.getInstance().getPosition().set(transport.getDestination());
                 }
             }
