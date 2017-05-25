@@ -142,10 +142,17 @@ public class LevelUpdater {
         
         // Update Restore Points
         transports.begin();
+        float nonPortals = 0;
         for (int i = 0; i < transports.size; i++) {
             Transport transport = (Transport) transports.get(i);
             if (GigaGal.getInstance().getPosition().dst(transports.get(i).getPosition()) < transport.getWidth() / 2 && InputControls.getInstance().upButtonPressed && InputControls.getInstance().jumpButtonJustPressed) {
                 if (transport instanceof Portal) {
+                    int portalIndex = i;
+                    for (int j = 0; j <= i; j++) {
+                        if (!(transports.get(j) instanceof Portal)) {
+                            portalIndex++;
+                        }
+                    }
                     Assets.getInstance().getSoundAssets().life.play();
                     int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
                     List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
@@ -154,8 +161,8 @@ public class LevelUpdater {
                     List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
                     int restores = Integer.parseInt(allRestores.get(level));
                     if (restores == 0) {
-                        allRestores.set(level, Integer.toString(i + 1));
-                    } else if (restores != (i + 1)) {
+                        allRestores.set(level, Integer.toString(portalIndex + 1));
+                    } else if (restores != (portalIndex + 1)) {
                         allRestores.set(level, Integer.toString(3));
                     }
                     allTimes.set(level, Long.toString(time));
