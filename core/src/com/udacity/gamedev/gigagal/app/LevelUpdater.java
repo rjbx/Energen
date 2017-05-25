@@ -19,6 +19,8 @@ import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Powerup;
 import com.udacity.gamedev.gigagal.entity.Swoopa;
+import com.udacity.gamedev.gigagal.entity.Teleport;
+import com.udacity.gamedev.gigagal.entity.Transport;
 import com.udacity.gamedev.gigagal.entity.Vines;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -44,7 +46,7 @@ public class LevelUpdater {
     private float cannonOffset;
     private long cannonStartTime;
     private Backdrop backdrop;
-    private DelayedRemovalArray<Portal> portals;
+    private DelayedRemovalArray<Transport> transports;
     private DelayedRemovalArray<Hazard> hazards;
     private DelayedRemovalArray<Ground> grounds;
     private DelayedRemovalArray<Impact> impacts;
@@ -73,7 +75,7 @@ public class LevelUpdater {
         hazards = new DelayedRemovalArray<Hazard>();
         impacts = new DelayedRemovalArray<Impact>();
         powerups = new DelayedRemovalArray<Powerup>();
-        portals = new DelayedRemovalArray<Portal>();
+        transports = new DelayedRemovalArray<Transport>();
         loadEx = false;
         runEx = false;
         musicEnabled = false;
@@ -102,8 +104,8 @@ public class LevelUpdater {
             }
         }
 
-        for (Portal portal : portals) {
-            portal.render(batch, viewport);
+        for (Transport transport : transports) {
+            transport.render(batch, viewport);
         }
 
         for (Powerup powerup : powerups) {
@@ -139,37 +141,44 @@ public class LevelUpdater {
         time = Timer.getInstance().getNanos();
         
         // Update Restore Points
-        portals.begin();
-        for (int i = 0; i < portals.size; i++) {
-            if (GigaGal.getInstance().getPosition().dst(portals.get(i).getPosition()) < Constants.PORTAL_RADIUS && InputControls.getInstance().upButtonPressed && InputControls.getInstance().jumpButtonJustPressed) {
-                Assets.getInstance().getSoundAssets().life.play();
-                int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
-                List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
-                List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
-                List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
-                List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
-                int restores = Integer.parseInt(allRestores.get(level));
-                if (restores == 0) {
-                    allRestores.set(level, Integer.toString(i + 1));
-                } else if (restores != (i + 1)) {
-                    allRestores.set(level, Integer.toString(3));
+        transports.begin();
+        for (int i = 0; i < transports.size; i++) {
+            Transport transport = (Transport) transports.get(i);
+            if (transport instanceof Portal) {
+                if (GigaGal.getInstance().getPosition().dst(transports.get(i).getPosition()) < Constants.PORTAL_RADIUS && InputControls.getInstance().upButtonPressed && InputControls.getInstance().jumpButtonJustPressed) {
+                    Assets.getInstance().getSoundAssets().life.play();
+                    int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
+                    List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
+                    List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
+                    List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
+                    List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
+                    int restores = Integer.parseInt(allRestores.get(level));
+                    if (restores == 0) {
+                        allRestores.set(level, Integer.toString(i + 1));
+                    } else if (restores != (i + 1)) {
+                        allRestores.set(level, Integer.toString(3));
+                    }
+                    allTimes.set(level, Long.toString(time));
+                    allScores.set(level, Integer.toString(score));
+                    allRemovals.set(level, removedHazards);
+                    SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
+                    SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
+                    SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
+                    SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
+
+                    SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
+                    SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
+
+                    savedTime = time;
+                    savedScore = score;
                 }
-                allTimes.set(level, Long.toString(time));
-                allScores.set(level, Integer.toString(score));
-                allRemovals.set(level, removedHazards);
-                SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
-                SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
-                SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
-                SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
-
-                SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
-                SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
-
-                savedTime = time;
-                savedScore = score;
+            } else if (transport instanceof Teleport) {
+                if ((GigaGal.getInstance().getPosition().dst(transport.getPosition()) < Constants.TELEPORT_CENTER.x && InputControls.getInstance().jumpButtonPressed)) {
+                    GigaGal.getInstance().getPosition().set(transport.getDestination());
+                }
             }
         }
-        portals.end();
+        transports.end();
 
         // Update Grounds
         grounds.begin();
@@ -302,7 +311,7 @@ public class LevelUpdater {
         grounds.clear();
         impacts.clear();
         powerups.clear();
-        portals.clear();
+        transports.clear();
     }
 
 
@@ -405,7 +414,7 @@ public class LevelUpdater {
         return false;
     }
 
-    protected boolean completed() { return GigaGal.getInstance().getPosition().dst(portals.get(portals.size - 1).getPosition()) < Constants.PORTAL_RADIUS; }
+    protected boolean completed() { return GigaGal.getInstance().getPosition().dst(transports.get(transports.size - 1).getPosition()) < Constants.PORTAL_RADIUS; }
 
     protected boolean continuing() { return !(completed() || failed()); }
 
@@ -431,7 +440,7 @@ public class LevelUpdater {
     public final DelayedRemovalArray<Impact> getImpacts() { return impacts; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
     public final Viewport getViewport() { return viewport; }
-    public final DelayedRemovalArray<Portal> getPortals() { return portals; }
+    public final DelayedRemovalArray<Transport> getTransports() { return transports; }
     public final GigaGal getGigaGal() { return GigaGal.getInstance(); }
     public final Enums.Material getType() { return levelWeapon; }
     protected Enums.Theme getLevel() { return level; }

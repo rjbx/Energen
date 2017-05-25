@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Teleport implements Transportable, Descendable, Ground {
+public class Teleport implements Transport {
     
     private Vector2 position;
     private Vector2 destination;
@@ -33,7 +33,6 @@ public class Teleport implements Transportable, Descendable, Ground {
     @Override public final float getRight() { return position.x + Constants.TELEPORT_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.TELEPORT_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.TELEPORT_CENTER.y; }
-    @Override public final boolean isDense() { return false; }
     @Override public final Vector2 getDestination() { return destination; }
     @Override public Pole clone() { return new Pole(position); }
 }

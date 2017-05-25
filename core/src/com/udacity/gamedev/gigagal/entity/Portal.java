@@ -9,16 +9,18 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
-public final class Portal implements Physical, Visible {
+public final class Portal implements Transport {
 
     // fields
     public final static String TAG = Portal.class.getName();
     private final Vector2 position;
+    private final Vector2 destination;
     private final long startTime;
 
     //ctor
     public Portal(Vector2 position) {
         this.position = position;
+        this.destination = position;
         startTime = TimeUtils.nanoTime();
     }
 
@@ -27,7 +29,8 @@ public final class Portal implements Physical, Visible {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getPortalAssets().portal.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.PORTAL_CENTER);
     }
 
-    public final Vector2 getPosition() { return position; }
+    @Override public final Vector2 getPosition() { return position; }
+    @Override public final Vector2 getDestination() { return destination; }
     @Override public final float getHeight() { return Constants.PORTAL_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.PORTAL_CENTER.x * 2; }
     @Override public final float getLeft() { return position.x - Constants.PORTAL_CENTER.x; }
