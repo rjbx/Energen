@@ -220,6 +220,7 @@ public class GigaGal implements Humanoid {
                 enableShoot(weapon);
             } else if (action == Action.JUMPING) {
                 enableJump();
+                enableClimb();
                 enableCling();
                 enableShoot(weapon);
             } else if (action == Action.HOVERING) {
@@ -431,12 +432,12 @@ public class GigaGal implements Humanoid {
         clingStartTime = 0;
         canLook = true;
         canHover = false;
-        if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
-            stand(); // set groundstate to standing
-            lookStartTime = 0;
-        } else if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+        if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
             canJump = true;
             jump();
+        } else if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
+            stand(); // set groundstate to stan\ing
+            lookStartTime = 0;
         } else if (action == Action.CLIMBING && !(ground instanceof Climbable)) {
             stand();
         }
@@ -469,6 +470,8 @@ public class GigaGal implements Humanoid {
                 if (destructible.getHealth() < 1) {
                     fall();
                 }
+            } else if (action == Action.JUMPING) {
+                fall();
             }
         }
     }
@@ -907,7 +910,7 @@ public class GigaGal implements Humanoid {
 
     private void enableJump() {
         if (canJump) {
-            if ((inputControls.jumpButtonJustPressed || action == Action.JUMPING)
+            if ((inputControls.jumpButtonJustPressed && action != Action.JUMPING)
                     && lookStartTime == 0) {
                 jump();
             }
@@ -1125,7 +1128,7 @@ public class GigaGal implements Humanoid {
                 }
             } else if (action == Action.RECOILING){
                 region = Assets.getInstance().getGigaGalAssets().recoilRight;
-            } else if (action == Action.FALLING || action == Action.JUMPING) {
+            } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
                 region = Assets.getInstance().getGigaGalAssets().fallRight;
             }
         } else if (directionX == Direction.LEFT) {
@@ -1163,7 +1166,7 @@ public class GigaGal implements Humanoid {
                 }
             } else if (action == Action.RECOILING) {
                 region = Assets.getInstance().getGigaGalAssets().recoilLeft;
-            } else if (action == Action.FALLING || action == Action.JUMPING) {
+            } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
                 region = Assets.getInstance().getGigaGalAssets().fallLeft;
             }
         }
