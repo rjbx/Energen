@@ -57,13 +57,14 @@ public class GigaGal implements Humanoid {
     private Material weapon;
     private List<Material> weaponList; // class-level instantiation
     private ListIterator<Material> weaponToggler; // class-level instantiation
-    private boolean canClimb;
+    private boolean onClimbable;
     private boolean canShoot;
     private boolean canLook;
     private boolean canDash;
     private boolean canJump;
     private boolean canHover;
     private boolean canCling;
+    private boolean canClimb;
     private boolean canStride;
     private boolean canSink;
     private boolean canGrasp;
@@ -164,6 +165,7 @@ public class GigaGal implements Humanoid {
         canHover = false;
         canCling = false;
         canShoot = true;
+        onClimbable = false;
         canSink = false;
         chargeStartTime = 0;
         strideStartTime = 0;
@@ -180,7 +182,7 @@ public class GigaGal implements Humanoid {
         position.mulAdd(velocity, delta);
         setBounds();
 
-        // collision detectionwww
+        // collision detection
         touchGround(level.getGrounds());
         touchHazards(level.getHazards());
         touchPowerups(level.getPowerups());
@@ -261,24 +263,28 @@ public class GigaGal implements Humanoid {
                     touchGroundTop(ground);
                 } else { // for non-dense grounds:
                     canCling = false; // prevent from clinging to non dense grounds
-
+                    if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
+                        touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                    }
                     if (ground instanceof Climbable) {
-                        if (Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())
-                        && (getTop() > ground.getBottom())) { // when overlapping all but top, set onclimbable which if action enablesclimb will set canclimb to true
-                            canClimb = true;
+                    // when overlapping all but top, set onclimbable which if action enablesclimb will set canclimb to true
+                        if (inputControls.jumpButtonPressed) {
+                            if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neutralize
+                                canLook = false; // prevents look from overriding climb
+                                canClimb = true; // enables climb handling from handleY()
+                            }
+                        } else {
+                            canLook = true; // enables look when engaging climbable but not actively climbing
+                            canClimb  = false; // prevents climb initiation when jumpbutton released
                         }
                     } else if (ground instanceof Sinkable) {
                         setAtopGround(ground); // when any kind of collision detected and not only when breaking plane of ground.top
                         canSink = true;
                         canDash = false;
                         canHover = false;
-                        climbStartTime = 0;
+                        canClimb = false;
                         lookStartTime = 0;
                         lookTimeSeconds = 0;
-                    }
-
-                    if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
-                        touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                     }
                 }
                 // if below minimum ground distance while descending excluding post-cling, disable cling and hover
@@ -615,7 +621,7 @@ public class GigaGal implements Humanoid {
                 }
             }
         } else if (action == Action.CLIMBING) {
-            if (climbStartTime != 0) {
+            if (canClimb) {
                 if (inputtingX) {
                     velocity.y = 0;
                     canHover = false;
@@ -645,7 +651,7 @@ public class GigaGal implements Humanoid {
                     velocity.y *= 5;
                 }
             }
-            if (canLook && climbStartTime == 0) {
+            if (canLook && !canClimb) {
                 canStride = false;
                 if (inputControls.jumpButtonJustPressed && !canCling) {
                     toggleWeapon(directionY);
@@ -658,7 +664,7 @@ public class GigaGal implements Humanoid {
             chaseCamPosition.set(position, 0);
             lookStartTime = 0;
         }
-        if (climbStartTime != 0) {
+        if (canClimb) {
             if (inputtingY) {
                 velocity.x = 0;
                 canHover = false;
@@ -722,7 +728,7 @@ public class GigaGal implements Humanoid {
         }
         action = Action.STANDING;
         groundState = GroundState.PLANTED;
-        if (climbStartTime == 0) {
+        if (!canClimb) {
             canJump = true;
             handleYInputs(); // disabled when canclimb to prevent look from overriding climb
         } else {
@@ -803,7 +809,6 @@ public class GigaGal implements Humanoid {
                 this.shotIntensity = ShotIntensity.NORMAL;
             }
         }
-
     }
 
     public void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
@@ -1038,16 +1043,8 @@ public class GigaGal implements Humanoid {
 
     private void enableClimb() {
         if (canClimb) {
-            if (inputControls.jumpButtonPressed) {
-                if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neutralize
-                    canLook = false; // prevents look from overriding climb
-                    if (climbStartTime == 0) {
-                        climbStartTime = TimeUtils.nanoTime(); // enables climb handling from handleY()
-                    }
-                }
-            } else {
-                canLook = true; // enables look when engaging climbable but not actively climbing
-                climbStartTime = 0; // prevents climb initiation when jumpbutton released
+            if (climbStartTime == 0) {
+                climbStartTime = TimeUtils.nanoTime();
             }
             handleXInputs(); // enables change of x direction for shooting left or right
             handleYInputs(); // enables change of y direction for looking and climbing up or down
@@ -1058,6 +1055,7 @@ public class GigaGal implements Humanoid {
                     velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
                 }
             }
+            canClimb = false;
             climbStartTime = 0;
         }
     }
@@ -1065,13 +1063,13 @@ public class GigaGal implements Humanoid {
     private void climb(Orientation orientation) {
         if (canClimb) { // onclimbable set to false from handleYinputs() if double tapping down
             if (action != Action.CLIMBING) { // at the time of climb initiation
-                dashStartTime = 0; // overrides assignment of current time preventing nanotime - dashStartTime < doubletapspeed on next handleY() call
+                climbStartTime = 0; // overrides assignment of current time preventing nanotime - climbstarttime < doubletapspeed on next handleY() call
                 groundState = GroundState.PLANTED;
                 action = Action.CLIMBING;
             }
             canHover = false;
-            dashTimeSeconds = Helpers.secondsSince(dashStartTime);
             climbTimeSeconds = Helpers.secondsSince(climbStartTime);
+            dashTimeSeconds = Helpers.secondsSince(dashStartTime);
             if (orientation == Orientation.X) {
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
             } else if (orientation == Orientation.Y) {
@@ -1087,6 +1085,7 @@ public class GigaGal implements Humanoid {
             climbStartTime = 0;
             climbTimeSeconds = 0;
             dashTimeSeconds = 0;
+            canClimb = false;
             fall();
         }
     }
@@ -1191,7 +1190,7 @@ public class GigaGal implements Humanoid {
     @Override public final boolean getHoverStatus() { return canHover; }
     @Override public final boolean getClingStatus() { return canCling; }
     @Override public final boolean getDashStatus() { return canDash; }
-    @Override public final boolean getClimbStatus() { return climbTimeSeconds == 0; }
+    @Override public final boolean getClimbStatus() { return canClimb; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }
     @Override public final Enums.Action getAction() { return action; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
