@@ -455,10 +455,8 @@ public class GigaGal implements Humanoid {
         } else if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
             canJump = true;
             jump();
-        }
-        if (ground instanceof Climbable) {
-            velocity.y = 0; // prevents from descending beneath ground top
-            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+        } else if (action == Action.CLIMBING && !(ground instanceof Climbable)) {
+            stand();
         }
     }
 
