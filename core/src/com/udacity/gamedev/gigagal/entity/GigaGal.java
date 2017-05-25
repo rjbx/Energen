@@ -475,8 +475,6 @@ public class GigaGal implements Humanoid {
                 if (destructible.getHealth() < 1) {
                     fall();
                 }
-            } else if (action == Action.JUMPING) {
-                fall();
             }
         }
     }
@@ -934,7 +932,7 @@ public class GigaGal implements Humanoid {
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         if (touchedGround instanceof Reboundable) {
             velocity.y *= 2;
-        } else if (canSink) {
+        } else {
             fall(); // causes fall texture to render for one frame
         }
     }
