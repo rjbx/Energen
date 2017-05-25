@@ -57,17 +57,16 @@ public class GigaGal implements Humanoid {
     private Material weapon;
     private List<Material> weaponList; // class-level instantiation
     private ListIterator<Material> weaponToggler; // class-level instantiation
-    private boolean onClimbable;
-    private boolean onSinkable;
+    private boolean canClimb;
     private boolean canShoot;
     private boolean canLook;
     private boolean canDash;
     private boolean canJump;
     private boolean canHover;
     private boolean canCling;
-    private boolean canClimb;
-    private boolean canGrasp;
     private boolean canStride;
+    private boolean canSink;
+    private boolean canGrasp;
     private long chargeStartTime;
     private long lookStartTime;
     private long jumpStartTime;
@@ -79,6 +78,7 @@ public class GigaGal implements Humanoid {
     private long recoveryStartTime;
     private float chargeTimeSeconds;
     private float lookTimeSeconds;
+    private float dashTimeSeconds;
     private float hoverTimeSeconds;
     private float climbTimeSeconds;
     private float strideTimeSeconds;
@@ -164,8 +164,7 @@ public class GigaGal implements Humanoid {
         canHover = false;
         canCling = false;
         canShoot = true;
-        onClimbable = false;
-        onSinkable = false;
+        canSink = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         climbStartTime = 0;
@@ -181,7 +180,7 @@ public class GigaGal implements Humanoid {
         position.mulAdd(velocity, delta);
         setBounds();
 
-        // collision detection
+        // collision detectionwww
         touchGround(level.getGrounds());
         touchHazards(level.getHazards());
         touchPowerups(level.getPowerups());
@@ -253,51 +252,46 @@ public class GigaGal implements Humanoid {
     }
 
     private void touchGround(DelayedRemovalArray<Ground> grounds) {
-        onClimbable = false;
-        onSinkable = false;
+        canClimb = false;
         for (Ground ground : grounds) {
-            // if currently within ground left and right sides
-            if (Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
-                // apply following rules (bump side and bottom) only if ground is dense
-                // non-dense grounds only apply collision detection on top, and not on sides and bottom as do grounds
-                if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
-                    if (ground.isDense()) { // for dense grounds, apply side, bottom collision and top collision
-                        touchGroundBottom(ground);
-                        touchGroundSide(ground);
-                        touchGroundTop(ground);
-                    } else { // for non-dense grounds:
-                        if (ground instanceof Climbable
-                            && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
-                            if (getTop() > ground.getBottom()) { // when overlapping all but top, set onclimbable which if action enablesclimb will set canclimb to true
-                                onClimbable = true;
-                            }
+            if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundries
+                if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collision
+                    touchGroundBottom(ground);
+                    touchGroundSide(ground);
+                    touchGroundTop(ground);
+                } else { // for non-dense grounds:
+                    canCling = false; // prevent from clinging to non dense grounds
+
+                    if (ground instanceof Climbable) {
+                        if (Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())
+                        && (getTop() > ground.getBottom())) { // when overlapping all but top, set onclimbable which if action enablesclimb will set canclimb to true
+                            canClimb = true;
                         }
-                        if (ground instanceof Sinkable) {
-                            setAtopGround(ground);
-                            onSinkable = true;
-                            canDash = false;
-                            canHover = false;
-                            canClimb = false;
-                            lookStartTime = 0;
-                            lookTimeSeconds = 0;
-                        } else if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
-                            touchGroundTop(ground);
-                            canCling = false; // deactivate cling if ground is not dense
-                        }
+                    } else if (ground instanceof Sinkable) {
+                        setAtopGround(ground); // when any kind of collision detected and not only when breaking plane of ground.top
+                        canSink = true;
+                        canDash = false;
+                        canHover = false;
+                        climbStartTime = 0;
+                        lookStartTime = 0;
+                        lookTimeSeconds = 0;
                     }
-                    // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
-                    // if below minimum ground distance while descending excluding post-cling, disable cling and hover
-                    // caution when crossing plane between ground top and minimum hover height / ground distance
-                    // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
-                    if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
-                            && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
-                            && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
-                            && clingStartTime == 0 // only if have not clinged since last grounded
-                            && !(ground instanceof Cannon) // only if ground is not instance of cannon
-                            ) {
-                        canCling = false; // disables cling
-                        canHover = false; // disables hover
+
+                    if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
+                        touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                     }
+                }
+                // if below minimum ground distance while descending excluding post-cling, disable cling and hover
+                // caution when crossing plane between ground top and minimum hover height / ground distance
+                // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
+                if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
+                        && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
+                        && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
+                        && clingStartTime == 0 // only if have not clinged since last grounded
+                        && !(ground instanceof Cannon) // only if ground is not instance of cannon
+                        ) {
+                    canCling = false; // disables cling
+                    canHover = false; // disables hover
                 }
             } else if (ground instanceof Reboundable) {
                 Reboundable reboundable = (Reboundable) ground;
@@ -381,15 +375,18 @@ public class GigaGal implements Humanoid {
         }
     }
 
+    // applicable to all dense grounds as well as non-sinkables when not climbing downward
     private void touchGroundTop(Ground ground) {
         // if contact with ground top detected, halt downward progression and set gigagal atop ground
-        if ((getBottom() <= ground.getTop()
-                && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop()))) // distinguishes when touching two different grounds and permits uninterrupted striding atop
-                && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
+        if (getBottom() <= ground.getTop() && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) // when breaking ground top plane
+                && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop()))) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
+
             velocity.y = 0; // prevents from descending beneath ground top
             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
-            setAtopGround(ground);
 
+            setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
+
+            // additional ground top collision instructions specific to certain types of grounds
             if (ground instanceof Skateable) {
                 if (groundState == GroundState.AIRBORNE) {
                     stand(); // set groundstate to standing
@@ -419,6 +416,7 @@ public class GigaGal implements Humanoid {
         }
     }
 
+    // basic ground top collision instructions; applicable to sinkables even when previousframe.x < ground.top
     private void setAtopGround(Ground ground) {
         touchedGround = ground;
         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
@@ -429,7 +427,7 @@ public class GigaGal implements Humanoid {
         if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
             stand(); // set groundstate to standing
             lookStartTime = 0;
-        } else if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+        } else if (climbStartTime != 0 && !inputControls.jumpButtonPressed && action == Action.STANDING) {
             canJump = true;
             jump();
         } else if (action == Action.CLIMBING && !(ground instanceof Climbable)) {
@@ -452,7 +450,7 @@ public class GigaGal implements Humanoid {
                 canCling = false;
                 fall();
             } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
-                onSinkable = false;
+                canSink = false;
                 lookTimeSeconds = 0;
                 lookStartTime = 0;
                 if (action != Action.CLINGING) {
@@ -596,7 +594,7 @@ public class GigaGal implements Humanoid {
                                 canStride = true;
                             } else if (Helpers.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
                                 strideStartTime = 0;
-                            } else if (!onSinkable){
+                            } else if (!canSink){
                                 canDash = true;
                             } else {
                                 canDash = false;
@@ -617,7 +615,7 @@ public class GigaGal implements Humanoid {
                 }
             }
         } else if (action == Action.CLIMBING) {
-            if (canClimb) {
+            if (climbStartTime != 0) {
                 if (inputtingX) {
                     velocity.y = 0;
                     canHover = false;
@@ -643,11 +641,11 @@ public class GigaGal implements Humanoid {
                 directionChanged = Helpers.changeDirection(this, Direction.UP, Orientation.Y);
             }
             if (directionY == Direction.DOWN) {
-                if (onSinkable) {
+                if (canSink) {
                     velocity.y *= 5;
                 }
             }
-            if (canLook && !canClimb) {
+            if (canLook && climbStartTime == 0) {
                 canStride = false;
                 if (inputControls.jumpButtonJustPressed && !canCling) {
                     toggleWeapon(directionY);
@@ -660,25 +658,25 @@ public class GigaGal implements Humanoid {
             chaseCamPosition.set(position, 0);
             lookStartTime = 0;
         }
-        if (canClimb) {
+        if (climbStartTime != 0) {
             if (inputtingY) {
                 velocity.x = 0;
                 canHover = false;
                 if (lookStartTime == 0) {
                     if (inputControls.jumpButtonPressed) {
                         // double tap handling while climbing
-                        if (climbTimeSeconds == 0) {  // if directional released
+                        if (dashTimeSeconds == 0) {  // if directional released
                             if (!directionChanged) { // if tapping in same direction
                                 // if difference between current time and previous tap start time is less than double tap speed
-                                if (((TimeUtils.nanoTime() - climbStartTime) * MathUtils.nanoToSec) < Constants.DOUBLE_TAP_SPEED) {
+                                if (((TimeUtils.nanoTime() - dashStartTime) * MathUtils.nanoToSec) < Constants.DOUBLE_TAP_SPEED) {
                                     if (directionY == Direction.UP) { // enable increased ascension speed
                                         canDash = true; // checks can dash after calling climb() to apply speed boost
                                     } else if (directionY == Direction.DOWN) { // drop down from climbable (drop handled from climb())
                                         lookStartTime = TimeUtils.nanoTime(); // prevents from reengaging climbable from enableclimb() while falling
-                                        onClimbable = false; // meets requirement within climb() to disable climb and enable fall
+                                        canClimb = false; // meets requirement within climb() to disable climb and enable fall
                                     }
                                 }
-                                climbStartTime = TimeUtils.nanoTime(); // replace climb start time with that of most recent tap
+                                dashStartTime = TimeUtils.nanoTime(); // replace climb start time with that of most recent tap
                             }
                         }
                         if (touchedGround instanceof Climbable) {
@@ -697,7 +695,7 @@ public class GigaGal implements Humanoid {
                     }
                 }
             } else {
-                climbTimeSeconds = 0; // indicates release of directional for enabling double tap
+                dashTimeSeconds = 0; // indicates release of directional for enabling double tap
                 canDash = false; // reset dash when direction released
             }
         }
@@ -724,7 +722,7 @@ public class GigaGal implements Humanoid {
         }
         action = Action.STANDING;
         groundState = GroundState.PLANTED;
-        if (!canClimb) {
+        if (climbStartTime == 0) {
             canJump = true;
             handleYInputs(); // disabled when canclimb to prevent look from overriding climb
         } else {
@@ -756,6 +754,7 @@ public class GigaGal implements Humanoid {
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.FALL_TURBO_INCREMENT;
         }
+        canSink = false;
     }
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
@@ -862,7 +861,7 @@ public class GigaGal implements Humanoid {
             velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rideable) touchedGround).getDirection(), Orientation.X);
         } else if (touchedGround instanceof Skateable) {
             velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
-        } else if (onSinkable) {
+        } else if (canSink) {
             velocity.x = Helpers.absoluteToDirectionalValue(10, directionX, Orientation.X);
             velocity.y = -3;
         }
@@ -922,7 +921,7 @@ public class GigaGal implements Humanoid {
             velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
             if (touchedGround instanceof Reboundable) {
                 velocity.y *= 2;
-            } else if (onSinkable) {
+            } else if (canSink) {
                 fall(); // causes fall texture to render for one frame
             }
         } else {
@@ -1038,15 +1037,17 @@ public class GigaGal implements Humanoid {
     }
 
     private void enableClimb() {
-        if (onClimbable) {
+        if (canClimb) {
             if (inputControls.jumpButtonPressed) {
                 if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neutralize
                     canLook = false; // prevents look from overriding climb
-                    canClimb = true; // enables climb handling from handleY()
+                    if (climbStartTime == 0) {
+                        climbStartTime = TimeUtils.nanoTime(); // enables climb handling from handleY()
+                    }
                 }
             } else {
                 canLook = true; // enables look when engaging climbable but not actively climbing
-                canClimb  = false; // prevents climb initiation when jumpbutton released
+                climbStartTime = 0; // prevents climb initiation when jumpbutton released
             }
             handleXInputs(); // enables change of x direction for shooting left or right
             handleYInputs(); // enables change of y direction for looking and climbing up or down
@@ -1057,18 +1058,19 @@ public class GigaGal implements Humanoid {
                     velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
                 }
             }
-            canClimb = false;
+            climbStartTime = 0;
         }
     }
 
     private void climb(Orientation orientation) {
-        if (onClimbable) { // onclimbable set to false from handleYinputs() if double tapping down
+        if (canClimb) { // onclimbable set to false from handleYinputs() if double tapping down
             if (action != Action.CLIMBING) { // at the time of climb initiation
-                climbStartTime = 0; // overrides assignment of current time preventing nanotime - climbstarttime < doubletapspeed on next handleY() call
+                dashStartTime = 0; // overrides assignment of current time preventing nanotime - dashStartTime < doubletapspeed on next handleY() call
                 groundState = GroundState.PLANTED;
                 action = Action.CLIMBING;
             }
             canHover = false;
+            dashTimeSeconds = Helpers.secondsSince(dashStartTime);
             climbTimeSeconds = Helpers.secondsSince(climbStartTime);
             if (orientation == Orientation.X) {
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
@@ -1084,7 +1086,7 @@ public class GigaGal implements Humanoid {
         } else { // if double tapping down, fall from climbable
             climbStartTime = 0;
             climbTimeSeconds = 0;
-            canClimb = false;
+            dashTimeSeconds = 0;
             fall();
         }
     }
@@ -1189,7 +1191,7 @@ public class GigaGal implements Humanoid {
     @Override public final boolean getHoverStatus() { return canHover; }
     @Override public final boolean getClingStatus() { return canCling; }
     @Override public final boolean getDashStatus() { return canDash; }
-    @Override public final boolean getClimbStatus() { return canClimb; }
+    @Override public final boolean getClimbStatus() { return climbTimeSeconds == 0; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }
     @Override public final Enums.Action getAction() { return action; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }

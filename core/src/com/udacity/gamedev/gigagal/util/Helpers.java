@@ -15,6 +15,8 @@ import com.udacity.gamedev.gigagal.entity.MultidirectionalX;
 import com.udacity.gamedev.gigagal.entity.MultidirectionalY;
 import com.udacity.gamedev.gigagal.entity.Multidirectional;
 import com.udacity.gamedev.gigagal.entity.Orben;
+import com.udacity.gamedev.gigagal.entity.Physical;
+
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import java.util.List;
 
@@ -201,6 +203,10 @@ public final class Helpers {
 
     public static final boolean encompassedBetweenFourSides(Vector2 position, float halfWidth, float halfHeight, float left, float right, float bottom, float top) {
         return (encompassedBetweenTwoSides(position.x, halfWidth, left, right) && encompassedBetweenTwoSides(position.y, halfHeight, bottom, top));
+    }
+
+    public static final boolean overlapsPhysicalObject(Physical object1, Physical object2) {
+        return (object1.getLeft() <= object2.getRight() && object1.getRight() >= object2.getLeft() && object1.getBottom() <= object2.getTop() && object1.getTop() >= object2.getBottom());
     }
 
     public static final int useAmmo(Enums.ShotIntensity intensity) {
