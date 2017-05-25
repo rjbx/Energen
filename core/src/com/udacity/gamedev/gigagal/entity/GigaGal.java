@@ -306,12 +306,6 @@ public class GigaGal implements Humanoid {
                     canCling = false; // disables cling
                     canHover = false; // disables hover
                 }
-            } else if (ground instanceof Reboundable) {
-                Reboundable reboundable = (Reboundable) ground;
-                if (reboundable.getState() && !(reboundable instanceof Button)) {
-                    reboundable.resetStartTime();
-                    reboundable.setState(false);
-                }
             }
             untouchGround();
         }
@@ -450,30 +444,39 @@ public class GigaGal implements Humanoid {
 
     private void untouchGround() {
         if (touchedGround != null && action != Action.HOVERING) {
-            if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
-                /*(!Helpers.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
+            if (!Helpers.overlapsPhysicalObject(this, touchedGround)) {
                 if (touchedGround instanceof Reboundable) {
                     Reboundable reboundable = (Reboundable) touchedGround;
-                    reboundable.resetStartTime();
-                    reboundable.setState(false);
+                    if (reboundable.getState() && !(reboundable instanceof Button)) {
+                        reboundable.resetStartTime();
+                        reboundable.setState(false);
+                    }
                 }
-                if (action == Action.CLINGING) {
-                    velocity.x = 0; // prevents falling with backward momentum after cling-sliding down platform side through its bottom
-                }
-                canClimb = false;
-                canCling = false;
-                fall();
-            } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
-                canSink = false;
-                lookTimeSeconds = 0;
-                lookStartTime = 0;
-                if (action != Action.CLINGING) {
+                if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
+                /*(!Helpers.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */ {
+                    if (touchedGround instanceof Reboundable) {
+                        Reboundable reboundable = (Reboundable) touchedGround;
+                        reboundable.resetStartTime();
+                        reboundable.setState(false);
+                    }
+                    if (action == Action.CLINGING) {
+                        velocity.x = 0; // prevents falling with backward momentum after cling-sliding down platform side through its bottom
+                    }
+                    canClimb = false;
+                    canCling = false;
                     fall();
-                }
-            } else if (touchedGround instanceof Destructible) {
-                Destructible destructible = (Destructible) touchedGround;
-                if (destructible.getHealth() < 1) {
-                    fall();
+                } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
+                    canSink = false;
+                    lookTimeSeconds = 0;
+                    lookStartTime = 0;
+                    if (action != Action.CLINGING) {
+                        fall();
+                    }
+                } else if (touchedGround instanceof Destructible) {
+                    Destructible destructible = (Destructible) touchedGround;
+                    if (destructible.getHealth() < 1) {
+                        fall();
+                    }
                 }
             }
         }
