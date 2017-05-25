@@ -264,7 +264,6 @@ public class GigaGal implements Humanoid {
                 } else { // for non-dense grounds:
                     canCling = false; // prevent from clinging to non dense grounds
 
-
                     // additional ground collision instructions specific to certain types of grounds
                     if (ground instanceof Climbable) {
                         touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
@@ -290,7 +289,9 @@ public class GigaGal implements Humanoid {
                         lookStartTime = 0;
                         lookTimeSeconds = 0;
                     } else {
-                        touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                        if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
+                            touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                        }
                     }
                 }
                 // if below minimum ground distance while descending excluding post-cling, disable cling and hover
