@@ -142,9 +142,8 @@ public class LevelUpdater {
         
         // Update Restore Points
         transports.begin();
-        float nonPortals = 0;
         for (int i = 0; i < transports.size; i++) {
-            Transport transport = (Transport) transports.get(i);
+            Transport transport = transports.get(i);
             if (GigaGal.getInstance().getPosition().dst(transports.get(i).getPosition()) < transport.getWidth() / 2 && InputControls.getInstance().upButtonPressed && InputControls.getInstance().jumpButtonJustPressed) {
                 if (transport instanceof Portal) {
                     int portalIndex = i;
