@@ -254,7 +254,6 @@ public class GigaGal implements Humanoid {
     }
 
     private void touchGround(DelayedRemovalArray<Ground> grounds) {
-        canClimb = false;
         for (Ground ground : grounds) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundries
                 if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collision
@@ -267,6 +266,7 @@ public class GigaGal implements Humanoid {
                         touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                     }
                     if (ground instanceof Climbable) {
+                    touchedGround = ground;
                     // when overlapping all but top, set onclimbable which if action enablesclimb will set canclimb to true
                         if (inputControls.jumpButtonPressed) {
                             if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neutralize
@@ -433,7 +433,7 @@ public class GigaGal implements Humanoid {
         if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
             stand(); // set groundstate to standing
             lookStartTime = 0;
-        } else if (climbStartTime != 0 && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+        } else if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
             canJump = true;
             jump();
         } else if (action == Action.CLIMBING && !(ground instanceof Climbable)) {
@@ -453,6 +453,7 @@ public class GigaGal implements Humanoid {
                 if (action == Action.CLINGING) {
                     velocity.x = 0; // prevents falling with backward momentum after cling-sliding down platform side through its bottom
                 }
+                canClimb = false;
                 canCling = false;
                 fall();
             } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
@@ -1043,9 +1044,6 @@ public class GigaGal implements Humanoid {
 
     private void enableClimb() {
         if (canClimb) {
-            if (climbStartTime == 0) {
-                climbStartTime = TimeUtils.nanoTime();
-            }
             handleXInputs(); // enables change of x direction for shooting left or right
             handleYInputs(); // enables change of y direction for looking and climbing up or down
         } else {
@@ -1056,7 +1054,6 @@ public class GigaGal implements Humanoid {
                 }
             }
             canClimb = false;
-            climbStartTime = 0;
         }
     }
 
