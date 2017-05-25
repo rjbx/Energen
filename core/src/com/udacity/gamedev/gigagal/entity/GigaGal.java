@@ -298,11 +298,10 @@ public class GigaGal implements Humanoid {
                 // caution when crossing plane between ground top and minimum hover height / ground distance
                 // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
                 if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
-                        && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
-                        && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
-                        && clingStartTime == 0 // only if have not clinged since last grounded
-                        && !(ground instanceof Cannon) // only if ground is not instance of cannon
-                        ) {
+                    && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
+                    && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
+                    && clingStartTime == 0 // only if have not clinged since last grounded
+                    && !(ground instanceof Cannon)) { // only if ground is not instance of cannon
                     canCling = false; // disables cling
                     canHover = false; // disables hover
                 }
@@ -313,7 +312,8 @@ public class GigaGal implements Humanoid {
 
     private void touchGroundSide(Ground ground) {
         // if during previous frame was not, while currently is, between ground left and right sides
-        if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight()) && (touchedGround == null || touchedGround == ground || touchedGround.getTop() != ground.getTop())) {
+        if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())
+        && (touchedGround == null || touchedGround == ground || touchedGround.getTop() != ground.getTop())) {
             // only when not grounded and not recoiling
             if (groundState != GroundState.PLANTED) {
                 // if x velocity (magnitude, without concern for direction) greater than one third max speed,
@@ -412,6 +412,7 @@ public class GigaGal implements Humanoid {
                     position.y -= 1;
                 }
             } else if (ground instanceof Reboundable) {
+                canClimb = false;
                 Reboundable reboundable = (Reboundable) ground;
                 reboundable.setState(true);
             } else if (ground instanceof Unbearable) {
