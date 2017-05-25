@@ -308,22 +308,14 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 // apply following rules (bump side and bottom) only if ground height > ledge height
                 // ledges only apply collision detection on top, and not on sides and bottom as do grounds
                 if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
-                    // alternate collision handling to allow passing through top of descendables and prevent setting atop as with other grounds
-                    if (!(ground instanceof Descendable)
-                            && (climbTimeSeconds == 0 || touchedGround == null || (touchedGround instanceof Descendable && touchedGround.getBottom() >= ground.getTop()))) {
-                        // ignore ledge side and bottom collision
-                        if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
-                            touchGroundSide(ground);
-                            touchGroundBottom(ground);
-                        } else {
-                            canCling = false; // deactivate cling if ground below max ledge height
-                        }
-                        touchGroundTop(ground);
-                        // alt ground collision for descendables (does not override normal ground collision in order to prevent descending through nondescendable grounds)
-                    } else if (ground instanceof Descendable && (touchedGround == null || touchedGround instanceof Descendable)) {
-                        touchDescendableGround(ground);
+                    if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
+                        touchGroundSide(ground);
+                        touchGroundBottom(ground);
+                    } else {
+                        canCling = false; // deactivate cling if ground below max ledge height
                     }
-                    // if below minimum ground distance while descending excluding post-cling, disable cling and hover
+                    touchGroundTop(ground);
+                   // if below minimum ground distance while descending excluding post-cling, disable cling and hover
                     // caution when crossing plane between ground top and minimum hover height / ground distance
                     // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
                     if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
