@@ -30,7 +30,7 @@ public final class Enums {
         JUMPING,
         TWISTING,
         HOVERING,
-        CLINGING,
+        RAPPELLING,
         RECOILING
     }
 

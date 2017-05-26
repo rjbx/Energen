@@ -242,7 +242,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 enableCling();
                 enableClimb();
                 enableShoot(weapon);
-            } else if (action == Enums.Action.CLINGING) {
+            } else if (action == Enums.Action.RAPPELLING) {
                 enableJump();
                 enableCling();
                 enableShoot(weapon);
@@ -342,7 +342,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 // boost x velocity by starting speed, enable cling, verify rappelling ground and capture rappelling ground boundaries
                 if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
                     // if already clinging, halt x progression
-                    if (action != Enums.Action.CLINGING) {
+                    if (action != Enums.Action.RAPPELLING) {
                         canCling = true; // enable cling
                         touchedGround = ground;
                         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
@@ -508,7 +508,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 onSinkable = false;
                 lookTimeSeconds = 0;
                 lookStartTime = TimeUtils.nanoTime();
-                if (action != Enums.Action.CLINGING) {
+                if (action != Enums.Action.RAPPELLING) {
                     fall();
                 }
             }
@@ -996,7 +996,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
     }
 
     private void enableCling() {
-        if (action == Enums.Action.CLINGING) {
+        if (action == Enums.Action.RAPPELLING) {
             cling();
         } else if (canCling){
             if (!canHover || action == Enums.Action.HOVERING) {
@@ -1011,7 +1011,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
 
     private void cling() {
         if (canCling) {
-            action = Enums.Action.CLINGING;
+            action = Enums.Action.RAPPELLING;
             groundState = Enums.GroundState.AIRBORNE;
             startTurbo = turbo;
             clingStartTime = TimeUtils.nanoTime();
@@ -1125,7 +1125,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 region = Assets.getInstance().getGigaGalAssets().dashRight;
             } else if (action == Enums.Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
-            } else if (action == Enums.Action.CLINGING) {
+            } else if (action == Enums.Action.RAPPELLING) {
                 region = Assets.getInstance().getGigaGalAssets().clingRight;
             } else if (action == Enums.Action.RECOILING){
                 region = Assets.getInstance().getGigaGalAssets().recoilRight;
@@ -1159,7 +1159,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 region = Assets.getInstance().getGigaGalAssets().dashLeft;
             } else if (action == Enums.Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
-            } else if (action == Enums.Action.CLINGING) {
+            } else if (action == Enums.Action.RAPPELLING) {
                 region = Assets.getInstance().getGigaGalAssets().clingLeft;
             } else if (action == Enums.Action.RECOILING) {
                 region = Assets.getInstance().getGigaGalAssets().recoilLeft;

@@ -57,17 +57,17 @@ public class GigaGal implements Humanoid {
     private Material weapon;
     private List<Material> weaponList; // class-level instantiation
     private ListIterator<Material> weaponToggler; // class-level instantiation
-    private boolean onClimbable;
     private boolean canShoot;
     private boolean canLook;
     private boolean canDash;
     private boolean canJump;
     private boolean canHover;
-    private boolean canCling;
+    private boolean canRappel;
     private boolean canClimb;
+    private boolean canCling;
     private boolean canStride;
     private boolean canSink;
-    private boolean canGrasp;
+    private boolean canHurdle;
     private long chargeStartTime;
     private long lookStartTime;
     private long jumpStartTime;
@@ -157,15 +157,15 @@ public class GigaGal implements Humanoid {
         turboDuration = 0;
         touchedGround = null;
         canClimb = false;
-        canGrasp = false;
+        canCling = false;
         canLook = false;
         canStride = false;
         canJump = false;
         canDash = false;
         canHover = false;
-        canCling = false;
+        canRappel = false;
+        canHurdle = false;
         canShoot = true;
-        onClimbable = false;
         canSink = false;
         chargeStartTime = 0;
         strideStartTime = 0;
@@ -216,24 +216,24 @@ public class GigaGal implements Humanoid {
                 fall();
                 enableClimb();
                 enableHover();
-                enableCling();
+                enableRappel();
                 enableShoot(weapon);
             } else if (action == Action.JUMPING) {
                 enableJump();
                 enableClimb();
-                enableCling();
+                enableRappel();
                 enableShoot(weapon);
             } else if (action == Action.HOVERING) {
                 enableHover();
-                enableCling();
+                enableRappel();
                 enableClimb();
                 enableShoot(weapon);
-            } else if (action == Action.CLINGING) {
+            } else if (action == Action.RAPPELLING) {
                 enableJump();
-                enableCling();
+                enableRappel();
                 enableShoot(weapon);
             } else if (action == Action.RECOILING) {
-                enableCling();
+                enableRappel();
                 enableShoot(weapon);
             }
         }
@@ -243,7 +243,6 @@ public class GigaGal implements Humanoid {
         turboMultiplier = SaveData.getTurboMultiplier();
         ammoMultiplier = SaveData.getAmmoMultiplier();
         healthMultiplier = SaveData.getHealthMultiplier();
-
     }
 
     private void setBounds() {
@@ -257,29 +256,23 @@ public class GigaGal implements Humanoid {
     private void touchGround(DelayedRemovalArray<Ground> grounds) {
         for (Ground ground : grounds) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundries
+
                 if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collision
+
                     touchGroundBottom(ground);
                     touchGroundSide(ground);
                     touchGroundTop(ground);
-                } else { // for non-dense grounds:
-                    canCling = false; // prevent from clinging to non dense grounds
 
+                } else { // for non-dense grounds:
+
+                    canRappel = false; // prevent from clinging to non dense grounds
                     // additional ground collision instructions specific to certain types of grounds
                     if (ground instanceof Climbable) {
                         touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                         if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
                             touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                         }
-                        // when overlapping all but top, set onclimbable which if action enablesclimb will set canclimb to true
-                        if (inputControls.jumpButtonPressed) {
-                            if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neutralize
-                                canLook = false; // prevents look from overriding climb
-                                canClimb = true; // enables climb handling from handleY()
-                            }
-                        } else {
-                            canLook = true; // enables look when engaging climbable but not actively climbing
-                            canClimb  = false; // prevents climb initiation when jumpbutton released
-                        }
+                        canCling = true;
                     } else if (ground instanceof Sinkable) {
                         setAtopGround(ground); // when any kind of collision detected and not only when breaking plane of ground.top
                         canSink = true;
@@ -293,8 +286,9 @@ public class GigaGal implements Humanoid {
                             touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                         }
                     }
+
                 }
-                // if below minimum ground distance while descending excluding post-cling, disable cling and hover
+                // if below minimum ground distance while descending excluding post-rappel, disable rappel and hover
                 // caution when crossing plane between ground top and minimum hover height / ground distance
                 // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
                 if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
@@ -302,7 +296,7 @@ public class GigaGal implements Humanoid {
                     && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
                     && clingStartTime == 0 // only if have not clinged since last grounded
                     && !(ground instanceof Cannon)) { // only if ground is not instance of cannon
-                    canCling = false; // disables cling
+                    canRappel = false; // disables rappel
                     canHover = false; // disables hover
                 }
             }
@@ -317,11 +311,11 @@ public class GigaGal implements Humanoid {
             // only when not grounded and not recoiling
             if (groundState != GroundState.PLANTED) {
                 // if x velocity (magnitude, without concern for direction) greater than one third max speed,
-                // boost x velocity by starting speed, enable cling, verify rappelling ground and capture rappelling ground boundaries
+                // boost x velocity by starting speed, enable rappel, verify rappelling ground and capture rappelling ground boundaries
                 if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
                     // if already clinging, halt x progression
-                    if (action != Action.CLINGING) {
-                        canCling = true; // enable cling
+                    if (action != Action.RAPPELLING) {
+                        canRappel = true; // enable rappel
                         touchedGround = ground;
                         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
                     }
@@ -331,7 +325,7 @@ public class GigaGal implements Humanoid {
                     if (action != Action.HOVERING && velocity.y < 0) {
                         canHover = false; // disable hover
                     }
-                    canCling = false;
+                    canRappel = false;
                     fall(); // fall regardless of whether or not inner condition met
                 }
                 // only when planted
@@ -369,7 +363,7 @@ public class GigaGal implements Humanoid {
                 position.x = previousFramePosition.x;
             }
         } else {
-            canCling = false;
+            canRappel = false;
         }
     }
 
@@ -386,7 +380,7 @@ public class GigaGal implements Humanoid {
     private void touchGroundTop(Ground ground) {
         // if contact with ground top detected, halt downward progression and set gigagal atop ground
         if (getBottom() <= ground.getTop() && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) // when breaking ground top plane
-                && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop()))) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
+                && (!canRappel || (touchedGround != null && ground.getTop() != touchedGround.getTop()))) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
 
             velocity.y = 0; // prevents from descending beneath ground top
             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
@@ -460,17 +454,17 @@ public class GigaGal implements Humanoid {
                         reboundable.resetStartTime();
                         reboundable.setState(false);
                     }
-                    if (action == Action.CLINGING) {
-                        velocity.x = 0; // prevents falling with backward momentum after cling-sliding down platform side through its bottom
+                    if (action == Action.RAPPELLING) {
+                        velocity.x = 0; // prevents falling with backward momentum after rappel-sliding down platform side through its bottom
                     }
                     canClimb = false;
-                    canCling = false;
+                    canRappel = false;
                     fall();
                 } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
                     canSink = false;
                     lookTimeSeconds = 0;
                     lookStartTime = 0;
-                    if (action != Action.CLINGING) {
+                    if (action != Action.RAPPELLING) {
                         fall();
                     }
                 } else if (touchedGround instanceof Destructible) {
@@ -665,7 +659,7 @@ public class GigaGal implements Humanoid {
             }
             if (canLook && !canClimb) {
                 canStride = false;
-                if (inputControls.jumpButtonJustPressed && !canCling) {
+                if (inputControls.jumpButtonJustPressed && !canRappel) {
                     toggleWeapon(directionY);
                 }
                 look(); // also sets chase cam
@@ -765,7 +759,7 @@ public class GigaGal implements Humanoid {
         } else if (touchedGround instanceof Sinkable) {
             canHover = false;
         }
-        if (!canCling) {
+        if (!canRappel) {
             touchedGround = null;
             canHover = true;
         }
@@ -794,7 +788,7 @@ public class GigaGal implements Humanoid {
 
     private void enableShoot(Material weapon) {
         if (canShoot) {
-            if (inputControls.shootButtonPressed || (action == Action.CLINGING && (inputControls.rightButtonPressed || inputControls.leftButtonPressed))) {
+            if (inputControls.shootButtonPressed || (action == Action.RAPPELLING && (inputControls.rightButtonPressed || inputControls.leftButtonPressed))) {
                 if (chargeStartTime == 0) {
                     chargeStartTime = TimeUtils.nanoTime();
                 } else if (chargeTimeSeconds > Constants.CHARGE_DURATION) {
@@ -980,10 +974,10 @@ public class GigaGal implements Humanoid {
         handleXInputs();
     }
 
-    private void enableCling() {
-        if (action == Action.CLINGING) {
-            cling();
-        } else if (canCling){
+    private void enableRappel() {
+        if (action == Action.RAPPELLING) {
+            rappel();
+        } else if (canRappel){
             if (!canHover || action == Action.HOVERING) {
                 fall(); // begin descent from ground side sans access to hover
                 canHover = false; // disable hover if not already
@@ -991,16 +985,16 @@ public class GigaGal implements Humanoid {
             if (inputControls.jumpButtonJustPressed) {
                 if (position.y > touchedGround.getTop() - 10) {
                     position.y = touchedGround.getTop() - 10;
-                    canGrasp = true;
+                    canHurdle = true;
                 }
-                cling();
+                rappel();
             }
         }
     }
 
-    private void cling() {
-        if (canCling) {
-            action = Action.CLINGING;
+    private void rappel() {
+        if (canRappel) {
+            action = Action.RAPPELLING;
             groundState = GroundState.AIRBORNE;
             startTurbo = turbo;
             clingStartTime = TimeUtils.nanoTime();
@@ -1010,7 +1004,7 @@ public class GigaGal implements Humanoid {
             }
             hoverStartTime = 0;
             canJump = true;
-            canCling = false;
+            canRappel = false;
         }
         if (directionX == Direction.LEFT) {
             position.x = touchedGround.getLeft() - getHalfWidth();
@@ -1029,9 +1023,9 @@ public class GigaGal implements Humanoid {
             lookStartTime = 0;
             if (inputControls.downButtonPressed) {
                 velocity.y += Constants.CLING_GRAVITY_OFFSET;
-            } else if (inputControls.upButtonPressed && canGrasp) {
-                canGrasp = false;
-                canCling = false;
+            } else if (inputControls.upButtonPressed && canHurdle) {
+                canHurdle = false;
+                canRappel = false;
                 directionX = Helpers.getOppositeDirection(directionX);
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
                 jump();
@@ -1049,7 +1043,17 @@ public class GigaGal implements Humanoid {
     }
 
     private void enableClimb() {
-        if (canClimb) {
+        if (canCling) {
+            // when overlapping all but top, set onclimbable which if action enablesclimb will set canclimb to true
+            if (inputControls.jumpButtonPressed) {
+                if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neutralize
+                    canLook = false; // prevents look from overriding climb
+                    canClimb = true; // enables climb handling from handleY()
+                }
+            } else {
+                canClimb = false;
+                canLook = true; // enables look when engaging climbable but not actively climbing
+            }
             handleXInputs(); // enables change of x direction for shooting left or right
             handleYInputs(); // enables change of y direction for looking and climbing up or down
         } else {
@@ -1088,6 +1092,7 @@ public class GigaGal implements Humanoid {
             climbStartTime = 0;
             climbTimeSeconds = 0;
             dashTimeSeconds = 0;
+            canCling = false;
             canClimb = false;
             fall();
         }
@@ -1122,8 +1127,8 @@ public class GigaGal implements Humanoid {
                 region = Assets.getInstance().getGigaGalAssets().dashRight;
             } else if (action == Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
-            } else if (action == Action.CLINGING) {
-                if (canGrasp) {
+            } else if (action == Action.RAPPELLING) {
+                if (canHurdle) {
                     region = Assets.getInstance().getGigaGalAssets().graspRight;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().clingRight;
@@ -1160,8 +1165,8 @@ public class GigaGal implements Humanoid {
                 region = Assets.getInstance().getGigaGalAssets().dashLeft;
             } else if (action == Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
-            } else if (action == Action.CLINGING) {
-                if (canGrasp) {
+            } else if (action == Action.RAPPELLING) {
+                if (canHurdle) {
                     region = Assets.getInstance().getGigaGalAssets().graspLeft;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().clingLeft;
@@ -1191,7 +1196,7 @@ public class GigaGal implements Humanoid {
     @Override public final float getHealth() { return health; }
     @Override public final boolean getJumpStatus() { return canJump; }
     @Override public final boolean getHoverStatus() { return canHover; }
-    @Override public final boolean getClingStatus() { return canCling; }
+    @Override public final boolean getClingStatus() { return canRappel; }
     @Override public final boolean getDashStatus() { return canDash; }
     @Override public final boolean getClimbStatus() { return canClimb; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }
