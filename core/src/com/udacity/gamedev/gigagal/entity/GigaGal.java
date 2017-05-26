@@ -267,13 +267,13 @@ public class GigaGal implements Humanoid {
                     canRappel = false; // prevent from rappelling on non dense grounds
                     // additional ground collision instructions specific to certain types of grounds
                     if (ground instanceof Climbable) {
-                        if (!(touchedGround instanceof Skateable)) {
+                        if (!(touchedGround instanceof Skateable) && groundState == GroundState.PLANTED) {  // prevents from overwriting saved skateable and overriding ground physics
                             touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
-                            if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
-                                touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
-                            }
-                            canCling = true;
                         }
+                        if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
+                            touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                        }
+                        canCling = true;
                     } else if (ground instanceof Sinkable) {
                         setAtopGround(ground); // when any kind of collision detected and not only when breaking plane of ground.top
                         canCling = false;
@@ -394,8 +394,8 @@ public class GigaGal implements Humanoid {
                 if (groundState == GroundState.AIRBORNE) {
                     stand(); // set groundstate to standing
                     lookStartTime = 0;
+                } else if (canClimb) {
                     canCling = false;
-                    canClimb = false;
                 }
             } else if (ground instanceof Hoverable) {
                 lookStartTime = 0;
@@ -479,9 +479,10 @@ public class GigaGal implements Humanoid {
                         fall();
                     }
                 }
+                // when no collision detected
                 canCling = false;
                 canClimb = false;
-                touchedGround = null;
+                touchedGround = null;  // after handling touchedground conditions above
             }
         }
     }
@@ -766,9 +767,9 @@ public class GigaGal implements Humanoid {
         if (!(touchedGround instanceof Skateable)) {
             strideStartTime = 0;
         }
-        
-        if (touchedGround == null) {
-            canClimb = false;
+
+        // deactivates cling and climb to prevent inappropriate activation when holding jumpbutton, crossing and no longer overlapping climbable plane
+        if (touchedGround == null && canClimb) {
             canCling = false;
         }
 
