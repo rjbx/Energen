@@ -81,7 +81,6 @@ public class GigaGal implements Humanoid {
     private float lookTimeSeconds;
     private float dashTimeSeconds;
     private float hoverTimeSeconds;
-    private float climbTimeSeconds;
     private float strideTimeSeconds;
     private float strideSpeed;
     private float strideAcceleration;
@@ -263,9 +262,9 @@ public class GigaGal implements Humanoid {
                     touchGroundSide(ground);
                     touchGroundTop(ground);
 
-                } else { // for non-dense grounds:
+                } else if (!ground.isDense()) { // for non-dense grounds:
 
-                    canRappel = false; // prevent from clinging to non dense grounds
+                    canRappel = false; // prevent from rappelling on non dense grounds
                     // additional ground collision instructions specific to certain types of grounds
                     if (ground instanceof Climbable) {
                         touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
@@ -313,7 +312,7 @@ public class GigaGal implements Humanoid {
                 // if x velocity (magnitude, without concern for direction) greater than one third max speed,
                 // boost x velocity by starting speed, enable rappel, verify rappelling ground and capture rappelling ground boundaries
                 if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
-                    // if already clinging, halt x progression
+                    // if already rappelling, halt x progression
                     if (action != Action.RAPPELLING) {
                         canRappel = true; // enable rappel
                         touchedGround = ground;
@@ -362,8 +361,6 @@ public class GigaGal implements Humanoid {
                 canDash = false; // disable dash
                 position.x = previousFramePosition.x;
             }
-        } else {
-            canRappel = false;
         }
     }
 
@@ -407,6 +404,7 @@ public class GigaGal implements Humanoid {
                 }
             } else if (ground instanceof Reboundable) {
                 canCling = false;
+                canClimb = false;
                 Reboundable reboundable = (Reboundable) ground;
                 reboundable.setState(true);
             } else if (ground instanceof Unbearable) {
@@ -457,14 +455,12 @@ public class GigaGal implements Humanoid {
                     if (action == Action.RAPPELLING) {
                         velocity.x = 0; // prevents falling with backward momentum after rappel-sliding down platform side through its bottom
                     }
-                    canCling = false;
                     canRappel = false;
                     if (action != Action.CLIMBING) {
                         fall();
                     }
                 } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
                     canSink = false;
-                    canCling = false;
                     lookTimeSeconds = 0;
                     lookStartTime = 0;
                     if (action != Action.RAPPELLING && action != Action.CLIMBING) {
@@ -476,6 +472,8 @@ public class GigaGal implements Humanoid {
                         fall();
                     }
                 }
+                canCling = false;
+                canClimb = false;
             }
         }
     }
@@ -689,6 +687,7 @@ public class GigaGal implements Humanoid {
                                     } else if (directionY == Direction.DOWN) { // drop down from climbable (drop handled from climb())
                                         lookStartTime = TimeUtils.nanoTime(); // prevents from reengaging climbable from enableclimb() while falling
                                         canCling = false; // meets requirement within climb() to disable climb and enable fall
+                                        canClimb = false;
                                     }
                                 }
                                 dashStartTime = TimeUtils.nanoTime(); // replace climb start time with that of most recent tap
@@ -961,6 +960,8 @@ public class GigaGal implements Humanoid {
     private void hover() {
         // canHover can only be true just before beginning to hover
         if (action != Action.HOVERING) {
+            canClimb = false;
+            canCling = false;
             startTurbo = turbo;
             turboDuration = Constants.MAX_HOVER_DURATION * (startTurbo / Constants.MAX_TURBO);
             action = Action.HOVERING; // indicates currently hovering
@@ -1047,7 +1048,7 @@ public class GigaGal implements Humanoid {
 
     private void enableClimb() {
         if (canCling) {
-            // when overlapping all but top, set onclimbable which if action enablesclimb will set canclimb to true
+            // when overlapping all but top, set cancling which if action enablesclimb will set canclimb to true
             if (inputControls.jumpButtonPressed) {
                 if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neutralize
                     canLook = false; // prevents look from overriding climb
@@ -1071,29 +1072,26 @@ public class GigaGal implements Humanoid {
     }
 
     private void climb(Orientation orientation) {
-        if (canCling) { // onclimbable set to false from handleYinputs() if double tapping down
+        if (canCling) { // cancling set to false from handleYinputs() if double tapping down
             if (action != Action.CLIMBING) { // at the time of climb initiation
                 climbStartTime = 0; // overrides assignment of current time preventing nanotime - climbstarttime < doubletapspeed on next handleY() call
                 groundState = GroundState.PLANTED;
                 action = Action.CLIMBING;
             }
             canHover = false;
-            climbTimeSeconds = Helpers.secondsSince(climbStartTime);
             dashTimeSeconds = Helpers.secondsSince(dashStartTime);
             if (orientation == Orientation.X) {
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
             } else if (orientation == Orientation.Y) {
                 velocity.y = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Orientation.Y);
             }
-            int climbAnimationPercent = (int) (climbTimeSeconds * 100);
+            int climbAnimationPercent = (int) (dashTimeSeconds * 100);
             if ((climbAnimationPercent) % 25 >= 0 && (climbAnimationPercent) % 25 <= 13) {
                 directionX = Direction.RIGHT;
             } else {
                 directionX = Direction.LEFT;
             }
         } else { // if double tapping down, fall from climbable
-            climbStartTime = 0;
-            climbTimeSeconds = 0;
             dashTimeSeconds = 0;
             canCling = false;
             canClimb = false;
