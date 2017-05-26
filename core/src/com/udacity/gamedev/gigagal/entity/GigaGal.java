@@ -262,26 +262,32 @@ public class GigaGal implements Humanoid {
                     touchGroundSide(ground);
                     touchGroundTop(ground);
 
-                } else if (!(touchedGround instanceof Skateable)) { // for non-dense grounds:
+                } else { // for non-dense grounds:
 
                     canRappel = false; // prevent from rappelling on non dense grounds
                     // additional ground collision instructions specific to certain types of grounds
                     if (ground instanceof Climbable) {
-                        touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
-                        if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
-                            touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                        if (!(touchedGround instanceof Skateable)) {
+                            touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
+                            if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
+                                touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                            }
+                            canCling = true;
+                        } else if (inputControls.jumpButtonJustPressed) {
+                            canCling = true;
                         }
-                        canCling = true;
                     } else if (ground instanceof Sinkable) {
                         setAtopGround(ground); // when any kind of collision detected and not only when breaking plane of ground.top
+                        canCling = false;
+                        canClimb = false;
                         canSink = true;
                         canDash = false;
                         canHover = false;
-                        canCling = false;
-                        canClimb = false;
                         lookStartTime = 0;
                         lookTimeSeconds = 0;
                     } else {
+                        canClimb = false;
+                        canCling = false;
                         if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
                             touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                         }
@@ -437,7 +443,7 @@ public class GigaGal implements Humanoid {
     }
 
     private void untouchGround() {
-        if (touchedGround != null && action != Action.HOVERING) {
+        if (touchedGround != null) {
             if (!Helpers.overlapsPhysicalObject(this, touchedGround)) {
                 if (touchedGround instanceof Reboundable) {
                     Reboundable reboundable = (Reboundable) touchedGround;
