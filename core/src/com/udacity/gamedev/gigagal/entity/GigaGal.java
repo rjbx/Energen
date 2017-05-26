@@ -273,8 +273,6 @@ public class GigaGal implements Humanoid {
                                 touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                             }
                             canCling = true;
-                        } else if (inputControls.jumpButtonJustPressed) {
-                            canCling = true;
                         }
                     } else if (ground instanceof Sinkable) {
                         setAtopGround(ground); // when any kind of collision detected and not only when breaking plane of ground.top
@@ -396,6 +394,8 @@ public class GigaGal implements Humanoid {
                 if (groundState == GroundState.AIRBORNE) {
                     stand(); // set groundstate to standing
                     lookStartTime = 0;
+                    canCling = false;
+                    canClimb = false;
                 }
             } else if (ground instanceof Hoverable) {
                 lookStartTime = 0;
@@ -481,6 +481,7 @@ public class GigaGal implements Humanoid {
                 }
                 canCling = false;
                 canClimb = false;
+                touchedGround = null;
             }
         }
     }
@@ -764,6 +765,11 @@ public class GigaGal implements Humanoid {
         canLook = true;
         if (!(touchedGround instanceof Skateable)) {
             strideStartTime = 0;
+        }
+        
+        if (touchedGround == null) {
+            canClimb = false;
+            canCling = false;
         }
 
         if (touchedGround instanceof Sinkable && getBottom() < touchedGround.getTop()) {
