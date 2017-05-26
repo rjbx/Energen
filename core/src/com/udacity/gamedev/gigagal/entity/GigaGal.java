@@ -457,14 +457,17 @@ public class GigaGal implements Humanoid {
                     if (action == Action.RAPPELLING) {
                         velocity.x = 0; // prevents falling with backward momentum after rappel-sliding down platform side through its bottom
                     }
-                    canClimb = false;
+                    canCling = false;
                     canRappel = false;
-                    fall();
+                    if (action != Action.CLIMBING) {
+                        fall();
+                    }
                 } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
                     canSink = false;
+                    canCling = false;
                     lookTimeSeconds = 0;
                     lookStartTime = 0;
-                    if (action != Action.RAPPELLING) {
+                    if (action != Action.RAPPELLING && action != Action.CLIMBING) {
                         fall();
                     }
                 } else if (touchedGround instanceof Destructible) {
@@ -685,7 +688,7 @@ public class GigaGal implements Humanoid {
                                         canDash = true; // checks can dash after calling climb() to apply speed boost
                                     } else if (directionY == Direction.DOWN) { // drop down from climbable (drop handled from climb())
                                         lookStartTime = TimeUtils.nanoTime(); // prevents from reengaging climbable from enableclimb() while falling
-                                        canClimb = false; // meets requirement within climb() to disable climb and enable fall
+                                        canCling = false; // meets requirement within climb() to disable climb and enable fall
                                     }
                                 }
                                 dashStartTime = TimeUtils.nanoTime(); // replace climb start time with that of most recent tap
@@ -1068,7 +1071,7 @@ public class GigaGal implements Humanoid {
     }
 
     private void climb(Orientation orientation) {
-        if (canClimb) { // onclimbable set to false from handleYinputs() if double tapping down
+        if (canCling) { // onclimbable set to false from handleYinputs() if double tapping down
             if (action != Action.CLIMBING) { // at the time of climb initiation
                 climbStartTime = 0; // overrides assignment of current time preventing nanotime - climbstarttime < doubletapspeed on next handleY() call
                 groundState = GroundState.PLANTED;
