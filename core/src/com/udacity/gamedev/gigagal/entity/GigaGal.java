@@ -406,7 +406,7 @@ public class GigaGal implements Humanoid {
                     position.y -= 1;
                 }
             } else if (ground instanceof Reboundable) {
-                canClimb = false;
+                canCling = false;
                 Reboundable reboundable = (Reboundable) ground;
                 reboundable.setState(true);
             } else if (ground instanceof Unbearable) {
