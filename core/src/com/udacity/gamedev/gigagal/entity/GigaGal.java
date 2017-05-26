@@ -262,7 +262,7 @@ public class GigaGal implements Humanoid {
                     touchGroundSide(ground);
                     touchGroundTop(ground);
 
-                } else { // for non-dense grounds:
+                } else if (!(touchedGround instanceof Skateable)) { // for non-dense grounds:
 
                     canRappel = false; // prevent from rappelling on non dense grounds
                     // additional ground collision instructions specific to certain types of grounds
@@ -404,6 +404,8 @@ public class GigaGal implements Humanoid {
                     position.y -= 1;
                 }
             } else if (ground instanceof Reboundable) {
+                canClimb = false;
+                canCling = false;
                 Reboundable reboundable = (Reboundable) ground;
                 reboundable.setState(true);
             } else if (ground instanceof Unbearable) {
@@ -785,6 +787,10 @@ public class GigaGal implements Humanoid {
         canDash = false;
         canHover = false;
         canLook = false;
+        canCling = false;
+        canClimb = false;
+        canRappel = false;
+        canHurdle = false;
         this.velocity.x = velocity.x;
         this.velocity.y = velocity.y;
     }
@@ -961,6 +967,8 @@ public class GigaGal implements Humanoid {
     private void hover() {
         // canHover can only be true just before beginning to hover
         if (action != Action.HOVERING) {
+            canClimb = false;
+            canCling = false;
             startTurbo = turbo;
             turboDuration = Constants.MAX_HOVER_DURATION * (startTurbo / Constants.MAX_TURBO);
             action = Action.HOVERING; // indicates currently hovering
