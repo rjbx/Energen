@@ -262,7 +262,7 @@ public class GigaGal implements Humanoid {
                     touchGroundSide(ground);
                     touchGroundTop(ground);
 
-                } else if (!ground.isDense()) { // for non-dense grounds:
+                } else { // for non-dense grounds:
 
                     canRappel = false; // prevent from rappelling on non dense grounds
                     // additional ground collision instructions specific to certain types of grounds
@@ -403,8 +403,6 @@ public class GigaGal implements Humanoid {
                     position.y -= 1;
                 }
             } else if (ground instanceof Reboundable) {
-                canCling = false;
-                canClimb = false;
                 Reboundable reboundable = (Reboundable) ground;
                 reboundable.setState(true);
             } else if (ground instanceof Unbearable) {
@@ -424,12 +422,12 @@ public class GigaGal implements Humanoid {
         clingStartTime = 0;
         canLook = true;
         canHover = false;
-        if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
-            canJump = true;
-            jump();
-        } else if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
+        if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
             stand(); // set groundstate to standing
             lookStartTime = 0;
+        } else if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+            canJump = true;
+            jump();
         } else if (action == Action.CLIMBING && !(ground instanceof Climbable)) {
             stand();
         }
@@ -960,8 +958,6 @@ public class GigaGal implements Humanoid {
     private void hover() {
         // canHover can only be true just before beginning to hover
         if (action != Action.HOVERING) {
-            canClimb = false;
-            canCling = false;
             startTurbo = turbo;
             turboDuration = Constants.MAX_HOVER_DURATION * (startTurbo / Constants.MAX_TURBO);
             action = Action.HOVERING; // indicates currently hovering
