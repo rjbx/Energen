@@ -277,6 +277,7 @@ public class GigaGal implements Humanoid {
                         canSink = true;
                         canDash = false;
                         canHover = false;
+                        canCling = false;
                         canClimb = false;
                         lookStartTime = 0;
                         lookTimeSeconds = 0;
@@ -754,19 +755,21 @@ public class GigaGal implements Humanoid {
         canDash = false;
         canLook = true;
         if (!(touchedGround instanceof Skateable)) {
-            canHover = false;
             strideStartTime = 0;
-        } else if (touchedGround instanceof Sinkable) {
-            canHover = false;
         }
-        if (!canRappel) {
+
+        if (touchedGround instanceof Sinkable && getBottom() < touchedGround.getTop()) {
+            canHover = false; // prevents hover icon flashing from indicator hud when tapping jump while submerged in sink
+        } else if (!canRappel) {
             touchedGround = null;
             canHover = true;
         }
+
+        canSink = false;
+
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.FALL_TURBO_INCREMENT;
         }
-        canSink = false;
     }
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
