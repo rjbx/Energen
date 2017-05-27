@@ -14,7 +14,6 @@ import com.udacity.gamedev.gigagal.entity.Ground;
 import com.udacity.gamedev.gigagal.entity.Hazard;
 import com.udacity.gamedev.gigagal.entity.Impact;
 import com.udacity.gamedev.gigagal.entity.Nonstatic;
-import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Powerup;
@@ -218,26 +217,10 @@ public class LevelUpdater {
                     if (destructible instanceof Swoopa) {
                         ((Swoopa) destructible).dispose();
                     }
-                    spawnExplosion(destructible.getPosition(), destructible.getType());
+                    spawnImpact(destructible.getPosition(), destructible.getType());
                     hazards.removeIndex(i);
                     removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                     score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
-                }
-                if (destructible instanceof Orben) {
-                    Orben orben = (Orben) destructible;
-                    Enums.Material material = orben.getType();
-                    float secondsSinceModOne = Helpers.secondsSince(orben.getStartTime()) % 1;
-                    if ((secondsSinceModOne >= 0 && secondsSinceModOne < 0.01f) && orben.isActive()) {
-                        Vector2 ammoPositionLeft = new Vector2(orben.getPosition().x - (orben.getWidth() * 1.1f), destructible.getPosition().y);
-                        Vector2 ammoPositionRight = new Vector2(orben.getPosition().x + (orben.getWidth() * 1.1f), destructible.getPosition().y);
-                        Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, orben.getPosition().y + (orben.getHeight() * 1.1f));
-                        Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, orben.getPosition().y - (orben.getHeight() * 1.1f));
-
-                        spawnAmmo(ammoPositionLeft, Direction.LEFT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, material, false);
-                        spawnAmmo(ammoPositionRight, Direction.RIGHT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, material, false);
-                        spawnAmmo(ammoPositionBottom, Direction.DOWN, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, material, false);
-                        spawnAmmo(ammoPositionTop, Direction.UP, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, material, false);
-                    }
                 }
             } else if (hazards.get(i) instanceof Ammo) {
                 Ammo ammo = (Ammo) hazards.get(i);
@@ -430,7 +413,7 @@ public class LevelUpdater {
         hazards.add(new Ammo(this, position, direction, orientation, shotIntensity, weapon, targetsEnemies));
     }
 
-    public void spawnExplosion(Vector2 position, Enums.Material type) {
+    public void spawnImpact(Vector2 position, Enums.Material type) {
         impacts.add(new Impact(position, type));
     }
 

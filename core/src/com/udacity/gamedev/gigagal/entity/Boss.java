@@ -528,7 +528,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                         Vector2 intersectionPoint = new Vector2();
                         intersectionPoint.x = Math.max(getBounds().x, bounds.x);
                         intersectionPoint.y = Math.max(getBounds().y, bounds.y);
-                        level.spawnExplosion(intersectionPoint, hazard.getType());
+                        level.spawnImpact(intersectionPoint, hazard.getType());
                         int damage = hazard.getDamage();
                         float margin = 0;
                         if (hazard instanceof Destructible) {

@@ -57,7 +57,6 @@ public class Chamber implements Chargeable, Strikeable, Ground {
     @Override public final void charge(float chargeTimeSeconds) { this.chargeTimeSeconds = chargeTimeSeconds; }
     public void setUpgrade(Enums.Upgrade type) { this.type = type; }
     public Enums.Upgrade getUpgrade() { return type; }
-    @Override public float getShotRadius() { return Constants.CHAMBER_CENTER.x; }
 
     @Override public Chamber clone() { return new Chamber(position); }
 }

@@ -79,7 +79,6 @@ public class Button implements Switchable, Strikeable, Ground {
     @Override public final void resetStartTime() { this.startTime = 0; }
     public Rectangle getBounds() { return bounds; }
     @Override public boolean getState() { return state; }
-    @Override public float getShotRadius() { return Constants.TRIP_SHOT_RADIUS; }
     @Override public void setState(boolean state) {
         this.state = state;
     }

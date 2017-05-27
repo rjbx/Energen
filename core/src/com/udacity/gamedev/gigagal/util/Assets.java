@@ -408,7 +408,7 @@ public final class Assets implements AssetErrorListener {
             sinkRegions.add(atlas.findRegion(Constants.SINK_SPRITE_2));
 
             sink = new Animation(Constants.SINK_DURATION / sinkRegions.size,
-                    sinkRegions, PlayMode.LOOP);
+                    sinkRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> coalsRegions = new Array<AtlasRegion>();
             coalsRegions.add(atlas.findRegion(Constants.COALS_SPRITE_1));

@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -65,7 +64,7 @@ public final class Ammo implements Indestructible, Hazard {
         }
         if (orientation == Orientation.Y) {
             rotation = 90;
-            ammoCenter = new Vector2(-radius, radius);
+            ammoCenter = new Vector2(radius, radius);
         } else {
             ammoCenter = new Vector2(radius, radius);
         }
@@ -153,7 +152,7 @@ public final class Ammo implements Indestructible, Hazard {
             if (hazard instanceof Destructible) {
                 Destructible destructible = (Destructible) hazard;
                 if (position.dst(destructible.getPosition()) < (destructible.getShotRadius() + this.radius)) {
-                    LevelUpdater.getInstance().spawnExplosion(position, weapon);
+                    LevelUpdater.getInstance().spawnImpact(position, weapon);
                     active = false;
                     Helpers.applyDamage(destructible, this);
                 }
@@ -161,8 +160,8 @@ public final class Ammo implements Indestructible, Hazard {
         }
 
         for (Ground ground : level.getGrounds()) {
+            if (ground instanceof Strikeable) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (ground instanceof Strikeable) {
                     Strikeable strikeable = (Strikeable) ground;
                     if (isFromGigagal()) {
                         Assets.getInstance().getSoundAssets().hitGround.play();
@@ -177,11 +176,10 @@ public final class Ammo implements Indestructible, Hazard {
                     } else if (strikeable instanceof Destructible) {
                         Helpers.applyDamage((Destructible) ground, this);
                     }
-                }
-
-                if (ground.isDense() || Helpers.betweenTwoValues(position.y, ground.getPosition().y - 2, ground.getPosition().y + 2)) {
-                    LevelUpdater.getInstance().spawnExplosion(position, weapon);
-                    active = false;
+                    if (ground.isDense() || Helpers.betweenTwoValues(position.y, ground.getPosition().y - 2, ground.getPosition().y + 2)) {
+                        active = false;
+                        LevelUpdater.getInstance().spawnImpact(position, weapon);
+                    }
                 }
             }
         }

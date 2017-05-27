@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Box implements Expanse {
+public class Box implements Strikeable, Expanse {
 
     // fields
     private final Enums.Material type;
@@ -59,8 +59,6 @@ public class Box implements Expanse {
     }
 
     // Getters
-    public void setDensity(boolean state) { dense = state; }
-    public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
     public Enums.Material getType() { return type; }
     @Override public float getTop() { return top; }
     @Override public float getBottom() {return bottom; }
@@ -69,5 +67,7 @@ public class Box implements Expanse {
     @Override public float getWidth() { return width;}
     @Override public float getHeight() {return height; }
     @Override public Vector2 getPosition() { return position; }
+    @Override public void setDensity(boolean state) { dense = state; }
+    @Override public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
     @Override public Box clone() { return new Box(left, bottom, width, height, type); }
 }

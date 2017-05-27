@@ -52,19 +52,19 @@ public class Cannon implements Nonstatic, Ground {
             this.setStartTime(TimeUtils.nanoTime());
             Enums.Orientation orientation = this.getOrientation();
             if (orientation == Enums.Orientation.X) {
-                Vector2 ammoPositionLeft = new Vector2(this.getPosition().x - (this.getWidth() / 2), this.getPosition().y);
-                Vector2 ammoPositionRight = new Vector2(this.getPosition().x + (this.getWidth() / 2), this.getPosition().y);
-                if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (this.getWidth() / 2))) {
+                Vector2 ammoPositionLeft = new Vector2(this.getPosition().x - (this.getWidth() / 1.5f), this.getPosition().y);
+                Vector2 ammoPositionRight = new Vector2(this.getPosition().x + (this.getWidth() / 1.5f), this.getPosition().y);
+                if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (this.getWidth() / 1.5f))) {
                     LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
-                } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (this.getWidth() / 2))) {
+                } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (this.getWidth() / 1.5f))) {
                     LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
                 }
             } else if (this.getOrientation() == Enums.Orientation.Y) {
-                Vector2 ammoPositionTop = new Vector2(this.getPosition().x, this.getPosition().y + (this.getHeight() / 2));
-                Vector2 ammoPositionBottom = new Vector2(this.getPosition().x, this.getPosition().y - (this.getHeight() / 2));
-                if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (this.getHeight() / 2))) {
+                Vector2 ammoPositionTop = new Vector2(this.getPosition().x, this.getPosition().y + (this.getHeight() / 1.5f));
+                Vector2 ammoPositionBottom = new Vector2(this.getPosition().x, this.getPosition().y - (this.getHeight() / 1.5f));
+                if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (this.getHeight() / 1.5f))) {
                     LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
-                } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (this.getHeight() / 2))) {
+                } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (this.getHeight() / 1.5f))) {
                     LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
                 }
             }

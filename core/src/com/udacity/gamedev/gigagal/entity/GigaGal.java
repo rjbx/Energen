@@ -418,6 +418,10 @@ public class GigaGal implements Humanoid {
                 Random xKnockback = new Random();
                 velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
                 recoil(velocity);
+            } else if (ground instanceof Destructible) {
+                if (((BreakableBox) ground).getHealth() < 1) {
+                    fall();
+                }
             }
         }
     }
@@ -501,7 +505,7 @@ public class GigaGal implements Humanoid {
                         Vector2 intersectionPoint = new Vector2();
                         intersectionPoint.x = Math.max(getBounds().x, bounds.x);
                         intersectionPoint.y = Math.max(getBounds().y, bounds.y);
-                        level.spawnExplosion(intersectionPoint, hazard.getType());
+                        level.spawnImpact(intersectionPoint, hazard.getType());
                         int damage = hazard.getDamage();
                         float margin = 0;
                         if (hazard instanceof Destructible) {
@@ -670,7 +674,7 @@ public class GigaGal implements Humanoid {
             }
             if (canLook && !canClimb) {
                 canStride = false;
-                if (inputControls.jumpButtonJustPressed && !canRappel) {
+                if (inputControls.jumpButtonJustPressed && !canRappel && !canHurdle) { // prevents accidental toggle due to simultaneous jump and directional press for hurdle
                     toggleWeapon(directionY);
                 }
                 look(); // also sets chase cam

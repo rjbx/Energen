@@ -60,6 +60,11 @@ public class Orben implements Destructible, Hazard {
     }
 
     public void update(float delta) {
+        move(delta);
+        shoot();
+    }
+
+    private void move(float delta) {
         previousFramePosition.set(position);
         position.x += velocity.x;
         position.y += velocity.y;
@@ -82,7 +87,7 @@ public class Orben implements Destructible, Hazard {
             velocity.x = 0;
         }
         if ((position.x < camera.x - activationDistance.x)
-        || (position.x > camera.x + activationDistance.x)) {
+                || (position.x > camera.x + activationDistance.x)) {
             xDirection = null;
         } else if ((position.x > camera.x - activationDistance.x) && (position.x < camera.x)) {
             xDirection = Enums.Direction.RIGHT;
@@ -125,6 +130,21 @@ public class Orben implements Destructible, Hazard {
                     position.set(previousFramePosition);
                 }
             }
+        }
+    }
+
+    private void shoot() {
+        float secondsSinceModOne = Helpers.secondsSince(this.getStartTime()) % 1;
+        if ((secondsSinceModOne >= 0 && secondsSinceModOne < 0.01f) && this.isActive()) {
+            Vector2 ammoPositionLeft = new Vector2(this.getPosition().x - (this.getWidth() * 1.1f), this.getPosition().y);
+            Vector2 ammoPositionRight = new Vector2(this.getPosition().x + (this.getWidth() * 1.1f), this.getPosition().y);
+            Vector2 ammoPositionTop = new Vector2(this.getPosition().x, this.getPosition().y + (this.getHeight() * 1.1f));
+            Vector2 ammoPositionBottom = new Vector2(this.getPosition().x, this.getPosition().y - (this.getHeight() * 1.1f));
+
+            LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, type, false);
+            LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, type, false);
+            LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, type, false);
+            LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, type, false);
         }
     }
 
