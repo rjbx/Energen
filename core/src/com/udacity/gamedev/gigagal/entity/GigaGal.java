@@ -270,8 +270,11 @@ public class GigaGal implements Humanoid {
                         if (!(touchedGround instanceof Skateable && groundState == GroundState.PLANTED)) {  // prevents from overwriting saved skateable and overriding ground physics
                             touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                         }
-                        if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
+                        if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
                             touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                        }
+                        if (!(canClimb && directionY == Direction.UP)) { // ignore side and bottom collision always and top collision when can climb and looking downward
+                            touchGroundBottom(ground); // prevents descending below top when on non dense, non sinkable
                         }
                         canCling = true;
                     } else if (ground instanceof Sinkable) {
@@ -285,8 +288,11 @@ public class GigaGal implements Humanoid {
                         lookTimeSeconds = 0;
                     } else {
                         canCling = false;
-                        if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
+                        if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
                             touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                        }
+                        if (!(canClimb && directionY == Direction.UP)) { // ignore side and bottom collision always and top collision when can climb and looking downward
+                            touchGroundBottom(ground); // prevents descending below top when on non dense, non sinkable
                         }
                     }
 
