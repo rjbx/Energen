@@ -61,7 +61,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
     private boolean canDash;
     private boolean canJump;
     private boolean canHover;
-    private boolean canCling;
+    private boolean canRappel;
     private boolean canClimb;
     private boolean canStride;
     private long chargeStartTime;
@@ -69,7 +69,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
     private long jumpStartTime;
     private long dashStartTime;
     private long hoverStartTime;
-    private long clingStartTime;
+    private long rappelStartTime;
     private long climbStartTime;
     private long strideStartTime;
     private long recoveryStartTime;
@@ -170,7 +170,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
         canJump = false;
         canDash = false;
         canHover = false;
-        canCling = false;
+        canRappel = false;
         canShoot = true;
         onRideable = false;
         onSkateable = false;
@@ -231,23 +231,23 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 fall();
                 enableClimb();
                 enableHover();
-                enableCling();
+                enableRappel();
                 enableShoot(weapon);
             } else if (action == Enums.Action.JUMPING) {
                 enableJump();
-                enableCling();
+                enableRappel();
                 enableShoot(weapon);
             } else if (action == Enums.Action.HOVERING) {
                 enableHover();
-                enableCling();
+                enableRappel();
                 enableClimb();
                 enableShoot(weapon);
             } else if (action == Enums.Action.RAPPELLING) {
                 enableJump();
-                enableCling();
+                enableRappel();
                 enableShoot(weapon);
             } else if (action == Enums.Action.RECOILING) {
-                enableCling();
+                enableRappel();
                 enableShoot(weapon);
             }*/
         }
@@ -312,19 +312,19 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                         touchGroundSide(ground);
                         touchGroundBottom(ground);
                     } else {
-                        canCling = false; // deactivate cling if ground below max ledge height
+                        canRappel = false; // deactivate rappel if ground below max ledge height
                     }
                     touchGroundTop(ground);
-                   // if below minimum ground distance while descending excluding post-cling, disable cling and hover
+                   // if below minimum ground distance while descending excluding post-rappel, disable rappel and hover
                     // caution when crossing plane between ground top and minimum hover height / ground distance
                     // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
                     if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
                             && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
                             && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
-                            && clingStartTime == 0 // only if have not clinged since last grounded
+                            && rappelStartTime == 0 // only if have not rappeled since last grounded
                             && !(ground instanceof com.udacity.gamedev.gigagal.entity.Cannon) // only if ground is not instance of cannon
                             ) {
-                        canCling = false; // disables cling
+                        canRappel = false; // disables rappel
                         canHover = false; // disables hover
                     }
                 }
@@ -339,11 +339,11 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
             // only when not grounded and not recoiling
             if (groundState != Enums.GroundState.PLANTED) {
                 // if x velocity (magnitude, without concern for direction) greater than one third max speed,
-                // boost x velocity by starting speed, enable cling, verify rappelling ground and capture rappelling ground boundaries
+                // boost x velocity by starting speed, enable rappel, verify rappelling ground and capture rappelling ground boundaries
                 if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
-                    // if already clinging, halt x progression
+                    // if already rappeling, halt x progression
                     if (action != Enums.Action.RAPPELLING) {
-                        canCling = true; // enable cling
+                        canRappel = true; // enable rappel
                         touchedGround = ground;
                         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
                     }
@@ -353,7 +353,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                     if (action != Enums.Action.HOVERING && velocity.y < 0) {
                         canHover = false; // disable hover
                     }
-                    canCling = false;
+                    canRappel = false;
                     fall(); // fall regardless of whether or not inner condition met
                 }
                 // only when planted
@@ -379,7 +379,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 position.x = previousFramePosition.x; // halt x progression
             }
         } else {
-            canCling = false;
+            canRappel = false;
         }
     }
 
@@ -394,7 +394,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
 
     private void touchGroundTop(Ground ground) {
         // if contact with ground top detected, halt downward progression and set gigagal atop ground
-        if ((getBottom() <= ground.getTop() && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop())))
+        if ((getBottom() <= ground.getTop() && (!canRappel || (touchedGround != null && ground.getTop() != touchedGround.getTop())))
                 && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
             velocity.y = 0; // prevents from descending beneath ground top
             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
@@ -452,7 +452,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                 }
             }
             if (climbTimeSeconds == 0) {
-                if ((getBottom() <= ground.getTop() && (!canCling || (touchedGround != null && ground.getTop() != touchedGround.getTop()))
+                if ((getBottom() <= ground.getTop() && (!canRappel || (touchedGround != null && ground.getTop() != touchedGround.getTop()))
                         && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
                         || canClimb && climbStartTime != 0) {
                     setAtopGround(ground);
@@ -477,7 +477,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
         touchedGround = ground;
         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
         hoverStartTime = 0;
-        clingStartTime = 0;
+        rappelStartTime = 0;
         canLook = true;
         canHover = false;
         if (groundState == Enums.GroundState.AIRBORNE && !(ground instanceof Skateable)) {
@@ -496,7 +496,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
                     reboundable.setState(false);
                     onBounceable = false;
                 }
-                canCling = false;
+                canRappel = false;
                 fall();
             } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
                 if (onBounceable) {
@@ -779,7 +779,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
             canHover = false;
             strideStartTime = 0;
         }
-        if (!canCling) {
+        if (!canRappel) {
             touchedGround = null;
             canHover = true;
         }
@@ -995,37 +995,37 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
 //        handleXInputs();
     }
 
-    private void enableCling() {
+    private void enableRappel() {
         if (action == Enums.Action.RAPPELLING) {
-            cling();
-        } else if (canCling){
+            rappel();
+        } else if (canRappel){
             if (!canHover || action == Enums.Action.HOVERING) {
                 fall(); // begin descent from ground side sans access to hover
                 canHover = false; // disable hover if not already
             }
 //            if (inputControls.jumpButtonJustPressed) {
-                cling();
+                rappel();
 //            }
         }
     }
 
-    private void cling() {
-        if (canCling) {
+    private void rappel() {
+        if (canRappel) {
             action = Enums.Action.RAPPELLING;
             groundState = Enums.GroundState.AIRBORNE;
             startTurbo = turbo;
-            clingStartTime = TimeUtils.nanoTime();
-            turboDuration = Constants.MAX_CLING_DURATION * (startTurbo / Constants.MAX_TURBO);
+            rappelStartTime = TimeUtils.nanoTime();
+            turboDuration = Constants.MAX_RAPPEL_DURATION * (startTurbo / Constants.MAX_TURBO);
             if (!Helpers.movingOppositeDirection(velocity.x, directionX, Enums.Orientation.X)) {
                 directionX = Helpers.getOppositeDirection(directionX);
             }
             hoverStartTime = 0;
             canJump = true;
-            canCling = false;
+            canRappel = false;
         }
-        float clingTimeSeconds = (Helpers.secondsSince(clingStartTime) - pauseTimeSeconds);
+        float rappelTimeSeconds = (Helpers.secondsSince(rappelStartTime) - pauseTimeSeconds);
 //        if (!inputControls.jumpButtonPressed) {
-            if (clingTimeSeconds >= Constants.CLING_FRAME_DURATION) {
+            if (rappelTimeSeconds >= Constants.RAPPEL_FRAME_DURATION) {
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Enums.Orientation.X);
                 jump();
             } else {
@@ -1035,10 +1035,10 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
 //        } else {
             lookStartTime = 0;
 //            if (inputControls.downButtonPressed) {
-                velocity.y += Constants.CLING_GRAVITY_OFFSET;
+                velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
         /*    } else*/ if (turbo < 1) {
                 turbo = 0;
-                velocity.y += Constants.CLING_GRAVITY_OFFSET;
+                velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
 //            } else {
                 turbo -= Constants.FALL_TURBO_INCREMENT;
                 velocity.y = 0;
@@ -1126,7 +1126,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
             } else if (action == Enums.Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
             } else if (action == Enums.Action.RAPPELLING) {
-                region = Assets.getInstance().getGigaGalAssets().clingRight;
+                region = Assets.getInstance().getGigaGalAssets().rappelRight;
             } else if (action == Enums.Action.RECOILING){
                 region = Assets.getInstance().getGigaGalAssets().recoilRight;
             } else if (action == Enums.Action.FALLING) {
@@ -1160,7 +1160,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
             } else if (action == Enums.Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
             } else if (action == Enums.Action.RAPPELLING) {
-                region = Assets.getInstance().getGigaGalAssets().clingLeft;
+                region = Assets.getInstance().getGigaGalAssets().rappelLeft;
             } else if (action == Enums.Action.RECOILING) {
                 region = Assets.getInstance().getGigaGalAssets().recoilLeft;
             } else if (action == Enums.Action.FALLING) {
@@ -1186,7 +1186,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
     @Override public final float getHealth() { return health; }
     @Override public final boolean getJumpStatus() { return canJump; }
     @Override public final boolean getHoverStatus() { return canHover; }
-    @Override public final boolean getClingStatus() { return canCling; }
+    @Override public final boolean getRappelStatus() { return canRappel; }
     @Override public final boolean getDashStatus() { return canDash; }
     @Override public final boolean getClimbStatus() { return canClimb; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }

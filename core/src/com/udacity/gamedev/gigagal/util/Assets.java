@@ -131,8 +131,8 @@ public final class Assets implements AssetErrorListener {
         public final AtlasRegion lookdownFallRight;
         public final AtlasRegion dashLeft;
         public final AtlasRegion dashRight;
-        public final AtlasRegion clingLeft;
-        public final AtlasRegion clingRight;
+        public final AtlasRegion rappelLeft;
+        public final AtlasRegion rappelRight;
         public final AtlasRegion graspLeft;
         public final AtlasRegion graspRight;
         public final Animation hoverLeft;
@@ -162,8 +162,8 @@ public final class Assets implements AssetErrorListener {
             lookdownFallRight = atlas.findRegion(Constants.LOOKDOWN_FALL_RIGHT);
             dashLeft = atlas.findRegion(Constants.STRIDE_LEFT_2);
             dashRight = atlas.findRegion(Constants.STRIDE_RIGHT_2);
-            clingLeft = atlas.findRegion(Constants.CLING_LEFT);
-            clingRight = atlas.findRegion(Constants.CLING_RIGHT);
+            rappelLeft = atlas.findRegion(Constants.RAPPEL_LEFT);
+            rappelRight = atlas.findRegion(Constants.RAPPEL_RIGHT);
             graspLeft = atlas.findRegion(Constants.GRASP_LEFT);
             graspRight = atlas.findRegion(Constants.GRASP_RIGHT);
             
@@ -944,7 +944,7 @@ public final class Assets implements AssetErrorListener {
         public final AtlasRegion blast;
         public final AtlasRegion jump;
         public final AtlasRegion hover;
-        public final AtlasRegion cling;
+        public final AtlasRegion rappel;
         public final AtlasRegion climb;
         public final AtlasRegion dash;
         public final AtlasRegion life;
@@ -954,7 +954,7 @@ public final class Assets implements AssetErrorListener {
             blast = atlas.findRegion(Constants.BLAST_ICON);
             jump = atlas.findRegion(Constants.JUMP_ICON);
             hover = atlas.findRegion(Constants.HOVER_ICON);
-            cling = atlas.findRegion(Constants.CLING_ICON);
+            rappel = atlas.findRegion(Constants.RAPPEL_ICON);
             climb = atlas.findRegion(Constants.CLIMB_ICON);
             dash = atlas.findRegion(Constants.DASH_ICON);
             life = atlas.findRegion(Constants.LIFE_ICON);

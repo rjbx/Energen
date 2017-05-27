@@ -65,8 +65,8 @@ public final class Constants {
     public static final float GIGAGAL_STARTING_SPEED = 0.3f;
     public static final float STRIDING_JUMP_MULTIPLIER = 1.1f;
     public static final float Y_KNOCKBACK = 150;
-    public static final float CLING_GRAVITY_OFFSET = 5;
-    public static final float MAX_CLING_DURATION = .75f;
+    public static final float RAPPEL_GRAVITY_OFFSET = 5;
+    public static final float MAX_RAPPEL_DURATION = .75f;
     public static final float MAX_JUMP_DURATION = 0.025f;
     public static final float MAX_HOVER_DURATION = 1.5f;
     public static final float MIN_GROUND_DISTANCE = 20;
@@ -112,9 +112,9 @@ public final class Constants {
     public static final String LOOKDOWN_HOVER_LEFT_2 = "gg-lookdown-hover-left-2";
     public static final String GRASP_RIGHT = "gg-grasp-right";
     public static final String GRASP_LEFT = "gg-grasp-left";
-    public static final String CLING_RIGHT = "gg-cling-right";
-    public static final String CLING_LEFT = "gg-cling-left";
-    public static final float CLING_FRAME_DURATION = 0.05f;
+    public static final String RAPPEL_RIGHT = "gg-rappel-right";
+    public static final String RAPPEL_LEFT = "gg-rappel-left";
+    public static final float RAPPEL_FRAME_DURATION = 0.05f;
     public static final String HOVER_RIGHT_1 = "gg-hover-1-right";
     public static final String HOVER_LEFT_1 = "gg-hover-1-left";
     public static final String HOVER_RIGHT_2 = "gg-hover-2-right";
@@ -658,7 +658,7 @@ public final class Constants {
     public static final String BLAST_ICON = "icon-blast";
     public static final String JUMP_ICON = "icon-jump";
     public static final String HOVER_ICON = "icon-hover";
-    public static final String CLING_ICON = "icon-cling";
+    public static final String RAPPEL_ICON = "icon-rappel";
     public static final String CLIMB_ICON = "icon-climb";
     public static final String DASH_ICON = "icon-dash";
     public static final String LIFE_ICON = "icon-life";

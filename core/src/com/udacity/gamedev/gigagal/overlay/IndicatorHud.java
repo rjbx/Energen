@@ -43,11 +43,11 @@ public class IndicatorHud {
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
-        } else if (GigaGal.getInstance().getClingStatus() || GigaGal.getInstance().getAction() == Enums.Action.RAPPELLING)  {
+        } else if (GigaGal.getInstance().getRappelStatus() || GigaGal.getInstance().getAction() == Enums.Action.RAPPELLING)  {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getHudAssets().cling,
+                    Assets.getInstance().getHudAssets().rappel,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,

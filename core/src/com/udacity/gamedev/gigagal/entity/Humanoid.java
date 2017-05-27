@@ -12,7 +12,7 @@ public interface Humanoid extends MultidirectionalX, MultidirectionalY, Visible 
     float getHealth();
     boolean getJumpStatus();
     boolean getHoverStatus();
-    boolean getClingStatus();
+    boolean getRappelStatus();
     boolean getDashStatus();
     boolean getClimbStatus();
     Enums.GroundState getGroundState();
