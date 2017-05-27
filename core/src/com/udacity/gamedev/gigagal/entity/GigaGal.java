@@ -270,7 +270,7 @@ public class GigaGal implements Humanoid {
                         if (!(touchedGround instanceof Skateable && groundState == GroundState.PLANTED)) {  // prevents from overwriting saved skateable and overriding ground physics
                             touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                         }
-                        if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
+                        if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
                             touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                         }
                         canCling = true;
@@ -284,7 +284,6 @@ public class GigaGal implements Humanoid {
                         lookStartTime = 0;
                         lookTimeSeconds = 0;
                     } else {
-                        canClimb = false;
                         canCling = false;
                         if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
                             touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
