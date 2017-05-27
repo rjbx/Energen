@@ -484,6 +484,8 @@ public class GigaGal implements Humanoid {
                 canClimb = false;
                 touchedGround = null;  // after handling touchedground conditions above
             }
+        } else if (action == Action.STANDING) {
+            fall();
         }
     }
 
