@@ -652,6 +652,8 @@ public class GigaGal implements Humanoid {
                 } else {
                     velocity.x = 0; // disable movement when climbing but directional not pressed
                 }
+            } else {
+                velocity.x = 0; // disable movement when climbing but jumpbutton not pressed
             }
         }
     }
@@ -1016,7 +1018,6 @@ public class GigaGal implements Humanoid {
             if (inputControls.jumpButtonJustPressed) {
                 if (position.y > touchedGround.getTop() - 10) {
                     position.y = touchedGround.getTop() - 10;
-                    position.x = Helpers.absoluteToDirectionalValue(5, directionX, Orientation.X);
                     canHurdle = true;
                 }
                 rappel();
