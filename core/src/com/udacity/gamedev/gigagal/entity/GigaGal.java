@@ -1016,6 +1016,7 @@ public class GigaGal implements Humanoid {
             if (inputControls.jumpButtonJustPressed) {
                 if (position.y > touchedGround.getTop() - 10) {
                     position.y = touchedGround.getTop() - 10;
+                    position.x = Helpers.absoluteToDirectionalValue(5, directionX, Orientation.X);
                     canHurdle = true;
                 }
                 rappel();
@@ -1044,6 +1045,7 @@ public class GigaGal implements Humanoid {
         }
         float rappelTimeSeconds = Helpers.secondsSince(rappelStartTime);
         if (!inputControls.jumpButtonPressed) {
+            canHurdle = false;
             if (rappelTimeSeconds >= Constants.RAPPEL_FRAME_DURATION) {
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
                 jump();
@@ -1054,11 +1056,11 @@ public class GigaGal implements Humanoid {
             lookStartTime = 0;
             if (inputControls.downButtonPressed) {
                 velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
-            } else if (inputControls.upButtonPressed && canHurdle) {
+            } else if (inputControls.upButtonPressed && canHurdle && !(touchedGround instanceof Cannon)) {
                 canHurdle = false;
                 canRappel = false;
                 directionX = Helpers.getOppositeDirection(directionX);
-                velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
+                velocity.x = Helpers.absoluteToDirectionalValue(5, directionX, Orientation.X);
                 jump();
             } else if (turbo < 1) {
                 turbo = 0;
