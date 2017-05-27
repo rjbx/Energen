@@ -42,7 +42,7 @@ public class BreakableBox extends Box implements Destructible {
     @Override public Vector2 getPosition() { return super.getPosition(); }
     @Override public int getKillScore() { return 0; }
     @Override public int getHitScore() { return 0; }
-    @Override public float getShotRadius() { return 29; }
+    @Override public float getShotRadius() { return Math.min(getWidth(), getHeight()) / 2; }
     @Override public void setHealth(float damage) { this.damage = damage; }
     @Override public float getHealth() { return damage; }
     @Override public Enums.Material getType() { return super.getType(); }

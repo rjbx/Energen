@@ -323,7 +323,7 @@ public final class Constants {
 
     // Orben
     public static final float ORBEN_TEXTURE_SCALE = 1.5f;
-    public static final Vector2 ORBEN_CENTER = new Vector2(10 * ORBEN_TEXTURE_SCALE, 10 * ORBEN_TEXTURE_SCALE);
+    public static final Vector2 ORBEN_CENTER = new Vector2(5 * ORBEN_TEXTURE_SCALE, 5 * ORBEN_TEXTURE_SCALE);
     public static final float ORBEN_COLLISION_WIDTH = 10 * ORBEN_TEXTURE_SCALE;
     public static final float ORBEN_COLLISION_HEIGHT = 10 * ORBEN_TEXTURE_SCALE;
     public static final float ORBEN_SHOT_RADIUS = 5 * ORBEN_TEXTURE_SCALE;
@@ -498,7 +498,7 @@ public final class Constants {
     // Portal
     public static final Vector2 PORTAL_CENTER = new Vector2(31, 31);
     public static final float PORTAL_RADIUS = 28;
-    public static final float PORTAL_FRAME_DURATION = 0.25f;
+    public static final float PORTAL_FRAME_DURATION = 0.15f;
     public static final String PORTAL_SPRITE_1 = "portal-1";
     public static final String PORTAL_SPRITE_2 = "portal-2";
     public static final String PORTAL_SPRITE_3 = "portal-3";

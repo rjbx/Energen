@@ -814,7 +814,7 @@ public final class Assets implements AssetErrorListener {
             portalRegions.add(atlas.findRegion(Constants.PORTAL_SPRITE_6));
 
             portal = new Animation(Constants.PORTAL_FRAME_DURATION,
-                    portalRegions, PlayMode.NORMAL);
+                    portalRegions, PlayMode.LOOP);
 
             Array<AtlasRegion> teleportRegions = new Array<AtlasRegion>();
             teleportRegions.add(atlas.findRegion(Constants.TELEPORT_SPRITE_1));

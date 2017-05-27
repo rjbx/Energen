@@ -161,9 +161,9 @@ public final class Ammo implements Indestructible, Hazard {
         }
 
         for (Ground ground : level.getGrounds()) {
-            if (ground instanceof Strikeable) {
-                Strikeable strikeable = (Strikeable) ground;
-                if (position.dst(strikeable.getPosition()) < (strikeable.getShotRadius() + this.radius)) {
+            if (Helpers.overlapsPhysicalObject(this, ground)) {
+                if (ground instanceof Strikeable) {
+                    Strikeable strikeable = (Strikeable) ground;
                     if (isFromGigagal()) {
                         Assets.getInstance().getSoundAssets().hitGround.play();
                     }
@@ -177,6 +177,9 @@ public final class Ammo implements Indestructible, Hazard {
                     } else if (strikeable instanceof Destructible) {
                         Helpers.applyDamage((Destructible) ground, this);
                     }
+                }
+
+                if (ground.isDense()) {
                     LevelUpdater.getInstance().spawnExplosion(position, weapon);
                     active = false;
                 }
