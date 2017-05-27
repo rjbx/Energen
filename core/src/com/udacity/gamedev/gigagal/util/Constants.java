@@ -515,7 +515,7 @@ public final class Constants {
     // Ammo
     public static final float CHARGE_DURATION = 1;
     public static final float AMMO_MAX_SPEED = 300;
-    public static final float AMMO_NORMAL_SPEED = 375;
+    public static final float AMMO_NORMAL_SPEED = 180;
     public static final int AMMO_STANDARD_DAMAGE = 10;
     public static final int AMMO_SPECIALIZED_DAMAGE = 30;
     public static final int AMMO_WEAK_DAMAGE = 1;

@@ -30,7 +30,7 @@ public class Impact implements Physical, Visible {
                 animation = Assets.getInstance().getImpactAssets().impactPlasma;
                 break;
             case GAS:
-                animation = Assets.getInstance().getImpactAssets().impact;
+                animation = Assets.getInstance().getImpactAssets().impactGas;
                 break;
             case LIQUID:
                 animation = Assets.getInstance().getImpactAssets().impactLiquid;
@@ -72,5 +72,5 @@ public class Impact implements Physical, Visible {
     @Override public final float getRight() { return position.x + Constants.EXPLOSION_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.EXPLOSION_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.EXPLOSION_CENTER.y; }
-    public boolean isFinished() { return Assets.getInstance().getImpactAssets().impact.isAnimationFinished(Helpers.secondsSince(startTime)); }
+    public boolean isFinished() { return Constants.IMPACT_DURATION < Helpers.secondsSince(startTime); }
 }

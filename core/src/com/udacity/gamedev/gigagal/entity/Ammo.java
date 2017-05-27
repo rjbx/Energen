@@ -64,7 +64,7 @@ public final class Ammo implements Indestructible, Hazard {
         }
         if (orientation == Orientation.Y) {
             rotation = 90;
-            ammoCenter = new Vector2(radius, radius);
+            ammoCenter = new Vector2(-radius, radius);
         } else {
             ammoCenter = new Vector2(radius, radius);
         }
@@ -161,7 +161,7 @@ public final class Ammo implements Indestructible, Hazard {
 
         for (Ground ground : level.getGrounds()) {
             if (ground instanceof Strikeable) {
-            if (Helpers.overlapsPhysicalObject(this, ground)) {
+                if (Helpers.overlapsPhysicalObject(this, ground)) {
                     Strikeable strikeable = (Strikeable) ground;
                     if (isFromGigagal()) {
                         Assets.getInstance().getSoundAssets().hitGround.play();
@@ -178,7 +178,9 @@ public final class Ammo implements Indestructible, Hazard {
                     }
                     if (ground.isDense() || Helpers.betweenTwoValues(position.y, ground.getPosition().y - 2, ground.getPosition().y + 2)) {
                         active = false;
-                        LevelUpdater.getInstance().spawnImpact(position, weapon);
+                        if (!position.equals(Vector2.Zero)) {
+                            LevelUpdater.getInstance().spawnImpact(position, weapon);
+                        }
                     }
                 }
             }

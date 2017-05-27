@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.BreakableBox;
 import com.udacity.gamedev.gigagal.entity.Ground;
@@ -829,7 +828,7 @@ public final class Assets implements AssetErrorListener {
     public static final class ImpactAssets {
 
         public final Animation impactPlasma;
-        public final Animation impact;
+        public final Animation impactGas;
         public final Animation impactLiquid;
         public final Animation impactSolid;
         public final Animation impactPsychic;
@@ -851,7 +850,7 @@ public final class Assets implements AssetErrorListener {
             impactGasRegions.add(atlas.findRegion(Constants.IMPACT_GAS_MEDIUM));
             impactGasRegions.add(atlas.findRegion(Constants.IMPACT_GAS_SMALL));
 
-            impact = new Animation(Constants.IMPACT_DURATION / impactGasRegions.size,
+            impactGas = new Animation(Constants.IMPACT_DURATION / impactGasRegions.size,
                     impactGasRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> impactLiquidRegions = new Array<AtlasRegion>();
