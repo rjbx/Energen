@@ -886,6 +886,7 @@ public class GigaGal implements Humanoid {
         if (strideStartTime == 0) {
             strideSpeed = velocity.x;
             action = Action.STRIDING;
+            groundState = GroundState.PLANTED;
             strideStartTime = TimeUtils.nanoTime();
         }
         strideTimeSeconds = Helpers.secondsSince(strideStartTime);
@@ -913,6 +914,7 @@ public class GigaGal implements Humanoid {
             startTurbo = turbo;
             turboDuration = Constants.MAX_DASH_DURATION * (startTurbo / Constants.MAX_TURBO);
             action = Action.DASHING;
+            groundState = GroundState.PLANTED;
             dashStartTime = TimeUtils.nanoTime();
             strideStartTime = 0;
             canStride = false;
@@ -986,6 +988,7 @@ public class GigaGal implements Humanoid {
             startTurbo = turbo;
             turboDuration = Constants.MAX_HOVER_DURATION * (startTurbo / Constants.MAX_TURBO);
             action = Action.HOVERING; // indicates currently hovering
+            groundState = GroundState.AIRBORNE;
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
         hoverTimeSeconds = Helpers.secondsSince(hoverStartTime); // for comparing with max hover time
