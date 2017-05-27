@@ -179,7 +179,7 @@ public final class Ammo implements Indestructible, Hazard {
                     }
                 }
 
-                if (ground.isDense()) {
+                if (ground.isDense() || Helpers.betweenTwoValues(position.y, ground.getPosition().y - 2, ground.getPosition().y + 2)) {
                     LevelUpdater.getInstance().spawnExplosion(position, weapon);
                     active = false;
                 }
