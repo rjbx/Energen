@@ -267,7 +267,7 @@ public class GigaGal implements Humanoid {
                     canRappel = false; // prevent from rappelling on non dense grounds
                     // additional ground collision instructions specific to certain types of grounds
                     if (ground instanceof Climbable) {
-                        if (!(touchedGround instanceof Skateable) && groundState == GroundState.PLANTED) {  // prevents from overwriting saved skateable and overriding ground physics
+                        if (!(touchedGround instanceof Skateable && groundState == GroundState.PLANTED)) {  // prevents from overwriting saved skateable and overriding ground physics
                             touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                         }
                         if (!(action == Action.CLIMBING && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when not climbing downward
@@ -484,7 +484,7 @@ public class GigaGal implements Humanoid {
                 canClimb = false;
                 touchedGround = null;  // after handling touchedground conditions above
             }
-        } else if (action == Action.STANDING) {
+        } else if (action == Action.STANDING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
             fall();
         }
     }
@@ -698,7 +698,6 @@ public class GigaGal implements Humanoid {
                                     } else if (directionY == Direction.DOWN) { // drop down from climbable (drop handled from climb())
                                         lookStartTime = TimeUtils.nanoTime(); // prevents from reengaging climbable from enableclimb() while falling
                                         canCling = false; // meets requirement within climb() to disable climb and enable fall
-                                        canClimb = false;
                                     }
                                 }
                                 dashStartTime = TimeUtils.nanoTime(); // replace climb start time with that of most recent tap
