@@ -490,6 +490,7 @@ final class LevelLoader {
                 final Vector2 wavesPosition = imagePosition.add(Constants.WAVES_CENTER);
                 final Waves waves = new Waves(wavesPosition, scale, adjustedCenter);
                 level.getHazards().add(waves);
+                level.getGrounds().add(waves);
                 Gdx.app.log(TAG, "Loaded the waves at " + wavesPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_LEFT)) {
                 Vector2 adjustedCenter = new Vector2(Constants.TREADMILL_CENTER.x * scale.x, Constants.TREADMILL_CENTER.y * scale.y);

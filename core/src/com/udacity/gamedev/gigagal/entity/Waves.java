@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Waves implements Indestructible, Hazard {
+public class Waves implements Indestructible, Hazard, Sinkable, Ground {
 
     // fields
     private Vector2 position;
@@ -43,5 +43,6 @@ public class Waves implements Indestructible, Hazard {
     @Override public final Enums.Material getType() { return Enums.Material.LIQUID; }
     @Override public final Vector2 getKnockback() { return Constants.WAVES_KNOCKBACK; }
     @Override public final int getDamage() { return Constants.WAVES_DAMAGE; }
+    @Override public final boolean isDense() { return false; }
     @Override public Waves clone() { return new Waves(position, scale, adjustedCenter); }
 }

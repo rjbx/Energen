@@ -251,8 +251,8 @@ public final class Constants {
     public static final String WAVES_SPRITE_1 = "waves-1";
     public static final String WAVES_SPRITE_2 = "waves-2";
     public static final float WAVES_DURATION = .25f;
-    public static final int WAVES_DAMAGE = 25;
-    public static final Vector2 WAVES_KNOCKBACK = new Vector2(150, 400);
+    public static final int WAVES_DAMAGE = 5;
+    public static final Vector2 WAVES_KNOCKBACK = new Vector2(15, 40);
 
     // Pod
     public static final Vector2 POD_CENTER = new Vector2(17.5f, 4);
