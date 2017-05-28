@@ -178,6 +178,7 @@ public class LevelUpdater {
                     savedTime = time;
                     savedScore = score;
                 } else if (transport instanceof Teleport) {
+                    Assets.getInstance().getSoundAssets().warp.play();
                     GigaGal.getInstance().getPosition().set(transport.getDestination());
                 }
             }

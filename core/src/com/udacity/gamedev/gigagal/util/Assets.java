@@ -70,6 +70,7 @@ public final class Assets implements AssetErrorListener {
         assetManager.load(Constants.LIQUID_SOUND);
         assetManager.load(Constants.SOLID_SOUND);
         assetManager.load(Constants.ANTIMATTER_SOUND);
+        assetManager.load(Constants.WARP_SOUND);
         assetManager.load(Constants.HYBRID_SOUND);
         assetManager.load(Constants.GAS_SOUND);
         assetManager.load(Constants.HIT_SOUND);
@@ -1002,6 +1003,7 @@ public final class Assets implements AssetErrorListener {
         public final Sound liquid;
         public final Sound solid;
         public final Sound antimatter;
+        public final Sound warp;
         public final Sound hybrid;
         public final Sound hit;
         public final Sound hitGround;
@@ -1023,6 +1025,7 @@ public final class Assets implements AssetErrorListener {
             solid = assetManager.get(Constants.SOLID_SOUND); // use of descriptor enforces type checking
             gas = assetManager.get(Constants.GAS_SOUND); // use of descriptor enforces type checking
             antimatter = assetManager.get(Constants.ANTIMATTER_SOUND); // use of descriptor enforces type checking
+            warp = assetManager.get(Constants.WARP_SOUND); // use of descriptor enforces type checking
             hybrid = assetManager.get(Constants.HYBRID_SOUND); // use of descriptor enforces type checking
             ore = assetManager.get(Constants.ORE_SOUND); // use of descriptor enforces type checking
             hit = assetManager.get(Constants.HIT_SOUND); // use of descriptor enforces type checking

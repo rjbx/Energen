@@ -39,6 +39,7 @@ public final class Constants {
     public static final AssetDescriptor<Sound> SOLID_SOUND = new AssetDescriptor<Sound>("audio/solid.wav", Sound.class);
     public static final AssetDescriptor<Sound> ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/antimatter.wav", Sound.class);
     public static final AssetDescriptor<Sound> HYBRID_SOUND = new AssetDescriptor<Sound>("audio/hybrid.wav", Sound.class);
+    public static final AssetDescriptor<Sound> WARP_SOUND = new AssetDescriptor<Sound>("audio/warp.wav", Sound.class);
     public static final AssetDescriptor<Sound> HIT_SOUND = new AssetDescriptor<Sound>("audio/hit_effective.wav", Sound.class);
     public static final AssetDescriptor<Sound> HIT_GROUND_SOUND = new AssetDescriptor<Sound>("audio/hit_ground.wav", Sound.class);
     public static final AssetDescriptor<Sound> FLIGHT_SOUND = new AssetDescriptor<Sound>("audio/flight.wav", Sound.class);
