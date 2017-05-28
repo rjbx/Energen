@@ -402,7 +402,7 @@ public class LevelUpdater {
         return false;
     }
 
-    protected boolean completed() { return GigaGal.getInstance().getPosition().dst(transports.get(transports.size - 1).getPosition()) < Constants.PORTAL_RADIUS; }
+    protected boolean completed() { return GigaGal.getInstance().getPosition().dst(transports.get(transports.size - 2).getPosition()) < Constants.PORTAL_RADIUS; }
 
     protected boolean continuing() { return !(completed() || failed()); }
 
