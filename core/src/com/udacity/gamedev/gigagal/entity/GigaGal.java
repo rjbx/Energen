@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -884,6 +885,8 @@ public class GigaGal implements Humanoid {
     }
 
     private void stride() {
+        action = Action.STRIDING;
+        groundState = GroundState.PLANTED;
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.STRIDE_TURBO_INCREMENT;
         }
