@@ -246,6 +246,14 @@ public final class Constants {
     public static final int LAVA_DAMAGE = 25;
     public static final Vector2 LAVA_KNOCKBACK = new Vector2(150, 400);
 
+    // Waves
+    public static final Vector2 WAVES_CENTER = new Vector2(16, 16);
+    public static final String WAVES_SPRITE_1 = "waves-1";
+    public static final String WAVES_SPRITE_2 = "waves-2";
+    public static final float WAVES_DURATION = .25f;
+    public static final int WAVES_DAMAGE = 25;
+    public static final Vector2 WAVES_KNOCKBACK = new Vector2(150, 400);
+
     // Pod
     public static final Vector2 POD_CENTER = new Vector2(17.5f, 4);
     public static final String POD_SPRITE_1 = "pod-1";

@@ -35,6 +35,7 @@ import com.udacity.gamedev.gigagal.entity.Vines;
 import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Box;
+import com.udacity.gamedev.gigagal.entity.Waves;
 import com.udacity.gamedev.gigagal.entity.Zoomba;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -484,6 +485,12 @@ final class LevelLoader {
                 final Lava lava = new Lava(lavaPosition, scale, adjustedCenter);
                 level.getHazards().add(lava);
                 Gdx.app.log(TAG, "Loaded the lava at " + lavaPosition);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WAVES_SPRITE_1)) {
+                Vector2 adjustedCenter = new Vector2(Constants.WAVES_CENTER.x * scale.x, Constants.WAVES_CENTER.y * scale.y);
+                final Vector2 wavesPosition = imagePosition.add(Constants.WAVES_CENTER);
+                final Waves waves = new Waves(wavesPosition, scale, adjustedCenter);
+                level.getHazards().add(waves);
+                Gdx.app.log(TAG, "Loaded the waves at " + wavesPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_LEFT)) {
                 Vector2 adjustedCenter = new Vector2(Constants.TREADMILL_CENTER.x * scale.x, Constants.TREADMILL_CENTER.y * scale.y);
                 final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);

@@ -289,6 +289,7 @@ public final class Assets implements AssetErrorListener {
         public final Animation sink;
         public final Animation coals;
         public final Animation lava;
+        public final Animation waves;
         public final NinePatch box;
         public final NinePatch breakableBox;
 
@@ -423,6 +424,13 @@ public final class Assets implements AssetErrorListener {
 
             lava = new Animation(Constants.LAVA_DURATION / lavaRegions.size,
                     lavaRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> wavesRegions = new Array<AtlasRegion>();
+            wavesRegions.add(atlas.findRegion(Constants.WAVES_SPRITE_1));
+            wavesRegions.add(atlas.findRegion(Constants.WAVES_SPRITE_2));
+
+            waves = new Animation(Constants.WAVES_DURATION / wavesRegions.size,
+                    wavesRegions, PlayMode.NORMAL);
         }
 
         public final NinePatch getNinePatch(Ground ground) {
