@@ -133,7 +133,7 @@ final class LevelLoader {
             Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
                     + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
                     + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
-                    + "; key: " + Constants.LEVEL_ROTATION_KEY + Constants.LEVEL_ROTATION_KEY);
+                    + "; key: " + Constants.LEVEL_ROTATION_KEY);
         }
         return rotation;
     }
