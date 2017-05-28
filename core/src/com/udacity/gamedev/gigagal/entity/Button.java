@@ -18,6 +18,7 @@ public class Button implements Switchable, Strikeable, Ground {
     private Rectangle bounds;
     private long startTime;
     private float rotation;
+    private Vector2 offset;
     private boolean state;
 
     // ctor
@@ -26,6 +27,15 @@ public class Button implements Switchable, Strikeable, Ground {
         this.level = level;
         this.bounds = bounds;
         this.rotation = rotation;
+        if (rotation == 90) {
+            offset = new Vector2(-Constants.BUTTON_CENTER.x * .375f, Constants.BUTTON_CENTER.y * .375f);
+        } else if (rotation == 180) {
+            offset = new Vector2(-Constants.BUTTON_CENTER.x * .375f, -Constants.BUTTON_CENTER.y * .375f);
+        } else if (rotation == 270) {
+            offset = new Vector2(Constants.BUTTON_CENTER.x * .375f, -Constants.BUTTON_CENTER.y * .375f);
+        } else {
+            offset = Constants.BUTTON_CENTER;
+        }
         startTime = 0;
         state = false;
     }
@@ -60,12 +70,12 @@ public class Button implements Switchable, Strikeable, Ground {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOff.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.TRIP_CENTER, 1, rotation);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOff.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
         } else {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.TRIP_CENTER, 1, rotation);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1 , rotation);
         }
     }
 

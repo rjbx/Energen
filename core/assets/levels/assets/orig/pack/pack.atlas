@@ -311,9 +311,9 @@ treadmill-1-right
   index: -1
 trip-1
   rotate: false
-  xy: 438, 67
-  size: 12, 12
-  orig: 12, 12
+  xy: 438, 65
+  size: 12, 14
+  orig: 12, 14
   offset: 0, 0
   index: -1
 vines
