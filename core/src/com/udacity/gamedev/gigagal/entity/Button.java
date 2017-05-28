@@ -17,13 +17,15 @@ public class Button implements Switchable, Strikeable, Ground {
     private LevelUpdater level;
     private Rectangle bounds;
     private long startTime;
+    private float rotation;
     private boolean state;
 
     // ctor
-    public Button(LevelUpdater level, Vector2 position, Rectangle bounds) {
+    public Button(LevelUpdater level, Vector2 position, Rectangle bounds, float rotation) {
         this.position = position;
         this.level = level;
         this.bounds = bounds;
+        this.rotation = rotation;
         startTime = 0;
         state = false;
     }
@@ -58,12 +60,12 @@ public class Button implements Switchable, Strikeable, Ground {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOff.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.TRIP_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOff.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.TRIP_CENTER, 0, rotation);
         } else {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.TRIP_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.TRIP_CENTER, 0, rotation);
         }
     }
 
@@ -82,5 +84,5 @@ public class Button implements Switchable, Strikeable, Ground {
     @Override public void setState(boolean state) {
         this.state = state;
     }
-    @Override public Button clone() { return new Button(level, position, bounds); }
+    @Override public Button clone() { return new Button(level, position, bounds, rotation); }
 }

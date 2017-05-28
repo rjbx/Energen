@@ -122,6 +122,22 @@ final class LevelLoader {
         return scale;
     }
 
+    private static final float extractRotation(JSONObject object) {
+        float rotation = 0;
+        try {
+            if (object.containsKey(Constants.LEVEL_ROTATION_KEY)) {
+                rotation = ((Number) object.get(Constants.LEVEL_ROTATION_KEY)).floatValue();
+            }
+        } catch (NumberFormatException ex) {
+            runtimeEx = true;
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
+                    + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + "; key: " + Constants.LEVEL_ROTATION_KEY + Constants.LEVEL_ROTATION_KEY);
+        }
+        return rotation;
+    }
+
     private static final Enums.Orientation extractOrientation(JSONObject object) {
         Enums.Orientation orientation = Enums.Orientation.Z;
         try {
@@ -301,6 +317,7 @@ final class LevelLoader {
 
             final Vector2 imagePosition = extractPosition(item);
             final Vector2 scale = extractScale(item);
+            final float rotation = extractRotation(item);
             final Vector2 destination = extractDestination(item);
             final Enums.Orientation orientation = extractOrientation(item);
             final Enums.Material type = extractType(item);
@@ -454,7 +471,7 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIP_SPRITE_1)) {
                 final Vector2 tripPosition = imagePosition.add(Constants.TRIP_CENTER);
                 Gdx.app.log(TAG, "Loaded the trip at " + tripPosition);
-                Button button = new Button(level, tripPosition, bounds);
+                Button button = new Button(level, tripPosition, bounds, rotation);
                 level.getGrounds().add(button);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POD_SPRITE_1)) {
                 final Vector2 podPosition = imagePosition.add(Constants.POD_CENTER);
