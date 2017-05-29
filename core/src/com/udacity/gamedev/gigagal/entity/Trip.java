@@ -10,31 +10,35 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Button implements Switchable, Strikeable, Ground {
+public class Trip implements Switchable, Strikeable, Ground {
 
     // fields
     private Vector2 position;
     private LevelUpdater level;
     private Rectangle bounds;
     private long startTime;
-    private float rotation;
+    private int rotation;
     private Vector2 offset;
     private boolean state;
 
     // ctor
-    public Button(LevelUpdater level, Vector2 position, Rectangle bounds, float rotation) {
+    public Trip(LevelUpdater level, Vector2 position, Rectangle bounds, float rotation) {
         this.position = position;
         this.level = level;
         this.bounds = bounds;
-        this.rotation = rotation;
-        if (rotation == 90) {
-            offset = new Vector2(-Constants.BUTTON_CENTER.x * .375f, Constants.BUTTON_CENTER.y * .375f);
-        } else if (rotation == 180) {
-            offset = new Vector2(-Constants.BUTTON_CENTER.x * .375f, -Constants.BUTTON_CENTER.y * .375f);
-        } else if (rotation == 270) {
-            offset = new Vector2(Constants.BUTTON_CENTER.x * .375f, -Constants.BUTTON_CENTER.y * .375f);
-        } else {
-            offset = Constants.BUTTON_CENTER;
+        this.rotation = (int) rotation;
+        switch (this.rotation) {
+            case 90:
+                offset = new Vector2(-Constants.TRIP_CENTER.x, Constants.TRIP_CENTER.y);
+                break;
+            case 180:
+                offset = new Vector2(-Constants.TRIP_CENTER.x, -Constants.TRIP_CENTER.y);
+                break;
+            case 270:
+                offset = new Vector2(Constants.TRIP_CENTER.x, -Constants.TRIP_CENTER.y);
+                break;
+            default:
+                offset = Constants.TRIP_CENTER;
         }
         startTime = 0;
         state = false;
@@ -75,7 +79,7 @@ public class Button implements Switchable, Strikeable, Ground {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1 , rotation);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
         }
     }
 
@@ -94,5 +98,5 @@ public class Button implements Switchable, Strikeable, Ground {
     @Override public void setState(boolean state) {
         this.state = state;
     }
-    @Override public Button clone() { return new Button(level, position, bounds, rotation); }
+    @Override public Trip clone() { return new Trip(level, position, bounds, rotation); }
 }
