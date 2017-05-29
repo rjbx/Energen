@@ -26,7 +26,6 @@ public final class Helpers {
     // cannot be subclassed
     private Helpers() {}
 
-
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position) {
         drawTextureRegion(batch, viewport, region, position.x, position.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
     }
