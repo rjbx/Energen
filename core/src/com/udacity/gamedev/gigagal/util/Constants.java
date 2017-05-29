@@ -48,6 +48,8 @@ public final class Constants {
     public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/riff-level.mp3", Music.class);
     public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/riff-boss.mp3", Music.class);
     public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/thermal.mp3", Music.class);
+    public static final AssetDescriptor<Music> NUCLEAR_MUSIC = new AssetDescriptor<Music>("audio/nuclear.mp3", Music.class);
+    public static final AssetDescriptor<Music> MYSTERIOUS_MUSIC = new AssetDescriptor<Music>("audio/mysterious.mp3", Music.class);
     public static final AssetDescriptor<BitmapFont> MESSAGE_FONT = new AssetDescriptor<BitmapFont>("font/message.fnt", BitmapFont.class);
     public static final AssetDescriptor<BitmapFont> MENU_FONT = new AssetDescriptor<BitmapFont>("font/menu.fnt", BitmapFont.class);
     public static final AssetDescriptor<BitmapFont> INACTIVE_FONT = new AssetDescriptor<BitmapFont>("font/inactive.fnt", BitmapFont.class);

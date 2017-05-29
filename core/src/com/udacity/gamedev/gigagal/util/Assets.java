@@ -58,6 +58,8 @@ public final class Assets implements AssetErrorListener {
         assetManager.load(Constants.LEVEL_MUSIC);
         assetManager.load(Constants.BOSS_MUSIC);
         assetManager.load(Constants.THERMAL_MUSIC);
+        assetManager.load(Constants.MYSTERIOUS_MUSIC);
+        assetManager.load(Constants.NUCLEAR_MUSIC);
         assetManager.load(Constants.HEALTH_SOUND);
         assetManager.load(Constants.AMMO_SOUND);
         assetManager.load(Constants.TURBO_SOUND);
@@ -1072,11 +1074,15 @@ public final class Assets implements AssetErrorListener {
         public final Music level;
         public final Music boss;
         public final Music thermal;
+        public final Music nuclear;
+        public final Music mysterious;
 
         private MusicAssets() {
             level = assetManager.get(Constants.LEVEL_MUSIC); // use of descriptor enforces type checking
             boss = assetManager.get(Constants.BOSS_MUSIC); // use of descriptor enforces type checking
             thermal = assetManager.get(Constants.THERMAL_MUSIC); // use of descriptor enforces type checking
+            nuclear = assetManager.get(Constants.NUCLEAR_MUSIC); // use of descriptor enforces type checking
+            mysterious = assetManager.get(Constants.MYSTERIOUS_MUSIC); // use of descriptor enforces type checking
         }
         
         public Music getThemeMusic(Enums.Theme theme) {
