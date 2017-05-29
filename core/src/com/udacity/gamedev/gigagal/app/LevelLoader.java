@@ -470,7 +470,7 @@ final class LevelLoader {
                 level.getGrounds().add(new Spring(springPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIP_SPRITE_1)) {
                 final Vector2 tripPosition = imagePosition.add(Constants.TRIP_CENTER);
-                Gdx.app.log(TAG, "Loaded the trip at " + tripPosition);
+                Gdx.app.log(TAG, "Loaded the convert at " + tripPosition);
                 Trip trip = new Trip(level, tripPosition, bounds, rotation);
                 level.getGrounds().add(trip);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POD_SPRITE_1)) {

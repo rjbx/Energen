@@ -12,7 +12,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Cannon implements Nonstatic, Ground {
+public class Cannon implements Nonstatic, Convertible, Ground {
 
     // fields
     private Vector2 position;
@@ -22,6 +22,7 @@ public class Cannon implements Nonstatic, Ground {
     private Vector2 center;
     private float offset;
     private long startTime;
+    private boolean deactivated;
 
     // ctor
     public Cannon(Vector2 position, Enums.Orientation orientation, Enums.ShotIntensity intensity) {
@@ -31,6 +32,7 @@ public class Cannon implements Nonstatic, Ground {
         this.intensity = intensity;
         startTime = 0;
         offset = 0;
+        deactivated = false;
         switch (orientation) {
             case Y:
                 region = Assets.getInstance().getGroundAssets().yCannon;
@@ -44,28 +46,30 @@ public class Cannon implements Nonstatic, Ground {
     }
     
     public void update() {
-        if (this.getOffset() == 0) {
-            offset += 0.25f;
-            this.setStartTime(TimeUtils.nanoTime() + ((long) (this.getOffset() / MathUtils.nanoToSec)));
-        }
-        if ((Helpers.secondsSince(this.getStartTime()) > 1.5f)) {
-            this.setStartTime(TimeUtils.nanoTime());
-            Enums.Orientation orientation = this.getOrientation();
-            if (orientation == Enums.Orientation.X) {
-                Vector2 ammoPositionLeft = new Vector2(this.getPosition().x - (this.getWidth() / 2), this.getPosition().y);
-                Vector2 ammoPositionRight = new Vector2(this.getPosition().x + (this.getWidth() / 2), this.getPosition().y);
-                if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (this.getWidth() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
-                } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (this.getWidth() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
-                }
-            } else if (this.getOrientation() == Enums.Orientation.Y) {
-                Vector2 ammoPositionTop = new Vector2(this.getPosition().x, this.getPosition().y + (this.getHeight() / 2));
-                Vector2 ammoPositionBottom = new Vector2(this.getPosition().x, this.getPosition().y - (this.getHeight() / 2));
-                if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (this.getHeight() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
-                } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (this.getHeight() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
+        if (!deactivated) {
+            if (this.getOffset() == 0) {
+                offset += 0.25f;
+                this.setStartTime(TimeUtils.nanoTime() + ((long) (this.getOffset() / MathUtils.nanoToSec)));
+            }
+            if ((Helpers.secondsSince(this.getStartTime()) > 1.5f)) {
+                this.setStartTime(TimeUtils.nanoTime());
+                Enums.Orientation orientation = this.getOrientation();
+                if (orientation == Enums.Orientation.X) {
+                    Vector2 ammoPositionLeft = new Vector2(this.getPosition().x - (this.getWidth() / 2), this.getPosition().y);
+                    Vector2 ammoPositionRight = new Vector2(this.getPosition().x + (this.getWidth() / 2), this.getPosition().y);
+                    if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (this.getWidth() / 2))) {
+                        LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                    } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (this.getWidth() / 2))) {
+                        LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                    }
+                } else if (this.getOrientation() == Enums.Orientation.Y) {
+                    Vector2 ammoPositionTop = new Vector2(this.getPosition().x, this.getPosition().y + (this.getHeight() / 2));
+                    Vector2 ammoPositionBottom = new Vector2(this.getPosition().x, this.getPosition().y - (this.getHeight() / 2));
+                    if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (this.getHeight() / 2))) {
+                        LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                    } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (this.getHeight() / 2))) {
+                        LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                    }
                 }
             }
         }
@@ -84,6 +88,8 @@ public class Cannon implements Nonstatic, Ground {
     @Override public final float getTop() { return position.y + center.y; }
     @Override public final float getBottom() { return position.y - center.y; }
     @Override public final boolean isDense() { return true; }
+    @Override public void convert() { deactivated = !deactivated; }
+    @Override public boolean isConverted() { return deactivated; }
     @Override public Cannon clone() { return new Cannon(position, orientation, intensity); }
     public final Enums.Orientation getOrientation() { return orientation; }
     public final Enums.ShotIntensity getIntensity() { return intensity; }

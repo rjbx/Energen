@@ -10,6 +10,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
+// class name avoids confusion with existing button assets and constants
 public class Trip implements Switchable, Strikeable, Ground {
 
     // fields
@@ -49,8 +50,8 @@ public class Trip implements Switchable, Strikeable, Ground {
             for (Ground ground : level.getGrounds()) {
                 if (ground instanceof Convertible) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
-                        if (!((Treadmill) ground).isTripped()) {
-                            ((Treadmill) ground).trip();
+                        if (!((Convertible) ground).isConverted()) {
+                            ((Convertible) ground).convert();
                         }
                     }
                 }
@@ -59,8 +60,8 @@ public class Trip implements Switchable, Strikeable, Ground {
             for (Ground ground : level.getGrounds()) {
                 if (ground instanceof Convertible) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
-                        if (((Treadmill) ground).isTripped()) {
-                            ((Treadmill) ground).trip();
+                        if (((Convertible) ground).isConverted()) {
+                            ((Convertible) ground).convert();
                         }
                     }
                 }
