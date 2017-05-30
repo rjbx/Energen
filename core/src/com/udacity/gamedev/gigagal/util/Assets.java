@@ -1094,13 +1094,13 @@ public final class Assets implements AssetErrorListener {
                 case ELECTROMAGNETIC:
                     return thermal;
                 case NUCLEAR:
-                    return thermal;
+                    return nuclear;
                 case THERMAL:
                     return thermal;
                 case GRAVITATIONAL:
                     return thermal;
                 case MYSTERIOUS:
-                    return boss;
+                    return mysterious;
                 case FINAL:
                     return boss;
                 default:
