@@ -91,7 +91,7 @@ public class Trip implements Switchable, Strikeable, Ground {
     @Override public final float getRight() { return position.x + Constants.TRIP_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.TRIP_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.TRIP_CENTER.y; }
-    @Override public final boolean isDense() { return false; }
+    @Override public final boolean isDense() { return true; }
     public final long getStartTime() { return startTime; }
     @Override public final void resetStartTime() { this.startTime = 0; }
     public Rectangle getBounds() { return bounds; }

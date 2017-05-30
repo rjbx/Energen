@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.util;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -153,14 +154,12 @@ public final class Helpers {
     }
 
     public static final Enums.Orientation getOppositeOrientation(Enums.Orientation orientation) {
-        switch (orientation) {
-            case X:
-                return Enums.Orientation.Y;
-            case Y:
-                return Enums.Orientation.X;
-            default:
-                return null;
+        if (orientation == X) {
+            return Y;
+        } else if (orientation == Y) {
+            return X;
         }
+        return null;
     }
 
     public static final boolean changeDirection(Multidirectional multidirectional, Enums.Direction setTo, Enums.Orientation orientation) {
