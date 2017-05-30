@@ -97,6 +97,7 @@ public class Orben implements Destructible, Hazard {
         } else {
             startTime = TimeUtils.nanoTime();
             velocity.x = 0;
+            velocity.y = 0;
             active = false;
         }
 
