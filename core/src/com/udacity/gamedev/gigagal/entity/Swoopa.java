@@ -66,7 +66,7 @@ public class Swoopa implements Destructible, Hazard {
         Vector3 camera = new Vector3(level.getViewport().getCamera().position);
         // while the swoopa is witin a screens' width from the screen center on either side, permit movement
         if (Helpers.betweenTwoValues(position.x, (camera.x - worldSpan.x), (camera.x + worldSpan.x))
-            && Helpers.betweenTwoValues(position.y, (camera.y - worldSpan.y), (camera.y + worldSpan.y))) {
+            && Helpers.betweenTwoValues(position.y, (camera.y - (worldSpan.y * 1.5f)), (camera.y + (worldSpan.y * 1.5f)))) {
             if (descentStartTime == 0) {
                 sound.play();
                 descentStartTime = TimeUtils.nanoTime();
@@ -85,7 +85,7 @@ public class Swoopa implements Destructible, Hazard {
         if (position.x < (camera.x - (worldSpan.x * 20))) {
             descentStartTime = 0;
             position.x = (camera.x + worldSpan.x - 1);
-            position.y = (camera.y + (worldSpan.y / 1.5f) - 1);
+            position.y = (camera.y + (worldSpan.y / 1.5f));
             velocity.set(0, 0);
         }
     }
