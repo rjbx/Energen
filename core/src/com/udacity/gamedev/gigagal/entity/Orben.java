@@ -74,18 +74,6 @@ public class Orben implements Destructible, Hazard {
         Vector3 camera = new Vector3(viewport.getCamera().position);
         Vector2 activationDistance = new Vector2(worldSpan.x / 4, worldSpan.y / 4);
 
-        if (xDirection != null) {
-            switch (xDirection) {
-                case LEFT:
-                    velocity.x = -Constants.ORBEN_MOVEMENT_SPEED * delta;
-                    break;
-                case RIGHT:
-                    velocity.x = Constants.ORBEN_MOVEMENT_SPEED * delta;
-                    break;
-            }
-        } else {
-            velocity.x = 0;
-        }
         if ((position.x < camera.x - activationDistance.x)
                 || (position.x > camera.x + activationDistance.x)) {
             xDirection = null;
@@ -95,18 +83,6 @@ public class Orben implements Destructible, Hazard {
             xDirection = Enums.Direction.LEFT;
         }
 
-        if (yDirection != null) {
-            switch (yDirection) {
-                case DOWN:
-                    velocity.y = -Constants.ORBEN_MOVEMENT_SPEED * delta;
-                    break;
-                case UP:
-                    velocity.y = Constants.ORBEN_MOVEMENT_SPEED * delta;
-                    break;
-            }
-        } else {
-            velocity.y = 0;
-        }
         if ((position.y < camera.y - activationDistance.y)
                 || (position.y > camera.y + activationDistance.y)) {
             yDirection = null;
@@ -120,14 +96,35 @@ public class Orben implements Destructible, Hazard {
             active = true;
         } else {
             startTime = TimeUtils.nanoTime();
+            velocity.x = 0;
             active = false;
         }
 
-        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-            if (ground.isDense()) {
-                if (Helpers.overlapsBetweenFourSides(position, getWidth(), getHeight(), ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop())) {
-                    velocity.setZero();
-                    position.set(previousFramePosition);
+        if (active) {
+            switch (xDirection) {
+                case LEFT:
+                    velocity.x = -Constants.ORBEN_MOVEMENT_SPEED * delta;
+                    break;
+                case RIGHT:
+                    velocity.x = Constants.ORBEN_MOVEMENT_SPEED * delta;
+                    break;
+            }
+
+            switch (yDirection) {
+                case DOWN:
+                    velocity.y = -Constants.ORBEN_MOVEMENT_SPEED * delta;
+                    break;
+                case UP:
+                    velocity.y = Constants.ORBEN_MOVEMENT_SPEED * delta;
+                    break;
+            }
+
+            for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+                if (ground.isDense()) {
+                    if (Helpers.overlapsBetweenFourSides(position, getWidth(), getHeight(), ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop())) {
+                        velocity.setZero();
+                        position.set(previousFramePosition);
+                    }
                 }
             }
         }
