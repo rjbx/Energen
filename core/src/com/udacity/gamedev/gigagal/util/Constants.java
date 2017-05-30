@@ -658,7 +658,9 @@ public final class Constants {
     public static final String LEVEL_DESTINATION_KEY = "destination";
     public static final String LEVEL_UPGRADE_KEY = "upgrade";
     public static final String LEVEL_LEDGE_TAG = "ledge";
-    public static final int LEVEL_CLIMBABLE_TAG_INDEX = 0;
+    public static final String TRIP_OFF_TAG = "off";
+    public static final int LEVEL_LEDGE_TAG_INDEX = 0;
+    public static final int TRIP_OFF_TAG_INDEX = 1;
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;

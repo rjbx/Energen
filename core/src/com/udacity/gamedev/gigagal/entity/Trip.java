@@ -23,7 +23,7 @@ public class Trip implements Switchable, Strikeable, Ground {
     private boolean state;
 
     // ctor
-    public Trip(LevelUpdater level, Vector2 position, Rectangle bounds, float rotation) {
+    public Trip(LevelUpdater level, Vector2 position, Rectangle bounds, float rotation, boolean state) {
         this.position = position;
         this.level = level;
         this.bounds = bounds;
@@ -42,7 +42,7 @@ public class Trip implements Switchable, Strikeable, Ground {
                 offset = Constants.TRIP_CENTER;
         }
         startTime = 0;
-        state = false;
+        this.state = state;
     }
 
     public void update() {
@@ -99,5 +99,5 @@ public class Trip implements Switchable, Strikeable, Ground {
     @Override public void setState(boolean state) {
         this.state = state;
     }
-    @Override public Trip clone() { return new Trip(level, position, bounds, rotation); }
+    @Override public Trip clone() { return new Trip(level, position, bounds, rotation, state); }
 }
