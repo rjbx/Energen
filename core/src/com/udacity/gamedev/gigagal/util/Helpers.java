@@ -20,6 +20,9 @@ import com.udacity.gamedev.gigagal.entity.Physical;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import java.util.List;
 
+import static com.udacity.gamedev.gigagal.util.Enums.Orientation.X;
+import static com.udacity.gamedev.gigagal.util.Enums.Orientation.Y;
+
 // immutable non-instantiable static
 public final class Helpers {
 
@@ -118,13 +121,13 @@ public final class Helpers {
     }
 
     public static final float absoluteToDirectionalValue(float delta, Enums.Direction direction, Enums.Orientation orientation) {
-        if (orientation == Enums.Orientation.X) {
+        if (orientation == X) {
             if (direction == Enums.Direction.RIGHT) {
                 return delta;
             } else if (direction == Enums.Direction.LEFT) {
                 return -delta;
             }
-        } else if (orientation == Enums.Orientation.Y) {
+        } else if (orientation == Y) {
             if (direction == Enums.Direction.UP) {
                 return delta;
             } else if (direction == Enums.Direction.DOWN) {
@@ -149,15 +152,26 @@ public final class Helpers {
         }
     }
 
+    public static final Enums.Orientation getOppositeOrientation(Enums.Orientation orientation) {
+        switch (orientation) {
+            case X:
+                return Enums.Orientation.Y;
+            case Y:
+                return Enums.Orientation.X;
+            default:
+                return null;
+        }
+    }
+
     public static final boolean changeDirection(Multidirectional multidirectional, Enums.Direction setTo, Enums.Orientation orientation) {
-        if (orientation == Enums.Orientation.X) {
+        if (orientation == X) {
             MultidirectionalX multidirectionalX = (MultidirectionalX) multidirectional;
             if (multidirectionalX.getDirectionX() != setTo) {
                 multidirectionalX.setDirectionX(setTo);
                 return true;
             }
             return false;
-        } else if (orientation == Enums.Orientation.Y) {
+        } else if (orientation == Y) {
             MultidirectionalY multidirectionalY = (MultidirectionalY) multidirectional;
             if (multidirectionalY.getDirectionY() != setTo) {
                 multidirectionalY.setDirectionY(setTo);
@@ -169,9 +183,9 @@ public final class Helpers {
     }
 
     public static final boolean movingOppositeDirection (float velocity, Enums.Direction xDirection, Enums.Orientation orientation) {
-        if (orientation == Enums.Orientation.X) {
+        if (orientation == X) {
             return (xDirection == Enums.Direction.RIGHT && velocity < 0) || (xDirection == Enums.Direction.LEFT && velocity > 0);
-        } else if (orientation == Enums.Orientation.Y) {
+        } else if (orientation == Y) {
             return (xDirection == Enums.Direction.UP && velocity < 0) || (xDirection == Enums.Direction.DOWN && velocity > 0);
         }
         return false;

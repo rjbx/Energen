@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Lift implements Hoverable, Ground {
+public class Lift implements Hoverable, Convertible, Ground {
 
     // fields
     private Vector2 position;
@@ -20,6 +20,7 @@ public class Lift implements Hoverable, Ground {
     private Vector2 velocity; // class-level instantiation
     private final Vector2 startPosition; // class-level instantiation
     private float range;
+    private boolean converted;
 
     // ctor
     public Lift(Vector2 position, Enums.Orientation orientation) {
@@ -35,6 +36,7 @@ public class Lift implements Hoverable, Ground {
             default:
                 direction = Enums.Direction.UP;
         }
+        converted = false;
         velocity = new Vector2();
         startPosition = new Vector2(position);
         range = Constants.LIFT_RANGE;
@@ -98,6 +100,8 @@ public class Lift implements Hoverable, Ground {
     @Override public Enums.Direction getDirection() { return direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
     @Override public final boolean isDense() { return false; }
+    @Override public void convert() { converted = !converted; orientation = Helpers.getOppositeOrientation(orientation);}
+    @Override public boolean isConverted() { return converted; }
     @Override public Lift clone() { return new Lift(position, orientation); }
 
     public final void setRange(float range) { this.range = range; }
