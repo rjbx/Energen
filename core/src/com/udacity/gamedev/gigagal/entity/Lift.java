@@ -26,16 +26,7 @@ public class Lift implements Hoverable, Convertible, Ground {
     public Lift(Vector2 position, Enums.Orientation orientation) {
         this.position = position;
         this.orientation = orientation;
-        switch (orientation) {
-            case Y:
-                direction = Enums.Direction.UP;
-                break;
-            case X:
-                direction = Enums.Direction.RIGHT;
-                break;
-            default:
-                direction = Enums.Direction.UP;
-        }
+        setOrientation(orientation);
         converted = false;
         velocity = new Vector2();
         startPosition = new Vector2(position);
@@ -100,9 +91,22 @@ public class Lift implements Hoverable, Convertible, Ground {
     @Override public Enums.Direction getDirection() { return direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
     @Override public final boolean isDense() { return false; }
-    @Override public void convert() { converted = !converted; orientation = Helpers.getOppositeOrientation(orientation);}
+    @Override public void convert() { converted = !converted; Helpers.getOppositeOrientation(Helpers.getOppositeOrientation(orientation)); }
     @Override public boolean isConverted() { return converted; }
     @Override public Lift clone() { return new Lift(position, orientation); }
 
+    private void setOrientation(Enums.Orientation orientation) {
+        this.orientation = orientation;
+        switch (orientation) {
+            case Y:
+                direction = Enums.Direction.UP;
+                break;
+            case X:
+                direction = Enums.Direction.RIGHT;
+                break;
+            default:
+                direction = Enums.Direction.UP;
+        }
+    }
     public final void setRange(float range) { this.range = range; }
 }
