@@ -99,13 +99,13 @@ public class Lift implements Hoverable, Convertible, Ground {
         this.orientation = orientation;
         switch (orientation) {
             case Y:
-                direction = Enums.Direction.UP;
+                direction = Enums.Direction.DOWN;
                 break;
             case X:
-                direction = Enums.Direction.RIGHT;
+                direction = Enums.Direction.LEFT;
                 break;
             default:
-                direction = Enums.Direction.UP;
+                direction = null;
         }
     }
 }
