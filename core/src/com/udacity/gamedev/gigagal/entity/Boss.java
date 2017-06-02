@@ -1197,6 +1197,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
     @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     @Override public final Enums.Material getType() { return weapon; }
     private final float getHalfWidth() { return halfWidth; }
+    public final Rectangle getRoomBounds() { return new Rectangle(position.x, position.y, 250, 250); }
 
     // Setters
     public void setDirectionX(Enums.Direction direction) { this.directionX = direction; }

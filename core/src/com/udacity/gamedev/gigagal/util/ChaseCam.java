@@ -62,6 +62,7 @@ public final class ChaseCam {
 
     public final void setBossPosition(Vector2 position) { }
     public final void setFollowing(boolean following) { this.following = following; }
+    public final void setBossRoom(boolean boss) { this.boss = boss; }
     public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public final boolean getFollowing() { return following; }
 }

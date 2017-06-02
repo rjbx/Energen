@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
+import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Chargeable;
 import com.udacity.gamedev.gigagal.entity.Destructible;
@@ -24,6 +25,7 @@ import com.udacity.gamedev.gigagal.entity.Transport;
 import com.udacity.gamedev.gigagal.entity.Vines;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
 import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
@@ -230,6 +232,11 @@ public class LevelUpdater {
                 if (!ammo.isActive()) {
                     score += ammo.getHitScore();
                     hazards.removeIndex(i);
+                }
+            } else if (hazards.get(i) instanceof Boss) {
+                Boss boss = (Boss) hazards.get(i);
+                if (boss.getRoomBounds().overlaps(GigaGal.getInstance().getBounds())) {
+                    ChaseCam.getInstance().setBossRoom(true);
                 }
             }
         }
