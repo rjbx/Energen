@@ -318,7 +318,9 @@ public class GigaGal implements Humanoid {
                 if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
                     // if already rappelling, halt x progression
                     if (action != Action.RAPPELLING) {
-                        canRappel = true; // enable rappel
+                        if (ground instanceof Rappelable) {
+                            canRappel = true; // enable rappel
+                        }
                         touchedGround = ground;
                         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
                     }
@@ -1059,7 +1061,7 @@ public class GigaGal implements Humanoid {
             lookStartTime = 0;
             if (inputControls.downButtonPressed) {
                 velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
-            } else if (inputControls.upButtonPressed && canHurdle && !(touchedGround instanceof Cannon)) {
+            } else if (inputControls.upButtonPressed && canHurdle) {
                 canHurdle = false;
                 canRappel = false;
                 directionX = Helpers.getOppositeDirection(directionX);

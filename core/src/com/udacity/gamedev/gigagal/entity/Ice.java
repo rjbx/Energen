@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Ice implements Skateable, Ground {
+public class Ice implements Rappelable, Skateable, Ground {
 
     // fields
     public final static String TAG = Ice.class.getName();
