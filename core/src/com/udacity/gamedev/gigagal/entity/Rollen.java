@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Rollen implements Destructible, Hazard {
+public class Rollen implements MultidirectionalX, Destructible, Hazard {
 
     // fields
     public final static String TAG = Rollen.class.getName();
@@ -150,5 +150,7 @@ public class Rollen implements Destructible, Hazard {
     @Override public final Vector2 getKnockback() { return Constants.ROLLEN_KNOCKBACK; }
     @Override public final void setHealth( float health ) { this.health = health; }
     @Override public final Enums.Material getType() { return type; }
+    @Override public Enums.Direction getDirectionX() { return xDirection; }
+    @Override public void setDirectionX(Enums.Direction direction) { xDirection = direction; }
     public final long getStartTime() { return startTime; }
 }

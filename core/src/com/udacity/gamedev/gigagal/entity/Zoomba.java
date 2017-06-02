@@ -12,8 +12,10 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
+import sun.security.krb5.internal.crypto.Des;
+
 // mutable
-public class Zoomba implements Destructible, Hazard {
+public class Zoomba implements MultidirectionalX, Destructible, Hazard {
 
     // fields
     public final static String TAG = Zoomba.class.getName();
@@ -103,6 +105,8 @@ public class Zoomba implements Destructible, Hazard {
     @Override public Enums.Material getType() { return type; }
     @Override public final void setHealth( float health ) { this.health = health; }
     @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
+    @Override public Enums.Direction getDirectionX() { return direction; }
+    @Override public void setDirectionX(Enums.Direction direction) { this.direction = direction; }
     public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public final Direction getDirection() { return direction; }

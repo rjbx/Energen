@@ -13,7 +13,9 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Orben implements Destructible, Hazard {
+import sun.security.krb5.internal.crypto.Des;
+
+public class Orben implements MultidirectionalX, MultidirectionalY, Destructible, Hazard {
 
     // fields
     public final static String TAG = Orben.class.getName();
@@ -174,6 +176,10 @@ public class Orben implements Destructible, Hazard {
     @Override public final Vector2 getKnockback() { return Constants.ORBEN_KNOCKBACK; }
     @Override public final void setHealth( float health ) { this.health = health; }
     @Override public Enums.Material getType() { return type; }
+    @Override public Enums.Direction getDirectionX() { return xDirection; }
+    @Override public Enums.Direction getDirectionY() { return yDirection; }
+    @Override public void setDirectionX(Enums.Direction direction) { xDirection = direction; }
+    @Override public void setDirectionY(Enums.Direction direction) { yDirection = direction; }
     public final long getStartTime() { return startTime; }
     public final boolean isActive() { return active; }
 }
