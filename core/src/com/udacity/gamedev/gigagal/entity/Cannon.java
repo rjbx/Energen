@@ -12,7 +12,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Cannon implements Nonstatic, Convertible, Ground {
+public class Cannon implements Nonstatic, Rappelable, Convertible, Ground {
 
     // fields
     public final static String TAG = Cannon.class.getName();

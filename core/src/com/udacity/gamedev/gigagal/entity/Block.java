@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Block implements Rappelable, Strikeable, Expanse {
+public class Block implements Rappelable, Hurdleable, Strikeable, Expanse {
 
     // fields
     public final static String TAG = Block.class.getName();

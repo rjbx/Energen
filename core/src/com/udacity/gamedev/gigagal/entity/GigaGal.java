@@ -1022,7 +1022,9 @@ public class GigaGal implements Humanoid {
             if (inputControls.jumpButtonJustPressed) {
                 if (position.y > touchedGround.getTop() - 10) {
                     position.y = touchedGround.getTop() - 10;
-                    canHurdle = true;
+                    if (touchedGround instanceof Hurdleable) {
+                        canHurdle = true;
+                    }
                 }
                 rappel();
             }
