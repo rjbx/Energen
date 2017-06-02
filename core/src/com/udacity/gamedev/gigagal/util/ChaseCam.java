@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal.util;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 
@@ -13,7 +14,9 @@ public final class ChaseCam {
     private static final ChaseCam INSTANCE = new ChaseCam();
     public Camera camera;
     public GigaGal target;
+    public Vector2 bossPosition;
     private boolean following;
+    private boolean boss;
     private InputControls inputControls;
 
     // cannot be subclassed
@@ -26,6 +29,7 @@ public final class ChaseCam {
 
     public void create() {
         following = true;
+        boss = false;
     }
 
     public void update(SpriteBatch batch, Viewport viewport, float delta) {
@@ -37,6 +41,8 @@ public final class ChaseCam {
             } else {
                 camera.position.y = target.getPosition().y;
             }
+        } else if (boss) {
+            camera.position.set(bossPosition.x, bossPosition.y, 0);
         } else {
             if (inputControls.leftButtonPressed) {
                 camera.position.x -= delta * Constants.CHASE_CAM_MOVE_SPEED;
@@ -54,6 +60,7 @@ public final class ChaseCam {
         batch.end();
     }
 
+    public final void setBossPosition(Vector2 position) { }
     public final void setFollowing(boolean following) { this.following = following; }
     public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public final boolean getFollowing() { return following; }
