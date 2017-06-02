@@ -13,6 +13,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Lava implements Indestructible, Hazard {
 
     // fields
+    public final static String TAG = Lava.class.getName();
+
     private Vector2 position;
     private Vector2 scale;
     private Vector2 adjustedCenter;

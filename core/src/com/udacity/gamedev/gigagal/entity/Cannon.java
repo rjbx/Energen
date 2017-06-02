@@ -15,6 +15,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Cannon implements Nonstatic, Convertible, Ground {
 
     // fields
+    public final static String TAG = Cannon.class.getName();
+
     private Vector2 position;
     private Enums.Orientation orientation;
     private Enums.ShotIntensity intensity;

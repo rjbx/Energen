@@ -16,6 +16,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Zoomba implements Destructible, Hazard {
 
     // fields
+    public final static String TAG = Zoomba.class.getName();
+
     private final Enums.Material type;
     private final long startTime;
     private final float bobOffset;

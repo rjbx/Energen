@@ -15,8 +15,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import com.udacity.gamedev.gigagal.entity.Block;
 import com.udacity.gamedev.gigagal.entity.Box;
-import com.udacity.gamedev.gigagal.entity.BreakableBox;
 import com.udacity.gamedev.gigagal.entity.Ground;
 
 // immutable singleton
@@ -57,6 +57,7 @@ public final class Assets implements AssetErrorListener {
         assetManager.load(Constants.TEXTURE_ATLAS); // atlas packed upon gradle build; load all at once instead of individually
         assetManager.load(Constants.LEVEL_MUSIC);
         assetManager.load(Constants.BOSS_MUSIC);
+        assetManager.load(Constants.MECHANICAL_MUSIC);
         assetManager.load(Constants.THERMAL_MUSIC);
         assetManager.load(Constants.MYSTERIOUS_MUSIC);
         assetManager.load(Constants.NUCLEAR_MUSIC);
@@ -436,9 +437,9 @@ public final class Assets implements AssetErrorListener {
         }
 
         public final NinePatch getNinePatch(Ground ground) {
-            if (ground instanceof BreakableBox) {
+            if (ground instanceof Box) {
                 return breakableBox;
-            } else if (ground instanceof Box) {
+            } else if (ground instanceof Block) {
                 return box;
             } else {
                 return box;
@@ -1073,6 +1074,7 @@ public final class Assets implements AssetErrorListener {
 
         public final Music level;
         public final Music boss;
+        public final Music mechanical;
         public final Music thermal;
         public final Music nuclear;
         public final Music mysterious;
@@ -1080,6 +1082,7 @@ public final class Assets implements AssetErrorListener {
         private MusicAssets() {
             level = assetManager.get(Constants.LEVEL_MUSIC); // use of descriptor enforces type checking
             boss = assetManager.get(Constants.BOSS_MUSIC); // use of descriptor enforces type checking
+            mechanical = assetManager.get(Constants.MECHANICAL_MUSIC);
             thermal = assetManager.get(Constants.THERMAL_MUSIC); // use of descriptor enforces type checking
             nuclear = assetManager.get(Constants.NUCLEAR_MUSIC); // use of descriptor enforces type checking
             mysterious = assetManager.get(Constants.MYSTERIOUS_MUSIC); // use of descriptor enforces type checking
@@ -1090,7 +1093,7 @@ public final class Assets implements AssetErrorListener {
                 case HOME:
                     return thermal;
                 case MECHANICAL:
-                    return thermal;
+                    return mechanical;
                 case ELECTROMAGNETIC:
                     return thermal;
                 case NUCLEAR:

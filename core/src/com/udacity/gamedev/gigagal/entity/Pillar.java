@@ -10,6 +10,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Pillar implements Climbable, Ground {
 
     // fields
+    public final static String TAG = Pillar.class.getName();
+
     private Vector2 position;
 
     // ctor

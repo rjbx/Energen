@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.entity.Boss;
-import com.udacity.gamedev.gigagal.entity.BreakableBox;
+import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Cannon;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Coals;
@@ -34,7 +34,7 @@ import com.udacity.gamedev.gigagal.entity.Treadmill;
 import com.udacity.gamedev.gigagal.entity.Vines;
 import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
-import com.udacity.gamedev.gigagal.entity.Box;
+import com.udacity.gamedev.gigagal.entity.Block;
 import com.udacity.gamedev.gigagal.entity.Waves;
 import com.udacity.gamedev.gigagal.entity.Zoomba;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -531,8 +531,8 @@ final class LevelLoader {
 
     private static final void loadNinePatches(LevelUpdater level, JSONArray ninePatches) {
 
-        Array<Box> boxArray = new Array<Box>();
-        Array<BreakableBox> breakableBoxArray = new Array<BreakableBox>();
+        Array<Block> boxArray = new Array<Block>();
+        Array<Box> breakableBoxArray = new Array<Box>();
         Array<Ladder> ladderArray = new Array<Ladder>();
 
         for (Object o : ninePatches) {
@@ -545,13 +545,13 @@ final class LevelLoader {
             float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
-                final Box box;
-                box = new Box(imagePosition.x, imagePosition.y, width, height, type);
-                box.setDensity(!tags[Constants.LEVEL_LEDGE_TAG_INDEX]);
-                boxArray.add(box);
+                final Block block;
+                block = new Block(imagePosition.x, imagePosition.y, width, height, type);
+                block.setDensity(!tags[Constants.LEVEL_LEDGE_TAG_INDEX]);
+                boxArray.add(block);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BREAKABLE_BOX_SPRITE)) {
-                final BreakableBox box = new BreakableBox(imagePosition.x, imagePosition.y, width, height, type);
+                final Box box = new Box(imagePosition.x, imagePosition.y, width, height, type);
                 breakableBoxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the breakableBox at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
@@ -560,9 +560,9 @@ final class LevelLoader {
                 Gdx.app.log(TAG, "Loaded the ladder at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             }
 
-            boxArray.sort(new Comparator<Box>() {
+            boxArray.sort(new Comparator<Block>() {
                 @Override
-                public int compare(Box o1, Box o2) {
+                public int compare(Block o1, Block o2) {
                     if (o1.getTop() < o2.getTop()) {
                         return 1;
                     } else if (o1.getTop() > o2.getTop()) {
@@ -572,9 +572,9 @@ final class LevelLoader {
                 }
             });
 
-            breakableBoxArray.sort(new Comparator<BreakableBox>() {
+            breakableBoxArray.sort(new Comparator<Box>() {
                 @Override
-                public int compare(BreakableBox o1, BreakableBox o2) {
+                public int compare(Box o1, Box o2) {
                     if (o1.getTop() < o2.getTop()) {
                         return 1;
                     } else if (o1.getTop() > o2.getTop()) {

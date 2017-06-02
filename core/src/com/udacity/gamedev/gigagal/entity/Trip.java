@@ -14,6 +14,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Trip implements Switchable, Strikeable, Ground {
 
     // fields
+    public final static String TAG = Trip.class.getName();
+
     private Vector2 position;
     private LevelUpdater level;
     private Rectangle bounds;

@@ -18,6 +18,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Swoopa implements Destructible, Hazard {
 
     // fields
+    public final static String TAG = Swoopa.class.getName();
+
     private final long startTime;
     private final float bobOffset;
     private LevelUpdater level;

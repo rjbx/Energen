@@ -12,6 +12,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Pole implements Climbable, Ground {
 
     // fields
+    public final static String TAG = Pole.class.getName();
+
     private Vector2 position;
     private long startTime;
 

@@ -13,6 +13,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Waves implements Indestructible, Hazard, Sinkable, Ground {
 
     // fields
+    public final static String TAG = Waves.class.getName();
+
     private Vector2 position;
     private Vector2 scale;
     private Vector2 adjustedCenter;

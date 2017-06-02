@@ -1,73 +1,48 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
-import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Box implements Strikeable, Expanse {
+public class Box extends Block implements Destructible {
 
     // fields
-    private final Enums.Material type;
-    private final Vector2 position; // class-level instantiation
-    private final float top;
-    private final float bottom;
-    private final float left;
-    private final float right;
-    private final float width;
-    private final float height;
-    private boolean dense;
-    private NinePatch ninePatch;
+    public final static String TAG = Box.class.getName();
 
-    //default ctor
-    public Box() {
-        this.width = 0;
-        this.height = 0;
-        this.top = 0;
-        this.bottom = 0;
-        this.left = 0;
-        this.right = 0;
-        this.position = new Vector2();
-        this.type = Enums.Material.NATIVE;
-        ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
-        ninePatch.setColor(type.theme().color());
-    }
+    private float damage;
+    private boolean active;
 
     // ctor
     public Box(float xPos, float yPos, float width, float height, Enums.Material type) {
-        this.width = width;
-        this.height = height;
-        this.top = yPos + height;
-        this.bottom = yPos;
-        this.left = xPos;
-        this.right = xPos + width;
-        this.position = new Vector2(left + (width / 2), bottom + (height / 2));
-        this.type = type;
-        ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
-        ninePatch.setColor(type.theme().color());
-        dense = true;
+        super(xPos, yPos, width, height, type);
+        active = true;
+        damage = 50;
+    }
+
+    @Override
+    public void update(float delta) {
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawNinePatch(batch, viewport, ninePatch, left, bottom, width, height);
+        super.render(batch, viewport);
     }
 
     // Getters
-    public Enums.Material getType() { return type; }
-    @Override public float getTop() { return top; }
-    @Override public float getBottom() {return bottom; }
-    @Override public float getLeft() { return left; }
-    @Override public float getRight() { return right; }
-    @Override public float getWidth() { return width;}
-    @Override public float getHeight() {return height; }
-    @Override public Vector2 getPosition() { return position; }
-    @Override public void setDensity(boolean state) { dense = state; }
-    @Override public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
-    @Override public Box clone() { return new Box(left, bottom, width, height, type); }
+    @Override public float getTop() { return super.getTop(); }
+    @Override public float getBottom() {return super.getBottom(); }
+    @Override public float getLeft() { return super.getLeft(); }
+    @Override public float getRight() { return super.getRight(); }
+    @Override public float getWidth() { return super.getWidth();}
+    @Override public float getHeight() {return super.getHeight(); }
+    @Override public Vector2 getPosition() { return super.getPosition(); }
+    @Override public int getKillScore() { return 0; }
+    @Override public int getHitScore() { return 0; }
+    @Override public float getShotRadius() { return Math.min(getWidth(), getHeight()) / 2; }
+    @Override public void setHealth(float damage) { this.damage = damage; }
+    @Override public float getHealth() { return damage; }
+    @Override public Enums.Material getType() { return super.getType(); }
+    @Override public Block clone() { return super.clone(); }
 }

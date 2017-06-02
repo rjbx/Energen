@@ -419,7 +419,7 @@ public class GigaGal implements Humanoid {
                 velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
                 recoil(velocity);
             } else if (ground instanceof Destructible) {
-                if (((BreakableBox) ground).getHealth() < 1) {
+                if (((Box) ground).getHealth() < 1) {
                     fall();
                 }
             }

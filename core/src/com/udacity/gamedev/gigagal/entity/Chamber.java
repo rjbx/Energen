@@ -11,6 +11,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Chamber implements Chargeable, Strikeable, Ground {
 
     // fields
+    public final static String TAG = Chamber.class.getName();
+
     private Vector2 position;
     private boolean active;
     private boolean charged;

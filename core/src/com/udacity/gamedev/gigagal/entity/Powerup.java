@@ -14,6 +14,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Powerup implements Physical, Visible {
 
     // fields
+    public final static String TAG = Powerup.class.getName();
+
     private final Vector2 position;
     private final Vector2 center;
     private final Enums.PowerupType type;

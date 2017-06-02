@@ -10,7 +10,10 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Teleport implements Transport {
-    
+
+    //fields
+    public final static String TAG = Teleport.class.getName();
+
     private Vector2 position;
     private Vector2 destination;
     private long startTime;

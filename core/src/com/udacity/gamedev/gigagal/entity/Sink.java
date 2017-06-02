@@ -11,6 +11,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Sink implements Sinkable, Ground {
 
     // fields
+    public final static String TAG = Sink.class.getName();
+
     private final Vector2 position;
     private final long startTime;
 

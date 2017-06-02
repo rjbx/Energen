@@ -16,6 +16,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 public class Rollen implements Destructible, Hazard {
 
     // fields
+    public final static String TAG = Rollen.class.getName();
+
     private LevelUpdater level;
     private Vector2 position;
     private Vector2 previousFramePosition; // class-level instantiation

@@ -10,6 +10,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Vines implements Climbable, Ground {
 
     // fields
+    public final static String TAG = Vines.class.getName();
+
     private Vector2 position;
     private Vector2 adjustedCenter;
     private Vector2 scale;

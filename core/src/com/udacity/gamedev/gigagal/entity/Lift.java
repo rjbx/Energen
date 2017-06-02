@@ -14,6 +14,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Lift implements Hoverable, Convertible, Ground {
 
     // fields
+    public final static String TAG = Lift.class.getName();
+
     private Vector2 position;
     private Enums.Direction direction;
     private Enums.Orientation orientation;

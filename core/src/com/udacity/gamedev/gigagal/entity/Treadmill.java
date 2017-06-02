@@ -13,6 +13,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Treadmill implements Rideable, Convertible, Ground {
 
     // fields
+    public final static String TAG = Treadmill.class.getName();
+
     private Vector2 position;
     private Vector2 scale;
     private Vector2 adjustedCenter;

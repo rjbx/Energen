@@ -11,6 +11,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Slick implements Skateable, Ground {
     
     // fields
+    public final static String TAG = Slick.class.getName();
+
     private Vector2 position;
     private Vector2 scale;
     private Vector2 adjustedCenter;

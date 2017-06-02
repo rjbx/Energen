@@ -12,6 +12,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Coals implements Unbearable, Ground {
 
     // fields
+    public final static String TAG = Coals.class.getName();
+
     private Vector2 position;
     private Vector2 scale;
     private Vector2 adjustedCenter;

@@ -10,6 +10,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Rope implements Climbable, Ground {
 
     // fields
+    public final static String TAG = Rope.class.getName();
+
     private Vector2 position;
 
     // ctor

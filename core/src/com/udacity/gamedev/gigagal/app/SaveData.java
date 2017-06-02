@@ -2,9 +2,12 @@ package com.udacity.gamedev.gigagal.app;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.util.Enums;
 
 public final class SaveData {
+
+    public final static String TAG = SaveData.class.getName();
 
     // cannot be subclassed
     private SaveData() {}

@@ -11,6 +11,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Pod implements Reboundable, Ground {
 
     // fields
+    public final static String TAG = Pod.class.getName();
+
     private Vector2 position;
     private long startTime;
     private boolean isActive;

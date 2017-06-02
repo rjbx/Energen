@@ -10,6 +10,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Ladder implements Climbable, Ground {
 
     // fields
+    public final static String TAG = Ladder.class.getName();
+
     private final float top;
     private final float bottom;
     private final float left;

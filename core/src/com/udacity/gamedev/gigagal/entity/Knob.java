@@ -12,6 +12,8 @@ public class Knob implements Climbable, Ground {
 
 
     // fields
+    public final static String TAG = Knob.class.getName();
+
     private Vector2 position;
     private long startTime;
 

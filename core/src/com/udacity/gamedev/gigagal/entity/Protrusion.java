@@ -13,6 +13,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Protrusion implements Indestructible, Hazard {
 
     // fields
+    public final static String TAG = Protrusion.class.getName();
+
     private Vector2 position;
     private Enums.Material type;
     private Vector2 collisionSpan; // class-level instantiation

@@ -16,6 +16,8 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Orben implements Destructible, Hazard {
 
     // fields
+    public final static String TAG = Orben.class.getName();
+
     private LevelUpdater level;
     private Vector2 position;
     private Vector2 previousFramePosition;

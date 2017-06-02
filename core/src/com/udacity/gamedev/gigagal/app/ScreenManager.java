@@ -9,6 +9,7 @@ import com.udacity.gamedev.gigagal.util.*;
 public final class ScreenManager extends com.badlogic.gdx.Game {
 
     // fields
+    public final static String TAG = ScreenManager.class.getName();
     private static final ScreenManager INSTANCE = new ScreenManager();
 
     // cannot be subclassed
