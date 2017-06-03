@@ -90,6 +90,7 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
     private int lives;
     private boolean paused;
     private float pauseTimeSeconds;
+    private Rectangle roomBounds;
     private InputControls inputControls;
     private com.udacity.gamedev.gigagal.entity.GigaGal gigaGal;
 
@@ -135,6 +136,7 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
         position = new Vector2(spawnPosition);
         previousFramePosition = new Vector2();
         chaseCamPosition = new Vector3();
+        roomBounds = new Rectangle(spawnPosition.x - 125, spawnPosition.y - 125, 250, 250);
         velocity = new Vector2();
         weapon = builder.weapon;
         height = builder.height;
@@ -194,6 +196,8 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
         gigaGal = level.getGigaGal();
         if (this.getRoomBounds().overlaps(GigaGal.getInstance().getBounds())) {
             ChaseCam.getInstance().setBossRoom(true);
+        } else {
+            ChaseCam.getInstance().setBossRoom(false);
         }
 
         // positioning
@@ -1205,7 +1209,7 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
     @Override public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
     @Override public final void setHealth( float health ) { this.health = health; }
     private final float getHalfWidth() { return halfWidth; }
-    public final Rectangle getRoomBounds() { return new Rectangle(position.x, position.y, 250, 250); }
+    public final Rectangle getRoomBounds() { return roomBounds; }
 
     // Setters
     public void setDirectionX(Enums.Direction direction) { this.directionX = direction; }
