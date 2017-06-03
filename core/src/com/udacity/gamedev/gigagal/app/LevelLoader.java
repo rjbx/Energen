@@ -360,7 +360,7 @@ final class LevelLoader {
                 final Vector2 bossPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded Boss at " + bossPosition);
                 level.getHazards().add(new Boss.Builder(level, bossPosition).weapon(level.getType()).build());
-                ChaseCam.getInstance().setBossPosition(bossPosition);
+                ChaseCam.getInstance().setRoomPosition(bossPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PORTAL_SPRITE_1)) {
                 final Vector2 portalPosition = imagePosition.add(Constants.PORTAL_CENTER);
                 Gdx.app.log(TAG, "Loaded the exit portal at " + portalPosition);

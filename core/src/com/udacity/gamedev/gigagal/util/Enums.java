@@ -124,4 +124,10 @@ public final class Enums {
         STOPPED,
         SUSPENDED
     }
+
+    public enum ChaseCamState {
+        FOLLOWING,
+        DEBUG,
+        BOSS
+    }
 }

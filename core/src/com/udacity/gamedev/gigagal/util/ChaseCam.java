@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 
+import static com.udacity.gamedev.gigagal.util.Enums.ChaseCamState.FOLLOWING;
+
 // immutable singleton
 public final class ChaseCam {
 
@@ -14,8 +16,8 @@ public final class ChaseCam {
     private static final ChaseCam INSTANCE = new ChaseCam();
     public Camera camera;
     public GigaGal target;
-    public Vector2 bossPosition;
-    private boolean following;
+    public Vector2 roomPosition;
+    private Enums.ChaseCamState state;
     private boolean boss;
     private InputControls inputControls;
 
@@ -28,41 +30,44 @@ public final class ChaseCam {
     }
 
     public void create() {
-        following = true;
-        boss = false;
+        state = FOLLOWING;
     }
 
-    public void update(SpriteBatch batch, Viewport viewport, float delta) {
+    public void update(SpriteBatch batch, float delta) {
         batch.begin();
-        if (boss) {
-            camera.position.set(bossPosition.x, bossPosition.y, 0);
-        } else if (following) {
-            camera.position.x = target.getPosition().x;
-            if (target.getLookStartTime() != 0 && target.getGroundState() == Enums.GroundState.PLANTED) {
-                camera.position.y = target.getChaseCamPosition().y;
-            } else {
-                camera.position.y = target.getPosition().y;
-            }
-        } else {
-            if (inputControls.leftButtonPressed) {
-                camera.position.x -= delta * Constants.CHASE_CAM_MOVE_SPEED;
-            }
-            if (inputControls.rightButtonPressed) {
-                camera.position.x += delta * Constants.CHASE_CAM_MOVE_SPEED;
-            }
-            if (inputControls.upButtonPressed) {
-                camera.position.y += delta * Constants.CHASE_CAM_MOVE_SPEED;
-            }
-            if (inputControls.downButtonPressed) {
-                camera.position.y -= delta * Constants.CHASE_CAM_MOVE_SPEED;
-            }
+        switch (state) {
+            case FOLLOWING:
+                camera.position.x = target.getPosition().x;
+                if (target.getLookStartTime() != 0 && target.getGroundState() == Enums.GroundState.PLANTED) {
+                    camera.position.y = target.getChaseCamPosition().y;
+                } else {
+                    camera.position.y = target.getPosition().y;
+                }
+                break;
+
+            case BOSS:
+                camera.position.set(roomPosition.x, roomPosition.y, 0);
+                break;
+            case DEBUG:
+                if (inputControls.leftButtonPressed) {
+                    camera.position.x -= delta * Constants.CHASE_CAM_MOVE_SPEED;
+                }
+                if (inputControls.rightButtonPressed) {
+                    camera.position.x += delta * Constants.CHASE_CAM_MOVE_SPEED;
+                }
+                if (inputControls.upButtonPressed) {
+                    camera.position.y += delta * Constants.CHASE_CAM_MOVE_SPEED;
+                }
+                if (inputControls.downButtonPressed) {
+                    camera.position.y -= delta * Constants.CHASE_CAM_MOVE_SPEED;
+                }
+                break;
         }
         batch.end();
     }
 
-    public final void setBossPosition(Vector2 position) { bossPosition = position; }
-    public final void setFollowing(boolean following) { this.following = following; }
-    public final void setBossRoom(boolean boss) { this.boss = boss; }
     public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
-    public final boolean getFollowing() { return following; }
+    public final void setRoomPosition(Vector2 position) { roomPosition = position; }
+    public final void setState(Enums.ChaseCamState state) { this.state = state; }
+    public final Enums.ChaseCamState getState() { return state; }
 }
