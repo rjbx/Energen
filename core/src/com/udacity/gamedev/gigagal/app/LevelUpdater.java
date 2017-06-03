@@ -233,11 +233,6 @@ public class LevelUpdater {
                     score += ammo.getHitScore();
                     hazards.removeIndex(i);
                 }
-            } else if (hazards.get(i) instanceof Boss) {
-                Boss boss = (Boss) hazards.get(i);
-                if (boss.getRoomBounds().overlaps(GigaGal.getInstance().getBounds())) {
-                    ChaseCam.getInstance().setBossRoom(true);
-                }
             }
         }
         hazards.end();

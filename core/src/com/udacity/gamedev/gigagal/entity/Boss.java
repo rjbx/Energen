@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
-public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard {
+public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal.entity.Hazard {
     
     // fields
     public final static String TAG = Boss.class.getName();
@@ -191,7 +192,10 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
 
     public void update(float delta) {
         gigaGal = level.getGigaGal();
-        
+        if (this.getRoomBounds().overlaps(GigaGal.getInstance().getBounds())) {
+            ChaseCam.getInstance().setBossRoom(true);
+        }
+
         // positioning
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
@@ -199,7 +203,7 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
 
         // collision detection
         touchGround(level.getGrounds());
-        touchHazards(level.getHazards());
+//        touchHazards(level.getHazards());
 //        touchPowerups(level.getPowerups());
 
         // abilities
@@ -1196,6 +1200,10 @@ public class Boss implements Humanoid, com.udacity.gamedev.gigagal.entity.Hazard
     @Override public final int getDamage() { return Constants.AMMO_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     @Override public final Enums.Material getType() { return weapon; }
+    @Override public final float getShotRadius() { return Constants.ZOOMBA_SHOT_RADIUS; }
+    @Override public final int getHitScore() { return Constants.ZOOMBA_HIT_SCORE; }
+    @Override public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
+    @Override public final void setHealth( float health ) { this.health = health; }
     private final float getHalfWidth() { return halfWidth; }
     public final Rectangle getRoomBounds() { return new Rectangle(position.x, position.y, 250, 250); }
 

@@ -34,15 +34,15 @@ public final class ChaseCam {
 
     public void update(SpriteBatch batch, Viewport viewport, float delta) {
         batch.begin();
-        if (following) {
+        if (boss) {
+            camera.position.set(bossPosition.x, bossPosition.y, 0);
+        } else if (following) {
             camera.position.x = target.getPosition().x;
             if (target.getLookStartTime() != 0 && target.getGroundState() == Enums.GroundState.PLANTED) {
                 camera.position.y = target.getChaseCamPosition().y;
             } else {
                 camera.position.y = target.getPosition().y;
             }
-        } else if (boss) {
-            camera.position.set(bossPosition.x, bossPosition.y, 0);
         } else {
             if (inputControls.leftButtonPressed) {
                 camera.position.x -= delta * Constants.CHASE_CAM_MOVE_SPEED;
