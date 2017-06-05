@@ -501,6 +501,7 @@ public class GigaGal implements Humanoid {
                 }
                 // when no collision detected
                 canRappel = false;
+                canCling = false;
                 canClimb = false;
                 touchedGround = null;  // after handling touchedground conditions above
             }
@@ -1082,7 +1083,7 @@ public class GigaGal implements Humanoid {
                 canHurdle = false;
                 canRappel = false;
                 directionX = Helpers.getOppositeDirection(directionX);
-                velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED, directionX, Orientation.X);
+                velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
                 jump();
             } else if (turbo < 1) {
                 turbo = 0;
