@@ -367,7 +367,7 @@ public class GigaGal implements Humanoid {
                     canDash = false; // disable dash
                     position.x = previousFramePosition.x;
                 }
-            // reset position to ground side edge when both position and previous position overlap ground side edge
+            // reset position to ground side edge when both position and previous position overlap ground side edge and between ground top and bottom (to prevent resetting to ground simultaneously planted upon)
             } else if (Helpers.betweenTwoValues(position.y, ground.getBottom(), ground.getTop())){
                 if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
                     position.x = ground.getLeft() - getHalfWidth() - 1;
@@ -390,48 +390,52 @@ public class GigaGal implements Humanoid {
     // applicable to all dense grounds as well as non-sinkables when not climbing downward
     private void touchGroundTop(Ground ground) {
         // if contact with ground top detected, halt downward progression and set gigagal atop ground
-        if (getBottom() <= ground.getTop() && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) // when breaking ground top plane
-                && (!canRappel || (touchedGround != null && ground.getTop() != touchedGround.getTop()))) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
+        if (getTop() > ground.getTop() && !canRappel || (touchedGround != null && ground.getTop() != touchedGround.getTop())) {
+            if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
 
-            velocity.y = 0; // prevents from descending beneath ground top
-            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                velocity.y = 0; // prevents from descending beneath ground top
+                position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
 
-            setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
+                setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
 
-            // additional ground top collision instructions specific to certain types of grounds
-            if (ground instanceof Skateable) {
-                if (groundState == GroundState.AIRBORNE) {
-                    stand(); // set groundstate to standing
+                // additional ground top collision instructions specific to certain types of grounds
+                if (ground instanceof Skateable) {
+                    if (groundState == GroundState.AIRBORNE) {
+                        stand(); // set groundstate to standing
+                        lookStartTime = 0;
+                    } else if (canClimb) {
+                        canCling = false;
+                    }
+                } else if (ground instanceof Hoverable) {
                     lookStartTime = 0;
-                } else if (canClimb) {
+                    Hoverable hoverable = (Hoverable) ground;
+                    Orientation orientation = hoverable.getOrientation();
+                    Direction direction = hoverable.getDirection();
+                    if (orientation == Orientation.X) {
+                        velocity.x = hoverable.getVelocity().x;
+                        position.x += velocity.x;
+                    }
+                    if (direction == Direction.DOWN) {
+                        position.y -= 1;
+                    }
+                } else if (ground instanceof Reboundable) {
+                    canClimb = false;
                     canCling = false;
+                    Reboundable reboundable = (Reboundable) ground;
+                    reboundable.setState(true);
+                } else if (ground instanceof Unbearable) {
+                    canHover = false;
+                    Random xKnockback = new Random();
+                    velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
+                    recoil(velocity);
+                } else if (ground instanceof Destructible) {
+                    if (((Box) ground).getHealth() < 1) {
+                        fall();
+                    }
                 }
-            } else if (ground instanceof Hoverable) {
-                lookStartTime = 0;
-                Hoverable hoverable = (Hoverable) ground;
-                Orientation orientation = hoverable.getOrientation();
-                Direction direction = hoverable.getDirection();
-                if (orientation == Orientation.X) {
-                    velocity.x = hoverable.getVelocity().x;
-                    position.x += velocity.x;
-                }
-                if (direction == Direction.DOWN) {
-                    position.y -= 1;
-                }
-            } else if (ground instanceof Reboundable) {
-                canClimb = false;
-                canCling = false;
-                Reboundable reboundable = (Reboundable) ground;
-                reboundable.setState(true);
-            } else if (ground instanceof Unbearable) {
-                canHover = false;
-                Random xKnockback = new Random();
-                velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
-                recoil(velocity);
-            } else if (ground instanceof Destructible) {
-                if (((Box) ground).getHealth() < 1) {
-                    fall();
-                }
+            } else if (ground.isDense() && Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())){
+                position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT + 1;
+                stand();
             }
         }
     }
