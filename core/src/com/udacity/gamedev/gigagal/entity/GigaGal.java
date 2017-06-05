@@ -367,7 +367,7 @@ public class GigaGal implements Humanoid {
                     canDash = false; // disable dash
                     position.x = previousFramePosition.x;
                 }
-            // reset position to ground side edge when both position and previous position overlap ground side edge and between ground top and bottom (to prevent resetting to ground simultaneously planted upon)
+            // reset position to ground side edge when both position and previous position overlap ground side edge and are between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
             } else if (Helpers.betweenTwoValues(position.y, ground.getBottom(), ground.getTop())){
                 if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
                     position.x = ground.getLeft() - getHalfWidth() - 1;
@@ -433,8 +433,10 @@ public class GigaGal implements Humanoid {
                         fall();
                     }
                 }
+            // reset when previous position is also below ground top
             } else if (ground.isDense() && Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())){
                 position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT + 1;
+                setAtopGround(ground);
                 stand();
             }
         }
