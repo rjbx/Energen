@@ -44,7 +44,6 @@ public final class ChaseCam {
                     camera.position.y = target.getPosition().y;
                 }
                 break;
-
             case BOSS:
                 camera.position.set(roomPosition.x, roomPosition.y, 0);
                 break;
