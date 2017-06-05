@@ -448,6 +448,7 @@ public class GigaGal implements Humanoid {
         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
         hoverStartTime = 0;
         rappelStartTime = 0;
+        canRappel = false;
         canLook = true;
         canHover = false;
         if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
@@ -499,7 +500,7 @@ public class GigaGal implements Humanoid {
                     }
                 }
                 // when no collision detected
-                canCling = false;
+                canRappel = false;
                 canClimb = false;
                 touchedGround = null;  // after handling touchedground conditions above
             }
