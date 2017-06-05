@@ -452,7 +452,7 @@ public class GigaGal implements Humanoid {
         canLook = true;
         canHover = false;
         if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
-            stand(); // set groundstate to standing
+            stand(); // in each frame all grounds save for skateable rely upon this call to switch action from airborne
             lookStartTime = 0;
         }
         if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
@@ -765,11 +765,14 @@ public class GigaGal implements Humanoid {
         } else if (touchedGround instanceof Rideable) {
             velocity.x = 0;
             velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rideable) touchedGround).getDirection(), Orientation.X);
+        } else if (action == Action.STRIDING && Math.abs(velocity.x) > 2) {
+            velocity.x *= .75f;
+            strideAcceleration *= .5f;
         } else {
+            action = Action.STANDING;
+            groundState = GroundState.PLANTED;
             velocity.x = 0;
         }
-        action = Action.STANDING;
-        groundState = GroundState.PLANTED;
         if (!canClimb) {
             canJump = true;
             handleYInputs(); // disabled when canclimb to prevent look from overriding climb
