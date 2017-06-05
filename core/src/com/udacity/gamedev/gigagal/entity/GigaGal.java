@@ -454,7 +454,8 @@ public class GigaGal implements Humanoid {
         if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
             stand(); // set groundstate to standing
             lookStartTime = 0;
-        } else if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+        }
+        if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
             canJump = true;
             jump();
         } else if (action == Action.CLIMBING && !(ground instanceof Climbable)) {
