@@ -367,11 +367,12 @@ public class GigaGal implements Humanoid {
                     canDash = false; // disable dash
                     position.x = previousFramePosition.x;
                 }
-            } else if (Helpers.overlapsBetweenFourSides(position, getHalfWidth(), getHeight() / 2, ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop())){
+            // reset position to ground side edge when both position and previous position overlap ground side edge
+            } else if (Helpers.betweenTwoValues(position.y, ground.getBottom(), ground.getTop())){
                 if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
-                    position.x = ground.getLeft() - getHalfWidth();
+                    position.x = ground.getLeft() - getHalfWidth() - 1;
                 } else {
-                    position.x = ground.getRight() + getHalfWidth();
+                    position.x = ground.getRight() + getHalfWidth() + 1;
                 }
             }
         }
