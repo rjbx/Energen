@@ -308,64 +308,71 @@ public class GigaGal implements Humanoid {
     }
 
     private void touchGroundSide(Ground ground) {
-        // if during previous frame was not, while currently is, between ground left and right sides
-        if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())
-        && (touchedGround == null || touchedGround == ground || touchedGround.getTop() != ground.getTop())) {
-            // only when not grounded and not recoiling
-            if (groundState != GroundState.PLANTED) {
-                // if x velocity (magnitude, without concern for direction) greater than one third max speed,
-                // boost x velocity by starting speed, enable rappel, verify rappelling ground and capture rappelling ground boundaries
-                if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
-                    // if already rappelling, halt x progression
-                    if (action != Action.RAPPELLING) {
-                        if (ground instanceof Rappelable) {
-                            canRappel = true; // enable rappel
+        if (touchedGround == null || touchedGround == ground || touchedGround.getTop() != ground.getTop()) {
+            // if during previous frame was not, while currently is, between ground left and right sides
+            if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
+                // only when not grounded and not recoiling
+                if (groundState != GroundState.PLANTED) {
+                    // if x velocity (magnitude, without concern for direction) greater than one third max speed,
+                    // boost x velocity by starting speed, enable rappel, verify rappelling ground and capture rappelling ground boundaries
+                    if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
+                        // if already rappelling, halt x progression
+                        if (action != Action.RAPPELLING) {
+                            if (ground instanceof Rappelable) {
+                                canRappel = true; // enable rappel
+                            }
+                            touchedGround = ground;
+                            killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
                         }
-                        touchedGround = ground;
-                        killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
-                    }
-                    // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
-                } else {
-                    // if not already hovering and descending, also disable hover
-                    if (action != Action.HOVERING && velocity.y < 0) {
-                        canHover = false; // disable hover
-                    }
-                    canRappel = false;
-                    fall(); // fall regardless of whether or not inner condition met
-                }
-                // only when planted
-            } else if (groundState == GroundState.PLANTED) {
-                if (Math.abs(getBottom() - ground.getTop()) > 1) {
-                    strideSpeed = 0;
-                    velocity.x = 0;
-                }
-                if (action == Action.DASHING) {
-                    stand(); // deactivates dash when bumping ground side
-                }
-                if (ground instanceof Chargeable) {
-                    Chargeable chargeable = (Chargeable) ground;
-                    if (chargeStartTime != 0 && directionX == Direction.RIGHT) {
-                        if (!chargeable.isActive()) {
-                            chargeable.activate();
-                        } else if (chargeTimeSeconds > 1) {
-                            chargeable.charge(chargeTimeSeconds);
-                        }
+                        // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
                     } else {
-                        chargeable.charge(0);
+                        // if not already hovering and descending, also disable hover
+                        if (action != Action.HOVERING && velocity.y < 0) {
+                            canHover = false; // disable hover
+                        }
+                        canRappel = false;
+                        fall(); // fall regardless of whether or not inner condition met
+                    }
+                    // only when planted
+                } else if (groundState == GroundState.PLANTED) {
+                    if (Math.abs(getBottom() - ground.getTop()) > 1) {
+                        strideSpeed = 0;
+                        velocity.x = 0;
+                    }
+                    if (action == Action.DASHING) {
+                        stand(); // deactivates dash when bumping ground side
+                    }
+                    if (ground instanceof Chargeable) {
+                        Chargeable chargeable = (Chargeable) ground;
+                        if (chargeStartTime != 0 && directionX == Direction.RIGHT) {
+                            if (!chargeable.isActive()) {
+                                chargeable.activate();
+                            } else if (chargeTimeSeconds > 1) {
+                                chargeable.charge(chargeTimeSeconds);
+                            }
+                        } else {
+                            chargeable.charge(0);
+                        }
                     }
                 }
-            }
-            if ((!(ground instanceof Rideable && (Math.abs(getBottom() - ground.getTop()) <= 1)))
-                    && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
-                    && !(ground instanceof Unbearable && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
-                // if contact with ground sides detected without concern for ground state (either grounded or airborne),
-                // reset stride acceleration, disable stride and dash, and set gigagal at ground side
-                if (action != Action.STRIDING || action != Action.DASHING) {
-                    strideStartTime = 0; // reset stride acceleration
+                if ((!(ground instanceof Rideable && (Math.abs(getBottom() - ground.getTop()) <= 1)))
+                        && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
+                        && !(ground instanceof Unbearable && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+                    // if contact with ground sides detected without concern for ground state (either grounded or airborne),
+                    // reset stride acceleration, disable stride and dash, and set gigagal at ground side
+                    if (action != Action.STRIDING || action != Action.DASHING) {
+                        strideStartTime = 0; // reset stride acceleration
+                    }
+                    canStride = false; // disable stride
+                    canDash = false; // disable dash
+                    position.x = previousFramePosition.x;
                 }
-                canStride = false; // disable stride
-                canDash = false; // disable dash
-                position.x = previousFramePosition.x;
+            } else if (Helpers.betweenFourValues(position, ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop())){
+                if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
+                    position.x = ground.getLeft() - getHalfWidth();
+                } else {
+                    position.x = ground.getRight() + getHalfWidth();
+                }
             }
         }
     }
