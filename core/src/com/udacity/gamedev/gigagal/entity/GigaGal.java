@@ -434,7 +434,7 @@ public class GigaGal implements Humanoid {
                     }
                 }
             // reset when previous position is also below ground top
-            } else if (ground.isDense() && Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())){
+            } else if (ground.isDense() && Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
                 position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT + 1;
                 setAtopGround(ground);
                 stand();
