@@ -47,7 +47,6 @@ public class Trip implements Trippable, Convertible, Strikeable, Ground {
         }
         startTime = 0;
         this.state = state;
-        converted = false;
     }
 
     public void update() {
@@ -109,7 +108,7 @@ public class Trip implements Trippable, Convertible, Strikeable, Ground {
     @Override public void setState(boolean state) {
         this.state = state;
     }
-    @Override public void convert() { converted = !converted; }
-    @Override public boolean isConverted() { return converted; }
+    @Override public void convert() { state = !state; }
+    @Override public boolean isConverted() { return state; }
     @Override public Trip clone() { return new Trip(level, position, bounds, rotation, state); }
 }

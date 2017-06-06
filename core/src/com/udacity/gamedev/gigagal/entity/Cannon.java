@@ -24,7 +24,7 @@ public class Cannon implements Nonstatic, Rappelable, Convertible, Ground {
     private Vector2 center;
     private float offset;
     private long startTime;
-    private boolean deactivated;
+    private boolean inactive;
 
     // ctor
     public Cannon(Vector2 position, Enums.Orientation orientation, Enums.ShotIntensity intensity) {
@@ -34,7 +34,7 @@ public class Cannon implements Nonstatic, Rappelable, Convertible, Ground {
         this.intensity = intensity;
         startTime = 0;
         offset = 0;
-        deactivated = false;
+        inactive = false;
         switch (orientation) {
             case Y:
                 region = Assets.getInstance().getGroundAssets().yCannon;
@@ -48,7 +48,7 @@ public class Cannon implements Nonstatic, Rappelable, Convertible, Ground {
     }
     
     public void update() {
-        if (!deactivated) {
+        if (!inactive) {
             if (this.getOffset() == 0) {
                 offset += 0.25f;
                 this.setStartTime(TimeUtils.nanoTime() + ((long) (this.getOffset() / MathUtils.nanoToSec)));
@@ -90,8 +90,8 @@ public class Cannon implements Nonstatic, Rappelable, Convertible, Ground {
     @Override public final float getTop() { return position.y + center.y; }
     @Override public final float getBottom() { return position.y - center.y; }
     @Override public final boolean isDense() { return true; }
-    @Override public void convert() { deactivated = !deactivated; }
-    @Override public boolean isConverted() { return deactivated; }
+    @Override public void convert() { inactive = !inactive; }
+    @Override public boolean isConverted() { return inactive; }
     @Override public Cannon clone() { return new Cannon(position, orientation, intensity); }
     public final Enums.Orientation getOrientation() { return orientation; }
     public final Enums.ShotIntensity getIntensity() { return intensity; }

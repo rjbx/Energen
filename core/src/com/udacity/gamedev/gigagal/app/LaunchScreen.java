@@ -208,6 +208,7 @@ final class LaunchScreen extends ScreenAdapter {
             Helpers.drawBitmapFont(batch, viewport, font, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, Align.center);
             if (Helpers.secondsSince(launchStartTime) > 3) {
                 Assets.getInstance().getMusicAssets().intro.play();
+                Assets.getInstance().getMusicAssets().intro.setLooping(true);
                 launching = false;
                 if (continuing) {
                     setResumeMenu();
