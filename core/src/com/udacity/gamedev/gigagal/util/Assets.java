@@ -55,6 +55,7 @@ public final class Assets implements AssetErrorListener {
         this.assetManager = new AssetManager();
         assetManager.setErrorListener(this);
         assetManager.load(Constants.TEXTURE_ATLAS); // atlas packed upon gradle build; load all at once instead of individually
+        assetManager.load(Constants.INTRO_MUSIC);
         assetManager.load(Constants.LEVEL_MUSIC);
         assetManager.load(Constants.BOSS_MUSIC);
         assetManager.load(Constants.MECHANICAL_MUSIC);
@@ -982,6 +983,7 @@ public final class Assets implements AssetErrorListener {
         public final AtlasRegion pause;
         public final AtlasRegion selectionCursor;
         public final AtlasRegion logo;
+        public final AtlasRegion beast;
 
         private OverlayAssets(TextureAtlas atlas) {
             right = atlas.findRegion(Constants.RIGHT_BUTTON);
@@ -993,7 +995,8 @@ public final class Assets implements AssetErrorListener {
             jump = atlas.findRegion(Constants.JUMP_BUTTON);
             pause = atlas.findRegion(Constants.PAUSE_BUTTON);
             selectionCursor = atlas.findRegion(Constants.SELECTION_CURSOR);
-            logo = atlas.findRegion(Constants.LOGO);
+            logo = atlas.findRegion(Constants.LOGO_SPRITE);
+            beast = atlas.findRegion(Constants.BEAST_SPRITE);
         }
     }
 
@@ -1070,6 +1073,7 @@ public final class Assets implements AssetErrorListener {
 
     public final class MusicAssets {
 
+        public final Music intro;
         public final Music level;
         public final Music boss;
         public final Music mechanical;
@@ -1078,6 +1082,7 @@ public final class Assets implements AssetErrorListener {
         public final Music mysterious;
 
         private MusicAssets() {
+            intro = assetManager.get(Constants.INTRO_MUSIC);
             level = assetManager.get(Constants.LEVEL_MUSIC); // use of descriptor enforces type checking
             boss = assetManager.get(Constants.BOSS_MUSIC); // use of descriptor enforces type checking
             mechanical = assetManager.get(Constants.MECHANICAL_MUSIC);

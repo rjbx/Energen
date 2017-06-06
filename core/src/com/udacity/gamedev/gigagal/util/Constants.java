@@ -45,6 +45,7 @@ public final class Constants {
     public static final AssetDescriptor<Sound> FLIGHT_SOUND = new AssetDescriptor<Sound>("audio/flight.wav", Sound.class);
     public static final AssetDescriptor<Sound> BREAK_GROUND_SOUND = new AssetDescriptor<Sound>("audio/break_ground.wav", Sound.class);
     public static final AssetDescriptor<Sound> DAMAGE_SOUND = new AssetDescriptor<Sound>("audio/damage.wav", Sound.class);
+    public static final AssetDescriptor<Music> INTRO_MUSIC = new AssetDescriptor<Music>("audio/riff-intro.wav", Music.class);
     public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/riff-level.mp3", Music.class);
     public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/riff-boss.mp3", Music.class);
     public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/thermal.mp3", Music.class);
@@ -717,8 +718,10 @@ public final class Constants {
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TIME_PATTERN);
 
     // Start screen
-    public static final String LOGO = "qualiv";
+    public static final String LOGO_SPRITE = "qualiv";
     public static final Vector2 LOGO_CENTER = new Vector2(117.5f, 117.5f);
+    public static final String BEAST_SPRITE = "beast";
+    public static final Vector2 BEAST_CENTER = new Vector2(32, 32);
 
     // Scoring
     public static final int ZOOMBA_KILL_SCORE = 100;
