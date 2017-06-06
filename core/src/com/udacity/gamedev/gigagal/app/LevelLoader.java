@@ -209,7 +209,7 @@ final class LevelLoader {
                     if (customVar.contains(Constants.LEVEL_BOUNDS_KEY)) {
                         String[] boundsSplit = customVar.split(Constants.LEVEL_BOUNDS_KEY + ":");
                         String[] paramSplit = boundsSplit[1].split(",");
-                        bounds.set(Float.parseFloat(paramSplit[0]), Float.parseFloat(paramSplit[1]), Float.parseFloat(paramSplit[2]), Float.parseFloat(paramSplit[3]));
+                        bounds.set(Float.parseFloat(paramSplit[0]), Float.parseFloat(paramSplit[1]), Float.parseFloat(paramSplit[2]) - Float.parseFloat(paramSplit[0]), Float.parseFloat(paramSplit[3]) - Float.parseFloat(paramSplit[1]));
                     }
                 }
             }

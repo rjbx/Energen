@@ -37,7 +37,6 @@ public class Lift implements Hoverable, Convertible, Ground {
 
     @Override
     public void update() {
-        Gdx.app.log(TAG, converted + position.toString() + orientation);
         switch (orientation) {
             case Y:
                 switch (direction) {
@@ -94,8 +93,9 @@ public class Lift implements Hoverable, Convertible, Ground {
     @Override public Enums.Direction getDirection() { return direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
     @Override public final boolean isDense() { return false; }
-    @Override public void convert() { converted = !converted; setOrientation(Helpers.getOppositeOrientation(orientation));
-        Gdx.app.log(TAG, converted + position.toString() + orientation);}
+    @Override public void convert() { converted = !converted; position.set(startPosition); setOrientation(Helpers.getOppositeOrientation(orientation));
+    //    Gdx.app.log(TAG, converted + position.toString() + orientation);
+    }
     @Override public boolean isConverted() { return converted; }
     @Override public Lift clone() { return new Lift(position, orientation); }
     public final void setRange(float range) { this.range = range; }

@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -49,6 +50,7 @@ public class Trip implements Trippable, Strikeable, Ground {
 
     public void update() {
         if (state) {
+
             for (Ground ground : level.getGrounds()) {
                 if (ground instanceof Convertible) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
@@ -59,11 +61,15 @@ public class Trip implements Trippable, Strikeable, Ground {
                 }
             }
         } else {
+
             for (Ground ground : level.getGrounds()) {
                 if (ground instanceof Convertible) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
                         if (((Convertible) ground).isConverted()) {
                             ((Convertible) ground).convert();
+                            if (position.x == 748) {
+                                Gdx.app.log(TAG, position.toString() + state + ground.getPosition() + bounds.x + bounds.y + bounds.width + bounds.height);
+                            }
                         }
                     }
                 }
@@ -77,12 +83,12 @@ public class Trip implements Trippable, Strikeable, Ground {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOff.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
         } else {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOff.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
         }
     }
 
