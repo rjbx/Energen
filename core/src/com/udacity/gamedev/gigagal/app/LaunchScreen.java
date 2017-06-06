@@ -153,6 +153,7 @@ final class LaunchScreen extends ScreenAdapter {
                     Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
 
                     if (inputControls.shootButtonJustPressed) {
+                        Assets.getInstance().getMusicAssets().intro.stop();
                         if (continuing) {
                             if (Cursor.getInstance().getPosition() == 35) {
                                 inputControls.shootButtonJustPressed = false;
@@ -168,8 +169,6 @@ final class LaunchScreen extends ScreenAdapter {
                             setDifficultyMenu();
                         }
                     }
-
-                    Assets.getInstance().getMusicAssets().intro.play();
                     break;
                 case ERASE:
                     Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
@@ -208,6 +207,7 @@ final class LaunchScreen extends ScreenAdapter {
                     new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f), .375f);
             Helpers.drawBitmapFont(batch, viewport, font, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, Align.center);
             if (Helpers.secondsSince(launchStartTime) > 3) {
+                Assets.getInstance().getMusicAssets().intro.play();
                 launching = false;
                 if (continuing) {
                     setResumeMenu();

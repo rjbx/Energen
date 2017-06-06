@@ -12,12 +12,13 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // class name avoids confusion with existing button assets and constants
-public class Trip implements Trippable, Strikeable, Ground {
+public class Trip implements Trippable, Convertible, Strikeable, Ground {
 
     // fields
     public final static String TAG = Trip.class.getName();
 
     private Vector2 position;
+    private boolean converted;
     private LevelUpdater level;
     private Rectangle bounds;
     private long startTime;
@@ -46,6 +47,7 @@ public class Trip implements Trippable, Strikeable, Ground {
         }
         startTime = 0;
         this.state = state;
+        converted = false;
     }
 
     public void update() {
@@ -107,5 +109,7 @@ public class Trip implements Trippable, Strikeable, Ground {
     @Override public void setState(boolean state) {
         this.state = state;
     }
+    @Override public void convert() { converted = !converted; }
+    @Override public boolean isConverted() { return converted; }
     @Override public Trip clone() { return new Trip(level, position, bounds, rotation, state); }
 }
