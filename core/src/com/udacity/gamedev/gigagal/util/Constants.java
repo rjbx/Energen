@@ -721,7 +721,9 @@ public final class Constants {
     public static final String LOGO_SPRITE = "qualiv";
     public static final Vector2 LOGO_CENTER = new Vector2(117.5f, 117.5f);
     public static final String BEAST_SPRITE = "beast";
-    public static final Vector2 BEAST_CENTER = new Vector2(32, 32);
+    public static final Vector2 BEAST_CENTER = new Vector2(16, 16);
+    public static final String GLOBE_SPRITE = "globe";
+    public static final Vector2 GLOBE_CENTER = new Vector2(20, 20);
 
     // Scoring
     public static final int ZOOMBA_KILL_SCORE = 100;

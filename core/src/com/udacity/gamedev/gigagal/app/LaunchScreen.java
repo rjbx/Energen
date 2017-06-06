@@ -146,7 +146,8 @@ final class LaunchScreen extends ScreenAdapter {
                     Helpers.drawBitmapFont(batch, viewport, title, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, Align.center);
                     final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
                     Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
-                    Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getOverlayAssets().beast, viewport.getWorldWidth() / 3, viewport.getWorldWidth() / 2, Constants.BEAST_CENTER.x, Constants.BEAST_CENTER.y);
+                    Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getOverlayAssets().beast, viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 1.75f, Constants.BEAST_CENTER.x, Constants.BEAST_CENTER.y);
+                    Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getOverlayAssets().globe, viewport.getWorldWidth() / 3 * 2.25f, viewport.getWorldHeight() / 1.75f, Constants.GLOBE_CENTER.x, Constants.GLOBE_CENTER.y);
                     Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
 
                     if (inputControls.shootButtonJustPressed) {

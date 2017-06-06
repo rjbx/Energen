@@ -984,6 +984,7 @@ public final class Assets implements AssetErrorListener {
         public final AtlasRegion selectionCursor;
         public final AtlasRegion logo;
         public final AtlasRegion beast;
+        public final AtlasRegion globe;
 
         private OverlayAssets(TextureAtlas atlas) {
             right = atlas.findRegion(Constants.RIGHT_BUTTON);
@@ -997,6 +998,7 @@ public final class Assets implements AssetErrorListener {
             selectionCursor = atlas.findRegion(Constants.SELECTION_CURSOR);
             logo = atlas.findRegion(Constants.LOGO_SPRITE);
             beast = atlas.findRegion(Constants.BEAST_SPRITE);
+            globe = atlas.findRegion(Constants.GLOBE_SPRITE);
         }
     }
 
