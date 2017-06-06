@@ -30,6 +30,7 @@ public class Treadmill implements Rideable, Convertible, Ground {
         this.adjustedCenter = adjustedCenter;
         this.direction = direction;
         startTime = TimeUtils.nanoTime();
+        tripped = false;
     }
 
     @Override

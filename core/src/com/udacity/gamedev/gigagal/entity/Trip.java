@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // class name avoids confusion with existing button assets and constants
-public class Trip implements Switchable, Strikeable, Ground {
+public class Trip implements Trippable, Strikeable, Ground {
 
     // fields
     public final static String TAG = Trip.class.getName();

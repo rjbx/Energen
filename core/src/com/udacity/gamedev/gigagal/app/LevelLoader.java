@@ -300,8 +300,8 @@ final class LevelLoader {
                     if (item.equals(Constants.LEVEL_LEDGE_TAG)) {
                         tagBooleans[Constants.LEVEL_LEDGE_TAG_INDEX] = true;
                     }
-                    if (item.equals(Constants.TRIP_OFF_TAG)) {
-                        tagBooleans[Constants.TRIP_OFF_TAG_INDEX] = true;
+                    if (item.equals(Constants.TRIP_ON_TAG)) {
+                        tagBooleans[Constants.TRIP_ON_TAG_INDEX] = true;
                     }
                 }
             }
@@ -477,7 +477,7 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIP_SPRITE_1)) {
                 final Vector2 tripPosition = imagePosition.add(Constants.TRIP_CENTER);
                 Gdx.app.log(TAG, "Loaded the convert at " + tripPosition);
-                Trip trip = new Trip(level, tripPosition, bounds, rotation, tags[Constants.TRIP_OFF_TAG_INDEX]);
+                Trip trip = new Trip(level, tripPosition, bounds, rotation, tags[Constants.TRIP_ON_TAG_INDEX]);
                 level.getGrounds().add(trip);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POD_SPRITE_1)) {
                 final Vector2 podPosition = imagePosition.add(Constants.POD_CENTER);

@@ -167,9 +167,9 @@ public final class Ammo implements Indestructible, Hazard {
                         Assets.getInstance().getSoundAssets().hitGround.play();
                     }
                     if (strikeable instanceof Trip) {
-                        Switchable switchable = (Switchable) strikeable;
-                        switchable.resetStartTime();
-                        switchable.setState(!switchable.getState());
+                        Trippable trippable = (Trippable) strikeable;
+                        trippable.resetStartTime();
+                        trippable.setState(!trippable.getState());
                     } else if (strikeable instanceof Chargeable) {
                         Chargeable chargeable = (Chargeable) strikeable;
                         chargeable.deactivate();
