@@ -28,7 +28,6 @@ public class Cannon implements Nonstatic, Rappelable, Convertible, Ground {
 
     // ctor
     public Cannon(Vector2 position, Enums.Orientation orientation, Enums.ShotIntensity intensity, boolean active) {
-
         this.position = position;
         this.orientation = orientation;
         this.intensity = intensity;
@@ -46,6 +45,7 @@ public class Cannon implements Nonstatic, Rappelable, Convertible, Ground {
                 break;
         }
     }
+
     public void update() {
         if (active) {
             if (this.getOffset() == 0) {
