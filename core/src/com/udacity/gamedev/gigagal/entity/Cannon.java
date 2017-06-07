@@ -52,7 +52,7 @@ public class Cannon implements Nonstatic, Rappelable, Convertible, Ground {
                 offset += 0.25f;
                 this.setStartTime(TimeUtils.nanoTime() + ((long) (this.getOffset() / MathUtils.nanoToSec)));
             }
-            if ((Helpers.secondsSince(this.getStartTime()) > 2)) {
+            if ((Helpers.secondsSince(this.getStartTime()) > 1.8f)) {
                 this.setStartTime(TimeUtils.nanoTime());
                 Enums.Orientation orientation = this.getOrientation();
                 if (orientation == Enums.Orientation.X) {
