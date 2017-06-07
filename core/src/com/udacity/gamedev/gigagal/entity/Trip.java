@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -18,7 +17,7 @@ public class Trip implements Trippable, Convertible, Strikeable, Ground {
     public final static String TAG = Trip.class.getName();
 
     private Vector2 position;
-    private boolean converted;
+    private boolean convert;
     private LevelUpdater level;
     private Rectangle bounds;
     private long startTime;
@@ -46,36 +45,21 @@ public class Trip implements Trippable, Convertible, Strikeable, Ground {
                 offset = Constants.TRIP_CENTER;
         }
         startTime = 0;
+        convert = true;
         this.state = state;
     }
 
     public void update() {
-        if (state) {
-
+        if (convert) {
             for (Ground ground : level.getGrounds()) {
-                if (ground instanceof Convertible) {
+                if (ground instanceof Convertible && ground != this) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
-                        if (!((Convertible) ground).isConverted()) {
                             ((Convertible) ground).convert();
-                        }
-                    }
-                }
-            }
-        } else {
-
-            for (Ground ground : level.getGrounds()) {
-                if (ground instanceof Convertible) {
-                    if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
-                        if (((Convertible) ground).isConverted()) {
-                            ((Convertible) ground).convert();
-                            if (position.x == 748) {
-                                Gdx.app.log(TAG, position.toString() + state + ground.getPosition() + bounds.x + bounds.y + bounds.width + bounds.height);
-                            }
-                        }
                     }
                 }
             }
         }
+        convert = false;
     }
 
     @Override
@@ -105,10 +89,8 @@ public class Trip implements Trippable, Convertible, Strikeable, Ground {
     @Override public final void resetStartTime() { this.startTime = 0; }
     public Rectangle getBounds() { return bounds; }
     @Override public boolean getState() { return state; }
-    @Override public void setState(boolean state) {
-        this.state = state;
-    }
-    @Override public void convert() { state = !state; }
+    @Override public void setState(boolean state) { this.state = state; convert = true; }
+    @Override public void convert() { state = !state; convert = true; }
     @Override public boolean isConverted() { return state; }
     @Override public Trip clone() { return new Trip(level, position, bounds, rotation, state); }
 }
