@@ -56,6 +56,7 @@ public class LevelUpdater {
     private Enums.Material levelWeapon;
     private Enums.Theme level;
     private Music music;
+    private Boss boss;
     private String removedHazards;
     private boolean paused;
     private boolean musicEnabled;
@@ -405,7 +406,7 @@ public class LevelUpdater {
         return false;
     }
 
-    protected boolean completed() { return GigaGal.getInstance().getPosition().dst(transports.get(transports.size - 2).getPosition()) < Constants.PORTAL_RADIUS; }
+    protected boolean completed() { return ChaseCam.getInstance().getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1; }
 
     protected boolean continuing() { return !(completed() || failed()); }
 
@@ -430,6 +431,8 @@ public class LevelUpdater {
     public final DelayedRemovalArray<Ground> getGrounds() { return grounds; }
     public final DelayedRemovalArray<Impact> getImpacts() { return impacts; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
+    public final void setBoss(Boss boss) { this.boss = boss; }
+    public final Boss getBoss() { return boss; }
     public final Viewport getViewport() { return viewport; }
     public final DelayedRemovalArray<Transport> getTransports() { return transports; }
     public final GigaGal getGigaGal() { return GigaGal.getInstance(); }

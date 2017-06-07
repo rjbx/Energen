@@ -362,7 +362,9 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOSS_SPRITE)) {
                 final Vector2 bossPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded Boss at " + bossPosition);
-                level.getHazards().add(new Boss.Builder(level, bossPosition).weapon(level.getType()).build());
+                Boss boss = new Boss.Builder(level, bossPosition).weapon(level.getType()).build();
+                level.getHazards().add(boss);
+                level.setBoss(boss);
                 ChaseCam.getInstance().setRoomPosition(bossPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PORTAL_SPRITE_1)) {
                 final Vector2 portalPosition = imagePosition.add(Constants.PORTAL_CENTER);
