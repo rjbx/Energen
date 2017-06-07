@@ -291,17 +291,20 @@ final class LevelLoader {
     }
 
     private static final boolean[] extractTags(JSONObject object) {
-        boolean[] tagBooleans = {false, false};
+        boolean[] tagBooleans = {false, false, true};
         try {
             if (object.containsKey(Constants.LEVEL_TAGS_KEY)) {
                 JSONArray tags = (JSONArray) object.get(Constants.LEVEL_TAGS_KEY);
                 for (Object tag : tags) {
                     String item = (String) tag;
-                    if (item.equals(Constants.LEVEL_LEDGE_TAG)) {
-                        tagBooleans[Constants.LEVEL_LEDGE_TAG_INDEX] = true;
+                    if (item.equals(Constants.LEDGE_TAG)) {
+                        tagBooleans[Constants.LEDGE_TAG_INDEX] = true;
                     }
-                    if (item.equals(Constants.TRIP_ON_TAG)) {
-                        tagBooleans[Constants.TRIP_ON_TAG_INDEX] = true;
+                    if (item.equals(Constants.ON_TAG)) {
+                        tagBooleans[Constants.ON_TAG_INDEX] = true;
+                    }
+                    if (item.equals(Constants.OFF_TAG)) {
+                        tagBooleans[Constants.OFF_TAG_INDEX] = false;
                     }
                 }
             }
@@ -428,11 +431,11 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANNON_SPRITE)) {
                 final Vector2 cannonPosition = imagePosition.add(Constants.X_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
-                level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.X, intensity));
+                level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.X, intensity, tags[Constants.OFF_TAG_INDEX]));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.Y_CANNON_SPRITE)) {
                 final Vector2 cannonPosition = imagePosition.add(Constants.Y_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
-                level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.Y, intensity));
+                level.getGrounds().add(new Cannon(cannonPosition, Enums.Orientation.Y, intensity, tags[Constants.OFF_TAG_INDEX]));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PILLAR_SPRITE)) {
                 final Vector2 pillarPosition = imagePosition.add(Constants.PILLAR_CENTER);
                 Gdx.app.log(TAG, "Loaded the pillar at " + pillarPosition);
@@ -477,7 +480,7 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIP_SPRITE_1)) {
                 final Vector2 tripPosition = imagePosition.add(Constants.TRIP_CENTER);
                 Gdx.app.log(TAG, "Loaded the convert at " + tripPosition);
-                Trip trip = new Trip(level, tripPosition, bounds, rotation, tags[Constants.TRIP_ON_TAG_INDEX]);
+                Trip trip = new Trip(level, tripPosition, bounds, rotation, tags[Constants.ON_TAG_INDEX]);
                 level.getGrounds().add(trip);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POD_SPRITE_1)) {
                 final Vector2 podPosition = imagePosition.add(Constants.POD_CENTER);
@@ -549,7 +552,7 @@ final class LevelLoader {
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
                 final Block block;
                 block = new Block(imagePosition.x, imagePosition.y, width, height, type);
-                block.setDensity(!tags[Constants.LEVEL_LEDGE_TAG_INDEX]);
+                block.setDensity(!tags[Constants.LEDGE_TAG_INDEX]);
                 boxArray.add(block);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BREAKABLE_BOX_SPRITE)) {

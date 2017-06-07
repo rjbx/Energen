@@ -45,7 +45,7 @@ public class Trip implements Trippable, Convertible, Strikeable, Ground {
                 offset = Constants.TRIP_CENTER;
         }
         startTime = 0;
-        convert = true;
+        convert = false;
         this.state = state;
     }
 
