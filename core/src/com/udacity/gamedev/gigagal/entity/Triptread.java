@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -54,17 +55,17 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
         if (state) {
             Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadOn.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.TRIPTREAD_CENTER);
         } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadOff.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.TRIPCHAMBER_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadOff.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.TRIPTREAD_CENTER);
         }
     }
 
     @Override public final Vector2 getPosition() { return position; }
-    @Override public final float getHeight() { return Constants.TRIPKNOB_CENTER.y * 2; }
-    @Override public final float getWidth() { return Constants.TRIPKNOB_CENTER.x * 2; }
-    @Override public final float getLeft() { return position.x - Constants.TRIPKNOB_CENTER.x; }
-    @Override public final float getRight() { return position.x + Constants.TRIPKNOB_CENTER.x; }
-    @Override public final float getTop() { return position.y + Constants.TRIPKNOB_CENTER.y; }
-    @Override public final float getBottom() { return position.y - Constants.TRIPKNOB_CENTER.y; }
+    @Override public final float getHeight() { return Constants.TRIPTREAD_CENTER.y * 2; }
+    @Override public final float getWidth() { return Constants.TRIPTREAD_CENTER.x * 2; }
+    @Override public final float getLeft() { return position.x - Constants.TRIPTREAD_CENTER.x; }
+    @Override public final float getRight() { return position.x + Constants.TRIPTREAD_CENTER.x; }
+    @Override public final float getTop() { return position.y + Constants.TRIPTREAD_CENTER.y; }
+    @Override public final float getBottom() { return position.y - Constants.TRIPTREAD_CENTER.y; }
     @Override public final boolean isDense() { return true; }
     public final long getStartTime() { return startTime; }
     @Override public final void resetStartTime() { this.startTime = 0; }
