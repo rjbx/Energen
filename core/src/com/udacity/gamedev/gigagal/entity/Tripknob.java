@@ -49,6 +49,7 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
         this.state = state;
     }
 
+    @Override
     public void update(float delta) {
         if (convert) {
             for (Ground ground : level.getGrounds()) {

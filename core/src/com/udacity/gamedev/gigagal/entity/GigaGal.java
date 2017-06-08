@@ -944,6 +944,10 @@ public class GigaGal implements Humanoid {
             dashStartTime = TimeUtils.nanoTime();
             strideStartTime = 0;
             canStride = false;
+            if (touchedGround instanceof Triptread) {
+                Triptread triptread = (Triptread) touchedGround;
+                triptread.setState(!triptread.getState());
+            }
         }
         float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
         if (turbo >= 1) {
