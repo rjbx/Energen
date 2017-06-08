@@ -486,7 +486,7 @@ final class LevelLoader {
                 Gdx.app.log(TAG, "Loaded the convert at " + tripPosition);
                 Tripknob trip = new Tripknob(level, tripPosition, bounds, rotation, tags[Constants.ON_TAG_INDEX]);
                 level.getGrounds().add(trip);
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIPTREAD_1_OFF)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIPTREAD_SPRITE_1_OFF)) {
                 final Vector2 tripPosition = imagePosition.add(Constants.TRIPTREAD_CENTER);
                 Gdx.app.log(TAG, "Loaded the convert at " + tripPosition);
                 Triptread trip = new Triptread(level, tripPosition, bounds, tags[Constants.ON_TAG_INDEX], Enums.Direction.LEFT);
@@ -527,13 +527,13 @@ final class LevelLoader {
                 level.getHazards().add(waves);
                 level.getGrounds().add(waves);
                 Gdx.app.log(TAG, "Loaded the waves at " + wavesPosition);
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_LEFT)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_SPRITE_1_LEFT)) {
                 Vector2 adjustedCenter = new Vector2(Constants.TREADMILL_CENTER.x * scale.x, Constants.TREADMILL_CENTER.y * scale.y);
                 final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
                 final Treadmill treadmill = new Treadmill(treadmillPosition, scale, adjustedCenter, Enums.Direction.LEFT);
                 level.getGrounds().add(treadmill);
                 Gdx.app.log(TAG, "Loaded the treadmill at " + treadmillPosition);
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_1_RIGHT)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_SPRITE_1_RIGHT)) {
                 Vector2 adjustedCenter = new Vector2(Constants.TREADMILL_CENTER.x * scale.x, Constants.TREADMILL_CENTER.y * scale.y);
                 final Vector2 treadmillPosition = imagePosition.add(Constants.TREADMILL_CENTER);
                 final Treadmill treadmill = new Treadmill(treadmillPosition, scale, adjustedCenter, Enums.Direction.RIGHT);

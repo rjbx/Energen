@@ -204,10 +204,10 @@ public final class Constants {
 
     // Treadmill
     public static final Vector2 TREADMILL_CENTER = new Vector2(19, 9);
-    public static final String TREADMILL_1_RIGHT = "treadmill-1-right";
-    public static final String TREADMILL_2_RIGHT = "treadmill-2-right";
-    public static final String TREADMILL_1_LEFT = "treadmill-1-left";
-    public static final String TREADMILL_2_LEFT = "treadmill-2-left";
+    public static final String TREADMILL_SPRITE_1_RIGHT = "treadmill-1-right";
+    public static final String TREADMILL_SPRITE_2_RIGHT = "treadmill-2-right";
+    public static final String TREADMILL_SPRITE_1_LEFT = "treadmill-1-left";
+    public static final String TREADMILL_SPRITE_2_LEFT = "treadmill-2-left";
     public static final float TREADMILL_DURATION = .1f;
     public static final float TREADMILL_SPEED = 175;
 
@@ -223,10 +223,10 @@ public final class Constants {
     
     // Triptread
     public static final Vector2 TRIPTREAD_CENTER = new Vector2(19, 9);
-    public static final String TRIPTREAD_1_OFF= "treadmill-trip-1-off";
-    public static final String TRIPTREAD_2_OFF = "treadmill-trip-2-off";
-    public static final String TRIPTREAD_1_ON = "treadmill-trip-1-on";
-    public static final String TRIPTREAD_2_ON = "treadmill-trip-2-on";
+    public static final String TRIPTREAD_SPRITE_1_OFF = "treadmill-trip-1-off";
+    public static final String TRIPTREAD_SPRITE_2_OFF = "treadmill-trip-2-off";
+    public static final String TRIPTREAD_SPRITE_1_ON = "treadmill-trip-1-on";
+    public static final String TRIPTREAD_SPRITE_2_ON = "treadmill-trip-2-on";
     public static final float TRIPTREAD_DURATION = .1f;
     public static final float TRIPTREAD_SPEED = 175;
     

@@ -347,8 +347,8 @@ public final class Assets implements AssetErrorListener {
                     iceRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> treadmillRegions = new Array<AtlasRegion>();
-            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_1_RIGHT));
-            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_2_RIGHT));
+            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_SPRITE_1_RIGHT));
+            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_SPRITE_2_RIGHT));
 
             treadmillRight = new Animation(Constants.TREADMILL_DURATION / treadmillRegions.size,
                     treadmillRegions, PlayMode.NORMAL);
@@ -356,8 +356,8 @@ public final class Assets implements AssetErrorListener {
             treadmillRegions.clear();
 
             treadmillRegions = new Array<AtlasRegion>();
-            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_1_LEFT));
-            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_2_LEFT));
+            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_SPRITE_1_LEFT));
+            treadmillRegions.add(atlas.findRegion(Constants.TREADMILL_SPRITE_2_LEFT));
 
             treadmillLeft = new Animation(Constants.TREADMILL_DURATION / treadmillRegions.size,
                     treadmillRegions, PlayMode.NORMAL);
@@ -391,18 +391,18 @@ public final class Assets implements AssetErrorListener {
             
 
             Array<AtlasRegion> triptreadOffRegions = new Array<AtlasRegion>();
-            triptreadOffRegions.add(atlas.findRegion(Constants.TRIPTREAD_1_OFF));
-            triptreadOffRegions.add(atlas.findRegion(Constants.TRIPTREAD_2_OFF));
+            triptreadOffRegions.add(atlas.findRegion(Constants.TRIPTREAD_SPRITE_1_OFF));
+            triptreadOffRegions.add(atlas.findRegion(Constants.TRIPTREAD_SPRITE_2_OFF));
 
-            triptreadOff = new Animation(Constants.TRIPKNOB_LOAD_DURATION / triptreadOffRegions.size,
+            triptreadOff = new Animation(Constants.TRIPTREAD_DURATION / triptreadOffRegions.size,
                     triptreadOffRegions, PlayMode.NORMAL);
 
 
             Array<AtlasRegion> triptreadOnRegions = new Array<AtlasRegion>();
-            triptreadOnRegions.add(atlas.findRegion(Constants.TRIPTREAD_1_ON));
-            triptreadOnRegions.add(atlas.findRegion(Constants.TRIPTREAD_2_ON));
+            triptreadOnRegions.add(atlas.findRegion(Constants.TRIPTREAD_SPRITE_1_ON));
+            triptreadOnRegions.add(atlas.findRegion(Constants.TRIPTREAD_SPRITE_2_ON));
             
-            triptreadOn = new Animation(Constants.TRIPKNOB_UNLOAD_DURATION / triptreadOffRegions.size,
+            triptreadOn = new Animation(Constants.TRIPTREAD_DURATION / triptreadOffRegions.size,
                     triptreadOnRegions, PlayMode.NORMAL);
 
 
