@@ -9,9 +9,11 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.Boss;
+import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Chargeable;
 import com.udacity.gamedev.gigagal.entity.Destructible;
+import com.udacity.gamedev.gigagal.entity.Gate;
 import com.udacity.gamedev.gigagal.entity.Ground;
 import com.udacity.gamedev.gigagal.entity.Hazard;
 import com.udacity.gamedev.gigagal.entity.Impact;
@@ -193,11 +195,13 @@ public class LevelUpdater {
         for (int i = 0; i < grounds.size ; i++) {
             Ground ground = grounds.get(i);
             if (ground instanceof Nonstatic) {
-                ((Nonstatic) ground).update();
+                ((Nonstatic) ground).update(delta);
             } else if (ground instanceof Destructible) {
                 if (((Destructible) ground).getHealth() < 1) {
-                    Assets.getInstance().getSoundAssets().breakGround.play();
-                    grounds.removeIndex(i);
+                    if (ground instanceof Box) {
+                        Assets.getInstance().getSoundAssets().breakGround.play();
+                        grounds.removeIndex(i);
+                    }
                 }
             } else if (ground instanceof Chargeable) {
                 if (ground instanceof Chamber) {

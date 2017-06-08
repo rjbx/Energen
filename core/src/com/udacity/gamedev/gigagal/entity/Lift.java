@@ -36,7 +36,7 @@ public class Lift implements Hoverable, Convertible, Ground {
     }
 
     @Override
-    public void update() {
+    public void update(float delta) {
         switch (orientation) {
             case Y:
                 switch (direction) {

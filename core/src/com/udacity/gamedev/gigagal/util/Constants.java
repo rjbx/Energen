@@ -524,6 +524,16 @@ public final class Constants {
     public static final String TELEPORT_SPRITE_1 = "teleport-1";
     public static final String TELEPORT_SPRITE_2 = "teleport-2";
     public static final String TELEPORT_SPRITE_3 = "teleport-3";
+    
+    // Gate
+    public static final String GATE_SPRITE_0 = "gate-0";
+    public static final String GATE_SPRITE_1 = "gate-1";
+    public static final String GATE_SPRITE_2 = "gate-2";
+    public static final String GATE_SPRITE_3 = "gate-3";
+    public static final String GATE_SPRITE_4 = "gate-4";
+    public static final String GATE_SPRITE_5 = "gate-5";
+    public static final float GATE_FRAME_DURATION = 0.1f;
+    public static final Vector2 GATE_CENTER = new Vector2(4, 17.5f);
 
     // Ammo
     public static final float CHARGE_DURATION = 1;

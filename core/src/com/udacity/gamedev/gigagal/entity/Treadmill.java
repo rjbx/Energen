@@ -34,7 +34,7 @@ public class Treadmill implements Rideable, Convertible, Ground {
     }
 
     @Override
-    public void update() {
+    public void update(float delta) {
         if (direction == Enums.Direction.RIGHT) {
             animation = Assets.getInstance().getGroundAssets().treadmillRight;
         } else {

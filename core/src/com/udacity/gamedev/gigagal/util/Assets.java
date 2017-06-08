@@ -292,6 +292,8 @@ public final class Assets implements AssetErrorListener {
         public final Animation coals;
         public final Animation lava;
         public final Animation waves;
+        public final Animation gateOpen;
+        public final Animation gateClose;
         public final NinePatch box;
         public final NinePatch breakableBox;
 
@@ -382,6 +384,18 @@ public final class Assets implements AssetErrorListener {
 
             tripOff = new Animation(Constants.TRIP_UNLOAD_DURATION / tripRegions.size,
                     tripRegions, PlayMode.REVERSED);
+
+            Array<AtlasRegion> gateRegions = new Array<AtlasRegion>();
+            gateRegions.add(atlas.findRegion(Constants.GATE_SPRITE_0));
+            gateRegions.add(atlas.findRegion(Constants.GATE_SPRITE_1));
+            gateRegions.add(atlas.findRegion(Constants.GATE_SPRITE_2));
+            gateRegions.add(atlas.findRegion(Constants.GATE_SPRITE_2));
+            gateRegions.add(atlas.findRegion(Constants.GATE_SPRITE_3));
+            gateRegions.add(atlas.findRegion(Constants.GATE_SPRITE_4));
+            gateRegions.add(atlas.findRegion(Constants.GATE_SPRITE_5));
+
+            gateOpen = new Animation(Constants.GATE_FRAME_DURATION, gateRegions, PlayMode.NORMAL);
+            gateClose = new Animation(Constants.GATE_FRAME_DURATION, gateRegions, PlayMode.REVERSED);
 
             Array<AtlasRegion> podRegions = new Array<AtlasRegion>();
             podRegions.add(atlas.findRegion(Constants.POD_SPRITE_1));

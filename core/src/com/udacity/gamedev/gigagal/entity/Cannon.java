@@ -46,7 +46,7 @@ public class Cannon implements Nonstatic, Rappelable, Convertible, Ground {
         }
     }
 
-    public void update() {
+    public void update(float delta) {
         if (active) {
             if (this.getOffset() == 0) {
                 offset += 0.25f;

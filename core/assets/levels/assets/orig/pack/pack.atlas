@@ -56,6 +56,13 @@ coals-1
   orig: 42, 18
   offset: 0, 0
   index: -1
+gate-0
+  rotate: false
+  xy: 349, 27
+  size: 8, 35
+  orig: 8, 35
+  offset: 0, 0
+  index: -1
 gg-stand-right
   rotate: false
   xy: 332, 93
@@ -129,7 +136,7 @@ pod-1
   index: -1
 pole-1
   rotate: false
-  xy: 349, 14
+  xy: 359, 14
   size: 5, 48
   orig: 5, 48
   offset: 0, 0

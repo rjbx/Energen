@@ -10,6 +10,7 @@ import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Cannon;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Coals;
+import com.udacity.gamedev.gigagal.entity.Gate;
 import com.udacity.gamedev.gigagal.entity.Ice;
 import com.udacity.gamedev.gigagal.entity.Knob;
 import com.udacity.gamedev.gigagal.entity.Ladder;
@@ -532,6 +533,11 @@ final class LevelLoader {
                 final Treadmill treadmill = new Treadmill(treadmillPosition, scale, adjustedCenter, Enums.Direction.RIGHT);
                 level.getGrounds().add(treadmill);
                 Gdx.app.log(TAG, "Loaded the treadmill at " + treadmillPosition);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.GATE_SPRITE_0)) {
+                final Vector2 gatePosition = imagePosition.add(Constants.GATE_CENTER);
+                final Gate gate = new Gate(gatePosition);
+                level.getGrounds().add(gate);
+                Gdx.app.log(TAG, "Loaded the gate at " + gatePosition);
             }
         }
     }

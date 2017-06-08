@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -175,6 +176,8 @@ public final class Ammo implements Indestructible, Hazard {
                         chargeable.deactivate();
                     } else if (strikeable instanceof Destructible) {
                         Helpers.applyDamage((Destructible) ground, this);
+                    } else if (strikeable instanceof Gate && direction == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
+                        ((Gate) strikeable).deactivate();
                     }
                     if (ground.isDense() || Helpers.betweenTwoValues(position.y, ground.getPosition().y - 2, ground.getPosition().y + 2)) {
                         active = false;

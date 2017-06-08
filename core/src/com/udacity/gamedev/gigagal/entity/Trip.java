@@ -49,7 +49,7 @@ public class Trip implements Trippable, Convertible, Strikeable, Ground {
         this.state = state;
     }
 
-    public void update() {
+    public void update(float delta) {
         if (convert) {
             for (Ground ground : level.getGrounds()) {
                 if (ground instanceof Convertible && ground != this) {

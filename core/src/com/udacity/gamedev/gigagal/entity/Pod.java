@@ -25,7 +25,7 @@ public class Pod implements Reboundable, Ground {
     }
 
     @Override
-    public void update() {}
+    public void update(float delta) {}
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
