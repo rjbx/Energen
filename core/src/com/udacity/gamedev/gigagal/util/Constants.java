@@ -225,8 +225,12 @@ public final class Constants {
     public static final Vector2 TRIPTREAD_CENTER = new Vector2(19, 9);
     public static final String TRIPTREAD_SPRITE_1_OFF = "treadmill-trip-1-off";
     public static final String TRIPTREAD_SPRITE_2_OFF = "treadmill-trip-2-off";
+    public static final String TRIPTREAD_SPRITE_3_OFF = "treadmill-trip-3-off";
+    public static final String TRIPTREAD_SPRITE_4_OFF = "treadmill-trip-4-off";
     public static final String TRIPTREAD_SPRITE_1_ON = "treadmill-trip-1-on";
     public static final String TRIPTREAD_SPRITE_2_ON = "treadmill-trip-2-on";
+    public static final String TRIPTREAD_SPRITE_3_ON = "treadmill-trip-3-on";
+    public static final String TRIPTREAD_SPRITE_4_ON = "treadmill-trip-4-on";
     public static final float TRIPTREAD_DURATION = .1f;
     public static final float TRIPTREAD_SPEED = 175;
     

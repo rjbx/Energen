@@ -393,17 +393,21 @@ public final class Assets implements AssetErrorListener {
             Array<AtlasRegion> triptreadOffRegions = new Array<AtlasRegion>();
             triptreadOffRegions.add(atlas.findRegion(Constants.TRIPTREAD_SPRITE_1_OFF));
             triptreadOffRegions.add(atlas.findRegion(Constants.TRIPTREAD_SPRITE_2_OFF));
+//            triptreadOffRegions.add(atlas.findRegion(Constants.TRIPTREAD_SPRITE_3_OFF));
+//            triptreadOffRegions.add(atlas.findRegion(Constants.TRIPTREAD_SPRITE_4_OFF));
 
             triptreadOff = new Animation(Constants.TRIPTREAD_DURATION / triptreadOffRegions.size,
-                    triptreadOffRegions, PlayMode.NORMAL);
+                    triptreadOffRegions, PlayMode.LOOP);
 
 
             Array<AtlasRegion> triptreadOnRegions = new Array<AtlasRegion>();
             triptreadOnRegions.add(atlas.findRegion(Constants.TRIPTREAD_SPRITE_1_ON));
             triptreadOnRegions.add(atlas.findRegion(Constants.TRIPTREAD_SPRITE_2_ON));
+//            triptreadOnRegions.add(atlas.findRegion(Constants.TRIPTREAD_SPRITE_3_ON));
+//            triptreadOnRegions.add(atlas.findRegion(Constants.TRIPTREAD_SPRITE_4_ON));
             
             triptreadOn = new Animation(Constants.TRIPTREAD_DURATION / triptreadOffRegions.size,
-                    triptreadOnRegions, PlayMode.NORMAL);
+                    triptreadOnRegions, PlayMode.LOOP);
 
 
             Array<AtlasRegion> tripchamberOffRegions = new Array<AtlasRegion>();

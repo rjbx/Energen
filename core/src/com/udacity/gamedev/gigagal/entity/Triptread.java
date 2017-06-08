@@ -53,9 +53,9 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (state) {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadOn.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.TRIPTREAD_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
         } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadOff.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.TRIPTREAD_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadOff.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
         }
     }
 
