@@ -232,10 +232,10 @@ public final class Constants {
     
     // Tripchamber
     public static final Vector2 TRIPCHAMBER_CENTER = new Vector2(4.5f, 10);
-    public static final String TRIPCHAMBER_SPRITE = "chamber-trip-1-off";
-    public static final String TRIPCHAMBER_SPRITE_1 = "chamber-trip-1-on";
-    public static final String TRIPCHAMBER_SPRITE_2 = "chamber-trip-2-off";
-    public static final String TRIPCHAMBER_SPRITE_3 = "chamber-trip-2-on";
+    public static final String TRIPCHAMBER_SPRITE_1_OFF = "chamber-trip-1-off";
+    public static final String TRIPCHAMBER_SPRITE_1_ON = "chamber-trip-1-on";
+    public static final String TRIPCHAMBER_SPRITE_2_OFF = "chamber-trip-2-off";
+    public static final String TRIPCHAMBER_SPRITE_2_ON = "chamber-trip-2-on";
     public static final float TRIPCHAMBER_LOAD_DURATION = 0.1f;
     
     

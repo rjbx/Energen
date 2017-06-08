@@ -68,12 +68,12 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripknobOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
         } else {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripOff.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripknobOff.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
         }
     }
 

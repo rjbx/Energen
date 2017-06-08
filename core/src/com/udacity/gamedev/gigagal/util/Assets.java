@@ -285,8 +285,12 @@ public final class Assets implements AssetErrorListener {
         public final Animation treadmillLeft;
         public final Animation loadedSpring;
         public final Animation unloadedSpring;
-        public final Animation tripOn;
-        public final Animation tripOff;
+        public final Animation tripknobOn;
+        public final Animation tripknobOff;
+        public final Animation triptreadOn;
+        public final Animation triptreadOff;
+        public final Animation tripchamberOff;
+        public final Animation tripchamberOn;
         public final Animation activePod;
         public final Animation sink;
         public final Animation coals;
@@ -372,19 +376,51 @@ public final class Assets implements AssetErrorListener {
                     springRegions, PlayMode.REVERSED);
 
 
-            Array<AtlasRegion> tripRegions = new Array<AtlasRegion>();
-            tripRegions.add(atlas.findRegion(Constants.TRIPKNOB_SPRITE_1));
-            tripRegions.add(atlas.findRegion(Constants.TRIPKNOB_SPRITE_2));
-            tripRegions.add(atlas.findRegion(Constants.TRIPKNOB_SPRITE_3));
-            tripRegions.add(atlas.findRegion(Constants.TRIPKNOB_SPRITE_4));
+            Array<AtlasRegion> tripknobRegions = new Array<AtlasRegion>();
+            tripknobRegions.add(atlas.findRegion(Constants.TRIPKNOB_SPRITE_1));
+            tripknobRegions.add(atlas.findRegion(Constants.TRIPKNOB_SPRITE_2));
+            tripknobRegions.add(atlas.findRegion(Constants.TRIPKNOB_SPRITE_3));
+            tripknobRegions.add(atlas.findRegion(Constants.TRIPKNOB_SPRITE_4));
 
-            tripOn = new Animation(Constants.TRIPKNOB_LOAD_DURATION / tripRegions.size,
-                    tripRegions, PlayMode.NORMAL);
+            tripknobOn = new Animation(Constants.TRIPKNOB_LOAD_DURATION / tripknobRegions.size,
+                    tripknobRegions, PlayMode.NORMAL);
 
 
-            tripOff = new Animation(Constants.TRIPKNOB_UNLOAD_DURATION / tripRegions.size,
-                    tripRegions, PlayMode.REVERSED);
+            tripknobOff = new Animation(Constants.TRIPKNOB_UNLOAD_DURATION / tripknobRegions.size,
+                    tripknobRegions, PlayMode.REVERSED);
+            
 
+            Array<AtlasRegion> triptreadOffRegions = new Array<AtlasRegion>();
+            triptreadOffRegions.add(atlas.findRegion(Constants.TRIPTREAD_1_OFF));
+            triptreadOffRegions.add(atlas.findRegion(Constants.TRIPTREAD_2_OFF));
+
+            triptreadOff = new Animation(Constants.TRIPKNOB_LOAD_DURATION / triptreadOffRegions.size,
+                    triptreadOffRegions, PlayMode.NORMAL);
+
+
+            Array<AtlasRegion> triptreadOnRegions = new Array<AtlasRegion>();
+            triptreadOnRegions.add(atlas.findRegion(Constants.TRIPTREAD_1_ON));
+            triptreadOnRegions.add(atlas.findRegion(Constants.TRIPTREAD_2_ON));
+            
+            triptreadOn = new Animation(Constants.TRIPKNOB_UNLOAD_DURATION / triptreadOffRegions.size,
+                    triptreadOnRegions, PlayMode.NORMAL);
+
+
+            Array<AtlasRegion> tripchamberOffRegions = new Array<AtlasRegion>();
+            tripchamberOffRegions.add(atlas.findRegion(Constants.TRIPCHAMBER_SPRITE_1_OFF));
+            tripchamberOffRegions.add(atlas.findRegion(Constants.TRIPCHAMBER_SPRITE_2_OFF));
+
+            tripchamberOff = new Animation(Constants.TRIPKNOB_LOAD_DURATION / tripchamberOffRegions.size,
+                    tripchamberOffRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> tripchamberOnRegions = new Array<AtlasRegion>();
+            tripchamberOnRegions.add(atlas.findRegion(Constants.TRIPCHAMBER_SPRITE_1_ON));
+            tripchamberOnRegions.add(atlas.findRegion(Constants.TRIPCHAMBER_SPRITE_2_ON));
+
+            tripchamberOn = new Animation(Constants.TRIPKNOB_UNLOAD_DURATION / tripchamberOffRegions.size,
+                    tripchamberOnRegions, PlayMode.NORMAL);
+            
+            
             Array<AtlasRegion> gateRegions = new Array<AtlasRegion>();
             gateRegions.add(atlas.findRegion(Constants.GATE_SPRITE_0));
             gateRegions.add(atlas.findRegion(Constants.GATE_SPRITE_1));
