@@ -328,6 +328,7 @@ public class LevelUpdater {
             }
         }
 
+        ChaseCam.getInstance().setState(Enums.ChaseCamState.FOLLOWING);
         GigaGal.getInstance().setLives(3);
         GigaGal.getInstance().respawn();
 
