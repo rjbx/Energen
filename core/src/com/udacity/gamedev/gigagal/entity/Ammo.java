@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -167,7 +166,7 @@ public final class Ammo implements Indestructible, Hazard {
                     if (isFromGigagal()) {
                         Assets.getInstance().getSoundAssets().hitGround.play();
                     }
-                    if (strikeable instanceof Trip) {
+                    if (strikeable instanceof Tripknob) {
                         Trippable trippable = (Trippable) strikeable;
                         trippable.resetStartTime();
                         trippable.setState(!trippable.getState());

@@ -468,7 +468,7 @@ public class GigaGal implements Humanoid {
             if (!Helpers.overlapsPhysicalObject(this, touchedGround)) {
                 if (touchedGround instanceof Reboundable) {
                     Reboundable reboundable = (Reboundable) touchedGround;
-                    if (reboundable.getState() && !(reboundable instanceof Trip)) {
+                    if (reboundable.getState() && !(reboundable instanceof Tripknob)) {
                         reboundable.resetStartTime();
                         reboundable.setState(false);
                     }

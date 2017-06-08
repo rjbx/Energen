@@ -211,16 +211,34 @@ public final class Constants {
     public static final float TREADMILL_DURATION = .1f;
     public static final float TREADMILL_SPEED = 175;
 
-    // Trip
-    public static final Vector2 TRIP_CENTER = new Vector2(6, 6);
-    public static final String TRIP_SPRITE_1 = "trip-1";
-    public static final String TRIP_SPRITE_2 = "trip-2";
-    public static final String TRIP_SPRITE_3 = "trip-3";
-    public static final String TRIP_SPRITE_4 = "trip-4";
-    public static final float TRIP_LOAD_DURATION = 0.25f;
-    public static final float TRIP_UNLOAD_DURATION = 0.5f;
-    public static final float TRIP_SHOT_RADIUS = 6;
-
+    // Tripknob
+    public static final Vector2 TRIPKNOB_CENTER = new Vector2(6, 6);
+    public static final String TRIPKNOB_SPRITE_1 = "trip-1";
+    public static final String TRIPKNOB_SPRITE_2 = "trip-2";
+    public static final String TRIPKNOB_SPRITE_3 = "trip-3";
+    public static final String TRIPKNOB_SPRITE_4 = "trip-4";
+    public static final float TRIPKNOB_LOAD_DURATION = 0.25f;
+    public static final float TRIPKNOB_UNLOAD_DURATION = 0.5f;
+    public static final float TRIPKNOB_SHOT_RADIUS = 6;
+    
+    // Triptread
+    public static final Vector2 TRIPTREAD_CENTER = new Vector2(19, 9);
+    public static final String TRIPTREAD_1_OFF= "treadmill-trip-1-off";
+    public static final String TRIPTREAD_2_OFF = "treadmill-trip-2-off";
+    public static final String TRIPTREAD_1_ON = "treadmill-trip-1-on";
+    public static final String TRIPTREAD_2_ON = "treadmill-trip-2-on";
+    public static final float TRIPTREAD_DURATION = .1f;
+    public static final float TRIPTREAD_SPEED = 175;
+    
+    // Tripchamber
+    public static final Vector2 TRIPCHAMBER_CENTER = new Vector2(4.5f, 10);
+    public static final String TRIPCHAMBER_SPRITE = "chamber-trip-1-off";
+    public static final String TRIPCHAMBER_SPRITE_1 = "chamber-trip-1-on";
+    public static final String TRIPCHAMBER_SPRITE_2 = "chamber-trip-2-off";
+    public static final String TRIPCHAMBER_SPRITE_3 = "chamber-trip-2-on";
+    public static final float TRIPCHAMBER_LOAD_DURATION = 0.1f;
+    
+    
     // Spring
     public static final Vector2 SPRING_CENTER = new Vector2(11.5f, 4);
     public static final String SPRING_SPRITE_1 = "spring-1";
