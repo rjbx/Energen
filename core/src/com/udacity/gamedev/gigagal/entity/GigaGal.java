@@ -484,9 +484,7 @@ public class GigaGal implements Humanoid {
                         velocity.x = 0; // prevents falling with backward momentum after rappel-sliding down platform side through its bottom
                     }
                     canRappel = false;
-                    if (action != Action.CLIMBING) {
-                        fall();
-                    }
+                    fall();
                 } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
                     canSink = false;
                     lookTimeSeconds = 0;

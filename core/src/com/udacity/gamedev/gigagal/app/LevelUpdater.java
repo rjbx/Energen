@@ -309,7 +309,7 @@ public class LevelUpdater {
         powerups.clear();
         transports.clear();
     }
-    
+
 
     // level state handling
 
