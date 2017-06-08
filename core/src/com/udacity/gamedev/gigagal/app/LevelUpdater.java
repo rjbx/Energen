@@ -309,11 +309,13 @@ public class LevelUpdater {
         powerups.clear();
         transports.clear();
     }
-
+    
 
     // level state handling
 
     protected void begin() {
+        ChaseCam.getInstance().setState(Enums.ChaseCamState.FOLLOWING);
+
         backdrop = new Backdrop(Assets.getInstance().getBackgroundAssets().getBackground(level));
         music = Assets.getInstance().getMusicAssets().getThemeMusic(level);
         music.setLooping(true);
@@ -328,7 +330,6 @@ public class LevelUpdater {
             }
         }
 
-        ChaseCam.getInstance().setState(Enums.ChaseCamState.FOLLOWING);
         GigaGal.getInstance().setLives(3);
         GigaGal.getInstance().respawn();
 
