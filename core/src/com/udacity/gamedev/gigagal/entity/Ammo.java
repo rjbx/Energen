@@ -169,10 +169,14 @@ public final class Ammo implements Indestructible, Hazard {
                     if (strikeable instanceof Tripknob) {
                         Tripknob tripknob = (Tripknob) strikeable;
                         tripknob.resetStartTime();
-                        tripknob.setState(!tripknob.getState());
+                        tripknob.setState(!tripknob.isActive());
                     } else if (strikeable instanceof Chargeable) {
                         Chargeable chargeable = (Chargeable) strikeable;
-                        chargeable.deactivate();
+                        if (chargeable instanceof Chamber) {
+                            chargeable.setState(false);
+                        } else if (chargeable instanceof Tripchamber) {
+                            chargeable.setState(!chargeable.isActive());
+                        }
                     } else if (strikeable instanceof Destructible) {
                         Helpers.applyDamage((Destructible) ground, this);
                     } else if (strikeable instanceof Gate && direction == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)

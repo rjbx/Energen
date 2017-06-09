@@ -29,6 +29,7 @@ import com.udacity.gamedev.gigagal.entity.Slick;
 import com.udacity.gamedev.gigagal.entity.Spring;
 import com.udacity.gamedev.gigagal.entity.Suspension;
 import com.udacity.gamedev.gigagal.entity.Teleport;
+import com.udacity.gamedev.gigagal.entity.Tripchamber;
 import com.udacity.gamedev.gigagal.entity.Tripknob;
 import com.udacity.gamedev.gigagal.entity.Swoopa;
 import com.udacity.gamedev.gigagal.entity.Treadmill;
@@ -490,6 +491,10 @@ final class LevelLoader {
                 final Vector2 tripPosition = imagePosition.add(Constants.TRIPTREAD_CENTER);
                 Gdx.app.log(TAG, "Loaded the convert at " + tripPosition);
                 Triptread trip = new Triptread(level, tripPosition, bounds, tags[Constants.ON_TAG_INDEX], Enums.Direction.LEFT);
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIPCHAMBER_SPRITE_1_OFF)) {
+                final Vector2 tripPosition = imagePosition.add(Constants.TRIPCHAMBER_CENTER);
+                Gdx.app.log(TAG, "Loaded the convert at " + tripPosition);
+                Tripchamber trip = new Tripchamber(level, tripPosition, bounds, tags[Constants.ON_TAG_INDEX]);
                 level.getGrounds().add(trip);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POD_SPRITE_1)) {
                 final Vector2 podPosition = imagePosition.add(Constants.POD_CENTER);

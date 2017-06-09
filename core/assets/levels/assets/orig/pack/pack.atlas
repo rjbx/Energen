@@ -6,14 +6,14 @@ filter: Linear,Linear
 repeat: none
 beast
   rotate: false
-  xy: 36, 60
+  xy: 221, 40
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 box
   rotate: false
-  xy: 237, 21
+  xy: 62, 2
   size: 58, 58
   split: 14, 15, 13, 14
   orig: 58, 58
@@ -21,7 +21,7 @@ box
   index: -1
 box-breakable
   rotate: false
-  xy: 177, 21
+  xy: 2, 2
   size: 58, 58
   split: 41, 16, 39, 15
   pad: 40, 16, 39, 15
@@ -30,70 +30,77 @@ box-breakable
   index: -1
 cannon-x
   rotate: false
-  xy: 134, 112
+  xy: 249, 2
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
   index: -1
 cannon-y
   rotate: false
-  xy: 129, 90
+  xy: 290, 79
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 chamber
   rotate: false
-  xy: 481, 104
+  xy: 314, 106
+  size: 11, 20
+  orig: 11, 20
+  offset: 0, 0
+  index: -1
+chamber-trip-1-off
+  rotate: false
+  xy: 327, 106
   size: 11, 20
   orig: 11, 20
   offset: 0, 0
   index: -1
 coals-1
   rotate: false
-  xy: 41, 94
+  xy: 177, 44
   size: 42, 18
   orig: 42, 18
   offset: 0, 0
   index: -1
 gate-0
   rotate: false
-  xy: 494, 89
+  xy: 367, 91
   size: 8, 35
   orig: 8, 35
   offset: 0, 0
   index: -1
 gg-stand-right
   rotate: false
-  xy: 70, 57
+  xy: 363, 51
   size: 26, 33
   orig: 26, 33
   offset: 0, 0
   index: -1
 ice-1
   rotate: false
-  xy: 281, 108
+  xy: 134, 64
   size: 48, 16
   orig: 48, 16
   offset: 0, 0
   index: -1
 icon-life
   rotate: false
-  xy: 156, 111
+  xy: 327, 35
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
   index: -1
 knob-1
   rotate: false
-  xy: 66, 115
+  xy: 177, 33
   size: 11, 9
   orig: 11, 9
   offset: 0, 0
   index: -1
 ladder
   rotate: false
-  xy: 125, 38
+  xy: 342, 34
   size: 19, 50
   split: 7, 7, 0, 0
   orig: 19, 50
@@ -101,252 +108,252 @@ ladder
   index: -1
 lava-1
   rotate: false
-  xy: 440, 72
+  xy: 165, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 lift
   rotate: false
-  xy: 16, 116
+  xy: 156, 5
   size: 36, 8
   orig: 36, 8
   offset: 0, 0
   index: -1
 orben-dormant
   rotate: false
-  xy: 54, 116
+  xy: 190, 34
   size: 10, 8
   orig: 10, 8
   offset: 0, 0
   index: -1
 pillar
   rotate: false
-  xy: 2, 118
+  xy: 202, 36
   size: 12, 6
   orig: 12, 6
   offset: 0, 0
   index: -1
 pod-1
   rotate: false
-  xy: 97, 112
+  xy: 212, 2
   size: 35, 12
   orig: 35, 12
   offset: 0, 0
   index: -1
 pole-1
   rotate: false
-  xy: 504, 76
+  xy: 399, 78
   size: 5, 48
   orig: 5, 48
   offset: 0, 0
   index: -1
 portal-1
   rotate: false
-  xy: 363, 11
+  xy: 68, 62
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 powerup-ammo
   rotate: false
-  xy: 351, 107
+  xy: 296, 11
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-cannon
   rotate: false
-  xy: 79, 114
+  xy: 194, 3
   size: 16, 10
   orig: 16, 10
   offset: 0, 0
   index: -1
 powerup-health
   rotate: false
-  xy: 368, 107
+  xy: 310, 31
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 385, 107
+  xy: 312, 82
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 protrusion-gas-1
   rotate: false
-  xy: 332, 79
+  xy: 313, 2
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 protrusion-liquid-1
   rotate: false
-  xy: 313, 79
+  xy: 309, 50
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 protrusion-plasma-1
   rotate: false
-  xy: 340, 108
+  xy: 329, 88
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
   index: -1
 protrusion-polymer-1
   rotate: false
-  xy: 210, 109
+  xy: 289, 30
   size: 19, 15
   orig: 19, 15
   offset: 0, 0
   index: -1
 protrusion-solid-1
   rotate: false
-  xy: 331, 108
+  xy: 332, 17
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 rollen-polymer-1
   rotate: false
-  xy: 232, 81
+  xy: 263, 74
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 rope
   rotate: false
-  xy: 474, 2
+  xy: 391, 26
   size: 6, 100
   orig: 6, 100
   offset: 0, 0
   index: -1
 sink-1
   rotate: false
-  xy: 85, 92
+  xy: 206, 16
   size: 42, 18
   orig: 42, 18
   offset: 0, 0
   index: -1
 slick-1
   rotate: false
-  xy: 231, 108
+  xy: 156, 15
   size: 48, 16
   orig: 48, 16
   offset: 0, 0
   index: -1
 spring-1
   rotate: false
-  xy: 171, 110
+  xy: 271, 4
   size: 23, 14
   orig: 23, 14
   offset: 0, 0
   index: -1
 suspension-gas-1
   rotate: false
-  xy: 178, 83
+  xy: 233, 101
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-liquid-1
   rotate: false
-  xy: 259, 81
+  xy: 287, 101
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-plasma-1
   rotate: false
-  xy: 286, 81
+  xy: 282, 47
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-polymer-1
   rotate: false
-  xy: 205, 81
+  xy: 260, 101
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-psychic-1
   rotate: false
-  xy: 297, 11
+  xy: 2, 62
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 suspension-solid-1
   rotate: false
-  xy: 151, 83
+  xy: 255, 47
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 swoopa
   rotate: false
-  xy: 385, 77
+  xy: 122, 33
   size: 53, 27
   orig: 53, 27
   offset: 0, 0
   index: -1
 teleport-1
   rotate: false
-  xy: 351, 77
+  xy: 122, 3
   size: 32, 28
   orig: 32, 28
   offset: 0, 0
   index: -1
 treadmill-1-left
   rotate: false
-  xy: 2, 96
+  xy: 250, 20
   size: 37, 18
   orig: 37, 18
   offset: 0, 0
   index: -1
 treadmill-1-right
   rotate: false
-  xy: 402, 106
+  xy: 224, 74
   size: 37, 18
   orig: 37, 18
   offset: 0, 0
   index: -1
 treadmill-trip-1-off
   rotate: false
-  xy: 441, 106
+  xy: 184, 74
   size: 38, 18
   orig: 38, 18
   offset: 0, 0
   index: -1
 trip-1
   rotate: false
-  xy: 196, 110
+  xy: 328, 66
   size: 12, 14
   orig: 12, 14
   offset: 0, 0
   index: -1
 vines
   rotate: false
-  xy: 98, 50
+  xy: 340, 86
   size: 25, 40
   orig: 25, 40
   offset: 0, 0
   index: -1
 waves-1
   rotate: false
-  xy: 2, 62
+  xy: 199, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 zoomba
   rotate: false
-  xy: 146, 37
+  xy: 134, 82
   size: 29, 44
   orig: 29, 44
   offset: 0, 0

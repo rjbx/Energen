@@ -2,8 +2,7 @@ package com.udacity.gamedev.gigagal.entity;
 
 public interface Chargeable {
 
-    void activate();
-    void deactivate();
+    void setState(boolean state);
     void charge();
     void uncharge();
     void charge(float seconds);

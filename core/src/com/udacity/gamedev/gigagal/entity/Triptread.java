@@ -68,9 +68,8 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
     @Override public final float getBottom() { return position.y - Constants.TRIPTREAD_CENTER.y; }
     @Override public final boolean isDense() { return true; }
     public final long getStartTime() { return startTime; }
-    @Override public final void resetStartTime() { this.startTime = 0; }
     public Rectangle getBounds() { return bounds; }
-    @Override public boolean getState() { return state; }
+    @Override public boolean isActive() { return state; }
     @Override public void setState(boolean state) { this.state = state; convert = true; }
     @Override public void convert() { state = !state; convert = true; }
     @Override public boolean isConverted() { return state; }

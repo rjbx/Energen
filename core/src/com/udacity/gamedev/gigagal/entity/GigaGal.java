@@ -344,14 +344,16 @@ public class GigaGal implements Humanoid {
                     }
                     if (ground instanceof Chargeable) {
                         Chargeable chargeable = (Chargeable) ground;
-                        if (chargeStartTime != 0 && directionX == Direction.RIGHT) {
-                            if (!chargeable.isActive()) {
-                                chargeable.activate();
-                            } else if (chargeTimeSeconds > 1) {
-                                chargeable.charge(chargeTimeSeconds);
+                        if (chargeable instanceof Chamber) {
+                            if (chargeStartTime != 0 && directionX == Direction.RIGHT) {
+                                if (!chargeable.isActive()) {
+                                    chargeable.setState(true);
+                                } else if (chargeTimeSeconds > 1) {
+                                    chargeable.charge(chargeTimeSeconds);
+                                }
+                            } else {
+                                chargeable.charge(0);
                             }
-                        } else {
-                            chargeable.charge(0);
                         }
                     }
                 }
@@ -946,7 +948,7 @@ public class GigaGal implements Humanoid {
             canStride = false;
             if (touchedGround instanceof Triptread) {
                 Triptread triptread = (Triptread) touchedGround;
-                triptread.setState(!triptread.getState());
+                triptread.setState(!triptread.isActive());
             }
         }
         float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
