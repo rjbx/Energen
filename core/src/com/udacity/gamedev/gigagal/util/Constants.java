@@ -235,7 +235,7 @@ public final class Constants {
     public static final float TRIPTREAD_SPEED = 175;
     
     // Tripchamber
-    public static final Vector2 TRIPCHAMBER_CENTER = new Vector2(4.5f, 10);
+    public static final Vector2 TRIPCHAMBER_CENTER = new Vector2(4.5f, 7);
     public static final String TRIPCHAMBER_SPRITE_1_OFF = "chamber-trip-1-off";
     public static final String TRIPCHAMBER_SPRITE_1_ON = "chamber-trip-1-on";
     public static final String TRIPCHAMBER_SPRITE_2_OFF = "chamber-trip-2-off";
