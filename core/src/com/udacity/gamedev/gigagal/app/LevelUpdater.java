@@ -96,7 +96,7 @@ public class LevelUpdater {
     }
 
     protected void update(float delta) {
-        if (continuing() && !paused()) {
+        if (continuing() && !paused() && ChaseCam.getInstance().getState() != Enums.ChaseCamState.CONVERT) {
             updateAssets(delta);
             GigaGal.getInstance().update(delta);
         }
@@ -200,11 +200,9 @@ public class LevelUpdater {
             if (ground instanceof Trippable) {
                 Trippable trip = (Trippable) ground;
                 if (trip.tripped()) {
-                    Gdx.app.log(TAG, "hi");
                     if (!(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x - viewport.getWorldWidth() / 2, ChaseCam.getInstance().camera.position.y - viewport.getWorldHeight() / 2, viewport.getWorldWidth(), viewport.getWorldHeight())))) {
-                        Gdx.app.log(TAG, "hi2");
                         ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
-                        ChaseCam.getInstance().camera.position.set(trip.getBounds().x, trip.getBounds().y, 0);
+                        ChaseCam.getInstance().camera.position.set(trip.getBounds().x + trip.getBounds().getWidth() / 2, trip.getBounds().y + trip.getBounds().getHeight() / 2, 0);
                     }
                 }
             }
