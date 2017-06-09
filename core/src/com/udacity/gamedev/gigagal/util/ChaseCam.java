@@ -61,6 +61,9 @@ public final class ChaseCam {
                     camera.position.y -= delta * Constants.CHASE_CAM_MOVE_SPEED;
                 }
                 break;
+            case CONVERT:
+
+                break;
         }
         batch.end();
     }

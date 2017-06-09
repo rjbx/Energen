@@ -128,6 +128,7 @@ public final class Enums {
     public enum ChaseCamState {
         FOLLOWING,
         DEBUG,
-        BOSS
+        BOSS,
+        CONVERT
     }
 }

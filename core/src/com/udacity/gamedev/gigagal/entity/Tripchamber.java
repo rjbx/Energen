@@ -87,5 +87,6 @@ public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeab
     public Enums.Upgrade getUpgrade() { return type; }
     @Override public void convert() { active = !active; convert = true; }
     @Override public boolean isConverted() { return active; }
+    @Override public Rectangle getBounds() { return bounds; }
     @Override public Tripchamber clone() { return new Tripchamber(level, position, bounds, active); }
 }

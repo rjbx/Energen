@@ -22,6 +22,7 @@ import com.udacity.gamedev.gigagal.entity.Powerup;
 import com.udacity.gamedev.gigagal.entity.Swoopa;
 import com.udacity.gamedev.gigagal.entity.Teleport;
 import com.udacity.gamedev.gigagal.entity.Transport;
+import com.udacity.gamedev.gigagal.entity.Trippable;
 import com.udacity.gamedev.gigagal.entity.Vines;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -64,6 +65,7 @@ public class LevelUpdater {
     private long time;
     private int savedScore;
     private long savedTime;
+    private boolean tripState;
 
     // cannot be subclassed
     private LevelUpdater() {}
@@ -212,6 +214,12 @@ public class LevelUpdater {
                         chamber.uncharge();
                     }
                 }
+            }
+            if (ground instanceof Trippable) {
+                if (((Trippable) ground).isActive() != tripState) {
+                    ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
+                }
+                tripState = ((Trippable) ground).isActive();
             }
         }
         grounds.end();
