@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal.app;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -216,8 +217,12 @@ public class LevelUpdater {
                 }
             }
             if (ground instanceof Trippable) {
-                if (((Trippable) ground).isActive() != tripState) {
-                    ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
+                Trippable trip = (Trippable) ground;
+                if (trip.isActive() != tripState) {
+                    if (!(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x, ChaseCam.getInstance().camera.position.y, ChaseCam.getInstance().camera.viewportWidth, ChaseCam.getInstance().camera.viewportHeight)))) {
+                            ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
+                            ChaseCam.getInstance().camera.position.set(new Vector2(trip.getBounds().getCenter(new Vector2()).x, trip.getBounds().getCenter(new Vector2()).y), 0);
+                    }
                 }
                 tripState = ((Trippable) ground).isActive();
             }

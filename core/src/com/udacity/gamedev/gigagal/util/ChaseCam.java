@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.util;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 
@@ -18,6 +19,7 @@ public final class ChaseCam {
     public GigaGal target;
     public Vector2 roomPosition;
     private Enums.ChaseCamState state;
+    private long startTime;
     private boolean boss;
     private InputControls inputControls;
 
@@ -31,6 +33,7 @@ public final class ChaseCam {
 
     public void create() {
         state = FOLLOWING;
+        startTime = 0;
     }
 
     public void update(SpriteBatch batch, float delta) {
@@ -62,6 +65,11 @@ public final class ChaseCam {
                 }
                 break;
             case CONVERT:
+                if (startTime == 0) {
+                    TimeUtils.nanoTime();
+                } else if (Helpers.secondsSince(startTime) > 2) {
+                    state = FOLLOWING;
+                }
 
                 break;
         }
