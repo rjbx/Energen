@@ -194,14 +194,16 @@ public class LevelUpdater {
             Ground ground = grounds.get(i);
             if (ground instanceof Nonstatic) {
                 ((Nonstatic) ground).update(delta);
-            } else if (ground instanceof Destructible) {
+            }
+            if (ground instanceof Destructible) {
                 if (((Destructible) ground).getHealth() < 1) {
                     if (ground instanceof Box) {
                         Assets.getInstance().getSoundAssets().breakGround.play();
                         grounds.removeIndex(i);
                     }
                 }
-            } else if (ground instanceof Chargeable) {
+            }
+            if (ground instanceof Chargeable) {
                 if (ground instanceof Chamber) {
                     Chamber chamber = (Chamber) ground;
                     if (!chamber.isActive() && chamber.isCharged()) {

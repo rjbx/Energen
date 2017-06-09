@@ -51,9 +51,9 @@ chamber
   index: -1
 chamber-trip-1-off
   rotate: false
-  xy: 327, 106
-  size: 11, 20
-  orig: 11, 20
+  xy: 328, 67
+  size: 11, 13
+  orig: 11, 13
   offset: 0, 0
   index: -1
 coals-1
@@ -65,14 +65,14 @@ coals-1
   index: -1
 gate-0
   rotate: false
-  xy: 367, 91
+  xy: 369, 39
   size: 8, 35
   orig: 8, 35
   offset: 0, 0
   index: -1
 gg-stand-right
   rotate: false
-  xy: 363, 51
+  xy: 341, 36
   size: 26, 33
   orig: 26, 33
   offset: 0, 0
@@ -86,7 +86,7 @@ ice-1
   index: -1
 icon-life
   rotate: false
-  xy: 327, 35
+  xy: 327, 113
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
@@ -100,7 +100,7 @@ knob-1
   index: -1
 ladder
   rotate: false
-  xy: 342, 34
+  xy: 368, 76
   size: 19, 50
   split: 7, 7, 0, 0
   orig: 19, 50
@@ -143,7 +143,7 @@ pod-1
   index: -1
 pole-1
   rotate: false
-  xy: 399, 78
+  xy: 379, 26
   size: 5, 48
   orig: 5, 48
   offset: 0, 0
@@ -199,7 +199,7 @@ protrusion-liquid-1
   index: -1
 protrusion-plasma-1
   rotate: false
-  xy: 329, 88
+  xy: 332, 16
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
@@ -213,7 +213,7 @@ protrusion-polymer-1
   index: -1
 protrusion-solid-1
   rotate: false
-  xy: 332, 17
+  xy: 329, 95
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
@@ -227,7 +227,7 @@ rollen-polymer-1
   index: -1
 rope
   rotate: false
-  xy: 391, 26
+  xy: 389, 26
   size: 6, 100
   orig: 6, 100
   offset: 0, 0
@@ -332,14 +332,14 @@ treadmill-trip-1-off
   index: -1
 trip-1
   rotate: false
-  xy: 328, 66
+  xy: 327, 34
   size: 12, 14
   orig: 12, 14
   offset: 0, 0
   index: -1
 vines
   rotate: false
-  xy: 340, 86
+  xy: 341, 71
   size: 25, 40
   orig: 25, 40
   offset: 0, 0

@@ -33,6 +33,7 @@ public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeab
         this.position = position;
         this.active = state;
         this.charged = false;
+        this.bounds = bounds;
         startTime = TimeUtils.nanoTime();
         chargeTimeSeconds = 0;
     }
