@@ -54,8 +54,8 @@ public class Chamber implements Chargeable, Strikeable, Ground {
     @Override public final boolean isActive() { return active; }
     public final void charge() { charged = true; }
     public final void uncharge() { charged = false;}
-    public final boolean wasCharged() { return charged; }
-    @Override public final void charge(float chargeTimeSeconds) { this.chargeTimeSeconds = chargeTimeSeconds; }
+    public final boolean isCharged() { return charged; }
+    @Override public final void setChargeTime(float chargeTimeSeconds) { this.chargeTimeSeconds = chargeTimeSeconds; }
     public void setUpgrade(Enums.Upgrade type) { this.type = type; }
     public Enums.Upgrade getUpgrade() { return type; }
 

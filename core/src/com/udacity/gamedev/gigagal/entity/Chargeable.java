@@ -5,6 +5,7 @@ public interface Chargeable {
     void setState(boolean state);
     void charge();
     void uncharge();
-    void charge(float seconds);
+    void setChargeTime(float seconds);
+    boolean isCharged();
     boolean isActive();
 }

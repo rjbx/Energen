@@ -344,15 +344,18 @@ public class GigaGal implements Humanoid {
                     }
                     if (ground instanceof Chargeable) {
                         Chargeable chargeable = (Chargeable) ground;
-                        if (chargeable instanceof Chamber) {
+                        if (chargeable instanceof Tripchamber) {
+                            if (shotIntensity == ShotIntensity.BLAST && !chargeable.isCharged())
+                            chargeable.charge();
+                        } else {
                             if (chargeStartTime != 0 && directionX == Direction.RIGHT) {
-                                if (!chargeable.isActive()) {
+                                if (!chargeable.isActive() && chargeable instanceof Chamber) {
                                     chargeable.setState(true);
                                 } else if (chargeTimeSeconds > 1) {
-                                    chargeable.charge(chargeTimeSeconds);
+                                    chargeable.setChargeTime(chargeTimeSeconds);
                                 }
                             } else {
-                                chargeable.charge(0);
+                                chargeable.setChargeTime(0);
                             }
                         }
                     }

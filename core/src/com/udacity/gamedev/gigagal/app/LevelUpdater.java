@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.app;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -13,7 +12,6 @@ import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Chargeable;
 import com.udacity.gamedev.gigagal.entity.Destructible;
-import com.udacity.gamedev.gigagal.entity.Gate;
 import com.udacity.gamedev.gigagal.entity.Ground;
 import com.udacity.gamedev.gigagal.entity.Hazard;
 import com.udacity.gamedev.gigagal.entity.Impact;
@@ -206,7 +204,7 @@ public class LevelUpdater {
             } else if (ground instanceof Chargeable) {
                 if (ground instanceof Chamber) {
                     Chamber chamber = (Chamber) ground;
-                    if (!chamber.isActive() && chamber.wasCharged()) {
+                    if (!chamber.isActive() && chamber.isCharged()) {
                         Assets.getInstance().getSoundAssets().upgrade.play();
                         dispenseUpgrade(chamber.getUpgrade());
                         chamber.uncharge();
