@@ -26,6 +26,7 @@ public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeab
     private long startTime;
     private Enums.Upgrade type;
     private boolean convert;
+    private boolean previousState;
 
     // ctor
     public Tripchamber(LevelUpdater level, Vector2 position, Rectangle bounds, boolean state) {
@@ -50,6 +51,7 @@ public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeab
             }
         }
         convert = false;
+        previousState = active;
     }
 
     @Override
@@ -87,6 +89,7 @@ public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeab
     public Enums.Upgrade getUpgrade() { return type; }
     @Override public void convert() { active = !active; convert = true; }
     @Override public boolean isConverted() { return active; }
+    @Override public boolean tripped() { return previousState != active; }
     @Override public Rectangle getBounds() { return bounds; }
     @Override public Tripchamber clone() { return new Tripchamber(level, position, bounds, active); }
 }

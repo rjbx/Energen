@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 public interface Trippable extends Nonstatic {
 
     void setState(boolean state);
+    boolean tripped();
     boolean isActive();
     Rectangle getBounds();
 }

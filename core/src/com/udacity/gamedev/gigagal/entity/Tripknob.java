@@ -24,6 +24,7 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
     private int rotation;
     private Vector2 offset;
     private boolean state;
+    private boolean previousState;
 
     // ctor
     public Tripknob(LevelUpdater level, Vector2 position, Rectangle bounds, float rotation, boolean state) {
@@ -47,6 +48,7 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
         startTime = 0;
         convert = false;
         this.state = state;
+        previousState = state;
     }
 
     @Override
@@ -61,6 +63,7 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
             }
         }
         convert = false;
+        previousState = state;
     }
 
     @Override
@@ -93,5 +96,6 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
     @Override public void setState(boolean state) { this.state = state; convert = true; }
     @Override public void convert() { state = !state; convert = true; }
     @Override public boolean isConverted() { return state; }
+    @Override public boolean tripped() { return previousState != state; }
     @Override public Tripknob clone() { return new Tripknob(level, position, bounds, rotation, state); }
 }

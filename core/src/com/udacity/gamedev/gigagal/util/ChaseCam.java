@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.util;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -65,12 +66,13 @@ public final class ChaseCam {
                 }
                 break;
             case CONVERT:
+                Gdx.app.log(TAG, "hi");
                 if (startTime == 0) {
                     TimeUtils.nanoTime();
                 } else if (Helpers.secondsSince(startTime) > 2) {
                     state = FOLLOWING;
+                    startTime = 0;
                 }
-
                 break;
         }
         batch.end();

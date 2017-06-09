@@ -24,6 +24,7 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
     private long startTime;
     private boolean state;
     private Enums.Direction direction;
+    private boolean previousState;
 
     // ctor
     public Triptread(LevelUpdater level, Vector2 position, Rectangle bounds, boolean state, Enums.Direction direction) {
@@ -48,6 +49,7 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
             }
         }
         convert = false;
+        previousState = state;
     }
 
     @Override
@@ -73,6 +75,7 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
     @Override public void setState(boolean state) { this.state = state; convert = true; }
     @Override public void convert() { state = !state; convert = true; }
     @Override public boolean isConverted() { return state; }
+    @Override public boolean tripped() { return previousState != state; }
     @Override public final Enums.Direction getDirection() { return direction; }
     @Override public Triptread clone() { return new Triptread(level, position, bounds, state, direction); }
 }

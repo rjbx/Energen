@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.app;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -91,6 +92,7 @@ public class LevelUpdater {
         score = 0;
         time = 0;
         paused = false;
+
     }
 
     protected void update(float delta) {
@@ -218,13 +220,12 @@ public class LevelUpdater {
             }
             if (ground instanceof Trippable) {
                 Trippable trip = (Trippable) ground;
-                if (trip.isActive() != tripState) {
-                    if (!(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x, ChaseCam.getInstance().camera.position.y, ChaseCam.getInstance().camera.viewportWidth, ChaseCam.getInstance().camera.viewportHeight)))) {
+                if (trip.tripped()) {
+                    if (!(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x, ChaseCam.getInstance().camera.position.y, viewport.getWorldWidth(), viewport.getWorldHeight())))) {
                             ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
-                            ChaseCam.getInstance().camera.position.set(new Vector2(trip.getBounds().getCenter(new Vector2()).x, trip.getBounds().getCenter(new Vector2()).y), 0);
+                            ChaseCam.getInstance().camera.position.set(new Vector2(trip.getBounds().x, trip.getBounds().y), 0);
                     }
                 }
-                tripState = ((Trippable) ground).isActive();
             }
         }
         grounds.end();
