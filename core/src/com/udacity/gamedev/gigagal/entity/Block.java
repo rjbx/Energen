@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Block implements Rappelable, Hurdleable, Strikeable, Expanse {
+public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, Expanse {
 
     // fields
     public final static String TAG = Block.class.getName();
@@ -56,6 +56,9 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Expanse {
     }
 
     @Override
+    public void update(float delta) {}
+
+    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawNinePatch(batch, viewport, ninePatch, left, bottom, width, height);
     }
@@ -71,5 +74,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Expanse {
     @Override public Vector2 getPosition() { return position; }
     @Override public void setDensity(boolean state) { dense = state; }
     @Override public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
+    @Override public void convert() { dense = !dense; }
+    @Override public boolean isConverted() { return dense; }
     @Override public Block clone() { return new Block(left, bottom, width, height, type); }
 }
