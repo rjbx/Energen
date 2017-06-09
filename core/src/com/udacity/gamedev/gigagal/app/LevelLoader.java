@@ -491,6 +491,7 @@ final class LevelLoader {
                 final Vector2 tripPosition = imagePosition.add(Constants.TRIPTREAD_CENTER);
                 Gdx.app.log(TAG, "Loaded the convert at " + tripPosition);
                 Triptread trip = new Triptread(level, tripPosition, bounds, tags[Constants.ON_TAG_INDEX], Enums.Direction.LEFT);
+                level.getGrounds().add(trip);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIPCHAMBER_SPRITE_1_OFF)) {
                 final Vector2 tripPosition = imagePosition.add(Constants.TRIPCHAMBER_CENTER);
                 Gdx.app.log(TAG, "Loaded the convert at " + tripPosition);
