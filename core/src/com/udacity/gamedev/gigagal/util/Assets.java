@@ -183,15 +183,17 @@ public final class Assets implements AssetErrorListener {
 
             Array<AtlasRegion> strideLeftFrames = new Array<AtlasRegion>();
             strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_2));
-            strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_1));
             strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_3));
-            strideLeft = new Animation(Constants.STRIDE_LOOP_DURATION, strideLeftFrames, PlayMode.LOOP_PINGPONG);
+            strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_2));
+            strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_1));
+            strideLeft = new Animation(Constants.STRIDE_LOOP_DURATION, strideLeftFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> strideRightFrames = new Array<AtlasRegion>();
             strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_2));
             strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_1));
+            strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_2));
             strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_3));
-            strideRight = new Animation(Constants.STRIDE_LOOP_DURATION, strideRightFrames, PlayMode.LOOP_PINGPONG);
+            strideRight = new Animation(Constants.STRIDE_LOOP_DURATION, strideRightFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> climbFrames = new Array<AtlasRegion>();
             climbFrames.add(atlas.findRegion(Constants.CLIMB_1));
