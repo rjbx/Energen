@@ -68,7 +68,7 @@ public final class ChaseCam {
             case CONVERT:
                 Gdx.app.log(TAG, "hi");
                 if (startTime == 0) {
-                    TimeUtils.nanoTime();
+                    startTime = TimeUtils.nanoTime();
                 } else if (Helpers.secondsSince(startTime) > 2) {
                     state = FOLLOWING;
                     startTime = 0;
