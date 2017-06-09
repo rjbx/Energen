@@ -198,8 +198,6 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
         if (ChaseCam.getInstance().getState() != Enums.ChaseCamState.BOSS) {
             if (this.getRoomBounds().overlaps(GigaGal.getInstance().getBounds())) {
                 ChaseCam.getInstance().setState(Enums.ChaseCamState.BOSS);
-            } else {
-                ChaseCam.getInstance().setState(Enums.ChaseCamState.FOLLOWING);
             }
         }
 

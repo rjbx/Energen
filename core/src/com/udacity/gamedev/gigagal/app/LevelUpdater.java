@@ -197,6 +197,17 @@ public class LevelUpdater {
         grounds.begin();
         for (int i = 0; i < grounds.size ; i++) {
             Ground ground = grounds.get(i);
+            if (ground instanceof Trippable) {
+                Trippable trip = (Trippable) ground;
+                if (trip.tripped()) {
+                    Gdx.app.log(TAG, "hi");
+                    if (!(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x - viewport.getWorldWidth() / 2, ChaseCam.getInstance().camera.position.y - viewport.getWorldHeight() / 2, viewport.getWorldWidth(), viewport.getWorldHeight())))) {
+                        Gdx.app.log(TAG, "hi2");
+                        ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
+                        ChaseCam.getInstance().camera.position.set(trip.getBounds().x, trip.getBounds().y, 0);
+                    }
+                }
+            }
             if (ground instanceof Nonstatic) {
                 ((Nonstatic) ground).update(delta);
             }
@@ -215,15 +226,6 @@ public class LevelUpdater {
                         Assets.getInstance().getSoundAssets().upgrade.play();
                         dispenseUpgrade(chamber.getUpgrade());
                         chamber.uncharge();
-                    }
-                }
-            }
-            if (ground instanceof Trippable) {
-                Trippable trip = (Trippable) ground;
-                if (trip.tripped()) {
-                    if (!(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x, ChaseCam.getInstance().camera.position.y, viewport.getWorldWidth(), viewport.getWorldHeight())))) {
-                            ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
-                            ChaseCam.getInstance().camera.position.set(new Vector2(trip.getBounds().x, trip.getBounds().y), 0);
                     }
                 }
             }
