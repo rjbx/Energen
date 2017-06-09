@@ -55,9 +55,17 @@ public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeab
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (active) {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripchamberOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPCHAMBER_CENTER);
+            if (charged) {
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripchamberOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPCHAMBER_CENTER);
+            } else {
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripchamberOn.getKeyFrame(0), position, Constants.TRIPCHAMBER_CENTER);
+            }
         } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripchamberOff.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPCHAMBER_CENTER);
+            if (charged) {
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripchamberOff.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPCHAMBER_CENTER);
+            } else {
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripchamberOff.getKeyFrame(0), position, Constants.TRIPCHAMBER_CENTER);
+            }
         }
     }
 

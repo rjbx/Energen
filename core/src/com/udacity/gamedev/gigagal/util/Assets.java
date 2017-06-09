@@ -413,15 +413,15 @@ public final class Assets implements AssetErrorListener {
             tripchamberOffRegions.add(atlas.findRegion(Constants.TRIPCHAMBER_SPRITE_1_OFF));
             tripchamberOffRegions.add(atlas.findRegion(Constants.TRIPCHAMBER_SPRITE_2_OFF));
 
-            tripchamberOff = new Animation(Constants.TRIPKNOB_LOAD_DURATION / tripchamberOffRegions.size,
-                    tripchamberOffRegions, PlayMode.NORMAL);
+            tripchamberOff = new Animation(Constants.TRIPCHAMBER_LOAD_DURATION / tripchamberOffRegions.size,
+                    tripchamberOffRegions, PlayMode.LOOP);
 
             Array<AtlasRegion> tripchamberOnRegions = new Array<AtlasRegion>();
             tripchamberOnRegions.add(atlas.findRegion(Constants.TRIPCHAMBER_SPRITE_1_ON));
             tripchamberOnRegions.add(atlas.findRegion(Constants.TRIPCHAMBER_SPRITE_2_ON));
 
-            tripchamberOn = new Animation(Constants.TRIPKNOB_UNLOAD_DURATION / tripchamberOffRegions.size,
-                    tripchamberOnRegions, PlayMode.NORMAL);
+            tripchamberOn = new Animation(Constants.TRIPCHAMBER_LOAD_DURATION / tripchamberOffRegions.size,
+                    tripchamberOnRegions, PlayMode.LOOP);
             
             
             Array<AtlasRegion> gateRegions = new Array<AtlasRegion>();

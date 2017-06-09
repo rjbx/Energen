@@ -177,6 +177,7 @@ public final class Ammo implements Indestructible, Hazard {
                         } else if (chargeable instanceof Tripchamber && shotIntensity == ShotIntensity.BLAST) {
                             if (chargeable.isCharged()) {
                                 chargeable.setState(!chargeable.isActive());
+                                chargeable.uncharge();
                             }
                         }
                     } else if (strikeable instanceof Destructible) {
