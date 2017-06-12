@@ -25,6 +25,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     private final float width;
     private final float height;
     private boolean dense;
+    private boolean converted;
     private NinePatch ninePatch;
 
     //default ctor
@@ -38,6 +39,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
         this.position = new Vector2();
         this.type = Enums.Material.NATIVE;
         this.dense = true;
+        converted = false;
         ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
     }
 
@@ -52,15 +54,21 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
         this.position = new Vector2(left + (width / 2), bottom + (height / 2));
         this.type = type;
         this.dense = dense;
+        converted = false;
         ninePatch = new NinePatch(Assets.getInstance().getGroundAssets().getNinePatch(this));
-        ninePatch.setColor(type.theme().color());
-        if (!dense) {
-            ninePatch.setColor(ninePatch.getColor().mul(.9f));
-        }
     }
 
     @Override
-    public void update(float delta) {}
+    public void update(float delta) {
+        if (converted) {
+            if (!dense) {
+                ninePatch.setColor((new Color(type.theme().color())).mul(.9f));
+            } else {
+                ninePatch.setColor(type.theme().color());
+            }
+            converted = false;
+        }
+    }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
@@ -79,7 +87,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     @Override public Vector2 getPosition() { return position; }
     @Override public void setDensity(boolean state) { dense = state; }
     @Override public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
-    @Override public void convert() { dense = !dense; }
-    @Override public boolean isConverted() { return dense; }
+    @Override public void convert() { dense = !dense; converted = true; }
+    @Override public boolean isConverted() { return converted; }
     @Override public Block clone() { return new Block(left, bottom, width, height, type, dense); }
 }
