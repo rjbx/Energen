@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
+import com.udacity.gamedev.gigagal.entity.Block;
 import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Chamber;
@@ -113,6 +114,9 @@ public class LevelUpdater {
         for (Ground ground : grounds) {
             if (!ground.isDense()) {
                 ground.render(batch, viewport);
+                if (ground instanceof Block) {
+                    Gdx.app.log(TAG, ((Block) ground).getColor().toString());
+                }
             }
         }
 

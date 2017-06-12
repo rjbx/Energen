@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -51,7 +52,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
         this.position = new Vector2(left + (width / 2), bottom + (height / 2));
         this.type = type;
         this.dense = dense;
-        ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
+        ninePatch = new NinePatch(Assets.getInstance().getGroundAssets().getNinePatch(this));
         ninePatch.setColor(type.theme().color());
         if (!dense) {
             ninePatch.setColor(ninePatch.getColor().mul(.75f));
@@ -67,6 +68,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     }
 
     // Getters
+    public Color getColor() { return ninePatch.getColor(); }
     public Enums.Material getType() { return type; }
     @Override public float getTop() { return top; }
     @Override public float getBottom() {return bottom; }
