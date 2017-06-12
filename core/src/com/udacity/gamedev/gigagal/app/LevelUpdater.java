@@ -114,9 +114,6 @@ public class LevelUpdater {
         for (Ground ground : grounds) {
             if (!ground.isDense()) {
                 ground.render(batch, viewport);
-                if (ground instanceof Block) {
-                    Gdx.app.log(TAG, ((Block) ground).getColor().toString());
-                }
             }
         }
 

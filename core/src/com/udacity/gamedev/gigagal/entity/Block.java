@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -41,6 +42,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
         this.dense = true;
         converted = false;
         ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
+        setColor();
     }
 
     // ctor
@@ -56,16 +58,13 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
         this.dense = dense;
         converted = false;
         ninePatch = new NinePatch(Assets.getInstance().getGroundAssets().getNinePatch(this));
+        setColor();
     }
 
     @Override
     public void update(float delta) {
         if (converted) {
-            if (!dense) {
-                ninePatch.setColor((new Color(type.theme().color())).mul(.9f));
-            } else {
-                ninePatch.setColor(type.theme().color());
-            }
+            setColor();
             converted = false;
         }
     }
@@ -76,8 +75,6 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     }
 
     // Getters
-    public Color getColor() { return ninePatch.getColor(); }
-    public Enums.Material getType() { return type; }
     @Override public float getTop() { return top; }
     @Override public float getBottom() {return bottom; }
     @Override public float getLeft() { return left; }
@@ -90,4 +87,13 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     @Override public void convert() { dense = !dense; converted = true; }
     @Override public boolean isConverted() { return converted; }
     @Override public Block clone() { return new Block(left, bottom, width, height, type, dense); }
+    public Enums.Material getType() { return type; }
+    public Color getColor() { return ninePatch.getColor(); }
+    private void setColor() {
+        if (!dense) {
+            ninePatch.setColor(new Color(type.theme().color()).mul(.9f));
+        } else {
+            ninePatch.setColor(type.theme().color());
+        }
+    }
 }
