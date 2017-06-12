@@ -571,12 +571,11 @@ final class LevelLoader {
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
                 final Block block;
-                block = new Block(imagePosition.x, imagePosition.y, width, height, type);
-                block.setDensity(!tags[Constants.LEDGE_TAG_INDEX]);
+                block = new Block(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
                 boxArray.add(block);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BREAKABLE_BOX_SPRITE)) {
-                final Box box = new Box(imagePosition.x, imagePosition.y, width, height, type);
+                final Box box = new Box(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
                 breakableBoxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the breakableBox at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {

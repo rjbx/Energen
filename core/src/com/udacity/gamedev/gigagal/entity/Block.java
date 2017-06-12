@@ -36,12 +36,12 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
         this.right = 0;
         this.position = new Vector2();
         this.type = Enums.Material.NATIVE;
+        this.dense = true;
         ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
-        ninePatch.setColor(type.theme().color());
     }
 
     // ctor
-    public Block(float xPos, float yPos, float width, float height, Enums.Material type) {
+    public Block(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
         this.width = width;
         this.height = height;
         this.top = yPos + height;
@@ -50,9 +50,9 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
         this.right = xPos + width;
         this.position = new Vector2(left + (width / 2), bottom + (height / 2));
         this.type = type;
+        this.dense = dense;
         ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
         ninePatch.setColor(type.theme().color());
-        dense = true;
     }
 
     @Override
@@ -76,5 +76,5 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     @Override public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
     @Override public void convert() { dense = !dense; }
     @Override public boolean isConverted() { return dense; }
-    @Override public Block clone() { return new Block(left, bottom, width, height, type); }
+    @Override public Block clone() { return new Block(left, bottom, width, height, type, dense); }
 }

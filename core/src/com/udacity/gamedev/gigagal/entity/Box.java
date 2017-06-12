@@ -15,8 +15,8 @@ public class Box extends Block implements Destructible {
     private boolean active;
 
     // ctor
-    public Box(float xPos, float yPos, float width, float height, Enums.Material type) {
-        super(xPos, yPos, width, height, type);
+    public Box(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
+        super(xPos, yPos, width, height, type, dense);
         active = true;
         damage = 50;
     }
