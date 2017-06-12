@@ -200,7 +200,7 @@ public class LevelUpdater {
             if (ground instanceof Trippable) {
                 Trippable trip = (Trippable) ground;
                 if (trip.tripped()) {
-                    if (!(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x - viewport.getWorldWidth() / 2, ChaseCam.getInstance().camera.position.y - viewport.getWorldHeight() / 2, viewport.getWorldWidth(), viewport.getWorldHeight())))) {
+                    if (!trip.getBounds().equals(Rectangle.tmp) && !(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x - viewport.getWorldWidth() / 2, ChaseCam.getInstance().camera.position.y - viewport.getWorldHeight() / 2, viewport.getWorldWidth(), viewport.getWorldHeight())))) {
                         ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
                         ChaseCam.getInstance().camera.position.set(trip.getBounds().x + trip.getBounds().getWidth() / 2, trip.getBounds().y + trip.getBounds().getHeight() / 2, 0);
                     }
