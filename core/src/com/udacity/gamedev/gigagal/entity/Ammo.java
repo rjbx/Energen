@@ -220,19 +220,18 @@ public final class Ammo implements Indestructible, Hazard {
             }
         }
 
-        final float margin = 25;
         if (orientation == Orientation.X) {
-            final float halfWorldWidth = margin + level.getViewport().getWorldWidth() / 2;
+            final float rangeWidth = level.getViewport().getWorldWidth() * 1.5f;
             final float cameraX = level.getViewport().getCamera().position.x;
-            if (position.x < (cameraX - halfWorldWidth)
-            || (position.x > (cameraX + halfWorldWidth))) {
+            if (position.x < (cameraX - rangeWidth)
+            || (position.x > (cameraX + rangeWidth))) {
                 active = false;
             }
         } else if (orientation == Orientation.Y) {
-            final float halfWorldWidth = margin + level.getViewport().getWorldWidth() / 2;
+            final float rangeHeight = level.getViewport().getWorldHeight() * 1.5f;
             final float cameraY = level.getViewport().getCamera().position.y;
-            if (position.y < (cameraY - halfWorldWidth)
-            || (position.y > (cameraY + halfWorldWidth))) {
+            if (position.y < (cameraY - rangeHeight)
+            || (position.y > (cameraY + rangeHeight))) {
                 active = false;
             }
         }
