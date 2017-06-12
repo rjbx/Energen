@@ -55,7 +55,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
         ninePatch = new NinePatch(Assets.getInstance().getGroundAssets().getNinePatch(this));
         ninePatch.setColor(type.theme().color());
         if (!dense) {
-            ninePatch.setColor(ninePatch.getColor().mul(.75f));
+            ninePatch.setColor(ninePatch.getColor().mul(.9f));
         }
     }
 
