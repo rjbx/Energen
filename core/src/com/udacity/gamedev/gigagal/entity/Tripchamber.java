@@ -13,7 +13,6 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeable, Ground {
 
-
     // fields
     public final static String TAG = Tripchamber.class.getName();
 

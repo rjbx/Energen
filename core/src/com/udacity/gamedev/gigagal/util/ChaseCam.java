@@ -1,11 +1,9 @@
 package com.udacity.gamedev.gigagal.util;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 
 import static com.udacity.gamedev.gigagal.util.Enums.ChaseCamState.FOLLOWING;
@@ -21,7 +19,6 @@ public final class ChaseCam {
     public Vector2 roomPosition;
     private Enums.ChaseCamState state;
     private long startTime;
-    private boolean boss;
     private InputControls inputControls;
 
     // cannot be subclassed

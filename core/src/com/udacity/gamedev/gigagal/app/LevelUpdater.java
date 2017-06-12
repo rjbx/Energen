@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.app;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.particles.ParallelArray;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
@@ -26,6 +27,7 @@ import com.udacity.gamedev.gigagal.entity.Teleport;
 import com.udacity.gamedev.gigagal.entity.Transport;
 import com.udacity.gamedev.gigagal.entity.Trippable;
 import com.udacity.gamedev.gigagal.entity.Vines;
+import com.udacity.gamedev.gigagal.entity.Visible;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.ChaseCam;
@@ -56,6 +58,7 @@ public class LevelUpdater {
     private DelayedRemovalArray<Ground> grounds;
     private DelayedRemovalArray<Impact> impacts;
     private DelayedRemovalArray<Powerup> powerups;
+    private DelayedRemovalArray<Object> objects;
     private Enums.Material levelWeapon;
     private Enums.Theme level;
     private Music music;
@@ -78,6 +81,7 @@ public class LevelUpdater {
     protected void create() {
         LevelScreen.getInstance().create();
         Timer.getInstance().create();
+        objects = new DelayedRemovalArray<Object>();
         grounds = new DelayedRemovalArray<Ground>();
         hazards = new DelayedRemovalArray<Hazard>();
         impacts = new DelayedRemovalArray<Impact>();
@@ -200,7 +204,8 @@ public class LevelUpdater {
             if (ground instanceof Trippable) {
                 Trippable trip = (Trippable) ground;
                 if (trip.tripped()) {
-                    if (!trip.getBounds().equals(Rectangle.tmp) && !(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x - viewport.getWorldWidth() / 2, ChaseCam.getInstance().camera.position.y - viewport.getWorldHeight() / 2, viewport.getWorldWidth(), viewport.getWorldHeight())))) {
+                    if (!trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
+                    && !(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x - viewport.getWorldWidth() / 2, ChaseCam.getInstance().camera.position.y - viewport.getWorldHeight() / 2, viewport.getWorldWidth(), viewport.getWorldHeight())))) {
                         ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
                         ChaseCam.getInstance().camera.position.set(trip.getBounds().x + trip.getBounds().getWidth() / 2, trip.getBounds().y + trip.getBounds().getHeight() / 2, 0);
                     }
@@ -328,6 +333,10 @@ public class LevelUpdater {
     // level state handling
 
     protected void begin() {
+        objects.addAll(grounds);
+        objects.addAll(hazards);
+        objects.addAll(powerups);
+        objects.addAll(impacts);
         ChaseCam.getInstance().setState(Enums.ChaseCamState.FOLLOWING);
 
         backdrop = new Backdrop(Assets.getInstance().getBackgroundAssets().getBackground(level));
@@ -447,6 +456,7 @@ public class LevelUpdater {
     public final int getUnsavedScore() { return score - savedScore; }
     public final long getTime() { return time; }
     public final int getScore() { return score; }
+    public final DelayedRemovalArray<Object> getEntity() { return objects; }
     public final DelayedRemovalArray<Hazard> getHazards() { return hazards; }
     public final DelayedRemovalArray<Ground> getGrounds() { return grounds; }
     public final DelayedRemovalArray<Impact> getImpacts() { return impacts; }
