@@ -53,6 +53,9 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
         this.dense = dense;
         ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
         ninePatch.setColor(type.theme().color());
+        if (!dense) {
+            ninePatch.setColor(ninePatch.getColor().mul(.75f));
+        }
     }
 
     @Override
