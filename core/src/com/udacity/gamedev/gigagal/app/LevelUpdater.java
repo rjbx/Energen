@@ -109,7 +109,7 @@ public class LevelUpdater {
 
     protected void render(SpriteBatch batch, Viewport viewport) {
 
-        backdrop.render(batch, viewport, GigaGal.getInstance().getPosition(), Constants.BACKGROUND_CENTER, 1);
+        backdrop.render(batch, viewport, new Vector2(ChaseCam.getInstance().camera.position.x, ChaseCam.getInstance().camera.position.y), Constants.BACKGROUND_CENTER, 1);
 
         for (Ground ground : grounds) {
             if (!ground.isDense()) {

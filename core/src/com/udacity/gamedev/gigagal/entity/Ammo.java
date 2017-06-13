@@ -239,7 +239,6 @@ public final class Ammo implements Indestructible, Hazard {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-
         if (active) {
             Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime)), position, ammoCenter, scale, rotation);
         }
