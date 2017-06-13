@@ -131,6 +131,8 @@ public class LevelUpdater {
             }
         }
 
+        GigaGal.getInstance().render(batch, viewport);
+
         for (Hazard hazard : hazards) {
             hazard.render(batch, viewport);
         }
@@ -140,8 +142,6 @@ public class LevelUpdater {
                 ground.render(batch, viewport);
             }
         }
-
-        GigaGal.getInstance().render(batch, viewport);
 
         for (Impact impact : impacts) {
             impact.render(batch, viewport);
