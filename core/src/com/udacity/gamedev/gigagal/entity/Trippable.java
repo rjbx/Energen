@@ -7,5 +7,6 @@ public interface Trippable extends Nonstatic {
     void setState(boolean state);
     boolean tripped();
     boolean isActive();
+    boolean hasSetCam();
     Rectangle getBounds();
 }

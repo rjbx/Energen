@@ -47,7 +47,7 @@ public final class ChaseCam {
                 } else {
                     camera.position.y = target.getPosition().y;
                 }
-                if (convertStartTIme != 0 && Helpers.secondsSince(convertStartTIme) > 1) {
+                if (convertStartTIme != 0 && Helpers.secondsSince(convertStartTIme) > .5f) {
                     state = CONVERT;
                 }
                 break;
@@ -72,7 +72,7 @@ public final class ChaseCam {
                 if (convertStartTIme == 0) {
                     convertStartTIme = TimeUtils.nanoTime();
                     state = FOLLOWING;
-                } else if (Helpers.secondsSince(convertStartTIme) > 2) {
+                } else if (Helpers.secondsSince(convertStartTIme) > 1.5f) {
                     state = FOLLOWING;
                     convertStartTIme = 0;
                 } else {
