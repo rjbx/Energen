@@ -874,20 +874,17 @@ public class GigaGal implements Humanoid {
         if (shotIntensity == ShotIntensity.BLAST) {
             Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
         } else {
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1,2,0);
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1, 2, 0);
         }
-        if (chargeModifier == 0) {
-            ammo -= ammoUsed * ammoMultiplier;
-        }
-        Vector2 ammoPosition = new Vector2(
-                position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, directionX, Orientation.X),
-                position.y + Constants.GIGAGAL_CANNON_OFFSET.y
-        );
+        ammo -= ammoUsed * ammoMultiplier;
         if (lookStartTime != 0) {
-            ammoPosition.add(Helpers.absoluteToDirectionalValue(0, directionX, Orientation.X), Helpers.absoluteToDirectionalValue(6, directionY, Orientation.Y));
-            level.spawnAmmo(ammoPosition, directionY, Orientation.Y, shotIntensity, weapon, true);
+            if (directionY == Direction.UP) {
+                level.spawnAmmo(new Vector2(position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, directionX, Orientation.X), position.y + Constants.GIGAGAL_Y_CANNON_OFFSET.y), directionY, Orientation.Y, shotIntensity, weapon, true);
+            } else {
+                level.spawnAmmo(new Vector2(position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x - 3, directionX, Orientation.X), position.y - Constants.GIGAGAL_Y_CANNON_OFFSET.y - 7), directionY, Orientation.Y, shotIntensity, weapon, true);
+            }
         } else {
-            level.spawnAmmo(ammoPosition, directionX, Orientation.X, shotIntensity, weapon, true);
+            level.spawnAmmo(new Vector2(position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_X_CANNON_OFFSET.x, directionX, Orientation.X), position.y + Constants.GIGAGAL_X_CANNON_OFFSET.y), directionX, Orientation.X, shotIntensity, weapon, true);
         }
     }
 

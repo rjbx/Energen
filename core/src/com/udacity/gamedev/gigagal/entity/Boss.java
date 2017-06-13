@@ -851,8 +851,8 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
     public void shoot(Enums.ShotIntensity shotIntensity, Enums.Material weapon, int ammoUsed) {
         ammo -= ammoUsed;
         Vector2 ammoPosition = new Vector2(
-                position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_CANNON_OFFSET.x, directionX, Enums.Orientation.X),
-                position.y + Constants.GIGAGAL_CANNON_OFFSET.y
+                position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_X_CANNON_OFFSET.x, directionX, Enums.Orientation.X),
+                position.y + Constants.GIGAGAL_X_CANNON_OFFSET.y
         );
         if (lookStartTime != 0) {
             ammoPosition.add(Helpers.absoluteToDirectionalValue(0, directionX, Enums.Orientation.X), Helpers.absoluteToDirectionalValue(6, directionY, Enums.Orientation.Y));
