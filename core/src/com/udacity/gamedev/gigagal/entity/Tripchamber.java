@@ -47,13 +47,13 @@ public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeab
                 if (ground instanceof Convertible && ground != this) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
                         ((Convertible) ground).convert();
+                        conversions++;
                     }
                 }
             }
         }
         convert = false;
         previousState = active;
-        conversions++;
     }
 
     @Override

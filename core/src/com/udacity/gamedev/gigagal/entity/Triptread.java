@@ -45,13 +45,13 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
                 if (ground instanceof Convertible && ground != this) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
                         ((Convertible) ground).convert();
+                        conversions++;
                     }
                 }
             }
         }
         convert = false;
         previousState = state;
-        conversions++;
     }
 
     @Override

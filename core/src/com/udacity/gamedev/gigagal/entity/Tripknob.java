@@ -59,7 +59,8 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
             for (Ground ground : level.getGrounds()) {
                 if (ground instanceof Convertible && ground != this) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
-                            ((Convertible) ground).convert();
+                        ((Convertible) ground).convert();
+                        conversions++;
                     }
                 }
             }
