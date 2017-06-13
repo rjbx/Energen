@@ -24,7 +24,7 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
     private boolean state;
     private Enums.Direction direction;
     private boolean previousState;
-    private int conversions;
+    private int adjustments;
 
     // ctor
     public Triptread(LevelUpdater level, Vector2 position, Rectangle bounds, boolean state, Enums.Direction direction) {
@@ -35,7 +35,7 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
         this.direction = direction;
         startTime = TimeUtils.nanoTime();
         convert = false;
-        conversions = 0;
+        adjustments = 0;
     }
 
     @Override
@@ -45,7 +45,6 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
                 if (ground instanceof Convertible && ground != this) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
                         ((Convertible) ground).convert();
-                        conversions++;
                     }
                 }
             }
@@ -77,7 +76,8 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
     @Override public void setState(boolean state) { this.state = state; convert = true; }
     @Override public void convert() { state = !state; convert = true; }
     @Override public boolean isConverted() { return state; }
-    @Override public boolean hasSetCam() { return conversions >= 2; }
+    @Override public void addCamAdjustment() { adjustments++; }
+    @Override public boolean maxAdjustmentsReached() { return adjustments >= 2; }
     @Override public boolean tripped() { return previousState != state; }
     @Override public final Enums.Direction getDirection() { return direction; }
     @Override public Triptread clone() { return new Triptread(level, position, bounds, state, direction); }

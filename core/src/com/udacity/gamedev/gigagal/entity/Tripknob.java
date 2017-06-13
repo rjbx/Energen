@@ -25,7 +25,7 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
     private Vector2 offset;
     private boolean state;
     private boolean previousState;
-    private int conversions;
+    private int adjustments;
 
     // ctor
     public Tripknob(LevelUpdater level, Vector2 position, Rectangle bounds, float rotation, boolean state) {
@@ -50,7 +50,7 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
         convert = false;
         this.state = state;
         previousState = state;
-        conversions++;
+        adjustments++;
     }
 
     @Override
@@ -60,7 +60,6 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
                 if (ground instanceof Convertible && ground != this) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
                         ((Convertible) ground).convert();
-                        conversions++;
                     }
                 }
             }
@@ -99,7 +98,8 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
     @Override public void setState(boolean state) { this.state = state; convert = true; }
     @Override public void convert() { state = !state; convert = true; }
     @Override public boolean isConverted() { return state; }
-    @Override public boolean hasSetCam() { return conversions >= 2; }
+    @Override public void addCamAdjustment() { adjustments++; }
+    @Override public boolean maxAdjustmentsReached() { return adjustments >= 2; }
     @Override public boolean tripped() { return previousState != state; }
     @Override public Tripknob clone() { return new Tripknob(level, position, bounds, rotation, state); }
 }

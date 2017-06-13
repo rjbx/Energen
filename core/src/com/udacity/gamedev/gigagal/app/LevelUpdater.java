@@ -1,16 +1,13 @@
 package com.udacity.gamedev.gigagal.app;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.particles.ParallelArray;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
-import com.udacity.gamedev.gigagal.entity.Block;
 import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Chamber;
@@ -28,7 +25,6 @@ import com.udacity.gamedev.gigagal.entity.Teleport;
 import com.udacity.gamedev.gigagal.entity.Transport;
 import com.udacity.gamedev.gigagal.entity.Trippable;
 import com.udacity.gamedev.gigagal.entity.Vines;
-import com.udacity.gamedev.gigagal.entity.Visible;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.ChaseCam;
@@ -205,11 +201,12 @@ public class LevelUpdater {
             if (ground instanceof Trippable) {
                 Trippable trip = (Trippable) ground;
                 if (trip.tripped()) {
-                    if (!trip.hasSetCam()
+                    if (!trip.maxAdjustmentsReached()
                     && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
                     && !(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x - viewport.getWorldWidth() / 2, ChaseCam.getInstance().camera.position.y - viewport.getWorldHeight() / 2, viewport.getWorldWidth(), viewport.getWorldHeight())))) {
                         ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
                         ChaseCam.getInstance().setConvertBounds(trip.getBounds());
+                        trip.addCamAdjustment();
                     }
                 }
             }
