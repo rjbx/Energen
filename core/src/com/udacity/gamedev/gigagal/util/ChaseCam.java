@@ -2,10 +2,12 @@ package com.udacity.gamedev.gigagal.util;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 
+import static com.udacity.gamedev.gigagal.util.Enums.ChaseCamState.CONVERT;
 import static com.udacity.gamedev.gigagal.util.Enums.ChaseCamState.FOLLOWING;
 
 // immutable singleton
@@ -17,8 +19,9 @@ public final class ChaseCam {
     public Camera camera;
     public GigaGal target;
     public Vector2 roomPosition;
+    public Rectangle convertBounds;
     private Enums.ChaseCamState state;
-    private long startTime;
+    private long convertStartTIme;
     private InputControls inputControls;
 
     // cannot be subclassed
@@ -31,7 +34,7 @@ public final class ChaseCam {
 
     public void create() {
         state = FOLLOWING;
-        startTime = 0;
+        convertStartTIme = 0;
     }
 
     public void update(SpriteBatch batch, float delta) {
@@ -43,6 +46,9 @@ public final class ChaseCam {
                     camera.position.y = target.getChaseCamPosition().y;
                 } else {
                     camera.position.y = target.getPosition().y;
+                }
+                if (convertStartTIme != 0 && Helpers.secondsSince(convertStartTIme) > 1) {
+                    state = CONVERT;
                 }
                 break;
             case BOSS:
@@ -63,17 +69,21 @@ public final class ChaseCam {
                 }
                 break;
             case CONVERT:
-                if (startTime == 0) {
-                    startTime = TimeUtils.nanoTime();
-                } else if (Helpers.secondsSince(startTime) > 1) {
+                if (convertStartTIme == 0) {
+                    convertStartTIme = TimeUtils.nanoTime();
                     state = FOLLOWING;
-                    startTime = 0;
+                } else if (Helpers.secondsSince(convertStartTIme) > 2) {
+                    state = FOLLOWING;
+                    convertStartTIme = 0;
+                } else {
+                    camera.position.set(convertBounds.x + convertBounds.getWidth() / 2, convertBounds.y + convertBounds.getHeight() / 2, 0);
                 }
                 break;
         }
         batch.end();
     }
 
+    public final void setConvertBounds(Rectangle convertBounds) { this.convertBounds = convertBounds; }
     public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public final void setRoomPosition(Vector2 position) { roomPosition = position; }
     public final void setState(Enums.ChaseCamState state) { this.state = state; }

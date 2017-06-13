@@ -208,7 +208,7 @@ public class LevelUpdater {
                     if (!trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
                     && !(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x - viewport.getWorldWidth() / 2, ChaseCam.getInstance().camera.position.y - viewport.getWorldHeight() / 2, viewport.getWorldWidth(), viewport.getWorldHeight())))) {
                         ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
-                        ChaseCam.getInstance().camera.position.set(trip.getBounds().x + trip.getBounds().getWidth() / 2, trip.getBounds().y + trip.getBounds().getHeight() / 2, 0);
+                        ChaseCam.getInstance().setConvertBounds(trip.getBounds());
                     }
                 }
             }
