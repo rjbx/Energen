@@ -173,6 +173,7 @@ public class GigaGal implements Humanoid {
         jumpStartTime = 0;
         dashStartTime = 0;
         turboDuration = 0;
+        standStartTime = 0;
         recoveryStartTime = TimeUtils.nanoTime();
     }
 
@@ -1182,9 +1183,9 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
             } else if (action == Action.STANDING) {
-                if (Helpers.secondsSince(standStartTime) % 20 == 0
-                || Helpers.secondsSince(standStartTime) % 34 == 0
-                || Helpers.secondsSince(standStartTime) % 35 == 0) {
+                if ((Helpers.secondsSince(standStartTime) % 20 < .15f)
+                        || (Helpers.secondsSince(standStartTime) % 34 < .1f)
+                        || (Helpers.secondsSince(standStartTime) % 35 < .25f)) {
                     region = Assets.getInstance().getGigaGalAssets().blinkRight;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standRight;
@@ -1226,9 +1227,9 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (action == Action.STANDING) {
-                if (Helpers.secondsSince(standStartTime) % 20 == 0
-                        || Helpers.secondsSince(standStartTime) % 34 == 0
-                        || Helpers.secondsSince(standStartTime) % 35 == 0) {
+                if ((Helpers.secondsSince(standStartTime) % 20 < .15f)
+                || (Helpers.secondsSince(standStartTime) % 34 < .1f)
+                || (Helpers.secondsSince(standStartTime) % 35 < .25f)) {
                     region = Assets.getInstance().getGigaGalAssets().blinkLeft;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standLeft;
