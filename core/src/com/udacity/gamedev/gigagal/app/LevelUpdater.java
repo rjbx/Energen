@@ -63,6 +63,7 @@ public class LevelUpdater {
     private String removedHazards;
     private boolean paused;
     private boolean musicEnabled;
+    private boolean hintsEnabled;
     private int score;
     private long time;
     private int savedScore;
@@ -87,13 +88,13 @@ public class LevelUpdater {
         loadEx = false;
         runEx = false;
         musicEnabled = false;
+        hintsEnabled = true;
         cannonStartTime = TimeUtils.nanoTime();
         cannonOffset = 0;
         removedHazards = "-1";
         score = 0;
         time = 0;
         paused = false;
-
     }
 
     protected void update(float delta) {
@@ -209,7 +210,8 @@ public class LevelUpdater {
             if (ground instanceof Trippable) {
                 Trippable trip = (Trippable) ground;
                 if (trip.tripped()) {
-                    if (!trip.maxAdjustmentsReached()
+                    if (hintsEnabled
+                    && !trip.maxAdjustmentsReached()
                     && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
                     && !(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x - viewport.getWorldWidth() / 2, ChaseCam.getInstance().camera.position.y - viewport.getWorldHeight() / 2, viewport.getWorldWidth(), viewport.getWorldHeight())))) {
                         ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
@@ -482,5 +484,6 @@ public class LevelUpdater {
     protected void setScore(int score) {this.score = score; }
     protected void setLevel(Enums.Theme selectedLevel) { level = selectedLevel; }
     protected void toggleMusic() { musicEnabled = !musicEnabled; }
+    protected void toggleHints() { hintsEnabled = !hintsEnabled; }
     protected final void setLoadEx(boolean state) { loadEx = state; }
 }

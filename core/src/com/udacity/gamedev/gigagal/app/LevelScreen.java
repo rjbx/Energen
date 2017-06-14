@@ -102,12 +102,12 @@ class LevelScreen extends ScreenAdapter {
     }
 
     private static void setOptionsMenu() {
-        Cursor.getInstance().setRange(viewport.getCamera().position.y + 30, viewport.getCamera().position.y - 45);
+        Cursor.getInstance().setRange(viewport.getCamera().position.y + 45, viewport.getCamera().position.y - 45);
         Cursor.getInstance().setOrientation(Enums.Orientation.Y);
         Cursor.getInstance().resetPosition();
         Menu.getInstance().isSingleOption(false);
         Menu.getInstance().clearStrings();
-        String[] optionStrings = {"BACK", "RESET LEVEL", "DEBUG CAM", "TOUCH PAD", "MUSIC", "QUIT"};
+        String[] optionStrings = {"BACK", "RESET LEVEL", "DEBUG CAM", "TOUCH PAD", "MUSIC", "HINTS", "QUIT"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
         Menu.getInstance().TextAlignment(Align.center);
         menu = OPTIONS;
@@ -193,19 +193,21 @@ class LevelScreen extends ScreenAdapter {
                 break;
             case OPTIONS:
                 if (InputControls.getInstance().shootButtonJustPressed) {
-                    if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y + 30) {
+                    if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y + 45) {
                         setMainMenu();
-                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y + 15) {
+                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y + 30) {
                         setResetMenu();
-                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y) {
+                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y + 15) {
                         if (ChaseCam.getInstance().getState() != Enums.ChaseCamState.DEBUG) {
                             ChaseCam.getInstance().setState(Enums.ChaseCamState.DEBUG);
                             setDebugMenu();
                         }
-                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 15) {
+                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y) {
                         SaveData.toggleTouchscreen(!SaveData.hasTouchscreen());
-                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 30) {
+                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 15) {
                         LevelUpdater.getInstance().toggleMusic();
+                    } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 30) {
+                        LevelUpdater.getInstance().toggleHints();
                     } else if (Cursor.getInstance().getPosition() == viewport.getCamera().position.y - 45) {
                         LevelUpdater.getInstance().unpause();
                         LevelUpdater.getInstance().end();
