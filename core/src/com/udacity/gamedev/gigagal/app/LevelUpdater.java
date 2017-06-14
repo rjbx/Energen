@@ -127,15 +127,23 @@ public class LevelUpdater {
             }
         }
 
-        GigaGal.getInstance().render(batch, viewport);
-
         for (Hazard hazard : hazards) {
-            hazard.render(batch, viewport);
+            if (!(hazard instanceof Ammo)) {
+                hazard.render(batch, viewport);
+            }
         }
 
         for (Ground ground : grounds) {
             if (ground.isDense()) {
                 ground.render(batch, viewport);
+            }
+        }
+
+        GigaGal.getInstance().render(batch, viewport);
+
+        for (Hazard hazard : hazards) {
+            if (hazard instanceof Ammo) {
+                hazard.render(batch, viewport);
             }
         }
 
