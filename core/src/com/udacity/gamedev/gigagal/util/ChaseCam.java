@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 
@@ -19,7 +20,7 @@ public final class ChaseCam {
     public Camera camera;
     public GigaGal target;
     public Vector2 roomPosition;
-    public Rectangle convertBounds;
+    public Array<Rectangle> convertBoundsArray;
     private Enums.ChaseCamState state;
     private long convertStartTIme;
     private InputControls inputControls;
@@ -35,6 +36,7 @@ public final class ChaseCam {
     public void create() {
         state = FOLLOWING;
         convertStartTIme = 0;
+        convertBoundsArray = new Array<Rectangle>();
     }
 
     public void update(SpriteBatch batch, float delta) {
@@ -69,21 +71,23 @@ public final class ChaseCam {
                 }
                 break;
             case CONVERT:
+                int index = (int) (Helpers.secondsSince(convertStartTIme) - 1);
                 if (convertStartTIme == 0) {
                     convertStartTIme = TimeUtils.nanoTime();
                     state = FOLLOWING;
-                } else if (Helpers.secondsSince(convertStartTIme) > 1.5f) {
+                } else if (index < convertBoundsArray.size){
+                    camera.position.set(convertBoundsArray.get(index).x + convertBoundsArray.get(index).getWidth() / 2, convertBoundsArray.get(index).y + convertBoundsArray.get(index).getHeight() / 2, 0);
+                } else {
+                    convertBoundsArray.clear();
                     state = FOLLOWING;
                     convertStartTIme = 0;
-                } else {
-                    camera.position.set(convertBounds.x + convertBounds.getWidth() / 2, convertBounds.y + convertBounds.getHeight() / 2, 0);
                 }
                 break;
         }
         batch.end();
     }
 
-    public final void setConvertBounds(Rectangle convertBounds) { this.convertBounds = convertBounds; }
+    public final void setConvertBounds(Rectangle convertBounds) { this.convertBoundsArray.add(convertBounds); }
     public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public final void setRoomPosition(Vector2 position) { roomPosition = position; }
     public final void setState(Enums.ChaseCamState state) { this.state = state; }
