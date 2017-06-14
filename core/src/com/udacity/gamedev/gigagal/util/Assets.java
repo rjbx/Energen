@@ -121,6 +121,8 @@ public final class Assets implements AssetErrorListener {
 
         public final AtlasRegion standLeft;
         public final AtlasRegion standRight;
+        public final AtlasRegion blinkLeft;
+        public final AtlasRegion blinkRight;
         public final AtlasRegion recoilLeft;
         public final AtlasRegion recoilRight;
         public final AtlasRegion fallLeft;
@@ -152,6 +154,8 @@ public final class Assets implements AssetErrorListener {
         private GigaGalAssets(TextureAtlas atlas) {
             standLeft = atlas.findRegion(Constants.STAND_LEFT);
             standRight = atlas.findRegion(Constants.STAND_RIGHT);
+            blinkLeft = atlas.findRegion(Constants.BLINK_LEFT);
+            blinkRight = atlas.findRegion(Constants.BLINK_RIGHT);
             recoilLeft = atlas.findRegion(Constants.RECOILING_LEFT);
             recoilRight = atlas.findRegion(Constants.RECOILING_RIGHT);
             fallLeft = atlas.findRegion(Constants.FALL_LEFT);

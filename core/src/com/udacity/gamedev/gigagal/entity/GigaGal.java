@@ -69,6 +69,7 @@ public class GigaGal implements Humanoid {
     private boolean canSink;
     private boolean canHurdle;
     private long chargeStartTime;
+    private long standStartTime;
     private long lookStartTime;
     private long jumpStartTime;
     private long dashStartTime;
@@ -1181,7 +1182,13 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
             } else if (action == Action.STANDING) {
-                region = Assets.getInstance().getGigaGalAssets().standRight;
+                if (Helpers.secondsSince(standStartTime) % 20 == 0
+                || Helpers.secondsSince(standStartTime) % 34 == 0
+                || Helpers.secondsSince(standStartTime) % 35 == 0) {
+                    region = Assets.getInstance().getGigaGalAssets().blinkRight;
+                } else {
+                    region = Assets.getInstance().getGigaGalAssets().standRight;
+                }
             } else if (action == Action.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Action.DASHING) {
@@ -1219,7 +1226,13 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (action == Action.STANDING) {
-                region = Assets.getInstance().getGigaGalAssets().standLeft;
+                if (Helpers.secondsSince(standStartTime) % 20 == 0
+                        || Helpers.secondsSince(standStartTime) % 34 == 0
+                        || Helpers.secondsSince(standStartTime) % 35 == 0) {
+                    region = Assets.getInstance().getGigaGalAssets().blinkLeft;
+                } else {
+                    region = Assets.getInstance().getGigaGalAssets().standLeft;
+                }
             } else if (action == Action.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Action.DASHING) {
