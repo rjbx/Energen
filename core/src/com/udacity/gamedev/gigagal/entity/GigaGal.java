@@ -182,6 +182,7 @@ public class GigaGal implements Humanoid {
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
         setBounds();
+        detectInput();
 
         // collision detection
         touchGround(level.getGrounds());
@@ -787,6 +788,10 @@ public class GigaGal implements Humanoid {
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.STAND_TURBO_INCREMENT;
         }
+
+        if (standStartTime == 0) {
+            standStartTime = TimeUtils.nanoTime();
+        }
     }
 
     private void fall() {
@@ -1185,7 +1190,8 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.STANDING) {
                 if ((Helpers.secondsSince(standStartTime) % 20 < .15f)
                         || (Helpers.secondsSince(standStartTime) % 34 < .1f)
-                        || (Helpers.secondsSince(standStartTime) % 35 < .25f)) {
+                        || (Helpers.secondsSince(standStartTime) % 35 < .25f)
+                        || (Helpers.secondsSince(standStartTime) > 60)) {
                     region = Assets.getInstance().getGigaGalAssets().blinkRight;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standRight;
@@ -1229,7 +1235,8 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.STANDING) {
                 if ((Helpers.secondsSince(standStartTime) % 20 < .15f)
                 || (Helpers.secondsSince(standStartTime) % 34 < .1f)
-                || (Helpers.secondsSince(standStartTime) % 35 < .25f)) {
+                || (Helpers.secondsSince(standStartTime) % 35 < .25f)
+                || (Helpers.secondsSince(standStartTime) > 60)) {
                     region = Assets.getInstance().getGigaGalAssets().blinkLeft;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standLeft;
@@ -1350,6 +1357,8 @@ public class GigaGal implements Humanoid {
         }
     }
 
+    public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = 0; } }
+    public void resetStandTime() { standStartTime = 0; }
     public void setLevel(LevelUpdater level) { this.level = level; }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void dispose() {
