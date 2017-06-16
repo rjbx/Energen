@@ -511,8 +511,8 @@ public class GigaGal implements Humanoid {
                 }
                 // when no collision detected
                 canRappel = false;
-                canCling = false;
-                canClimb = false;
+                //canCling = false;
+                //canClimb = false;
                 touchedGround = null;  // after handling touchedground conditions above
             }
         } else if (action == Action.STANDING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
