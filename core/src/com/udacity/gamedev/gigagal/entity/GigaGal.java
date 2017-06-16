@@ -395,6 +395,10 @@ public class GigaGal implements Humanoid {
             velocity.y = 0; // prevents from ascending above ground bottom
             position.y = previousFramePosition.y;  // sets gigagal at ground bottom
             fall(); // descend from point of contact with ground bottom
+            if (canClimb) {
+                action = Action.CLIMBING;
+                groundState = GroundState.PLANTED;
+            }
         }
     }
 
@@ -502,9 +506,10 @@ public class GigaGal implements Humanoid {
                     lookStartTime = 0;
                     if (action != Action.RAPPELLING && action != Action.CLIMBING) {
                         fall();
+                    } else {
+                        canCling = false;
+                        canClimb = false;
                     }
-                    canCling = false;
-                    canClimb = false;
                 } else if (touchedGround instanceof Destructible) {
                     Destructible destructible = (Destructible) touchedGround;
                     if (destructible.getHealth() < 1) {
