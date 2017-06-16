@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -173,7 +174,7 @@ public class GigaGal implements Humanoid {
         jumpStartTime = 0;
         dashStartTime = 0;
         turboDuration = 0;
-        standStartTime = 0;
+        standStartTime = TimeUtils.nanoTime();
         recoveryStartTime = TimeUtils.nanoTime();
     }
 
@@ -785,12 +786,9 @@ public class GigaGal implements Humanoid {
         } else {
             canJump = false;
         }
+
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.STAND_TURBO_INCREMENT;
-        }
-
-        if (standStartTime == 0) {
-            standStartTime = TimeUtils.nanoTime();
         }
     }
 
@@ -1188,10 +1186,11 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
             } else if (action == Action.STANDING) {
-                if ((Helpers.secondsSince(standStartTime) % 20 < .15f)
-                        || (Helpers.secondsSince(standStartTime) % 34 < .1f)
-                        || (Helpers.secondsSince(standStartTime) % 35 < .25f)
-                        || (Helpers.secondsSince(standStartTime) > 60)) {
+                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
+                      ((Helpers.secondsSince(standStartTime) % 20 < .15f)
+                    || (Helpers.secondsSince(standStartTime) % 34 < .1f)
+                    || (Helpers.secondsSince(standStartTime) % 35 < .25f)
+                    || (Helpers.secondsSince(standStartTime) > 60)))) {
                     region = Assets.getInstance().getGigaGalAssets().blinkRight;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standRight;
@@ -1233,10 +1232,12 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (action == Action.STANDING) {
-                if ((Helpers.secondsSince(standStartTime) % 20 < .15f)
+                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
+                  ((Helpers.secondsSince(standStartTime) % 20 < .15f)
                 || (Helpers.secondsSince(standStartTime) % 34 < .1f)
                 || (Helpers.secondsSince(standStartTime) % 35 < .25f)
-                || (Helpers.secondsSince(standStartTime) > 60)) {
+                || (Helpers.secondsSince(standStartTime) > 60)))) {
+                    Gdx.app.log(TAG, Helpers.secondsSince(standStartTime) + "");
                     region = Assets.getInstance().getGigaGalAssets().blinkLeft;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standLeft;
@@ -1357,8 +1358,7 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = 0; } }
-    public void resetStandTime() { standStartTime = 0; }
+    public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); } }
     public void setLevel(LevelUpdater level) { this.level = level; }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void dispose() {
