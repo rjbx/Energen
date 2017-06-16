@@ -60,6 +60,7 @@ public class GigaGal implements Humanoid {
     private ListIterator<Material> weaponToggler; // class-level instantiation
     private boolean canShoot;
     private boolean canLook;
+    private boolean canPeer;
     private boolean canDash;
     private boolean canJump;
     private boolean canHover;
@@ -160,6 +161,7 @@ public class GigaGal implements Humanoid {
         canClimb = false;
         canCling = false;
         canLook = false;
+        canPeer = false;
         canStride = false;
         canJump = false;
         canDash = false;
@@ -566,6 +568,11 @@ public class GigaGal implements Humanoid {
                         Assets.getInstance().getSoundAssets().damage.play();
                         health -= damage * healthMultiplier;
                         chargeModifier = 0;
+                    } else if (
+                            action == Action.STANDING
+                            && getBounds().overlaps(bounds.setSize(bounds.getWidth() * 3, bounds.getHeight() * 3))
+                            && Helpers.absoluteToDirectionalValue(position.x - bounds.x, directionX, Orientation.X) > 0) {
+                        canPeer = true;
                     }
                 }
             }
@@ -1186,7 +1193,9 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
             } else if (action == Action.STANDING) {
-                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
+                if (canPeer) {
+                    region = Assets.getInstance().getGigaGalAssets().lookbackRight;
+                } else if ((!(Helpers.secondsSince(standStartTime) < 1) &&
                       ((Helpers.secondsSince(standStartTime) % 20 < .15f)
                     || (Helpers.secondsSince(standStartTime) % 34 < .1f)
                     || (Helpers.secondsSince(standStartTime) % 35 < .25f)
@@ -1232,7 +1241,9 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (action == Action.STANDING) {
-                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
+                if (lookStartTime != 0) {
+                    region = Assets.getInstance().getGigaGalAssets().lookbackLeft;
+                } else if ((!(Helpers.secondsSince(standStartTime) < 1) &&
                   ((Helpers.secondsSince(standStartTime) % 20 < .15f)
                 || (Helpers.secondsSince(standStartTime) % 34 < .1f)
                 || (Helpers.secondsSince(standStartTime) % 35 < .25f)
@@ -1357,7 +1368,7 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); } }
+    public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); canPeer = false; } }
     public void setLevel(LevelUpdater level) { this.level = level; }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void dispose() {
