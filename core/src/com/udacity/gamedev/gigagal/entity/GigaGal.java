@@ -1237,7 +1237,6 @@ public class GigaGal implements Humanoid {
                 || (Helpers.secondsSince(standStartTime) % 34 < .1f)
                 || (Helpers.secondsSince(standStartTime) % 35 < .25f)
                 || (Helpers.secondsSince(standStartTime) > 60)))) {
-                    Gdx.app.log(TAG, Helpers.secondsSince(standStartTime) + "");
                     region = Assets.getInstance().getGigaGalAssets().blinkLeft;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standLeft;

@@ -98,6 +98,8 @@ public final class Constants {
     public static final String STAND_LEFT = "gg-stand-left";
     public static final String BLINK_RIGHT = "gg-stand-blink-right";
     public static final String BLINK_LEFT = "gg-stand-blink-left";
+    public static final String LOOKBACK_RIGHT = "gg-stand-lookback-right";
+    public static final String LOOKBACK_LEFT = "gg-stand-lookback-left";
     public static final String RECOILING_RIGHT = "gg-recoil-right";
     public static final String RECOILING_LEFT = "gg-recoil-left";
     public static final String FALL_RIGHT = "gg-fall-right";
