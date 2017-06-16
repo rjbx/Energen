@@ -394,8 +394,13 @@ public class GigaGal implements Humanoid {
         if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom()) {
             velocity.y = 0; // prevents from ascending above ground bottom
             position.y = previousFramePosition.y;  // sets gigagal at ground bottom
-            fall(); // descend from point of contact with ground bottom
-            if (canClimb) {
+            if (action != Action.CLIMBING) {
+                fall(); // descend from point of contact with ground bottom
+            } else { // prevents from disengaging climb
+                fall(); // descend from point of contact with ground bottom
+                canCling = true;
+                canClimb = true;
+                canDash = false;
                 action = Action.CLIMBING;
                 groundState = GroundState.PLANTED;
             }
