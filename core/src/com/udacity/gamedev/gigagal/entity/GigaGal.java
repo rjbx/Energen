@@ -570,9 +570,11 @@ public class GigaGal implements Humanoid {
                         chargeModifier = 0;
                     } else if (
                             action == Action.STANDING
-                            && getBounds().overlaps(bounds.setSize(bounds.getWidth() * 3, bounds.getHeight() * 3))
+                            && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
                             && Helpers.absoluteToDirectionalValue(position.x - bounds.x, directionX, Orientation.X) > 0) {
                         canPeer = true;
+                    } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
+                        canPeer = false;
                     }
                 }
             }
@@ -1241,7 +1243,7 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (action == Action.STANDING) {
-                if (lookStartTime != 0) {
+                if (canPeer) {
                     region = Assets.getInstance().getGigaGalAssets().lookbackLeft;
                 } else if ((!(Helpers.secondsSince(standStartTime) < 1) &&
                   ((Helpers.secondsSince(standStartTime) % 20 < .15f)
