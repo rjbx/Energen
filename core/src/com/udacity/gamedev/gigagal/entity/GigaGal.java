@@ -503,6 +503,8 @@ public class GigaGal implements Humanoid {
                     if (action != Action.RAPPELLING && action != Action.CLIMBING) {
                         fall();
                     }
+                    canCling = false;
+                    canClimb = false;
                 } else if (touchedGround instanceof Destructible) {
                     Destructible destructible = (Destructible) touchedGround;
                     if (destructible.getHealth() < 1) {
@@ -511,8 +513,6 @@ public class GigaGal implements Humanoid {
                 }
                 // when no collision detected
                 canRappel = false;
-                //canCling = false;
-                //canClimb = false;
                 touchedGround = null;  // after handling touchedground conditions above
             }
         } else if (action == Action.STANDING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
