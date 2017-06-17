@@ -61,6 +61,7 @@ public class LevelUpdater {
     private DelayedRemovalArray<Impact> impacts;
     private DelayedRemovalArray<Powerup> powerups;
     private DelayedRemovalArray<Ammo> projectiles;
+    private DelayedRemovalArray<Trippable> trips;
     private DelayedRemovalArray<Object> objects;
     private Enums.Material levelWeapon;
     private Enums.Theme level;
@@ -92,6 +93,7 @@ public class LevelUpdater {
         impacts = new DelayedRemovalArray<Impact>();
         powerups = new DelayedRemovalArray<Powerup>();
         transports = new DelayedRemovalArray<Transport>();
+        trips = new DelayedRemovalArray<Trippable>();
         loadEx = false;
         runEx = false;
         musicEnabled = false;
@@ -217,6 +219,7 @@ public class LevelUpdater {
             if (ground instanceof Trippable) {
                 Trippable trip = (Trippable) ground;
                 if (trip.tripped()) {
+                    trips.add(trip);
                     if (hintsEnabled
                     && !trip.maxAdjustmentsReached()
                     && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
@@ -227,10 +230,11 @@ public class LevelUpdater {
                     }
                 }
             }
-            if (ground instanceof Convertible) {
-                for (Rectangle convertBounds : ChaseCam.getInstance().getConvertBoundsArray()) {
-                    if (Helpers.betweenFourValues(ground.getPosition(), convertBounds.x, convertBounds.x + convertBounds.width, convertBounds.y, convertBounds.y + convertBounds.height)) {
+            if (ground instanceof Convertible && !((Convertible) ground).isConverted()) {
+                for (Trippable trip : trips) {
+                    if (trip.isConverted() && Helpers.betweenFourValues(ground.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                         ((Convertible) ground).convert();
+                        trip.update(delta);
                     }
                 }
             }
@@ -291,6 +295,7 @@ public class LevelUpdater {
                         }
                     }
                 }
+                projectiles.end();
             }
         }
         grounds.end();
@@ -304,7 +309,7 @@ public class LevelUpdater {
                 projectiles.begin();
                 for (int j = 0; j < projectiles.size; j++) {
                     Ammo ammo = projectiles.get(j);
-                    if (ammo.getPosition().dst(destructible.getPosition()) < (destructible.getShotRadius() + ammo.getRadius())) {
+                    if (ammo.isActive() && ammo.getPosition().dst(destructible.getPosition()) < (destructible.getShotRadius() + ammo.getRadius())) {
                         this.spawnImpact(ammo.getPosition(), ammo.getType());
                         Helpers.applyDamage(destructible, ammo);
                         score += ammo.getHitScore();
@@ -331,7 +336,6 @@ public class LevelUpdater {
             }
         }
         hazards.end();
-
 
         // Update Impacts
         impacts.begin();
