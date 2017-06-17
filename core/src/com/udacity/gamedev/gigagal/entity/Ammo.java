@@ -9,11 +9,12 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
-public final class Ammo implements Indestructible, Hazard {
+public final class Ammo implements Indestructible, MultidirectionalX, MultidirectionalY, Hazard {
 
     // fields
     public final static String TAG = Ammo.class.getName();
@@ -148,53 +149,6 @@ public final class Ammo implements Indestructible, Hazard {
     }
 
     public void update(float delta) {
-        for (Hazard hazard : level.getHazards()) {
-            if (hazard instanceof Destructible) {
-                Destructible destructible = (Destructible) hazard;
-                if (position.dst(destructible.getPosition()) < (destructible.getShotRadius() + this.radius)) {
-                    LevelUpdater.getInstance().spawnImpact(position, weapon);
-                    active = false;
-                    Helpers.applyDamage(destructible, this);
-                }
-            }
-        }
-
-        for (Ground ground : level.getGrounds()) {
-            if (ground instanceof Strikeable) {
-                if (Helpers.overlapsPhysicalObject(this, ground)) {
-                    Strikeable strikeable = (Strikeable) ground;
-                    if (isFromGigagal()) {
-                        Assets.getInstance().getSoundAssets().hitGround.play();
-                    }
-                    if (strikeable instanceof Tripknob) {
-                        Tripknob tripknob = (Tripknob) strikeable;
-                        tripknob.resetStartTime();
-                        tripknob.setState(!tripknob.isActive());
-                    } else if (strikeable instanceof Chargeable) {
-                        Chargeable chargeable = (Chargeable) strikeable;
-                        if (chargeable instanceof Chamber) {
-                            chargeable.setState(false);
-                        } else if (chargeable instanceof Tripchamber && shotIntensity == ShotIntensity.BLAST) {
-                            if (chargeable.isCharged()) {
-                                chargeable.setState(!chargeable.isActive());
-                                chargeable.uncharge();
-                            }
-                        }
-                    } else if (strikeable instanceof Destructible) {
-                        Helpers.applyDamage((Destructible) ground, this);
-                    } else if (strikeable instanceof Gate && direction == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
-                        ((Gate) strikeable).deactivate();
-                    }
-                    if (ground.isDense() || Helpers.betweenTwoValues(position.y, ground.getPosition().y - 2, ground.getPosition().y + 2)) {
-                        active = false;
-                        if (!position.equals(Vector2.Zero)) {
-                            LevelUpdater.getInstance().spawnImpact(position, weapon);
-                        }
-                    }
-                }
-            }
-        }
-
         float ammoSpeed = Constants.AMMO_MAX_SPEED;
         if (!fromGigagal) {
             ammoSpeed = Constants.AMMO_NORMAL_SPEED;
@@ -246,12 +200,15 @@ public final class Ammo implements Indestructible, Hazard {
 
     public final boolean isActive() { return active; }
     @Override public final Vector2 getPosition() { return position; }
+    @Override public final Enums.Direction getDirectionX() { return direction; }
+    @Override public final Enums.Direction getDirectionY() { return direction; }
     @Override public final float getWidth() { return radius * 2; }
     @Override public final float getHeight() { return radius * 2; }
     @Override public final float getLeft() { return position.x - radius; }
     @Override public final float getRight() { return position.x + radius; }
     @Override public final float getTop() { return position.y + radius; }
     @Override public final float getBottom() { return position.y - radius; }
+    public final float getRadius() { return radius; }
     public final int getDamage() { return damage; }
     public final Vector2 getKnockback() { return knockback; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }

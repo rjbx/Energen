@@ -400,10 +400,10 @@ public class GigaGal implements Humanoid {
                 fall(); // descend from point of contact with ground bottom
                 canCling = true;
                 canClimb = true;
-                canDash = false;
                 action = Action.CLIMBING;
                 groundState = GroundState.PLANTED;
             }
+            canDash = false;
         }
     }
 
@@ -1207,9 +1207,9 @@ public class GigaGal implements Humanoid {
                 if (canPeer) {
                     region = Assets.getInstance().getGigaGalAssets().lookbackRight;
                 } else if ((!(Helpers.secondsSince(standStartTime) < 1) &&
-                      ((Helpers.secondsSince(standStartTime) % 20 < .15f)
-                    || (Helpers.secondsSince(standStartTime) % 34 < .1f)
-                    || (Helpers.secondsSince(standStartTime) % 35 < .25f)
+                      ((Helpers.secondsSince(standStartTime) % 10 < .15f)
+                    || (Helpers.secondsSince(standStartTime) % 14 < .1f)
+                    || (Helpers.secondsSince(standStartTime) % 15 < .25f)
                     || (Helpers.secondsSince(standStartTime) > 60)))) {
                     region = Assets.getInstance().getGigaGalAssets().blinkRight;
                 } else {

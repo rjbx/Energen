@@ -13,6 +13,7 @@ import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Chargeable;
 import com.udacity.gamedev.gigagal.entity.Destructible;
+import com.udacity.gamedev.gigagal.entity.Gate;
 import com.udacity.gamedev.gigagal.entity.Ground;
 import com.udacity.gamedev.gigagal.entity.Hazard;
 import com.udacity.gamedev.gigagal.entity.Impact;
@@ -20,9 +21,12 @@ import com.udacity.gamedev.gigagal.entity.Nonstatic;
 import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Powerup;
+import com.udacity.gamedev.gigagal.entity.Strikeable;
 import com.udacity.gamedev.gigagal.entity.Swoopa;
 import com.udacity.gamedev.gigagal.entity.Teleport;
 import com.udacity.gamedev.gigagal.entity.Transport;
+import com.udacity.gamedev.gigagal.entity.Tripchamber;
+import com.udacity.gamedev.gigagal.entity.Tripknob;
 import com.udacity.gamedev.gigagal.entity.Trippable;
 import com.udacity.gamedev.gigagal.entity.Vines;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
@@ -55,6 +59,7 @@ public class LevelUpdater {
     private DelayedRemovalArray<Ground> grounds;
     private DelayedRemovalArray<Impact> impacts;
     private DelayedRemovalArray<Powerup> powerups;
+    private DelayedRemovalArray<Ammo> projectiles;
     private DelayedRemovalArray<Object> objects;
     private Enums.Material levelWeapon;
     private Enums.Theme level;
@@ -82,6 +87,7 @@ public class LevelUpdater {
         objects = new DelayedRemovalArray<Object>();
         grounds = new DelayedRemovalArray<Ground>();
         hazards = new DelayedRemovalArray<Hazard>();
+        projectiles = new DelayedRemovalArray<Ammo>();
         impacts = new DelayedRemovalArray<Impact>();
         powerups = new DelayedRemovalArray<Powerup>();
         transports = new DelayedRemovalArray<Transport>();
@@ -241,6 +247,44 @@ public class LevelUpdater {
                     }
                 }
             }
+            if (ground instanceof Strikeable) {
+                projectiles.begin();
+                for (int j = 0; j < projectiles.size; j++) {
+                    Ammo ammo = projectiles.get(j);
+                    if (Helpers.overlapsPhysicalObject(ammo, ground)) {
+                        Strikeable strikeable = (Strikeable) ground;
+                        if (ammo.isFromGigagal()) {
+                            Assets.getInstance().getSoundAssets().hitGround.play();
+                        }
+                        if (strikeable instanceof Tripknob) {
+                            Tripknob tripknob = (Tripknob) strikeable;
+                            tripknob.resetStartTime();
+                            tripknob.setState(!tripknob.isActive());
+                        } else if (strikeable instanceof Chargeable) {
+                            Chargeable chargeable = (Chargeable) strikeable;
+                            if (chargeable instanceof Chamber) {
+                                chargeable.setState(false);
+                            } else if (chargeable instanceof Tripchamber && ammo.getShotIntensity() == Enums.ShotIntensity.BLAST) {
+                                if (chargeable.isCharged()) {
+                                    chargeable.setState(!chargeable.isActive());
+                                    chargeable.uncharge();
+                                }
+                            }
+                        } else if (strikeable instanceof Destructible) {
+                            Helpers.applyDamage((Destructible) ground, ammo);
+                        } else if (strikeable instanceof Gate && ammo.getDirectionX() == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
+                            ((Gate) strikeable).deactivate();
+                        }
+                        if (ground.isDense() || Helpers.betweenTwoValues(ammo.getPosition().y, ground.getPosition().y - 2, ground.getPosition().y + 2)) {
+                            if (!ammo.getPosition().equals(Vector2.Zero)) {
+                                this.spawnImpact(ammo.getPosition(), ammo.getType());
+                            }
+                            hazards.removeValue(ammo, true);
+                            projectiles.removeValue(ammo, true);
+                        }
+                    }
+                }
+            }
         }
         grounds.end();
 
@@ -250,6 +294,18 @@ public class LevelUpdater {
             if (hazards.get(i) instanceof Destructible) {
                 Destructible destructible = (Destructible) hazards.get(i);
                 destructible.update(delta);
+                projectiles.begin();
+                for (int j = 0; j < projectiles.size; j++) {
+                    Ammo ammo = projectiles.get(j);
+                    if (ammo.getPosition().dst(destructible.getPosition()) < (destructible.getShotRadius() + ammo.getRadius())) {
+                        this.spawnImpact(ammo.getPosition(), ammo.getType());
+                        Helpers.applyDamage(destructible, ammo);
+                        score += ammo.getHitScore();
+                        hazards.removeValue(ammo, true);
+                        projectiles.removeValue(ammo, true);
+                    }
+                }
+                projectiles.end();
                 if (destructible.getHealth() < 1) {
                     if (destructible instanceof Swoopa) {
                         ((Swoopa) destructible).dispose();
@@ -260,15 +316,12 @@ public class LevelUpdater {
                     score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
                 }
             } else if (hazards.get(i) instanceof Ammo) {
-                Ammo ammo = (Ammo) hazards.get(i);
-                ammo.update(delta);
-                if (!ammo.isActive()) {
-                    score += ammo.getHitScore();
-                    hazards.removeIndex(i);
-                }
+                ((Ammo) hazards.get(i)).update(delta);
             }
         }
         hazards.end();
+
+
 
         // Update Impacts
         impacts.begin();
@@ -453,7 +506,9 @@ public class LevelUpdater {
     }
 
     public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Material weapon, boolean targetsEnemies) {
-        hazards.add(new Ammo(this, position, direction, orientation, shotIntensity, weapon, targetsEnemies));
+        Ammo ammo = new Ammo(this, position, direction, orientation, shotIntensity, weapon, targetsEnemies);
+        hazards.add(ammo);
+        projectiles.add(ammo);
     }
 
     public void spawnImpact(Vector2 position, Enums.Material type) {
