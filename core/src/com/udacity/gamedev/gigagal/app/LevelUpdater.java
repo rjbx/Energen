@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.Boss;
@@ -51,9 +50,6 @@ public class LevelUpdater {
     private static final LevelUpdater INSTANCE = new LevelUpdater();
     private Viewport viewport;
     private boolean loadEx;
-    private boolean runEx;
-    private float cannonOffset;
-    private long cannonStartTime;
     private Backdrop backdrop;
     private DelayedRemovalArray<Transport> transports;
     private DelayedRemovalArray<Hazard> hazards;
@@ -61,7 +57,6 @@ public class LevelUpdater {
     private DelayedRemovalArray<Impact> impacts;
     private DelayedRemovalArray<Powerup> powerups;
     private DelayedRemovalArray<Ammo> projectiles;
-    private DelayedRemovalArray<Trippable> trips;
     private DelayedRemovalArray<Object> objects;
     private Enums.Material levelWeapon;
     private Enums.Theme level;
@@ -75,7 +70,6 @@ public class LevelUpdater {
     private long time;
     private int savedScore;
     private long savedTime;
-    private boolean tripState;
 
     // cannot be subclassed
     private LevelUpdater() {}
@@ -93,13 +87,9 @@ public class LevelUpdater {
         impacts = new DelayedRemovalArray<Impact>();
         powerups = new DelayedRemovalArray<Powerup>();
         transports = new DelayedRemovalArray<Transport>();
-        trips = new DelayedRemovalArray<Trippable>();
         loadEx = false;
-        runEx = false;
         musicEnabled = false;
         hintsEnabled = true;
-        cannonStartTime = TimeUtils.nanoTime();
-        cannonOffset = 0;
         removedHazards = "-1";
         score = 0;
         time = 0;
@@ -219,7 +209,6 @@ public class LevelUpdater {
             if (ground instanceof Trippable) {
                 Trippable trip = (Trippable) ground;
                 if (trip.tripped()) {
-                    trips.add(trip);
                     if (hintsEnabled
                     && !trip.maxAdjustmentsReached()
                     && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
@@ -228,24 +217,17 @@ public class LevelUpdater {
                         ChaseCam.getInstance().setConvertBounds(trip.getBounds());
                         trip.addCamAdjustment();
                     }
-                }
-            }
-            if (ground instanceof Convertible) {
-                trips.begin();
-                for (int j = 0; j < trips.size; j++) {
-                    Trippable trip = trips.get(j);
-                    if (trip.isConverted() && ground != trip && Helpers.betweenFourValues(ground.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
-                        ((Convertible) ground).convert();
-                        trip.update(delta);
-                        trips.removeIndex(j);
+                    for (Ground g : grounds) {
+                        if (g instanceof Convertible && g != trip) {
+                            if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
+                                ((Convertible) g).convert();
+                            }
+                        }
                     }
                 }
-                trips.end();
             }
             if (ground instanceof Nonstatic) {
-                if (!(ground instanceof Trippable)) {
-                    ((Nonstatic) ground).update(delta);
-                }
+                ((Nonstatic) ground).update(delta);
             }
             if (ground instanceof Destructible) {
                 if (((Destructible) ground).getHealth() < 1) {
@@ -426,7 +408,6 @@ public class LevelUpdater {
         if (musicEnabled) {
             music.play();
         }
-        runEx = false;
         levelWeapon = Enums.Material.NATIVE;
         for (Enums.Material weapon : Arrays.asList(Enums.Material.values())) {
             if (weapon.theme().equals(level)) {

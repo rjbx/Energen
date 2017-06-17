@@ -55,7 +55,7 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
 
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.TRIPTREAD_CENTER.y * 2; }
-    @Override public final float getWidth() { return Constants.TRIPTREAD_CENTER.x * 2;}
+    @Override public final float getWidth() { return Constants.TRIPTREAD_CENTER.x * 2; }
     @Override public final float getLeft() { return position.x - Constants.TRIPTREAD_CENTER.x; }
     @Override public final float getRight() { return position.x + Constants.TRIPTREAD_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.TRIPTREAD_CENTER.y; }
