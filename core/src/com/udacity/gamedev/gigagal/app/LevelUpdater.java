@@ -231,12 +231,16 @@ public class LevelUpdater {
                 }
             }
             if (ground instanceof Convertible && !((Convertible) ground).isConverted()) {
-                for (Trippable trip : trips) {
+                trips.begin();
+                for (int j = 0; j < trips.size; j++) {
+                    Trippable trip = trips.get(j);
                     if (trip.isConverted() && Helpers.betweenFourValues(ground.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                         ((Convertible) ground).convert();
                         trip.update(delta);
+                        trips.removeIndex(j);
                     }
                 }
+                trips.end();
             }
             if (ground instanceof Nonstatic) {
                 ((Nonstatic) ground).update(delta);
@@ -534,11 +538,14 @@ public class LevelUpdater {
     public final int getUnsavedScore() { return score - savedScore; }
     public final long getTime() { return time; }
     public final int getScore() { return score; }
+
+    // to return cloned elements; state changes set from this class
     public final DelayedRemovalArray<Object> getEntity() { return objects; }
     public final DelayedRemovalArray<Hazard> getHazards() { return hazards; }
     public final DelayedRemovalArray<Ground> getGrounds() { return grounds; }
     public final DelayedRemovalArray<Impact> getImpacts() { return impacts; }
     public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
+
     public final void setBoss(Boss boss) { this.boss = boss; }
     public final Boss getBoss() { return boss; }
     public final Viewport getViewport() { return viewport; }
