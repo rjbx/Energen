@@ -89,7 +89,6 @@ public class Cannon implements Nonstatic, Rappelable, Convertible, Ground {
     @Override public final float getTop() { return position.y + center.y; }
     @Override public final float getBottom() { return position.y - center.y; }
     @Override public final boolean isDense() { return true; }
-    @Override public final boolean isActive() { return active; }
     @Override public void convert() { active = !active; }
     @Override public boolean isConverted() { return startTime == 0; }
     @Override public Cannon clone() { return new Cannon(position, orientation, intensity, active); }

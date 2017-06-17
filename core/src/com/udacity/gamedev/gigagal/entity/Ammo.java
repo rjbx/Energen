@@ -14,7 +14,7 @@ import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
-public final class Ammo implements Indestructible, MultidirectionalX, MultidirectionalY, Hazard {
+public final class Ammo implements Indestructible, Hazard {
 
     // fields
     public final static String TAG = Ammo.class.getName();
@@ -199,9 +199,9 @@ public final class Ammo implements Indestructible, MultidirectionalX, Multidirec
     }
 
     public final boolean isActive() { return active; }
+    public final void deactivate() { active = false; }
+    public final Enums.Direction getDirection() { return direction; }
     @Override public final Vector2 getPosition() { return position; }
-    @Override public final Enums.Direction getDirectionX() { return direction; }
-    @Override public final Enums.Direction getDirectionY() { return direction; }
     @Override public final float getWidth() { return radius * 2; }
     @Override public final float getHeight() { return radius * 2; }
     @Override public final float getLeft() { return position.x - radius; }

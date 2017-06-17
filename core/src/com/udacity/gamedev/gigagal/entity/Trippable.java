@@ -2,7 +2,7 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.math.Rectangle;
 
-public interface Trippable extends Nonstatic {
+public interface Trippable extends Nonstatic, Convertible {
 
     void setState(boolean state);
     boolean tripped();

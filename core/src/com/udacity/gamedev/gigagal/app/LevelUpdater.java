@@ -12,6 +12,7 @@ import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Chargeable;
+import com.udacity.gamedev.gigagal.entity.Convertible;
 import com.udacity.gamedev.gigagal.entity.Destructible;
 import com.udacity.gamedev.gigagal.entity.Gate;
 import com.udacity.gamedev.gigagal.entity.Ground;
@@ -226,6 +227,13 @@ public class LevelUpdater {
                     }
                 }
             }
+            if (ground instanceof Convertible) {
+                for (Rectangle convertBounds : ChaseCam.getInstance().getConvertBoundsArray()) {
+                    if (Helpers.betweenFourValues(ground.getPosition(), convertBounds.x, convertBounds.x + convertBounds.width, convertBounds.y, convertBounds.y + convertBounds.height)) {
+                        ((Convertible) ground).convert();
+                    }
+                }
+            }
             if (ground instanceof Nonstatic) {
                 ((Nonstatic) ground).update(delta);
             }
@@ -272,15 +280,14 @@ public class LevelUpdater {
                             }
                         } else if (strikeable instanceof Destructible) {
                             Helpers.applyDamage((Destructible) ground, ammo);
-                        } else if (strikeable instanceof Gate && ammo.getDirectionX() == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
+                        } else if (strikeable instanceof Gate && ammo.getDirection() == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
                             ((Gate) strikeable).deactivate();
                         }
-                        if (ground.isDense() || Helpers.betweenTwoValues(ammo.getPosition().y, ground.getPosition().y - 2, ground.getPosition().y + 2)) {
+                        if (ammo.isActive() && (ground.isDense() || Helpers.betweenTwoValues(ammo.getPosition().y, ground.getPosition().y - 2, ground.getPosition().y + 2))) {
                             if (!ammo.getPosition().equals(Vector2.Zero)) {
                                 this.spawnImpact(ammo.getPosition(), ammo.getType());
                             }
-                            hazards.removeValue(ammo, true);
-                            projectiles.removeValue(ammo, true);
+                            ammo.deactivate();
                         }
                     }
                 }
@@ -301,8 +308,7 @@ public class LevelUpdater {
                         this.spawnImpact(ammo.getPosition(), ammo.getType());
                         Helpers.applyDamage(destructible, ammo);
                         score += ammo.getHitScore();
-                        hazards.removeValue(ammo, true);
-                        projectiles.removeValue(ammo, true);
+                        ammo.deactivate();
                     }
                 }
                 projectiles.end();
@@ -316,7 +322,12 @@ public class LevelUpdater {
                     score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
                 }
             } else if (hazards.get(i) instanceof Ammo) {
-                ((Ammo) hazards.get(i)).update(delta);
+                Ammo ammo = (Ammo) hazards.get(i);
+                ammo.update(delta);
+                if (!ammo.isActive()) {
+                    hazards.removeValue(ammo, false);
+                    projectiles.removeValue(ammo, false);
+                }
             }
         }
         hazards.end();
