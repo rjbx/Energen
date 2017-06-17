@@ -17,7 +17,7 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
     public final static String TAG = Triptread.class.getName();
 
     private Vector2 position;
-    private boolean convert;
+    private boolean converted;
     private LevelUpdater level;
     private Rectangle bounds;
     private long startTime;
@@ -34,13 +34,13 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
         this.state = state;
         this.direction = direction;
         startTime = TimeUtils.nanoTime();
-        convert = false;
+        converted = false;
         adjustments = 0;
     }
 
     @Override
     public void update(float delta) {
-        if (convert) {
+        if (converted) {
             for (Ground ground : level.getGrounds()) {
                 if (ground instanceof Convertible && ground != this) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
@@ -49,7 +49,7 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
                 }
             }
         }
-        convert = false;
+        converted = false;
         previousState = state;
     }
 
@@ -64,7 +64,7 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
 
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.TRIPTREAD_CENTER.y * 2; }
-    @Override public final float getWidth() { return Constants.TRIPTREAD_CENTER.x * 2; }
+    @Override public final float getWidth() { return Constants.TRIPTREAD_CENTER.x * 2;}
     @Override public final float getLeft() { return position.x - Constants.TRIPTREAD_CENTER.x; }
     @Override public final float getRight() { return position.x + Constants.TRIPTREAD_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.TRIPTREAD_CENTER.y; }
@@ -73,9 +73,9 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
     public final long getStartTime() { return startTime; }
     public Rectangle getBounds() { return bounds; }
     @Override public boolean isActive() { return state; }
-    @Override public void setState(boolean state) { this.state = state; convert = true; }
-    @Override public void convert() { state = !state; convert = true; }
-    @Override public boolean isConverted() { return state; }
+    @Override public void setState(boolean state) { this.state = state; converted = true; }
+    @Override public void convert() { state = !state; converted = true; }
+    @Override public boolean isConverted() { return converted; }
     @Override public void addCamAdjustment() { adjustments++; }
     @Override public boolean maxAdjustmentsReached() { return adjustments >= 2; }
     @Override public boolean tripped() { return previousState != state; }

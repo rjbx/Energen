@@ -58,6 +58,7 @@ public class Treadmill implements Rideable, Convertible, Ground {
     @Override public final boolean isDense() { return true; }
     @Override public final Enums.Direction getDirection() { return direction; }
     @Override public Treadmill clone() { return new Treadmill(position, scale, adjustedCenter, direction); }
+    @Override public final boolean isActive() { return true; }
     @Override public void convert() { tripped = !tripped; direction = Helpers.getOppositeDirection(direction); }
     @Override public boolean isConverted() { return tripped; }
 }

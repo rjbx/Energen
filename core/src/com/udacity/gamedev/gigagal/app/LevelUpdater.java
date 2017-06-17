@@ -322,7 +322,6 @@ public class LevelUpdater {
         hazards.end();
 
 
-
         // Update Impacts
         impacts.begin();
         for (int i = 0; i < impacts.size; i++) {

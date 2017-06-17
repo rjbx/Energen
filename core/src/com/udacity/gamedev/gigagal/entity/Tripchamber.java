@@ -24,7 +24,7 @@ public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeab
     private float chargeTimeSeconds;
     private long startTime;
     private Enums.Upgrade type;
-    private boolean convert;
+    private boolean converted;
     private boolean previousState;
     private int adjustments;
 
@@ -42,7 +42,7 @@ public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeab
 
     @Override
     public void update(float delta) {
-        if (convert) {
+        if (converted) {
             for (Ground ground : level.getGrounds()) {
                 if (ground instanceof Convertible && ground != this) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
@@ -51,7 +51,7 @@ public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeab
                 }
             }
         }
-        convert = false;
+        converted = false;
         previousState = active;
     }
 
@@ -88,8 +88,8 @@ public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeab
     @Override public final void setChargeTime(float chargeTimeSeconds) { this.chargeTimeSeconds = chargeTimeSeconds; }
     public void setUpgrade(Enums.Upgrade type) { this.type = type; }
     public Enums.Upgrade getUpgrade() { return type; }
-    @Override public void convert() { active = !active; convert = true; }
-    @Override public boolean isConverted() { return active; }
+    @Override public void convert() { active = !active; converted = true; }
+    @Override public boolean isConverted() { return converted; }
     @Override public boolean tripped() { return previousState != active; }
     @Override public Rectangle getBounds() { return bounds; }
     @Override public void addCamAdjustment() { this.adjustments++; }

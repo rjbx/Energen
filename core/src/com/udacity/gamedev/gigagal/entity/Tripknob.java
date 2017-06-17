@@ -17,7 +17,7 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
     public final static String TAG = Tripknob.class.getName();
 
     private Vector2 position;
-    private boolean convert;
+    private boolean converted;
     private LevelUpdater level;
     private Rectangle bounds;
     private long startTime;
@@ -47,7 +47,7 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
                 offset = Constants.TRIPKNOB_CENTER;
         }
         startTime = 0;
-        convert = false;
+        converted = false;
         this.state = state;
         previousState = state;
         adjustments++;
@@ -55,7 +55,7 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
 
     @Override
     public void update(float delta) {
-        if (convert) {
+        if (converted) {
             for (Ground ground : level.getGrounds()) {
                 if (ground instanceof Convertible && ground != this) {
                     if (Helpers.betweenFourValues(ground.getPosition(), bounds.x, bounds.x + bounds.width, bounds.y, bounds.y + bounds.height)) {
@@ -64,7 +64,7 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
                 }
             }
         }
-        convert = false;
+        converted = false;
         previousState = state;
     }
 
@@ -95,9 +95,9 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
     public final void resetStartTime() { this.startTime = 0; }
     public Rectangle getBounds() { return bounds; }
     @Override public boolean isActive() { return state; }
-    @Override public void setState(boolean state) { this.state = state; convert = true; }
-    @Override public void convert() { state = !state; convert = true; }
-    @Override public boolean isConverted() { return state; }
+    @Override public void setState(boolean state) { this.state = state; converted = true; }
+    @Override public void convert() { state = !state; converted = true; }
+    @Override public boolean isConverted() { return converted; }
     @Override public void addCamAdjustment() { adjustments++; }
     @Override public boolean maxAdjustmentsReached() { return adjustments > 2; }
     @Override public boolean tripped() { return previousState != state; }
