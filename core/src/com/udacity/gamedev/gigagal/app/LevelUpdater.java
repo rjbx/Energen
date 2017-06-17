@@ -230,11 +230,11 @@ public class LevelUpdater {
                     }
                 }
             }
-            if (ground instanceof Convertible && !((Convertible) ground).isConverted()) {
+            if (ground instanceof Convertible) {
                 trips.begin();
                 for (int j = 0; j < trips.size; j++) {
                     Trippable trip = trips.get(j);
-                    if (trip.isConverted() && Helpers.betweenFourValues(ground.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
+                    if (trip.isConverted() && ground != trip && Helpers.betweenFourValues(ground.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                         ((Convertible) ground).convert();
                         trip.update(delta);
                         trips.removeIndex(j);
@@ -243,7 +243,9 @@ public class LevelUpdater {
                 trips.end();
             }
             if (ground instanceof Nonstatic) {
-                ((Nonstatic) ground).update(delta);
+                if (!(ground instanceof Trippable)) {
+                    ((Nonstatic) ground).update(delta);
+                }
             }
             if (ground instanceof Destructible) {
                 if (((Destructible) ground).getHealth() < 1) {
@@ -393,7 +395,6 @@ public class LevelUpdater {
         for (String removalStr : levelRemovalStrings) {
             levelRemovals.add(Integer.parseInt(removalStr));
         }
-
         for (Integer removal : levelRemovals) {
             if (removal != -1) {
                 hazards.removeIndex(removal);
