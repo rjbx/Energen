@@ -547,7 +547,7 @@ public class LevelUpdater {
     public final Array<Ground> getGrounds() {
         Array<Ground> clonedGrounds = new Array<Ground>();
         for (Ground ground : grounds) {
-            clonedGrounds.add(ground);
+            clonedGrounds.add(ground.clone());
         }
         return clonedGrounds;
     }
