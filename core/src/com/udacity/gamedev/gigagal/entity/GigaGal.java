@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -443,6 +444,7 @@ public class GigaGal implements Humanoid {
                     canCling = false;
                     Reboundable reboundable = (Reboundable) ground;
                     reboundable.setState(true);
+                    Gdx.app.log(TAG, ((Spring) reboundable).clone().cloneHashCode() + " og: " + ((Spring) reboundable).hashCode());
                 } else if (ground instanceof Unbearable) {
                     canHover = false;
                     Random xKnockback = new Random();

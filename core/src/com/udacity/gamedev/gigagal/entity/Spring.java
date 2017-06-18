@@ -16,12 +16,14 @@ public class Spring implements Reboundable, Ground {
     private Vector2 position;
     private long startTime;
     private boolean isLoaded;
+    private long cloneHashCode;
 
     // ctor
     public Spring(Vector2 position) {
         this.position = position;
         startTime = 0;
         isLoaded = false;
+        cloneHashCode = hashCode();
     }
 
     @Override
@@ -54,5 +56,6 @@ public class Spring implements Reboundable, Ground {
     @Override public final void setState(boolean state) { this.isLoaded = state; }
     @Override public final boolean getState() { return isLoaded; }
     @Override public final void resetStartTime() { this.startTime = 0; }
-    @Override public Spring clone() { return new Spring(position); }
+    @Override public Spring clone() { Spring clone = new Spring(position); clone.cloneHashCode = this.hashCode(); return clone; }
+    public long cloneHashCode() { return cloneHashCode; }
 }
