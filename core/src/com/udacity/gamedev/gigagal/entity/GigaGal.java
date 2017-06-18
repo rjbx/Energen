@@ -1,12 +1,12 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -70,6 +70,7 @@ public class GigaGal implements Humanoid {
     private boolean canStride;
     private boolean canSink;
     private boolean canHurdle;
+    private boolean canBounce;
     private long chargeStartTime;
     private long standStartTime;
     private long lookStartTime;
@@ -170,6 +171,7 @@ public class GigaGal implements Humanoid {
         canHurdle = false;
         canShoot = true;
         canSink = false;
+        canBounce = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         climbStartTime = 0;
@@ -258,7 +260,7 @@ public class GigaGal implements Humanoid {
         bounds = new Rectangle(left, bottom, width, height);
     }
 
-    private void touchGround(DelayedRemovalArray<Ground> grounds) {
+    private void touchGround(Array<Ground> grounds) {
         for (Ground ground : grounds) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundries
 
@@ -442,9 +444,6 @@ public class GigaGal implements Humanoid {
                 } else if (ground instanceof Reboundable) {
                     canClimb = false;
                     canCling = false;
-                    Reboundable reboundable = (Reboundable) ground;
-                    reboundable.setState(true);
-                    Gdx.app.log(TAG, ((Spring) reboundable).clone().cloneHashCode() + " og: " + ((Spring) reboundable).hashCode());
                 } else if (ground instanceof Unbearable) {
                     canHover = false;
                     Random xKnockback = new Random();
@@ -488,20 +487,8 @@ public class GigaGal implements Humanoid {
     private void untouchGround() {
         if (touchedGround != null) {
             if (!Helpers.overlapsPhysicalObject(this, touchedGround)) {
-                if (touchedGround instanceof Reboundable) {
-                    Reboundable reboundable = (Reboundable) touchedGround;
-                    if (reboundable.getState() && !(reboundable instanceof Tripknob)) {
-                        reboundable.resetStartTime();
-                        reboundable.setState(false);
-                    }
-                }
                 if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
                 /*(!Helpers.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */ {
-                    if (touchedGround instanceof Reboundable) {
-                        Reboundable reboundable = (Reboundable) touchedGround;
-                        reboundable.resetStartTime();
-                        reboundable.setState(false);
-                    }
                     if (action == Action.RAPPELLING) {
                         velocity.x = 0; // prevents falling with backward momentum after rappel-sliding down platform side through its bottom
                     }
@@ -533,7 +520,7 @@ public class GigaGal implements Humanoid {
     }
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    private void touchHazards(DelayedRemovalArray<Hazard> hazards) {
+    private void touchHazards(Array<Hazard> hazards) {
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
                 float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
@@ -592,7 +579,7 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    private void touchPowerups(DelayedRemovalArray<Powerup> powerups) {
+    private void touchPowerups(Array<Powerup> powerups) {
         for (Powerup powerup : powerups) {
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {

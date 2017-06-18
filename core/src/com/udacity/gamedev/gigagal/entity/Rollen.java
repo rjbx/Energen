@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -29,7 +30,7 @@ public class Rollen implements MultidirectionalX, Destructible, Hazard {
     private float speedAtChangeXDirection;
     private long rollStartTime;
     private float rollTimeSeconds;
-    private DelayedRemovalArray<Ground> grounds;
+    private Array<Ground> grounds;
     private float radius;
     private Animation animation;
 

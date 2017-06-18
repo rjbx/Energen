@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
@@ -21,6 +22,7 @@ import com.udacity.gamedev.gigagal.entity.Nonstatic;
 import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Powerup;
+import com.udacity.gamedev.gigagal.entity.Reboundable;
 import com.udacity.gamedev.gigagal.entity.Strikeable;
 import com.udacity.gamedev.gigagal.entity.Swoopa;
 import com.udacity.gamedev.gigagal.entity.Teleport;
@@ -285,6 +287,18 @@ public class LevelUpdater {
                 }
                 projectiles.end();
             }
+            if (ground instanceof Reboundable) {
+                Reboundable reboundable = (Reboundable) ground;
+                if (Helpers.overlapsPhysicalObject(GigaGal.getInstance(), ground)) {
+                    reboundable.setState(true);
+                } else if (reboundable.getState() && !(reboundable instanceof Tripknob)) {
+                    reboundable.resetStartTime();
+                    reboundable.setState(false);
+                } else if (GigaGal.getInstance().getBottom() > ground.getTop() || GigaGal.getInstance().getTop() < ground.getBottom()) {
+                    reboundable.resetStartTime();
+                    reboundable.setState(false);
+                }
+            }
         }
         grounds.end();
 
@@ -516,17 +530,56 @@ public class LevelUpdater {
     }
 
     // Getters
+    protected final void addEntity(Object object) { objects.add(object); }
+    protected final void addGround(Ground ground) { grounds.add(ground); }
+    protected final void addHazard(Hazard hazard) { hazards.add(hazard); }
+    protected final void addPowerup(Powerup powerup) { powerups.add(powerup); }
+
+    // to return cloned elements; state changes set from this class
+    public final Array<Object> getEntity() {
+        Array<Object> clonedObjects = new Array<Object>();
+        for (Object object : objects) {
+            clonedObjects.add(object);
+        }
+        return clonedObjects; 
+    }
+
+    public final Array<Ground> getGrounds() {
+        Array<Ground> clonedGrounds = new Array<Ground>();
+        for (Ground ground : grounds) {
+            clonedGrounds.add(ground);
+        }
+        return clonedGrounds;
+    }
+    
+    public final Array<Hazard> getHazards() {
+        Array<Hazard> clonedHazards = new Array<Hazard>();
+        for (Hazard hazard : hazards) {
+            clonedHazards.add(hazard);
+        }
+        return clonedHazards;
+    }
+
+    public final Array<Powerup> getPowerups() {
+        Array<Powerup> clonedPowerups = new Array<Powerup>();
+        for (Powerup powerup : powerups) {
+            clonedPowerups.add(powerup);
+        }
+        return clonedPowerups;
+    }
+   
+    public final Array<Impact> getImpacts() {
+        Array<Impact> clonedImpacts = new Array<Impact>();
+        for (Impact impact : impacts) {
+            clonedImpacts.add(impact);
+        }
+        return clonedImpacts;
+    }
+
     public final long getUnsavedTime() { return time - savedTime; }
     public final int getUnsavedScore() { return score - savedScore; }
     public final long getTime() { return time; }
     public final int getScore() { return score; }
-
-    // to return cloned elements; state changes set from this class
-    public final DelayedRemovalArray<Object> getEntity() { return objects; }
-    public final DelayedRemovalArray<Hazard> getHazards() { return hazards; }
-    public final DelayedRemovalArray<Ground> getGrounds() { return grounds; }
-    public final DelayedRemovalArray<Impact> getImpacts() { return impacts; }
-    public final DelayedRemovalArray<Powerup> getPowerups() { return powerups; }
 
     public final void setBoss(Boss boss) { this.boss = boss; }
     public final Boss getBoss() { return boss; }

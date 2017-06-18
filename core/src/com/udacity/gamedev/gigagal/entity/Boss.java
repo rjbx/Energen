@@ -207,7 +207,7 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
         setBounds();
 
         // collision detection
-        touchGround(level.getGrounds());
+//        touchGround(level.getGrounds());
 //        touchHazards(level.getHazards());
 //        touchPowerups(level.getPowerups());
 

@@ -57,5 +57,4 @@ public class Spring implements Reboundable, Ground {
     @Override public final boolean getState() { return isLoaded; }
     @Override public final void resetStartTime() { this.startTime = 0; }
     @Override public Spring clone() { Spring clone = new Spring(position); clone.cloneHashCode = this.hashCode(); return clone; }
-    public long cloneHashCode() { return cloneHashCode; }
 }
