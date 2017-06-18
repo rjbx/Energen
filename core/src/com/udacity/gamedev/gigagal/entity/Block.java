@@ -11,6 +11,8 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
+import java.io.InvalidObjectException;
+
 // mutable
 public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, Expanse {
 
@@ -75,6 +77,13 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     }
 
     // Getters
+    public boolean equals(Object object) {
+        if (object instanceof Block) {
+            Block block = (Block) object;
+            return top == block.getTop() && bottom == block.getBottom() && left == block.getLeft() && right == block.getRight();
+        }
+        return false;
+    }
     @Override public float getTop() { return top; }
     @Override public float getBottom() {return bottom; }
     @Override public float getLeft() { return left; }

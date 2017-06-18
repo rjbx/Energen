@@ -12,6 +12,8 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
+import java.io.InvalidObjectException;
+
 public class Cannon implements Nonstatic, Rappelable, Convertible, Ground {
 
     // fields
@@ -81,6 +83,14 @@ public class Cannon implements Nonstatic, Rappelable, Convertible, Ground {
         Helpers.drawTextureRegion(batch, viewport, region, position, center);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Cannon) {
+            Cannon cannon = (Cannon) object;
+            return getTop() == cannon.getTop() && getBottom() == cannon.getBottom() && getLeft() == cannon.getLeft() && getRight() == cannon.getRight();
+        }
+        return false;
+    }
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getWidth() { return center.x * 2; }
     @Override public final float getHeight() { return center.y * 2; }

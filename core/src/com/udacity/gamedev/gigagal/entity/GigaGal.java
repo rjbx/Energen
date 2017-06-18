@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -8,7 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
@@ -317,7 +315,7 @@ public class GigaGal implements Humanoid {
     }
 
     private void touchGroundSide(Ground ground) {
-        if (touchedGround == null || touchedGround == ground || touchedGround.getTop() != ground.getTop()) {
+        if (touchedGround == null || touchedGround.getTop() != ground.getTop() || (touchedGround instanceof Rappelable && ((Rappelable) touchedGround).equals(ground))) {
             // if during previous frame was not, while currently is, between ground left and right sides
             if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
                 // only when not grounded and not recoiling

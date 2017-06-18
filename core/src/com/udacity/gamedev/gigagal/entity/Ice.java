@@ -8,6 +8,8 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
+import java.io.InvalidObjectException;
+
 public class Ice implements Rappelable, Hurdleable, Skateable, Ground {
 
     // fields
@@ -31,6 +33,14 @@ public class Ice implements Rappelable, Hurdleable, Skateable, Ground {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().ice.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Ice) {
+            Ice ice = (Ice) object;
+            return getTop() == ice.getTop() && getBottom() == ice.getBottom() && getLeft() == ice.getLeft() && getRight() == ice.getRight();
+        }
+        return false;
+    }
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.ICE_CENTER.y * 2 * scale.y; }
     @Override public final float getWidth() { return Constants.ICE_CENTER.x * 2 * scale.x; }

@@ -396,6 +396,11 @@ public class LevelUpdater {
     }
 
     protected void dispose() {
+        getEntities().clear();
+        getGrounds().clear();
+        getHazards().clear();
+        getPowerups().clear();
+        getImpacts().clear();
         hazards.clear();
         grounds.clear();
         impacts.clear();
@@ -533,12 +538,12 @@ public class LevelUpdater {
     protected final void addPowerup(Powerup powerup) { powerups.add(powerup); }
 
     // to return cloned elements; state changes set from this class
-    public final Array<Object> getEntity() {
+    public final Array<Object> getEntities() {
         Array<Object> clonedObjects = new Array<Object>();
         for (Object object : objects) {
             clonedObjects.add(object);
         }
-        return clonedObjects; 
+        return clonedObjects;
     }
 
     public final Array<Ground> getGrounds() {
