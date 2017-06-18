@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -190,9 +191,9 @@ public class GigaGal implements Humanoid {
         detectInput();
 
         // collision detection
-        touchGround(level.getGrounds());
-        touchHazards(level.getHazards());
-        touchPowerups(level.getPowerups());
+        touchGround(LevelUpdater.getInstance().getGrounds());
+        touchHazards(LevelUpdater.getInstance().getHazards());
+        touchPowerups(LevelUpdater.getInstance().getPowerups());
 
         // abilities
         if (groundState == GroundState.PLANTED) {

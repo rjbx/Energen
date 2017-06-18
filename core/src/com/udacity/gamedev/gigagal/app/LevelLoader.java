@@ -457,8 +457,7 @@ final class LevelLoader {
                 level.addGround(chamber);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LIFT_SPRITE)) {
                 final Vector2 liftPosition = imagePosition.add(Constants.LIFT_CENTER);
-                Lift lift = new Lift(liftPosition, orientation);
-                lift.setRange(range);
+                Lift lift = new Lift(liftPosition, orientation, range);
                 Gdx.app.log(TAG, "Loaded the lift at " + liftPosition);
                 level.addGround(lift);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ROPE_SPRITE)) {

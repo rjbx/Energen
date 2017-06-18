@@ -23,14 +23,13 @@ public class Lift implements Hoverable, Convertible, Ground {
     private boolean converted;
 
     // ctor
-    public Lift(Vector2 position, Enums.Orientation orientation) {
+    public Lift(Vector2 position, Enums.Orientation orientation, float range) {
         this.position = position;
-        this.orientation = orientation;
         setOrientation(orientation);
         converted = false;
         velocity = new Vector2();
         startPosition = new Vector2(position);
-        range = Constants.LIFT_RANGE;
+        this.range = range;
     }
 
     @Override
@@ -81,7 +80,9 @@ public class Lift implements Hoverable, Convertible, Ground {
     }
 
     @Override public final Vector2 getPosition() { return position; }
+    public final void setPosition(Vector2 position) { this.position = position; }
     @Override public final Vector2 getVelocity() { return velocity; }
+    public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }
     @Override public final float getHeight() { return Constants.LIFT_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.LIFT_CENTER.x * 2; }
     @Override public final float getLeft() { return position.x - Constants.LIFT_CENTER.x; }
@@ -89,11 +90,12 @@ public class Lift implements Hoverable, Convertible, Ground {
     @Override public final float getTop() { return position.y + Constants.LIFT_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.LIFT_CENTER.y; }
     @Override public Enums.Direction getDirection() { return direction; }
+    public void setDirection(Enums.Direction direction) { this.direction = direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
     @Override public final boolean isDense() { return false; }
     @Override public void convert() { converted = !converted; position.set(startPosition); setOrientation(Helpers.getOppositeOrientation(orientation)); }
     @Override public boolean isConverted() { return converted; }
-    @Override public Lift clone() { return new Lift(position, orientation); }
+    @Override public Lift clone() { Lift lift = new Lift(startPosition, orientation, range); lift.setPosition(position); lift.setVelocity(velocity); lift.setDirection(direction); return lift; }
     public final void setRange(float range) { this.range = range; }
     private void setOrientation(Enums.Orientation orientation) {
         this.orientation = orientation;

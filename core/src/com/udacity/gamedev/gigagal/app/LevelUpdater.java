@@ -291,10 +291,7 @@ public class LevelUpdater {
                 Reboundable reboundable = (Reboundable) ground;
                 if (Helpers.overlapsPhysicalObject(GigaGal.getInstance(), ground)) {
                     reboundable.setState(true);
-                } else if (reboundable.getState() && !(reboundable instanceof Tripknob)) {
-                    reboundable.resetStartTime();
-                    reboundable.setState(false);
-                } else if (GigaGal.getInstance().getBottom() > ground.getTop() || GigaGal.getInstance().getTop() < ground.getBottom()) {
+                } else if (reboundable.getState()) {
                     reboundable.resetStartTime();
                     reboundable.setState(false);
                 }
