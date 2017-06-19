@@ -407,6 +407,10 @@ public class GigaGal implements Humanoid {
                 groundState = GroundState.PLANTED;
             }
             canDash = false;
+        } else if (ground.isDense() && Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
+            if (position.y < ground.getBottom() + ground.getHeight() / 2) {
+                position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS - 1;
+            }
         }
     }
 
@@ -456,9 +460,11 @@ public class GigaGal implements Humanoid {
                 }
             // reset when previous position is also below ground top
             } else if (ground.isDense() && Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
-                position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT + 1;
-                setAtopGround(ground);
-                stand();
+                if (position.y > ground.getBottom() + ground.getHeight() / 2) {
+                    position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT + 1;
+                    setAtopGround(ground);
+                    stand();
+                }
             }
         }
     }
