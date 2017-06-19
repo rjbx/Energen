@@ -350,24 +350,6 @@ public class GigaGal implements Humanoid {
                     if (action == Action.DASHING) {
                         stand(); // deactivates dash when bumping ground side
                     }
-                    if (ground instanceof Chargeable) {
-                        Chargeable chargeable = (Chargeable) ground;
-                        if (chargeable instanceof Tripchamber) {
-                            if (shotIntensity == ShotIntensity.BLAST && !chargeable.isCharged()) {
-                                chargeable.charge();
-                            }
-                        } else {
-                            if (chargeStartTime != 0 && directionX == Direction.RIGHT) {
-                                if (!chargeable.isActive() && chargeable instanceof Chamber) {
-                                    chargeable.setState(true);
-                                } else if (chargeTimeSeconds > 1) {
-                                    chargeable.setChargeTime(chargeTimeSeconds);
-                                }
-                            } else {
-                                chargeable.setChargeTime(0);
-                            }
-                        }
-                    }
                 }
                 if ((!(ground instanceof Rideable && (Math.abs(getBottom() - ground.getTop()) <= 1)))
                         && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
@@ -408,8 +390,9 @@ public class GigaGal implements Humanoid {
             }
             canDash = false;
         } else if (ground.isDense() && Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
-            if (position.y < ground.getBottom() + ground.getHeight() / 2) {
+            if (position.y <= ground.getBottom() + ground.getHeight() / 2) {
                 position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS - 1;
+                fall();
             }
         }
     }

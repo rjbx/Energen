@@ -246,6 +246,22 @@ public class LevelUpdater {
                 }
             }
             if (ground instanceof Chargeable) {
+                Chargeable chargeable = (Chargeable) ground;
+                if (chargeable instanceof Tripchamber) {
+                    if (GigaGal.getInstance().getShotIntensity() == Enums.ShotIntensity.BLAST && !chargeable.isCharged()) {
+                        chargeable.charge();
+                    }
+                } else {
+                    if (GigaGal.getInstance().getChargeTimeSeconds() != Helpers.secondsSince(0) && GigaGal.getInstance().getDirectionX() == Direction.RIGHT) {
+                        if (!chargeable.isActive() && chargeable instanceof Chamber) {
+                            chargeable.setState(true);
+                        } else if (GigaGal.getInstance().getChargeTimeSeconds() > 1) {
+                            chargeable.setChargeTime(GigaGal.getInstance().getChargeTimeSeconds());
+                        }
+                    } else {
+                        chargeable.setChargeTime(0);
+                    }
+                }
                 if (ground instanceof Chamber) {
                     Chamber chamber = (Chamber) ground;
                     if (!chamber.isActive() && chamber.isCharged()) {
@@ -555,7 +571,7 @@ public class LevelUpdater {
     public final Array<Ground> getGrounds() {
         Array<Ground> clonedGrounds = new Array<Ground>();
         for (Ground ground : grounds) {
-            clonedGrounds.add(ground.clone());
+            clonedGrounds.add(ground);
         }
         return clonedGrounds;
     }
