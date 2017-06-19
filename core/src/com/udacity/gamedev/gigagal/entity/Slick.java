@@ -8,8 +8,6 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-import java.io.InvalidObjectException;
-
 public class Slick implements Rappelable, Hurdleable, Skateable, Ground {
     
     // fields
@@ -32,7 +30,6 @@ public class Slick implements Rappelable, Hurdleable, Skateable, Ground {
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().slick.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }
-
 
     @Override
     public boolean equals(Object object) {

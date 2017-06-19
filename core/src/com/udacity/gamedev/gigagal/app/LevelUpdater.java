@@ -348,7 +348,7 @@ public class LevelUpdater {
         // Update Powerups
         powerups.begin();
         for (int i = 0; i < powerups.size; i++) {
-            if (!powerups.get(i).isActive()) {
+            if (Helpers.overlapsPhysicalObject(GigaGal.getInstance(), powerups.get(i))) {
                 powerups.removeIndex(i);
             }
         }
@@ -582,7 +582,6 @@ public class LevelUpdater {
     public final int getUnsavedScore() { return score - savedScore; }
     public final long getTime() { return time; }
     public final int getScore() { return score; }
-
     public final void setBoss(Boss boss) { this.boss = boss; }
     public final Boss getBoss() { return boss; }
     public final Viewport getViewport() { return viewport; }

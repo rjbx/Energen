@@ -20,7 +20,6 @@ public class Powerup implements Physical, Visible {
     private final Vector2 center;
     private final Enums.PowerupType type;
     private final Animation animation;
-    private boolean state;
     private long startTime;
 
     // ctor
@@ -28,7 +27,6 @@ public class Powerup implements Physical, Visible {
         startTime = TimeUtils.nanoTime();
         this.position = position;
         this.type = type;
-        state = true;
         switch (this.type) {
             case HEALTH:
                 animation = Assets.getInstance().getPowerupAssets().healthPowerup;
@@ -61,8 +59,6 @@ public class Powerup implements Physical, Visible {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center);
     }
 
-    public void deactivate() { this.state = false; }
-    public boolean isActive() { return this.state; }
     public Enums.PowerupType getType() { return this.type; }
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getWidth() { return center.x * 2; }

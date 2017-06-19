@@ -311,11 +311,12 @@ public class GigaGal implements Humanoid {
                 }
             }
             untouchGround();
+            untouchGround();
         }
     }
 
     private void touchGroundSide(Ground ground) {
-        if (touchedGround == null || touchedGround.getTop() != ground.getTop() || (touchedGround instanceof Rappelable && ((Rappelable) touchedGround).equals(ground))) {
+        if (touchedGround == null || touchedGround.getTop() != ground.getTop() || (touchedGround instanceof Rappelable && touchedGround.equals(ground))) {
             // if during previous frame was not, while currently is, between ground left and right sides
             if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
                 // only when not grounded and not recoiling
@@ -617,7 +618,6 @@ public class GigaGal implements Humanoid {
                         ammo += Constants.POWERUP_AMMO;
                         break;
                 }
-                powerup.deactivate();
             }
         }
         if (turbo > Constants.MAX_TURBO) {

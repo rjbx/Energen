@@ -8,8 +8,6 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-import java.io.InvalidObjectException;
-
 public class Ice implements Rappelable, Hurdleable, Skateable, Ground {
 
     // fields
