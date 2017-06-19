@@ -72,5 +72,6 @@ public class Gate implements Strikeable, Nonstatic, Ground {
     @Override public final float getTop() { return position.y + Constants.GATE_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.GATE_CENTER.y; }
     @Override public final boolean isDense() { return dense; }
-    @Override public Gate clone() { return new Gate(position); }
+    public final void setDensity(boolean dense) { this.dense = dense; }
+    @Override public Gate clone() { Gate clone = new Gate(position); clone.setDensity(isDense()); return clone;}
 }
