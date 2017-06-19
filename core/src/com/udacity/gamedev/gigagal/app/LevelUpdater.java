@@ -30,6 +30,7 @@ import com.udacity.gamedev.gigagal.entity.Transport;
 import com.udacity.gamedev.gigagal.entity.Tripchamber;
 import com.udacity.gamedev.gigagal.entity.Tripknob;
 import com.udacity.gamedev.gigagal.entity.Trippable;
+import com.udacity.gamedev.gigagal.entity.Triptread;
 import com.udacity.gamedev.gigagal.entity.Vines;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -210,6 +211,11 @@ public class LevelUpdater {
             Ground ground = grounds.get(i);
             if (ground instanceof Trippable) {
                 Trippable trip = (Trippable) ground;
+                if (trip instanceof Triptread) {
+                    if (Helpers.overlapsPhysicalObject(GigaGal.getInstance(), trip) && GigaGal.getInstance().getAction() == Enums.Action.DASHING && !GigaGal.getInstance().getDashStatus()) {
+                        trip.setState(!trip.isActive());
+                    }
+                }
                 if (trip.tripped()) {
                     if (hintsEnabled
                     && !trip.maxAdjustmentsReached()

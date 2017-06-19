@@ -952,6 +952,9 @@ public class GigaGal implements Humanoid {
         handleXInputs();
         if (canDash) {
             dash();
+        } else if (action == Action.DASHING) {
+            dash();
+            canDash = true; // false for one frame for triptread activation from level updater
         }
     }
 
@@ -964,10 +967,7 @@ public class GigaGal implements Humanoid {
             dashStartTime = TimeUtils.nanoTime();
             strideStartTime = 0;
             canStride = false;
-            if (touchedGround instanceof Triptread) {
-                Triptread triptread = (Triptread) touchedGround;
-                triptread.setState(!triptread.isActive());
-            }
+            canDash = false;
         }
         float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
         if (turbo >= 1) {
