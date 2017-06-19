@@ -59,6 +59,7 @@ public class Gate implements Strikeable, Nonstatic, Ground {
         }
     }
 
+    @Override
     public boolean equals(Object object) {
         if (object instanceof Gate) {
             Gate gate = (Gate) object;
