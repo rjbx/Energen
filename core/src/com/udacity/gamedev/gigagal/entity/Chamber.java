@@ -42,6 +42,15 @@ public class Chamber implements Chargeable, Strikeable, Ground {
         }
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Chamber) {
+            Chamber chamber = (Chamber) object;
+            return getTop() == chamber.getTop() && getBottom() == chamber.getBottom() && getLeft() == chamber.getLeft() && getRight() == chamber.getRight();
+        }
+        return false;
+    }
+
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.CHAMBER_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.CHAMBER_CENTER.x * 2; }

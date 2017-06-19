@@ -74,6 +74,15 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
         }
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Tripknob) {
+            Tripknob tripknob = (Tripknob) object;
+            return getTop() == tripknob.getTop() && getBottom() == tripknob.getBottom() && getLeft() == tripknob.getLeft() && getRight() == tripknob.getRight();
+        }
+        return false;
+    }
+    
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.TRIPKNOB_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.TRIPKNOB_CENTER.x * 2; }

@@ -34,6 +34,15 @@ public class Coals implements Unbearable, Ground {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Coals) {
+            Coals coals = (Coals) object;
+            return getTop() == coals.getTop() && getBottom() == coals.getBottom() && getLeft() == coals.getLeft() && getRight() == coals.getRight();
+        }
+        return false;
+    }
+
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.COALS_CENTER.y * 2 * scale.y; }
     @Override public final float getWidth() { return Constants.COALS_CENTER.x * 2 * scale.x; }

@@ -35,6 +35,15 @@ public class Waves implements Indestructible, Hazard, Sinkable, Ground {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Waves) {
+            Waves waves = (Waves) object;
+            return getTop() == waves.getTop() && getBottom() == waves.getBottom() && getLeft() == waves.getLeft() && getRight() == waves.getRight();
+        }
+        return false;
+    }
+
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.WAVES_CENTER.y * 2 * scale.y; }
     @Override public final float getWidth() { return Constants.WAVES_CENTER.x * 2 * scale.x; }

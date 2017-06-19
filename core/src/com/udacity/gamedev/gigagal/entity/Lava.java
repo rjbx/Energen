@@ -35,6 +35,15 @@ public class Lava implements Indestructible, Hazard {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Lava) {
+            Lava lava = (Lava) object;
+            return getTop() == lava.getTop() && getBottom() == lava.getBottom() && getLeft() == lava.getLeft() && getRight() == lava.getRight();
+        }
+        return false;
+    }
+
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.LAVA_CENTER.y * 2 * scale.y; }
     @Override public final float getWidth() { return Constants.LAVA_CENTER.x * 2 * scale.x; }

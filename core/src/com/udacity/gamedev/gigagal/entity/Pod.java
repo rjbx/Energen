@@ -36,6 +36,15 @@ public class Pod implements Reboundable, Ground {
         }
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Pod) {
+            Pod pod = (Pod) object;
+            return getTop() == pod.getTop() && getBottom() == pod.getBottom() && getLeft() == pod.getLeft() && getRight() == pod.getRight();
+        }
+        return false;
+    }
+
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.POD_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.POD_CENTER.x * 2; }

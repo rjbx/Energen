@@ -48,6 +48,15 @@ public class Treadmill implements Rideable, Convertible, Ground {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Treadmill) {
+            Treadmill treadmill = (Treadmill) object;
+            return getTop() == treadmill.getTop() && getBottom() == treadmill.getBottom() && getLeft() == treadmill.getLeft() && getRight() == treadmill.getRight();
+        }
+        return false;
+    }
+
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.TREADMILL_CENTER.y * 2 * scale.y; }
     @Override public final float getWidth() { return Constants.TREADMILL_CENTER.x * 2 * scale.x; }

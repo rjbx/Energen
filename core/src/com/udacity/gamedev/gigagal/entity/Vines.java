@@ -28,6 +28,15 @@ public class Vines implements Climbable, Ground {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().vines, position, adjustedCenter, scale);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Vines) {
+            Vines vines = (Vines) object;
+            return getTop() == vines.getTop() && getBottom() == vines.getBottom() && getLeft() == vines.getLeft() && getRight() == vines.getRight();
+        }
+        return false;
+    }
+
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.VINES_CENTER.y * 2 * scale.y; }
     @Override public final float getWidth() { return Constants.VINES_CENTER.x * 2 * scale.x; }

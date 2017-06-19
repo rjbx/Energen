@@ -75,6 +75,15 @@ public class Lift implements Hoverable, Convertible, Ground {
     }
 
     @Override
+    public boolean equals(Object object) {
+        if (object instanceof Lift) {
+            Lift lift = (Lift) object;
+            return getTop() == lift.getTop() && getBottom() == lift.getBottom() && getLeft() == lift.getLeft() && getRight() == lift.getRight();
+        }
+        return false;
+    }
+
+    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().lift, position, Constants.LIFT_CENTER);
     }

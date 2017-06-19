@@ -28,6 +28,15 @@ public class Pole implements Climbable, Ground {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().pole.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.POLE_CENTER);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Pole) {
+            Pole pole = (Pole) object;
+            return getTop() == pole.getTop() && getBottom() == pole.getBottom() && getLeft() == pole.getLeft() && getRight() == pole.getRight();
+        }
+        return false;
+    }
+
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.POLE_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.POLE_CENTER.x * 2; }

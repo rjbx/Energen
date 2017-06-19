@@ -24,6 +24,15 @@ public class Rope implements Climbable, Ground {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().rope, position, Constants.ROPE_CENTER);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Rope) {
+            Rope rope = (Rope) object;
+            return getTop() == rope.getTop() && getBottom() == rope.getBottom() && getLeft() == rope.getLeft() && getRight() == rope.getRight();
+        }
+        return false;
+    }
+
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.ROPE_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.ROPE_CENTER.x * 2; }

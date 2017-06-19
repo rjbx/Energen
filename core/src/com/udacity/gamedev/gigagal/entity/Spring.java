@@ -44,6 +44,15 @@ public class Spring implements Reboundable, Ground {
         }
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Spring) {
+            Spring spring = (Spring) object;
+            return getTop() == spring.getTop() && getBottom() == spring.getBottom() && getLeft() == spring.getLeft() && getRight() == spring.getRight();
+        }
+        return false;
+    }
+
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.SPRING_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.SPRING_CENTER.x * 2; }

@@ -28,6 +28,15 @@ public class Knob implements Climbable, Ground {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().knob.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.KNOB_CENTER);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Knob) {
+            Knob knob = (Knob) object;
+            return getTop() == knob.getTop() && getBottom() == knob.getBottom() && getLeft() == knob.getLeft() && getRight() == knob.getRight();
+        }
+        return false;
+    }
+    
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.KNOB_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.KNOB_CENTER.x * 2; }

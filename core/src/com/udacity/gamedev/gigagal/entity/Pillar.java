@@ -24,6 +24,15 @@ public class Pillar implements Climbable, Ground {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().pillar, position, Constants.PILLAR_CENTER);
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Pillar) {
+            Pillar pillar = (Pillar) object;
+            return getTop() == pillar.getTop() && getBottom() == pillar.getBottom() && getLeft() == pillar.getLeft() && getRight() == pillar.getRight();
+        }
+        return false;
+    }
+
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.PILLAR_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.PILLAR_CENTER.x * 2; }
