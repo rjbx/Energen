@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -16,15 +15,13 @@ public class Gate implements Strikeable, Nonstatic, Ground {
 
     private final Vector2 position;
     private long startTime;
-    private float damage;
     private boolean active;
     private boolean dense;
 
     // ctor
     public Gate(Vector2 position) {
-        this.startTime = 0;
         this.position = position;
-        damage = 1;
+        this.startTime = 0;
         active = true;
         dense = true;
     }
@@ -62,8 +59,18 @@ public class Gate implements Strikeable, Nonstatic, Ground {
         }
     }
 
+    public boolean equals(Object object) {
+        if (object instanceof Gate) {
+            Gate gate = (Gate) object;
+            return getTop() == gate.getTop() && getBottom() == gate.getBottom() && getLeft() == gate.getLeft() && getRight() == gate.getRight();
+        }
+        return false;
+    }
     public final boolean isActive() { return active; }
     public void deactivate() { active = false; }
+    private void setState(boolean state) { active = state; }
+    public void setDensity(boolean dense) { this.dense = dense; }
+    private void setStartTime(long startTime) { this.startTime = startTime; }
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.GATE_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.GATE_CENTER.x * 2; }
@@ -72,6 +79,5 @@ public class Gate implements Strikeable, Nonstatic, Ground {
     @Override public final float getTop() { return position.y + Constants.GATE_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.GATE_CENTER.y; }
     @Override public final boolean isDense() { return dense; }
-    public final void setDensity(boolean dense) { this.dense = dense; }
-    @Override public Gate clone() { Gate clone = new Gate(position); clone.setDensity(isDense()); return clone;}
+    @Override public Gate clone() { Gate clone = new Gate(position); clone.setDensity(isDense()); clone.setState(active); clone.setStartTime(startTime); return clone; }
 }
