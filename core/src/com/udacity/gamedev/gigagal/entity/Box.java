@@ -30,15 +30,6 @@ public class Box extends Block implements Destructible {
         super.render(batch, viewport);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Box) {
-            Box box = (Box) object;
-            return getTop() == box.getTop() && getBottom() == box.getBottom() && getLeft() == box.getLeft() && getRight() == box.getRight();
-        }
-        return false;
-    }
-
     // Getters
     @Override public float getTop() { return super.getTop(); }
     @Override public float getBottom() {return super.getBottom(); }

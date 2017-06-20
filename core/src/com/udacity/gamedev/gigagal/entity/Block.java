@@ -83,11 +83,11 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     @Override public int hashCode() { return hashCode; }
     public void setHashCode(int hashCode) { this.hashCode = hashCode; }
     @Override public float getTop() { return top; }
-    @Override public float getBottom() {return bottom; }
+    @Override public float getBottom() { return bottom; }
     @Override public float getLeft() { return left; }
     @Override public float getRight() { return right; }
     @Override public float getWidth() { return width;}
-    @Override public float getHeight() {return height; }
+    @Override public float getHeight() { return height; }
     @Override public Vector2 getPosition() { return position; }
     @Override public void setDensity(boolean state) { dense = state; }
     @Override public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }

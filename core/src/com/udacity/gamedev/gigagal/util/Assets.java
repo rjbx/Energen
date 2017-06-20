@@ -308,15 +308,15 @@ public final class Assets implements AssetErrorListener {
         public final Animation waves;
         public final Animation gateOpen;
         public final Animation gateClose;
+        public final NinePatch block;
         public final NinePatch box;
-        public final NinePatch breakableBox;
 
         private GroundAssets(TextureAtlas atlas) {
 
-            int edge = Constants.BOX_EDGE;
+            int edge = Constants.BLOCK_EDGE;
 
-            box = new NinePatch(atlas.findRegion(Constants.BOX_SPRITE), edge, edge, edge, edge);
-            breakableBox = new NinePatch(atlas.findRegion(Constants.BREAKABLE_BOX_SPRITE), 41, 16, 39, 15);
+            block = new NinePatch(atlas.findRegion(Constants.BLOCK_SPRITE), edge, edge, edge, edge);
+            box = new NinePatch(atlas.findRegion(Constants.BOX_SPRITE), 41, 16, 39, 15);
 
             pillar = atlas.findRegion(Constants.PILLAR_SPRITE);
             lift = atlas.findRegion(Constants.LIFT_SPRITE);
@@ -500,12 +500,11 @@ public final class Assets implements AssetErrorListener {
 
         public final NinePatch getNinePatch(Ground ground) {
             if (ground instanceof Box) {
-                return breakableBox;
+                return box;
             } else if (ground instanceof Block) {
-                return box;
-            } else {
-                return box;
+                return block;
             }
+            return block;
         }
     }
 
