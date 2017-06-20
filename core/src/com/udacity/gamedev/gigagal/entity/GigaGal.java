@@ -1180,14 +1180,14 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
             } else if (action == Action.STANDING) {
-                if (canPeer) {
-                    region = Assets.getInstance().getGigaGalAssets().lookbackRight;
-                } else if ((!(Helpers.secondsSince(standStartTime) < 1) &&
+                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
                       ((Helpers.secondsSince(standStartTime) % 10 < .15f)
                     || (Helpers.secondsSince(standStartTime) % 14 < .1f)
                     || (Helpers.secondsSince(standStartTime) % 15 < .25f)
                     || (Helpers.secondsSince(standStartTime) > 60)))) {
                     region = Assets.getInstance().getGigaGalAssets().blinkRight;
+                } else if (canPeer) {
+                    region = Assets.getInstance().getGigaGalAssets().lookbackRight;
                 } else {
                     region = Assets.getInstance().getGigaGalAssets().standRight;
                 }
@@ -1228,16 +1228,16 @@ public class GigaGal implements Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (action == Action.STANDING) {
-                if (canPeer) {
-                    region = Assets.getInstance().getGigaGalAssets().lookbackLeft;
-                } else if ((!(Helpers.secondsSince(standStartTime) < 1) &&
+                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
                   ((Helpers.secondsSince(standStartTime) % 20 < .15f)
                 || (Helpers.secondsSince(standStartTime) % 34 < .1f)
                 || (Helpers.secondsSince(standStartTime) % 35 < .25f)
                 || (Helpers.secondsSince(standStartTime) > 60)))) {
                     region = Assets.getInstance().getGigaGalAssets().blinkLeft;
+                } else if (canPeer) {
+                        region = Assets.getInstance().getGigaGalAssets().lookbackLeft;
                 } else {
-                    region = Assets.getInstance().getGigaGalAssets().standLeft;
+                        region = Assets.getInstance().getGigaGalAssets().standLeft;
                 }
             } else if (action == Action.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
