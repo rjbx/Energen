@@ -318,7 +318,8 @@ public class GigaGal implements Humanoid {
     }
 
     private void touchGroundSide(Ground ground) {
-        if (touchedGround == null || touchedGround.getTop() != ground.getTop() || touchedGround.equals(ground)) {
+        // ignores case where simultaneously touching two separate grounds with same top position to prevent interrupting stride
+        if (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.getTop() == ground.getTop())) {
             // if during previous frame was not, while currently is, between ground left and right sides
             if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
                 // only when not grounded and not recoiling
@@ -378,7 +379,7 @@ public class GigaGal implements Humanoid {
 
     private void touchGroundBottom(Ground ground) {
         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
-        if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom() + 1) {
+        if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom()) {
             velocity.y = 0; // prevents from ascending above ground bottom
             position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
             if (action != Action.CLIMBING) {
