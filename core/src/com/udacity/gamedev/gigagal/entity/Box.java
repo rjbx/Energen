@@ -12,12 +12,12 @@ public class Box extends Block implements Destructible {
     public final static String TAG = Box.class.getName();
 
     private float damage;
-    private boolean active;
+    private int hashCode;
 
     // ctor
     public Box(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
         super(xPos, yPos, width, height, type, dense);
-        active = true;
+        hashCode = hashCode();
         damage = 50;
     }
 
@@ -29,6 +29,17 @@ public class Box extends Block implements Destructible {
     public void render(SpriteBatch batch, Viewport viewport) {
         super.render(batch, viewport);
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Box) {
+            Box box = (Box) object;
+            return getTop() == box.getTop() && getBottom() == box.getBottom() && getLeft() == box.getLeft() && getRight() == box.getRight();
+        }
+        return false;
+    }
+    @Override public int hashCode() { return hashCode; }
+    public void setHashCode(int hashCode) { this.hashCode = hashCode; }
 
     // Getters
     @Override public float getTop() { return super.getTop(); }
@@ -44,5 +55,5 @@ public class Box extends Block implements Destructible {
     @Override public void setHealth(float damage) { this.damage = damage; }
     @Override public float getHealth() { return damage; }
     @Override public Enums.Material getType() { return super.getType(); }
-    @Override public Block clone() { return super.clone(); }
+    @Override public Box clone() { Box clone = new Box(getLeft(), getBottom(), getWidth(), getHeight(), getType(), super.isDense()); clone.setHealth(damage); clone.setHashCode(hashCode); return clone; }
 }
