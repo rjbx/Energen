@@ -21,13 +21,13 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
 
     private final Enums.Material type;
     private final Vector2 position; // class-level instantiation
-    private final int hashCode;
     private final float top;
     private final float bottom;
     private final float left;
     private final float right;
     private final float width;
     private final float height;
+    private int hashCode;
     private boolean dense;
     private boolean converted;
     private NinePatch ninePatch;
@@ -82,8 +82,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     @Override
     public boolean equals(Object object) {
         if (object instanceof Block) {
-            Block block = (Block) object;
-            return top == block.getTop() && bottom == block.getBottom() && left == block.getLeft() && right == block.getRight();
+            return this.hashCode() == object.hashCode();
         }
         return false;
     }
