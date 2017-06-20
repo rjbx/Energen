@@ -326,7 +326,15 @@ public class LevelUpdater {
         for (int i = 0; i < hazards.size; i++) {
             if (hazards.get(i) instanceof Destructible) {
                 Destructible destructible = (Destructible) hazards.get(i);
-                destructible.update(delta);
+                boolean canUpdate = true;
+                for (Hazard hazard : hazards) {
+                    if (Helpers.overlapsPhysicalObject(destructible, hazard)) {
+                        canUpdate = false;
+                    }
+                }
+                if (canUpdate) {
+                    destructible.update(delta);
+                }
                 projectiles.begin();
                 for (int j = 0; j < projectiles.size; j++) {
                     Ammo ammo = projectiles.get(j);
