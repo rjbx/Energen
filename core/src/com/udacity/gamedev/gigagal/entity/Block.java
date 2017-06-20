@@ -21,6 +21,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
 
     private final Enums.Material type;
     private final Vector2 position; // class-level instantiation
+    private final int hashCode;
     private final float top;
     private final float bottom;
     private final float left;
@@ -40,6 +41,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
         this.left = 0;
         this.right = 0;
         this.position = new Vector2();
+        this.hashCode = hashCode();
         this.type = Enums.Material.NATIVE;
         this.dense = true;
         converted = false;
@@ -77,6 +79,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     }
 
     // Getters
+    @Override
     public boolean equals(Object object) {
         if (object instanceof Block) {
             Block block = (Block) object;
@@ -84,6 +87,8 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
         }
         return false;
     }
+    @Override public int hashCode() { return hashCode; }
+    public void setHashCode(int hashCode) { this.hashCode = hashCode; }
     @Override public float getTop() { return top; }
     @Override public float getBottom() {return bottom; }
     @Override public float getLeft() { return left; }
@@ -95,7 +100,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     @Override public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
     @Override public void convert() { dense = !dense; converted = true; }
     @Override public boolean isConverted() { return converted; }
-    @Override public Block clone() { return new Block(left, bottom, width, height, type, dense); }
+    @Override public Block clone() { Block clone = new Block(left, bottom, width, height, type, dense); clone.setHashCode(hashCode); return clone; }
     public Enums.Material getType() { return type; }
     public Color getColor() { return ninePatch.getColor(); }
     private void setColor() {
