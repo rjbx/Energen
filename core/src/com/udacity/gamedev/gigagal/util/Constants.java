@@ -397,8 +397,6 @@ public final class Constants {
     // Rollen
     public static final float ROLLEN_TEXTURE_SCALE = 1.5f;
     public static final Vector2 ROLLEN_CENTER = new Vector2(12.5f * ROLLEN_TEXTURE_SCALE, 12.5f * ROLLEN_TEXTURE_SCALE);
-    public static final float ROLLEN_COLLISION_WIDTH = 25 * ROLLEN_TEXTURE_SCALE;
-    public static final float ROLLEN_COLLISION_HEIGHT = 25 * ROLLEN_TEXTURE_SCALE;
     public static final float ROLLEN_SHOT_RADIUS = 4 * ROLLEN_TEXTURE_SCALE;
     public static final float ROLLEN_MOVEMENT_SPEED = 75;
     public static final int ROLLEN_MAX_HEALTH = 60;
