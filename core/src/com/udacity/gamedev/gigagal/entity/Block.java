@@ -79,13 +79,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     }
 
     // Getters
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Block) {
-            return this.hashCode() == object.hashCode();
-        }
-        return false;
-    }
+    @Override public boolean equals(Object object) { return this.hashCode() == object.hashCode(); }
     @Override public int hashCode() { return hashCode; }
     public void setHashCode(int hashCode) { this.hashCode = hashCode; }
     @Override public float getTop() { return top; }
