@@ -101,9 +101,12 @@ public class GigaGal implements Humanoid {
     private InputControls inputControls;
 
     // ctor
-    private GigaGal() {}
+    private GigaGal() {
+    }
 
-    public static GigaGal getInstance() { return INSTANCE; }
+    public static GigaGal getInstance() {
+        return INSTANCE;
+    }
 
     public void create() {
         position = new Vector2();
@@ -302,10 +305,10 @@ public class GigaGal implements Humanoid {
                 // caution when crossing plane between ground top and minimum hover height / ground distance
                 // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
                 if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
-                    && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
-                    && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
-                    && rappelStartTime == 0 // only if have not rappeled since last grounded
-                    && !(ground instanceof Cannon)) { // only if ground is not instance of cannon
+                        && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
+                        && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
+                        && rappelStartTime == 0 // only if have not rappeled since last grounded
+                        && !(ground instanceof Cannon)) { // only if ground is not instance of cannon
                     canRappel = false; // disables rappel
                     canHover = false; // disables hover
                 }
@@ -362,8 +365,8 @@ public class GigaGal implements Humanoid {
                     canDash = false; // disable dash
                     position.x = previousFramePosition.x;
                 }
-            // reset position to ground side edge when both position and previous position overlap ground side edge and are between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
-            } else if (Helpers.betweenTwoValues(position.y, ground.getBottom(), ground.getTop())){
+                // reset position to ground side edge when both position and previous position overlap ground side edge and are between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
+            } else if (Helpers.betweenTwoValues(position.y, ground.getBottom(), ground.getTop())) {
                 if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
                     position.x = ground.getLeft() - getHalfWidth() - 1;
                 } else {
@@ -375,9 +378,9 @@ public class GigaGal implements Humanoid {
 
     private void touchGroundBottom(Ground ground) {
         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
-        if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom()) {
+        if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom() + 1) {
             velocity.y = 0; // prevents from ascending above ground bottom
-            position.y = previousFramePosition.y;  // sets gigagal at ground bottom
+            position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
             if (action != Action.CLIMBING) {
                 fall(); // descend from point of contact with ground bottom
             } else { // prevents from disengaging climb
@@ -388,64 +391,45 @@ public class GigaGal implements Humanoid {
                 groundState = GroundState.PLANTED;
             }
             canDash = false;
-        } else if (ground.isDense() && Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
-            if (position.y <= ground.getBottom() + ground.getHeight() / 2) {
-                position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS - 1;
-                fall();
-            }
         }
     }
 
     // applicable to all dense grounds as well as non-sinkables when not climbing downward
     private void touchGroundTop(Ground ground) {
         // if contact with ground top detected, halt downward progression and set gigagal atop ground
-        if (getTop() > ground.getTop() && !canRappel || (touchedGround != null && ground.getTop() != touchedGround.getTop())) {
-            if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
-
-                velocity.y = 0; // prevents from descending beneath ground top
-                position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
-
-                setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
-
-                // additional ground top collision instructions specific to certain types of grounds
-                if (ground instanceof Skateable) {
-                    if (groundState == GroundState.AIRBORNE) {
-                        stand(); // set groundstate to standing
-                        lookStartTime = 0;
-                    } else if (canClimb) {
-                        canCling = false;
-                    }
-                } else if (ground instanceof Hoverable) {
+        if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
+            velocity.y = 0; // prevents from descending beneath ground top
+            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+            setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
+            // additional ground top collision instructions specific to certain types of grounds
+            if (ground instanceof Skateable) {
+                if (groundState == GroundState.AIRBORNE) {
+                    stand(); // set groundstate to standing
                     lookStartTime = 0;
-                    Hoverable hoverable = (Hoverable) ground;
-                    Orientation orientation = hoverable.getOrientation();
-                    Direction direction = hoverable.getDirection();
-                    if (orientation == Orientation.X) {
-                        velocity.x = hoverable.getVelocity().x;
-                        position.x += velocity.x;
-                    }
-                    if (direction == Direction.DOWN) {
-                        position.y -= 1;
-                    }
-                } else if (ground instanceof Reboundable) {
-                    canClimb = false;
+                } else if (canClimb) {
                     canCling = false;
-                } else if (ground instanceof Unbearable) {
-                    canHover = false;
-                    Random xKnockback = new Random();
-                    velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
-                    recoil(velocity);
-                } else if (ground instanceof Destructible) {
-                    if (((Box) ground).getHealth() < 1) {
-                        fall();
-                    }
                 }
-            // reset when previous position is also below ground top
-            } else if (ground.isDense() && Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
-                if (position.y > ground.getBottom() + ground.getHeight() / 2) {
-                    position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT + 1;
-                    setAtopGround(ground);
-                    stand();
+            } else if (ground instanceof Hoverable) {
+                lookStartTime = 0;
+                Hoverable hoverable = (Hoverable) ground;
+                if (hoverable.getOrientation() == Orientation.X) {
+                    velocity.x = hoverable.getVelocity().x;
+                    position.x += velocity.x;
+                }
+                if (hoverable.getDirection() == Direction.DOWN) {
+                    position.y -= 1;
+                }
+            } else if (ground instanceof Reboundable) {
+                canClimb = false;
+                canCling = false;
+            } else if (ground instanceof Unbearable) {
+                canHover = false;
+                Random xKnockback = new Random();
+                velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
+                recoil(velocity);
+            } else if (ground instanceof Destructible) {
+                if (((Box) ground).getHealth() < 1) {
+                    fall();
                 }
             }
         }
