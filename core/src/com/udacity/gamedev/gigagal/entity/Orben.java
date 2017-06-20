@@ -106,31 +106,42 @@ public class Orben implements MultidirectionalX, MultidirectionalY, Destructible
         }
 
         if (active) {
-            switch (xDirection) {
-                case LEFT:
-                    velocity.x = -Constants.ORBEN_MOVEMENT_SPEED * delta;
-                    break;
-                case RIGHT:
-                    velocity.x = Constants.ORBEN_MOVEMENT_SPEED * delta;
-                    break;
-            }
-
-            switch (yDirection) {
-                case DOWN:
-                    velocity.y = -Constants.ORBEN_MOVEMENT_SPEED * delta;
-                    break;
-                case UP:
-                    velocity.y = Constants.ORBEN_MOVEMENT_SPEED * delta;
-                    break;
+            boolean canMove = true;
+            for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+                if (Helpers.overlapsPhysicalObject(this, hazard)) {
+                    canMove = false;
+                }
             }
 
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (ground.isDense()) {
-                    if (Helpers.overlapsBetweenFourSides(position, getWidth(), getHeight(), ground.getLeft(), ground.getRight(), ground.getBottom(), ground.getTop())) {
-                        velocity.setZero();
-                        position.set(previousFramePosition);
+                    if (Helpers.overlapsPhysicalObject(this, ground)) {
+                        canMove = false;
                     }
                 }
+            }
+
+            if (canMove) {
+                switch (xDirection) {
+                    case LEFT:
+                        velocity.x = -Constants.ORBEN_MOVEMENT_SPEED * delta;
+                        break;
+                    case RIGHT:
+                        velocity.x = Constants.ORBEN_MOVEMENT_SPEED * delta;
+                        break;
+                }
+
+                switch (yDirection) {
+                    case DOWN:
+                        velocity.y = -Constants.ORBEN_MOVEMENT_SPEED * delta;
+                        break;
+                    case UP:
+                        velocity.y = Constants.ORBEN_MOVEMENT_SPEED * delta;
+                        break;
+                }
+            } else {
+                velocity.setZero();
+                position.set(previousFramePosition);
             }
         }
     }
