@@ -272,7 +272,7 @@ public class GigaGal implements Humanoid {
                     touchGroundSide(ground);
                     touchGroundTop(ground);
 
-                } else if (touchedGround == null || !touchedGround.isDense()) { // for non-dense grounds:
+                } else if (touchedGround == null || !touchedGround.isDense()) { // for non-dense grounds (prevents overriding handling of simultaneously touched dense grounds i.e. for rappel position reset)
 
                     // additional ground collision instructions specific to certain types of grounds
                     if (ground instanceof Climbable) {
