@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -31,7 +32,6 @@ public class Rollen implements MultidirectionalX, Destructible, Hazard {
     private float speedAtChangeXDirection;
     private long rollStartTime;
     private float rollTimeSeconds;
-    private Array<Ground> grounds;
     private float radius;
     private Animation animation;
 
@@ -42,7 +42,6 @@ public class Rollen implements MultidirectionalX, Destructible, Hazard {
         this.position = position;
         previousFramePosition = new Vector2();
         velocity = new Vector2(0, 0);
-        grounds = level.getGrounds();
         radius = getWidth() / 2;
         health = Constants.ROLLEN_MAX_HEALTH;
         xDirection = null;
@@ -82,9 +81,12 @@ public class Rollen implements MultidirectionalX, Destructible, Hazard {
 
         boolean touchingSide = false;
         boolean touchingTop = false;
-        for (Ground ground : grounds) {
+        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (ground.isDense()) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
+                    if (ground instanceof Box) {
+                        Gdx.app.log(TAG, "health:" + ((Box) ground).getHealth() + " position: " + ground.getTop());
+                    }
                     if (!(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
                         touchingSide = true;
                         if (position.x < ground.getPosition().x) {
