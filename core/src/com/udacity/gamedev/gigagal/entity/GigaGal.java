@@ -272,11 +272,13 @@ public class GigaGal implements Humanoid {
                     touchGroundSide(ground);
                     touchGroundTop(ground);
 
-                } else if (touchedGround == null || !touchedGround.isDense()) { // for non-dense grounds (prevents overriding handling of simultaneously touched dense grounds i.e. for rappel position reset)
+                } else { // for non-dense grounds:
 
                     // additional ground collision instructions specific to certain types of grounds
                     if (ground instanceof Climbable) {
-                        if (!(touchedGround instanceof Skateable && groundState == GroundState.PLANTED)) {  // prevents from overwriting saved skateable and overriding ground physics
+                        if (!(touchedGround instanceof Skateable // prevents from overwriting handling of simultaneously touched skateable ground i.e. overriding ground physics
+                                || touchedGround instanceof Rappelable) // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset
+                            && groundState == GroundState.PLANTED) {
                             touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                         }
                         if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
