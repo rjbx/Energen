@@ -586,9 +586,9 @@ final class LevelLoader {
             blockArray.sort(new Comparator<Block>() {
                 @Override
                 public int compare(Block o1, Block o2) {
-                    if (o1.getTop() < o2.getTop()) {
+                    if (o1.getTop() > o2.getTop()) {
                         return 1;
-                    } else if (o1.getTop() > o2.getTop()) {
+                    } else if (o1.getTop() < o2.getTop()) {
                         return -1;
                     }
                     return 0;

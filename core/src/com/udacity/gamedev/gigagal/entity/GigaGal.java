@@ -273,7 +273,7 @@ public class GigaGal implements Humanoid {
                     touchGroundTop(ground);
 
                 } else { // for non-dense grounds:
-                    
+
                     // additional ground collision instructions specific to certain types of grounds
                     if (ground instanceof Climbable) {
                         if (!(touchedGround instanceof Skateable && groundState == GroundState.PLANTED)) {  // prevents from overwriting saved skateable and overriding ground physics
