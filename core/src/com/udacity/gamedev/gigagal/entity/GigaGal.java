@@ -272,7 +272,7 @@ public class GigaGal implements Humanoid {
                     touchGroundSide(ground);
                     touchGroundTop(ground);
 
-                } else { // for non-dense grounds:
+                } else if (touchedGround == null || !touchedGround.isDense()) { // for non-dense grounds:
 
                     // additional ground collision instructions specific to certain types of grounds
                     if (ground instanceof Climbable) {
@@ -298,7 +298,6 @@ public class GigaGal implements Humanoid {
                             touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                         }
                     }
-
                 }
                 // if below minimum ground distance while descending excluding post-rappel, disable rappel and hover
                 // caution when crossing plane between ground top and minimum hover height / ground distance
