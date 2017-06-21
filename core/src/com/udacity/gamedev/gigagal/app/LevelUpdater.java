@@ -280,8 +280,8 @@ public class LevelUpdater {
                             Assets.getInstance().getSoundAssets().hitGround.play();
                         }
                         if (ammo.isActive() &&
-                                (ground.isDense()
-                                || Helpers.betweenTwoValues(ammo.getPosition().y, ground.getTop() - 8, ground.getTop() + 8))) {
+                                (ground.isDense() // collides with all sides of dense ground
+                                || Helpers.betweenTwoValues(ammo.getPosition().y, ground.getTop() - 8, ground.getTop()))) { // collides only with top of dense ground
                             if (!ammo.getPosition().equals(Vector2.Zero)) {
                                 this.spawnImpact(ammo.getPosition(), ammo.getType());
                             }
