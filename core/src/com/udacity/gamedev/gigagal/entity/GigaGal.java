@@ -276,9 +276,8 @@ public class GigaGal implements Humanoid {
 
                     // additional ground collision instructions specific to certain types of grounds
                     if (ground instanceof Climbable) {
-                        if (!(touchedGround instanceof Skateable // prevents from overwriting handling of simultaneously touched skateable ground i.e. overriding ground physics
-                                || touchedGround instanceof Rappelable) // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset
-                            && groundState == GroundState.PLANTED) {
+                        if (!(groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overwriting handling of simultaneously touched skateable ground i.e. overriding ground physics
+                        && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
                             touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                         }
                         if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
