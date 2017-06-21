@@ -276,10 +276,19 @@ public class LevelUpdater {
                 for (int j = 0; j < projectiles.size; j++) {
                     Ammo ammo = projectiles.get(j);
                     if (Helpers.overlapsPhysicalObject(ammo, ground)) {
-                        Strikeable strikeable = (Strikeable) ground;
                         if (ammo.isFromGigagal()) {
                             Assets.getInstance().getSoundAssets().hitGround.play();
                         }
+                        if (ammo.isActive() &&
+                                (ground.isDense()
+                                || Helpers.betweenTwoValues(ammo.getPosition().y, ground.getTop() - 8, ground.getTop() + 8))) {
+                            if (!ammo.getPosition().equals(Vector2.Zero)) {
+                                this.spawnImpact(ammo.getPosition(), ammo.getType());
+                            }
+                            ammo.deactivate();
+                            projectiles.removeIndex(j);
+                        }
+                        Strikeable strikeable = (Strikeable) ground;
                         if (strikeable instanceof Tripknob) {
                             Tripknob tripknob = (Tripknob) strikeable;
                             tripknob.resetStartTime();
@@ -298,12 +307,6 @@ public class LevelUpdater {
                             Helpers.applyDamage((Destructible) ground, ammo);
                         } else if (strikeable instanceof Gate && ammo.getDirection() == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
                             ((Gate) strikeable).deactivate();
-                        }
-                        if (ammo.isActive() && (ground.isDense() || Helpers.betweenTwoValues(ammo.getPosition().y, ground.getPosition().y - 2, ground.getPosition().y + 2))) {
-                            if (!ammo.getPosition().equals(Vector2.Zero)) {
-                                this.spawnImpact(ammo.getPosition(), ammo.getType());
-                            }
-                            ammo.deactivate();
                         }
                     }
                 }
