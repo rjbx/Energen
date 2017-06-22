@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -140,8 +141,9 @@ public class Orben implements MultidirectionalX, MultidirectionalY, Destructible
                         break;
                 }
             } else {
-                velocity.setZero();
                 position.set(previousFramePosition);
+                velocity.x *= -1;
+                velocity.y *= -1;
             }
         }
     }
