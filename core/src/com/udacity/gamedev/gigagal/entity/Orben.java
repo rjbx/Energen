@@ -108,7 +108,7 @@ public class Orben implements MultidirectionalX, MultidirectionalY, Destructible
         if (active) {
             boolean canMove = true;
             for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
-                if (Helpers.overlapsPhysicalObject(this, hazard)) {
+                if (!hazard.equals(this) && Helpers.overlapsPhysicalObject(this, hazard)) {
                     canMove = false;
                 }
             }
