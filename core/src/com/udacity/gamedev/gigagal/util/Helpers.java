@@ -217,7 +217,7 @@ public final class Helpers {
     }
 
     public static final boolean overlapsPhysicalObject(Physical object1, Physical object2) {
-        return (object1.getLeft() <= object2.getRight() && object1.getRight() >= object2.getLeft() && object1.getBottom() <= object2.getTop() && object1.getTop() >= object2.getBottom());
+        return (object1 != object2 && object1.getLeft() <= object2.getRight() && object1.getRight() >= object2.getLeft() && object1.getBottom() <= object2.getTop() && object1.getTop() >= object2.getBottom());
     }
 
     public static final int useAmmo(Enums.ShotIntensity intensity) {
