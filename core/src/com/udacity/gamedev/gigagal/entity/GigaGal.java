@@ -862,12 +862,12 @@ public class GigaGal implements Humanoid {
         ammo -= ammoUsed * ammoMultiplier;
         if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
-                level.spawnAmmo(new Vector2(position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, directionX, Orientation.X), position.y + Constants.GIGAGAL_Y_CANNON_OFFSET.y), directionY, Orientation.Y, shotIntensity, weapon, true);
+                level.spawnAmmo(new Vector2(position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, directionX, Orientation.X) - 3.25f, position.y + Constants.GIGAGAL_Y_CANNON_OFFSET.y), directionY, Orientation.Y, shotIntensity, weapon, true);
             } else {
-                level.spawnAmmo(new Vector2(position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x - 3, directionX, Orientation.X), position.y - Constants.GIGAGAL_Y_CANNON_OFFSET.y - 8), directionY, Orientation.Y, shotIntensity, weapon, true);
+                level.spawnAmmo(new Vector2(position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x - 3, directionX, Orientation.X) - 3.5f, position.y - Constants.GIGAGAL_Y_CANNON_OFFSET.y - 3), directionY, Orientation.Y, shotIntensity, weapon, true);
             }
         } else {
-            level.spawnAmmo(new Vector2(position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_X_CANNON_OFFSET.x, directionX, Orientation.X), position.y + Constants.GIGAGAL_X_CANNON_OFFSET.y), directionX, Orientation.X, shotIntensity, weapon, true);
+            level.spawnAmmo(new Vector2(position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_X_CANNON_OFFSET.x, directionX, Orientation.X) + 2.5f, position.y + Constants.GIGAGAL_X_CANNON_OFFSET.y), directionX, Orientation.X, shotIntensity, weapon, true);
         }
     }
 
