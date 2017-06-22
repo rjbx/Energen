@@ -286,7 +286,6 @@ public class LevelUpdater {
                                 this.spawnImpact(ammo.getPosition(), ammo.getType());
                             }
                             ammo.deactivate();
-                            projectiles.removeIndex(j);
                         }
                         Strikeable strikeable = (Strikeable) ground;
                         if (strikeable instanceof Tripknob) {
