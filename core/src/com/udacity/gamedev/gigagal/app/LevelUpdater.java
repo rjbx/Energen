@@ -281,7 +281,7 @@ public class LevelUpdater {
                         }
                         if (ammo.isActive() &&
                                 (ground.isDense() // collides with all sides of dense ground
-                                || Helpers.overlapsBetweenTwoSides(ammo.getPosition().y,  ammo.getHeight() / 2, ground.getTop(), ground.getTop()))) { // collides only with top of non-dense ground
+                                || Helpers.overlapsBetweenTwoSides(ammo.getPosition().y,  ammo.getHeight() / 2, ground.getTop() - 3, ground.getTop()))) { // collides only with top of non-dense ground
                             if (!ammo.getPosition().equals(Vector2.Zero)) {
                                 this.spawnImpact(ammo.getPosition(), ammo.getType());
                             }
