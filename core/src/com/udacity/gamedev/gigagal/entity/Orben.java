@@ -107,22 +107,22 @@ public class Orben implements MultidirectionalX, MultidirectionalY, Destructible
         }
 
         if (active) {
-            boolean canMove = true;
+            boolean colliding = true;
             for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
-                    canMove = false;
+                    colliding = false;
                 }
             }
 
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (ground.isDense()) {
                     if (Helpers.overlapsPhysicalObject(this, ground)) {
-                        canMove = false;
+                        colliding = false;
                     }
                 }
             }
 
-            if (canMove) {
+            if (colliding) {
                 switch (xDirection) {
                     case LEFT:
                         velocity.x = -Constants.ORBEN_MOVEMENT_SPEED * delta;
@@ -151,10 +151,10 @@ public class Orben implements MultidirectionalX, MultidirectionalY, Destructible
     private void shoot() {
         float secondsSinceModOne = Helpers.secondsSince(this.getStartTime()) % 1;
         if ((secondsSinceModOne >= 0 && secondsSinceModOne < 0.01f) && this.isActive()) {
-            Vector2 ammoPositionLeft = new Vector2(this.getPosition().x - (this.getWidth() * 1.1f), this.getPosition().y);
-            Vector2 ammoPositionRight = new Vector2(this.getPosition().x + (this.getWidth() * 1.1f), this.getPosition().y);
-            Vector2 ammoPositionTop = new Vector2(this.getPosition().x, this.getPosition().y + (this.getHeight() * 1.1f));
-            Vector2 ammoPositionBottom = new Vector2(this.getPosition().x, this.getPosition().y - (this.getHeight() * 1.1f));
+            Vector2 ammoPositionLeft = new Vector2(this.getPosition().x - (this.getWidth() * 1.3f), this.getPosition().y);
+            Vector2 ammoPositionRight = new Vector2(this.getPosition().x + (this.getWidth() * 1.3f), this.getPosition().y);
+            Vector2 ammoPositionTop = new Vector2(this.getPosition().x, this.getPosition().y + (this.getHeight() * 1.3f));
+            Vector2 ammoPositionBottom = new Vector2(this.getPosition().x, this.getPosition().y - (this.getHeight() * 1.3f));
 
             LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, type, false);
             LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, type, false);

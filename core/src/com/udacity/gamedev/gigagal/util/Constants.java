@@ -567,8 +567,8 @@ public final class Constants {
     public static final int AMMO_SPECIALIZED_DAMAGE = 30;
     public static final int AMMO_WEAK_DAMAGE = 1;
     public static final float SHOT_FRAME_DURATION = 0.1f;
-    public static final float SHOT_RADIUS = 4;
-    public static final float BLAST_RADIUS = 9;
+    public static final float SHOT_RADIUS = 7;
+    public static final float BLAST_RADIUS = 12;
     public static final Vector2 SHOT_CENTER = new Vector2(SHOT_RADIUS, SHOT_RADIUS);
     public static final Vector2 BLAST_CENTER = new Vector2(BLAST_RADIUS, BLAST_RADIUS);
     public static final String SHOT_NATIVE_SPRITE_1 = "ammo-shot-native-1";
