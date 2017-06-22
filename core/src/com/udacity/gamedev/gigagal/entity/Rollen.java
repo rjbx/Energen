@@ -82,12 +82,14 @@ public class Rollen implements MultidirectionalX, Destructible, Hazard {
         boolean touchingSide = false;
         boolean touchingTop = false;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-            if (ground.isDense()) {
-                if (Helpers.overlapsPhysicalObject(this, ground)) {
-                    if (ground instanceof Box) {
-                        Gdx.app.log(TAG, "health:" + ((Box) ground).getHealth() + " position: " + ground.getTop());
-                    }
-                    if (!(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
+            if (Helpers.overlapsPhysicalObject(this, ground)) {
+                if (ground instanceof Box) {
+                    Gdx.app.log(TAG, "health:" + ((Box) ground).getHealth() + " position: " + ground.getTop());
+                }
+
+                if (ground.isDense()) {
+                    if (Helpers.overlapsBetweenTwoSides(position.x, radius, ground.getLeft(), ground.getRight())
+                            && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
                         touchingSide = true;
                         if (position.x < ground.getPosition().x) {
                             velocity.x -= 5;
@@ -95,9 +97,10 @@ public class Rollen implements MultidirectionalX, Destructible, Hazard {
                             velocity.x += 5;
                         }
                     }
-                    if (!(Helpers.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))) {
-                        touchingTop = true;
-                    }
+                }
+                if (Helpers.overlapsBetweenTwoSides(position.y, radius, ground.getBottom(), ground.getTop())
+                        && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))) {
+                    touchingTop = true;
                 }
             }
         }
