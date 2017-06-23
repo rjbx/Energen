@@ -164,6 +164,10 @@ public class LevelUpdater {
             for (Ground ground : grounds) {
                 if (ground instanceof Nonstatic) {
                     Nonstatic entity = (Nonstatic) ground;
+//                    if (entity instanceof Cannon) {
+//                        ((Cannon) entity).setStartTime(0);
+//                        Gdx.app.log(TAG, "" + ChaseCam.getInstance().getConvertBounds().size);
+//                    }
                     for (Rectangle convertBounds : ChaseCam.getInstance().getConvertBounds()) {
                         if (convertBounds.overlaps(new Rectangle(entity.getPosition().x, entity.getPosition().y, entity.getWidth(), entity.getHeight()))) {
                             entity.update(delta);
@@ -244,10 +248,6 @@ public class LevelUpdater {
                             if (g instanceof Convertible && g != trip) {
                                 if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                                     ((Convertible) g).convert();
-                                }
-                                if (g instanceof Cannon) {
-                                    ((Cannon) g).setStartTime(TimeUtils.nanoTime() + TimeUtils.millisToNanos(ChaseCam.getInstance().getConvertBounds().size * 3000));
-                                    Gdx.app.log(TAG, "" + ChaseCam.getInstance().getConvertBounds().size);
                                 }
                             }
                         }

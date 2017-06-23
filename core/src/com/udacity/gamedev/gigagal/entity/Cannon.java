@@ -48,11 +48,11 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
 
     public void update(float delta) {
         if (active) {
-            if (this.getOffset() == 0) {
-                offset += 1.25f;
+            if (this.getStartTime() == 0) {
+                offset += 2;
                 this.setStartTime(TimeUtils.nanoTime() + ((long) (this.getOffset() / MathUtils.nanoToSec)));
             }
-            if ((Helpers.secondsSince(this.getStartTime()) > 1.25f)) {
+            if ((Helpers.secondsSince(this.getStartTime()) > 2)) {
                 this.setStartTime(TimeUtils.nanoTime());
                 Enums.Orientation orientation = this.getOrientation();
                 if (orientation == Enums.Orientation.X) {
@@ -91,7 +91,7 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
     }
     @Override public final boolean isDense() { return true; }
     @Override public void convert() { active = !active; }
-    @Override public boolean isConverted() {  startTime = TimeUtils.nanoTime(); return active; }
+    @Override public boolean isConverted() {  return active; }
     @Override public Cannon clone() { Cannon clone = new Cannon(getPosition(), orientation, intensity, active);  super.setHashCode(hashCode()); return clone; }
     public final Enums.Orientation getOrientation() { return orientation; }
     public final Enums.ShotIntensity getIntensity() { return intensity; }
