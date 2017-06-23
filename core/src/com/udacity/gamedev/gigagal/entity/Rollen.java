@@ -1,11 +1,8 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
@@ -83,10 +80,6 @@ public class Rollen implements MultidirectionalX, Destructible, Hazard {
         boolean touchingTop = false;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (ground instanceof Box) {
-                    Gdx.app.log(TAG, "health:" + ((Box) ground).getHealth() + " position: " + ground.getTop());
-                }
-
                 if (ground.isDense()) {
                     if (Helpers.overlapsBetweenTwoSides(position.x, radius, ground.getLeft(), ground.getRight())
                             && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
@@ -104,7 +97,6 @@ public class Rollen implements MultidirectionalX, Destructible, Hazard {
                 }
             }
         }
-
 
         if (touchingTop) {
             velocity.y = 0;

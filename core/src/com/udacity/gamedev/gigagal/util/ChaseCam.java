@@ -87,6 +87,7 @@ public final class ChaseCam {
         batch.end();
     }
 
+    public final Array<Rectangle> getConvertBounds() { return convertBoundsArray; }
     public final void setConvertBounds(Rectangle convertBounds) { this.convertBoundsArray.add(convertBounds); }
     public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public final void setRoomPosition(Vector2 position) { roomPosition = position; }
