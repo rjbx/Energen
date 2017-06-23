@@ -19,7 +19,6 @@ import com.udacity.gamedev.gigagal.entity.Ground;
 import com.udacity.gamedev.gigagal.entity.Hazard;
 import com.udacity.gamedev.gigagal.entity.Impact;
 import com.udacity.gamedev.gigagal.entity.Nonstatic;
-import com.udacity.gamedev.gigagal.entity.Physical;
 import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Powerup;
@@ -102,7 +101,7 @@ public class LevelUpdater {
 
     protected void update(float delta) {
         if (continuing() && !paused()) {
-            updateAssets(delta);
+            updateEntities(delta);
         }
     }
 
@@ -156,7 +155,7 @@ public class LevelUpdater {
     }
 
     // asset handling
-    private void updateAssets(float delta) {
+    private void updateEntities(float delta) {
 
         if (ChaseCam.getInstance().getState() == Enums.ChaseCamState.CONVERT) {
             for (Object object : objects) {
