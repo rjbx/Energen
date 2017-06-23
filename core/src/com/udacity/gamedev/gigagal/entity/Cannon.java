@@ -89,7 +89,7 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
     }
     @Override public final boolean isDense() { return true; }
     @Override public void convert() { active = !active; }
-    @Override public boolean isConverted() { return active; }
+    @Override public boolean isConverted() {  startTime = TimeUtils.nanoTime(); return active; }
     @Override public Cannon clone() { Cannon clone = new Cannon(getPosition(), orientation, intensity, active);  super.setHashCode(hashCode()); return clone; }
     public final Enums.Orientation getOrientation() { return orientation; }
     public final Enums.ShotIntensity getIntensity() { return intensity; }
