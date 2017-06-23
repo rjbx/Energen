@@ -149,30 +149,28 @@ public final class Ammo implements Indestructible, Hazard {
     }
 
     public void update(float delta) {
-        if (active) {
-            float ammoSpeed = Constants.AMMO_MAX_SPEED;
-            if (!fromGigagal) {
-                ammoSpeed = Constants.AMMO_NORMAL_SPEED;
-            }
+        float ammoSpeed = Constants.AMMO_MAX_SPEED;
+        if (!fromGigagal) {
+            ammoSpeed = Constants.AMMO_NORMAL_SPEED;
+        }
 
-            if (orientation == Orientation.X) {
-                switch (direction) {
-                    case LEFT:
-                        position.x -= delta * ammoSpeed;
-                        break;
-                    case RIGHT:
-                        position.x += delta * ammoSpeed;
-                        break;
-                }
-            } else if (orientation == Orientation.Y) {
-                switch (direction) {
-                    case DOWN:
-                        position.y -= delta * ammoSpeed;
-                        break;
-                    case UP:
-                        position.y += delta * ammoSpeed;
-                        break;
-                }
+        if (orientation == Orientation.X) {
+            switch (direction) {
+                case LEFT:
+                    position.x -= delta * ammoSpeed;
+                    break;
+                case RIGHT:
+                    position.x += delta * ammoSpeed;
+                    break;
+            }
+        } else if (orientation == Orientation.Y) {
+            switch (direction) {
+                case DOWN:
+                    position.y -= delta * ammoSpeed;
+                    break;
+                case UP:
+                    position.y += delta * ammoSpeed;
+                    break;
             }
         }
 
