@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -46,11 +47,10 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
 
     public void update(float delta) {
         if (active) {
-            if (this.getOffset() == 0) {
-                offset += 0.25f;
-                this.setStartTime(TimeUtils.nanoTime() + ((long) (this.getOffset() / MathUtils.nanoToSec)));
+            if (startTime == 0) {
+                this.setStartTime(TimeUtils.nanoTime());
             }
-            if ((Helpers.secondsSince(this.getStartTime()) > 6.01f)) {
+            if ((Helpers.secondsSince(this.getStartTime()) > 1.25f)) {
                 this.setStartTime(TimeUtils.nanoTime());
                 Enums.Orientation orientation = this.getOrientation();
                 if (orientation == Enums.Orientation.X) {
@@ -89,12 +89,10 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
     }
     @Override public final boolean isDense() { return true; }
     @Override public void convert() { active = !active; }
-    @Override public boolean isConverted() {  startTime = TimeUtils.nanoTime(); return active; }
+    @Override public boolean isConverted() {  startTime = TimeUtils.nanoTime() + (ChaseCam.getInstance().getConvertBounds().size * 2 * TimeUtils.nanoTime()); return active; }
     @Override public Cannon clone() { Cannon clone = new Cannon(getPosition(), orientation, intensity, active);  super.setHashCode(hashCode()); return clone; }
     public final Enums.Orientation getOrientation() { return orientation; }
     public final Enums.ShotIntensity getIntensity() { return intensity; }
-    public final float getOffset() { return offset; }
-    public final void setOffset(float offset) { this.offset = offset; }
     public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
 }
