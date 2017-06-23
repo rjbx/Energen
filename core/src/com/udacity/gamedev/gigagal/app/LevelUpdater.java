@@ -1,15 +1,18 @@
 package com.udacity.gamedev.gigagal.app;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.Box;
+import com.udacity.gamedev.gigagal.entity.Cannon;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Chargeable;
 import com.udacity.gamedev.gigagal.entity.Convertible;
@@ -241,6 +244,10 @@ public class LevelUpdater {
                             if (g instanceof Convertible && g != trip) {
                                 if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                                     ((Convertible) g).convert();
+                                }
+                                if (g instanceof Cannon) {
+                                    ((Cannon) g).setStartTime(TimeUtils.nanoTime() + TimeUtils.millisToNanos(ChaseCam.getInstance().getConvertBounds().size * 3000));
+                                    Gdx.app.log(TAG, "" + ChaseCam.getInstance().getConvertBounds().size);
                                 }
                             }
                         }

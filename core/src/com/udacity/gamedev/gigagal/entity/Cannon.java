@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -47,8 +48,9 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
 
     public void update(float delta) {
         if (active) {
-            if (startTime == 0) {
-                this.setStartTime(TimeUtils.nanoTime());
+            if (this.getOffset() == 0) {
+                offset += 1.25f;
+                this.setStartTime(TimeUtils.nanoTime() + ((long) (this.getOffset() / MathUtils.nanoToSec)));
             }
             if ((Helpers.secondsSince(this.getStartTime()) > 1.25f)) {
                 this.setStartTime(TimeUtils.nanoTime());
@@ -88,11 +90,13 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
         return false;
     }
     @Override public final boolean isDense() { return true; }
-    @Override public void convert() { startTime = TimeUtils.nanoTime() + TimeUtils.millisToNanos(ChaseCam.getInstance().getConvertBounds().size * 2000); active = !active; }
-    @Override public boolean isConverted() {  return active; }
+    @Override public void convert() { active = !active; }
+    @Override public boolean isConverted() {  startTime = TimeUtils.nanoTime(); return active; }
     @Override public Cannon clone() { Cannon clone = new Cannon(getPosition(), orientation, intensity, active);  super.setHashCode(hashCode()); return clone; }
     public final Enums.Orientation getOrientation() { return orientation; }
     public final Enums.ShotIntensity getIntensity() { return intensity; }
+    public final void setOffset(float offset) { this.offset = offset; }
+    public final float getOffset() { return offset; }
     public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
 }
