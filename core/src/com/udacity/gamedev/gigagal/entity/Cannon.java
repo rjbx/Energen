@@ -50,7 +50,7 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
                 offset += 0.25f;
                 this.setStartTime(TimeUtils.nanoTime() + ((long) (this.getOffset() / MathUtils.nanoToSec)));
             }
-            if ((Helpers.secondsSince(this.getStartTime()) > 1.25f)) {
+            if ((Helpers.secondsSince(this.getStartTime()) > 6.01f)) {
                 this.setStartTime(TimeUtils.nanoTime());
                 Enums.Orientation orientation = this.getOrientation();
                 if (orientation == Enums.Orientation.X) {
