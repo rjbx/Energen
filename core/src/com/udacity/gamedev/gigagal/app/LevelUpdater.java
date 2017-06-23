@@ -158,9 +158,9 @@ public class LevelUpdater {
     private void updateEntities(float delta) {
 
         if (ChaseCam.getInstance().getState() == Enums.ChaseCamState.CONVERT) {
-            for (Object object : objects) {
-                if (object instanceof Nonstatic) {
-                    Nonstatic entity = (Nonstatic) object;
+            for (Ground ground : grounds) {
+                if (ground instanceof Nonstatic) {
+                    Nonstatic entity = (Nonstatic) ground;
                     for (Rectangle convertBounds : ChaseCam.getInstance().getConvertBounds()) {
                         if (convertBounds.overlaps(new Rectangle(entity.getPosition().x, entity.getPosition().y, entity.getWidth(), entity.getHeight()))) {
                             entity.update(delta);

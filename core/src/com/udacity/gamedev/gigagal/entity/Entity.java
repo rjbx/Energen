@@ -1,7 +1,7 @@
 package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.math.Vector2;
 
-public class Entity {
+public class Entity implements Physical {
 
     private int hashCode;
     private Vector2 position;
