@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.app;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.Box;
-import com.udacity.gamedev.gigagal.entity.Cannon;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Chargeable;
 import com.udacity.gamedev.gigagal.entity.Convertible;
@@ -173,47 +171,11 @@ public class LevelUpdater {
             time = Timer.getInstance().getNanos();
             GigaGal.getInstance().update(delta);
 
-            // Update Restore Points
+            // Update Transports
             transports.begin();
             for (int i = 0; i < transports.size; i++) {
-                Transport transport = transports.get(i);
-                if (GigaGal.getInstance().getPosition().dst(transports.get(i).getPosition()) < transport.getWidth() / 2 && InputControls.getInstance().upButtonPressed && InputControls.getInstance().jumpButtonJustPressed) {
-                    if (transport instanceof Portal) {
-                        int portalIndex = i;
-                        for (int j = 0; j <= i; j++) {
-                            if (!(transports.get(j) instanceof Portal)) {
-                                portalIndex++;
-                            }
-                        }
-                        Assets.getInstance().getSoundAssets().life.play();
-                        int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
-                        List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
-                        List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
-                        List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
-                        List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
-                        int restores = Integer.parseInt(allRestores.get(level));
-                        if (restores == 0) {
-                            allRestores.set(level, Integer.toString(portalIndex + 1));
-                        } else if (restores != (portalIndex + 1)) {
-                            allRestores.set(level, Integer.toString(3));
-                        }
-                        allTimes.set(level, Long.toString(time));
-                        allScores.set(level, Integer.toString(score));
-                        allRemovals.set(level, removedHazards);
-                        SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
-                        SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
-                        SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
-                        SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
-
-                        SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
-                        SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
-
-                        savedTime = time;
-                        savedScore = score;
-                    } else if (transport instanceof Teleport) {
-                        Assets.getInstance().getSoundAssets().warp.play();
-                        GigaGal.getInstance().getPosition().set(transport.getDestination());
-                    }
+                if (!updateTransport(delta, transports.get(i), i)) {
+                    transports.removeIndex(i);
                 }
             }
             transports.end();
@@ -230,36 +192,8 @@ public class LevelUpdater {
             // Update Hazards
             hazards.begin();
             for (int i = 0; i < hazards.size; i++) {
-                if (hazards.get(i) instanceof Destructible) {
-                    Destructible destructible = (Destructible) hazards.get(i);
-                    destructible.update(delta);
-                    projectiles.begin();
-                    for (int j = 0; j < projectiles.size; j++) {
-                        Ammo ammo = projectiles.get(j);
-                        if (ammo.isActive() && ammo.getPosition().dst(destructible.getPosition()) < (destructible.getShotRadius() + ammo.getRadius())) {
-                            this.spawnImpact(ammo.getPosition(), ammo.getType());
-                            Helpers.applyDamage(destructible, ammo);
-                            score += ammo.getHitScore();
-                            ammo.deactivate();
-                        }
-                    }
-                    projectiles.end();
-                    if (destructible.getHealth() < 1) {
-                        if (destructible instanceof Swoopa) {
-                            ((Swoopa) destructible).dispose();
-                        }
-                        spawnImpact(destructible.getPosition(), destructible.getType());
-                        hazards.removeIndex(i);
-                        removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
-                        score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
-                    }
-                } else if (hazards.get(i) instanceof Ammo) {
-                    Ammo ammo = (Ammo) hazards.get(i);
-                    ammo.update(delta);
-                    if (!ammo.isActive()) {
-                        hazards.removeValue(ammo, false);
-                        projectiles.removeValue(ammo, false);
-                    }
+                if (!updateHazard(delta, hazards.get(i))) {
+                    hazards.removeIndex(i);
                 }
             }
             hazards.end();
@@ -395,6 +329,84 @@ public class LevelUpdater {
             } else if (reboundable.getState()) {
                 reboundable.resetStartTime();
                 reboundable.setState(false);
+            }
+        }
+        return active;
+    }
+
+    public boolean updateHazard(float delta, Hazard hazard) {
+        boolean active = true;
+        if (hazards.get(i) instanceof Destructible) {
+            Destructible destructible = (Destructible) hazards.get(i);
+            destructible.update(delta);
+            projectiles.begin();
+            for (int j = 0; j < projectiles.size; j++) {
+                Ammo ammo = projectiles.get(j);
+                if (ammo.isActive() && ammo.getPosition().dst(destructible.getPosition()) < (destructible.getShotRadius() + ammo.getRadius())) {
+                    this.spawnImpact(ammo.getPosition(), ammo.getType());
+                    Helpers.applyDamage(destructible, ammo);
+                    score += ammo.getHitScore();
+                    ammo.deactivate();
+                }
+            }
+            projectiles.end();
+            if (destructible.getHealth() < 1) {
+                if (destructible instanceof Swoopa) {
+                    ((Swoopa) destructible).dispose();
+                }
+                spawnImpact(destructible.getPosition(), destructible.getType());
+                hazards.removeIndex(i);
+                removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
+                score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
+            }
+        } else if (hazards.get(i) instanceof Ammo) {
+            Ammo ammo = (Ammo) hazards.get(i);
+            ammo.update(delta);
+            if (!ammo.isActive()) {
+                active = false;
+                projectiles.removeValue(ammo, false);
+            }
+        }
+        return active;
+    }
+
+    public boolean updateTransport(float delta, Transport transport, int portalIndex) {
+        boolean active = true;
+        if (GigaGal.getInstance().getPosition().dst(transport.getPosition()) < transport.getWidth() / 2 && InputControls.getInstance().upButtonPressed && InputControls.getInstance().jumpButtonJustPressed) {
+            if (transport instanceof Portal) {
+                for (int j = 0; j <= portalIndex; j++) {
+                    if (!(transports.get(j) instanceof Portal)) {
+                        portalIndex++;
+                    }
+                }
+                Assets.getInstance().getSoundAssets().life.play();
+                int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
+                List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
+                List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
+                List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
+                List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
+                int restores = Integer.parseInt(allRestores.get(level));
+                if (restores == 0) {
+                    allRestores.set(level, Integer.toString(portalIndex + 1));
+                } else if (restores != (portalIndex + 1)) {
+                    allRestores.set(level, Integer.toString(3));
+                }
+                allTimes.set(level, Long.toString(time));
+                allScores.set(level, Integer.toString(score));
+                allRemovals.set(level, removedHazards);
+                SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
+                SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
+                SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
+                SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
+
+                SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
+                SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
+
+                savedTime = time;
+                savedScore = score;
+            } else if (transport instanceof Teleport) {
+                Assets.getInstance().getSoundAssets().warp.play();
+                GigaGal.getInstance().getPosition().set(transport.getDestination());
             }
         }
         return active;
