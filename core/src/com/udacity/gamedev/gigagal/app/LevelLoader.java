@@ -524,6 +524,7 @@ final class LevelLoader {
                 final Vector2 lavaPosition = imagePosition.add(Constants.LAVA_CENTER);
                 final Lava lava = new Lava(lavaPosition, scale, adjustedCenter);
                 level.addHazard(lava);
+                level.addGround(lava);
                 Gdx.app.log(TAG, "Loaded the lava at " + lavaPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WAVES_SPRITE_1)) {
                 Vector2 adjustedCenter = new Vector2(Constants.WAVES_CENTER.x * scale.x, Constants.WAVES_CENTER.y * scale.y);
