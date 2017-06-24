@@ -157,7 +157,9 @@ public class LevelUpdater {
     // asset handling
     private void updateEntities(float delta) {
         if (ChaseCam.getInstance().getState() == Enums.ChaseCamState.CONVERT) {
-            for (Ground ground : grounds) {
+            grounds.begin();
+            for (int i = 0; i < grounds.size; i++) {
+                Ground ground = grounds.get(i);
                 if (ground instanceof Nonstatic) {
                     for (Rectangle convertBounds : ChaseCam.getInstance().getConvertBounds()) {
                         if (convertBounds.overlaps(new Rectangle(ground.getPosition().x, ground.getPosition().y, ground.getWidth(), ground.getHeight()))) {
@@ -166,6 +168,7 @@ public class LevelUpdater {
                     }
                 }
             }
+            grounds.end();
         } else {
             time = Timer.getInstance().getNanos();
             GigaGal.getInstance().update(delta);
