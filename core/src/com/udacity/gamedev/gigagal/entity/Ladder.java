@@ -7,7 +7,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Ladder implements Climbable, Ground {
+public class Ladder extends Ground implements Climbable {
 
     // fields
     public final static String TAG = Ladder.class.getName();
@@ -44,15 +44,6 @@ public class Ladder implements Climbable, Ground {
         Helpers.drawNinePatch(batch, viewport, Assets.getInstance().getGroundAssets().ladderNinePatch, left - 1, bottom - 1, width, height);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Ladder) {
-            Ladder ladder = (Ladder) object;
-            return getTop() == ladder.getTop() && getBottom() == ladder.getBottom() && getLeft() == ladder.getLeft() && getRight() == ladder.getRight();
-        }
-        return false;
-    }
-
     // Getters
     @Override public float getTop() { return top; }
     @Override public float getBottom() {return bottom; }
@@ -62,5 +53,4 @@ public class Ladder implements Climbable, Ground {
     @Override public float getWidth() { return right - left;}
     @Override public float getHeight() { return top - bottom; }
     @Override public final boolean isDense() { return false; }
-    @Override public Ladder clone() { return new Ladder(left, top, width, height); }
 }

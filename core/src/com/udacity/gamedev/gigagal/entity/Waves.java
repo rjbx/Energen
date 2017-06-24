@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Waves implements Indestructible, Hazard, Sinkable, Ground {
+public class Waves extends Ground implements Indestructible, Hazard, Sinkable {
 
     // fields
     public final static String TAG = Waves.class.getName();
@@ -34,16 +34,6 @@ public class Waves implements Indestructible, Hazard, Sinkable, Ground {
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }
-
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Waves) {
-            Waves waves = (Waves) object;
-            return getTop() == waves.getTop() && getBottom() == waves.getBottom() && getLeft() == waves.getLeft() && getRight() == waves.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.WAVES_CENTER.y * 2 * scale.y; }
     @Override public final float getWidth() { return Constants.WAVES_CENTER.x * 2 * scale.x; }
@@ -55,5 +45,4 @@ public class Waves implements Indestructible, Hazard, Sinkable, Ground {
     @Override public final Vector2 getKnockback() { return Constants.WAVES_KNOCKBACK; }
     @Override public final int getDamage() { return Constants.WAVES_DAMAGE; }
     @Override public final boolean isDense() { return false; }
-    @Override public Waves clone() { return new Waves(position, scale, adjustedCenter); }
 }

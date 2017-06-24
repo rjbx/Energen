@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Spring implements Reboundable, Ground {
+public class Spring extends Ground implements Reboundable {
 
     // fields
     public final static String TAG = Spring.class.getName();
@@ -16,14 +16,12 @@ public class Spring implements Reboundable, Ground {
     private Vector2 position;
     private long startTime;
     private boolean isLoaded;
-    private long cloneHashCode;
 
     // ctor
     public Spring(Vector2 position) {
         this.position = position;
         startTime = 0;
         isLoaded = false;
-        cloneHashCode = hashCode();
     }
 
     @Override
@@ -44,15 +42,6 @@ public class Spring implements Reboundable, Ground {
         }
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Spring) {
-            Spring spring = (Spring) object;
-            return getTop() == spring.getTop() && getBottom() == spring.getBottom() && getLeft() == spring.getLeft() && getRight() == spring.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.SPRING_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.SPRING_CENTER.x * 2; }
@@ -66,5 +55,4 @@ public class Spring implements Reboundable, Ground {
     @Override public final void setState(boolean state) { this.isLoaded = state; }
     @Override public final boolean getState() { return isLoaded; }
     @Override public final void resetStartTime() { this.startTime = 0; }
-    @Override public Spring clone() { Spring clone = new Spring(position); clone.cloneHashCode = this.hashCode(); return clone; }
 }

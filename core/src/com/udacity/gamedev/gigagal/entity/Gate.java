@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Gate implements Strikeable, Nonstatic, Ground {
+public class Gate extends Ground implements Strikeable, Nonstatic {
 
     // fields
     public final static String TAG = Gate.class.getName();
@@ -59,19 +59,8 @@ public class Gate implements Strikeable, Nonstatic, Ground {
         }
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Gate) {
-            Gate gate = (Gate) object;
-            return getTop() == gate.getTop() && getBottom() == gate.getBottom() && getLeft() == gate.getLeft() && getRight() == gate.getRight();
-        }
-        return false;
-    }
     public final boolean isActive() { return active; }
     public void deactivate() { active = false; }
-    private void setState(boolean state) { active = state; }
-    public void setDensity(boolean dense) { this.dense = dense; }
-    private void setStartTime(long startTime) { this.startTime = startTime; }
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.GATE_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.GATE_CENTER.x * 2; }
@@ -79,6 +68,4 @@ public class Gate implements Strikeable, Nonstatic, Ground {
     @Override public final float getRight() { return position.x + Constants.GATE_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.GATE_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.GATE_CENTER.y; }
-    @Override public final boolean isDense() { return dense; }
-    @Override public Gate clone() { Gate clone = new Gate(position); clone.setDensity(isDense()); clone.setState(active); clone.setStartTime(startTime); return clone; }
-}
+    @Override public final boolean isDense() { return dense; }}

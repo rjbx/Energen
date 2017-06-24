@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Knob implements Climbable, Ground {
+public class Knob extends Ground implements Climbable {
 
 
     // fields
@@ -28,15 +28,6 @@ public class Knob implements Climbable, Ground {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().knob.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.KNOB_CENTER);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Knob) {
-            Knob knob = (Knob) object;
-            return getTop() == knob.getTop() && getBottom() == knob.getBottom() && getLeft() == knob.getLeft() && getRight() == knob.getRight();
-        }
-        return false;
-    }
-    
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.KNOB_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.KNOB_CENTER.x * 2; }
@@ -45,5 +36,4 @@ public class Knob implements Climbable, Ground {
     @Override public final float getTop() { return position.y + Constants.KNOB_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.KNOB_CENTER.y; }
     @Override public final boolean isDense() { return false; }
-    @Override public Knob clone() { return new Knob(position); }
 }

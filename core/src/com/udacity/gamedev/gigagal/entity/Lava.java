@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Lava implements Indestructible, Hazard, Sinkable, Ground {
+public class Lava extends Ground implements Indestructible, Hazard, Sinkable {
 
     // fields
     public final static String TAG = Lava.class.getName();
@@ -35,15 +35,6 @@ public class Lava implements Indestructible, Hazard, Sinkable, Ground {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Lava) {
-            Lava lava = (Lava) object;
-            return getTop() == lava.getTop() && getBottom() == lava.getBottom() && getLeft() == lava.getLeft() && getRight() == lava.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.LAVA_CENTER.y * 2 * scale.y; }
     @Override public final float getWidth() { return Constants.LAVA_CENTER.x * 2 * scale.x; }
@@ -55,5 +46,4 @@ public class Lava implements Indestructible, Hazard, Sinkable, Ground {
     @Override public final Vector2 getKnockback() { return Constants.LAVA_KNOCKBACK; }
     @Override public final int getDamage() { return Constants.LAVA_DAMAGE; }
     @Override public final boolean isDense() { return false; }
-    @Override public Lava clone() { return new Lava(position, scale, adjustedCenter); }
 }

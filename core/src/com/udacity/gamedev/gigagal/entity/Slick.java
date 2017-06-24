@@ -30,16 +30,6 @@ public class Slick extends Ground implements Rappelable, Hurdleable, Skateable {
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().slick.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }
-
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Slick) {
-            Slick slick = (Slick) object;
-            return getTop() == slick.getTop() && getBottom() == slick.getBottom() && getLeft() == slick.getLeft() && getRight() == slick.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.SLICK_CENTER.y * 2 * scale.y; }
     @Override public final float getWidth() { return Constants.SLICK_CENTER.x * 2 * scale.x; }
@@ -48,5 +38,4 @@ public class Slick extends Ground implements Rappelable, Hurdleable, Skateable {
     @Override public final float getTop() { return position.y + Constants.SLICK_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.SLICK_CENTER.y * scale.y; }
     @Override public final boolean isDense() { return getHeight() > Constants.MAX_LEDGE_HEIGHT; }
-    @Override public Slick clone() { return new Slick(position, scale, adjustedCenter); }
 }

@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Treadmill implements Rideable, Convertible, Ground {
+public class Treadmill extends Ground implements Rideable, Convertible {
 
     // fields
     public final static String TAG = Treadmill.class.getName();
@@ -48,15 +48,6 @@ public class Treadmill implements Rideable, Convertible, Ground {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Treadmill) {
-            Treadmill treadmill = (Treadmill) object;
-            return getTop() == treadmill.getTop() && getBottom() == treadmill.getBottom() && getLeft() == treadmill.getLeft() && getRight() == treadmill.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.TREADMILL_CENTER.y * 2 * scale.y; }
     @Override public final float getWidth() { return Constants.TREADMILL_CENTER.x * 2 * scale.x; }
@@ -66,7 +57,6 @@ public class Treadmill implements Rideable, Convertible, Ground {
     @Override public final float getBottom() { return position.y - Constants.TREADMILL_CENTER.y * scale.y; }
     @Override public final boolean isDense() { return true; }
     @Override public final Enums.Direction getDirection() { return direction; }
-    @Override public Treadmill clone() { return new Treadmill(position, scale, adjustedCenter, direction); }
     @Override public void convert() { tripped = !tripped; direction = Helpers.getOppositeDirection(direction); }
     @Override public boolean isConverted() { return tripped; }
 }

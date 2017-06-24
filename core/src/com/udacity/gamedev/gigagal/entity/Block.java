@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,7 +12,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 
 
 // mutable
-public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, Expanse {
+public class Block extends Ground implements Rappelable, Hurdleable, Strikeable, Convertible {
 
     // fields
     public final static String TAG = Block.class.getName();
@@ -85,7 +84,7 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     @Override public float getWidth() { return width;}
     @Override public float getHeight() { return height; }
     @Override public Vector2 getPosition() { return position; }
-    @Override public void setDensity(boolean state) { dense = state; }
+    public void setDensity(boolean state) { dense = state; }
     @Override public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
     @Override public void convert() { dense = !dense; converted = true; }
     @Override public boolean isConverted() { return converted; }

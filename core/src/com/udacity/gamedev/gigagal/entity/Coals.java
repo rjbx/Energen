@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Coals implements Unbearable, Ground {
+public class Coals extends Ground implements Unbearable {
 
     // fields
     public final static String TAG = Coals.class.getName();
@@ -34,15 +34,6 @@ public class Coals implements Unbearable, Ground {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Coals) {
-            Coals coals = (Coals) object;
-            return getTop() == coals.getTop() && getBottom() == coals.getBottom() && getLeft() == coals.getLeft() && getRight() == coals.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.COALS_CENTER.y * 2 * scale.y; }
     @Override public final float getWidth() { return Constants.COALS_CENTER.x * 2 * scale.x; }
@@ -51,5 +42,4 @@ public class Coals implements Unbearable, Ground {
     @Override public final float getTop() { return position.y + Constants.COALS_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.COALS_CENTER.y * scale.y; }
     @Override public final boolean isDense() { return true; }
-    @Override public Coals clone() { return new Coals(position, scale, adjustedCenter); }
 }

@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Triptread implements Trippable, Convertible, Rideable, Ground {
+public class Triptread extends Ground implements Trippable, Convertible, Rideable {
 
     // fields
     public final static String TAG = Triptread.class.getName();
@@ -71,5 +71,4 @@ public class Triptread implements Trippable, Convertible, Rideable, Ground {
     @Override public boolean maxAdjustmentsReached() { return adjustments >= 2; }
     @Override public boolean tripped() { return previousState != state; }
     @Override public final Enums.Direction getDirection() { return direction; }
-    @Override public Triptread clone() { return new Triptread(level, position, bounds, state, direction); }
 }

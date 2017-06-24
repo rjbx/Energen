@@ -7,7 +7,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Pillar implements Climbable, Ground {
+public class Pillar extends Ground implements Climbable {
 
     // fields
     public final static String TAG = Pillar.class.getName();
@@ -24,15 +24,6 @@ public class Pillar implements Climbable, Ground {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().pillar, position, Constants.PILLAR_CENTER);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Pillar) {
-            Pillar pillar = (Pillar) object;
-            return getTop() == pillar.getTop() && getBottom() == pillar.getBottom() && getLeft() == pillar.getLeft() && getRight() == pillar.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.PILLAR_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.PILLAR_CENTER.x * 2; }
@@ -41,5 +32,4 @@ public class Pillar implements Climbable, Ground {
     @Override public final float getTop() { return position.y + Constants.PILLAR_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.PILLAR_CENTER.y; }
     @Override public final boolean isDense() { return false; }
-    @Override public Pillar clone() { return new Pillar(position); }
 }

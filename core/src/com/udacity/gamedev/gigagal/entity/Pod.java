@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Pod implements Reboundable, Ground {
+public class Pod extends Ground implements Reboundable {
 
     // fields
     public final static String TAG = Pod.class.getName();
@@ -36,15 +36,6 @@ public class Pod implements Reboundable, Ground {
         }
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Pod) {
-            Pod pod = (Pod) object;
-            return getTop() == pod.getTop() && getBottom() == pod.getBottom() && getLeft() == pod.getLeft() && getRight() == pod.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.POD_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.POD_CENTER.x * 2; }
@@ -57,5 +48,4 @@ public class Pod implements Reboundable, Ground {
     @Override public final void setState(boolean state) { this.isActive = state; }
     @Override public final boolean getState() { return isActive; }
     @Override public final void resetStartTime() { this.startTime = 0; }
-    @Override public Pod clone() { return new Pod(position); }
 }

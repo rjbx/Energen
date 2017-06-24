@@ -27,15 +27,6 @@ public class Sink extends Ground implements Sinkable {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().sink.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.SINK_CENTER);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Sink) {
-            Sink sink = (Sink) object;
-            return getTop() == sink.getTop() && getBottom() == sink.getBottom() && getLeft() == sink.getLeft() && getRight() == sink.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.SINK_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.SINK_CENTER.x * 2; }
@@ -44,5 +35,4 @@ public class Sink extends Ground implements Sinkable {
     @Override public final float getTop() { return position.y + Constants.SINK_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SINK_CENTER.y; }
     @Override public final boolean isDense() { return false; }
-    @Override public Sink clone() { return new Sink(position); }
 }

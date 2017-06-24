@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeable, Ground {
+public class Tripchamber extends Ground implements Trippable, Convertible, Chargeable, Strikeable {
 
     // fields
     public final static String TAG = Tripchamber.class.getName();
@@ -63,15 +63,6 @@ public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeab
         }
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Tripchamber) {
-            Tripchamber tripchamber = (Tripchamber) object;
-            return getTop() == tripchamber.getTop() && getBottom() == tripchamber.getBottom() && getLeft() == tripchamber.getLeft() && getRight() == tripchamber.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.TRIPCHAMBER_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.TRIPCHAMBER_CENTER.x * 2; }
@@ -94,5 +85,4 @@ public class Tripchamber implements Trippable, Convertible, Chargeable, Strikeab
     @Override public Rectangle getBounds() { return bounds; }
     @Override public void addCamAdjustment() { this.adjustments++; }
     @Override public boolean maxAdjustmentsReached() { return adjustments >= 2; }
-    @Override public Tripchamber clone() { return new Tripchamber(level, position, bounds, active); }
 }

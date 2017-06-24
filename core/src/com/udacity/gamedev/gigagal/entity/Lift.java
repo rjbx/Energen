@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Lift implements Hoverable, Convertible, Ground {
+public class Lift extends Ground implements Hoverable, Convertible {
 
     // fields
     public final static String TAG = Lift.class.getName();
@@ -75,15 +75,6 @@ public class Lift implements Hoverable, Convertible, Ground {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (object instanceof Lift) {
-            Lift lift = (Lift) object;
-            return getTop() == lift.getTop() && getBottom() == lift.getBottom() && getLeft() == lift.getLeft() && getRight() == lift.getRight();
-        }
-        return false;
-    }
-
-    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().lift, position, Constants.LIFT_CENTER);
     }
@@ -104,7 +95,6 @@ public class Lift implements Hoverable, Convertible, Ground {
     @Override public final boolean isDense() { return false; }
     @Override public void convert() { converted = !converted; position.set(startPosition); setOrientation(Helpers.getOppositeOrientation(orientation)); }
     @Override public boolean isConverted() { return converted; }
-    @Override public Lift clone() { Lift lift = new Lift(startPosition, orientation, range); lift.setPosition(position); lift.setVelocity(velocity); lift.setDirection(direction); return lift; }
     public final void setRange(float range) { this.range = range; }
     private void setOrientation(Enums.Orientation orientation) {
         this.orientation = orientation;

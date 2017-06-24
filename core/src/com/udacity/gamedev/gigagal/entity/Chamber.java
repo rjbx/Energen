@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Chamber implements Chargeable, Strikeable, Ground {
+public class Chamber extends Ground implements Chargeable, Strikeable {
 
     // fields
     public final static String TAG = Chamber.class.getName();
@@ -41,16 +41,6 @@ public class Chamber implements Chargeable, Strikeable, Ground {
             chargeTimeSeconds = 0;
         }
     }
-
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Chamber) {
-            Chamber chamber = (Chamber) object;
-            return getTop() == chamber.getTop() && getBottom() == chamber.getBottom() && getLeft() == chamber.getLeft() && getRight() == chamber.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.CHAMBER_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.CHAMBER_CENTER.x * 2; }
@@ -67,6 +57,4 @@ public class Chamber implements Chargeable, Strikeable, Ground {
     @Override public final void setChargeTime(float chargeTimeSeconds) { this.chargeTimeSeconds = chargeTimeSeconds; }
     public void setUpgrade(Enums.Upgrade type) { this.type = type; }
     public Enums.Upgrade getUpgrade() { return type; }
-
-    @Override public Chamber clone() { return new Chamber(position); }
 }

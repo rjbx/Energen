@@ -7,7 +7,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Rope implements Climbable, Ground {
+public class Rope extends Ground implements Climbable {
 
     // fields
     public final static String TAG = Rope.class.getName();
@@ -24,15 +24,6 @@ public class Rope implements Climbable, Ground {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().rope, position, Constants.ROPE_CENTER);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Rope) {
-            Rope rope = (Rope) object;
-            return getTop() == rope.getTop() && getBottom() == rope.getBottom() && getLeft() == rope.getLeft() && getRight() == rope.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.ROPE_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.ROPE_CENTER.x * 2; }
@@ -41,5 +32,4 @@ public class Rope implements Climbable, Ground {
     @Override public final float getTop() { return position.y + Constants.ROPE_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.ROPE_CENTER.y; }
     @Override public final boolean isDense() { return false; }
-    @Override public Rope clone() { return new Rope(position); }
 }

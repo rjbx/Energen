@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // class name avoids confusion with existing button assets and constants
-public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
+public class Tripknob extends Ground implements Trippable, Convertible, Strikeable {
 
     // fields
     public final static String TAG = Tripknob.class.getName();
@@ -74,15 +74,6 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
         }
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Tripknob) {
-            Tripknob tripknob = (Tripknob) object;
-            return getTop() == tripknob.getTop() && getBottom() == tripknob.getBottom() && getLeft() == tripknob.getLeft() && getRight() == tripknob.getRight();
-        }
-        return false;
-    }
-    
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.TRIPKNOB_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.TRIPKNOB_CENTER.x * 2; }
@@ -101,5 +92,4 @@ public class Tripknob implements Trippable, Convertible, Strikeable, Ground {
     @Override public void addCamAdjustment() { adjustments++; }
     @Override public boolean maxAdjustmentsReached() { return adjustments > 2; }
     @Override public boolean tripped() { return previousState != state; }
-    @Override public Tripknob clone() { return new Tripknob(level, position, bounds, rotation, state); }
 }

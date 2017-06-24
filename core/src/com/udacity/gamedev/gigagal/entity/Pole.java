@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Pole implements Climbable, Ground {
+public class Pole extends Ground implements Climbable {
 
     // fields
     public final static String TAG = Pole.class.getName();
@@ -28,15 +28,6 @@ public class Pole implements Climbable, Ground {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().pole.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.POLE_CENTER);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Pole) {
-            Pole pole = (Pole) object;
-            return getTop() == pole.getTop() && getBottom() == pole.getBottom() && getLeft() == pole.getLeft() && getRight() == pole.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.POLE_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.POLE_CENTER.x * 2; }
@@ -45,5 +36,4 @@ public class Pole implements Climbable, Ground {
     @Override public final float getTop() { return position.y + Constants.POLE_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.POLE_CENTER.y; }
     @Override public final boolean isDense() { return false; }
-    @Override public Pole clone() { return new Pole(position); }
 }

@@ -7,7 +7,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Vines implements Climbable, Ground {
+public class Vines extends Ground implements Climbable {
 
     // fields
     public final static String TAG = Vines.class.getName();
@@ -28,15 +28,6 @@ public class Vines implements Climbable, Ground {
         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().vines, position, adjustedCenter, scale);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Vines) {
-            Vines vines = (Vines) object;
-            return getTop() == vines.getTop() && getBottom() == vines.getBottom() && getLeft() == vines.getLeft() && getRight() == vines.getRight();
-        }
-        return false;
-    }
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.VINES_CENTER.y * 2 * scale.y; }
     @Override public final float getWidth() { return Constants.VINES_CENTER.x * 2 * scale.x; }
@@ -45,5 +36,4 @@ public class Vines implements Climbable, Ground {
     @Override public final float getTop() { return position.y + Constants.VINES_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.VINES_CENTER.y * scale.y; }
     @Override public final boolean isDense() { return false; }
-    @Override public Vines clone() { return new Vines(position, scale, adjustedCenter); }
 }

@@ -14,11 +14,12 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible, Ground {
+public class Cannon extends Ground implements Nonstatic, Rappelable, Convertible {
 
     // fields
     public final static String TAG = Cannon.class.getName();
-
+    private Vector2 position;
+    private Vector2 center;
     private Enums.Orientation orientation;
     private Enums.ShotIntensity intensity;
     private TextureRegion region;
@@ -27,7 +28,7 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
 
     // ctor
     public Cannon(Vector2 position, Enums.Orientation orientation, Enums.ShotIntensity intensity, boolean active) {
-        super(position);
+        this.position = position;
         this.orientation = orientation;
         this.intensity = intensity;
         startTime = 0;
@@ -35,11 +36,11 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
         switch (orientation) {
             case Y:
                 region = Assets.getInstance().getGroundAssets().yCannon;
-                super.setCenter(Constants.Y_CANNON_CENTER);
+                center = Constants.Y_CANNON_CENTER;
                 break;
             case X:
                 region = Assets.getInstance().getGroundAssets().xCannon;
-                super.setCenter(Constants.X_CANNON_CENTER);
+                center = Constants.X_CANNON_CENTER;
                 break;
         }
     }
@@ -78,18 +79,17 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
         Helpers.drawTextureRegion(batch, viewport, region, getPosition(), getCenter());
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Cannon) {
-            Cannon cannon = (Cannon) object;
-            return getTop() == cannon.getTop() && getBottom() == cannon.getBottom() && getLeft() == cannon.getLeft() && getRight() == cannon.getRight();
-        }
-        return false;
-    }
+    public final Vector2 getPosition() { return position; }
+    public final Vector2 getCenter() { return center; }
+    public final float getWidth() { return center.x * 2; }
+    public final float getHeight() { return center.y * 2; }
+    public final float getLeft() { return position.x - center.x; }
+    public final float getRight() { return position.x + center.x; }
+    public final float getTop() { return position.y + center.y; }
+    public final float getBottom() { return position.y - center.y; }
     @Override public final boolean isDense() { return true; }
     @Override public void convert() { active = !active; }
     @Override public boolean isConverted() {  return active; }
-    @Override public Cannon clone() { Cannon clone = new Cannon(getPosition(), orientation, intensity, active);  super.setHashCode(hashCode()); return clone; }
     public final Enums.Orientation getOrientation() { return orientation; }
     public final Enums.ShotIntensity getIntensity() { return intensity; }
     public final long getStartTime() { return startTime; }
