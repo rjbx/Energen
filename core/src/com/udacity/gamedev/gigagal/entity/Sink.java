@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Sink implements Sinkable, Ground {
+public class Sink extends Ground implements Sinkable {
 
     // fields
     public final static String TAG = Sink.class.getName();

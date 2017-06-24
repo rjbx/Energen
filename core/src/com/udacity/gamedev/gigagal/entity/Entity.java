@@ -1,32 +1,28 @@
 package com.udacity.gamedev.gigagal.entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
-public class Entity {
+public abstract class Entity implements Physical, Cloneable {
 
-    private int hashCode;
-    private Vector2 position;
-    private Vector2 center;
+    public static final String TAG = Entity.class.toString();
 
     // default ctor
-    private Entity() {}
+    public Entity() {}
 
-    public Entity(Vector2 position) {
-        this.position = position;
-        this.center = new Vector2();
-        this.hashCode = hashCode();
+    public abstract Vector2 getPosition();
+    public abstract float getWidth();
+    public abstract float getHeight();
+    public abstract float getLeft();
+    public abstract float getRight();
+    public abstract float getTop();
+    public abstract float getBottom();
+    @Override public Entity clone() {
+        try {
+            Entity clone = (Entity) super.clone();
+            Gdx.app.log(TAG, "this: " + hashCode() + "; clone: " + clone.hashCode());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new AssertionError();
+        }
     }
-
-    public final Vector2 getPosition() { return position; }
-    public final Vector2 getCenter() { return center; }
-    public final float getWidth() { return center.x * 2; }
-    public final float getHeight() { return center.y * 2; }
-    public final float getLeft() { return position.x - center.x; }
-    public final float getRight() { return position.x + center.x; }
-    public final float getTop() { return position.y + center.y; }
-    public final float getBottom() { return position.y - center.y; }
-    public boolean equals(Object object) { return this.hashCode() == object.hashCode(); }
-    public int hashCode() { return hashCode; }
-
-    public void setHashCode(int hashCode) { this.hashCode = hashCode; }
-    public final void setCenter(Vector2 center) { this.center.set(center); }
 }

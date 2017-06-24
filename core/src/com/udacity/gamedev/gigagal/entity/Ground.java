@@ -1,8 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Ground extends Physical, Visible {
+public abstract class Ground extends Entity implements Physical, Visible {
 
-    boolean equals(Object object);
-    Ground clone();
-    boolean isDense();
+    abstract boolean isDense();
 }

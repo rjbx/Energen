@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 
 
 // mutable
-public class Block implements Cloneable, Rappelable, Hurdleable, Strikeable, Convertible, Expanse {
+public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, Expanse {
 
     // fields
     public final static String TAG = Block.class.getName();
@@ -89,17 +89,6 @@ public class Block implements Cloneable, Rappelable, Hurdleable, Strikeable, Con
     @Override public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
     @Override public void convert() { dense = !dense; converted = true; }
     @Override public boolean isConverted() { return converted; }
-
-    @Override public Block clone() {
-        try {
-            Block clone = (Block) super.clone();
-            Gdx.app.log(TAG, "this: " + hashCode() + "; clone: " + clone.hashCode());
-            return clone;
-        } catch (CloneNotSupportedException ex) {
-            throw new AssertionError();
-        }
-    }
-
     public Enums.Material getType() { return type; }
     public Color getColor() { return ninePatch.getColor(); }
     private void setColor() {
