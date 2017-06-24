@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.Boss;
@@ -163,14 +162,9 @@ public class LevelUpdater {
         if (ChaseCam.getInstance().getState() == Enums.ChaseCamState.CONVERT) {
             for (Ground ground : grounds) {
                 if (ground instanceof Nonstatic) {
-                    Nonstatic entity = (Nonstatic) ground;
-//                    if (entity instanceof Cannon) {
-//                        ((Cannon) entity).setStartTime(0);
-//                        Gdx.app.log(TAG, "" + ChaseCam.getInstance().getConvertBounds().size);
-//                    }
                     for (Rectangle convertBounds : ChaseCam.getInstance().getConvertBounds()) {
-                        if (convertBounds.overlaps(new Rectangle(entity.getPosition().x, entity.getPosition().y, entity.getWidth(), entity.getHeight()))) {
-                            entity.update(delta);
+                        if (convertBounds.overlaps(new Rectangle(ground.getPosition().x, ground.getPosition().y, ground.getWidth(), ground.getHeight()))) {
+                            updateGround(delta, ground);
                         }
                     }
                 }
@@ -227,117 +221,8 @@ public class LevelUpdater {
             // Update Grounds
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
-                Ground ground = grounds.get(i);
-                if (ground instanceof Trippable) {
-                    Trippable trip = (Trippable) ground;
-                    if (trip instanceof Triptread) {
-                        if (Helpers.overlapsPhysicalObject(GigaGal.getInstance(), trip) && GigaGal.getInstance().getAction() == Enums.Action.DASHING && !GigaGal.getInstance().getDashStatus()) {
-                            trip.setState(!trip.isActive());
-                        }
-                    }
-                    if (trip.tripped()) {
-                        if (hintsEnabled
-                                && !trip.maxAdjustmentsReached()
-                                && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
-                                && !(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x - viewport.getWorldWidth() / 2, ChaseCam.getInstance().camera.position.y - viewport.getWorldHeight() / 2, viewport.getWorldWidth(), viewport.getWorldHeight())))) {
-                            ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
-                            ChaseCam.getInstance().setConvertBounds(trip.getBounds());
-                            trip.addCamAdjustment();
-                        }
-                        for (Ground g : grounds) {
-                            if (g instanceof Convertible && g != trip) {
-                                if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
-                                    ((Convertible) g).convert();
-                                }
-                            }
-                        }
-                    }
-                }
-                if (ground instanceof Nonstatic) {
-                    ((Nonstatic) ground).update(delta);
-                }
-                if (ground instanceof Destructible) {
-                    if (((Destructible) ground).getHealth() < 1) {
-                        if (ground instanceof Box) {
-                            Assets.getInstance().getSoundAssets().breakGround.play();
-                            grounds.removeIndex(i);
-                        }
-                    }
-                }
-                if (ground instanceof Chargeable) {
-                    Chargeable chargeable = (Chargeable) ground;
-                    if (chargeable instanceof Tripchamber) {
-                        if (GigaGal.getInstance().getShotIntensity() == Enums.ShotIntensity.BLAST && !chargeable.isCharged()) {
-                            chargeable.charge();
-                        }
-                    } else {
-                        if (GigaGal.getInstance().getChargeTimeSeconds() != Helpers.secondsSince(0) && GigaGal.getInstance().getDirectionX() == Direction.RIGHT) {
-                            if (!chargeable.isActive() && chargeable instanceof Chamber) {
-                                chargeable.setState(true);
-                            } else if (GigaGal.getInstance().getChargeTimeSeconds() > 1) {
-                                chargeable.setChargeTime(GigaGal.getInstance().getChargeTimeSeconds());
-                            }
-                        } else {
-                            chargeable.setChargeTime(0);
-                        }
-                    }
-                    if (ground instanceof Chamber) {
-                        Chamber chamber = (Chamber) ground;
-                        if (!chamber.isActive() && chamber.isCharged()) {
-                            Assets.getInstance().getSoundAssets().upgrade.play();
-                            dispenseUpgrade(chamber.getUpgrade());
-                            chamber.uncharge();
-                        }
-                    }
-                }
-                if (ground instanceof Strikeable) {
-                    projectiles.begin();
-                    for (int j = 0; j < projectiles.size; j++) {
-                        Ammo ammo = projectiles.get(j);
-                        if (Helpers.overlapsPhysicalObject(ammo, ground)) {
-                            if (ammo.isFromGigagal()) {
-                                Assets.getInstance().getSoundAssets().hitGround.play();
-                            }
-                            if (ammo.isActive() &&
-                                    (ground.isDense() // collides with all sides of dense ground
-                                            || Helpers.overlapsBetweenTwoSides(ammo.getPosition().y, ammo.getHeight() / 2, ground.getTop() - 3, ground.getTop()))) { // collides only with top of non-dense ground
-                                if (!ammo.getPosition().equals(Vector2.Zero)) {
-                                    this.spawnImpact(ammo.getPosition(), ammo.getType());
-                                }
-                                ammo.deactivate();
-                            }
-                            Strikeable strikeable = (Strikeable) ground;
-                            if (strikeable instanceof Tripknob) {
-                                Tripknob tripknob = (Tripknob) strikeable;
-                                tripknob.resetStartTime();
-                                tripknob.setState(!tripknob.isActive());
-                            } else if (strikeable instanceof Chargeable) {
-                                Chargeable chargeable = (Chargeable) strikeable;
-                                if (chargeable instanceof Chamber) {
-                                    chargeable.setState(false);
-                                } else if (chargeable instanceof Tripchamber && ammo.getShotIntensity() == Enums.ShotIntensity.BLAST) {
-                                    if (chargeable.isCharged()) {
-                                        chargeable.setState(!chargeable.isActive());
-                                        chargeable.uncharge();
-                                    }
-                                }
-                            } else if (strikeable instanceof Destructible) {
-                                Helpers.applyDamage((Destructible) ground, ammo);
-                            } else if (strikeable instanceof Gate && ammo.getDirection() == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
-                                ((Gate) strikeable).deactivate();
-                            }
-                        }
-                    }
-                    projectiles.end();
-                }
-                if (ground instanceof Reboundable) {
-                    Reboundable reboundable = (Reboundable) ground;
-                    if (Helpers.overlapsPhysicalObject(GigaGal.getInstance(), ground)) {
-                        reboundable.setState(true);
-                    } else if (reboundable.getState()) {
-                        reboundable.resetStartTime();
-                        reboundable.setState(false);
-                    }
+                if (!updateGround(delta, grounds.get(i))) {
+                    grounds.removeIndex(i);
                 }
             }
             grounds.end();
@@ -397,6 +282,122 @@ public class LevelUpdater {
             }
             powerups.end();
         }
+    }
+
+    public boolean updateGround(float delta, Ground ground) {
+        boolean active = true;
+        if (ground instanceof Trippable) {
+            Trippable trip = (Trippable) ground;
+            if (trip instanceof Triptread) {
+                if (Helpers.overlapsPhysicalObject(GigaGal.getInstance(), trip) && GigaGal.getInstance().getAction() == Enums.Action.DASHING && !GigaGal.getInstance().getDashStatus()) {
+                    trip.setState(!trip.isActive());
+                }
+            }
+            if (trip.tripped()) {
+                if (hintsEnabled
+                        && !trip.maxAdjustmentsReached()
+                        && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
+                        && !(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x - viewport.getWorldWidth() / 2, ChaseCam.getInstance().camera.position.y - viewport.getWorldHeight() / 2, viewport.getWorldWidth(), viewport.getWorldHeight())))) {
+                    ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
+                    ChaseCam.getInstance().setConvertBounds(trip.getBounds());
+                    trip.addCamAdjustment();
+                }
+                for (Ground g : grounds) {
+                    if (g instanceof Convertible && g != trip) {
+                        if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
+                            ((Convertible) g).convert();
+                        }
+                    }
+                }
+            }
+        }
+        if (ground instanceof Nonstatic) {
+            ((Nonstatic) ground).update(delta);
+        }
+        if (ground instanceof Destructible) {
+            if (((Destructible) ground).getHealth() < 1) {
+                if (ground instanceof Box) {
+                    Assets.getInstance().getSoundAssets().breakGround.play();
+                    active = false;
+                }
+            }
+        }
+        if (ground instanceof Chargeable && active) {
+            Chargeable chargeable = (Chargeable) ground;
+            if (chargeable instanceof Tripchamber) {
+                if (GigaGal.getInstance().getShotIntensity() == Enums.ShotIntensity.BLAST && !chargeable.isCharged()) {
+                    chargeable.charge();
+                }
+            } else {
+                if (GigaGal.getInstance().getChargeTimeSeconds() != Helpers.secondsSince(0) && GigaGal.getInstance().getDirectionX() == Direction.RIGHT) {
+                    if (!chargeable.isActive() && chargeable instanceof Chamber) {
+                        chargeable.setState(true);
+                    } else if (GigaGal.getInstance().getChargeTimeSeconds() > 1) {
+                        chargeable.setChargeTime(GigaGal.getInstance().getChargeTimeSeconds());
+                    }
+                } else {
+                    chargeable.setChargeTime(0);
+                }
+            }
+            if (ground instanceof Chamber) {
+                Chamber chamber = (Chamber) ground;
+                if (!chamber.isActive() && chamber.isCharged()) {
+                    Assets.getInstance().getSoundAssets().upgrade.play();
+                    dispenseUpgrade(chamber.getUpgrade());
+                    chamber.uncharge();
+                }
+            }
+        }
+        if (ground instanceof Strikeable) {
+            projectiles.begin();
+            for (int j = 0; j < projectiles.size; j++) {
+                Ammo ammo = projectiles.get(j);
+                if (Helpers.overlapsPhysicalObject(ammo, ground)) {
+                    if (ammo.isFromGigagal()) {
+                        Assets.getInstance().getSoundAssets().hitGround.play();
+                    }
+                    if (ammo.isActive() &&
+                            (ground.isDense() // collides with all sides of dense ground
+                                    || Helpers.overlapsBetweenTwoSides(ammo.getPosition().y, ammo.getHeight() / 2, ground.getTop() - 3, ground.getTop()))) { // collides only with top of non-dense ground
+                        if (!ammo.getPosition().equals(Vector2.Zero)) {
+                            this.spawnImpact(ammo.getPosition(), ammo.getType());
+                        }
+                        ammo.deactivate();
+                    }
+                    Strikeable strikeable = (Strikeable) ground;
+                    if (strikeable instanceof Tripknob) {
+                        Tripknob tripknob = (Tripknob) strikeable;
+                        tripknob.resetStartTime();
+                        tripknob.setState(!tripknob.isActive());
+                    } else if (strikeable instanceof Chargeable) {
+                        Chargeable chargeable = (Chargeable) strikeable;
+                        if (chargeable instanceof Chamber) {
+                            chargeable.setState(false);
+                        } else if (chargeable instanceof Tripchamber && ammo.getShotIntensity() == Enums.ShotIntensity.BLAST) {
+                            if (chargeable.isCharged()) {
+                                chargeable.setState(!chargeable.isActive());
+                                chargeable.uncharge();
+                            }
+                        }
+                    } else if (strikeable instanceof Destructible) {
+                        Helpers.applyDamage((Destructible) ground, ammo);
+                    } else if (strikeable instanceof Gate && ammo.getDirection() == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
+                        ((Gate) strikeable).deactivate();
+                    }
+                }
+            }
+            projectiles.end();
+        }
+        if (ground instanceof Reboundable) {
+            Reboundable reboundable = (Reboundable) ground;
+            if (Helpers.overlapsPhysicalObject(GigaGal.getInstance(), ground)) {
+                reboundable.setState(true);
+            } else if (reboundable.getState()) {
+                reboundable.resetStartTime();
+                reboundable.setState(false);
+            }
+        }
+        return active;
     }
 
     private void dispenseUpgrade(Enums.Upgrade upgrade) {

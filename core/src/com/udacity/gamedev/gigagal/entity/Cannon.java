@@ -32,7 +32,7 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
         this.orientation = orientation;
         this.intensity = intensity;
         startTime = 0;
-        offset = 0;
+        offset = 2;
         this.active = active;
         switch (orientation) {
             case Y:
