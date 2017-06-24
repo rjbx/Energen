@@ -459,7 +459,6 @@ public class LevelUpdater {
         getGrounds().clear();
         getHazards().clear();
         getPowerups().clear();
-        getImpacts().clear();
         hazards.clear();
         grounds.clear();
         impacts.clear();
@@ -592,7 +591,7 @@ public class LevelUpdater {
 
     // Getters
     protected final void addEntity(Object object) { objects.add(object); }
-    protected final void addGround(Ground ground) { grounds.add(ground); }
+    protected final void addGround(Ground ground) { grounds.add((Ground) ground.clone()); }
     protected final void addHazard(Hazard hazard) { hazards.add(hazard); }
     protected final void addPowerup(Powerup powerup) { powerups.add(powerup); }
 
@@ -608,7 +607,7 @@ public class LevelUpdater {
     public final Array<Ground> getGrounds() {
         Array<Ground> clonedGrounds = new Array<Ground>();
         for (Ground ground : grounds) {
-            clonedGrounds.add((Ground) ground.clone());
+            clonedGrounds.add(ground);
         }
         return clonedGrounds;
     }
@@ -627,14 +626,6 @@ public class LevelUpdater {
             clonedPowerups.add(powerup);
         }
         return clonedPowerups;
-    }
-   
-    public final Array<Impact> getImpacts() {
-        Array<Impact> clonedImpacts = new Array<Impact>();
-        for (Impact impact : impacts) {
-            clonedImpacts.add(impact);
-        }
-        return clonedImpacts;
     }
 
     public final long getUnsavedTime() { return time - savedTime; }
