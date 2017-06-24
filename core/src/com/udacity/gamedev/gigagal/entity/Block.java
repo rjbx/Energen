@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 
 
 // mutable
-public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, Expanse {
+public class Block implements Cloneable, Rappelable, Hurdleable, Strikeable, Convertible, Expanse {
 
     // fields
     public final static String TAG = Block.class.getName();
@@ -77,9 +78,6 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     }
 
     // Getters
-    @Override public boolean equals(Object object) { return this.hashCode() == object.hashCode(); }
-    @Override public int hashCode() { return hashCode; }
-    public void setHashCode(int hashCode) { this.hashCode = hashCode; }
     @Override public float getTop() { return top; }
     @Override public float getBottom() { return bottom; }
     @Override public float getLeft() { return left; }
@@ -91,7 +89,17 @@ public class Block implements Rappelable, Hurdleable, Strikeable, Convertible, E
     @Override public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
     @Override public void convert() { dense = !dense; converted = true; }
     @Override public boolean isConverted() { return converted; }
-    @Override public Block clone() { Block clone = new Block(left, bottom, width, height, type, dense); clone.setHashCode(hashCode); return clone; }
+
+    @Override public Block clone() {
+        try {
+            Block clone = (Block) super.clone();
+            Gdx.app.log(TAG, "this: " + hashCode() + "; clone: " + clone.hashCode());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new AssertionError();
+        }
+    }
+
     public Enums.Material getType() { return type; }
     public Color getColor() { return ninePatch.getColor(); }
     private void setColor() {
