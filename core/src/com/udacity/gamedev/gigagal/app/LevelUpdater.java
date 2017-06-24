@@ -591,7 +591,7 @@ public class LevelUpdater {
 
     // Getters
     protected final void addEntity(Object object) { objects.add(object); }
-    protected final void addGround(Ground ground) { grounds.add((Ground) ground.clone()); }
+    protected final void addGround(Ground ground) { grounds.add(ground); }
     protected final void addHazard(Hazard hazard) { hazards.add(hazard); }
     protected final void addPowerup(Powerup powerup) { powerups.add(powerup); }
 
@@ -607,7 +607,7 @@ public class LevelUpdater {
     public final Array<Ground> getGrounds() {
         Array<Ground> clonedGrounds = new Array<Ground>();
         for (Ground ground : grounds) {
-            clonedGrounds.add(ground);
+            clonedGrounds.add((Ground) ground.clone());
         }
         return clonedGrounds;
     }

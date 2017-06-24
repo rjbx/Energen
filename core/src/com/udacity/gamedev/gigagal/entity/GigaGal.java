@@ -318,7 +318,7 @@ public class GigaGal implements Humanoid {
 
     private void touchGroundSide(Ground ground) {
         // ignores case where simultaneously touching two separate grounds with same top position to prevent interrupting stride
-        if (!(touchedGround != null && touchedGround != ground && touchedGround.getTop() == ground.getTop())) {
+        if (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.getTop() == ground.getTop())) {
             // if during previous frame was not, while currently is, between ground left and right sides
             if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
                 // only when not grounded and not recoiling

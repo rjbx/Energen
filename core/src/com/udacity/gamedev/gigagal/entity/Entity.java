@@ -1,4 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entity implements Physical, Cloneable {
@@ -7,6 +8,7 @@ public abstract class Entity implements Physical, Cloneable {
 
     // default ctor
     public Entity() {}
+
 
     public abstract Vector2 getPosition();
     public abstract float getWidth();
@@ -17,6 +19,7 @@ public abstract class Entity implements Physical, Cloneable {
     public abstract float getBottom();
     @Override public Entity clone() {
         try {
+            Gdx.app.log(TAG, super.clone().equals(this) + "");
             return (Entity) super.clone();
         } catch (CloneNotSupportedException ex) {
             throw new AssertionError();
