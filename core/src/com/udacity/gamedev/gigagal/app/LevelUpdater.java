@@ -156,7 +156,6 @@ public class LevelUpdater {
 
     // asset handling
     private void updateEntities(float delta) {
-
         if (ChaseCam.getInstance().getState() == Enums.ChaseCamState.CONVERT) {
             for (Ground ground : grounds) {
                 if (ground instanceof Nonstatic) {
@@ -194,6 +193,7 @@ public class LevelUpdater {
             for (int i = 0; i < hazards.size; i++) {
                 if (!updateHazard(delta, hazards.get(i))) {
                     hazards.removeIndex(i);
+                    removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                 }
             }
             hazards.end();
@@ -336,8 +336,8 @@ public class LevelUpdater {
 
     public boolean updateHazard(float delta, Hazard hazard) {
         boolean active = true;
-        if (hazards.get(i) instanceof Destructible) {
-            Destructible destructible = (Destructible) hazards.get(i);
+        if (hazard instanceof Destructible) {
+            Destructible destructible = (Destructible) hazard;
             destructible.update(delta);
             projectiles.begin();
             for (int j = 0; j < projectiles.size; j++) {
@@ -355,12 +355,11 @@ public class LevelUpdater {
                     ((Swoopa) destructible).dispose();
                 }
                 spawnImpact(destructible.getPosition(), destructible.getType());
-                hazards.removeIndex(i);
-                removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
+                active = false;
                 score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
             }
-        } else if (hazards.get(i) instanceof Ammo) {
-            Ammo ammo = (Ammo) hazards.get(i);
+        } else if (hazard instanceof Ammo) {
+            Ammo ammo = (Ammo) hazard;
             ammo.update(delta);
             if (!ammo.isActive()) {
                 active = false;
