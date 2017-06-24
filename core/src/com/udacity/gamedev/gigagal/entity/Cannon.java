@@ -22,7 +22,6 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
     private Enums.Orientation orientation;
     private Enums.ShotIntensity intensity;
     private TextureRegion region;
-    private float offset;
     private long startTime;
     private boolean active;
 
@@ -32,7 +31,6 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
         this.orientation = orientation;
         this.intensity = intensity;
         startTime = 0;
-        offset = 2;
         this.active = active;
         switch (orientation) {
             case Y:
@@ -49,10 +47,9 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
     public void update(float delta) {
         if (active) {
             if (this.getStartTime() == 0) {
-                offset += 2;
-                this.setStartTime(TimeUtils.nanoTime() + ((long) (this.getOffset() / MathUtils.nanoToSec)));
+                this.setStartTime(TimeUtils.nanoTime());
             }
-            if ((Helpers.secondsSince(this.getStartTime()) > 2)) {
+            if ((Helpers.secondsSince(this.getStartTime()) > 1.5f)) {
                 this.setStartTime(TimeUtils.nanoTime());
                 Enums.Orientation orientation = this.getOrientation();
                 if (orientation == Enums.Orientation.X) {
@@ -95,8 +92,6 @@ public class Cannon extends Entity implements Nonstatic, Rappelable, Convertible
     @Override public Cannon clone() { Cannon clone = new Cannon(getPosition(), orientation, intensity, active);  super.setHashCode(hashCode()); return clone; }
     public final Enums.Orientation getOrientation() { return orientation; }
     public final Enums.ShotIntensity getIntensity() { return intensity; }
-    public final void setOffset(float offset) { this.offset = offset; }
-    public final float getOffset() { return offset; }
     public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
 }
