@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Tripchamber extends Entity implements Groundable, Trippable, Convertible, Chargeable, Strikeable {
+public class Tripchamber extends Ground implements Trippable, Convertible, Chargeable, Strikeable {
 
     // fields
     public final static String TAG = Tripchamber.class.getName();

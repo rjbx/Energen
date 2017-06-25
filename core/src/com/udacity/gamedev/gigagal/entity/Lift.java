@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Lift extends Entity implements Groundable, Hoverable, Convertible {
+public class Lift extends Ground implements Hoverable, Convertible {
 
     // fields
     public final static String TAG = Lift.class.getName();

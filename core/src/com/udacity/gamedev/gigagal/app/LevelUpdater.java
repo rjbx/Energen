@@ -15,7 +15,7 @@ import com.udacity.gamedev.gigagal.entity.Chargeable;
 import com.udacity.gamedev.gigagal.entity.Convertible;
 import com.udacity.gamedev.gigagal.entity.Destructible;
 import com.udacity.gamedev.gigagal.entity.Gate;
-import com.udacity.gamedev.gigagal.entity.Groundable;
+import com.udacity.gamedev.gigagal.entity.Ground;
 import com.udacity.gamedev.gigagal.entity.Hazard;
 import com.udacity.gamedev.gigagal.entity.Impact;
 import com.udacity.gamedev.gigagal.entity.Nonstatic;
@@ -56,7 +56,7 @@ public class LevelUpdater {
     private Backdrop backdrop;
     private DelayedRemovalArray<Transport> transports;
     private DelayedRemovalArray<Hazard> hazards;
-    private DelayedRemovalArray<Groundable> grounds;
+    private DelayedRemovalArray<Ground> grounds;
     private DelayedRemovalArray<Impact> impacts;
     private DelayedRemovalArray<Powerup> powerups;
     private DelayedRemovalArray<Ammo> projectiles;
@@ -84,7 +84,7 @@ public class LevelUpdater {
         LevelScreen.getInstance().create();
         Timer.getInstance().create();
         objects = new DelayedRemovalArray<Object>();
-        grounds = new DelayedRemovalArray<Groundable>();
+        grounds = new DelayedRemovalArray<Ground>();
         hazards = new DelayedRemovalArray<Hazard>();
         projectiles = new DelayedRemovalArray<Ammo>();
         impacts = new DelayedRemovalArray<Impact>();
@@ -109,7 +109,7 @@ public class LevelUpdater {
 
         backdrop.render(batch, viewport, new Vector2(ChaseCam.getInstance().camera.position.x, ChaseCam.getInstance().camera.position.y), Constants.BACKGROUND_CENTER, 1);
 
-        for (Groundable ground : grounds) {
+        for (Ground ground : grounds) {
             if (!ground.isDense()) {
                 ground.render(batch, viewport);
             }
@@ -123,7 +123,7 @@ public class LevelUpdater {
             powerup.render(batch, viewport);
         }
 
-        for (Groundable ground : grounds) {
+        for (Ground ground : grounds) {
             if (ground instanceof Vines) {
                 ground.render(batch, viewport);
             }
@@ -135,7 +135,7 @@ public class LevelUpdater {
             }
         }
 
-        for (Groundable ground : grounds) {
+        for (Ground ground : grounds) {
             if (ground.isDense()) {
                 ground.render(batch, viewport);
             }
@@ -159,7 +159,7 @@ public class LevelUpdater {
         if (ChaseCam.getInstance().getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
-                Groundable ground = grounds.get(i);
+                Ground ground = grounds.get(i);
                 if (ground instanceof Nonstatic) {
                     for (Rectangle convertBounds : ChaseCam.getInstance().getConvertBounds()) {
                         if (convertBounds.overlaps(new Rectangle(ground.getPosition().x, ground.getPosition().y, ground.getWidth(), ground.getHeight()))) {
@@ -221,7 +221,7 @@ public class LevelUpdater {
         }
     }
 
-    public boolean updateGround(float delta, Groundable ground) {
+    public boolean updateGround(float delta, Ground ground) {
         boolean active = true;
         if (ground instanceof Trippable) {
             Trippable trip = (Trippable) ground;
@@ -239,7 +239,7 @@ public class LevelUpdater {
                     ChaseCam.getInstance().setConvertBounds(trip.getBounds());
                     trip.addCamAdjustment();
                 }
-                for (Groundable g : grounds) {
+                for (Ground g : grounds) {
                     if (g instanceof Convertible && g != trip) {
                         if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                             ((Convertible) g).convert();
@@ -591,7 +591,7 @@ public class LevelUpdater {
 
     // Getters
     protected final void addEntity(Object object) { objects.add(object); }
-    protected final void addGround(Groundable ground) { grounds.add(ground); }
+    protected final void addGround(Ground ground) { grounds.add(ground); }
     protected final void addHazard(Hazard hazard) { hazards.add(hazard); }
     protected final void addPowerup(Powerup powerup) { powerups.add(powerup); }
 
@@ -604,10 +604,10 @@ public class LevelUpdater {
         return clonedObjects;
     }
 
-    public final Array<Groundable> getGrounds() {
-        Array<Groundable> clonedGrounds = new Array<Groundable>();
-        for (Groundable ground : grounds) {
-            clonedGrounds.add((Groundable) ground.clone());
+    public final Array<Ground> getGrounds() {
+        Array<Ground> clonedGrounds = new Array<Ground>();
+        for (Ground ground : grounds) {
+            clonedGrounds.add((Ground) ground.clone());
         }
         return clonedGrounds;
     }

@@ -52,7 +52,7 @@ public class GigaGal implements Humanoid {
     private TextureRegion region; // class-level instantiation
     private Action action;
     private GroundState groundState;
-    private Groundable touchedGround; // class-level instantiation
+    private Ground touchedGround; // class-level instantiation
     private ShotIntensity shotIntensity;
     private Material weapon;
     private List<Material> weaponList; // class-level instantiation
@@ -262,8 +262,8 @@ public class GigaGal implements Humanoid {
         bounds = new Rectangle(left, bottom, width, height);
     }
 
-    private void touchGround(Array<Groundable> grounds) {
-        for (Groundable ground : grounds) {
+    private void touchGround(Array<Ground> grounds) {
+        for (Ground ground : grounds) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundries
 
                 if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collision
@@ -316,7 +316,7 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    private void touchGroundSide(Groundable ground) {
+    private void touchGroundSide(Ground ground) {
         // ignores case where simultaneously touching two separate grounds with same top position to prevent interrupting stride
         if (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.getTop() == ground.getTop())) {
             // if during previous frame was not, while currently is, between ground left and right sides
@@ -376,7 +376,7 @@ public class GigaGal implements Humanoid {
         }
     }
 
-    private void touchGroundBottom(Groundable ground) {
+    private void touchGroundBottom(Ground ground) {
         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
         if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom()) {
             velocity.y = 0; // prevents from ascending above ground bottom
@@ -395,7 +395,7 @@ public class GigaGal implements Humanoid {
     }
 
     // applicable to all dense grounds as well as non-sinkables when not climbing downward
-    private void touchGroundTop(Groundable ground) {
+    private void touchGroundTop(Ground ground) {
         // if contact with ground top detected, halt downward progression and set gigagal atop ground
         if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
             velocity.y = 0; // prevents from descending beneath ground top
@@ -436,7 +436,7 @@ public class GigaGal implements Humanoid {
     }
 
     // basic ground top collision instructions; applicable to sinkables even when previousframe.x < ground.top
-    private void setAtopGround(Groundable ground) {
+    private void setAtopGround(Ground ground) {
         touchedGround = ground;
         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
         hoverStartTime = 0;

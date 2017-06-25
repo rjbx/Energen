@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Pod extends Entity implements Groundable, Reboundable {
+public class Pod extends Ground implements Reboundable {
 
     // fields
     public final static String TAG = Pod.class.getName();

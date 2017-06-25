@@ -78,7 +78,7 @@ public class Rollen implements MultidirectionalX, Destructible, Hazard {
 
         boolean touchingSide = false;
         boolean touchingTop = false;
-        for (Groundable ground : LevelUpdater.getInstance().getGrounds()) {
+        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (ground.isDense()) {
                     if (Helpers.overlapsBetweenTwoSides(position.x, radius, ground.getLeft(), ground.getRight())

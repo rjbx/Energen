@@ -7,7 +7,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Vines extends Entity implements Groundable, Climbable {
+public class Vines extends Ground implements Climbable {
 
     // fields
     public final static String TAG = Vines.class.getName();

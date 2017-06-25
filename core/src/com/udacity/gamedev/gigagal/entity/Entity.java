@@ -2,9 +2,10 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.Gdx;
 
-public abstract class Entity implements Cloneable {
+public abstract class Entity implements Physical, Visible, Cloneable {
 
     public static final String TAG = Entity.class.toString();
+
     private int hashCode;
 
     // default ctor

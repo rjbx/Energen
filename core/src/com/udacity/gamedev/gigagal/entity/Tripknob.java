@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // class name avoids confusion with existing button assets and constants
-public class Tripknob extends Entity implements Groundable, Trippable, Convertible, Strikeable {
+public class Tripknob extends Ground implements Trippable, Convertible, Strikeable {
 
     // fields
     public final static String TAG = Tripknob.class.getName();
