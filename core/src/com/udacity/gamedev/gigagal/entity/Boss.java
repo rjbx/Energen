@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
-public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal.entity.Hazard {
+public class Boss extends Hazard implements Humanoid, Destructible {
     
     // fields
     public final static String TAG = Boss.class.getName();
@@ -46,7 +46,7 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
     private TextureRegion region; // class-level instantiation
     private Enums.Action action;
     private Enums.GroundState groundState;
-    private Ground touchedGround; // class-level instantiation
+    private Groundable touchedGround; // class-level instantiation
     private Enums.ShotIntensity shotIntensity;
     private Enums.Material weapon;
     private List<Enums.Material> weaponList; // class-level instantiation
@@ -305,13 +305,13 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
         
     }
 
-    private void touchGround(DelayedRemovalArray<Ground> grounds) {
+    private void touchGround(DelayedRemovalArray<Groundable> grounds) {
         onUnbearable = false;
         onRideable = false;
         onSkateable = false;
         onClimbable = false;
         onSinkable = false;
-        for (Ground ground : grounds) {
+        for (Groundable ground : grounds) {
             // if currently within ground left and right sides
             if (Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
                 // apply following rules (bump side and bottom) only if ground height > ledge height
@@ -342,7 +342,7 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
         untouchGround();
     }
 
-    private void touchGroundSide(Ground ground) {
+    private void touchGroundSide(Groundable ground) {
         // if during previous frame was not, while currently is, between ground left and right sides
         if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
             // only when not grounded and not recoiling
@@ -392,7 +392,7 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
         }
     }
 
-    private void touchGroundBottom(Ground ground) {
+    private void touchGroundBottom(Groundable ground) {
         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
         if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()) {
             velocity.y = 0; // prevents from ascending above ground bottom
@@ -401,7 +401,7 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
         }
     }
 
-    private void touchGroundTop(Ground ground) {
+    private void touchGroundTop(Groundable ground) {
         // if contact with ground top detected, halt downward progression and set gigagal atop ground
         if ((getBottom() <= ground.getTop() && (!canRappel || (touchedGround != null && ground.getTop() != touchedGround.getTop())))
                 && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
@@ -445,7 +445,7 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
         }
     }
 
-    private void touchDescendableGround(Ground ground) {
+    private void touchDescendableGround(Groundable ground) {
         if (ground instanceof Sinkable) {
             setAtopGround(ground);
             onSinkable = true;
@@ -482,7 +482,7 @@ public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal
         }
     }
 
-    private void setAtopGround(Ground ground) {
+    private void setAtopGround(Groundable ground) {
         touchedGround = ground;
         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
         hoverStartTime = 0;

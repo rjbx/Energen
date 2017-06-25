@@ -1,20 +1,17 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
-import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Cannon extends Ground implements Nonstatic, Rappelable, Convertible {
+public class Cannon extends Entity implements Groundable, Nonstatic, Rappelable, Convertible {
 
     // fields
     public final static String TAG = Cannon.class.getName();

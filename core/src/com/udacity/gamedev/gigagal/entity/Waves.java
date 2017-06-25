@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Waves extends Ground implements Indestructible, Hazard, Sinkable {
+public class Waves implements Indestructible, Hazard, Sinkable, Groundable {
 
     // fields
     public final static String TAG = Waves.class.getName();

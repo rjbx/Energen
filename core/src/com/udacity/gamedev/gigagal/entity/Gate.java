@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Gate extends Ground implements Strikeable, Nonstatic {
+public class Gate extends Entity implements Groundable, Strikeable, Nonstatic {
 
     // fields
     public final static String TAG = Gate.class.getName();

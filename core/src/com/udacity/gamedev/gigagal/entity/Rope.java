@@ -7,7 +7,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Rope extends Ground implements Climbable {
+public class Rope extends Entity implements Groundable, Climbable {
 
     // fields
     public final static String TAG = Rope.class.getName();

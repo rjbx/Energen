@@ -17,7 +17,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.entity.Block;
 import com.udacity.gamedev.gigagal.entity.Box;
-import com.udacity.gamedev.gigagal.entity.Ground;
+import com.udacity.gamedev.gigagal.entity.Groundable;
 
 // immutable singleton
 public final class Assets implements AssetErrorListener {
@@ -498,7 +498,7 @@ public final class Assets implements AssetErrorListener {
                     wavesRegions, PlayMode.NORMAL);
         }
 
-        public final NinePatch getNinePatch(Ground ground) {
+        public final NinePatch getNinePatch(Groundable ground) {
             if (ground instanceof Box) {
                 return box;
             } else if (ground instanceof Block) {

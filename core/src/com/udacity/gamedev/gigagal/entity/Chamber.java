@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Chamber extends Ground implements Chargeable, Strikeable {
+public class Chamber extends Entity implements Groundable, Chargeable, Strikeable {
 
     // fields
     public final static String TAG = Chamber.class.getName();

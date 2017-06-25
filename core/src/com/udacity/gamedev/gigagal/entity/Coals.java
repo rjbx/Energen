@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Coals extends Ground implements Unbearable {
+public class Coals extends Entity implements Groundable, Unbearable {
 
     // fields
     public final static String TAG = Coals.class.getName();

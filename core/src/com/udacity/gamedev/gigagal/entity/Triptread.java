@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Triptread extends Ground implements Trippable, Convertible, Rideable {
+public class Triptread extends Entity implements Groundable, Trippable, Convertible, Rideable {
 
     // fields
     public final static String TAG = Triptread.class.getName();

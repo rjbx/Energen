@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Knob extends Ground implements Climbable {
+public class Knob extends Entity implements Groundable, Climbable {
 
 
     // fields

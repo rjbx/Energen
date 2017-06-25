@@ -12,7 +12,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 
 
 // mutable
-public class Block extends Ground implements Rappelable, Hurdleable, Strikeable, Convertible {
+public class Block extends Entity implements Groundable, Rappelable, Hurdleable, Strikeable, Convertible {
 
     // fields
     public final static String TAG = Block.class.getName();

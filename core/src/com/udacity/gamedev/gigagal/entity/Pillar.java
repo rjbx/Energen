@@ -7,7 +7,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Pillar extends Ground implements Climbable {
+public class Pillar extends Entity implements Groundable, Climbable {
 
     // fields
     public final static String TAG = Pillar.class.getName();
