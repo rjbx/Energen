@@ -349,7 +349,7 @@ public class GigaGal implements Humanoid {
                         strideSpeed = 0;
                         velocity.x = 0;
                     }
-                    if (action == Action.DASHING) {
+                    if (action == Action.DASHING && !(ground instanceof Rideable)) {
                         stand(); // deactivates dash when bumping ground side
                     }
                 }

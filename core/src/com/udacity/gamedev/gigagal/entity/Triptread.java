@@ -53,7 +53,6 @@ public class Triptread extends Ground implements Trippable, Convertible, Rideabl
         }
     }
 
-    @Override public boolean equals(Object object) { if (object instanceof Triptread) {return this == object;} return false; }
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.TRIPTREAD_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.TRIPTREAD_CENTER.x * 2; }
