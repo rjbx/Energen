@@ -1,7 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
-
 public abstract class Entity implements Physical, Visible, Cloneable {
 
     public static final String TAG = Entity.class.toString();
@@ -17,9 +15,9 @@ public abstract class Entity implements Physical, Visible, Cloneable {
     }
     @Override public Entity clone() {
         try {
-            Gdx.app.log(TAG, super.clone().equals(this) + "");
+           // Gdx.app.log(TAG, super.clone().equals(this) + "");
             Entity clone = (Entity) super.clone();
-            clone.hashCode = hashCode;
+            clone.hashCode = this.hashCode;
             return clone;
         } catch (CloneNotSupportedException ex) {
             throw new AssertionError();
