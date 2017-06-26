@@ -381,7 +381,7 @@ public class GigaGal implements Humanoid {
 
     private void touchGroundBottom(Ground ground) {
         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
-        if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom()) {
+        if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom() + 1) {
             velocity.y = 0; // prevents from ascending above ground bottom
             position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
             if (action != Action.CLIMBING) {
