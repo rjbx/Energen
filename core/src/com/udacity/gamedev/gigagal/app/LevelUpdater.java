@@ -485,6 +485,16 @@ public class LevelUpdater {
         music.dispose();
         timer.stop();
         inputControls.clear();
+        entities = null;
+        grounds = null;
+        hazards = null;
+        powerups = null;
+        transports = null;
+        impacts = null;
+        projectiles = null;
+        music = null;
+        timer = null;
+        inputControls = null;
     }
 
 

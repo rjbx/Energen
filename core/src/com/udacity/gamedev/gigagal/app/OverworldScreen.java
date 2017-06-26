@@ -35,8 +35,8 @@ final class OverworldScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private BitmapFont font;
     private static Enums.OverworldMenu menu;
-    private boolean messageVisible;
     private static Enums.Theme selection;
+    private boolean messageVisible;
 
     // cannot be subclassed
     private OverworldScreen() {}
@@ -201,18 +201,11 @@ final class OverworldScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-//        completedLevels.clearStrings();
-//        inputControls.clearStrings();
-//        errorMessage.dispose();
-//        font.dispose();
-//        batch.dispose();
-//        completedLevels = null;
-//        inputControls = null;
-//        errorMessage = null;
-//        font = null;
-//        batch = null;
-//        this.hide();
-//        super.dispose();
-//        System.gc();
+        font.dispose();
+        batch.dispose();
+        font = null;
+        batch = null;
+        this.hide();
+        super.dispose();
     }
 }
