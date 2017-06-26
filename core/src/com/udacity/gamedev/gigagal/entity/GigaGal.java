@@ -46,6 +46,7 @@ public class GigaGal implements Humanoid {
     private Vector2 position; // class-level instantiation
     private Vector2 previousFramePosition; // class-level instantiation
     private Vector2 spawnPosition;
+    private Vector2 ammoPosition;
     private Vector3 chaseCamPosition; // class-level instantiation
     private Vector2 velocity; // class-level instantiation
     private Direction directionX;
@@ -824,6 +825,7 @@ public class GigaGal implements Humanoid {
     }
 
     private void enableShoot(Material weapon) {
+        ammoPosition = null;
         if (canShoot) {
             if (inputControls.shootButtonPressed || (action == Action.RAPPELLING && (inputControls.rightButtonPressed || inputControls.leftButtonPressed))) {
                 if (chargeStartTime == 0) {
@@ -861,15 +863,6 @@ public class GigaGal implements Humanoid {
             Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1, 2, 0);
         }
         ammo -= ammoUsed * ammoMultiplier;
-        if (lookStartTime != 0) {
-            if (directionY == Direction.UP) {
-                level.spawnAmmo(new Vector2(position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, directionX, Orientation.X), position.y + Constants.GIGAGAL_Y_CANNON_OFFSET.y), directionY, Orientation.Y, shotIntensity, weapon, true);
-            } else {
-                level.spawnAmmo(new Vector2(position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x - 3, directionX, Orientation.X), position.y - Constants.GIGAGAL_Y_CANNON_OFFSET.y - 8), directionY, Orientation.Y, shotIntensity, weapon, true);
-            }
-        } else {
-            level.spawnAmmo(new Vector2(position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_X_CANNON_OFFSET.x, directionX, Orientation.X), position.y + Constants.GIGAGAL_X_CANNON_OFFSET.y), directionX, Orientation.X, shotIntensity, weapon, true);
-        }
     }
 
     private void look() {
