@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -212,6 +213,8 @@ public class GigaGal implements Humanoid {
                 enableJump();
                 enableShoot(weapon);
             } else if (action == Action.CLIMBING) {
+
+                Gdx.app.log(TAG, action + "");
                 enableClimb();
                 enableShoot(weapon);
             } else if (action == Action.DASHING) {
@@ -276,7 +279,7 @@ public class GigaGal implements Humanoid {
 
                     // additional ground collision instructions specific to certain types of grounds
                     if (ground instanceof Climbable) {
-                        if (!(groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overwriting handling of simultaneously touched skateable ground i.e. overriding ground physics
+                        if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
                         && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
                             touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                         }
@@ -312,8 +315,8 @@ public class GigaGal implements Humanoid {
                     canHover = false; // disables hover
                 }
             }
-            untouchGround();
         }
+        untouchGround();
     }
 
     private void touchGroundSide(Ground ground) {
