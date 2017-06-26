@@ -205,6 +205,10 @@ final class OverworldScreen extends ScreenAdapter {
         batch.dispose();
         font = null;
         batch = null;
+        viewport;
+        private SpriteBatch batch;
+        private BitmapFont font;
+        messageVisible;
         this.hide();
         super.dispose();
     }
