@@ -109,7 +109,7 @@ public class Orben extends Hazard implements MultidirectionalX, Multidirectional
         if (active) {
             boolean colliding = true;
             for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
-                if (Helpers.overlapsPhysicalObject(this, hazard)) {
+                if (Helpers.overlapsPhysicalObject(this, hazard) && !hazard.equals(this)) {
                     colliding = false;
                 }
             }
