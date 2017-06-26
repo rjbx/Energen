@@ -320,6 +320,11 @@ public class GigaGal implements Humanoid {
     }
 
     private void touchGroundSide(Ground ground) {
+        if (touchedGround != null) {
+            Gdx.app.log(TAG, "tg: " + touchedGround.getTop() + touchedGround.getLeft() + touchedGround.getCloneHashCode() + " g: " + ground.getTop() + ground.getLeft() + ground.getCloneHashCode() + " ==: " + touchedGround.equals(ground));
+        } else {
+            Gdx.app.log(TAG, "no");
+        }
         // ignores case where simultaneously touching two separate grounds with same top position to prevent interrupting stride
         if (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.getTop() == ground.getTop())) {
             // if during previous frame was not, while currently is, between ground left and right sides
@@ -384,7 +389,7 @@ public class GigaGal implements Humanoid {
         if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom() + 1) {
             velocity.y = 0; // prevents from ascending above ground bottom
             position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
-            if (groundState == GroundState.AIRBORNE) {
+            if (groundState == GroundState.AIRBORNE) { // prevemts fall when striding against ground bottom positioned at height distance from ground atop
                 fall(); // descend from point of contact with ground bottom
             } else if (action == Action.CLIMBING) { // prevents from disengaging climb
                 fall(); // descend from point of contact with ground bottom
@@ -440,7 +445,9 @@ public class GigaGal implements Humanoid {
 
     // basic ground top collision instructions; applicable to sinkables even when previousframe.x < ground.top
     private void setAtopGround(Ground ground) {
-        touchedGround = ground;
+        if (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.getTop() == ground.getTop())) {
+            touchedGround = ground;
+        }
         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
         hoverStartTime = 0;
         rappelStartTime = 0;

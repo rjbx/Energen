@@ -4,23 +4,26 @@ public abstract class Entity implements Physical, Visible, Cloneable {
 
     public static final String TAG = Entity.class.toString();
 
-    private int hashCode;
+    private int cloneHashCode;
 
     // default ctor
-    public Entity() { hashCode = this.hashCode(); }
+    public Entity() { }
 
-    @Override public int hashCode() { return hashCode; }
     @Override public boolean equals(Object object) {
-        return this.hashCode() == object.hashCode();
+        if (object instanceof Entity) {
+            return this.cloneHashCode == ((Entity) object).cloneHashCode;
+        }
+        return false;
     }
     @Override public Entity clone() {
         try {
            // Gdx.app.log(TAG, super.clone().equals(this) + "");
             Entity clone = (Entity) super.clone();
-            clone.hashCode = this.hashCode;
+            clone.cloneHashCode = this.hashCode();
             return clone;
         } catch (CloneNotSupportedException ex) {
             throw new AssertionError();
         }
     }
+    public int getCloneHashCode() { return cloneHashCode; }
 }
