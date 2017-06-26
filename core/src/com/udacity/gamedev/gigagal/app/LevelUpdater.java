@@ -188,7 +188,7 @@ public class LevelUpdater {
         } else {
             time = timer.getNanos();
             gigaGal.update(delta);
-            if (gigaGal.getChargeTimeSeconds() != 0) {
+            if (gigaGal.getDispatchStatus()) {
                 if (gigaGal.getLookStartTime() != 0) {
                     if (gigaGal.getDirectionY() == Direction.UP) {
                         spawnAmmo(new Vector2(gigaGal.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, gigaGal.getDirectionX(), Enums.Orientation.X), gigaGal.getPosition().y + Constants.GIGAGAL_Y_CANNON_OFFSET.y), gigaGal.getDirectionY(), Enums.Orientation.Y, gigaGal.getShotIntensity(), gigaGal.getWeapon(), true);

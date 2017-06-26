@@ -46,7 +46,6 @@ public class GigaGal implements Humanoid {
     private Vector2 position; // class-level instantiation
     private Vector2 previousFramePosition; // class-level instantiation
     private Vector2 spawnPosition;
-    private Vector2 ammoPosition;
     private Vector3 chaseCamPosition; // class-level instantiation
     private Vector2 velocity; // class-level instantiation
     private Direction directionX;
@@ -60,6 +59,7 @@ public class GigaGal implements Humanoid {
     private List<Material> weaponList; // class-level instantiation
     private ListIterator<Material> weaponToggler; // class-level instantiation
     private boolean canShoot;
+    private boolean canDispatch;
     private boolean canLook;
     private boolean canPeer;
     private boolean canDash;
@@ -174,6 +174,7 @@ public class GigaGal implements Humanoid {
         canRappel = false;
         canHurdle = false;
         canShoot = true;
+        canDispatch = false;
         canSink = false;
         canBounce = false;
         chargeStartTime = 0;
@@ -825,7 +826,7 @@ public class GigaGal implements Humanoid {
     }
 
     private void enableShoot(Material weapon) {
-        ammoPosition = null;
+        canDispatch = false;
         if (canShoot) {
             if (inputControls.shootButtonPressed || (action == Action.RAPPELLING && (inputControls.rightButtonPressed || inputControls.leftButtonPressed))) {
                 if (chargeStartTime == 0) {
@@ -857,6 +858,7 @@ public class GigaGal implements Humanoid {
     }
 
     public void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
+        canDispatch = true;
         if (shotIntensity == ShotIntensity.BLAST) {
             Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
         } else {
@@ -1257,6 +1259,7 @@ public class GigaGal implements Humanoid {
     @Override public final boolean getRappelStatus() { return canRappel; }
     @Override public final boolean getDashStatus() { return canDash; }
     @Override public final boolean getClimbStatus() { return canClimb; }
+    public boolean getDispatchStatus() { return canDispatch; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }
     @Override public final Enums.Action getAction() { return action; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
