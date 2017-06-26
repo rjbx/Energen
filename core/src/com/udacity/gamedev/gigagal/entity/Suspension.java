@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Suspension implements Indestructible, Hazard {
+public class Suspension extends Hazard implements Indestructible {
 
     // fields
     public final static String TAG = Suspension.class.getName();

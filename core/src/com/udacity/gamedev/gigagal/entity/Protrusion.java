@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Protrusion implements Indestructible, Hazard {
+public class Protrusion extends Hazard implements Indestructible {
 
     // fields
     public final static String TAG = Protrusion.class.getName();

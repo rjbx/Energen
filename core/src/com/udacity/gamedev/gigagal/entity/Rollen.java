@@ -12,7 +12,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Rollen implements MultidirectionalX, Destructible, Hazard {
+public class Rollen extends Hazard implements MultidirectionalX, Destructible {
 
     // fields
     public final static String TAG = Rollen.class.getName();

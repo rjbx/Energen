@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
-public class Boss implements Humanoid, Destructible, com.udacity.gamedev.gigagal.entity.Hazard {
+public class Boss extends Hazard implements Humanoid, Destructible {
     
     // fields
     public final static String TAG = Boss.class.getName();

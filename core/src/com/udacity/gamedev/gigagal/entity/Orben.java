@@ -16,7 +16,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 
 import sun.security.krb5.internal.crypto.Des;
 
-public class Orben implements MultidirectionalX, MultidirectionalY, Destructible, Hazard {
+public class Orben extends Hazard implements MultidirectionalX, MultidirectionalY, Destructible {
 
     // fields
     public final static String TAG = Orben.class.getName();

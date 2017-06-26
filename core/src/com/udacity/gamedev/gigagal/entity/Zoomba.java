@@ -15,7 +15,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 import sun.security.krb5.internal.crypto.Des;
 
 // mutable
-public class Zoomba implements MultidirectionalX, Destructible, Hazard {
+public class Zoomba extends Hazard implements MultidirectionalX, Destructible {
 
     // fields
     public final static String TAG = Zoomba.class.getName();

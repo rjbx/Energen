@@ -17,7 +17,6 @@ public abstract class Entity implements Physical, Visible, Cloneable {
     }
     @Override public Entity clone() {
         try {
-           // Gdx.app.log(TAG, super.clone().equals(this) + "");
             Entity clone = (Entity) super.clone();
             clone.cloneHashCode = this.hashCode();
             return clone;

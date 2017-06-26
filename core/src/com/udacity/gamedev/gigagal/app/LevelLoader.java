@@ -523,14 +523,12 @@ final class LevelLoader {
                 Vector2 adjustedCenter = new Vector2(Constants.LAVA_CENTER.x * scale.x, Constants.LAVA_CENTER.y * scale.y);
                 final Vector2 lavaPosition = imagePosition.add(Constants.LAVA_CENTER);
                 final Lava lava = new Lava(lavaPosition, scale, adjustedCenter);
-                level.addHazard(lava);
                 level.addGround(lava);
                 Gdx.app.log(TAG, "Loaded the lava at " + lavaPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.WAVES_SPRITE_1)) {
                 Vector2 adjustedCenter = new Vector2(Constants.WAVES_CENTER.x * scale.x, Constants.WAVES_CENTER.y * scale.y);
                 final Vector2 wavesPosition = imagePosition.add(Constants.WAVES_CENTER);
                 final Waves waves = new Waves(wavesPosition, scale, adjustedCenter);
-                level.addHazard(waves);
                 level.addGround(waves);
                 Gdx.app.log(TAG, "Loaded the waves at " + wavesPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TREADMILL_SPRITE_1_LEFT)) {

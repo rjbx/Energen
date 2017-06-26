@@ -14,7 +14,7 @@ import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
-public final class Ammo implements Indestructible, Hazard {
+public final class Ammo extends Hazard implements Indestructible {
 
     // fields
     public final static String TAG = Ammo.class.getName();

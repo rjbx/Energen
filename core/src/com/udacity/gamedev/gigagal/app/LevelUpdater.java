@@ -615,7 +615,7 @@ public class LevelUpdater {
     public final Array<Hazard> getHazards() {
         Array<Hazard> clonedHazards = new Array<Hazard>();
         for (Hazard hazard : hazards) {
-            clonedHazards.add(hazard);
+            clonedHazards.add((Hazard) hazard.clone());
         }
         return clonedHazards;
     }

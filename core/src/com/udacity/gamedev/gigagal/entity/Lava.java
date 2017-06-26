@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Lava extends Ground implements Indestructible, Hazard, Sinkable {
+public class Lava extends Ground implements Indestructible, Sinkable, Hazardous {
 
     // fields
     public final static String TAG = Lava.class.getName();
