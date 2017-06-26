@@ -7,7 +7,7 @@ public abstract class Entity implements Physical, Visible, Cloneable {
     private int cloneHashCode;
 
     // default ctor
-    public Entity() { }
+    public Entity() { cloneHashCode = hashCode(); }
 
     @Override public boolean equals(Object object) {
         if (object instanceof Entity) {
