@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
-public final class Portal implements Transport {
+public final class Portal extends Transport {
 
     // fields
     public final static String TAG = Portal.class.getName();

@@ -2,7 +2,7 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.math.Vector2;
 
-public interface Transport extends Physical, Visible {
+public abstract class Transport extends Entity {
 
-    Vector2 getDestination();
+    abstract public Vector2 getDestination();
 }

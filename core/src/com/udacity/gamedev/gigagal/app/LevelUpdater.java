@@ -14,6 +14,7 @@ import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Chargeable;
 import com.udacity.gamedev.gigagal.entity.Convertible;
 import com.udacity.gamedev.gigagal.entity.Destructible;
+import com.udacity.gamedev.gigagal.entity.Entity;
 import com.udacity.gamedev.gigagal.entity.Gate;
 import com.udacity.gamedev.gigagal.entity.Ground;
 import com.udacity.gamedev.gigagal.entity.Hazard;
@@ -60,7 +61,7 @@ public class LevelUpdater {
     private DelayedRemovalArray<Impact> impacts;
     private DelayedRemovalArray<Powerup> powerups;
     private DelayedRemovalArray<Ammo> projectiles;
-    private DelayedRemovalArray<Object> objects;
+    private DelayedRemovalArray<Entity> entities;
     private Enums.Material levelWeapon;
     private Enums.Theme level;
     private Music music;
@@ -83,7 +84,7 @@ public class LevelUpdater {
     protected void create() {
         LevelScreen.getInstance().create();
         Timer.getInstance().create();
-        objects = new DelayedRemovalArray<Object>();
+        entities = new DelayedRemovalArray<Entity>();
         grounds = new DelayedRemovalArray<Ground>();
         hazards = new DelayedRemovalArray<Hazard>();
         projectiles = new DelayedRemovalArray<Ammo>();
@@ -459,21 +460,23 @@ public class LevelUpdater {
         getGrounds().clear();
         getHazards().clear();
         getPowerups().clear();
-        hazards.clear();
         grounds.clear();
+        hazards.clear();
         impacts.clear();
-        powerups.clear();
         transports.clear();
+        powerups.clear();
+        entities.clear();
     }
 
 
     // level state handling
 
     protected void begin() {
-        objects.addAll(grounds);
-        objects.addAll(hazards);
-        objects.addAll(powerups);
-        objects.addAll(impacts);
+        entities.addAll(grounds);
+        entities.addAll(hazards);
+        entities.addAll(powerups);
+        entities.addAll(transports);
+        entities.addAll(impacts);
         ChaseCam.getInstance().setState(Enums.ChaseCamState.FOLLOWING);
 
         backdrop = new Backdrop(Assets.getInstance().getBackgroundAssets().getBackground(level));
@@ -590,18 +593,18 @@ public class LevelUpdater {
     }
 
     // Getters
-    protected final void addEntity(Object object) { objects.add(object); }
+    protected final void addEntity(Entity entity) { entities.add(entity); }
     protected final void addGround(Ground ground) { grounds.add(ground); }
     protected final void addHazard(Hazard hazard) { hazards.add(hazard); }
     protected final void addPowerup(Powerup powerup) { powerups.add(powerup); }
 
     // to return cloned elements; state changes set from this class
-    public final Array<Object> getEntities() {
-        Array<Object> clonedObjects = new Array<Object>();
-        for (Object object : objects) {
-            clonedObjects.add(object);
+    public final Array<Entity> getEntities() {
+        Array<Entity> clonedEntities = new Array<Entity>();
+        for (Entity entity : entities) {
+            clonedEntities.add(entity.clone());
         }
-        return clonedObjects;
+        return clonedEntities;
     }
 
     public final Array<Ground> getGrounds() {

@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Teleport implements Transport {
+public class Teleport extends Transport {
 
     //fields
     public final static String TAG = Teleport.class.getName();
