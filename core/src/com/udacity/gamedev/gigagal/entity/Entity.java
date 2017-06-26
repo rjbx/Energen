@@ -25,5 +25,5 @@ public abstract class Entity implements Physical, Visible, Cloneable {
             throw new AssertionError();
         }
     }
-    public int getCloneHashCode() { return cloneHashCode; }
+    public int cloneHashCode() { return cloneHashCode; }
 }

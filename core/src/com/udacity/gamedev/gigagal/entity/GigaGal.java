@@ -213,8 +213,6 @@ public class GigaGal implements Humanoid {
                 enableJump();
                 enableShoot(weapon);
             } else if (action == Action.CLIMBING) {
-
-                Gdx.app.log(TAG, action + "");
                 enableClimb();
                 enableShoot(weapon);
             } else if (action == Action.DASHING) {
@@ -320,11 +318,6 @@ public class GigaGal implements Humanoid {
     }
 
     private void touchGroundSide(Ground ground) {
-        if (touchedGround != null) {
-            Gdx.app.log(TAG, "tg: " + touchedGround.getTop() + touchedGround.getLeft() + touchedGround.getCloneHashCode() + " g: " + ground.getTop() + ground.getLeft() + ground.getCloneHashCode() + " ==: " + touchedGround.equals(ground));
-        } else {
-            Gdx.app.log(TAG, "no");
-        }
         // ignores case where simultaneously touching two separate grounds with same top position to prevent interrupting stride
         if (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.getTop() == ground.getTop())) {
             // if during previous frame was not, while currently is, between ground left and right sides
@@ -445,9 +438,7 @@ public class GigaGal implements Humanoid {
 
     // basic ground top collision instructions; applicable to sinkables even when previousframe.x < ground.top
     private void setAtopGround(Ground ground) {
-        if (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.getTop() == ground.getTop())) {
-            touchedGround = ground;
-        }
+        touchedGround = ground;
         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
         hoverStartTime = 0;
         rappelStartTime = 0;
