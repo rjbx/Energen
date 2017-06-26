@@ -63,7 +63,7 @@ final class LevelLoader {
 
     protected static final void load(Enums.Theme level) throws ParseException, IOException {
 
-        LevelUpdater.getInstance().setLevel(level);
+        LevelUpdater.getInstance().setTheme(level);
 
         final FileHandle file = Gdx.files.internal("levels/" + level + ".dt");
 

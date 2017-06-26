@@ -52,20 +52,26 @@ public class LevelUpdater {
     // fields
     public static final String TAG = LevelUpdater.class.getName();
     private static final LevelUpdater INSTANCE = new LevelUpdater();
+    private Assets assets;
+    private InputControls inputControls;
     private Viewport viewport;
+    private LevelScreen levelScreen;
+    private Timer timer;
     private boolean loadEx;
     private Backdrop backdrop;
-    private DelayedRemovalArray<Transport> transports;
-    private DelayedRemovalArray<Hazard> hazards;
-    private DelayedRemovalArray<Ground> grounds;
-    private DelayedRemovalArray<Impact> impacts;
-    private DelayedRemovalArray<Powerup> powerups;
-    private DelayedRemovalArray<Ammo> projectiles;
     private DelayedRemovalArray<Entity> entities;
+    private DelayedRemovalArray<Ground> grounds;
+    private DelayedRemovalArray<Hazard> hazards;
+    private DelayedRemovalArray<Powerup> powerups;
+    private DelayedRemovalArray<Transport> transports;
+    private DelayedRemovalArray<Impact> impacts;
+    private DelayedRemovalArray<Ammo> projectiles;
     private Enums.Material levelWeapon;
-    private Enums.Theme level;
+    private Enums.Theme theme;
     private Music music;
+    private GigaGal gigaGal;
     private Boss boss;
+    private ChaseCam chaseCam;
     private String removedHazards;
     private boolean paused;
     private boolean musicEnabled;
@@ -82,8 +88,17 @@ public class LevelUpdater {
     public static LevelUpdater getInstance() { return INSTANCE; }
 
     protected void create() {
-        LevelScreen.getInstance().create();
-        Timer.getInstance().create();
+        
+        levelScreen = LevelScreen.getInstance();
+        levelScreen.create();
+
+        timer = Timer.getInstance();
+        timer.create();
+
+        gigaGal = GigaGal.getInstance();
+        chaseCam = ChaseCam.getInstance();
+        assets = Assets.getInstance();
+        inputControls = InputControls.getInstance();
         entities = new DelayedRemovalArray<Entity>();
         grounds = new DelayedRemovalArray<Ground>();
         hazards = new DelayedRemovalArray<Hazard>();
@@ -108,7 +123,7 @@ public class LevelUpdater {
 
     protected void render(SpriteBatch batch, Viewport viewport) {
 
-        backdrop.render(batch, viewport, new Vector2(ChaseCam.getInstance().camera.position.x, ChaseCam.getInstance().camera.position.y), Constants.BACKGROUND_CENTER, 1);
+        backdrop.render(batch, viewport, new Vector2(chaseCam.camera.position.x, chaseCam.camera.position.y), Constants.BACKGROUND_CENTER, 1);
 
         for (Ground ground : grounds) {
             if (!ground.isDense()) {
@@ -142,7 +157,7 @@ public class LevelUpdater {
             }
         }
 
-        GigaGal.getInstance().render(batch, viewport);
+        gigaGal.render(batch, viewport);
 
         for (Hazard hazard : hazards) {
             if (hazard instanceof Ammo) {
@@ -157,12 +172,12 @@ public class LevelUpdater {
 
     // asset handling
     private void updateEntities(float delta) {
-        if (ChaseCam.getInstance().getState() == Enums.ChaseCamState.CONVERT) {
+        if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
                 Ground ground = grounds.get(i);
                 if (ground instanceof Nonstatic) {
-                    for (Rectangle convertBounds : ChaseCam.getInstance().getConvertBounds()) {
+                    for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
                         if (convertBounds.overlaps(new Rectangle(ground.getPosition().x, ground.getPosition().y, ground.getWidth(), ground.getHeight()))) {
                             updateGround(delta, ground);
                         }
@@ -171,8 +186,8 @@ public class LevelUpdater {
             }
             grounds.end();
         } else {
-            time = Timer.getInstance().getNanos();
-            GigaGal.getInstance().update(delta);
+            time = timer.getNanos();
+            gigaGal.update(delta);
 
             // Update Transports
             transports.begin();
@@ -214,7 +229,7 @@ public class LevelUpdater {
             // Update Powerups
             powerups.begin();
             for (int i = 0; i < powerups.size; i++) {
-                if (Helpers.overlapsPhysicalObject(GigaGal.getInstance(), powerups.get(i))) {
+                if (Helpers.overlapsPhysicalObject(gigaGal, powerups.get(i))) {
                     powerups.removeIndex(i);
                 }
             }
@@ -227,7 +242,7 @@ public class LevelUpdater {
         if (ground instanceof Trippable) {
             Trippable trip = (Trippable) ground;
             if (trip instanceof Triptread) {
-                if (Helpers.overlapsPhysicalObject(GigaGal.getInstance(), trip) && GigaGal.getInstance().getAction() == Enums.Action.DASHING && !GigaGal.getInstance().getDashStatus()) {
+                if (Helpers.overlapsPhysicalObject(gigaGal, trip) && gigaGal.getAction() == Enums.Action.DASHING && !gigaGal.getDashStatus()) {
                     trip.setState(!trip.isActive());
                 }
             }
@@ -235,9 +250,9 @@ public class LevelUpdater {
                 if (hintsEnabled
                         && !trip.maxAdjustmentsReached()
                         && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
-                        && !(trip.getBounds().overlaps(new Rectangle(ChaseCam.getInstance().camera.position.x - viewport.getWorldWidth() / 4, ChaseCam.getInstance().camera.position.y - viewport.getWorldHeight() / 4, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
-                    ChaseCam.getInstance().setState(Enums.ChaseCamState.CONVERT);
-                    ChaseCam.getInstance().setConvertBounds(trip.getBounds());
+                        && !(trip.getBounds().overlaps(new Rectangle(chaseCam.camera.position.x - viewport.getWorldWidth() / 4, chaseCam.camera.position.y - viewport.getWorldHeight() / 4, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
+                    chaseCam.setState(Enums.ChaseCamState.CONVERT);
+                    chaseCam.setConvertBounds(trip.getBounds());
                     trip.addCamAdjustment();
                 }
                 for (Ground g : grounds) {
@@ -255,7 +270,7 @@ public class LevelUpdater {
         if (ground instanceof Destructible) {
             if (((Destructible) ground).getHealth() < 1) {
                 if (ground instanceof Box) {
-                    Assets.getInstance().getSoundAssets().breakGround.play();
+                    assets.getSoundAssets().breakGround.play();
                     active = false;
                 }
             }
@@ -263,15 +278,15 @@ public class LevelUpdater {
         if (ground instanceof Chargeable && active) {
             Chargeable chargeable = (Chargeable) ground;
             if (chargeable instanceof Tripchamber) {
-                if (GigaGal.getInstance().getShotIntensity() == Enums.ShotIntensity.BLAST && !chargeable.isCharged()) {
+                if (gigaGal.getShotIntensity() == Enums.ShotIntensity.BLAST && !chargeable.isCharged()) {
                     chargeable.charge();
                 }
             } else {
-                if (GigaGal.getInstance().getChargeTimeSeconds() != Helpers.secondsSince(0) && GigaGal.getInstance().getDirectionX() == Direction.RIGHT) {
+                if (gigaGal.getChargeTimeSeconds() != Helpers.secondsSince(0) && gigaGal.getDirectionX() == Direction.RIGHT) {
                     if (!chargeable.isActive() && chargeable instanceof Chamber) {
                         chargeable.setState(true);
-                    } else if (GigaGal.getInstance().getChargeTimeSeconds() > 1) {
-                        chargeable.setChargeTime(GigaGal.getInstance().getChargeTimeSeconds());
+                    } else if (gigaGal.getChargeTimeSeconds() > 1) {
+                        chargeable.setChargeTime(gigaGal.getChargeTimeSeconds());
                     }
                 } else {
                     chargeable.setChargeTime(0);
@@ -280,7 +295,7 @@ public class LevelUpdater {
             if (ground instanceof Chamber) {
                 Chamber chamber = (Chamber) ground;
                 if (!chamber.isActive() && chamber.isCharged()) {
-                    Assets.getInstance().getSoundAssets().upgrade.play();
+                    assets.getSoundAssets().upgrade.play();
                     dispenseUpgrade(chamber.getUpgrade());
                     chamber.uncharge();
                 }
@@ -292,7 +307,7 @@ public class LevelUpdater {
                 Ammo ammo = projectiles.get(j);
                 if (Helpers.overlapsPhysicalObject(ammo, ground)) {
                     if (ammo.isFromGigagal()) {
-                        Assets.getInstance().getSoundAssets().hitGround.play();
+                        assets.getSoundAssets().hitGround.play();
                     }
                     if (ammo.isActive() &&
                             (ground.isDense() // collides with all sides of dense ground
@@ -328,7 +343,7 @@ public class LevelUpdater {
         }
         if (ground instanceof Reboundable) {
             Reboundable reboundable = (Reboundable) ground;
-            if (Helpers.overlapsPhysicalObject(GigaGal.getInstance(), ground)) {
+            if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                 reboundable.setState(true);
             } else if (reboundable.getState()) {
                 reboundable.resetStartTime();
@@ -375,15 +390,15 @@ public class LevelUpdater {
 
     public boolean updateTransport(float delta, Transport transport, int portalIndex) {
         boolean active = true;
-        if (GigaGal.getInstance().getPosition().dst(transport.getPosition()) < transport.getWidth() / 2 && InputControls.getInstance().upButtonPressed && InputControls.getInstance().jumpButtonJustPressed) {
+        if (gigaGal.getPosition().dst(transport.getPosition()) < transport.getWidth() / 2 && inputControls.upButtonPressed && inputControls.jumpButtonJustPressed) {
             if (transport instanceof Portal) {
                 for (int j = 0; j <= portalIndex; j++) {
                     if (!(transports.get(j) instanceof Portal)) {
                         portalIndex++;
                     }
                 }
-                Assets.getInstance().getSoundAssets().life.play();
-                int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
+                assets.getSoundAssets().life.play();
+                int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
                 List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
                 List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
                 List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
@@ -408,8 +423,8 @@ public class LevelUpdater {
                 savedTime = time;
                 savedScore = score;
             } else if (transport instanceof Teleport) {
-                Assets.getInstance().getSoundAssets().warp.play();
-                GigaGal.getInstance().getPosition().set(transport.getDestination());
+                assets.getSoundAssets().warp.play();
+                gigaGal.getPosition().set(transport.getDestination());
             }
         }
         return active;
@@ -419,26 +434,26 @@ public class LevelUpdater {
         switch (upgrade) {
             case AMMO:
                 SaveData.setAmmoMultiplier(.9f);
-                GigaGal.getInstance().updateMultipliers();
+                gigaGal.updateMultipliers();
                 break;
             case HEALTH:
                 SaveData.setHealthMultiplier(.8f);
-                GigaGal.getInstance().updateMultipliers();
+                gigaGal.updateMultipliers();
                 break;
             case TURBO:
                 SaveData.setTurboMultiplier(.7f);
-                GigaGal.getInstance().updateMultipliers();
+                gigaGal.updateMultipliers();
                 break;
             case CANNON:
                 String savedWeapons = SaveData.getWeapons();
                 if (!savedWeapons.contains(Enums.Material.HYBRID.name())) {
-                    GigaGal.getInstance().addWeapon(Enums.Material.HYBRID);
+                    gigaGal.addWeapon(Enums.Material.HYBRID);
                     SaveData.setWeapons(Enums.Material.HYBRID.name() + ", " + savedWeapons);
                 }
                 break;
             default:
         }
-        GigaGal.getInstance().setHealth(Constants.MAX_HEALTH);
+        gigaGal.setHealth(Constants.MAX_HEALTH);
     }
 
     protected void restoreRemovals(String removals) {
@@ -460,12 +475,16 @@ public class LevelUpdater {
         getGrounds().clear();
         getHazards().clear();
         getPowerups().clear();
+        entities.clear();
         grounds.clear();
         hazards.clear();
-        impacts.clear();
-        transports.clear();
         powerups.clear();
-        entities.clear();
+        transports.clear();
+        impacts.clear();
+        projectiles.clear();
+        music.dispose();
+        timer.stop();
+        inputControls.clear();
     }
 
 
@@ -477,28 +496,27 @@ public class LevelUpdater {
         entities.addAll(powerups);
         entities.addAll(transports);
         entities.addAll(impacts);
-        ChaseCam.getInstance().setState(Enums.ChaseCamState.FOLLOWING);
-
-        backdrop = new Backdrop(Assets.getInstance().getBackgroundAssets().getBackground(level));
-        music = Assets.getInstance().getMusicAssets().getThemeMusic(level);
+        chaseCam.setState(Enums.ChaseCamState.FOLLOWING);
+        backdrop = new Backdrop(assets.getBackgroundAssets().getBackground(theme));
+        music = assets.getMusicAssets().getThemeMusic(theme);
         music.setLooping(true);
         if (musicEnabled) {
             music.play();
         }
         levelWeapon = Enums.Material.NATIVE;
         for (Enums.Material weapon : Arrays.asList(Enums.Material.values())) {
-            if (weapon.theme().equals(level)) {
+            if (weapon.theme().equals(theme)) {
                 levelWeapon = weapon;
             }
         }
 
-        GigaGal.getInstance().setLives(3);
-        GigaGal.getInstance().respawn();
+        gigaGal.setLives(3);
+        gigaGal.respawn();
 
         // set level attributes
-        viewport = LevelScreen.getInstance().getViewport();
+        viewport = levelScreen.getViewport();
 
-        Timer.getInstance().reset().start(time);
+        timer.reset().start(time);
 
         savedTime = time;
         savedScore = score;
@@ -506,13 +524,13 @@ public class LevelUpdater {
 
     protected void end() {
         music.stop();
-        Timer.getInstance().suspend();
+        timer.suspend();
         if (completed()) {
             SaveData.setTotalScore(SaveData.getTotalScore() + score);
-            SaveData.setTotalTime(SaveData.getTotalTime() + Timer.getInstance().getSeconds());
+            SaveData.setTotalTime(SaveData.getTotalTime() + timer.getSeconds());
             String savedWeapons = SaveData.getWeapons();
             if (!savedWeapons.contains(levelWeapon.name())) {
-                GigaGal.getInstance().addWeapon(levelWeapon);
+                gigaGal.addWeapon(levelWeapon);
                 SaveData.setWeapons(levelWeapon.name() + ", " + savedWeapons);
             }
         }
@@ -521,7 +539,7 @@ public class LevelUpdater {
 
     protected void pause() {
         music.pause();
-        Timer.getInstance().suspend();
+        timer.suspend();
         paused = true;
     }
 
@@ -530,11 +548,11 @@ public class LevelUpdater {
             music.play();
         }
         paused = false;
-        Timer.getInstance().resume();
+        timer.resume();
     }
 
     protected void reset() {
-        int level = Arrays.asList(Enums.Theme.values()).indexOf(this.level);
+        int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
         List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
         List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
         List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
@@ -550,10 +568,10 @@ public class LevelUpdater {
     }
 
     protected boolean restarted() {
-        if (GigaGal.getInstance().getKillPlane() != -10000) {
-            if (GigaGal.getInstance().getPosition().y < GigaGal.getInstance().getKillPlane() || GigaGal.getInstance().getHealth() < 1) {
-                GigaGal.getInstance().setHealth(0);
-                GigaGal.getInstance().setLives(GigaGal.getInstance().getLives() - 1);
+        if (gigaGal.getKillPlane() != -10000) {
+            if (gigaGal.getPosition().y < gigaGal.getKillPlane() || gigaGal.getHealth() < 1) {
+                gigaGal.setHealth(0);
+                gigaGal.setLives(gigaGal.getLives() - 1);
                 return true;
             }
         }
@@ -562,19 +580,19 @@ public class LevelUpdater {
 
     protected boolean failed() {
         if (restarted()) {
-            if (GigaGal.getInstance().getLives() < 0) {
+            if (gigaGal.getLives() < 0) {
                 return true;
             }
             if (musicEnabled) {
                 music.stop();
                 music.play();
             }
-            GigaGal.getInstance().respawn();
+            gigaGal.respawn();
         }
         return false;
     }
 
-    protected boolean completed() { return ChaseCam.getInstance().getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1; }
+    protected boolean completed() { return chaseCam.getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1; }
 
     protected boolean continuing() { return !(completed() || failed()); }
 
@@ -639,15 +657,15 @@ public class LevelUpdater {
     public final Boss getBoss() { return boss; }
     public final Viewport getViewport() { return viewport; }
     public final DelayedRemovalArray<Transport> getTransports() { return transports; }
-    public final GigaGal getGigaGal() { return GigaGal.getInstance(); }
+    public final GigaGal getGigaGal() { return gigaGal; }
     public final Enums.Material getType() { return levelWeapon; }
-    protected Enums.Theme getLevel() { return level; }
+    protected Enums.Theme getTheme() { return theme; }
     public final boolean hasLoadEx() { return loadEx; }
 
     // Setters
     protected void setTime(long time) { this.time = time; }
     protected void setScore(int score) {this.score = score; }
-    protected void setLevel(Enums.Theme selectedLevel) { level = selectedLevel; }
+    protected void setTheme(Enums.Theme selectedLevel) { theme = selectedLevel; }
     protected void toggleMusic() { musicEnabled = !musicEnabled; }
     protected void toggleHints() { hintsEnabled = !hintsEnabled; }
     protected final void setLoadEx(boolean state) { loadEx = state; }
