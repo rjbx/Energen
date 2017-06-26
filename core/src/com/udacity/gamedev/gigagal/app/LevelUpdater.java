@@ -611,7 +611,7 @@ public class LevelUpdater {
         }
         return clonedGrounds;
     }
-    
+
     public final Array<Hazard> getHazards() {
         Array<Hazard> clonedHazards = new Array<Hazard>();
         for (Hazard hazard : hazards) {
@@ -623,7 +623,7 @@ public class LevelUpdater {
     public final Array<Powerup> getPowerups() {
         Array<Powerup> clonedPowerups = new Array<Powerup>();
         for (Powerup powerup : powerups) {
-            clonedPowerups.add(powerup);
+            clonedPowerups.add((Powerup) powerup.clone());
         }
         return clonedPowerups;
     }
