@@ -848,11 +848,9 @@ public class GigaGal implements Humanoid {
                 } else {
                     ammoUsed = Helpers.useAmmo(shotIntensity);
                 }
-
-                shoot(shotIntensity, weapon, ammoUsed);
                 chargeStartTime = 0;
                 chargeTimeSeconds = 0;
-                this.shotIntensity = ShotIntensity.NORMAL;
+                shoot(shotIntensity, weapon, ammoUsed);
             }
         }
     }
@@ -1259,7 +1257,7 @@ public class GigaGal implements Humanoid {
     @Override public final boolean getRappelStatus() { return canRappel; }
     @Override public final boolean getDashStatus() { return canDash; }
     @Override public final boolean getClimbStatus() { return canClimb; }
-    public boolean getDispatchStatus() { return canDispatch; }
+    public final boolean getDispatchStatus() { return canDispatch; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }
     @Override public final Enums.Action getAction() { return action; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
@@ -1339,6 +1337,7 @@ public class GigaGal implements Humanoid {
     public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); canPeer = false; } }
     public void setLevel(LevelUpdater level) { this.level = level; }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
+    public void resetChargeIntensity() { shotIntensity = ShotIntensity.NORMAL; }
     public void dispose() {
         weaponList.clear();
     }
