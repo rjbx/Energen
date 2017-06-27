@@ -490,7 +490,7 @@ public class LevelUpdater {
         }
     }
 
-    protected void dispose() {
+    protected void clearEntities() {
         getEntities().clear();
         getGrounds().clear();
         getHazards().clear();
@@ -502,13 +502,17 @@ public class LevelUpdater {
         transports.clear();
         impacts.clear();
         projectiles.clear();
-//        entities = null;
-//        grounds = null;
-//        hazards = null;
-//        powerups = null;
-//        transports = null;
-//        impacts = null;
-//        projectiles = null;
+    }
+
+    protected void dispose() {
+        clearEntities();
+        entities = null;
+        grounds = null;
+        hazards = null;
+        powerups = null;
+        transports = null;
+        impacts = null;
+        projectiles = null;
     }
 
 
@@ -558,7 +562,7 @@ public class LevelUpdater {
                 SaveData.setWeapons(levelWeapon.name() + ", " + savedWeapons);
             }
         }
-        dispose();
+        clearEntities();
     }
 
     protected void pause() {
