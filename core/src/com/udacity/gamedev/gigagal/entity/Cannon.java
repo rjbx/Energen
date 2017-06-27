@@ -25,6 +25,7 @@ public class Cannon extends Ground implements Nonstatic, Rappelable, Convertible
     private TextureRegion region;
     private long startTime;
     private boolean active;
+    private boolean canDispatch;
 
     // ctor
     public Cannon(Vector2 position, Enums.Orientation orientation, Enums.ShotIntensity intensity, boolean active) {
@@ -32,6 +33,7 @@ public class Cannon extends Ground implements Nonstatic, Rappelable, Convertible
         this.orientation = orientation;
         this.intensity = intensity;
         startTime = 0;
+        canDispatch = false;
         this.active = active;
         switch (orientation) {
             case Y:
@@ -46,6 +48,7 @@ public class Cannon extends Ground implements Nonstatic, Rappelable, Convertible
     }
 
     public void update(float delta) {
+        canDispatch = false;
         if (active) {
             if (this.getStartTime() == 0) {
                 this.setStartTime(TimeUtils.nanoTime());
@@ -53,23 +56,7 @@ public class Cannon extends Ground implements Nonstatic, Rappelable, Convertible
             if ((Helpers.secondsSince(this.getStartTime()) > 1.5f)) {
                 this.setStartTime(TimeUtils.nanoTime());
                 Enums.Orientation orientation = this.getOrientation();
-                if (orientation == Enums.Orientation.X) {
-                    Vector2 ammoPositionLeft = new Vector2(this.getPosition().x - (this.getWidth() / 2), this.getPosition().y);
-                    Vector2 ammoPositionRight = new Vector2(this.getPosition().x + (this.getWidth() / 2), this.getPosition().y);
-                    if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (this.getWidth() / 2))) {
-                        LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
-                    } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (this.getWidth() / 2))) {
-                        LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
-                    }
-                } else if (this.getOrientation() == Enums.Orientation.Y) {
-                    Vector2 ammoPositionTop = new Vector2(this.getPosition().x, this.getPosition().y + (this.getHeight() / 2));
-                    Vector2 ammoPositionBottom = new Vector2(this.getPosition().x, this.getPosition().y - (this.getHeight() / 2));
-                    if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (this.getHeight() / 2))) {
-                        LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
-                    } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (this.getHeight() / 2))) {
-                        LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, this.getIntensity(), LevelUpdater.getInstance().getType(), false);
-                    }
-                }
+                canDispatch = true;
             }
         }
     }
@@ -90,6 +77,7 @@ public class Cannon extends Ground implements Nonstatic, Rappelable, Convertible
     @Override public final boolean isDense() { return true; }
     @Override public void convert() { active = !active; }
     @Override public boolean isConverted() {  return active; }
+    public final boolean getDispatchStatus() { return canDispatch; }
     public final Enums.Orientation getOrientation() { return orientation; }
     public final Enums.ShotIntensity getIntensity() { return intensity; }
     public final long getStartTime() { return startTime; }

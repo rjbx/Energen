@@ -6,10 +6,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.Box;
+import com.udacity.gamedev.gigagal.entity.Cannon;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Chargeable;
 import com.udacity.gamedev.gigagal.entity.Convertible;
@@ -89,7 +91,7 @@ public class LevelUpdater {
     public static LevelUpdater getInstance() { return INSTANCE; }
 
     protected void create() {
-        
+
         levelScreen = LevelScreen.getInstance();
         levelScreen.create();
 
@@ -252,6 +254,26 @@ public class LevelUpdater {
     }
 
     public boolean updateGround(float delta, Ground ground) {
+        if (ground instanceof Cannon && ((Cannon) ground).getDispatchStatus()) {
+            Cannon cannon = (Cannon) ground;
+            if (cannon.getOrientation() == Enums.Orientation.X) {
+                Vector2 ammoPositionLeft = new Vector2(cannon.getPosition().x - (cannon.getWidth() / 2), cannon.getPosition().y);
+                Vector2 ammoPositionRight = new Vector2(cannon.getPosition().x + (cannon.getWidth() / 2), cannon.getPosition().y);
+                if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (cannon.getWidth() / 2))) {
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, cannon.getOrientation(), cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (cannon.getWidth() / 2))) {
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, cannon.getOrientation(), cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                }
+            } else if (cannon.getOrientation() == Enums.Orientation.Y) {
+                Vector2 ammoPositionTop = new Vector2(cannon.getPosition().x, cannon.getPosition().y + (cannon.getHeight() / 2));
+                Vector2 ammoPositionBottom = new Vector2(cannon.getPosition().x, cannon.getPosition().y - (cannon.getHeight() / 2));
+                if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (cannon.getHeight() / 2))) {
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, cannon.getOrientation(), cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (cannon.getHeight() / 2))) {
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, cannon.getOrientation(), cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                }
+            }
+        }
         boolean active = true;
         if (ground instanceof Trippable) {
             Trippable trip = (Trippable) ground;
@@ -392,17 +414,15 @@ public class LevelUpdater {
                 score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
             }
             if (destructible instanceof Orben) {
-                if (((Orben) destructible).getDispatchStatus()) {
-                    Vector2 ammoPositionLeft = new Vector2(destructible.getPosition().x - (destructible.getWidth() * 1.1f), destructible.getPosition().y);
-                    Vector2 ammoPositionRight = new Vector2(destructible.getPosition().x + (destructible.getWidth() * 1.1f), destructible.getPosition().y);
-                    Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, destructible.getPosition().y + (destructible.getHeight() * 1.1f));
-                    Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, destructible.getPosition().y - (destructible.getHeight() * 1.1f));
+                Vector2 ammoPositionLeft = new Vector2(destructible.getPosition().x - (destructible.getWidth() * 1.1f), destructible.getPosition().y);
+                Vector2 ammoPositionRight = new Vector2(destructible.getPosition().x + (destructible.getWidth() * 1.1f), destructible.getPosition().y);
+                Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, destructible.getPosition().y + (destructible.getHeight() * 1.1f));
+                Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, destructible.getPosition().y - (destructible.getHeight() * 1.1f));
 
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), false);
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), false);
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), false);
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), false);
-                }
+                LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), false);
+                LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), false);
+                LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), false);
+                LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), false);
             }
         } else if (hazard instanceof Ammo) {
             Ammo ammo = (Ammo) hazard;
@@ -498,30 +518,30 @@ public class LevelUpdater {
     }
 
     protected void dispose() {
-        getEntities().clear();
-        getGrounds().clear();
-        getHazards().clear();
-        getPowerups().clear();
-        entities.clear();
-        grounds.clear();
-        hazards.clear();
-        powerups.clear();
-        transports.clear();
-        impacts.clear();
-        projectiles.clear();
-        music.dispose();
-        timer.stop();
-        inputControls.clear();
-        entities = null;
-        grounds = null;
-        hazards = null;
-        powerups = null;
-        transports = null;
-        impacts = null;
-        projectiles = null;
-        music = null;
-        timer = null;
-        inputControls = null;
+//        getEntities().clear();
+//        getGrounds().clear();
+//        getHazards().clear();
+//        getPowerups().clear();
+//        entities.clear();
+//        grounds.clear();
+//        hazards.clear();
+//        powerups.clear();
+//        transports.clear();
+//        impacts.clear();
+//        projectiles.clear();
+//        music.dispose();
+//        timer.stop();
+//        inputControls.clear();
+//        entities = null;
+//        grounds = null;
+//        hazards = null;
+//        powerups = null;
+//        transports = null;
+//        impacts = null;
+//        projectiles = null;
+//        music = null;
+//        timer = null;
+//        inputControls = null;
     }
 
 
