@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
-public class Powerup extends Entity {
+public class Powerup extends com.udacity.gamedev.gigagal.app.Entity {
 
     // fields
     public final static String TAG = Powerup.class.getName();

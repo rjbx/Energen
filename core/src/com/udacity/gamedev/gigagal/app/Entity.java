@@ -1,4 +1,7 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.udacity.gamedev.gigagal.app;
+
+import com.udacity.gamedev.gigagal.entity.Physical;
+import com.udacity.gamedev.gigagal.entity.Visible;
 
 public abstract class Entity implements Physical, Visible, Cloneable {
 
@@ -15,7 +18,7 @@ public abstract class Entity implements Physical, Visible, Cloneable {
         }
         return false;
     }
-    @Override public Entity clone() {
+    @Override protected Entity clone() {
         try {
             Entity clone = (Entity) super.clone();
             clone.cloneHashCode = this.hashCode();
