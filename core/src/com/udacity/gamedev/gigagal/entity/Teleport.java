@@ -37,5 +37,4 @@ public class Teleport extends Transport {
     @Override public final float getTop() { return position.y + Constants.TELEPORT_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.TELEPORT_CENTER.y; }
     @Override public final Vector2 getDestination() { return destination; }
-    @Override public Pole clone() { return new Pole(position); }
 }

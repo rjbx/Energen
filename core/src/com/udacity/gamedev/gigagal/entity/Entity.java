@@ -1,7 +1,4 @@
-package com.udacity.gamedev.gigagal.app;
-
-import com.udacity.gamedev.gigagal.entity.Physical;
-import com.udacity.gamedev.gigagal.entity.Visible;
+package com.udacity.gamedev.gigagal.entity;
 
 public abstract class Entity implements Physical, Visible, Cloneable {
 
@@ -12,13 +9,13 @@ public abstract class Entity implements Physical, Visible, Cloneable {
     // default ctor
     public Entity() { cloneHashCode = hashCode(); }
 
-    @Override public boolean equals(Object object) {
+    @Override public final boolean equals(Object object) {
         if (object instanceof Entity) {
             return this.cloneHashCode == ((Entity) object).cloneHashCode;
         }
         return false;
     }
-    @Override protected Entity clone() {
+    @Override public final Entity clone() {
         try {
             Entity clone = (Entity) super.clone();
             clone.cloneHashCode = this.hashCode();
@@ -27,5 +24,5 @@ public abstract class Entity implements Physical, Visible, Cloneable {
             throw new AssertionError();
         }
     }
-    public int cloneHashCode() { return cloneHashCode; }
+    protected final int cloneHashCode() { return cloneHashCode; }
 }

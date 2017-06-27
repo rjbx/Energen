@@ -7,33 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.entity.Ammo;
-import com.udacity.gamedev.gigagal.entity.Boss;
-import com.udacity.gamedev.gigagal.entity.Box;
-import com.udacity.gamedev.gigagal.entity.Cannon;
-import com.udacity.gamedev.gigagal.entity.Chamber;
-import com.udacity.gamedev.gigagal.entity.Chargeable;
-import com.udacity.gamedev.gigagal.entity.Convertible;
-import com.udacity.gamedev.gigagal.entity.Destructible;
-import com.udacity.gamedev.gigagal.entity.Gate;
-import com.udacity.gamedev.gigagal.entity.Ground;
-import com.udacity.gamedev.gigagal.entity.Hazard;
-import com.udacity.gamedev.gigagal.entity.Impact;
-import com.udacity.gamedev.gigagal.entity.Nonstatic;
-import com.udacity.gamedev.gigagal.entity.Orben;
-import com.udacity.gamedev.gigagal.entity.Portal;
-import com.udacity.gamedev.gigagal.entity.GigaGal;
-import com.udacity.gamedev.gigagal.entity.Powerup;
-import com.udacity.gamedev.gigagal.entity.Reboundable;
-import com.udacity.gamedev.gigagal.entity.Strikeable;
-import com.udacity.gamedev.gigagal.entity.Swoopa;
-import com.udacity.gamedev.gigagal.entity.Teleport;
-import com.udacity.gamedev.gigagal.entity.Transport;
-import com.udacity.gamedev.gigagal.entity.Tripchamber;
-import com.udacity.gamedev.gigagal.entity.Tripknob;
-import com.udacity.gamedev.gigagal.entity.Trippable;
-import com.udacity.gamedev.gigagal.entity.Triptread;
-import com.udacity.gamedev.gigagal.entity.Vines;
+import com.udacity.gamedev.gigagal.entity.*;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.ChaseCam;
@@ -60,7 +34,7 @@ public class LevelUpdater {
     private Timer timer;
     private boolean loadEx;
     private Backdrop backdrop;
-    private DelayedRemovalArray<Entity> entities;
+    private DelayedRemovalArray<com.udacity.gamedev.gigagal.entity.Entity> entities;
     private DelayedRemovalArray<Ground> grounds;
     private DelayedRemovalArray<Hazard> hazards;
     private DelayedRemovalArray<Powerup> powerups;
@@ -100,7 +74,7 @@ public class LevelUpdater {
         chaseCam = ChaseCam.getInstance();
         assets = Assets.getInstance();
         inputControls = InputControls.getInstance();
-        entities = new DelayedRemovalArray<Entity>();
+        entities = new DelayedRemovalArray<com.udacity.gamedev.gigagal.entity.Entity>();
         grounds = new DelayedRemovalArray<Ground>();
         hazards = new DelayedRemovalArray<Hazard>();
         projectiles = new DelayedRemovalArray<Ammo>();
@@ -254,21 +228,22 @@ public class LevelUpdater {
     public boolean updateGround(float delta, Ground ground) {
         if (ground instanceof Cannon && ((Cannon) ground).getDispatchStatus()) {
             Cannon cannon = (Cannon) ground;
-            if (cannon.getOrientation() == Enums.Orientation.X) {
+            Enums.Orientation orientation = cannon.getOrientation();
+            if (orientation == Enums.Orientation.X) {
                 Vector2 ammoPositionLeft = new Vector2(cannon.getPosition().x - (cannon.getWidth() / 2), cannon.getPosition().y);
                 Vector2 ammoPositionRight = new Vector2(cannon.getPosition().x + (cannon.getWidth() / 2), cannon.getPosition().y);
                 if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (cannon.getWidth() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, cannon.getOrientation(), cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, orientation, cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
                 } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (cannon.getWidth() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, cannon.getOrientation(), cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, orientation, cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
                 }
-            } else if (cannon.getOrientation() == Enums.Orientation.Y) {
+            } else if (orientation == Enums.Orientation.Y) {
                 Vector2 ammoPositionTop = new Vector2(cannon.getPosition().x, cannon.getPosition().y + (cannon.getHeight() / 2));
                 Vector2 ammoPositionBottom = new Vector2(cannon.getPosition().x, cannon.getPosition().y - (cannon.getHeight() / 2));
                 if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (cannon.getHeight() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, cannon.getOrientation(), cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, orientation, cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
                 } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (cannon.getHeight() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, cannon.getOrientation(), cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
                 }
             }
         }
@@ -411,7 +386,7 @@ public class LevelUpdater {
                 active = false;
                 score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
             }
-            if (destructible instanceof Orben) {
+            if (destructible instanceof Orben && ((Orben) destructible).getDispatchStatus()) {
                 Vector2 ammoPositionLeft = new Vector2(destructible.getPosition().x - (destructible.getWidth() * 1.1f), destructible.getPosition().y);
                 Vector2 ammoPositionRight = new Vector2(destructible.getPosition().x + (destructible.getWidth() * 1.1f), destructible.getPosition().y);
                 Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, destructible.getPosition().y + (destructible.getHeight() * 1.1f));
@@ -516,20 +491,17 @@ public class LevelUpdater {
     }
 
     protected void dispose() {
-//        getEntities().clear();
-//        getGrounds().clear();
-//        getHazards().clear();
-//        getPowerups().clear();
-//        entities.clear();
-//        grounds.clear();
-//        hazards.clear();
-//        powerups.clear();
-//        transports.clear();
-//        impacts.clear();
-//        projectiles.clear();
-//        music.dispose();
-//        timer.stop();
-//        inputControls.clear();
+        getEntities().clear();
+        getGrounds().clear();
+        getHazards().clear();
+        getPowerups().clear();
+        entities.clear();
+        grounds.clear();
+        hazards.clear();
+        powerups.clear();
+        transports.clear();
+        impacts.clear();
+        projectiles.clear();
 //        entities = null;
 //        grounds = null;
 //        hazards = null;
@@ -537,9 +509,6 @@ public class LevelUpdater {
 //        transports = null;
 //        impacts = null;
 //        projectiles = null;
-//        music = null;
-//        timer = null;
-//        inputControls = null;
     }
 
 
@@ -666,15 +635,15 @@ public class LevelUpdater {
     }
 
     // Getters
-    protected final void addEntity(Entity entity) { entities.add(entity); }
+    protected final void addEntity(com.udacity.gamedev.gigagal.entity.Entity entity) { entities.add(entity); }
     protected final void addGround(Ground ground) { grounds.add(ground); }
     protected final void addHazard(Hazard hazard) { hazards.add(hazard); }
     protected final void addPowerup(Powerup powerup) { powerups.add(powerup); }
 
     // to return cloned elements; state changes set from this class
-    public final Array<Entity> getEntities() {
-        Array<Entity> clonedEntities = new Array<Entity>();
-        for (Entity entity : entities) {
+    public final Array<com.udacity.gamedev.gigagal.entity.Entity> getEntities() {
+        Array<com.udacity.gamedev.gigagal.entity.Entity> clonedEntities = new Array<com.udacity.gamedev.gigagal.entity.Entity>();
+        for (com.udacity.gamedev.gigagal.entity.Entity entity : entities) {
             clonedEntities.add(entity.clone());
         }
         return clonedEntities;

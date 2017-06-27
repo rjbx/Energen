@@ -25,7 +25,6 @@ public class Block extends Ground implements Rappelable, Hurdleable, Strikeable,
     private final float right;
     private final float width;
     private final float height;
-    private int hashCode;
     private boolean dense;
     private boolean converted;
     private NinePatch ninePatch;
@@ -39,7 +38,6 @@ public class Block extends Ground implements Rappelable, Hurdleable, Strikeable,
         this.left = 0;
         this.right = 0;
         this.position = new Vector2();
-        this.hashCode = hashCode();
         this.type = Enums.Material.NATIVE;
         this.dense = true;
         converted = false;

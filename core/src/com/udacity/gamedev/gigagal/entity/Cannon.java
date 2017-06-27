@@ -55,7 +55,6 @@ public class Cannon extends Ground implements Nonstatic, Rappelable, Convertible
             }
             if ((Helpers.secondsSince(this.getStartTime()) > 1.5f)) {
                 this.setStartTime(TimeUtils.nanoTime());
-                Enums.Orientation orientation = this.getOrientation();
                 canDispatch = true;
             }
         }
