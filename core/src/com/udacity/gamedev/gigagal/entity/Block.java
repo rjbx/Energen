@@ -10,7 +10,6 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-
 // mutable
 public class Block extends Ground implements Rappelable, Hurdleable, Strikeable, Convertible {
 
