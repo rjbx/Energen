@@ -12,19 +12,40 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Rollen extends Roller {
+public class Rollen extends Hazard implements MultidirectionalX, Destructible {
 
     // fields
     public final static String TAG = Rollen.class.getName();
 
+    private LevelUpdater level;
+    private Vector2 position;
+    private Vector2 previousFramePosition; // class-level instantiation
     private Enums.Direction xDirection;
+    private Enums.Material type;
+    private Vector2 velocity; // class-level instantiation
+    private float collision;
+    private long startTime;
     private float health;
+    private float speedAtChangeXDirection;
+    private long rollStartTime;
+    private float rollTimeSeconds;
+    private float radius;
     private Animation animation;
 
     // ctor
     public Rollen(LevelUpdater level, Vector2 position, Enums.Material type) {
-        super(level, position, type);
+        this.level = level;
+        this.type = type;
+        this.position = position;
+        previousFramePosition = new Vector2();
+        velocity = new Vector2(0, 0);
+        radius = getWidth() / 2;
         health = Constants.ROLLEN_MAX_HEALTH;
+        xDirection = null;
+        speedAtChangeXDirection = 0;
+        rollStartTime = 0;
+        rollTimeSeconds = 0;
+        collision = rollTimeSeconds;
         switch (type) {
             case ORE:
                 animation = Assets.getInstance().getRollenAssets().oreRollen;
@@ -46,6 +67,83 @@ public class Rollen extends Roller {
         }
     }
 
+    public void update(float delta) {
+        previousFramePosition.set(position);
+        position.mulAdd(velocity, delta);
+
+        Viewport viewport = level.getViewport();
+        Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
+        Vector3 camera = new Vector3(viewport.getCamera().position);
+        Vector2 activationDistance = new Vector2(worldSpan.x / 1.5f, worldSpan.y / 1.5f);
+
+        boolean touchingSide = false;
+        boolean touchingTop = false;
+        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+            if (Helpers.overlapsPhysicalObject(this, ground)) {
+                if (ground.isDense()) {
+                    if (Helpers.overlapsBetweenTwoSides(position.x, radius, ground.getLeft(), ground.getRight())
+                            && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
+                        touchingSide = true;
+                        if (position.x < ground.getPosition().x) {
+                            velocity.x -= 5;
+                        } else {
+                            velocity.x += 5;
+                        }
+                    }
+                }
+                if (Helpers.overlapsBetweenTwoSides(position.y, radius, ground.getBottom(), ground.getTop())
+                        && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))) {
+                    touchingTop = true;
+                }
+            }
+        }
+
+        if (touchingTop) {
+            velocity.y = 0;
+            position.y = previousFramePosition.y;
+            if ((position.x < camera.x - activationDistance.x)
+            || (position.x > camera.x + activationDistance.x)) {
+                xDirection = null;
+                startTime = 0;
+                velocity.x = 0;
+            } else if ((position.x >= camera.x - activationDistance.x) && (position.x < camera.x)) {
+                xDirection = Enums.Direction.RIGHT;
+            } else if ((position.x < camera.x + activationDistance.x) && (position.x >= camera.x)) {
+                xDirection = Enums.Direction.LEFT;
+            }
+
+            if (xDirection != null) {
+                if (rollStartTime == 0) {
+                    speedAtChangeXDirection = velocity.x;
+                    rollStartTime = TimeUtils.nanoTime();
+                }
+                rollTimeSeconds = Helpers.secondsSince(rollStartTime);
+                velocity.x = speedAtChangeXDirection + Helpers.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
+            }
+            for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+                if (hazard instanceof Rollen && Helpers.overlapsPhysicalObject(this, hazard)) {
+                    position.set(previousFramePosition);
+                    if (!touchingSide && position.x < hazard.getPosition().x) {
+                        velocity.x -= 5;
+                    } else {
+                        velocity.x += 5;
+                    }
+                }
+            }
+        } else {
+            velocity.y -= Constants.GRAVITY;
+        }
+
+        if (touchingSide) {
+            xDirection = null;
+            startTime = 0;
+            velocity.x = 0;
+            position.x = previousFramePosition.x;
+            rollStartTime = TimeUtils.nanoTime();
+            rollTimeSeconds = 0;
+        }
+    }
+
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (xDirection == Enums.Direction.RIGHT) {
@@ -55,9 +153,11 @@ public class Rollen extends Roller {
         }
 
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
+
     }
 
     @Override public Vector2 getPosition() { return position; }
+    public Vector2 getVelocity() { return velocity; }
     @Override public final float getHealth() { return health; }
     @Override public final float getWidth() { return Constants.ROLLEN_CENTER.x * 2; }
     @Override public final float getHeight() { return Constants.ROLLEN_CENTER.y * 2; }
@@ -71,6 +171,7 @@ public class Rollen extends Roller {
     @Override public final int getDamage() { return Constants.ROLLEN_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ROLLEN_KNOCKBACK; }
     @Override public final void setHealth( float health ) { this.health = health; }
+    @Override public final Enums.Material getType() { return type; }
     @Override public Enums.Direction getDirectionX() { return xDirection; }
     @Override public void setDirectionX(Enums.Direction direction) { xDirection = direction; }
     public final long getStartTime() { return startTime; }
