@@ -331,6 +331,9 @@ public class LevelUpdater {
                         Tripknob tripknob = (Tripknob) strikeable;
                         tripknob.resetStartTime();
                         tripknob.setState(!tripknob.isActive());
+                    } else if (strikeable instanceof Canirol) {
+                        Canirol canirol = (Canirol) strikeable;
+                        canirol.convert();
                     } else if (strikeable instanceof Chargeable) {
                         Chargeable chargeable = (Chargeable) strikeable;
                         if (chargeable instanceof Chamber) {

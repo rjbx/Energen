@@ -4,17 +4,15 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Canirol extends Ground implements Weaponized, Hoverable, Nonstatic, Convertible {
+public class Canirol extends Ground implements Weaponized, Hoverable, Strikeable, Nonstatic, Convertible {
     // fields
     public final static String TAG = Lift.class.getName();
 
@@ -31,7 +29,6 @@ public class Canirol extends Ground implements Weaponized, Hoverable, Nonstatic,
     private Animation animation;
     private boolean canDispatch;
     private boolean active;
-    private TextureRegion region;
 
     // ctor
     public Canirol(Vector2 position, Enums.Orientation orientation, Enums.ShotIntensity intensity, float range, boolean active) {
@@ -64,6 +61,7 @@ public class Canirol extends Ground implements Weaponized, Hoverable, Nonstatic,
         switch (orientation) {
             case Y:
                 velocity.setZero();
+                animation = Assets.getInstance().getCanirolAssets().yCanirol;
                 break;
             case X:
                 switch (direction) {
@@ -90,7 +88,7 @@ public class Canirol extends Ground implements Weaponized, Hoverable, Nonstatic,
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(0)), position, Constants.LIFT_CENTER);
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(0)), position, center);
     }
 
     @Override public final Vector2 getPosition() { return position; }
