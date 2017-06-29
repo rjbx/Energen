@@ -65,14 +65,14 @@ public class Cannon extends Ground implements Nonstatic, Rappelable, Convertible
         Helpers.drawTextureRegion(batch, viewport, region, getPosition(), getCenter());
     }
 
-    public final Vector2 getPosition() { return position; }
+    @Override public final Vector2 getPosition() { return position; }
     public final Vector2 getCenter() { return center; }
-    public final float getWidth() { return center.x * 2; }
-    public final float getHeight() { return center.y * 2; }
-    public final float getLeft() { return position.x - center.x; }
-    public final float getRight() { return position.x + center.x; }
-    public final float getTop() { return position.y + center.y; }
-    public final float getBottom() { return position.y - center.y; }
+    @Override public final float getWidth() { return center.x * 2; }
+    @Override public final float getHeight() { return center.y * 2; }
+    @Override public final float getLeft() { return position.x - center.x; }
+    @Override public final float getRight() { return position.x + center.x; }
+    @Override public final float getTop() { return position.y + center.y; }
+    @Override public final float getBottom() { return position.y - center.y; }
     @Override public final boolean isDense() { return true; }
     @Override public void convert() { active = !active; }
     @Override public boolean isConverted() {  return active; }
