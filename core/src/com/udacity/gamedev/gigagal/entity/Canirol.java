@@ -37,6 +37,7 @@ public class Canirol extends Ground implements Weaponized, Hoverable, Nonstatic,
     public Canirol(Vector2 position, Enums.Orientation orientation, Enums.ShotIntensity intensity, float range, boolean active) {
         this.position = position;
         animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
+        center = new Vector2();
         setOrientation(orientation);
         converted = false;
         velocity = new Vector2();
@@ -46,16 +47,6 @@ public class Canirol extends Ground implements Weaponized, Hoverable, Nonstatic,
         this.intensity = intensity;
         canDispatch = false;
         this.active = active;
-        switch (orientation) {
-            case Y:
-                region = Assets.getInstance().getGroundAssets().yCannon;
-                center = Constants.Y_CANNON_CENTER;
-                break;
-            case X:
-                region = Assets.getInstance().getGroundAssets().xCannon;
-                center = Constants.X_CANNON_CENTER;
-                break;
-        }
     }
 
     @Override
