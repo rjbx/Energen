@@ -14,7 +14,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Cannon extends Ground implements Nonstatic, Rappelable, Convertible {
+public class Cannon extends Ground implements Weaponized, Nonstatic, Rappelable, Convertible {
 
     // fields
     public final static String TAG = Cannon.class.getName();
@@ -76,9 +76,9 @@ public class Cannon extends Ground implements Nonstatic, Rappelable, Convertible
     @Override public final boolean isDense() { return true; }
     @Override public void convert() { active = !active; }
     @Override public boolean isConverted() {  return active; }
-    public final boolean getDispatchStatus() { return canDispatch; }
+    @Override public final boolean getDispatchStatus() { return canDispatch; }
+    @Override public final Enums.ShotIntensity getIntensity() { return intensity; }
     public final Enums.Orientation getOrientation() { return orientation; }
-    public final Enums.ShotIntensity getIntensity() { return intensity; }
     public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
 }

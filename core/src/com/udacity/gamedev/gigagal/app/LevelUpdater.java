@@ -226,24 +226,24 @@ public class LevelUpdater {
     }
 
     public boolean updateGround(float delta, Ground ground) {
-        if (ground instanceof Cannon && ((Cannon) ground).getDispatchStatus()) {
-            Cannon cannon = (Cannon) ground;
-            Enums.Orientation orientation = cannon.getOrientation();
+        if (ground instanceof Weaponized && ((Weaponized) ground).getDispatchStatus()) {
+            Weaponized weapon = (Weaponized) ground;
+            Enums.Orientation orientation = weapon.getOrientation();
             if (orientation == Enums.Orientation.X) {
-                Vector2 ammoPositionLeft = new Vector2(cannon.getPosition().x - (cannon.getWidth() / 2), cannon.getPosition().y);
-                Vector2 ammoPositionRight = new Vector2(cannon.getPosition().x + (cannon.getWidth() / 2), cannon.getPosition().y);
-                if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (cannon.getWidth() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, orientation, cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
-                } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (cannon.getWidth() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, orientation, cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                Vector2 ammoPositionLeft = new Vector2(weapon.getPosition().x - (weapon.getWidth() / 2), weapon.getPosition().y);
+                Vector2 ammoPositionRight = new Vector2(weapon.getPosition().x + (weapon.getWidth() / 2), weapon.getPosition().y);
+                if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (weapon.getWidth() / 2))) {
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (weapon.getWidth() / 2))) {
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), false);
                 }
             } else if (orientation == Enums.Orientation.Y) {
-                Vector2 ammoPositionTop = new Vector2(cannon.getPosition().x, cannon.getPosition().y + (cannon.getHeight() / 2));
-                Vector2 ammoPositionBottom = new Vector2(cannon.getPosition().x, cannon.getPosition().y - (cannon.getHeight() / 2));
-                if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (cannon.getHeight() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, orientation, cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
-                } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (cannon.getHeight() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, cannon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                Vector2 ammoPositionTop = new Vector2(weapon.getPosition().x, weapon.getPosition().y + (weapon.getHeight() / 2));
+                Vector2 ammoPositionBottom = new Vector2(weapon.getPosition().x, weapon.getPosition().y - (weapon.getHeight() / 2));
+                if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (weapon.getHeight() / 2))) {
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (weapon.getHeight() / 2))) {
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), false);
                 }
             }
         }

@@ -14,7 +14,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Canirol extends Ground implements Hoverable, Nonstatic, Convertible {
+public class Canirol extends Ground implements Weaponized, Hoverable, Nonstatic, Convertible {
     // fields
     public final static String TAG = Lift.class.getName();
 
@@ -23,25 +23,53 @@ public class Canirol extends Ground implements Hoverable, Nonstatic, Convertible
     private Enums.Orientation orientation;
     private Vector2 velocity; // class-level instantiation
     private final Vector2 startPosition; // class-level instantiation
-    private final Vector2 center;
+    private Vector2 center;
     private float range;
     private boolean converted;
+    private Enums.ShotIntensity intensity;
     private long startTime;
+    private Animation animation;
+    private boolean canDispatch;
+    private boolean active;
+    private TextureRegion region;
 
     // ctor
     public Canirol(Vector2 position, Enums.Orientation orientation, Enums.ShotIntensity intensity, float range, boolean active) {
         this.position = position;
-        center = new Vector2();
+        animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
         setOrientation(orientation);
         converted = false;
         velocity = new Vector2();
         startPosition = new Vector2(position);
+        startTime = 0;
         this.range = range;
-        startTime = TimeUtils.nanoTime();
+        this.intensity = intensity;
+        canDispatch = false;
+        this.active = active;
+        switch (orientation) {
+            case Y:
+                region = Assets.getInstance().getGroundAssets().yCannon;
+                center = Constants.Y_CANNON_CENTER;
+                break;
+            case X:
+                region = Assets.getInstance().getGroundAssets().xCannon;
+                center = Constants.X_CANNON_CENTER;
+                break;
+        }
     }
 
     @Override
     public void update(float delta) {
+        canDispatch = false;
+        if (active) {
+            if (this.getStartTime() == 0) {
+                this.setStartTime(TimeUtils.nanoTime());
+            }
+            if ((Helpers.secondsSince(this.getStartTime()) > 1.5f)) {
+                this.setStartTime(TimeUtils.nanoTime());
+                canDispatch = true;
+            }
+        }
         switch (orientation) {
             case Y:
                 velocity.setZero();
@@ -59,9 +87,11 @@ public class Canirol extends Ground implements Hoverable, Nonstatic, Convertible
                 if (position.x < (startPosition.x - (range / 2))) {
                     position.x = startPosition.x - (range / 2);
                     direction = Enums.Direction.RIGHT;
+                    animation = Assets.getInstance().getCanirolAssets().xRightCanirol;
                 } else if (position.x > (startPosition.x + (range / 2))) {
                     position.x = startPosition.x + (range / 2);
                     direction = Enums.Direction.LEFT;
+                    animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
                 }
                 break;
         }
@@ -69,7 +99,7 @@ public class Canirol extends Ground implements Hoverable, Nonstatic, Convertible
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getCanirolAssets().xLeftCanirol.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.LIFT_CENTER);
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(0)), position, Constants.LIFT_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }
@@ -89,6 +119,10 @@ public class Canirol extends Ground implements Hoverable, Nonstatic, Convertible
     @Override public void convert() { converted = !converted; position.set(startPosition); setOrientation(Helpers.getOppositeOrientation(orientation)); }
     @Override public boolean isConverted() { return converted; }
     public final void setRange(float range) { this.range = range; }
+    public final long getStartTime() { return startTime; }
+    public final void setStartTime(long startTime) { this.startTime = startTime; }
+    @Override public final boolean getDispatchStatus() { return canDispatch; }
+    @Override public final Enums.ShotIntensity getIntensity() { return intensity; }
     private void setOrientation(Enums.Orientation orientation) {
         this.orientation = orientation;
         switch (orientation) {
