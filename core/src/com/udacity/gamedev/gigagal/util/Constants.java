@@ -315,6 +315,7 @@ public final class Constants {
     public static final String Y_CANIROL_SPRITE_1 = "canirol-y-1";
     public static final String Y_CANIROL_SPRITE_2 = "canirol-y-2";
     public static final String Y_CANIROL_SPRITE_3 = "canirol-y-3";
+    public static final float CANIROL_FRAME_DURATION = 0.2f;
 
     // Zoomba
     public static final Vector2 ZOOMBA_CENTER = new Vector2(14.5f, 25.5f);

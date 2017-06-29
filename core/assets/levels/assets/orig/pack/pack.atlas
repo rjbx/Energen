@@ -28,6 +28,13 @@ box-breakable
   orig: 58, 58
   offset: 0, 0
   index: -1
+canirol-x-1
+  rotate: false
+  xy: 289, 30
+  size: 20, 15
+  orig: 20, 15
+  offset: 0, 0
+  index: -1
 cannon-x
   rotate: false
   xy: 249, 2
@@ -44,14 +51,14 @@ cannon-y
   index: -1
 chamber
   rotate: false
-  xy: 314, 106
+  xy: 329, 87
   size: 11, 20
   orig: 11, 20
   offset: 0, 0
   index: -1
 chamber-trip-1-off
   rotate: false
-  xy: 328, 67
+  xy: 346, 113
   size: 11, 13
   orig: 11, 13
   offset: 0, 0
@@ -65,14 +72,14 @@ coals-1
   index: -1
 gate-0
   rotate: false
-  xy: 369, 39
+  xy: 364, 8
   size: 8, 35
   orig: 8, 35
   offset: 0, 0
   index: -1
 gg-stand-right
   rotate: false
-  xy: 341, 36
+  xy: 336, 5
   size: 26, 33
   orig: 26, 33
   offset: 0, 0
@@ -86,7 +93,7 @@ ice-1
   index: -1
 icon-life
   rotate: false
-  xy: 327, 113
+  xy: 331, 113
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
@@ -100,7 +107,7 @@ knob-1
   index: -1
 ladder
   rotate: false
-  xy: 368, 76
+  xy: 355, 45
   size: 19, 50
   split: 7, 7, 0, 0
   orig: 19, 50
@@ -143,7 +150,7 @@ pod-1
   index: -1
 pole-1
   rotate: false
-  xy: 379, 26
+  xy: 384, 78
   size: 5, 48
   orig: 5, 48
   offset: 0, 0
@@ -157,7 +164,7 @@ portal-1
   index: -1
 powerup-ammo
   rotate: false
-  xy: 296, 11
+  xy: 311, 31
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -171,21 +178,21 @@ powerup-cannon
   index: -1
 powerup-health
   rotate: false
-  xy: 310, 31
+  xy: 312, 82
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 312, 82
+  xy: 314, 109
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 protrusion-gas-1
   rotate: false
-  xy: 313, 2
+  xy: 317, 2
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
@@ -199,21 +206,21 @@ protrusion-liquid-1
   index: -1
 protrusion-plasma-1
   rotate: false
-  xy: 332, 16
+  xy: 359, 110
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
   index: -1
 protrusion-polymer-1
   rotate: false
-  xy: 289, 30
+  xy: 296, 13
   size: 19, 15
   orig: 19, 15
   offset: 0, 0
   index: -1
 protrusion-solid-1
   rotate: false
-  xy: 329, 95
+  xy: 370, 110
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
@@ -227,7 +234,7 @@ rollen-polymer-1
   index: -1
 rope
   rotate: false
-  xy: 389, 26
+  xy: 376, 8
   size: 6, 100
   orig: 6, 100
   offset: 0, 0
@@ -332,14 +339,14 @@ treadmill-trip-1-off
   index: -1
 trip-1
   rotate: false
-  xy: 327, 34
+  xy: 342, 97
   size: 12, 14
   orig: 12, 14
   offset: 0, 0
   index: -1
 vines
   rotate: false
-  xy: 341, 71
+  xy: 328, 40
   size: 25, 40
   orig: 25, 40
   offset: 0, 0

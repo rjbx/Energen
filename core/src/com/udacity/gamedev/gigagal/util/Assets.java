@@ -30,6 +30,7 @@ public final class Assets implements AssetErrorListener {
     private BackgroundAssets backgroundAssets;
     private GroundAssets groundAssets;
     private AmmoAssets ammoAssets;
+    private CanirolAssets canirolAssets;
     private ZoombaAssets zoombaAssets;
     private SwoopaAssets swoopaAssets;
     private OrbenAssets orbenAssets;
@@ -92,6 +93,7 @@ public final class Assets implements AssetErrorListener {
         backgroundAssets = new BackgroundAssets(atlas);
         groundAssets = new GroundAssets(atlas);
         ammoAssets = new AmmoAssets(atlas);
+        canirolAssets = new CanirolAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
         swoopaAssets = new SwoopaAssets(atlas);
         orbenAssets = new OrbenAssets(atlas);
@@ -617,6 +619,29 @@ public final class Assets implements AssetErrorListener {
             hybridBlastRegions.add(atlas.findRegion(Constants.BLAST_HYBRID_SPRITE_2));
             hybridBlastRegions.add(atlas.findRegion(Constants.BLAST_HYBRID_SPRITE_3));
             hybridBlast = new Animation(Constants.SHOT_FRAME_DURATION, hybridBlastRegions, PlayMode.LOOP);
+        }
+    }
+    
+    public static final class CanirolAssets {
+        
+        public final Animation xLeftCanirol;
+        public final Animation xRightCanirol;
+        public final Animation yCanirol;
+        
+        private CanirolAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> xLeftCanirolRegions = new Array<AtlasRegion>();
+            xLeftCanirolRegions.add(atlas.findRegion(Constants.X_CANIROL_SPRITE_1));
+            xLeftCanirolRegions.add(atlas.findRegion(Constants.X_CANIROL_SPRITE_2));
+            xLeftCanirolRegions.add(atlas.findRegion(Constants.X_CANIROL_SPRITE_3));
+            xLeftCanirol = new Animation(Constants.CANIROL_FRAME_DURATION, xLeftCanirolRegions, PlayMode.NORMAL);
+
+            xRightCanirol = new Animation(Constants.CANIROL_FRAME_DURATION, xLeftCanirolRegions, PlayMode.REVERSED);
+
+            Array<AtlasRegion> yCanirolRegions = new Array<AtlasRegion>();
+            yCanirolRegions.add(atlas.findRegion(Constants.Y_CANIROL_SPRITE_1));
+            yCanirolRegions.add(atlas.findRegion(Constants.Y_CANIROL_SPRITE_2));
+            yCanirolRegions.add(atlas.findRegion(Constants.Y_CANIROL_SPRITE_3));
+            yCanirol = new Animation(Constants.CANIROL_FRAME_DURATION, yCanirolRegions, PlayMode.NORMAL);
         }
     }
 
@@ -1209,6 +1234,7 @@ public final class Assets implements AssetErrorListener {
     public final BackgroundAssets getBackgroundAssets() { return backgroundAssets; }
     public final GroundAssets getGroundAssets(){ return groundAssets; }
     public final AmmoAssets getAmmoAssets(){ return ammoAssets; }
+    public final CanirolAssets getCanirolAssets() { return canirolAssets; }
     public final ZoombaAssets getZoombaAssets(){ return zoombaAssets; }
     public final SwoopaAssets getSwoopaAssets(){ return swoopaAssets; }
     public final OrbenAssets getOrbenAssets(){ return orbenAssets; }

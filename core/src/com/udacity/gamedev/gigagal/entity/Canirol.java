@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
@@ -14,11 +13,12 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Canirol extends Hazard implements Indestructible, MultidirectionalX, Nonstatic, Convertible {
+public class Canirol extends Ground implements Hoverable, MultidirectionalX, Nonstatic, Convertible {
     // fields
     public final static String TAG = Cannon.class.getName();
     private Vector2 position;
     private Vector2 center;
+    private Enums.Direction direction;
     private Enums.Orientation orientation;
     private Enums.ShotIntensity intensity;
     private TextureRegion region;
@@ -70,80 +70,80 @@ public class Canirol extends Hazard implements Indestructible, MultidirectionalX
             }
         }
 
-        previousFramePosition.set(position);
-        position.mulAdd(velocity, delta);
-
-        Viewport viewport = level.getViewport();
-        Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
-        Vector3 camera = new Vector3(viewport.getCamera().position);
-        Vector2 activationDistance = new Vector2(worldSpan.x / 1.5f, worldSpan.y / 1.5f);
-
-        boolean touchingSide = false;
-        boolean touchingTop = false;
-        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-            if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (ground.isDense()) {
-                    if (Helpers.overlapsBetweenTwoSides(position.x, radius, ground.getLeft(), ground.getRight())
-                            && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
-                        touchingSide = true;
-                        if (position.x < ground.getPosition().x) {
-                            velocity.x -= 5;
-                        } else {
-                            velocity.x += 5;
-                        }
-                    }
-                }
-                if (Helpers.overlapsBetweenTwoSides(position.y, radius, ground.getBottom(), ground.getTop())
-                        && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))) {
-                    touchingTop = true;
-                }
-            }
-        }
-
-        if (touchingTop) {
-            velocity.y = 0;
-            position.y = previousFramePosition.y;
-            if ((position.x < camera.x - activationDistance.x)
-                    || (position.x > camera.x + activationDistance.x)) {
-                xDirection = null;
-                startTime = 0;
-                velocity.x = 0;
-            } else if ((position.x >= camera.x - activationDistance.x) && (position.x < camera.x)) {
-                xDirection = Enums.Direction.RIGHT;
-            } else if ((position.x < camera.x + activationDistance.x) && (position.x >= camera.x)) {
-                xDirection = Enums.Direction.LEFT;
-            }
-
-            if (xDirection != null) {
-                if (rollStartTime == 0) {
-                    speedAtChangeXDirection = velocity.x;
-                    rollStartTime = TimeUtils.nanoTime();
-                }
-                rollTimeSeconds = Helpers.secondsSince(rollStartTime);
-                velocity.x = speedAtChangeXDirection + Helpers.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
-            }
-            for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
-                if (hazard instanceof Rollen && Helpers.overlapsPhysicalObject(this, hazard)) {
-                    position.set(previousFramePosition);
-                    if (!touchingSide && position.x < hazard.getPosition().x) {
-                        velocity.x -= 5;
-                    } else {
-                        velocity.x += 5;
-                    }
-                }
-            }
-        } else {
-            velocity.y -= Constants.GRAVITY;
-        }
-
-        if (touchingSide) {
-            xDirection = null;
-            startTime = 0;
-            velocity.x = 0;
-            position.x = previousFramePosition.x;
-            rollStartTime = TimeUtils.nanoTime();
-            rollTimeSeconds = 0;
-        }
+//        previousFramePosition.set(position);
+//        position.mulAdd(velocity, delta);
+//
+//        Viewport viewport = level.getViewport();
+//        Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
+//        Vector3 camera = new Vector3(viewport.getCamera().position);
+//        Vector2 activationDistance = new Vector2(worldSpan.x / 1.5f, worldSpan.y / 1.5f);
+//
+//        boolean touchingSide = false;
+//        boolean touchingTop = false;
+//        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+//            if (Helpers.overlapsPhysicalObject(this, ground)) {
+//                if (ground.isDense()) {
+//                    if (Helpers.overlapsBetweenTwoSides(position.x, radius, ground.getLeft(), ground.getRight())
+//                            && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
+//                        touchingSide = true;
+//                        if (position.x < ground.getPosition().x) {
+//                            velocity.x -= 5;
+//                        } else {
+//                            velocity.x += 5;
+//                        }
+//                    }
+//                }
+//                if (Helpers.overlapsBetweenTwoSides(position.y, radius, ground.getBottom(), ground.getTop())
+//                        && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))) {
+//                    touchingTop = true;
+//                }
+//            }
+//        }
+//
+//        if (touchingTop) {
+//            velocity.y = 0;
+//            position.y = previousFramePosition.y;
+//            if ((position.x < camera.x - activationDistance.x)
+//                    || (position.x > camera.x + activationDistance.x)) {
+//                xDirection = null;
+//                startTime = 0;
+//                velocity.x = 0;
+//            } else if ((position.x >= camera.x - activationDistance.x) && (position.x < camera.x)) {
+//                xDirection = Enums.Direction.RIGHT;
+//            } else if ((position.x < camera.x + activationDistance.x) && (position.x >= camera.x)) {
+//                xDirection = Enums.Direction.LEFT;
+//            }
+//
+//            if (xDirection != null) {
+//                if (rollStartTime == 0) {
+//                    speedAtChangeXDirection = velocity.x;
+//                    rollStartTime = TimeUtils.nanoTime();
+//                }
+//                rollTimeSeconds = Helpers.secondsSince(rollStartTime);
+//                velocity.x = speedAtChangeXDirection + Helpers.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
+//            }
+//            for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+//                if (hazard instanceof Rollen && Helpers.overlapsPhysicalObject(this, hazard)) {
+//                    position.set(previousFramePosition);
+//                    if (!touchingSide && position.x < hazard.getPosition().x) {
+//                        velocity.x -= 5;
+//                    } else {
+//                        velocity.x += 5;
+//                    }
+//                }
+//            }
+//        } else {
+//            velocity.y -= Constants.GRAVITY;
+//        }
+//
+//        if (touchingSide) {
+//            xDirection = null;
+//            startTime = 0;
+//            velocity.x = 0;
+//            position.x = previousFramePosition.x;
+//            rollStartTime = TimeUtils.nanoTime();
+//            rollTimeSeconds = 0;
+//        }
     }
 
     @Override
@@ -152,6 +152,7 @@ public class Canirol extends Hazard implements Indestructible, MultidirectionalX
     }
 
     @Override public final Vector2 getPosition() { return position; }
+    @Override public final Vector2 getVelocity() { return velocity; }
     public final Vector2 getCenter() { return center; }
     @Override public final float getWidth() { return center.x * 2; }
     @Override public final float getHeight() { return center.y * 2; }
@@ -161,14 +162,14 @@ public class Canirol extends Hazard implements Indestructible, MultidirectionalX
     @Override public final float getBottom() { return position.y - center.y; }
     @Override public void convert() { active = !active; }
     @Override public boolean isConverted() {  return active; }
+    @Override public Enums.Direction getDirection() { return direction; }
+    public void setDirection(Enums.Direction direction) { this.direction = direction; }
     public final boolean getDispatchStatus() { return canDispatch; }
     public final Enums.Orientation getOrientation() { return orientation; }
     public final Enums.ShotIntensity getIntensity() { return intensity; }
     public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
-    @Override public final int getDamage() { return Constants.ROLLEN_STANDARD_DAMAGE; }
-    @Override public final Vector2 getKnockback() { return Constants.ROLLEN_KNOCKBACK; }
-    @Override public final Enums.Material getType() { return type; }
+    @Override public final boolean isDense() { return true; }
     @Override public Enums.Direction getDirectionX() { return xDirection; }
     @Override public void setDirectionX(Enums.Direction direction) { xDirection = direction; }
 }
