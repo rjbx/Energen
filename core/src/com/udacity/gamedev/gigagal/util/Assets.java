@@ -633,15 +633,16 @@ public final class Assets implements AssetErrorListener {
             xLeftCanirolRegions.add(atlas.findRegion(Constants.X_CANIROL_SPRITE_1));
             xLeftCanirolRegions.add(atlas.findRegion(Constants.X_CANIROL_SPRITE_2));
             xLeftCanirolRegions.add(atlas.findRegion(Constants.X_CANIROL_SPRITE_3));
-            xLeftCanirol = new Animation(Constants.CANIROL_FRAME_DURATION, xLeftCanirolRegions, PlayMode.NORMAL);
+            xLeftCanirolRegions.add(atlas.findRegion(Constants.X_CANIROL_SPRITE_2));
+            xLeftCanirol = new Animation(Constants.CANIROL_FRAME_DURATION, xLeftCanirolRegions, PlayMode.LOOP);
 
-            xRightCanirol = new Animation(Constants.CANIROL_FRAME_DURATION, xLeftCanirolRegions, PlayMode.REVERSED);
+            xRightCanirol = new Animation(Constants.CANIROL_FRAME_DURATION, xLeftCanirolRegions, PlayMode.LOOP_REVERSED);
 
             Array<AtlasRegion> yCanirolRegions = new Array<AtlasRegion>();
             yCanirolRegions.add(atlas.findRegion(Constants.Y_CANIROL_SPRITE_1));
             yCanirolRegions.add(atlas.findRegion(Constants.Y_CANIROL_SPRITE_2));
             yCanirolRegions.add(atlas.findRegion(Constants.Y_CANIROL_SPRITE_3));
-            yCanirol = new Animation(Constants.CANIROL_FRAME_DURATION, yCanirolRegions, PlayMode.NORMAL);
+            yCanirol = new Animation(Constants.CANIROL_FRAME_DURATION, yCanirolRegions, PlayMode.LOOP);
         }
     }
 

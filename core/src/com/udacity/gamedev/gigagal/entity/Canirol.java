@@ -1,6 +1,7 @@
 package com.udacity.gamedev.gigagal.entity;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,163 +14,94 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Canirol extends Ground implements Hoverable, MultidirectionalX, Nonstatic, Convertible {
+public class Canirol extends Ground implements Hoverable, Nonstatic, Convertible {
     // fields
-    public final static String TAG = Cannon.class.getName();
+    public final static String TAG = Lift.class.getName();
+
     private Vector2 position;
-    private Vector2 center;
     private Enums.Direction direction;
     private Enums.Orientation orientation;
-    private Enums.ShotIntensity intensity;
-    private TextureRegion region;
-    private long startTime;
-    private boolean active;
-    private boolean canDispatch;
-    private LevelUpdater level;
-    private Vector2 previousFramePosition; // class-level instantiation
-    private Enums.Direction xDirection;
-    private Enums.Material type;
     private Vector2 velocity; // class-level instantiation
-    private float collision;
-    private float health;
-    private float speedAtChangeXDirection;
-    private long rollStartTime;
-    private float rollTimeSeconds;
-    private float radius;
-    private Animation animation;
+    private final Vector2 startPosition; // class-level instantiation
+    private final Vector2 center;
+    private float range;
+    private boolean converted;
+    private long startTime;
 
     // ctor
-    public Canirol(Vector2 position, Enums.Orientation orientation, Enums.ShotIntensity intensity, boolean active) {
+    public Canirol(Vector2 position, Enums.Orientation orientation, Enums.ShotIntensity intensity, float range, boolean active) {
         this.position = position;
-        this.orientation = orientation;
-        this.intensity = intensity;
-        startTime = 0;
-        canDispatch = false;
-        this.active = active;
-        switch (orientation) {
-            case Y:
-                region = Assets.getInstance().getGroundAssets().yCannon;
-                center = Constants.Y_CANNON_CENTER;
-                break;
-            case X:
-                region = Assets.getInstance().getGroundAssets().xCannon;
-                center = Constants.X_CANNON_CENTER;
-                break;
-        }
+        center = new Vector2();
+        setOrientation(orientation);
+        converted = false;
+        velocity = new Vector2();
+        startPosition = new Vector2(position);
+        this.range = range;
+        startTime = TimeUtils.nanoTime();
     }
 
+    @Override
     public void update(float delta) {
-        canDispatch = false;
-        if (active) {
-            if (this.getStartTime() == 0) {
-                this.setStartTime(TimeUtils.nanoTime());
-            }
-            if ((Helpers.secondsSince(this.getStartTime()) > 1.5f)) {
-                this.setStartTime(TimeUtils.nanoTime());
-                canDispatch = true;
-            }
+        switch (orientation) {
+            case Y:
+                velocity.setZero();
+                break;
+            case X:
+                switch (direction) {
+                    case RIGHT:
+                        velocity.set(Constants.LIFT_SPEED * Gdx.graphics.getDeltaTime(), 0);
+                        break;
+                    case LEFT:
+                        velocity.set(-Constants.LIFT_SPEED * Gdx.graphics.getDeltaTime(), 0);
+                        break;
+                }
+                position.add(velocity);
+                if (position.x < (startPosition.x - (range / 2))) {
+                    position.x = startPosition.x - (range / 2);
+                    direction = Enums.Direction.RIGHT;
+                } else if (position.x > (startPosition.x + (range / 2))) {
+                    position.x = startPosition.x + (range / 2);
+                    direction = Enums.Direction.LEFT;
+                }
+                break;
         }
-
-//        previousFramePosition.set(position);
-//        position.mulAdd(velocity, delta);
-//
-//        Viewport viewport = level.getViewport();
-//        Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
-//        Vector3 camera = new Vector3(viewport.getCamera().position);
-//        Vector2 activationDistance = new Vector2(worldSpan.x / 1.5f, worldSpan.y / 1.5f);
-//
-//        boolean touchingSide = false;
-//        boolean touchingTop = false;
-//        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-//            if (Helpers.overlapsPhysicalObject(this, ground)) {
-//                if (ground.isDense()) {
-//                    if (Helpers.overlapsBetweenTwoSides(position.x, radius, ground.getLeft(), ground.getRight())
-//                            && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
-//                        touchingSide = true;
-//                        if (position.x < ground.getPosition().x) {
-//                            velocity.x -= 5;
-//                        } else {
-//                            velocity.x += 5;
-//                        }
-//                    }
-//                }
-//                if (Helpers.overlapsBetweenTwoSides(position.y, radius, ground.getBottom(), ground.getTop())
-//                        && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))) {
-//                    touchingTop = true;
-//                }
-//            }
-//        }
-//
-//        if (touchingTop) {
-//            velocity.y = 0;
-//            position.y = previousFramePosition.y;
-//            if ((position.x < camera.x - activationDistance.x)
-//                    || (position.x > camera.x + activationDistance.x)) {
-//                xDirection = null;
-//                startTime = 0;
-//                velocity.x = 0;
-//            } else if ((position.x >= camera.x - activationDistance.x) && (position.x < camera.x)) {
-//                xDirection = Enums.Direction.RIGHT;
-//            } else if ((position.x < camera.x + activationDistance.x) && (position.x >= camera.x)) {
-//                xDirection = Enums.Direction.LEFT;
-//            }
-//
-//            if (xDirection != null) {
-//                if (rollStartTime == 0) {
-//                    speedAtChangeXDirection = velocity.x;
-//                    rollStartTime = TimeUtils.nanoTime();
-//                }
-//                rollTimeSeconds = Helpers.secondsSince(rollStartTime);
-//                velocity.x = speedAtChangeXDirection + Helpers.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
-//            }
-//            for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
-//                if (hazard instanceof Rollen && Helpers.overlapsPhysicalObject(this, hazard)) {
-//                    position.set(previousFramePosition);
-//                    if (!touchingSide && position.x < hazard.getPosition().x) {
-//                        velocity.x -= 5;
-//                    } else {
-//                        velocity.x += 5;
-//                    }
-//                }
-//            }
-//        } else {
-//            velocity.y -= Constants.GRAVITY;
-//        }
-//
-//        if (touchingSide) {
-//            xDirection = null;
-//            startTime = 0;
-//            velocity.x = 0;
-//            position.x = previousFramePosition.x;
-//            rollStartTime = TimeUtils.nanoTime();
-//            rollTimeSeconds = 0;
-//        }
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, region, getPosition(), getCenter());
+        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getCanirolAssets().xLeftCanirol.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.LIFT_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }
+    public final void setPosition(Vector2 position) { this.position = position; }
     @Override public final Vector2 getVelocity() { return velocity; }
-    public final Vector2 getCenter() { return center; }
-    @Override public final float getWidth() { return center.x * 2; }
-    @Override public final float getHeight() { return center.y * 2; }
+    public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }
+    @Override public final float getHeight() { return Constants.LIFT_CENTER.y * 2; }
+    @Override public final float getWidth() { return Constants.LIFT_CENTER.x * 2; }
     @Override public final float getLeft() { return position.x - center.x; }
     @Override public final float getRight() { return position.x + center.x; }
     @Override public final float getTop() { return position.y + center.y; }
     @Override public final float getBottom() { return position.y - center.y; }
-    @Override public void convert() { active = !active; }
-    @Override public boolean isConverted() {  return active; }
     @Override public Enums.Direction getDirection() { return direction; }
     public void setDirection(Enums.Direction direction) { this.direction = direction; }
-    public final boolean getDispatchStatus() { return canDispatch; }
-    public final Enums.Orientation getOrientation() { return orientation; }
-    public final Enums.ShotIntensity getIntensity() { return intensity; }
-    public final long getStartTime() { return startTime; }
-    public final void setStartTime(long startTime) { this.startTime = startTime; }
+    @Override public Enums.Orientation getOrientation() { return orientation; }
     @Override public final boolean isDense() { return true; }
-    @Override public Enums.Direction getDirectionX() { return xDirection; }
-    @Override public void setDirectionX(Enums.Direction direction) { xDirection = direction; }
+    @Override public void convert() { converted = !converted; position.set(startPosition); setOrientation(Helpers.getOppositeOrientation(orientation)); }
+    @Override public boolean isConverted() { return converted; }
+    public final void setRange(float range) { this.range = range; }
+    private void setOrientation(Enums.Orientation orientation) {
+        this.orientation = orientation;
+        switch (orientation) {
+            case Y:
+                direction = null;
+                center.set(Constants.Y_CANIROL_CENTER);
+                break;
+            case X:
+                direction = Enums.Direction.LEFT;
+                center.set(Constants.X_CANIROL_CENTER);
+                break;
+            default:
+                direction = null;
+        }
+    }
 }

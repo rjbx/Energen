@@ -102,7 +102,7 @@ public class Rollen extends Hazard implements MultidirectionalX, Destructible {
             velocity.y = 0;
             position.y = previousFramePosition.y;
             if ((position.x < camera.x - activationDistance.x)
-            || (position.x > camera.x + activationDistance.x)) {
+                    || (position.x > camera.x + activationDistance.x)) {
                 xDirection = null;
                 startTime = 0;
                 velocity.x = 0;
