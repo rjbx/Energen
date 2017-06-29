@@ -89,7 +89,6 @@ public class Canirol extends Ground implements Weaponized, Hoverable, Strikeable
     }
 
     @Override public final Vector2 getPosition() { return position; }
-    public final void setPosition(Vector2 position) { this.position = position; }
     @Override public final Vector2 getVelocity() { return velocity; }
     public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }
     @Override public final float getHeight() { return center.y * 2; }

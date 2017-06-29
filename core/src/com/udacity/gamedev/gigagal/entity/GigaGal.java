@@ -268,7 +268,6 @@ public class GigaGal implements Humanoid {
     private void touchGround(Array<Ground> grounds) {
         for (Ground ground : grounds) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundries
-
                 if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collision
 
                     touchGroundBottom(ground);
@@ -369,11 +368,16 @@ public class GigaGal implements Humanoid {
                     position.x = previousFramePosition.x;
                 }
                 // reset position to ground side edge when both position and previous position overlap ground side edge and are between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
-            } else if (Helpers.betweenTwoValues(position.y, ground.getBottom(), ground.getTop())) {
-                if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
-                    position.x = ground.getLeft() - getHalfWidth() - 1;
+            } else if (Helpers.betweenTwoValues(getBottom() + Constants.GIGAGAL_HEAD_RADIUS, ground.getBottom(), ground.getTop())) {
+                if (!(ground instanceof Canirol)) {
+                    if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
+                        position.x = ground.getLeft() - getHalfWidth() - 1;
+                    } else {
+                        position.x = ground.getRight() + getHalfWidth() + 1;
+                    }
                 } else {
-                    position.x = ground.getRight() + getHalfWidth() + 1;
+                    position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
+                    setAtopGround(ground);
                 }
             }
         }
@@ -1240,6 +1244,7 @@ public class GigaGal implements Humanoid {
 
     // Getters
     @Override public final Vector2 getPosition() { return position; }
+    public final void setPosition(Vector2 position) { this.position.set(position); }
     @Override public final Vector2 getVelocity() { return velocity; }
     @Override public final Enums.Direction getDirectionX() { return directionX; }
     @Override public final Enums.Direction getDirectionY() { return directionY; }
