@@ -115,10 +115,12 @@ public class Canirol extends Ground implements Weaponized, Hoverable, Strikeable
             case Y:
                 direction = null;
                 center.set(Constants.Y_CANIROL_CENTER);
+                animation = Assets.getInstance().getCanirolAssets().yCanirol;
                 break;
             case X:
                 direction = Enums.Direction.LEFT;
                 center.set(Constants.X_CANIROL_CENTER);
+                animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
                 break;
             default:
                 direction = null;

@@ -229,20 +229,30 @@ public class LevelUpdater {
         if (ground instanceof Weaponized && ((Weaponized) ground).getDispatchStatus()) {
             Weaponized weapon = (Weaponized) ground;
             Enums.Orientation orientation = weapon.getOrientation();
+            Vector2 offset = new Vector2();
+            if (weapon instanceof Canirol) {
+                offset.set(weapon.getWidth(), weapon.getHeight());
+            } else {
+                offset.set(weapon.getWidth() / 2, weapon.getHeight() / 2);
+            }
             if (orientation == Enums.Orientation.X) {
-                Vector2 ammoPositionLeft = new Vector2(weapon.getPosition().x - (weapon.getWidth()), weapon.getPosition().y);
-                Vector2 ammoPositionRight = new Vector2(weapon.getPosition().x + (weapon.getWidth()), weapon.getPosition().y);
-                if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - (weapon.getWidth()))) {
+                Vector2 ammoPositionLeft = new Vector2(weapon.getPosition().x - offset.x, weapon.getPosition().y);
+                Vector2 ammoPositionRight = new Vector2(weapon.getPosition().x + offset.x, weapon.getPosition().y);
+                if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - offset.x)) {
                     LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), false);
-                } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (weapon.getWidth()))) {
+                } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (weapon.getWidth() / 2))) {
                     LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), false);
                 }
             } else if (orientation == Enums.Orientation.Y) {
-                Vector2 ammoPositionTop = new Vector2(weapon.getPosition().x, weapon.getPosition().y + (weapon.getHeight()));
-                Vector2 ammoPositionBottom = new Vector2(weapon.getPosition().x, weapon.getPosition().y - (weapon.getHeight()));
-                if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - (weapon.getHeight()))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), false);
-                } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (weapon.getHeight()))) {
+                Vector2 ammoPositionTop = new Vector2(weapon.getPosition().x, weapon.getPosition().y + offset.y);
+                Vector2 ammoPositionBottom = new Vector2(weapon.getPosition().x, weapon.getPosition().y - offset.y);
+                if (weapon instanceof Cannon) {
+                    if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - offset.y)) {
+                        LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                    } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (weapon.getHeight() / 2))) {
+                        LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), false);
+                    }
+                } else {
                     LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), false);
                 }
             }
