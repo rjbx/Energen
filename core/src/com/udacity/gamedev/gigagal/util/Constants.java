@@ -311,7 +311,7 @@ public final class Constants {
     public static final String X_CANIROL_SPRITE_1 = "canirol-x-1";
     public static final String X_CANIROL_SPRITE_2 = "canirol-x-2";
     public static final String X_CANIROL_SPRITE_3 = "canirol-x-3";
-    public static final Vector2 Y_CANIROL_CENTER = new Vector2(6, 10);
+    public static final Vector2 Y_CANIROL_CENTER = new Vector2(8, 10);
     public static final String Y_CANIROL_SPRITE_1 = "canirol-y-1";
     public static final String Y_CANIROL_SPRITE_2 = "canirol-y-2";
     public static final String Y_CANIROL_SPRITE_3 = "canirol-y-3";

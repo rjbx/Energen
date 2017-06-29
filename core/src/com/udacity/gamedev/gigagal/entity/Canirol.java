@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,9 +12,9 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Canirol extends Ground implements Weaponized, Hoverable, Strikeable, Nonstatic, Convertible {
+
     // fields
     public final static String TAG = Lift.class.getName();
-
     private Vector2 position;
     private Enums.Direction direction;
     private Enums.Orientation orientation;
@@ -49,14 +48,12 @@ public class Canirol extends Ground implements Weaponized, Hoverable, Strikeable
     @Override
     public void update(float delta) {
         canDispatch = false;
-        if (active) {
-            if (this.getStartTime() == 0) {
-                this.setStartTime(TimeUtils.nanoTime());
-            }
-            if ((Helpers.secondsSince(this.getStartTime()) > 1.5f)) {
-                this.setStartTime(TimeUtils.nanoTime());
-                canDispatch = true;
-            }
+        if (this.getStartTime() == 0) {
+            this.setStartTime(TimeUtils.nanoTime());
+        }
+        if ((Helpers.secondsSince(this.getStartTime()) > 1.5f)) {
+            this.setStartTime(TimeUtils.nanoTime());
+            canDispatch = true;
         }
         switch (orientation) {
             case Y:
@@ -95,8 +92,8 @@ public class Canirol extends Ground implements Weaponized, Hoverable, Strikeable
     public final void setPosition(Vector2 position) { this.position = position; }
     @Override public final Vector2 getVelocity() { return velocity; }
     public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }
-    @Override public final float getHeight() { return Constants.LIFT_CENTER.y * 2; }
-    @Override public final float getWidth() { return Constants.LIFT_CENTER.x * 2; }
+    @Override public final float getHeight() { return center.y * 2; }
+    @Override public final float getWidth() { return center.x * 2; }
     @Override public final float getLeft() { return position.x - center.x; }
     @Override public final float getRight() { return position.x + center.x; }
     @Override public final float getTop() { return position.y + center.y; }
