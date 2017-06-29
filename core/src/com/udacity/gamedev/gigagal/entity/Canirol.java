@@ -102,7 +102,7 @@ public class Canirol extends Ground implements Weaponized, Hoverable, Strikeable
     public void setDirection(Enums.Direction direction) { this.direction = direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
     @Override public final boolean isDense() { return true; }
-    @Override public void convert() { converted = !converted; setOrientation(Helpers.getOppositeOrientation(orientation)); }
+    @Override public void convert() { converted = !converted; position.add(-center.x, -center.y); setOrientation(Helpers.getOppositeOrientation(orientation)); position.add(center.x, center.y); }
     @Override public boolean isConverted() { return converted; }
     public final void setRange(float range) { this.range = range; }
     public final long getStartTime() { return startTime; }
