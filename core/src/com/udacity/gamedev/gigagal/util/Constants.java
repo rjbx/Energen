@@ -305,6 +305,17 @@ public final class Constants {
     public static final Vector2 Y_CANNON_CENTER = new Vector2(8, 10);
     public static final String Y_CANNON_SPRITE = "cannon-y";
 
+
+    // Canirol
+    public static final Vector2 X_CANIROL_CENTER = new Vector2(10, 7.5f);
+    public static final String X_CANIROL_SPRITE_1 = "canirol-x-1";
+    public static final String X_CANIROL_SPRITE_2 = "canirol-x-2";
+    public static final String X_CANIROL_SPRITE_3 = "canirol-x-3";
+    public static final Vector2 Y_CANIROL_CENTER = new Vector2(8, 11.5f);
+    public static final String Y_CANIROL_SPRITE_1 = "canirol-y-1";
+    public static final String Y_CANIROL_SPRITE_2 = "canirol-y-2";
+    public static final String Y_CANIROL_SPRITE_3 = "canirol-y-3";
+
     // Zoomba
     public static final Vector2 ZOOMBA_CENTER = new Vector2(14.5f, 25.5f);
     public static final float ZOOMBA_MOVEMENT_SPEED = 20;
