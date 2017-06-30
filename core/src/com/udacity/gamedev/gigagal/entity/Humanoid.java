@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.udacity.gamedev.gigagal.util.Enums;
 
-public interface Humanoid extends Roving, Aerial {
+public interface Humanoid extends Dynamic {
 
     Vector2 getVelocity();
     Rectangle getBounds();

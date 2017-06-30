@@ -25,7 +25,7 @@ import java.util.ListIterator;
 import java.util.Random;
 
 // mutable
-public class GigaGal implements Humanoid {
+public class GigaGal extends Entity implements Humanoid {
 
     // fields
     public final static String TAG = GigaGal.class.getName();
@@ -420,14 +420,14 @@ public class GigaGal implements Humanoid {
                 } else if (canClimb) {
                     canCling = false;
                 }
-            } else if (ground instanceof Roving) {
+            } else if (ground instanceof Dynamic) {
                 lookStartTime = 0;
-                Roving hoverable = (Roving) ground;
-                if (hoverable.getOrientation() == Orientation.X) {
-                    velocity.x = hoverable.getVelocity().x;
+                Dynamic dynamic = (Dynamic) ground;
+                if (dynamic.getOrientation() == Orientation.X) {
+                    velocity.x = dynamic.getVelocity().x;
                     position.x += velocity.x;
                 }
-                if (hoverable.getDirection() == Direction.DOWN) {
+                if (dynamic.getDirectionY() == Direction.DOWN) {
                     position.y -= 1;
                 }
             } else if (ground instanceof Reboundable) {
@@ -1279,6 +1279,7 @@ public class GigaGal implements Humanoid {
     public long getLookStartTime() { return lookStartTime; }
     public float getChargeTimeSeconds() { return chargeTimeSeconds; }
     public float getKillPlane() { return killPlane; }
+    public Orientation getOrientation() { if (action == Action.CLIMBING || lookStartTime != 0) { return Orientation.Y; } return Orientation.X; }
 
     // Setters
     public void setDirectionX(Direction directionX) { this.directionX = directionX; }
