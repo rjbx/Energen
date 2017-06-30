@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -421,9 +420,9 @@ public class GigaGal implements Humanoid {
                 } else if (canClimb) {
                     canCling = false;
                 }
-            } else if (ground instanceof Hoverable) {
+            } else if (ground instanceof Roving) {
                 lookStartTime = 0;
-                Hoverable hoverable = (Hoverable) ground;
+                Roving hoverable = (Roving) ground;
                 if (hoverable.getOrientation() == Orientation.X) {
                     velocity.x = hoverable.getVelocity().x;
                     position.x += velocity.x;

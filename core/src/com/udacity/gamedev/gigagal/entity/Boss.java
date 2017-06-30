@@ -417,9 +417,9 @@ public class Boss extends Hazard implements Humanoid, Destructible {
                     stand(); // set groundstate to standing
                     lookStartTime = 0;
                 }
-            } else if (ground instanceof Hoverable) {
+            } else if (ground instanceof Roving) {
                 lookStartTime = 0;
-                Hoverable hoverable = (Hoverable) ground;
+                Roving hoverable = (Roving) ground;
                 Enums.Orientation orientation = hoverable.getOrientation();
                 Enums.Direction direction = hoverable.getDirection();
                 if (orientation == Enums.Orientation.X) {
