@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.udacity.gamedev.gigagal.util.Enums.Material.ORE;
+
 // mutable
 public class LevelUpdater {
 
@@ -199,6 +201,30 @@ public class LevelUpdater {
             hazards.begin();
             for (int i = 0; i < hazards.size; i++) {
                 if (!updateHazard(delta, hazards.get(i))) {
+                    switch (hazards.get(i).getType()) {
+                        case ORE:
+                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
+                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
+                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
+                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
+                            break;
+                        case PLASMA:
+                            break;
+                        case GAS:
+                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
+                            break;
+                        case LIQUID:
+                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
+                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
+                            break;
+                        case SOLID:
+                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
+                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
+                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
+                            break;
+                        case ANTIMATTER:
+                            break;
+                    }
                     hazards.removeIndex(i);
                     removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                 }
