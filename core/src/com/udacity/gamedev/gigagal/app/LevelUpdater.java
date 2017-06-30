@@ -179,6 +179,14 @@ public class LevelUpdater {
                 gigaGal.resetChargeIntensity();
             }
 
+            if (gigaGal.getTouchedHazard() != null) {
+                Vector2 intersectionPoint = new Vector2();
+                Hazard touchedHazard = gigaGal.getTouchedHazard();
+                intersectionPoint.x = Math.max(gigaGal.getBounds().x, touchedHazard.getLeft());
+                intersectionPoint.y = Math.max(gigaGal.getBounds().y, touchedHazard.getBottom());
+                spawnImpact(intersectionPoint, touchedHazard.getType());
+            }
+
             // Update Transports
             transports.begin();
             for (int i = 0; i < transports.size; i++) {

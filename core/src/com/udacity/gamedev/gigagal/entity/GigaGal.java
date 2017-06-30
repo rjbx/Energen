@@ -53,6 +53,7 @@ public class GigaGal extends Entity implements Humanoid {
     private Action action;
     private GroundState groundState;
     private Ground touchedGround; // class-level instantiation
+    private Hazard touchedHazard;
     private ShotIntensity shotIntensity;
     private Material weapon;
     private List<Material> weaponList; // class-level instantiation
@@ -71,6 +72,7 @@ public class GigaGal extends Entity implements Humanoid {
     private boolean canSink;
     private boolean canHurdle;
     private boolean canBounce;
+    private boolean canImpact;
     private long chargeStartTime;
     private long standStartTime;
     private long lookStartTime;
@@ -162,6 +164,7 @@ public class GigaGal extends Entity implements Humanoid {
         startTurbo = turbo;
         turboDuration = 0;
         touchedGround = null;
+        touchedHazard = null;
         canClimb = false;
         canCling = false;
         canLook = false;
@@ -506,6 +509,7 @@ public class GigaGal extends Entity implements Humanoid {
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     private void touchHazards(Array<Hazard> hazards) {
+        touchedHazard = null;
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
                 float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
@@ -514,10 +518,7 @@ public class GigaGal extends Entity implements Humanoid {
                     if (getBounds().overlaps(bounds)) {
                         recoveryStartTime = TimeUtils.nanoTime();
                         chaseCamPosition.set(position, 0);
-                        Vector2 intersectionPoint = new Vector2();
-                        intersectionPoint.x = Math.max(getBounds().x, bounds.x);
-                        intersectionPoint.y = Math.max(getBounds().y, bounds.y);
-                      //  level.spawnImpact(intersectionPoint, hazard.getType());
+                        touchedHazard = hazard;
                         int damage = hazard.getDamage();
                         float margin = 0;
                         if (hazard instanceof Destructible) {
@@ -1269,6 +1270,7 @@ public class GigaGal extends Entity implements Humanoid {
     @Override public final boolean getDashStatus() { return canDash; }
     @Override public final boolean getClimbStatus() { return canClimb; }
     public final boolean getDispatchStatus() { return canDispatch; }
+    public final Hazard getTouchedHazard() { return touchedHazard; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }
     @Override public final Enums.Action getAction() { return action; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
