@@ -182,8 +182,8 @@ public class LevelUpdater {
             if (gigaGal.getTouchedHazard() != null) {
                 Vector2 intersectionPoint = new Vector2();
                 Hazard touchedHazard = gigaGal.getTouchedHazard();
-                intersectionPoint.x = Math.max(gigaGal.getBounds().x, touchedHazard.getLeft());
-                intersectionPoint.y = Math.max(gigaGal.getBounds().y, touchedHazard.getBottom());
+                intersectionPoint.x = Math.max(gigaGal.getLeft(), touchedHazard.getLeft());
+                intersectionPoint.y = Math.max(gigaGal.getBottom(), touchedHazard.getBottom());
                 spawnImpact(intersectionPoint, touchedHazard.getType());
             }
 

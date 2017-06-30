@@ -72,7 +72,6 @@ public class GigaGal extends Entity implements Humanoid {
     private boolean canSink;
     private boolean canHurdle;
     private boolean canBounce;
-    private boolean canImpact;
     private long chargeStartTime;
     private long standStartTime;
     private long lookStartTime;
