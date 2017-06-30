@@ -74,7 +74,7 @@ public class Rollen extends Hazard implements MultidirectionalX, Destructible {
         Viewport viewport = level.getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
         Vector3 camera = new Vector3(viewport.getCamera().position);
-        Vector2 activationDistance = new Vector2(worldSpan.x / 1.5f, worldSpan.y / 1.5f);
+        Vector2 activationDistance = new Vector2(worldSpan.x / 2, worldSpan.y / 2);
 
         boolean touchingSide = false;
         boolean touchingTop = false;
@@ -101,15 +101,16 @@ public class Rollen extends Hazard implements MultidirectionalX, Destructible {
         if (touchingTop) {
             velocity.y = 0;
             position.y = previousFramePosition.y;
-            if ((position.x < camera.x - activationDistance.x)
-                    || (position.x > camera.x + activationDistance.x)) {
+            if (Helpers.betweenFourValues(position, camera.x - activationDistance.x, camera.x + activationDistance.x, camera.y - activationDistance.y, camera.y + activationDistance.y)) {
+                if ((position.x >= camera.x - activationDistance.x) && (position.x < camera.x)) {
+                    xDirection = Enums.Direction.RIGHT;
+                } else if ((position.x < camera.x + activationDistance.x) && (position.x >= camera.x)) {
+                    xDirection = Enums.Direction.LEFT;
+                }
+            } else {
                 xDirection = null;
                 startTime = 0;
                 velocity.x = 0;
-            } else if ((position.x >= camera.x - activationDistance.x) && (position.x < camera.x)) {
-                xDirection = Enums.Direction.RIGHT;
-            } else if ((position.x < camera.x + activationDistance.x) && (position.x >= camera.x)) {
-                xDirection = Enums.Direction.LEFT;
             }
 
             if (xDirection != null) {
@@ -121,7 +122,7 @@ public class Rollen extends Hazard implements MultidirectionalX, Destructible {
                 velocity.x = speedAtChangeXDirection + Helpers.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
             }
             for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
-                if (hazard instanceof Rollen && Helpers.overlapsPhysicalObject(this, hazard)) {
+                if (hazard instanceof Rollen && Helpers.overlapsPhysicalObject(this, hazard) && !(hazard.equals(this))) {
                     position.set(previousFramePosition);
                     if (!touchingSide && position.x < hazard.getPosition().x) {
                         velocity.x -= 5;
@@ -153,7 +154,6 @@ public class Rollen extends Hazard implements MultidirectionalX, Destructible {
         }
 
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
-
     }
 
     @Override public Vector2 getPosition() { return position; }
