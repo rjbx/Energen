@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Lift extends Ground implements Roveable, Convertible {
+public class Lift extends Ground implements Dynamic, Convertible {
 
     // fields
     public final static String TAG = Lift.class.getName();
@@ -89,8 +89,10 @@ public class Lift extends Ground implements Roveable, Convertible {
     @Override public final float getRight() { return position.x + Constants.LIFT_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.LIFT_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.LIFT_CENTER.y; }
-    @Override public Enums.Direction getDirection() { return direction; }
-    public void setDirection(Enums.Direction direction) { this.direction = direction; }
+    @Override public Enums.Direction getDirectionX() { if (orientation == Enums.Orientation.X) { return direction; } return null; }
+    @Override public Enums.Direction getDirectionY() { if (orientation == Enums.Orientation.Y) { return direction; } return null; }
+    @Override public void setDirectionX(Enums.Direction direction) { if (orientation == Enums.Orientation.X) { this.direction = direction; } }
+    @Override public void setDirectionY(Enums.Direction direction) { if (orientation == Enums.Orientation.Y) { this.direction = direction; } }
     @Override public Enums.Orientation getOrientation() { return orientation; }
     @Override public final boolean isDense() { return false; }
     @Override public void convert() { converted = !converted; position.set(startPosition); setOrientation(Helpers.getOppositeOrientation(orientation)); }
