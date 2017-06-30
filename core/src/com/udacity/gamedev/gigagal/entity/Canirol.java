@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Canirol extends Ground implements Weaponized, Roving, Strikeable, Nonstatic, Convertible {
+public class Canirol extends Ground implements Weaponized, Orientable, Roveable, Strikeable, Nonstatic, Convertible {
 
     // fields
     public final static String TAG = Lift.class.getName();
@@ -97,7 +97,8 @@ public class Canirol extends Ground implements Weaponized, Roving, Strikeable, N
     @Override public final float getRight() { return position.x + center.x; }
     @Override public final float getTop() { return position.y + center.y; }
     @Override public final float getBottom() { return position.y - center.y; }
-    @Override public Enums.Direction getDirection() { return direction; }
+    @Override public Enums.Direction getDirectionX() { return direction; }
+    @Override public void setDirectionX(Enums.Direction direction) { this.direction = direction; }
     public void setDirection(Enums.Direction direction) { this.direction = direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
     @Override public final boolean isDense() { return true; }

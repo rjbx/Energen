@@ -417,11 +417,11 @@ public class Boss extends Hazard implements Humanoid, Destructible {
                     stand(); // set groundstate to standing
                     lookStartTime = 0;
                 }
-            } else if (ground instanceof Roving) {
+            } else if (ground instanceof Dynamic) {
                 lookStartTime = 0;
-                Roving hoverable = (Roving) ground;
+                Dynamic hoverable = (Dynamic) ground;
                 Enums.Orientation orientation = hoverable.getOrientation();
-                Enums.Direction direction = hoverable.getDirection();
+                Enums.Direction direction = hoverable.getDirectionY();
                 if (orientation == Enums.Orientation.X) {
                     velocity.x = hoverable.getVelocity().x;
                     position.x += velocity.x;
@@ -1210,6 +1210,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
     @Override public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
     @Override public final void setHealth( float health ) { this.health = health; }
     private final float getHalfWidth() { return halfWidth; }
+    @Override public Enums.Orientation getOrientation() { if (action == Enums.Action.CLIMBING || lookStartTime != 0) { return Enums.Orientation.Y; } return Enums.Orientation.X; }
     public final Rectangle getRoomBounds() { return roomBounds; }
 
     // Setters

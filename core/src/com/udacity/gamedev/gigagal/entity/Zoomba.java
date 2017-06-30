@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Zoomba extends Hazard implements Destructible, Nonstatic {
+public class Zoomba extends Hazard implements Destructible, Roveable {
 
     // fields
     public final static String TAG = Zoomba.class.getName();
@@ -25,6 +25,7 @@ public class Zoomba extends Hazard implements Destructible, Nonstatic {
     private float range;
     private Vector2 position;
     private final Vector2 startingPosition;
+    private Vector2 velocity;
     private float health;
     private Direction direction;
     private Animation animation;
@@ -33,6 +34,7 @@ public class Zoomba extends Hazard implements Destructible, Nonstatic {
     public Zoomba(Vector2 position, Enums.Material type, float range) {
         this.position = position;
         this.startingPosition = new Vector2(position);
+        velocity = new Vector2();
         bobNadir = position.y;
         this.type = type;
         direction = Direction.RIGHT;
@@ -62,13 +64,8 @@ public class Zoomba extends Hazard implements Destructible, Nonstatic {
     }
 
     public void update(float delta) {
-        switch (direction) {
-            case LEFT:
-                position.x -= Constants.ZOOMBA_MOVEMENT_SPEED * delta;
-                break;
-            case RIGHT:
-                position.x += Constants.ZOOMBA_MOVEMENT_SPEED * delta;
-        }
+        position.set(position.x + velocity.x, velocity.y);
+        velocity.x = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED * delta, direction, Enums.Orientation.X);
 
         if (position.x < startingPosition.x - (range / 2)) {
             position.x = startingPosition.x - (range / 2);
@@ -78,9 +75,7 @@ public class Zoomba extends Hazard implements Destructible, Nonstatic {
             direction = Direction.LEFT;
         }
 
-        final float elapsedTime = Helpers.secondsSince(startTime);
-        final float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + elapsedTime / Constants.ZOOMBA_BOB_PERIOD));
-        position.y = bobNadir + Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier;
+        velocity.y = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
     }
 
     @Override
@@ -89,6 +84,7 @@ public class Zoomba extends Hazard implements Destructible, Nonstatic {
     }
 
     @Override public final Vector2 getPosition() { return position; }
+    @Override public final Vector2 getVelocity() { return velocity; }
     @Override public final float getHealth() { return health; }
     @Override public final float getWidth() { return Constants.ZOOMBA_COLLISION_WIDTH; }
     @Override public final float getHeight() { return Constants.ZOOMBA_COLLISION_HEIGHT; }

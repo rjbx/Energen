@@ -12,11 +12,10 @@ import com.udacity.gamedev.gigagal.app.SaveData;
 import com.udacity.gamedev.gigagal.entity.Aerial;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.Destructible;
-import com.udacity.gamedev.gigagal.entity.Moving;
-import com.udacity.gamedev.gigagal.entity.Nonstatic;
+import com.udacity.gamedev.gigagal.entity.Moveable;
 import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Physical;
-import com.udacity.gamedev.gigagal.entity.Roving;
+import com.udacity.gamedev.gigagal.entity.Roveable;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import java.util.List;
@@ -162,10 +161,10 @@ public final class Helpers {
         return null;
     }
 
-    public static final boolean changeDirection(Moving moving, Enums.Direction setTo, Enums.Orientation orientation) {
+    public static final boolean changeDirection(Moveable moving, Enums.Direction setTo, Enums.Orientation orientation) {
         if (orientation == X) {
-            if (moving instanceof Roving && ((Roving) moving).getDirectionX() != setTo) {
-                ((Roving) moving).setDirectionX(setTo);
+            if (moving instanceof Roveable && ((Roveable) moving).getDirectionX() != setTo) {
+                ((Roveable) moving).setDirectionX(setTo);
                 return true;
             }
             return false;

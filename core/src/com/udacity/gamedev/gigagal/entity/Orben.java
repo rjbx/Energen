@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonstatic {
+public class Orben extends Hazard implements Roveable, Aerial, Destructible, Nonstatic {
 
     // fields
     public final static String TAG = Orben.class.getName();
@@ -167,6 +167,7 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
     }
 
     @Override public Vector2 getPosition() { return position; }
+    @Override public Vector2 getVelocity() { return velocity; }
     @Override public final float getHealth() { return health; }
     @Override public final float getWidth() { return Constants.ORBEN_COLLISION_WIDTH; }
     @Override public final float getHeight() { return Constants.ORBEN_COLLISION_HEIGHT; }

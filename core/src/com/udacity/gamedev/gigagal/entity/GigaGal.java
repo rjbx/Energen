@@ -420,14 +420,16 @@ public class GigaGal extends Entity implements Humanoid {
                 } else if (canClimb) {
                     canCling = false;
                 }
-            } else if (ground instanceof Dynamic) {
+            } else if (ground instanceof Orientable) {
                 lookStartTime = 0;
-                Dynamic dynamic = (Dynamic) ground;
-                if (dynamic.getOrientation() == Orientation.X) {
-                    velocity.x = dynamic.getVelocity().x;
+                Orientable orientable = (Orientable) ground;
+                if (orientable.getOrientation() == Orientation.X) {
+                    if (orientable instanceof Moveable) {
+                        velocity.x = ((Moveable) orientable).getVelocity().x;
+                    }
                     position.x += velocity.x;
                 }
-                if (dynamic.getDirectionY() == Direction.DOWN) {
+                if (orientable instanceof Aerial && ((Aerial) orientable).getDirectionY() == Direction.DOWN) {
                     position.y -= 1;
                 }
             } else if (ground instanceof Reboundable) {
@@ -1279,7 +1281,7 @@ public class GigaGal extends Entity implements Humanoid {
     public long getLookStartTime() { return lookStartTime; }
     public float getChargeTimeSeconds() { return chargeTimeSeconds; }
     public float getKillPlane() { return killPlane; }
-    public Orientation getOrientation() { if (action == Action.CLIMBING || lookStartTime != 0) { return Orientation.Y; } return Orientation.X; }
+    @Override public Orientation getOrientation() { if (action == Action.CLIMBING || lookStartTime != 0) { return Orientation.Y; } return Orientation.X; }
 
     // Setters
     public void setDirectionX(Direction directionX) { this.directionX = directionX; }
