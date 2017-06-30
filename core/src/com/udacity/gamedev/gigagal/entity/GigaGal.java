@@ -367,17 +367,22 @@ public class GigaGal implements Humanoid {
                     canDash = false; // disable dash
                     position.x = previousFramePosition.x;
                 }
-                // reset position to ground side edge when both position and previous position overlap ground side edge and are between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
-            } else if (Helpers.betweenTwoValues(getBottom() + Constants.GIGAGAL_HEAD_RADIUS, ground.getBottom(), ground.getTop())) {
-                if (!(ground instanceof Canirol)) {
-                    if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
-                        position.x = ground.getLeft() - getHalfWidth() - 1;
-                    } else {
-                        position.x = ground.getRight() + getHalfWidth() + 1;
+            } else { // when both position and previous position overlap ground side edge
+                float yTestPosition = position.y;
+                if (ground instanceof Canirol) {
+                    yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
+                }
+                if (Helpers.betweenTwoValues(yTestPosition, ground.getBottom(), ground.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
+                    if (!(ground instanceof Canirol)) {
+                        if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
+                            position.x = ground.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
+                        } else {
+                            position.x = ground.getRight() + getHalfWidth() + 1; // reset position to ground side edge
+                        }
+                    } else { // for canirol only
+                        position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // reset position to ground top
+                        setAtopGround(ground);
                     }
-                } else {
-                    position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
-                    setAtopGround(ground);
                 }
             }
         }
