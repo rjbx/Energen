@@ -9,13 +9,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.SaveData;
+import com.udacity.gamedev.gigagal.entity.Aerial;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.Destructible;
-import com.udacity.gamedev.gigagal.entity.MultidirectionalX;
-import com.udacity.gamedev.gigagal.entity.MultidirectionalY;
-import com.udacity.gamedev.gigagal.entity.Multidirectional;
+import com.udacity.gamedev.gigagal.entity.Moving;
+import com.udacity.gamedev.gigagal.entity.Nonstatic;
 import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Physical;
+import com.udacity.gamedev.gigagal.entity.Roving;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import java.util.List;
@@ -161,18 +162,16 @@ public final class Helpers {
         return null;
     }
 
-    public static final boolean changeDirection(Multidirectional multidirectional, Enums.Direction setTo, Enums.Orientation orientation) {
+    public static final boolean changeDirection(Moving moving, Enums.Direction setTo, Enums.Orientation orientation) {
         if (orientation == X) {
-            MultidirectionalX multidirectionalX = (MultidirectionalX) multidirectional;
-            if (multidirectionalX.getDirectionX() != setTo) {
-                multidirectionalX.setDirectionX(setTo);
+            if (moving instanceof Roving && ((Roving) moving).getDirectionX() != setTo) {
+                ((Roving) moving).setDirectionX(setTo);
                 return true;
             }
             return false;
         } else if (orientation == Y) {
-            MultidirectionalY multidirectionalY = (MultidirectionalY) multidirectional;
-            if (multidirectionalY.getDirectionY() != setTo) {
-                multidirectionalY.setDirectionY(setTo);
+            if (moving instanceof Aerial && ((Aerial) moving).getDirectionY() != setTo) {
+                ((Aerial) moving).setDirectionY(setTo);
                 return true;
             }
             return false;

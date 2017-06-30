@@ -350,11 +350,11 @@ public class GigaGal implements Humanoid {
                         strideSpeed = 0;
                         velocity.x = 0;
                     }
-                    if (action == Action.DASHING && !(ground instanceof Rideable)) {
+                    if (action == Action.DASHING && !(ground instanceof Rotating)) {
                         stand(); // deactivates dash when bumping ground side
                     }
                 }
-                if ((!(ground instanceof Rideable && (Math.abs(getBottom() - ground.getTop()) <= 1)))
+                if ((!(ground instanceof Rotating && (Math.abs(getBottom() - ground.getTop()) <= 1)))
                         && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
                         && !(ground instanceof Unbearable && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                     // if contact with ground sides detected without concern for ground state (either grounded or airborne),
@@ -759,9 +759,9 @@ public class GigaGal implements Humanoid {
             } else {
                 velocity.x = 0;
             }
-        } else if (touchedGround instanceof Rideable) {
+        } else if (touchedGround instanceof Rotating) {
             velocity.x = 0;
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rideable) touchedGround).getDirection(), Orientation.X);
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rotating) touchedGround).getRotationDirection(), Orientation.X);
         } else {
             velocity.x = 0;
         }
@@ -906,8 +906,8 @@ public class GigaGal implements Humanoid {
         strideTimeSeconds = Helpers.secondsSince(strideStartTime);
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
         velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Orientation.X);
-        if (touchedGround instanceof Rideable) {
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rideable) touchedGround).getDirection(), Orientation.X);
+        if (touchedGround instanceof Rotating) {
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rotating) touchedGround).getRotationDirection(), Orientation.X);
         } else if (touchedGround instanceof Skateable) {
             velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
         } else if (canSink) {
@@ -947,7 +947,7 @@ public class GigaGal implements Humanoid {
             stand();
         }
         if (touchedGround instanceof Skateable
-        || (touchedGround instanceof Rideable && directionX == ((Rideable) touchedGround).getDirection())) {
+        || (touchedGround instanceof Rotating && directionX == ((Rotating) touchedGround).getRotationDirection())) {
             velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed + Constants.TREADMILL_SPEED, directionX, Orientation.X);
         }
     }

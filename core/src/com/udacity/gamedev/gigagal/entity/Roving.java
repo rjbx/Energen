@@ -5,7 +5,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 
 public interface Roving extends Nonstatic {
 
-    Enums.Direction getDirection();
-    Enums.Orientation getOrientation();
-    Vector2 getVelocity();
+    Enums.Direction getDirectionX();
+    void setDirectionX(Enums.Direction direction);
+    Vector2 getVelocityX();
 }

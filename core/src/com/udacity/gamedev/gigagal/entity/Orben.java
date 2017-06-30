@@ -3,7 +3,6 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -14,9 +13,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-import sun.security.krb5.internal.crypto.Des;
-
-public class Orben extends Hazard implements MultidirectionalX, MultidirectionalY, Destructible {
+public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonstatic {
 
     // fields
     public final static String TAG = Orben.class.getName();

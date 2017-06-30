@@ -12,10 +12,8 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-import sun.security.krb5.internal.crypto.Des;
-
 // mutable
-public class Zoomba extends Hazard implements MultidirectionalX, Destructible {
+public class Zoomba extends Hazard implements Destructible, Nonstatic {
 
     // fields
     public final static String TAG = Zoomba.class.getName();

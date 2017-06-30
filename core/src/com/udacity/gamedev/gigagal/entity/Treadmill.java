@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -11,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Treadmill extends Ground implements Rideable, Convertible {
+public class Treadmill extends Ground implements Rotating, Convertible {
 
     // fields
     public final static String TAG = Treadmill.class.getName();
@@ -56,7 +55,7 @@ public class Treadmill extends Ground implements Rideable, Convertible {
     @Override public final float getTop() { return position.y + Constants.TREADMILL_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.TREADMILL_CENTER.y * scale.y; }
     @Override public final boolean isDense() { return true; }
-    @Override public final Enums.Direction getDirection() { return direction; }
+    @Override public final Enums.Direction getRotationDirection() { return direction; }
     @Override public void convert() { tripped = !tripped; direction = Helpers.getOppositeDirection(direction); }
     @Override public boolean isConverted() { return tripped; }
 }
