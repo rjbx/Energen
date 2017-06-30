@@ -517,7 +517,7 @@ public class GigaGal extends Entity implements Humanoid {
                         Vector2 intersectionPoint = new Vector2();
                         intersectionPoint.x = Math.max(getBounds().x, bounds.x);
                         intersectionPoint.y = Math.max(getBounds().y, bounds.y);
-                        level.spawnImpact(intersectionPoint, hazard.getType());
+                      //  level.spawnImpact(intersectionPoint, hazard.getType());
                         int damage = hazard.getDamage();
                         float margin = 0;
                         if (hazard instanceof Destructible) {

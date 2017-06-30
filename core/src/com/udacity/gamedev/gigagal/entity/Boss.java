@@ -537,7 +537,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
                         Vector2 intersectionPoint = new Vector2();
                         intersectionPoint.x = Math.max(getBounds().x, bounds.x);
                         intersectionPoint.y = Math.max(getBounds().y, bounds.y);
-                        level.spawnImpact(intersectionPoint, hazard.getType());
+                    //    level.spawnImpact(intersectionPoint, hazard.getType());
                         int damage = hazard.getDamage();
                         float margin = 0;
                         if (hazard instanceof Destructible) {
@@ -856,9 +856,9 @@ public class Boss extends Hazard implements Humanoid, Destructible {
         );
         if (lookStartTime != 0) {
             ammoPosition.add(Helpers.absoluteToDirectionalValue(0, directionX, Enums.Orientation.X), Helpers.absoluteToDirectionalValue(6, directionY, Enums.Orientation.Y));
-            level.spawnAmmo(ammoPosition, directionY, Enums.Orientation.Y, shotIntensity, weapon, true);
+       //     level.spawnAmmo(ammoPosition, directionY, Enums.Orientation.Y, shotIntensity, weapon, true);
         } else {
-            level.spawnAmmo(ammoPosition, directionX, Enums.Orientation.X, shotIntensity, weapon, true);
+      //      level.spawnAmmo(ammoPosition, directionX, Enums.Orientation.X, shotIntensity, weapon, true);
         }
     }
 

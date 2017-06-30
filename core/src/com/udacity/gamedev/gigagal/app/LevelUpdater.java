@@ -201,30 +201,7 @@ public class LevelUpdater {
             hazards.begin();
             for (int i = 0; i < hazards.size; i++) {
                 if (!updateHazard(delta, hazards.get(i))) {
-                    switch (hazards.get(i).getType()) {
-                        case ORE:
-                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
-                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
-                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
-                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
-                            break;
-                        case PLASMA:
-                            break;
-                        case GAS:
-                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
-                            break;
-                        case LIQUID:
-                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
-                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
-                            break;
-                        case SOLID:
-                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
-                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
-                            powerups.add(new Powerup(hazards.get(i).getPosition(), Enums.PowerupType.AMMO));
-                            break;
-                        case ANTIMATTER:
-                            break;
-                    }
+                    spawnPowerup(hazards.get(i));
                     hazards.removeIndex(i);
                     removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                 }
@@ -667,14 +644,38 @@ public class LevelUpdater {
         return paused;
     }
 
-    public void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Material weapon, boolean targetsEnemies) {
+    private void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Material weapon, boolean targetsEnemies) {
         Ammo ammo = new Ammo(this, position, direction, orientation, shotIntensity, weapon, targetsEnemies);
         hazards.add(ammo);
         projectiles.add(ammo);
     }
 
-    public void spawnImpact(Vector2 position, Enums.Material type) {
+    private void spawnImpact(Vector2 position, Enums.Material type) {
         impacts.add(new Impact(position, type));
+    }
+    
+    private void spawnPowerup(Hazard hazard) {
+        switch (hazard.getType()) {
+            case ORE:
+                powerups.add(new Powerup(hazard.getPosition().add(-5, 5), Enums.PowerupType.AMMO));
+                powerups.add(new Powerup(hazard.getPosition().add(5, 5), Enums.PowerupType.AMMO));
+                powerups.add(new Powerup(hazard.getPosition().add(5, -5), Enums.PowerupType.AMMO));
+                powerups.add(new Powerup(hazard.getPosition().add(-5, -5), Enums.PowerupType.AMMO));
+                powerups.add(new Powerup(hazard.getPosition(), Enums.PowerupType.AMMO));
+                break;
+            case GAS:
+                powerups.add(new Powerup(hazard.getPosition(), Enums.PowerupType.AMMO));
+                break;
+            case LIQUID:
+                powerups.add(new Powerup(hazard.getPosition().add(0, -5), Enums.PowerupType.AMMO));
+                powerups.add(new Powerup(hazard.getPosition().add(0, -5), Enums.PowerupType.AMMO));
+                break;
+            case SOLID:
+                powerups.add(new Powerup(hazard.getPosition().add(-5, 5), Enums.PowerupType.AMMO));
+                powerups.add(new Powerup(hazard.getPosition().add(-5, 5), Enums.PowerupType.AMMO));
+                powerups.add(new Powerup(hazard.getPosition(), Enums.PowerupType.AMMO));
+                break;
+        }
     }
 
     // Getters
