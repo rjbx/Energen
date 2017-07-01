@@ -1,5 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Groundable {
+public interface Groundable extends Physical {
     boolean isDense();
 }

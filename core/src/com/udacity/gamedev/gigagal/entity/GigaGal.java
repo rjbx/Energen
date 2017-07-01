@@ -52,8 +52,8 @@ public class GigaGal extends Entity implements Humanoid {
     private TextureRegion region; // class-level instantiation
     private Action action;
     private GroundState groundState;
-    private Ground touchedGround; // class-level instantiation
-    private Hazard touchedHazard;
+    private Groundable touchedGround; // class-level instantiation
+    private Hazardous touchedHazard;
     private ShotIntensity shotIntensity;
     private Material weapon;
     private List<Material> weaponList; // class-level instantiation
@@ -507,9 +507,9 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    private void touchHazards(Array<Hazard> hazards) {
+    private void touchHazards(Array<Hazardous> hazards) {
         touchedHazard = null;
-        for (Hazard hazard : hazards) {
+        for (Hazardous hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
                 float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
                 if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
