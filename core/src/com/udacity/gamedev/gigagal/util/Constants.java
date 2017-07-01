@@ -155,7 +155,7 @@ public final class Constants {
     public static final Vector2 BACKGROUND_CENTER = new Vector2(270, 180);
 
     // Box
-    public static final int BLOCK_EDGE = 8;
+    public static final int BLOCK_EDGE = 4;
     public static final float MAX_LEDGE_HEIGHT = 8;
     public static final String BLOCK_SPRITE = "box";
     public static final String BOX_SPRITE = "box-breakable";
