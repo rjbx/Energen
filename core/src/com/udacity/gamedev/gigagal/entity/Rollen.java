@@ -74,7 +74,7 @@ public class Rollen extends Hazard implements Destructible, Roveable {
         Viewport viewport = level.getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
         Vector3 camera = new Vector3(viewport.getCamera().position);
-        Vector2 activationDistance = new Vector2(worldSpan.x / 2, worldSpan.y / 2);
+        Vector2 activationDistance = new Vector2(worldSpan.x / 1.5f, worldSpan.y / 1.5f);
 
         boolean touchingSide = false;
         boolean touchingTop = false;
