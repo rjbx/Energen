@@ -663,26 +663,28 @@ public class LevelUpdater {
     }
     
     private void spawnPowerup(Hazard hazard) {
-        switch (hazard.getType()) {
-            case ORE:
-                powerups.add(new Powerup(hazard.getPosition().add(-5, 5), Enums.PowerupType.AMMO));
-                powerups.add(new Powerup(hazard.getPosition().add(5, 5), Enums.PowerupType.AMMO));
-                powerups.add(new Powerup(hazard.getPosition().add(5, -5), Enums.PowerupType.AMMO));
-                powerups.add(new Powerup(hazard.getPosition().add(-5, -5), Enums.PowerupType.AMMO));
-                powerups.add(new Powerup(hazard.getPosition(), Enums.PowerupType.AMMO));
-                break;
-            case GAS:
-                powerups.add(new Powerup(hazard.getPosition(), Enums.PowerupType.AMMO));
-                break;
-            case LIQUID:
-                powerups.add(new Powerup(hazard.getPosition().add(0, -5), Enums.PowerupType.AMMO));
-                powerups.add(new Powerup(hazard.getPosition().add(0, -5), Enums.PowerupType.AMMO));
-                break;
-            case SOLID:
-                powerups.add(new Powerup(hazard.getPosition().add(-5, 5), Enums.PowerupType.AMMO));
-                powerups.add(new Powerup(hazard.getPosition().add(-5, 5), Enums.PowerupType.AMMO));
-                powerups.add(new Powerup(hazard.getPosition(), Enums.PowerupType.AMMO));
-                break;
+        if (!(hazard instanceof Ammo)) {
+            switch (hazard.getType()) {
+                case ORE:
+                    powerups.add(new Powerup(hazard.getPosition().add(-5, 5), Enums.PowerupType.AMMO));
+                    powerups.add(new Powerup(hazard.getPosition().add(5, 5), Enums.PowerupType.AMMO));
+                    powerups.add(new Powerup(hazard.getPosition().add(5, -5), Enums.PowerupType.AMMO));
+                    powerups.add(new Powerup(hazard.getPosition().add(-5, -5), Enums.PowerupType.AMMO));
+                    powerups.add(new Powerup(hazard.getPosition(), Enums.PowerupType.AMMO));
+                    break;
+                case GAS:
+                    powerups.add(new Powerup(hazard.getPosition(), Enums.PowerupType.AMMO));
+                    break;
+                case LIQUID:
+                    powerups.add(new Powerup(hazard.getPosition().add(0, -5), Enums.PowerupType.AMMO));
+                    powerups.add(new Powerup(hazard.getPosition().add(0, -5), Enums.PowerupType.AMMO));
+                    break;
+                case SOLID:
+                    powerups.add(new Powerup(hazard.getPosition().add(-5, 5), Enums.PowerupType.AMMO));
+                    powerups.add(new Powerup(hazard.getPosition().add(-5, 5), Enums.PowerupType.AMMO));
+                    powerups.add(new Powerup(hazard.getPosition(), Enums.PowerupType.AMMO));
+                    break;
+            }
         }
     }
 
