@@ -36,7 +36,7 @@ public class LevelUpdater {
     private Timer timer;
     private boolean loadEx;
     private Backdrop backdrop;
-    private DelayedRemovalArray<com.udacity.gamedev.gigagal.entity.Entity> entities;
+    private DelayedRemovalArray<Entity> entities;
     private DelayedRemovalArray<Ground> grounds;
     private DelayedRemovalArray<Hazard> hazards;
     private DelayedRemovalArray<Powerup> powerups;
@@ -76,7 +76,7 @@ public class LevelUpdater {
         chaseCam = ChaseCam.getInstance();
         assets = Assets.getInstance();
         inputControls = InputControls.getInstance();
-        entities = new DelayedRemovalArray<com.udacity.gamedev.gigagal.entity.Entity>();
+        entities = new DelayedRemovalArray<Entity>();
         grounds = new DelayedRemovalArray<Ground>();
         hazards = new DelayedRemovalArray<Hazard>();
         projectiles = new DelayedRemovalArray<Ammo>();
@@ -689,15 +689,15 @@ public class LevelUpdater {
     }
 
     // Getters
-    protected final void addEntity(com.udacity.gamedev.gigagal.entity.Entity entity) { entities.add(entity); }
+    protected final void addEntity(Entity entity) { entities.add(entity); }
     protected final void addGround(Ground ground) { grounds.add(ground); }
     protected final void addHazard(Hazard hazard) { hazards.add(hazard); }
     protected final void addPowerup(Powerup powerup) { powerups.add(powerup); }
 
     // to return cloned elements; state changes set from this class
-    public final Array<com.udacity.gamedev.gigagal.entity.Entity> getEntities() {
-        Array<com.udacity.gamedev.gigagal.entity.Entity> clonedEntities = new Array<com.udacity.gamedev.gigagal.entity.Entity>();
-        for (com.udacity.gamedev.gigagal.entity.Entity entity : entities) {
+    public final Array<Entity> getEntities() {
+        Array<Entity> clonedEntities = new Array<Entity>();
+        for (Entity entity : entities) {
             clonedEntities.add(entity.clone());
         }
         return clonedEntities;
