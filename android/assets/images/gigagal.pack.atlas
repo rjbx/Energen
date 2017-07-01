@@ -2140,7 +2140,7 @@ zoomba-solid-2
   offset: 0, 0
   index: -1
 
-gigagal.pack8.png
+gigagal.pack20.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
@@ -2160,7 +2160,7 @@ background-hybrid
   offset: 0, 0
   index: -1
 
-gigagal.pack9.png
+gigagal.pack21.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
@@ -2180,7 +2180,7 @@ background-ore
   offset: 0, 0
   index: -1
 
-gigagal.pack10.png
+gigagal.pack22.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
