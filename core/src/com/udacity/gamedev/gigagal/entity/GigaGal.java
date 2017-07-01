@@ -273,7 +273,7 @@ public class GigaGal extends Entity implements Humanoid {
         untouchGround();
     }
 
-    private void touchGround(Ground ground) {
+    private void touchGround(Groundable ground) {
         if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundaries
             if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collision
 
@@ -326,7 +326,7 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
-    private void touchGroundSide(Ground ground) {
+    private void touchGroundSide(Groundable ground) {
         // ignores case where simultaneously touching two separate grounds with same top position to prevent interrupting stride
         if (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.getTop() == ground.getTop())) {
             // if during previous frame was not, while currently is, between ground left and right sides
@@ -396,7 +396,7 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
-    private void touchGroundBottom(Ground ground) {
+    private void touchGroundBottom(Groundable ground) {
         // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
         if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom() + 1) {
             velocity.y = 0; // prevents from ascending above ground bottom
@@ -415,7 +415,7 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     // applicable to all dense grounds as well as non-sinkables when not climbing downward
-    private void touchGroundTop(Ground ground) {
+    private void touchGroundTop(Groundable ground) {
         // if contact with ground top detected, halt downward progression and set gigagal atop ground
         if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
             velocity.y = 0; // prevents from descending beneath ground top
@@ -458,7 +458,7 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     // basic ground top collision instructions; applicable to sinkables even when previousframe.x < ground.top
-    private void setAtopGround(Ground ground) {
+    private void setAtopGround(Groundable ground) {
         touchedGround = ground;
         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
         hoverStartTime = 0;
