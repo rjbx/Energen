@@ -179,7 +179,7 @@ public class LevelUpdater {
 
             if (gigaGal.getTouchedHazard() != null) {
                 Vector2 intersectionPoint = new Vector2();
-                Hazard touchedHazard = gigaGal.getTouchedHazard();
+                Hazardous touchedHazard = gigaGal.getTouchedHazard();
                 intersectionPoint.x = Math.max(gigaGal.getLeft(), touchedHazard.getLeft());
                 intersectionPoint.y = Math.max(gigaGal.getBottom(), touchedHazard.getBottom());
                 spawnImpact(intersectionPoint, touchedHazard.getType());
@@ -659,7 +659,7 @@ public class LevelUpdater {
     private void spawnImpact(Vector2 position, Enums.Material type) {
         impacts.add(new Impact(position, type));
     }
-    
+
     private void spawnPowerup(Hazard hazard) {
         if (!(hazard instanceof Ammo)) {
             switch (hazard.getType()) {

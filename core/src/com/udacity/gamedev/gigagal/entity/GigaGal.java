@@ -196,8 +196,8 @@ public class GigaGal extends Entity implements Humanoid {
         detectInput();
 
         // collision detection
-        touchGround(LevelUpdater.getInstance().getGrounds());
-        touchHazards(LevelUpdater.getInstance().getHazards());
+        touchAllGrounds(LevelUpdater.getInstance().getGrounds());
+        touchAllHazards(LevelUpdater.getInstance().getHazards());
         touchPowerups(LevelUpdater.getInstance().getPowerups());
 
         // abilities
@@ -266,57 +266,64 @@ public class GigaGal extends Entity implements Humanoid {
         bounds = new Rectangle(left, bottom, width, height);
     }
 
-    private void touchGround(Array<Ground> grounds) {
+    private void touchAllGrounds(Array<Ground> grounds) {
         for (Ground ground : grounds) {
-            if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundries
-                if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collision
-
-                    touchGroundBottom(ground);
-                    touchGroundSide(ground);
-                    touchGroundTop(ground);
-
-                } else { // for non-dense grounds:
-
-                    // additional ground collision instructions specific to certain types of grounds
-                    if (ground instanceof Climbable) {
-                        if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
-                        && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
-                            touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
-                        }
-                        if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
-                            touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
-                        }
-                        canCling = true;
-                    } else if (ground instanceof Sinkable) {
-                        setAtopGround(ground); // when any kind of collision detected and not only when breaking plane of ground.top
-                        canCling = false;
-                        canClimb = false;
-                        canSink = true;
-                        canDash = false;
-                        canHover = false;
-                        lookStartTime = 0;
-                        lookTimeSeconds = 0;
-                    } else {
-                        canCling = false;
-                        if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
-                            touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
-                        }
-                    }
-                }
-                // if below minimum ground distance while descending excluding post-rappel, disable rappel and hover
-                // caution when crossing plane between ground top and minimum hover height / ground distance
-                // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
-                if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
-                        && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
-                        && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
-                        && rappelStartTime == 0 // only if have not rappeled since last grounded
-                        && !(ground instanceof Cannon)) { // only if ground is not instance of cannon
-                    canRappel = false; // disables rappel
-                    canHover = false; // disables hover
-                }
-            }
+            touchGround(ground);
         }
         untouchGround();
+    }
+
+    private void touchGround(Ground ground) {
+        if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundaries
+            if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collision
+
+                touchGroundBottom(ground);
+                touchGroundSide(ground);
+                touchGroundTop(ground);
+
+            } else { // for non-dense grounds:
+
+                // additional ground collision instructions specific to certain types of grounds
+                if (ground instanceof Climbable) {
+                    if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
+                            && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
+                        touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
+                    }
+                    if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
+                        touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                    }
+                    canCling = true;
+                } else if (ground instanceof Sinkable) {
+                    setAtopGround(ground); // when any kind of collision detected and not only when breaking plane of ground.top
+                    canCling = false;
+                    canClimb = false;
+                    canSink = true;
+                    canDash = false;
+                    canHover = false;
+                    lookStartTime = 0;
+                    lookTimeSeconds = 0;
+                    if (ground instanceof Hazardous) {
+                        touchHazard((Hazardous) ground);
+                    }
+                } else {
+                    canCling = false;
+                    if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
+                        touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                    }
+                }
+            }
+            // if below minimum ground distance while descending excluding post-rappel, disable rappel and hover
+            // caution when crossing plane between ground top and minimum hover height / ground distance
+            // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
+            if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
+                    && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
+                    && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
+                    && rappelStartTime == 0 // only if have not rappeled since last grounded
+                    && !(ground instanceof Cannon)) { // only if ground is not instance of cannon
+                canRappel = false; // disables rappel
+                canHover = false; // disables hover
+            }
+        }
     }
 
     private void touchGroundSide(Ground ground) {
@@ -507,58 +514,62 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    private void touchHazards(Array<Hazardous> hazards) {
+    private void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
-        for (Hazardous hazard : hazards) {
-            if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
-                float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
-                if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
-                    Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
-                    if (getBounds().overlaps(bounds)) {
-                        recoveryStartTime = TimeUtils.nanoTime();
-                        chaseCamPosition.set(position, 0);
-                        touchedHazard = hazard;
-                        int damage = hazard.getDamage();
-                        float margin = 0;
-                        if (hazard instanceof Destructible) {
-                            margin = hazard.getWidth() / 6;
-                        }
-                        if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
-                            if (hazard instanceof Swoopa) {
-                                Swoopa swoopa = (Swoopa) hazard;
-                                recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y));
-                                damage = swoopa.getMountDamage();
-                            } else {
-                                recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
-                            }
-                        } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
-                            if (hazard instanceof Swoopa) {
-                                Swoopa swoopa = (Swoopa) hazard;
-                                recoil(swoopa.getMountKnockback());
-                                damage = swoopa.getMountDamage();
-                            } else {
-                                recoil(hazard.getKnockback());
-                            }
-                        } else {
-                            if (hazard instanceof Zoomba) {
-                                Zoomba zoomba = (Zoomba) hazard;
-                                recoil(new Vector2((Helpers.absoluteToDirectionalValue(zoomba.getMountKnockback().x, directionX, Orientation.X)), zoomba.getMountKnockback().y));
-                                damage = zoomba.getMountDamage();
-                            } else {
-                                recoil(new Vector2((Helpers.absoluteToDirectionalValue(hazard.getKnockback().x, directionX, Orientation.X)), hazard.getKnockback().y));
-                            }
-                        }
-                        Assets.getInstance().getSoundAssets().damage.play();
-                        health -= damage * healthMultiplier;
-                        chargeModifier = 0;
-                    } else if (
-                            action == Action.STANDING
-                            && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
-                            && Helpers.absoluteToDirectionalValue(position.x - bounds.x, directionX, Orientation.X) > 0) {
-                        canPeer = true;
-                    } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
-                        canPeer = false;
+        for (Hazard hazard : hazards) {
+            touchHazard(hazard);
+        }
+    }
+
+    private void touchHazard(Hazardous hazard) {
+        if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
+            float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
+            if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
+                Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
+                if (getBounds().overlaps(bounds)) {
+                    recoveryStartTime = TimeUtils.nanoTime();
+                    chaseCamPosition.set(position, 0);
+                    touchedHazard = hazard;
+                    int damage = hazard.getDamage();
+                    float margin = 0;
+                    if (hazard instanceof Destructible) {
+                        margin = hazard.getWidth() / 6;
                     }
+                    if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
+                        if (hazard instanceof Swoopa) {
+                            Swoopa swoopa = (Swoopa) hazard;
+                            recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y));
+                            damage = swoopa.getMountDamage();
+                        } else {
+                            recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
+                        }
+                    } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
+                        if (hazard instanceof Swoopa) {
+                            Swoopa swoopa = (Swoopa) hazard;
+                            recoil(swoopa.getMountKnockback());
+                            damage = swoopa.getMountDamage();
+                        } else {
+                            recoil(hazard.getKnockback());
+                        }
+                    } else {
+                        if (hazard instanceof Zoomba) {
+                            Zoomba zoomba = (Zoomba) hazard;
+                            recoil(new Vector2((Helpers.absoluteToDirectionalValue(zoomba.getMountKnockback().x, directionX, Orientation.X)), zoomba.getMountKnockback().y));
+                            damage = zoomba.getMountDamage();
+                        } else {
+                            recoil(new Vector2((Helpers.absoluteToDirectionalValue(hazard.getKnockback().x, directionX, Orientation.X)), hazard.getKnockback().y));
+                        }
+                    }
+                    Assets.getInstance().getSoundAssets().damage.play();
+                    health -= damage * healthMultiplier;
+                    chargeModifier = 0;
+                } else if (
+                        action == Action.STANDING
+                                && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
+                                && Helpers.absoluteToDirectionalValue(position.x - bounds.x, directionX, Orientation.X) > 0) {
+                    canPeer = true;
+                } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
+                    canPeer = false;
                 }
             }
         }
@@ -1269,7 +1280,7 @@ public class GigaGal extends Entity implements Humanoid {
     @Override public final boolean getDashStatus() { return canDash; }
     @Override public final boolean getClimbStatus() { return canClimb; }
     public final boolean getDispatchStatus() { return canDispatch; }
-    public final Hazard getTouchedHazard() { return touchedHazard; }
+    public final Hazardous getTouchedHazard() { return touchedHazard; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }
     @Override public final Enums.Action getAction() { return action; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
