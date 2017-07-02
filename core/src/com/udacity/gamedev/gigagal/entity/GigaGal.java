@@ -533,14 +533,14 @@ public class GigaGal extends Entity implements Humanoid {
                     Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
                     if (getBounds().overlaps(bounds)) {
                         touchHazard(hazard);
-                    }
-                } else if (action == Action.STANDING
+                    } else if (action == Action.STANDING
                             && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
                             && Helpers.absoluteToDirectionalValue(position.x - bounds.x, directionX, Orientation.X) > 0) {
-                    canPeer = true;
-                } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
-                    canPeer = false;
-                }
+                        canPeer = true;
+                    } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
+                        canPeer = false;
+                    }
+                } 
             }
         }
     }
