@@ -404,7 +404,7 @@ public class GigaGal extends Entity implements Humanoid {
         if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom() + 1) {
             velocity.y = 0; // prevents from ascending above ground bottom
             position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
-            if (groundState == GroundState.AIRBORNE) { // prevemts fall when striding against ground bottom positioned at height distance from ground atop
+            if (groundState == GroundState.AIRBORNE) { // prevents fall when striding against ground bottom positioned at height distance from ground atop
                 fall(); // descend from point of contact with ground bottom
             } else if (action == Action.CLIMBING) { // prevents from disengaging climb
                 fall(); // descend from point of contact with ground bottom
@@ -423,7 +423,7 @@ public class GigaGal extends Entity implements Humanoid {
                 && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground top detected, halt downward progression and set gigagal atop ground
             if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
-                if (Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
+                if ((Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight()) || groundState != GroundState.AIRBORNE)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground sides
                     velocity.y = 0; // prevents from descending beneath ground top
                     position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                     setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
