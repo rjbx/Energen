@@ -540,7 +540,7 @@ public class GigaGal extends Entity implements Humanoid {
                     } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
                         canPeer = false;
                     }
-                } 
+                }
             }
         }
     }
@@ -606,8 +606,12 @@ public class GigaGal extends Entity implements Humanoid {
                 }
                 break;
             case HEALTH:
-                Assets.getInstance().getSoundAssets().health.play();
-                health += Constants.POWERUP_HEALTH;
+                if (powerup instanceof Powerup) {
+                    Assets.getInstance().getSoundAssets().health.play();
+                    health += Constants.POWERUP_HEALTH;
+                } else {
+                    health += 1;
+                }
                 if (health > Constants.MAX_HEALTH) {
                     health = Constants.MAX_HEALTH;
                 }
