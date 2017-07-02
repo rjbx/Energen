@@ -527,56 +527,16 @@ public class GigaGal extends Entity implements Humanoid {
     private void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
         for (Hazard hazard : hazards) {
-            touchHazard(hazard);
-        }
-    }
-
-    private void touchHazard(Hazardous hazard) {
-        if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
-            float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
-            if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
-                Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
-                if (getBounds().overlaps(bounds)) {
-                    recoveryStartTime = TimeUtils.nanoTime();
-                    chaseCamPosition.set(position, 0);
-                    touchedHazard = hazard;
-                    int damage = hazard.getDamage();
-                    float margin = 0;
-                    if (hazard instanceof Destructible) {
-                        margin = hazard.getWidth() / 6;
+            if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
+                float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
+                if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
+                    Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
+                    if (getBounds().overlaps(bounds)) {
+                        touchHazard(hazard);
                     }
-                    if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
-                        if (hazard instanceof Swoopa) {
-                            Swoopa swoopa = (Swoopa) hazard;
-                            recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y));
-                            damage = swoopa.getMountDamage();
-                        } else {
-                            recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
-                        }
-                    } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
-                        if (hazard instanceof Swoopa) {
-                            Swoopa swoopa = (Swoopa) hazard;
-                            recoil(swoopa.getMountKnockback());
-                            damage = swoopa.getMountDamage();
-                        } else {
-                            recoil(hazard.getKnockback());
-                        }
-                    } else {
-                        if (hazard instanceof Zoomba) {
-                            Zoomba zoomba = (Zoomba) hazard;
-                            recoil(new Vector2((Helpers.absoluteToDirectionalValue(zoomba.getMountKnockback().x, directionX, Orientation.X)), zoomba.getMountKnockback().y));
-                            damage = zoomba.getMountDamage();
-                        } else {
-                            recoil(new Vector2((Helpers.absoluteToDirectionalValue(hazard.getKnockback().x, directionX, Orientation.X)), hazard.getKnockback().y));
-                        }
-                    }
-                    Assets.getInstance().getSoundAssets().damage.play();
-                    health -= damage * healthMultiplier;
-                    chargeModifier = 0;
-                } else if (
-                        action == Action.STANDING
-                                && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
-                                && Helpers.absoluteToDirectionalValue(position.x - bounds.x, directionX, Orientation.X) > 0) {
+                } else if (action == Action.STANDING
+                            && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
+                            && Helpers.absoluteToDirectionalValue(position.x - bounds.x, directionX, Orientation.X) > 0) {
                     canPeer = true;
                 } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
                     canPeer = false;
@@ -585,9 +545,51 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
+    private void touchHazard(Hazardous hazard) {
+        recoveryStartTime = TimeUtils.nanoTime();
+        chaseCamPosition.set(position, 0);
+        touchedHazard = hazard;
+        int damage = hazard.getDamage();
+        float margin = 0;
+        if (hazard instanceof Destructible) {
+            margin = hazard.getWidth() / 6;
+        }
+        if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
+            if (hazard instanceof Swoopa) {
+                Swoopa swoopa = (Swoopa) hazard;
+                recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y));
+                damage = swoopa.getMountDamage();
+            } else {
+                recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
+            }
+        } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
+            if (hazard instanceof Swoopa) {
+                Swoopa swoopa = (Swoopa) hazard;
+                recoil(swoopa.getMountKnockback());
+                damage = swoopa.getMountDamage();
+            } else {
+                recoil(hazard.getKnockback());
+            }
+        } else {
+            if (hazard instanceof Zoomba) {
+                Zoomba zoomba = (Zoomba) hazard;
+                recoil(new Vector2((Helpers.absoluteToDirectionalValue(zoomba.getMountKnockback().x, directionX, Orientation.X)), zoomba.getMountKnockback().y));
+                damage = zoomba.getMountDamage();
+            } else {
+                recoil(new Vector2((Helpers.absoluteToDirectionalValue(hazard.getKnockback().x, directionX, Orientation.X)), hazard.getKnockback().y));
+            }
+        }
+        Assets.getInstance().getSoundAssets().damage.play();
+        health -= damage * healthMultiplier;
+        chargeModifier = 0;
+    }
+
     private void touchAllPowerups(Array<Powerup> powerups) {
         for (Powerup powerup : powerups) {
-            touchPowerup(powerup);
+            Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
+            if (getBounds().overlaps(bounds)) {
+                touchPowerup(powerup);
+            }
         }
         if (turbo > Constants.MAX_TURBO) {
             turbo = Constants.MAX_TURBO;
@@ -595,43 +597,40 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     private void touchPowerup(Replenishing powerup) {
-        Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
-        if (getBounds().overlaps(bounds)) {
-            switch(powerup.getType()) {
-                case AMMO:
-                    Assets.getInstance().getSoundAssets().ammo.play();
-                    ammo += Constants.POWERUP_AMMO;
-                    if (ammo > Constants.MAX_AMMO) {
-                        ammo = Constants.MAX_AMMO;
-                    }
-                    break;
-                case HEALTH:
-                    Assets.getInstance().getSoundAssets().health.play();
-                    health += Constants.POWERUP_HEALTH;
-                    if (health > Constants.MAX_HEALTH) {
-                        health = Constants.MAX_HEALTH;
-                    }
-                    break;
-                case TURBO:
-                    Assets.getInstance().getSoundAssets().turbo.play();
-                    turbo += Constants.POWERUP_TURBO;
-                    if (action == Action.HOVERING) {
-                        hoverStartTime = TimeUtils.nanoTime();
-                    }
-                    if (action == Action.DASHING) {
-                        dashStartTime = TimeUtils.nanoTime();
-                    }
-                    break;
-                case LIFE:
-                    Assets.getInstance().getSoundAssets().life.play();
-                    lives += 1;
-                    break;
-                case CANNON:
-                    Assets.getInstance().getSoundAssets().cannon.play();
-                    chargeModifier = 1;
-                    ammo += Constants.POWERUP_AMMO;
-                    break;
-            }
+        switch(powerup.getType()) {
+            case AMMO:
+                Assets.getInstance().getSoundAssets().ammo.play();
+                ammo += Constants.POWERUP_AMMO;
+                if (ammo > Constants.MAX_AMMO) {
+                    ammo = Constants.MAX_AMMO;
+                }
+                break;
+            case HEALTH:
+                Assets.getInstance().getSoundAssets().health.play();
+                health += Constants.POWERUP_HEALTH;
+                if (health > Constants.MAX_HEALTH) {
+                    health = Constants.MAX_HEALTH;
+                }
+                break;
+            case TURBO:
+                Assets.getInstance().getSoundAssets().turbo.play();
+                turbo += Constants.POWERUP_TURBO;
+                if (action == Action.HOVERING) {
+                    hoverStartTime = TimeUtils.nanoTime();
+                }
+                if (action == Action.DASHING) {
+                    dashStartTime = TimeUtils.nanoTime();
+                }
+                break;
+            case LIFE:
+                Assets.getInstance().getSoundAssets().life.play();
+                lives += 1;
+                break;
+            case CANNON:
+                Assets.getInstance().getSoundAssets().cannon.play();
+                chargeModifier = 1;
+                ammo += Constants.POWERUP_AMMO;
+                break;
         }
     }
 
