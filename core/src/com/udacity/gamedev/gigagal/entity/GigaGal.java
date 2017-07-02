@@ -399,20 +399,23 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     private void touchGroundBottom(Groundable ground) {
-        // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
-        if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom() + 1) {
-            velocity.y = 0; // prevents from ascending above ground bottom
-            position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
-            if (groundState == GroundState.AIRBORNE) { // prevents fall when striding against ground bottom positioned at height distance from ground atop
-                fall(); // descend from point of contact with ground bottom
-            } else if (action == Action.CLIMBING) { // prevents from disengaging climb
-                fall(); // descend from point of contact with ground bottom
-                canCling = true;
-                canClimb = true;
-                action = Action.CLIMBING;
-                groundState = GroundState.PLANTED;
+        if (!(touchedGround != null && !touchedGround.equals(ground)
+                && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
+            // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
+            if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom() + 1) {
+                velocity.y = 0; // prevents from ascending above ground bottom
+                position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
+                if (groundState == GroundState.AIRBORNE) { // prevents fall when striding against ground bottom positioned at height distance from ground atop
+                    fall(); // descend from point of contact with ground bottom
+                } else if (action == Action.CLIMBING) { // prevents from disengaging climb
+                    fall(); // descend from point of contact with ground bottom
+                    canCling = true;
+                    canClimb = true;
+                    action = Action.CLIMBING;
+                    groundState = GroundState.PLANTED;
+                }
+                canDash = false;
             }
-            canDash = false;
         }
     }
 
