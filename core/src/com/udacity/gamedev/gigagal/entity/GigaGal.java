@@ -198,7 +198,7 @@ public class GigaGal extends Entity implements Humanoid {
         // collision detection
         touchAllGrounds(LevelUpdater.getInstance().getGrounds());
         touchAllHazards(LevelUpdater.getInstance().getHazards());
-        touchPowerups(LevelUpdater.getInstance().getPowerups());
+        touchAllPowerups(LevelUpdater.getInstance().getPowerups());
 
         // abilities
         if (groundState == GroundState.PLANTED) {
@@ -579,49 +579,53 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
-    private void touchPowerups(Array<Powerup> powerups) {
+    private void touchAllPowerups(Array<Powerup> powerups) {
         for (Powerup powerup : powerups) {
-            Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
-            if (getBounds().overlaps(bounds)) {
-                switch(powerup.getType()) {
-                    case AMMO:
-                        Assets.getInstance().getSoundAssets().ammo.play();
-                        ammo += Constants.POWERUP_AMMO;
-                        if (ammo > Constants.MAX_AMMO) {
-                            ammo = Constants.MAX_AMMO;
-                        }
-                        break;
-                    case HEALTH:
-                        Assets.getInstance().getSoundAssets().health.play();
-                        health += Constants.POWERUP_HEALTH;
-                        if (health > Constants.MAX_HEALTH) {
-                            health = Constants.MAX_HEALTH;
-                        }
-                        break;
-                    case TURBO:
-                        Assets.getInstance().getSoundAssets().turbo.play();
-                        turbo += Constants.POWERUP_TURBO;
-                        if (action == Action.HOVERING) {
-                            hoverStartTime = TimeUtils.nanoTime();
-                        }
-                        if (action == Action.DASHING) {
-                            dashStartTime = TimeUtils.nanoTime();
-                        }
-                        break;
-                    case LIFE:
-                        Assets.getInstance().getSoundAssets().life.play();
-                        lives += 1;
-                        break;
-                    case CANNON:
-                        Assets.getInstance().getSoundAssets().cannon.play();
-                        chargeModifier = 1;
-                        ammo += Constants.POWERUP_AMMO;
-                        break;
-                }
-            }
+            touchPowerup(powerup);
         }
         if (turbo > Constants.MAX_TURBO) {
             turbo = Constants.MAX_TURBO;
+        }
+    }
+
+    private void touchPowerup(Replenishing powerup) {
+        Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
+        if (getBounds().overlaps(bounds)) {
+            switch(powerup.getType()) {
+                case AMMO:
+                    Assets.getInstance().getSoundAssets().ammo.play();
+                    ammo += Constants.POWERUP_AMMO;
+                    if (ammo > Constants.MAX_AMMO) {
+                        ammo = Constants.MAX_AMMO;
+                    }
+                    break;
+                case HEALTH:
+                    Assets.getInstance().getSoundAssets().health.play();
+                    health += Constants.POWERUP_HEALTH;
+                    if (health > Constants.MAX_HEALTH) {
+                        health = Constants.MAX_HEALTH;
+                    }
+                    break;
+                case TURBO:
+                    Assets.getInstance().getSoundAssets().turbo.play();
+                    turbo += Constants.POWERUP_TURBO;
+                    if (action == Action.HOVERING) {
+                        hoverStartTime = TimeUtils.nanoTime();
+                    }
+                    if (action == Action.DASHING) {
+                        dashStartTime = TimeUtils.nanoTime();
+                    }
+                    break;
+                case LIFE:
+                    Assets.getInstance().getSoundAssets().life.play();
+                    lives += 1;
+                    break;
+                case CANNON:
+                    Assets.getInstance().getSoundAssets().cannon.play();
+                    chargeModifier = 1;
+                    ammo += Constants.POWERUP_AMMO;
+                    break;
+            }
         }
     }
 

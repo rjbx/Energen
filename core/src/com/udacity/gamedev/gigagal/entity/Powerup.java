@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
-public class Powerup extends Entity {
+public class Powerup extends Entity implements Replenishing {
 
     // fields
     public final static String TAG = Powerup.class.getName();
@@ -59,7 +59,7 @@ public class Powerup extends Entity {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center);
     }
 
-    public Enums.PowerupType getType() { return this.type; }
+    @Override public Enums.PowerupType getType() { return this.type; }
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getWidth() { return center.x * 2; }
     @Override public final float getHeight() { return center.y * 2; }
