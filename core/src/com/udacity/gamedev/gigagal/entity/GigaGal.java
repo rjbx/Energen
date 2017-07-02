@@ -520,7 +520,7 @@ public class GigaGal extends Entity implements Humanoid {
                 canRappel = false;
                 touchedGround = null; // after handling touchedground conditions above
             }
-        } else if (action == Action.STANDING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
+        } else if (action == Action.STANDING || action == Action.CLIMBING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
             fall();
         }
     }
