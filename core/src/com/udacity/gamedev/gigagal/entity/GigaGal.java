@@ -461,6 +461,9 @@ public class GigaGal extends Entity implements Humanoid {
                         fall();
                     }
                 }
+                if (ground instanceof Replenishing) {
+                    touchPowerup((Replenishing) ground);
+                }
             }
         } else {
             touchedGround = ground;

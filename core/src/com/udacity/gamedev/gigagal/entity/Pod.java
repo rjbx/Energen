@@ -6,9 +6,10 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Pod extends Ground implements Reboundable {
+public class Pod extends Ground implements Reboundable, Replenishing {
 
     // fields
     public final static String TAG = Pod.class.getName();
@@ -37,6 +38,7 @@ public class Pod extends Ground implements Reboundable {
     }
 
     @Override public final Vector2 getPosition() { return position; }
+    @Override public final Enums.PowerupType getType() { return Enums.PowerupType.HEALTH; }
     @Override public final float getHeight() { return Constants.POD_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.POD_CENTER.x * 2; }
     @Override public final float getLeft() { return position.x - Constants.POD_CENTER.x; }
