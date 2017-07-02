@@ -393,6 +393,8 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                 }
             }
+        } else {
+            touchedGround = ground;
         }
     }
 
@@ -416,44 +418,49 @@ public class GigaGal extends Entity implements Humanoid {
 
     // applicable to all dense grounds as well as non-sinkables when not climbing downward
     private void touchGroundTop(Groundable ground) {
-        // if contact with ground top detected, halt downward progression and set gigagal atop ground
-        if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
-            velocity.y = 0; // prevents from descending beneath ground top
-            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
-            setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
-            // additional ground top collision instructions specific to certain types of grounds
-            if (ground instanceof Skateable) {
-                if (groundState == GroundState.AIRBORNE) {
-                    stand(); // set groundstate to standing
-                    lookStartTime = 0;
-                } else if (canClimb) {
-                    canCling = false;
-                }
-            } else if (ground instanceof Orientable) {
-                lookStartTime = 0;
-                Orientable orientable = (Orientable) ground;
-                if (orientable.getOrientation() == Orientation.X) {
-                    if (orientable instanceof Moveable) {
-                        velocity.x = ((Moveable) orientable).getVelocity().x;
+        if (!(touchedGround != null && !touchedGround.equals(ground)
+                && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
+            // if contact with ground top detected, halt downward progression and set gigagal atop ground
+            if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
+                velocity.y = 0; // prevents from descending beneath ground top
+                position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
+                // additional ground top collision instructions specific to certain types of grounds
+                if (ground instanceof Skateable) {
+                    if (groundState == GroundState.AIRBORNE) {
+                        stand(); // set groundstate to standing
+                        lookStartTime = 0;
+                    } else if (canClimb) {
+                        canCling = false;
                     }
-                    position.x += velocity.x;
-                }
-                if (orientable instanceof Aerial && ((Aerial) orientable).getDirectionY() == Direction.DOWN) {
-                    position.y -= 1;
-                }
-            } else if (ground instanceof Reboundable) {
-                canClimb = false;
-                canCling = false;
-            } else if (ground instanceof Unbearable) {
-                canHover = false;
-                Random xKnockback = new Random();
-                velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
-                recoil(velocity);
-            } else if (ground instanceof Destructible) {
-                if (((Box) ground).getHealth() < 1) {
-                    fall();
+                } else if (ground instanceof Orientable) {
+                    lookStartTime = 0;
+                    Orientable orientable = (Orientable) ground;
+                    if (orientable.getOrientation() == Orientation.X) {
+                        if (orientable instanceof Moveable) {
+                            velocity.x = ((Moveable) orientable).getVelocity().x;
+                        }
+                        position.x += velocity.x;
+                    }
+                    if (orientable instanceof Aerial && ((Aerial) orientable).getDirectionY() == Direction.DOWN) {
+                        position.y -= 1;
+                    }
+                } else if (ground instanceof Reboundable) {
+                    canClimb = false;
+                    canCling = false;
+                } else if (ground instanceof Unbearable) {
+                    canHover = false;
+                    Random xKnockback = new Random();
+                    velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
+                    recoil(velocity);
+                } else if (ground instanceof Destructible) {
+                    if (((Box) ground).getHealth() < 1) {
+                        fall();
+                    }
                 }
             }
+        } else {
+            touchedGround = ground;
         }
     }
 
@@ -481,12 +488,10 @@ public class GigaGal extends Entity implements Humanoid {
     private void untouchGround() {
         if (touchedGround != null) {
             if (!Helpers.overlapsPhysicalObject(this, touchedGround)) {
-                if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
-                /*(!Helpers.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */ {
+                if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom()) {
                     if (action == Action.RAPPELLING) {
-                        velocity.x = 0; // prevents falling with backward momentum after rappel-sliding down platform side through its bottom
+                        velocity.x = 0;
                     }
-                    canRappel = false;
                     fall();
                 } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
                     canSink = false;
@@ -504,9 +509,8 @@ public class GigaGal extends Entity implements Humanoid {
                         fall();
                     }
                 }
-                // when no collision detected
                 canRappel = false;
-                touchedGround = null;  // after handling touchedground conditions above
+                touchedGround = null; // after handling touchedground conditions above
             }
         } else if (action == Action.STANDING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
             fall();
