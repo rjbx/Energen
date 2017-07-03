@@ -1,4 +1,4 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Unplantable {
+public interface Unsteady {
 }

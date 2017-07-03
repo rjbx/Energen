@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -286,7 +285,7 @@ public class GigaGal extends Entity implements Humanoid {
 
                 // additional ground collision instructions specific to certain types of grounds
                 if (ground instanceof Climbable) {
-                    if (!(ground instanceof Unplantable)) {
+                    if (!(ground instanceof Unsteady)) {
                         if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
                                 && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
                             touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
