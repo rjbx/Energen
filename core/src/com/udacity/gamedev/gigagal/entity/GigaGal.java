@@ -286,16 +286,17 @@ public class GigaGal extends Entity implements Humanoid {
 
                 // additional ground collision instructions specific to certain types of grounds
                 if (ground instanceof Climbable) {
-                    if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
-                            && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
-                        touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
-                    }
-                    if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
-                        if (!(ground instanceof Unplantable)) {
+                    if (!(ground instanceof Unplantable)) {
+                        if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
+                                && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
+                            touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
+                        }
+                        if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
                             touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
-                        } else if (!touchedGround.isDense() && !touchedGround.equals(ground) && (action == Action.STANDING || action == Action.STRIDING)) {
-                            Gdx.app.log(TAG, touchedGround.getClass() + "");
-                            fall();
+                        }
+                    } else {
+                        if (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense()))) {
+                            touchedGround = ground;
                         }
                     }
                     canCling = true;
@@ -526,7 +527,7 @@ public class GigaGal extends Entity implements Humanoid {
                 canRappel = false;
                 touchedGround = null; // after handling touchedground conditions above
             }
-        } else if (action == Action.STANDING || action == Action.CLIMBING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
+        } else if (action == Action.STANDING || action == Action.STRIDING || action == Action.CLIMBING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
             fall();
         }
     }
