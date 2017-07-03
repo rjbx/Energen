@@ -526,7 +526,7 @@ public class GigaGal extends Entity implements Humanoid {
                 canRappel = false;
                 touchedGround = null; // after handling touchedground conditions above
             }
-        } else if (action == Action.STANDING || action == Action.STRIDING || action == Action.CLIMBING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
+        } else if (groundState == GroundState.PLANTED) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
             fall();
         }
     }
@@ -810,6 +810,8 @@ public class GigaGal extends Entity implements Humanoid {
         if (!canClimb) {
             canJump = true;
             handleYInputs(); // disabled when canclimb to prevent look from overriding climb
+        } else if (!(touchedGround instanceof Climbable)) {
+            canClimb = false;
         } else {
             canJump = false;
         }
@@ -843,6 +845,10 @@ public class GigaGal extends Entity implements Humanoid {
             canHover = true;
         }
 
+        if (!(touchedGround instanceof Climbable)) {
+            canClimb = false;
+        }
+        
         canSink = false;
 
         if (turbo < Constants.MAX_TURBO) {
