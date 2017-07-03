@@ -490,8 +490,7 @@ public class GigaGal extends Entity implements Humanoid {
         if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
             stand(); // in each frame all grounds save for skateable rely upon this call to switch action from airborne
             lookStartTime = 0;
-        }
-        if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+        } else if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
             canJump = true;
             jump();
         } else if (action == Action.CLIMBING && !(ground instanceof Climbable)) {
@@ -526,7 +525,7 @@ public class GigaGal extends Entity implements Humanoid {
                 canRappel = false;
                 touchedGround = null; // after handling touchedground conditions above
             }
-        } else if (groundState == GroundState.PLANTED) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
+        } else if (action == Action.STANDING || action == Action.STRIDING || action == Action.CLIMBING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
             fall();
         }
     }
@@ -810,8 +809,6 @@ public class GigaGal extends Entity implements Humanoid {
         if (!canClimb) {
             canJump = true;
             handleYInputs(); // disabled when canclimb to prevent look from overriding climb
-        } else if (!(touchedGround instanceof Climbable)) {
-            canClimb = false;
         } else {
             canJump = false;
         }
@@ -845,10 +842,6 @@ public class GigaGal extends Entity implements Humanoid {
             canHover = true;
         }
 
-        if (!(touchedGround instanceof Climbable)) {
-            canClimb = false;
-        }
-        
         canSink = false;
 
         if (turbo < Constants.MAX_TURBO) {
@@ -1007,6 +1000,9 @@ public class GigaGal extends Entity implements Humanoid {
 
     private void jump() {
         if (canJump) {
+            if (canClimb && (touchedGround == null || !(touchedGround instanceof Climbable))) {
+                canClimb = false;
+            }
             action = Action.JUMPING;
             groundState = GroundState.AIRBORNE;
             jumpStartTime = TimeUtils.nanoTime();
