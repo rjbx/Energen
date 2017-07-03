@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -290,8 +291,11 @@ public class GigaGal extends Entity implements Humanoid {
                         touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                     }
                     if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
-                        if (!(ground instanceof Vines)) {
+                        if (!(ground instanceof Unplantable)) {
                             touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                        } else if (!touchedGround.isDense() && !touchedGround.equals(ground) && (action == Action.STANDING || action == Action.STRIDING)) {
+                            Gdx.app.log(TAG, touchedGround.getClass() + "");
+                            fall();
                         }
                     }
                     canCling = true;
