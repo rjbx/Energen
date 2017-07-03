@@ -296,6 +296,9 @@ public class GigaGal extends Entity implements Humanoid {
                     } else {
                         if (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense()))) {
                             touchedGround = ground;
+                            if (action == Action.STANDING) {
+                                setAtopGround(ground);
+                            }
                         }
                     }
                     canCling = true;
