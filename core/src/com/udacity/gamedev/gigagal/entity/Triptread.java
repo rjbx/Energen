@@ -47,9 +47,9 @@ public class Triptread extends Ground implements Trippable, Convertible, Rotatin
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (state) {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadLeftOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
         } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadOff.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadLeftOff.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
         }
     }
 

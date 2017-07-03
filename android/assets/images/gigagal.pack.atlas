@@ -1950,56 +1950,56 @@ treadmill-2-right
   orig: 38, 18
   offset: 0, 0
   index: -1
-treadmill-trip-1-off
+treadmill-trip-1-left-off
   rotate: false
   xy: 205, 233
   size: 38, 18
   orig: 38, 18
   offset: 0, 0
   index: -1
-treadmill-trip-1-on
+treadmill-trip-1-left-on
   rotate: false
   xy: 307, 243
   size: 38, 18
   orig: 38, 18
   offset: 0, 0
   index: -1
-treadmill-trip-2-off
+treadmill-trip-1-right-off
   rotate: false
   xy: 68, 154
   size: 38, 18
   orig: 38, 18
   offset: 0, 0
   index: -1
-treadmill-trip-2-on
+treadmill-trip-1-right-on
   rotate: false
   xy: 902, 926
   size: 38, 18
   orig: 38, 18
   offset: 0, 0
   index: -1
-treadmill-trip-3-off
+treadmill-trip-2-left-off
   rotate: false
   xy: 942, 926
   size: 38, 18
   orig: 38, 18
   offset: 0, 0
   index: -1
-treadmill-trip-3-on
+treadmill-trip-2-left-on
   rotate: false
   xy: 900, 906
   size: 38, 18
   orig: 38, 18
   offset: 0, 0
   index: -1
-treadmill-trip-4-off
+treadmill-trip-2-right-off
   rotate: false
   xy: 940, 906
   size: 38, 18
   orig: 38, 18
   offset: 0, 0
   index: -1
-treadmill-trip-4-on
+treadmill-trip-2-right-on
   rotate: false
   xy: 902, 852
   size: 38, 18
@@ -2140,7 +2140,7 @@ zoomba-solid-2
   offset: 0, 0
   index: -1
 
-gigagal.pack50.png
+gigagal.pack53.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
@@ -2160,7 +2160,7 @@ background-hybrid
   offset: 0, 0
   index: -1
 
-gigagal.pack51.png
+gigagal.pack54.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
@@ -2180,7 +2180,7 @@ background-ore
   offset: 0, 0
   index: -1
 
-gigagal.pack52.png
+gigagal.pack55.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest

@@ -330,7 +330,7 @@ treadmill-1-right
   orig: 37, 18
   offset: 0, 0
   index: -1
-treadmill-trip-1-off
+treadmill-trip-1-left-off
   rotate: false
   xy: 184, 74
   size: 38, 18
