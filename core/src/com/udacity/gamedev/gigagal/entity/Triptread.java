@@ -47,9 +47,18 @@ public class Triptread extends Ground implements Trippable, Convertible, Rotatin
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (state) {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadLeftOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
+            if (direction == Enums.Direction.LEFT) {
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadLeftOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
+            } else {
+
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadRightOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
+            }
         } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadLeftOff.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
+            if (direction == Enums.Direction.LEFT) {
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadLeftOff.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
+            } else {
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadRightOff.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
+            }
         }
     }
 
@@ -65,7 +74,7 @@ public class Triptread extends Ground implements Trippable, Convertible, Rotatin
     public Rectangle getBounds() { return bounds; }
     @Override public boolean isActive() { return state; }
     @Override public void setState(boolean state) { this.state = state; converted = true; }
-    @Override public void convert() { state = !state; converted = true; }
+    @Override public void convert() { direction = Helpers.getOppositeDirection(direction); }
     @Override public boolean isConverted() { return converted; }
     @Override public void addCamAdjustment() { adjustments++; }
     @Override public boolean maxAdjustmentsReached() { return adjustments >= 2; }

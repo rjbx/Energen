@@ -402,7 +402,6 @@ public final class Assets implements AssetErrorListener {
 
             tripknobOff = new Animation(Constants.TRIPKNOB_UNLOAD_DURATION / tripknobRegions.size,
                     tripknobRegions, PlayMode.REVERSED);
-            
 
             Array<AtlasRegion> triptreadLeftOffRegions = new Array<AtlasRegion>();
             triptreadLeftOffRegions.add(atlas.findRegion(Constants.TRIPTREAD_SPRITE_1_LEFT_OFF));
