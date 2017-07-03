@@ -32,7 +32,7 @@ public class IndicatorHud {
         float yIcon = viewport.getCamera().position.y + viewport.getWorldHeight() / 2.5f;
 
         float xAction = viewport.getCamera().position.x + 5;
-        if (GigaGal.getInstance().getClimbStatus()) {
+        if (GigaGal.getInstance().getClingStatus() && GigaGal.getInstance().getClimbStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
@@ -54,7 +54,7 @@ public class IndicatorHud {
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
-        }  else if (!GigaGal.getInstance().getJumpStatus() && !GigaGal.getInstance().getClimbStatus() && GigaGal.getInstance().getHoverStatus()) {
+        }  else if (!GigaGal.getInstance().getJumpStatus() && GigaGal.getInstance().getHoverStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,

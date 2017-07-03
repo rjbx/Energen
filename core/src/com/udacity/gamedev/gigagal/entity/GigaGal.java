@@ -812,6 +812,8 @@ public class GigaGal extends Entity implements Humanoid {
         if (!canClimb) {
             canJump = true;
             handleYInputs(); // disabled when canclimb to prevent look from overriding climb
+        } else if (touchedGround == null || !(touchedGround instanceof Climbable)) {
+            canClimb = false;
         } else {
             canJump = false;
         }
@@ -1308,6 +1310,7 @@ public class GigaGal extends Entity implements Humanoid {
     @Override public final boolean getRappelStatus() { return canRappel; }
     @Override public final boolean getDashStatus() { return canDash; }
     @Override public final boolean getClimbStatus() { return canClimb; }
+    public final boolean getClingStatus() { return canCling; }
     public final boolean getDispatchStatus() { return canDispatch; }
     public final Hazardous getTouchedHazard() { return touchedHazard; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }
