@@ -290,7 +290,9 @@ public class GigaGal extends Entity implements Humanoid {
                         touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                     }
                     if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
-                        touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                        if (!(ground instanceof Vines)) {
+                            touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                        }
                     }
                     canCling = true;
                 } else if (ground instanceof Sinkable) {
