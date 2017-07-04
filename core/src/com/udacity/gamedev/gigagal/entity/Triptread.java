@@ -50,7 +50,6 @@ public class Triptread extends Ground implements Trippable, Convertible, Rotatin
             if (direction == Enums.Direction.LEFT) {
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadLeftOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
             } else {
-
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadRightOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
             }
         } else {
