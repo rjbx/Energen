@@ -101,7 +101,7 @@ public class LevelUpdater {
         backdrop.render(batch, viewport, new Vector2(chaseCam.camera.position.x, chaseCam.camera.position.y), Constants.BACKGROUND_CENTER, 1);
 
         for (Ground ground : grounds) {
-            if (!ground.isDense()) {
+            if (!ground.isDense() || ground instanceof Trippable) {
                 ground.render(batch, viewport);
             }
         }
@@ -127,7 +127,7 @@ public class LevelUpdater {
         }
 
         for (Ground ground : grounds) {
-            if (ground.isDense()) {
+            if (ground.isDense() && !(ground instanceof Trippable)) {
                 ground.render(batch, viewport);
             }
         }
