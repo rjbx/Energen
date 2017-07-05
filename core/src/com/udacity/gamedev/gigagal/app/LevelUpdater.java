@@ -398,6 +398,7 @@ public class LevelUpdater {
                         Rectangle bounds = new Rectangle(ammo.getLeft(), ammo.getBottom(), ammo.getWidth(), ammo.getHeight());
                         if (bounds.overlaps(zoomba.getGroundBounds())) {
                             zoomba.convert();
+                            ammo.deactivate();
                         } else {
                             this.spawnImpact(ammo.getPosition(), ammo.getType());
                             Helpers.applyDamage(destructible, ammo);
