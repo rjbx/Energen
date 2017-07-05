@@ -8,8 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.sun.org.apache.xpath.internal.operations.Or;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -35,12 +33,14 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     private Direction direction;
     private Enums.Orientation orientation;
     private Array<Animation> animations;
+    private Animation animation;
     private boolean converted;
 
     // ctor
     public Zoomba(Vector2 position, Enums.Material type, float range) {
         this.position = position;
         this.startingPosition = new Vector2(position);
+        groundBounds = new Rectangle();
         velocity = new Vector2();
         bobNadir = position.y;
         this.type = type;
@@ -69,6 +69,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             default:
                 animations = Assets.getInstance().getZoombaAssets().gasAnimations;
         }
+        updateMovement(direction);
     }
 
     public void update(float delta) {
@@ -110,27 +111,15 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             } else {
                 position.set(startingPosition);
                 bobNadir = position.x;
-                direction = Direction.DOWN;            }
+                direction = Direction.DOWN;
+            }
             converted = false;
         }
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        switch (direction) {
-            case LEFT:
-                Helpers.drawTextureRegion(batch, viewport, animations.get(0).getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
-                break;
-            case RIGHT:
-                Helpers.drawTextureRegion(batch, viewport, animations.get(1).getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
-                break;
-            case DOWN:
-                Helpers.drawTextureRegion(batch, viewport, animations.get(2).getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
-                break;
-            case UP:
-                Helpers.drawTextureRegion(batch, viewport, animations.get(3).getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
-                break;
-        }
+         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }
@@ -162,4 +151,24 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public final Direction getDirection() { return direction; }
     public final long getStartTime() { return startTime; }
+    private void updateMovement(Direction direction) {
+        switch (direction) {
+            case LEFT:
+                groundBounds.set(getLeft(), getLeft() + getWidth() / 2, position.y - getHeight() / 4, position.y + getHeight() / 4);
+                animation = animations.get(0);
+                break;
+            case RIGHT:
+                groundBounds.set(getRight() - getWidth() / 2, getRight(), position.y - getHeight() / 4, position.y + getHeight() / 4);
+                animation = animations.get(1);
+                break;
+            case DOWN:
+                groundBounds.set(position.x - getWidth() / 4, position.x + getWidth() / 4, getBottom(), getBottom() + getHeight() / 2);
+                animation = animations.get(2);
+                break;
+            case UP:
+                groundBounds.set(position.x - getWidth() / 4, position.x + getWidth() / 4, getTop() - getHeight() / 2, getTop());
+                animation = animations.get(3);
+                break;
+        }
+    }
 }
