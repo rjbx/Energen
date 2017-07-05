@@ -393,14 +393,14 @@ public class LevelUpdater {
             for (int j = 0; j < projectiles.size; j++) {
                 Ammo ammo = projectiles.get(j);
                 Rectangle bounds = new Rectangle(ammo.getLeft(), ammo.getBottom(), ammo.getWidth(), ammo.getHeight());
-                if (ammo.isActive() && ammo.getPosition().dst(destructible.getPosition()) < (destructible.getShotRadius() + ammo.getRadius())) {
+                if (!ammo.equals(hazard) && ammo.isActive() && ammo.getPosition().dst(destructible.getPosition()) < (destructible.getShotRadius() + ammo.getRadius())) {
                     if (!((destructible instanceof Zoomba) && (bounds.overlaps(((Zoomba) destructible).getGroundBounds())))) {
-                        this.spawnImpact(ammo.getPosition(), ammo.getType());
                         Helpers.applyDamage(destructible, ammo);
                         score += ammo.getHitScore();
                     } else {
                         ((Zoomba) destructible).convert();
                     }
+                    this.spawnImpact(ammo.getPosition(), ammo.getType());
                     ammo.deactivate();
                 }
             }
