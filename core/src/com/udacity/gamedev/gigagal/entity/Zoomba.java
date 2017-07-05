@@ -64,8 +64,8 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
 //            case SOLID:
 //                animation = Assets.getInstance().getZoombaAssets().solidZoomba;
 //                break;
-//            default:
-//                animation = Assets.getInstance().getZoombaAssets().oreZoomba;
+            default:
+                animations = Assets.getInstance().getZoombaAssets().gasAnimations;
         }
     }
 
@@ -135,8 +135,8 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     @Override public void setDirectionX(Enums.Direction direction) { this.direction = direction; }
     @Override public void setDirectionY(Enums.Direction direction) { this.direction = direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
-    @Override public void convert() { this.orientation = Helpers.getOppositeOrientation(orientation); }
-    @Override public boolean isConverted() { return converted = true; }
+    @Override public void convert() { this.orientation = Helpers.getOppositeOrientation(orientation); this.converted = true; }
+    @Override public boolean isConverted() { return converted; }
     @Override public final boolean isDense() { return true; }
     public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
