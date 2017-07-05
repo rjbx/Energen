@@ -571,6 +571,22 @@ public class GigaGal extends Entity implements Humanoid {
                 damage = swoopa.getMountDamage();
             } else if (!(hazard instanceof Zoomba) || (hazard instanceof Zoomba && !(bounds.overlaps(((Zoomba) hazard).getGroundBounds())))){
                 recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
+            } else {
+                Zoomba zoomba = (Zoomba) hazard;
+                switch (zoomba.getDirection()) {
+                    case LEFT:
+                        touchGroundSide(zoomba);
+                        break;
+                    case RIGHT:
+                        touchGroundSide(zoomba);
+                        break;
+                    case DOWN:
+                        touchGroundBottom(zoomba);
+                        break;
+                    case UP:
+                        touchGroundTop(zoomba);
+                        break;
+                }
             }
         } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
             if (hazard instanceof Swoopa) {

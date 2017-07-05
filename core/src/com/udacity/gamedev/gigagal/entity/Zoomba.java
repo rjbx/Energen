@@ -17,7 +17,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable, Convertible {
+public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable, Rappelable, Convertible {
 
     // fields
     public final static String TAG = Zoomba.class.getName();
@@ -110,8 +110,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             } else {
                 position.set(startingPosition);
                 bobNadir = position.x;
-                direction = Direction.DOWN;
-            }
+                direction = Direction.DOWN;            }
             converted = false;
         }
     }
