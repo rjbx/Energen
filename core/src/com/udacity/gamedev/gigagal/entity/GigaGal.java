@@ -448,11 +448,11 @@ public class GigaGal extends Entity implements Humanoid {
                     } else if (canClimb) {
                         canCling = false;
                     }
-                } else if (ground instanceof Orientable) {
+                } else if (ground instanceof Orientable && !(ground instanceof Zoomba)) {
                     lookStartTime = 0;
                     Orientable orientable = (Orientable) ground;
                     if (orientable.getOrientation() == Orientation.X) {
-                        if (orientable instanceof Moveable || orientable instanceof Zoomba) {
+                        if (orientable instanceof Moveable) {
                             velocity.x = ((Moveable) orientable).getVelocity().x;
                         }
                         position.x += velocity.x;
@@ -470,7 +470,7 @@ public class GigaGal extends Entity implements Humanoid {
                     Random xKnockback = new Random();
                     velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
                     recoil(velocity);
-                } else if (ground instanceof Destructible) {
+                } else if (ground instanceof Destructible && !(ground instanceof Zoomba)) {
                     if (((Box) ground).getHealth() < 1) {
                         fall();
                     }

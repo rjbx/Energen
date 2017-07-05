@@ -318,7 +318,7 @@ public final class Constants {
     public static final float CANIROL_FRAME_DURATION = 0.1f;
 
     // Zoomba
-    public static final Vector2 ZOOMBA_CENTER = new Vector2(14.5f, 25.5f);
+    public static final Vector2 ZOOMBA_CENTER = new Vector2(28.5f, 26.5f);
     public static final float ZOOMBA_MOVEMENT_SPEED = 20;
     public static final float ZOOMBA_BOB_AMPLITUDE = 20;
     public static final float ZOOMBA_BOB_PERIOD = 2f;

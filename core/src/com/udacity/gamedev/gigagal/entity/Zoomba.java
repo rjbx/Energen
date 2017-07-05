@@ -156,19 +156,19 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         this.direction = direction;
         switch (this.direction) {
             case LEFT:
-                groundBounds.set(position.x - getWidth() / 2, position.x, position.y - getHeight() / 3, position.y + getHeight() / 3);
+                groundBounds.set(getLeft(), position.x, getBottom(), getTop());
                 animation = animations.get(0);
                 break;
             case RIGHT:
-                groundBounds.set(position.x, position.x + getWidth() / 2, position.y - getHeight() / 3, position.y + getHeight() / 3);
+                groundBounds.set(position.x, getRight(), getBottom(), getTop());
                 animation = animations.get(1);
                 break;
             case DOWN:
-                groundBounds.set(position.x - getWidth() / 3, position.x + getWidth() / 3, position.y - getHeight() / 2, position.y);
+                groundBounds.set(getLeft(), getRight(), getBottom(), position.y);
                 animation = animations.get(2);
                 break;
             case UP:
-                groundBounds.set(position.x - getWidth() / 3, position.x + getWidth() / 3, position.y, position.y + getHeight() / 2);
+                groundBounds.set(getLeft(), getRight(), position.y, getTop());
                 animation = animations.get(3);
                 break;
         }
