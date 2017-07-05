@@ -662,6 +662,7 @@ public final class Assets implements AssetErrorListener {
         public final Animation gasZoombaRight;
         public final Animation gasZoombaDown;
         public final Animation gasZoombaUp;
+        public final Array<Animation> gasAnimations;
         public final Animation liquidZoomba;
         public final Animation plasmaZoomba;
         public final Animation oreZoomba;
@@ -699,6 +700,12 @@ public final class Assets implements AssetErrorListener {
             gasZoombaUpRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_1_UP));
             gasZoombaUpRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_2_UP));
             gasZoombaUp = new Animation(Constants.PROTRUSION_GAS_DURATION / gasZoombaUpRegions.size, gasZoombaUpRegions, PlayMode.NORMAL);
+
+            gasAnimations = new Array<Animation>();
+            gasAnimations.add(gasZoombaLeft);
+            gasAnimations.add(gasZoombaRight);
+            gasAnimations.add(gasZoombaUp);
+            gasAnimations.add(gasZoombaDown);
             
             Array<AtlasRegion> liquidZoombaRegions = new Array<AtlasRegion>();
             liquidZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_1));

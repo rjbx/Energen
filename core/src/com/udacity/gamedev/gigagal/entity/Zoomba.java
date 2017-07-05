@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -28,7 +29,7 @@ public class Zoomba extends Hazard implements Destructible, Roveable {
     private Vector2 velocity;
     private float health;
     private Direction direction;
-    private Animation animation;
+    private Array<Animation> animations;
 
     // ctor
     public Zoomba(Vector2 position, Enums.Material type, float range) {
@@ -43,23 +44,23 @@ public class Zoomba extends Hazard implements Destructible, Roveable {
         bobOffset = MathUtils.random();
         this.range = range;
         switch (type) {
-            case ORE:
-                animation = Assets.getInstance().getZoombaAssets().oreZoomba;
-                break;
-            case PLASMA:
-                animation = Assets.getInstance().getZoombaAssets().plasmaZoomba;
-                break;
+//            case ORE:
+//                animation = Assets.getInstance().getZoombaAssets().oreZoomba;
+//                break;
+//            case PLASMA:
+//                animation = Assets.getInstance().getZoombaAssets().plasmaZoomba;
+//                break;
             case GAS:
-                animation = Assets.getInstance().getZoombaAssets().gasZoombaLeft;
+                animations = Assets.getInstance().getZoombaAssets().gasAnimations;
                 break;
-            case LIQUID:
-                animation = Assets.getInstance().getZoombaAssets().liquidZoomba;
-                break;
-            case SOLID:
-                animation = Assets.getInstance().getZoombaAssets().solidZoomba;
-                break;
-            default:
-                animation = Assets.getInstance().getZoombaAssets().oreZoomba;
+//            case LIQUID:
+//                animation = Assets.getInstance().getZoombaAssets().liquidZoomba;
+//                break;
+//            case SOLID:
+//                animation = Assets.getInstance().getZoombaAssets().solidZoomba;
+//                break;
+//            default:
+//                animation = Assets.getInstance().getZoombaAssets().oreZoomba;
         }
     }
 
@@ -83,16 +84,16 @@ public class Zoomba extends Hazard implements Destructible, Roveable {
     public void render(SpriteBatch batch, Viewport viewport) {
         switch (direction) {
             case LEFT:
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getZoombaAssets().gasZoombaLeft.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, animations.get(0).getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
                 break;
             case RIGHT:
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getZoombaAssets().gasZoombaRight.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, animations.get(1).getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
                 break;
             case DOWN:
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getZoombaAssets().gasZoombaDown.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, animations.get(2).getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
                 break;
             case UP:
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getZoombaAssets().gasZoombaUp.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, animations.get(3).getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
                 break;
         }
     }
