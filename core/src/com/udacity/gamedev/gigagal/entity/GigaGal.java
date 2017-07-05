@@ -448,7 +448,7 @@ public class GigaGal extends Entity implements Humanoid {
                     } else if (canClimb) {
                         canCling = false;
                     }
-                } else if (ground instanceof Orientable && !(ground instanceof Zoomba)) {
+                } else if (ground instanceof Orientable) {
                     lookStartTime = 0;
                     Orientable orientable = (Orientable) ground;
                     if (orientable.getOrientation() == Orientation.X) {
@@ -470,7 +470,7 @@ public class GigaGal extends Entity implements Humanoid {
                     Random xKnockback = new Random();
                     velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
                     recoil(velocity);
-                } else if (ground instanceof Destructible && !(ground instanceof Zoomba)) {
+                } else if (ground instanceof Destructible) {
                     if (((Box) ground).getHealth() < 1) {
                         fall();
                     }
@@ -544,24 +544,7 @@ public class GigaGal extends Entity implements Humanoid {
                 float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
                 if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
                     Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
-                    if (hazard instanceof Zoomba && bounds.overlaps(((Zoomba) hazard).getGroundBounds())) {
-                        Zoomba zoomba = (Zoomba) hazard;
-                        switch (zoomba.getDirection()) {
-                            case LEFT:
-                                touchGroundSide(zoomba);
-                                break;
-                            case RIGHT:
-                                touchGroundSide(zoomba);
-                                break;
-                            case DOWN:
-                                touchGroundBottom(zoomba);
-                                break;
-                            case UP:
-                                Gdx.app.log(TAG, getPosition() + " 2 " + zoomba.getPosition());
-                                touchGroundTop(zoomba);
-                                break;
-                        }
-                    } else if (getBounds().overlaps(bounds)) {
+                    if (getBounds().overlaps(bounds)) {
                         touchHazard(hazard);
                     } else if (action == Action.STANDING
                             && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
@@ -584,7 +567,24 @@ public class GigaGal extends Entity implements Humanoid {
         if (hazard instanceof Destructible) {
             margin = hazard.getWidth() / 6;
         }
-        if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
+        if (hazard instanceof Zoomba && bounds.overlaps(((Zoomba) hazard).getGroundBounds())) {
+            Zoomba zoomba = (Zoomba) hazard;
+            switch (zoomba.getDirection()) {
+                case LEFT:
+                    touchGroundSide(zoomba);
+                    break;
+                case RIGHT:
+                    touchGroundSide(zoomba);
+                    break;
+                case DOWN:
+                    touchGroundBottom(zoomba);
+                    break;
+                case UP:
+                    Gdx.app.log(TAG, getPosition() + " 2 " + zoomba.getPosition());
+                    touchGroundTop(zoomba);
+                    break;
+            }
+        } else if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
             if (hazard instanceof Swoopa) {
                 Swoopa swoopa = (Swoopa) hazard;
                 recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y));
@@ -599,14 +599,6 @@ public class GigaGal extends Entity implements Humanoid {
                 damage = swoopa.getMountDamage();
             } else {
                 recoil(hazard.getKnockback());
-            }
-        } else {
-            if (hazard instanceof Zoomba) {
-                Zoomba zoomba = (Zoomba) hazard;
-                recoil(new Vector2((Helpers.absoluteToDirectionalValue(zoomba.getMountKnockback().x, directionX, Orientation.X)), zoomba.getMountKnockback().y));
-                damage = zoomba.getMountDamage();
-            } else {
-                recoil(new Vector2((Helpers.absoluteToDirectionalValue(hazard.getKnockback().x, directionX, Orientation.X)), hazard.getKnockback().y));
             }
         }
         Assets.getInstance().getSoundAssets().damage.play();
