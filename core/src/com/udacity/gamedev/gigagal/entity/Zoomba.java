@@ -88,11 +88,11 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             position.set(velocity.x, position.y + velocity.y);
             velocity.y = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED * delta, direction, Enums.Orientation.Y);
 
-            if (position.y < startingPosition.y - (range / 2)) {
-                position.y = startingPosition.y - (range / 2);
+            if (position.y < startingPosition.y - range) {
+                position.y = startingPosition.y - range;
                 direction = Direction.UP;
-            } else if (position.y > startingPosition.y + (range / 2)) {
-                position.y = startingPosition.y + (range / 2);
+            } else if (position.y > startingPosition.y + range) {
+                position.y = startingPosition.y + range;
                 direction = Direction.DOWN;
             }
 

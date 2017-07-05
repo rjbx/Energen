@@ -704,8 +704,8 @@ public final class Assets implements AssetErrorListener {
             gasAnimations = new Array<Animation>();
             gasAnimations.add(gasZoombaLeft);
             gasAnimations.add(gasZoombaRight);
-            gasAnimations.add(gasZoombaUp);
             gasAnimations.add(gasZoombaDown);
+            gasAnimations.add(gasZoombaUp);
             
             Array<AtlasRegion> liquidZoombaRegions = new Array<AtlasRegion>();
             liquidZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_1));
