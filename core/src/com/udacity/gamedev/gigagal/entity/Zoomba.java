@@ -24,7 +24,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     private final Enums.Material type;
     private final long startTime;
     private final float bobOffset;
-    private final float bobNadir;
+    private float bobNadir;
     private float range;
     private Vector2 position;
     private final Vector2 startingPosition;
@@ -42,7 +42,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         velocity = new Vector2();
         bobNadir = position.y;
         this.type = type;
-        direction = Direction.RIGHT;
+        direction = Direction.LEFT;
         this.orientation = Enums.Orientation.X;
         startTime = TimeUtils.nanoTime();
         health = Constants.ZOOMBA_MAX_HEALTH;
@@ -102,10 +102,12 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
 
         if (converted) {
             if (orientation == Enums.Orientation.X) {
-                position = startingPosition;
+                position.set(startingPosition);
+                bobNadir = position.y;
                 direction = Direction.LEFT;
             } else {
-                position = startingPosition;
+                position.set(startingPosition);
+                bobNadir = position.x;
                 direction = Direction.DOWN;
             }
             converted = false;
