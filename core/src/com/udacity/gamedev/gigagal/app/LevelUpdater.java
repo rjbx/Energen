@@ -393,10 +393,55 @@ public class LevelUpdater {
             for (int j = 0; j < projectiles.size; j++) {
                 Ammo ammo = projectiles.get(j);
                 if (ammo.isActive() && ammo.getPosition().dst(destructible.getPosition()) < (destructible.getShotRadius() + ammo.getRadius())) {
-                    this.spawnImpact(ammo.getPosition(), ammo.getType());
-                    Helpers.applyDamage(destructible, ammo);
-                    score += ammo.getHitScore();
-                    ammo.deactivate();
+                    if (destructible instanceof Zoomba) {
+                        Zoomba zoomba = (Zoomba) destructible;
+                        if (zoomba.getOrientation() == Enums.Orientation.X) {
+                            if (zoomba.getDirectionX() == Direction.LEFT) {
+                                if (ammo.getPosition().x < zoomba.getPosition().x && Helpers.betweenTwoValues(ammo.getPosition().y, zoomba.getBottom() + zoomba.getHeight() / 3, zoomba.getTop() - zoomba.getHeight() / 4)) {
+                                    zoomba.convert();
+                                } else {
+                                    this.spawnImpact(ammo.getPosition(), ammo.getType());
+                                    Helpers.applyDamage(destructible, ammo);
+                                    score += ammo.getHitScore();
+                                    ammo.deactivate();
+                                }
+                            } else {
+                                if (ammo.getPosition().x > zoomba.getPosition().x && Helpers.betweenTwoValues(ammo.getPosition().y, zoomba.getBottom() + zoomba.getHeight() / 3, zoomba.getTop() - zoomba.getHeight() / 4)) {
+                                    zoomba.convert();
+                                } else {
+                                    this.spawnImpact(ammo.getPosition(), ammo.getType());
+                                    Helpers.applyDamage(destructible, ammo);
+                                    score += ammo.getHitScore();
+                                    ammo.deactivate();
+                                }
+                            }
+                        } else {
+                            if (zoomba.getDirectionY() == Direction.DOWN) {
+                                if (ammo.getPosition().y < zoomba.getPosition().y && Helpers.betweenTwoValues(ammo.getPosition().x, zoomba.getLeft() + zoomba.getWidth() / 3, zoomba.getRight() - zoomba.getWidth() / 4)) {
+                                    zoomba.convert();
+                                } else {
+                                    this.spawnImpact(ammo.getPosition(), ammo.getType());
+                                    Helpers.applyDamage(destructible, ammo);
+                                    score += ammo.getHitScore();
+                                    ammo.deactivate();
+                                }
+                            } else {
+                                if (ammo.getPosition().y > zoomba.getPosition().y && Helpers.betweenTwoValues(ammo.getPosition().x, zoomba.getLeft() + zoomba.getWidth() / 3, zoomba.getRight() - zoomba.getWidth() / 4)) {
+                                    zoomba.convert();
+                                } else {
+                                    this.spawnImpact(ammo.getPosition(), ammo.getType());
+                                    Helpers.applyDamage(destructible, ammo);
+                                    score += ammo.getHitScore();
+                                    ammo.deactivate();
+                                }
+                            }
+                        }
+                    } else {
+                        this.spawnImpact(ammo.getPosition(), ammo.getType());
+                        Helpers.applyDamage(destructible, ammo);
+                        score += ammo.getHitScore();
+                        ammo.deactivate();
+                    }
                 }
             }
             projectiles.end();
@@ -418,8 +463,6 @@ public class LevelUpdater {
                 LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), false);
                 LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), false);
                 LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), false);
-            } else if (destructible instanceof Zoomba) {
-
             }
         } else if (hazard instanceof Ammo) {
             Ammo ammo = (Ammo) hazard;
