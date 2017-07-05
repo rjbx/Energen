@@ -544,7 +544,7 @@ public class GigaGal extends Entity implements Humanoid {
                 float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
                 if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
                     Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
-                    if (hazard instanceof Zoomba){
+                    if (hazard instanceof Zoomba && bounds.overlaps(((Zoomba) hazard).getGroundBounds())) {
                         Zoomba zoomba = (Zoomba) hazard;
                         switch (zoomba.getDirection()) {
                             case LEFT:
@@ -558,8 +558,6 @@ public class GigaGal extends Entity implements Humanoid {
                                 break;
                             case UP:
                                 Gdx.app.log(TAG, getPosition() + " 2 " + zoomba.getPosition());
-                                position.x = zoomba.getPosition().x;
-                                position.y = zoomba.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
                                 touchGroundTop(zoomba);
                                 break;
                         }

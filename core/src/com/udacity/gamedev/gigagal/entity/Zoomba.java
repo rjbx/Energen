@@ -127,10 +127,10 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     @Override public final float getHealth() { return health; }
     @Override public final float getWidth() { return Constants.ZOOMBA_COLLISION_WIDTH; }
     @Override public final float getHeight() { return Constants.ZOOMBA_COLLISION_HEIGHT; }
-    @Override public final float getLeft() { return position.x - Constants.ZOOMBA_CENTER.x; }
-    @Override public final float getRight() { return position.x + Constants.ZOOMBA_CENTER.x; }
-    @Override public final float getTop() { return position.y + Constants.ZOOMBA_CENTER.y; }
-    @Override public final float getBottom() { return position.y - Constants.ZOOMBA_CENTER.y; }
+    @Override public final float getLeft() { return position.x - Constants.ZOOMBA_COLLISION_WIDTH / 2; }
+    @Override public final float getRight() { return position.x + Constants.ZOOMBA_COLLISION_WIDTH / 2; }
+    @Override public final float getTop() { return position.y + Constants.ZOOMBA_COLLISION_HEIGHT / 2; }
+    @Override public final float getBottom() { return position.y - Constants.ZOOMBA_COLLISION_HEIGHT / 2; }
     @Override public final float getShotRadius() { return Constants.ZOOMBA_SHOT_RADIUS; }
     @Override public final int getHitScore() { return Constants.ZOOMBA_HIT_SCORE; }
     @Override public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
@@ -155,19 +155,19 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         this.direction = direction;
         switch (this.direction) {
             case LEFT:
-                groundBounds.set(getLeft(), getLeft() + getWidth() / 2, position.y - getHeight() / 4, position.y + getHeight() / 4);
+                groundBounds.set(position.x - getWidth() / 2, position.x, position.y - getHeight(), position.y + getHeight() / 2);
                 animation = animations.get(0);
                 break;
             case RIGHT:
-                groundBounds.set(getRight() - getWidth() / 2, getRight(), position.y - getHeight() / 4, position.y + getHeight() / 4);
+                groundBounds.set(position.x, position.x + getWidth() / 2, position.y - getHeight() / 2, position.y + getHeight() / 2);
                 animation = animations.get(1);
                 break;
             case DOWN:
-                groundBounds.set(position.x - getWidth() / 4, position.x + getWidth() / 4, getBottom(), getBottom() + getHeight() / 2);
+                groundBounds.set(position.x - getWidth() / 2, position.x + getHeight() / 2, position.y - getHeight() / 2, position.y);
                 animation = animations.get(2);
                 break;
             case UP:
-                groundBounds.set(position.x - getWidth() / 4, position.x + getWidth() / 4, getTop() - getHeight() / 2, getTop());
+                groundBounds.set(position.x - getWidth() / 2, position.x + getHeight() / 2, position.y, position.y + getHeight() / 2);
                 animation = animations.get(3);
                 break;
         }

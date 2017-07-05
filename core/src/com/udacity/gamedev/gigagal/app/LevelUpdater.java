@@ -395,46 +395,14 @@ public class LevelUpdater {
                 if (ammo.isActive() && ammo.getPosition().dst(destructible.getPosition()) < (destructible.getShotRadius() + ammo.getRadius())) {
                     if (destructible instanceof Zoomba) {
                         Zoomba zoomba = (Zoomba) destructible;
-                        if (zoomba.getOrientation() == Enums.Orientation.X) {
-                            if (zoomba.getDirectionX() == Direction.LEFT) {
-                                if (ammo.getPosition().x < zoomba.getPosition().x && Helpers.betweenTwoValues(ammo.getPosition().y, zoomba.getBottom() + zoomba.getHeight() / 4, zoomba.getTop() - zoomba.getHeight() / 4)) {
-                                    zoomba.convert();
-                                } else {
-                                    this.spawnImpact(ammo.getPosition(), ammo.getType());
-                                    Helpers.applyDamage(destructible, ammo);
-                                    score += ammo.getHitScore();
-                                    ammo.deactivate();
-                                }
-                            } else {
-                                if (ammo.getPosition().x > zoomba.getPosition().x && Helpers.betweenTwoValues(ammo.getPosition().y, zoomba.getBottom() + zoomba.getHeight() / 4, zoomba.getTop() - zoomba.getHeight() / 4)) {
-                                    zoomba.convert();
-                                } else {
-                                    this.spawnImpact(ammo.getPosition(), ammo.getType());
-                                    Helpers.applyDamage(destructible, ammo);
-                                    score += ammo.getHitScore();
-                                    ammo.deactivate();
-                                }
-                            }
+                        Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
+                        if (bounds.overlaps(zoomba.getGroundBounds())) {
+                            zoomba.convert();
                         } else {
-                            if (zoomba.getDirectionY() == Direction.DOWN) {
-                                if (ammo.getPosition().y < zoomba.getPosition().y && Helpers.betweenTwoValues(ammo.getPosition().x, zoomba.getLeft() + zoomba.getWidth() / 4, zoomba.getRight() - zoomba.getWidth() / 4)) {
-                                    zoomba.convert();
-                                } else {
-                                    this.spawnImpact(ammo.getPosition(), ammo.getType());
-                                    Helpers.applyDamage(destructible, ammo);
-                                    score += ammo.getHitScore();
-                                    ammo.deactivate();
-                                }
-                            } else {
-                                if (ammo.getPosition().y > zoomba.getPosition().y && Helpers.betweenTwoValues(ammo.getPosition().x, zoomba.getLeft() + zoomba.getWidth() / 4, zoomba.getRight() - zoomba.getWidth() / 4)) {
-                                    zoomba.convert();
-                                } else {
-                                    this.spawnImpact(ammo.getPosition(), ammo.getType());
-                                    Helpers.applyDamage(destructible, ammo);
-                                    score += ammo.getHitScore();
-                                    ammo.deactivate();
-                                }
-                            }
+                            this.spawnImpact(ammo.getPosition(), ammo.getType());
+                            Helpers.applyDamage(destructible, ammo);
+                            score += ammo.getHitScore();
+                            ammo.deactivate();
                         }
                     } else {
                         this.spawnImpact(ammo.getPosition(), ammo.getType());
