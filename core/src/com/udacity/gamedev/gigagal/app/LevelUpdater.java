@@ -395,7 +395,7 @@ public class LevelUpdater {
                 if (ammo.isActive() && ammo.getPosition().dst(destructible.getPosition()) < (destructible.getShotRadius() + ammo.getRadius())) {
                     if (destructible instanceof Zoomba) {
                         Zoomba zoomba = (Zoomba) destructible;
-                        Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
+                        Rectangle bounds = new Rectangle(ammo.getLeft(), ammo.getBottom(), ammo.getWidth(), ammo.getHeight());
                         if (bounds.overlaps(zoomba.getGroundBounds())) {
                             zoomba.convert();
                         } else {
