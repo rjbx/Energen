@@ -658,7 +658,10 @@ public final class Assets implements AssetErrorListener {
     public static final class ZoombaAssets {
 
         public final AtlasRegion zoomba;
-        public final Animation gasZoomba;
+        public final Animation gasZoombaLeft;
+        public final Animation gasZoombaRight;
+        public final Animation gasZoombaDown;
+        public final Animation gasZoombaUp;
         public final Animation liquidZoomba;
         public final Animation plasmaZoomba;
         public final Animation oreZoomba;
@@ -677,11 +680,26 @@ public final class Assets implements AssetErrorListener {
             plasmaZoombaRegions.add(atlas.findRegion(Constants.CHARGEDZOOMBA_SPRITE_2));
             plasmaZoomba = new Animation(Constants.SUSPENSION_PLASMA_DURATION / plasmaZoombaRegions.size, plasmaZoombaRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> gasZoombaRegions = new Array<AtlasRegion>();
-            gasZoombaRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_1));
-            gasZoombaRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_2));
-            gasZoomba = new Animation(Constants.PROTRUSION_GAS_DURATION / gasZoombaRegions.size, gasZoombaRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> gasZoombaLeftRegions = new Array<AtlasRegion>();
+            gasZoombaLeftRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_1_LEFT));
+            gasZoombaLeftRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_2_LEFT));
+            gasZoombaLeft = new Animation(Constants.PROTRUSION_GAS_DURATION / gasZoombaLeftRegions.size, gasZoombaLeftRegions, PlayMode.NORMAL);
 
+            Array<AtlasRegion> gasZoombaRightRegions = new Array<AtlasRegion>();
+            gasZoombaRightRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_1_RIGHT));
+            gasZoombaRightRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_2_RIGHT));
+            gasZoombaRight = new Animation(Constants.PROTRUSION_GAS_DURATION / gasZoombaRightRegions.size, gasZoombaRightRegions, PlayMode.NORMAL);
+            
+            Array<AtlasRegion> gasZoombaDownRegions = new Array<AtlasRegion>();
+            gasZoombaDownRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_1_DOWN));
+            gasZoombaDownRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_2_DOWN));
+            gasZoombaDown = new Animation(Constants.PROTRUSION_GAS_DURATION / gasZoombaDownRegions.size, gasZoombaDownRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> gasZoombaUpRegions = new Array<AtlasRegion>();
+            gasZoombaUpRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_1_UP));
+            gasZoombaUpRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_2_UP));
+            gasZoombaUp = new Animation(Constants.PROTRUSION_GAS_DURATION / gasZoombaUpRegions.size, gasZoombaUpRegions, PlayMode.NORMAL);
+            
             Array<AtlasRegion> liquidZoombaRegions = new Array<AtlasRegion>();
             liquidZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_1));
             liquidZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_2));

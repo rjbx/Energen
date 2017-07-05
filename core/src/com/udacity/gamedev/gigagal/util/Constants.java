@@ -331,8 +331,17 @@ public final class Constants {
     public static final float ZOOMBA_RANGE = 50;
     public static final String ZOOMBA_SPRITE = "zoomba";
 
-    public static final String FIERYZOOMBA_SPRITE_1 = "zoomba-gas-1";
-    public static final String FIERYZOOMBA_SPRITE_2 = "zoomba-gas-2";
+    public static final String FIERYZOOMBA_SPRITE_1_LEFT = "zoomba-gas-1-left";
+    public static final String FIERYZOOMBA_SPRITE_2_LEFT = "zoomba-gas-2-left";
+
+    public static final String FIERYZOOMBA_SPRITE_1_RIGHT = "zoomba-gas-1-right";
+    public static final String FIERYZOOMBA_SPRITE_2_RIGHT = "zoomba-gas-2-right";
+    
+    public static final String FIERYZOOMBA_SPRITE_1_UP = "zoomba-gas-1-up";
+    public static final String FIERYZOOMBA_SPRITE_2_UP = "zoomba-gas-2-up";
+
+    public static final String FIERYZOOMBA_SPRITE_1_DOWN = "zoomba-gas-1-down";
+    public static final String FIERYZOOMBA_SPRITE_2_DOWN = "zoomba-gas-2-down";
 
     public static final String GUSHINGZOOMBA_SPRITE_1 = "zoomba-liquid-1";
     public static final String GUSHINGZOOMBA_SPRITE_2 = "zoomba-liquid-2";

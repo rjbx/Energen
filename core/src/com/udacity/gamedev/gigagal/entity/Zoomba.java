@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Zoomba extends Hazard implements Destructible, Roveable, Trippable, Convertible {
+public class Zoomba extends Hazard implements Destructible, Roveable {
 
     // fields
     public final static String TAG = Zoomba.class.getName();
@@ -50,7 +50,7 @@ public class Zoomba extends Hazard implements Destructible, Roveable, Trippable,
                 animation = Assets.getInstance().getZoombaAssets().plasmaZoomba;
                 break;
             case GAS:
-                animation = Assets.getInstance().getZoombaAssets().gasZoomba;
+                animation = Assets.getInstance().getZoombaAssets().gasZoombaLeft;
                 break;
             case LIQUID:
                 animation = Assets.getInstance().getZoombaAssets().liquidZoomba;
@@ -81,7 +81,20 @@ public class Zoomba extends Hazard implements Destructible, Roveable, Trippable,
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
+        switch (direction) {
+            case LEFT:
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getZoombaAssets().gasZoombaLeft.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
+                break;
+            case RIGHT:
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getZoombaAssets().gasZoombaRight.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
+                break;
+            case DOWN:
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getZoombaAssets().gasZoombaDown.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
+                break;
+            case UP:
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getZoombaAssets().gasZoombaUp.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
+                break;
+        }
     }
 
     @Override public final Vector2 getPosition() { return position; }
