@@ -33,6 +33,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     private Direction direction;
     private Enums.Orientation orientation;
     private Array<Animation> animations;
+    private boolean converted;
 
     // ctor
     public Zoomba(Vector2 position, Enums.Material type, float range) {
@@ -83,6 +84,16 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
         velocity.y = bobNadir + Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier;
 
+        if (converted) {
+            if (orientation == Enums.Orientation.X) {
+                position = startingPosition;
+                direction = Direction.LEFT;
+            } else {
+                position = startingPosition;
+                direction = Direction.DOWN;
+            }
+            converted = false;
+        }
     }
 
     @Override
@@ -125,7 +136,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     @Override public void setDirectionY(Enums.Direction direction) { this.direction = direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
     @Override public void convert() { this.orientation = Helpers.getOppositeOrientation(orientation); }
-    @Override public boolean isConverted() { return false; }
+    @Override public boolean isConverted() { return converted = true; }
     @Override public final boolean isDense() { return true; }
     public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }

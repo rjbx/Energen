@@ -397,7 +397,7 @@ public class LevelUpdater {
                         Zoomba zoomba = (Zoomba) destructible;
                         if (zoomba.getOrientation() == Enums.Orientation.X) {
                             if (zoomba.getDirectionX() == Direction.LEFT) {
-                                if (ammo.getPosition().x < zoomba.getPosition().x && Helpers.betweenTwoValues(ammo.getPosition().y, zoomba.getBottom() + zoomba.getHeight() / 3, zoomba.getTop() - zoomba.getHeight() / 4)) {
+                                if (ammo.getPosition().x < zoomba.getPosition().x && Helpers.betweenTwoValues(ammo.getPosition().y, zoomba.getBottom() + zoomba.getHeight() / 4, zoomba.getTop() - zoomba.getHeight() / 4)) {
                                     zoomba.convert();
                                 } else {
                                     this.spawnImpact(ammo.getPosition(), ammo.getType());
@@ -406,7 +406,7 @@ public class LevelUpdater {
                                     ammo.deactivate();
                                 }
                             } else {
-                                if (ammo.getPosition().x > zoomba.getPosition().x && Helpers.betweenTwoValues(ammo.getPosition().y, zoomba.getBottom() + zoomba.getHeight() / 3, zoomba.getTop() - zoomba.getHeight() / 4)) {
+                                if (ammo.getPosition().x > zoomba.getPosition().x && Helpers.betweenTwoValues(ammo.getPosition().y, zoomba.getBottom() + zoomba.getHeight() / 4, zoomba.getTop() - zoomba.getHeight() / 4)) {
                                     zoomba.convert();
                                 } else {
                                     this.spawnImpact(ammo.getPosition(), ammo.getType());
@@ -417,7 +417,7 @@ public class LevelUpdater {
                             }
                         } else {
                             if (zoomba.getDirectionY() == Direction.DOWN) {
-                                if (ammo.getPosition().y < zoomba.getPosition().y && Helpers.betweenTwoValues(ammo.getPosition().x, zoomba.getLeft() + zoomba.getWidth() / 3, zoomba.getRight() - zoomba.getWidth() / 4)) {
+                                if (ammo.getPosition().y < zoomba.getPosition().y && Helpers.betweenTwoValues(ammo.getPosition().x, zoomba.getLeft() + zoomba.getWidth() / 4, zoomba.getRight() - zoomba.getWidth() / 4)) {
                                     zoomba.convert();
                                 } else {
                                     this.spawnImpact(ammo.getPosition(), ammo.getType());
@@ -426,7 +426,7 @@ public class LevelUpdater {
                                     ammo.deactivate();
                                 }
                             } else {
-                                if (ammo.getPosition().y > zoomba.getPosition().y && Helpers.betweenTwoValues(ammo.getPosition().x, zoomba.getLeft() + zoomba.getWidth() / 3, zoomba.getRight() - zoomba.getWidth() / 4)) {
+                                if (ammo.getPosition().y > zoomba.getPosition().y && Helpers.betweenTwoValues(ammo.getPosition().x, zoomba.getLeft() + zoomba.getWidth() / 4, zoomba.getRight() - zoomba.getWidth() / 4)) {
                                     zoomba.convert();
                                 } else {
                                     this.spawnImpact(ammo.getPosition(), ammo.getType());
