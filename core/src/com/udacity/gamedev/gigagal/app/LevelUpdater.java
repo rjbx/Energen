@@ -418,6 +418,8 @@ public class LevelUpdater {
                 LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), false);
                 LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), false);
                 LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), false);
+            } else if (destructible instanceof Zoomba) {
+
             }
         } else if (hazard instanceof Ammo) {
             Ammo ammo = (Ammo) hazard;

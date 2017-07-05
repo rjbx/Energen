@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -14,7 +15,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Zoomba extends Hazard implements Destructible, Roveable {
+public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable {
 
     // fields
     public final static String TAG = Zoomba.class.getName();
@@ -29,6 +30,7 @@ public class Zoomba extends Hazard implements Destructible, Roveable {
     private Vector2 velocity;
     private float health;
     private Direction direction;
+    private Enums.Orientation orientation;
     private Array<Animation> animations;
 
     // ctor
@@ -39,6 +41,7 @@ public class Zoomba extends Hazard implements Destructible, Roveable {
         bobNadir = position.y;
         this.type = type;
         direction = Direction.RIGHT;
+        this.orientation = Enums.Orientation.X;
         startTime = TimeUtils.nanoTime();
         health = Constants.ZOOMBA_MAX_HEALTH;
         bobOffset = MathUtils.random();
@@ -78,6 +81,7 @@ public class Zoomba extends Hazard implements Destructible, Roveable {
 
         float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
         velocity.y = bobNadir + Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier;
+
     }
 
     @Override
@@ -115,7 +119,11 @@ public class Zoomba extends Hazard implements Destructible, Roveable {
     @Override public final void setHealth( float health ) { this.health = health; }
     @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     @Override public Enums.Direction getDirectionX() { return direction; }
+    @Override public Enums.Direction getDirectionY() { return direction; }
     @Override public void setDirectionX(Enums.Direction direction) { this.direction = direction; }
+    @Override public void setDirectionY(Enums.Direction direction) { this.direction = direction; }
+    @Override public Enums.Orientation getOrientation() { return orientation; }
+    @Override public final boolean isDense() { return true; }
     public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public final Direction getDirection() { return direction; }
