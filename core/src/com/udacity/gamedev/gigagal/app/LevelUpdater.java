@@ -394,14 +394,14 @@ public class LevelUpdater {
                 Ammo ammo = projectiles.get(j);
                 Rectangle bounds = new Rectangle(ammo.getLeft(), ammo.getBottom(), ammo.getWidth(), ammo.getHeight());
                 if (!ammo.equals(hazard) && ammo.isActive() && ammo.getPosition().dst(destructible.getPosition()) < (destructible.getShotRadius() + ammo.getRadius())) {
-                    if (!(destructible instanceof Zoomba && bounds.overlaps(((Zoomba) destructible).getGroundBounds()))) {
+                    if (!((destructible instanceof Zoomba)
+                            && (bounds.overlaps(((Zoomba) destructible).getGroundBounds())
+                            && (ammo.getOrientation()) == ((Zoomba) destructible).getOrientation())
+                            && (Helpers.getOppositeDirection(ammo.getDirection()) == ((Zoomba) destructible).getDirection()))) {
                         Helpers.applyDamage(destructible, ammo);
                         score += ammo.getHitScore();
                     } else {
-                        if ((ammo.getOrientation()) == ((Zoomba) destructible).getOrientation()
-                                && Helpers.getOppositeDirection(ammo.getDirection()) == ((Zoomba) destructible).getDirection()) {
-                            ((Zoomba) destructible).convert();
-                        }
+                        ((Zoomba) destructible).convert();
                     }
                     this.spawnImpact(ammo.getPosition(), ammo.getType());
                     ammo.deactivate();
