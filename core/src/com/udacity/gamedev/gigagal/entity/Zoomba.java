@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -28,6 +29,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     private float range;
     private Vector2 position;
     private final Vector2 startingPosition;
+    private Rectangle groundBounds;
     private Vector2 velocity;
     private float health;
     private Direction direction;
@@ -156,6 +158,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     @Override public void convert() { this.orientation = Helpers.getOppositeOrientation(orientation); this.converted = true; }
     @Override public boolean isConverted() { return converted; }
     @Override public final boolean isDense() { return true; }
+    public Rectangle getGroundBounds() { return groundBounds; }
     public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public final Direction getDirection() { return direction; }
