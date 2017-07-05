@@ -398,7 +398,9 @@ public class LevelUpdater {
                         Helpers.applyDamage(destructible, ammo);
                         score += ammo.getHitScore();
                     } else {
-                        ((Zoomba) destructible).convert();
+                        if (Helpers.getOppositeOrientation(ammo.getOrientation()) == ((Zoomba) destructible).getOrientation()) {
+                            ((Zoomba) destructible).convert();
+                        }
                     }
                     this.spawnImpact(ammo.getPosition(), ammo.getType());
                     ammo.deactivate();

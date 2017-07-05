@@ -14,7 +14,7 @@ import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // immutable
-public final class Ammo extends Hazard implements Indestructible {
+public final class Ammo extends Hazard implements Indestructible, Orientable {
 
     // fields
     public final static String TAG = Ammo.class.getName();
@@ -208,6 +208,7 @@ public final class Ammo extends Hazard implements Indestructible {
     @Override public final float getRight() { return position.x + radius; }
     @Override public final float getTop() { return position.y + radius; }
     @Override public final float getBottom() { return position.y - radius; }
+    @Override public final Orientation getOrientation() { return orientation; }
     public final float getRadius() { return radius; }
     public final int getDamage() { return damage; }
     public final Vector2 getKnockback() { return knockback; }
