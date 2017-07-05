@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -459,6 +460,8 @@ public class GigaGal extends Entity implements Humanoid {
                     if (orientable instanceof Aerial && ((Aerial) orientable).getDirectionY() == Direction.DOWN) {
                         position.y -= 1;
                     }
+
+                    Gdx.app.log(TAG, getPosition() + " 1 " + ground.getPosition());
                 } else if (ground instanceof Reboundable) {
                     canClimb = false;
                     canCling = false;
@@ -541,7 +544,26 @@ public class GigaGal extends Entity implements Humanoid {
                 float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
                 if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
                     Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
-                    if (getBounds().overlaps(bounds)) {
+                    if (hazard instanceof Zoomba){
+                        Zoomba zoomba = (Zoomba) hazard;
+                        switch (zoomba.getDirection()) {
+                            case LEFT:
+                                touchGroundSide(zoomba);
+                                break;
+                            case RIGHT:
+                                touchGroundSide(zoomba);
+                                break;
+                            case DOWN:
+                                touchGroundBottom(zoomba);
+                                break;
+                            case UP:
+                                Gdx.app.log(TAG, getPosition() + " 2 " + zoomba.getPosition());
+                                position.x = zoomba.getPosition().x;
+                                position.y = zoomba.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
+                                touchGroundTop(zoomba);
+                                break;
+                        }
+                    } else if (getBounds().overlaps(bounds)) {
                         touchHazard(hazard);
                     } else if (action == Action.STANDING
                             && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
@@ -564,25 +586,7 @@ public class GigaGal extends Entity implements Humanoid {
         if (hazard instanceof Destructible) {
             margin = hazard.getWidth() / 6;
         }
-        if (!(hazard instanceof Zoomba) || (hazard instanceof Zoomba && !(bounds.overlaps(((Zoomba) hazard).getGroundBounds())))){
-            recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
-        } else if (hazard instanceof Zoomba){
-            Zoomba zoomba = (Zoomba) hazard;
-            switch (zoomba.getDirection()) {
-                case LEFT:
-                    touchGroundSide(zoomba);
-                    break;
-                case RIGHT:
-                    touchGroundSide(zoomba);
-                    break;
-                case DOWN:
-                    touchGroundBottom(zoomba);
-                    break;
-                case UP:
-                    touchGroundTop(zoomba);
-                    break;
-            }
-        } else if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
+        if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
             if (hazard instanceof Swoopa) {
                 Swoopa swoopa = (Swoopa) hazard;
                 recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y));
