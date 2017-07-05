@@ -85,7 +85,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
             velocity.y = bobNadir + Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier;
         } else {
-            position.set(position.x, position.y + velocity.y);
+            position.set(velocity.x, position.y + velocity.y);
             velocity.y = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED * delta, direction, Enums.Orientation.Y);
 
             if (position.y < startingPosition.y - (range / 2)) {
