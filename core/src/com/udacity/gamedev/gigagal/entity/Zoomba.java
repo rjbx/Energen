@@ -150,7 +150,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     public Rectangle getGroundBounds() { return groundBounds; }
     public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
-    public final Direction getDirection() { return direction; }
+    public Direction getDirection() { return direction; }
     public final long getStartTime() { return startTime; }
     private void updateMovement(Direction direction) {
         this.direction = direction;

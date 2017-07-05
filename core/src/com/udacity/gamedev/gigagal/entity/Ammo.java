@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -26,6 +27,7 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
     private final Orientation orientation;
     private final ShotIntensity shotIntensity;
     private final Material weapon;
+    private Rectangle bounds;
     private int damage;
     private float radius;
     private float scale;
@@ -69,6 +71,7 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
         } else {
             ammoCenter = new Vector2(radius, radius);
         }
+        bounds = new Rectangle(getLeft(), getBottom(), getWidth(), getHeight());
         switch (weapon) {
             case NATIVE:
                 damage = Constants.AMMO_STANDARD_DAMAGE;
@@ -189,6 +192,7 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
                 active = false;
             }
         }
+        bounds.setCenter(position.x, position.y);
     }
 
     @Override
@@ -209,6 +213,7 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
     @Override public final float getTop() { return position.y + radius; }
     @Override public final float getBottom() { return position.y - radius; }
     @Override public final Orientation getOrientation() { return orientation; }
+    public Rectangle getBounds() { return bounds; }
     public final float getRadius() { return radius; }
     public final int getDamage() { return damage; }
     public final Vector2 getKnockback() { return knockback; }
