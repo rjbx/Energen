@@ -73,6 +73,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     }
 
     public void update(float delta) {
+        updateMovement(direction);
         if (orientation == Enums.Orientation.X) {
             position.set(position.x + velocity.x, velocity.y);
             velocity.x = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED * delta, direction, Enums.Orientation.X);
@@ -155,19 +156,19 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         this.direction = direction;
         switch (this.direction) {
             case LEFT:
-                groundBounds.set(position.x - getWidth() / 2, position.x, position.y - getHeight() / 2, position.y + getHeight() / 2);
+                groundBounds.set(position.x - getWidth() / 2, position.x, position.y - getHeight() / 3, position.y + getHeight() / 3);
                 animation = animations.get(0);
                 break;
             case RIGHT:
-                groundBounds.set(position.x, position.x + getWidth() / 2, position.y - getHeight() / 2, position.y + getHeight() / 2);
+                groundBounds.set(position.x, position.x + getWidth() / 2, position.y - getHeight() / 3, position.y + getHeight() / 3);
                 animation = animations.get(1);
                 break;
             case DOWN:
-                groundBounds.set(position.x - getWidth() / 2, position.x + getWidth() / 2, position.y - getHeight() / 2, position.y);
+                groundBounds.set(position.x - getWidth() / 3, position.x + getWidth() / 3, position.y - getHeight() / 2, position.y);
                 animation = animations.get(2);
                 break;
             case UP:
-                groundBounds.set(position.x - getWidth() / 2, position.x + getWidth() / 2, position.y, position.y + getHeight() / 2);
+                groundBounds.set(position.x - getWidth() / 3, position.x + getWidth() / 3, position.y, position.y + getHeight() / 2);
                 animation = animations.get(3);
                 break;
         }

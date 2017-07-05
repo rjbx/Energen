@@ -452,7 +452,7 @@ public class GigaGal extends Entity implements Humanoid {
                     lookStartTime = 0;
                     Orientable orientable = (Orientable) ground;
                     if (orientable.getOrientation() == Orientation.X) {
-                        if (orientable instanceof Moveable) {
+                        if (orientable instanceof Moveable || orientable instanceof Zoomba) {
                             velocity.x = ((Moveable) orientable).getVelocity().x;
                         }
                         position.x += velocity.x;
