@@ -457,11 +457,11 @@ public class GigaGal extends Entity implements Humanoid {
                         }
                         position.x += velocity.x;
                     }
+                    position.y += 2;
                     if (orientable instanceof Aerial && ((Aerial) orientable).getDirectionY() == Direction.DOWN) {
                         position.y -= 1;
                     }
-
-                    Gdx.app.log(TAG, getPosition() + " 1 " + ground.getPosition());
+                        Gdx.app.log(TAG, getPosition() + " 1 " + ground.getPosition());
                 } else if (ground instanceof Reboundable) {
                     canClimb = false;
                     canCling = false;
@@ -469,7 +469,7 @@ public class GigaGal extends Entity implements Humanoid {
                     canHover = false;
                     Random xKnockback = new Random();
                     velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
-                    recoil(velocity);
+                    recoil(velocity, 0);
                 } else if (ground instanceof Destructible) {
                     if (((Box) ground).getHealth() < 1) {
                         fall();
@@ -559,7 +559,6 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     private void touchHazard(Hazardous hazard) {
-        recoveryStartTime = TimeUtils.nanoTime();
         chaseCamPosition.set(position, 0);
         touchedHazard = hazard;
         int damage = hazard.getDamage();
@@ -587,23 +586,20 @@ public class GigaGal extends Entity implements Humanoid {
         } else if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
             if (hazard instanceof Swoopa) {
                 Swoopa swoopa = (Swoopa) hazard;
-                recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y));
                 damage = swoopa.getMountDamage();
+                recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y), damage);
             } else {
-                recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
+                recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y), damage);
             }
         } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
             if (hazard instanceof Swoopa) {
                 Swoopa swoopa = (Swoopa) hazard;
-                recoil(swoopa.getMountKnockback());
                 damage = swoopa.getMountDamage();
+                recoil(swoopa.getMountKnockback(), damage);
             } else {
-                recoil(hazard.getKnockback());
+                recoil(hazard.getKnockback(), damage);
             }
         }
-        Assets.getInstance().getSoundAssets().damage.play();
-        health -= damage * healthMultiplier;
-        chargeModifier = 0;
     }
 
     private void touchAllPowerups(Array<Powerup> powerups) {
@@ -866,11 +862,16 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
-    // disables all else by virtue of neither top level update conditions being satisfied due to state
-    private void recoil(Vector2 velocity) {
+    // disables all else by virtue of neithe
+    // r top level update conditions being satisfied due to state
+    private void recoil(Vector2 velocity, float damage) {
+        Assets.getInstance().getSoundAssets().damage.play();
+        health -= damage * healthMultiplier;
         action = Action.RECOILING;
         groundState = GroundState.AIRBORNE;
         shotIntensity = ShotIntensity.NORMAL;
+        recoveryStartTime = TimeUtils.nanoTime();
+        chargeModifier = 0;
         chargeStartTime = 0;
         strideStartTime = 0;
         lookStartTime = 0;
