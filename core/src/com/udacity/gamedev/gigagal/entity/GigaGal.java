@@ -75,7 +75,7 @@ public class GigaGal extends Entity implements Humanoid {
     private long chargeStartTime;
     private long standStartTime;
     private long lookStartTime;
-    private long jumpStartTime;
+    private long fallStartTime;
     private long dashStartTime;
     private long hoverStartTime;
     private long rappelStartTime;
@@ -181,7 +181,7 @@ public class GigaGal extends Entity implements Humanoid {
         chargeStartTime = 0;
         strideStartTime = 0;
         climbStartTime = 0;
-        jumpStartTime = 0;
+        fallStartTime = 0;
         dashStartTime = 0;
         turboDuration = 0;
         standStartTime = TimeUtils.nanoTime();
@@ -291,7 +291,7 @@ public class GigaGal extends Entity implements Humanoid {
                             touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                         }
                         if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
-                            if (action == Action.STANDING) { // prevents from immediately calling stand when touching climbable and non-climbable simultaneously, enabling jump
+                            if (action != Action.FALLING || (fallStartTime != 0 && (Helpers.secondsSince(fallStartTime) > .01f))) { // prevents from immediately calling stand when touching climbable and non-climbable simultaneously, enabling jump
                                 touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                             }
                         }
@@ -814,7 +814,7 @@ public class GigaGal extends Entity implements Humanoid {
         } else {
             velocity.x = 0;
         }
-
+        fallStartTime = 0;
         action = Action.STANDING;
         groundState = GroundState.PLANTED;
 
@@ -840,6 +840,7 @@ public class GigaGal extends Entity implements Humanoid {
         canJump = false;
         canDash = false;
         canLook = true;
+        fallStartTime = TimeUtils.nanoTime();
         if (!(touchedGround instanceof Skateable)) {
             strideStartTime = 0;
         }
@@ -1024,7 +1025,6 @@ public class GigaGal extends Entity implements Humanoid {
             }
             action = Action.JUMPING;
             groundState = GroundState.AIRBORNE;
-            jumpStartTime = TimeUtils.nanoTime();
             canJump = false;
         }
         velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
