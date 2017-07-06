@@ -457,7 +457,6 @@ public class GigaGal extends Entity implements Humanoid {
                         }
                         position.x += velocity.x;
                     }
-                    position.y += 2;
                     if (orientable instanceof Aerial && ((Aerial) orientable).getDirectionY() == Direction.DOWN) {
                         position.y -= 1;
                     }
@@ -560,7 +559,7 @@ public class GigaGal extends Entity implements Humanoid {
 
     private void touchHazard(Hazardous hazard) {
         chaseCamPosition.set(position, 0);
-        touchedHazard = hazard;
+     //   touchedHazard = hazard;
         int damage = hazard.getDamage();
         float margin = 0;
         if (hazard instanceof Destructible) {
