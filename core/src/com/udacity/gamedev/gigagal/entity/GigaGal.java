@@ -457,10 +457,12 @@ public class GigaGal extends Entity implements Humanoid {
                         }
                         position.x += velocity.x;
                     }
+                    if (orientable instanceof Zoomba) {
+                        position.x = ((Zoomba) orientable).getPosition().x;
+                    }
                     if (orientable instanceof Aerial && ((Aerial) orientable).getDirectionY() == Direction.DOWN) {
                         position.y -= 1;
                     }
-                        Gdx.app.log(TAG, getPosition() + " 1 " + ground.getPosition());
                 } else if (ground instanceof Reboundable) {
                     canClimb = false;
                     canCling = false;
@@ -578,7 +580,6 @@ public class GigaGal extends Entity implements Humanoid {
                     touchGroundBottom(zoomba);
                     break;
                 case UP:
-                    Gdx.app.log(TAG, getPosition() + " 2 " + zoomba.getPosition());
                     touchGroundTop(zoomba);
                     break;
             }
