@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -292,12 +291,14 @@ public class GigaGal extends Entity implements Humanoid {
                             touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                         }
                         if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
-                            touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                            if (action == Action.STANDING) { // prevents from immediately calling stand when touching climbable and non-climbable simultaneously, enabling jump
+                                touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                            }
                         }
                     } else {
                         if (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense()))) {
                             touchedGround = ground;
-                            if (action == Action.STANDING) {
+                            if (action == Action.STANDING) { // prevents from immediately calling stand when touching climbable and non-climbable simultaneously, enabling jump
                                 setAtopGround(ground);
                             }
                         }
@@ -1130,7 +1131,6 @@ public class GigaGal extends Entity implements Humanoid {
             lookStartTime = 0;
             if (action == Action.RAPPELLING && touchedGround instanceof Zoomba) {
                 position.y = touchedGround.getPosition().y;
-                Gdx.app.log(TAG, "GG:" + position.y + " Z: " + touchedGround.getPosition().y);
             }
             if (inputControls.downButtonPressed) {
                 velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
