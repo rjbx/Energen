@@ -100,14 +100,23 @@ project(":core") {
 
     task packTextures {
         def pack = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack.png")
+        def pack2 = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack2.png")
+        def pack3 = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack3.png")
+        def pack4 = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack4.png")
         def atlas = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack.atlas")
 
         inputs.dir "${rootProject.getRootDir()}/core/assets/images"
         outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack.png"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack2.png"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack3.png"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack4.png"
         outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack.atlas"
 
         doLast {
             pack.delete()
+            pack2.delete()
+            pack3.delete()
+            pack4.delete()
             atlas.delete()
             TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/android/assets/images", "gigagal.pack")
         }
