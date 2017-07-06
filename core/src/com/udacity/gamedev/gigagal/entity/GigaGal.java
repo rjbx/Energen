@@ -1128,6 +1128,10 @@ public class GigaGal extends Entity implements Humanoid {
             canHurdle = false;
         } else {
             lookStartTime = 0;
+            if (action == Action.RAPPELLING && touchedGround instanceof Zoomba) {
+                position.y = touchedGround.getPosition().y;
+                Gdx.app.log(TAG, "GG:" + position.y + " Z: " + touchedGround.getPosition().y);
+            }
             if (inputControls.downButtonPressed) {
                 velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
             } else if (inputControls.upButtonPressed && canHurdle) {
