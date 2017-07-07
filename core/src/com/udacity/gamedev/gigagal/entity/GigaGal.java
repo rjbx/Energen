@@ -556,49 +556,54 @@ public class GigaGal extends Entity implements Humanoid {
 
     private void touchHazard(Hazardous hazard) {
         chaseCamPosition.set(position, 0);
-        int damage = hazard.getDamage();
-        float margin = 0;
-        if (hazard instanceof Destructible) {
-            margin = hazard.getWidth() / 6;
-        }
         if (hazard instanceof Groundable) {
             if (hazard instanceof Zoomba) {
                 Zoomba zoomba = (Zoomba) hazard;
                 switch (zoomba.getDirection()) {
                     case LEFT:
-                        touchGroundSide(zoomba);
+                        if (position.x < hazard.getPosition().x) {
+                            touchGroundSide(zoomba);
+                        } else {
+                            touchedHazard = hazard;
+                            recoil(hazard.getKnockback(), hazard);
+                        }
                         break;
                     case RIGHT:
-                        touchGroundSide(zoomba);
+                        if (position.x > hazard.getPosition().x) {
+                            touchGroundSide(zoomba);
+                        } else {
+                            touchedHazard = hazard;
+                            recoil(hazard.getKnockback(), hazard);
+                        }
                         break;
                     case DOWN:
-                        touchGroundBottom(zoomba);
+                        if (position.y < hazard.getPosition().y) {
+                            touchGroundBottom(zoomba);
+                        } else {
+                            touchedHazard = hazard;
+                            recoil(hazard.getKnockback(), hazard);
+                        }
                         break;
                     case UP:
-                        touchGroundTop(zoomba);
+                        if (position.y > hazard.getPosition().y) {
+                            touchGroundTop(zoomba);
+                        } else {
+                            touchedHazard = hazard;
+                            recoil(hazard.getKnockback(), hazard);
+                        }
                         break;
                 }
             } else if (hazard instanceof Swoopa) {
-                touchGroundTop((Swoopa) hazard);
+                if (position.y > hazard.getPosition().y) {
+                    touchGroundTop((Swoopa) hazard);
+                } else {
+                    touchedHazard = hazard;
+                    recoil(hazard.getKnockback(), hazard);
+                }
             }
-        } else if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
+        } else {
             touchedHazard = hazard;
-            if (hazard instanceof Swoopa) {
-                Swoopa swoopa = (Swoopa) hazard;
-                damage = swoopa.getMountDamage();
-                recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y), damage);
-            } else {
-                recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y), damage);
-            }
-        } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
-            touchedHazard = hazard;
-            if (hazard instanceof Swoopa) {
-                Swoopa swoopa = (Swoopa) hazard;
-                damage = swoopa.getMountDamage();
-                recoil(swoopa.getMountKnockback(), damage);
-            } else {
-                recoil(hazard.getKnockback(), damage);
-            }
+            recoil(hazard.getKnockback(), hazard);
         }
     }
 
@@ -865,9 +870,20 @@ public class GigaGal extends Entity implements Humanoid {
 
     // disables all else by virtue of neithe
     // r top level update conditions being satisfied due to state
-    private void recoil(Vector2 velocity, float damage) {
+    private void recoil(Vector2 velocity, Hazardous hazard) {
+        int damage = hazard.getDamage();
+        float margin = 0;
+        if (hazard instanceof Destructible) {
+            margin = hazard.getWidth() / 6;
+        }
+        if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
+            this.velocity.x = velocity.x;
+        } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
+            this.velocity.x = -velocity.x;
+        }
+        this.velocity.y = velocity.y;
         Assets.getInstance().getSoundAssets().damage.play();
-        health -= damage * healthMultiplier;
+        health -= hazard.getDamage() * healthMultiplier;
         action = Action.RECOILING;
         groundState = GroundState.AIRBORNE;
         shotIntensity = ShotIntensity.NORMAL;
@@ -885,8 +901,6 @@ public class GigaGal extends Entity implements Humanoid {
         canClimb = false;
         canRappel = false;
         canHurdle = false;
-        this.velocity.x = velocity.x;
-        this.velocity.y = velocity.y;
     }
 
     private void enableShoot(Material weapon) {
