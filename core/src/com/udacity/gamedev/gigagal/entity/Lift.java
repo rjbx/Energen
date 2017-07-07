@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Lift extends Ground implements Dynamic, Convertible {
+public class Lift extends Ground implements Dynamic, Rideable, Convertible {
 
     // fields
     public final static String TAG = Lift.class.getName();

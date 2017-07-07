@@ -15,7 +15,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable, Rappelable, Convertible {
+public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable, Rideable, Rappelable, Convertible {
 
     // fields
     public final static String TAG = Zoomba.class.getName();

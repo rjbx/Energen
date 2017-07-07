@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Canirol extends Ground implements Weaponized, Orientable, Roveable, Strikeable, Nonstatic, Convertible {
+public class Canirol extends Ground implements Weaponized, Orientable, Roveable, Rideable, Strikeable, Convertible {
 
     // fields
     public final static String TAG = Lift.class.getName();
