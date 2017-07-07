@@ -15,7 +15,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Swoopa extends Hazard implements Destructible, Groundable {
+public class Swoopa extends Hazard implements Destructible, Moving, Groundable {
 
     // fields
     public final static String TAG = Swoopa.class.getName();
@@ -25,7 +25,7 @@ public class Swoopa extends Hazard implements Destructible, Groundable {
     private LevelUpdater level;
     private Vector2 velocity; // class-level instantiation
     private Vector2 position;
-    private Enums.Material type;
+    private final Enums.Material type;
     private float health;
     private long descentStartTime;
     private Animation animation;
@@ -81,7 +81,7 @@ public class Swoopa extends Hazard implements Destructible, Groundable {
                 velocity.y = velocity.y / 1.035f;
             }
         }
-        position = position.mulAdd(velocity, delta);
+        position.mulAdd(velocity, delta);
 
         // when the swoopa progresses past the center screen position with a margin of ten screen widths, reset x and y position
         if (position.x < (camera.x - (worldSpan.x * 20))) {
@@ -111,7 +111,8 @@ public class Swoopa extends Hazard implements Destructible, Groundable {
     @Override public final int getKillScore() { return Constants.SWOOPA_KILL_SCORE; }
     @Override public final int getDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.SWOOPA_KNOCKBACK; }
-    @Override public Enums.Material getType() { return type; }
+    @Override public final Enums.Material getType() { return type; }
+    @Override public final boolean isDense() { return true; }
     public int getMountDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.SWOOPA_KNOCKBACK; }
     public final long getStartTime() { return startTime; }

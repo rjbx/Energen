@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Orben extends Hazard implements Roveable, Aerial, Destructible, Nonstatic {
+public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonstatic {
 
     // fields
     public final static String TAG = Orben.class.getName();

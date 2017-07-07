@@ -371,11 +371,11 @@ public class GigaGal extends Entity implements Humanoid {
                         strideSpeed = 0;
                         velocity.x = 0;
                     }
-                    if (action == Action.DASHING && !(ground instanceof Rotating)) {
+                    if (action == Action.DASHING && !(ground instanceof Propelling)) {
                         stand(); // deactivates dash when bumping ground side
                     }
                 }
-                if ((!(ground instanceof Rotating && (Math.abs(getBottom() - ground.getTop()) <= 1)))
+                if ((!(ground instanceof Propelling && (Math.abs(getBottom() - ground.getTop()) <= 1)))
                         && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
                         && !(ground instanceof Unbearable && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                     // if contact with ground sides detected without concern for ground state (either grounded or airborne),
@@ -450,11 +450,11 @@ public class GigaGal extends Entity implements Humanoid {
                     } else if (canClimb) {
                         canCling = false;
                     }
-                } else if (ground instanceof Moveable) {
+                } else if (ground instanceof Moving) {
                     lookStartTime = 0;
-                    Moveable moveable = (Moveable) ground;
-                    position.x += moveable.getVelocity().x;
-                    if (moveable instanceof Aerial && ((Aerial) moveable).getDirectionY() == Direction.DOWN) {
+                    Moving moving = (Moving) ground;
+                    position.x += moving.getVelocity().x;
+                    if (moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.DOWN) {
                         position.y -= 1;
                     }
                 } else if (ground instanceof Reboundable) {
@@ -560,21 +560,25 @@ public class GigaGal extends Entity implements Humanoid {
         if (hazard instanceof Destructible) {
             margin = hazard.getWidth() / 6;
         }
-        if (hazard instanceof Zoomba) {
-            Zoomba zoomba = (Zoomba) hazard;
-            switch (zoomba.getDirection()) {
-                case LEFT:
-                    touchGroundSide(zoomba);
-                    break;
-                case RIGHT:
-                    touchGroundSide(zoomba);
-                    break;
-                case DOWN:
-                    touchGroundBottom(zoomba);
-                    break;
-                case UP:
-                    touchGroundTop(zoomba);
-                    break;
+        if (hazard instanceof Groundable) {
+            if (hazard instanceof Zoomba) {
+                Zoomba zoomba = (Zoomba) hazard;
+                switch (zoomba.getDirection()) {
+                    case LEFT:
+                        touchGroundSide(zoomba);
+                        break;
+                    case RIGHT:
+                        touchGroundSide(zoomba);
+                        break;
+                    case DOWN:
+                        touchGroundBottom(zoomba);
+                        break;
+                    case UP:
+                        touchGroundTop(zoomba);
+                        break;
+                }
+            } else if (hazard instanceof Swoopa) {
+                touchGroundTop((Swoopa) hazard);
             }
         } else if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
             touchedHazard = hazard;
@@ -802,9 +806,9 @@ public class GigaGal extends Entity implements Humanoid {
             } else {
                 velocity.x = 0;
             }
-        } else if (touchedGround instanceof Rotating) {
+        } else if (touchedGround instanceof Propelling) {
             velocity.x = 0;
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rotating) touchedGround).getRotationDirection(), Orientation.X);
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getRotationDirection(), Orientation.X);
         } else {
             velocity.x = 0;
         }
@@ -957,8 +961,8 @@ public class GigaGal extends Entity implements Humanoid {
         strideTimeSeconds = Helpers.secondsSince(strideStartTime);
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
         velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Orientation.X);
-        if (touchedGround instanceof Rotating) {
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rotating) touchedGround).getRotationDirection(), Orientation.X);
+        if (touchedGround instanceof Propelling) {
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getRotationDirection(), Orientation.X);
         } else if (touchedGround instanceof Skateable) {
             velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
         } else if (canSink) {
@@ -998,7 +1002,7 @@ public class GigaGal extends Entity implements Humanoid {
             stand();
         }
         if (touchedGround instanceof Skateable
-        || (touchedGround instanceof Rotating && directionX == ((Rotating) touchedGround).getRotationDirection())) {
+        || (touchedGround instanceof Propelling && directionX == ((Propelling) touchedGround).getRotationDirection())) {
             velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed + Constants.TREADMILL_SPEED, directionX, Orientation.X);
         }
     }

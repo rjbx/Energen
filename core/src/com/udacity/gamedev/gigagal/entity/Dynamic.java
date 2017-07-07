@@ -1,4 +1,4 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Dynamic extends Orientable, Roveable, Aerial {
+public interface Dynamic extends Orientable, Roving, Aerial {
 }

@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Treadmill extends Ground implements Rotating, Convertible {
+public class Treadmill extends Ground implements Propelling, Convertible {
 
     // fields
     public final static String TAG = Treadmill.class.getName();

@@ -375,7 +375,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
                     stand(); // deactivates dash when bumping ground side
                 }
             }
-            if ((!(ground instanceof Rotating && (Math.abs(getBottom() - ground.getTop()) <= 1)))
+            if ((!(ground instanceof Propelling && (Math.abs(getBottom() - ground.getTop()) <= 1)))
                     && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
                     && !(ground instanceof Unbearable && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                 // if contact with ground sides detected without concern for ground state (either grounded or airborne),
@@ -433,7 +433,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
                 onBounceable = true;
                 Reboundable reboundable = (Reboundable) ground;
                 reboundable.setState(true);
-            } else if (ground instanceof Rotating) {
+            } else if (ground instanceof Propelling) {
                 onRideable = true;
             } else if (ground instanceof Unbearable) {
                 onUnbearable = true;
@@ -759,7 +759,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
             }
         } else if (onRideable) {
             velocity.x = 0;
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rotating) touchedGround).getRotationDirection(), Enums.Orientation.X);
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getRotationDirection(), Enums.Orientation.X);
         } else {
             velocity.x = 0;
         }
@@ -893,7 +893,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
         velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Enums.Orientation.X);
         if (onRideable) {
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Rotating) touchedGround).getRotationDirection(), Enums.Orientation.X);
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getRotationDirection(), Enums.Orientation.X);
         } else if (onSkateable) {
             velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Enums.Orientation.X);
         } else if (onSinkable) {
