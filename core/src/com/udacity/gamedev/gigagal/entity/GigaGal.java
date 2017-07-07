@@ -456,7 +456,7 @@ public class GigaGal extends Entity implements Humanoid {
                     lookStartTime = 0;
                     Moving moving = (Moving) ground;
                     position.x += moving.getVelocity().x;
-                    if ((moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.DOWN) || (ground instanceof Swoopa && velocity.y < 0)) {
+                    if (moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.DOWN) {
                         position.y -= 1;
                     }
                 } else if (ground instanceof Reboundable) {

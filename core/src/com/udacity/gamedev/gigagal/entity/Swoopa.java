@@ -30,16 +30,14 @@ public class Swoopa extends Hazard implements Destructible, Moving, Groundable {
     private long descentStartTime;
     private Animation animation;
     private Sound sound;
-    private float delta;
 
     // ctor
     public Swoopa(LevelUpdater level, Vector2 position, Enums.Material type) {
         this.level = level;
         this.position = position;
         this.type = type;
-        velocity = new Vector2();
+        velocity = new Vector2(-5, -5);
         startTime = TimeUtils.nanoTime();
-        descentStartTime = 0;
         health = Constants.SWOOPA_MAX_HEALTH;
         bobOffset = MathUtils.random();
         sound = Assets.getInstance().getSoundAssets().flight;
@@ -74,12 +72,12 @@ public class Swoopa extends Hazard implements Destructible, Moving, Groundable {
                 sound.play();
                 descentStartTime = TimeUtils.nanoTime();
             }
-            if (Helpers.secondsSince(descentStartTime) < .75f) {
-                velocity.x = Math.min(-1, velocity.x * 1.01f);
-                velocity.y = Math.min(-1, velocity.y * 1.01f);
+            if (Helpers.secondsSince(descentStartTime) < .5f) {
+                velocity.x /= 1.1f;
+                velocity.y /= 1.1f;
             } else {
-                velocity.x = Math.max(-5, velocity.x * 1.01f);
-                velocity.y = Math.max(0, velocity.y / 1.01f);
+                velocity.x = Math.max(-10, velocity.x * 1.0375f);
+                velocity.y = 0;
             }
         }
         position.add(velocity);
@@ -88,10 +86,9 @@ public class Swoopa extends Hazard implements Destructible, Moving, Groundable {
         if (position.x < (camera.x - (worldSpan.x * 20))) {
             descentStartTime = 0;
             position.x = (camera.x + worldSpan.x - 1);
-            position.y = (camera.y + (worldSpan.y / 1.5f));
-            velocity.set(0, 0);
+            position.y = level.getGigaGal().getTop() + Constants.SWOOPA_COLLISION_HEIGHT;
+            velocity.set(-5, -5);
         }
-        this.delta = delta;
     }
 
     @Override
