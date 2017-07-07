@@ -455,7 +455,7 @@ public class GigaGal extends Entity implements Humanoid {
                     lookStartTime = 0;
                     Moving moving = (Moving) ground;
                     position.x += moving.getVelocity().x;
-                    if (!(moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.UP)) {
+                    if (moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.DOWN) {
                         position.y -= 1;
                     }
                 } else if (ground instanceof Reboundable) {
@@ -539,8 +539,7 @@ public class GigaGal extends Entity implements Humanoid {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
                 float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
                 if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
-                    Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
-                    if (getBounds().overlaps(bounds)) {
+                    if (Helpers.overlapsPhysicalObject(this, hazard)) {
                         touchHazard(hazard);
                     } else if (action == Action.STANDING
                             && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE

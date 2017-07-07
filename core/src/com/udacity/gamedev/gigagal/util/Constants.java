@@ -325,9 +325,9 @@ public final class Constants {
     public static final int ZOOMBA_MAX_HEALTH = 30;
     public static final int ZOOMBA_STANDARD_DAMAGE = 1;
     public static final Vector2 ZOOMBA_KNOCKBACK = new Vector2(75, Y_KNOCKBACK);
-    public static final float ZOOMBA_COLLISION_WIDTH = 27;
-    public static final float ZOOMBA_COLLISION_HEIGHT = 23;
-    public static final float ZOOMBA_SHOT_RADIUS = 13.5f;
+    public static final float ZOOMBA_COLLISION_WIDTH = 29;
+    public static final float ZOOMBA_COLLISION_HEIGHT = 25;
+    public static final float ZOOMBA_SHOT_RADIUS = 14.5f;
     public static final float ZOOMBA_RANGE = 50;
     public static final String ZOOMBA_SPRITE = "zoomba";
 
