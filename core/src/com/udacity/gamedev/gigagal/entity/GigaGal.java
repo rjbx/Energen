@@ -566,7 +566,7 @@ public class GigaGal extends Entity implements Humanoid {
                     recoil(hazard.getKnockback(), hazard);
                 }
             } else if (hazard instanceof Swoopa) {
-                if (position.y > hazard.getPosition().y) {
+                if (getBottom() >= hazard.getPosition().y && Helpers.betweenTwoValues(position.x, hazard.getPosition().x - Constants.SWOOPA_SHOT_RADIUS, hazard.getPosition().x + Constants.SWOOPA_SHOT_RADIUS)) {
                     touchGroundTop((Swoopa) hazard);
                 } else {
                     touchedHazard = hazard;
