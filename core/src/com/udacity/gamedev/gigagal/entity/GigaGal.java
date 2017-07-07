@@ -559,39 +559,11 @@ public class GigaGal extends Entity implements Humanoid {
         if (hazard instanceof Groundable) {
             if (hazard instanceof Zoomba) {
                 Zoomba zoomba = (Zoomba) hazard;
-                switch (zoomba.getDirection()) {
-                    case LEFT:
-                        if (position.x < hazard.getPosition().x) {
-                            touchGroundSide(zoomba);
-                        } else {
-                            touchedHazard = hazard;
-                            recoil(hazard.getKnockback(), hazard);
-                        }
-                        break;
-                    case RIGHT:
-                        if (position.x > hazard.getPosition().x) {
-                            touchGroundSide(zoomba);
-                        } else {
-                            touchedHazard = hazard;
-                            recoil(hazard.getKnockback(), hazard);
-                        }
-                        break;
-                    case DOWN:
-                        if (position.y < hazard.getPosition().y) {
-                            touchGroundBottom(zoomba);
-                        } else {
-                            touchedHazard = hazard;
-                            recoil(hazard.getKnockback(), hazard);
-                        }
-                        break;
-                    case UP:
-                        if (position.y > hazard.getPosition().y) {
-                            touchGroundTop(zoomba);
-                        } else {
-                            touchedHazard = hazard;
-                            recoil(hazard.getKnockback(), hazard);
-                        }
-                        break;
+                if (bounds.overlaps(zoomba.getGroundBounds())) {
+                    touchGround(zoomba);
+                } else {
+                    touchedHazard = hazard;
+                    recoil(hazard.getKnockback(), hazard);
                 }
             } else if (hazard instanceof Swoopa) {
                 if (position.y > hazard.getPosition().y) {
