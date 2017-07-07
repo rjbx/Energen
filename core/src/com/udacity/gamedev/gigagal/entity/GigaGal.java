@@ -453,12 +453,7 @@ public class GigaGal extends Entity implements Humanoid {
                 } else if (ground instanceof Moveable) {
                     lookStartTime = 0;
                     Moveable moveable = (Moveable) ground;
-                    if (moveable instanceof Orientable && (moveable instanceof Rideable || ((Orientable) moveable).getOrientation() == Orientation.X)) {
-                        position.x += moveable.getVelocity().x;
-                    }
-                    if (moveable instanceof Rideable) {
-                   //     position.x = moveable.getPosition().x;
-                    }
+                    position.x += moveable.getVelocity().x;
                     if (moveable instanceof Aerial && ((Aerial) moveable).getDirectionY() == Direction.DOWN) {
                         position.y -= 1;
                     }
