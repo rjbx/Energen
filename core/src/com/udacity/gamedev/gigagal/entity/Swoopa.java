@@ -30,6 +30,7 @@ public class Swoopa extends Hazard implements Destructible, Moving, Groundable {
     private long descentStartTime;
     private Animation animation;
     private Sound sound;
+    private float delta;
 
     // ctor
     public Swoopa(LevelUpdater level, Vector2 position, Enums.Material type) {
@@ -67,18 +68,30 @@ public class Swoopa extends Hazard implements Destructible, Moving, Groundable {
         Vector2 worldSpan = new Vector2(level.getViewport().getWorldWidth(), level.getViewport().getWorldHeight());
         Vector3 camera = new Vector3(level.getViewport().getCamera().position);
         // while the swoopa is witin a screens' width from the screen center on either side, permit movement
+        if (Helpers.betweenTwoValues(position.x, (camera.x - worldSpan.x), (camera.x + worldSpan.x))
+            && Helpers.betweenTwoValues(position.y, (camera.y - (worldSpan.y * 1.5f)), (camera.y + (worldSpan.y * 1.5f)))) {
             if (descentStartTime == 0) {
                 sound.play();
                 descentStartTime = TimeUtils.nanoTime();
             }
             if (Helpers.secondsSince(descentStartTime) < .75f) {
-                velocity.x = -1;
-                velocity.y = 0;
+                velocity.x = Math.min(-1, velocity.x * 1.01f);
+                velocity.y = Math.min(-1, velocity.y * 1.01f);
             } else {
-                velocity.x = -1;
-                velocity.y = 0;
+                velocity.x = Math.max(-5, velocity.x * 1.01f);
+                velocity.y = Math.max(0, velocity.y / 1.01f);
             }
+        }
         position.add(velocity);
+
+        // when the swoopa progresses past the center screen position with a margin of ten screen widths, reset x and y position
+        if (position.x < (camera.x - (worldSpan.x * 20))) {
+            descentStartTime = 0;
+            position.x = (camera.x + worldSpan.x - 1);
+            position.y = (camera.y + (worldSpan.y / 1.5f));
+            velocity.set(0, 0);
+        }
+        this.delta = delta;
     }
 
     @Override
