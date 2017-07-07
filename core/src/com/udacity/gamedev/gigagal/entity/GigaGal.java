@@ -450,19 +450,16 @@ public class GigaGal extends Entity implements Humanoid {
                     } else if (canClimb) {
                         canCling = false;
                     }
-                } else if (ground instanceof Orientable) {
+                } else if (ground instanceof Moveable) {
                     lookStartTime = 0;
-                    Orientable orientable = (Orientable) ground;
-                    if (orientable.getOrientation() == Orientation.X) {
-                        if (orientable instanceof Moveable) {
-                            velocity.x = ((Moveable) orientable).getVelocity().x;
-                        }
-                        position.x += velocity.x;
+                    Moveable moveable = (Moveable) ground;
+                    if (moveable instanceof Orientable && (moveable instanceof Rideable || ((Orientable) moveable).getOrientation() == Orientation.X)) {
+                        position.x += moveable.getVelocity().x;
                     }
-                    if (orientable instanceof Zoomba) {
-                        position.x = ((Zoomba) orientable).getPosition().x;
+                    if (moveable instanceof Rideable) {
+                   //     position.x = moveable.getPosition().x;
                     }
-                    if (orientable instanceof Aerial && ((Aerial) orientable).getDirectionY() == Direction.DOWN) {
+                    if (moveable instanceof Aerial && ((Aerial) moveable).getDirectionY() == Direction.DOWN) {
                         position.y -= 1;
                     }
                 } else if (ground instanceof Reboundable) {

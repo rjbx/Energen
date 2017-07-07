@@ -72,7 +72,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
 
     public void update(float delta) {
         if (orientation == Enums.Orientation.X) {
-            position.set(position.x + velocity.x, velocity.y);
+            position.add(velocity.x, velocity.y);
             velocity.x = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED * delta, direction, Enums.Orientation.X);
 
             if (position.x < startingPosition.x - (range / 2)) {
@@ -84,11 +84,10 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
                 direction = Direction.LEFT;
                 animation = animations.get(0);
             }
-
             float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
-            velocity.y = bobNadir + Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier;
+            velocity.y = Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier + bobNadir - position.y;
         } else {
-            position.set(velocity.x, position.y + velocity.y);
+            position.add(velocity.x, velocity.y);
             velocity.y = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED * delta, direction, Enums.Orientation.Y);
 
             if (position.y < startingPosition.y - range / 2) {
@@ -100,9 +99,8 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
                 direction = Direction.DOWN;
                 animation = animations.get(2);
             }
-
             float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
-            velocity.x = bobNadir + Constants.ZOOMBA_CENTER.x + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier;
+            velocity.x = Constants.ZOOMBA_CENTER.x + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier + bobNadir - position.x;
         }
 
         if (converted) {

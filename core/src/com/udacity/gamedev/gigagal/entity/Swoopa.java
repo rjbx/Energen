@@ -98,6 +98,7 @@ public class Swoopa extends Hazard implements Destructible, Rideable {
     }
 
     @Override public Vector2 getPosition() { return position; }
+    @Override public Vector2 getVelocity() { return velocity; }
     @Override public final float getHealth() { return health; }
     @Override public final float getWidth() { return Constants.SWOOPA_COLLISION_WIDTH; }
     @Override public final float getHeight() { return Constants.SWOOPA_COLLISION_HEIGHT; }
