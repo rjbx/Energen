@@ -378,7 +378,7 @@ public class GigaGal extends Entity implements Humanoid {
                 }
                 if ((!(ground instanceof Propelling && (Math.abs(getBottom() - ground.getTop()) <= 1)))
                         && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
-                        && !(ground instanceof Unbearable && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+                        && !(ground instanceof Hazardous && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                     // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                     // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                     if (action != Action.STRIDING || action != Action.DASHING) {
@@ -462,11 +462,11 @@ public class GigaGal extends Entity implements Humanoid {
                 } else if (ground instanceof Reboundable) {
                     canClimb = false;
                     canCling = false;
-                } else if (ground instanceof Unbearable) {
+                } else if (ground instanceof Hazardous) {
                     canHover = false;
                     Random xKnockback = new Random();
                     velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
-                    recoil(velocity, 0);
+                    recoil(velocity, (Hazardous) ground);
                 } else if (ground instanceof Destructible) {
                     if (((Box) ground).getHealth() < 1) {
                         fall();

@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Coals extends Ground implements Unbearable {
+public class Coals extends Ground implements Hazardous {
 
     // fields
     public final static String TAG = Coals.class.getName();
@@ -43,5 +43,8 @@ public class Coals extends Ground implements Unbearable {
     @Override public final float getRight() { return position.x + Constants.COALS_CENTER.x * scale.x; }
     @Override public final float getTop() { return position.y + Constants.COALS_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.COALS_CENTER.y * scale.y; }
+    @Override public final Enums.Material getType() { return Enums.Material.GAS; }
+    @Override public final Vector2 getKnockback() { return Constants.WAVES_KNOCKBACK; }
+    @Override public final int getDamage() { return 0; }
     @Override public final boolean isDense() { return true; }
 }

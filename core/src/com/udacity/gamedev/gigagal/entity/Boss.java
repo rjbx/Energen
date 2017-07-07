@@ -53,7 +53,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
     private ListIterator<Enums.Material> weaponToggler; // class-level instantiation
     private boolean onRideable;
     private boolean onSkateable;
-    private boolean onUnbearable;
+    private boolean onHazardous;
     private boolean onClimbable;
     private boolean onSinkable;
     private boolean onBounceable;
@@ -177,7 +177,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
         canShoot = true;
         onRideable = false;
         onSkateable = false;
-        onUnbearable = false;
+        onHazardous = false;
         onClimbable = false;
         onSinkable = false;
         onBounceable = false;
@@ -306,7 +306,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
     }
 
     private void touchGround(DelayedRemovalArray<Ground> grounds) {
-        onUnbearable = false;
+        onHazardous = false;
         onRideable = false;
         onSkateable = false;
         onClimbable = false;
@@ -377,7 +377,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
             }
             if ((!(ground instanceof Propelling && (Math.abs(getBottom() - ground.getTop()) <= 1)))
                     && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
-                    && !(ground instanceof Unbearable && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+                    && !(ground instanceof Hazardous && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                 // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                 // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                 if (action != Enums.Action.STRIDING || action != Enums.Action.DASHING) {
@@ -435,8 +435,8 @@ public class Boss extends Hazard implements Humanoid, Destructible {
                 reboundable.setState(true);
             } else if (ground instanceof Propelling) {
                 onRideable = true;
-            } else if (ground instanceof Unbearable) {
-                onUnbearable = true;
+            } else if (ground instanceof Hazardous) {
+                onHazardous = true;
                 canHover = false;
                 Random xKnockback = new Random();
                 velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Enums.Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
