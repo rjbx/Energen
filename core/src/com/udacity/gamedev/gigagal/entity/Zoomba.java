@@ -27,7 +27,6 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     private float range;
     private Vector2 position;
     private final Vector2 startingPosition;
-    private Rectangle groundBounds;
     private Vector2 velocity;
     private float health;
     private Direction direction;
@@ -40,7 +39,6 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     public Zoomba(Vector2 position, Enums.Material type, float range) {
         this.position = position;
         this.startingPosition = new Vector2(position);
-        groundBounds = new Rectangle();
         velocity = new Vector2();
         bobNadir = position.y;
         this.type = type;
@@ -69,21 +67,22 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             default:
                 animations = Assets.getInstance().getZoombaAssets().gasAnimations;
         }
-        updateMovement(direction);
+        animation = animations.get(0);
     }
 
     public void update(float delta) {
-        updateMovement(direction);
         if (orientation == Enums.Orientation.X) {
             position.set(position.x + velocity.x, velocity.y);
             velocity.x = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED * delta, direction, Enums.Orientation.X);
 
             if (position.x < startingPosition.x - (range / 2)) {
                 position.x = startingPosition.x - (range / 2);
-                updateMovement(Direction.RIGHT);
+                direction = Direction.RIGHT;
+                animation = animations.get(1);
             } else if (position.x > startingPosition.x + (range / 2)) {
                 position.x = startingPosition.x + (range / 2);
-                updateMovement(Direction.LEFT);
+                direction = Direction.LEFT;
+                animation = animations.get(0);
             }
 
             float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
@@ -92,12 +91,14 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             position.set(velocity.x, position.y + velocity.y);
             velocity.y = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED * delta, direction, Enums.Orientation.Y);
 
-            if (position.y < startingPosition.y - range) {
-                position.y = startingPosition.y - range;
-                updateMovement(Direction.UP);
-            } else if (position.y > startingPosition.y + range) {
-                position.y = startingPosition.y + range;
-                updateMovement(Direction.DOWN);
+            if (position.y < startingPosition.y - range / 2) {
+                position.y = startingPosition.y - range / 2;
+                direction = Direction.UP;
+                animation = animations.get(3);
+            } else if (position.y > startingPosition.y + range / 2) {
+                position.y = startingPosition.y + range / 2;
+                direction = Direction.DOWN;
+                animation = animations.get(2);
             }
 
             float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
@@ -108,11 +109,13 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             if (orientation == Enums.Orientation.X) {
                 position.set(startingPosition);
                 bobNadir = position.y;
-                updateMovement(Direction.LEFT);
+                direction = Direction.LEFT;
+                animation = animations.get(0);
             } else {
                 position.set(startingPosition);
                 bobNadir = position.x;
-                updateMovement(Direction.DOWN);
+                direction = Direction.DOWN;
+                animation = animations.get(2);
             }
             converted = false;
         }
@@ -147,30 +150,8 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     @Override public void convert() { this.orientation = Helpers.getOppositeOrientation(orientation); this.converted = true; }
     @Override public boolean isConverted() { return converted; }
     @Override public final boolean isDense() { return true; }
-    public Rectangle getGroundBounds() { return groundBounds; }
     public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public Direction getDirection() { return direction; }
     public final long getStartTime() { return startTime; }
-    private void updateMovement(Direction direction) {
-        this.direction = direction;
-        switch (this.direction) {
-            case LEFT:
-                groundBounds.set(getLeft(), position.x, getBottom(), getTop());
-                animation = animations.get(0);
-                break;
-            case RIGHT:
-                groundBounds.set(position.x, getRight(), getBottom(), getTop());
-                animation = animations.get(1);
-                break;
-            case DOWN:
-                groundBounds.set(getLeft(), getRight(), getBottom(), position.y);
-                animation = animations.get(2);
-                break;
-            case UP:
-                groundBounds.set(getLeft(), getRight(), position.y, getTop());
-                animation = animations.get(3);
-                break;
-        }
-    }
 }

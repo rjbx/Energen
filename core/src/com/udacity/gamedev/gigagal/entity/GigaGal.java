@@ -291,14 +291,15 @@ public class GigaGal extends Entity implements Humanoid {
                             touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                         }
                         if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
-                            if (action != Action.FALLING || (fallStartTime != 0 && (Helpers.secondsSince(fallStartTime) > .01f))) { // prevents from immediately calling stand when touching climbable and non-climbable simultaneously, enabling jump
+                            if (action != Action.FALLING // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
+                                    || (fallStartTime != 0 && (Helpers.secondsSince(fallStartTime) > .01f))) { // permits call to stand when falling and touching climbable and non-climbable simultaneously and not having immediately called jump/fall
                                 touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                             }
                         }
                     } else {
                         if (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense()))) {
                             touchedGround = ground;
-                            if (action == Action.STANDING) { // prevents from immediately calling stand when touching climbable and non-climbable simultaneously, enabling jump
+                            if (action == Action.STANDING) { // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
                                 setAtopGround(ground);
                             }
                         }
@@ -562,13 +563,12 @@ public class GigaGal extends Entity implements Humanoid {
 
     private void touchHazard(Hazardous hazard) {
         chaseCamPosition.set(position, 0);
-     //   touchedHazard = hazard;
         int damage = hazard.getDamage();
         float margin = 0;
         if (hazard instanceof Destructible) {
             margin = hazard.getWidth() / 6;
         }
-        if (hazard instanceof Zoomba && bounds.overlaps(((Zoomba) hazard).getGroundBounds())) {
+        if (hazard instanceof Zoomba) {
             Zoomba zoomba = (Zoomba) hazard;
             switch (zoomba.getDirection()) {
                 case LEFT:
@@ -585,6 +585,7 @@ public class GigaGal extends Entity implements Humanoid {
                     break;
             }
         } else if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
+            touchedHazard = hazard;
             if (hazard instanceof Swoopa) {
                 Swoopa swoopa = (Swoopa) hazard;
                 damage = swoopa.getMountDamage();
@@ -593,6 +594,7 @@ public class GigaGal extends Entity implements Humanoid {
                 recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y), damage);
             }
         } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
+            touchedHazard = hazard;
             if (hazard instanceof Swoopa) {
                 Swoopa swoopa = (Swoopa) hazard;
                 damage = swoopa.getMountDamage();

@@ -393,21 +393,23 @@ public class LevelUpdater {
             projectiles.begin();
             for (int j = 0; j < projectiles.size; j++) {
                 Ammo ammo = projectiles.get(j);
-                Rectangle bounds = new Rectangle(ammo.getLeft(), ammo.getBottom(), ammo.getWidth(), ammo.getHeight());
 
-                if (!ammo.equals(hazard) && ammo.isActive() && ammo.getPosition().dst(destructible.getPosition()) < (destructible.getShotRadius() + ammo.getRadius())) {
+                if (!ammo.equals(hazard) && ammo.isActive() && Helpers.overlapsPhysicalObject(ammo, destructible)) {
 
-                    if (!((destructible instanceof Zoomba)
-                            && (bounds.overlaps(((Zoomba) destructible).getGroundBounds())
-                            && (ammo.getOrientation()) == ((Zoomba) destructible).getOrientation())
-                            && (Helpers.getOppositeDirection(ammo.getDirection()) == ((Zoomba) destructible).getDirection()))) {
+                    if (!(destructible instanceof Zoomba)
+                    || !(ammo.getOrientation() == ((Zoomba) destructible).getOrientation())
+                    || !((ammo.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(ammo.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
+                    || (ammo.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(ammo.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))
+                    || !(Helpers.getOppositeDirection(ammo.getDirection()) == ((Zoomba) destructible).getDirection())) {
                         Helpers.applyDamage(destructible, ammo);
                         score += ammo.getHitScore();
                     } else {
                         ((Zoomba) destructible).convert();
                     }
-                    this.spawnImpact(ammo.getPosition(), ammo.getType());
-                    ammo.deactivate();
+                    if (destructible instanceof  Zoomba) {
+                        this.spawnImpact(ammo.getPosition(), ammo.getType());
+                        ammo.deactivate();
+                    }
                 }
             }
             projectiles.end();
