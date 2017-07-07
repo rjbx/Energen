@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -454,7 +455,7 @@ public class GigaGal extends Entity implements Humanoid {
                     lookStartTime = 0;
                     Moving moving = (Moving) ground;
                     position.x += moving.getVelocity().x;
-                    if (moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.DOWN) {
+                    if (!(moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.UP)) {
                         position.y -= 1;
                     }
                 } else if (ground instanceof Reboundable) {
@@ -1127,7 +1128,7 @@ public class GigaGal extends Entity implements Humanoid {
             canHurdle = false;
         } else {
             lookStartTime = 0;
-            if (action == Action.RAPPELLING && touchedGround instanceof Zoomba) {
+            if (action == Action.RAPPELLING && touchedGround instanceof Moving) {
                 position.y = touchedGround.getPosition().y;
             }
             if (inputControls.downButtonPressed) {

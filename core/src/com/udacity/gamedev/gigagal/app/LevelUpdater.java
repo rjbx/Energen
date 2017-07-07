@@ -414,9 +414,6 @@ public class LevelUpdater {
             }
             projectiles.end();
             if (destructible.getHealth() < 1) {
-                if (destructible instanceof Swoopa) {
-                    ((Swoopa) destructible).dispose();
-                }
                 spawnImpact(destructible.getPosition(), destructible.getType());
                 active = false;
                 score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
