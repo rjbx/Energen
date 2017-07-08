@@ -35,14 +35,14 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
         this.position = position;
         animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
         center = new Vector2();
-        setOrientation(orientation);
         this.direction = direction;
         converted = false;
         velocity = new Vector2();
         startPosition = new Vector2(position);
         startTime = 0;
         this.range = range;
-        speed = Math.min(100, range * .8f);
+        speed = Math.min(80, range * .8f);
+        setOrientation(orientation);
         this.intensity = intensity;
         canDispatch = false;
         this.active = active;
@@ -62,6 +62,7 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
             case Y:
                 velocity.setZero();
                 animation = Assets.getInstance().getCanirolAssets().yCanirol;
+                animation.setFrameDuration(Constants.CANIROL_FRAME_DURATION * (40 / speed));
                 break;
             case X:
                 switch (direction) {
@@ -77,10 +78,12 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
                     position.x = startPosition.x - (range / 2);
                     direction = Enums.Direction.RIGHT;
                     animation = Assets.getInstance().getCanirolAssets().xRightCanirol;
+                    animation.setFrameDuration(Constants.CANIROL_FRAME_DURATION * (40 / speed));
                 } else if (position.x > (startPosition.x + (range / 2))) {
                     position.x = startPosition.x + (range / 2);
                     direction = Enums.Direction.LEFT;
                     animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
+                    animation.setFrameDuration(Constants.CANIROL_FRAME_DURATION * (40 / speed));
                 }
                 break;
         }
@@ -88,7 +91,7 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(0)), position, center);
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(0), true), position, center);
     }
 
     @Override public final Vector2 getPosition() { return position; }
@@ -119,11 +122,13 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
                 direction = null;
                 center.set(Constants.Y_CANIROL_CENTER);
                 animation = Assets.getInstance().getCanirolAssets().yCanirol;
+                animation.setFrameDuration(Constants.CANIROL_FRAME_DURATION * (40 / speed));
                 break;
             case X:
                 direction = Enums.Direction.LEFT;
                 center.set(Constants.X_CANIROL_CENTER);
                 animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
+                animation.setFrameDuration(Constants.CANIROL_FRAME_DURATION * (40 / speed));
                 break;
             default:
                 direction = null;
