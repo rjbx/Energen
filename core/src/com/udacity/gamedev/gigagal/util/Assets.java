@@ -651,7 +651,7 @@ public final class Assets implements AssetErrorListener {
             yCanirolRegions.add(atlas.findRegion(Constants.Y_CANIROL_SPRITE_1));
             yCanirolRegions.add(atlas.findRegion(Constants.Y_CANIROL_SPRITE_2));
             yCanirolRegions.add(atlas.findRegion(Constants.Y_CANIROL_SPRITE_3));
-            yCanirol = new Animation(Constants.CANIROL_FRAME_DURATION, yCanirolRegions, PlayMode.LOOP);
+            yCanirol = new Animation(Constants.CANIROL_FRAME_DURATION, yCanirolRegions, PlayMode.NORMAL);
         }
     }
 

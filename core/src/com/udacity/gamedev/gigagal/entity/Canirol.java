@@ -33,16 +33,16 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
     // ctor
     public Canirol(Vector2 position, Enums.Orientation orientation, Enums.Direction direction, Enums.ShotIntensity intensity, float range, boolean active) {
         this.position = position;
-        animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
         center = new Vector2();
         this.direction = direction;
         converted = false;
         velocity = new Vector2();
         startPosition = new Vector2(position);
-        startTime = 0;
+        startTime = TimeUtils.nanoTime();
         this.range = range;
         speed = Math.min(80, range * .8f);
         setOrientation(orientation);
+        updateDirection(direction);
         this.intensity = intensity;
         canDispatch = false;
         this.active = active;
@@ -58,40 +58,21 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
             this.setStartTime(TimeUtils.nanoTime());
             canDispatch = true;
         }
-        switch (orientation) {
-            case Y:
-                velocity.setZero();
-                animation = Assets.getInstance().getCanirolAssets().yCanirol;
-                animation.setFrameDuration(Constants.CANIROL_FRAME_DURATION * (40 / speed));
-                break;
-            case X:
-                switch (direction) {
-                    case RIGHT:
-                        velocity.set(speed * Gdx.graphics.getDeltaTime(), 0);
-                        break;
-                    case LEFT:
-                        velocity.set(-speed * Gdx.graphics.getDeltaTime(), 0);
-                        break;
-                }
-                position.add(velocity);
-                if (position.x < (startPosition.x - (range / 2))) {
-                    position.x = startPosition.x - (range / 2);
-                    direction = Enums.Direction.RIGHT;
-                    animation = Assets.getInstance().getCanirolAssets().xRightCanirol;
-                    animation.setFrameDuration(Constants.CANIROL_FRAME_DURATION * (40 / speed));
-                } else if (position.x > (startPosition.x + (range / 2))) {
-                    position.x = startPosition.x + (range / 2);
-                    direction = Enums.Direction.LEFT;
-                    animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
-                    animation.setFrameDuration(Constants.CANIROL_FRAME_DURATION * (40 / speed));
-                }
-                break;
+        if (orientation == Enums.Orientation.X) {
+            position.add(velocity);
+            if (position.x < (startPosition.x - (range / 2))) {
+                position.x = startPosition.x - (range / 2);
+                updateDirection(Enums.Direction.RIGHT);
+            } else if (position.x > (startPosition.x + (range / 2))) {
+                position.x = startPosition.x + (range / 2);
+                updateDirection(Enums.Direction.LEFT);
+            }
         }
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(0), true), position, center);
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center);
     }
 
     @Override public final Vector2 getPosition() { return position; }
@@ -119,19 +100,33 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
         this.orientation = orientation;
         switch (orientation) {
             case Y:
-                direction = null;
+                updateDirection(Enums.Direction.UP);
                 center.set(Constants.Y_CANIROL_CENTER);
-                animation = Assets.getInstance().getCanirolAssets().yCanirol;
-                animation.setFrameDuration(Constants.CANIROL_FRAME_DURATION * (40 / speed));
                 break;
             case X:
-                direction = Enums.Direction.LEFT;
+                updateDirection(Enums.Direction.LEFT);
                 center.set(Constants.X_CANIROL_CENTER);
-                animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
-                animation.setFrameDuration(Constants.CANIROL_FRAME_DURATION * (40 / speed));
                 break;
             default:
                 direction = null;
         }
+    }
+    private void updateDirection(Enums.Direction direction) {
+        this.direction = direction;
+        switch (direction) {
+            case LEFT:
+                animation = Assets.getInstance().getCanirolAssets().xRightCanirol;
+                velocity.set(-speed * Gdx.graphics.getDeltaTime(), 0);
+                break;
+            case RIGHT:
+                animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
+                velocity.set(speed * Gdx.graphics.getDeltaTime(), 0);
+                break;
+            default:
+                animation = Assets.getInstance().getCanirolAssets().yCanirol;
+                velocity.setZero();
+                break;
+        }
+        animation.setFrameDuration(Constants.CANIROL_FRAME_DURATION * (40 / speed));
     }
 }
