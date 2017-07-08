@@ -397,10 +397,8 @@ public class LevelUpdater {
                 if (!ammo.equals(hazard) && ammo.isActive() && Helpers.overlapsPhysicalObject(ammo, destructible)) {
 
                     if (!(destructible instanceof Zoomba)
-                    || !(ammo.getOrientation() == ((Zoomba) destructible).getOrientation())
                     || !((ammo.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(ammo.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
-                    || (ammo.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(ammo.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))
-                    || !(Helpers.getOppositeDirection(ammo.getDirection()) == ((Zoomba) destructible).getDirection())) {
+                    || (ammo.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(ammo.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
                         Helpers.applyDamage(destructible, ammo);
                         score += ammo.getHitScore();
                     } else {
