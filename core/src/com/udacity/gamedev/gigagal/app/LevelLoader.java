@@ -160,6 +160,28 @@ final class LevelLoader {
         return orientation;
     }
 
+    private static final Enums.Direction extractDirection(JSONObject object) {
+        Enums.Direction direction = Enums.Direction.RIGHT;
+        try {
+            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
+                for (String customVar : customVars) {
+                    if (customVar.contains(Constants.LEVEL_DIRECTION_KEY)) {
+                        String[] directionSplit = customVar.split(Constants.LEVEL_DIRECTION_KEY + ":");
+                        direction = Enums.Direction.valueOf(directionSplit[1]);
+                    }
+                }
+            }
+        } catch (IllegalArgumentException ex) {
+            runtimeEx = true;
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
+                    + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + "; key: " + Constants.LEVEL_INTENSITY_KEY);
+        }
+        return direction;
+    }
+
     private static final Enums.Material extractType(JSONObject object) {
         Enums.Material type = Enums.Material.NATIVE;
         try {
@@ -331,6 +353,7 @@ final class LevelLoader {
             final float rotation = extractRotation(item);
             final Vector2 destination = extractDestination(item);
             final Enums.Orientation orientation = extractOrientation(item);
+            final Enums.Direction direction = extractDirection(item);
             final Enums.Material type = extractType(item);
             final Enums.ShotIntensity intensity = extractIntensity(item);
             final Enums.Upgrade upgrade = extractUpgrade(item);
@@ -421,7 +444,7 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANIROL_SPRITE_1)) {
                 final Vector2 canirolPosition = imagePosition.add(Constants.X_CANIROL_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + canirolPosition);
-                level.addGround(new Canirol(canirolPosition, orientation, intensity, range, tags[Constants.OFF_TAG_INDEX]));
+                level.addGround(new Canirol(canirolPosition, orientation, direction, intensity, range, tags[Constants.OFF_TAG_INDEX]));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ZOOMBA_SPRITE)) {
                 final Vector2 zoombaPosition = imagePosition.add(Constants.ZOOMBA_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + zoombaPosition);

@@ -712,6 +712,7 @@ public final class Constants {
     public static final String LEVEL_CUSTOM_VARS_KEY = "customVars";
     public static final String LEVEL_TAGS_KEY = "tags";
     public static final String LEVEL_RANGE_KEY = "range";
+    public static final String LEVEL_DIRECTION_KEY = "direction";
     public static final String LEVEL_TYPE_KEY = "type";
     public static final String LEVEL_INTENSITY_KEY = "intensity";
     public static final String LEVEL_BOUNDS_KEY = "bounds";

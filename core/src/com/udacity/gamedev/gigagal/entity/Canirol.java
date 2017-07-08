@@ -22,6 +22,7 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
     private final Vector2 startPosition; // class-level instantiation
     private Vector2 center;
     private float range;
+    private float speed;
     private boolean converted;
     private Enums.ShotIntensity intensity;
     private long startTime;
@@ -30,16 +31,18 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
     private boolean active;
 
     // ctor
-    public Canirol(Vector2 position, Enums.Orientation orientation, Enums.ShotIntensity intensity, float range, boolean active) {
+    public Canirol(Vector2 position, Enums.Orientation orientation, Enums.Direction direction, Enums.ShotIntensity intensity, float range, boolean active) {
         this.position = position;
         animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
         center = new Vector2();
         setOrientation(orientation);
+        this.direction = direction;
         converted = false;
         velocity = new Vector2();
         startPosition = new Vector2(position);
         startTime = 0;
         this.range = range;
+        speed = Math.min(100, range * .8f);
         this.intensity = intensity;
         canDispatch = false;
         this.active = active;
@@ -63,10 +66,10 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
             case X:
                 switch (direction) {
                     case RIGHT:
-                        velocity.set(Constants.LIFT_SPEED * Gdx.graphics.getDeltaTime(), 0);
+                        velocity.set(speed * Gdx.graphics.getDeltaTime(), 0);
                         break;
                     case LEFT:
-                        velocity.set(-Constants.LIFT_SPEED * Gdx.graphics.getDeltaTime(), 0);
+                        velocity.set(-speed * Gdx.graphics.getDeltaTime(), 0);
                         break;
                 }
                 position.add(velocity);
