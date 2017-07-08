@@ -721,15 +721,18 @@ public final class Assets implements AssetErrorListener {
 
     public static final class SwoopaAssets {
 
-        public final AtlasRegion swoopa;
-        public final Animation gasSwoopa;
+        public final AtlasRegion swoopaLeft;
+        public final AtlasRegion swoopaRight;
+        public final Animation gasSwoopaLeft;
+        public final Animation gasSwoopaRight;
         public final Animation liquidSwoopa;
         public final Animation plasmaSwoopa;
         public final Animation oreSwoopa;
         public final Animation solidSwoopa;
 
         private SwoopaAssets(TextureAtlas atlas) {
-            swoopa = atlas.findRegion(Constants.SWOOPA_SPRITE);
+            swoopaLeft = atlas.findRegion(Constants.SWOOPA_SPRITE_LEFT);
+            swoopaRight = atlas.findRegion(Constants.SWOOPA_SPRITE_RIGHT);
 
             Array<AtlasRegion> oreSwoopaRegions = new Array<AtlasRegion>();
             oreSwoopaRegions.add(atlas.findRegion(Constants.PROTRUSION_OREINGSWOOPA_SPRITE_1));
@@ -741,10 +744,15 @@ public final class Assets implements AssetErrorListener {
             plasmaSwoopaRegions.add(atlas.findRegion(Constants.CHARGEDSWOOPA_SPRITE_2));
             plasmaSwoopa = new Animation(Constants.SUSPENSION_PLASMA_DURATION / plasmaSwoopaRegions.size, plasmaSwoopaRegions, PlayMode.NORMAL);
 
-            Array<AtlasRegion> gasSwoopaRegions = new Array<AtlasRegion>();
-            gasSwoopaRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_1));
-            gasSwoopaRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_2));
-            gasSwoopa = new Animation(Constants.PROTRUSION_GAS_DURATION / gasSwoopaRegions.size, gasSwoopaRegions, PlayMode.NORMAL);
+            Array<AtlasRegion> gasSwoopaLeftRegions = new Array<AtlasRegion>();
+            gasSwoopaLeftRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_1_LEFT));
+            gasSwoopaLeftRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_2_LEFT));
+            gasSwoopaLeft = new Animation(Constants.PROTRUSION_GAS_DURATION / gasSwoopaLeftRegions.size, gasSwoopaLeftRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> gasSwoopaRightRegions = new Array<AtlasRegion>();
+            gasSwoopaRightRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_1_RIGHT));
+            gasSwoopaRightRegions.add(atlas.findRegion(Constants.FIERYSWOOPA_SPRITE_2_RIGHT));
+            gasSwoopaRight = new Animation(Constants.PROTRUSION_GAS_DURATION / gasSwoopaRightRegions.size, gasSwoopaRightRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> liquidSwoopaRegions = new Array<AtlasRegion>();
             liquidSwoopaRegions.add(atlas.findRegion(Constants.GUSHINGSWOOPA_SPRITE_1));

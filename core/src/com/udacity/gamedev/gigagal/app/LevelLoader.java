@@ -426,10 +426,14 @@ final class LevelLoader {
                 final Vector2 zoombaPosition = imagePosition.add(Constants.ZOOMBA_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + zoombaPosition);
                 level.addHazard(new Zoomba(zoombaPosition, type, range));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SWOOPA_SPRITE)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SWOOPA_SPRITE_LEFT)) {
                 final Vector2 swoopaPosition = imagePosition.add(Constants.SWOOPA_CENTER);
                 Gdx.app.log(TAG, "Loaded the swoopa at " + swoopaPosition);
-                level.addHazard(new Swoopa(level, swoopaPosition, type));
+                level.addHazard(new Swoopa(level, swoopaPosition, Enums.Direction.LEFT, type));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SWOOPA_SPRITE_RIGHT)) {
+                final Vector2 swoopaPosition = imagePosition.add(Constants.SWOOPA_CENTER);
+                Gdx.app.log(TAG, "Loaded the swoopa at " + swoopaPosition);
+                level.addHazard(new Swoopa(level, swoopaPosition, Enums.Direction.RIGHT, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ORBEN_SPRITE)) {
                 final Vector2 orbenPosition = imagePosition.add(Constants.ORBEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the orben at " + orbenPosition);

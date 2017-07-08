@@ -305,7 +305,6 @@ public final class Constants {
     public static final Vector2 Y_CANNON_CENTER = new Vector2(8, 10);
     public static final String Y_CANNON_SPRITE = "cannon-y";
 
-
     // Canirol
     public static final Vector2 X_CANIROL_CENTER = new Vector2(10, 7.5f);
     public static final String X_CANIROL_SPRITE_1 = "canirol-x-1";
@@ -364,10 +363,14 @@ public final class Constants {
     public static final float SWOOPA_COLLISION_WIDTH = 50;
     public static final float SWOOPA_COLLISION_HEIGHT = 27;
     public static final float SWOOPA_SHOT_RADIUS = 13.5f;
-    public static final String SWOOPA_SPRITE = "swoopa";
+    public static final String SWOOPA_SPRITE_LEFT = "swoopa-left";
+    public static final String SWOOPA_SPRITE_RIGHT = "swoopa-right";
 
-    public static final String FIERYSWOOPA_SPRITE_1 = "swoopa-gas-1";
-    public static final String FIERYSWOOPA_SPRITE_2 = "swoopa-gas-2";
+    public static final String FIERYSWOOPA_SPRITE_1_LEFT = "swoopa-gas-1-left";
+    public static final String FIERYSWOOPA_SPRITE_2_LEFT = "swoopa-gas-2-left";
+
+    public static final String FIERYSWOOPA_SPRITE_1_RIGHT = "swoopa-gas-1-right";
+    public static final String FIERYSWOOPA_SPRITE_2_RIGHT = "swoopa-gas-2-right";
 
     public static final String GUSHINGSWOOPA_SPRITE_1 = "swoopa-liquid-1";
     public static final String GUSHINGSWOOPA_SPRITE_2 = "swoopa-liquid-2";

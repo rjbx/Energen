@@ -25,6 +25,7 @@ public class Swoopa extends Hazard implements Destructible, Moving, Groundable {
     private LevelUpdater level;
     private Vector2 velocity; // class-level instantiation
     private Vector2 position;
+    private final Enums.Direction direction;
     private final Enums.Material type;
     private float health;
     private long descentStartTime;
@@ -32,11 +33,12 @@ public class Swoopa extends Hazard implements Destructible, Moving, Groundable {
     private Sound sound;
 
     // ctor
-    public Swoopa(LevelUpdater level, Vector2 position, Enums.Material type) {
+    public Swoopa(LevelUpdater level, Vector2 position, Enums.Direction direction, Enums.Material type) {
         this.level = level;
         this.position = position;
+        this.direction = direction;
         this.type = type;
-        velocity = new Vector2(-5, -5);
+        velocity = new Vector2(Helpers.absoluteToDirectionalValue(5, direction, Enums.Orientation.X), -5);
         startTime = TimeUtils.nanoTime();
         health = Constants.SWOOPA_MAX_HEALTH;
         bobOffset = MathUtils.random();
@@ -49,7 +51,11 @@ public class Swoopa extends Hazard implements Destructible, Moving, Groundable {
                 animation = Assets.getInstance().getSwoopaAssets().plasmaSwoopa;
                 break;
             case GAS:
-                animation = Assets.getInstance().getSwoopaAssets().gasSwoopa;
+                if (direction == Enums.Direction.LEFT) {
+                    animation = Assets.getInstance().getSwoopaAssets().gasSwoopaLeft;
+                } else {
+                    animation = Assets.getInstance().getSwoopaAssets().gasSwoopaRight;
+                }
                 break;
             case LIQUID:
                 animation = Assets.getInstance().getSwoopaAssets().liquidSwoopa;
@@ -58,14 +64,18 @@ public class Swoopa extends Hazard implements Destructible, Moving, Groundable {
                 animation = Assets.getInstance().getSwoopaAssets().solidSwoopa;
                 break;
             default:
-                animation = Assets.getInstance().getSwoopaAssets().oreSwoopa;
+                if (direction == Enums.Direction.LEFT) {
+                    animation = Assets.getInstance().getSwoopaAssets().gasSwoopaLeft;
+                } else {
+                    animation = Assets.getInstance().getSwoopaAssets().gasSwoopaRight;
+                }
         }
     }
 
     public void update(float delta) {
         Vector2 worldSpan = new Vector2(level.getViewport().getWorldWidth(), level.getViewport().getWorldHeight());
         Vector3 camera = new Vector3(level.getViewport().getCamera().position);
-        // while the swoopa is witin a screens' width from the screen center on either side, permit movement
+        // while the swoopa is within a screens' width from the screen center on either side, permit movement
         if (Helpers.betweenTwoValues(position.x, (camera.x - worldSpan.x), (camera.x + worldSpan.x))
             && Helpers.betweenTwoValues(position.y, (camera.y - (worldSpan.y * 1.5f)), (camera.y + (worldSpan.y * 1.5f)))) {
             if (descentStartTime == 0) {
@@ -73,21 +83,21 @@ public class Swoopa extends Hazard implements Destructible, Moving, Groundable {
                 descentStartTime = TimeUtils.nanoTime();
             }
             if (Helpers.secondsSince(descentStartTime) < .5f) {
-                velocity.x /= 1.1f;
-                velocity.y /= 1.1f;
+                    velocity.x /= 1.1f;
+                    velocity.y /= 1.1f;
             } else {
-                velocity.x = Math.max(-10, velocity.x * 1.0375f);
+                velocity.x = Helpers.absoluteToDirectionalValue(Math.min(10, Helpers.absoluteToDirectionalValue(velocity.x, direction, Enums.Orientation.X) * 1.0375f), direction, Enums.Orientation.X);
                 velocity.y = 0;
             }
         }
         position.add(velocity);
 
         // when the swoopa progresses past the center screen position with a margin of ten screen widths, reset x and y position
-        if (position.x < (camera.x - (worldSpan.x * 20))) {
+        if (position.x > (camera.x + Math.abs(worldSpan.x * 20))) {
             descentStartTime = 0;
-            position.x = (camera.x + worldSpan.x - 1);
+            position.x = camera.x - Helpers.absoluteToDirectionalValue(worldSpan.x + 1, direction, Enums.Orientation.X);
             position.y = level.getGigaGal().getTop() + Constants.SWOOPA_COLLISION_HEIGHT;
-            velocity.set(-5, -5);
+            velocity.set(Helpers.absoluteToDirectionalValue(5, direction, Enums.Orientation.X), -5);
         }
     }
 
