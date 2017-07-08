@@ -108,12 +108,14 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
 
         if (converted) {
             if (orientation == Enums.Orientation.X) {
+                position.y -= Constants.GIGAGAL_HEIGHT * 3;
                 bobNadir = position.y;
-                direction = Direction.LEFT;
+                direction = Direction.RIGHT;
                 animation = animations.get(0);
             } else {
+                position.y -= Constants.GIGAGAL_HEIGHT * 3;
                 bobNadir = position.x;
-                direction = Direction.DOWN;
+                direction = Direction.UP;
                 animation = animations.get(2);
             }
             converted = false;
