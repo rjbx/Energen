@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -93,8 +94,8 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             if (position.y < startingPosition.y - range / 2) {
                 position.y = startingPosition.y - range / 2;
                 updateDirection(Direction.UP);
-            } else if (position.y > startingPosition.y + range / 2) {
-                position.y = startingPosition.y + range / 2;
+            } else if (position.y > startingPosition.y + range) {
+                position.y = startingPosition.y + range;
                 updateDirection(Direction.DOWN);
             }
             float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
