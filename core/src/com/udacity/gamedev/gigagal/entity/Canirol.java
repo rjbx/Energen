@@ -34,15 +34,13 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
     public Canirol(Vector2 position, Enums.Orientation orientation, Enums.Direction direction, Enums.ShotIntensity intensity, float range, boolean active) {
         this.position = position;
         center = new Vector2();
-        this.direction = direction;
         converted = false;
         velocity = new Vector2();
         startPosition = new Vector2(position);
         startTime = TimeUtils.nanoTime();
         this.range = range;
         speed = Math.min(80, range * .8f);
-        setOrientation(orientation);
-        updateDirection(direction);
+        updateOrientation(orientation);
         this.intensity = intensity;
         canDispatch = false;
         this.active = active;
@@ -84,19 +82,19 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
     @Override public final float getRight() { return position.x + center.x; }
     @Override public final float getTop() { return position.y + center.y; }
     @Override public final float getBottom() { return position.y - center.y; }
-    @Override public Enums.Direction getDirectionX() { return direction; }
-    @Override public void setDirectionX(Enums.Direction direction) { this.direction = direction; }
-    public void setDirection(Enums.Direction direction) { this.direction = direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
+    @Override public Enums.Direction getDirectionX() { return direction; }
+    @Override public void setDirectionX(Enums.Direction direction) { updateDirection(direction); }
+    public void setDirection(Enums.Direction direction) { updateDirection(direction); }
     @Override public final boolean isDense() { return true; }
-    @Override public void convert() { converted = !converted; position.add(-center.x, -center.y); setOrientation(Helpers.getOppositeOrientation(orientation)); position.add(center.x, center.y); startTime = 0; }
+    @Override public void convert() { converted = !converted; position.add(-center.x, -center.y); updateOrientation(Helpers.getOppositeOrientation(orientation)); position.add(center.x, center.y); startTime = TimeUtils.nanoTime(); }
     @Override public boolean isConverted() { return converted; }
     public final void setRange(float range) { this.range = range; }
     public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
     @Override public final boolean getDispatchStatus() { return canDispatch; }
     @Override public final Enums.ShotIntensity getIntensity() { return intensity; }
-    private void setOrientation(Enums.Orientation orientation) {
+    private void updateOrientation(Enums.Orientation orientation) {
         this.orientation = orientation;
         switch (orientation) {
             case Y:
@@ -108,21 +106,21 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
                 center.set(Constants.X_CANIROL_CENTER);
                 break;
             default:
-                direction = null;
+                direction = Enums.Direction.UP;
         }
     }
     private void updateDirection(Enums.Direction direction) {
         this.direction = direction;
         switch (direction) {
             case LEFT:
-                animation = Assets.getInstance().getCanirolAssets().xRightCanirol;
+                animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
                 velocity.set(-speed * Gdx.graphics.getDeltaTime(), 0);
                 break;
             case RIGHT:
-                animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
+                animation = Assets.getInstance().getCanirolAssets().xRightCanirol;
                 velocity.set(speed * Gdx.graphics.getDeltaTime(), 0);
                 break;
-            default:
+            case UP:
                 animation = Assets.getInstance().getCanirolAssets().yCanirol;
                 velocity.setZero();
                 break;
