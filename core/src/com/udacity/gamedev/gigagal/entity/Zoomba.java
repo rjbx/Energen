@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -43,12 +42,6 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         this.startingPosition = new Vector2(position);
         velocity = new Vector2();
         this.type = type;
-        startTime = TimeUtils.nanoTime();
-        health = Constants.ZOOMBA_MAX_HEALTH;
-        bobOffset = MathUtils.random();
-        this.range = range;
-        this.orientation = orientation;
-        groundBounds = new Rectangle();
         switch (type) {
 //            case ORE:
 //                animation = Assets.getInstance().getZoombaAssets().oreZoomba;
@@ -69,8 +62,14 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
                 animations = Assets.getInstance().getZoombaAssets().gasAnimations;
         }
         animation = animations.get(0);
-        updateMovement(orientation);
-        updateGroundBounds(direction);
+        startTime = TimeUtils.nanoTime();
+        health = Constants.ZOOMBA_MAX_HEALTH;
+        bobOffset = MathUtils.random();
+        groundBounds = new Rectangle();
+        this.range = range;
+        this.orientation = orientation;
+        setOrientation(this.orientation);
+        setDirection(this.direction);
     }
 
     public void update(float delta) {
@@ -105,13 +104,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
             velocity.x = Constants.ZOOMBA_CENTER.x + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier + bobNadir - position.x;
         }
-
-        if (converted) {
-            position.sub(Constants.ZOOMBA_BOB_AMPLITUDE, Constants.GIGAGAL_HEIGHT * 3);
-            updateMovement(orientation);
-            converted = false;
-        }
-        updateGroundBounds(direction);
+        setDirection(direction);
     }
 
     @Override
@@ -140,7 +133,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     @Override public void setDirectionX(Enums.Direction direction) { this.direction = direction; }
     @Override public void setDirectionY(Enums.Direction direction) { this.direction = direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
-    @Override public void convert() { this.orientation = Helpers.getOppositeOrientation(orientation); this.converted = true; }
+    @Override public void convert() { setOrientation(orientation); this.converted = !converted; }
     @Override public boolean isConverted() { return converted; }
     @Override public final boolean isDense() { return true; }
     public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
@@ -148,7 +141,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     public Direction getDirection() { return direction; }
     public final long getStartTime() { return startTime; }
     public Rectangle getGroundBounds() { return groundBounds; }
-    private void updateGroundBounds(Direction direction) {
+    private void setDirection(Direction direction) {
         switch (this.direction) {
             case LEFT:
                 groundBounds.set(getLeft(), getBottom() , getWidth() / 2, getHeight());
@@ -167,7 +160,9 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
                 break;
         }
     }
-    private void updateMovement(Enums.Orientation orientation) {
+    private void setOrientation(Enums.Orientation orientation) {
+        this.orientation = orientation;
+        position.sub(Constants.ZOOMBA_BOB_AMPLITUDE, Constants.GIGAGAL_HEIGHT * 3);
         if (orientation == Enums.Orientation.X) {
             bobNadir = position.y;
             direction = Direction.RIGHT;
