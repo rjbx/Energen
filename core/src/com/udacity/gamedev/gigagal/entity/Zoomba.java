@@ -14,6 +14,8 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
+import sun.misc.ThreadGroupUtils;
+
 // mutable
 public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable, Rappelable, Convertible {
 
@@ -79,12 +81,10 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
 
             if (position.x < startingPosition.x - (range / 2)) {
                 position.x = startingPosition.x - (range / 2);
-                direction = Direction.RIGHT;
-                animation = animations.get(1);
+                setDirection(Direction.RIGHT);
             } else if (position.x > startingPosition.x + (range / 2)) {
                 position.x = startingPosition.x + (range / 2);
-                direction = Direction.LEFT;
-                animation = animations.get(0);
+                setDirection(Direction.LEFT);
             }
             float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
             velocity.y = Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier + bobNadir - position.y;
@@ -94,12 +94,10 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
 
             if (position.y < startingPosition.y - range / 2) {
                 position.y = startingPosition.y - range / 2;
-                direction = Direction.UP;
-                animation = animations.get(3);
+                setDirection(Direction.UP);
             } else if (position.y > startingPosition.y + range / 2) {
                 position.y = startingPosition.y + range / 2;
-                direction = Direction.DOWN;
-                animation = animations.get(2);
+                setDirection(Direction.DOWN);
             }
             float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
             velocity.x = Constants.ZOOMBA_CENTER.x + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier + bobNadir - position.x;
@@ -133,7 +131,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     @Override public void setDirectionX(Enums.Direction direction) { this.direction = direction; }
     @Override public void setDirectionY(Enums.Direction direction) { this.direction = direction; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
-    @Override public void convert() { setOrientation(orientation); this.converted = !converted; }
+    @Override public void convert() { setOrientation(Helpers.getOppositeOrientation(orientation)); this.converted = true; }
     @Override public boolean isConverted() { return converted; }
     @Override public final boolean isDense() { return true; }
     public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
@@ -142,9 +140,11 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     public final long getStartTime() { return startTime; }
     public Rectangle getGroundBounds() { return groundBounds; }
     private void setDirection(Direction direction) {
+        this.direction = direction;
         switch (this.direction) {
             case LEFT:
                 groundBounds.set(getLeft(), getBottom() , getWidth() / 2, getHeight());
+                animation = animations.get(0);
                 break;
             case RIGHT:
                 groundBounds.set(position.x, getRight(), getWidth() / 2, getHeight());
@@ -162,7 +162,6 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     }
     private void setOrientation(Enums.Orientation orientation) {
         this.orientation = orientation;
-        position.sub(Constants.ZOOMBA_BOB_AMPLITUDE, Constants.GIGAGAL_HEIGHT * 3);
         if (orientation == Enums.Orientation.X) {
             bobNadir = position.y;
             direction = Direction.RIGHT;
@@ -172,5 +171,6 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             direction = Direction.UP;
             animation = animations.get(2);
         }
+        position.sub(Constants.ZOOMBA_BOB_AMPLITUDE, Constants.ZOOMBA_CENTER.y * 2);
     }
 }

@@ -144,7 +144,7 @@ final class LevelLoader {
     }
 
     private static final Enums.Orientation extractOrientation(JSONObject object) {
-        Enums.Orientation orientation = Enums.Orientation.Z;
+        Enums.Orientation orientation = Enums.Orientation.X;
         try {
             if (object.containsKey(Constants.LEVEL_IDENTIFIER_KEY)) {
                 String identifierVar = (String) object.get(Constants.LEVEL_IDENTIFIER_KEY);
