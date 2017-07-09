@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
+import static com.udacity.gamedev.gigagal.util.Enums.Action.STANDING;
+
 // mutable
 public class GigaGal extends Entity implements Humanoid {
 
@@ -78,6 +80,7 @@ public class GigaGal extends Entity implements Humanoid {
     private long standStartTime;
     private long lookStartTime;
     private long fallStartTime;
+    private long jumpStartTime;
     private long dashStartTime;
     private long hoverStartTime;
     private long rappelStartTime;
@@ -186,6 +189,7 @@ public class GigaGal extends Entity implements Humanoid {
         chargeStartTime = 0;
         strideStartTime = 0;
         climbStartTime = 0;
+        jumpStartTime = 0;
         fallStartTime = 0;
         dashStartTime = 0;
         turboDuration = 0;
@@ -208,7 +212,7 @@ public class GigaGal extends Entity implements Humanoid {
         // abilities
         if (groundState == GroundState.PLANTED) {
             velocity.y = 0;
-            if (action == Action.STANDING) {
+            if (action == STANDING) {
                 stand();
                 enableStride();
                 enableDash();
@@ -305,7 +309,7 @@ public class GigaGal extends Entity implements Humanoid {
                     } else {
                         if (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense()))) {
                             touchedGround = ground;
-                            if (action == Action.STANDING) { // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
+                            if (action == STANDING) { // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
                                 setAtopGround(ground);
                             }
                         }
@@ -498,7 +502,7 @@ public class GigaGal extends Entity implements Humanoid {
         if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
             stand(); // in each frame all grounds save for skateable rely upon this call to switch action from airborne
             lookStartTime = 0;
-        } else if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+        } else if (canClimb && !inputControls.jumpButtonPressed && action == STANDING) {
             canJump = true;
             jump();
         } else if (action == Action.CLIMBING && !(ground instanceof Climbable)) {
@@ -533,7 +537,7 @@ public class GigaGal extends Entity implements Humanoid {
                 canRappel = false;
                 touchedGround = null; // after handling touchedground conditions above
             }
-        } else if (action == Action.STANDING || action == Action.STRIDING || action == Action.CLIMBING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
+        } else if (action == STANDING || action == Action.STRIDING || action == Action.CLIMBING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
             fall();
         }
     }
@@ -547,7 +551,7 @@ public class GigaGal extends Entity implements Humanoid {
                 if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
                     if (Helpers.overlapsPhysicalObject(this, hazard)) {
                         touchHazard(hazard);
-                    } else if (action == Action.STANDING
+                    } else if (action == STANDING
                             && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
                             && Helpers.absoluteToDirectionalValue(position.x - bounds.x, directionX, Orientation.X) > 0) {
                         canPeer = true;
@@ -567,6 +571,7 @@ public class GigaGal extends Entity implements Humanoid {
                 if (bounds.overlaps(zoomba.getHazardBounds())) {
                     touchedHazard = hazard;
                     recoil(hazard.getKnockback(), hazard);
+                    touchGround((Groundable) hazard);
                 } else {
                     touchGround(zoomba);
                 }
@@ -652,6 +657,7 @@ public class GigaGal extends Entity implements Humanoid {
             } else if (!left && right) {
                 directionChanged = Helpers.changeDirection(this, Direction.RIGHT, Orientation.X);
             }
+            jumpStartTime = 0;
         }
         if (groundState != GroundState.AIRBORNE && action != Action.CLIMBING) {
             if (lookStartTime == 0) {
@@ -730,7 +736,8 @@ public class GigaGal extends Entity implements Humanoid {
                 }
                 look(); // also sets chase cam
             }
-        } else if (action == Action.STANDING || action == Action.CLIMBING) { // if neither up nor down pressed (and either standing or climbing)
+            jumpStartTime = 0;
+        } else if (action == STANDING || action == Action.CLIMBING) { // if neither up nor down pressed (and either standing or climbing)
             resetChaseCamPosition();
         } else { // if neither standing nor climbing and not inputting y
             chaseCamPosition.set(position, 0);
@@ -799,7 +806,7 @@ public class GigaGal extends Entity implements Humanoid {
             velocity.x = 0;
         }
         fallStartTime = 0;
-        action = Action.STANDING;
+        action = STANDING;
         groundState = GroundState.PLANTED;
 
         if (!canClimb) {
@@ -928,7 +935,7 @@ public class GigaGal extends Entity implements Humanoid {
         if (lookStartTime == 0) {
             lookStartTime = TimeUtils.nanoTime();
             chaseCamPosition.set(position, 0);
-        } else if (action == Action.STANDING || action == Action.CLIMBING) {
+        } else if (action == STANDING || action == Action.CLIMBING) {
             setChaseCamPosition(offset);
         }
     }
@@ -1008,6 +1015,10 @@ public class GigaGal extends Entity implements Humanoid {
             if ((inputControls.jumpButtonJustPressed && action != Action.JUMPING)
                     && lookStartTime == 0) {
                 jump();
+            } else if (!(inputControls.jumpButtonPressed) && action == STANDING) {
+                if (jumpStartTime != 0 && Helpers.secondsSince(jumpStartTime) > 2.5f) {
+                    jump();
+                }
             }
         }
     }
@@ -1019,12 +1030,18 @@ public class GigaGal extends Entity implements Humanoid {
             }
             action = Action.JUMPING;
             groundState = GroundState.AIRBORNE;
+            if (jumpStartTime == 0) {
+                jumpStartTime = TimeUtils.nanoTime();
+            }
             canJump = false;
         }
         velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
         velocity.y = Constants.JUMP_SPEED;
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
-        if (touchedGround instanceof Reboundable) {
+        if (jumpStartTime != 0 && Helpers.secondsSince(jumpStartTime) > 2.5f) {
+            velocity.y *= 1.35f;
+            jumpStartTime = 0;
+        } else if (touchedGround instanceof Reboundable) {
             velocity.y *= 2;
         } else {
             fall(); // causes fall texture to render for one frame
@@ -1223,7 +1240,7 @@ public class GigaGal extends Entity implements Humanoid {
                 }
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
-            } else if (action == Action.STANDING) {
+            } else if (action == STANDING) {
                 if ((!(Helpers.secondsSince(standStartTime) < 1) &&
                       ((Helpers.secondsSince(standStartTime) % 10 < .15f)
                     || (Helpers.secondsSince(standStartTime) % 14 < .1f)
@@ -1271,7 +1288,7 @@ public class GigaGal extends Entity implements Humanoid {
                 }
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
-            } else if (action == Action.STANDING) {
+            } else if (action == STANDING) {
                 if ((!(Helpers.secondsSince(standStartTime) < 1) &&
                   ((Helpers.secondsSince(standStartTime) % 20 < .15f)
                 || (Helpers.secondsSince(standStartTime) % 34 < .1f)
