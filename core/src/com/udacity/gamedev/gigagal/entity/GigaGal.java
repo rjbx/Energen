@@ -1073,6 +1073,7 @@ public class GigaGal extends Entity implements Humanoid {
         if (action != Action.HOVERING) {
             canClimb = false;
             canCling = false;
+            jumpStartTime = 0;
             startTurbo = turbo;
             turboDuration = Constants.MAX_HOVER_DURATION * (startTurbo / Constants.MAX_TURBO);
             action = Action.HOVERING; // indicates currently hovering
