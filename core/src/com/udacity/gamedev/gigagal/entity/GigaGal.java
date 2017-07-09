@@ -314,9 +314,6 @@ public class GigaGal extends Entity implements Humanoid {
                     canHover = false;
                     lookStartTime = 0;
                     lookTimeSeconds = 0;
-                    if (ground instanceof Hazardous) {
-                        touchHazard((Hazardous) ground);
-                    }
                 } else {
                     canCling = false;
                     if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
@@ -464,10 +461,7 @@ public class GigaGal extends Entity implements Humanoid {
                     canClimb = false;
                     canCling = false;
                 } else if (ground instanceof Hazardous) {
-                    canHover = false;
-                    Random xKnockback = new Random();
-                    velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
-                    recoil(velocity, (Hazardous) ground);
+                    touchHazard((Hazardous) ground);
                 } else if (ground instanceof Destructible) {
                     if (((Box) ground).getHealth() < 1) {
                         fall();
@@ -574,6 +568,9 @@ public class GigaGal extends Entity implements Humanoid {
                     touchedHazard = hazard;
                     recoil(hazard.getKnockback(), hazard);
                 }
+            } else {
+                touchedHazard = hazard;
+                recoil(hazard.getKnockback(), hazard);
             }
         } else {
             touchedHazard = hazard;
@@ -845,7 +842,6 @@ public class GigaGal extends Entity implements Humanoid {
     // disables all else by virtue of neithe
     // r top level update conditions being satisfied due to state
     private void recoil(Vector2 velocity, Hazardous hazard) {
-        int damage = hazard.getDamage();
         float margin = 0;
         if (hazard instanceof Destructible) {
             margin = hazard.getWidth() / 6;
@@ -854,6 +850,8 @@ public class GigaGal extends Entity implements Humanoid {
             this.velocity.x = velocity.x;
         } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
             this.velocity.x = -velocity.x;
+        } else {
+            this.velocity.x = Helpers.absoluteToDirectionalValue(velocity.x, directionX, Orientation.X);
         }
         this.velocity.y = velocity.y;
         Assets.getInstance().getSoundAssets().damage.play();
