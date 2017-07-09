@@ -1038,11 +1038,12 @@ public class GigaGal extends Entity implements Humanoid {
         velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
         velocity.y = Constants.JUMP_SPEED;
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
-        if (jumpStartTime != 0 && Helpers.secondsSince(jumpStartTime) > 1.75f) {
+        if (touchedGround instanceof Reboundable) {
+            velocity.y *= 2;
+            jumpStartTime = 0;
+        } else if (jumpStartTime != 0 && Helpers.secondsSince(jumpStartTime) > 1.75f) {
             velocity.y *= 1.35f;
             jumpStartTime = 0;
-        } else if (touchedGround instanceof Reboundable) {
-            velocity.y *= 2;
         } else {
             fall(); // causes fall texture to render for one frame
         }
