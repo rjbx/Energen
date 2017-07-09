@@ -1012,11 +1012,13 @@ public class GigaGal extends Entity implements Humanoid {
 
     private void enableJump() {
         if (canJump) {
-            if ((jumpStartTime != 0 && Helpers.secondsSince(jumpStartTime) > 2 && !inputControls.jumpButtonPressed && action == STANDING)
+            if ((jumpStartTime != 0 && Helpers.secondsSince(jumpStartTime) > 1.75f && !inputControls.jumpButtonPressed && action == STANDING)
                     || ((inputControls.jumpButtonJustPressed && action != Action.JUMPING) && lookStartTime == 0)) {
                 jump();
             } else if (!inputControls.jumpButtonPressed) {
                 jumpStartTime = 0;
+            } else if (action == STANDING) {
+                turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
             }
         }
     }
@@ -1028,7 +1030,7 @@ public class GigaGal extends Entity implements Humanoid {
             }
             action = Action.JUMPING;
             groundState = GroundState.AIRBORNE;
-            if (jumpStartTime <= 2) {
+            if (jumpStartTime <= 1.75f) {
                 jumpStartTime = TimeUtils.nanoTime();
             }
             canJump = false;
@@ -1036,7 +1038,7 @@ public class GigaGal extends Entity implements Humanoid {
         velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
         velocity.y = Constants.JUMP_SPEED;
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
-        if (jumpStartTime != 0 && Helpers.secondsSince(jumpStartTime) > 2) {
+        if (jumpStartTime != 0 && Helpers.secondsSince(jumpStartTime) > 1.75f) {
             velocity.y *= 1.35f;
             jumpStartTime = 0;
         } else if (touchedGround instanceof Reboundable) {
