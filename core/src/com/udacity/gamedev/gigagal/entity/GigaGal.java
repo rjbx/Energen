@@ -333,8 +333,11 @@ public class GigaGal extends Entity implements Humanoid {
                 canRappel = false; // disables rappel
                 canHover = false; // disables hover
             }
-            if (ground instanceof Hazardous) {
+            if (ground instanceof Ground && ground instanceof Hazardous) {
                 touchHazard((Hazardous) ground);
+            }
+            if (ground instanceof Replenishing) {
+                touchPowerup((Replenishing) ground);
             }
         }
     }
@@ -452,7 +455,8 @@ public class GigaGal extends Entity implements Humanoid {
                     } else if (canClimb) {
                         canCling = false;
                     }
-                } else if (ground instanceof Moving) {
+                }
+                if (ground instanceof Moving) {
                     lookStartTime = 0;
                     Moving moving = (Moving) ground;
                     position.x += moving.getVelocity().x;
@@ -461,16 +465,15 @@ public class GigaGal extends Entity implements Humanoid {
                     } else if (moving instanceof Zoomba && ((Zoomba) moving).getOrientation() == Orientation.X) {
                         position.y += moving.getVelocity().y;
                     }
-                } else if (ground instanceof Reboundable) {
+                }
+                if (ground instanceof Reboundable) {
                     canClimb = false;
                     canCling = false;
-                } else if (ground instanceof Destructible) {
-                    if (((Box) ground).getHealth() < 1) {
+                }
+                if (ground instanceof Destructible) {
+                    if (((Destructible) ground).getHealth() < 1) {
                         fall();
                     }
-                }
-                if (ground instanceof Replenishing) {
-                    touchPowerup((Replenishing) ground);
                 }
             }
         } else {
@@ -557,7 +560,6 @@ public class GigaGal extends Entity implements Humanoid {
             if (hazard instanceof Zoomba) {
                 Zoomba zoomba = (Zoomba) hazard;
                 if (bounds.overlaps(zoomba.getHazardBounds())) {
-                    touchGround(zoomba);
                     touchedHazard = hazard;
                     recoil(hazard.getKnockback(), hazard);
                 } else {
