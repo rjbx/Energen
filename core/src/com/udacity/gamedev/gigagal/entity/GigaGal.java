@@ -1100,10 +1100,12 @@ public class GigaGal extends Entity implements Humanoid {
             canJump = true;
             canRappel = false;
         }
-        if (directionX == Direction.LEFT) {
-            position.x = touchedGround.getLeft() - getHalfWidth();
-        } else {
-            position.x = touchedGround.getRight() + getHalfWidth();
+        if (touchedGround != null) {
+            if (directionX == Direction.LEFT) {
+                position.x = touchedGround.getLeft() - getHalfWidth();
+            } else {
+                position.x = touchedGround.getRight() + getHalfWidth();
+            }
         }
         float rappelTimeSeconds = Helpers.secondsSince(rappelStartTime);
         if (!inputControls.jumpButtonPressed) {

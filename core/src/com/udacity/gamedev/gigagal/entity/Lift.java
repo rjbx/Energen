@@ -38,10 +38,10 @@ public class Lift extends Ground implements Dynamic, Convertible {
             case Y:
                 switch (direction) {
                     case UP:
-                        velocity.set(0, Constants.LIFT_SPEED * Gdx.graphics.getDeltaTime());
+                        velocity.set(0, Constants.LIFT_SPEED * delta);
                         break;
                     case DOWN:
-                        velocity.set(0, -Constants.LIFT_SPEED * Gdx.graphics.getDeltaTime());
+                        velocity.set(0, -Constants.LIFT_SPEED * delta);
                         break;
                 }
                 position.add(velocity);
@@ -56,10 +56,10 @@ public class Lift extends Ground implements Dynamic, Convertible {
             case X:
                 switch (direction) {
                     case RIGHT:
-                        velocity.set(Constants.LIFT_SPEED * Gdx.graphics.getDeltaTime(), 0);
+                        velocity.set(Constants.LIFT_SPEED * delta, 0);
                         break;
                     case LEFT:
-                        velocity.set(-Constants.LIFT_SPEED * Gdx.graphics.getDeltaTime(), 0);
+                        velocity.set(-Constants.LIFT_SPEED * delta, 0);
                         break;
                 }
                 position.add(velocity);
