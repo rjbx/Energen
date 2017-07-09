@@ -1017,7 +1017,7 @@ public class GigaGal extends Entity implements Humanoid {
                 jump();
             } else if (!inputControls.jumpButtonPressed) {
                 jumpStartTime = 0;
-            } else if (action == STANDING) {
+            } else if (jumpStartTime != 0 && action == STANDING) {
                 turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
             }
         }
