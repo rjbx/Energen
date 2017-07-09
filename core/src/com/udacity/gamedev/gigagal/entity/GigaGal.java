@@ -954,12 +954,9 @@ public class GigaGal extends Entity implements Humanoid {
             strideStartTime = TimeUtils.nanoTime();
         }
         strideTimeSeconds = Helpers.secondsSince(strideStartTime);
-        strideMultiplier = 1.5f;
-        strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
-        velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Orientation.X);
-        if (strideTimeSeconds > 1.8f && strideMultiplier > 1) {
-            velocity.x *= strideMultiplier;
-        }
+        strideAcceleration = strideTimeSeconds * .75f + Constants.GIGAGAL_STARTING_SPEED ;
+        strideMultiplier = 1.35f;
+        velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * strideMultiplier), directionX, Orientation.X);
         if (touchedGround instanceof Propelling) {
             velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getRotationDirection(), Orientation.X);
         } else if (touchedGround instanceof Skateable) {
