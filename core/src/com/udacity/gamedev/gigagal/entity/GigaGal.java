@@ -854,7 +854,7 @@ public class GigaGal extends Entity implements Humanoid {
             this.velocity.x = Helpers.absoluteToDirectionalValue(velocity.x, directionX, Orientation.X);
         }
         this.velocity.y = velocity.y;
-        Assets.getInstance().getSoundAssets().damage.play();
+        Assets.getInstance().getSoundAssets().damage.play(); 
         health -= hazard.getDamage() * healthMultiplier;
         action = Action.RECOILING;
         groundState = GroundState.AIRBORNE;
