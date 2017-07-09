@@ -139,7 +139,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     public Rectangle getHazardBounds() { return hazardBounds; }
     private void updateOrientation(Enums.Orientation orientation) {
         this.orientation = orientation;
-        position.sub(Constants.ZOOMBA_BOB_AMPLITUDE / 2, Constants.ZOOMBA_CENTER.y * 2);
+        position.sub(Constants.ZOOMBA_BOB_AMPLITUDE / 2, Constants.ZOOMBA_CENTER.y * 3);
         if (orientation == Enums.Orientation.X) {
             bobNadir = position.y;
             direction = Direction.RIGHT;
