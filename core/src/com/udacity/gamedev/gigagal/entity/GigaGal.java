@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -559,11 +558,11 @@ public class GigaGal extends Entity implements Humanoid {
         if (hazard instanceof Groundable) {
             if (hazard instanceof Zoomba) {
                 Zoomba zoomba = (Zoomba) hazard;
-                if (bounds.overlaps(zoomba.getGroundBounds())) {
-                    touchGround(zoomba);
-                } else {
+                if (bounds.overlaps(zoomba.getHazardBounds())) {
                     touchedHazard = hazard;
                     recoil(hazard.getKnockback(), hazard);
+                } else {
+                    touchGround(zoomba);
                 }
             } else if (hazard instanceof Swoopa) {
                 if (getBottom() >= hazard.getPosition().y && Helpers.betweenTwoValues(position.x, hazard.getPosition().x - Constants.SWOOPA_SHOT_RADIUS, hazard.getPosition().x + Constants.SWOOPA_SHOT_RADIUS)) {

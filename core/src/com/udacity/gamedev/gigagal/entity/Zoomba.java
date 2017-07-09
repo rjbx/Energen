@@ -27,7 +27,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     private float range;
     private Vector2 position;
     private final Vector2 startingPosition;
-    private Rectangle groundBounds;
+    private Rectangle hazardBounds;
     private Vector2 velocity;
     private float health;
     private Direction direction;
@@ -65,7 +65,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         startTime = TimeUtils.nanoTime();
         health = Constants.ZOOMBA_MAX_HEALTH;
         bobOffset = MathUtils.random();
-        groundBounds = new Rectangle();
+        hazardBounds = new Rectangle();
         this.range = range;
         this.orientation = orientation;
         updateOrientation(this.orientation);
@@ -136,7 +136,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     public Vector2 getMountKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     public Direction getDirection() { return direction; }
     public final long getStartTime() { return startTime; }
-    public Rectangle getGroundBounds() { return groundBounds; }
+    public Rectangle getHazardBounds() { return hazardBounds; }
     private void updateOrientation(Enums.Orientation orientation) {
         this.orientation = orientation;
         position.sub(Constants.ZOOMBA_BOB_AMPLITUDE / 2, Constants.ZOOMBA_CENTER.y * 2);
@@ -154,19 +154,19 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         this.direction = direction;
         switch (this.direction) {
             case LEFT:
-                groundBounds.set(getLeft(), getBottom() , getWidth() / 2, getHeight());
+                hazardBounds.set(position.x, getRight(), getWidth() / 2, getHeight());
                 animation = animations.get(0);
                 break;
             case RIGHT:
-                groundBounds.set(position.x, getRight(), getWidth() / 2, getHeight());
+                hazardBounds.set(getLeft(), getBottom() , getWidth() / 2, getHeight());
                 animation = animations.get(1);
                 break;
             case DOWN:
-                groundBounds.set(getLeft(), getBottom(), getWidth(), getHeight() / 2);
+                hazardBounds.set(getLeft(), position.y, getWidth(), getHeight() / 2);
                 animation = animations.get(2);
                 break;
             case UP:
-                groundBounds.set(getLeft(), position.y, getWidth(), getHeight() / 2);
+                hazardBounds.set(getLeft(), getBottom(), getWidth(), getHeight() / 2);
                 animation = animations.get(3);
                 break;
         }
