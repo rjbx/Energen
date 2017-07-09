@@ -280,6 +280,7 @@ public class LevelUpdater {
                         && !trip.maxAdjustmentsReached()
                         && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
                         && !(trip.getBounds().overlaps(new Rectangle(chaseCam.camera.position.x - viewport.getWorldWidth() / 4, chaseCam.camera.position.y - viewport.getWorldHeight() / 4, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
+
                     chaseCam.setState(Enums.ChaseCamState.CONVERT);
                     chaseCam.setConvertBounds(trip.getBounds());
                     trip.addCamAdjustment();

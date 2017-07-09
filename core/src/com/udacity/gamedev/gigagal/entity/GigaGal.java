@@ -839,8 +839,7 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
-    // disables all else by virtue of neithe
-    // r top level update conditions being satisfied due to state
+    // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoil(Vector2 velocity, Hazardous hazard) {
         float margin = 0;
         if (hazard instanceof Destructible) {
@@ -854,7 +853,7 @@ public class GigaGal extends Entity implements Humanoid {
             this.velocity.x = Helpers.absoluteToDirectionalValue(velocity.x, directionX, Orientation.X);
         }
         this.velocity.y = velocity.y;
-        Assets.getInstance().getSoundAssets().damage.play(); 
+        Assets.getInstance().getSoundAssets().damage.play();
         health -= hazard.getDamage() * healthMultiplier;
         action = Action.RECOILING;
         groundState = GroundState.AIRBORNE;
