@@ -561,9 +561,9 @@ public class GigaGal extends Entity implements Humanoid {
             if (hazard instanceof Zoomba) {
                 Zoomba zoomba = (Zoomba) hazard;
                 if (bounds.overlaps(zoomba.getHazardBounds())) {
+                    touchGround(zoomba);
                     touchedHazard = hazard;
                     recoil(hazard.getKnockback(), hazard);
-                    touchGround(zoomba);
                 } else {
                     touchGround(zoomba);
                 }
