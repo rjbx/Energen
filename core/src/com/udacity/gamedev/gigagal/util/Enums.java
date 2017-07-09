@@ -95,7 +95,10 @@ public final class Enums {
         AMMO,
         HEALTH,
         TURBO,
-        CANNON
+        CANNON,
+        JUMP, // charge jump for increased y velocity (uses all turbo)
+        STRIDE, // hold directional longer for additional x velocity boost
+        HOVER // press jump and up simultaneously to hurdle out of hover (uses all turbo)
     }
 
     public enum LevelMenu {
