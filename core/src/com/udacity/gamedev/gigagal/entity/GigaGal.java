@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -332,6 +333,9 @@ public class GigaGal extends Entity implements Humanoid {
                 canRappel = false; // disables rappel
                 canHover = false; // disables hover
             }
+            if (ground instanceof Hazardous) {
+                touchHazard((Hazardous) ground);
+            }
         }
     }
 
@@ -460,8 +464,6 @@ public class GigaGal extends Entity implements Humanoid {
                 } else if (ground instanceof Reboundable) {
                     canClimb = false;
                     canCling = false;
-                } else if (ground instanceof Hazardous) {
-                    touchHazard((Hazardous) ground);
                 } else if (ground instanceof Destructible) {
                     if (((Box) ground).getHealth() < 1) {
                         fall();
