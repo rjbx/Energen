@@ -1119,6 +1119,7 @@ public class GigaGal extends Entity implements Humanoid {
         } else {
             lookStartTime = 0;
             if (action == Action.RAPPELLING && touchedGround instanceof Moving) {
+                velocity.x += ((Moving) touchedGround).getVelocity().x;
                 position.y = touchedGround.getPosition().y;
             }
             if (inputControls.downButtonPressed) {
