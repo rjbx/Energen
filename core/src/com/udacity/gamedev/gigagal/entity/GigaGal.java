@@ -457,6 +457,8 @@ public class GigaGal extends Entity implements Humanoid {
                     position.x += moving.getVelocity().x;
                     if (moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.DOWN) {
                         position.y -= 1;
+                    } else if (moving instanceof Zoomba && ((Zoomba) moving).getOrientation() == Orientation.X) {
+                        position.y += moving.getVelocity().y;
                     }
                 } else if (ground instanceof Reboundable) {
                     canClimb = false;
@@ -561,6 +563,7 @@ public class GigaGal extends Entity implements Humanoid {
                 if (bounds.overlaps(zoomba.getHazardBounds())) {
                     touchedHazard = hazard;
                     recoil(hazard.getKnockback(), hazard);
+                    touchGround(zoomba);
                 } else {
                     touchGround(zoomba);
                 }
