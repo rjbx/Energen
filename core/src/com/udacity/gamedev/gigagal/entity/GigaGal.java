@@ -59,6 +59,7 @@ public class GigaGal extends Entity implements Humanoid {
     private Material weapon;
     private List<Material> weaponList; // class-level instantiation
     private ListIterator<Material> weaponToggler; // class-level instantiation
+    private List<Upgrade> upgradeList;
     private boolean canShoot;
     private boolean canDispatch;
     private boolean canLook;
@@ -94,6 +95,7 @@ public class GigaGal extends Entity implements Humanoid {
     private float turboMultiplier;
     private float ammoMultiplier;
     private float healthMultiplier;
+    private float strideMultiplier;
     private float chargeModifier;
     private float startTurbo;
     private float turbo;
@@ -119,6 +121,7 @@ public class GigaGal extends Entity implements Humanoid {
         velocity = new Vector2();
         weaponList = new ArrayList<Material>();
         weaponToggler = weaponList.listIterator();
+        upgradeList = new ArrayList<Upgrade>();
         height = Constants.GIGAGAL_HEIGHT;
         eyeHeight = Constants.GIGAGAL_EYE_HEIGHT;
         headRadius = Constants.GIGAGAL_HEAD_RADIUS;
@@ -130,6 +133,7 @@ public class GigaGal extends Entity implements Humanoid {
         turboMultiplier = SaveData.getTurboMultiplier();
         ammoMultiplier = SaveData.getAmmoMultiplier();
         healthMultiplier = SaveData.getHealthMultiplier();
+        strideMultiplier = 1;
         chargeModifier = 0;
         String savedWeapons = SaveData.getWeapons();
         if (!savedWeapons.equals(Material.NATIVE.name())) {
@@ -257,6 +261,7 @@ public class GigaGal extends Entity implements Humanoid {
         turboMultiplier = SaveData.getTurboMultiplier();
         ammoMultiplier = SaveData.getAmmoMultiplier();
         healthMultiplier = SaveData.getHealthMultiplier();
+        strideMultiplier = 1;
     }
 
     private void setBounds() {
@@ -949,8 +954,12 @@ public class GigaGal extends Entity implements Humanoid {
             strideStartTime = TimeUtils.nanoTime();
         }
         strideTimeSeconds = Helpers.secondsSince(strideStartTime);
+        strideMultiplier = 1.5f;
         strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
         velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Orientation.X);
+        if (strideTimeSeconds > 1.8f && strideMultiplier > 1) {
+            velocity.x *= strideMultiplier;
+        }
         if (touchedGround instanceof Propelling) {
             velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getRotationDirection(), Orientation.X);
         } else if (touchedGround instanceof Skateable) {
