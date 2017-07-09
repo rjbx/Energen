@@ -176,7 +176,7 @@ public final class Constants {
     public static final float LIFT_SPEED = 40;
 
     // Ladder
-    public static final Vector2 LADDER_CENTER = new Vector2(8.5f, 20);
+    public static final Vector2 LADDER_CENTER = new Vector2(9.5f, 25);
     public static final String LADDER_SPRITE = "ladder";
     public static final int LADDER_X_EDGE = 4;
     public static final int LADDER_Y_EDGE = 0;
