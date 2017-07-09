@@ -286,7 +286,7 @@ public class LevelUpdater {
                     trip.addCamAdjustment();
                 }
                 for (Ground g : grounds) {
-                    if (g instanceof Convertible && g != trip) {
+                    if (g instanceof Convertible && (g != trip || g instanceof Triptread)) {
                         if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                             ((Convertible) g).convert();
                         }
