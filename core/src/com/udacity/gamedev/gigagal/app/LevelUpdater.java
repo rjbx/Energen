@@ -327,11 +327,15 @@ public class LevelUpdater {
                         }
                     }
                 } else {
-                    chargeable.charge();
+                    if (gigaGal.getShotIntensity() == Enums.ShotIntensity.BLAST) {
+                        chargeable.charge();
+                    }
                 }
             } else {
                 if (chargeable instanceof Chamber) {
                     chargeable.setState(false);
+                } else {
+                    chargeable.uncharge();
                 }
                 chargeable.setChargeTime(0);
             }

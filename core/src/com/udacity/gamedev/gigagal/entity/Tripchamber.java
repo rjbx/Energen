@@ -48,6 +48,7 @@ public class Tripchamber extends Ground implements Trippable, Convertible, Charg
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
+
         if (active) {
             if (charged) {
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripchamberOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPCHAMBER_CENTER);
