@@ -1426,6 +1426,9 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
+    public void addUpgrade(Upgrade upgrade) { upgradeList.add(upgrade); }
+    public List<Upgrade> getUpgrades() { return upgradeList; }
+
     public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); canPeer = false; } }
     public void setLevel(LevelUpdater level) { this.level = level; }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }

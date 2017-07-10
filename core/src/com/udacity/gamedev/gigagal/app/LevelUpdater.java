@@ -326,6 +326,7 @@ public class LevelUpdater {
                 Chamber chamber = (Chamber) ground;
                 if (!chamber.isActive() && chamber.isCharged()) {
                     assets.getSoundAssets().upgrade.play();
+                    gigaGal.addUpgrade(chamber.getUpgrade());
                     dispenseUpgrade(chamber.getUpgrade());
                     chamber.uncharge();
                 }

@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -21,7 +22,7 @@ public class Suspension extends Hazard implements Indestructible {
     private Vector2 center; // class-level instantiation
     private Vector2 knockback; // class-level instantiation
     private Animation animation;
-    private int rotation;
+    private final int rotation;
     private Vector2 offset;
     private int damage;
     private long startTime;
