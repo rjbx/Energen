@@ -305,34 +305,35 @@ public class LevelUpdater {
                 }
             }
         }
-        if (ground instanceof Chargeable && active) {
+        if (ground instanceof Chargeable) {
             Chargeable chargeable = (Chargeable) ground;
-            if (chargeable instanceof Tripchamber) {
-                if (gigaGal.getShotIntensity() == Enums.ShotIntensity.BLAST && !chargeable.isCharged()) {
+            if (gigaGal.getChargeTimeSeconds() != Helpers.secondsSince(0) && gigaGal.getDirectionX() == Direction.RIGHT
+                    && (int) gigaGal.getRight() + 1 == chargeable.getLeft() + 1 && gigaGal.getPosition().y - 4 == chargeable.getTop()) {
+                if (!chargeable.isActive() && chargeable instanceof Chamber) {
+                    chargeable.setState(true);
+                } else if (gigaGal.getChargeTimeSeconds() > 1) {
+                    chargeable.setChargeTime(gigaGal.getChargeTimeSeconds());
+                }
+                if (ground instanceof Chamber) {
+                    Chamber chamber = (Chamber) ground;
+
+                    if (chamber.isActive() && chamber.isCharged() && gigaGal.getShotIntensity() == Enums.ShotIntensity.NORMAL) {
+                        String savedUpgrades = SaveData.getUpgrades();
+                        Enums.Upgrade upgrade = chamber.getUpgrade();
+                        if (!savedUpgrades.contains(upgrade.name())) {
+                            assets.getSoundAssets().upgrade.play();
+                            gigaGal.addUpgrade(upgrade);
+                            SaveData.setUpgrades(upgrade.name() + ", " + savedUpgrades);
+                        }
+                    }
+                } else {
                     chargeable.charge();
                 }
             } else {
-                if (gigaGal.getChargeTimeSeconds() != Helpers.secondsSince(0) && gigaGal.getDirectionX() == Direction.RIGHT) {
-                    if (!chargeable.isActive() && chargeable instanceof Chamber) {
-                        chargeable.setState(true);
-                    } else if (gigaGal.getChargeTimeSeconds() > 1) {
-                        chargeable.setChargeTime(gigaGal.getChargeTimeSeconds());
-                    }
-                } else {
-                    chargeable.setChargeTime(0);
+                if (chargeable instanceof Chamber) {
+                    chargeable.setState(false);
                 }
-            }
-            if (ground instanceof Chamber) {
-                Chamber chamber = (Chamber) ground;
-                if (!chamber.isActive() && chamber.isCharged()) {
-                    String savedUpgrades = SaveData.getUpgrades();
-                    Enums.Upgrade upgrade = chamber.getUpgrade();
-                    if (!savedUpgrades.contains(upgrade.name())) {
-                        assets.getSoundAssets().upgrade.play();
-                        gigaGal.addUpgrade(upgrade);
-                        SaveData.setUpgrades(upgrade.name() + ", " + savedUpgrades);
-                    }
-                }
+                chargeable.setChargeTime(0);
             }
         }
         if (ground instanceof Strikeable) {

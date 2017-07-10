@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -1429,7 +1430,7 @@ public class GigaGal extends Entity implements Humanoid {
             }
         }
     }
-    public void addUpgrade(Upgrade upgrade) { upgradeList.add(upgrade); dispenseUpgrades();}
+    public void addUpgrade(Upgrade upgrade) { Gdx.app.log(TAG, upgradeList.toString()); upgradeList.add(upgrade); Gdx.app.log(TAG, upgradeList.toString()); dispenseUpgrades(); Gdx.app.log(TAG, turboMultiplier + "");}
     private void dispenseUpgrades() {
         if (upgradeList.contains(Upgrade.AMMO)) {
             ammoMultiplier = .9f;

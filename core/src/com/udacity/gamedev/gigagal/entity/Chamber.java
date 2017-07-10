@@ -30,7 +30,7 @@ public class Chamber extends Ground implements Chargeable, Strikeable {
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (active) {
-            if (chargeTimeSeconds != 0) {
+            if (chargeTimeSeconds > 1) {
                 charged = true;
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().chargedChamber.getKeyFrame(chargeTimeSeconds, true), position, Constants.CHAMBER_CENTER);
             } else {
@@ -39,6 +39,7 @@ public class Chamber extends Ground implements Chargeable, Strikeable {
         } else {
             Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().inactiveChamber, position, Constants.CHAMBER_CENTER);
             chargeTimeSeconds = 0;
+            charged = false;
         }
     }
     @Override public final Vector2 getPosition() { return position; }

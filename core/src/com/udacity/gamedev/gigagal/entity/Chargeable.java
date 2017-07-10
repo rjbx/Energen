@@ -1,6 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Chargeable {
+public interface Chargeable extends Physical {
 
     void setState(boolean state);
     void charge();
