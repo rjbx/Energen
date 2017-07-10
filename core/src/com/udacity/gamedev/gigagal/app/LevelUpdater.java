@@ -330,8 +330,7 @@ public class LevelUpdater {
                     if (!savedUpgrades.contains(upgrade.name())) {
                         assets.getSoundAssets().upgrade.play();
                         gigaGal.addUpgrade(upgrade);
-                        SaveData.setUpgrades(gigaGal.getUpgrades().toString());
-                        SaveData.setWeapons(upgrade.name() + ", " + savedUpgrades);
+                        SaveData.setUpgrades(upgrade.name() + ", " + savedUpgrades);
                     }
                 }
             }

@@ -1357,6 +1357,7 @@ public class GigaGal extends Entity implements Humanoid {
     @Override public final Material getWeapon() { return weapon; }
     private final float getHalfWidth() { return halfWidth; }
     public List<Material> getWeaponList() { return weaponList; }
+    public List<Upgrade> getUpgrades() { return upgradeList; }
     public final float getAmmo() { return ammo; }
     public int getLives() { return lives; }
     public Vector3 getChaseCamPosition() { return chaseCamPosition; }
@@ -1443,8 +1444,6 @@ public class GigaGal extends Entity implements Humanoid {
         }
         setHealth(Constants.MAX_HEALTH);
     }
-    public List<Upgrade> getUpgrades() { return upgradeList; }
-
     public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); canPeer = false; } }
     public void setLevel(LevelUpdater level) { this.level = level; }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
