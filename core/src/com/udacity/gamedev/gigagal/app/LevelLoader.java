@@ -131,9 +131,7 @@ final class LevelLoader {
         float rotation = 0;
         try {
             if (object.containsKey(Constants.LEVEL_ROTATION_KEY)) {
-                Gdx.app.log(TAG, "wf");
                 rotation = ((Number) object.get(Constants.LEVEL_ROTATION_KEY)).floatValue();
-                    Gdx.app.log(TAG, "" + rotation);
             }
         } catch (NumberFormatException ex) {
             runtimeEx = true;
@@ -426,24 +424,23 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_ORE_SPRITE_1)) {
                 final Vector2 suspensionPosition = imagePosition.add(Constants.SUSPENSION_ORE_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + suspensionPosition);
-                level.addHazard(new Suspension(suspensionPosition, Enums.Material.ORE, rotation));
+                level.addHazard(new Suspension(suspensionPosition, Enums.Material.ORE));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_PLASMA_SPRITE_1)) {
-                Gdx.app.log(TAG, "" + rotation + item.containsKey(Constants.LEVEL_ROTATION_KEY));
                 final Vector2 suspensionPosition = imagePosition.add(Constants.SUSPENSION_SOLID_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + suspensionPosition);
-                level.addHazard(new Suspension(suspensionPosition, Enums.Material.PLASMA, rotation));
+                level.addHazard(new Suspension(suspensionPosition, Enums.Material.PLASMA));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_GAS_SPRITE_1)) {
                 final Vector2 suspensionPosition = imagePosition.add(Constants.SUSPENSION_GAS_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + suspensionPosition);
-                level.addHazard(new Suspension(suspensionPosition, Enums.Material.GAS, rotation));
+                level.addHazard(new Suspension(suspensionPosition, Enums.Material.GAS));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_LIQUID_SPRITE_1)) {
                 final Vector2 suspensionPosition = imagePosition.add(Constants.SUSPENSION_LIQUID_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + suspensionPosition);
-                level.addHazard(new Suspension(suspensionPosition, Enums.Material.LIQUID, rotation));
+                level.addHazard(new Suspension(suspensionPosition, Enums.Material.LIQUID));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_SOLID_SPRITE_1)) {
                 final Vector2 suspensionPosition = imagePosition.add(Constants.SUSPENSION_SOLID_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + suspensionPosition);
-                level.addHazard(new Suspension(suspensionPosition, Enums.Material.SOLID, rotation));
+                level.addHazard(new Suspension(suspensionPosition, Enums.Material.SOLID));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANIROL_SPRITE_1)) {
                 final Vector2 canirolPosition = imagePosition.add(Constants.X_CANIROL_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + canirolPosition);

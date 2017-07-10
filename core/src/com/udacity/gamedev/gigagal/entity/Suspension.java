@@ -22,16 +22,13 @@ public class Suspension extends Hazard implements Indestructible {
     private Vector2 center; // class-level instantiation
     private Vector2 knockback; // class-level instantiation
     private Animation animation;
-    private final int rotation;
-    private Vector2 offset;
     private int damage;
     private long startTime;
 
     // ctor
-    public Suspension(Vector2 position, Enums.Material type, float rotation) {
+    public Suspension(Vector2 position, Enums.Material type) {
         this.position = position;
         this.type = type;
-        this.rotation = (int) rotation;
         startTime = TimeUtils.nanoTime();
         collisionSpan = new Vector2();
         center = new Vector2();
