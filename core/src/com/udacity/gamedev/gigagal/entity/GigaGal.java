@@ -1427,9 +1427,7 @@ public class GigaGal extends Entity implements Humanoid {
             }
         }
     }
-
     public void addUpgrade(Upgrade upgrade) { upgradeList.add(upgrade); dispenseUpgrades();}
-    
     private void dispenseUpgrades() {
         if (upgradeList.contains(Upgrade.AMMO)) {
             ammoMultiplier = .9f;
