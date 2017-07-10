@@ -28,6 +28,7 @@ public final class SaveData {
     public static float getAmmoMultiplier() { return getPreferences().getFloat("AmmoMultiplier", 1); }
     public static float getHealthMultiplier() { return getPreferences().getFloat("HealthMultiplier", 1); }
     public static String getWeapons() { return getPreferences().getString("Weapons", Enums.Material.NATIVE.name()); }
+    public static String getUpgrades() { return getPreferences().getString("Upgrades", Enums.Upgrade.NONE.name()); }
 
     protected static void toggleTouchscreen(boolean touchscreen) { getPreferences().putBoolean("Touchscreen", touchscreen); getPreferences().flush(); }
     protected static void setDifficulty(int difficulty) { getPreferences().putInteger("Difficulty", difficulty); getPreferences().flush(); }
@@ -41,4 +42,5 @@ public final class SaveData {
     protected static void setAmmoMultiplier(float multiplier)  { getPreferences().putFloat("AmmoMultiplier", multiplier); getPreferences().flush(); }
     protected static void setHealthMultiplier(float multiplier) { getPreferences().putFloat("HealthMultiplier", multiplier); getPreferences().flush(); }
     protected static void setWeapons(String weapons) { getPreferences().putString("Weapons", weapons); getPreferences().flush(); }
+    protected static void setUpgrades(String upgrades) { getPreferences().putString("Upgrades", upgrades); getPreferences().flush(); }
 }

@@ -150,6 +150,14 @@ public class GigaGal extends Entity implements Humanoid {
             addWeapon(Material.NATIVE);
             weapon = weaponToggler.previous();
         }
+
+        String savedUpgrades = SaveData.getUpgrades();
+        if (!savedUpgrades.equals(Material.NATIVE.name())) {
+            List<String> savedUpgradesList = Arrays.asList(savedUpgrades.split(", "));
+            for (String upgradeString : savedUpgradesList) {
+                addUpgrade(Upgrade.valueOf(upgradeString));
+            }
+        }
     }
 
     public void respawn() {
@@ -260,13 +268,6 @@ public class GigaGal extends Entity implements Humanoid {
                 enableShoot(weapon);
             }
         }
-    }
-
-    public void updateMultipliers() {
-        turboMultiplier = SaveData.getTurboMultiplier();
-        ammoMultiplier = SaveData.getAmmoMultiplier();
-        healthMultiplier = SaveData.getHealthMultiplier();
-        strideMultiplier = 1;
     }
 
     private void setBounds() {
@@ -1426,7 +1427,23 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
-    public void addUpgrade(Upgrade upgrade) { upgradeList.add(upgrade); }
+    public void addUpgrade(Upgrade upgrade) { upgradeList.add(upgrade); dispenseUpgrade();}
+    
+    private void dispenseUpgrade() {
+        if (upgradeList.contains(Upgrade.AMMO)) {
+            ammoMultiplier = .9f;
+        }
+        if (upgradeList.contains(Upgrade.HEALTH)) {
+            healthMultiplier = .8f;
+        }
+        if (upgradeList.contains(Upgrade.TURBO)) {
+            turboMultiplier = .7f;
+        }         
+        if (upgradeList.contains(Upgrade.STRIDE)) {
+            strideMultiplier = 1.35f;
+        }
+        setHealth(Constants.MAX_HEALTH);
+    }
     public List<Upgrade> getUpgrades() { return upgradeList; }
 
     public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); canPeer = false; } }

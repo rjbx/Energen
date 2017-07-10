@@ -325,10 +325,14 @@ public class LevelUpdater {
             if (ground instanceof Chamber) {
                 Chamber chamber = (Chamber) ground;
                 if (!chamber.isActive() && chamber.isCharged()) {
-                    assets.getSoundAssets().upgrade.play();
-                    gigaGal.addUpgrade(chamber.getUpgrade());
-                    dispenseUpgrade(chamber.getUpgrade());
-                    chamber.uncharge();
+                    String savedUpgrades = gigaGal.getUpgrades().toString();
+                    Enums.Upgrade upgrade = chamber.getUpgrade();
+                    if (!savedUpgrades.contains(upgrade.name())) {
+                        assets.getSoundAssets().upgrade.play();
+                        gigaGal.addUpgrade(upgrade);
+                        SaveData.setUpgrades(gigaGal.getUpgrades().toString());
+                        SaveData.setWeapons(upgrade.name() + ", " + savedUpgrades);
+                    }
                 }
             }
         }
@@ -480,32 +484,6 @@ public class LevelUpdater {
             }
         }
         return active;
-    }
-
-    private void dispenseUpgrade(Enums.Upgrade upgrade) {
-        switch (upgrade) {
-            case AMMO:
-                SaveData.setAmmoMultiplier(.9f);
-                gigaGal.updateMultipliers();
-                break;
-            case HEALTH:
-                SaveData.setHealthMultiplier(.8f);
-                gigaGal.updateMultipliers();
-                break;
-            case TURBO:
-                SaveData.setTurboMultiplier(.7f);
-                gigaGal.updateMultipliers();
-                break;
-            case CANNON:
-                String savedWeapons = SaveData.getWeapons();
-                if (!savedWeapons.contains(Enums.Material.HYBRID.name())) {
-                    gigaGal.addWeapon(Enums.Material.HYBRID);
-                    SaveData.setWeapons(Enums.Material.HYBRID.name() + ", " + savedWeapons);
-                }
-                break;
-            default:
-        }
-        gigaGal.setHealth(Constants.MAX_HEALTH);
     }
 
     protected void restoreRemovals(String removals) {
