@@ -98,6 +98,7 @@ public class GigaGal extends Entity implements Humanoid {
     private float ammoMultiplier;
     private float healthMultiplier;
     private float strideMultiplier;
+    private float jumpMultiplier;
     private float chargeModifier;
     private float startTurbo;
     private float turbo;
@@ -136,6 +137,7 @@ public class GigaGal extends Entity implements Humanoid {
         ammoMultiplier = 1;
         healthMultiplier = 1;
         strideMultiplier = 1;
+        jumpMultiplier = 1;
         chargeModifier = 0;
         String savedWeapons = SaveData.getWeapons();
         if (!savedWeapons.equals(Material.NATIVE.name())) {
@@ -965,7 +967,6 @@ public class GigaGal extends Entity implements Humanoid {
         }
         strideTimeSeconds = Helpers.secondsSince(strideStartTime);
         strideAcceleration = strideTimeSeconds * .75f + Constants.GIGAGAL_STARTING_SPEED ;
-        strideMultiplier = 1.35f;
         velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * strideMultiplier), directionX, Orientation.X);
         if (touchedGround instanceof Propelling) {
             velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getRotationDirection(), Orientation.X);
@@ -1020,7 +1021,7 @@ public class GigaGal extends Entity implements Humanoid {
                     turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
                 } else if (Helpers.secondsSince(jumpStartTime) > 1.75f) {
                     jump();
-                    velocity.y *= 1.35f;
+                    velocity.y *= (1.35f * jumpMultiplier);
                     jumpStartTime = 0;
                 } else {
                     jumpStartTime = 0;
@@ -1441,6 +1442,9 @@ public class GigaGal extends Entity implements Humanoid {
         }         
         if (upgradeList.contains(Upgrade.STRIDE)) {
             strideMultiplier = 1.35f;
+        }
+        if (upgradeList.contains(Upgrade.JUMP)) {
+            jumpMultiplier = 1.15f;
         }
         setHealth(Constants.MAX_HEALTH);
     }

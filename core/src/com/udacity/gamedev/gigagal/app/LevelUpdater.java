@@ -325,7 +325,7 @@ public class LevelUpdater {
             if (ground instanceof Chamber) {
                 Chamber chamber = (Chamber) ground;
                 if (!chamber.isActive() && chamber.isCharged()) {
-                    String savedUpgrades = gigaGal.getUpgrades().toString();
+                    String savedUpgrades = SaveData.getUpgrades();
                     Enums.Upgrade upgrade = chamber.getUpgrade();
                     if (!savedUpgrades.contains(upgrade.name())) {
                         assets.getSoundAssets().upgrade.play();
