@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Random;
 
 import static com.udacity.gamedev.gigagal.util.Enums.Action.JUMPING;
 import static com.udacity.gamedev.gigagal.util.Enums.Action.STANDING;
@@ -134,9 +132,9 @@ public class GigaGal extends Entity implements Humanoid {
         lives = Constants.INITIAL_LIVES;
         killPlane = -10000;
         turboDuration = 1;
-        turboMultiplier = SaveData.getTurboMultiplier();
-        ammoMultiplier = SaveData.getAmmoMultiplier();
-        healthMultiplier = SaveData.getHealthMultiplier();
+        turboMultiplier = 1;
+        ammoMultiplier = 1;
+        healthMultiplier = 1;
         strideMultiplier = 1;
         chargeModifier = 0;
         String savedWeapons = SaveData.getWeapons();
@@ -157,7 +155,10 @@ public class GigaGal extends Entity implements Humanoid {
             for (String upgradeString : savedUpgradesList) {
                 addUpgrade(Upgrade.valueOf(upgradeString));
             }
+        } else {
+            addUpgrade(Upgrade.NONE);
         }
+        dispenseUpgrades();
     }
 
     public void respawn() {
@@ -1427,9 +1428,9 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
-    public void addUpgrade(Upgrade upgrade) { upgradeList.add(upgrade); dispenseUpgrade();}
+    public void addUpgrade(Upgrade upgrade) { upgradeList.add(upgrade); dispenseUpgrades();}
     
-    private void dispenseUpgrade() {
+    private void dispenseUpgrades() {
         if (upgradeList.contains(Upgrade.AMMO)) {
             ammoMultiplier = .9f;
         }

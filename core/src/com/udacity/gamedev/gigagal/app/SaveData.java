@@ -24,9 +24,6 @@ public final class SaveData {
     public static String getLevelTimes() { return getPreferences().getString("LevelTimes", "0, 0, 0, 0, 0, 0, 0, 0"); }
     public static String getLevelRestores() { return getPreferences().getString("LevelRestores", "0, 0, 0, 0, 0, 0, 0, 0"); }
     public static String getLevelRemovals() { return getPreferences().getString("LevelRemovals", "-1, -1, -1, -1, -1, -1, -1, -1"); }
-    public static float getTurboMultiplier() { return getPreferences().getFloat("TurboMultiplier", 1); }
-    public static float getAmmoMultiplier() { return getPreferences().getFloat("AmmoMultiplier", 1); }
-    public static float getHealthMultiplier() { return getPreferences().getFloat("HealthMultiplier", 1); }
     public static String getWeapons() { return getPreferences().getString("Weapons", Enums.Material.NATIVE.name()); }
     public static String getUpgrades() { return getPreferences().getString("Upgrades", Enums.Upgrade.NONE.name()); }
 
@@ -38,9 +35,6 @@ public final class SaveData {
     protected static void setLevelTimes(String times) { getPreferences().putString("LevelTimes", times); getPreferences().flush(); }
     protected static void setLevelRestores(String restores) { getPreferences().putString("LevelRestores", restores); getPreferences().flush(); }
     protected static void setLevelRemovals(String removals) { getPreferences().putString("LevelRemovals", removals); getPreferences().flush(); }
-    protected static void setTurboMultiplier(float multiplier) { getPreferences().putFloat("TurboMultiplier", multiplier); getPreferences().flush(); }
-    protected static void setAmmoMultiplier(float multiplier)  { getPreferences().putFloat("AmmoMultiplier", multiplier); getPreferences().flush(); }
-    protected static void setHealthMultiplier(float multiplier) { getPreferences().putFloat("HealthMultiplier", multiplier); getPreferences().flush(); }
     protected static void setWeapons(String weapons) { getPreferences().putString("Weapons", weapons); getPreferences().flush(); }
     protected static void setUpgrades(String upgrades) { getPreferences().putString("Upgrades", upgrades); getPreferences().flush(); }
 }
