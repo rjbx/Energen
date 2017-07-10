@@ -21,13 +21,15 @@ public class Suspension extends Hazard implements Indestructible {
     private Vector2 center; // class-level instantiation
     private Vector2 knockback; // class-level instantiation
     private Animation animation;
+    private float rotation;
     private int damage;
     private long startTime;
 
     // ctor
-    public Suspension(Vector2 position, Enums.Material type) {
+    public Suspension(Vector2 position, Enums.Material type, float rotation) {
         this.position = position;
         this.type = type;
+        this.rotation = rotation;
         startTime = TimeUtils.nanoTime();
         collisionSpan = new Vector2();
         center = new Vector2();
@@ -88,7 +90,7 @@ public class Suspension extends Hazard implements Indestructible {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center);
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center, 0, rotation);
     }
 
     @Override public final Vector2 getPosition() { return position; }

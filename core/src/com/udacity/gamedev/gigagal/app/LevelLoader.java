@@ -424,23 +424,23 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_ORE_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SUSPENSION_ORE_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + spikePosition);
-                level.addHazard(new Suspension(spikePosition, Enums.Material.ORE));
+                level.addHazard(new Suspension(spikePosition, Enums.Material.ORE, rotation));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_PLASMA_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SUSPENSION_SOLID_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + spikePosition);
-                level.addHazard(new Suspension(spikePosition, Enums.Material.PLASMA));
+                level.addHazard(new Suspension(spikePosition, Enums.Material.PLASMA, rotation));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_GAS_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SUSPENSION_GAS_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + spikePosition);
-                level.addHazard(new Suspension(spikePosition, Enums.Material.GAS));
+                level.addHazard(new Suspension(spikePosition, Enums.Material.GAS, rotation));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_LIQUID_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SUSPENSION_LIQUID_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + spikePosition);
-                level.addHazard(new Suspension(spikePosition, Enums.Material.LIQUID));
+                level.addHazard(new Suspension(spikePosition, Enums.Material.LIQUID, rotation));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_SOLID_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.SUSPENSION_SOLID_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + spikePosition);
-                level.addHazard(new Suspension(spikePosition, Enums.Material.SOLID));
+                level.addHazard(new Suspension(spikePosition, Enums.Material.SOLID, rotation));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANIROL_SPRITE_1)) {
                 final Vector2 canirolPosition = imagePosition.add(Constants.X_CANIROL_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + canirolPosition);
