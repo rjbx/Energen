@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
+import static com.udacity.gamedev.gigagal.util.Enums.Action.JUMPING;
 import static com.udacity.gamedev.gigagal.util.Enums.Action.STANDING;
 
 // mutable
@@ -1011,14 +1012,18 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     private void enableJump() {
-        if (canJump) {
-            if ((jumpStartTime != 0 && Helpers.secondsSince(jumpStartTime) > 1.75f && !inputControls.jumpButtonPressed && action == STANDING)
-                    || ((inputControls.jumpButtonJustPressed && action != Action.JUMPING) && lookStartTime == 0)) {
+        if (canJump && action != JUMPING) {
+            if (jumpStartTime != 0 && action == STANDING) {
+                if (inputControls.jumpButtonPressed) {
+                    turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
+                } else if (Helpers.secondsSince(jumpStartTime) > 1.75f) {
+                    jump();
+                    jumpStartTime = 0;
+                } else {
+                    jumpStartTime = 0;
+                }
+            } else if (inputControls.jumpButtonJustPressed && lookStartTime == 0) {
                 jump();
-            } else if (!inputControls.jumpButtonPressed) {
-                jumpStartTime = 0;
-            } else if (jumpStartTime != 0 && action == STANDING) {
-                turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
             }
         }
     }
@@ -1043,7 +1048,6 @@ public class GigaGal extends Entity implements Humanoid {
             jumpStartTime = 0;
         } else if (jumpStartTime != 0 && Helpers.secondsSince(jumpStartTime) > 1.75f) {
             velocity.y *= 1.35f;
-            jumpStartTime = 0;
         } else {
             fall(); // causes fall texture to render for one frame
         }
