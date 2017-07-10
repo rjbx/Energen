@@ -1018,6 +1018,7 @@ public class GigaGal extends Entity implements Humanoid {
                     turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
                 } else if (Helpers.secondsSince(jumpStartTime) > 1.75f) {
                     jump();
+                    velocity.y *= 1.35f;
                     jumpStartTime = 0;
                 } else {
                     jumpStartTime = 0;
@@ -1046,8 +1047,6 @@ public class GigaGal extends Entity implements Humanoid {
         if (touchedGround instanceof Reboundable) {
             velocity.y *= 2;
             jumpStartTime = 0;
-        } else if (jumpStartTime != 0 && Helpers.secondsSince(jumpStartTime) > 1.75f) {
-            velocity.y *= 1.35f;
         } else {
             fall(); // causes fall texture to render for one frame
         }
