@@ -1018,7 +1018,9 @@ public class GigaGal extends Entity implements Humanoid {
                     turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
                 } else if (Helpers.secondsSince(jumpStartTime) > 1.75f) {
                     jump();
-                    velocity.y *= 1.35f;
+                    if (touchedGround instanceof Rappelable) {
+                        velocity.y *= 1.35f;
+                    }
                     jumpStartTime = 0;
                 } else {
                     jumpStartTime = 0;
