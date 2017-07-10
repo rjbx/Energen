@@ -20,14 +20,17 @@ public class Protrusion extends Hazard implements Indestructible {
     private Vector2 collisionSpan; // class-level instantiation
     private Vector2 center; // class-level instantiation
     private Vector2 knockback; // class-level instantiation
+    private final Vector2 offset;
+    private final int rotation;
     private int damage;
     private long startTime;
     private Animation animation;
 
     // ctor
-    public Protrusion(Vector2 position, Enums.Material type) {
+    public Protrusion(Vector2 position, Enums.Material type, float rotation) {
         this.position = position;
         this.type = type;
+        this.rotation = (int) rotation;
         startTime = TimeUtils.nanoTime();
         collisionSpan = new Vector2();
         center = new Vector2();
@@ -77,11 +80,24 @@ public class Protrusion extends Hazard implements Indestructible {
                 damage = Constants.PROTRUSION_ORE_DAMAGE;
                 break;
         }
+        switch (this.rotation) {
+            case 90:
+                offset = new Vector2(-center.x, center.y);
+                break;
+            case 180:
+                offset = new Vector2(-center.x, -center.y);
+                break;
+            case 270:
+                offset = new Vector2(center.x, -center.y);
+                break;
+            default:
+                offset = center;
+        }
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center);
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, offset, 1, rotation);
     }
 
     @Override public final Vector2 getPosition() { return position; }

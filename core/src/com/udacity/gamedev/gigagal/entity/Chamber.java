@@ -52,8 +52,8 @@ public class Chamber extends Ground implements Chargeable, Strikeable {
     @Override public final boolean isDense() { return true; }
     @Override public final void setState(boolean state) { this.active = state; }
     @Override public final boolean isActive() { return active; }
-    public final void charge() { charged = true; }
-    public final void uncharge() { charged = false;}
+    @Override public final void charge() { charged = true; }
+    @Override public final void uncharge() { charged = false;}
     public final boolean isCharged() { return charged; }
     @Override public final void setChargeTime(float chargeTimeSeconds) { this.chargeTimeSeconds = chargeTimeSeconds; }
     public void setUpgrade(Enums.Upgrade type) { this.type = type; }

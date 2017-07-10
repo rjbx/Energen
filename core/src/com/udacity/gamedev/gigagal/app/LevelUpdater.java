@@ -316,7 +316,6 @@ public class LevelUpdater {
                 }
                 if (ground instanceof Chamber) {
                     Chamber chamber = (Chamber) ground;
-
                     if (chamber.isActive() && chamber.isCharged() && gigaGal.getShotIntensity() == Enums.ShotIntensity.NORMAL) {
                         String savedUpgrades = SaveData.getUpgrades();
                         Enums.Upgrade upgrade = chamber.getUpgrade();

@@ -131,6 +131,7 @@ final class LevelLoader {
         float rotation = 0;
         try {
             if (object.containsKey(Constants.LEVEL_ROTATION_KEY)) {
+                Gdx.app.log(TAG, "wf");
                 rotation = ((Number) object.get(Constants.LEVEL_ROTATION_KEY)).floatValue();
                     Gdx.app.log(TAG, "" + rotation);
             }
@@ -405,23 +406,23 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_ORE_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_ORE_CENTER);
                 Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
-                level.addHazard(new Protrusion(spikePosition, Enums.Material.ORE));
+                level.addHazard(new Protrusion(spikePosition, Enums.Material.ORE, rotation));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_PLASMA_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_SOLID_CENTER);
                 Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
-                level.addHazard(new Protrusion(spikePosition, Enums.Material.PLASMA));
+                level.addHazard(new Protrusion(spikePosition, Enums.Material.PLASMA, rotation));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_GAS_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_GAS_CENTER);
                 Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
-                level.addHazard(new Protrusion(spikePosition, Enums.Material.GAS));
+                level.addHazard(new Protrusion(spikePosition, Enums.Material.GAS, rotation));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_LIQUID_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_LIQUID_CENTER);
                 Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
-                level.addHazard(new Protrusion(spikePosition, Enums.Material.LIQUID));
+                level.addHazard(new Protrusion(spikePosition, Enums.Material.LIQUID, rotation));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_SOLID_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_SOLID_CENTER);
                 Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
-                level.addHazard(new Protrusion(spikePosition, Enums.Material.SOLID));
+                level.addHazard(new Protrusion(spikePosition, Enums.Material.SOLID, rotation));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_ORE_SPRITE_1)) {
                 final Vector2 suspensionPosition = imagePosition.add(Constants.SUSPENSION_ORE_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + suspensionPosition);

@@ -88,24 +88,11 @@ public class Suspension extends Hazard implements Indestructible {
                 damage = Constants.SUSPENSION_ORE_DAMAGE;
                 break;
         }
-        switch (this.rotation) {
-            case 90:
-                offset = new Vector2(-center.x, center.y);
-                break;
-            case 180:
-                offset = new Vector2(-center.x, -center.y);
-                break;
-            case 270:
-                offset = new Vector2(center.x, -center.y);
-                break;
-            default:
-                offset = center;
-        }
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center, 1, rotation);
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center);
     }
 
     @Override public final Vector2 getPosition() { return position; }
