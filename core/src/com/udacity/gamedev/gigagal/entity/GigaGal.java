@@ -267,8 +267,8 @@ public class GigaGal extends Entity implements Humanoid {
                 enableShoot(weapon);
             } else if (action == Action.RAPPELLING) {
                 enableJump();
-                enableClimb();
                 enableRappel();
+                enableClimb();
                 enableShoot(weapon);
             } else if (action == Action.RECOILING) {
                 enableRappel();
@@ -1180,18 +1180,20 @@ public class GigaGal extends Entity implements Humanoid {
 
     private void enableClimb() {
         if (canCling) {
-            // when overlapping all but top, set canrappel which if action enablesclimb will set canclimb to true
-            if (inputControls.jumpButtonPressed) {
-                if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neutralize
-                    canLook = false; // prevents look from overriding climb
-                    canClimb = true; // enables climb handling from handleY()
+            if (action != Action.RAPPELLING || inputControls.upButtonPressed) {
+                // when overlapping all but top, set canrappel which if action enablesclimb will set canclimb to true
+                if (inputControls.jumpButtonPressed) {
+                    if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neutralize
+                        canLook = false; // prevents look from overriding climb
+                        canClimb = true; // enables climb handling from handleY()
+                    }
+                } else {
+                    canClimb = false;
+                    canLook = true; // enables look when engaging climbable but not actively climbing
                 }
-            } else {
-                canClimb = false;
-                canLook = true; // enables look when engaging climbable but not actively climbing
+                handleXInputs(); // enables change of x direction for shooting left or right
+                handleYInputs(); // enables change of y direction for looking and climbing up or down
             }
-            handleXInputs(); // enables change of x direction for shooting left or right
-            handleYInputs(); // enables change of y direction for looking and climbing up or down
         } else {
             if (action == Action.CLIMBING) {
                 fall();
