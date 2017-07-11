@@ -243,7 +243,11 @@ public class GigaGal extends Entity implements Humanoid {
                 enableShoot(weapon);
             }
         } else if (groundState == GroundState.AIRBORNE) {
-            Gdx.app.log(TAG, action.name() + " " + turbo) ;
+            if (touchedGround != null) {
+                Gdx.app.log(TAG, action.name() + " " + turbo + touchedGround.getClass());
+            } else {
+                Gdx.app.log(TAG, "null");
+            }
             velocity.y -= Constants.GRAVITY;
             if (action == Action.FALLING) {
                 fall();
@@ -292,7 +296,7 @@ public class GigaGal extends Entity implements Humanoid {
             if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collisionouchGroundBottom(ground);
                 touchGroundSide(ground);
                 touchGroundTop(ground);
-
+                touchGroundBottom(ground);
             } else { // for non-dense grounds:
 
                 // additional ground collision instructions specific to certain types of grounds
