@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
+import static com.udacity.gamedev.gigagal.util.Enums.Action.FALLING;
 import static com.udacity.gamedev.gigagal.util.Enums.Action.JUMPING;
 import static com.udacity.gamedev.gigagal.util.Enums.Action.RECOILING;
 import static com.udacity.gamedev.gigagal.util.Enums.Action.STANDING;
@@ -878,9 +879,11 @@ public class GigaGal extends Entity implements Humanoid {
         float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
         if (action != Action.RECOILING || recoveryTimeSeconds > Constants.RECOVERY_TIME) {
             action = Action.RECOILING;
-            groundState = GroundState.AIRBORNE;
             recoveryStartTime = TimeUtils.nanoTime();
+        } else {
+            action = Action.FALLING;
         }
+        groundState = GroundState.AIRBORNE;
         shotIntensity = ShotIntensity.NORMAL;
         chargeModifier = 0;
         chargeStartTime = 0;
