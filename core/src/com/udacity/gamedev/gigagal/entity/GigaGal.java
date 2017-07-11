@@ -288,9 +288,7 @@ public class GigaGal extends Entity implements Humanoid {
 
     private void touchGround(Groundable ground) {
         if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundaries
-            if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collision
-
-                touchGroundBottom(ground);
+            if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collisionouchGroundBottom(ground);
                 touchGroundSide(ground);
                 touchGroundTop(ground);
 
@@ -307,6 +305,8 @@ public class GigaGal extends Entity implements Humanoid {
                             if (action != Action.FALLING // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
                                     || (fallStartTime != 0 && (Helpers.secondsSince(fallStartTime) > .01f))) { // permits call to stand when falling and touching climbable and non-climbable simultaneously and not having immediately called jump/fall
                                 touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                            } else {
+                                touchedGround = ground; // prevents persisting null state to touchground when falling and overlapping climbable, causing false value assignment to can climb
                             }
                         }
                     } else {
@@ -327,7 +327,7 @@ public class GigaGal extends Entity implements Humanoid {
                     canHover = false;
                     lookStartTime = 0;
                     lookTimeSeconds = 0;
-                } else {
+                } else { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
                     canCling = false;
                     if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
                         touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
