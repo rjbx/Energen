@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import static com.udacity.gamedev.gigagal.util.Enums.Action.JUMPING;
+import static com.udacity.gamedev.gigagal.util.Enums.Action.RECOILING;
 import static com.udacity.gamedev.gigagal.util.Enums.Action.STANDING;
 
 // mutable
@@ -553,17 +554,14 @@ public class GigaGal extends Entity implements Humanoid {
         touchedHazard = null;
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
-                float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
-                if (action != Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
-                    if (Helpers.overlapsPhysicalObject(this, hazard)) {
-                        touchHazard(hazard);
-                    } else if (action == STANDING
-                            && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
-                            && Helpers.absoluteToDirectionalValue(position.x - bounds.x, directionX, Orientation.X) > 0) {
-                        canPeer = true;
-                    } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
-                        canPeer = false;
-                    }
+                if (Helpers.overlapsPhysicalObject(this, hazard)) {
+                    touchHazard(hazard);
+                } else if (action == STANDING
+                        && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
+                        && Helpers.absoluteToDirectionalValue(position.x - bounds.x, directionX, Orientation.X) > 0) {
+                    canPeer = true;
+                } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
+                    canPeer = false;
                 }
             }
         }
@@ -877,10 +875,13 @@ public class GigaGal extends Entity implements Humanoid {
         this.velocity.y = velocity.y;
         Assets.getInstance().getSoundAssets().damage.play();
         health -= hazard.getDamage() * healthMultiplier;
-        action = Action.RECOILING;
-        groundState = GroundState.AIRBORNE;
+        float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
+        if (action != Action.RECOILING || recoveryTimeSeconds > Constants.RECOVERY_TIME) {
+            action = Action.RECOILING;
+            groundState = GroundState.AIRBORNE;
+            recoveryStartTime = TimeUtils.nanoTime();
+        }
         shotIntensity = ShotIntensity.NORMAL;
-        recoveryStartTime = TimeUtils.nanoTime();
         chargeModifier = 0;
         chargeStartTime = 0;
         strideStartTime = 0;
