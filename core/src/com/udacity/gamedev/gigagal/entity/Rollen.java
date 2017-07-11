@@ -92,7 +92,8 @@ public class Rollen extends Hazard implements Destructible, Roving {
                     }
                 }
                 if (Helpers.overlapsBetweenTwoSides(position.y, radius, ground.getBottom(), ground.getTop())
-                        && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))) {
+                        && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))
+                        && !(ground instanceof Sinkable)) {
                     touchingTop = true;
                 }
             }
