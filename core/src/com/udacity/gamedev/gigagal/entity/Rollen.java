@@ -142,8 +142,6 @@ public class Rollen extends Hazard implements Destructible, Roving {
             if (!canSink) {
                 velocity.y -= Constants.GRAVITY;
             } else {
-
-                Gdx.app.log(TAG, position.toString());
                 velocity.y = -8;
             }
         }
