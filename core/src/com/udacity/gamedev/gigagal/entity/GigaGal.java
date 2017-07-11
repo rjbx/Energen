@@ -295,16 +295,16 @@ public class GigaGal extends Entity implements Humanoid {
     private void touchGround(Groundable ground) {
         if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundaries
             if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collisionouchGroundBottom(ground);
+                touchGroundBottom(ground);
                 touchGroundSide(ground);
                 touchGroundTop(ground);
-                touchGroundBottom(ground);
             } else { // for non-dense grounds:
 
                 // additional ground collision instructions specific to certain types of grounds
                 if (ground instanceof Climbable) {
                         if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
                                 && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
-                            if (!(ground instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.RAPPELLING && action != Action.CLIMBING)))) {
+                            if (!(ground instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.CLIMBING)))) {
                                 touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                             }
                         }
@@ -437,14 +437,18 @@ public class GigaGal extends Entity implements Humanoid {
                 velocity.y = 0; // prevents from ascending above ground bottom
                 if (groundState == GroundState.AIRBORNE) { // prevents fall when striding against ground bottom positioned at height distance from ground atop
                     fall(); // descend from point of contact with ground bottom
-                    position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
+                    if (!(ground instanceof Moving)) {
+                        position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
+                    }
                 } else if (action == Action.CLIMBING) { // prevents from disengaging climb
                     fall(); // descend from point of contact with ground bottom
                     canCling = true;
                     canClimb = true;
                     action = Action.CLIMBING;
                     groundState = GroundState.PLANTED;
-                    position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
+                    if (!(ground instanceof Moving)) {
+                        position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
+                    }
                 }
                 canDash = false;
             }
