@@ -243,6 +243,7 @@ public class GigaGal extends Entity implements Humanoid {
                 enableShoot(weapon);
             }
         } else if (groundState == GroundState.AIRBORNE) {
+            Gdx.app.log(TAG, action.name() + " " + turbo) ;
             velocity.y -= Constants.GRAVITY;
             if (action == Action.FALLING) {
                 fall();
@@ -305,8 +306,6 @@ public class GigaGal extends Entity implements Humanoid {
                             if (action != Action.FALLING // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
                                     || (fallStartTime != 0 && (Helpers.secondsSince(fallStartTime) > .01f))) { // permits call to stand when falling and touching climbable and non-climbable simultaneously and not having immediately called jump/fall
                                 touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
-                            } else {
-                                touchedGround = ground; // prevents persisting null state to touchground when falling and overlapping climbable, causing false value assignment to can climb
                             }
                         }
                     } else {
@@ -525,7 +524,7 @@ public class GigaGal extends Entity implements Humanoid {
                     canSink = false;
                     lookTimeSeconds = 0;
                     lookStartTime = 0;
-                    if (action != Action.RAPPELLING && action != Action.CLIMBING) {
+                    if (action != Action.RAPPELLING && action != Action.CLIMBING && action != Action.HOVERING) {
                         fall();
                     } else {
                         canCling = false;
