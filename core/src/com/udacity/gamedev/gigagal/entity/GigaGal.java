@@ -824,6 +824,7 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     private void fall() {
+        Gdx.app.log(TAG, canClimb + "");
         handleXInputs();
         handleYInputs();
         action = Action.FALLING;
@@ -839,6 +840,7 @@ public class GigaGal extends Entity implements Humanoid {
         // deactivates rappel and climb to prevent inappropriate activation when holding jumpbutton, crossing and no longer overlapping climbable plane
         if (touchedGround == null && canClimb) {
             canCling = false;
+            canClimb = false;
         }
 
         if (touchedGround instanceof Sinkable && getBottom() < touchedGround.getTop()) {
