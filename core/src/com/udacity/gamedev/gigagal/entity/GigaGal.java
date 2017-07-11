@@ -1109,8 +1109,8 @@ public class GigaGal extends Entity implements Humanoid {
             rappel();
         } else if (canRappel){
             if (!canHover || action == Action.HOVERING) {
-                fall(); // begin descent from ground side sans access to hover
-                canHover = false; // disable hover if not already
+           //     fall(); // begin descent from ground side sans access to hover
+           //     canHover = false; // disable hover if not already
             }
             if (inputControls.jumpButtonJustPressed) {
                 if (position.y > touchedGround.getTop() - 10) {
