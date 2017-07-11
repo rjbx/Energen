@@ -302,25 +302,24 @@ public class GigaGal extends Entity implements Humanoid {
 
                 // additional ground collision instructions specific to certain types of grounds
                 if (ground instanceof Climbable) {
-                    if (!(ground instanceof Unsteady)) {
                         if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
                                 && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
-                            touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
+                            if (!(ground instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.RAPPELLING && action != Action.CLIMBING)))) {
+                                touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
+                            }
                         }
                         if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
                             if (action != Action.FALLING // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
                                     || (fallStartTime != 0 && (Helpers.secondsSince(fallStartTime) > .01f))) { // permits call to stand when falling and touching climbable and non-climbable simultaneously and not having immediately called jump/fall
-                                touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                                if (ground instanceof Unsteady) {
+                                    if (action == Action.STANDING) { // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
+                                        setAtopGround(ground);
+                                    }
+                                } else {
+                                    touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                                }
                             }
                         }
-                    } else {
-                        if (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense()))) {
-                            touchedGround = ground;
-                            if (action == Action.STANDING) { // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
-                                setAtopGround(ground);
-                            }
-                        }
-                    }
                     canCling = true;
                 } else if (ground instanceof Sinkable) {
                     setAtopGround(ground); // when any kind of collision detected and not only when breaking plane of ground.top

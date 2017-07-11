@@ -65,9 +65,7 @@ public class IndicatorHud {
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
-        }
-
-        if (GigaGal.getInstance().getDashStatus()) {
+        } else if (GigaGal.getInstance().getDashStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
