@@ -178,7 +178,7 @@ public class LevelUpdater {
                 gigaGal.resetChargeIntensity();
             }
 
-            if (gigaGal.getTouchedHazard() != null) {
+            if (gigaGal.getTouchedHazard() != null && gigaGal.getAction() == Enums.Action.RECOILING) {
                 Vector2 intersectionPoint = new Vector2();
                 Hazardous touchedHazard = gigaGal.getTouchedHazard();
                 intersectionPoint.x = Math.max(gigaGal.getLeft(), touchedHazard.getLeft());
