@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -78,8 +79,12 @@ public class Rollen extends Hazard implements Destructible, Roving {
 
         boolean touchingSide = false;
         boolean touchingTop = false;
+        boolean canSink = false;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
+                if (ground instanceof Sinkable) {
+                    canSink = true;
+                }
                 if (ground.isDense()) {
                     if (Helpers.overlapsBetweenTwoSides(position.x, radius, ground.getLeft(), ground.getRight())
                             && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
@@ -92,9 +97,10 @@ public class Rollen extends Hazard implements Destructible, Roving {
                     }
                 }
                 if (Helpers.overlapsBetweenTwoSides(position.y, radius, ground.getBottom(), ground.getTop())
-                        && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))
-                        && !(ground instanceof Sinkable)) {
-                    touchingTop = true;
+                        && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))) {
+                    if (!canSink) {
+                        touchingTop = true;
+                    }
                 }
             }
         }
@@ -133,7 +139,13 @@ public class Rollen extends Hazard implements Destructible, Roving {
                 }
             }
         } else {
-            velocity.y -= Constants.GRAVITY;
+            if (!canSink) {
+                velocity.y -= Constants.GRAVITY;
+            } else {
+
+                Gdx.app.log(TAG, position.toString());
+                velocity.y = -8;
+            }
         }
 
         if (touchingSide) {
@@ -143,6 +155,9 @@ public class Rollen extends Hazard implements Destructible, Roving {
             position.x = previousFramePosition.x;
             rollStartTime = TimeUtils.nanoTime();
             rollTimeSeconds = 0;
+            if (canSink) {
+                velocity.y = -5;
+            }
         }
     }
 
