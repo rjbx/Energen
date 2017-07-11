@@ -862,9 +862,9 @@ public class GigaGal extends Entity implements Humanoid {
             margin = hazard.getWidth() / 6;
         }
         if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
-            this.velocity.x = velocity.x;
-        } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
             this.velocity.x = -velocity.x;
+        } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
+            this.velocity.x = velocity.x;
         } else {
             this.velocity.x = Helpers.absoluteToDirectionalValue(velocity.x, directionX, Orientation.X);
         }
