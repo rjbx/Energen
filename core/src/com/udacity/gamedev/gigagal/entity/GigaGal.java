@@ -244,7 +244,7 @@ public class GigaGal extends Entity implements Humanoid {
             }
         } else if (groundState == GroundState.AIRBORNE) {
             if (touchedGround != null) {
-                Gdx.app.log(TAG, action.name() + " " + turbo + touchedGround.getClass());
+                Gdx.app.log(TAG, action.name() + " " + turbo + touchedGround.getClass() + "  " + canClimb + canCling);
             } else {
                 Gdx.app.log(TAG, "null");
             }
@@ -267,6 +267,7 @@ public class GigaGal extends Entity implements Humanoid {
                 enableShoot(weapon);
             } else if (action == Action.RAPPELLING) {
                 enableJump();
+                enableClimb();
                 enableRappel();
                 enableShoot(weapon);
             } else if (action == Action.RECOILING) {
@@ -1108,10 +1109,6 @@ public class GigaGal extends Entity implements Humanoid {
         if (action == Action.RAPPELLING) {
             rappel();
         } else if (canRappel){
-            if (!canHover || action == Action.HOVERING) {
-           //     fall(); // begin descent from ground side sans access to hover
-           //     canHover = false; // disable hover if not already
-            }
             if (inputControls.jumpButtonJustPressed) {
                 if (position.y > touchedGround.getTop() - 10) {
                     position.y = touchedGround.getTop() - 10;
