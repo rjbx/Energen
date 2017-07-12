@@ -137,6 +137,15 @@ public final class Helpers {
         return 0;
     }
 
+    public static final float vectorToAxisValue(Vector2 vector, Enums.Orientation orientation) {
+        if (orientation == X) {
+            return vector.x;
+        } else if (orientation == Y) {
+            return vector.y;
+        }
+        return 0;
+    }
+
     public static final Enums.Direction getOppositeDirection(Enums.Direction direction) {
         switch (direction) {
             case LEFT:

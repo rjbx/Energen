@@ -109,6 +109,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
                     position.add(velocity);
                     if (Helpers.overlapsPhysicalObject(this, ground)) {
                         position.set(startingPosition);
+                        bobNadir = Helpers.vectorToAxisValue(position, Helpers.getOppositeOrientation(orientation));
                     }
                 }
             }
