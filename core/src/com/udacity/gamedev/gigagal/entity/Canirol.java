@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -20,6 +21,7 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
     private Enums.Orientation orientation;
     private Vector2 velocity; // class-level instantiation
     private final Vector2 startPosition; // class-level instantiation
+    private final Vector2 previousFramePosition;
     private Vector2 center;
     private float range;
     private float speed;
@@ -37,6 +39,7 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
         converted = false;
         velocity = new Vector2();
         startPosition = new Vector2(position);
+        previousFramePosition = new Vector2(position);
         startTime = TimeUtils.nanoTime();
         this.range = range;
         speed = Math.min(80, range * .8f);
@@ -48,6 +51,7 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
 
     @Override
     public void update(float delta) {
+        previousFramePosition.set(position);
         canDispatch = false;
         if (this.getStartTime() == 0) {
             this.setStartTime(TimeUtils.nanoTime());

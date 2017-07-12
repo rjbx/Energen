@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -26,6 +27,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     private float bobNadir;
     private float range;
     private Vector2 position;
+    private Vector2 previousFramePosition;
     private final Vector2 startingPosition;
     private Rectangle hazardBounds;
     private Vector2 velocity;
@@ -40,6 +42,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     public Zoomba(Vector2 position, Enums.Orientation orientation, Enums.Material type, float range) {
         this.position = position;
         this.startingPosition = new Vector2(position);
+        previousFramePosition = new Vector2(position);
         velocity = new Vector2();
         this.type = type;
         switch (type) {
@@ -101,6 +104,15 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             velocity.x = Constants.ZOOMBA_CENTER.x + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier + bobNadir - position.x;
         }
         updateDirection(direction);
+
+        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+            if (ground.isDense()) {
+                if (Helpers.overlapsPhysicalObject(this, ground)) {
+                    direction = Helpers.getOppositeDirection(direction);
+                    velocity.set(Helpers.absoluteToDirectionalValue(-velocity.x * 2, direction, Enums.Orientation.X), Helpers.absoluteToDirectionalValue(-velocity.y * 2, direction, Enums.Orientation.Y));
+                }
+            }
+        }
     }
 
     @Override
@@ -146,7 +158,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             animation = animations.get(0);
         } else {
             bobNadir = position.x;
-            direction = Direction.UP;
+            direction = Direction.DOWN;
             animation = animations.get(2);
         }
     }

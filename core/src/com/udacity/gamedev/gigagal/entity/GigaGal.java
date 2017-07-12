@@ -437,7 +437,7 @@ public class GigaGal extends Entity implements Humanoid {
                 velocity.y = 0; // prevents from ascending above ground bottom
                 if (groundState == GroundState.AIRBORNE) { // prevents fall when striding against ground bottom positioned at height distance from ground atop
                     fall(); // descend from point of contact with ground bottom
-                    if (!(ground instanceof Moving)) {
+                    if (!(ground instanceof Moving)) { // prevents from being pushed below ground
                         position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 } else if (action == Action.CLIMBING) { // prevents from disengaging climb
@@ -446,7 +446,7 @@ public class GigaGal extends Entity implements Humanoid {
                     canClimb = true;
                     action = Action.CLIMBING;
                     groundState = GroundState.PLANTED;
-                    if (!(ground instanceof Moving)) {
+                    if (!(ground instanceof Moving)) { // prevents from being pushed below ground
                         position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 }
