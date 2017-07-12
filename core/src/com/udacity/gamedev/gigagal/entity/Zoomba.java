@@ -27,7 +27,6 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     private float bobNadir;
     private float range;
     private Vector2 position;
-    private Vector2 previousFramePosition;
     private final Vector2 startingPosition;
     private Rectangle hazardBounds;
     private Vector2 velocity;
@@ -42,7 +41,6 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     public Zoomba(Vector2 position, Enums.Orientation orientation, Enums.Material type, float range) {
         this.position = position;
         this.startingPosition = new Vector2(position);
-        previousFramePosition = new Vector2(position);
         velocity = new Vector2();
         this.type = type;
         switch (type) {
@@ -79,7 +77,6 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         if (orientation == Enums.Orientation.X) {
             position.add(velocity.x, velocity.y);
             velocity.x = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED * delta, direction, Enums.Orientation.X);
-
             if (position.x < startingPosition.x - (range / 2)) {
                 position.x = startingPosition.x - (range / 2);
                 updateDirection(Direction.RIGHT);
@@ -92,7 +89,6 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         } else {
             position.add(velocity.x, velocity.y);
             velocity.y = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED * delta, direction, Enums.Orientation.Y);
-
             if (position.y < startingPosition.y - range / 2) {
                 position.y = startingPosition.y - range / 2;
                 updateDirection(Direction.UP);
@@ -109,7 +105,11 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             if (ground.isDense()) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
                     direction = Helpers.getOppositeDirection(direction);
-                    velocity.set(Helpers.absoluteToDirectionalValue(-velocity.x * 2, direction, Enums.Orientation.X), Helpers.absoluteToDirectionalValue(-velocity.y * 2, direction, Enums.Orientation.Y));
+                    velocity.set(Helpers.absoluteToDirectionalValue(-velocity.x, direction, Enums.Orientation.X), Helpers.absoluteToDirectionalValue(-velocity.y, direction, Enums.Orientation.Y));
+                    position.add(velocity);
+                    if (Helpers.overlapsPhysicalObject(this, ground)) {
+                        position.set(startingPosition);
+                    }
                 }
             }
         }
@@ -141,7 +141,11 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     @Override public Enums.Direction getDirectionY() { return direction; }
     @Override public void setDirectionX(Enums.Direction direction) { updateDirection(direction); }
     @Override public void setDirectionY(Enums.Direction direction) { updateDirection(direction); }
-    @Override public void convert() { updateOrientation(Helpers.getOppositeOrientation(orientation)); this.converted = true; }
+    @Override public void convert() {
+        position.sub(Constants.ZOOMBA_BOB_AMPLITUDE / 2, Constants.ZOOMBA_CENTER.y * 3);
+        updateOrientation(Helpers.getOppositeOrientation(orientation));
+        this.converted = true;
+    }
     @Override public boolean isConverted() { return converted; }
     @Override public final boolean isDense() { return true; }
     public int getMountDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
@@ -151,15 +155,12 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     public Rectangle getHazardBounds() { return hazardBounds; }
     private void updateOrientation(Enums.Orientation orientation) {
         this.orientation = orientation;
-        position.sub(Constants.ZOOMBA_BOB_AMPLITUDE / 2, Constants.ZOOMBA_CENTER.y * 3);
         if (orientation == Enums.Orientation.X) {
             bobNadir = position.y;
             direction = Direction.RIGHT;
-            animation = animations.get(0);
         } else {
             bobNadir = position.x;
             direction = Direction.DOWN;
-            animation = animations.get(2);
         }
     }
     private void updateDirection(Direction direction) {
