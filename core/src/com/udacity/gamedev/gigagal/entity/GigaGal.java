@@ -874,7 +874,7 @@ public class GigaGal extends Entity implements Humanoid {
         this.velocity.y = velocity.y;
         Assets.getInstance().getSoundAssets().damage.play();
         float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
-        if (action != Action.RECOILING || recoveryTimeSeconds > Constants.RECOVERY_TIME) {
+        if (recoveryTimeSeconds > Constants.RECOVERY_TIME) {
             health -= hazard.getDamage() * healthMultiplier;
             action = Action.RECOILING;
             recoveryStartTime = TimeUtils.nanoTime();
