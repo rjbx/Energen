@@ -387,9 +387,8 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                     if (action == Action.DASHING && !(ground instanceof Propelling)) {
                         stand(); // deactivates dash when bumping ground side
-                    }
-                    if (action == Action.STRIDING && InputControls.getInstance().shootButtonJustPressed && ground instanceof Portable) {
-                        ((Portable) ground).setPosition(new Vector2(position.x, this.getTop());
+                    } else if (action == Action.STRIDING && InputControls.getInstance().shootButtonJustPressed && ground instanceof Portable) {
+                        ((Portable) ground).setPosition(new Vector2(position.x, this.getTop()));
                     }
                 }
                 if ((!(ground instanceof Propelling && (Math.abs(getBottom() - ground.getTop()) <= 1)))

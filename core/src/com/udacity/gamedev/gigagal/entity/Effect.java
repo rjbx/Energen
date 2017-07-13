@@ -26,31 +26,32 @@ public class Effect extends Entity {
         this.position = position;
         this.type = type;
         startTime = TimeUtils.nanoTime();
-        switch (this.type) {
-            case PLASMA:
-                animation = Assets.getInstance().getEffectAssets().effectPlasma;
-                break;
-            case GAS:
-                animation = Assets.getInstance().getEffectAssets().effectGas;
-                break;
-            case LIQUID:
-                animation = Assets.getInstance().getEffectAssets().effectLiquid;
-                break;
-            case SOLID:
-                animation = Assets.getInstance().getEffectAssets().effectSolid;
-                break;
-            case ANTIMATTER:
-                animation = Assets.getInstance().getEffectAssets().effectPsychic;
-                break;
-            case HYBRID:
-                animation = Assets.getInstance().getEffectAssets().effectHybrid;
-                break;
-            case NATIVE:
-                animation = Assets.getInstance().getEffectAssets().effectNative;
-                break;
-            default:
-                animation = Assets.getInstance().getEffectAssets().effectNative;
-        }
+
+         animation = Assets.getInstance().getImpactAssets().impactGas;
+//        switch (this.type) {
+//            case PLASMA:
+//                break;
+//            case GAS:
+//                animation = Assets.getInstance().getEffectAssets().effectGas;
+//                break;
+//            case LIQUID:
+//                animation = Assets.getInstance().getEffectAssets().effectLiquid;
+//                break;
+//            case SOLID:
+//                animation = Assets.getInstance().getEffectAssets().effectSolid;
+//                break;
+//            case ANTIMATTER:
+//                animation = Assets.getInstance().getEffectAssets().effectPsychic;
+//                break;
+//            case HYBRID:
+//                animation = Assets.getInstance().getEffectAssets().effectHybrid;
+//                break;
+//            case NATIVE:
+//                animation = Assets.getInstance().getEffectAssets().effectNative;
+//                break;
+//            default:
+//                animation = Assets.getInstance().getEffectAssets().effectNative;
+//        }
     }
 
     @Override
@@ -73,6 +74,6 @@ public class Effect extends Entity {
     @Override public final float getRight() { return position.x + Constants.EXPLOSION_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.EXPLOSION_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.EXPLOSION_CENTER.y; }
-    public boolean isFinished() { return Constants.EFFECT_DURATION < Helpers.secondsSince(startTime); }
+    public boolean isFinished() { return Constants.IMPACT_DURATION < Helpers.secondsSince(startTime); }
 }
 

@@ -43,6 +43,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     }
 
     @Override public final Vector2 getPosition() { return position; }
+    @Override public final void setPosition(Vector2 position) { this.position.set(position); }
     @Override public final float getHeight() { return Constants.SPRING_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.SPRING_CENTER.x * 2; }
     @Override public final float getLeft() { return position.x - Constants.SPRING_CENTER.x; }
