@@ -361,7 +361,7 @@ public class GigaGal extends Entity implements Humanoid {
                 if (groundState != GroundState.PLANTED) {
                     // if x velocity (magnitude, without concern for direction) greater than one third max speed,
                     // boost x velocity by starting speed, enable rappel, verify rappelling ground and capture rappelling ground boundaries
-                    if (Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 4 || ground instanceof Zoomba) {
+                    if (Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 8 || ground instanceof Zoomba) {
                         // if already rappelling, halt x progression
                         if (action != Action.RAPPELLING) {
                             if (ground instanceof Rappelable) {
@@ -1023,7 +1023,7 @@ public class GigaGal extends Entity implements Humanoid {
                     turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
                 } else if (Helpers.secondsSince(jumpStartTime) > 1.75f) {
                     jump();
-                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED / 4, directionX, Orientation.X);
+                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED / 8, directionX, Orientation.X);
                     velocity.y *= (1.35f * jumpMultiplier);
                     jumpStartTime = 0;
                 } else {
