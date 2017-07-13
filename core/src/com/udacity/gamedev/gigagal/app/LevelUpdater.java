@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.app;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -394,7 +395,7 @@ public class LevelUpdater {
             projectiles.end();
         }
         if (ground instanceof Reboundable) {
-            if (!(ground instanceof Portable) || !(((Portable) ground).isBeingCarried())) {
+            if (!(ground instanceof Portable) || !((Portable) ground).isBeingCarried()) {
                 Reboundable reboundable = (Reboundable) ground;
                 if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                     reboundable.setState(true);

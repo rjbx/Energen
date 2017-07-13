@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -31,6 +32,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     public void update(float delta) {
         if (beingCarried) {
             this.position.set(carrier.getPosition().x, carrier.getTop());
+            Gdx.app.log(TAG, "g");
         }
     }
 
