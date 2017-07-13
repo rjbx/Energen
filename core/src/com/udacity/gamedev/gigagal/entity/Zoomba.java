@@ -117,7 +117,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         }
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (Helpers.overlapsPhysicalObject(this, hazard)) {
-                if (!(hazard instanceof Ammo)) {
+                if (hazard instanceof Zoomba) {
                     direction = Helpers.getOppositeDirection(direction);
                     velocity.set(Helpers.absoluteToDirectionalValue(-velocity.x, direction, Enums.Orientation.X), Helpers.absoluteToDirectionalValue(-velocity.y, direction, Enums.Orientation.Y));
                     position.add(velocity);

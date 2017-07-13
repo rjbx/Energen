@@ -873,16 +873,15 @@ public class GigaGal extends Entity implements Humanoid {
         }
         this.velocity.y = velocity.y;
         Assets.getInstance().getSoundAssets().damage.play();
+        shotIntensity = ShotIntensity.NORMAL;
+        groundState = GroundState.AIRBORNE;
+        action = Action.FALLING;
         float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
         if (recoveryTimeSeconds > Constants.RECOVERY_TIME) {
             health -= hazard.getDamage() * healthMultiplier;
             action = Action.RECOILING;
             recoveryStartTime = TimeUtils.nanoTime();
-        } else {
-            action = Action.FALLING;
         }
-        groundState = GroundState.AIRBORNE;
-        shotIntensity = ShotIntensity.NORMAL;
         chargeModifier = 0;
         chargeStartTime = 0;
         strideStartTime = 0;
