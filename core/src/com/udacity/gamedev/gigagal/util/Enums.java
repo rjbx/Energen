@@ -137,7 +137,7 @@ public final class Enums {
 
     public enum EffectsType {
         ELECTROLYSIS,
-        INCINERATION,
+        INCINERATE,
         SHORT,
         MELT,
         CRUSH
