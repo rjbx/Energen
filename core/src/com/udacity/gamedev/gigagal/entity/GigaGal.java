@@ -243,11 +243,6 @@ public class GigaGal extends Entity implements Humanoid {
                 enableShoot(weapon);
             }
         } else if (groundState == GroundState.AIRBORNE) {
-            if (touchedGround != null) {
-                Gdx.app.log(TAG, action.name() + " " + turbo + touchedGround.getClass() + "  " + canClimb + canCling);
-            } else {
-                Gdx.app.log(TAG, "null");
-            }
             velocity.y -= Constants.GRAVITY;
             if (action == Action.FALLING) {
                 fall();
@@ -831,7 +826,6 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     private void fall() {
-        Gdx.app.log(TAG, canClimb + "");
         handleXInputs();
         handleYInputs();
         action = Action.FALLING;

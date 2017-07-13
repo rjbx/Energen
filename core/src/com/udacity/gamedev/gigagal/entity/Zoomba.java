@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -107,10 +108,19 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
                     direction = Helpers.getOppositeDirection(direction);
                     velocity.set(Helpers.absoluteToDirectionalValue(-velocity.x, direction, Enums.Orientation.X), Helpers.absoluteToDirectionalValue(-velocity.y, direction, Enums.Orientation.Y));
                     position.add(velocity);
-                    if (Helpers.overlapsPhysicalObject(this, ground)) {
+                    if (Helpers.overlapsPhysicalObject(this, ground)) { // prevents post conversion reposition below ground top
                         position.set(startingPosition.x, ground.getTop() + getHeight());
                         bobNadir = Helpers.vectorToAxisValue(position, Helpers.getOppositeOrientation(orientation));
                     }
+                }
+            }
+        }
+        for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+            if (Helpers.overlapsPhysicalObject(this, hazard)) {
+                if (!(hazard instanceof Ammo)) {
+                    direction = Helpers.getOppositeDirection(direction);
+                    velocity.set(Helpers.absoluteToDirectionalValue(-velocity.x, direction, Enums.Orientation.X), Helpers.absoluteToDirectionalValue(-velocity.y, direction, Enums.Orientation.Y));
+                    position.add(velocity);
                 }
             }
         }
