@@ -481,8 +481,10 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                 }
                 if (ground instanceof Reboundable) {
-                    canClimb = false;
-                    canCling = false;
+                    if (!(ground instanceof Portable) || !((Portable) ground).isBeingCarried()) {
+                        canClimb = false;
+                        canCling = false;
+                    }
                 }
                 if (ground instanceof Destructible) {
                     if (((Destructible) ground).getHealth() < 1) {
@@ -1051,8 +1053,10 @@ public class GigaGal extends Entity implements Humanoid {
         velocity.y = Constants.JUMP_SPEED;
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         if (touchedGround instanceof Reboundable) {
-            velocity.y *= 2;
-            jumpStartTime = 0;
+            if (!(touchedGround instanceof Portable) || !((Portable) touchedGround).isBeingCarried()) {
+                velocity.y *= 2;
+                jumpStartTime = 0;
+            }
         } else {
             fall(); // causes fall texture to render for one frame
         }

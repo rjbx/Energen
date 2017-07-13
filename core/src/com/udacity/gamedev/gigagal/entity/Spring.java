@@ -30,7 +30,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     @Override
     public void update(float delta) {
         if (beingCarried) {
-            this.position.set(carrier.getPosition());
+            this.position.set(carrier.getPosition().x, carrier.getTop());
         }
     }
 
@@ -60,6 +60,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return true; }
+    @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
     @Override public final void setState(boolean state) { this.isLoaded = state; }

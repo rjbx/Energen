@@ -6,4 +6,5 @@ public interface Portable extends Nonstatic {
     void setPosition(Vector2 position);
     Entity getCarrier();
     void setCarrier(Entity entity);
+    boolean isBeingCarried();
 }

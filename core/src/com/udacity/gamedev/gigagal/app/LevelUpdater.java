@@ -295,9 +295,6 @@ public class LevelUpdater {
         }
         if (ground instanceof Portable) {
              if (gigaGal.getAction() == Enums.Action.STRIDING && InputControls.getInstance().shootButtonJustPressed) {
-                ((Portable) ground).setPosition(new Vector2(gigaGal.getPosition().x, gigaGal.getTop()));
-                ((Portable) ground).setCarrier(gigaGal);
-            } else if (((Portable) ground).getCarrier() != null && ((Portable) ground).getCarrier() instanceof GigaGal) {
                 ((Portable) ground).setCarrier(gigaGal);
             }
         }
@@ -390,12 +387,14 @@ public class LevelUpdater {
             projectiles.end();
         }
         if (ground instanceof Reboundable) {
-            Reboundable reboundable = (Reboundable) ground;
-            if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
-                reboundable.setState(true);
-            } else if (reboundable.getState()) {
-                reboundable.resetStartTime();
-                reboundable.setState(false);
+            if (!(ground instanceof Portable) || !(((Portable) ground).isBeingCarried())) {
+                Reboundable reboundable = (Reboundable) ground;
+                if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
+                    reboundable.setState(true);
+                } else if (reboundable.getState()) {
+                    reboundable.resetStartTime();
+                    reboundable.setState(false);
+                }
             }
         }
         return active;
