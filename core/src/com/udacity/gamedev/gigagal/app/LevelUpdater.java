@@ -294,12 +294,13 @@ public class LevelUpdater {
             }
         }
         if (ground instanceof Portable) {
-             if (gigaGal.getBottom() == ground.getBottom()
+             if (!((Portable) ground).isBeingCarried()
+                     && gigaGal.getBottom() == ground.getBottom()
                      && Helpers.overlapsPhysicalObject(gigaGal, ground)
                      && gigaGal.getAction() == Enums.Action.STRIDING
                      && InputControls.getInstance().shootButtonPressed) {
                 ((Portable) ground).setCarrier(gigaGal);
-             } else if (((Portable) ground).getCarrier() == gigaGal) {
+             } else if (((Portable) ground).getCarrier() == gigaGal && !InputControls.getInstance().shootButtonPressed) {
                  ((Portable) ground).setPosition(new Vector2(gigaGal.getPosition().x, gigaGal.getBottom() + ground.getHeight() / 2));
                  ((Portable) ground).setCarrier(null);
              }
