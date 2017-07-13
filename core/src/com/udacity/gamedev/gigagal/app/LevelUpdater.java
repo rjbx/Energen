@@ -296,7 +296,9 @@ public class LevelUpdater {
         if (ground instanceof Portable) {
              if (gigaGal.getAction() == Enums.Action.STRIDING && InputControls.getInstance().shootButtonJustPressed) {
                 ((Portable) ground).setCarrier(gigaGal);
-            }
+             } else {
+                 ((Portable) ground).setCarrier(null);
+             }
         }
         if (ground instanceof Nonstatic) {
             ((Nonstatic) ground).update(delta);
