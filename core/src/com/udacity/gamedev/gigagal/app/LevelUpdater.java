@@ -294,7 +294,10 @@ public class LevelUpdater {
             }
         }
         if (ground instanceof Portable) {
-             if (gigaGal.getAction() == Enums.Action.STRIDING && InputControls.getInstance().shootButtonPressed) {
+             if (gigaGal.getBottom() == ground.getBottom()
+                     && Helpers.overlapsPhysicalObject(gigaGal, ground)
+                     && gigaGal.getAction() == Enums.Action.STRIDING
+                     && InputControls.getInstance().shootButtonPressed) {
                 ((Portable) ground).setCarrier(gigaGal);
              } else if (((Portable) ground).getCarrier() == gigaGal) {
                  ((Portable) ground).setPosition(new Vector2(gigaGal.getPosition().x, gigaGal.getBottom() + ground.getHeight() / 2));

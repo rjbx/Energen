@@ -352,7 +352,7 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
-    private void touchGroundSide(Groundable ground) {
+    public void touchGroundSide(Groundable ground) {
         // ignores case where simultaneously touching two separate grounds with same top position to prevent interrupting stride
         if (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.getTop() == ground.getTop())) {
             // if during previous frame was not, while currently is, between ground left and right sides
