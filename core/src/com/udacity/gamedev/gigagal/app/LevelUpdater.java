@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.app;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -292,6 +291,14 @@ public class LevelUpdater {
                         }
                     }
                 }
+            }
+        }
+        if (ground instanceof Portable) {
+             if (gigaGal.getAction() == Enums.Action.STRIDING && InputControls.getInstance().shootButtonJustPressed) {
+                ((Portable) ground).setPosition(new Vector2(gigaGal.getPosition().x, gigaGal.getTop()));
+                ((Portable) ground).setCarrier(gigaGal);
+            } else if (((Portable) ground).getCarrier() != null && ((Portable) ground).getCarrier() instanceof GigaGal) {
+                ((Portable) ground).setCarrier(gigaGal);
             }
         }
         if (ground instanceof Nonstatic) {
