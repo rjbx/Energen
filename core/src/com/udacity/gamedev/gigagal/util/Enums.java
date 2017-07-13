@@ -134,4 +134,12 @@ public final class Enums {
         BOSS,
         CONVERT
     }
+
+    public enum EffectsType {
+        ELECTROLYSIS,
+        INCINERATION,
+        SHORT,
+        MELT,
+        CRUSH
+    }
 }
