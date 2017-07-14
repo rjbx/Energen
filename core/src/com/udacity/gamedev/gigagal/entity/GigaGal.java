@@ -407,15 +407,17 @@ public class GigaGal extends Entity implements Humanoid {
                     yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
                 }
                 if (Helpers.betweenTwoValues(yTestPosition, ground.getBottom(), ground.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
-                    if (!(ground instanceof Canirol)) {
-                        if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
-                            position.x = ground.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
-                        } else {
-                            position.x = ground.getRight() + getHalfWidth() + 1; // reset position to ground side edge
+                    if (!(ground instanceof Portable && ((Portable) ground).isBeingCarried())) {
+                        if (!(ground instanceof Canirol)) {
+                            if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
+                                position.x = ground.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
+                            } else {
+                                position.x = ground.getRight() + getHalfWidth() + 1; // reset position to ground side edge
+                            }
+                        } else { // for canirol only
+                            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // reset position to ground top
+                            setAtopGround(ground);
                         }
-                    } else { // for canirol only
-                        position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // reset position to ground top
-                        setAtopGround(ground);
                     }
                 }
             }
