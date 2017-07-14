@@ -88,7 +88,7 @@ public class Block extends Ground implements Rappelable, Hurdleable, Strikeable,
     public Enums.Material getType() { return type; }
     public Color getColor() { return ninePatch.getColor(); }
     private void setColor() {
-        if (!dense) {
+        if (!isDense()) {
             ninePatch.setColor(new Color(type.theme().color()).mul(.7f));
         } else {
             ninePatch.setColor(type.theme().color());
