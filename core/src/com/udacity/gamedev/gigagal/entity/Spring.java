@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Spring extends Ground implements Reboundable, Portable {
+public class Spring extends Ground implements Reboundable, Portable, Climbable {
 
     // fields
     public final static String TAG = Spring.class.getName();
@@ -42,7 +42,9 @@ public class Spring extends Ground implements Reboundable, Portable {
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
                     if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)) {
-                        position.y = ground.getTop() + getHeight() / 2;
+                        if (!(ground instanceof Climbable)) {
+                            position.y = ground.getTop() + getHeight() / 2;
+                        }
                         collisionDetected = true;
                     } else if (ground.isDense()) {
                         if (position.x < ground.getPosition().x) {
