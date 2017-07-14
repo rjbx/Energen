@@ -404,7 +404,7 @@ public class LevelUpdater {
                 Reboundable reboundable = (Reboundable) ground;
                 if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                     reboundable.setState(true);
-                } else if (reboundable.getState() && !(reboundable instanceof Portable && ((Portable) reboundable).isSetAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
+                } else if (reboundable.getState() && !(reboundable instanceof Portable && ((Portable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
                     reboundable.resetStartTime();
                     reboundable.setState(false);
                 }
