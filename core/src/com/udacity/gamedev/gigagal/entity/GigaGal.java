@@ -299,8 +299,7 @@ public class GigaGal extends Entity implements Humanoid {
                 if (ground instanceof Climbable) {
                         if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
                                 && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
-                            if (!(ground instanceof Unsteady)
-                            || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.CLIMBING)))) {
+                            if (!(ground instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.CLIMBING)))) {
                                 touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                             }
                         }
@@ -326,14 +325,10 @@ public class GigaGal extends Entity implements Humanoid {
                     canHover = false;
                     lookStartTime = 0;
                     lookTimeSeconds = 0;
-                } else { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
-                    if (!(ground instanceof Portable) || !(canClimb && directionY == Direction.UP)) {
-                        canCling = false;
-                        if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
-
-                            Gdx.app.log(TAG, ground.getClass().toString());
-                            touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
-                        }
+                } else if (!(ground instanceof Portable) || !(canClimb && directionY == Direction.UP)) { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
+                    canCling = false;
+                    if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
+                        touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                     }
                 }
             }
