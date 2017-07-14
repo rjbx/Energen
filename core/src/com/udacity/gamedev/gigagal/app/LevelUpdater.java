@@ -302,7 +302,6 @@ public class LevelUpdater {
                      && InputControls.getInstance().shootButtonPressed) {
                 ((Portable) ground).setCarrier(gigaGal);
              } else if (((Portable) ground).getCarrier() == gigaGal && !InputControls.getInstance().shootButtonPressed) {
-                 ((Portable) ground).setPosition(new Vector2(gigaGal.getPosition().x, gigaGal.getBottom() + ground.getHeight() / 2));
                  ((Portable) ground).setCarrier(null);
              }
         }

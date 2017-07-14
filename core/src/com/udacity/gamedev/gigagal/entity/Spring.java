@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -18,6 +19,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     private long startTime;
     private boolean isLoaded;
     private boolean beingCarried;
+    private boolean collisionDetected;
     private Entity carrier;
 
     // ctor
@@ -26,6 +28,7 @@ public class Spring extends Ground implements Reboundable, Portable {
         startTime = 0;
         isLoaded = false;
         beingCarried = false;
+        collisionDetected = true;
     }
 
     @Override
@@ -33,6 +36,13 @@ public class Spring extends Ground implements Reboundable, Portable {
         if (beingCarried) {
             this.position.set(carrier.getPosition().x, carrier.getTop());
             Gdx.app.log(TAG, "g");
+        } else if (!collisionDetected) {
+            position.y -= Constants.GRAVITY * delta;
+            for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+                if (this.getBottom() == ground.getTop()) {
+                    collisionDetected = true;
+                }
+            }
         }
     }
 
@@ -54,7 +64,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     @Override public final Vector2 getPosition() { return position; }
     @Override public final void setPosition(Vector2 position) { this.position.set(position); }
     public final Entity getCarrier() { return carrier; }
-    @Override public final void setCarrier(Entity entity) { this.carrier = entity; beingCarried = (carrier != null); }
+    @Override public final void setCarrier(Entity entity) { this.carrier = entity; beingCarried = (carrier != null); collisionDetected = false;}
     @Override public final float getHeight() { return Constants.SPRING_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.SPRING_CENTER.x * 2; }
     @Override public final float getLeft() { return position.x - Constants.SPRING_CENTER.x; }
