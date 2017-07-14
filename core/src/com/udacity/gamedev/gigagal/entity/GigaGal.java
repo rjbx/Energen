@@ -486,7 +486,8 @@ public class GigaGal extends Entity implements Humanoid {
                     if (!(ground instanceof Portable && ((Portable) ground).isBeingCarried() && ((Portable) ground).getCarrier() == this)) {
                         canClimb = false;
                         canCling = false;
-                    } else if (ground instanceof Portable && ((Portable) ground).isSetAtopMovingGround()) {
+                    }
+                    if (ground instanceof Portable && ((Portable) ground).isSetAtopMovingGround()) {
                         lookStartTime = 0;
                         Moving moving = (Moving) ((Portable) ground).getMovingGround();
                         position.x += moving.getVelocity().x;
