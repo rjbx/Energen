@@ -37,8 +37,8 @@ public class Spring extends Ground implements Reboundable, Portable {
     public void update(float delta) {
         if (beingCarried) {
             this.position.set(carrier.getPosition().x, carrier.getTop());
-        }
-        if (!atopGround) {
+            atopGround = false;
+        } else if (!atopGround) {
             position.y -= Constants.GRAVITY * 15 * delta;
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
@@ -69,7 +69,6 @@ public class Spring extends Ground implements Reboundable, Portable {
                 if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 6, hazard.getTop() + 6)) {
                     position.x = hazard.getPosition().x + ((Moving) hazard).getVelocity().x;
                     position.y = hazard.getTop() + getHeight() / 2 + ((Moving) hazard).getVelocity().y;
-                    atopGround = true;
                     atopMovingGround = true;
                     movingGround = (Groundable) hazard;
                 }
@@ -95,7 +94,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     @Override public final Vector2 getPosition() { return position; }
     @Override public final void setPosition(Vector2 position) { this.position.set(position); }
     @Override public final Entity getCarrier() { return carrier; }
-    @Override public final void setCarrier(Entity entity) { this.carrier = entity; beingCarried = (carrier != null); atopGround = false;}
+    @Override public final void setCarrier(Entity entity) { this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Groundable getMovingGround() { return movingGround; }
     @Override public final float getHeight() { return Constants.SPRING_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.SPRING_CENTER.x * 2; }
