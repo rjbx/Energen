@@ -40,9 +40,13 @@ public class Spring extends Ground implements Reboundable, Portable {
         } else if (!collisionDetected) {
             position.y -= Constants.GRAVITY * 15 * delta;
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-                if (Helpers.overlapsPhysicalObject(this, ground) && Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)) {
-                    position.y = ground.getTop() + getHeight() / 2;
-                    collisionDetected = true;
+                if (Helpers.overlapsPhysicalObject(this, ground)) {
+                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)) {
+                        position.y = ground.getTop() + getHeight() / 2;
+                        collisionDetected = true;
+                    } else {
+                        position.x = GigaGal.getInstance().getPosition().x;
+                    }
                 }
             }
         }
