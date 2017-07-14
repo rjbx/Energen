@@ -304,7 +304,7 @@ public class GigaGal extends Entity implements Humanoid {
                                 touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                             }
                         }
-                        if (!(canClimb && directionY == Direction.DOWN) || (ground instanceof Portable)) { // ignore side and bottom collision always and top collision when can climb and looking downward
+                        if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
                             if (action != Action.FALLING // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
                                     || (fallStartTime != 0 && (Helpers.secondsSince(fallStartTime) > .01f))) { // permits call to stand when falling and touching climbable and non-climbable simultaneously and not having immediately called jump/fall
                                 if (ground instanceof Unsteady) {
@@ -327,9 +327,13 @@ public class GigaGal extends Entity implements Humanoid {
                     lookStartTime = 0;
                     lookTimeSeconds = 0;
                 } else { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
-                    canCling = false;
-                    if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
-                        touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                    if (!(ground instanceof Portable) || !(canClimb && directionY == Direction.UP)) {
+                        canCling = false;
+                        if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
+
+                            Gdx.app.log(TAG, ground.getClass().toString());
+                            touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                        }
                     }
                 }
             }

@@ -7,9 +7,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Spring extends Ground implements Reboundable, Portable, Climbable {
+public class Spring extends Ground implements Reboundable, Portable {
 
     // fields
     public final static String TAG = Spring.class.getName();
@@ -97,7 +98,7 @@ public class Spring extends Ground implements Reboundable, Portable, Climbable {
     @Override public final float getRight() { return position.x + Constants.SPRING_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
-    @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried; }
+    @Override public final boolean isDense() { return (!Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) && GigaGal.getInstance().getAction() != Enums.Action.CLIMBING) || beingCarried; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isSetAtopMovingGround() { return setAtopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
