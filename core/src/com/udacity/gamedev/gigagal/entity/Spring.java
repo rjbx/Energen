@@ -20,6 +20,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     private boolean isLoaded;
     private boolean beingCarried;
     private boolean collisionDetected;
+    private boolean setAtopMoveable;
     private Entity carrier;
 
     // ctor
@@ -29,6 +30,7 @@ public class Spring extends Ground implements Reboundable, Portable {
         isLoaded = false;
         beingCarried = false;
         collisionDetected = true;
+        setAtopMoveable = false;
     }
 
     @Override
@@ -44,11 +46,14 @@ public class Spring extends Ground implements Reboundable, Portable {
                 }
             }
         }
+        setAtopMoveable = false;
+        // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
-            if (hazard instanceof Groundable) {
+            if (hazard instanceof Groundable && hazard instanceof Moving) {
                 if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 5, hazard.getTop() + 5)) {
                     position.x = hazard.getPosition().x;
                     position.y = hazard.getTop() + getHeight() / 2;
+                    setAtopMoveable = true;
                 }
             }
         }
@@ -81,6 +86,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return true; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
+    @Override public final boolean isSetAtopMoveable() { return setAtopMoveable; }
     @Override public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
     @Override public final void setState(boolean state) { this.isLoaded = state; }
