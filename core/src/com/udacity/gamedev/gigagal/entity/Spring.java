@@ -44,6 +44,14 @@ public class Spring extends Ground implements Reboundable, Portable {
                 }
             }
         }
+        for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+            if (hazard instanceof Groundable) {
+                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 5, hazard.getTop() + 5)) {
+                    position.x = hazard.getPosition().x;
+                    position.y = hazard.getTop() + getHeight() / 2;
+                }
+            }
+        }
     }
 
     @Override

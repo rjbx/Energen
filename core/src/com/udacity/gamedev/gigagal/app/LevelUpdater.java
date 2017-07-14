@@ -295,24 +295,16 @@ public class LevelUpdater {
             }
         }
         if (ground instanceof Portable) {
-             if (!((Portable) ground).isBeingCarried()) {
-                 if (gigaGal.getBottom() == ground.getBottom()
-                 && Helpers.overlapsPhysicalObject(gigaGal, ground)
-                 && gigaGal.getAction() == Enums.Action.STRIDING
-                 && InputControls.getInstance().shootButtonPressed) {
-                     ((Portable) ground).setCarrier(gigaGal);
-                 } else {
-                     for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
-                         if (hazard instanceof Groundable) {
-                             if (Helpers.overlapsPhysicalObject(ground, hazard) && Helpers.betweenTwoValues(ground.getBottom(), hazard.getTop() - 2, hazard.getTop() + 2)) {
-                                 ((Portable) ground).setCarrier(ground);
-                             }
-                         }
-                     }
-                 }
-             } else if (((Portable) ground).getCarrier() == gigaGal && !InputControls.getInstance().shootButtonPressed) {
-                 ((Portable) ground).setCarrier(null);
-             }
+            if (!((Portable) ground).isBeingCarried()) {
+                if (gigaGal.getBottom() == ground.getBottom()
+                        && Helpers.overlapsPhysicalObject(gigaGal, ground)
+                        && gigaGal.getAction() == Enums.Action.STRIDING
+                        && InputControls.getInstance().shootButtonPressed) {
+                    ((Portable) ground).setCarrier(gigaGal);
+                }
+            } else if (((Portable) ground).getCarrier() == gigaGal && !InputControls.getInstance().shootButtonPressed) {
+                ((Portable) ground).setCarrier(null);
+            }
         }
         if (ground instanceof Nonstatic) {
             ((Nonstatic) ground).update(delta);
