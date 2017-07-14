@@ -7,5 +7,6 @@ public interface Portable extends Nonstatic, Physical {
     Entity getCarrier();
     void setCarrier(Entity entity);
     boolean isBeingCarried();
-    boolean isSetAtopMoveable();
+    boolean isSetAtopMovingGround();
+    Groundable getMovingGround();
 }
