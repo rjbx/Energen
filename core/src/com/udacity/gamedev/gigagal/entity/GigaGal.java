@@ -299,7 +299,9 @@ public class GigaGal extends Entity implements Humanoid {
                 if (ground instanceof Climbable) {
                         if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
                                 && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
-                            if (!(ground instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.CLIMBING)))) {
+                            if (!(ground instanceof Unsteady)
+                                || (ground instanceof Portable && directionY == Direction.UP)
+                                || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.CLIMBING)))) {
                                 touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                             }
                         }
