@@ -407,7 +407,7 @@ public class GigaGal extends Entity implements Humanoid {
                     yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
                 }
                 if (Helpers.betweenTwoValues(yTestPosition, ground.getBottom(), ground.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
-                    if (!(ground instanceof Portable && ((Portable) ground).isBeingCarried())) {
+                    if (!(ground instanceof Portable && ((Portable) ground).isBeingCarried() && ((Portable) ground).getCarrier() == this)) {
                         if (!(ground instanceof Canirol)) {
                             if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
                                 position.x = ground.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
@@ -483,7 +483,7 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                 }
                 if (ground instanceof Reboundable) {
-                    if (!(ground instanceof Portable) || !((Portable) ground).isBeingCarried()) {
+                    if (!(ground instanceof Portable && ((Portable) ground).isBeingCarried() && ((Portable) ground).getCarrier() == this)) {
                         canClimb = false;
                         canCling = false;
                     }
@@ -1055,7 +1055,7 @@ public class GigaGal extends Entity implements Humanoid {
         velocity.y = Constants.JUMP_SPEED;
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         if (touchedGround instanceof Reboundable) {
-            if (!(touchedGround instanceof Portable) || !((Portable) touchedGround).isBeingCarried()) {
+            if (!(touchedGround instanceof Portable && ((Portable) touchedGround).isBeingCarried() && ((Portable) touchedGround).getCarrier() == this)) {
                 velocity.y *= 2;
                 jumpStartTime = 0;
             }

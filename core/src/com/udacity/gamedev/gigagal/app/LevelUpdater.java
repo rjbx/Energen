@@ -295,12 +295,21 @@ public class LevelUpdater {
             }
         }
         if (ground instanceof Portable) {
-             if (!((Portable) ground).isBeingCarried()
-                     && gigaGal.getBottom() == ground.getBottom()
-                     && Helpers.overlapsPhysicalObject(gigaGal, ground)
-                     && gigaGal.getAction() == Enums.Action.STRIDING
-                     && InputControls.getInstance().shootButtonPressed) {
-                ((Portable) ground).setCarrier(gigaGal);
+             if (!((Portable) ground).isBeingCarried()) {
+                 if (gigaGal.getBottom() == ground.getBottom()
+                 && Helpers.overlapsPhysicalObject(gigaGal, ground)
+                 && gigaGal.getAction() == Enums.Action.STRIDING
+                 && InputControls.getInstance().shootButtonPressed) {
+                     ((Portable) ground).setCarrier(gigaGal);
+                 } else {
+                     for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+                         if (hazard instanceof Groundable) {
+                             if (Helpers.overlapsPhysicalObject(ground, hazard) && Helpers.betweenTwoValues(ground.getBottom(), hazard.getTop() - 2, hazard.getTop() + 2)) {
+                                 ((Portable) ground).setCarrier(ground);
+                             }
+                         }
+                     }
+                 }
              } else if (((Portable) ground).getCarrier() == gigaGal && !InputControls.getInstance().shootButtonPressed) {
                  ((Portable) ground).setCarrier(null);
              }
@@ -394,7 +403,7 @@ public class LevelUpdater {
             projectiles.end();
         }
         if (ground instanceof Reboundable) {
-            if (!(ground instanceof Portable) || !((Portable) ground).isBeingCarried()) {
+            if (!(ground instanceof Portable && ((Portable) ground).isBeingCarried() && ((Portable) ground).getCarrier() == gigaGal)) {
                 Reboundable reboundable = (Reboundable) ground;
                 if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                     reboundable.setState(true);
