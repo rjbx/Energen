@@ -44,7 +44,7 @@ public class Spring extends Ground implements Reboundable, Portable {
                     if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)) {
                         position.y = ground.getTop() + getHeight() / 2;
                         collisionDetected = true;
-                    } else {
+                    } else if (ground.isDense()) {
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {
