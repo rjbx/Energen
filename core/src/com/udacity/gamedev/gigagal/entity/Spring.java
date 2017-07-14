@@ -87,7 +87,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     @Override public final float getRight() { return position.x + Constants.SPRING_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
-    @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()); }
+    @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isSetAtopMovingGround() { return setAtopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
