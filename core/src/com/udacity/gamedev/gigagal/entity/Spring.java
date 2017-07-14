@@ -38,7 +38,7 @@ public class Spring extends Ground implements Reboundable, Portable {
         if (beingCarried) {
             this.position.set(carrier.getPosition().x, carrier.getTop());
         } else if (!collisionDetected) {
-            position.y -= Constants.GRAVITY * 15 * delta;
+            position.y -= Constants.GRAVITY * 20 * delta;
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (Helpers.overlapsPhysicalObject(this, ground) && Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)) {
                     position.y = ground.getTop() + getHeight() / 2;
@@ -87,7 +87,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     @Override public final float getRight() { return position.x + Constants.SPRING_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
-    @Override public final boolean isDense() { return isBeingCarried(); }
+    @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()); }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isSetAtopMovingGround() { return setAtopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
