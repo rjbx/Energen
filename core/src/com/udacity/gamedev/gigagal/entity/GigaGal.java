@@ -1059,7 +1059,7 @@ public class GigaGal extends Entity implements Humanoid {
                 velocity.y *= 2;
                 jumpStartTime = 0;
             }
-            action = Action.FALLING;
+            action = Action.FALLING; // prevents from rendering stride sprite when striding against ground side and jumping on reboundable
         } else {
             fall(); // causes fall texture to render for one frame
         }

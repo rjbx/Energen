@@ -35,7 +35,6 @@ public class Spring extends Ground implements Reboundable, Portable {
     public void update(float delta) {
         if (beingCarried) {
             this.position.set(carrier.getPosition().x, carrier.getTop());
-            Gdx.app.log(TAG, "g");
         } else if (!collisionDetected) {
             position.y -= Constants.GRAVITY * 10 * delta;
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
