@@ -89,7 +89,7 @@ public class Block extends Ground implements Rappelable, Hurdleable, Strikeable,
     public Color getColor() { return ninePatch.getColor(); }
     private void setColor() {
         if (!dense) {
-            ninePatch.setColor(new Color(type.theme().color()).mul(.9f));
+            ninePatch.setColor(new Color(type.theme().color()).mul(.7f));
         } else {
             ninePatch.setColor(type.theme().color());
         }
