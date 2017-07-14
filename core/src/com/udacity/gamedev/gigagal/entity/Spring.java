@@ -45,7 +45,11 @@ public class Spring extends Ground implements Reboundable, Portable {
                         position.y = ground.getTop() + getHeight() / 2;
                         collisionDetected = true;
                     } else {
-                        position.x = GigaGal.getInstance().getPosition().x;
+                        if (position.x < ground.getPosition().x) {
+                            position.x = ground.getLeft() - getWidth() / 2;
+                        } else {
+                            position.x = ground.getRight() + getWidth() / 2;
+                        }
                     }
                 }
             }
