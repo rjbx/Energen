@@ -298,6 +298,11 @@ public class LevelUpdater {
             if (!((Portable) ground).isBeingCarried() && Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                 if ((gigaGal.getBottom() == ground.getBottom() && (InputControls.getInstance().shootButtonPressed) && gigaGal.getAction() == Enums.Action.STRIDING)
                 || ((gigaGal.getBottom() == ground.getTop() && (InputControls.getInstance().shootButtonPressed && InputControls.getInstance().downButtonPressed) && gigaGal.getAction() == Enums.Action.STANDING))) {
+                    if (ground instanceof Reboundable) {
+                        gigaGal.setPosition(new Vector2(gigaGal.getPosition().x, ground.getBottom() + Constants.GIGAGAL_EYE_HEIGHT));
+                        ((Reboundable) ground).resetStartTime();
+                        ((Reboundable) ground).setState(false);
+                    }
                     ((Portable) ground).setCarrier(gigaGal);
                 }
             } else if (((Portable) ground).getCarrier() == gigaGal && !InputControls.getInstance().shootButtonPressed) {
