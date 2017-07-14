@@ -300,12 +300,11 @@ public class GigaGal extends Entity implements Humanoid {
                         if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
                                 && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
                             if (!(ground instanceof Unsteady)
-                                || (ground instanceof Portable && directionY == Direction.UP)
-                                || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.CLIMBING)))) {
+                            || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.CLIMBING)))) {
                                 touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                             }
                         }
-                        if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
+                        if (!(canClimb && directionY == Direction.DOWN) || (ground instanceof Portable)) { // ignore side and bottom collision always and top collision when can climb and looking downward
                             if (action != Action.FALLING // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
                                     || (fallStartTime != 0 && (Helpers.secondsSince(fallStartTime) > .01f))) { // permits call to stand when falling and touching climbable and non-climbable simultaneously and not having immediately called jump/fall
                                 if (ground instanceof Unsteady) {
