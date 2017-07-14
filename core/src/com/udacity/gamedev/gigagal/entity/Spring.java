@@ -51,7 +51,7 @@ public class Spring extends Ground implements Reboundable, Portable {
         // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Moving) {
-                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 5, hazard.getTop() + 5)) {
+                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 6, hazard.getTop() + 6)) {
                     position.x = hazard.getPosition().x + ((Moving) hazard).getVelocity().x;
                     position.y = hazard.getTop() + getHeight() / 2 + ((Moving) hazard).getVelocity().y;
                     setAtopMovingGround = true;
@@ -87,7 +87,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     @Override public final float getRight() { return position.x + Constants.SPRING_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
-    @Override public final boolean isDense() { return true; }
+    @Override public final boolean isDense() { return false; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isSetAtopMovingGround() { return setAtopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
