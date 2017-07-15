@@ -17,20 +17,22 @@ public class Spring extends Ground implements Reboundable, Portable {
     private Vector2 position;
     private Groundable movingGround;
     private long startTime;
-    private boolean isLoaded;
+    private boolean loaded;
     private boolean beingCarried;
     private boolean atopGround;
     private boolean atopMovingGround;
+    private boolean tossed;
     private Entity carrier;
 
     // ctor
     public Spring(Vector2 position) {
         this.position = position;
         startTime = 0;
-        isLoaded = false;
+        loaded = false;
         beingCarried = false;
         atopGround = true;
         atopMovingGround = false;
+        tossed = false;
     }
 
     @Override
@@ -41,21 +43,23 @@ public class Spring extends Ground implements Reboundable, Portable {
         } else if (!atopGround) {
             position.y -= Constants.GRAVITY * 15 * delta;
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+                if (tossed) {
+                    if (!Helpers.encompassesPhysicalObject(ground, this)) {
+                        ((Portable) ground).setPosition(new Vector2(ground.getPosition().x + GigaGal.getInstance().getVelocity().x / 4, ground.getPosition().y));
+                    } else {
+                        tossed = false;
+                    }
+                }
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
                     if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)) {
-                        if (!beingCarried) {
-                            position.y = ground.getTop() + getHeight() / 2;
-                            atopGround = true;
-                        }
-                    } else if (ground.isDense()) {
-                        if (getTop() <= ground.getBottom() || !Helpers.encompassedBetweenTwoSides(position.x, getWidth() / 2, ground.getLeft(), ground.getRight())) {
-                            if (!beingCarried) {
-                                if (position.x < ground.getPosition().x) {
-                                    position.x = ground.getLeft() - getWidth() / 2;
-                                } else {
-                                    position.x = ground.getRight() + getWidth() / 2;
-                                }
-                            }
+                        position.y = ground.getTop() + getHeight() / 2;
+                        atopGround = true;
+                    }
+                    if (ground.isDense() || !Helpers.encompassesPhysicalObject(ground, this)) {
+                        if (position.x < ground.getPosition().x) {
+                            position.x = ground.getLeft() - getWidth() / 2;
+                        } else {
+                            position.x = ground.getRight() + getWidth() / 2;
                         }
                     }
                 }
@@ -78,7 +82,7 @@ public class Spring extends Ground implements Reboundable, Portable {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        if (isLoaded) {
+        if (loaded) {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
@@ -103,11 +107,12 @@ public class Spring extends Ground implements Reboundable, Portable {
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried; }
+    @Override public final void toss() { tossed = true; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
-    @Override public final void setState(boolean state) { this.isLoaded = state; }
-    @Override public final boolean getState() { return isLoaded; }
+    @Override public final void setState(boolean state) { this.loaded = state; }
+    @Override public final boolean getState() { return loaded; }
     @Override public final void resetStartTime() { this.startTime = 0; }
 }

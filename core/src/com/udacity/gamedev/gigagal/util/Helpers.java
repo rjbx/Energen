@@ -227,6 +227,10 @@ public final class Helpers {
         return (!object1.equals(object2) && object1.getLeft() <= object2.getRight() && object1.getRight() >= object2.getLeft() && object1.getBottom() <= object2.getTop() && object1.getTop() >= object2.getBottom());
     }
 
+    public static final boolean encompassesPhysicalObject(Physical object1, Physical object2) {
+        return (!object1.equals(object2) && object1.getLeft() <= object2.getLeft() && object1.getRight() >= object2.getRight() && object1.getBottom() <= object2.getBottom() && object1.getTop() >= object2.getTop());
+    }
+
     public static final int useAmmo(Enums.ShotIntensity intensity) {
         if (intensity == Enums.ShotIntensity.BLAST) {
             return 3;

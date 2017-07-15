@@ -307,7 +307,7 @@ public class LevelUpdater {
             } else if (((Portable) ground).getCarrier() == gigaGal && !InputControls.getInstance().shootButtonPressed) {
                 ((Portable) ground).setCarrier(null);
                 if (gigaGal.getAction() == Enums.Action.STRIDING) {
-                    ((Portable) ground).setPosition(new Vector2(ground.getPosition().x + gigaGal.getVelocity().x / 4, ground.getPosition().y));
+                    ((Portable) ground).toss();
                 }
             }
         }
