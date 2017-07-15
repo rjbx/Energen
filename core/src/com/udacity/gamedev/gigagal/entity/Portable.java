@@ -9,6 +9,5 @@ public interface Portable extends Nonstatic, Physical {
     boolean isBeingCarried();
     boolean isAtopMovingGround();
     Groundable getMovingGround();
-    void toss(float velocityX);
     float weightFactor();
 }

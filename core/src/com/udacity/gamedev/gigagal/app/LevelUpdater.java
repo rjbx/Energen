@@ -306,8 +306,8 @@ public class LevelUpdater {
                 }
             } else if (((Portable) ground).getCarrier() == gigaGal && !InputControls.getInstance().shootButtonPressed) {
                 ((Portable) ground).setCarrier(null);
-                if (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed) {
-                    ((Portable) ground).toss((gigaGal.getVelocity().x + Helpers.absoluteToDirectionalValue(ground.getWidth() * 13, gigaGal.getDirectionX(), Enums.Orientation.X)) * ((Portable) ground).weightFactor());
+                if (ground instanceof Tossable && InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed) {
+                    ((Tossable) ground).toss((gigaGal.getVelocity().x + Helpers.absoluteToDirectionalValue(ground.getWidth() * 13, gigaGal.getDirectionX(), Enums.Orientation.X)) * ((Tossable) ground).weightFactor());
                 }
             }
         }

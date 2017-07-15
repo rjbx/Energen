@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Spring extends Ground implements Reboundable, Portable {
+public class Spring extends Ground implements Reboundable, Tossable {
 
     // fields
     public final static String TAG = Spring.class.getName();
