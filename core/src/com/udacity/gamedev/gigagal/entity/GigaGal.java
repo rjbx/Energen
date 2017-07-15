@@ -91,7 +91,6 @@ public class GigaGal extends Entity implements Humanoid {
     private float strideTimeSeconds;
     private float strideSpeed;
     private float strideAcceleration;
-    private float turboDuration;
     private float turboMultiplier;
     private float ammoMultiplier;
     private float healthMultiplier;
@@ -130,7 +129,6 @@ public class GigaGal extends Entity implements Humanoid {
         halfWidth = width / 2;
         lives = Constants.INITIAL_LIVES;
         killPlane = -10000;
-        turboDuration = 1;
         turboMultiplier = 1;
         ammoMultiplier = 1;
         healthMultiplier = 1;
@@ -179,7 +177,6 @@ public class GigaGal extends Entity implements Humanoid {
         turbo = Constants.MAX_TURBO;
         shotIntensity = ShotIntensity.NORMAL;
         startTurbo = turbo;
-        turboDuration = 0;
         touchedGround = null;
         touchedHazard = null;
         canClimb = false;
@@ -202,7 +199,6 @@ public class GigaGal extends Entity implements Humanoid {
         jumpStartTime = 0;
         fallStartTime = 0;
         dashStartTime = 0;
-        turboDuration = 0;
         standStartTime = TimeUtils.nanoTime();
         recoveryStartTime = TimeUtils.nanoTime();
     }
@@ -1007,7 +1003,6 @@ public class GigaGal extends Entity implements Humanoid {
     private void dash() {
         if (action != Action.DASHING) {
             startTurbo = turbo;
-            turboDuration = Constants.MAX_DASH_DURATION * (startTurbo / Constants.MAX_TURBO);
             action = Action.DASHING;
             groundState = GroundState.PLANTED;
             dashStartTime = TimeUtils.nanoTime();
@@ -1017,7 +1012,7 @@ public class GigaGal extends Entity implements Humanoid {
         }
         float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
         if (turbo >= 1) {
-            turbo -= Constants.FALL_TURBO_INCREMENT * Constants.DASH_TURBO_MULTIPLIER * turboMultiplier;
+            turbo -= Constants.HOVER_TURBO_INCREMENT * Constants.DASH_TURBO_MULTIPLIER * turboMultiplier;
             velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed, directionX, Orientation.X);
         } else {
             canDash = false;
@@ -1102,7 +1097,7 @@ public class GigaGal extends Entity implements Humanoid {
             canCling = false;
             jumpStartTime = 0;
             startTurbo = turbo;
-            turboDuration = Constants.MAX_HOVER_DURATION * (startTurbo / Constants.MAX_TURBO);
+            turboDuration = Constants.HOVER_TURBO_INCREMENT * (startTurbo / Constants.MAX_TURBO);
             action = Action.HOVERING; // indicates currently hovering
             groundState = GroundState.AIRBORNE;
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
@@ -1140,7 +1135,7 @@ public class GigaGal extends Entity implements Humanoid {
             groundState = GroundState.AIRBORNE;
             startTurbo = turbo;
             rappelStartTime = TimeUtils.nanoTime();
-            turboDuration = Constants.MAX_RAPPEL_DURATION * (startTurbo / Constants.MAX_TURBO);
+            turboDuration = Constants.RAPPEL_TURBO_INCREMENT * (startTurbo / Constants.MAX_TURBO);
             if (!Helpers.movingOppositeDirection(velocity.x, directionX, Orientation.X)) {
                 directionX = Helpers.getOppositeDirection(directionX);
             }
@@ -1183,7 +1178,7 @@ public class GigaGal extends Entity implements Humanoid {
                 velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
             } else {
                 if (!canHurdle) {
-                    turbo -= Constants.FALL_TURBO_INCREMENT * turboMultiplier;
+                    turbo -= Constants.RAPPEL_TURBO_INCREMENT * turboMultiplier;
                 }
                 if (touchedGround instanceof Treadmill) {
                     turbo -= 2;

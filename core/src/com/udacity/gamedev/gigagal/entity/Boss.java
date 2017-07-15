@@ -988,7 +988,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
         // canHover can only be true just before beginning to hover
         if (action != Enums.Action.HOVERING) {
             startTurbo = turbo;
-            turboDuration = Constants.MAX_HOVER_DURATION * (startTurbo / Constants.MAX_TURBO);
+            turboDuration = Constants.HOVER_TURBO_INCREMENT * (startTurbo / Constants.MAX_TURBO);
             action = Enums.Action.HOVERING; // indicates currently hovering
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
@@ -1024,7 +1024,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
             groundState = Enums.GroundState.AIRBORNE;
             startTurbo = turbo;
             rappelStartTime = TimeUtils.nanoTime();
-            turboDuration = Constants.MAX_RAPPEL_DURATION * (startTurbo / Constants.MAX_TURBO);
+            turboDuration = Constants.RAPPEL_TURBO_INCREMENT * (startTurbo / Constants.MAX_TURBO);
             if (!Helpers.movingOppositeDirection(velocity.x, directionX, Enums.Orientation.X)) {
                 directionX = Helpers.getOppositeDirection(directionX);
             }

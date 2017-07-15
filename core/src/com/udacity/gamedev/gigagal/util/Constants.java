@@ -72,15 +72,15 @@ public final class Constants {
     public static final float STRIDING_JUMP_MULTIPLIER = 1.1f;
     public static final float Y_KNOCKBACK = 150;
     public static final float RAPPEL_GRAVITY_OFFSET = 5;
-    public static final float MAX_RAPPEL_DURATION = .75f;
     public static final float MAX_JUMP_DURATION = 0.025f;
-    public static final float MAX_HOVER_DURATION = 1.5f;
     public static final float MIN_GROUND_DISTANCE = 20;
     public static final float MAX_DASH_DURATION = 0.35f;
     public static final float DASH_TURBO_MULTIPLIER = 3;
     public static final float MAX_LOOK_DISTANCE = 60;
     public static final float RECOVERY_TIME = 0.25f;
     public static final float DOUBLE_TAP_SPEED = 0.2f;
+    public static final float RAPPEL_TURBO_INCREMENT = .75f;
+    public static final float HOVER_TURBO_INCREMENT = 1;
     public static final float STRIDE_TURBO_INCREMENT = 0.75f;
     public static final float FALL_TURBO_INCREMENT = 1;
     public static final float STAND_TURBO_INCREMENT = 1.25f;
