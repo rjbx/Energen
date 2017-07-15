@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -48,7 +47,7 @@ public class Spring extends Ground implements Reboundable, Portable {
             atopGround = false;
         } else if (!atopGround) {
             position.y -= Constants.GRAVITY * 15 * delta;
-            tossVelocity -= Helpers.absoluteToDirectionalValue(Constants.AIR_RESISTANCE, tossDirection, Enums.Orientation.X);
+            tossVelocity /= Constants.DRAG_FACTOR;
             if (tossed) {
                 setPosition(new Vector2(this.getPosition().x + tossVelocity * delta, this.getPosition().y));
             }
