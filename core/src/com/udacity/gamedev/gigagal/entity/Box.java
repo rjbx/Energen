@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Enums;
 
 // mutable
-public class Box extends Block implements Destructible {
+public class Box extends Barrier implements Destructible {
 
     // fields
     public final static String TAG = Box.class.getName();

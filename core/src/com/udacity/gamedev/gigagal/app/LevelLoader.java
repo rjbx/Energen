@@ -38,7 +38,7 @@ import com.udacity.gamedev.gigagal.entity.Triptread;
 import com.udacity.gamedev.gigagal.entity.Vines;
 import com.udacity.gamedev.gigagal.entity.Portal;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
-import com.udacity.gamedev.gigagal.entity.Block;
+import com.udacity.gamedev.gigagal.entity.Barrier;
 import com.udacity.gamedev.gigagal.entity.Waves;
 import com.udacity.gamedev.gigagal.entity.Zoomba;
 import com.udacity.gamedev.gigagal.util.ChaseCam;
@@ -586,7 +586,7 @@ final class LevelLoader {
 
     private static final void loadNinePatches(LevelUpdater level, JSONArray ninePatches) {
 
-        Array<Block> blockArray = new Array<Block>();
+        Array<Barrier> blockArray = new Array<Barrier>();
         Array<Box> boxArray = new Array<Box>();
         Array<Ladder> ladderArray = new Array<Ladder>();
 
@@ -600,8 +600,8 @@ final class LevelLoader {
             float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BLOCK_SPRITE)) {
-                final Block block;
-                block = new Block(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
+                final Barrier block;
+                block = new Barrier(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
                 blockArray.add(block);
                 Gdx.app.log(TAG, "Loaded the block at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
@@ -614,9 +614,9 @@ final class LevelLoader {
                 Gdx.app.log(TAG, "Loaded the ladder at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             }
 
-            blockArray.sort(new Comparator<Block>() {
+            blockArray.sort(new Comparator<Barrier>() {
                 @Override
-                public int compare(Block o1, Block o2) {
+                public int compare(Barrier o1, Barrier o2) {
                     if (o1.getTop() > o2.getTop()) {
                         return 1;
                     } else if (o1.getTop() < o2.getTop()) {
@@ -651,7 +651,7 @@ final class LevelLoader {
             });
         }
 
-        for (Block block : blockArray) {
+        for (Barrier block : blockArray) {
             level.addGround(block);
         }
 
