@@ -17,7 +17,6 @@ public class Spring extends Ground implements Reboundable, Portable {
 
     private Vector2 position;
     private Groundable movingGround;
-    private Enums.Direction tossDirection;
     private long startTime;
     private float tossVelocity;
     private boolean loaded;
@@ -37,7 +36,6 @@ public class Spring extends Ground implements Reboundable, Portable {
         atopMovingGround = false;
         tossed = false;
         tossVelocity = 0;
-        tossDirection = null;
     }
 
     @Override
@@ -112,7 +110,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried; }
-    @Override public final void toss(float velocityX) { tossVelocity = velocityX * 2.5f; if (tossVelocity > 0) { tossDirection = Enums.Direction.RIGHT; } else if (tossVelocity < 0) { tossDirection = Enums.Direction.LEFT; } tossed = true; }
+    @Override public final void toss(float velocityX) { tossVelocity = velocityX * 3; tossed = true; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
