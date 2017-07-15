@@ -306,7 +306,7 @@ public class LevelUpdater {
                 }
             } else if (((Portable) ground).getCarrier() == gigaGal && !InputControls.getInstance().shootButtonPressed) {
                 ((Portable) ground).setCarrier(null);
-                if (gigaGal.getAction() == Enums.Action.STRIDING) {
+                if (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed) {
                     ((Portable) ground).toss();
                 }
             }
