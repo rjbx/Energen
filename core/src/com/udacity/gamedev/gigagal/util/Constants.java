@@ -21,7 +21,7 @@ public final class Constants {
     public static final float WORLD_SIZE = 160;
     public static final float KILL_PLANE = -800;
     public static final float GRAVITY = 10;
-    public static final float AIR_RESISTANCE = 3;
+    public static final float AIR_RESISTANCE = 5;
     public static final float CHASE_CAM_MOVE_SPEED = WORLD_SIZE;
 
     // Asset files
