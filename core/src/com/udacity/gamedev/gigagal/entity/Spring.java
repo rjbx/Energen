@@ -18,6 +18,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     private Vector2 position;
     private Groundable movingGround;
     private long startTime;
+    private float tossVelocity;
     private boolean loaded;
     private boolean beingCarried;
     private boolean atopGround;
@@ -34,6 +35,7 @@ public class Spring extends Ground implements Reboundable, Portable {
         atopGround = true;
         atopMovingGround = false;
         tossed = false;
+        tossVelocity = 0;
     }
 
     @Override
@@ -44,8 +46,7 @@ public class Spring extends Ground implements Reboundable, Portable {
         } else if (!atopGround) {
             position.y -= Constants.GRAVITY * 15 * delta;
             if (tossed) {
-                setPosition(new Vector2(this.getPosition().x + GigaGal.getInstance().getVelocity().x / 4, this.getPosition().y));
-                tossed = false;
+                setPosition(new Vector2(this.getPosition().x + tossVelocity * delta, this.getPosition().y));
             }
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (!atopGround) { // prevents setting to unreachable, encompassing ground
@@ -54,6 +55,7 @@ public class Spring extends Ground implements Reboundable, Portable {
                                 && ground.getWidth() > this.getWidth()) { // prevents setting to unreachable, narrower ground
                             position.y = ground.getTop() + getHeight() / 2;
                             atopGround = true;
+                            tossed = false;
                         } else if (ground.isDense()) {
                             if (position.x < ground.getPosition().x) {
                                 position.x = ground.getLeft() - getWidth() / 2;
@@ -107,7 +109,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried; }
-    @Override public final void toss() { tossed = true; }
+    @Override public final void toss(float velocityX) { tossVelocity = velocityX; tossed = true; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
