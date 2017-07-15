@@ -1104,7 +1104,7 @@ public class GigaGal extends Entity implements Humanoid {
         hoverTimeSeconds = Helpers.secondsSince(hoverStartTime); // for comparing with max hover time
         if (turbo >= 1) {
             velocity.y = 0; // disables impact of gravity
-            turbo -= Constants.FALL_TURBO_INCREMENT * turboMultiplier;
+            turbo -= Constants.HOVER_TURBO_INCREMENT * turboMultiplier;
         } else {
             canHover = false;
             fall(); // when max hover time is exceeded
@@ -1171,6 +1171,9 @@ public class GigaGal extends Entity implements Humanoid {
                 directionX = Helpers.getOppositeDirection(directionX);
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
                 jump();
+                if (touchedGround instanceof Moving) {
+                    velocity.y += ((Moving) touchedGround).getVelocity().y * 2;
+                }
             } else if (turbo < 1) {
                 turbo = 0;
                 velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;

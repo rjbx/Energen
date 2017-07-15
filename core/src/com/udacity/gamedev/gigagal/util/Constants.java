@@ -79,7 +79,7 @@ public final class Constants {
     public static final float DOUBLE_TAP_SPEED = 0.2f;
     public static final float DASH_TURBO_INCREMENT = 3;
     public static final float RAPPEL_TURBO_INCREMENT = .75f;
-    public static final float HOVER_TURBO_INCREMENT = 1;
+    public static final float HOVER_TURBO_INCREMENT = 1.5f;
     public static final float STRIDE_TURBO_INCREMENT = 0.75f;
     public static final float FALL_TURBO_INCREMENT = 1;
     public static final float STAND_TURBO_INCREMENT = 1.25f;
