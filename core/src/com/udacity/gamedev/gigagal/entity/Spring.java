@@ -18,7 +18,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     private Vector2 position;
     private Groundable movingGround;
     private long startTime;
-    private float tossVelocity;
+    private Vector2 velocity;
     private boolean loaded;
     private boolean beingCarried;
     private boolean atopGround;
@@ -35,7 +35,7 @@ public class Spring extends Ground implements Reboundable, Portable {
         atopGround = true;
         atopMovingGround = false;
         tossed = false;
-        tossVelocity = 0;
+        velocity = new Vector2(0, 0);
     }
 
     @Override
@@ -44,10 +44,10 @@ public class Spring extends Ground implements Reboundable, Portable {
             this.position.set(carrier.getPosition().x, carrier.getTop());
             atopGround = false;
         } else if (!atopGround) {
-            position.y -= Constants.GRAVITY * 15 * delta;
-            tossVelocity /= Constants.DRAG_FACTOR;
+            velocity.x /= Constants.DRAG_FACTOR;
+            velocity.y = -Constants.GRAVITY * 15;
             if (tossed) {
-                setPosition(new Vector2(this.getPosition().x + tossVelocity * delta, this.getPosition().y));
+                position.mulAdd(velocity, delta);
             }
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (!atopGround) { // prevents setting to unreachable, encompassing ground
@@ -55,6 +55,7 @@ public class Spring extends Ground implements Reboundable, Portable {
                         if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)
                                 && ground.getWidth() > this.getWidth()) { // prevents setting to unreachable, narrower ground
                             position.y = ground.getTop() + getHeight() / 2;
+                            velocity.setZero();
                             atopGround = true;
                             tossed = false;
                         } else if (ground.isDense()) {
@@ -110,7 +111,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried; }
-    @Override public final void toss(float velocityX) { tossVelocity = velocityX * 3; tossed = true; }
+    @Override public final void toss(float velocityX) { velocity.x = velocityX * 3; tossed = true; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
