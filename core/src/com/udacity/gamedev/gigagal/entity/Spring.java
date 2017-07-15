@@ -42,11 +42,12 @@ public class Spring extends Ground implements Reboundable, Portable {
     public void update(float delta) {
         if (beingCarried) {
             this.position.set(carrier.getPosition().x, carrier.getTop());
+            velocity.setZero();
             atopGround = false;
         } else if (!atopGround) {
             velocity.x /= Constants.DRAG_FACTOR;
             velocity.y = -Constants.GRAVITY * 15;
-            if (tossed) {
+            if (!atopGround) {
                 position.mulAdd(velocity, delta);
             }
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
@@ -55,7 +56,6 @@ public class Spring extends Ground implements Reboundable, Portable {
                         if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)
                                 && ground.getWidth() > this.getWidth()) { // prevents setting to unreachable, narrower ground
                             position.y = ground.getTop() + getHeight() / 2;
-                            velocity.setZero();
                             atopGround = true;
                             tossed = false;
                         } else if (ground.isDense()) {
