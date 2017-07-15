@@ -55,7 +55,7 @@ public class Spring extends Ground implements Reboundable, Portable {
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (!atopGround) {Gdx.app.log(TAG + 1, position.toString());
                     if (Helpers.overlapsPhysicalObject(this, ground)) {
-                        if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)) {
+                        if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3) && ground.getWidth() > this.getWidth()) {
                             position.y = ground.getTop() + getHeight() / 2;
                             atopGround = true;
                         } else if (ground.isDense()) {
