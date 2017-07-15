@@ -1182,7 +1182,9 @@ public class GigaGal extends Entity implements Humanoid {
                 turbo = 0;
                 velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
             } else {
-                turbo -= Constants.FALL_TURBO_INCREMENT * turboMultiplier;
+                if (!canHurdle) {
+                    turbo -= Constants.FALL_TURBO_INCREMENT * turboMultiplier;
+                }
                 if (touchedGround instanceof Treadmill) {
                     turbo -= 2;
                 }
