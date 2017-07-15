@@ -43,19 +43,17 @@ public class Spring extends Ground implements Reboundable, Portable {
         } else if (!atopGround) {
             position.y -= Constants.GRAVITY * 15 * delta;
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-                if (tossed) {
-                    if (!Helpers.encompassesPhysicalObject(ground, this)) {
-                        ((Portable) ground).setPosition(new Vector2(ground.getPosition().x + GigaGal.getInstance().getVelocity().x / 4, ground.getPosition().y));
-                    } else {
-                        tossed = false;
-                    }
-                }
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
-                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)) {
+                    if (tossed) {
+                        setPosition(new Vector2(this.getPosition().x + GigaGal.getInstance().getVelocity().x / 4, this.getPosition().y));
+                        if (Helpers.encompassesPhysicalObject(ground, this)) {
+                            setPosition(new Vector2(GigaGal.getInstance().getPosition().x, this.getPosition().y));
+                        }
+                        tossed = false;
+                    } else if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)) {
                         position.y = ground.getTop() + getHeight() / 2;
                         atopGround = true;
-                    }
-                    if (ground.isDense() || !Helpers.encompassesPhysicalObject(ground, this)) {
+                    } else if (ground.isDense() || !Helpers.encompassesPhysicalObject(ground, this)) {
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {
