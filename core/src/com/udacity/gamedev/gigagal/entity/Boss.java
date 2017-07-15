@@ -912,7 +912,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
     private void dash() {
         if (action != Enums.Action.DASHING) {
             startTurbo = turbo;
-            turboDuration = Constants.MAX_DASH_DURATION * (startTurbo / Constants.MAX_TURBO);
+            turboDuration = Constants.DASH_TURBO_INCREMENT * (startTurbo / Constants.MAX_TURBO);
             action = Enums.Action.DASHING;
             dashStartTime = TimeUtils.nanoTime();
             strideStartTime = 0;

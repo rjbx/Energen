@@ -1012,7 +1012,7 @@ public class GigaGal extends Entity implements Humanoid {
         }
         float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
         if (turbo >= 1) {
-            turbo -= Constants.HOVER_TURBO_INCREMENT * Constants.DASH_TURBO_MULTIPLIER * turboMultiplier;
+            turbo -= Constants.DASH_TURBO_INCREMENT * turboMultiplier;
             velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed, directionX, Orientation.X);
         } else {
             canDash = false;
@@ -1097,7 +1097,6 @@ public class GigaGal extends Entity implements Humanoid {
             canCling = false;
             jumpStartTime = 0;
             startTurbo = turbo;
-            turboDuration = Constants.HOVER_TURBO_INCREMENT * (startTurbo / Constants.MAX_TURBO);
             action = Action.HOVERING; // indicates currently hovering
             groundState = GroundState.AIRBORNE;
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
@@ -1135,7 +1134,6 @@ public class GigaGal extends Entity implements Humanoid {
             groundState = GroundState.AIRBORNE;
             startTurbo = turbo;
             rappelStartTime = TimeUtils.nanoTime();
-            turboDuration = Constants.RAPPEL_TURBO_INCREMENT * (startTurbo / Constants.MAX_TURBO);
             if (!Helpers.movingOppositeDirection(velocity.x, directionX, Orientation.X)) {
                 directionX = Helpers.getOppositeDirection(directionX);
             }
