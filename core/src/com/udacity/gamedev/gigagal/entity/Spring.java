@@ -23,7 +23,6 @@ public class Spring extends Ground implements Reboundable, Portable {
     private boolean atopGround;
     private boolean atopMovingGround;
     private boolean tossed;
-    private boolean extraPass;
     private Entity carrier;
 
     // ctor
@@ -35,7 +34,6 @@ public class Spring extends Ground implements Reboundable, Portable {
         atopGround = true;
         atopMovingGround = false;
         tossed = false;
-        extraPass = false;
     }
 
     @Override
@@ -43,19 +41,17 @@ public class Spring extends Ground implements Reboundable, Portable {
         if (beingCarried) {
             this.position.set(carrier.getPosition().x, carrier.getTop());
             atopGround = false;
-            extraPass = false;
-        } else if (!atopGround || extraPass) {
+        } else if (!atopGround) {
+            position.y -= Constants.GRAVITY * 15 * delta;
             if (tossed) {
                 setPosition(new Vector2(this.getPosition().x + GigaGal.getInstance().getVelocity().x / 4, this.getPosition().y));
                 tossed = false;
             }
-            if (!atopGround) {
-                position.y -= Constants.GRAVITY * 15 * delta;
-            }
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-                if (!atopGround) {Gdx.app.log(TAG + 1, position.toString());
+                if (!atopGround) { // prevents setting to unreachable, encompassing ground
                     if (Helpers.overlapsPhysicalObject(this, ground)) {
-                        if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3) && ground.getWidth() > this.getWidth()) {
+                        if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)
+                                && ground.getWidth() > this.getWidth()) { // prevents setting to unreachable, narrower ground
                             position.y = ground.getTop() + getHeight() / 2;
                             atopGround = true;
                         } else if (ground.isDense()) {
@@ -66,17 +62,6 @@ public class Spring extends Ground implements Reboundable, Portable {
                             }
                         }
                     }
-                } else if (extraPass) {
-                    if (atopGround && extraPass && !ground.isDense() && (Math.abs(position.x - GigaGal.getInstance().getPosition().x) > Constants.GIGAGAL_MAX_SPEED / 4 || (Helpers.encompassesPhysicalObject(ground, this)))) {
-                        position.set(GigaGal.getInstance().getPosition().x, GigaGal.getInstance().getBottom() + getHeight() / 2);
-                    }
-                }
-            }
-            if (atopGround) {
-                if (!extraPass) {
-                    extraPass = true;
-                } else {
-                    extraPass = false;
                 }
             }
         }
