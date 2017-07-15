@@ -42,7 +42,6 @@ public class Spring extends Ground implements Reboundable, Portable {
     public void update(float delta) {
         if (beingCarried) {
             this.position.set(carrier.getPosition().x, carrier.getTop());
-            velocity.setZero();
             atopGround = false;
         } else if (!atopGround) {
             velocity.x /= Constants.DRAG_FACTOR;
@@ -53,6 +52,7 @@ public class Spring extends Ground implements Reboundable, Portable {
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (!atopGround) { // prevents setting to unreachable, encompassing ground
                     if (Helpers.overlapsPhysicalObject(this, ground)) {
+                        velocity.setZero();
                         if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)
                                 && ground.getWidth() > this.getWidth()) { // prevents setting to unreachable, narrower ground
                             position.y = ground.getTop() + getHeight() / 2;
