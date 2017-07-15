@@ -52,18 +52,19 @@ public class Spring extends Ground implements Reboundable, Portable {
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (!atopGround) { // prevents setting to unreachable, encompassing ground
                     if (Helpers.overlapsPhysicalObject(this, ground)) {
-                        velocity.setZero();
                         if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3, ground.getTop() + 3)
                                 && ground.getWidth() > this.getWidth()) { // prevents setting to unreachable, narrower ground
                             position.y = ground.getTop() + getHeight() / 2;
                             atopGround = true;
                             tossed = false;
+                            velocity.setZero();
                         } else if (ground.isDense()) {
                             if (position.x < ground.getPosition().x) {
                                 position.x = ground.getLeft() - getWidth() / 2;
                             } else {
                                 position.x = ground.getRight() + getWidth() / 2;
                             }
+                            velocity.setZero();
                         }
                     }
                 }
@@ -112,7 +113,7 @@ public class Spring extends Ground implements Reboundable, Portable {
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried; }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; tossed = true; }
-    @Override public final float weightFactor() { return 1.1f; }
+    @Override public final float weightFactor() { return 1; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
