@@ -50,20 +50,20 @@ public class Spring extends Ground implements Reboundable, Tossable {
             velocity.y = -Constants.GRAVITY * 15 * weightFactor();
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
-                        if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
-                                && ground.getWidth() > this.getWidth()) { // prevents setting to unreachable, narrower ground
-                            position.y = ground.getTop() + getHeight() / 2;
-                            atopGround = true;
-                            tossed = false;
-                            velocity.setZero();
-                        } else if (ground.isDense()) {
-                            if (position.x < ground.getPosition().x) {
-                                position.x = ground.getLeft() - getWidth() / 2;
-                            } else {
-                                position.x = ground.getRight() + getWidth() / 2;
-                            }
-                            velocity.x = 0;
+                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
+                            && ground.getWidth() > this.getWidth()) { // prevents setting to unreachable, narrower ground
+                        position.y = ground.getTop() + getHeight() / 2;
+                        atopGround = true;
+                        tossed = false;
+                        velocity.setZero();
+                    } else if (ground.isDense() && !(ground instanceof Moveable)) {
+                        if (position.x < ground.getPosition().x) {
+                            position.x = ground.getLeft() - getWidth() / 2;
+                        } else {
+                            position.x = ground.getRight() + getWidth() / 2;
                         }
+                        velocity.x = 0;
+                    }
                     if (ground instanceof Vehicular) {
                         if (Helpers.overlapsPhysicalObject(this, ground) && Helpers.betweenTwoValues(this.getBottom(), ground.getTop() - 6, ground.getTop() + 6)) {
                             position.x = ground.getPosition().x + ((Vehicular) ground).getVelocity().x;
