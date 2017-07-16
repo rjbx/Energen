@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -21,7 +22,6 @@ public class Block extends Barrier implements Draggable, Vehicular {
     private boolean atopGround;
     private boolean atopMovingGround;
     private Dynamic carrier;
-    private Enums.Direction direction;
 
     // ctor
     public Block(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
@@ -35,44 +35,33 @@ public class Block extends Barrier implements Draggable, Vehicular {
 
     @Override
     public void update(float delta) {
-        position.mulAdd(velocity, delta);
         if (beingCarried) {
-            position.y = carrier.getBottom() + getHeight() / 2;
-            velocity.set(carrier.getVelocity().x, carrier.getVelocity().y);
-        } else {
-            beingCarried = false;
-            direction = Enums.Direction.UP;
-            velocity.x /= Constants.DRAG_FACTOR;
+            position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
+            atopGround = false;
+        } else if (!atopGround) {
+            Gdx.app.log(TAG, position.toString());
             if (!atopGround) {
-                velocity.y = -Constants.GRAVITY * 15;
+                position.mulAdd(velocity, delta);
             }
-        }
-        atopGround = false;
-        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-            if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
-                        && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
-                    atopGround = true;
-                    position.y = ground.getTop() + getHeight() / 2;
-                    velocity.y = 0;
-                } else if (ground.isDense() && Helpers.betweenTwoValues(position.y, getBottom(), getTop())) {
-                    switch (direction) {
-                        case LEFT:
-                            if (position.x > ground.getPosition().x) {
-                                position.x = ground.getLeft() - getWidth() / 2;
-                            }
-                            break;
-                        case RIGHT:
-                            if (position.x < ground.getPosition().x) {
-                                position.x = ground.getRight() + getWidth() / 2;
-                            }
-                            break;
-                        default:
+            Gdx.app.log(TAG, position.toString());
+            velocity.x /= Constants.DRAG_FACTOR;
+            velocity.y = -Constants.GRAVITY * 15;
+            for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+                if (!atopGround) { // prevents setting to unreachable, encompassing ground
+                    if (Helpers.overlapsPhysicalObject(this, ground)) {
+                        if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
+                                && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
+                            position.y = ground.getTop() + getHeight() / 2;
+                            atopGround = true;
+                            velocity.setZero();
+                        } else if (ground.isDense()) {
                             if (position.x < ground.getPosition().x) {
                                 position.x = ground.getLeft() - getWidth() / 2;
                             } else {
                                 position.x = ground.getRight() + getWidth() / 2;
                             }
+                            velocity.x = 0;
+                        }
                     }
                 }
             }
@@ -101,17 +90,7 @@ public class Block extends Barrier implements Draggable, Vehicular {
     @Override public final void setPosition(Vector2 position) { super.position.set(position); }
     @Override public final Vector2 getVelocity() { return velocity; }
     @Override public final Dynamic getCarrier() { return carrier; }
-    @Override public final void setCarrier(Dynamic entity) {
-        this.carrier = entity;
-        beingCarried = (carrier != null);
-        if (beingCarried) {
-            if (carrier.getVelocity().x >= 0) {
-                direction = Enums.Direction.RIGHT;
-            } else {
-                direction = Enums.Direction.LEFT;
-            }
-        }
-    }
+    @Override public final void setCarrier(Dynamic entity) { this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Groundable getMovingGround() { return movingGround; }
     @Override public Enums.Material getType() { return super.getType(); }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(2 / 3, ((getWidth() * getHeight()) / 3600)); }
