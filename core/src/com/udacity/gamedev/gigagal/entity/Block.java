@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -36,9 +37,10 @@ public class Block extends Barrier implements Draggable {
     @Override
     public void update(float delta) {
         if (beingCarried) {
-            position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
+            this.position.set(carrier.getPosition().x, carrier.getTop());
             atopGround = false;
         } else if (!atopGround) {
+            Gdx.app.log(TAG, "df");
             if (!atopGround) {
                 position.mulAdd(velocity, delta);
             }

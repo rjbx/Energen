@@ -64,7 +64,7 @@ public class Spring extends Ground implements Reboundable, Tossable {
                             } else {
                                 position.x = ground.getRight() + getWidth() / 2;
                             }
-                            velocity.setZero();
+                            velocity.x = 0;
                         }
                     }
                 }
