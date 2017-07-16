@@ -468,13 +468,12 @@ public class GigaGal extends Entity implements Humanoid {
                         canCling = false;
                     }
                 }
-                if (ground instanceof Vehicular) {
+                if (ground instanceof Aerial) {
                     lookStartTime = 0;
                     Vehicular moving = (Vehicular) ground;
                     position.x += moving.getVelocity().x;
-                    if (moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.DOWN) {
-                        position.y -= 1;
-                    } else if (moving instanceof Zoomba && ((Zoomba) moving).getOrientation() == Orientation.X) {
+                    position.y -= 1;
+                    if (moving instanceof Zoomba && ((Zoomba) moving).getOrientation() == Orientation.X) {
                         position.y += moving.getVelocity().y;
                     }
                 }
