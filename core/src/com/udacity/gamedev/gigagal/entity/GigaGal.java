@@ -1349,6 +1349,7 @@ public class GigaGal extends Entity implements Humanoid {
     @Override public final Vector2 getPosition() { return position; }
     public final void setPosition(Vector2 position) { this.position.set(position); }
     @Override public final Vector2 getVelocity() { return velocity; }
+    public final void setVelocity(Vector2 velocity) { this.velocity = velocity; }
     @Override public final Enums.Direction getDirectionX() { return directionX; }
     @Override public final Enums.Direction getDirectionY() { return directionY; }
     @Override public final Rectangle getBounds() { return bounds; }
