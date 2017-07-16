@@ -51,7 +51,7 @@ public class Spring extends Ground implements Reboundable, Tossable {
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
                     if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
-                            && ground.getWidth() > this.getWidth()) { // prevents setting to unreachable, narrower ground
+                            && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
                         position.y = ground.getTop() + getHeight() / 2;
                         atopGround = true;
                         tossed = false;
