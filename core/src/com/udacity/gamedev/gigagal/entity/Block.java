@@ -36,7 +36,7 @@ public class Block extends Barrier implements Draggable {
     @Override
     public void update(float delta) {
         if (beingCarried) {
-            position.set(carrier.getPosition().x, carrier.getTop());
+            position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
             atopGround = false;
         } else if (!atopGround) {
             Gdx.app.log(TAG, position.toString());

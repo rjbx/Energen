@@ -296,7 +296,7 @@ public class LevelUpdater {
         if (ground instanceof Portable) {
             if (!((Portable) ground).isBeingCarried() && Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                 if ((gigaGal.getBottom() == ground.getBottom() && (InputControls.getInstance().shootButtonJustPressed) && gigaGal.getAction() == Enums.Action.STRIDING)
-                || ((Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && (InputControls.getInstance().shootButtonJustPressed && InputControls.getInstance().downButtonPressed)))) {
+                || (!(ground instanceof Draggable) && (Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && (InputControls.getInstance().shootButtonJustPressed && InputControls.getInstance().downButtonPressed)))) {
                     if (ground instanceof Reboundable) {
                         gigaGal.setPosition(new Vector2(gigaGal.getPosition().x, ground.getBottom() + Constants.GIGAGAL_EYE_HEIGHT));
                         ((Reboundable) ground).resetStartTime();
@@ -307,6 +307,9 @@ public class LevelUpdater {
             } else if (((Portable) ground).getCarrier() == gigaGal ) {
                 if (ground instanceof Draggable) {
                     gigaGal.setVelocity(new Vector2(gigaGal.getVelocity().x / (1 + ((Draggable) ground).weightFactor()), gigaGal.getVelocity().y));
+                    if (gigaGal.getVelocity().y > 0) {
+                        ((Portable) ground).setCarrier(null);
+                    }
                 }
                 if (!InputControls.getInstance().shootButtonPressed) {
                     ((Portable) ground).setCarrier(null);
