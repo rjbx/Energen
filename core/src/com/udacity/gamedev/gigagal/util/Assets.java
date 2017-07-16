@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.entity.Barrier;
+import com.udacity.gamedev.gigagal.entity.Block;
 import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Ground;
 
@@ -312,15 +313,17 @@ public final class Assets implements AssetErrorListener {
         public final Animation waves;
         public final Animation gateOpen;
         public final Animation gateClose;
-        public final NinePatch block;
+        public final NinePatch barrier;
         public final NinePatch box;
+        public final NinePatch block;
 
         private GroundAssets(TextureAtlas atlas) {
 
             int edge = Constants.BLOCK_EDGE;
 
-            block = new NinePatch(atlas.findRegion(Constants.BARRIER_SPRITE), edge, edge, edge, edge);
+            barrier = new NinePatch(atlas.findRegion(Constants.BARRIER_SPRITE), edge, edge, edge, edge);
             box = new NinePatch(atlas.findRegion(Constants.BOX_SPRITE), 41, 16, 39, 15);
+            block = new NinePatch(atlas.findRegion(Constants.BLOCK_SPRITE), edge, edge, edge, edge);
 
             pillar = atlas.findRegion(Constants.PILLAR_SPRITE);
             lift = atlas.findRegion(Constants.LIFT_SPRITE);
@@ -512,9 +515,11 @@ public final class Assets implements AssetErrorListener {
             if (ground instanceof Box) {
                 return box;
             } else if (ground instanceof Barrier) {
+                return barrier;
+            } else if (ground instanceof Block) {
                 return block;
             }
-            return block;
+            return barrier;
         }
     }
 

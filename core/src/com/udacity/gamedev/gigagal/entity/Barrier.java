@@ -44,7 +44,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
         this.type = type;
         this.dense = dense;
         converted = false;
-        ninePatch = new NinePatch(Assets.getInstance().getGroundAssets().getNinePatch(this));
+        ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
         setColor();
     }
 
