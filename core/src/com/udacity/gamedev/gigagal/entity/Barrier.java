@@ -18,10 +18,6 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
 
     private final Enums.Material type;
     protected Vector2 position; // class-level instantiation
-    private float top;
-    private float bottom;
-    private float left;
-    private float right;
     private float width;
     private float height;
     private boolean dense;
@@ -32,10 +28,6 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
     public Barrier() {
         this.width = 0;
         this.height = 0;
-        this.top = 0;
-        this.bottom = 0;
-        this.left = 0;
-        this.right = 0;
         this.position = new Vector2();
         this.type = Enums.Material.NATIVE;
         this.dense = true;
@@ -48,11 +40,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
     public Barrier(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
         this.width = width;
         this.height = height;
-        this.top = yPos + height;
-        this.bottom = yPos;
-        this.left = xPos;
-        this.right = xPos + width;
-        this.position = new Vector2(left + (width / 2), bottom + (height / 2));
+        this.position = new Vector2(xPos + (width / 2), yPos + (height / 2));
         this.type = type;
         this.dense = dense;
         converted = false;
@@ -70,7 +58,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawNinePatch(batch, viewport, ninePatch, left, bottom, width, height);
+        Helpers.drawNinePatch(batch, viewport, ninePatch, getLeft(), getBottom(), width, height);
     }
 
     // Getters
