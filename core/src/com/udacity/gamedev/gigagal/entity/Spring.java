@@ -40,18 +40,18 @@ public class Spring extends Ground implements Reboundable, Tossable {
 
     @Override
     public void update(float delta) {
+        atopMovingGround = false;
+        movingGround = null;
         if (beingCarried) {
             this.position.set(carrier.getPosition().x, carrier.getTop());
             atopGround = false;
-        } else if (!atopGround) {
-            if (!atopGround) {
-                position.mulAdd(velocity, delta);
-            }
+        } else {
+            position.mulAdd(velocity, delta);
             velocity.x /= Constants.DRAG_FACTOR * weightFactor();
             velocity.y = -Constants.GRAVITY * 15 * weightFactor();
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-                if (!atopGround) { // prevents setting to unreachable, encompassing ground
-                    if (Helpers.overlapsPhysicalObject(this, ground)) {
+                if (Helpers.overlapsPhysicalObject(this, ground)) {
+                         // prevents setting to unreachable, encompassing ground
                         if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
                                 && ground.getWidth() > this.getWidth()) { // prevents setting to unreachable, narrower ground
                             position.y = ground.getTop() + getHeight() / 2;
@@ -66,12 +66,17 @@ public class Spring extends Ground implements Reboundable, Tossable {
                             }
                             velocity.x = 0;
                         }
+                    if (ground instanceof Moving) {
+                        if (Helpers.overlapsPhysicalObject(this, ground) && Helpers.betweenTwoValues(this.getBottom(), ground.getTop() - 6, ground.getTop() + 6)) {
+                            position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
+                            position.y = ground.getTop() + getHeight() / 2 + ((Moving) ground).getVelocity().y;
+                            atopMovingGround = true;
+                            movingGround = ground;
+                        }
                     }
                 }
             }
         }
-        atopMovingGround = false;
-        movingGround = null;
         // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Moving) {

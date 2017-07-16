@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Block extends Barrier implements Draggable {
+public class Block extends Barrier implements Draggable, Moving {
 
     // fields
     public final static String TAG = Block.class.getName();
@@ -88,6 +88,7 @@ public class Block extends Barrier implements Draggable {
 
     // Getters
     @Override public final void setPosition(Vector2 position) { super.position.set(position); }
+    @Override public final Vector2 getVelocity() { return velocity; }
     @Override public final Entity getCarrier() { return carrier; }
     @Override public final void setCarrier(Entity entity) { this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Groundable getMovingGround() { return movingGround; }
