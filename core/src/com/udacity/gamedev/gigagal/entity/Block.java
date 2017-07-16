@@ -93,7 +93,7 @@ public class Block extends Barrier implements Draggable, Vehicular {
     @Override public final void setCarrier(Entity entity) { this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Groundable getMovingGround() { return movingGround; }
     @Override public Enums.Material getType() { return super.getType(); }
-    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * ((getWidth() * getHeight()) / 7200); }
+    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(2 / 3, ((getWidth() * getHeight()) / 3600)); }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
 }
