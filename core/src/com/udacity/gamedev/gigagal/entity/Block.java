@@ -3,8 +3,10 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
+import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
 public class Block extends Barrier implements Draggable {
@@ -12,6 +14,7 @@ public class Block extends Barrier implements Draggable {
     // fields
     public final static String TAG = Box.class.getName();
 
+    private Vector2 position;
     private Groundable movingGround;
     private long startTime;
     private Vector2 velocity;
@@ -27,7 +30,37 @@ public class Block extends Barrier implements Draggable {
     }
 
     @Override
-    public void update(float delta) {}
+    public void update(float delta) {
+        if (beingCarried) {
+            super.position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
+            atopGround = false;
+        } else if (!atopGround) {
+            if (!atopGround) {
+                position.mulAdd(velocity, delta);
+            }
+            velocity.x /= Constants.DRAG_FACTOR * weightFactor();
+            velocity.y = -Constants.GRAVITY * 15 * weightFactor();
+            for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+                if (!atopGround) { // prevents setting to unreachable, encompassing ground
+                    if (Helpers.overlapsPhysicalObject(this, ground)) {
+                        if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
+                                && ground.getWidth() > this.getWidth()) { // prevents setting to unreachable, narrower ground
+                            position.y = ground.getTop() + getHeight() / 2;
+                            atopGround = true;
+                            velocity.setZero();
+                        } else if (ground.isDense()) {
+                            if (position.x < ground.getPosition().x) {
+                                position.x = ground.getLeft() - getWidth() / 2;
+                            } else {
+                                position.x = ground.getRight() + getWidth() / 2;
+                            }
+                            velocity.setZero();
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
@@ -43,4 +76,5 @@ public class Block extends Barrier implements Draggable {
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * 2 / 3; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
+    @Override public final boolean isDense() { return false; }
 }
