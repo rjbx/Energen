@@ -23,7 +23,7 @@ public class Spring extends Ground implements Reboundable, Tossable {
     private boolean atopGround;
     private boolean atopMovingGround;
     private boolean tossed;
-    private Entity carrier;
+    private Dynamic carrier;
 
     // ctor
     public Spring(Vector2 position) {
@@ -106,8 +106,8 @@ public class Spring extends Ground implements Reboundable, Tossable {
 
     @Override public final Vector2 getPosition() { return position; }
     @Override public final void setPosition(Vector2 position) { this.position.set(position); }
-    @Override public final Entity getCarrier() { return carrier; }
-    @Override public final void setCarrier(Entity entity) { this.carrier = entity; beingCarried = (carrier != null); }
+    @Override public final Dynamic getCarrier() { return carrier; }
+    @Override public final void setCarrier(Dynamic entity) { this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Groundable getMovingGround() { return movingGround; }
     @Override public final float getHeight() { return Constants.SPRING_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.SPRING_CENTER.x * 2; }
