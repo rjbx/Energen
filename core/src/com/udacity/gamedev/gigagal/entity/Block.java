@@ -14,9 +14,7 @@ public class Block extends Barrier implements Draggable {
     // fields
     public final static String TAG = Box.class.getName();
 
-    private Vector2 position;
     private Groundable movingGround;
-    private long startTime;
     private Vector2 velocity;
     private boolean loaded;
     private boolean beingCarried;
@@ -27,12 +25,18 @@ public class Block extends Barrier implements Draggable {
     // ctor
     public Block(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
         super(xPos, yPos, width, height, type, dense);
+        loaded = false;
+        beingCarried = false;
+        atopGround = true;
+        atopMovingGround = false;
+        velocity = new Vector2(0, 0);
+
     }
 
     @Override
     public void update(float delta) {
         if (beingCarried) {
-            super.position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
+            position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
             atopGround = false;
         } else if (!atopGround) {
             if (!atopGround) {
@@ -60,6 +64,19 @@ public class Block extends Barrier implements Draggable {
                 }
             }
         }
+        atopMovingGround = false;
+        movingGround = null;
+        // resets to nonstatic position of ground which is cloned every frame
+        for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+            if (hazard instanceof Groundable && hazard instanceof Moving) {
+                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 6, hazard.getTop() + 6)) {
+                    position.x = hazard.getPosition().x + ((Moving) hazard).getVelocity().x;
+                    position.y = hazard.getTop() + getHeight() / 2 + ((Moving) hazard).getVelocity().y;
+                    atopMovingGround = true;
+                    movingGround = (Groundable) hazard;
+                }
+            }
+        }
     }
 
     @Override
@@ -76,5 +93,4 @@ public class Block extends Barrier implements Draggable {
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * 2 / 3; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
-    @Override public final boolean isDense() { return false; }
 }

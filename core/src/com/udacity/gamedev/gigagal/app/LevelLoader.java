@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.udacity.gamedev.gigagal.entity.Block;
 import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Canirol;
@@ -586,8 +587,9 @@ final class LevelLoader {
 
     private static final void loadNinePatches(LevelUpdater level, JSONArray ninePatches) {
 
-        Array<Barrier> blockArray = new Array<Barrier>();
+        Array<Barrier> barrierArray = new Array<Barrier>();
         Array<Box> boxArray = new Array<Box>();
+        Array<Block> blockArray = new Array<Block>();
         Array<Ladder> ladderArray = new Array<Ladder>();
 
         for (Object o : ninePatches) {
@@ -600,17 +602,17 @@ final class LevelLoader {
             float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BARRIER_SPRITE)) {
-                final Barrier block;
-                block = new Barrier(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
-                blockArray.add(block);
+                final Barrier barrier;
+                barrier = new Barrier(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
+                barrierArray.add(barrier);
                 Gdx.app.log(TAG, "Loaded the barrier at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
                 final Box box = new Box(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BLOCK_SPRITE)) {
-                final Box box = new Box(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
-                boxArray.add(box);
+                final Block block = new Block(imagePosition.x, imagePosition.y, width, height, type, tags[Constants.LEDGE_TAG_INDEX]);
+                blockArray.add(block);
                 Gdx.app.log(TAG, "Loaded the block at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
                 final Ladder ladder = new Ladder(imagePosition.x, imagePosition.y + height, width, height);
@@ -618,7 +620,7 @@ final class LevelLoader {
                 Gdx.app.log(TAG, "Loaded the ladder at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             }
 
-            blockArray.sort(new Comparator<Barrier>() {
+            barrierArray.sort(new Comparator<Barrier>() {
                 @Override
                 public int compare(Barrier o1, Barrier o2) {
                     if (o1.getTop() > o2.getTop()) {
@@ -642,6 +644,18 @@ final class LevelLoader {
                 }
             });
 
+            blockArray.sort(new Comparator<Barrier>() {
+                @Override
+                public int compare(Barrier o1, Barrier o2) {
+                    if (o1.getTop() > o2.getTop()) {
+                        return 1;
+                    } else if (o1.getTop() < o2.getTop()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+            });
+
             ladderArray.sort(new Comparator<Ladder>() {
                 @Override
                 public int compare(Ladder o1, Ladder o2) {
@@ -655,12 +669,16 @@ final class LevelLoader {
             });
         }
 
-        for (Barrier block : blockArray) {
-            level.addGround(block);
+        for (Barrier barrier : barrierArray) {
+            level.addGround(barrier);
         }
 
         for (Box box : boxArray) {
             level.addGround(box);
+        }
+
+        for (Block block : blockArray) {
+            level.addGround(block);
         }
 
         for (Ladder ladder : ladderArray) {

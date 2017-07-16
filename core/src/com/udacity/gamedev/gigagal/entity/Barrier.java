@@ -17,13 +17,13 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
     public final static String TAG = Barrier.class.getName();
 
     private final Enums.Material type;
-    protected final Vector2 position; // class-level instantiation
-    private final float top;
-    private final float bottom;
-    private final float left;
-    private final float right;
-    private final float width;
-    private final float height;
+    protected Vector2 position; // class-level instantiation
+    private float top;
+    private float bottom;
+    private float left;
+    private float right;
+    private float width;
+    private float height;
     private boolean dense;
     private boolean converted;
     private NinePatch ninePatch;
