@@ -74,11 +74,11 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
     }
 
     // Getters
-    @Override public float getTop() { return top; }
-    @Override public float getBottom() { return bottom; }
-    @Override public float getLeft() { return left; }
-    @Override public float getRight() { return right; }
-    @Override public float getWidth() { return width;}
+    @Override public float getTop() { return position.y + height / 2; }
+    @Override public float getBottom() { return position.y - height / 2; }
+    @Override public float getLeft() { return position.x - width / 2; }
+    @Override public float getRight() { return position.x + width / 2; }
+    @Override public float getWidth() { return width; }
     @Override public float getHeight() { return height; }
     @Override public Vector2 getPosition() { return position; }
     public void setDensity(boolean state) { dense = state; }

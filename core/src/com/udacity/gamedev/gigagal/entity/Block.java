@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 public class Block extends Barrier implements Draggable {
 
     // fields
-    public final static String TAG = Box.class.getName();
+    public final static String TAG = Block.class.getName();
 
     private Groundable movingGround;
     private Vector2 velocity;
@@ -28,24 +28,24 @@ public class Block extends Barrier implements Draggable {
         super(xPos, yPos, width, height, type, dense);
         loaded = false;
         beingCarried = false;
-        atopGround = true;
+        atopGround = false;
         atopMovingGround = false;
         velocity = new Vector2(0, 0);
-
     }
 
     @Override
     public void update(float delta) {
         if (beingCarried) {
-            this.position.set(carrier.getPosition().x, carrier.getTop());
+            position.set(carrier.getPosition().x, carrier.getTop());
             atopGround = false;
         } else if (!atopGround) {
-            Gdx.app.log(TAG, "df");
+            Gdx.app.log(TAG, position.toString());
             if (!atopGround) {
                 position.mulAdd(velocity, delta);
             }
-            velocity.x /= Constants.DRAG_FACTOR * weightFactor();
-            velocity.y = -Constants.GRAVITY * 15 * weightFactor();
+            Gdx.app.log(TAG, position.toString());
+            velocity.x /= Constants.DRAG_FACTOR;
+            velocity.y = -Constants.GRAVITY * 15;
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (!atopGround) { // prevents setting to unreachable, encompassing ground
                     if (Helpers.overlapsPhysicalObject(this, ground)) {
@@ -60,7 +60,7 @@ public class Block extends Barrier implements Draggable {
                             } else {
                                 position.x = ground.getRight() + getWidth() / 2;
                             }
-                            velocity.setZero();
+                            velocity.x = 0;
                         }
                     }
                 }
