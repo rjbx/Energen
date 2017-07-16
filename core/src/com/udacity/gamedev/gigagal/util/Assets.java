@@ -516,7 +516,7 @@ public final class Assets implements AssetErrorListener {
                 return box;
             } else if (ground instanceof Block) {
                 return block;
-            } 
+            }
             return barrier;
         }
     }

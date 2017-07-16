@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -32,7 +33,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
         this.type = Enums.Material.NATIVE;
         this.dense = true;
         converted = false;
-        ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
+        ninePatch = new NinePatch(Assets.getInstance().getGroundAssets().getNinePatch(this));
         setColor();
     }
 
@@ -44,7 +45,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
         this.type = type;
         this.dense = dense;
         converted = false;
-        ninePatch = Assets.getInstance().getGroundAssets().getNinePatch(this);
+        ninePatch = new NinePatch(Assets.getInstance().getGroundAssets().getNinePatch(this));
         setColor();
     }
 
@@ -76,10 +77,10 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
     public Enums.Material getType() { return type; }
     public Color getColor() { return ninePatch.getColor(); }
     private void setColor() {
-        if (!isDense()) {
-            ninePatch.setColor(new Color(type.theme().color()).mul(.7f));
-        } else {
+        if (isDense()) {
             ninePatch.setColor(type.theme().color());
+        } else {
+            ninePatch.setColor(new Color(type.theme().color()).mul(.7f));
         }
     }
 }
