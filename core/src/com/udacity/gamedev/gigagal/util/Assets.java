@@ -514,11 +514,9 @@ public final class Assets implements AssetErrorListener {
         public final NinePatch getNinePatch(Ground ground) {
             if (ground instanceof Box) {
                 return box;
-            } else if (ground instanceof Barrier) {
-                return barrier;
             } else if (ground instanceof Block) {
                 return block;
-            }
+            } 
             return barrier;
         }
     }
