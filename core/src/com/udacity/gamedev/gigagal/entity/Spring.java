@@ -32,7 +32,7 @@ public class Spring extends Ground implements Reboundable, Tossable {
         startTime = 0;
         loaded = false;
         beingCarried = false;
-        atopGround = true;
+        atopGround = false;
         atopMovingGround = false;
         tossed = false;
         velocity = new Vector2(0, 0);
