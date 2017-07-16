@@ -305,8 +305,8 @@ public class LevelUpdater {
                     ((Portable) ground).setCarrier(gigaGal);
                 }
             } else if (((Portable) ground).getCarrier() == gigaGal ) {
-                if (ground instanceof Block) {
-                    gigaGal.setVelocity(new Vector2(gigaGal.getVelocity().x - ((Block) ground).weightFactor() * 10, gigaGal.getVelocity().y));
+                if (ground instanceof Draggable) {
+                    gigaGal.setVelocity(new Vector2(gigaGal.getVelocity().x / (1 +((Draggable) ground).weightFactor()), gigaGal.getVelocity().y));
                 }
                 if (!InputControls.getInstance().shootButtonPressed) {
                     ((Portable) ground).setCarrier(null);
