@@ -15,7 +15,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Swoopa extends Hazard implements Destructible, Moving, Groundable {
+public class Swoopa extends Hazard implements Destructible, Vehicular, Groundable {
 
     // fields
     public final static String TAG = Swoopa.class.getName();

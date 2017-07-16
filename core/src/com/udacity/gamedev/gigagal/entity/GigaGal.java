@@ -321,7 +321,7 @@ public class GigaGal extends Entity implements Humanoid {
                     canHover = false;
                     lookStartTime = 0;
                     lookTimeSeconds = 0;
-                } else if (!(ground instanceof Portable) || !(canClimb && directionY == Direction.UP)) { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
+                } else if (!(ground instanceof Moveable) || !(canClimb && directionY == Direction.UP)) { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
                     canCling = false;
                     if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
                         touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
@@ -403,7 +403,7 @@ public class GigaGal extends Entity implements Humanoid {
                     yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
                 }
                 if (Helpers.betweenTwoValues(yTestPosition, ground.getBottom(), ground.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
-                    if (!(ground instanceof Portable)) {
+                    if (!(ground instanceof Moveable)) {
                         if (!(ground instanceof Canirol)) {
                             if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
                                 position.x = ground.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
@@ -430,7 +430,7 @@ public class GigaGal extends Entity implements Humanoid {
                 velocity.y = 0; // prevents from ascending above ground bottom
                 if (groundState == GroundState.AIRBORNE) { // prevents fall when striding against ground bottom positioned at height distance from ground atop
                     fall(); // descend from point of contact with ground bottom
-                    if (!(ground instanceof Moving)) { // prevents from being pushed below ground
+                    if (!(ground instanceof Vehicular)) { // prevents from being pushed below ground
                         position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 } else if (action == Action.CLIMBING) { // prevents from disengaging climb
@@ -439,7 +439,7 @@ public class GigaGal extends Entity implements Humanoid {
                     canClimb = true;
                     action = Action.CLIMBING;
                     groundState = GroundState.PLANTED;
-                    if (!(ground instanceof Moving)) { // prevents from being pushed below ground
+                    if (!(ground instanceof Vehicular)) { // prevents from being pushed below ground
                         position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 }
@@ -468,9 +468,9 @@ public class GigaGal extends Entity implements Humanoid {
                         canCling = false;
                     }
                 }
-                if (ground instanceof Moving) {
+                if (ground instanceof Vehicular) {
                     lookStartTime = 0;
-                    Moving moving = (Moving) ground;
+                    Vehicular moving = (Vehicular) ground;
                     position.x += moving.getVelocity().x;
                     if (moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.DOWN) {
                         position.y -= 1;
@@ -479,13 +479,13 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                 }
                 if (ground instanceof Reboundable) {
-                    if (!(ground instanceof Portable && ((Portable) ground).isBeingCarried() && ((Portable) ground).getCarrier() == this)) {
+                    if (!(ground instanceof Moveable && ((Moveable) ground).isBeingCarried() && ((Moveable) ground).getCarrier() == this)) {
                         canClimb = false;
                         canCling = false;
                     }
-                    if (ground instanceof Portable && ((Portable) ground).isAtopMovingGround()) {
+                    if (ground instanceof Moveable && ((Moveable) ground).isAtopMovingGround()) {
                         lookStartTime = 0;
-                        Moving moving = (Moving) ((Portable) ground).getMovingGround();
+                        Vehicular moving = (Vehicular) ((Moveable) ground).getMovingGround();
                         position.x += moving.getVelocity().x;
                         if (moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.DOWN) {
                             position.y -= 1;
@@ -1060,7 +1060,7 @@ public class GigaGal extends Entity implements Humanoid {
         velocity.y = Constants.JUMP_SPEED;
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         if (touchedGround instanceof Reboundable) {
-            if (!(touchedGround instanceof Portable && ((Portable) touchedGround).isBeingCarried() && ((Portable) touchedGround).getCarrier() == this)) {
+            if (!(touchedGround instanceof Moveable && ((Moveable) touchedGround).isBeingCarried() && ((Moveable) touchedGround).getCarrier() == this)) {
                 velocity.y *= 2;
                 jumpStartTime = 0;
             }
@@ -1159,8 +1159,8 @@ public class GigaGal extends Entity implements Humanoid {
             canHurdle = false;
         } else {
             lookStartTime = 0;
-            if (action == Action.RAPPELLING && touchedGround instanceof Moving) {
-                velocity.x += ((Moving) touchedGround).getVelocity().x;
+            if (action == Action.RAPPELLING && touchedGround instanceof Vehicular) {
+                velocity.x += ((Vehicular) touchedGround).getVelocity().x;
                 position.y = touchedGround.getPosition().y;
             }
             if (inputControls.downButtonPressed) {
@@ -1171,8 +1171,8 @@ public class GigaGal extends Entity implements Humanoid {
                 directionX = Helpers.getOppositeDirection(directionX);
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
                 jump();
-                if (touchedGround instanceof Moving) {
-                    velocity.y += ((Moving) touchedGround).getVelocity().y + touchedGround.getHeight();
+                if (touchedGround instanceof Vehicular) {
+                    velocity.y += ((Vehicular) touchedGround).getVelocity().y + touchedGround.getHeight();
                 }
             } else if (turbo < 1) {
                 turbo = 0;

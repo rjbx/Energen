@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Block extends Barrier implements Draggable, Moving {
+public class Block extends Barrier implements Draggable, Vehicular {
 
     // fields
     public final static String TAG = Block.class.getName();
@@ -70,10 +70,10 @@ public class Block extends Barrier implements Draggable, Moving {
         movingGround = null;
         // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
-            if (hazard instanceof Groundable && hazard instanceof Moving) {
+            if (hazard instanceof Groundable && hazard instanceof Vehicular) {
                 if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 6, hazard.getTop() + 6)) {
-                    position.x = hazard.getPosition().x + ((Moving) hazard).getVelocity().x;
-                    position.y = hazard.getTop() + getHeight() / 2 + ((Moving) hazard).getVelocity().y;
+                    position.x = hazard.getPosition().x + ((Vehicular) hazard).getVelocity().x;
+                    position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
                     atopMovingGround = true;
                     movingGround = (Groundable) hazard;
                 }

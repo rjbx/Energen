@@ -12,7 +12,7 @@ import com.udacity.gamedev.gigagal.app.SaveData;
 import com.udacity.gamedev.gigagal.entity.Aerial;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.Destructible;
-import com.udacity.gamedev.gigagal.entity.Moving;
+import com.udacity.gamedev.gigagal.entity.Vehicular;
 import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Physical;
 import com.udacity.gamedev.gigagal.entity.Roving;
@@ -170,7 +170,7 @@ public final class Helpers {
         return null;
     }
 
-    public static final boolean changeDirection(Moving moving, Enums.Direction setTo, Enums.Orientation orientation) {
+    public static final boolean changeDirection(Vehicular moving, Enums.Direction setTo, Enums.Orientation orientation) {
         if (orientation == X) {
             if (moving instanceof Roving && ((Roving) moving).getDirectionX() != setTo) {
                 ((Roving) moving).setDirectionX(setTo);

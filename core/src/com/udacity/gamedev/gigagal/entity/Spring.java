@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Spring extends Ground implements Reboundable, Tossable {
@@ -65,10 +64,10 @@ public class Spring extends Ground implements Reboundable, Tossable {
                             }
                             velocity.x = 0;
                         }
-                    if (ground instanceof Moving) {
+                    if (ground instanceof Vehicular) {
                         if (Helpers.overlapsPhysicalObject(this, ground) && Helpers.betweenTwoValues(this.getBottom(), ground.getTop() - 6, ground.getTop() + 6)) {
-                            position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
-                            position.y = ground.getTop() + getHeight() / 2 + ((Moving) ground).getVelocity().y;
+                            position.x = ground.getPosition().x + ((Vehicular) ground).getVelocity().x;
+                            position.y = ground.getTop() + getHeight() / 2 + ((Vehicular) ground).getVelocity().y;
                             atopGround = true;
                             atopMovingGround = true;
                             movingGround = ground;
@@ -79,10 +78,10 @@ public class Spring extends Ground implements Reboundable, Tossable {
         }
         // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
-            if (hazard instanceof Groundable && hazard instanceof Moving) {
+            if (hazard instanceof Groundable && hazard instanceof Vehicular) {
                 if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 6, hazard.getTop() + 6)) {
-                    position.x = hazard.getPosition().x + ((Moving) hazard).getVelocity().x;
-                    position.y = hazard.getTop() + getHeight() / 2 + ((Moving) hazard).getVelocity().y;
+                    position.x = hazard.getPosition().x + ((Vehicular) hazard).getVelocity().x;
+                    position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
                     atopMovingGround = true;
                     movingGround = (Groundable) hazard;
                 }
