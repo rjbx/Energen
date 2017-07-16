@@ -319,7 +319,7 @@ public final class Assets implements AssetErrorListener {
 
             int edge = Constants.BLOCK_EDGE;
 
-            block = new NinePatch(atlas.findRegion(Constants.BLOCK_SPRITE), edge, edge, edge, edge);
+            block = new NinePatch(atlas.findRegion(Constants.BARRIER_SPRITE), edge, edge, edge, edge);
             box = new NinePatch(atlas.findRegion(Constants.BOX_SPRITE), 41, 16, 39, 15);
 
             pillar = atlas.findRegion(Constants.PILLAR_SPRITE);

@@ -32,6 +32,7 @@ box-draggable
   rotate: false
   xy: 2, 2
   size: 58, 58
+  split: 29, 28, 27, 30
   orig: 58, 58
   offset: 0, 0
   index: -1
