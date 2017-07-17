@@ -15,7 +15,7 @@ public class Spring extends Ground implements Reboundable, Tossable {
     public final static String TAG = Spring.class.getName();
 
     private Vector2 position;
-    private Groundable movingGround;
+    private Moving movingGround;
     private long startTime;
     private Vector2 velocity;
     private boolean loaded;
@@ -56,7 +56,7 @@ public class Spring extends Ground implements Reboundable, Tossable {
                         atopGround = true;
                         tossed = false;
                         velocity.setZero();
-                    } else if (ground.isDense() && !(ground instanceof Moveable)) {
+                    } else if (ground.isDense() && !(ground instanceof Pliable)) {
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {
@@ -64,13 +64,13 @@ public class Spring extends Ground implements Reboundable, Tossable {
                         }
                         velocity.x = 0;
                     }
-                    if (ground instanceof Vehicular) {
+                    if (ground instanceof Pliable) {
                         if (Helpers.overlapsPhysicalObject(this, ground) && Helpers.betweenTwoValues(this.getBottom(), ground.getTop() - 6, ground.getTop() + 6)) {
-                            position.x = ground.getPosition().x + ((Vehicular) ground).getVelocity().x;
-                            position.y = ground.getTop() + getHeight() / 2 + ((Vehicular) ground).getVelocity().y;
+                            position.x = ground.getPosition().x + ((Pliable) ground).getVelocity().x;
+                            position.y = ground.getTop() + getHeight() / 2 + ((Pliable) ground).getVelocity().y;
                             atopGround = true;
                             atopMovingGround = true;
-                            movingGround = ground;
+                            movingGround = (Moving) ground;
                         }
                     }
                 }
@@ -83,7 +83,7 @@ public class Spring extends Ground implements Reboundable, Tossable {
                     position.x = hazard.getPosition().x + ((Vehicular) hazard).getVelocity().x;
                     position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
                     atopMovingGround = true;
-                    movingGround = (Groundable) hazard;
+                    movingGround = (Moving) hazard;
                 }
             }
         }
@@ -105,10 +105,11 @@ public class Spring extends Ground implements Reboundable, Tossable {
     }
 
     @Override public final Vector2 getPosition() { return position; }
+    @Override public final Vector2 getVelocity() { return velocity; }
     @Override public final void setPosition(Vector2 position) { this.position.set(position); }
     @Override public final Dynamic getCarrier() { return carrier; }
     @Override public final void setCarrier(Dynamic entity) { this.carrier = entity; beingCarried = (carrier != null); }
-    @Override public final Groundable getMovingGround() { return movingGround; }
+    @Override public final Moving getMovingGround() { return movingGround; }
     @Override public final float getHeight() { return Constants.SPRING_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.SPRING_CENTER.x * 2; }
     @Override public final float getLeft() { return position.x - Constants.SPRING_CENTER.x; }

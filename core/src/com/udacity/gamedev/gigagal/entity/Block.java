@@ -10,12 +10,12 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Block extends Barrier implements Draggable, Vehicular {
+public class Block extends Barrier implements Draggable {
 
     // fields
     public final static String TAG = Block.class.getName();
 
-    private Groundable movingGround;
+    private Moving movingGround;
     private Vector2 velocity;
     private boolean loaded;
     private boolean beingCarried;
@@ -75,7 +75,7 @@ public class Block extends Barrier implements Draggable, Vehicular {
                     position.x = hazard.getPosition().x + ((Vehicular) hazard).getVelocity().x;
                     position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
                     atopMovingGround = true;
-                    movingGround = (Groundable) hazard;
+                    movingGround = (Moving) hazard;
                 }
             }
         }
@@ -91,7 +91,7 @@ public class Block extends Barrier implements Draggable, Vehicular {
     @Override public final Vector2 getVelocity() { return velocity; }
     @Override public final Dynamic getCarrier() { return carrier; }
     @Override public final void setCarrier(Dynamic entity) { this.carrier = entity; beingCarried = (carrier != null); }
-    @Override public final Groundable getMovingGround() { return movingGround; }
+    @Override public final Moving getMovingGround() { return movingGround; }
     @Override public Enums.Material getType() { return super.getType(); }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(2 / 3, ((getWidth() * getHeight()) / 3600)); }
     @Override public final boolean isBeingCarried() { return beingCarried; }

@@ -1,4 +1,4 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Draggable extends Moveable {
+public interface Draggable extends Pliable {
 }

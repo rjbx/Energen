@@ -293,8 +293,8 @@ public class LevelUpdater {
                 }
             }
         }
-        if (ground instanceof Moveable) {
-            if (!((Moveable) ground).isBeingCarried() && Helpers.overlapsPhysicalObject(gigaGal, ground)) {
+        if (ground instanceof Pliable) {
+            if (!((Pliable) ground).isBeingCarried() && Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                 if ((gigaGal.getBottom() == ground.getBottom() && (InputControls.getInstance().shootButtonJustPressed) && gigaGal.getAction() == Enums.Action.STRIDING)
                 || (!(ground instanceof Draggable) && (Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && (InputControls.getInstance().shootButtonJustPressed && InputControls.getInstance().downButtonPressed)))) {
                     if (ground instanceof Reboundable) {
@@ -302,17 +302,17 @@ public class LevelUpdater {
                         ((Reboundable) ground).resetStartTime();
                         ((Reboundable) ground).setState(false);
                     }
-                    ((Moveable) ground).setCarrier(gigaGal);
+                    ((Pliable) ground).setCarrier(gigaGal);
                 }
-            } else if (((Moveable) ground).getCarrier() == gigaGal ) {
+            } else if (((Pliable) ground).getCarrier() == gigaGal ) {
                 if (ground instanceof Draggable) {
                     gigaGal.setVelocity(new Vector2(gigaGal.getVelocity().x / (1 + ((Draggable) ground).weightFactor()), gigaGal.getVelocity().y));
                     if (gigaGal.getVelocity().y > 0) {
-                        ((Moveable) ground).setCarrier(null);
+                        ((Pliable) ground).setCarrier(null);
                     }
                 }
                 if (!InputControls.getInstance().shootButtonPressed) {
-                    ((Moveable) ground).setCarrier(null);
+                    ((Pliable) ground).setCarrier(null);
                     if (ground instanceof Tossable && (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed)) {
                         ((Tossable) ground).toss((gigaGal.getVelocity().x + Helpers.absoluteToDirectionalValue(ground.getWidth() * 13, gigaGal.getDirectionX(), Enums.Orientation.X)) * ((Tossable) ground).weightFactor());
                     }
@@ -408,11 +408,11 @@ public class LevelUpdater {
             projectiles.end();
         }
         if (ground instanceof Reboundable) {
-            if (!(ground instanceof Moveable && ((Moveable) ground).isBeingCarried() && ((Moveable) ground).getCarrier() == gigaGal)) {
+            if (!(ground instanceof Pliable && ((Pliable) ground).isBeingCarried() && ((Pliable) ground).getCarrier() == gigaGal)) {
                 Reboundable reboundable = (Reboundable) ground;
                 if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                     reboundable.setState(true);
-                } else if (reboundable.getState() && !(reboundable instanceof Moveable && ((Moveable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
+                } else if (reboundable.getState() && !(reboundable instanceof Pliable && ((Pliable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
                     reboundable.resetStartTime();
                     reboundable.setState(false);
                 }
