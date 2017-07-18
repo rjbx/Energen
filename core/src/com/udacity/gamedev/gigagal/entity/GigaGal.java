@@ -73,6 +73,7 @@ public class GigaGal extends Entity implements Humanoid {
     private boolean canSink;
     private boolean canHurdle;
     private boolean canBounce;
+    private boolean canMove;
     private long chargeStartTime;
     private long standStartTime;
     private long lookStartTime;
@@ -192,6 +193,7 @@ public class GigaGal extends Entity implements Humanoid {
         canShoot = true;
         canDispatch = false;
         canSink = false;
+        canMove = false;
         canBounce = false;
         chargeStartTime = 0;
         strideStartTime = 0;
@@ -383,6 +385,8 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                     if (action == Action.DASHING && !(ground instanceof Propelling)) {
                         stand(); // deactivates dash when bumping ground side
+                    } else if (action == Action.STRIDING && ground instanceof Pliable && !((Pliable) ground).isBeingCarried()) {
+                        canMove = true;
                     }
                 }
                 if ((!(ground instanceof Propelling && (Math.abs(getBottom() - ground.getTop()) <= 1)))
@@ -414,6 +418,8 @@ public class GigaGal extends Entity implements Humanoid {
                             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // reset position to ground top
                             setAtopGround(ground);
                         }
+                    } else {
+                        canMove = false;
                     }
                 }
             }
@@ -478,6 +484,9 @@ public class GigaGal extends Entity implements Humanoid {
                         position.y -= 1;
                     } else if (moving instanceof Zoomba && ((Zoomba) moving).getOrientation() == Orientation.X) {
                         position.y += moving.getVelocity().y;
+                    }
+                    if (ground instanceof Pliable && !((Pliable) ground).isBeingCarried() && directionY == Direction.DOWN) {
+                        canMove = true;
                     }
                 }
                 if (ground instanceof Reboundable) {
@@ -1370,6 +1379,7 @@ public class GigaGal extends Entity implements Humanoid {
     @Override public final boolean getRappelStatus() { return canRappel; }
     @Override public final boolean getDashStatus() { return canDash; }
     @Override public final boolean getClimbStatus() { return canClimb; }
+    public final boolean getMoveStatus() { return canMove; }
     public final boolean getClingStatus() { return canCling; }
     public final boolean getDispatchStatus() { return canDispatch; }
     public final Hazardous getTouchedHazard() { return touchedHazard; }

@@ -76,6 +76,17 @@ public class IndicatorHud {
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
+        } else if (GigaGal.getInstance().getMoveStatus()) {
+            Helpers.drawTextureRegion(
+                    batch,
+                    viewport,
+                    Assets.getInstance().getHudAssets().move,
+                    xAction,
+                    yIcon,
+                    Constants.ICON_CENTER.x,
+                    Constants.ICON_CENTER.y,
+                    Constants.ACTION_ICON_SCALE
+            );
         }
 
         final TextureRegion lifeIcon = Assets.getInstance().getHudAssets().life;
