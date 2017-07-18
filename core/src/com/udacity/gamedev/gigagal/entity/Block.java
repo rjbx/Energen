@@ -36,20 +36,20 @@ public class Block extends Barrier implements Draggable {
     @Override
     public void update(float delta) {
         if (beingCarried) {
+            Gdx.app.log(TAG + "1", position.toString());
             position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
+            Gdx.app.log(TAG + "2", position.toString());
             atopGround = false;
         } else if (!atopGround) {
-            Gdx.app.log(TAG, position.toString());
             if (!atopGround) {
                 position.mulAdd(velocity, delta);
             }
-            Gdx.app.log(TAG + "f", weightFactor() + "");
             velocity.x /= Constants.DRAG_FACTOR * weightFactor();
             velocity.y = -Constants.GRAVITY * 15 * weightFactor();
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (!atopGround) { // prevents setting to unreachable, encompassing ground
                     if (Helpers.overlapsPhysicalObject(this, ground)) {
-                        if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 6 * weightFactor(), ground.getTop())
+                        if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
                                 && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
                             position.y = ground.getTop() + getHeight() / 2;
                             atopGround = true;
