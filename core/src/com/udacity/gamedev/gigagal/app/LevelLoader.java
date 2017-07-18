@@ -390,7 +390,7 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOSS_SPRITE)) {
                 final Vector2 bossPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded Boss at " + bossPosition);
-                Boss boss = new Boss.Builder(level, bossPosition).weapon(level.getType()).build();
+                Boss boss = new Boss.Builder(level, bossPosition).weapon(type).build();
                 level.addHazard(boss);
                 level.setBoss(boss);
                 ChaseCam.getInstance().setRoomPosition(bossPosition);

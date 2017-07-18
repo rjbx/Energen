@@ -15,6 +15,7 @@ public interface Humanoid extends Dynamic {
     boolean getRappelStatus();
     boolean getDashStatus();
     boolean getClimbStatus();
+    boolean getDispatchStatus();
     Enums.GroundState getGroundState();
     Enums.Action getAction();
     Enums.ShotIntensity getShotIntensity();

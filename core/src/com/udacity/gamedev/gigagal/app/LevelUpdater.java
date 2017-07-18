@@ -177,6 +177,19 @@ public class LevelUpdater {
                 gigaGal.resetChargeIntensity();
             }
 
+            if (boss.getDispatchStatus()) {
+                if (boss.getLookStartTime() != 0) {
+                    if (boss.getDirectionY() == Direction.UP) {
+                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.GIGAGAL_Y_CANNON_OFFSET.y), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getWeapon(), true);
+                    } else {
+                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x - 3, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.GIGAGAL_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getWeapon(), true);
+                    }
+                } else {
+                    spawnAmmo(new Vector2(boss.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_X_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.GIGAGAL_X_CANNON_OFFSET.y), boss.getDirectionX(), Enums.Orientation.X, boss.getShotIntensity(), boss.getWeapon(), true);
+                }
+                boss.resetChargeIntensity();
+            }
+
             if (gigaGal.getTouchedHazard() != null && gigaGal.getAction() == Enums.Action.RECOILING) {
                 Vector2 intersectionPoint = new Vector2();
                 Hazardous touchedHazard = gigaGal.getTouchedHazard();
