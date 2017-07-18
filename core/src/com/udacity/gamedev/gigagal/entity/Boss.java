@@ -286,40 +286,49 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     }
 
     private void rush() {
-        if ((Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().x, Constants.GIGAGAL_STANCE_WIDTH, getLeft(), getRight())
-                && Helpers.absoluteToDirectionalValue(position.y - gigaGal.getPosition().y, directionY, Orientation.Y) > 0)
-                || (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().y, Constants.GIGAGAL_EYE_HEIGHT, getBottom(), getTop())
-                && Helpers.absoluteToDirectionalValue(position.x - gigaGal.getPosition().x, directionX, Orientation.X) < 0))
-        {
+        if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().x, Constants.GIGAGAL_STANCE_WIDTH, getLeft(), getRight())
+            && Math.abs(position.y - gigaGal.getPosition().y) > getHeight()) {
+            if (gigaGal.getBottom() > getTop()) {
+                directionY = Direction.UP;
+            } else {
+                directionY = Direction.DOWN;
+            }
+            look();
+            shoot(ShotIntensity.BLAST, weapon, 0);
+        } else if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().y, Constants.GIGAGAL_EYE_HEIGHT, getBottom(), getTop())
+                && Helpers.absoluteToDirectionalValue(position.x - gigaGal.getPosition().x, directionX, Orientation.X) < 0) {
+            lookStartTime = 0;
             shoot(ShotIntensity.BLAST, weapon, 0);
         }
-        
-        if (Helpers.getOppositeDirection(gigaGal.getDirectionX()) == this.getDirectionX()) {
-            if (Math.abs(gigaGal.getVelocity().x) > Constants.GIGAGAL_MAX_SPEED / 2) {
-                stride();
-            } else if (Math.abs(gigaGal.getPosition().x - this.position.x) > 5) {
-                dash();
-            } else {
-                jump();
-                if (Math.abs(gigaGal.getPosition().x - this.position.x) < 5) {
-                    directionY = Enums.Direction.DOWN;
-                    look();
-//                    attack();
-                }
-            }
 
-            if (Math.abs(gigaGal.getPosition().y - this.position.y) > 15) {
-                if (Math.abs(gigaGal.getPosition().x - this.position.x) > 5) {
-                    dash();
-                } else {
-                    directionY = Enums.Direction.UP;
-                    look();
-//                    attack();
-                }
-            } else if (Math.abs(gigaGal.getPosition().x - this.position.x) > 10) {
-                stride();
-            }
+        if (gigaGal.getDirectionX() == this.getDirectionX()) {
+            directionX = Helpers.getOppositeDirection(directionX);
         }
+
+//        if (Math.abs(gigaGal.getVelocity().x) > Constants.GIGAGAL_MAX_SPEED / 2) {
+//            stride();
+//        } else if (Math.abs(gigaGal.getPosition().x - this.position.x) > 5) {
+//            dash();
+//        } else {
+//            jump();
+//            if (Math.abs(gigaGal.getPosition().x - this.position.x) < 5) {
+//                directionY = Enums.Direction.DOWN;
+//                look();
+////                    attack();
+//            }
+//        }
+//
+//        if (Math.abs(gigaGal.getPosition().y - this.position.y) > 15) {
+//            if (Math.abs(gigaGal.getPosition().x - this.position.x) > 5) {
+//                dash();
+//            } else {
+//                directionY = Enums.Direction.UP;
+//                look();
+////                    attack();
+//            }
+//        } else if (Math.abs(gigaGal.getPosition().x - this.position.x) > 10) {
+//            stride();
+//        }
     }
 
     private void touchAllGrounds(Array<Ground> grounds) {
