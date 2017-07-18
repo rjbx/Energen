@@ -288,8 +288,13 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     private void rush() {
         if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().x, Constants.GIGAGAL_STANCE_WIDTH, getLeft(), getRight())
             && Math.abs(position.y - gigaGal.getPosition().y) > getHeight()) {
+            dashStartTime = 0;
+            velocity.x = 0;
             if (gigaGal.getBottom() > getTop()) {
                 directionY = Direction.UP;
+                if (groundState == GroundState.PLANTED && gigaGal.getBottom() > getTop() + getHeight()) {
+                    jump();
+                }
             } else {
                 directionY = Direction.DOWN;
             }
@@ -298,6 +303,9 @@ public class Boss extends Hazard implements Destructible, Humanoid {
         } else if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().y, Constants.GIGAGAL_EYE_HEIGHT, getBottom(), getTop())
                 && Helpers.absoluteToDirectionalValue(position.x - gigaGal.getPosition().x, directionX, Orientation.X) < 0) {
             lookStartTime = 0;
+            if (groundState == GroundState.PLANTED) {
+                dash();
+            }
             shoot(ShotIntensity.BLAST, weapon, 0);
         }
 
