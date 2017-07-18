@@ -1090,6 +1090,7 @@ public final class Assets implements AssetErrorListener {
         public final AtlasRegion rappel;
         public final AtlasRegion climb;
         public final AtlasRegion dash;
+        public final AtlasRegion move;
         public final AtlasRegion life;
 
         private HudAssets(TextureAtlas atlas) {
@@ -1100,6 +1101,7 @@ public final class Assets implements AssetErrorListener {
             rappel = atlas.findRegion(Constants.RAPPEL_ICON);
             climb = atlas.findRegion(Constants.CLIMB_ICON);
             dash = atlas.findRegion(Constants.DASH_ICON);
+            move = atlas.findRegion(Constants.MOVE_ICON);
             life = atlas.findRegion(Constants.LIFE_ICON);
         }
     }

@@ -740,6 +740,7 @@ public final class Constants {
     public static final String RAPPEL_ICON = "icon-rappel";
     public static final String CLIMB_ICON = "icon-climb";
     public static final String DASH_ICON = "icon-dash";
+    public static final String MOVE_ICON = "icon-move";
     public static final String LIFE_ICON = "icon-life";
     public static final String HUD_AMMO_LABEL = "Ammo: ";
     public static final String HUD_SCORE_LABEL = "Score: ";
