@@ -49,7 +49,7 @@ public class Block extends Barrier implements Draggable {
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (!atopGround) { // prevents setting to unreachable, encompassing ground
                     if (Helpers.overlapsPhysicalObject(this, ground)) {
-                        if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
+                        if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 6 * weightFactor(), ground.getTop())
                                 && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
                             position.y = ground.getTop() + getHeight() / 2;
                             atopGround = true;
