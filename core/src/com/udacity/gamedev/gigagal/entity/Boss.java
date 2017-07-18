@@ -1,36 +1,41 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.InputControls;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
+import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
-
+import java.lang.String;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Random;
 
-public class Boss extends Hazard implements Humanoid, Destructible {
-    
+// mutable
+public class Boss extends Hazard implements Destructible, Humanoid {
+
     // fields
-    public final static String TAG = Boss.class.getName();
+    public final static String TAG = GigaGal.class.getName();
 
-    private final LevelUpdater level;
-    private final float width;
-    private final float height;
-    private final float headRadius;
-    private final float eyeHeight;
-    private final float halfWidth;
+    private LevelUpdater level;
+    private GigaGal gigaGal;
+    private Rectangle roomBounds;
+    private float width;
+    private float height;
+    private float headRadius;
+    private float eyeHeight;
+    private float halfWidth;
     private float left;
     private float right;
     private float top;
@@ -41,32 +46,37 @@ public class Boss extends Hazard implements Humanoid, Destructible {
     private Vector2 spawnPosition;
     private Vector3 chaseCamPosition; // class-level instantiation
     private Vector2 velocity; // class-level instantiation
-    private Enums.Direction directionX;
-    private Enums.Direction directionY;
+    private Direction directionX;
+    private Direction directionY;
     private TextureRegion region; // class-level instantiation
-    private Enums.Action action;
-    private Enums.GroundState groundState;
-    private Ground touchedGround; // class-level instantiation
-    private Enums.ShotIntensity shotIntensity;
-    private Enums.Material weapon;
-    private List<Enums.Material> weaponList; // class-level instantiation
-    private ListIterator<Enums.Material> weaponToggler; // class-level instantiation
-    private boolean onRideable;
-    private boolean onSkateable;
-    private boolean onHazardous;
-    private boolean onClimbable;
-    private boolean onSinkable;
-    private boolean onBounceable;
+    private Action action;
+    private GroundState groundState;
+    private Groundable touchedGround; // class-level instantiation
+    private Hazardous touchedHazard;
+    private ShotIntensity shotIntensity;
+    private Material weapon;
+    private List<Material> weaponList; // class-level instantiation
+    private ListIterator<Material> weaponToggler; // class-level instantiation
+    private List<Upgrade> upgradeList;
     private boolean canShoot;
+    private boolean canDispatch;
     private boolean canLook;
+    private boolean canPeer;
     private boolean canDash;
     private boolean canJump;
     private boolean canHover;
     private boolean canRappel;
     private boolean canClimb;
+    private boolean canCling;
     private boolean canStride;
+    private boolean canSink;
+    private boolean canHurdle;
+    private boolean canBounce;
+    private boolean canMove;
     private long chargeStartTime;
+    private long standStartTime;
     private long lookStartTime;
+    private long fallStartTime;
     private long jumpStartTime;
     private long dashStartTime;
     private long hoverStartTime;
@@ -76,23 +86,24 @@ public class Boss extends Hazard implements Humanoid, Destructible {
     private long recoveryStartTime;
     private float chargeTimeSeconds;
     private float lookTimeSeconds;
+    private float dashTimeSeconds;
     private float hoverTimeSeconds;
-    private float climbTimeSeconds;
     private float strideTimeSeconds;
     private float strideSpeed;
     private float strideAcceleration;
-    private float turboDuration;
+    private float turboMultiplier;
+    private float ammoMultiplier;
+    private float healthMultiplier;
+    private float strideMultiplier;
+    private float jumpMultiplier;
+    private float chargeModifier;
     private float startTurbo;
     private float turbo;
     private float killPlane;
     private float ammo;
     private float health;
     private int lives;
-    private boolean paused;
-    private float pauseTimeSeconds;
-    private Rectangle roomBounds;
     private InputControls inputControls;
-    private com.udacity.gamedev.gigagal.entity.GigaGal gigaGal;
 
     public static class Builder {
 
@@ -148,7 +159,9 @@ public class Boss extends Hazard implements Humanoid, Destructible {
     }
 
     public void respawn() {
+        gigaGal = GigaGal.getInstance();
         position.set(spawnPosition);
+        killPlane = position.y + Constants.KILL_PLANE;
         chaseCamPosition.set(position, 0);
         left = position.x - halfWidth;
         right = position.x + halfWidth;
@@ -162,41 +175,39 @@ public class Boss extends Hazard implements Humanoid, Destructible {
         ammo = Constants.INITIAL_AMMO;
         health = Constants.INITIAL_HEALTH;
         turbo = Constants.MAX_TURBO;
-        shotIntensity = Enums.ShotIntensity.NORMAL;
+        shotIntensity = ShotIntensity.NORMAL;
         startTurbo = turbo;
-        turboDuration = 0;
         touchedGround = null;
-        paused = false;
+        touchedHazard = null;
         canClimb = false;
+        canCling = false;
         canLook = false;
+        canPeer = false;
         canStride = false;
         canJump = false;
         canDash = false;
         canHover = false;
         canRappel = false;
+        canHurdle = false;
         canShoot = true;
-        onRideable = false;
-        onSkateable = false;
-        onHazardous = false;
-        onClimbable = false;
-        onSinkable = false;
-        onBounceable = false;
+        canDispatch = false;
+        canSink = false;
+        canMove = false;
+        canBounce = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         climbStartTime = 0;
         jumpStartTime = 0;
+        fallStartTime = 0;
         dashStartTime = 0;
-        pauseTimeSeconds = 0;
-        turboDuration = 0;
+        standStartTime = TimeUtils.nanoTime();
         recoveryStartTime = TimeUtils.nanoTime();
-        pauseTimeSeconds = 0;
     }
 
     public void update(float delta) {
-        gigaGal = level.getGigaGal();
-        // checks inner condition only when can state != boss; once set, does not revert
+
         if (ChaseCam.getInstance().getState() != Enums.ChaseCamState.BOSS) {
-            if (this.getRoomBounds().overlaps(GigaGal.getInstance().getBounds())) {
+            if (roomBounds.overlaps(GigaGal.getInstance().getBounds())) {
                 ChaseCam.getInstance().setState(Enums.ChaseCamState.BOSS);
             }
         }
@@ -205,62 +216,64 @@ public class Boss extends Hazard implements Humanoid, Destructible {
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
         setBounds();
+        detectInput();
 
         // collision detection
-//        touchGround(level.getGrounds());
-//        touchHazards(level.getHazards());
-//        touchPowerups(level.getPowerups());
+        touchAllGrounds(LevelUpdater.getInstance().getGrounds());
+        touchAllHazards(LevelUpdater.getInstance().getHazards());
+        touchAllPowerups(LevelUpdater.getInstance().getPowerups());
 
         // abilities
-        if (groundState == Enums.GroundState.PLANTED) {
+        if (groundState == GroundState.PLANTED) {
             velocity.y = 0;
-            /*if (action == Enums.Action.STANDING) {
-                stand();
-                enableStride();
-                enableDash();
-                enableClimb(); // must come before jump (for now)
-                enableJump();
-                enableShoot(weapon);
-            } else if (action == Enums.Action.STRIDING) {
-                enableStride();
-                enableDash();
-                enableJump();
-                enableShoot(weapon);
-            } else if (action == Enums.Action.CLIMBING) {
-                enableClimb();
-                enableShoot(weapon);
-            } else if (action == Enums.Action.DASHING) {
-                enableDash();
-                enableJump();
-                enableShoot(weapon);
-            }*/
-        } else if (groundState == Enums.GroundState.AIRBORNE) {
+//            if (action == Action.STANDING) {
+//                stand();
+//                enableStride();
+//                enableDash();
+//                enableClimb(); // must come before jump (for now)
+//                enableJump();
+//                enableShoot(weapon);
+//            } else if (action == Action.STRIDING) {
+//                enableStride();
+//                enableDash();
+//                enableJump();
+//                enableShoot(weapon);
+//            } else if (action == Action.CLIMBING) {
+//                enableClimb();
+//                enableShoot(weapon);
+//            } else if (action == Action.DASHING) {
+//                enableDash();
+//                enableJump();
+//                enableShoot(weapon);
+//            }
+        } else if (groundState == GroundState.AIRBORNE) {
             velocity.y -= Constants.GRAVITY;
-            /*if (action == Enums.Action.FALLING) {
-                fall();
-                enableClimb();
-                enableHover();
-                enableRappel();
-                enableShoot(weapon);
-            } else if (action == Enums.Action.JUMPING) {
-                enableJump();
-                enableRappel();
-                enableShoot(weapon);
-            } else if (action == Enums.Action.HOVERING) {
-                enableHover();
-                enableRappel();
-                enableClimb();
-                enableShoot(weapon);
-            } else if (action == Enums.Action.RAPPELLING) {
-                enableJump();
-                enableRappel();
-                enableShoot(weapon);
-            } else if (action == Enums.Action.RECOILING) {
-                enableRappel();
-                enableShoot(weapon);
-            }*/
+//            if (action == Action.FALLING) {
+//                fall();
+//                enableClimb();
+//                enableHover();
+//                enableRappel();
+//                enableShoot(weapon);
+//            } else if (action == Action.JUMPING) {
+//                enableJump();
+//                enableClimb();
+//                enableRappel();
+//                enableShoot(weapon);
+//            } else if (action == Action.HOVERING) {
+//                enableHover();
+//                enableRappel();
+//                enableClimb();
+//                enableShoot(weapon);
+//            } else if (action == Action.RAPPELLING) {
+//                enableJump();
+//                enableRappel();
+//                enableClimb();
+//                enableShoot(weapon);
+//            } else if (action == Action.RECOILING) {
+//                enableRappel();
+//                enableShoot(weapon);
+//            }
         }
-
         rush();
     }
 
@@ -271,7 +284,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
         bottom = position.y - eyeHeight;
         bounds = new Rectangle(left, bottom, width, height);
     }
-    
+
     private void rush() {
         if (gigaGal.getDirectionX() != this.getDirectionX()) {
             if (Math.abs(gigaGal.getVelocity().x) > Constants.GIGAGAL_MAX_SPEED / 2) {
@@ -283,7 +296,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
                 if (Math.abs(gigaGal.getPosition().x - this.position.x) < 5) {
                     directionY = Enums.Direction.DOWN;
                     look();
-                    attack();
+//                    attack();
                 }
             }
 
@@ -293,518 +306,643 @@ public class Boss extends Hazard implements Humanoid, Destructible {
                 } else {
                     directionY = Enums.Direction.UP;
                     look();
-                    attack();
+//                    attack();
                 }
             } else if (Math.abs(gigaGal.getPosition().x - this.position.x) > 10) {
                 stride();
             }
         }
     }
-    
-    private void attack() {
-        
-    }
 
-    private void touchGround(DelayedRemovalArray<Ground> grounds) {
-        onHazardous = false;
-        onRideable = false;
-        onSkateable = false;
-        onClimbable = false;
-        onSinkable = false;
+    private void touchAllGrounds(Array<Ground> grounds) {
         for (Ground ground : grounds) {
-            // if currently within ground left and right sides
-            if (Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
-                // apply following rules (bump side and bottom) only if ground height > ledge height
-                // ledges only apply collision detection on top, and not on sides and bottom as do grounds
-                if (getBottom() <= ground.getTop() && getTop() >= ground.getBottom()) {
-                    if (ground.getHeight() > Constants.MAX_LEDGE_HEIGHT) {
-                        touchGroundSide(ground);
-                        touchGroundBottom(ground);
-                    } else {
-                        canRappel = false; // deactivate rappel if ground below max ledge height
-                    }
-                    touchGroundTop(ground);
-                   // if below minimum ground distance while descending excluding post-rappel, disable rappel and hover
-                    // caution when crossing plane between ground top and minimum hover height / ground distance
-                    // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
-                    if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
-                            && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
-                            && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
-                            && rappelStartTime == 0 // only if have not rappeled since last grounded
-                            && !(ground instanceof com.udacity.gamedev.gigagal.entity.Cannon) // only if ground is not instance of cannon
-                            ) {
-                        canRappel = false; // disables rappel
-                        canHover = false; // disables hover
-                    }
-                }
-            }
+            touchGround(ground);
         }
         untouchGround();
     }
 
-    private void touchGroundSide(Ground ground) {
-        // if during previous frame was not, while currently is, between ground left and right sides
-        if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
-            // only when not grounded and not recoiling
-            if (groundState != Enums.GroundState.PLANTED) {
-                // if x velocity (magnitude, without concern for direction) greater than one third max speed,
-                // boost x velocity by starting speed, enable rappel, verify rappelling ground and capture rappelling ground boundaries
-                if (Math.abs(velocity.x) > Constants.GIGAGAL_MAX_SPEED / 4) {
-                    // if already rappeling, halt x progression
-                    if (action != Enums.Action.RAPPELLING) {
-                        canRappel = true; // enable rappel
-                        touchedGround = ground;
-                        killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
+    private void touchGround(Groundable ground) {
+        if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundaries
+            if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collisionouchGroundBottom(ground);
+                touchGroundBottom(ground);
+                touchGroundSide(ground);
+                touchGroundTop(ground);
+            } else { // for non-dense grounds:
+
+                // additional ground collision instructions specific to certain types of grounds
+                if (ground instanceof Climbable) {
+                    if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
+                            && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
+                        if (!(ground instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.CLIMBING)))) {
+                            touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
+                        }
                     }
-                    // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
-                } else {
-                    // if not already hovering and descending, also disable hover
-                    if (action != Enums.Action.HOVERING && velocity.y < 0) {
-                        canHover = false; // disable hover
+                    if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
+                        if (action != Action.FALLING // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
+                                || (fallStartTime != 0 && (Helpers.secondsSince(fallStartTime) > .01f))) { // permits call to stand when falling and touching climbable and non-climbable simultaneously and not having immediately called jump/fall
+                            if (ground instanceof Unsteady) {
+                                if (action == Action.STANDING) { // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
+                                    setAtopGround(ground);
+                                }
+                            } else {
+                                touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                            }
+                        }
                     }
-                    canRappel = false;
-                    fall(); // fall regardless of whether or not inner condition met
-                }
-                // only when planted
-            } else if (groundState == Enums.GroundState.PLANTED) {
-                if (Math.abs(getBottom() - ground.getTop()) > 1) {
-                    strideSpeed = 0;
-                    velocity.x = 0;
-                }
-                if (action == Enums.Action.DASHING) {
-                    stand(); // deactivates dash when bumping ground side
+                    canCling = true;
+                } else if (ground instanceof Pourous) {
+                    setAtopGround(ground); // when any kind of collision detected and not only when breaking plane of ground.top
+                    canCling = false;
+                    canClimb = false;
+                    canSink = true;
+                    canDash = false;
+                    canHover = false;
+                    lookStartTime = 0;
+                    lookTimeSeconds = 0;
+                } else if (!(ground instanceof Pliable) || !(canClimb && directionY == Direction.UP)) { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
+                    canCling = false;
+                    if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
+                        touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                    }
                 }
             }
-            if ((!(ground instanceof Propelling && (Math.abs(getBottom() - ground.getTop()) <= 1)))
-                    && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
-                    && !(ground instanceof Hazardous && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
-                // if contact with ground sides detected without concern for ground state (either grounded or airborne),
-                // reset stride acceleration, disable stride and dash, and set gigagal at ground side
-                if (action != Enums.Action.STRIDING || action != Enums.Action.DASHING) {
-                    strideStartTime = 0; // reset stride acceleration
+            // if below minimum ground distance while descending excluding post-rappel, disable rappel and hover
+            // caution when crossing plane between ground top and minimum hover height / ground distance
+            // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
+            if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
+                    && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
+                    && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
+                    && rappelStartTime == 0 // only if have not rappeled since last grounded
+                    && !(ground instanceof Cannon)) { // only if ground is not instance of cannon
+                canRappel = false; // disables rappel
+                canHover = false; // disables hover
+            }
+            if (ground instanceof Ground && ground instanceof Hazardous) {
+                touchHazard((Hazardous) ground);
+            }
+            if (ground instanceof Replenishing) {
+                touchPowerup((Replenishing) ground);
+            }
+        }
+    }
+
+    private void touchGroundSide(Groundable ground) {
+        // ignores case where simultaneously touching two separate grounds with same top position to prevent interrupting stride
+        if (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.getTop() == ground.getTop())) {
+            // if during previous frame was not, while currently is, between ground left and right sides
+            if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
+                // only when not grounded and not recoiling
+                if (groundState != GroundState.PLANTED) {
+                    // if x velocity (magnitude, without concern for direction) greater than one third max speed,
+                    // boost x velocity by starting speed, enable rappel, verify rappelling ground and capture rappelling ground boundaries
+                    if (Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 8 || ground instanceof Zoomba) {
+                        // if already rappelling, halt x progression
+                        if (action != Action.RAPPELLING) {
+                            if (ground instanceof Rappelable) {
+                                canRappel = true; // enable rappel
+                            }
+                            touchedGround = ground;
+                            killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
+                        }
+                        // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
+                    } else {
+                        // if not already hovering and descending, also disable hover
+                        if (action != Action.HOVERING && velocity.y < 0) {
+                            canHover = false; // disable hover
+                        }
+                        canRappel = false;
+                        fall(); // fall regardless of whether or not inner condition met
+                    }
+                    // only when planted
+                } else if (groundState == GroundState.PLANTED) {
+                    if (Math.abs(getBottom() - ground.getTop()) > 1) {
+                        strideSpeed = 0;
+                        velocity.x = 0;
+                    }
+                    if (action == Action.DASHING && !(ground instanceof Propelling)) {
+                        stand(); // deactivates dash when bumping ground side
+                    } else if (action == Action.STRIDING && ground instanceof Pliable && !((Pliable) ground).isBeingCarried()) {
+                        canMove = true;
+                    }
                 }
-                canStride = false; // disable stride
-                canDash = false; // disable dash
-                position.x = previousFramePosition.x; // halt x progression
+                if ((!(ground instanceof Propelling && (Math.abs(getBottom() - ground.getTop()) <= 1)))
+                        && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
+                        && !(ground instanceof Hazardous && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+                    // if contact with ground sides detected without concern for ground state (either grounded or airborne),
+                    // reset stride acceleration, disable stride and dash, and set gigagal at ground side
+                    if (action != Action.STRIDING || action != Action.DASHING) {
+                        strideStartTime = 0; // reset stride acceleration
+                    }
+                    canStride = false; // disable stride
+                    canDash = false; // disable dash
+                    position.x = previousFramePosition.x;
+                }
+            } else { // when both position and previous position overlap ground side edge
+                float yTestPosition = position.y;
+                if (ground instanceof Canirol) {
+                    yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
+                }
+                if (!(ground instanceof Pliable)) {
+                    if (Helpers.betweenTwoValues(yTestPosition, ground.getBottom(), ground.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
+
+                        if (!(ground instanceof Canirol)) {
+                            if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
+                                position.x = ground.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
+                            } else {
+                                position.x = ground.getRight() + getHalfWidth() + 1; // reset position to ground side edge
+                            }
+                        } else { // for canirol only
+                            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // reset position to ground top
+                            setAtopGround(ground);
+                        }
+                    }
+                }
             }
         } else {
-            canRappel = false;
+            touchedGround = ground;
         }
     }
 
-    private void touchGroundBottom(Ground ground) {
-        // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
-        if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) <= ground.getBottom()) {
-            velocity.y = 0; // prevents from ascending above ground bottom
-            position.y = previousFramePosition.y;  // sets gigagal at ground bottom
-            fall(); // descend from point of contact with ground bottom
-        }
-    }
-
-    private void touchGroundTop(Ground ground) {
-        // if contact with ground top detected, halt downward progression and set gigagal atop ground
-        if ((getBottom() <= ground.getTop() && (!canRappel || (touchedGround != null && ground.getTop() != touchedGround.getTop())))
-                && (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1)) {
-            velocity.y = 0; // prevents from descending beneath ground top
-            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
-            setAtopGround(ground);
-            if (action != Enums.Action.DASHING) {
-                pauseTimeSeconds = 0;
-            }
-            if (ground instanceof Skateable) {
-                onSkateable = true;
-                if (groundState == Enums.GroundState.AIRBORNE) {
-                    stand(); // set groundstate to standing
-                    lookStartTime = 0;
-                }
-            } else if (ground instanceof Dynamic) {
-                lookStartTime = 0;
-                Dynamic hoverable = (Dynamic) ground;
-                Enums.Orientation orientation = hoverable.getOrientation();
-                Enums.Direction direction = hoverable.getDirectionY();
-                if (orientation == Enums.Orientation.X) {
-                    velocity.x = hoverable.getVelocity().x;
-                    position.x += velocity.x;
-                }
-                if (direction == Enums.Direction.DOWN) {
-                    position.y -= 1;
-                }
-            } else if (ground instanceof Reboundable) {
-                onBounceable = true;
-                Reboundable reboundable = (Reboundable) ground;
-                reboundable.setState(true);
-            } else if (ground instanceof Propelling) {
-                onRideable = true;
-            } else if (ground instanceof Hazardous) {
-                onHazardous = true;
-                canHover = false;
-                Random xKnockback = new Random();
-                velocity.set(Helpers.absoluteToDirectionalValue(xKnockback.nextFloat() * 200, directionX, Enums.Orientation.X), Constants.PROTRUSION_GAS_KNOCKBACK.y);
-                recoil(velocity);
-            }
-        }
-    }
-
-    private void touchDescendableGround(Ground ground) {
-        if (ground instanceof Pourous) {
-            setAtopGround(ground);
-            onSinkable = true;
-            canDash = false;
-            canHover = false;
-            canClimb = false;
-            lookStartTime = 0;
-            lookTimeSeconds = 0;
-        } else if (ground instanceof Climbable) {
-            if (Helpers.betweenTwoValues(position.x, ground.getLeft(), ground.getRight())) {
-                if (getTop() > ground.getBottom()) {
-                    onClimbable = true;
-                }
-            }
-            if (climbTimeSeconds == 0) {
-                if ((getBottom() <= ground.getTop() && (!canRappel || (touchedGround != null && ground.getTop() != touchedGround.getTop()))
-                        && previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop())
-                        || canClimb && climbStartTime != 0) {
-                    setAtopGround(ground);
-                    if (action != Enums.Action.CLIMBING) {
-                        velocity.y = 0; // prevents from descending beneath ground top
-                        position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+    private void touchGroundBottom(Groundable ground) {
+        if (!(touchedGround != null && !touchedGround.equals(ground)
+                && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
+            // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
+            if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom() + 1) {
+                velocity.y = 0; // prevents from ascending above ground bottom
+                if (groundState == GroundState.AIRBORNE) { // prevents fall when striding against ground bottom positioned at height distance from ground atop
+                    fall(); // descend from point of contact with ground bottom
+                    if (!(ground instanceof Vehicular)) { // prevents from being pushed below ground
+                        position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
+                    }
+                } else if (action == Action.CLIMBING) { // prevents from disengaging climb
+                    fall(); // descend from point of contact with ground bottom
+                    canCling = true;
+                    canClimb = true;
+                    action = Action.CLIMBING;
+                    groundState = GroundState.PLANTED;
+                    if (!(ground instanceof Vehicular)) { // prevents from being pushed below ground
+                        position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 }
-                if (action != Enums.Action.CLIMBING) {
-                    if (canClimb /*&& !inputControls.jumpButtonPressed*/ && action == Enums.Action.STANDING) {
-                        if (!(ground instanceof com.udacity.gamedev.gigagal.entity.Pole)) {
-                            canJump = true;
+                canDash = false;
+            }
+        }
+    }
+
+    // applicable to all dense grounds as well as non-sinkables when not climbing downward
+    private void touchGroundTop(Groundable ground) {
+        if (!(touchedGround != null && !touchedGround.equals(ground)
+                && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
+            // if contact with ground top detected, halt downward progression and set gigagal atop ground
+            if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
+                if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, ground.getLeft() + 1, ground.getRight() - 1) || groundState != GroundState.AIRBORNE)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground sides
+                    velocity.y = 0; // prevents from descending beneath ground top
+                    position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                    setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
+                }
+                // additional ground top collision instructions specific to certain types of grounds
+                if (ground instanceof Skateable) {
+                    if (groundState == GroundState.AIRBORNE) {
+                        stand(); // set groundstate to standing
+                        lookStartTime = 0;
+                    } else if (canClimb) {
+                        canCling = false;
+                    }
+                }
+                if (ground instanceof Moving) {
+                    if (ground instanceof Vehicular) {
+                        lookStartTime = 0;
+                    }
+                    Moving moving = (Moving) ground;
+                    position.x += moving.getVelocity().x;
+                    if (moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.DOWN) {
+                        position.y -= 1;
+                    } else if (moving instanceof Zoomba && ((Zoomba) moving).getOrientation() == Orientation.X) {
+                        position.y += moving.getVelocity().y;
+                    }
+                    if (ground instanceof Pliable && !((Pliable) ground).isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
+                        canMove = true;
+                    }
+                }
+                if (ground instanceof Reboundable) {
+                    if (!(ground instanceof Pliable && ((Pliable) ground).isBeingCarried() && ((Pliable) ground).getCarrier() == this)) {
+                        canClimb = false;
+                        canCling = false;
+                    }
+                    if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround()) {
+                        lookStartTime = 0;
+                        if (((Pliable) ground).getMovingGround() != null) {
+                            Moving moving = ((Pliable) ground).getMovingGround();
+                            position.x += moving.getVelocity().x;
+                            if (moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.DOWN) {
+                                position.y -= 1;
+                            } else if (moving instanceof Zoomba && ((Zoomba) moving).getOrientation() == Orientation.X) {
+                                position.y += moving.getVelocity().y;
+                            }
                         }
-                        jump();
+                    }
+                }
+                if (ground instanceof Destructible) {
+                    if (((Destructible) ground).getHealth() < 1) {
+                        fall();
                     }
                 }
             }
+        } else {
+            touchedGround = ground;
         }
     }
 
-    private void setAtopGround(Ground ground) {
+    // basic ground top collision instructions; applicable to sinkables even when previousframe.x < ground.top
+    private void setAtopGround(Groundable ground) {
         touchedGround = ground;
         killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
         hoverStartTime = 0;
         rappelStartTime = 0;
+        canRappel = false;
+        canMove = false;
         canLook = true;
         canHover = false;
-        if (groundState == Enums.GroundState.AIRBORNE && !(ground instanceof Skateable)) {
-            stand(); // set groundstate to standing
+        if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
+            stand(); // in each frame all grounds save for skateable rely upon this call to switch action from airborne
             lookStartTime = 0;
+        } else if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+            canJump = true;
+            jump();
+        } else if (action == Action.CLIMBING && !(ground instanceof Climbable)) {
+            stand();
         }
     }
 
     private void untouchGround() {
-        if (touchedGround != null && action != Enums.Action.HOVERING) {
-            if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom())
-                /*(!Helpers.overlapsBetweenTwoSides(position.y, (getTop() - getBottom()) / 2, touchedGround.getBottom(), touchedGround.getTop()) */{
-                if (onBounceable) {
-                    Reboundable reboundable = (Reboundable) touchedGround;
-                    reboundable.resetStartTime();
-                    reboundable.setState(false);
-                    onBounceable = false;
-                }
-                canRappel = false;
-                fall();
-            } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
-                if (onBounceable) {
-                    Reboundable reboundable = (Reboundable) touchedGround;
-                    reboundable.resetStartTime();
-                    reboundable.setState(false);
-                    onBounceable = false;
-                }
-                onSinkable = false;
-                lookTimeSeconds = 0;
-                lookStartTime = TimeUtils.nanoTime();
-                if (action != Enums.Action.RAPPELLING) {
+        if (touchedGround != null) {
+            if (!Helpers.overlapsPhysicalObject(this, touchedGround)) {
+                if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom()) {
+                    if (action == Action.RAPPELLING) {
+                        velocity.x = 0;
+                    }
                     fall();
+                } else if (!Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())) {
+                    canSink = false;
+                    lookTimeSeconds = 0;
+                    lookStartTime = 0;
+                    if (action != Action.RAPPELLING && action != Action.CLIMBING && action != Action.HOVERING) {
+                        fall();
+                    } else {
+                        canCling = false;
+                        canClimb = false;
+                    }
+                } else if (touchedGround instanceof Destructible) {
+                    Destructible destructible = (Destructible) touchedGround;
+                    if (destructible.getHealth() < 1) {
+                        fall();
+                    }
                 }
+                canMove = false;
+                canRappel = false;
+                touchedGround = null; // after handling touchedground conditions above
             }
+        } else if (action == Action.STANDING || action == Action.STRIDING || action == Action.CLIMBING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
+            fall();
         }
     }
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    private void touchHazards(DelayedRemovalArray<com.udacity.gamedev.gigagal.entity.Hazard> hazards) {
-        for (com.udacity.gamedev.gigagal.entity.Hazard hazard : hazards) {
-            if (!(hazard instanceof com.udacity.gamedev.gigagal.entity.Ammo && ((com.udacity.gamedev.gigagal.entity.Ammo) hazard).isFromGigagal())) {
-                float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime) - pauseTimeSeconds;
-                if (action != Enums.Action.RECOILING && recoveryTimeSeconds > Constants.RECOVERY_TIME) {
-                    Rectangle bounds = new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight());
-                    if (getBounds().overlaps(bounds)) {
-                        recoveryStartTime = TimeUtils.nanoTime();
-                        chaseCamPosition.set(position, 0);
-                        Vector2 intersectionPoint = new Vector2();
-                        intersectionPoint.x = Math.max(getBounds().x, bounds.x);
-                        intersectionPoint.y = Math.max(getBounds().y, bounds.y);
-                    //    level.spawnImpact(intersectionPoint, hazard.getType());
-                        int damage = hazard.getDamage();
-                        float margin = 0;
-                        if (hazard instanceof Destructible) {
-                            margin = hazard.getWidth() / 6;
-                        }
-                        if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
-                            if (hazard instanceof Swoopa) {
-                                Swoopa swoopa = (Swoopa) hazard;
-                                recoil(new Vector2(-swoopa.getMountKnockback().x, swoopa.getMountKnockback().y));
-                                damage = swoopa.getMountDamage();
-                            } else {
-                                recoil(new Vector2(-hazard.getKnockback().x, hazard.getKnockback().y));
-                            }
-                        } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
-                            if (hazard instanceof Swoopa) {
-                                Swoopa swoopa = (Swoopa) hazard;
-                                recoil(swoopa.getMountKnockback());
-                                damage = swoopa.getMountDamage();
-                            } else {
-                                recoil(hazard.getKnockback());
-                            }
-                        } else {
-                            if (hazard instanceof Zoomba) {
-                                Zoomba zoomba = (Zoomba) hazard;
-                                recoil(new Vector2((Helpers.absoluteToDirectionalValue(zoomba.getMountKnockback().x, directionX, Enums.Orientation.X)), zoomba.getMountKnockback().y));
-                                damage = zoomba.getMountDamage();
-                            } else {
-                                recoil(new Vector2((Helpers.absoluteToDirectionalValue(hazard.getKnockback().x, directionX, Enums.Orientation.X)), hazard.getKnockback().y));
-                            }
-                        }
-                        health -= damage;
-                    }
+    private void touchAllHazards(Array<Hazard> hazards) {
+        touchedHazard = null;
+        for (Hazard hazard : hazards) {
+            if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
+                if (Helpers.overlapsPhysicalObject(this, hazard)) {
+                    touchHazard(hazard);
+                } else if (action == Action.STANDING
+                        && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
+                        && Helpers.absoluteToDirectionalValue(position.x - bounds.x, directionX, Orientation.X) > 0) {
+                    canPeer = true;
+                } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
+                    canPeer = false;
                 }
             }
         }
     }
 
-    /*private void touchPowerups(List<Powerup> powerups) {
-        ListIterator<Powerup> iterator = powerups.listIterator();
-        while (iterator.hasNext()) {
-            Powerup health = iterator.next();
-            Rectangle bounds = new Rectangle(health.getLeft(), health.getBottom(), health.getWidth(), health.getHeight());
-            if (getBounds().overlaps(bounds)) {
-                if (health instanceof AmmoPowerup) {
-                    ammo += Constants.POWERUP_AMMO;
-                    if (ammo > Constants.MAX_AMMO) {
-                        ammo = Constants.MAX_AMMO;
-                    }
-                } else if (health instanceof HealthPowerup) {
-                    health += Constants.POWERUP_HEALTH;
-                    if (health > Constants.MAX_HEALTH) {
-                        health = Constants.MAX_HEALTH;
-                    }
-                } else if (health instanceof TurboPowerup) {
-                    turbo += Constants.POWERUP_TURBO;
-                    if (action == Enums.Action.HOVERING) {
-                        hoverStartTime = TimeUtils.nanoTime();
-                    }
-                    if (action == Enums.Action.DASHING) {
-                        dashStartTime = TimeUtils.nanoTime();
-                    }
+    private void touchHazard(Hazardous hazard) {
+        chaseCamPosition.set(position, 0);
+        if (hazard instanceof Groundable) {
+            if (hazard instanceof Zoomba) {
+                Zoomba zoomba = (Zoomba) hazard;
+                if (bounds.overlaps(zoomba.getHazardBounds())) {
+                    touchedHazard = hazard;
+                    recoil(hazard.getKnockback(), hazard);
+                    touchGround((Groundable) hazard);
+                } else {
+                    touchGround(zoomba);
                 }
-                level.setTotalScore(level.getTotalScore() + Constants.POWERUP_SCORE);
-                iterator.remove();
+            } else if (hazard instanceof Swoopa) {
+                if (getBottom() >= hazard.getPosition().y && Helpers.betweenTwoValues(position.x, hazard.getPosition().x - Constants.SWOOPA_SHOT_RADIUS, hazard.getPosition().x + Constants.SWOOPA_SHOT_RADIUS)) {
+                    touchGroundTop((Swoopa) hazard);
+                } else {
+                    touchedHazard = hazard;
+                    recoil(hazard.getKnockback(), hazard);
+                }
+            } else {
+                touchedHazard = hazard;
+                recoil(hazard.getKnockback(), hazard);
+            }
+        } else {
+            touchedHazard = hazard;
+            recoil(hazard.getKnockback(), hazard);
+        }
+    }
+
+    private void touchAllPowerups(Array<Powerup> powerups) {
+        for (Powerup powerup : powerups) {
+            Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
+            if (getBounds().overlaps(bounds)) {
+                touchPowerup(powerup);
             }
         }
         if (turbo > Constants.MAX_TURBO) {
             turbo = Constants.MAX_TURBO;
         }
-    }*/
-/*
+    }
+
+    private void touchPowerup(Replenishing powerup) {
+        switch(powerup.getType()) {
+            case AMMO:
+                Assets.getInstance().getSoundAssets().ammo.play();
+                ammo += Constants.POWERUP_AMMO;
+                if (ammo > Constants.MAX_AMMO) {
+                    ammo = Constants.MAX_AMMO;
+                }
+                break;
+            case HEALTH:
+                if (powerup instanceof Powerup) {
+                    Assets.getInstance().getSoundAssets().health.play();
+                    health += Constants.POWERUP_HEALTH;
+                } else {
+                    health += .1f;
+                }
+                if (health > Constants.MAX_HEALTH) {
+                    health = Constants.MAX_HEALTH;
+                }
+                break;
+            case TURBO:
+                Assets.getInstance().getSoundAssets().turbo.play();
+                turbo += Constants.POWERUP_TURBO;
+                if (action == Action.HOVERING) {
+                    hoverStartTime = TimeUtils.nanoTime();
+                }
+                if (action == Action.DASHING) {
+                    dashStartTime = TimeUtils.nanoTime();
+                }
+                break;
+            case LIFE:
+                Assets.getInstance().getSoundAssets().life.play();
+                lives += 1;
+                break;
+            case CANNON:
+                Assets.getInstance().getSoundAssets().cannon.play();
+                chargeModifier = 1;
+                ammo += Constants.POWERUP_AMMO;
+                break;
+        }
+    }
 
     private void handleXInputs() {
-        boolean left = inputControls.leftButtonPressed;
-        boolean right = inputControls.rightButtonPressed;
-        boolean directionChanged = false;
-        boolean inputtingX = ((left || right) && !(left && right));
-        if (inputtingX) {
-            if (left && !right) {
-                directionChanged = Helpers.changeDirection(this, Enums.Direction.LEFT, Enums.Orientation.X);
-            } else if (!left && right) {
-                directionChanged = Helpers.changeDirection(this, Enums.Direction.RIGHT, Enums.Orientation.X);
-            }
-        }
-        if (groundState != Enums.GroundState.AIRBORNE && action != Enums.Action.CLIMBING) {
-            if (lookStartTime == 0) {
-                if (directionChanged) {
-                    if (action == Enums.Action.DASHING) {
-                        dashStartTime = 0;
-                        canDash = false;
-                    }
-                    strideSpeed = velocity.x;
-                    strideStartTime = 0;
-                    stand();
-                } else if (action != Enums.Action.DASHING) {
-                    if (inputtingX) {
-                        if (!canStride) {
-                            if (strideStartTime == 0) {
-                                canStride = true;
-                            } else if (Helpers.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
-                                strideStartTime = 0;
-                            } else if (!onSinkable){
-                                canDash = true;
-                            } else {
-                                canDash = false;
-                            }
-                        }
-                    } else {
-                        pauseTimeSeconds = 0;
-                        stand();
-                        canStride = false;
-                    }
-                }
-            }
-        } else if (groundState == Enums.GroundState.AIRBORNE) {
-            if (directionChanged) {
-                if (action != Enums.Action.HOVERING) {
-                    velocity.x /= 2;
-                } else {
-                    velocity.x /= 4;
-                }
-            }
-        } else if (action == Enums.Action.CLIMBING) {
-            if (canClimb) {
-                if (inputtingX) {
-                    velocity.y = 0;
-                    canHover = false;
-                    if (inputControls.jumpButtonPressed) {
-                        climb(Enums.Orientation.X);
-                    }
-                } else {
-                    velocity.x = 0; // disable movement when climbing but directional not pressed
-                }
-            } else {
-                velocity.x = 0; // disable movement when climbing but directional not pressed
-            }
-        }
+//        boolean left = inputControls.leftButtonPressed;
+//        boolean right = inputControls.rightButtonPressed;
+//        boolean directionChanged = false;
+//        boolean inputtingX = ((left || right) && !(left && right));
+//        if (inputtingX) {
+//            if (left && !right) {
+//                directionChanged = Helpers.changeDirection(this, Direction.LEFT, Orientation.X);
+//            } else if (!left && right) {
+//                directionChanged = Helpers.changeDirection(this, Direction.RIGHT, Orientation.X);
+//            }
+//            jumpStartTime = 0;
+//        }
+//        if (groundState != GroundState.AIRBORNE && action != Action.CLIMBING) {
+//            if (lookStartTime == 0) {
+//                if (directionChanged) {
+//                    if (action == Action.DASHING) {
+//                        dashStartTime = 0;
+//                        canDash = false;
+//                    }
+//                    strideSpeed = velocity.x;
+//                    strideStartTime = 0;
+//                    stand();
+//                } else if (action != Action.DASHING) {
+//                    if (inputtingX) {
+//                        if (!canStride) {
+//                            if (strideStartTime == 0) {
+//                                canStride = true;
+//                            } else if (Helpers.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
+//                                strideStartTime = 0;
+//                            } else if (!canSink){
+//                                canDash = true;
+//                            } else {
+//                                canDash = false;
+//                            }
+//                        }
+//                    } else {
+//                        stand();
+//                        canStride = false;
+//                    }
+//                }
+//            }
+//        } else if (groundState == GroundState.AIRBORNE) {
+//            if (directionChanged) {
+//                if (action != Action.HOVERING) {
+//                    velocity.x /= 2;
+//                } else {
+//                    velocity.x /= 4;
+//                }
+//            }
+//        } else if (action == Action.CLIMBING) {
+//            if (canClimb) {
+//                if (inputtingX) {
+//                    velocity.y = 0;
+//                    canHover = false;
+//                    if (inputControls.jumpButtonPressed) {
+//                        climb(Orientation.X);
+//                    }
+//                } else {
+//                    velocity.x = 0; // disable movement when climbing but directional not pressed
+//                }
+//            } else {
+//                velocity.x = 0; // disable movement when climbing but jumpbutton not pressed
+//            }
+//        }
     }
 
     private void handleYInputs() {
-        boolean up = inputControls.upButtonPressed;
-        boolean down = inputControls.downButtonPressed;
-        boolean directionChanged = false;
-        boolean inputtingY = ((up || down) && !(up && down));
-        if (inputtingY) {
-            if (down && !up) {
-                directionChanged = Helpers.changeDirection(this, Enums.Direction.DOWN, Enums.Orientation.Y);
-            } else if (!down && up) {
-                directionChanged = Helpers.changeDirection(this, Enums.Direction.UP, Enums.Orientation.Y);
-            }
-            if (directionY == Enums.Direction.DOWN) {
-                if (onSinkable) {
-                    velocity.y *= 5;
-                }
-            }
-            if (canLook) {
-                canStride = false;
-                if (inputControls.jumpButtonJustPressed) {
-                    canHover = false;
-                    toggleWeapon(directionY);
-                }
-                look(); // also sets chase cam
-            }
-        } else if (action == Enums.Action.STANDING || action == Enums.Action.CLIMBING) { // if neither up nor down pressed (and either standing or climbing)
-            resetChaseCamPosition();
-        } else { // if neither standing nor climbing and not inputting y
-            chaseCamPosition.set(position, 0);
-            lookStartTime = 0;
-        }
-        if (canClimb) {
-            if (inputtingY) {
-                velocity.x = 0;
-                canHover = false;
-                if (lookStartTime == 0) {
-                    if (inputControls.jumpButtonPressed) {
-                        // double tap handling while climbing
-                        if (climbTimeSeconds == 0) {  // if directional released
-                            if (!directionChanged) { // if tapping in same direction
-                                // if difference between current time and previous tap start time is less than double tap speed
-                                if (((TimeUtils.nanoTime() - climbStartTime) * MathUtils.nanoToSec) < Constants.DOUBLE_TAP_SPEED) {
-                                    if (directionY == Enums.Direction.UP) { // enable increased ascension speed
-                                        canDash = true; // checks can dash after calling climb() to apply speed boost
-                                    } else if (directionY == Enums.Direction.DOWN) { // drop down from climbable (drop handled from climb())
-                                        lookStartTime = TimeUtils.nanoTime(); // prevents from reengaging climbable from enableclimb() while falling
-                                        onClimbable = false; // meets requirement within climb() to disable climb and enable fall
-                                    }
-                                }
-                                climbStartTime = TimeUtils.nanoTime(); // replace climb start time with that of most recent tap
-                            }
-                        }
-                        climb(Enums.Orientation.Y);
-                        if (canDash) { // apply multiplier on top of speed set by climb()
-                            velocity.y *= 2; // double speed
-                        }
-                    } else {
-                        velocity.y = 0; // disable movement when climbing but jump button not pressed
-                    }
-                }
-            } else {
-                climbTimeSeconds = 0; // indicates release of directional for enabling double tap
-                canDash = false; // reset dash when direction released
-            }
-        }
+//        boolean up = inputControls.upButtonPressed;
+//        boolean down = inputControls.downButtonPressed;
+//        boolean directionChanged = false;
+//        boolean inputtingY = ((up || down) && !(up && down));
+//        if (inputtingY) {
+//            if (down && !up) {
+//                directionChanged = Helpers.changeDirection(this, Direction.DOWN, Orientation.Y);
+//            } else if (!down && up) {
+//                directionChanged = Helpers.changeDirection(this, Direction.UP, Orientation.Y);
+//            }
+//            if (directionY == Direction.DOWN) {
+//                if (canSink) {
+//                    velocity.y *= 5;
+//                }
+//            }
+//            if (canLook && !canClimb) {
+//                canStride = false;
+//                if (inputControls.jumpButtonJustPressed && !canRappel && !canHurdle) { // prevents accidental toggle due to simultaneous jump and directional press for hurdle
+//                    toggleWeapon(directionY);
+//                }
+//                look(); // also sets chase cam
+//            }
+//            jumpStartTime = 0;
+//        } else if (action == Action.STANDING || action == Action.CLIMBING) { // if neither up nor down pressed (and either standing or climbing)
+//            resetChaseCamPosition();
+//        } else { // if neither standing nor climbing and not inputting y
+//            chaseCamPosition.set(position, 0);
+//            lookStartTime = 0;
+//        }
+//        if (canClimb) {
+//            if (inputtingY) {
+//                velocity.x = 0;
+//                canHover = false;
+//                if (lookStartTime == 0) {
+//                    if (inputControls.jumpButtonPressed) {
+//                        // double tap handling while climbing
+//                        if (dashTimeSeconds == 0) {  // if directional released
+//                            if (!directionChanged) { // if tapping in same direction
+//                                // if difference between current time and previous tap start time is less than double tap speed
+//                                if (((TimeUtils.nanoTime() - dashStartTime) * MathUtils.nanoToSec) < Constants.DOUBLE_TAP_SPEED) {
+//                                    if (directionY == Direction.UP) { // enable increased ascension speed
+//                                        canDash = true; // checks can dash after calling climb() to apply speed boost
+//                                    } else if (directionY == Direction.DOWN) { // drop down from climbable (drop handled from climb())
+//                                        lookStartTime = TimeUtils.nanoTime(); // prevents from reengaging climbable from enableclimb() while falling
+//                                        canCling = false; // meets requirement within climb() to disable climb and enable fall
+//                                    }
+//                                }
+//                                dashStartTime = TimeUtils.nanoTime(); // replace climb start time with that of most recent tap
+//                            }
+//                        }
+//                        if (touchedGround instanceof Climbable) {
+//                            if (position.x < touchedGround.getLeft()) {
+//                                position.x = touchedGround.getLeft();
+//                            } else if (position.x > touchedGround.getRight()) {
+//                                position.x = touchedGround.getRight();
+//                            }
+//                        }
+//                        climb(Orientation.Y);
+//                        if (canDash) { // apply multiplier on top of speed set by climb()
+//                            velocity.y *= 2; // double speed
+//                        }
+//                    } else {
+//                        velocity.y = 0; // disable movement when climbing but jump button not pressed
+//                    }
+//                }
+//            } else {
+//                dashTimeSeconds = 0; // indicates release of directional for enabling double tap
+//                canDash = false; // reset dash when direction released
+//            }
+//        }
     }
-*/
 
     private void stand() {
-        if (onSinkable) {
+        if (touchedGround instanceof Pourous) {
             strideStartTime = 0;
             strideTimeSeconds = 0;
             strideAcceleration = 0;
             velocity.x = 0;
             velocity.y = -3;
-        } else if (onSkateable) {
+        } else if (touchedGround instanceof Skateable) {
             if (Math.abs(velocity.x) > 0.005f) {
                 velocity.x /= 1.005;
             } else {
                 velocity.x = 0;
             }
-        } else if (onRideable) {
+        } else if (touchedGround instanceof Propelling) {
             velocity.x = 0;
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getRotationDirection(), Enums.Orientation.X);
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getRotationDirection(), Orientation.X);
         } else {
             velocity.x = 0;
         }
-        action = Enums.Action.STANDING;
-        groundState = Enums.GroundState.PLANTED;
+        fallStartTime = 0;
+        action = Action.STANDING;
+        groundState = GroundState.PLANTED;
+
         if (!canClimb) {
             canJump = true;
-//            handleYInputs(); // disabled when canclimb to prevent look from overriding climb
+            handleYInputs(); // disabled when canclimb to prevent look from overriding climb
+        } else if (touchedGround == null || !(touchedGround instanceof Climbable)) {
+            canClimb = false;
         } else {
             canJump = false;
         }
+
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.STAND_TURBO_INCREMENT;
         }
     }
 
     private void fall() {
-//        handleXInputs();
-//        handleYInputs();
-        action = Enums.Action.FALLING;
-        groundState = Enums.GroundState.AIRBORNE;
+        handleXInputs();
+        handleYInputs();
+        action = Action.FALLING;
+        groundState = GroundState.AIRBORNE;
         canJump = false;
         canDash = false;
         canLook = true;
-        if (!onSkateable) {
-            canHover = false;
+        fallStartTime = TimeUtils.nanoTime();
+        if (!(touchedGround instanceof Skateable)) {
             strideStartTime = 0;
         }
-        if (!canRappel) {
+
+        // deactivates rappel and climb to prevent inappropriate activation when holding jumpbutton, crossing and no longer overlapping climbable plane
+        if (touchedGround == null && canClimb) {
+            canCling = false;
+            canClimb = false;
+        }
+
+        if (touchedGround instanceof Pourous && getBottom() < touchedGround.getTop()) {
+            canHover = false; // prevents hover icon flashing from indicator hud when tapping jump while submerged in sink
+        } else if (!canRappel) {
             touchedGround = null;
             canHover = true;
         }
-        if (onSinkable) {
-            canHover = false;
-        }
+
+        canSink = false;
+
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.FALL_TURBO_INCREMENT;
         }
     }
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
-    private void recoil(Vector2 velocity) {
-        action = Enums.Action.RECOILING;
-        groundState = Enums.GroundState.AIRBORNE;
-        shotIntensity = Enums.ShotIntensity.NORMAL;
+    private void recoil(Vector2 velocity, Hazardous hazard) {
+        float margin = 0;
+        if (hazard instanceof Destructible) {
+            margin = hazard.getWidth() / 6;
+        }
+        if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
+            this.velocity.x = -velocity.x;
+        } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
+            this.velocity.x = velocity.x;
+        } else {
+            this.velocity.x = Helpers.absoluteToDirectionalValue(velocity.x, directionX, Orientation.X);
+        }
+        this.velocity.y = velocity.y;
+        Assets.getInstance().getSoundAssets().damage.play();
+        shotIntensity = ShotIntensity.NORMAL;
+        groundState = GroundState.AIRBORNE;
+        action = Action.FALLING;
+        float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
+        if (recoveryTimeSeconds > Constants.RECOVERY_TIME) {
+            health -= hazard.getDamage() * healthMultiplier;
+            action = Action.RECOILING;
+            recoveryStartTime = TimeUtils.nanoTime();
+        }
+        chargeModifier = 0;
         chargeStartTime = 0;
         strideStartTime = 0;
         lookStartTime = 0;
@@ -813,130 +951,144 @@ public class Boss extends Hazard implements Humanoid, Destructible {
         canDash = false;
         canHover = false;
         canLook = false;
-        this.velocity.x = velocity.x;
-        this.velocity.y = velocity.y;
+        canCling = false;
+        canClimb = false;
+        canRappel = false;
+        canHurdle = false;
     }
 
-    private void enableShoot(Enums.Material weapon) {
+    private void enableShoot(Material weapon) {
+        canDispatch = false;
         if (canShoot) {
-//            if (inputControls.shootButtonPressed) {
+            if (inputControls.shootButtonPressed || (action == Action.RAPPELLING && (inputControls.rightButtonPressed || inputControls.leftButtonPressed))) {
                 if (chargeStartTime == 0) {
                     chargeStartTime = TimeUtils.nanoTime();
                 } else if (chargeTimeSeconds > Constants.CHARGE_DURATION) {
-                    shotIntensity = Enums.ShotIntensity.BLAST;
+                    shotIntensity = ShotIntensity.BLAST;
                 } else if (chargeTimeSeconds > Constants.CHARGE_DURATION / 3) {
-                    shotIntensity = Enums.ShotIntensity.CHARGED;
+                    shotIntensity = ShotIntensity.CHARGED;
                 }
-                chargeTimeSeconds = Helpers.secondsSince(chargeStartTime);
-          /*  } else */if (chargeStartTime != 0) {
+                chargeTimeSeconds = Helpers.secondsSince(chargeStartTime) + chargeModifier;
+            } else if (chargeStartTime != 0) {
                 int ammoUsed;
 
-                if (weapon == Enums.Material.NATIVE
-                        || (ammo < Constants.BLAST_AMMO_CONSUMPTION && shotIntensity == Enums.ShotIntensity.BLAST)
+                if (weapon == Material.NATIVE
+                        || (ammo < Constants.BLAST_AMMO_CONSUMPTION && shotIntensity == ShotIntensity.BLAST)
                         || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
                     ammoUsed = 0;
-                    weapon = Enums.Material.NATIVE;
+                    weapon = Material.NATIVE;
                 } else {
                     ammoUsed = Helpers.useAmmo(shotIntensity);
                 }
-
-                shoot(shotIntensity, weapon, ammoUsed);
                 chargeStartTime = 0;
                 chargeTimeSeconds = 0;
-                this.shotIntensity = Enums.ShotIntensity.NORMAL;
+                shoot(shotIntensity, weapon, ammoUsed);
             }
         }
     }
 
-    public void shoot(Enums.ShotIntensity shotIntensity, Enums.Material weapon, int ammoUsed) {
-        ammo -= ammoUsed;
-        Vector2 ammoPosition = new Vector2(
-                position.x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_X_CANNON_OFFSET.x, directionX, Enums.Orientation.X),
-                position.y + Constants.GIGAGAL_X_CANNON_OFFSET.y
-        );
-        if (lookStartTime != 0) {
-            ammoPosition.add(Helpers.absoluteToDirectionalValue(0, directionX, Enums.Orientation.X), Helpers.absoluteToDirectionalValue(6, directionY, Enums.Orientation.Y));
-       //     level.spawnAmmo(ammoPosition, directionY, Enums.Orientation.Y, shotIntensity, weapon, true);
+    public void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
+        canDispatch = true;
+        if (shotIntensity == ShotIntensity.BLAST) {
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
         } else {
-      //      level.spawnAmmo(ammoPosition, directionX, Enums.Orientation.X, shotIntensity, weapon, true);
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1, 2, 0);
         }
+        ammo -= ammoUsed * ammoMultiplier;
     }
 
     private void look() {
         float offset = 0;
         if (lookStartTime == 0) {
             lookStartTime = TimeUtils.nanoTime();
-//            chaseCamPosition.set(position, 0);
-        } else if (action == Enums.Action.STANDING || action == Enums.Action.CLIMBING) {
-//            setChaseCamPosition(offset);
+            chaseCamPosition.set(position, 0);
+        } else if (action == Action.STANDING || action == Action.CLIMBING) {
+            setChaseCamPosition(offset);
         }
     }
 
     private void enableStride() {
-//        handleXInputs();
+        handleXInputs();
         if (canStride) {
             stride();
         }
     }
 
     private void stride() {
+        action = Action.STRIDING;
+        groundState = GroundState.PLANTED;
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.STRIDE_TURBO_INCREMENT;
         }
         canLook = false;
         if (strideStartTime == 0) {
             strideSpeed = velocity.x;
-            action = Enums.Action.STRIDING;
+            action = Action.STRIDING;
+            groundState = GroundState.PLANTED;
             strideStartTime = TimeUtils.nanoTime();
         }
-        strideTimeSeconds = Helpers.secondsSince(strideStartTime) - pauseTimeSeconds;
-        strideAcceleration = strideTimeSeconds + Constants.GIGAGAL_STARTING_SPEED;
-        velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED), directionX, Enums.Orientation.X);
-        if (onRideable) {
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getRotationDirection(), Enums.Orientation.X);
-        } else if (onSkateable) {
-            velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Enums.Orientation.X);
-        } else if (onSinkable) {
-            velocity.x = Helpers.absoluteToDirectionalValue(10, directionX, Enums.Orientation.X);
+        strideTimeSeconds = Helpers.secondsSince(strideStartTime);
+        strideAcceleration = strideTimeSeconds * .75f + Constants.GIGAGAL_STARTING_SPEED ;
+        velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * strideMultiplier), directionX, Orientation.X);
+        if (touchedGround instanceof Propelling) {
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getRotationDirection(), Orientation.X);
+        } else if (touchedGround instanceof Skateable) {
+            velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
+        } else if (canSink) {
+            velocity.x = Helpers.absoluteToDirectionalValue(10, directionX, Orientation.X);
             velocity.y = -3;
         }
     }
 
     private void enableDash() {
-//        handleXInputs();
+        handleXInputs();
         if (canDash) {
             dash();
+        } else if (action == Action.DASHING) {
+            dash();
+            canDash = true; // false for one frame for triptread activation from level updater
         }
     }
 
     private void dash() {
-        if (action != Enums.Action.DASHING) {
+        if (action != Action.DASHING) {
             startTurbo = turbo;
-            turboDuration = Constants.DASH_TURBO_INCREMENT * (startTurbo / Constants.MAX_TURBO);
-            action = Enums.Action.DASHING;
+            action = Action.DASHING;
+            groundState = GroundState.PLANTED;
             dashStartTime = TimeUtils.nanoTime();
             strideStartTime = 0;
             canStride = false;
+            canDash = false;
         }
         float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
-        if (onSkateable) {
-            dashSpeed *= 1.75f;
-        }
         if (turbo >= 1) {
-            turbo -= Constants.FALL_TURBO_INCREMENT * 3;
-            velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed, directionX, Enums.Orientation.X);
+            turbo -= Constants.DASH_TURBO_INCREMENT * turboMultiplier;
+            velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed, directionX, Orientation.X);
         } else {
             canDash = false;
             dashStartTime = 0;
-            pauseTimeSeconds = 0;
             stand();
+        }
+        if (touchedGround instanceof Skateable
+                || (touchedGround instanceof Propelling && directionX == ((Propelling) touchedGround).getRotationDirection())) {
+            velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed + Constants.TREADMILL_SPEED, directionX, Orientation.X);
         }
     }
 
     private void enableJump() {
-        if (canJump) {
-            if ((/*inputControls.jumpButtonJustPressed || */action == Enums.Action.JUMPING)
-                    && lookStartTime == 0) {
+        if (canJump && action != Action.JUMPING) {
+            if (jumpStartTime != 0 && action == Action.STANDING) {
+                if (inputControls.jumpButtonPressed) {
+                    turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
+                } else if (Helpers.secondsSince(jumpStartTime) > 1.75f) {
+                    jump();
+                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED / 8, directionX, Orientation.X);
+                    velocity.y *= (1.35f * jumpMultiplier);
+                    jumpStartTime = 0;
+                } else {
+                    jumpStartTime = 0;
+                }
+            } else if (inputControls.jumpButtonJustPressed && lookStartTime == 0) {
                 jump();
             }
         }
@@ -944,31 +1096,35 @@ public class Boss extends Hazard implements Humanoid, Destructible {
 
     private void jump() {
         if (canJump) {
-            action = Enums.Action.JUMPING;
-            groundState = Enums.GroundState.AIRBORNE;
-            jumpStartTime = TimeUtils.nanoTime();
+            if (canClimb && (touchedGround == null || !(touchedGround instanceof Climbable))) {
+                canClimb = false;
+            }
+            action = Action.JUMPING;
+            groundState = GroundState.AIRBORNE;
+            if (jumpStartTime <= 1.75f && touchedGround instanceof Rappelable) {
+                jumpStartTime = TimeUtils.nanoTime();
+            }
             canJump = false;
         }
-        velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Enums.Orientation.X);
-        float jumpTimeSeconds = Helpers.secondsSince(jumpStartTime) - pauseTimeSeconds;
-        if (jumpTimeSeconds < Constants.MAX_JUMP_DURATION) {
-            velocity.y = Constants.JUMP_SPEED;
-            velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
-            if (onBounceable) {
+        velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
+        velocity.y = Constants.JUMP_SPEED;
+        velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
+        if (touchedGround instanceof Reboundable) {
+            if (!(touchedGround instanceof Pliable && ((Pliable) touchedGround).isBeingCarried() && ((Pliable) touchedGround).getCarrier() == this)) {
                 velocity.y *= 2;
-            } else if (onSinkable) {
-                fall(); // causes fall texture to render for one frame
+                jumpStartTime = 0;
             }
+            action = Action.FALLING; // prevents from rendering stride sprite when striding against ground side and jumping on reboundable
         } else {
-            pauseTimeSeconds = 0;
-            fall();
+            fall(); // causes fall texture to render for one frame
         }
     }
 
     private void enableHover() {
         if (canHover) {
-          /*  if (inputControls.jumpButtonJustPressed) {*/
-                if (action == Enums.Action.HOVERING) {
+            if (!(inputControls.upButtonPressed || inputControls.downButtonPressed)  // prevents from deactivating hover when toggling weapon
+                    && inputControls.jumpButtonJustPressed) {
+                if (action == Action.HOVERING) {
                     //   canHover = false;
                     hoverStartTime = 0;
                     velocity.x -= velocity.x / 2;
@@ -977,8 +1133,8 @@ public class Boss extends Hazard implements Humanoid, Destructible {
                     hover(); // else hover if canHover is true (set to false after beginning hover)
                 }
                 // if jump key not pressed, but already hovering, continue to hover
-         /*   } else*/ if (action == Enums.Action.HOVERING) {
-//                handleYInputs();
+            } else if (action == Action.HOVERING) {
+                handleYInputs();
                 hover();
             }
         }
@@ -986,193 +1142,253 @@ public class Boss extends Hazard implements Humanoid, Destructible {
 
     private void hover() {
         // canHover can only be true just before beginning to hover
-        if (action != Enums.Action.HOVERING) {
+        if (action != Action.HOVERING) {
+            canClimb = false;
+            canCling = false;
+            jumpStartTime = 0;
             startTurbo = turbo;
-            turboDuration = Constants.HOVER_TURBO_INCREMENT * (startTurbo / Constants.MAX_TURBO);
-            action = Enums.Action.HOVERING; // indicates currently hovering
+            action = Action.HOVERING; // indicates currently hovering
+            groundState = GroundState.AIRBORNE;
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
         }
-        hoverTimeSeconds = (Helpers.secondsSince(hoverStartTime) - pauseTimeSeconds); // for comparing with max hover time
+        hoverTimeSeconds = Helpers.secondsSince(hoverStartTime); // for comparing with max hover time
         if (turbo >= 1) {
             velocity.y = 0; // disables impact of gravity
-            turbo -= Constants.FALL_TURBO_INCREMENT;
+            turbo -= Constants.HOVER_TURBO_INCREMENT * turboMultiplier;
         } else {
             canHover = false;
             fall(); // when max hover time is exceeded
-            pauseTimeSeconds = 0;
         }
-//        handleXInputs();
+        handleXInputs();
     }
 
     private void enableRappel() {
-        if (action == Enums.Action.RAPPELLING) {
+        if (action == Action.RAPPELLING) {
             rappel();
         } else if (canRappel){
-            if (!canHover || action == Enums.Action.HOVERING) {
-                fall(); // begin descent from ground side sans access to hover
-                canHover = false; // disable hover if not already
-            }
-//            if (inputControls.jumpButtonJustPressed) {
+            if (inputControls.jumpButtonJustPressed) {
+                if (position.y > touchedGround.getTop() - 10) {
+                    position.y = touchedGround.getTop() - 10;
+                    if (touchedGround instanceof Hurdleable) {
+                        canHurdle = true;
+                    }
+                }
                 rappel();
-//            }
+            }
         }
     }
 
     private void rappel() {
         if (canRappel) {
-            action = Enums.Action.RAPPELLING;
-            groundState = Enums.GroundState.AIRBORNE;
+            action = Action.RAPPELLING;
+            groundState = GroundState.AIRBORNE;
             startTurbo = turbo;
             rappelStartTime = TimeUtils.nanoTime();
-            turboDuration = Constants.RAPPEL_TURBO_INCREMENT * (startTurbo / Constants.MAX_TURBO);
-            if (!Helpers.movingOppositeDirection(velocity.x, directionX, Enums.Orientation.X)) {
+            if (!Helpers.movingOppositeDirection(velocity.x, directionX, Orientation.X)) {
                 directionX = Helpers.getOppositeDirection(directionX);
             }
             hoverStartTime = 0;
             canJump = true;
             canRappel = false;
         }
-        float rappelTimeSeconds = (Helpers.secondsSince(rappelStartTime) - pauseTimeSeconds);
-//        if (!inputControls.jumpButtonPressed) {
+        if (touchedGround != null) {
+            if (directionX == Direction.LEFT) {
+                position.x = touchedGround.getLeft() - getHalfWidth();
+            } else {
+                position.x = touchedGround.getRight() + getHalfWidth();
+            }
+        }
+        float rappelTimeSeconds = Helpers.secondsSince(rappelStartTime);
+        if (!inputControls.jumpButtonPressed) {
             if (rappelTimeSeconds >= Constants.RAPPEL_FRAME_DURATION) {
-                velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Enums.Orientation.X);
+                velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
                 jump();
             } else {
-                pauseTimeSeconds = 0;
                 canHover = true;
             }
-//        } else {
+            canHurdle = false;
+        } else {
             lookStartTime = 0;
-//            if (inputControls.downButtonPressed) {
+            if (action == Action.RAPPELLING && touchedGround instanceof Aerial) {
+                velocity.x += ((Aerial) touchedGround).getVelocity().x;
+                position.y = touchedGround.getPosition().y;
+            }
+            if (inputControls.downButtonPressed) {
                 velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
-        /*    } else*/ if (turbo < 1) {
+            } else if (inputControls.upButtonPressed && canHurdle) {
+                canHurdle = false;
+                canRappel = false;
+                directionX = Helpers.getOppositeDirection(directionX);
+                velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
+                jump();
+                if (touchedGround instanceof Aerial) {
+                    velocity.y += ((Vehicular) touchedGround).getVelocity().y + touchedGround.getHeight();
+                }
+            } else if (turbo < 1) {
                 turbo = 0;
                 velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
-//            } else {
-                turbo -= Constants.FALL_TURBO_INCREMENT;
+            } else {
+                if (!canHurdle) {
+                    turbo -= Constants.RAPPEL_TURBO_INCREMENT * turboMultiplier;
+                }
+                if (touchedGround instanceof Treadmill) {
+                    turbo -= 2;
+                }
                 velocity.y = 0;
             }
-    }
-
-    private void enableClimb() {
-        if (onClimbable) {
-//            if (inputControls.jumpButtonPressed) {
-                if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neurtralize
-                    canLook = false; // prevents look from overriding climb
-                    canClimb = true; // enables climb handling from handleY()
-                }
-//            } else {
-                canLook = true; // enables look when engaging climbable but not actively climbing
-                canClimb  = false; // prevents climb initiation when jumpbutton released
-//            }
-//            handleXInputs(); // enables change of x direction for shooting left or right
-//            handleYInputs(); // enables change of y direction for looking and climbing up or down
-        } else {
-            if (action == Enums.Action.CLIMBING) {
-                fall();
-                if (!(touchedGround instanceof Climbable && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())))  {
-                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Enums.Orientation.X);
-                }
-            }
-            canClimb = false;
         }
     }
 
-    private void climb(Enums.Orientation orientation) {
-        if (onClimbable) { // onclimbable set to false from handleYinputs() if double tapping down
-            if (action != Enums.Action.CLIMBING) { // at the time of climb initiation
+    private void enableClimb() {
+        if (canCling) {
+            if (action != Action.RAPPELLING || inputControls.upButtonPressed) {
+                // when overlapping all but top, set canrappel which if action enablesclimb will set canclimb to true
+                if (inputControls.jumpButtonPressed) {
+                    if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neutralize
+                        canLook = false; // prevents look from overriding climb
+                        canClimb = true; // enables climb handling from handleY()
+                    }
+                } else {
+                    canClimb = false;
+                    canLook = true; // enables look when engaging climbable but not actively climbing
+                }
+                handleXInputs(); // enables change of x direction for shooting left or right
+                handleYInputs(); // enables change of y direction for looking and climbing up or down
+            }
+        } else {
+            if (action == Action.CLIMBING) {
+                fall();
+                if (!(touchedGround instanceof Climbable && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())))  {
+                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
+                }
+            }
+        }
+    }
+
+    private void climb(Orientation orientation) {
+        if (canCling) { // canrappel set to false from handleYinputs() if double tapping down
+            if (action != Action.CLIMBING) { // at the time of climb initiation
                 climbStartTime = 0; // overrides assignment of current time preventing nanotime - climbstarttime < doubletapspeed on next handleY() call
-                groundState = Enums.GroundState.PLANTED;
-                action = Enums.Action.CLIMBING;
+                groundState = GroundState.PLANTED;
+                action = Action.CLIMBING;
             }
             canHover = false;
-            climbTimeSeconds = Helpers.secondsSince(climbStartTime);
-            if (orientation == Enums.Orientation.X) {
-                velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Enums.Orientation.X);
-            } else if (orientation == Enums.Orientation.Y) {
-                velocity.y = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Enums.Orientation.Y);
+            dashTimeSeconds = Helpers.secondsSince(dashStartTime);
+            if (orientation == Orientation.X) {
+                velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
+            } else if (orientation == Orientation.Y) {
+                velocity.y = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Orientation.Y);
             }
-            int climbAnimationPercent = (int) (climbTimeSeconds * 100);
+            int climbAnimationPercent = (int) (dashTimeSeconds * 100);
             if ((climbAnimationPercent) % 25 >= 0 && (climbAnimationPercent) % 25 <= 13) {
-                directionX = Enums.Direction.RIGHT;
+                directionX = Direction.RIGHT;
             } else {
-                directionX = Enums.Direction.LEFT;
+                directionX = Direction.LEFT;
             }
         } else { // if double tapping down, fall from climbable
-            climbStartTime = 0;
-            climbTimeSeconds = 0;
+            dashTimeSeconds = 0;
+            canCling = false;
             canClimb = false;
             fall();
         }
     }
 
+    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        if (directionX == Enums.Direction.RIGHT) {
+        if (directionX == Direction.RIGHT) {
             if (lookStartTime != 0) {
-                if (directionY == Enums.Direction.UP) {
+                if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
-                    if (action == Enums.Action.FALLING || action == Enums.Action.CLIMBING) {
+                    if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
-                    } else if (action == Enums.Action.HOVERING) {
+                    } else if (action == Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
-                } else if (directionY == Enums.Direction.DOWN) {
+                } else if (directionY == Direction.DOWN) {
                     region = Assets.getInstance().getGigaGalAssets().lookdownStandRight;
-                    if (action == Enums.Action.FALLING || action == Enums.Action.CLIMBING) {
+                    if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
-                    } else if (action == Enums.Action.HOVERING) {
+                    } else if (action == Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
                 }
-            } else if (action == Enums.Action.CLIMBING) {
+            } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
-            } else if (action == Enums.Action.STANDING) {
-                region = Assets.getInstance().getGigaGalAssets().standRight;
-            } else if (action == Enums.Action.STRIDING) {
+            } else if (action == Action.STANDING) {
+                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
+                        ((Helpers.secondsSince(standStartTime) % 10 < .15f)
+                                || (Helpers.secondsSince(standStartTime) % 14 < .1f)
+                                || (Helpers.secondsSince(standStartTime) % 15 < .25f)
+                                || (Helpers.secondsSince(standStartTime) > 60)))) {
+                    region = Assets.getInstance().getGigaGalAssets().blinkRight;
+                } else if (canPeer) {
+                    region = Assets.getInstance().getGigaGalAssets().lookbackRight;
+                } else {
+                    region = Assets.getInstance().getGigaGalAssets().standRight;
+                }
+            } else if (action == Action.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
-            } else if (action == Enums.Action.DASHING) {
+            } else if (action == Action.DASHING) {
                 region = Assets.getInstance().getGigaGalAssets().dashRight;
-            } else if (action == Enums.Action.HOVERING) {
+            } else if (action == Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
-            } else if (action == Enums.Action.RAPPELLING) {
-                region = Assets.getInstance().getGigaGalAssets().rappelRight;
-            } else if (action == Enums.Action.RECOILING){
+            } else if (action == Action.RAPPELLING) {
+                if (canHurdle) {
+                    region = Assets.getInstance().getGigaGalAssets().graspRight;
+                } else {
+                    region = Assets.getInstance().getGigaGalAssets().rappelRight;
+                }
+            } else if (action == Action.RECOILING){
                 region = Assets.getInstance().getGigaGalAssets().recoilRight;
-            } else if (action == Enums.Action.FALLING) {
+            } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
                 region = Assets.getInstance().getGigaGalAssets().fallRight;
             }
-        } else if (directionX == Enums.Direction.LEFT) {
+        } else if (directionX == Direction.LEFT) {
             if (lookStartTime != 0) {
-                if (directionY == Enums.Direction.UP) {
+                if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
-                    if (action == Enums.Action.FALLING || action == Enums.Action.CLIMBING) {
+                    if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
-                    } else if (action == Enums.Action.HOVERING) {
+                    } else if (action == Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
-                } else if (directionY == Enums.Direction.DOWN) {
+                } else if (directionY == Direction.DOWN) {
                     region = Assets.getInstance().getGigaGalAssets().lookdownStandLeft;
-                    if (action == Enums.Action.FALLING || action == Enums.Action.CLIMBING) {
+                    if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
-                    } else if (action == Enums.Action.HOVERING) {
+                    } else if (action == Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 }
-            } else if (action == Enums.Action.CLIMBING) {
+            } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
-            } else if (action == Enums.Action.STANDING) {
-                region = Assets.getInstance().getGigaGalAssets().standLeft;
-            } else if (action == Enums.Action.STRIDING) {
+            } else if (action == Action.STANDING) {
+                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
+                        ((Helpers.secondsSince(standStartTime) % 20 < .15f)
+                                || (Helpers.secondsSince(standStartTime) % 34 < .1f)
+                                || (Helpers.secondsSince(standStartTime) % 35 < .25f)
+                                || (Helpers.secondsSince(standStartTime) > 60)))) {
+                    region = Assets.getInstance().getGigaGalAssets().blinkLeft;
+                } else if (canPeer) {
+                    region = Assets.getInstance().getGigaGalAssets().lookbackLeft;
+                } else {
+                    region = Assets.getInstance().getGigaGalAssets().standLeft;
+                }
+            } else if (action == Action.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
-            } else if (action == Enums.Action.DASHING) {
+            } else if (action == Action.DASHING) {
                 region = Assets.getInstance().getGigaGalAssets().dashLeft;
-            } else if (action == Enums.Action.HOVERING) {
+            } else if (action == Action.HOVERING) {
                 region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
-            } else if (action == Enums.Action.RAPPELLING) {
-                region = Assets.getInstance().getGigaGalAssets().rappelLeft;
-            } else if (action == Enums.Action.RECOILING) {
+            } else if (action == Action.RAPPELLING) {
+                if (canHurdle) {
+                    region = Assets.getInstance().getGigaGalAssets().graspLeft;
+                } else {
+                    region = Assets.getInstance().getGigaGalAssets().rappelLeft;
+                }
+            } else if (action == Action.RECOILING) {
                 region = Assets.getInstance().getGigaGalAssets().recoilLeft;
-            } else if (action == Enums.Action.FALLING) {
+            } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
                 region = Assets.getInstance().getGigaGalAssets().fallLeft;
             }
         }
@@ -1181,7 +1397,9 @@ public class Boss extends Hazard implements Humanoid, Destructible {
 
     // Getters
     @Override public final Vector2 getPosition() { return position; }
+    public final void setPosition(Vector2 position) { this.position.set(position); }
     @Override public final Vector2 getVelocity() { return velocity; }
+    public final void setVelocity(Vector2 velocity) { this.velocity = velocity; }
     @Override public final Enums.Direction getDirectionX() { return directionX; }
     @Override public final Enums.Direction getDirectionY() { return directionY; }
     @Override public final Rectangle getBounds() { return bounds; }
@@ -1198,10 +1416,24 @@ public class Boss extends Hazard implements Humanoid, Destructible {
     @Override public final boolean getRappelStatus() { return canRappel; }
     @Override public final boolean getDashStatus() { return canDash; }
     @Override public final boolean getClimbStatus() { return canClimb; }
+    public final boolean getMoveStatus() { return canMove; }
+    public final boolean getClingStatus() { return canCling; }
+    public final boolean getDispatchStatus() { return canDispatch; }
+    public final Hazardous getTouchedHazard() { return touchedHazard; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }
     @Override public final Enums.Action getAction() { return action; }
-    public final Enums.ShotIntensity getShotIntensity() { return shotIntensity; }
-    @Override public final Enums.Material getWeapon() { return weapon; }
+    public final ShotIntensity getShotIntensity() { return shotIntensity; }
+    @Override public final Material getWeapon() { return weapon; }
+    private final float getHalfWidth() { return halfWidth; }
+    public List<Material> getWeaponList() { return weaponList; }
+    public List<Upgrade> getUpgrades() { return upgradeList; }
+    public final float getAmmo() { return ammo; }
+    public int getLives() { return lives; }
+    public Vector3 getChaseCamPosition() { return chaseCamPosition; }
+    public long getLookStartTime() { return lookStartTime; }
+    public float getChargeTimeSeconds() { return chargeTimeSeconds; }
+    public float getKillPlane() { return killPlane; }
+    @Override public Orientation getOrientation() { if (action == Action.CLIMBING || lookStartTime != 0) { return Orientation.Y; } return Orientation.X; }
     @Override public final int getDamage() { return Constants.AMMO_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     @Override public final Enums.Material getType() { return weapon; }
@@ -1209,14 +1441,94 @@ public class Boss extends Hazard implements Humanoid, Destructible {
     @Override public final int getHitScore() { return Constants.ZOOMBA_HIT_SCORE; }
     @Override public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
     @Override public final void setHealth( float health ) { this.health = health; }
-    private final float getHalfWidth() { return halfWidth; }
-    @Override public Enums.Orientation getOrientation() { if (action == Enums.Action.CLIMBING || lookStartTime != 0) { return Enums.Orientation.Y; } return Enums.Orientation.X; }
     public final Rectangle getRoomBounds() { return roomBounds; }
 
     // Setters
-    public void setDirectionX(Enums.Direction direction) { this.directionX = direction; }
-    public void setDirectionY(Enums.Direction direction) { this.directionY = direction; }
+    public void setDirectionX(Direction directionX) { this.directionX = directionX; }
+    public void setDirectionY(Direction directionY) { this.directionY = directionY; }
+    public void setLives(int lives) { this.lives = lives; }
+    public void setHealth(int health) { this.health = health; }
+    public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
+    public void setChaseCamPosition(float offset) {
+        lookTimeSeconds = Helpers.secondsSince(lookStartTime);
+        if (lookTimeSeconds > 1) {
+            offset += 1.5f;
+            if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {
+                chaseCamPosition.y += Helpers.absoluteToDirectionalValue(offset, directionY, Orientation.Y);
+                chaseCamPosition.x = position.x;
+            }
+        }
+    }
+    public void resetChaseCamPosition() {
+        float offsetDistance = chaseCamPosition.y - position.y;
+        // move chasecam back towards gigagal yposition provided yposition cannot be changed until fully reset
+        if (Math.abs(offsetDistance) > 5) { // if chasecam offset from gigagal yposition more than five pixels
+            if (offsetDistance < 0) {
+                chaseCamPosition.y += 2.5f;
+            } else if (offsetDistance > 0) {
+                chaseCamPosition.y -= 2.5f;
+            }
+            chaseCamPosition.x = position.x; // set chasecam position to gigagal xposition
+        } else if (chaseCamPosition.y != position.y) { // if chasecam offset less than 5 but greater than 0 and actively looking
+            chaseCamPosition.set(position, 0); // reset chasecam
+            canLook = false; // disable look
+        } else {
+            lookStartTime = 0;
+            lookTimeSeconds = 0;
+        }
+    }
+    public void addWeapon(Material weapon) { weaponToggler.add(weapon); }
+    public void toggleWeapon(Direction toggleDirection) {
+        if (weaponList.size() > 1) {
+            if (toggleDirection == Direction.UP) {
+                if (!weaponToggler.hasNext()) {
+                    while (weaponToggler.hasPrevious()) {
+                        weaponToggler.previous();
+                    }
+                }
+                if (weapon == weaponToggler.next()) {
+                    toggleWeapon(toggleDirection);
+                } else {
+                    weapon = weaponToggler.previous();
+                }
+            } else if (toggleDirection == Direction.DOWN) {
+                if (!weaponToggler.hasPrevious()) {
+                    while (weaponToggler.hasNext()) {
+                        weaponToggler.next();
+                    }
+                }
+                if (weapon == weaponToggler.previous()) {
+                    toggleWeapon(toggleDirection);
+                } else {
+                    weapon = weaponToggler.next();
+                }
+            }
+        }
+    }
+    public void addUpgrade(Upgrade upgrade) { Gdx.app.log(TAG, upgradeList.toString()); upgradeList.add(upgrade); Gdx.app.log(TAG, upgradeList.toString()); dispenseUpgrades(); Gdx.app.log(TAG, turboMultiplier + "");}
 
+    private void dispenseUpgrades() {
+        if (upgradeList.contains(Upgrade.AMMO)) {
+            ammoMultiplier = .9f;
+        }
+        if (upgradeList.contains(Upgrade.HEALTH)) {
+            healthMultiplier = .8f;
+        }
+        if (upgradeList.contains(Upgrade.TURBO)) {
+            turboMultiplier = .7f;
+        }
+        if (upgradeList.contains(Upgrade.STRIDE)) {
+            strideMultiplier = 1.35f;
+        }
+        if (upgradeList.contains(Upgrade.JUMP)) {
+            jumpMultiplier = 1.15f;
+        }
+        setHealth(Constants.MAX_HEALTH);
+    }
+    public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); canPeer = false; } }
+    public void setLevel(LevelUpdater level) { this.level = level; }
+    public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
+    public void resetChargeIntensity() { shotIntensity = ShotIntensity.NORMAL; }
     public void dispose() {
         weaponList.clear();
     }
