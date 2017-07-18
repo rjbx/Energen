@@ -446,7 +446,7 @@ public class Boss extends Hazard implements Humanoid, Destructible {
     }
 
     private void touchDescendableGround(Ground ground) {
-        if (ground instanceof Sinkable) {
+        if (ground instanceof Pourous) {
             setAtopGround(ground);
             onSinkable = true;
             canDash = false;

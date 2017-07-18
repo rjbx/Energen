@@ -296,7 +296,7 @@ public class LevelUpdater {
         if (ground instanceof Pliable) {
             if (!((Pliable) ground).isBeingCarried() && Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                 if ((gigaGal.getBottom() == ground.getBottom() && (InputControls.getInstance().shootButtonJustPressed) && gigaGal.getAction() == Enums.Action.STRIDING)
-                || (!(ground instanceof Draggable) && (Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && (InputControls.getInstance().shootButtonJustPressed && InputControls.getInstance().downButtonPressed)))) {
+                || ((Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && (InputControls.getInstance().shootButtonJustPressed && InputControls.getInstance().downButtonPressed)))) {
                     if (ground instanceof Reboundable) {
                         gigaGal.setPosition(new Vector2(gigaGal.getPosition().x, ground.getBottom() + Constants.GIGAGAL_EYE_HEIGHT));
                         ((Reboundable) ground).resetStartTime();

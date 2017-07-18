@@ -1,4 +1,4 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Sinkable {
+public interface Pourous {
 }

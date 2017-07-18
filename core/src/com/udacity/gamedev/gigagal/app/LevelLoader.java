@@ -26,7 +26,7 @@ import com.udacity.gamedev.gigagal.entity.Powerup;
 import com.udacity.gamedev.gigagal.entity.Protrusion;
 import com.udacity.gamedev.gigagal.entity.Rollen;
 import com.udacity.gamedev.gigagal.entity.Rope;
-import com.udacity.gamedev.gigagal.entity.Sink;
+import com.udacity.gamedev.gigagal.entity.Sand;
 import com.udacity.gamedev.gigagal.entity.Slick;
 import com.udacity.gamedev.gigagal.entity.Spring;
 import com.udacity.gamedev.gigagal.entity.Suspension;
@@ -509,7 +509,7 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SINK_SPRITE_1)) {
                 final Vector2 sinkPosition = imagePosition.add(Constants.SINK_CENTER);
                 Gdx.app.log(TAG, "Loaded the sink at " + sinkPosition);
-                level.addGround(new Sink(sinkPosition));
+                level.addGround(new Sand(sinkPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SPRING_SPRITE_1)) {
                 final Vector2 springPosition = imagePosition.add(Constants.SPRING_CENTER);
                 Gdx.app.log(TAG, "Loaded the spring at " + springPosition);

@@ -1,4 +1,3 @@
-
 package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -26,8 +25,7 @@ public class Effect extends Entity {
         this.position = position;
         this.type = type;
         startTime = TimeUtils.nanoTime();
-
-         animation = Assets.getInstance().getImpactAssets().impactGas;
+        animation = Assets.getInstance().getImpactAssets().impactGas;
 //        switch (this.type) {
 //            case PLASMA:
 //                break;

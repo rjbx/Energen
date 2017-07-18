@@ -8,16 +8,16 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Sink extends Ground implements Sinkable {
+public class Sand extends Ground implements Pourous {
 
     // fields
-    public final static String TAG = Sink.class.getName();
+    public final static String TAG = Sand.class.getName();
 
     private final Vector2 position;
     private final long startTime;
 
     // ctor
-    public Sink(Vector2 position) {
+    public Sand(Vector2 position) {
         this.position = position;
         startTime = TimeUtils.nanoTime();
     }

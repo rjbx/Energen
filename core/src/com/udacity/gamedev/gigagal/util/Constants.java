@@ -258,7 +258,7 @@ public final class Constants {
     public static final float SPRING_LOAD_DURATION = 0.5f;
     public static final float SPRING_UNLOAD_DURATION = 0.5f;
 
-    // Sink
+    // Sand
     public static final Vector2 SINK_CENTER = new Vector2(21, 9);
     public static final String SINK_SPRITE_1 = "sink-1";
     public static final String SINK_SPRITE_2 = "sink-2";

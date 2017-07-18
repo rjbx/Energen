@@ -312,7 +312,7 @@ public class GigaGal extends Entity implements Humanoid {
                             }
                         }
                     canCling = true;
-                } else if (ground instanceof Sinkable) {
+                } else if (ground instanceof Pourous) {
                     setAtopGround(ground); // when any kind of collision detected and not only when breaking plane of ground.top
                     canCling = false;
                     canClimb = false;
@@ -803,7 +803,7 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     private void stand() {
-        if (touchedGround instanceof Sinkable) {
+        if (touchedGround instanceof Pourous) {
             strideStartTime = 0;
             strideTimeSeconds = 0;
             strideAcceleration = 0;
@@ -858,7 +858,7 @@ public class GigaGal extends Entity implements Humanoid {
             canClimb = false;
         }
 
-        if (touchedGround instanceof Sinkable && getBottom() < touchedGround.getTop()) {
+        if (touchedGround instanceof Pourous && getBottom() < touchedGround.getTop()) {
             canHover = false; // prevents hover icon flashing from indicator hud when tapping jump while submerged in sink
         } else if (!canRappel) {
             touchedGround = null;

@@ -43,9 +43,9 @@ public class Block extends Barrier implements Draggable {
             if (!atopGround) {
                 position.mulAdd(velocity, delta);
             }
-            Gdx.app.log(TAG, position.toString());
-            velocity.x /= Constants.DRAG_FACTOR;
-            velocity.y = -Constants.GRAVITY * 15;
+            Gdx.app.log(TAG + "f", weightFactor() + "");
+            velocity.x /= Constants.DRAG_FACTOR * weightFactor();
+            velocity.y = -Constants.GRAVITY * 15 * weightFactor();
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (!atopGround) { // prevents setting to unreachable, encompassing ground
                     if (Helpers.overlapsPhysicalObject(this, ground)) {
@@ -93,7 +93,7 @@ public class Block extends Barrier implements Draggable {
     @Override public final void setCarrier(Dynamic entity) { this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
     @Override public Enums.Material getType() { return super.getType(); }
-    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(2 / 3, ((getWidth() * getHeight()) / 3600)); }
+    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(.67f, ((getWidth() * getHeight()) / 3600)); }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
 }

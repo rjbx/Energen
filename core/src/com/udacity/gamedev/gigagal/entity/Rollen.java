@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -82,7 +81,7 @@ public class Rollen extends Hazard implements Destructible, Roving {
         boolean canSink = false;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (ground instanceof Sinkable) {
+                if (ground instanceof Pourous) {
                     canSink = true;
                 }
                 if (ground.isDense()) {
