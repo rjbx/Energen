@@ -406,8 +406,9 @@ public class GigaGal extends Entity implements Humanoid {
                 if (ground instanceof Canirol) {
                     yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
                 }
-                if (Helpers.betweenTwoValues(yTestPosition, ground.getBottom(), ground.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
-                    if (!(ground instanceof Pliable)) {
+                if (!(ground instanceof Pliable)) {
+                    if (Helpers.betweenTwoValues(yTestPosition, ground.getBottom(), ground.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
+
                         if (!(ground instanceof Canirol)) {
                             if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
                                 position.x = ground.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
@@ -418,8 +419,6 @@ public class GigaGal extends Entity implements Humanoid {
                             position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // reset position to ground top
                             setAtopGround(ground);
                         }
-                    } else {
-                        canMove = false;
                     }
                 }
             }
@@ -485,7 +484,7 @@ public class GigaGal extends Entity implements Humanoid {
                     } else if (moving instanceof Zoomba && ((Zoomba) moving).getOrientation() == Orientation.X) {
                         position.y += moving.getVelocity().y;
                     }
-                    if (ground instanceof Pliable && !((Pliable) ground).isBeingCarried() && directionY == Direction.DOWN) {
+                    if (ground instanceof Pliable && !((Pliable) ground).isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
                         canMove = true;
                     }
                 }
@@ -525,6 +524,7 @@ public class GigaGal extends Entity implements Humanoid {
         hoverStartTime = 0;
         rappelStartTime = 0;
         canRappel = false;
+        canMove = false;
         canLook = true;
         canHover = false;
         if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
@@ -562,6 +562,7 @@ public class GigaGal extends Entity implements Humanoid {
                         fall();
                     }
                 }
+                canMove = false;
                 canRappel = false;
                 touchedGround = null; // after handling touchedground conditions above
             }
