@@ -107,7 +107,7 @@ public class IndicatorHud {
 
         Enums.Material weapon = GigaGal.getInstance().getWeapon();
         Enums.ShotIntensity intensity = GigaGal.getInstance().getShotIntensity();
-        Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, false);
+        Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, LevelUpdater.getInstance().getGigaGal());
         ammo.update(1);
         Vector2 offset = new Vector2();
         switch (intensity) {

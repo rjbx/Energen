@@ -3,7 +3,6 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -647,7 +646,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     private void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
         for (Hazard hazard : hazards) {
-            if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
+            if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof GigaGal)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
                 } else if (action == Action.STANDING

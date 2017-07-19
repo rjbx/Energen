@@ -12,6 +12,7 @@ import com.udacity.gamedev.gigagal.app.SaveData;
 import com.udacity.gamedev.gigagal.entity.Aerial;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.Destructible;
+import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Vehicular;
 import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Physical;
@@ -256,7 +257,7 @@ public final class Helpers {
             default:
                 damage = Constants.AMMO_STANDARD_DAMAGE;
         }
-        if (!ammo.isFromGigagal()) {
+        if (!(ammo.getSource() instanceof GigaGal)) {
             damage -= Constants.AMMO_WEAK_DAMAGE;
             damage /= 2;
         } else {

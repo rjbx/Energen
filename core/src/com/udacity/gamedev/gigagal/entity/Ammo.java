@@ -32,7 +32,7 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
     private float radius;
     private float scale;
     private float rotation;
-    private final boolean fromGigagal;
+    private final Entity source;
     private boolean active;
     private int hitScore;
     private Vector2 knockback; // class-level instantiation
@@ -40,14 +40,14 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
     private long startTime;
 
     // ctor
-    public Ammo(LevelUpdater level, Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, Material weapon, boolean fromGigagal) {
+    public Ammo(LevelUpdater level, Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, Material weapon, Entity source) {
         this.level = level;
         this.position = position;
         this.direction = direction;
         this.orientation = orientation;
         this.shotIntensity = shotIntensity;
         this.weapon = weapon;
-        this.fromGigagal = fromGigagal;
+        this.source = source;
         startTime = TimeUtils.nanoTime();
         knockback = new Vector2();
         damage = 0;
@@ -153,7 +153,7 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
 
     public void update(float delta) {
         float ammoSpeed = Constants.AMMO_MAX_SPEED;
-        if (!fromGigagal) {
+        if (!(source instanceof GigaGal)) {
             ammoSpeed = Constants.AMMO_NORMAL_SPEED;
         }
 
@@ -222,5 +222,5 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
     public final TextureRegion getTexture() { return animation.getKeyFrame(0); }
     public final int getHitScore() { return hitScore; }
     public final void setHitScore(int hitScore) { this.hitScore = hitScore; }
-    public final boolean isFromGigagal() { return fromGigagal; }
+    public final Entity getSource() { return source; }
 }

@@ -577,7 +577,7 @@ public class GigaGal extends Entity implements Humanoid {
     private void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
         for (Hazard hazard : hazards) {
-            if (!(hazard instanceof Ammo && ((Ammo) hazard).isFromGigagal())) {
+            if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof GigaGal)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
                 } else if (action == Action.STANDING
