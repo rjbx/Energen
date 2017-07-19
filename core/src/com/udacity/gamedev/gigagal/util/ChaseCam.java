@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 
 import static com.udacity.gamedev.gigagal.util.Enums.ChaseCamState.BOSS;
@@ -18,8 +19,9 @@ public final class ChaseCam {
     // fields
     public static final String TAG = ChaseCam.class.getName();
     private static final ChaseCam INSTANCE = new ChaseCam();
+    public static ExtendViewport viewport;
     public OrthographicCamera camera;
-    public GigaGal target;
+    public GigaGal gigaGal;
     public Vector2 roomPosition;
     public Array<Rectangle> convertBoundsArray;
     private Enums.ChaseCamState state;
@@ -35,20 +37,24 @@ public final class ChaseCam {
     }
 
     public void create() {
+        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         state = FOLLOWING;
+        gigaGal = GigaGal.getInstance();
         convertStartTIme = 0;
         convertBoundsArray = new Array<Rectangle>();
+        camera = (OrthographicCamera) viewport.getCamera();
+        inputControls = InputControls.getInstance();
     }
 
     public void update(SpriteBatch batch, float delta) {
         batch.begin();
         switch (state) {
             case FOLLOWING:
-                camera.position.x = target.getPosition().x;
-                if (target.getLookStartTime() != 0 && target.getGroundState() == Enums.GroundState.PLANTED) {
-                    camera.position.y = target.getChaseCamPosition().y;
+                camera.position.x = gigaGal.getPosition().x;
+                if (gigaGal.getLookStartTime() != 0 && gigaGal.getGroundState() == Enums.GroundState.PLANTED) {
+                    camera.position.y = gigaGal.getChaseCamPosition().y;
                 } else {
-                    camera.position.y = target.getPosition().y;
+                    camera.position.y = gigaGal.getPosition().y;
                 }
                 if (convertStartTIme != 0 && Helpers.secondsSince(convertStartTIme) > .5f) {
                     state = CONVERT;

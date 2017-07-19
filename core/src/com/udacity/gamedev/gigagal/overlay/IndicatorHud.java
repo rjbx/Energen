@@ -28,12 +28,9 @@ public class IndicatorHud {
     public static IndicatorHud getInstance() { return INSTANCE; }
 
     public void create() {
-        this.viewport = new ExtendViewport(
-                Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE,
-                Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE);
     }
 
-    public void render(SpriteBatch batch, BitmapFont font, LevelUpdater level) {
+    public void render(SpriteBatch batch, ExtendViewport viewport, BitmapFont font, LevelUpdater level) {
         float yIcon = viewport.getCamera().position.y + viewport.getWorldHeight() / 2.5f;
 
         float xAction = viewport.getCamera().position.x + 5;

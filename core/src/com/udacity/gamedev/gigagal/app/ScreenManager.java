@@ -23,6 +23,7 @@ public final class ScreenManager extends com.badlogic.gdx.Game {
         Assets.getInstance().create();
         GigaGal.getInstance().create();
         ChaseCam.getInstance().create();
+        StaticCam.getInstance().create();
         Cursor.getInstance().create();
         Menu.getInstance().create();
         InputControls.getInstance().create();

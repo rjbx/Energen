@@ -3,7 +3,6 @@ package com.udacity.gamedev.gigagal.overlay;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.util.Constants;
 
@@ -14,13 +13,9 @@ public final class GaugeHud {
     public static final String TAG = GaugeHud.class.toString();
     private static final GaugeHud INSTANCE = new GaugeHud();
     private float flickerFrequency;
-    public Viewport viewport; // class-level instantiation
 
     // default ctor
     private GaugeHud() {
-        this.viewport = new ExtendViewport(
-                Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE,
-                Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE);
     }
 
     public static GaugeHud getInstance() { return INSTANCE; }
@@ -29,7 +24,7 @@ public final class GaugeHud {
         flickerFrequency = 0.5f;
     }
 
-    public void render(ShapeRenderer renderer, GigaGal gigaGal) {
+    public void render(ShapeRenderer renderer, ExtendViewport viewport, GigaGal gigaGal) {
 
         viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);
