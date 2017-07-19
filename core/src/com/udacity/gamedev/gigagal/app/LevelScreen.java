@@ -93,7 +93,7 @@ class LevelScreen extends ScreenAdapter {
     }
 
     private static void setMainMenu() {
-        Cursor.getInstance().setRange(chaseViewport.getCamera().position.y, chaseViewport.getCamera().position.y - 30);
+        Cursor.getInstance().setRange(staticViewport.getCamera().position.y, staticViewport.getCamera().position.y - 30);
         Cursor.getInstance().setOrientation(Enums.Orientation.Y);
         Cursor.getInstance().resetPosition();
         String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
@@ -106,7 +106,7 @@ class LevelScreen extends ScreenAdapter {
     }
 
     private static void setOptionsMenu() {
-        Cursor.getInstance().setRange(chaseViewport.getCamera().position.y + 45, chaseViewport.getCamera().position.y - 45);
+        Cursor.getInstance().setRange(staticViewport.getCamera().position.y + 45, staticViewport.getCamera().position.y - 45);
         Cursor.getInstance().setOrientation(Enums.Orientation.Y);
         Cursor.getInstance().resetPosition();
         Menu.getInstance().isSingleOption(false);
@@ -118,7 +118,7 @@ class LevelScreen extends ScreenAdapter {
     }
 
     private static void setResetMenu() {
-        Cursor.getInstance().setRange(chaseViewport.getCamera().position.x - 50, chaseViewport.getCamera().position.x + 50);
+        Cursor.getInstance().setRange(staticViewport.getCamera().position.x - 50, staticViewport.getCamera().position.x + 50);
         Cursor.getInstance().setOrientation(Enums.Orientation.X);
         Cursor.getInstance().resetPosition();
         String[] optionStrings = {"NO", "YES"};
@@ -129,7 +129,7 @@ class LevelScreen extends ScreenAdapter {
     }
 
     private static void setDebugMenu() {
-        Cursor.getInstance().setRange(chaseViewport.getCamera().position.y, chaseViewport.getCamera().position.y);
+        Cursor.getInstance().setRange(staticViewport.getCamera().position.y, staticViewport.getCamera().position.y);
         Menu.getInstance().isSingleOption(true);
         Menu.getInstance().setPromptString(Align.center, Constants.DEBUG_MODE_MESSAGE);
         Menu.getInstance().TextAlignment(Align.center);
@@ -180,15 +180,15 @@ class LevelScreen extends ScreenAdapter {
                     Menu.getInstance().setPromptString(Align.right, (GigaGal.getInstance().getWeapon().name() + "\n" + SaveData.getWeapons().replace(GigaGal.getInstance().getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
                 }
                 if (InputControls.getInstance().shootButtonJustPressed) {
-                    if (Cursor.getInstance().getPosition() == chaseViewport.getCamera().position.y && ChaseCam.getInstance().getState() == Enums.ChaseCamState.FOLLOWING) {
+                    if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y && ChaseCam.getInstance().getState() == Enums.ChaseCamState.FOLLOWING) {
                         LevelUpdater.getInstance().unpause();
-                    } else if (Cursor.getInstance().getPosition() == chaseViewport.getCamera().position.y - 15) {
+                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y - 15) {
                         OverworldScreen.getInstance().setMainMenu();
                         ScreenManager.getInstance().setScreen(OverworldScreen.getInstance());
                         LevelUpdater.getInstance().unpause();
                         LevelUpdater.getInstance().end();
                         return;
-                    } else if (Cursor.getInstance().getPosition() == chaseViewport.getCamera().position.y - 30) {
+                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y - 30) {
                         setOptionsMenu();
                     }
                 } else if (InputControls.getInstance().pauseButtonJustPressed) {
@@ -197,22 +197,22 @@ class LevelScreen extends ScreenAdapter {
                 break;
             case OPTIONS:
                 if (InputControls.getInstance().shootButtonJustPressed) {
-                    if (Cursor.getInstance().getPosition() == chaseViewport.getCamera().position.y + 45) {
+                    if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y + 45) {
                         setMainMenu();
-                    } else if (Cursor.getInstance().getPosition() == chaseViewport.getCamera().position.y + 30) {
+                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y + 30) {
                         setResetMenu();
-                    } else if (Cursor.getInstance().getPosition() == chaseViewport.getCamera().position.y + 15) {
+                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y + 15) {
                         if (ChaseCam.getInstance().getState() != Enums.ChaseCamState.DEBUG) {
                             ChaseCam.getInstance().setState(Enums.ChaseCamState.DEBUG);
                             setDebugMenu();
                         }
-                    } else if (Cursor.getInstance().getPosition() == chaseViewport.getCamera().position.y) {
+                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y) {
                         SaveData.toggleTouchscreen(!SaveData.hasTouchscreen());
-                    } else if (Cursor.getInstance().getPosition() == chaseViewport.getCamera().position.y - 15) {
+                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y - 15) {
                         LevelUpdater.getInstance().toggleMusic();
-                    } else if (Cursor.getInstance().getPosition() == chaseViewport.getCamera().position.y - 30) {
+                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y - 30) {
                         LevelUpdater.getInstance().toggleHints();
-                    } else if (Cursor.getInstance().getPosition() == chaseViewport.getCamera().position.y - 45) {
+                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y - 45) {
                         LevelUpdater.getInstance().unpause();
                         LevelUpdater.getInstance().end();
                         ScreenManager.getInstance().create();
@@ -224,7 +224,7 @@ class LevelScreen extends ScreenAdapter {
                 break;
             case RESET:
                 if (InputControls.getInstance().shootButtonJustPressed) {
-                    if (Cursor.getInstance().getPosition() == chaseViewport.getCamera().position.x + 50) {
+                    if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.x + 50) {
                         LevelUpdater.getInstance().unpause();
                         LevelUpdater.getInstance().end();
                         LevelUpdater.getInstance().reset();
@@ -243,7 +243,7 @@ class LevelScreen extends ScreenAdapter {
                 }
                 break;
         }
-        Menu.getInstance().render(batch, font, chaseViewport, Cursor.getInstance()); // renders after debug level which sets menu to foreground
+        Menu.getInstance().render(batch, font, staticViewport, Cursor.getInstance()); // renders after debug level which sets menu to foreground
     }
 
     private void showExitOverlay() {
@@ -275,7 +275,7 @@ class LevelScreen extends ScreenAdapter {
                 return;
             }
         }
-        Helpers.drawBitmapFont(batch, chaseViewport, font, endMessage, chaseViewport.getCamera().position.x, chaseViewport.getCamera().position.y + chaseViewport.getWorldHeight() / 3, Align.center);
+        Helpers.drawBitmapFont(batch, staticViewport, font, endMessage, staticViewport.getCamera().position.x, staticViewport.getCamera().position.y + staticViewport.getWorldHeight() / 3, Align.center);
     }
 
     protected ExtendViewport getViewport() { return chaseViewport; }

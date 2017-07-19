@@ -18,6 +18,7 @@ import com.udacity.gamedev.gigagal.overlay.Cursor;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
+import com.udacity.gamedev.gigagal.util.StaticCam;
 
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
@@ -45,7 +46,7 @@ final class OverworldScreen extends ScreenAdapter {
     protected static OverworldScreen getInstance() { return INSTANCE; }
 
     protected void create() {
-        this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+        this.viewport = StaticCam.getInstance().viewport;
         batch = new SpriteBatch();
         font = Assets.getInstance().getFontAssets().menu;
         setMainMenu();

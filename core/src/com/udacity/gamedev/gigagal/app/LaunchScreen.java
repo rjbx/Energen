@@ -52,7 +52,7 @@ final class LaunchScreen extends ScreenAdapter {
         font = Assets.getInstance().getFontAssets().message;
         title = Assets.getInstance().getFontAssets().title;
         text = Assets.getInstance().getFontAssets().menu;
-        this.viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+        this.viewport = StaticCam.getInstance().viewport;
         gigagalCenter = new Vector2(Constants.GIGAGAL_STANCE_WIDTH / 2, Constants.GIGAGAL_HEIGHT / 2);
         choices = new ArrayList<String>();
         launchStartTime = TimeUtils.nanoTime();
