@@ -1482,6 +1482,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     public final Rectangle getRoomBounds() { return roomBounds; }
 
     // Setters
+    public void startBattling() { this.talking = false; this.battling = true;}
     public void setDirectionX(Direction directionX) { this.directionX = directionX; }
     public void setDirectionY(Direction directionY) { this.directionY = directionY; }
     public void setLives(int lives) { this.lives = lives; }

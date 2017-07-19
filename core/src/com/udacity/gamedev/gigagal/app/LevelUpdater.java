@@ -166,7 +166,11 @@ public class LevelUpdater {
                 gigaGal.setPosition(gigaGal.getPosition().mulAdd(gigaGal.getVelocity(), delta));
                 gigaGal.stride();
             } else {
-                gigaGal.setAction(Enums.Action.STANDING);
+                if (gigaGal.getAction() != Enums.Action.STANDING) {
+                    gigaGal.setAction(Enums.Action.STANDING);
+                } else if (InputControls.getInstance().shootButtonJustPressed) {
+                    boss.startBattling();
+                }
             }
         } else {
             time = timer.getNanos();
