@@ -58,6 +58,8 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     private List<Material> weaponList; // class-level instantiation
     private ListIterator<Material> weaponToggler; // class-level instantiation
     private List<Upgrade> upgradeList;
+    private boolean battling;
+    private boolean talking;
     private boolean canShoot;
     private boolean canDispatch;
     private boolean canLook;
@@ -178,6 +180,8 @@ public class Boss extends Hazard implements Destructible, Humanoid {
         turbo = Constants.MAX_TURBO;
         shotIntensity = ShotIntensity.NORMAL;
         startTurbo = turbo;
+        battling = false;
+        talking = false;
         touchedGround = null;
         touchedHazard = null;
         canClimb = false;
@@ -287,31 +291,32 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     }
 
     private void rush() {
-        Viewport viewport = level.getViewport();
-        Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
-        Vector3 camera = new Vector3(viewport.getCamera().position);
         if (roomBounds.overlaps(gigaGal.getBounds())) {
-            if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().x, Constants.GIGAGAL_STANCE_WIDTH, getLeft(), getRight())
-                    && Math.abs(position.y - gigaGal.getPosition().y) > getHeight()) {
-                dashStartTime = 0;
-                velocity.x = 0;
-                if (gigaGal.getBottom() > getTop()) {
-                    directionY = Direction.UP;
-                    if (groundState == GroundState.PLANTED && gigaGal.getBottom() > getTop() + getHeight()) {
-                        jump();
+            if (!battling) {
+                talking = true;
+            } else {
+                if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().x, Constants.GIGAGAL_STANCE_WIDTH, getLeft(), getRight())
+                        && Math.abs(position.y - gigaGal.getPosition().y) > getHeight()) {
+                    dashStartTime = 0;
+                    velocity.x = 0;
+                    if (gigaGal.getBottom() > getTop()) {
+                        directionY = Direction.UP;
+                        if (groundState == GroundState.PLANTED && gigaGal.getBottom() > getTop() + getHeight()) {
+                            jump();
+                        }
+                    } else {
+                        directionY = Direction.DOWN;
                     }
-                } else {
-                    directionY = Direction.DOWN;
+                    look();
+                    shoot(ShotIntensity.BLAST, weapon, 0);
+                } else if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().y, Constants.GIGAGAL_EYE_HEIGHT, getBottom(), getTop())
+                        && Helpers.absoluteToDirectionalValue(position.x - gigaGal.getPosition().x, directionX, Orientation.X) < 0) {
+                    lookStartTime = 0;
+                    if (groundState == GroundState.PLANTED) {
+                        dash();
+                    }
+                    shoot(ShotIntensity.BLAST, weapon, 0);
                 }
-                look();
-                shoot(ShotIntensity.BLAST, weapon, 0);
-            } else if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().y, Constants.GIGAGAL_EYE_HEIGHT, getBottom(), getTop())
-                    && Helpers.absoluteToDirectionalValue(position.x - gigaGal.getPosition().x, directionX, Orientation.X) < 0) {
-                lookStartTime = 0;
-                if (groundState == GroundState.PLANTED) {
-                    dash();
-                }
-                shoot(ShotIntensity.BLAST, weapon, 0);
             }
 
             if (gigaGal.getDirectionX() == this.getDirectionX()) {
@@ -1447,6 +1452,8 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     @Override public final boolean getRappelStatus() { return canRappel; }
     @Override public final boolean getDashStatus() { return canDash; }
     @Override public final boolean getClimbStatus() { return canClimb; }
+    public final boolean getBattling() { return battling; }
+    public final boolean isTalking() { return talking; }
     public final boolean getMoveStatus() { return canMove; }
     public final boolean getClingStatus() { return canCling; }
     public final boolean getDispatchStatus() { return canDispatch; }

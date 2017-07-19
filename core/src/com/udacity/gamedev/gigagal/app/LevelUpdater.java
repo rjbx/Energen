@@ -160,6 +160,8 @@ public class LevelUpdater {
                 }
             }
             grounds.end();
+        } else if (boss.isTalking()) {
+            
         } else {
             time = timer.getNanos();
             gigaGal.update(delta);
