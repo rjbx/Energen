@@ -210,12 +210,6 @@ public class Boss extends Hazard implements Destructible, Humanoid {
 
     public void update(float delta) {
 
-        if (ChaseCam.getInstance().getState() != Enums.ChaseCamState.BOSS) {
-            if (roomBounds.overlaps(GigaGal.getInstance().getBounds())) {
-                ChaseCam.getInstance().setState(Enums.ChaseCamState.BOSS);
-            }
-        }
-
         // positioning
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
@@ -1025,9 +1019,9 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     public void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
         canDispatch = true;
         if (shotIntensity == ShotIntensity.BLAST) {
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+      //      Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
         } else {
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1, 2, 0);
+       //     Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1, 2, 0);
         }
         ammo -= ammoUsed * ammoMultiplier;
     }
@@ -1481,7 +1475,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     public final Rectangle getRoomBounds() { return roomBounds; }
 
     // Setters
-    public void startBattling() { this.talking = false; this.battling = true;}
+    public void setBattleState(boolean state) { this.talking = false; this.battling = state;}
     public void setDirectionX(Direction directionX) { this.directionX = directionX; }
     public void setDirectionY(Direction directionY) { this.directionY = directionY; }
     public void setLives(int lives) { this.lives = lives; }
