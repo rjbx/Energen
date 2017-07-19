@@ -71,7 +71,9 @@ class LevelScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         viewport.update(width, height, true);
         ChaseCam.getInstance().target = GigaGal.getInstance();
-        ChaseCam.getInstance().camera = (OrthographicCamera) viewport.getCamera();
+        OrthographicCamera camera = ((OrthographicCamera) viewport.getCamera());
+        camera.zoom += .1f;
+        ChaseCam.getInstance().camera = camera;
         ChaseCam.getInstance().setInputControls(InputControls.getInstance());
 //        gaugeHud.getViewport().update(width, height, true);
 //        indicatorHud.getViewport().update(width, height, true);
@@ -145,7 +147,7 @@ class LevelScreen extends ScreenAdapter {
                 LevelUpdater.getInstance().update(delta);
                 ChaseCam.getInstance().update(batch, delta);
                 LevelUpdater.getInstance().render(batch, viewport); // also rendered when viewingDebug; see pause()
-                IndicatorHud.getInstance().render(batch, font, viewport, LevelUpdater.getInstance()); // renders after level which sets indicators to foreground
+                IndicatorHud.getInstance().render(font, LevelUpdater.getInstance()); // renders after level which sets indicators to foreground
                 if (InputControls.getInstance().pauseButtonJustPressed) {
                     LevelUpdater.getInstance().pause();
                     setMainMenu();
@@ -153,7 +155,7 @@ class LevelScreen extends ScreenAdapter {
             } else {
                 showPauseMenu(delta);
             }
-            GaugeHud.getInstance().render(renderer, viewport, GigaGal.getInstance());
+            GaugeHud.getInstance().render(renderer, GigaGal.getInstance());
             TouchInterface.getInstance().render(batch);
         } else {
             showExitOverlay();

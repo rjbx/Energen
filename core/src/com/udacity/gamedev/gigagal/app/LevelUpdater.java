@@ -172,7 +172,6 @@ public class LevelUpdater {
                 if (gigaGal.getAction() != Enums.Action.STANDING) {
                     gigaGal.setAction(Enums.Action.STANDING);
                 } else if (InputControls.getInstance().shootButtonJustPressed) {
-                    chaseCam.camera.zoom += .5f;
                     boss.setBattleState(true);
                     if (musicEnabled) {
                         music = Assets.getInstance().getMusicAssets().boss;
