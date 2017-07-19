@@ -306,6 +306,9 @@ public class LevelUpdater {
                 }
             }
         }
+        if (ground instanceof Nonstatic) {
+            ((Nonstatic) ground).update(delta);
+        }
         if (ground instanceof Pliable) {
             if (!((Pliable) ground).isBeingCarried() && Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                 if ((gigaGal.getBottom() == ground.getBottom() && (InputControls.getInstance().shootButtonJustPressed) && gigaGal.getAction() == Enums.Action.STRIDING)
@@ -331,9 +334,6 @@ public class LevelUpdater {
                     }
                 }
             }
-        }
-        if (ground instanceof Nonstatic) {
-            ((Nonstatic) ground).update(delta);
         }
         if (ground instanceof Destructible) {
             if (((Destructible) ground).getHealth() < 1) {
