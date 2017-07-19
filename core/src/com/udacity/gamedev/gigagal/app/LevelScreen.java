@@ -68,15 +68,12 @@ class LevelScreen extends ScreenAdapter {
 
     @Override
     public void resize(int width, int height) {
-
         viewport.update(width, height, true);
-
         ChaseCam.getInstance().target = GigaGal.getInstance();
         ChaseCam.getInstance().camera = viewport.getCamera();
         ChaseCam.getInstance().setInputControls(InputControls.getInstance());
 //        gaugeHud.getViewport().update(width, height, true);
 //        indicatorHud.getViewport().update(width, height, true);
-//
 //        defeatMessage.getViewport().update(width, height, true);
 //        mainMenu.getViewport().update(width, height, true);
 //        mainMenu.getCursor().getViewport().update(width, height, true);

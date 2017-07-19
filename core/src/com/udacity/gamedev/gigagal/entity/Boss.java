@@ -163,6 +163,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
         position.set(spawnPosition);
         killPlane = position.y + Constants.KILL_PLANE;
         chaseCamPosition.set(position, 0);
+        level = LevelUpdater.getInstance();
         left = position.x - halfWidth;
         right = position.x + halfWidth;
         top = position.y + headRadius;
@@ -286,32 +287,36 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     }
 
     private void rush() {
-        if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().x, Constants.GIGAGAL_STANCE_WIDTH, getLeft(), getRight())
-            && Math.abs(position.y - gigaGal.getPosition().y) > getHeight()) {
-            dashStartTime = 0;
-            velocity.x = 0;
-            if (gigaGal.getBottom() > getTop()) {
-                directionY = Direction.UP;
-                if (groundState == GroundState.PLANTED && gigaGal.getBottom() > getTop() + getHeight()) {
-                    jump();
+        Viewport viewport = level.getViewport();
+        Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
+        Vector3 camera = new Vector3(viewport.getCamera().position);
+        if (roomBounds.overlaps(gigaGal.getBounds())) {
+            if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().x, Constants.GIGAGAL_STANCE_WIDTH, getLeft(), getRight())
+                    && Math.abs(position.y - gigaGal.getPosition().y) > getHeight()) {
+                dashStartTime = 0;
+                velocity.x = 0;
+                if (gigaGal.getBottom() > getTop()) {
+                    directionY = Direction.UP;
+                    if (groundState == GroundState.PLANTED && gigaGal.getBottom() > getTop() + getHeight()) {
+                        jump();
+                    }
+                } else {
+                    directionY = Direction.DOWN;
                 }
-            } else {
-                directionY = Direction.DOWN;
+                look();
+                shoot(ShotIntensity.BLAST, weapon, 0);
+            } else if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().y, Constants.GIGAGAL_EYE_HEIGHT, getBottom(), getTop())
+                    && Helpers.absoluteToDirectionalValue(position.x - gigaGal.getPosition().x, directionX, Orientation.X) < 0) {
+                lookStartTime = 0;
+                if (groundState == GroundState.PLANTED) {
+                    dash();
+                }
+                shoot(ShotIntensity.BLAST, weapon, 0);
             }
-            look();
-            shoot(ShotIntensity.BLAST, weapon, 0);
-        } else if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().y, Constants.GIGAGAL_EYE_HEIGHT, getBottom(), getTop())
-                && Helpers.absoluteToDirectionalValue(position.x - gigaGal.getPosition().x, directionX, Orientation.X) < 0) {
-            lookStartTime = 0;
-            if (groundState == GroundState.PLANTED) {
-                dash();
-            }
-            shoot(ShotIntensity.BLAST, weapon, 0);
-        }
 
-        if (gigaGal.getDirectionX() == this.getDirectionX()) {
-            directionX = Helpers.getOppositeDirection(directionX);
-        }
+            if (gigaGal.getDirectionX() == this.getDirectionX()) {
+                directionX = Helpers.getOppositeDirection(directionX);
+            }
 
 //        if (Math.abs(gigaGal.getVelocity().x) > Constants.GIGAGAL_MAX_SPEED / 2) {
 //            stride();
@@ -337,6 +342,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
 //        } else if (Math.abs(gigaGal.getPosition().x - this.position.x) > 10) {
 //            stride();
 //        }
+        }
     }
 
     private void touchAllGrounds(Array<Ground> grounds) {
