@@ -685,6 +685,7 @@ public class LevelUpdater {
             if (gigaGal.getLives() < 0) {
                 return true;
             }
+            boss.setPosition(new Vector2(boss.getRoomBounds().x + boss.getRoomBounds().width / 2, boss.getRoomBounds().y + boss.getRoomBounds().height / 2));
             if (chaseCam.getState() == Enums.ChaseCamState.BOSS) {
                 chaseCam.setState(Enums.ChaseCamState.FOLLOWING);
             }
