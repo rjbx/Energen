@@ -980,7 +980,7 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
-    private void stride() {
+    public void stride() {
         action = Action.STRIDING;
         groundState = GroundState.PLANTED;
         if (turbo < Constants.MAX_TURBO) {
@@ -1402,6 +1402,7 @@ public class GigaGal extends Entity implements Humanoid {
     @Override public Orientation getOrientation() { if (action == Action.CLIMBING || lookStartTime != 0) { return Orientation.Y; } return Orientation.X; }
 
     // Setters
+    public void setAction(Action action) { this.action = action; }
     public void setDirectionX(Direction directionX) { this.directionX = directionX; }
     public void setDirectionY(Direction directionY) { this.directionY = directionY; }
     public void setLives(int lives) { this.lives = lives; }

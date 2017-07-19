@@ -161,7 +161,13 @@ public class LevelUpdater {
             }
             grounds.end();
         } else if (boss.isTalking()) {
-            
+            if (gigaGal.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
+                gigaGal.setVelocity(new Vector2(40, 0));
+                gigaGal.setPosition(gigaGal.getPosition().mulAdd(gigaGal.getVelocity(), delta));
+                gigaGal.stride();
+            } else {
+                gigaGal.setAction(Enums.Action.STANDING);
+            }
         } else {
             time = timer.getNanos();
             gigaGal.update(delta);

@@ -1452,7 +1452,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     @Override public final boolean getRappelStatus() { return canRappel; }
     @Override public final boolean getDashStatus() { return canDash; }
     @Override public final boolean getClimbStatus() { return canClimb; }
-    public final boolean getBattling() { return battling; }
+    public final boolean isBattling() { return battling; }
     public final boolean isTalking() { return talking; }
     public final boolean getMoveStatus() { return canMove; }
     public final boolean getClingStatus() { return canCling; }
