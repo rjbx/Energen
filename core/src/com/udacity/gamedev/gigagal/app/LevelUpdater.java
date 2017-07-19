@@ -163,8 +163,7 @@ public class LevelUpdater {
         } else if (boss.isTalking()) {
             if (ChaseCam.getInstance().getState() != Enums.ChaseCamState.BOSS) {
                 ChaseCam.getInstance().setState(Enums.ChaseCamState.BOSS);
-            }
-            if (gigaGal.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
+            } else if (gigaGal.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
                 music.stop();
                 gigaGal.setVelocity(new Vector2(40, 0));
                 gigaGal.setPosition(gigaGal.getPosition().mulAdd(gigaGal.getVelocity(), delta));
@@ -173,6 +172,7 @@ public class LevelUpdater {
                 if (gigaGal.getAction() != Enums.Action.STANDING) {
                     gigaGal.setAction(Enums.Action.STANDING);
                 } else if (InputControls.getInstance().shootButtonJustPressed) {
+                    chaseCam.camera.zoom += .5f;
                     boss.setBattleState(true);
                     if (musicEnabled) {
                         music = Assets.getInstance().getMusicAssets().boss;

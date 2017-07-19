@@ -1,6 +1,6 @@
 package com.udacity.gamedev.gigagal.util;
 
-import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -17,7 +17,7 @@ public final class ChaseCam {
     // fields
     public static final String TAG = ChaseCam.class.getName();
     private static final ChaseCam INSTANCE = new ChaseCam();
-    public Camera camera;
+    public OrthographicCamera camera;
     public GigaGal target;
     public Vector2 roomPosition;
     public Array<Rectangle> convertBoundsArray;

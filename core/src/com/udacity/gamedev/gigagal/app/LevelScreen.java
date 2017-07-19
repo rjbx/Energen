@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.app;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -70,7 +71,7 @@ class LevelScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         viewport.update(width, height, true);
         ChaseCam.getInstance().target = GigaGal.getInstance();
-        ChaseCam.getInstance().camera = viewport.getCamera();
+        ChaseCam.getInstance().camera = (OrthographicCamera) viewport.getCamera();
         ChaseCam.getInstance().setInputControls(InputControls.getInstance());
 //        gaugeHud.getViewport().update(width, height, true);
 //        indicatorHud.getViewport().update(width, height, true);
