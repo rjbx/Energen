@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
@@ -21,8 +20,7 @@ public class IndicatorHud {
     // fields
     public final static String TAG = IndicatorHud.class.getName();
     public static final IndicatorHud INSTANCE = new IndicatorHud();
-    private SpriteBatch batch; // class-level instantiation
-    private Viewport viewport; // class-level instantiation
+    public ExtendViewport viewport;
 
     // ctor
     private IndicatorHud() {}
@@ -33,10 +31,9 @@ public class IndicatorHud {
         this.viewport = new ExtendViewport(
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE,
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE);
-        this.batch = new SpriteBatch();
     }
 
-    public void render(BitmapFont font, LevelUpdater level) {
+    public void render(SpriteBatch batch, BitmapFont font, LevelUpdater level) {
         float yIcon = viewport.getCamera().position.y + viewport.getWorldHeight() / 2.5f;
 
         float xAction = viewport.getCamera().position.x + 5;

@@ -70,6 +70,10 @@ class LevelScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
+        IndicatorHud.getInstance().create();
+        IndicatorHud.getInstance().viewport.update(width, height, true);
+        GaugeHud.getInstance().create();
+        GaugeHud.getInstance().viewport.update(width, height, true);
         ChaseCam.getInstance().target = GigaGal.getInstance();
         OrthographicCamera camera = ((OrthographicCamera) viewport.getCamera());
         camera.zoom += .1f;
@@ -147,7 +151,7 @@ class LevelScreen extends ScreenAdapter {
                 LevelUpdater.getInstance().update(delta);
                 ChaseCam.getInstance().update(batch, delta);
                 LevelUpdater.getInstance().render(batch, viewport); // also rendered when viewingDebug; see pause()
-                IndicatorHud.getInstance().render(font, LevelUpdater.getInstance()); // renders after level which sets indicators to foreground
+                IndicatorHud.getInstance().render(batch, font, LevelUpdater.getInstance()); // renders after level which sets indicators to foreground
                 if (InputControls.getInstance().pauseButtonJustPressed) {
                     LevelUpdater.getInstance().pause();
                     setMainMenu();

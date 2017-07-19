@@ -1,7 +1,6 @@
 package com.udacity.gamedev.gigagal.overlay;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -15,7 +14,7 @@ public final class GaugeHud {
     public static final String TAG = GaugeHud.class.toString();
     private static final GaugeHud INSTANCE = new GaugeHud();
     private float flickerFrequency;
-    private Viewport viewport; // class-level instantiation
+    public Viewport viewport; // class-level instantiation
 
     // default ctor
     private GaugeHud() {

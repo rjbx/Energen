@@ -14,7 +14,6 @@ public final class TouchInterface {
     // fields
     public static final String TAG = TouchInterface.class.getName();
     private static final TouchInterface INSTANCE = new TouchInterface();
-    private SpriteBatch batch; // class-level instantiation
     private static InputControls inputControls;
     private Viewport viewport; // class-level instantiation
     private boolean onMobile;
@@ -29,7 +28,6 @@ public final class TouchInterface {
         this.viewport = new ExtendViewport(
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE,
                 Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE);
-        this.batch = new SpriteBatch();
     }
 
     public void render(SpriteBatch batch) {
@@ -114,7 +112,7 @@ public final class TouchInterface {
         );
     }
 
-    public void dispose() { batch.dispose(); }
+    public void dispose() { }
 
     public final Viewport getViewport() { return viewport; }
 }
