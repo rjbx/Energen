@@ -25,7 +25,7 @@ public final class ChaseCam {
     public Vector2 roomPosition;
     public Array<Rectangle> convertBoundsArray;
     private Enums.ChaseCamState state;
-    private long convertStartTIme;
+    private long convertStartTime;
     private InputControls inputControls;
 
     // cannot be subclassed
@@ -40,7 +40,7 @@ public final class ChaseCam {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         state = FOLLOWING;
         gigaGal = GigaGal.getInstance();
-        convertStartTIme = 0;
+        convertStartTime = 0;
         convertBoundsArray = new Array<Rectangle>();
         camera = (OrthographicCamera) viewport.getCamera();
         inputControls = InputControls.getInstance();
@@ -56,7 +56,7 @@ public final class ChaseCam {
                 } else {
                     camera.position.y = gigaGal.getPosition().y;
                 }
-                if (convertStartTIme != 0 && Helpers.secondsSince(convertStartTIme) > .5f) {
+                if (convertStartTime != 0 && Helpers.secondsSince(convertStartTime) > .5f) {
                     state = CONVERT;
                 }
                 break;
@@ -78,16 +78,16 @@ public final class ChaseCam {
                 }
                 break;
             case CONVERT:
-                int index = (int) (Helpers.secondsSince(convertStartTIme) - 1);
-                if (convertStartTIme == 0) {
-                    convertStartTIme = TimeUtils.nanoTime();
+                int index = (int) (Helpers.secondsSince(convertStartTime) - 1);
+                if (convertStartTime == 0) {
+                    convertStartTime = TimeUtils.nanoTime();
                     state = FOLLOWING;
                 } else if (index < convertBoundsArray.size){
                     camera.position.set(convertBoundsArray.get(index).x + convertBoundsArray.get(index).getWidth() / 2, convertBoundsArray.get(index).y + convertBoundsArray.get(index).getHeight() / 2, 0);
                 } else {
                     convertBoundsArray.clear();
                     state = FOLLOWING;
-                    convertStartTIme = 0;
+                    convertStartTime = 0;
                 }
                 break;
         }
