@@ -284,6 +284,8 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     }
 
     private void rush() {
+
+        canDispatch = false;
         if (roomBounds.overlaps(gigaGal.getBounds())) {
             if (!battling) {
                 talking = true;

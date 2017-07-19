@@ -671,12 +671,6 @@ public class LevelUpdater {
     protected boolean restarted() {
         if (gigaGal.getKillPlane() != -10000) {
             if (gigaGal.getPosition().y < gigaGal.getKillPlane() || gigaGal.getHealth() < 1) {
-                if (chaseCam.getState() == Enums.ChaseCamState.BOSS) {
-                    chaseCam.setState(Enums.ChaseCamState.FOLLOWING);
-                    Assets.getInstance().getMusicAssets().boss.stop();
-                    music.play();
-                }
-                boss.setBattleState(false);
                 gigaGal.setHealth(0);
                 gigaGal.setLives(gigaGal.getLives() - 1);
                 return true;
@@ -690,11 +684,16 @@ public class LevelUpdater {
             if (gigaGal.getLives() < 0) {
                 return true;
             }
+            if (chaseCam.getState() == Enums.ChaseCamState.BOSS) {
+                chaseCam.setState(Enums.ChaseCamState.FOLLOWING);
+            }
             if (musicEnabled) {
                 music.stop();
+                Assets.getInstance().getMusicAssets().boss.stop();
                 music.play();
             }
             gigaGal.respawn();
+            boss.setBattleState(false);
         }
         return false;
     }
