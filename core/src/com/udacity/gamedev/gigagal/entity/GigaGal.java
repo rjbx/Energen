@@ -383,9 +383,9 @@ public class GigaGal extends Entity implements Humanoid {
                         strideSpeed = 0;
                         velocity.x = 0;
                     }
-                    if (action == Action.DASHING && !(ground instanceof Propelling)) {
+                    if (!(ground instanceof Propelling) && action == Action.DASHING) {
                         stand(); // deactivates dash when bumping ground side
-                    } else if (action == Action.STRIDING && ground instanceof Pliable && !((Pliable) ground).isBeingCarried()) {
+                    } else if (ground instanceof Pliable && (!((Pliable) ground).isBeingCarried() && action == Action.STRIDING)) {
                         canMove = true;
                     }
                 }
@@ -420,6 +420,8 @@ public class GigaGal extends Entity implements Humanoid {
                             setAtopGround(ground);
                         }
                     }
+                } else if (((Pliable) ground).isBeingCarried()) {
+                    canMove = true;
                 }
             }
         } else {
