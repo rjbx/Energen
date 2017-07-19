@@ -162,6 +162,7 @@ public class LevelUpdater {
             grounds.end();
         } else if (boss.isTalking()) {
             if (gigaGal.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
+                music.stop();
                 gigaGal.setVelocity(new Vector2(40, 0));
                 gigaGal.setPosition(gigaGal.getPosition().mulAdd(gigaGal.getVelocity(), delta));
                 gigaGal.stride();
@@ -170,6 +171,9 @@ public class LevelUpdater {
                     gigaGal.setAction(Enums.Action.STANDING);
                 } else if (InputControls.getInstance().shootButtonJustPressed) {
                     boss.startBattling();
+                    if (musicEnabled) {
+                        Assets.getInstance().getMusicAssets().boss.play();
+                    }
                 }
             }
         } else {
