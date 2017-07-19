@@ -642,7 +642,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     private void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
         for (Hazard hazard : hazards) {
-            if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof GigaGal)) {
+            if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Boss)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
                 } else if (action == Action.STANDING
