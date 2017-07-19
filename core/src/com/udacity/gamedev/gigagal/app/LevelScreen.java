@@ -76,7 +76,6 @@ class LevelScreen extends ScreenAdapter {
         GaugeHud.getInstance().viewport.update(width, height, true);
         ChaseCam.getInstance().target = GigaGal.getInstance();
         OrthographicCamera camera = ((OrthographicCamera) viewport.getCamera());
-        camera.zoom += .1f;
         ChaseCam.getInstance().camera = camera;
         ChaseCam.getInstance().setInputControls(InputControls.getInstance());
 //        gaugeHud.getViewport().update(width, height, true);

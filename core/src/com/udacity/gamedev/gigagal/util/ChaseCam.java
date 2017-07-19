@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 
+import static com.udacity.gamedev.gigagal.util.Enums.ChaseCamState.BOSS;
 import static com.udacity.gamedev.gigagal.util.Enums.ChaseCamState.CONVERT;
 import static com.udacity.gamedev.gigagal.util.Enums.ChaseCamState.FOLLOWING;
 
@@ -91,6 +92,6 @@ public final class ChaseCam {
     public final void setConvertBounds(Rectangle convertBounds) { this.convertBoundsArray.add(convertBounds); }
     public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public final void setRoomPosition(Vector2 position) { roomPosition = position; }
-    public final void setState(Enums.ChaseCamState state) { this.state = state; }
+    public final void setState(Enums.ChaseCamState state) { this.state = state; if (state == BOSS) { camera.zoom += .5f; } else { camera.zoom = 1; } }
     public final Enums.ChaseCamState getState() { return state; }
 }
