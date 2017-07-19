@@ -175,8 +175,9 @@ public class LevelUpdater {
                 } else if (InputControls.getInstance().shootButtonJustPressed) {
                     boss.setBattleState(true);
                     if (musicEnabled) {
-                        Assets.getInstance().getMusicAssets().boss.setLooping(true);
-                        Assets.getInstance().getMusicAssets().boss.play();
+                        music = Assets.getInstance().getMusicAssets().boss;
+                        music.setLooping(true);
+                        music.play();
                     }
                 }
             }
@@ -689,7 +690,7 @@ public class LevelUpdater {
             }
             if (musicEnabled) {
                 music.stop();
-                Assets.getInstance().getMusicAssets().boss.stop();
+                music = Assets.getInstance().getMusicAssets().getThemeMusic(theme);
                 music.play();
             }
             gigaGal.respawn();
