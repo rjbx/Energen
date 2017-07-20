@@ -16,7 +16,6 @@ public class Tripchamber extends Ground implements Trippable, Convertible, Charg
     // fields
     public final static String TAG = Tripchamber.class.getName();
 
-    private LevelUpdater level;
     private Vector2 position;
     private Rectangle bounds;
     private boolean active;
@@ -29,8 +28,7 @@ public class Tripchamber extends Ground implements Trippable, Convertible, Charg
     private int adjustments;
 
     // ctor
-    public Tripchamber(LevelUpdater level, Vector2 position, Rectangle bounds, boolean state) {
-        this.level = level;
+    public Tripchamber(Vector2 position, Rectangle bounds, boolean state) {
         this.position = position;
         this.active = state;
         this.charged = false;

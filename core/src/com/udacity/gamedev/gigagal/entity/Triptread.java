@@ -30,9 +30,8 @@ public class Triptread extends Ground implements Trippable, Convertible, Propell
     private Animation animation;
 
     // ctor
-    public Triptread(LevelUpdater level, Vector2 position, Rectangle bounds, boolean state, Enums.Direction direction) {
+    public Triptread(Vector2 position, Rectangle bounds, boolean state, Enums.Direction direction) {
         this.position = position;
-        this.level = level;
         this.bounds = bounds;
         this.state = state;
         this.direction = direction;

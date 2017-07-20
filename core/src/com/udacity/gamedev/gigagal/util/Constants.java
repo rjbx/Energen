@@ -272,6 +272,15 @@ public final class Constants {
     public static final float SPRING_LOAD_DURATION = 0.5f;
     public static final float SPRING_UNLOAD_DURATION = 0.5f;
 
+    // Lever
+    public static final Vector2 LEVER_CENTER = new Vector2(14.5f, 8.5f);
+    public static final String LEVER_SPRITE_1 = "lever-1";
+    public static final String LEVER_SPRITE_2 = "lever-2";
+    public static final String LEVER_SPRITE_3 = "lever-3";
+    public static final String LEVER_SPRITE_4 = "lever-4";
+    public static final float LEVER_LOAD_DURATION = 0.5f;
+    public static final float LEVER_UNLOAD_DURATION = 0.5f;
+
     // Sand
     public static final Vector2 SINK_CENTER = new Vector2(21, 9);
     public static final String SINK_SPRITE_1 = "sink-1";

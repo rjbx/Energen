@@ -333,6 +333,8 @@ public final class Assets implements AssetErrorListener {
         public final Animation treadmillLeft;
         public final Animation loadedSpring;
         public final Animation unloadedSpring;
+        public final Animation loadedLever;
+        public final Animation unloadedLever;
         public final Animation tripknobOn;
         public final Animation tripknobOff;
         public final Animation triptreadLeftOn;
@@ -427,6 +429,18 @@ public final class Assets implements AssetErrorListener {
             unloadedSpring = new Animation(Constants.SPRING_UNLOAD_DURATION / springRegions.size,
                     springRegions, PlayMode.REVERSED);
 
+            Array<AtlasRegion> leverRegions = new Array<AtlasRegion>();
+            leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_1));
+            leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_2));
+            leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_3));
+
+            loadedLever = new Animation(Constants.LEVER_LOAD_DURATION / leverRegions.size,
+                    leverRegions, PlayMode.NORMAL);
+
+            leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_4));
+
+            unloadedLever = new Animation(Constants.LEVER_UNLOAD_DURATION / leverRegions.size,
+                    leverRegions, PlayMode.REVERSED);
 
             Array<AtlasRegion> tripknobRegions = new Array<AtlasRegion>();
             tripknobRegions.add(atlas.findRegion(Constants.TRIPKNOB_SPRITE_1));

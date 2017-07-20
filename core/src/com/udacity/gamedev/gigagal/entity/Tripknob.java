@@ -18,7 +18,6 @@ public class Tripknob extends Ground implements Trippable, Convertible, Strikeab
 
     private Vector2 position;
     private boolean converted;
-    private LevelUpdater level;
     private Rectangle bounds;
     private long startTime;
     private int rotation;
@@ -28,9 +27,8 @@ public class Tripknob extends Ground implements Trippable, Convertible, Strikeab
     private int adjustments;
 
     // ctor
-    public Tripknob(LevelUpdater level, Vector2 position, Rectangle bounds, float rotation, boolean state) {
+    public Tripknob(Vector2 position, Rectangle bounds, float rotation, boolean state) {
         this.position = position;
-        this.level = level;
         this.bounds = bounds;
         this.rotation = (int) rotation;
         switch (this.rotation) {
