@@ -1335,7 +1335,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getBossAssets().liquidLookupStandRight;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
+                        region = Assets.getInstance().getBossAssets().liquidLookupFallRight;
                     } else if (action == Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
@@ -1383,7 +1383,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getBossAssets().liquidLookupStandLeft;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
+                        region = Assets.getInstance().getBossAssets().liquidLookupFallLeft;
                     } else if (action == Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
