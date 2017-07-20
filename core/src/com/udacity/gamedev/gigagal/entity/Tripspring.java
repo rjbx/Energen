@@ -91,5 +91,4 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     @Override public boolean isActive() { return state; }
     @Override public void convert() { state = !state; converted = true; }
     @Override public boolean isConverted() { return converted; }
-
 }

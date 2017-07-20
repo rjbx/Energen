@@ -35,6 +35,7 @@ import com.udacity.gamedev.gigagal.entity.Tripchamber;
 import com.udacity.gamedev.gigagal.entity.Tripknob;
 import com.udacity.gamedev.gigagal.entity.Swoopa;
 import com.udacity.gamedev.gigagal.entity.Treadmill;
+import com.udacity.gamedev.gigagal.entity.Tripspring;
 import com.udacity.gamedev.gigagal.entity.Triptread;
 import com.udacity.gamedev.gigagal.entity.Vines;
 import com.udacity.gamedev.gigagal.entity.Portal;
@@ -514,20 +515,24 @@ final class LevelLoader {
                 final Vector2 springPosition = imagePosition.add(Constants.SPRING_CENTER);
                 Gdx.app.log(TAG, "Loaded the spring at " + springPosition);
                 level.addGround(new Spring(springPosition));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LEVER_SPRITE_1)) {
+                final Vector2 leverPosition = imagePosition.add(Constants.LEVER_CENTER);
+                Gdx.app.log(TAG, "Loaded the tripspring at " + leverPosition);
+                level.addGround(new Tripspring(leverPosition, bounds));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIPKNOB_SPRITE_1)) {
                 final Vector2 tripPosition = imagePosition.add(Constants.TRIPKNOB_CENTER);
-                Gdx.app.log(TAG, "Loaded the convert at " + tripPosition);
-                Tripknob trip = new Tripknob(level, tripPosition, bounds, rotation, tags[Constants.ON_TAG_INDEX]);
+                Gdx.app.log(TAG, "Loaded the tripknob at " + tripPosition);
+                Tripknob trip = new Tripknob(tripPosition, bounds, rotation, tags[Constants.ON_TAG_INDEX]);
                 level.addGround(trip);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIPTREAD_SPRITE_1_LEFT_OFF)) {
                 final Vector2 tripPosition = imagePosition.add(Constants.TRIPTREAD_CENTER);
-                Gdx.app.log(TAG, "Loaded the convert at " + tripPosition);
-                Triptread trip = new Triptread(level, tripPosition, bounds, tags[Constants.ON_TAG_INDEX], Enums.Direction.LEFT);
+                Gdx.app.log(TAG, "Loaded the triptread at " + tripPosition);
+                Triptread trip = new Triptread(tripPosition, bounds, tags[Constants.ON_TAG_INDEX], Enums.Direction.LEFT);
                 level.addGround(trip);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIPCHAMBER_SPRITE_1_OFF)) {
                 final Vector2 tripPosition = imagePosition.add(Constants.TRIPCHAMBER_CENTER);
-                Gdx.app.log(TAG, "Loaded the convert at " + tripPosition);
-                Tripchamber trip = new Tripchamber(level, tripPosition, bounds, tags[Constants.ON_TAG_INDEX]);
+                Gdx.app.log(TAG, "Loaded the tripchamber at " + tripPosition);
+                Tripchamber trip = new Tripchamber(tripPosition, bounds, tags[Constants.ON_TAG_INDEX]);
                 level.addGround(trip);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.POD_SPRITE_1)) {
                 final Vector2 podPosition = imagePosition.add(Constants.POD_CENTER);

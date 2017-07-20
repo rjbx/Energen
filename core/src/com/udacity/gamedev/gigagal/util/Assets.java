@@ -433,11 +433,12 @@ public final class Assets implements AssetErrorListener {
             leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_1));
             leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_2));
             leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_3));
+            leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_5));
+            leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_4));
 
             loadedLever = new Animation(Constants.LEVER_LOAD_DURATION / leverRegions.size,
                     leverRegions, PlayMode.NORMAL);
 
-            leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_4));
 
             unloadedLever = new Animation(Constants.LEVER_UNLOAD_DURATION / leverRegions.size,
                     leverRegions, PlayMode.REVERSED);
