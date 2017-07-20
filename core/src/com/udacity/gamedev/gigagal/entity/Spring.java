@@ -40,7 +40,6 @@ public class Spring extends Ground implements Reboundable, Tossable {
 
     @Override
     public void update(float delta) {
-        Gdx.app.log(TAG, loaded + "");
         atopMovingGround = false;
         movingGround = null;
         if (beingCarried) {
@@ -73,7 +72,7 @@ public class Spring extends Ground implements Reboundable, Tossable {
                         }
                         velocity.x = 0;
                     }
-                    if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 3, ground.getBottom() + 3)) {
+                    if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 1, ground.getBottom() + 1)) {
                         loaded = true;
                         underGround = true;
                     } else {
