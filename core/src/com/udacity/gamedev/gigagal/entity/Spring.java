@@ -128,7 +128,7 @@ public class Spring extends Ground implements Reboundable, Tossable {
     @Override public final void toss(float velocityX) { velocity.x = velocityX; underGround = true; }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * 2 / 3; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
-    public final boolean isUnderGround() { return underGround; }
+    @Override public final boolean underneathGround() { return underGround; }
     public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }

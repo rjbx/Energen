@@ -341,11 +341,9 @@ public class LevelUpdater {
                 Reboundable reboundable = (Reboundable) ground;
                 if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                     reboundable.setState(true);
-                } else if (reboundable.getState() && !(reboundable instanceof Pliable && ((Pliable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
-                    if (reboundable instanceof Spring && !((Spring) reboundable).isUnderGround()) {
-                        reboundable.resetStartTime();
-                        reboundable.setState(false);
-                    }
+                } else if (reboundable.getState() && !(reboundable).underneathGround() && !(reboundable instanceof Pliable && ((Pliable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
+                    reboundable.resetStartTime();
+                    reboundable.setState(false);
                 }
             }
         }
@@ -355,7 +353,7 @@ public class LevelUpdater {
                 || ((Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && (InputControls.getInstance().shootButtonJustPressed && InputControls.getInstance().downButtonPressed)))) {
                     gigaGal.setPosition(new Vector2(gigaGal.getPosition().x, ground.getBottom() + Constants.GIGAGAL_EYE_HEIGHT));
                     if (ground instanceof Reboundable) {
-                        if (ground instanceof Spring && !((Spring) ground).isUnderGround()) {
+                        if (ground instanceof Spring && !((Spring) ground).underneathGround()) {
                             ((Reboundable) ground).resetStartTime();
                             ((Reboundable) ground).setState(false);
                         }

@@ -507,11 +507,9 @@ public class GigaGal extends Entity implements Humanoid {
                                     position.y += moving.getVelocity().y;
                                 }
                             }
-                        } else {
-                            if (Math.abs(((Pliable) ground).getVelocity().x) > 0) {
-                                position.x = ground.getPosition().x;
-                                velocity.x = ((Pliable) ground).getVelocity().x;
-                            }
+                        } else if (Math.abs(((Pliable) ground).getVelocity().x) > 0) {
+                            position.x = ground.getPosition().x;
+                            velocity.x = ((Pliable) ground).getVelocity().x;
                         }
                     }
                 }
