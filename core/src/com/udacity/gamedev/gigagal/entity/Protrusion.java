@@ -105,15 +105,13 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
 
     @Override
     public void update(float delta) {
-
-        Gdx.app.log(TAG, state + "");
         if (state) {
             if (!position.equals(startPosition)) {
                 position.set(startPosition);
             }
         } else {
             if (position.equals(startPosition)) {
-                position.y -= getHeight();
+                position.y -= (getHeight() * 1.4f);
             }
         }
         converted = false;
