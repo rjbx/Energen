@@ -336,6 +336,17 @@ public class LevelUpdater {
         if (ground instanceof Nonstatic) {
             ((Nonstatic) ground).update(delta);
         }
+        if (ground instanceof Reboundable) {
+            if (!(ground instanceof Pliable && ((Pliable) ground).isBeingCarried() && ((Pliable) ground).getCarrier() == gigaGal)) {
+                Reboundable reboundable = (Reboundable) ground;
+                if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
+                    reboundable.setState(true);
+                } else if (reboundable.getState() && !(reboundable instanceof Pliable && ((Pliable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
+                    reboundable.resetStartTime();
+                    reboundable.setState(false);
+                }
+            }
+        }
         if (ground instanceof Pliable) {
             if (!((Pliable) ground).isBeingCarried() && Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                 if ((gigaGal.getBottom() == ground.getBottom() && (InputControls.getInstance().shootButtonJustPressed) && gigaGal.getAction() == Enums.Action.STRIDING)
@@ -446,17 +457,6 @@ public class LevelUpdater {
                 }
             }
             projectiles.end();
-        }
-        if (ground instanceof Reboundable) {
-            if (!(ground instanceof Pliable && ((Pliable) ground).isBeingCarried() && ((Pliable) ground).getCarrier() == gigaGal)) {
-                Reboundable reboundable = (Reboundable) ground;
-                if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
-                    reboundable.setState(true);
-                } else if (reboundable.getState() && !(reboundable instanceof Pliable && ((Pliable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
-                    reboundable.resetStartTime();
-                    reboundable.setState(false);
-                }
-            }
         }
         return active;
     }

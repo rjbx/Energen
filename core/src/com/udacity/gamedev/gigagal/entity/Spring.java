@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -39,6 +40,7 @@ public class Spring extends Ground implements Reboundable, Tossable {
 
     @Override
     public void update(float delta) {
+        Gdx.app.log(TAG, loaded + "");
         atopMovingGround = false;
         movingGround = null;
         if (beingCarried) {
@@ -56,6 +58,13 @@ public class Spring extends Ground implements Reboundable, Tossable {
                         atopGround = true;
                         tossed = false;
                         velocity.setZero();
+                        if (ground instanceof Pliable) {
+                            position.x = ground.getPosition().x + ((Pliable) ground).getVelocity().x;
+                            position.y = ground.getTop() + getHeight() / 2 + ((Pliable) ground).getVelocity().y;
+                            atopGround = true;
+                            atopMovingGround = true;
+                            movingGround = (Moving) ground;
+                        }
                     } else if (ground.isDense() && !(ground instanceof Pliable)) {
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
@@ -63,15 +72,6 @@ public class Spring extends Ground implements Reboundable, Tossable {
                             position.x = ground.getRight() + getWidth() / 2;
                         }
                         velocity.x = 0;
-                    }
-                    if (ground instanceof Pliable) {
-                        if (Helpers.overlapsPhysicalObject(this, ground) && Helpers.betweenTwoValues(this.getBottom(), ground.getTop() - 6, ground.getTop() + 6)) {
-                            position.x = ground.getPosition().x + ((Pliable) ground).getVelocity().x;
-                            position.y = ground.getTop() + getHeight() / 2 + ((Pliable) ground).getVelocity().y;
-                            atopGround = true;
-                            atopMovingGround = true;
-                            movingGround = (Moving) ground;
-                        }
                     }
                 }
             }
