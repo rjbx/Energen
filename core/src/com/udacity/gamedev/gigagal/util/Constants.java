@@ -154,6 +154,8 @@ public final class Constants {
     public static final String BOSS_LIQUID_LOOKUP_STAND_RIGHT = "boss-liquid-lookup-stand-right";
     public static final String BOSS_LIQUID_LOOKUP_FALL_LEFT = "boss-liquid-lookup-fall-left";
     public static final String BOSS_LIQUID_LOOKUP_FALL_RIGHT = "boss-liquid-lookup-fall-right";
+    public static final String BOSS_LIQUID_LOOKDOWN_FALL_LEFT = "boss-liquid-lookdown-fall-left";
+    public static final String BOSS_LIQUID_LOOKDOWN_FALL_RIGHT = "boss-liquid-lookdown-fall-right";
     
     // Background
     public static final String BACKGROUND_HOME_SPRITE = "background-home";
