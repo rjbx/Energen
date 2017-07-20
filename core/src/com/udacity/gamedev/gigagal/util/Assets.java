@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.udacity.gamedev.gigagal.entity.Barrier;
 import com.udacity.gamedev.gigagal.entity.Block;
 import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Ground;
@@ -28,6 +27,7 @@ public final class Assets implements AssetErrorListener {
     private static final Assets INSTANCE = new Assets();
     private AssetManager assetManager;
     private GigaGalAssets gigaGalAssets;
+    private BossAssets bossAssets;
     private BackgroundAssets backgroundAssets;
     private GroundAssets groundAssets;
     private AmmoAssets ammoAssets;
@@ -91,6 +91,7 @@ public final class Assets implements AssetErrorListener {
         assetManager.finishLoading();
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
         gigaGalAssets = new GigaGalAssets(atlas);
+        bossAssets = new BossAssets(atlas);
         backgroundAssets = new BackgroundAssets(atlas);
         groundAssets = new GroundAssets(atlas);
         ammoAssets = new AmmoAssets(atlas);
@@ -230,6 +231,16 @@ public final class Assets implements AssetErrorListener {
             lookdownHoverRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_RIGHT_1));
             lookdownHoverRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_RIGHT_2));
             lookdownHoverRight = new Animation(Constants.HOVER_LOOP_DURATION, lookdownHoverRightFrames, PlayMode.LOOP);
+        }
+    }
+
+    public static final class BossAssets {
+        public final AtlasRegion liquidStandLeft;
+        public final AtlasRegion liquidStandRight;
+
+        private BossAssets(TextureAtlas atlas) {
+            liquidStandLeft = atlas.findRegion(Constants.BOSS_LIQUID_STAND_LEFT);
+            liquidStandRight = atlas.findRegion(Constants.BOSS_LIQUID_STAND_RIGHT);
         }
     }
 
@@ -1278,22 +1289,23 @@ public final class Assets implements AssetErrorListener {
     }
 
     // Getters
-    public final GigaGalAssets getGigaGalAssets(){ return gigaGalAssets; }
+    public final GigaGalAssets getGigaGalAssets() { return gigaGalAssets; }
+    public final BossAssets getBossAssets() { return bossAssets; }
     public final BackgroundAssets getBackgroundAssets() { return backgroundAssets; }
-    public final GroundAssets getGroundAssets(){ return groundAssets; }
-    public final AmmoAssets getAmmoAssets(){ return ammoAssets; }
+    public final GroundAssets getGroundAssets() { return groundAssets; }
+    public final AmmoAssets getAmmoAssets() { return ammoAssets; }
     public final CanirolAssets getCanirolAssets() { return canirolAssets; }
-    public final ZoombaAssets getZoombaAssets(){ return zoombaAssets; }
-    public final SwoopaAssets getSwoopaAssets(){ return swoopaAssets; }
-    public final OrbenAssets getOrbenAssets(){ return orbenAssets; }
-    public final RollenAssets getRollenAssets(){ return rollenAssets; }
-    public final ProtrusionAssets getProtrusionAssets(){ return protrusionAssets; }
-    public final SuspensionAssets getSuspensionAssets(){ return suspensionAssets; }
-    public final ImpactAssets getImpactAssets(){ return impactAssets; }
-    public final PowerupAssets getPowerupAssets(){ return powerupAssets; }
-    public final PortalAssets getPortalAssets(){ return portalAssets; }
+    public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
+    public final SwoopaAssets getSwoopaAssets() { return swoopaAssets; }
+    public final OrbenAssets getOrbenAssets() { return orbenAssets; }
+    public final RollenAssets getRollenAssets() { return rollenAssets; }
+    public final ProtrusionAssets getProtrusionAssets() { return protrusionAssets; }
+    public final SuspensionAssets getSuspensionAssets() { return suspensionAssets; }
+    public final ImpactAssets getImpactAssets() { return impactAssets; }
+    public final PowerupAssets getPowerupAssets() { return powerupAssets; }
+    public final PortalAssets getPortalAssets() { return portalAssets; }
     public final HudAssets getHudAssets(){ return hudAssets; }
-    public final OverlayAssets getOverlayAssets(){ return overlayAssets; }
+    public final OverlayAssets getOverlayAssets() { return overlayAssets; }
     public final SoundAssets getSoundAssets() { return soundAssets; }
     public final MusicAssets getMusicAssets() { return musicAssets; }
     public final FontAssets getFontAssets() { return fontAssets; }

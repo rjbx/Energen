@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -155,7 +154,12 @@ public class Boss extends Hazard implements Destructible, Humanoid {
         eyeHeight = builder.eyeHeight;
         width = builder.width;
         headRadius = height - eyeHeight;
-        halfWidth = width / 2;
+        halfWidth = width / 2;/*
+        switch (weapon) {
+            case LIQUID:
+              region =
+              break;
+        }*/
         respawn();
     }
 
@@ -1346,17 +1350,17 @@ public class Boss extends Hazard implements Destructible, Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
             } else if (action == Action.STANDING) {
-                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
-                        ((Helpers.secondsSince(standStartTime) % 10 < .15f)
-                                || (Helpers.secondsSince(standStartTime) % 14 < .1f)
-                                || (Helpers.secondsSince(standStartTime) % 15 < .25f)
-                                || (Helpers.secondsSince(standStartTime) > 60)))) {
-                    region = Assets.getInstance().getGigaGalAssets().blinkRight;
-                } else if (canPeer) {
-                    region = Assets.getInstance().getGigaGalAssets().lookbackRight;
-                } else {
-                    region = Assets.getInstance().getGigaGalAssets().standRight;
-                }
+//                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
+//                        ((Helpers.secondsSince(standStartTime) % 10 < .15f)
+//                                || (Helpers.secondsSince(standStartTime) % 14 < .1f)
+//                                || (Helpers.secondsSince(standStartTime) % 15 < .25f)
+//                                || (Helpers.secondsSince(standStartTime) > 60)))) {
+//                    region = Assets.getInstance().getGigaGalAssets().blinkRight;
+//                } else if (canPeer) {
+//                    region = Assets.getInstance().getGigaGalAssets().lookbackRight;
+//                } else {
+                    region = Assets.getInstance().getBossAssets().liquidStandRight;
+//                }
             } else if (action == Action.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Action.DASHING) {
@@ -1394,17 +1398,17 @@ public class Boss extends Hazard implements Destructible, Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (action == Action.STANDING) {
-                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
-                        ((Helpers.secondsSince(standStartTime) % 20 < .15f)
-                                || (Helpers.secondsSince(standStartTime) % 34 < .1f)
-                                || (Helpers.secondsSince(standStartTime) % 35 < .25f)
-                                || (Helpers.secondsSince(standStartTime) > 60)))) {
-                    region = Assets.getInstance().getGigaGalAssets().blinkLeft;
-                } else if (canPeer) {
-                    region = Assets.getInstance().getGigaGalAssets().lookbackLeft;
-                } else {
-                    region = Assets.getInstance().getGigaGalAssets().standLeft;
-                }
+//                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
+//                        ((Helpers.secondsSince(standStartTime) % 20 < .15f)
+//                                || (Helpers.secondsSince(standStartTime) % 34 < .1f)
+//                                || (Helpers.secondsSince(standStartTime) % 35 < .25f)
+//                                || (Helpers.secondsSince(standStartTime) > 60)))) {
+//                    region = Assets.getInstance().getGigaGalAssets().blinkLeft;
+//                } else if (canPeer) {
+//                    region = Assets.getInstance().getGigaGalAssets().lookbackLeft;
+//                } else {
+                    region = Assets.getInstance().getBossAssets().liquidStandLeft;
+//                }
             } else if (action == Action.STRIDING) {
                 region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Action.DASHING) {
