@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Spring extends Ground implements Reboundable, Tossable {
@@ -63,6 +64,9 @@ public class Spring extends Ground implements Reboundable, Tossable {
                             atopGround = true;
                             atopMovingGround = true;
                             movingGround = (Moving) ground;
+                        }
+                        if (ground instanceof Propelling) {
+                            velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getRotationDirection(), Enums.Orientation.X);
                         }
                     } else if (ground.isDense() && !(ground instanceof Pliable)) {
                         if (position.x < ground.getPosition().x) {
