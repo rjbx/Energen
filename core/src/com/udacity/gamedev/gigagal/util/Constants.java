@@ -150,6 +150,8 @@ public final class Constants {
     public static final String BOSS_LIQUID_FALL_RIGHT = "boss-liquid-fall-right";
     public static final String BOSS_LIQUID_DASH_LEFT = "boss-liquid-dash-left";
     public static final String BOSS_LIQUID_DASH_RIGHT = "boss-liquid-dash-right";
+    public static final String BOSS_LIQUID_RECOIL_LEFT = "boss-liquid-recoil-left";
+    public static final String BOSS_LIQUID_RECOIL_RIGHT = "boss-liquid-recoil-right";
     public static final String BOSS_LIQUID_LOOKUP_STAND_LEFT = "boss-liquid-lookup-stand-left";
     public static final String BOSS_LIQUID_LOOKUP_STAND_RIGHT = "boss-liquid-lookup-stand-right";
     public static final String BOSS_LIQUID_LOOKUP_FALL_LEFT = "boss-liquid-lookup-fall-left";
