@@ -710,8 +710,8 @@ public final class Assets implements AssetErrorListener {
             zoomba = atlas.findRegion(Constants.ZOOMBA_SPRITE);
 
             Array<AtlasRegion> oreZoombaRegions = new Array<AtlasRegion>();
-            oreZoombaRegions.add(atlas.findRegion(Constants.PROTRUSION_OREINGZOOMBA_SPRITE_1));
-            oreZoombaRegions.add(atlas.findRegion(Constants.PROTRUSION_OREINGZOOMBA_SPRITE_2));
+            oreZoombaRegions.add(atlas.findRegion(Constants.OREZOOMBA_SPRITE_1));
+            oreZoombaRegions.add(atlas.findRegion(Constants.OREZOOMBA_SPRITE_2));
             oreZoomba = new Animation(Constants.SUSPENSION_ORE_DURATION / oreZoombaRegions.size, oreZoombaRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> plasmaZoombaRegions = new Array<AtlasRegion>();
@@ -751,8 +751,8 @@ public final class Assets implements AssetErrorListener {
             liquidZoomba = new Animation(Constants.PROTRUSION_LIQUID_DURATION / liquidZoombaRegions.size, liquidZoombaRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> solidZoombaRegions = new Array<AtlasRegion>();
-            solidZoombaRegions.add(atlas.findRegion(Constants.SUSPENSION_SOLIDZOOMBA_SPRITE_1));
-            solidZoombaRegions.add(atlas.findRegion(Constants.SUSPENSION_SOLIDZOOMBA_SPRITE_2));
+            solidZoombaRegions.add(atlas.findRegion(Constants.SOLIDZOOMBA_SPRITE_1));
+            solidZoombaRegions.add(atlas.findRegion(Constants.SOLIDZOOMBA_SPRITE_2));
             solidZoomba = new Animation(Constants.PROTRUSION_SOLID_DURATION / solidZoombaRegions.size, solidZoombaRegions, PlayMode.NORMAL);
         }
     }
@@ -773,8 +773,8 @@ public final class Assets implements AssetErrorListener {
             swoopaRight = atlas.findRegion(Constants.SWOOPA_SPRITE_RIGHT);
 
             Array<AtlasRegion> oreSwoopaRegions = new Array<AtlasRegion>();
-            oreSwoopaRegions.add(atlas.findRegion(Constants.PROTRUSION_OREINGSWOOPA_SPRITE_1));
-            oreSwoopaRegions.add(atlas.findRegion(Constants.PROTRUSION_OREINGSWOOPA_SPRITE_2));
+            oreSwoopaRegions.add(atlas.findRegion(Constants.ORESWOOPA_SPRITE_1));
+            oreSwoopaRegions.add(atlas.findRegion(Constants.ORESWOOPA_SPRITE_2));
             oreSwoopa = new Animation(Constants.SUSPENSION_ORE_DURATION / oreSwoopaRegions.size, oreSwoopaRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> plasmaSwoopaRegions = new Array<AtlasRegion>();
@@ -798,8 +798,8 @@ public final class Assets implements AssetErrorListener {
             liquidSwoopa = new Animation(Constants.PROTRUSION_LIQUID_DURATION / liquidSwoopaRegions.size, liquidSwoopaRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> solidSwoopaRegions = new Array<AtlasRegion>();
-            solidSwoopaRegions.add(atlas.findRegion(Constants.SUSPENSION_SOLIDSWOOPA_SPRITE_1));
-            solidSwoopaRegions.add(atlas.findRegion(Constants.SUSPENSION_SOLIDSWOOPA_SPRITE_2));
+            solidSwoopaRegions.add(atlas.findRegion(Constants.SOLIDSWOOPA_SPRITE_1));
+            solidSwoopaRegions.add(atlas.findRegion(Constants.SOLIDSWOOPA_SPRITE_2));
             solidSwoopa = new Animation(Constants.PROTRUSION_SOLID_DURATION / solidSwoopaRegions.size, solidSwoopaRegions, PlayMode.NORMAL);
         }
     }
@@ -903,6 +903,7 @@ public final class Assets implements AssetErrorListener {
         public final Animation gasProtrusion;
         public final Animation plasmaProtrusion;
         public final Animation oreProtrusion;
+        public final AtlasRegion retractedProtrusion;
 
         private ProtrusionAssets(TextureAtlas atlas) {
 
@@ -930,6 +931,8 @@ public final class Assets implements AssetErrorListener {
             gasProtrusionRegions.add(atlas.findRegion(Constants.PROTRUSION_GAS_SPRITE_1));
             gasProtrusionRegions.add(atlas.findRegion(Constants.PROTRUSION_GAS_SPRITE_2));
             gasProtrusion = new Animation(Constants.PROTRUSION_GAS_DURATION / gasProtrusionRegions.size, gasProtrusionRegions, PlayMode.NORMAL);
+
+            retractedProtrusion = new AtlasRegion(atlas.findRegion(Constants.PROTRUSION_RETRACTED_SPRITE));
         }
     }
 

@@ -1614,6 +1614,13 @@ protrusion-polymer-2
   orig: 19, 15
   offset: 0, 0
   index: -1
+protrusion-retracted
+  rotate: false
+  xy: 99, 60
+  size: 7, 2
+  orig: 7, 2
+  offset: 0, 0
+  index: -1
 protrusion-solid-1
   rotate: false
   xy: 118, 156

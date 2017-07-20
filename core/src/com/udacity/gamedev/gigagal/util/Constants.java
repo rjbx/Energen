@@ -364,11 +364,11 @@ public final class Constants {
     public static final String CHARGEDZOOMBA_SPRITE_1 = "zoomba-plasma-1";
     public static final String CHARGEDZOOMBA_SPRITE_2 = "zoomba-plasma-2";
 
-    public static final String PROTRUSION_OREINGZOOMBA_SPRITE_1 = "zoomba-polymer-1";
-    public static final String PROTRUSION_OREINGZOOMBA_SPRITE_2 = "zoomba-polymer-2";
+    public static final String OREZOOMBA_SPRITE_1 = "zoomba-polymer-1";
+    public static final String OREZOOMBA_SPRITE_2 = "zoomba-polymer-2";
 
-    public static final String SUSPENSION_SOLIDZOOMBA_SPRITE_1 = "zoomba-solid-1";
-    public static final String SUSPENSION_SOLIDZOOMBA_SPRITE_2 = "zoomba-solid-2";
+    public static final String SOLIDZOOMBA_SPRITE_1 = "zoomba-solid-1";
+    public static final String SOLIDZOOMBA_SPRITE_2 = "zoomba-solid-2";
 
     // Swoopa
     public static final Vector2 SWOOPA_CENTER = new Vector2(25f, 13.5f);
@@ -394,11 +394,11 @@ public final class Constants {
     public static final String CHARGEDSWOOPA_SPRITE_1 = "swoopa-plasma-1";
     public static final String CHARGEDSWOOPA_SPRITE_2 = "swoopa-plasma-2";
 
-    public static final String PROTRUSION_OREINGSWOOPA_SPRITE_1 = "swoopa-polymer-1";
-    public static final String PROTRUSION_OREINGSWOOPA_SPRITE_2 = "swoopa-polymer-2";
+    public static final String ORESWOOPA_SPRITE_1 = "swoopa-polymer-1";
+    public static final String ORESWOOPA_SPRITE_2 = "swoopa-polymer-2";
 
-    public static final String SUSPENSION_SOLIDSWOOPA_SPRITE_1 = "swoopa-solid-1";
-    public static final String SUSPENSION_SOLIDSWOOPA_SPRITE_2 = "swoopa-solid-2";
+    public static final String SOLIDSWOOPA_SPRITE_1 = "swoopa-solid-1";
+    public static final String SOLIDSWOOPA_SPRITE_2 = "swoopa-solid-2";
 
     // Orben
     public static final float ORBEN_TEXTURE_SCALE = 1.5f;
@@ -515,6 +515,10 @@ public final class Constants {
     public static final float PROTRUSION_ORE_COLLISION_HEIGHT = 25;
     public static final String PROTRUSION_ORE_SPRITE_1 = "protrusion-polymer-1";
     public static final String PROTRUSION_ORE_SPRITE_2 = "protrusion-polymer-2";
+
+
+    public static final Vector2 PROTRUSION_RETRACTED_CENTER = new Vector2(3.5f, 1);
+    public static final String PROTRUSION_RETRACTED_SPRITE = "protrusion-retracted";
 
     // Suspensions
     public static final Vector2 SUSPENSION_GAS_CENTER = new Vector2(12.5f, 12.5f);
