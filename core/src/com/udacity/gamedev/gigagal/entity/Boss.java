@@ -1376,7 +1376,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
             } else if (action == Action.RECOILING){
                 region = Assets.getInstance().getGigaGalAssets().recoilRight;
             } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
-                region = Assets.getInstance().getGigaGalAssets().fallRight;
+                region = Assets.getInstance().getBossAssets().liquidFallRight;
             }
         } else if (directionX == Direction.LEFT) {
             if (lookStartTime != 0) {
@@ -1424,7 +1424,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
             } else if (action == Action.RECOILING) {
                 region = Assets.getInstance().getGigaGalAssets().recoilLeft;
             } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
-                region = Assets.getInstance().getGigaGalAssets().fallLeft;
+                region = Assets.getInstance().getBossAssets().liquidFallRight;
             }
         }
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);
