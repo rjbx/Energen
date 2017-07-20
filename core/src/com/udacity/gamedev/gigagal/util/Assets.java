@@ -237,10 +237,14 @@ public final class Assets implements AssetErrorListener {
     public static final class BossAssets {
         public final AtlasRegion liquidStandLeft;
         public final AtlasRegion liquidStandRight;
+        public final AtlasRegion liquidLookupStandLeft;
+        public final AtlasRegion liquidLookupStandRight;
 
         private BossAssets(TextureAtlas atlas) {
             liquidStandLeft = atlas.findRegion(Constants.BOSS_LIQUID_STAND_LEFT);
             liquidStandRight = atlas.findRegion(Constants.BOSS_LIQUID_STAND_RIGHT);
+            liquidLookupStandLeft = atlas.findRegion(Constants.BOSS_LIQUID_LOOKUP_STAND_LEFT);
+            liquidLookupStandRight = atlas.findRegion(Constants.BOSS_LIQUID_LOOKUP_STAND_RIGHT);
         }
     }
 

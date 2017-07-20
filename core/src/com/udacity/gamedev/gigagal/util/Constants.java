@@ -146,6 +146,8 @@ public final class Constants {
     public static final String BOSS_SPRITE = "beast";
     public static final String BOSS_LIQUID_STAND_LEFT = "boss-liquid-stand-left";
     public static final String BOSS_LIQUID_STAND_RIGHT = "boss-liquid-stand-right";
+    public static final String BOSS_LIQUID_LOOKUP_STAND_LEFT = "boss-liquid-lookup-stand-left";
+    public static final String BOSS_LIQUID_LOOKUP_STAND_RIGHT = "boss-liquid-lookup-stand-right";
 
     // Background
     public static final String BACKGROUND_HOME_SPRITE = "background-home";
