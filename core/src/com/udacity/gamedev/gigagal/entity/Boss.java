@@ -898,7 +898,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
             }
         } else if (touchedGround instanceof Propelling) {
             velocity.x = 0;
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getRotationDirection(), Orientation.X);
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
         } else {
             velocity.x = 0;
         }
@@ -1066,7 +1066,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
         strideAcceleration = strideTimeSeconds * .75f + Constants.GIGAGAL_STARTING_SPEED ;
         velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * strideMultiplier), directionX, Orientation.X);
         if (touchedGround instanceof Propelling) {
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getRotationDirection(), Orientation.X);
+            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
         } else if (touchedGround instanceof Skateable) {
             velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
         } else if (canSink) {
@@ -1105,7 +1105,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
             stand();
         }
         if (touchedGround instanceof Skateable
-                || (touchedGround instanceof Propelling && directionX == ((Propelling) touchedGround).getRotationDirection())) {
+                || (touchedGround instanceof Propelling && directionX == ((Propelling) touchedGround).getDirectionX())) {
             velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed + Constants.TREADMILL_SPEED, directionX, Orientation.X);
         }
     }

@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -17,6 +18,7 @@ public class Triptread extends Ground implements Trippable, Convertible, Propell
     public final static String TAG = Triptread.class.getName();
 
     private Vector2 position;
+    private Vector2 velocity;
     private boolean converted;
     private LevelUpdater level;
     private Rectangle bounds;
@@ -25,6 +27,7 @@ public class Triptread extends Ground implements Trippable, Convertible, Propell
     private Enums.Direction direction;
     private boolean previousState;
     private int adjustments;
+    private Animation animation;
 
     // ctor
     public Triptread(LevelUpdater level, Vector2 position, Rectangle bounds, boolean state, Enums.Direction direction) {
@@ -42,23 +45,24 @@ public class Triptread extends Ground implements Trippable, Convertible, Propell
     public void update(float delta) {
         converted = false;
         previousState = state;
+        if (state) {
+            if (direction == Enums.Direction.LEFT) {
+                animation = Assets.getInstance().getGroundAssets().triptreadLeftOn;
+            } else {
+                animation = Assets.getInstance().getGroundAssets().triptreadRightOn;
+            }
+        } else {
+            if (direction == Enums.Direction.LEFT) {
+                animation = Assets.getInstance().getGroundAssets().triptreadLeftOff;
+            } else {
+                animation = Assets.getInstance().getGroundAssets().triptreadRightOff;
+            }
+        }
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        if (state) {
-            if (direction == Enums.Direction.LEFT) {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadLeftOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
-            } else {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadRightOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
-            }
-        } else {
-            if (direction == Enums.Direction.LEFT) {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadLeftOff.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
-            } else {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().triptreadRightOff.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
-            }
-        }
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPTREAD_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }
@@ -78,5 +82,5 @@ public class Triptread extends Ground implements Trippable, Convertible, Propell
     @Override public void addCamAdjustment() { adjustments++; }
     @Override public boolean maxAdjustmentsReached() { return adjustments >= 2; }
     @Override public boolean tripped() { return previousState != state; }
-    @Override public final Enums.Direction getRotationDirection() { return direction; }
+    @Override public final Enums.Direction getDirectionX() { return direction; }
 }

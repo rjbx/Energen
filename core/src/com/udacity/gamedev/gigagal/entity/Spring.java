@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -66,9 +65,9 @@ public class Spring extends Ground implements Reboundable, Tossable {
                             movingGround = (Moving) ground;
                         }
                         if (ground instanceof Propelling) {
-                            velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getRotationDirection(), Enums.Orientation.X);
+                            velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
                         }
-                    } else if (ground.isDense() && !(ground instanceof Pliable)) {
+                    } else if (ground.isDense() && !(ground instanceof Pliable) && !(ground instanceof Propelling)) {
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {
