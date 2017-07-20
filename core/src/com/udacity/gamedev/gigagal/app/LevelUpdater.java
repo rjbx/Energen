@@ -324,6 +324,13 @@ public class LevelUpdater {
                         }
                     }
                 }
+                for (Hazard h : hazards) {
+                    if (h instanceof Convertible && (h != trip)) {
+                        if (Helpers.betweenFourValues(h.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
+                            ((Convertible) h).convert();
+                        }
+                    }
+                }
             }
         }
         if (ground instanceof Nonstatic) {
@@ -458,7 +465,6 @@ public class LevelUpdater {
         boolean active = true;
         if (hazard instanceof Destructible) {
             Destructible destructible = (Destructible) hazard;
-            destructible.update(delta);
             projectiles.begin();
             for (int j = 0; j < projectiles.size; j++) {
                 Ammo ammo = projectiles.get(j);
@@ -503,6 +509,9 @@ public class LevelUpdater {
                 active = false;
                 projectiles.removeValue(ammo, false);
             }
+        }
+        if (hazard instanceof Nonstatic) {
+            ((Nonstatic) hazard).update(delta);
         }
         return active;
     }

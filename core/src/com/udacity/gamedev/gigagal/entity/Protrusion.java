@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -16,9 +17,9 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
     // fields
     public final static String TAG = Protrusion.class.getName();
 
+    private final Vector2 startPosition;
     private Vector2 position;
     private Animation animation;
-    private Rectangle bounds;
     private Vector2 collisionSpan; // class-level instantiation
     private Vector2 center; // class-level instantiation
     private Vector2 knockback; // class-level instantiation
@@ -33,6 +34,9 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
     // ctor
     public Protrusion(Vector2 position, Enums.Material type, float rotation) {
         this.position = position;
+        startPosition = new Vector2(position);
+        state = true;
+        converted = false;
         this.type = type;
         this.rotation = (int) rotation;
         startTime = TimeUtils.nanoTime();
@@ -100,13 +104,25 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
     }
 
     @Override
-    public void update(float delta) {}
+    public void update(float delta) {
+
+        Gdx.app.log(TAG, state + "");
+        if (state) {
+            if (!position.equals(startPosition)) {
+                position.set(startPosition);
+            }
+        } else {
+            if (position.equals(startPosition)) {
+                position.y -= getHeight();
+            }
+        }
+        converted = false;
+    }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (state) {
             Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, offset, 1, rotation);
-            converted = false;
         }
     }
 
@@ -122,7 +138,6 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
     @Override public final Enums.Material getType() { return type; }
     public final long getStartTime() { return startTime; }
     public final void resetStartTime() { this.startTime = 0; }
-    public Rectangle getBounds() { return bounds; }
     @Override public void convert() { state = !state; converted = true; }
     @Override public boolean isConverted() { return converted; }
 }
