@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.app;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -342,8 +343,10 @@ public class LevelUpdater {
                 if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                     reboundable.setState(true);
                 } else if (reboundable.getState() && !(reboundable instanceof Pliable && ((Pliable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
-                    reboundable.resetStartTime();
-                    reboundable.setState(false);
+                    if (reboundable instanceof Spring && !((Spring) reboundable).isUnderGround()) {
+                        reboundable.resetStartTime();
+                        reboundable.setState(false);
+                    }
                 }
             }
         }
@@ -353,8 +356,10 @@ public class LevelUpdater {
                 || ((Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && (InputControls.getInstance().shootButtonJustPressed && InputControls.getInstance().downButtonPressed)))) {
                     gigaGal.setPosition(new Vector2(gigaGal.getPosition().x, ground.getBottom() + Constants.GIGAGAL_EYE_HEIGHT));
                     if (ground instanceof Reboundable) {
-                        ((Reboundable) ground).resetStartTime();
-                        ((Reboundable) ground).setState(false);
+                        if (ground instanceof Spring && !((Spring) ground).isUnderGround()) {
+                            ((Reboundable) ground).resetStartTime();
+                            ((Reboundable) ground).setState(false);
+                        }
                     }
                     ((Pliable) ground).setCarrier(gigaGal);
                 }

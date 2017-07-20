@@ -23,7 +23,7 @@ public class Spring extends Ground implements Reboundable, Tossable {
     private boolean beingCarried;
     private boolean atopGround;
     private boolean atopMovingGround;
-    private boolean tossed;
+    private boolean underGround;
     private Dynamic carrier;
 
     // ctor
@@ -34,7 +34,7 @@ public class Spring extends Ground implements Reboundable, Tossable {
         beingCarried = false;
         atopGround = false;
         atopMovingGround = false;
-        tossed = false;
+        underGround = false;
         velocity = new Vector2(0, 0);
     }
 
@@ -54,10 +54,9 @@ public class Spring extends Ground implements Reboundable, Tossable {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
                     if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
                             && ground.getWidth() >= this.getWidth() // prevents setting to unreachable, narrower ground
-                            && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents dropping while rappeling and setting atop adjacent stacked grounds
+                            && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                         position.y = ground.getTop() + getHeight() / 2;
                         atopGround = true;
-                        tossed = false;
                         velocity.setZero();
                         if (ground instanceof Pliable) {
                             position.x = ground.getPosition().x + ((Pliable) ground).getVelocity().x;
@@ -73,6 +72,12 @@ public class Spring extends Ground implements Reboundable, Tossable {
                             position.x = ground.getRight() + getWidth() / 2;
                         }
                         velocity.x = 0;
+                    }
+                    if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 3, ground.getBottom() + 3)) {
+                        loaded = true;
+                        underGround = true;
+                    } else {
+                        underGround = false;
                     }
                 }
             }
@@ -118,9 +123,10 @@ public class Spring extends Ground implements Reboundable, Tossable {
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried; }
-    @Override public final void toss(float velocityX) { velocity.x = velocityX; tossed = true; }
+    @Override public final void toss(float velocityX) { velocity.x = velocityX; underGround = true; }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * 2 / 3; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
+    public final boolean isUnderGround() { return underGround; }
     public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
