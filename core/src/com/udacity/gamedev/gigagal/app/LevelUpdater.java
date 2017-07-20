@@ -341,9 +341,11 @@ public class LevelUpdater {
                 Reboundable reboundable = (Reboundable) ground;
                 if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                     reboundable.setState(true);
-                } else if (reboundable.getState() && !(reboundable).underneathGround() && !(reboundable instanceof Pliable && ((Pliable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
-                    reboundable.resetStartTime();
-                    reboundable.setState(false);
+                } else if (reboundable.getState() && !(reboundable instanceof Pliable && ((Pliable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
+                    if (ground instanceof Compressible && !((Compressible) ground).underneathGround()) {
+                        reboundable.resetStartTime();
+                        reboundable.setState(false);
+                    }
                 }
             }
         }
