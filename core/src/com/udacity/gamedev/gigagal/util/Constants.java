@@ -273,7 +273,7 @@ public final class Constants {
     public static final float SPRING_UNLOAD_DURATION = 0.5f;
 
     // Lever
-    public static final Vector2 LEVER_CENTER = new Vector2(14.5f, 2.5f);
+    public static final Vector2 LEVER_CENTER = new Vector2(14.5f, 3);
     public static final String LEVER_SPRITE_1 = "lever-1";
     public static final String LEVER_SPRITE_2 = "lever-2";
     public static final String LEVER_SPRITE_3 = "lever-3";
