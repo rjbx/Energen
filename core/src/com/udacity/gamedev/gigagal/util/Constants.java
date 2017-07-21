@@ -269,7 +269,7 @@ public final class Constants {
     public static final String SPRING_SPRITE_2 = "spring-2";
     public static final String SPRING_SPRITE_3 = "spring-3";
     public static final String SPRING_SPRITE_4 = "spring-4";
-    public static final float SPRING_LOAD_DURATION = 0.5f;
+    public static final float SPRING_LOAD_DURATION = 0.1f;
     public static final float SPRING_UNLOAD_DURATION = 0.5f;
 
     // Lever
