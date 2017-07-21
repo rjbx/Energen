@@ -23,7 +23,6 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     private boolean beingCarried;
     private boolean underGround;
     private int adjustments;
-    private boolean state;
     private boolean previousState;
     private boolean converted;
 
@@ -36,14 +35,15 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
         underGround = false;
         startTime = 0;
         converted = false;
-        this.state = false;
         this.bounds = bounds;
-        previousState = state;
+        previousState = loaded;
         adjustments++;
     }
 
     @Override
     public void update(float delta) {
+        converted = false;
+        previousState = loaded;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 1, ground.getBottom() + 1)) {
@@ -57,8 +57,6 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
                 }
             }
         }
-        converted = false;
-        previousState = state;
     }
 
     @Override
@@ -94,8 +92,8 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     @Override public final void resetStartTime() { this.startTime = 0; }
     @Override public void addCamAdjustment() { adjustments++; }
     @Override public boolean maxAdjustmentsReached() { return adjustments > 2; }
-    @Override public boolean tripped() { return previousState != state; }
-    @Override public boolean isActive() { return state; }
-    @Override public void convert() { state = !state; converted = true; }
+    @Override public boolean tripped() { return previousState != loaded; }
+    @Override public boolean isActive() { return loaded; }
+    @Override public void convert() { loaded = !loaded; converted = true; }
     @Override public boolean isConverted() { return converted; }
 }
