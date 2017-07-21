@@ -279,7 +279,7 @@ public final class Constants {
     public static final String LEVER_SPRITE_3 = "lever-3";
     public static final String LEVER_SPRITE_4 = "lever-4";
     public static final String LEVER_SPRITE_5 = "lever-5";
-    public static final float LEVER_LOAD_DURATION = 0.75f;
+    public static final float LEVER_LOAD_DURATION = 0.25f;
     public static final float LEVER_UNLOAD_DURATION = 0.75f;
 
     // Sand
