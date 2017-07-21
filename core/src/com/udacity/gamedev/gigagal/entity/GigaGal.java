@@ -1086,7 +1086,7 @@ public class GigaGal extends Entity implements Humanoid {
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         if (touchedGround instanceof Reboundable) {
             if (!(touchedGround instanceof Pliable && ((Pliable) touchedGround).isBeingCarried() && ((Pliable) touchedGround).getCarrier() == this)) {
-                velocity.y *= 2;
+                velocity.y *= ((Reboundable) touchedGround).jumpMultiplier();
                 jumpStartTime = 0;
             }
             action = Action.FALLING; // prevents from rendering stride sprite when striding against ground side and jumping on reboundable

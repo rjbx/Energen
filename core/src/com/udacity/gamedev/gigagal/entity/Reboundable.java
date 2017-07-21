@@ -6,4 +6,5 @@ public interface Reboundable extends Nonstatic {
     boolean getState();
     long getStartTime();
     void resetStartTime();
+    float jumpMultiplier();
 }

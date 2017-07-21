@@ -135,4 +135,5 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     @Override public final void setState(boolean state) { this.loaded = state; }
     @Override public final boolean getState() { return loaded; }
     @Override public final void resetStartTime() { this.startTime = 0; }
+    @Override public final float jumpMultiplier() { return Constants.SPRING_JUMP_MULTIPLIER; }
 }

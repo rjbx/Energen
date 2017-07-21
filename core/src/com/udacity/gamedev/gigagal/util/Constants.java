@@ -263,6 +263,16 @@ public final class Constants {
     public static final String TRIPCHAMBER_SPRITE_2_ON = "chamber-trip-2-on";
     public static final float TRIPCHAMBER_LOAD_DURATION = 0.1f;
     
+    // Tripspring
+    public static final Vector2 LEVER_CENTER = new Vector2(14.5f, 3);
+    public static final String LEVER_SPRITE_1 = "lever-1";
+    public static final String LEVER_SPRITE_2 = "lever-2";
+    public static final String LEVER_SPRITE_3 = "lever-3";
+    public static final String LEVER_SPRITE_4 = "lever-4";
+    public static final float LEVER_LOAD_DURATION = 0.2f;
+    public static final float LEVER_UNLOAD_DURATION = 0.5f;
+    public static final float LEVER_JUMP_MULTIPLIER = 1.2f;
+
     // Spring
     public static final Vector2 SPRING_CENTER = new Vector2(11.5f, 4);
     public static final String SPRING_SPRITE_1 = "spring-1";
@@ -271,15 +281,7 @@ public final class Constants {
     public static final String SPRING_SPRITE_4 = "spring-4";
     public static final float SPRING_LOAD_DURATION = 0.1f;
     public static final float SPRING_UNLOAD_DURATION = 0.5f;
-
-    // Lever
-    public static final Vector2 LEVER_CENTER = new Vector2(14.5f, 3);
-    public static final String LEVER_SPRITE_1 = "lever-1";
-    public static final String LEVER_SPRITE_2 = "lever-2";
-    public static final String LEVER_SPRITE_3 = "lever-3";
-    public static final String LEVER_SPRITE_4 = "lever-4";
-    public static final float LEVER_LOAD_DURATION = 0.2f;
-    public static final float LEVER_UNLOAD_DURATION = 0.5f;
+    public static final float SPRING_JUMP_MULTIPLIER = 2;
 
     // Sand
     public static final Vector2 SINK_CENTER = new Vector2(21, 9);
@@ -315,6 +317,7 @@ public final class Constants {
     public static final String POD_SPRITE_2 = "pod-2";
     public static final String POD_SPRITE_3 = "pod-3";
     public static final float POD_LOAD_DURATION = 0.2f;
+    public static final float POD_JUMP_MULTIPLIER = 1.6f;
 
     // Chamber
     public static final Vector2 CHAMBER_CENTER = new Vector2(4.5f, 10);
