@@ -78,7 +78,7 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
         if (state) {
             Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, offset, 1, rotation);
         } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getProtrusionAssets().inactiveProtrusion, startPosition.x, startPosition.y - center.y, Constants.PROTRUSION_INACTIVE_CENTER.x, Constants.PROTRUSION_INACTIVE_CENTER.y, 1, rotation);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getProtrusionAssets().inactiveProtrusion, startPosition.x, startPosition.y, offset.x, offset.y, 1, rotation);
         }
     }
 
