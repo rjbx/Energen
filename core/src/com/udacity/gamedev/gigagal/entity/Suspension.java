@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Suspension extends Hazard implements Indestructible {
+public class Suspension extends Hazard implements Indestructible, Convertible {
 
     // fields
     public final static String TAG = Suspension.class.getName();
@@ -23,6 +23,8 @@ public class Suspension extends Hazard implements Indestructible {
     private Vector2 knockback; // class-level instantiation
     private Animation animation;
     private int damage;
+    private boolean state;
+    private boolean converted;
     private long startTime;
 
     // ctor
@@ -31,6 +33,8 @@ public class Suspension extends Hazard implements Indestructible {
         this.type = type;
         startTime = TimeUtils.nanoTime();
         collisionSpan = new Vector2();
+        state = true;
+        converted = false;
         center = new Vector2();
         knockback = new Vector2();
         damage = Constants.PROTRUSION_LIQUID_DAMAGE;
@@ -88,8 +92,17 @@ public class Suspension extends Hazard implements Indestructible {
     }
 
     @Override
+    public void update(float delta) {
+        converted = false;
+    }
+
+    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center);
+        if (state) {
+            Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center);
+        } else {
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getSuspensionAssets().inactiveSuspension, position, center);
+        }
     }
 
     @Override public final Vector2 getPosition() { return position; }
@@ -102,4 +115,8 @@ public class Suspension extends Hazard implements Indestructible {
     @Override public final int getDamage() { return damage; }
     @Override public final Vector2 getKnockback() { return knockback; }
     @Override public final Enums.Material getType() { return type; }
+    public final long getStartTime() { return startTime; }
+    public final void resetStartTime() { this.startTime = 0; }
+    @Override public void convert() { state = !state; converted = true; }
+    @Override public boolean isConverted() { return converted; }
 }

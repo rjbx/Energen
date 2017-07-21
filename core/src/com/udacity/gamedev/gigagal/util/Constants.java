@@ -525,9 +525,8 @@ public final class Constants {
     public static final String PROTRUSION_ORE_SPRITE_1 = "protrusion-polymer-1";
     public static final String PROTRUSION_ORE_SPRITE_2 = "protrusion-polymer-2";
 
-
-    public static final Vector2 PROTRUSION_RETRACTED_CENTER = new Vector2(3.5f, 1);
-    public static final String PROTRUSION_RETRACTED_SPRITE = "protrusion-retracted";
+    public static final Vector2 PROTRUSION_INACTIVE_CENTER = new Vector2(3.5f, 1);
+    public static final String PROTRUSION_INACTIVE_SPRITE = "protrusion-inactive";
 
     // Suspensions
     public static final Vector2 SUSPENSION_GAS_CENTER = new Vector2(12.5f, 12.5f);
@@ -584,6 +583,9 @@ public final class Constants {
     public static final String SUSPENSION_ANTIMATTER_SPRITE_1 = "suspension-psychic-1";
     public static final String SUSPENSION_ANTIMATTER_SPRITE_2 = "suspension-psychic-2";
     public static final String SUSPENSION_ANTIMATTER_SPRITE_3 = "suspension-psychic-3";
+
+    public static final Vector2 SUSPENSION_INACTIVE_CENTER = new Vector2(12.5f, 12.5f);
+    public static final String SUSPENSION_INACTIVE_SPRITE = "suspension-inactive";
 
     // Portal
     public static final Vector2 PORTAL_CENTER = new Vector2(31, 31);

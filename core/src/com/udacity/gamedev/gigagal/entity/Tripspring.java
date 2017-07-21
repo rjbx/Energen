@@ -57,6 +57,8 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
                 }
             }
         }
+        converted = false;
+        previousState = state;
     }
 
     @Override

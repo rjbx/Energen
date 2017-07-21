@@ -917,7 +917,7 @@ public final class Assets implements AssetErrorListener {
         public final Animation gasProtrusion;
         public final Animation plasmaProtrusion;
         public final Animation oreProtrusion;
-        public final AtlasRegion retractedProtrusion;
+        public final AtlasRegion inactiveProtrusion;
 
         private ProtrusionAssets(TextureAtlas atlas) {
 
@@ -946,7 +946,7 @@ public final class Assets implements AssetErrorListener {
             gasProtrusionRegions.add(atlas.findRegion(Constants.PROTRUSION_GAS_SPRITE_2));
             gasProtrusion = new Animation(Constants.PROTRUSION_GAS_DURATION / gasProtrusionRegions.size, gasProtrusionRegions, PlayMode.NORMAL);
 
-            retractedProtrusion = new AtlasRegion(atlas.findRegion(Constants.PROTRUSION_RETRACTED_SPRITE));
+            inactiveProtrusion = new AtlasRegion(atlas.findRegion(Constants.PROTRUSION_INACTIVE_SPRITE));
         }
     }
 
@@ -958,6 +958,7 @@ public final class Assets implements AssetErrorListener {
         public final Animation liquidSuspension;
         public final Animation plasmaSuspension;
         public final Animation antimatterSuspension;
+        public final AtlasRegion inactiveSuspension;
 
         private SuspensionAssets(TextureAtlas atlas) {
 
@@ -991,6 +992,8 @@ public final class Assets implements AssetErrorListener {
             antimatterSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_ANTIMATTER_SPRITE_2));
             antimatterSuspensionRegions.add(atlas.findRegion(Constants.SUSPENSION_ANTIMATTER_SPRITE_3));
             this.antimatterSuspension = new Animation(Constants.SUSPENSION_ANTIMATTER_FRAME_DURATION, antimatterSuspensionRegions, PlayMode.LOOP_PINGPONG);
+
+            inactiveSuspension = new AtlasRegion(atlas.findRegion(Constants.SUSPENSION_INACTIVE_SPRITE));
         }
     }
 
