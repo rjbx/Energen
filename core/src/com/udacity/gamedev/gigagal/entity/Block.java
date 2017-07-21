@@ -44,22 +44,25 @@ public class Block extends Barrier implements Draggable {
             }
             velocity.x /= Constants.DRAG_FACTOR * weightFactor();
             velocity.y = -Constants.GRAVITY * 15 * weightFactor();
-            for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-                if (!atopGround) { // prevents setting to unreachable, encompassing ground
-                    if (Helpers.overlapsPhysicalObject(this, ground)) {
-                        if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
-                                && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
-                            position.y = ground.getTop() + getHeight() / 2;
-                            atopGround = true;
-                            velocity.setZero();
-                        } else if (ground.isDense()) {
-                            if (position.x < ground.getPosition().x) {
-                                position.x = ground.getLeft() - getWidth() / 2;
-                            } else {
-                                position.x = ground.getRight() + getWidth() / 2;
-                            }
-                            velocity.x = 0;
+        }
+        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+            if (!atopGround || getBottom() == ground.getBottom()) { // prevents setting to unreachable, encompassing ground
+                if (Helpers.overlapsPhysicalObject(this, ground)) {
+                    if (ground instanceof Tripspring) {
+                        Gdx.app.log(TAG, position.toString());
+                    }
+                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
+                            && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
+                        position.y = ground.getTop() + getHeight() / 2;
+                        atopGround = true;
+                        velocity.setZero();
+                    } else if (ground.isDense()) {
+                        if (position.x < ground.getPosition().x) {
+                            position.x = ground.getLeft() - getWidth() / 2;
+                        } else {
+                            position.x = ground.getRight() + getWidth() / 2;
                         }
+                        velocity.x = 0;
                     }
                 }
             }
