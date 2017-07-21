@@ -100,7 +100,7 @@ public class GigaGal extends Entity implements Humanoid {
     private float chargeModifier;
     private float startTurbo;
     private float turbo;
-    private float killPlane;
+    private float fallLimit;
     private float ammo;
     private float health;
     private int lives;
@@ -129,7 +129,6 @@ public class GigaGal extends Entity implements Humanoid {
         width = Constants.GIGAGAL_STANCE_WIDTH;
         halfWidth = width / 2;
         lives = Constants.INITIAL_LIVES;
-        killPlane = -10000;
         turboMultiplier = 1;
         ammoMultiplier = 1;
         healthMultiplier = 1;
@@ -162,7 +161,7 @@ public class GigaGal extends Entity implements Humanoid {
 
     public void respawn() {
         position.set(spawnPosition);
-        killPlane = position.y + Constants.KILL_PLANE;
+        fallLimit = position.y - Constants.FALL_LIMIT;
         chaseCamPosition.set(position, 0);
         left = position.x - halfWidth;
         right = position.x + halfWidth;
@@ -366,7 +365,7 @@ public class GigaGal extends Entity implements Humanoid {
                                 canRappel = true; // enable rappel
                             }
                             touchedGround = ground;
-                            killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
+                            fallLimit = touchedGround.getBottom() - Constants.FALL_LIMIT;
                         }
                         // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
                     } else {
@@ -527,7 +526,7 @@ public class GigaGal extends Entity implements Humanoid {
     // basic ground top collision instructions; applicable to sinkables even when previousframe.x < ground.top
     private void setAtopGround(Groundable ground) {
         touchedGround = ground;
-        killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
+        fallLimit = touchedGround.getBottom() - Constants.FALL_LIMIT;
         hoverStartTime = 0;
         rappelStartTime = 0;
         canRappel = false;
@@ -1405,7 +1404,7 @@ public class GigaGal extends Entity implements Humanoid {
     public Vector3 getChaseCamPosition() { return chaseCamPosition; }
     public long getLookStartTime() { return lookStartTime; }
     public float getChargeTimeSeconds() { return chargeTimeSeconds; }
-    public float getKillPlane() { return killPlane; }
+    public float getFallLimit() { return fallLimit; }
     @Override public Orientation getOrientation() { if (action == Action.CLIMBING || lookStartTime != 0) { return Orientation.Y; } return Orientation.X; }
 
     // Setters

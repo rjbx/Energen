@@ -166,7 +166,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     public void respawn() {
         gigaGal = GigaGal.getInstance();
         position.set(spawnPosition);
-        killPlane = position.y + Constants.KILL_PLANE;
+        killPlane = position.y + Constants.FALL_LIMIT;
         chaseCamPosition.set(position, 0);
         level = LevelUpdater.getInstance();
         left = position.x - halfWidth;
@@ -437,7 +437,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
                                 canRappel = true; // enable rappel
                             }
                             touchedGround = ground;
-                            killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
+                            killPlane = touchedGround.getBottom() + Constants.FALL_LIMIT;
                         }
                         // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
                     } else {
@@ -591,7 +591,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     // basic ground top collision instructions; applicable to sinkables even when previousframe.x < ground.top
     private void setAtopGround(Groundable ground) {
         touchedGround = ground;
-        killPlane = touchedGround.getBottom() + Constants.KILL_PLANE;
+        killPlane = touchedGround.getBottom() + Constants.FALL_LIMIT;
         hoverStartTime = 0;
         rappelStartTime = 0;
         canRappel = false;

@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.app;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -686,8 +685,8 @@ public class LevelUpdater {
     }
 
     protected boolean restarted() {
-        if (gigaGal.getKillPlane() != -10000) {
-            if (gigaGal.getPosition().y < gigaGal.getKillPlane() || gigaGal.getHealth() < 1) {
+        if (gigaGal.getFallLimit() != -10000) {
+            if (gigaGal.getPosition().y < gigaGal.getFallLimit() || gigaGal.getHealth() < 1) {
                 gigaGal.setHealth(0);
                 gigaGal.setLives(gigaGal.getLives() - 1);
                 return true;
