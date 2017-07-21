@@ -47,7 +47,7 @@ public class Suspension extends Hazard implements Indestructible, Convertible {
         if (!state && !knockback.equals(Vector2.Zero)) {
             knockback.setZero();
             damage = 0;
-        } else if (state && knockback.equals(Vector2.Zero) {
+        } else if (state && knockback.equals(Vector2.Zero)) {
             setTypeAttributes(type);
         }
     }

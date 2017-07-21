@@ -42,6 +42,61 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
         center = new Vector2();
         knockback = new Vector2();
         damage = Constants.PROTRUSION_LIQUID_DAMAGE;
+        setTypeAttributes(type);
+        switch (this.rotation) {
+            case 90:
+                offset = new Vector2(-center.x, center.y);
+                break;
+            case 180:
+                offset = new Vector2(-center.x, -center.y);
+                break;
+            case 270:
+                offset = new Vector2(center.x, -center.y);
+                break;
+            default:
+                offset = center;
+        }
+    }
+
+    @Override
+    public void update(float delta) {
+        if (state) {
+            if (!position.equals(startPosition)) {
+                position.set(startPosition);
+                if (knockback.equals(Vector2.Zero)) {
+                    setTypeAttributes(type);
+                }
+            }
+        } else if (!knockback.equals(Vector2.Zero)) {
+            knockback.setZero();
+        }
+        converted = false;
+    }
+
+    @Override
+    public void render(SpriteBatch batch, Viewport viewport) {
+        if (state) {
+            Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, offset, 1, rotation);
+        } else {
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getProtrusionAssets().inactiveProtrusion, startPosition.x, startPosition.y - center.y, Constants.PROTRUSION_INACTIVE_CENTER.x, Constants.PROTRUSION_INACTIVE_CENTER.y, 1, rotation);
+        }
+    }
+
+    @Override public final Vector2 getPosition() { return position; }
+    @Override public final float getWidth() { return collisionSpan.x; }
+    @Override public final float getHeight() { return collisionSpan.y; }
+    @Override public final float getLeft() { return position.x - center.x; }
+    @Override public final float getRight() { return position.x + center.x; }
+    @Override public final float getTop() { return position.y + center.y; }
+    @Override public final float getBottom() { return position.y - center.y; }
+    @Override public final int getDamage() { return damage; }
+    @Override public final Vector2 getKnockback() { return knockback; }
+    @Override public final Enums.Material getType() { return type; }
+    public final long getStartTime() { return startTime; }
+    public final void resetStartTime() { this.startTime = 0; }
+    @Override public void convert() { state = !state; converted = true; }
+    @Override public boolean isConverted() { return converted; }
+    private final void setTypeAttributes(Enums.Material type) {
         switch (type) {
             case ORE:
                 animation = Assets.getInstance().getProtrusionAssets().oreProtrusion;
@@ -86,56 +141,5 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
                 damage = Constants.PROTRUSION_ORE_DAMAGE;
                 break;
         }
-        switch (this.rotation) {
-            case 90:
-                offset = new Vector2(-center.x, center.y);
-                break;
-            case 180:
-                offset = new Vector2(-center.x, -center.y);
-                break;
-            case 270:
-                offset = new Vector2(center.x, -center.y);
-                break;
-            default:
-                offset = center;
-        }
     }
-
-    @Override
-    public void update(float delta) {
-        if (state) {
-            if (!position.equals(startPosition)) {
-                position.set(startPosition);
-            }
-        } else {
-            if (position.equals(startPosition)) {
-                position.y -= (getHeight() * 1.4f);
-            }
-        }
-        converted = false;
-    }
-
-    @Override
-    public void render(SpriteBatch batch, Viewport viewport) {
-        if (state) {
-            Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, offset, 1, rotation);
-        } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getProtrusionAssets().inactiveProtrusion, startPosition.x, startPosition.y - center.y, Constants.PROTRUSION_INACTIVE_CENTER.x, Constants.PROTRUSION_INACTIVE_CENTER.y);
-        }
-    }
-
-    @Override public final Vector2 getPosition() { return position; }
-    @Override public final float getWidth() { return collisionSpan.x; }
-    @Override public final float getHeight() { return collisionSpan.y; }
-    @Override public final float getLeft() { return position.x - center.x; }
-    @Override public final float getRight() { return position.x + center.x; }
-    @Override public final float getTop() { return position.y + center.y; }
-    @Override public final float getBottom() { return position.y - center.y; }
-    @Override public final int getDamage() { return damage; }
-    @Override public final Vector2 getKnockback() { return knockback; }
-    @Override public final Enums.Material getType() { return type; }
-    public final long getStartTime() { return startTime; }
-    public final void resetStartTime() { this.startTime = 0; }
-    @Override public void convert() { state = !state; converted = true; }
-    @Override public boolean isConverted() { return converted; }
 }
