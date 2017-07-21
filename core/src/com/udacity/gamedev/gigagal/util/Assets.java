@@ -432,9 +432,8 @@ public final class Assets implements AssetErrorListener {
             Array<AtlasRegion> leverRegions = new Array<AtlasRegion>();
             leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_1));
             leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_2));
-            leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_3));
-            leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_5));
             leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_4));
+            leverRegions.add(atlas.findRegion(Constants.LEVER_SPRITE_3));
 
             loadedLever = new Animation(Constants.LEVER_LOAD_DURATION / leverRegions.size,
                     leverRegions, PlayMode.NORMAL);
@@ -495,8 +494,8 @@ public final class Assets implements AssetErrorListener {
 
             tripchamberOn = new Animation(Constants.TRIPCHAMBER_LOAD_DURATION / tripchamberOffRegions.size,
                     tripchamberOnRegions, PlayMode.LOOP);
-            
-            
+
+
             Array<AtlasRegion> gateRegions = new Array<AtlasRegion>();
             gateRegions.add(atlas.findRegion(Constants.GATE_SPRITE_0));
             gateRegions.add(atlas.findRegion(Constants.GATE_SPRITE_1));
