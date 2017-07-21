@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -46,6 +47,9 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 1, ground.getBottom() + 1)) {
+                    if (!loaded) {
+                        resetStartTime();
+                    }
                     loaded = true;
                     underGround = true;
                 } else {
@@ -61,6 +65,7 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
+            Gdx.app.log(TAG, Helpers.secondsSince(startTime) + "");
             Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().loadedLever.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.LEVER_CENTER);
         } else {
             if (startTime == 0) {

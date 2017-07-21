@@ -259,7 +259,7 @@ public final class Constants {
     public static final Vector2 TRIPCHAMBER_CENTER = new Vector2(4.5f, 6);
     public static final String TRIPCHAMBER_SPRITE_1_OFF = "chamber-trip-1-off";
     public static final String TRIPCHAMBER_SPRITE_1_ON = "chamber-trip-1-on";
-    public static final String TRIPCHAMBER_SPRITE_2_OFF = "chamber-trip-2-off";
+    public static final String TRIPCHAMBER_SPRITE_2_OFF = "cham er-trip-2-off";
     public static final String TRIPCHAMBER_SPRITE_2_ON = "chamber-trip-2-on";
     public static final float TRIPCHAMBER_LOAD_DURATION = 0.1f;
     
@@ -273,7 +273,7 @@ public final class Constants {
     public static final float SPRING_UNLOAD_DURATION = 0.5f;
 
     // Lever
-    public static final Vector2 LEVER_CENTER = new Vector2(14.5f, 3f);
+    public static final Vector2 LEVER_CENTER = new Vector2(14.5f, 2.5f);
     public static final String LEVER_SPRITE_1 = "lever-1";
     public static final String LEVER_SPRITE_2 = "lever-2";
     public static final String LEVER_SPRITE_3 = "lever-3";

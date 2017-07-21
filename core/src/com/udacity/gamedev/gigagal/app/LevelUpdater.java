@@ -340,6 +340,9 @@ public class LevelUpdater {
             if (!(ground instanceof Pliable && ((Pliable) ground).isBeingCarried() && ((Pliable) ground).getCarrier() == gigaGal)) {
                 Reboundable reboundable = (Reboundable) ground;
                 if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
+                    if (!reboundable.getState()) {
+                        reboundable.resetStartTime();
+                    }
                     reboundable.setState(true);
                 } else if (reboundable.getState() && !(reboundable instanceof Pliable && ((Pliable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
                     if (ground instanceof Compressible && !((Compressible) ground).underneathGround()) {
