@@ -46,7 +46,7 @@ public class Block extends Barrier implements Draggable {
             velocity.y = -Constants.GRAVITY * 15 * weightFactor();
         }
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-            if (!atopGround || getBottom() == ground.getBottom()) { // prevents setting to unreachable, encompassing ground
+            if (!atopGround || (beingCarried && getBottom() == ground.getBottom())) { // prevents setting to unreachable, encompassing ground
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
                     if (ground instanceof Tripspring) {
                         Gdx.app.log(TAG, position.toString());
