@@ -205,6 +205,8 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     public void update(float delta) {
+        Gdx.app.log(TAG, position.toString());
+
         // positioning
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
@@ -483,20 +485,21 @@ public class GigaGal extends Entity implements Humanoid {
                     Aerial aerial = null;
                     if (moving instanceof Aerial) {
                         aerial = (Aerial) ground;
-                    }
-                    if (ground instanceof Pliable) {
+                    } else if (ground instanceof Pliable) {
+                        if (((Pliable) ground).isAtopMovingGround()) {
+                            if (((Pliable) ground).getMovingGround() instanceof Aerial){
+                                aerial = (Aerial) ((Pliable) ground).getMovingGround();
+                                position.x += aerial.getVelocity().x;
+                            }
+                        } else if (Math.abs(((Pliable) ground).getVelocity().x) > 0) {
+                            position.x = ground.getPosition().x;
+                            velocity.x = ((Pliable) ground).getVelocity().x;
+                        }
                         if (!((Pliable) ground).isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
                             if (InputControls.getInstance().shootButtonJustPressed) {
                                 fall();
                             }
                             canMove = true;
-                        } else if (((Pliable) ground).isAtopMovingGround()) {
-                            if (((Pliable) ground).getMovingGround() instanceof Aerial){
-                                aerial = (Aerial) ((Pliable) ground).getMovingGround();
-                            }
-                        } else if (Math.abs(((Pliable) ground).getVelocity().x) > 0) {
-                            position.x = ground.getPosition().x;
-                            velocity.x = ((Pliable) ground).getVelocity().x;
                         }
                     }
                     if (aerial != null) {
@@ -504,7 +507,7 @@ public class GigaGal extends Entity implements Humanoid {
                         if (aerial.getDirectionY() == Direction.DOWN) {
                             position.y -= 1;
                         } else if (aerial instanceof Dynamic && ((Dynamic) aerial).getOrientation() == Orientation.X) {
-                            position.y += moving.getVelocity().y;
+                            position.y += aerial.getVelocity().y;
                         }
                     }
                 }
