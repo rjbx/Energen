@@ -477,7 +477,7 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                 }
                 if (ground instanceof Moving) {
-                    if (ground instanceof Vehicular) {
+                    if (!((Moving) ground).getVelocity().equals(Vector2.Zero)) {
                         lookStartTime = 0;
                     }
                     Moving moving = (Moving) ground;
@@ -503,7 +503,6 @@ public class GigaGal extends Entity implements Humanoid {
                         }
                     }
                     if (aerial != null) {
-                        lookStartTime = 0;
                         if (aerial.getDirectionY() == Direction.DOWN) {
                             position.y -= 1;
                         } else if (aerial instanceof Dynamic && ((Dynamic) aerial).getOrientation() == Orientation.X) {
