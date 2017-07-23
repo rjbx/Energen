@@ -383,6 +383,7 @@ public class LevelUpdater {
         if (ground instanceof Destructible) {
             if (((Destructible) ground).getHealth() < 1) {
                 if (ground instanceof Box) {
+                    grounds.add(new Brick(ground.getPosition().x, ground.getPosition().y, 10, 10, ((Destructible) ground).getType(), true));
                     assets.getSoundAssets().breakGround.play();
                     active = false;
                 }
