@@ -35,43 +35,47 @@ public class Brick extends Barrier implements Tossable {
         if (beingCarried) {
             position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
             atopGround = false;
-        } else if (!atopGround) {
-            if (!atopGround) {
-                position.mulAdd(velocity, delta);
-            }
+        } else {
+            position.mulAdd(velocity, delta);
             velocity.x /= Constants.DRAG_FACTOR * weightFactor();
             velocity.y = -Constants.GRAVITY * 15 * weightFactor();
-        }
-        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-            if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (ground instanceof Tripspring) {
-                    Gdx.app.log(TAG, velocity.toString());
-                }
-                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
-                        && ground.getWidth() >= this.getWidth() // prevents setting to unreachable, narrower ground
-                        && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
-                    position.y = ground.getTop() + getHeight() / 2;
-                    atopGround = true;
-                    if (ground instanceof Propelling) {
-                        velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
-                    } else if (ground instanceof Skateable) {
-                        if (Math.abs(velocity.x) > 0.005f) {
-                            velocity.x /= 1.005;
-                        } else {
-                            velocity.x = 0;
+            for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+                if (Helpers.overlapsPhysicalObject(this, ground)) {
+                    if (ground instanceof Tripspring) {
+                        Gdx.app.log(TAG, velocity.toString());
+                    }
+                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
+                            && ground.getWidth() >= this.getWidth() // prevents setting to unreachable, narrower ground
+                            && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
+                        position.y = ground.getTop() + getHeight() / 2;
+                        atopGround = true;
+                        if (ground instanceof Pliable) {
+                            position.x = ground.getPosition().x + ((Pliable) ground).getVelocity().x;
+                            position.y = ground.getTop() + getHeight() / 2 + ((Pliable) ground).getVelocity().y;
+                            atopMovingGround = true;
+                            movingGround = (Moving) ground;
                         }
-                        position.x +=  velocity.x * delta;
-                        velocity.y = 0;
-                    } else {
-                        velocity.setZero();
+                        if (ground instanceof Propelling) {
+                            velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
+                        } else if (ground instanceof Skateable) {
+                            if (Math.abs(velocity.x) > 0.005f) {
+                                velocity.x /= 1.005;
+                            } else {
+                                velocity.x = 0;
+                            }
+                            position.x +=  velocity.x * delta;
+                            velocity.y = 0;
+                        } else {
+                            velocity.setZero();
+                        }
+                    } else if (ground.isDense() && !(ground instanceof Pliable) && !(ground instanceof Propelling)) {
+                        if (position.x < ground.getPosition().x) {
+                            position.x = ground.getLeft() - getWidth() / 2;
+                        } else {
+                            position.x = ground.getRight() + getWidth() / 2;
+                        }
+                        velocity.x = 0;
                     }
-                } else if (ground.isDense()) {
-                    if (position.x < ground.getPosition().x) {
-                        position.x = ground.getLeft() - getWidth() / 2;
-                    } else {
-                        position.x = ground.getRight() + getWidth() / 2;
-                    }
-                    velocity.x = 0;
                 }
             }
         }

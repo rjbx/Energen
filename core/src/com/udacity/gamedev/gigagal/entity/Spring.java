@@ -59,7 +59,6 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         if (ground instanceof Pliable) {
                             position.x = ground.getPosition().x + ((Pliable) ground).getVelocity().x;
                             position.y = ground.getTop() + getHeight() / 2 + ((Pliable) ground).getVelocity().y;
-                            atopGround = true;
                             atopMovingGround = true;
                             movingGround = (Moving) ground;
                         }
