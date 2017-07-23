@@ -596,6 +596,7 @@ final class LevelLoader {
         Array<Barrier> barrierArray = new Array<Barrier>();
         Array<Box> boxArray = new Array<Box>();
         Array<Block> blockArray = new Array<Block>();
+        Array<Brick> brickArray = new Array<Brick>();
         Array<Ladder> ladderArray = new Array<Ladder>();
 
         for (Object o : ninePatches) {
@@ -617,14 +618,15 @@ final class LevelLoader {
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BLOCK_SPRITE)) {
-                final Block block;
                 if (width >= 35 && height >= 20) {
-                    block = new Block(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
+                    final Block block = new Block(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
+                    blockArray.add(block);
+                    Gdx.app.log(TAG, "Loaded the block at " + imagePosition.add(new Vector2(width / 2, height / 2)));
                 } else {
-                    block = new Brick(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
+                    final Brick brick = new Brick(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
+                    brickArray.add(brick);
+                    Gdx.app.log(TAG, "Loaded the brick at " + imagePosition.add(new Vector2(width / 2, height / 2)));
                 }
-                blockArray.add(block);
-                Gdx.app.log(TAG, "Loaded the block at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
                 final Ladder ladder = new Ladder(imagePosition.x, imagePosition.y + height, width, height);
                 ladderArray.add(ladder);
@@ -667,6 +669,18 @@ final class LevelLoader {
                 }
             });
 
+            brickArray.sort(new Comparator<Barrier>() {
+                @Override
+                public int compare(Barrier o1, Barrier o2) {
+                    if (o1.getTop() > o2.getTop()) {
+                        return 1;
+                    } else if (o1.getTop() < o2.getTop()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+            });
+
             ladderArray.sort(new Comparator<Ladder>() {
                 @Override
                 public int compare(Ladder o1, Ladder o2) {
@@ -690,6 +704,10 @@ final class LevelLoader {
 
         for (Block block : blockArray) {
             level.addGround(block);
+        }
+
+        for (Brick brick : brickArray) {
+            level.addGround(brick);
         }
 
         for (Ladder ladder : ladderArray) {
