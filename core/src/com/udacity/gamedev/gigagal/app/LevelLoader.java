@@ -618,7 +618,7 @@ final class LevelLoader {
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BLOCK_SPRITE)) {
-                if (width >= 58 && height >= 58 || (width * height) > 700) {
+                if (width >= 50 || height >= 50 || (width * height) >= 1200) {
                     final Block block = new Block(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
                     blockArray.add(block);
                     Gdx.app.log(TAG, "Loaded the block at " + imagePosition.add(new Vector2(width / 2, height / 2)));
