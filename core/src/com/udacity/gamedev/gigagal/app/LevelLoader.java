@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.entity.Block;
 import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.Box;
+import com.udacity.gamedev.gigagal.entity.Brick;
 import com.udacity.gamedev.gigagal.entity.Canirol;
 import com.udacity.gamedev.gigagal.entity.Cannon;
 import com.udacity.gamedev.gigagal.entity.Chamber;
@@ -616,7 +617,12 @@ final class LevelLoader {
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BLOCK_SPRITE)) {
-                final Block block = new Block(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
+                final Block block;
+                if (width >= 35 && height >= 20) {
+                    block = new Block(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
+                } else {
+                    block = new Brick(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
+                }
                 blockArray.add(block);
                 Gdx.app.log(TAG, "Loaded the block at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
