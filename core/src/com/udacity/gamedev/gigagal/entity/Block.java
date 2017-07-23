@@ -55,6 +55,11 @@ public class Block extends Barrier implements Draggable {
                         position.y = ground.getTop() + getHeight() / 2;
                         atopGround = true;
                         velocity.setZero();
+                        if (ground instanceof Propelling) {
+                            velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
+                        } else if (ground instanceof Skateable) {
+
+                        }
                     } else if (ground.isDense()) {
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
