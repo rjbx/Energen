@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.entity.Block;
 import com.udacity.gamedev.gigagal.entity.Box;
+import com.udacity.gamedev.gigagal.entity.Brick;
 import com.udacity.gamedev.gigagal.entity.Ground;
 
 // immutable singleton
@@ -563,7 +564,7 @@ public final class Assets implements AssetErrorListener {
         public final NinePatch getNinePatch(Ground ground) {
             if (ground instanceof Box) {
                 return box;
-            } else if (ground instanceof Block) {
+            } else if (ground instanceof Block || ground instanceof Brick) {
                 return block;
             }
             return barrier;

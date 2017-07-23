@@ -1205,7 +1205,7 @@ public class GigaGal extends Entity implements Humanoid {
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
                 jump();
                 if (aerial != null) {
-                    velocity.y += aerial.getVelocity().y + touchedGround.getHeight();
+                    velocity.y += aerial.getVelocity().y;
                 }
             } else if (turbo < 1) {
                 turbo = 0;
