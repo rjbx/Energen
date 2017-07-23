@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -41,9 +40,6 @@ public class Brick extends Barrier implements Tossable {
             velocity.y = -Constants.GRAVITY * 15 * weightFactor();
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
-                    if (ground instanceof Tripspring) {
-                        Gdx.app.log(TAG, velocity.toString());
-                    }
                     if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
                             && ground.getWidth() >= this.getWidth() // prevents setting to unreachable, narrower ground
                             && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
@@ -63,7 +59,6 @@ public class Brick extends Barrier implements Tossable {
                             } else {
                                 velocity.x = 0;
                             }
-                            position.x +=  velocity.x * delta;
                             velocity.y = 0;
                         } else {
                             velocity.setZero();
