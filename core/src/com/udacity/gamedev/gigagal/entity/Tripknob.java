@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -55,6 +56,14 @@ public class Tripknob extends Ground implements Trippable, Convertible, Strikeab
     public void update(float delta) {
         converted = false;
         previousState = state;
+        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+            if (Helpers.overlapsPhysicalObject(this, ground)) {
+                if (ground instanceof Brick) {
+                    resetStartTime();
+                    setState(!isActive());
+                }
+            }
+        }
     }
 
     @Override
