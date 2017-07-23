@@ -50,5 +50,5 @@ public class Pod extends Ground implements Reboundable, Replenishing {
     @Override public final void setState(boolean state) { this.isActive = state; }
     @Override public final boolean getState() { return isActive; }
     @Override public final void resetStartTime() { this.startTime = 0; }
-    @Override public final float jumpMultiplier() { return Constants.POD_REBOUND_MULTIPLIER; }
+    @Override public final float jumpMultiplier() { return Constants.POD_JUMP_MULTIPLIER; }
 }

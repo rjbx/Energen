@@ -485,34 +485,35 @@ public class GigaGal extends Entity implements Humanoid {
                     } else if (moving instanceof Zoomba && ((Zoomba) moving).getOrientation() == Orientation.X) {
                         position.y += moving.getVelocity().y;
                     }
-                    if (ground instanceof Pliable && !((Pliable) ground).isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
-                        if (InputControls.getInstance().shootButtonJustPressed) {
-                            fall();
-                        }
-                        canMove = true;
-                    }
-                }
-                if (ground instanceof Reboundable) {
-                    if (!(ground instanceof Pliable && ((Pliable) ground).isBeingCarried() && ((Pliable) ground).getCarrier() == this)) {
-                        canClimb = false;
-                        canCling = false;
-                    }
+
                     if (ground instanceof Pliable) {
+                        if (!((Pliable) ground).isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
+                            if (InputControls.getInstance().shootButtonJustPressed) {
+                                fall();
+                            }
+                            canMove = true;
+                        }
                         if (((Pliable) ground).isAtopMovingGround()) {
                             lookStartTime = 0;
                             if (((Pliable) ground).getMovingGround() != null) {
-                                Moving moving = ((Pliable) ground).getMovingGround();
-                                position.x += moving.getVelocity().x;
-                                if (moving instanceof Aerial && ((Aerial) moving).getDirectionY() == Direction.DOWN) {
+                                Moving movingAtop = ((Pliable) ground).getMovingGround();
+                                position.x += movingAtop.getVelocity().x;
+                                if (movingAtop instanceof Aerial && ((Aerial) movingAtop).getDirectionY() == Direction.DOWN) {
                                     position.y -= 1;
-                                } else if (moving instanceof Zoomba && ((Zoomba) moving).getOrientation() == Orientation.X) {
-                                    position.y += moving.getVelocity().y;
+                                } else if (movingAtop instanceof Zoomba && ((Zoomba) movingAtop).getOrientation() == Orientation.X) {
+                                    position.y += movingAtop.getVelocity().y;
                                 }
                             }
                         } else if (Math.abs(((Pliable) ground).getVelocity().x) > 0) {
                             position.x = ground.getPosition().x;
                             velocity.x = ((Pliable) ground).getVelocity().x;
                         }
+                    }
+                }
+                if (ground instanceof Reboundable) {
+                    if (!(ground instanceof Pliable && ((Pliable) ground).isBeingCarried() && ((Pliable) ground).getCarrier() == this)) {
+                        canClimb = false;
+                        canCling = false;
                     }
                 }
                 if (ground instanceof Destructible) {
