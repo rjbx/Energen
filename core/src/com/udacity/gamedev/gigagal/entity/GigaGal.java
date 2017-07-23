@@ -205,7 +205,6 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     public void update(float delta) {
-        Gdx.app.log(TAG, position.toString());
 
         // positioning
         previousFramePosition.set(position);
@@ -477,25 +476,25 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                 }
                 if (ground instanceof Moving) {
-                    if (!((Moving) ground).getVelocity().equals(Vector2.Zero)) {
+                    Moving moving = (Moving) ground;
+                    if (!moving.getVelocity().equals(Vector2.Zero)) {
                         lookStartTime = 0;
                     }
-                    Moving moving = (Moving) ground;
                     position.x += moving.getVelocity().x;
                     Aerial aerial = null;
                     if (moving instanceof Aerial) {
                         aerial = (Aerial) ground;
                     } else if (ground instanceof Pliable) {
-                        if (((Pliable) ground).isAtopMovingGround()) {
-                            if (((Pliable) ground).getMovingGround() instanceof Aerial){
-                                aerial = (Aerial) ((Pliable) ground).getMovingGround();
+                        Pliable pliable = (Pliable) moving;
+                        if (pliable.isAtopMovingGround()) {
+                            if (pliable.getMovingGround() instanceof Dynamic){
+                                aerial = (Dynamic) pliable.getMovingGround();
                                 position.x += aerial.getVelocity().x;
                             }
-                        } else if (Math.abs(((Pliable) ground).getVelocity().x) > 0) {
-                            position.x = ground.getPosition().x;
-                            velocity.x = ((Pliable) ground).getVelocity().x;
+                        } else if (Math.abs(pliable.getVelocity().x) > 0) {
+                            position.x = pliable.getPosition().x;
                         }
-                        if (!((Pliable) ground).isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
+                        if (!pliable.isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
                             if (InputControls.getInstance().shootButtonJustPressed) {
                                 fall();
                             }
@@ -1185,9 +1184,15 @@ public class GigaGal extends Entity implements Humanoid {
             canHurdle = false;
         } else {
             lookStartTime = 0;
-            if (action == Action.RAPPELLING && touchedGround instanceof Aerial) {
-                velocity.x += ((Aerial) touchedGround).getVelocity().x;
-                position.y = touchedGround.getPosition().y;
+            Aerial aerial = null;
+            if (touchedGround instanceof Aerial) {
+                aerial = (Aerial) touchedGround;
+            } else if (touchedGround instanceof Pliable && ((Pliable) touchedGround).getMovingGround() instanceof Aerial) {
+                aerial = (Aerial) ((Pliable) touchedGround).getMovingGround();
+            }
+            if (aerial != null) {
+                velocity.x += aerial.getVelocity().x;
+                position.y = aerial.getPosition().y + touchedGround.getHeight();
             }
             if (inputControls.downButtonPressed) {
                 velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
@@ -1197,8 +1202,8 @@ public class GigaGal extends Entity implements Humanoid {
                 directionX = Helpers.getOppositeDirection(directionX);
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
                 jump();
-                if (touchedGround instanceof Aerial) {
-                    velocity.y += ((Vehicular) touchedGround).getVelocity().y + touchedGround.getHeight();
+                if (aerial != null) {
+                    velocity.y += aerial.getVelocity().y + touchedGround.getHeight();
                 }
             } else if (turbo < 1) {
                 turbo = 0;
