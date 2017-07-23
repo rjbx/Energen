@@ -25,7 +25,7 @@ public class Block extends Barrier implements Draggable {
 
     // ctor
     public Block(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
-        super(xPos, yPos, width, height, type, dense);
+        super(xPos, yPos, Math.max(width, 35), Math.max(height, 20), type, dense);
         loaded = false;
         beingCarried = false;
         atopGround = false;
