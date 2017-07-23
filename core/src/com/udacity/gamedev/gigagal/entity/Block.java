@@ -51,8 +51,7 @@ public class Block extends Barrier implements Draggable {
                     if (ground instanceof Tripspring) {
                         Gdx.app.log(TAG, position.toString());
                     }
-                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
-                            && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
+                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())) { // prevents setting to unreachable, narrower ground
                         position.y = ground.getTop() + getHeight() / 2;
                         atopGround = true;
                         velocity.setZero();
@@ -97,4 +96,5 @@ public class Block extends Barrier implements Draggable {
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(.67f, ((getWidth() * getHeight()) / 3600)); }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
+    @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried; }
 }
