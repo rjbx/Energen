@@ -43,28 +43,35 @@ public class Brick extends Barrier implements Tossable {
             velocity.y = -Constants.GRAVITY * 15 * weightFactor();
         }
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-            if (!atopGround || (beingCarried && getBottom() == ground.getBottom())) { // prevents setting to unreachable, encompassing ground
-                if (Helpers.overlapsPhysicalObject(this, ground)) {
-                    if (ground instanceof Tripspring) {
-                        Gdx.app.log(TAG, position.toString());
-                    }
-                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())) { // prevents setting to unreachable, narrower ground
-                        position.y = ground.getTop() + getHeight() / 2;
-                        atopGround = true;
-                        velocity.setZero();
-                        if (ground instanceof Propelling) {
-                            velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
-                        } else if (ground instanceof Skateable) {
-
-                        }
-                    } else if (ground.isDense()) {
-                        if (position.x < ground.getPosition().x) {
-                            position.x = ground.getLeft() - getWidth() / 2;
+            if (Helpers.overlapsPhysicalObject(this, ground)) {
+                if (ground instanceof Tripspring) {
+                    Gdx.app.log(TAG, velocity.toString());
+                }
+                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
+                        && ground.getWidth() >= this.getWidth() // prevents setting to unreachable, narrower ground
+                        && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
+                    position.y = ground.getTop() + getHeight() / 2;
+                    atopGround = true;
+                    if (ground instanceof Propelling) {
+                        velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
+                    } else if (ground instanceof Skateable) {
+                        if (Math.abs(velocity.x) > 0.005f) {
+                            velocity.x /= 1.005;
                         } else {
-                            position.x = ground.getRight() + getWidth() / 2;
+                            velocity.x = 0;
                         }
-                        velocity.x = 0;
+                        position.x +=  velocity.x * delta;
+                        velocity.y = 0;
+                    } else {
+                        velocity.setZero();
                     }
+                } else if (ground.isDense()) {
+                    if (position.x < ground.getPosition().x) {
+                        position.x = ground.getLeft() - getWidth() / 2;
+                    } else {
+                        position.x = ground.getRight() + getWidth() / 2;
+                    }
+                    velocity.x = 0;
                 }
             }
         }

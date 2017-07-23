@@ -56,7 +56,6 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                             && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                         position.y = ground.getTop() + getHeight() / 2;
                         atopGround = true;
-                        velocity.setZero();
                         if (ground instanceof Pliable) {
                             position.x = ground.getPosition().x + ((Pliable) ground).getVelocity().x;
                             position.y = ground.getTop() + getHeight() / 2 + ((Pliable) ground).getVelocity().y;
@@ -66,6 +65,16 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         }
                         if (ground instanceof Propelling) {
                             velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
+                        } else if (ground instanceof Skateable) {
+                            if (Math.abs(velocity.x) > 0.005f) {
+                                velocity.x /= 1.005;
+                            } else {
+                                velocity.x = 0;
+                            }
+                            position.x +=  velocity.x * delta;
+                            velocity.y = 0;
+                        } else {
+                            velocity.setZero();
                         }
                     } else if (ground.isDense() && !(ground instanceof Pliable) && !(ground instanceof Propelling)) {
                         if (position.x < ground.getPosition().x) {
