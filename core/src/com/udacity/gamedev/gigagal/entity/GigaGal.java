@@ -994,7 +994,6 @@ public class GigaGal extends Entity implements Humanoid {
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.STRIDE_TURBO_INCREMENT;
         }
-        canLook = false;
         if (strideStartTime == 0) {
             strideSpeed = velocity.x;
             action = Action.STRIDING;
