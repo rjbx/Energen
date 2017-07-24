@@ -924,7 +924,6 @@ public class GigaGal extends Entity implements Humanoid {
             canStride = false;
             canDash = false;
             canHover = false;
-            canLook = false;
             canCling = false;
             canClimb = false;
             canRappel = false;
