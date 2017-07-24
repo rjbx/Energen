@@ -63,7 +63,7 @@ public class Brick extends Barrier implements Tossable {
                         } else {
                             velocity.setZero();
                         }
-                    } else if (ground.isDense() && !(ground instanceof Pliable) && !(ground instanceof Propelling)) {
+                    } else if (ground.isDense() && !(ground instanceof Pliable) && !(ground instanceof Propelling) && !(ground instanceof Box && ((Box) ground).getHealth() < 1)) {
                         float bounceBack = 0;
                         if (ground instanceof Tripknob && ((Tripknob) ground).isConverted()) {
                             bounceBack = 5;
