@@ -325,9 +325,6 @@ public class GigaGal extends Entity implements Humanoid {
                     lookTimeSeconds = 0;
                 } else if (!(ground instanceof Pliable) || !(canClimb && directionY == Direction.UP)) { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
                     canCling = false;
-                    if (canRappel && !(touchedGround instanceof Rappelable && touchedGround.isDense())) { // prevents from deactivating rappel when rappelable touchedground superimposed over this non-dense ground
-                        canRappel = false; // prevents rappel after touching the side of in the course of jumping over a rappelable ground
-                    }
                     if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
                         touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                     }
@@ -460,7 +457,7 @@ public class GigaGal extends Entity implements Humanoid {
 
     // applicable to all dense grounds as well as non-sinkables when not climbing downward
     private void touchGroundTop(Groundable ground) {
-        if (!(touchedGround != null && !touchedGround.equals(ground)
+        if (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && ground.isDense()
                 && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground top detected, halt downward progression and set gigagal atop ground
             if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
