@@ -462,7 +462,7 @@ public class GigaGal extends Entity implements Humanoid {
                 && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground top detected, halt downward progression and set gigagal atop ground
             if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 2) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
-                if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, ground.getLeft() + 1, ground.getRight() - 1) || action != Action.FALLING || ground instanceof Moving)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground sides
+                if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, ground.getLeft() + 1, ground.getRight() - 1) || action != Action.FALLING || ground instanceof Aerial)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground sides
                     velocity.y = 0; // prevents from descending beneath ground top
                     position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                     setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
