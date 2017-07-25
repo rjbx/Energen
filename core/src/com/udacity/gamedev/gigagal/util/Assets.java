@@ -189,51 +189,51 @@ public final class Assets implements AssetErrorListener {
             Array<AtlasRegion> hoverLeftFrames = new Array<AtlasRegion>();
             hoverLeftFrames.add(atlas.findRegion(Constants.HOVER_LEFT_1));
             hoverLeftFrames.add(atlas.findRegion(Constants.HOVER_LEFT_2));
-            hoverLeft = new Animation(Constants.HOVER_LOOP_DURATION, hoverLeftFrames, PlayMode.LOOP);
+            hoverLeft = new Animation(Constants.HOVER_FRAME_DURATION, hoverLeftFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> hoverRightFrames = new Array<AtlasRegion>();
             hoverRightFrames.add(atlas.findRegion(Constants.HOVER_RIGHT_1));
             hoverRightFrames.add(atlas.findRegion(Constants.HOVER_RIGHT_2));
-            hoverRight = new Animation(Constants.HOVER_LOOP_DURATION, hoverRightFrames, PlayMode.LOOP);
+            hoverRight = new Animation(Constants.HOVER_FRAME_DURATION, hoverRightFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> strideLeftFrames = new Array<AtlasRegion>();
             strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_2));
             strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_3));
             strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_2));
             strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_1));
-            strideLeft = new Animation(Constants.STRIDE_LOOP_DURATION, strideLeftFrames, PlayMode.LOOP);
+            strideLeft = new Animation(Constants.STRIDE_FRAME_DURATION, strideLeftFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> strideRightFrames = new Array<AtlasRegion>();
             strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_2));
             strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_1));
             strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_2));
             strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_3));
-            strideRight = new Animation(Constants.STRIDE_LOOP_DURATION, strideRightFrames, PlayMode.LOOP);
+            strideRight = new Animation(Constants.STRIDE_FRAME_DURATION, strideRightFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> climbFrames = new Array<AtlasRegion>();
             climbFrames.add(atlas.findRegion(Constants.CLIMB_1));
             climbFrames.add(atlas.findRegion(Constants.CLIMB_2));
-            climb = new Animation(Constants.CLIMB_LOOP_DURATION, climbFrames, PlayMode.LOOP);
+            climb = new Animation(Constants.CLIMB_FRAME_DURATION, climbFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> lookupHoverLeftFrames = new Array<AtlasRegion>();
             lookupHoverLeftFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_LEFT_1));
             lookupHoverLeftFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_LEFT_2));
-            lookupHoverLeft = new Animation(Constants.HOVER_LOOP_DURATION, lookupHoverLeftFrames, PlayMode.LOOP);
+            lookupHoverLeft = new Animation(Constants.HOVER_FRAME_DURATION, lookupHoverLeftFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> lookupHoverRightFrames = new Array<AtlasRegion>();
             lookupHoverRightFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_RIGHT_1));
             lookupHoverRightFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_RIGHT_2));
-            lookupHoverRight = new Animation(Constants.HOVER_LOOP_DURATION, lookupHoverRightFrames, PlayMode.LOOP);
+            lookupHoverRight = new Animation(Constants.HOVER_FRAME_DURATION, lookupHoverRightFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> lookdownHoverLeftFrames = new Array<AtlasRegion>();
             lookdownHoverLeftFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_LEFT_1));
             lookdownHoverLeftFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_LEFT_2));
-            lookdownHoverLeft = new Animation(Constants.HOVER_LOOP_DURATION, lookdownHoverLeftFrames, PlayMode.LOOP);
+            lookdownHoverLeft = new Animation(Constants.HOVER_FRAME_DURATION, lookdownHoverLeftFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> lookdownHoverRightFrames = new Array<AtlasRegion>();
             lookdownHoverRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_RIGHT_1));
             lookdownHoverRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_RIGHT_2));
-            lookdownHoverRight = new Animation(Constants.HOVER_LOOP_DURATION, lookdownHoverRightFrames, PlayMode.LOOP);
+            lookdownHoverRight = new Animation(Constants.HOVER_FRAME_DURATION, lookdownHoverRightFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> backflipRightFrames = new Array<AtlasRegion>();
             backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_1));
@@ -241,7 +241,7 @@ public final class Assets implements AssetErrorListener {
             backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_3));
             backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_4));
             backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_5));
-            backflipRight = new Animation(Constants.SWIPE_FLIP_LOOP_DURATION, backflipRightFrames, PlayMode.LOOP);
+            backflipRight = new Animation(Constants.SWIPE_FLIP_FRAME_DURATION, backflipRightFrames, PlayMode.LOOP);
         }
     }
 

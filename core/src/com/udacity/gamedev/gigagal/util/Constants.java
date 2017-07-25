@@ -130,23 +130,23 @@ public final class Constants {
     public static final String HOVER_LEFT_1 = "gg-hover-1-left";
     public static final String HOVER_RIGHT_2 = "gg-hover-2-right";
     public static final String HOVER_LEFT_2 = "gg-hover-2-left";
-    public static final float HOVER_LOOP_DURATION = 0.05f;
+    public static final float HOVER_FRAME_DURATION = 0.05f;
     public static final String STRIDE_RIGHT_1 = "gg-stride-1-right";
     public static final String STRIDE_LEFT_1 = "gg-stride-1-left";
     public static final String STRIDE_RIGHT_2 = "gg-stride-2-right";
     public static final String STRIDE_LEFT_2 = "gg-stride-2-left";
     public static final String STRIDE_RIGHT_3 = "gg-stride-3-right";
     public static final String STRIDE_LEFT_3 = "gg-stride-3-left";
-    public static final float STRIDE_LOOP_DURATION = 0.1f;
+    public static final float STRIDE_FRAME_DURATION = 0.1f;
     public static final String CLIMB_1 = "gg-climb-1";
     public static final String CLIMB_2 = "gg-climb-2";
-    public static final float CLIMB_LOOP_DURATION = 0.25f;
+    public static final float CLIMB_FRAME_DURATION = 0.25f;
     public static final String SWIPE_FLIP_RIGHT_1 = "gg-swipe-flip-1-right";
     public static final String SWIPE_FLIP_RIGHT_2 = "gg-swipe-flip-2-right";
     public static final String SWIPE_FLIP_RIGHT_3 = "gg-swipe-flip-3-right";
     public static final String SWIPE_FLIP_RIGHT_4 = "gg-swipe-flip-4-right";
     public static final String SWIPE_FLIP_RIGHT_5 = "gg-swipe-flip-5-right";
-    public static final float SWIPE_FLIP_LOOP_DURATION = 1;
+    public static final float SWIPE_FLIP_FRAME_DURATION = .25f;
 
     // Boss
     public static final String BOSS_SPRITE = "beast";
