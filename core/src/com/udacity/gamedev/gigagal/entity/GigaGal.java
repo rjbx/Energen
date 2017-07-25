@@ -575,6 +575,8 @@ public class GigaGal extends Entity implements Humanoid {
                 canRappel = false;
                 touchedGround = null; // after handling touchedground conditions above
             }
+        } else if (canRappel && !(touchedGround instanceof Rappelable) && touchedGround.isDense()) { // prevents rappel after touching the side of in the course of jumping over a rappelable ground
+            canRappel = false;
         } else if (action == Action.STANDING || action == Action.STRIDING || action == Action.CLIMBING) { // if no ground detected and suspended midair (prevents climb after crossing climbable plane)
             fall();
         }
