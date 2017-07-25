@@ -430,6 +430,7 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     private void touchGroundBottom(Groundable ground) {
+        // ignores case where simultaneously touching two separate dense grounds (since side collision does not apply) with same side position to prevent interrupting fall
         if (!(touchedGround != null && !touchedGround.equals(ground)
                 && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
@@ -461,7 +462,7 @@ public class GigaGal extends Entity implements Humanoid {
                 && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground top detected, halt downward progression and set gigagal atop ground
             if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
-                if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, ground.getLeft() + 1, ground.getRight() - 1) || action != Action.FALLING)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground sides
+                if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, ground.getLeft() + 1, ground.getRight() - 1) || action != Action.FALLING || touchedGround instanceof Moving || ground instanceof Moving)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground sides
                     velocity.y = 0; // prevents from descending beneath ground top
                     position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                     setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
@@ -484,10 +485,10 @@ public class GigaGal extends Entity implements Humanoid {
                     Aerial aerial = null;
                     if (moving instanceof Aerial) {
                         aerial = (Aerial) ground;
-                    } else if (ground instanceof Pliable) {
+                    } else if (moving instanceof Pliable) {
                         Pliable pliable = (Pliable) moving;
                         if (pliable.isAtopMovingGround()) {
-                            if (pliable.getMovingGround() instanceof Dynamic){
+                            if (pliable.getMovingGround() instanceof Dynamic) {
                                 aerial = (Dynamic) pliable.getMovingGround();
                                 position.x += aerial.getVelocity().x;
                             }
