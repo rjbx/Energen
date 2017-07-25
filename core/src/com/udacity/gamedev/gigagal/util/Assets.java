@@ -608,6 +608,7 @@ public final class Assets implements AssetErrorListener {
         public final Animation antimatterBlast;
         public final Animation hybridShot;
         public final Animation hybridBlast;
+        public final Animation backflipSwipeRight;
 
         private AmmoAssets(TextureAtlas atlas) {
 
@@ -699,6 +700,13 @@ public final class Assets implements AssetErrorListener {
             hybridBlastRegions.add(atlas.findRegion(Constants.BLAST_HYBRID_SPRITE_2));
             hybridBlastRegions.add(atlas.findRegion(Constants.BLAST_HYBRID_SPRITE_3));
             hybridBlast = new Animation(Constants.SHOT_FRAME_DURATION, hybridBlastRegions, PlayMode.LOOP);
+
+            Array<AtlasRegion> backflipSwipeRegions = new Array<AtlasRegion>();
+            backflipSwipeRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_1));
+            backflipSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_3));
+            backflipSwipeRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_3));
+            backflipSwipeRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_4));
+            backflipSwipeRight = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, backflipSwipeRegions, PlayMode.LOOP);
         }
     }
     

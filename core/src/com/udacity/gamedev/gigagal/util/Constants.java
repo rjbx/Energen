@@ -684,6 +684,9 @@ public final class Constants {
     public static final String FLIPSWIPE_NATIVE_SPRITE_1 = "blade-flip-native-1";
     public static final String FLIPSWIPE_NATIVE_SPRITE_2 = "blade-flip-native-2";
     public static final String FLIPSWIPE_NATIVE_SPRITE_3 = "blade-flip-native-3";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_4 = "blade-flip-native-4";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_5 = "blade-flip-native-5";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_6 = "blade-flip-native-6";
     public static final String SIDESWIPE_NATIVE_SPRITE_1 = "blade-side-native-1";
     public static final String SIDESWIPE_NATIVE_SPRITE_2 = "blade-side-native-2";
     public static final String SIDESWIPE_NATIVE_SPRITE_3 = "blade-side-native-3";
