@@ -157,7 +157,8 @@ public final class Assets implements AssetErrorListener {
         public final Animation strideLeft;
         public final Animation strideRight;
         public final Animation backflipRight;
-//        public final Animation frontflipRight;
+        public final Animation frontflipRight;
+        public final Animation punchRight;
         public final Animation climb;
 
         private GigaGalAssets(TextureAtlas atlas) {
@@ -236,12 +237,20 @@ public final class Assets implements AssetErrorListener {
             lookdownHoverRight = new Animation(Constants.HOVER_FRAME_DURATION, lookdownHoverRightFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> backflipRightFrames = new Array<AtlasRegion>();
-            backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_1));
-            backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_2));
-            backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_3));
-            backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_4));
-            backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_5));
-            backflipRight = new Animation(Constants.SWIPE_FLIP_FRAME_DURATION, backflipRightFrames, PlayMode.LOOP);
+            backflipRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_1));
+            backflipRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_2));
+            backflipRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_3));
+            backflipRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_4));
+            backflipRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_5));
+            backflipRight = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, backflipRightFrames, PlayMode.NORMAL);
+
+            frontflipRight = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, backflipRightFrames, PlayMode.REVERSED);
+
+            Array<AtlasRegion> punchRightFrames = new Array<AtlasRegion>();
+            punchRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_1));
+            punchRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_2));
+            punchRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_3));
+            punchRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, punchRightFrames, PlayMode.NORMAL);
         }
     }
 

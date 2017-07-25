@@ -141,12 +141,16 @@ public final class Constants {
     public static final String CLIMB_1 = "gg-climb-1";
     public static final String CLIMB_2 = "gg-climb-2";
     public static final float CLIMB_FRAME_DURATION = 0.25f;
-    public static final String SWIPE_FLIP_RIGHT_1 = "gg-swipe-flip-1-right";
-    public static final String SWIPE_FLIP_RIGHT_2 = "gg-swipe-flip-2-right";
-    public static final String SWIPE_FLIP_RIGHT_3 = "gg-swipe-flip-3-right";
-    public static final String SWIPE_FLIP_RIGHT_4 = "gg-swipe-flip-4-right";
-    public static final String SWIPE_FLIP_RIGHT_5 = "gg-swipe-flip-5-right";
-    public static final float SWIPE_FLIP_FRAME_DURATION = .085f;
+    public static final String FLIPSWIPE_RIGHT_1 = "gg-swipe-flip-1-right";
+    public static final String FLIPSWIPE_RIGHT_2 = "gg-swipe-flip-2-right";
+    public static final String FLIPSWIPE_RIGHT_3 = "gg-swipe-flip-3-right";
+    public static final String FLIPSWIPE_RIGHT_4 = "gg-swipe-flip-4-right";
+    public static final String FLIPSWIPE_RIGHT_5 = "gg-swipe-flip-5-right";
+    public static final float FLIPSWIPE_FRAME_DURATION = .085f;
+    public static final String SIDESWIPE_RIGHT_1 = "gg-swipe-flip-1-right";
+    public static final String SIDESWIPE_RIGHT_2 = "gg-swipe-flip-2-right";
+    public static final String SIDESWIPE_RIGHT_3 = "gg-swipe-flip-3-right";
+    public static final float SIDESWIPE_FRAME_DURATION = .085f;
 
     // Boss
     public static final String BOSS_SPRITE = "beast";
@@ -675,6 +679,14 @@ public final class Constants {
     public static final String BLAST_HYBRID_SPRITE_1 = "ammo-blast-hybrid-1";
     public static final String BLAST_HYBRID_SPRITE_2 = "ammo-blast-hybrid-2";
     public static final String BLAST_HYBRID_SPRITE_3 = "ammo-blast-hybrid-3";
+    
+    // Blade
+    public static final String FLIPSWIPE_NATIVE_SPRITE_1 = "blade-flip-native-1";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_2 = "blade-flip-native-2";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_3 = "blade-flip-native-3";
+    public static final String SIDESWIPE_NATIVE_SPRITE_1 = "blade-side-native-1";
+    public static final String SIDESWIPE_NATIVE_SPRITE_2 = "blade-side-native-2";
+    public static final String SIDESWIPE_NATIVE_SPRITE_3 = "blade-side-native-3";
 
     // Impact
     public static final Vector2 EXPLOSION_CENTER = new Vector2(8, 8);
