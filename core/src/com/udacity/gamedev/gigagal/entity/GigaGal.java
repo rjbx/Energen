@@ -74,6 +74,7 @@ public class GigaGal extends Entity implements Humanoid {
     private boolean canHurdle;
     private boolean canBounce;
     private boolean canMove;
+    private boolean canFlip;
     private long chargeStartTime;
     private long standStartTime;
     private long lookStartTime;
@@ -85,10 +86,12 @@ public class GigaGal extends Entity implements Humanoid {
     private long climbStartTime;
     private long strideStartTime;
     private long recoveryStartTime;
+    private long flipStartTime;
     private float chargeTimeSeconds;
     private float lookTimeSeconds;
     private float dashTimeSeconds;
     private float hoverTimeSeconds;
+    private float flipTimeSeconds;
     private float strideTimeSeconds;
     private float strideSpeed;
     private float strideAcceleration;
@@ -267,6 +270,16 @@ public class GigaGal extends Entity implements Humanoid {
                 enableRappel();
                 enableShoot(weapon);
             }
+        }
+        if (inputControls.shootButtonPressed && inputControls.jumpButtonPressed) {
+            if (flipStartTime == 0) {
+                flipStartTime = TimeUtils.nanoTime();
+            }
+            flipTimeSeconds = Helpers.secondsSince(flipStartTime);
+            canFlip = true;
+        } else {
+            flipStartTime = 0;
+            canFlip = false;
         }
     }
 
@@ -1278,7 +1291,9 @@ public class GigaGal extends Entity implements Humanoid {
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (directionX == Direction.RIGHT) {
-            if (lookStartTime != 0) {
+            if (canFlip) {
+                region = Assets.getInstance().getGigaGalAssets().backflipRight.getKeyFrame(flipTimeSeconds);
+            } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
                     if (action == Action.FALLING || action == Action.CLIMBING) {

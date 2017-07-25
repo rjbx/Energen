@@ -156,6 +156,8 @@ public final class Assets implements AssetErrorListener {
         public final Animation lookdownHoverRight;
         public final Animation strideLeft;
         public final Animation strideRight;
+        public final Animation backflipRight;
+//        public final Animation frontflipRight;
         public final Animation climb;
 
         private GigaGalAssets(TextureAtlas atlas) {
@@ -232,6 +234,14 @@ public final class Assets implements AssetErrorListener {
             lookdownHoverRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_RIGHT_1));
             lookdownHoverRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_RIGHT_2));
             lookdownHoverRight = new Animation(Constants.HOVER_LOOP_DURATION, lookdownHoverRightFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> backflipRightFrames = new Array<AtlasRegion>();
+            backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_1));
+            backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_2));
+            backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_3));
+            backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_4));
+            backflipRightFrames.add(atlas.findRegion(Constants.SWIPE_FLIP_RIGHT_5));
+            backflipRight = new Animation(Constants.SWIPE_FLIP_LOOP_DURATION, backflipRightFrames, PlayMode.LOOP);
         }
     }
 
