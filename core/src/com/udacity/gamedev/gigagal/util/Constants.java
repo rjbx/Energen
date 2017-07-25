@@ -141,11 +141,11 @@ public final class Constants {
     public static final String CLIMB_1 = "gg-climb-1";
     public static final String CLIMB_2 = "gg-climb-2";
     public static final float CLIMB_LOOP_DURATION = 0.25f;
-    public static final String SWIPE_FLIP_RIGHT_1 = "gg-swipe_flip-1-right";
-    public static final String SWIPE_FLIP_RIGHT_2 = "gg-swipe_flip-2-right";
-    public static final String SWIPE_FLIP_RIGHT_3 = "gg-swipe_flip-3-right";
-    public static final String SWIPE_FLIP_RIGHT_4 = "gg-swipe_flip-4-right";
-    public static final String SWIPE_FLIP_RIGHT_5 = "gg-swipe_flip-5-right";
+    public static final String SWIPE_FLIP_RIGHT_1 = "gg-swipe-flip-1-right";
+    public static final String SWIPE_FLIP_RIGHT_2 = "gg-swipe-flip-2-right";
+    public static final String SWIPE_FLIP_RIGHT_3 = "gg-swipe-flip-3-right";
+    public static final String SWIPE_FLIP_RIGHT_4 = "gg-swipe-flip-4-right";
+    public static final String SWIPE_FLIP_RIGHT_5 = "gg-swipe-flip-5-right";
     public static final float SWIPE_FLIP_LOOP_DURATION = 1;
 
     // Boss
