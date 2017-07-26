@@ -75,6 +75,7 @@ public class GigaGal extends Entity implements Humanoid {
     private boolean canBounce;
     private boolean canMove;
     private boolean canFlip;
+    private boolean canRush;
     private long chargeStartTime;
     private long standStartTime;
     private long lookStartTime;
@@ -87,11 +88,13 @@ public class GigaGal extends Entity implements Humanoid {
     private long strideStartTime;
     private long recoveryStartTime;
     private long flipStartTime;
+    private long rushStartTime;
     private float chargeTimeSeconds;
     private float lookTimeSeconds;
     private float dashTimeSeconds;
     private float hoverTimeSeconds;
     private float flipTimeSeconds;
+    private float rushTimeSeconds;
     private float strideTimeSeconds;
     private float strideSpeed;
     private float strideAcceleration;
@@ -197,12 +200,15 @@ public class GigaGal extends Entity implements Humanoid {
         canSink = false;
         canMove = false;
         canBounce = false;
+        canFlip = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         climbStartTime = 0;
         jumpStartTime = 0;
         fallStartTime = 0;
         dashStartTime = 0;
+        flipStartTime = 0;
+        rushStartTime = 0;
         standStartTime = TimeUtils.nanoTime();
         recoveryStartTime = TimeUtils.nanoTime();
     }
@@ -271,7 +277,7 @@ public class GigaGal extends Entity implements Humanoid {
                 enableShoot(weapon);
             }
         }
-        if (inputControls.shootButtonPressed && inputControls.jumpButtonPressed) {
+        if (inputControls.shootButtonPressed && inputControls.jumpButtonJustPressed) {
             if (flipStartTime == 0) {
                 flipStartTime = TimeUtils.nanoTime();
             }
@@ -280,6 +286,17 @@ public class GigaGal extends Entity implements Humanoid {
         } else {
             flipStartTime = 0;
             canFlip = false;
+        }
+
+        if (canDash && chargeTimeSeconds > Constants.CHARGE_DURATION) {
+            if (rushStartTime == 0) {
+                rushStartTime = TimeUtils.nanoTime();
+            }
+            rushTimeSeconds = Helpers.secondsSince(flipStartTime);
+            canRush  = true;
+        } else {
+            flipStartTime = 0;
+            canRush = false;
         }
     }
 
@@ -1392,6 +1409,8 @@ public class GigaGal extends Entity implements Humanoid {
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);
         if (canFlip) {
             Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().backflipSwipeRight.getKeyFrame(flipTimeSeconds), position, Constants.FLIPSWIPE_CENTER);
+        } else if (canRush) {
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().sideSwipeRight.getKeyFrame(rushTimeSeconds), position, Constants.FLIPSWIPE_CENTER);
         }
     }
 
