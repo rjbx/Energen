@@ -277,14 +277,19 @@ public class GigaGal extends Entity implements Humanoid {
                 enableShoot(weapon);
             }
         }
-        if (inputControls.shootButtonPressed && inputControls.jumpButtonJustPressed) {
-            if (flipStartTime == 0) {
+        if (inputControls.shootButtonPressed) {
+            if (inputControls.jumpButtonJustPressed && flipStartTime == 0) {
                 flipStartTime = TimeUtils.nanoTime();
+                flipTimeSeconds = 0;
                 canFlip = true;
             }
-        } else if (canFlip && inputControls.jumpButtonPressed) {
-            flipTimeSeconds = Helpers.secondsSince(flipStartTime);
-        } else if (!inputControls.jumpButtonPressed){
+            if (flipTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
+                flipTimeSeconds = Helpers.secondsSince(flipStartTime);
+            } else { // auto deactivation when animation completes
+                flipStartTime = 0;
+                canFlip = false;
+            }
+        } else { // manual deactivation by shoot button release
             flipStartTime = 0;
             canFlip = false;
         }
@@ -1361,7 +1366,11 @@ public class GigaGal extends Entity implements Humanoid {
                 region = Assets.getInstance().getGigaGalAssets().fallRight;
             }
         } else if (directionX == Direction.LEFT) {
-            if (lookStartTime != 0) {
+            if (canFlip) {
+                region = Assets.getInstance().getGigaGalAssets().backflipRight.getKeyFrame(flipTimeSeconds);
+            } else if (canRush) {
+                region = Assets.getInstance().getGigaGalAssets().forehandRight.getKeyFrame(rushTimeSeconds);
+            } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
