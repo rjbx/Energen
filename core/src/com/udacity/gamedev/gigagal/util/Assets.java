@@ -158,7 +158,8 @@ public final class Assets implements AssetErrorListener {
         public final Animation strideRight;
         public final Animation backflipRight;
         public final Animation frontflipRight;
-        public final Animation punchRight;
+        public final Animation forehandRight;
+        public final Animation backhandRight;
         public final Animation climb;
 
         private GigaGalAssets(TextureAtlas atlas) {
@@ -250,7 +251,9 @@ public final class Assets implements AssetErrorListener {
             punchRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_1));
             punchRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_2));
             punchRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_3));
-            punchRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, punchRightFrames, PlayMode.NORMAL);
+            forehandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, punchRightFrames, PlayMode.NORMAL);
+
+            backhandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, punchRightFrames, PlayMode.REVERSED);
         }
     }
 
@@ -609,7 +612,8 @@ public final class Assets implements AssetErrorListener {
         public final Animation hybridShot;
         public final Animation hybridBlast;
         public final Animation backflipSwipeRight;
-        public final Animation sideSwipeRight;
+        public final Animation forehandRight;
+        public final Animation backhandRight;
 
         private AmmoAssets(TextureAtlas atlas) {
 
@@ -714,7 +718,9 @@ public final class Assets implements AssetErrorListener {
             sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_1));
             sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_2));
             sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_3));
-            sideSwipeRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeRegions, PlayMode.NORMAL);
+            forehandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeRegions, PlayMode.NORMAL);
+
+            backhandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeRegions, PlayMode.REVERSED);
         }
     }
     

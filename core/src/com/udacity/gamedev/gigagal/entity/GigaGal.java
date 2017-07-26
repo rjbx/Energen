@@ -1312,7 +1312,7 @@ public class GigaGal extends Entity implements Humanoid {
             if (canFlip) {
                 region = Assets.getInstance().getGigaGalAssets().backflipRight.getKeyFrame(flipTimeSeconds);
             } else if (canRush) {
-                region = Assets.getInstance().getGigaGalAssets().punchRight.getKeyFrame(rushTimeSeconds);
+                region = Assets.getInstance().getGigaGalAssets().forehandRight.getKeyFrame(rushTimeSeconds);
             } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
@@ -1413,7 +1413,7 @@ public class GigaGal extends Entity implements Humanoid {
         if (canFlip) {
             Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().backflipSwipeRight.getKeyFrame(flipTimeSeconds), position, Constants.FLIPSWIPE_CENTER);
         } else if (canRush) {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().sideSwipeRight.getKeyFrame(rushTimeSeconds), position, Constants.SIDESWIPE_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().forehandRight.getKeyFrame(rushTimeSeconds), position, Constants.SIDESWIPE_CENTER);
         }
     }
 
