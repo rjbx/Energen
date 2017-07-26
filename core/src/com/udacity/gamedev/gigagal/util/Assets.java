@@ -252,6 +252,9 @@ public final class Assets implements AssetErrorListener {
             punchRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_1));
             punchRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_2));
             punchRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_3));
+            punchRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_3));
+            punchRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_2));
+            punchRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_1));
             forehandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, punchRightFrames, PlayMode.NORMAL);
 
             backhandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, punchRightFrames, PlayMode.REVERSED);
@@ -723,6 +726,9 @@ public final class Assets implements AssetErrorListener {
             sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_1));
             sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_2));
             sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_3));
+            sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_3));
+            sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_2));
+            sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_1));
             forehandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeRegions, PlayMode.NORMAL);
 
             backhandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeRegions, PlayMode.REVERSED);
