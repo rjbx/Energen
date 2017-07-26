@@ -288,14 +288,14 @@ public class GigaGal extends Entity implements Humanoid {
             canFlip = false;
         }
 
-        if (canDash && chargeTimeSeconds > Constants.CHARGE_DURATION) {
+        if (action == Action.DASHING && chargeTimeSeconds > Constants.CHARGE_DURATION) {
             if (rushStartTime == 0) {
                 rushStartTime = TimeUtils.nanoTime();
             }
-            rushTimeSeconds = Helpers.secondsSince(flipStartTime);
+            rushTimeSeconds = Helpers.secondsSince(rushStartTime);
             canRush  = true;
         } else {
-            flipStartTime = 0;
+            rushStartTime = 0;
             canRush = false;
         }
     }

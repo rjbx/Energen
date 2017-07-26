@@ -712,7 +712,7 @@ public final class Assets implements AssetErrorListener {
 
             Array<AtlasRegion> sideSwipeRegions = new Array<AtlasRegion>();
             sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_1));
-            sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_3));
+            sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_2));
             sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_3));
             sideSwipeRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeRegions, PlayMode.NORMAL);
         }

@@ -151,7 +151,7 @@ public final class Constants {
     public static final String SIDESWIPE_RIGHT_1 = "gg-swipe-flip-1-right";
     public static final String SIDESWIPE_RIGHT_2 = "gg-swipe-flip-2-right";
     public static final String SIDESWIPE_RIGHT_3 = "gg-swipe-flip-3-right";
-    public static final float SIDESWIPE_FRAME_DURATION = .33f;
+    public static final float SIDESWIPE_FRAME_DURATION = .1f;
 
     // Boss
     public static final String BOSS_SPRITE = "beast";
