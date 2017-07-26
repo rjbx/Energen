@@ -1367,9 +1367,9 @@ public class GigaGal extends Entity implements Humanoid {
             }
         } else if (directionX == Direction.LEFT) {
             if (canFlip) {
-                region = Assets.getInstance().getGigaGalAssets().backflipRight.getKeyFrame(flipTimeSeconds);
+                region = Assets.getInstance().getGigaGalAssets().backflipLeft.getKeyFrame(flipTimeSeconds);
             } else if (canRush) {
-                region = Assets.getInstance().getGigaGalAssets().forehandRight.getKeyFrame(rushTimeSeconds);
+                region = Assets.getInstance().getGigaGalAssets().forehandLeft.getKeyFrame(rushTimeSeconds);
             } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
@@ -1420,9 +1420,17 @@ public class GigaGal extends Entity implements Humanoid {
         }
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);
         if (canFlip) {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().backflipRight.getKeyFrame(flipTimeSeconds), position, Constants.BLADE_CENTER);
+            if (directionX == Direction.RIGHT) {
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().backflipRight.getKeyFrame(flipTimeSeconds), position, Constants.BLADE_CENTER);
+            } else {
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().backflipLeft.getKeyFrame(flipTimeSeconds), position, Constants.BLADE_CENTER);
+            }
         } else if (canRush) {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().forehandRight.getKeyFrame(rushTimeSeconds), position, Constants.BLADE_CENTER);
+            if (directionX == Direction.RIGHT) {
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().forehandRight.getKeyFrame(rushTimeSeconds), position, Constants.BLADE_CENTER);
+            } else {
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().forehandLeft.getKeyFrame(rushTimeSeconds), position, Constants.BLADE_CENTER);
+            }
         }
     }
 
