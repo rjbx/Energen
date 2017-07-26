@@ -147,6 +147,7 @@ public final class Constants {
     public static final String FLIPSWIPE_RIGHT_4 = "gg-swipe-flip-4-right";
     public static final String FLIPSWIPE_RIGHT_5 = "gg-swipe-flip-5-right";
     public static final float FLIPSWIPE_FRAME_DURATION = .085f;
+    public static final Vector2 FLIPSWIPE_CENTER = new Vector2(40, 35);
     public static final String SIDESWIPE_RIGHT_1 = "gg-swipe-flip-1-right";
     public static final String SIDESWIPE_RIGHT_2 = "gg-swipe-flip-2-right";
     public static final String SIDESWIPE_RIGHT_3 = "gg-swipe-flip-3-right";
