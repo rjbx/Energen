@@ -1411,7 +1411,7 @@ public class GigaGal extends Entity implements Humanoid {
         }
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);
         if (canFlip) {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().backflipSwipeRight.getKeyFrame(flipTimeSeconds), position, Constants.FLIPSWIPE_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().backflipRight.getKeyFrame(flipTimeSeconds), position, Constants.FLIPSWIPE_CENTER);
         } else if (canRush) {
             Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().forehandRight.getKeyFrame(rushTimeSeconds), position, Constants.SIDESWIPE_CENTER);
         }

@@ -611,7 +611,8 @@ public final class Assets implements AssetErrorListener {
         public final Animation antimatterBlast;
         public final Animation hybridShot;
         public final Animation hybridBlast;
-        public final Animation backflipSwipeRight;
+        public final Animation backflipRight;
+        public final Animation frontflipRight;
         public final Animation forehandRight;
         public final Animation backhandRight;
 
@@ -712,7 +713,9 @@ public final class Assets implements AssetErrorListener {
             backflipSwipeRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_4));
             backflipSwipeRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_5));
             backflipSwipeRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_6));
-            backflipSwipeRight = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, backflipSwipeRegions, PlayMode.LOOP);
+            backflipRight = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, backflipSwipeRegions, PlayMode.LOOP);
+
+            frontflipRight = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, backflipSwipeRegions, PlayMode.LOOP_REVERSED);
 
             Array<AtlasRegion> sideSwipeRegions = new Array<AtlasRegion>();
             sideSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_1));
