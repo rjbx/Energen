@@ -152,7 +152,7 @@ public final class Constants {
     public static final String SIDESWIPE_RIGHT_2 = "gg-swipe-side-2-right";
     public static final String SIDESWIPE_RIGHT_3 = "gg-swipe-side-3-right";
     public static final float SIDESWIPE_FRAME_DURATION = .1f;
-    public static final Vector2 SIDESWIPE_CENTER = new Vector2(37.5f, 16.5f);
+    public static final Vector2 SIDESWIPE_CENTER = new Vector2(36.5f, 16.5f);
 
     // Boss
     public static final String BOSS_SPRITE = "beast";

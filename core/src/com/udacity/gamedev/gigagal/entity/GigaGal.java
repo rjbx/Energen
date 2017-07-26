@@ -280,10 +280,11 @@ public class GigaGal extends Entity implements Humanoid {
         if (inputControls.shootButtonPressed && inputControls.jumpButtonJustPressed) {
             if (flipStartTime == 0) {
                 flipStartTime = TimeUtils.nanoTime();
+                canFlip = true;
             }
+        } else if (canFlip && inputControls.jumpButtonPressed) {
             flipTimeSeconds = Helpers.secondsSince(flipStartTime);
-            canFlip = true;
-        } else {
+        } else if (!inputControls.jumpButtonPressed){
             flipStartTime = 0;
             canFlip = false;
         }
