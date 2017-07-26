@@ -238,6 +238,7 @@ public final class Assets implements AssetErrorListener {
             lookdownHoverRight = new Animation(Constants.HOVER_FRAME_DURATION, lookdownHoverRightFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> backflipRightFrames = new Array<AtlasRegion>();
+            backflipRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_RIGHT));
             backflipRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_1));
             backflipRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_2));
             backflipRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_3));
@@ -708,6 +709,7 @@ public final class Assets implements AssetErrorListener {
             hybridBlast = new Animation(Constants.SHOT_FRAME_DURATION, hybridBlastRegions, PlayMode.LOOP);
 
             Array<AtlasRegion> backflipSwipeRegions = new Array<AtlasRegion>();
+            backflipSwipeRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_1));
             backflipSwipeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_3));
             backflipSwipeRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_3));
             backflipSwipeRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_4));
