@@ -886,7 +886,7 @@ public class GigaGal extends Entity implements Humanoid {
         if (!canClimb) {
             canJump = true;
             handleYInputs(); // disabled when canclimb to prevent look from overriding climb
-        } else if (touchedGround == null || !(touchedGround instanceof Climbable)) {
+        } else if (touchedGround == null) {
             canClimb = false;
         } else {
             canJump = false;
