@@ -151,14 +151,14 @@ public final class Constants {
     public static final String FLIPSWIPE_LEFT_3 = "gg-swipe-flip-3-left";
     public static final String FLIPSWIPE_LEFT_4 = "gg-swipe-flip-4-left";
     public static final String FLIPSWIPE_LEFT_5 = "gg-swipe-flip-5-left";
-    public static final float FLIPSWIPE_FRAME_DURATION = .085f;
+    public static final float FLIPSWIPE_FRAME_DURATION = .08f;
     public static final String SIDESWIPE_RIGHT_1 = "gg-swipe-side-1-right";
     public static final String SIDESWIPE_RIGHT_2 = "gg-swipe-side-2-right";
     public static final String SIDESWIPE_RIGHT_3 = "gg-swipe-side-3-right";
     public static final String SIDESWIPE_LEFT_1 = "gg-swipe-side-1-left";
     public static final String SIDESWIPE_LEFT_2 = "gg-swipe-side-2-left";
     public static final String SIDESWIPE_LEFT_3 = "gg-swipe-side-3-left";
-    public static final float SIDESWIPE_FRAME_DURATION = .085f;
+    public static final float SIDESWIPE_FRAME_DURATION = .08f;
     public static final Vector2 BLADE_CENTER = new Vector2(40, 35);
 
     // Boss
