@@ -330,6 +330,9 @@ public class GigaGal extends Entity implements Humanoid {
             } else { // for non-dense grounds:
                 // additional ground collision instructions specific to certain types of grounds
                 if (ground instanceof Climbable) {
+                    if (!(touchedGround != null && touchedGround.isDense() && touchedGround.getTop() == ground.getTop())) { // prevents flickering canclimb state
+                        canCling = true;
+                    }
                     if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
                             && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
                         if (!(ground instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.CLIMBING)))) {
@@ -349,7 +352,6 @@ public class GigaGal extends Entity implements Humanoid {
                             }
                         }
                     }
-                    canCling = true;
                 } else if (ground instanceof Pourous) {
                     setAtopGround(ground); // when any kind of collision detected and not only when breaking plane of ground.top
                     canCling = false;
@@ -419,7 +421,7 @@ public class GigaGal extends Entity implements Humanoid {
                         strideSpeed = 0;
                         velocity.x = 0;
                     }
-                    if (action == Action.DASHING) {
+                    if (!(ground instanceof Propelling) && action == Action.DASHING) {
                         stand(); // deactivates dash when bumping ground side
                     } else if (ground instanceof Pliable && (!((Pliable) ground).isBeingCarried() && action == Action.STRIDING)) {
                         canMove = true;
