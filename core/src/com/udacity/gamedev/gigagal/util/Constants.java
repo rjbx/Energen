@@ -688,14 +688,20 @@ public final class Constants {
     public static final String BLAST_HYBRID_SPRITE_1 = "ammo-blast-hybrid-1";
     public static final String BLAST_HYBRID_SPRITE_2 = "ammo-blast-hybrid-2";
     public static final String BLAST_HYBRID_SPRITE_3 = "ammo-blast-hybrid-3";
-    
+
     // Blade
-    public static final String FLIPSWIPE_NATIVE_SPRITE_1 = "blade-flip-native-1";
-    public static final String FLIPSWIPE_NATIVE_SPRITE_2 = "blade-flip-native-2";
-    public static final String FLIPSWIPE_NATIVE_SPRITE_3 = "blade-flip-native-3";
-    public static final String FLIPSWIPE_NATIVE_SPRITE_4 = "blade-flip-native-4";
-    public static final String FLIPSWIPE_NATIVE_SPRITE_5 = "blade-flip-native-5";
-    public static final String FLIPSWIPE_NATIVE_SPRITE_6 = "blade-flip-native-6";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_1_RIGHT = "blade-flip-native-1-right";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_2_RIGHT = "blade-flip-native-2-right";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_3_RIGHT = "blade-flip-native-3-right";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_4_RIGHT = "blade-flip-native-4-right";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_5_RIGHT = "blade-flip-native-5-right";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_6_RIGHT = "blade-flip-native-6-right";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_1_LEFT = "blade-flip-native-1-left";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_2_LEFT = "blade-flip-native-2-left";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_3_LEFT = "blade-flip-native-3-left";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_4_LEFT = "blade-flip-native-4-left";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_5_LEFT = "blade-flip-native-5-left";
+    public static final String FLIPSWIPE_NATIVE_SPRITE_6_LEFT = "blade-flip-native-6-left";
     public static final String SIDESWIPE_NATIVE_SPRITE_1 = "blade-side-native-1";
     public static final String SIDESWIPE_NATIVE_SPRITE_2 = "blade-side-native-2";
     public static final String SIDESWIPE_NATIVE_SPRITE_3 = "blade-side-native-3";
