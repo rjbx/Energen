@@ -284,8 +284,10 @@ public class GigaGal extends Entity implements Humanoid {
                 canFlip = true;
             }
             if (flipTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
+                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 flipTimeSeconds = Helpers.secondsSince(flipStartTime);
-            } else { // auto deactivation when animation completes
+            } else if (canFlip) { // auto deactivation when animation completes
+                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
                 flipStartTime = 0;
                 canFlip = false;
             }
@@ -298,9 +300,11 @@ public class GigaGal extends Entity implements Humanoid {
             if (rushStartTime == 0) {
                 rushStartTime = TimeUtils.nanoTime();
             }
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
             rushTimeSeconds = Helpers.secondsSince(rushStartTime);
             canRush  = true;
-        } else {
+        } else if (canRush) {
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
             rushStartTime = 0;
             canRush = false;
         }
@@ -1429,22 +1433,17 @@ public class GigaGal extends Entity implements Humanoid {
         }
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);
         if (canFlip) {
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
             if (directionX == Direction.RIGHT) {
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().backflipRight.getKeyFrame(flipTimeSeconds), position, Constants.BLADE_CENTER);
             } else {
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().backflipLeft.getKeyFrame(flipTimeSeconds), position, Constants.BLADE_CENTER);
             }
         } else if (canRush) {
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
             if (directionX == Direction.RIGHT) {
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().forehandRight.getKeyFrame(rushTimeSeconds), position, Constants.BLADE_CENTER);
             } else {
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().forehandLeft.getKeyFrame(rushTimeSeconds), position, Constants.BLADE_CENTER);
             }
-        } else {
-
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
         }
     }
 
