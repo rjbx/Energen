@@ -1429,17 +1429,22 @@ public class GigaGal extends Entity implements Humanoid {
         }
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);
         if (canFlip) {
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
             if (directionX == Direction.RIGHT) {
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().backflipRight.getKeyFrame(flipTimeSeconds), position, Constants.BLADE_CENTER);
             } else {
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().backflipLeft.getKeyFrame(flipTimeSeconds), position, Constants.BLADE_CENTER);
             }
         } else if (canRush) {
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
             if (directionX == Direction.RIGHT) {
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().forehandRight.getKeyFrame(rushTimeSeconds), position, Constants.BLADE_CENTER);
             } else {
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().forehandLeft.getKeyFrame(rushTimeSeconds), position, Constants.BLADE_CENTER);
             }
+        } else {
+
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
         }
     }
 
