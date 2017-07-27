@@ -584,6 +584,11 @@ public class GigaGal extends Entity implements Humanoid {
         } else if (action == Action.CLIMBING && !(ground instanceof Climbable)) {
             stand();
         }
+        if (canClimb && (ground instanceof Climbable) && (touchedGround == null || !(touchedGround instanceof Climbable))) {
+            canClimb = false;  // prevents maintaining canclimb state when previously but no longer overlapping dense, nondense and climbable grounds
+        } else if (!canClimb && (ground instanceof Climbable || (touchedGround != null && touchedGround instanceof Climbable))) {
+            canClimb = true;  // prevents setting canclimb to false when overlapping dense, nondense and climbable grounds
+        }
     }
 
     private void untouchGround() {
