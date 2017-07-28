@@ -75,13 +75,15 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         } else {
                             velocity.setZero();
                         }
-                    } else if (ground.isDense() && !(ground instanceof Pliable) && !(ground instanceof Propelling)) {
+                    } else if (ground.isDense() && !(ground instanceof Pliable) && !(ground instanceof Propelling) && !(ground instanceof Box)) {
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {
                             position.x = ground.getRight() + getWidth() / 2;
                         }
                         velocity.x = 0;
+                    } else if (ground instanceof Box) {
+                        velocity.y = 0;
                     }
                     if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 1, ground.getBottom() + 1)) {
                         loaded = true;
