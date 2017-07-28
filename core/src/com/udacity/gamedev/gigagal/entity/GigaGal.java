@@ -365,7 +365,6 @@ public class GigaGal extends Entity implements Humanoid {
                     lookStartTime = 0;
                     lookTimeSeconds = 0;
                 } else if (!(ground instanceof Pliable) || !(canClimb && directionY == Direction.UP)) { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
-                   //  canCling = false;
                     if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
                         touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                     }
