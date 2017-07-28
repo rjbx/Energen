@@ -30,10 +30,10 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
     private boolean converted;
 
     // ctor
-    public Protrusion(Vector2 position, Enums.Material type, float rotation) {
+    public Protrusion(Vector2 position, Enums.Material type, float rotation, boolean state) {
         this.position = position;
         startPosition = new Vector2(position);
-        state = true;
+        this.state = state;
         converted = false;
         this.type = type;
         this.rotation = (int) rotation;
