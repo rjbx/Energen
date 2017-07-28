@@ -520,7 +520,7 @@ public final class Constants {
     public static final String PROTRUSION_GAS_SPRITE_1 = "protrusion-gas-1";
     public static final String PROTRUSION_GAS_SPRITE_2 = "protrusion-gas-2";
 
-    public static final Vector2 PROTRUSION_LIQUID_CENTER = new Vector2(8.5f, 17.5f);
+    public static final Vector2 PROTRUSION_LIQUID_CENTER = new Vector2(8.5f, 18.5f);
     public static final float PROTRUSION_LIQUID_DURATION = 0.3f;
     public static final int PROTRUSION_LIQUID_DAMAGE = 10;
     public static final Vector2 PROTRUSION_LIQUID_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
