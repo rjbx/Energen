@@ -113,8 +113,7 @@ public class GigaGal extends Entity implements Humanoid {
     private InputControls inputControls;
 
     // ctor
-    private GigaGal() {
-    }
+    private GigaGal() {}
 
     public static GigaGal getInstance() {
         return INSTANCE;
@@ -366,7 +365,7 @@ public class GigaGal extends Entity implements Humanoid {
                     lookStartTime = 0;
                     lookTimeSeconds = 0;
                 } else if (!(ground instanceof Pliable) || !(canClimb && directionY == Direction.UP)) { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
-                    canCling = false;
+                   //  canCling = false;
                     if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
                         touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
                     }
@@ -412,6 +411,7 @@ public class GigaGal extends Entity implements Humanoid {
                         }
                         // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
                     } else {
+
                         // if not already hovering and descending, also disable hover
                         if (action != Action.HOVERING && velocity.y < 0) {
                             canHover = false; // disable hover
@@ -421,6 +421,7 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                     // only when planted
                 } else if (groundState == GroundState.PLANTED) {
+
                     if (Math.abs(getBottom() - ground.getTop()) > 1) {
                         strideSpeed = 0;
                         velocity.x = 0;
@@ -444,13 +445,13 @@ public class GigaGal extends Entity implements Humanoid {
                     position.x = previousFramePosition.x;
                 }
             } else { // when both position and previous position overlap ground side edge
+
                 float yTestPosition = position.y;
                 if (ground instanceof Canirol) {
                     yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
                 }
                 if (!(ground instanceof Pliable)) {
                     if (Helpers.betweenTwoValues(yTestPosition, ground.getBottom(), ground.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
-
                         if (!(ground instanceof Canirol)) {
                             if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
                                 position.x = ground.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
@@ -1299,10 +1300,12 @@ public class GigaGal extends Entity implements Humanoid {
     private void climb(Orientation orientation) {
         if (canCling) { // canrappel set to false from handleYinputs() if double tapping down
             if (action != Action.CLIMBING) { // at the time of climb initiation
+
                 climbStartTime = 0; // overrides assignment of current time preventing nanotime - climbstarttime < doubletapspeed on next handleY() call
                 groundState = GroundState.PLANTED;
                 action = Action.CLIMBING;
             }
+
             canHover = false;
             dashTimeSeconds = Helpers.secondsSince(dashStartTime);
             if (orientation == Orientation.X) {
@@ -1317,6 +1320,7 @@ public class GigaGal extends Entity implements Humanoid {
                 directionX = Direction.LEFT;
             }
         } else { // if double tapping down, fall from climbable
+            Gdx.app.log(TAG, canClimb + "" + dashTimeSeconds);
             dashTimeSeconds = 0;
             canCling = false;
             canClimb = false;
