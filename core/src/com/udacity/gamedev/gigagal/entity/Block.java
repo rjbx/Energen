@@ -46,8 +46,7 @@ public class Block extends Barrier implements Draggable {
                     if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())) { // prevents setting to unreachable, narrower ground
                         position.y = ground.getTop() + getHeight() / 2;
                         velocity.y = 0;
-                        atopGround = true;
-                    } else if (!atopGround && ground.isDense()) {
+                    } else if (ground.isDense() && getTop() > ground.getBottom()) {
                         Gdx.app.log(TAG, position + "" + velocity);
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
