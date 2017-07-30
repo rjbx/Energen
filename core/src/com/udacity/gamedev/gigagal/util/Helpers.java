@@ -259,6 +259,9 @@ public final class Helpers {
             default:
                 damage = Constants.AMMO_STANDARD_DAMAGE;
         }
+
+        damage = damage / Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()];
+
         if (hazard instanceof Ammo) {
             Ammo ammo = (Ammo) hazard;
             if (!(ammo.getSource() instanceof GigaGal)) {
@@ -267,15 +270,13 @@ public final class Helpers {
             } else {
                 ammo.setHitScore(ammo.getHitScore() + destructible.getHitScore());
             }
-            damage = damage / Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()];
             if (!(destructible instanceof Orben && !(((Orben) destructible).isActive()))) {
-                if (ammo.getShotIntensity() == Enums.ShotIntensity.BLAST) {
-                    destructible.setHealth(destructible.getHealth() - damage);
-                } else {
-                    destructible.setHealth((destructible.getHealth() - (damage * .67f)));
+                if (ammo.getShotIntensity() == Enums.ShotIntensity.NORMAL) {
+                    damage *= .67f;
                 }
             }
         }
+        destructible.setHealth(destructible.getHealth() - damage);
     }
 
     public static Enums.ReactionIntensity getAmmoEffectiveness(Enums.Material enemyType, Enums.Material ammoType) {
