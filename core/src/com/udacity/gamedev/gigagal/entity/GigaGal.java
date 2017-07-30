@@ -244,11 +244,12 @@ public class GigaGal extends Entity implements Humanoid {
                 enableShoot(weapon);
             } else if (action == Action.CLIMBING) {
                 enableClimb();
+                enableSwipe();
                 enableShoot(weapon);
             } else if (action == Action.DASHING) {
-                enableSwipe();
                 enableDash();
                 enableJump();
+                enableSwipe();
                 enableShoot(weapon);
             }
         } else if (groundState == GroundState.AIRBORNE) {
@@ -270,14 +271,17 @@ public class GigaGal extends Entity implements Humanoid {
                 enableHover();
                 enableRappel();
                 enableClimb();
+                enableSwipe();
                 enableShoot(weapon);
             } else if (action == Action.RAPPELLING) {
                 enableJump();
                 enableRappel();
                 enableClimb();
+                enableSwipe();
                 enableShoot(weapon);
             } else if (action == Action.RECOILING) {
                 enableRappel();
+                enableSwipe();
                 enableShoot(weapon);
             }
         }
@@ -301,6 +305,8 @@ public class GigaGal extends Entity implements Humanoid {
             rushStartTime = 0;
             canRush = false;
         }
+
+        swipe();
     }
 
     private void swipe() {
