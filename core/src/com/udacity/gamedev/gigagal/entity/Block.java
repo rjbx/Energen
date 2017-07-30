@@ -43,10 +43,12 @@ public class Block extends Barrier implements Draggable {
             velocity.y = -Constants.GRAVITY * 15 * weightFactor();
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
-                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())) { // prevents setting to unreachable, narrower ground
+                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())) { // prevents setting to unreachable, narrower ground
                         position.y = ground.getTop() + getHeight() / 2;
                         velocity.y = 0;
-                    } else if (ground.isDense()) {
+                        atopGround = true;
+                    } else if (!atopGround && ground.isDense()) {
+                        Gdx.app.log(TAG, position + "" + velocity);
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {
