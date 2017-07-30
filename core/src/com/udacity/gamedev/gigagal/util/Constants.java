@@ -700,6 +700,16 @@ public final class Constants {
     public static final String SIDESWIPE_NATIVE_SPRITE_2 = "blade-side-native-2";
     public static final String SIDESWIPE_NATIVE_SPRITE_3 = "blade-side-native-3";
 
+    public static final String FLIPSWIPE_LIQUID_SPRITE_1 = "blade-flip-liquid-1";
+    public static final String FLIPSWIPE_LIQUID_SPRITE_2 = "blade-flip-liquid-2";
+    public static final String FLIPSWIPE_LIQUID_SPRITE_3 = "blade-flip-liquid-3";
+    public static final String FLIPSWIPE_LIQUID_SPRITE_4 = "blade-flip-liquid-4";
+    public static final String FLIPSWIPE_LIQUID_SPRITE_5 = "blade-flip-liquid-5";
+    public static final String FLIPSWIPE_LIQUID_SPRITE_6 = "blade-flip-liquid-6";
+    public static final String SIDESWIPE_LIQUID_SPRITE_1 = "blade-side-liquid-1";
+    public static final String SIDESWIPE_LIQUID_SPRITE_2 = "blade-side-liquid-2";
+    public static final String SIDESWIPE_LIQUID_SPRITE_3 = "blade-side-liquid-3";
+
     // Impact
     public static final Vector2 EXPLOSION_CENTER = new Vector2(8, 8);
     public static final float IMPACT_DURATION = 0.5f;
