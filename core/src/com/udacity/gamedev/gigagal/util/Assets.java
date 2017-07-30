@@ -97,6 +97,7 @@ public final class Assets implements AssetErrorListener {
         backgroundAssets = new BackgroundAssets(atlas);
         groundAssets = new GroundAssets(atlas);
         ammoAssets = new AmmoAssets(atlas);
+        bladeAssets = new BladeAssets(atlas);
         canirolAssets = new CanirolAssets(atlas);
         zoombaAssets = new ZoombaAssets(atlas);
         swoopaAssets = new SwoopaAssets(atlas);
