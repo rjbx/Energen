@@ -45,15 +45,15 @@ public class Block extends Barrier implements Draggable {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
                     if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())) { // prevents setting to unreachable, narrower ground
                         position.y = ground.getTop() + getHeight() / 2;
-
+                        velocity.y = 0;
                     } else if (ground.isDense()) {
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {
                             position.x = ground.getRight() + getWidth() / 2;
                         }
+                        velocity.x = 0;
                     }
-                    velocity.setZero();
                 }
             }
         }
