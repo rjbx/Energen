@@ -133,6 +133,7 @@ public class LevelUpdater {
         }
 
         gigaGal.render(batch, viewport);
+        Blade.getInstance().render(batch, viewport);
 
         for (Hazard hazard : hazards) {
             if (hazard instanceof Ammo) {
@@ -183,7 +184,7 @@ public class LevelUpdater {
         } else {
             time = timer.getNanos();
             gigaGal.update(delta);
-
+            Blade.getInstance().update(delta);
             if (gigaGal.getDispatchStatus()) {
                 if (gigaGal.getLookStartTime() != 0) {
                     if (gigaGal.getDirectionY() == Direction.UP) {

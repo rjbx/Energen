@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.app;
 
+import com.udacity.gamedev.gigagal.entity.Blade;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.overlay.Cursor;
 import com.udacity.gamedev.gigagal.overlay.Menu;
@@ -22,6 +23,7 @@ public final class ScreenManager extends com.badlogic.gdx.Game {
     public void create() {
         Assets.getInstance().create();
         GigaGal.getInstance().create();
+        Blade.getInstance().create();
         ChaseCam.getInstance().create();
         StaticCam.getInstance().create();
         Cursor.getInstance().create();
