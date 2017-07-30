@@ -32,6 +32,7 @@ public final class Assets implements AssetErrorListener {
     private BackgroundAssets backgroundAssets;
     private GroundAssets groundAssets;
     private AmmoAssets ammoAssets;
+    private BladeAssets bladeAssets;
     private CanirolAssets canirolAssets;
     private ZoombaAssets zoombaAssets;
     private SwoopaAssets swoopaAssets;
@@ -641,14 +642,6 @@ public final class Assets implements AssetErrorListener {
         public final Animation antimatterBlast;
         public final Animation hybridShot;
         public final Animation hybridBlast;
-        public final Animation backflipRight;
-        public final Animation frontflipRight;
-        public final Animation forehandRight;
-        public final Animation backhandRight;
-        public final Animation backflipLeft;
-        public final Animation frontflipLeft;
-        public final Animation forehandLeft;
-        public final Animation backhandLeft;
 
         private AmmoAssets(TextureAtlas atlas) {
 
@@ -740,6 +733,22 @@ public final class Assets implements AssetErrorListener {
             hybridBlastRegions.add(atlas.findRegion(Constants.BLAST_HYBRID_SPRITE_2));
             hybridBlastRegions.add(atlas.findRegion(Constants.BLAST_HYBRID_SPRITE_3));
             hybridBlast = new Animation(Constants.SHOT_FRAME_DURATION, hybridBlastRegions, PlayMode.LOOP);
+        }
+    }
+
+    public static final class BladeAssets {
+
+
+        public final Animation backflipRight;
+        public final Animation frontflipRight;
+        public final Animation forehandRight;
+        public final Animation backhandRight;
+        public final Animation backflipLeft;
+        public final Animation frontflipLeft;
+        public final Animation forehandLeft;
+        public final Animation backhandLeft;
+
+        private BladeAssets(TextureAtlas atlas) {
 
             Array<AtlasRegion> flipSwipeRightRegions = new Array<AtlasRegion>();
             flipSwipeRightRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_1_RIGHT));
@@ -1447,6 +1456,7 @@ public final class Assets implements AssetErrorListener {
     public final BackgroundAssets getBackgroundAssets() { return backgroundAssets; }
     public final GroundAssets getGroundAssets() { return groundAssets; }
     public final AmmoAssets getAmmoAssets() { return ammoAssets; }
+    public final BladeAssets getBladeAssets() { return bladeAssets; }
     public final CanirolAssets getCanirolAssets() { return canirolAssets; }
     public final ZoombaAssets getZoombaAssets() { return zoombaAssets; }
     public final SwoopaAssets getSwoopaAssets() { return swoopaAssets; }

@@ -1438,15 +1438,15 @@ public class GigaGal extends Entity implements Humanoid {
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);
         if (canFlip) {
             if (directionX == Direction.RIGHT) {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().backflipRight.getKeyFrame(flipTimeSeconds), position, Constants.BLADE_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().backflipRight.getKeyFrame(flipTimeSeconds), position, Constants.BLADE_CENTER);
             } else {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().backflipLeft.getKeyFrame(flipTimeSeconds), position, Constants.BLADE_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().backflipLeft.getKeyFrame(flipTimeSeconds), position, Constants.BLADE_CENTER);
             }
         } else if (canRush) {
             if (directionX == Direction.RIGHT) {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().forehandRight.getKeyFrame(rushTimeSeconds), position, Constants.BLADE_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().forehandRight.getKeyFrame(rushTimeSeconds), position, Constants.BLADE_CENTER);
             } else {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getAmmoAssets().forehandLeft.getKeyFrame(rushTimeSeconds), position, Constants.BLADE_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().forehandLeft.getKeyFrame(rushTimeSeconds), position, Constants.BLADE_CENTER);
             }
         }
     }
