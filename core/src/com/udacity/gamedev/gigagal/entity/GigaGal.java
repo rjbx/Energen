@@ -234,16 +234,19 @@ public class GigaGal extends Entity implements Humanoid {
                 enableDash();
                 enableClimb(); // must come before jump (for now)
                 enableJump();
+                enableSwipe();
                 enableShoot(weapon);
             } else if (action == Action.STRIDING) {
                 enableStride();
                 enableDash();
                 enableJump();
+                enableSwipe();
                 enableShoot(weapon);
             } else if (action == Action.CLIMBING) {
                 enableClimb();
                 enableShoot(weapon);
             } else if (action == Action.DASHING) {
+                enableSwipe();
                 enableDash();
                 enableJump();
                 enableShoot(weapon);
@@ -255,11 +258,13 @@ public class GigaGal extends Entity implements Humanoid {
                 enableClimb();
                 enableHover();
                 enableRappel();
+                enableSwipe();
                 enableShoot(weapon);
             } else if (action == Action.JUMPING) {
                 enableJump();
                 enableClimb();
                 enableRappel();
+                enableSwipe();
                 enableShoot(weapon);
             } else if (action == Action.HOVERING) {
                 enableHover();
@@ -276,36 +281,49 @@ public class GigaGal extends Entity implements Humanoid {
                 enableShoot(weapon);
             }
         }
+    }
+
+    private void enableSwipe() {
         if (inputControls.shootButtonPressed) {
-            if (inputControls.jumpButtonJustPressed && flipStartTime == 0) {
-                flipStartTime = TimeUtils.nanoTime();
-                flipTimeSeconds = 0;
+            if (inputControls.jumpButtonJustPressed) {
                 canFlip = true;
             }
-            if (flipTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
-                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
-                flipTimeSeconds = Helpers.secondsSince(flipStartTime);
-            } else if (canFlip) { // auto deactivation when animation completes
-                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
-                flipStartTime = 0;
-                canFlip = false;
-            }
         } else { // manual deactivation by shoot button release
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
             flipStartTime = 0;
             canFlip = false;
         }
 
         if (action == Action.DASHING && chargeTimeSeconds > Constants.CHARGE_DURATION) {
-            if (rushStartTime == 0) {
-                rushStartTime = TimeUtils.nanoTime();
-            }
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
-            rushTimeSeconds = Helpers.secondsSince(rushStartTime);
             canRush  = true;
         } else if (canRush) {
             Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
             rushStartTime = 0;
             canRush = false;
+        }
+    }
+
+    private void swipe() {
+        if (canFlip) {
+            if (flipStartTime == 0) {
+                flipStartTime = TimeUtils.nanoTime();
+                flipTimeSeconds = 0;
+            } else if (flipTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
+                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+                flipTimeSeconds = Helpers.secondsSince(flipStartTime);
+            } else { // auto deactivation when animation completes
+                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+                flipStartTime = 0;
+                canFlip = false;
+            }
+        }
+
+        if (canRush) {
+            if (rushStartTime == 0) {
+                rushStartTime = TimeUtils.nanoTime();
+            }
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+            rushTimeSeconds = Helpers.secondsSince(rushStartTime);
         }
     }
 
