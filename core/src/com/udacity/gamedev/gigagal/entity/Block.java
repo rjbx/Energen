@@ -36,11 +36,10 @@ public class Block extends Barrier implements Draggable {
     public void update(float delta) {
         if (beingCarried && !againstStaticGround) {
             position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
+            velocity.x = carrier.getVelocity().x;
         }
-        position.mulAdd(velocity, delta);
-        velocity.x /= Constants.DRAG_FACTOR * weightFactor();
+        position.y += velocity.y * delta;
         velocity.y = -Constants.GRAVITY * 15 * weightFactor();
-
         againstStaticGround = false;
         atopMovingGround = false;
         movingGround = null;
@@ -54,7 +53,9 @@ public class Block extends Barrier implements Draggable {
                             (((Block) ground).isAgainstStaticGround() && !((Block) ground).isBeingCarried())
                             || (!beingCarried && !againstStaticGround && !((Block) ground).isAgainstStaticGround()))) {
                         if (!(ground instanceof Block) || !((Block) ground).isBeingCarried()) {
-                            againstStaticGround = true;
+                            if (!beingCarried || velocity.x != 0) {
+                                againstStaticGround = true;
+                            }
                         }
                         velocity.x = 0;
                         if (position.x < ground.getPosition().x) {
