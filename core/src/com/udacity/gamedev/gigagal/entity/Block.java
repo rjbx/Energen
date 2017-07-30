@@ -35,13 +35,14 @@ public class Block extends Barrier implements Draggable {
 
     @Override
     public void update(float delta) {
-        againstStaticGround = false;
         if (beingCarried && !againstStaticGround) {
             position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
         } 
         position.mulAdd(velocity, delta);
         velocity.x /= Constants.DRAG_FACTOR * weightFactor();
         velocity.y = -Constants.GRAVITY * 15 * weightFactor();
+
+        againstStaticGround = false;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())) { // prevents setting to unreachable, narrower ground
@@ -49,8 +50,10 @@ public class Block extends Barrier implements Draggable {
                     velocity.y = 0;
                 } else if (ground.isDense() && getTop() > ground.getBottom()) {
                     Gdx.app.log(TAG, position + "" + velocity);
-                    if (!(ground instanceof Block) || ((Block) ground).isAgainstStaticGround() || againstStaticGround) {
-                        if (!(ground instanceof Nonstatic)) {
+                    if ((!(ground instanceof Block) ||
+                            (((Block) ground).isAgainstStaticGround() && !((Block) ground).isBeingCarried())
+                            || (!beingCarried && !againstStaticGround && !((Block) ground).isAgainstStaticGround()))) {
+                        if (!(ground instanceof Block) || !((Block) ground).isBeingCarried()) {
                             againstStaticGround = true;
                         }
                         velocity.setZero();
