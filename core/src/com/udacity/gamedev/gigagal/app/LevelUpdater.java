@@ -368,6 +368,9 @@ public class LevelUpdater {
                 }
             } else if (((Pliable) ground).getCarrier() == gigaGal ) {
                 if (ground instanceof Draggable) {
+                    if (((Draggable) ground).getMovingGround() != null && ((Draggable) ground).getMovingGround() instanceof Pliable) {
+                        gigaGal.setVelocity(new Vector2(gigaGal.getVelocity().x / (1 + ((Pliable) ((Draggable) ground).getMovingGround()).weightFactor()), gigaGal.getVelocity().y));
+                    }
                     gigaGal.setVelocity(new Vector2(gigaGal.getVelocity().x / (1 + ((Draggable) ground).weightFactor()), gigaGal.getVelocity().y));
                     if (gigaGal.getVelocity().y > 0) {
                         ((Pliable) ground).setCarrier(null);

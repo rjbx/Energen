@@ -37,19 +37,20 @@ public class Block extends Barrier implements Draggable {
     public void update(float delta) {
         if (beingCarried && !againstStaticGround) {
             position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
-        } 
+        }
         position.mulAdd(velocity, delta);
         velocity.x /= Constants.DRAG_FACTOR * weightFactor();
         velocity.y = -Constants.GRAVITY * 15 * weightFactor();
 
         againstStaticGround = false;
+        atopMovingGround = false;
+        movingGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())) { // prevents setting to unreachable, narrower ground
                     position.y = ground.getTop() + getHeight() / 2;
                     velocity.y = 0;
                 } else if (ground.isDense() && getTop() > ground.getBottom()) {
-                    Gdx.app.log(TAG, position + "" + velocity);
                     if ((!(ground instanceof Block) ||
                             (((Block) ground).isAgainstStaticGround() && !((Block) ground).isBeingCarried())
                             || (!beingCarried && !againstStaticGround && !((Block) ground).isAgainstStaticGround()))) {
@@ -62,12 +63,13 @@ public class Block extends Barrier implements Draggable {
                         } else {
                             position.x = ground.getRight() + getWidth() / 2;
                         }
+                    } else if (ground instanceof Pliable) {
+                        Gdx.app.log(TAG, "hi");
+                        movingGround = (Moving) ground;
                     }
                 }
             }
         }
-        atopMovingGround = false;
-        movingGround = null;
         // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
