@@ -57,15 +57,18 @@ public class Block extends Barrier implements Draggable {
                         if (!(ground instanceof Block) || !((Block) ground).isBeingCarried()) {
                             againstStaticGround = true;
                         }
-                        velocity.setZero();
+                        velocity.x = 0;
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {
                             position.x = ground.getRight() + getWidth() / 2;
                         }
                     } else if (ground instanceof Pliable) {
-                        Gdx.app.log(TAG, "hi");
-                        movingGround = (Moving) ground;
+                        if (beingCarried && ((Block) ground).isBeingCarried()) {
+                            beingCarried = false;
+                        } else {
+                            movingGround = (Moving) ground;
+                        }
                     }
                 }
             }
