@@ -33,46 +33,50 @@ public final class Helpers {
     private Helpers() {}
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position) {
-        drawTextureRegion(batch, viewport, region, position.x, position.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
+        drawTextureRegion(batch, viewport, region, position.x, position.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0, false, false);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position, Vector2 offset) {
-        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
+        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0, false, false);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position, Vector2 offset, Vector2 scale) {
-        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale.x, scale.y, 0);
+        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale.x, scale.y, 0, false, false);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position, Vector2 offset, float scale) {
-        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale, scale, 0);
+        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale, scale, 0, false, false);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position, Vector2 offset, float scale, float rotation) {
-        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale, scale, rotation);
+        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale, scale, rotation, false, false);
+    }
+
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, Vector2 position, Vector2 offset, float scale, float rotation, boolean flipX, boolean flipY) {
+        drawTextureRegion(batch, viewport, region, position.x - offset.x, position.y - offset.y, region.getRegionWidth(), region.getRegionHeight(), scale, scale, rotation, flipX, flipY);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y) {
-        drawTextureRegion(batch, viewport, region, x, y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
+        drawTextureRegion(batch, viewport, region, x, y, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0, false, false);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float offset) {
-        drawTextureRegion(batch, viewport, region, x - offset, y - offset, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
+        drawTextureRegion(batch, viewport, region, x - offset, y - offset, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0, false, false);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float offsetX, float offsetY) {
-        drawTextureRegion(batch, viewport, region, x - offsetX, y - offsetY, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0);
+        drawTextureRegion(batch, viewport, region, x - offsetX, y - offsetY, region.getRegionWidth(), region.getRegionHeight(), 1, 1, 0, false, false);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float offsetX, float offsetY, float scale) {
-        drawTextureRegion(batch, viewport, region, x - offsetX, y - offsetY, region.getRegionWidth(), region.getRegionHeight(), scale, scale, 0);
+        drawTextureRegion(batch, viewport, region, x - offsetX, y - offsetY, region.getRegionWidth(), region.getRegionHeight(), scale, scale, 0, false, false);
     }
 
     public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float offsetX, float offsetY, float scale, float rotation) {
-        drawTextureRegion(batch, viewport, region, x - offsetX, y - offsetY, region.getRegionWidth(), region.getRegionHeight(), scale, scale, rotation);
+        drawTextureRegion(batch, viewport, region, x - offsetX, y - offsetY, region.getRegionWidth(), region.getRegionHeight(), scale, scale, rotation, false, false);
     }
 
-    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float width, float height, float scaleX, float scaleY, float rotation) {
+    public static final void drawTextureRegion(SpriteBatch batch, Viewport viewport, TextureRegion region, float x, float y, float width, float height, float scaleX, float scaleY, float rotation, boolean flipX, boolean flipY) {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
@@ -91,8 +95,8 @@ public final class Helpers {
                 region.getRegionY(),
                 region.getRegionWidth(),
                 region.getRegionHeight(),
-                false,
-                false);
+                flipX,
+                flipY);
         batch.end();
     }
 

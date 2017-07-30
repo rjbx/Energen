@@ -739,7 +739,6 @@ public final class Assets implements AssetErrorListener {
 
     public static final class BladeAssets {
 
-
         public final Animation backflipRight;
         public final Animation frontflipRight;
         public final Animation forehandRight;

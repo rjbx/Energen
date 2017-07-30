@@ -56,13 +56,13 @@ public final class Blade extends Hazard implements Indestructible {
         if (GigaGal.getInstance().getBladeState() != BladeState.RETRACTED)
         if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
             if (GigaGal.getInstance().getDirectionX() == Direction.RIGHT) {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().backflipRight.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().backflipLeft.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER, 1, 0, true, false);
             } else {
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().backflipLeft.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER);
             }
         } else if (GigaGal.getInstance().getBladeState() == BladeState.RUSH) {
             if (GigaGal.getInstance().getDirectionX() == Direction.RIGHT) {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().forehandRight.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().forehandLeft.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER, 1, 0, true, false);
             } else {
                 Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().forehandLeft.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER);
             }
