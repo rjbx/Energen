@@ -78,12 +78,14 @@ public final class Blade extends Hazard implements Indestructible {
                     } else {
                         animation = Assets.getInstance().getBladeAssets().nativeForehand;
                     }
+                    break;
                 case LIQUID:
                     if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
                         animation = Assets.getInstance().getBladeAssets().liquidBackflip;
                     } else {
                         animation = Assets.getInstance().getBladeAssets().liquidForehand;
                     }
+                    break;
             }
         }
     }
