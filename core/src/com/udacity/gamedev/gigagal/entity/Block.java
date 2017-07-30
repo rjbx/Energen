@@ -49,8 +49,8 @@ public class Block extends Barrier implements Draggable {
                     velocity.y = 0;
                 } else if (ground.isDense() && getTop() > ground.getBottom()) {
                     Gdx.app.log(TAG, position + "" + velocity);
-                    if (!(ground instanceof Block) || ((Block) ground).isAgainstStaticGround() || !beingCarried || againstStaticGround) {
-                        if ((ground instanceof Block && ((Block) ground).isAgainstStaticGround()) || !(ground instanceof Nonstatic)) {
+                    if (!(ground instanceof Block) || ((Block) ground).isAgainstStaticGround() || againstStaticGround) {
+                        if (!(ground instanceof Nonstatic)) {
                             againstStaticGround = true;
                         }
                         velocity.setZero();
