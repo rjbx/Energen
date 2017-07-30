@@ -45,7 +45,7 @@ public class Block extends Barrier implements Draggable {
         movingGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())) { // prevents setting to unreachable, narrower ground
+                if (!(ground instanceof Climbable) && Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())) { // prevents setting to unreachable, narrower ground
                     position.y = ground.getTop() + getHeight() / 2;
                     velocity.y = 0;
                 } else if (ground.isDense() && getTop() > ground.getBottom()) {
