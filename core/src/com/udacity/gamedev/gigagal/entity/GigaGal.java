@@ -305,7 +305,7 @@ public class GigaGal extends Entity implements Humanoid {
 
         if (!canFlip && action == Action.DASHING && chargeTimeSeconds > Constants.CHARGE_DURATION) {
             canRush  = true;
-            bladeState = BladeState.FLIP;
+            bladeState = BladeState.RUSH;
         } else if (canRush) {
             Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
             flipStartTime = 0;

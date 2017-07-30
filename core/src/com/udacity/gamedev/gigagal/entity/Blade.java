@@ -148,6 +148,7 @@ public final class Blade extends Hazard implements Indestructible, Orientable {
 
     public void setAttributes(Material weapon) {
         switch(weapon) {
+
         }
     }
 
