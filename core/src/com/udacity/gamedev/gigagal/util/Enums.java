@@ -52,6 +52,10 @@ public final class Enums {
         NORMAL, CHARGED, BLAST,
     }
 
+    public enum BladeState {
+        RETRACTED, RUSH, FLIP
+    }
+
     public enum ReactionIntensity {
         STRONG,
         NORMAL,
