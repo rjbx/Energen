@@ -44,7 +44,6 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
         movingGround = null;
         if (beingCarried) {
             this.position.set(carrier.getPosition().x, carrier.getTop());
-            atopGround = false;
         } else {
             position.mulAdd(velocity, delta);
             velocity.x /= Constants.DRAG_FACTOR * weightFactor();
@@ -55,7 +54,6 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                             && ground.getWidth() >= this.getWidth() // prevents setting to unreachable, narrower ground
                             && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                         position.y = ground.getTop() + getHeight() / 2;
-                        atopGround = true;
                         if (ground instanceof Pliable) {
                             position.x = ground.getPosition().x + ((Pliable) ground).getVelocity().x;
                             position.y = ground.getTop() + getHeight() / 2 + ((Pliable) ground).getVelocity().y;
