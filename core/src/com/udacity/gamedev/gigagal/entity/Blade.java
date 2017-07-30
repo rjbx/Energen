@@ -2,10 +2,8 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -22,7 +20,7 @@ public final class Blade extends Hazard implements Indestructible {
     private Material weapon;
     private Rectangle bounds;
     private int damage;
-    private float radius;
+    private Vector2 center;
     private float scale;
     private boolean active;
     private int hitScore;
@@ -36,6 +34,7 @@ public final class Blade extends Hazard implements Indestructible {
 
     public void create() {
         position = GigaGal.getInstance().getPosition();
+        center = Constants.BLADE_CENTER;
         bounds = new Rectangle(getLeft(), getBottom(), getWidth(), getHeight());
         this.weapon = GigaGal.getInstance().getWeapon();
         knockback = new Vector2();
@@ -78,12 +77,12 @@ public final class Blade extends Hazard implements Indestructible {
 
     public final boolean isActive() { return active; }
     @Override public final Vector2 getPosition() { return position; }
-    @Override public final float getWidth() { return radius * 2; }
-    @Override public final float getHeight() { return radius * 2; }
-    @Override public final float getLeft() { return position.x - radius; }
-    @Override public final float getRight() { return position.x + radius; }
-    @Override public final float getTop() { return position.y + radius; }
-    @Override public final float getBottom() { return position.y - radius; }
+    @Override public final float getWidth() { return Constants.BLADE_CENTER.x * 2; }
+    @Override public final float getHeight() { return Constants.BLADE_CENTER.y * 2; }
+    @Override public final float getLeft() { return position.x - Constants.BLADE_CENTER.x; }
+    @Override public final float getRight() { return position.x + Constants.BLADE_CENTER.x; }
+    @Override public final float getTop() { return position.y + Constants.BLADE_CENTER.y; }
+    @Override public final float getBottom() { return position.y - Constants.BLADE_CENTER.y; }
     public Rectangle getBounds() { return bounds; }
     public final int getDamage() { return damage; }
     public final Vector2 getKnockback() { return knockback; }

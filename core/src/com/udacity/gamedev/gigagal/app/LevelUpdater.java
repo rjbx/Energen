@@ -493,12 +493,13 @@ public class LevelUpdater {
                         ammo.deactivate();
                     }
                 }
-//
-//                if (Helpers.overlapsPhysicalObject(Blade.getInstance(), hazard)) {
-//
-//                }
             }
             projectiles.end();
+
+            if (Helpers.overlapsPhysicalObject(Blade.getInstance(), destructible)) {
+                Helpers.applyDamage(destructible, Blade.getInstance());
+            }
+
             if (destructible.getHealth() < 1) {
                 spawnImpact(destructible.getPosition(), destructible.getType());
                 active = false;

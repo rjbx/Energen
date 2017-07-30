@@ -13,6 +13,8 @@ import com.udacity.gamedev.gigagal.entity.Aerial;
 import com.udacity.gamedev.gigagal.entity.Ammo;
 import com.udacity.gamedev.gigagal.entity.Destructible;
 import com.udacity.gamedev.gigagal.entity.GigaGal;
+import com.udacity.gamedev.gigagal.entity.Hazard;
+import com.udacity.gamedev.gigagal.entity.Indestructible;
 import com.udacity.gamedev.gigagal.entity.Vehicular;
 import com.udacity.gamedev.gigagal.entity.Orben;
 import com.udacity.gamedev.gigagal.entity.Physical;
@@ -241,8 +243,8 @@ public final class Helpers {
         return 0;
     }
 
-    public static final void applyDamage(Destructible destructible, Ammo ammo) {
-        Enums.ReactionIntensity effectiveness = Helpers.getAmmoEffectiveness(destructible.getType(), ammo.getType());
+    public static final void applyDamage(Destructible destructible, Hazard hazard) {
+        Enums.ReactionIntensity effectiveness = Helpers.getAmmoEffectiveness(destructible.getType(), hazard.getType());
         float damage;
         switch (effectiveness) {
             case STRONG:
@@ -257,18 +259,21 @@ public final class Helpers {
             default:
                 damage = Constants.AMMO_STANDARD_DAMAGE;
         }
-        if (!(ammo.getSource() instanceof GigaGal)) {
-            damage -= Constants.AMMO_WEAK_DAMAGE;
-            damage /= 2;
-        } else {
-            ammo.setHitScore(ammo.getHitScore() + destructible.getHitScore());
-        }
-        damage = damage / Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()];
-        if (!(destructible instanceof Orben && !(((Orben) destructible).isActive()))) {
-            if (ammo.getShotIntensity() == Enums.ShotIntensity.BLAST) {
-                destructible.setHealth(destructible.getHealth() - damage);
+        if (hazard instanceof Ammo) {
+            Ammo ammo = (Ammo) hazard;
+            if (!(ammo.getSource() instanceof GigaGal)) {
+                damage -= Constants.AMMO_WEAK_DAMAGE;
+                damage /= 2;
             } else {
-                destructible.setHealth((destructible.getHealth() - (damage * .67f)));
+                ammo.setHitScore(ammo.getHitScore() + destructible.getHitScore());
+            }
+            damage = damage / Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()];
+            if (!(destructible instanceof Orben && !(((Orben) destructible).isActive()))) {
+                if (ammo.getShotIntensity() == Enums.ShotIntensity.BLAST) {
+                    destructible.setHealth(destructible.getHealth() - damage);
+                } else {
+                    destructible.setHealth((destructible.getHealth() - (damage * .67f)));
+                }
             }
         }
     }
