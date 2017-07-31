@@ -91,13 +91,11 @@ public class GigaGal extends Entity implements Humanoid {
     private long strideStartTime;
     private long recoveryStartTime;
     private long swipeStartTime;
-    private long rushStartTime;
     private float chargeTimeSeconds;
     private float lookTimeSeconds;
     private float dashTimeSeconds;
     private float hoverTimeSeconds;
     private float swipeTimeSeconds;
-    private float rushTimeSeconds;
     private float strideTimeSeconds;
     private float strideSpeed;
     private float strideAcceleration;
@@ -214,7 +212,6 @@ public class GigaGal extends Entity implements Humanoid {
         fallStartTime = 0;
         dashStartTime = 0;
         swipeStartTime = 0;
-        rushStartTime = 0;
         standStartTime = TimeUtils.nanoTime();
         recoveryStartTime = TimeUtils.nanoTime();
     }
@@ -294,14 +291,15 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
+
     private void enableSwipe() {
-        if (chargeTimeSeconds > Constants.BLADE_CHARGE_DURATION) {
+        if (chargeTimeSeconds > 1) {
             canSwipe = true;
         } else {
             canSwipe = false;
         }
 
-        if (canSwipe) {
+        if (!canRush && !canCut && canSwipe) {
             if (inputControls.jumpButtonJustPressed) {
                 canFlip = true;
                 bladeState = BladeState.FLIP;
@@ -314,11 +312,9 @@ public class GigaGal extends Entity implements Humanoid {
             bladeState = BladeState.RETRACTED;
         }
 
-        if (action == Action.DASHING) {
-            if (canSwipe) {
-                canRush = true;
-                bladeState = BladeState.RUSH;
-            }
+        if (!canCut && !canFlip && canSwipe && action == Action.DASHING) {
+            canRush = true;
+            bladeState = BladeState.RUSH;
         } else if (canRush) {  // manual deactivation by dash interrupt
             Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
             swipeStartTime = 0;
@@ -327,18 +323,18 @@ public class GigaGal extends Entity implements Humanoid {
             bladeState = BladeState.RETRACTED;
         }
 
-        if (lookStartTime != 0) {
-            if (canSwipe) {
-                canCut = true;
-                bladeState = BladeState.CUT;
-            }
-        } else if (canRush) {
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
-            swipeStartTime = 0;
-            swipeTimeSeconds = 0;
-            canCut = false;
-            bladeState = BladeState.RETRACTED;
-        }
+//        if (!canRush && !canFlip && canSwipe && lookStartTime != 0) {
+//            if (inputControls.jumpButtonJustPressed) {
+//                canCut = true;
+//                bladeState = BladeState.CUT;
+//            }
+//        } else if (canCut) {
+//            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+//            swipeStartTime = 0;
+//            swipeTimeSeconds = 0;
+//            canCut = false;
+//            bladeState = BladeState.RETRACTED;
+//        }
 
         swipe();
     }
@@ -368,13 +364,22 @@ public class GigaGal extends Entity implements Humanoid {
             swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
         }
 
-        if (canCut) {
-            if (swipeStartTime == 0) {
-                swipeStartTime = TimeUtils.nanoTime();
-            }
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
-            swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
-        }
+//        if (canCut) {
+//            if (swipeStartTime == 0) {
+//                swipeStartTime = TimeUtils.nanoTime();
+//            }
+//            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+//            swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
+//        } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
+//            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+//            swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
+//        } else { // auto deactivation when animation completes
+//            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+//            swipeStartTime = 0;
+//            swipeTimeSeconds = 0;
+//            canCut = false;
+//            bladeState = BladeState.RETRACTED;
+//        }
     }
 
     private void setBounds() {

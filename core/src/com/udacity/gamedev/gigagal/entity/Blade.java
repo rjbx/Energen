@@ -53,19 +53,16 @@ public final class Blade extends Hazard implements Indestructible {
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (GigaGal.getInstance().getBladeState() != BladeState.RETRACTED) {
-            if (GigaGal.getInstance().getLookStartTime() == 0) {
-                if (GigaGal.getInstance().getDirectionX() == Direction.RIGHT) {
-                    Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER);
-                } else {
-                    Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER, 1, 0, true, false);
-                }
-            } else {
-                if (GigaGal.getInstance().getDirectionY() == Direction.UP) {
-                    Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER);
-                } else {
-                    Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER, 1, 0, false, true);
-                }
+            boolean flipX = false;
+            boolean flipY = false;
+            if (GigaGal.getInstance().getDirectionX() == Direction.LEFT) {
+                flipX = true;
             }
+            if (GigaGal.getInstance().getLookStartTime() != 0 && GigaGal.getInstance().getDirectionY() == Direction.DOWN) {
+                flipY = true;
+            }
+
+            Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER, 1, 0, flipX, flipY);
         }
     }
 
