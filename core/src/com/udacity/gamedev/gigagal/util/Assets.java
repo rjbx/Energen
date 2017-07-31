@@ -270,9 +270,10 @@ public final class Assets implements AssetErrorListener {
             backhandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, rushRightFrames, PlayMode.REVERSED);
 
             Array<AtlasRegion> cutRightFrames = new Array<AtlasRegion>();
-            cutRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_2));
-            cutRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_3));
-            cutRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_1));
+            cutRightFrames.add(atlas.findRegion(Constants.LOOKUP_STAND_RIGHT));
+            cutRightFrames.add(atlas.findRegion(Constants.STAND_RIGHT));
+            cutRightFrames.add(atlas.findRegion(Constants.STAND_RIGHT));
+            cutRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_RIGHT));
             downhandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, cutRightFrames, PlayMode.NORMAL);
 
             uphandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, cutRightFrames, PlayMode.REVERSED);
@@ -300,9 +301,10 @@ public final class Assets implements AssetErrorListener {
             backhandLeft = new Animation(Constants.SIDESWIPE_FRAME_DURATION, rushLeftFrames, PlayMode.REVERSED);
 
             Array<AtlasRegion> cutLeftFrames = new Array<AtlasRegion>();
-            cutLeftFrames.add(atlas.findRegion(Constants.FLIPSWIPE_LEFT_2));
-            cutLeftFrames.add(atlas.findRegion(Constants.SIDESWIPE_LEFT_3));
-            cutLeftFrames.add(atlas.findRegion(Constants.FLIPSWIPE_LEFT_1));
+            cutLeftFrames.add(atlas.findRegion(Constants.LOOKUP_STAND_LEFT));
+            cutLeftFrames.add(atlas.findRegion(Constants.STAND_LEFT));
+            cutLeftFrames.add(atlas.findRegion(Constants.STAND_LEFT));
+            cutLeftFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_LEFT));
             downhandLeft = new Animation(Constants.SIDESWIPE_FRAME_DURATION, cutLeftFrames, PlayMode.NORMAL);
 
             uphandLeft = new Animation(Constants.SIDESWIPE_FRAME_DURATION, cutLeftFrames, PlayMode.REVERSED);
@@ -806,6 +808,7 @@ public final class Assets implements AssetErrorListener {
 
             Array<AtlasRegion> vertSwipeNativeRegions = new Array<AtlasRegion>();
             vertSwipeNativeRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_1));
+            vertSwipeNativeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_3));
             vertSwipeNativeRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_3));
             vertSwipeNativeRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_2));
             nativeUppercut = new Animation(Constants.SIDESWIPE_FRAME_DURATION, vertSwipeNativeRegions, PlayMode.NORMAL);
@@ -830,6 +833,7 @@ public final class Assets implements AssetErrorListener {
 
             Array<AtlasRegion> vertSwipeLiquidRegions = new Array<AtlasRegion>();
             vertSwipeLiquidRegions.add(atlas.findRegion(Constants.FLIPSWIPE_LIQUID_SPRITE_1));
+            vertSwipeLiquidRegions.add(atlas.findRegion(Constants.SIDESWIPE_LIQUID_SPRITE_3));
             vertSwipeLiquidRegions.add(atlas.findRegion(Constants.FLIPSWIPE_LIQUID_SPRITE_3));
             vertSwipeLiquidRegions.add(atlas.findRegion(Constants.FLIPSWIPE_LIQUID_SPRITE_2));
             liquidUppercut = new Animation(Constants.SIDESWIPE_FRAME_DURATION, vertSwipeLiquidRegions, PlayMode.NORMAL);
@@ -854,6 +858,7 @@ public final class Assets implements AssetErrorListener {
 
             Array<AtlasRegion> vertSwipePlasmaRegions = new Array<AtlasRegion>();
             vertSwipePlasmaRegions.add(atlas.findRegion(Constants.FLIPSWIPE_PLASMA_SPRITE_1));
+            vertSwipePlasmaRegions.add(atlas.findRegion(Constants.SIDESWIPE_PLASMA_SPRITE_3));
             vertSwipePlasmaRegions.add(atlas.findRegion(Constants.FLIPSWIPE_PLASMA_SPRITE_3));
             vertSwipePlasmaRegions.add(atlas.findRegion(Constants.FLIPSWIPE_PLASMA_SPRITE_2));
             plasmaUppercut = new Animation(Constants.SIDESWIPE_FRAME_DURATION, vertSwipePlasmaRegions, PlayMode.NORMAL);
@@ -878,6 +883,7 @@ public final class Assets implements AssetErrorListener {
 
             Array<AtlasRegion> vertSwipeGasRegions = new Array<AtlasRegion>();
             vertSwipeGasRegions.add(atlas.findRegion(Constants.FLIPSWIPE_GAS_SPRITE_1));
+            vertSwipeGasRegions.add(atlas.findRegion(Constants.SIDESWIPE_GAS_SPRITE_3));
             vertSwipeGasRegions.add(atlas.findRegion(Constants.FLIPSWIPE_GAS_SPRITE_3));
             vertSwipeGasRegions.add(atlas.findRegion(Constants.FLIPSWIPE_GAS_SPRITE_2));
             gasUppercut = new Animation(Constants.SIDESWIPE_FRAME_DURATION, vertSwipeGasRegions, PlayMode.NORMAL);
@@ -902,6 +908,7 @@ public final class Assets implements AssetErrorListener {
 
             Array<AtlasRegion> vertSwipeSolidRegions = new Array<AtlasRegion>();
             vertSwipeSolidRegions.add(atlas.findRegion(Constants.FLIPSWIPE_SOLID_SPRITE_1));
+            vertSwipeSolidRegions.add(atlas.findRegion(Constants.SIDESWIPE_SOLID_SPRITE_3));
             vertSwipeSolidRegions.add(atlas.findRegion(Constants.FLIPSWIPE_SOLID_SPRITE_3));
             vertSwipeSolidRegions.add(atlas.findRegion(Constants.FLIPSWIPE_SOLID_SPRITE_2));
             solidUppercut = new Animation(Constants.SIDESWIPE_FRAME_DURATION, vertSwipeSolidRegions, PlayMode.NORMAL);
@@ -926,6 +933,7 @@ public final class Assets implements AssetErrorListener {
 
             Array<AtlasRegion> vertSwipeOreRegions = new Array<AtlasRegion>();
             vertSwipeOreRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ORE_SPRITE_1));
+            vertSwipeOreRegions.add(atlas.findRegion(Constants.SIDESWIPE_ORE_SPRITE_3));
             vertSwipeOreRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ORE_SPRITE_3));
             vertSwipeOreRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ORE_SPRITE_2));
             oreUppercut = new Animation(Constants.SIDESWIPE_FRAME_DURATION, vertSwipeOreRegions, PlayMode.NORMAL);
@@ -950,6 +958,7 @@ public final class Assets implements AssetErrorListener {
 
             Array<AtlasRegion> vertSwipeAntimatterRegions = new Array<AtlasRegion>();
             vertSwipeAntimatterRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ANTIMATTER_SPRITE_1));
+            vertSwipeAntimatterRegions.add(atlas.findRegion(Constants.SIDESWIPE_ANTIMATTER_SPRITE_3));
             vertSwipeAntimatterRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ANTIMATTER_SPRITE_3));
             vertSwipeAntimatterRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ANTIMATTER_SPRITE_2));
             antimatterUppercut = new Animation(Constants.SIDESWIPE_FRAME_DURATION, vertSwipeAntimatterRegions, PlayMode.NORMAL);
@@ -974,6 +983,7 @@ public final class Assets implements AssetErrorListener {
 
             Array<AtlasRegion> vertSwipeHybridRegions = new Array<AtlasRegion>();
             vertSwipeHybridRegions.add(atlas.findRegion(Constants.FLIPSWIPE_HYBRID_SPRITE_1));
+            vertSwipeHybridRegions.add(atlas.findRegion(Constants.SIDESWIPE_HYBRID_SPRITE_3));
             vertSwipeHybridRegions.add(atlas.findRegion(Constants.FLIPSWIPE_HYBRID_SPRITE_3));
             vertSwipeHybridRegions.add(atlas.findRegion(Constants.FLIPSWIPE_HYBRID_SPRITE_2));
             hybridUppercut = new Animation(Constants.SIDESWIPE_FRAME_DURATION, vertSwipeHybridRegions, PlayMode.NORMAL);

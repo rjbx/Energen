@@ -293,7 +293,7 @@ public class GigaGal extends Entity implements Humanoid {
 
 
     private void enableSwipe() {
-        if (chargeTimeSeconds > 1) {
+        if (chargeTimeSeconds > Constants.BLADE_CHARGE_DURATION) {
             canSwipe = true;
         } else {
             canSwipe = false;
