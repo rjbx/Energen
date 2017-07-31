@@ -299,7 +299,7 @@ public class GigaGal extends Entity implements Humanoid {
             canSwipe = false;
         }
 
-        if (!canRush && !canCut && canSwipe) {
+        if (!canRush && !canCut && canSwipe && groundState == GroundState.AIRBORNE) {
             if (inputControls.jumpButtonJustPressed) {
                 canFlip = true;
                 bladeState = BladeState.FLIP;
@@ -323,18 +323,18 @@ public class GigaGal extends Entity implements Humanoid {
             bladeState = BladeState.RETRACTED;
         }
 
-//        if (!canRush && !canFlip && canSwipe && lookStartTime != 0) {
-//            if (inputControls.jumpButtonJustPressed) {
-//                canCut = true;
-//                bladeState = BladeState.CUT;
-//            }
-//        } else if (canCut) {
-//            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
-//            swipeStartTime = 0;
-//            swipeTimeSeconds = 0;
-//            canCut = false;
-//            bladeState = BladeState.RETRACTED;
-//        }
+        if (!canRush && !canFlip && canSwipe && lookStartTime != 0) {
+            if (inputControls.jumpButtonJustPressed) {
+                canCut = true;
+                bladeState = BladeState.CUT;
+            }
+        } else if (canCut) {
+            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+            swipeStartTime = 0;
+            swipeTimeSeconds = 0;
+            canCut = false;
+            bladeState = BladeState.RETRACTED;
+        }
 
         swipe();
     }
@@ -364,22 +364,21 @@ public class GigaGal extends Entity implements Humanoid {
             swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
         }
 
-//        if (canCut) {
-//            if (swipeStartTime == 0) {
-//                swipeStartTime = TimeUtils.nanoTime();
-//            }
-//            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
-//            swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
-//        } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
-//            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
-//            swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
-//        } else { // auto deactivation when animation completes
-//            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
-//            swipeStartTime = 0;
-//            swipeTimeSeconds = 0;
-//            canCut = false;
-//            bladeState = BladeState.RETRACTED;
-//        }
+        if (canCut) {
+            if (swipeStartTime == 0) {
+                swipeStartTime = TimeUtils.nanoTime();
+                swipeTimeSeconds = 0;
+            } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
+                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+                swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
+            } else { // auto deactivation when animation completes
+                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+                swipeStartTime = 0;
+                swipeTimeSeconds = 0;
+                canCut = false;
+                bladeState = BladeState.RETRACTED;
+            }
+        }
     }
 
     private void setBounds() {
