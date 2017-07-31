@@ -376,7 +376,8 @@ public class LevelUpdater {
                         ((Pliable) ground).setCarrier(null);
                     }
                 }
-                if (!InputControls.getInstance().shootButtonPressed) {
+                if (!InputControls.getInstance().shootButtonPressed
+                        || !gigaGal.getMoveStatus()) { // move status set to false when recoiling
                     ((Pliable) ground).setCarrier(null);
                     if (ground instanceof Tossable && (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed)) {
                         ((Tossable) ground).toss((gigaGal.getVelocity().x + Helpers.absoluteToDirectionalValue(ground.getWidth() * 13, gigaGal.getDirectionX(), Enums.Orientation.X)) * ((Tossable) ground).weightFactor());
