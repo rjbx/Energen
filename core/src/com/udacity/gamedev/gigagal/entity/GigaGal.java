@@ -363,6 +363,18 @@ public class GigaGal extends Entity implements Humanoid {
         if (canRush) {
             if (swipeStartTime == 0) {
                 swipeStartTime = TimeUtils.nanoTime();
+            } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
+                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+                swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
+            } else { // auto deactivation when animation completes
+                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+                swipeStartTime = 0;
+                swipeTimeSeconds = 0;
+                canDash = false;
+                stand();
+                canRush = false;
+                bladeState = BladeState.RETRACTED;
+                shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
             }
             Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
             swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);

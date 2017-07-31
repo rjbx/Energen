@@ -263,8 +263,6 @@ public final class Assets implements AssetErrorListener {
             rushRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_2));
             rushRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_3));
             rushRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_3));
-            rushRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_2));
-            rushRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_1));
             forehandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, rushRightFrames, PlayMode.NORMAL);
 
             backhandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, rushRightFrames, PlayMode.REVERSED);
@@ -294,8 +292,6 @@ public final class Assets implements AssetErrorListener {
             rushLeftFrames.add(atlas.findRegion(Constants.SIDESWIPE_LEFT_2));
             rushLeftFrames.add(atlas.findRegion(Constants.SIDESWIPE_LEFT_3));
             rushLeftFrames.add(atlas.findRegion(Constants.SIDESWIPE_LEFT_3));
-            rushLeftFrames.add(atlas.findRegion(Constants.SIDESWIPE_LEFT_2));
-            rushLeftFrames.add(atlas.findRegion(Constants.SIDESWIPE_LEFT_1));
             forehandLeft = new Animation(Constants.SIDESWIPE_FRAME_DURATION, rushLeftFrames, PlayMode.NORMAL);
 
             backhandLeft = new Animation(Constants.SIDESWIPE_FRAME_DURATION, rushLeftFrames, PlayMode.REVERSED);
@@ -802,8 +798,6 @@ public final class Assets implements AssetErrorListener {
             sideSwipeNativeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_2));
             sideSwipeNativeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_3));
             sideSwipeNativeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_3));
-            sideSwipeNativeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_2));
-            sideSwipeNativeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_1));
             nativeForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeNativeRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> vertSwipeNativeRegions = new Array<AtlasRegion>();
@@ -827,8 +821,6 @@ public final class Assets implements AssetErrorListener {
             sideSwipeLiquidRegions.add(atlas.findRegion(Constants.SIDESWIPE_LIQUID_SPRITE_2));
             sideSwipeLiquidRegions.add(atlas.findRegion(Constants.SIDESWIPE_LIQUID_SPRITE_3));
             sideSwipeLiquidRegions.add(atlas.findRegion(Constants.SIDESWIPE_LIQUID_SPRITE_3));
-            sideSwipeLiquidRegions.add(atlas.findRegion(Constants.SIDESWIPE_LIQUID_SPRITE_2));
-            sideSwipeLiquidRegions.add(atlas.findRegion(Constants.SIDESWIPE_LIQUID_SPRITE_1));
             liquidForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeLiquidRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> vertSwipeLiquidRegions = new Array<AtlasRegion>();
@@ -852,8 +844,6 @@ public final class Assets implements AssetErrorListener {
             sideSwipePlasmaRegions.add(atlas.findRegion(Constants.SIDESWIPE_PLASMA_SPRITE_2));
             sideSwipePlasmaRegions.add(atlas.findRegion(Constants.SIDESWIPE_PLASMA_SPRITE_3));
             sideSwipePlasmaRegions.add(atlas.findRegion(Constants.SIDESWIPE_PLASMA_SPRITE_3));
-            sideSwipePlasmaRegions.add(atlas.findRegion(Constants.SIDESWIPE_PLASMA_SPRITE_2));
-            sideSwipePlasmaRegions.add(atlas.findRegion(Constants.SIDESWIPE_PLASMA_SPRITE_1));
             plasmaForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipePlasmaRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> vertSwipePlasmaRegions = new Array<AtlasRegion>();
@@ -877,8 +867,6 @@ public final class Assets implements AssetErrorListener {
             sideSwipeGasRegions.add(atlas.findRegion(Constants.SIDESWIPE_GAS_SPRITE_2));
             sideSwipeGasRegions.add(atlas.findRegion(Constants.SIDESWIPE_GAS_SPRITE_3));
             sideSwipeGasRegions.add(atlas.findRegion(Constants.SIDESWIPE_GAS_SPRITE_3));
-            sideSwipeGasRegions.add(atlas.findRegion(Constants.SIDESWIPE_GAS_SPRITE_2));
-            sideSwipeGasRegions.add(atlas.findRegion(Constants.SIDESWIPE_GAS_SPRITE_1));
             gasForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeGasRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> vertSwipeGasRegions = new Array<AtlasRegion>();
@@ -902,8 +890,6 @@ public final class Assets implements AssetErrorListener {
             sideSwipeSolidRegions.add(atlas.findRegion(Constants.SIDESWIPE_SOLID_SPRITE_2));
             sideSwipeSolidRegions.add(atlas.findRegion(Constants.SIDESWIPE_SOLID_SPRITE_3));
             sideSwipeSolidRegions.add(atlas.findRegion(Constants.SIDESWIPE_SOLID_SPRITE_3));
-            sideSwipeSolidRegions.add(atlas.findRegion(Constants.SIDESWIPE_SOLID_SPRITE_2));
-            sideSwipeSolidRegions.add(atlas.findRegion(Constants.SIDESWIPE_SOLID_SPRITE_1));
             solidForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeSolidRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> vertSwipeSolidRegions = new Array<AtlasRegion>();
@@ -927,8 +913,6 @@ public final class Assets implements AssetErrorListener {
             sideSwipeOreRegions.add(atlas.findRegion(Constants.SIDESWIPE_ORE_SPRITE_2));
             sideSwipeOreRegions.add(atlas.findRegion(Constants.SIDESWIPE_ORE_SPRITE_3));
             sideSwipeOreRegions.add(atlas.findRegion(Constants.SIDESWIPE_ORE_SPRITE_3));
-            sideSwipeOreRegions.add(atlas.findRegion(Constants.SIDESWIPE_ORE_SPRITE_2));
-            sideSwipeOreRegions.add(atlas.findRegion(Constants.SIDESWIPE_ORE_SPRITE_1));
             oreForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeOreRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> vertSwipeOreRegions = new Array<AtlasRegion>();
@@ -952,8 +936,6 @@ public final class Assets implements AssetErrorListener {
             sideSwipeAntimatterRegions.add(atlas.findRegion(Constants.SIDESWIPE_ANTIMATTER_SPRITE_2));
             sideSwipeAntimatterRegions.add(atlas.findRegion(Constants.SIDESWIPE_ANTIMATTER_SPRITE_3));
             sideSwipeAntimatterRegions.add(atlas.findRegion(Constants.SIDESWIPE_ANTIMATTER_SPRITE_3));
-            sideSwipeAntimatterRegions.add(atlas.findRegion(Constants.SIDESWIPE_ANTIMATTER_SPRITE_2));
-            sideSwipeAntimatterRegions.add(atlas.findRegion(Constants.SIDESWIPE_ANTIMATTER_SPRITE_1));
             antimatterForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeAntimatterRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> vertSwipeAntimatterRegions = new Array<AtlasRegion>();
@@ -977,8 +959,6 @@ public final class Assets implements AssetErrorListener {
             sideSwipeHybridRegions.add(atlas.findRegion(Constants.SIDESWIPE_HYBRID_SPRITE_2));
             sideSwipeHybridRegions.add(atlas.findRegion(Constants.SIDESWIPE_HYBRID_SPRITE_3));
             sideSwipeHybridRegions.add(atlas.findRegion(Constants.SIDESWIPE_HYBRID_SPRITE_3));
-            sideSwipeHybridRegions.add(atlas.findRegion(Constants.SIDESWIPE_HYBRID_SPRITE_2));
-            sideSwipeHybridRegions.add(atlas.findRegion(Constants.SIDESWIPE_HYBRID_SPRITE_1));
             hybridForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeHybridRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> vertSwipeHybridRegions = new Array<AtlasRegion>();
