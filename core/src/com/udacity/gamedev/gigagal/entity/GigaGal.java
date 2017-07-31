@@ -238,23 +238,23 @@ public class GigaGal extends Entity implements Humanoid {
                 enableDash();
                 enableClimb(); // must come before jump (for now)
                 enableJump();
-                enableSwipe();
                 enableShoot(weapon);
+                enableSwipe();
             } else if (action == Action.STRIDING) {
                 enableStride();
                 enableDash();
                 enableJump();
-                enableSwipe();
                 enableShoot(weapon);
+                enableSwipe();
             } else if (action == Action.CLIMBING) {
                 enableClimb();
-                enableSwipe();
                 enableShoot(weapon);
+                enableSwipe();
             } else if (action == Action.DASHING) {
                 enableDash();
                 enableJump();
-                enableSwipe();
                 enableShoot(weapon);
+                enableSwipe();
             }
         } else if (groundState == GroundState.AIRBORNE) {
             velocity.y -= Constants.GRAVITY;
@@ -263,30 +263,30 @@ public class GigaGal extends Entity implements Humanoid {
                 enableClimb();
                 enableHover();
                 enableRappel();
-                enableSwipe();
                 enableShoot(weapon);
+                enableSwipe();
             } else if (action == Action.JUMPING) {
                 enableJump();
                 enableClimb();
                 enableRappel();
-                enableSwipe();
                 enableShoot(weapon);
+                enableSwipe();
             } else if (action == Action.HOVERING) {
                 enableHover();
                 enableRappel();
                 enableClimb();
-                enableSwipe();
                 enableShoot(weapon);
+                enableSwipe();
             } else if (action == Action.RAPPELLING) {
                 enableJump();
                 enableRappel();
                 enableClimb();
-                enableSwipe();
                 enableShoot(weapon);
+                enableSwipe();
             } else if (action == Action.RECOILING) {
                 enableRappel();
-                enableSwipe();
                 enableShoot(weapon);
+                enableSwipe();
             }
         }
     }
@@ -296,7 +296,6 @@ public class GigaGal extends Entity implements Humanoid {
         if (chargeTimeSeconds > Constants.BLADE_CHARGE_DURATION) {
             canSwipe = true;
         } else if (canSwipe) {
-            shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
             canSwipe = false;
         }
 
@@ -311,6 +310,7 @@ public class GigaGal extends Entity implements Humanoid {
             swipeTimeSeconds = 0;
             canFlip = false;
             bladeState = BladeState.RETRACTED;
+            shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
         }
 
         if (!canCut && !canFlip && canSwipe && action == Action.DASHING) {
@@ -322,6 +322,7 @@ public class GigaGal extends Entity implements Humanoid {
             swipeTimeSeconds = 0;
             canRush = false;
             bladeState = BladeState.RETRACTED;
+            shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
         }
 
         if (!canRush && !canFlip && canSwipe && lookStartTime != 0) {
@@ -335,6 +336,7 @@ public class GigaGal extends Entity implements Humanoid {
             swipeTimeSeconds = 0;
             canCut = false;
             bladeState = BladeState.RETRACTED;
+            shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
         }
 
         swipe();
@@ -354,6 +356,7 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeTimeSeconds = 0;
                 canFlip = false;
                 bladeState = BladeState.RETRACTED;
+                shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
             }
         }
 
@@ -378,6 +381,7 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeTimeSeconds = 0;
                 canCut = false;
                 bladeState = BladeState.RETRACTED;
+                shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
             }
         }
     }
