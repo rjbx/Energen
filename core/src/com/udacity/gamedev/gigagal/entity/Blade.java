@@ -43,8 +43,6 @@ public final class Blade extends Hazard implements Indestructible {
         hitScore = 0;
         animation = null;
         scale = 1;
-        damage = Constants.AMMO_STANDARD_DAMAGE;
-        knockback = Constants.ZOOMBA_KNOCKBACK;
     }
 
     public void update(float delta) {
@@ -78,6 +76,8 @@ public final class Blade extends Hazard implements Indestructible {
                     } else {
                         animation = Assets.getInstance().getBladeAssets().nativeForehand;
                     }
+                    damage = Constants.AMMO_STANDARD_DAMAGE;
+                    knockback.set(Constants.ZOOMBA_KNOCKBACK);
                     break;
                 case LIQUID:
                     if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
@@ -85,6 +85,8 @@ public final class Blade extends Hazard implements Indestructible {
                     } else {
                         animation = Assets.getInstance().getBladeAssets().liquidForehand;
                     }
+                    damage = Constants.PROTRUSION_LIQUID_DAMAGE;
+                    knockback.set(Constants.PROTRUSION_LIQUID_KNOCKBACK);
                     break;
             }
         }
