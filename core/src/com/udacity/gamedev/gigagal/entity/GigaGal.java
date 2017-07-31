@@ -310,7 +310,6 @@ public class GigaGal extends Entity implements Humanoid {
             swipeTimeSeconds = 0;
             canFlip = false;
             bladeState = BladeState.RETRACTED;
-            shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
         }
 
         if (!canCut && !canFlip && canSwipe && action == Action.DASHING) {
@@ -322,7 +321,6 @@ public class GigaGal extends Entity implements Humanoid {
             swipeTimeSeconds = 0;
             canRush = false;
             bladeState = BladeState.RETRACTED;
-            shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
         }
 
         if (!canRush && !canFlip && canSwipe && lookStartTime != 0) {
@@ -336,7 +334,6 @@ public class GigaGal extends Entity implements Humanoid {
             swipeTimeSeconds = 0;
             canCut = false;
             bladeState = BladeState.RETRACTED;
-            shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
         }
 
         swipe();
@@ -356,7 +353,9 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeTimeSeconds = 0;
                 canFlip = false;
                 bladeState = BladeState.RETRACTED;
-                shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
+                if (inputControls.jumpButtonPressed) {
+                    shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
+                }
             }
         }
 
@@ -374,10 +373,10 @@ public class GigaGal extends Entity implements Humanoid {
                 stand();
                 canRush = false;
                 bladeState = BladeState.RETRACTED;
-                shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
+                if ((directionX == Direction.RIGHT && inputControls.rightButtonPressed) || (directionX == Direction.LEFT && inputControls.leftButtonPressed)) {
+                    shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
+                }
             }
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
-            swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
         }
 
         if (canCut) {
@@ -393,7 +392,9 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeTimeSeconds = 0;
                 canCut = false;
                 bladeState = BladeState.RETRACTED;
-                shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
+                if (inputControls.jumpButtonPressed) {
+                    shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
+                }
             }
         }
     }
