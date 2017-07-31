@@ -501,8 +501,8 @@ public class LevelUpdater {
             projectiles.end();
 
             if (Helpers.overlapsPhysicalObject(Blade.getInstance(), destructible)) {
-                if (GigaGal.getInstance().getBladeState() == Enums.BladeState.BACKFLIP
-                        || (GigaGal.getInstance().getBladeState() == Enums.BladeState.BACKHAND && Helpers.betweenTwoValues(destructible.getPosition().y, GigaGal.getInstance().getBottom(), GigaGal.getInstance().getTop()))) {
+                if (GigaGal.getInstance().getBladeState() == Enums.BladeState.FLIP
+                        || (GigaGal.getInstance().getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, GigaGal.getInstance().getBottom(), GigaGal.getInstance().getTop()))) {
                     Helpers.applyDamage(destructible, Blade.getInstance());
                 }
             }

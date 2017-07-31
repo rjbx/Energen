@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sun.org.apache.bcel.internal.generic.GOTO;
 import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -51,18 +52,19 @@ public final class Blade extends Hazard implements Indestructible {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        if (GigaGal.getInstance().getBladeState() != BladeState.RETRACTED)
-        if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
-            if (GigaGal.getInstance().getDirectionX() == Direction.RIGHT) {
-                Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER);
+        if (GigaGal.getInstance().getBladeState() != BladeState.RETRACTED) {
+            if (GigaGal.getInstance().getLookStartTime() == 0) {
+                if (GigaGal.getInstance().getDirectionX() == Direction.RIGHT) {
+                    Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER);
+                } else {
+                    Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER, 1, 0, true, false);
+                }
             } else {
-                Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER, 1, 0, true, false);
-            }
-        } else if (GigaGal.getInstance().getBladeState() == BladeState.BACKHAND) {
-            if (GigaGal.getInstance().getDirectionX() == Direction.RIGHT) {
-                Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER);
-            } else {
-                Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER, 1, 0, true, false);
+                if (GigaGal.getInstance().getDirectionY() == Direction.UP) {
+                    Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER);
+                } else {
+                    Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER, 1, 0, false, true);
+                }
             }
         }
     }
@@ -71,73 +73,121 @@ public final class Blade extends Hazard implements Indestructible {
         if (GigaGal.getInstance().getBladeState() != BladeState.RETRACTED) {
             switch (weapon) {
                 case NATIVE:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
-                        animation = Assets.getInstance().getBladeAssets().nativeBackflip;
-                    } else {
-                        animation = Assets.getInstance().getBladeAssets().nativeForehand;
+                    switch (GigaGal.getInstance().getBladeState()) {
+                        case FLIP:
+                            animation = Assets.getInstance().getBladeAssets().nativeBackflip;
+                            break;
+                        case RUSH:
+                            animation = Assets.getInstance().getBladeAssets().nativeForehand;
+                            break;
+                        case CUT:
+                            animation = Assets.getInstance().getBladeAssets().nativeUppercut;
+                            break;
                     }
                     damage = Constants.AMMO_STANDARD_DAMAGE;
                     knockback.set(Constants.ZOOMBA_KNOCKBACK);
                     break;
                 case LIQUID:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
-                        animation = Assets.getInstance().getBladeAssets().liquidBackflip;
-                    } else {
-                        animation = Assets.getInstance().getBladeAssets().liquidForehand;
+                    switch (GigaGal.getInstance().getBladeState()) {
+                        case FLIP:
+                            animation = Assets.getInstance().getBladeAssets().liquidBackflip;
+                            break;
+                        case RUSH:
+                            animation = Assets.getInstance().getBladeAssets().liquidForehand;
+                            break;
+                        case CUT:
+                            animation = Assets.getInstance().getBladeAssets().liquidUppercut;
+                            break;
                     }
                     damage = Constants.PROTRUSION_LIQUID_DAMAGE;
                     knockback.set(Constants.PROTRUSION_LIQUID_KNOCKBACK);
                     break;
                 case PLASMA:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
-                        animation = Assets.getInstance().getBladeAssets().plasmaBackflip;
-                    } else {
-                        animation = Assets.getInstance().getBladeAssets().plasmaForehand;
+                    switch (GigaGal.getInstance().getBladeState()) {
+                        case FLIP:
+                            animation = Assets.getInstance().getBladeAssets().plasmaBackflip;
+                            break;
+                        case RUSH:
+                            animation = Assets.getInstance().getBladeAssets().plasmaForehand;
+                            break;
+                        case CUT:
+                            animation = Assets.getInstance().getBladeAssets().plasmaUppercut;
+                            break;
                     }
                     damage = Constants.PROTRUSION_PLASMA_DAMAGE;
                     knockback.set(Constants.PROTRUSION_PLASMA_KNOCKBACK);
                     break;
                 case GAS:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
-                        animation = Assets.getInstance().getBladeAssets().gasBackflip;
-                    } else {
-                        animation = Assets.getInstance().getBladeAssets().gasForehand;
+                    switch (GigaGal.getInstance().getBladeState()) {
+                        case FLIP:
+                            animation = Assets.getInstance().getBladeAssets().gasBackflip;
+                            break;
+                        case RUSH:
+                            animation = Assets.getInstance().getBladeAssets().gasForehand;
+                            break;
+                        case CUT:
+                            animation = Assets.getInstance().getBladeAssets().gasUppercut;
+                            break;
                     }
                     damage = Constants.PROTRUSION_GAS_DAMAGE;
                     knockback.set(Constants.PROTRUSION_GAS_KNOCKBACK);
                     break;
                 case SOLID:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
-                        animation = Assets.getInstance().getBladeAssets().solidBackflip;
-                    } else {
-                        animation = Assets.getInstance().getBladeAssets().solidForehand;
+                    switch (GigaGal.getInstance().getBladeState()) {
+                        case FLIP:
+                            animation = Assets.getInstance().getBladeAssets().solidBackflip;
+                            break;
+                        case RUSH:
+                            animation = Assets.getInstance().getBladeAssets().solidForehand;
+                            break;
+                        case CUT:
+                            animation = Assets.getInstance().getBladeAssets().solidUppercut;
+                            break;
                     }
                     damage = Constants.PROTRUSION_SOLID_DAMAGE;
                     knockback.set(Constants.PROTRUSION_SOLID_KNOCKBACK);
                     break;
                 case ORE:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
-                        animation = Assets.getInstance().getBladeAssets().oreBackflip;
-                    } else {
-                        animation = Assets.getInstance().getBladeAssets().oreForehand;
+                    switch (GigaGal.getInstance().getBladeState()) {
+                        case FLIP:
+                            animation = Assets.getInstance().getBladeAssets().oreBackflip;
+                            break;
+                        case RUSH:
+                            animation = Assets.getInstance().getBladeAssets().oreForehand;
+                            break;
+                        case CUT:
+                            animation = Assets.getInstance().getBladeAssets().oreUppercut;
+                            break;
                     }
                     damage = Constants.PROTRUSION_ORE_DAMAGE;
                     knockback.set(Constants.PROTRUSION_ORE_KNOCKBACK);
                     break;
                 case ANTIMATTER:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
-                        animation = Assets.getInstance().getBladeAssets().antimatterBackflip;
-                    } else {
-                        animation = Assets.getInstance().getBladeAssets().antimatterForehand;
+                    switch (GigaGal.getInstance().getBladeState()) {
+                        case FLIP:
+                            animation = Assets.getInstance().getBladeAssets().antimatterBackflip;
+                            break;
+                        case RUSH:
+                            animation = Assets.getInstance().getBladeAssets().antimatterForehand;
+                            break;
+                        case CUT:
+                            animation = Assets.getInstance().getBladeAssets().antimatterUppercut;
+                            break;
                     }
                     damage = Constants.SUSPENSION_ANTIMATTER_DAMAGE;
                     knockback.set(Constants.SUSPENSION_ANTIMATTER_KNOCKBACK);
                     break;
                 case HYBRID:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
-                        animation = Assets.getInstance().getBladeAssets().hybridBackflip;
-                    } else {
-                        animation = Assets.getInstance().getBladeAssets().hybridForehand;
+                    switch (GigaGal.getInstance().getBladeState()) {
+                        case FLIP:
+                            animation = Assets.getInstance().getBladeAssets().hybridBackflip;
+                            break;
+                        case RUSH:
+                            animation = Assets.getInstance().getBladeAssets().hybridForehand;
+                            break;
+                        case CUT:
+                            animation = Assets.getInstance().getBladeAssets().hybridUppercut;
+                            break;
                     }
                     damage = Constants.SUSPENSION_ANTIMATTER_DAMAGE;
                     knockback.set(Constants.SUSPENSION_ANTIMATTER_KNOCKBACK);

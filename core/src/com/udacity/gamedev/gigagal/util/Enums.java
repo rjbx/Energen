@@ -53,7 +53,7 @@ public final class Enums {
     }
 
     public enum BladeState {
-        RETRACTED, CHARGED, BACKHAND, FOREHAND, BACKFLIP, FRONTFLIP, UPPERCUT, AXECUT
+        RETRACTED, RUSH, FLIP, CUT
     }
 
     public enum ReactionIntensity {
