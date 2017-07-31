@@ -52,13 +52,13 @@ public final class Blade extends Hazard implements Indestructible {
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (GigaGal.getInstance().getBladeState() != BladeState.RETRACTED)
-        if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+        if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
             if (GigaGal.getInstance().getDirectionX() == Direction.RIGHT) {
                 Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER);
             } else {
                 Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER, 1, 0, true, false);
             }
-        } else if (GigaGal.getInstance().getBladeState() == BladeState.RUSH) {
+        } else if (GigaGal.getInstance().getBladeState() == BladeState.BACKHAND) {
             if (GigaGal.getInstance().getDirectionX() == Direction.RIGHT) {
                 Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER);
             } else {
@@ -71,7 +71,7 @@ public final class Blade extends Hazard implements Indestructible {
         if (GigaGal.getInstance().getBladeState() != BladeState.RETRACTED) {
             switch (weapon) {
                 case NATIVE:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
                         animation = Assets.getInstance().getBladeAssets().nativeBackflip;
                     } else {
                         animation = Assets.getInstance().getBladeAssets().nativeForehand;
@@ -80,7 +80,7 @@ public final class Blade extends Hazard implements Indestructible {
                     knockback.set(Constants.ZOOMBA_KNOCKBACK);
                     break;
                 case LIQUID:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
                         animation = Assets.getInstance().getBladeAssets().liquidBackflip;
                     } else {
                         animation = Assets.getInstance().getBladeAssets().liquidForehand;
@@ -89,7 +89,7 @@ public final class Blade extends Hazard implements Indestructible {
                     knockback.set(Constants.PROTRUSION_LIQUID_KNOCKBACK);
                     break;
                 case PLASMA:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
                         animation = Assets.getInstance().getBladeAssets().plasmaBackflip;
                     } else {
                         animation = Assets.getInstance().getBladeAssets().plasmaForehand;
@@ -98,7 +98,7 @@ public final class Blade extends Hazard implements Indestructible {
                     knockback.set(Constants.PROTRUSION_PLASMA_KNOCKBACK);
                     break;
                 case GAS:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
                         animation = Assets.getInstance().getBladeAssets().gasBackflip;
                     } else {
                         animation = Assets.getInstance().getBladeAssets().gasForehand;
@@ -107,7 +107,7 @@ public final class Blade extends Hazard implements Indestructible {
                     knockback.set(Constants.PROTRUSION_GAS_KNOCKBACK);
                     break;
                 case SOLID:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
                         animation = Assets.getInstance().getBladeAssets().solidBackflip;
                     } else {
                         animation = Assets.getInstance().getBladeAssets().solidForehand;
@@ -116,7 +116,7 @@ public final class Blade extends Hazard implements Indestructible {
                     knockback.set(Constants.PROTRUSION_SOLID_KNOCKBACK);
                     break;
                 case ORE:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
                         animation = Assets.getInstance().getBladeAssets().oreBackflip;
                     } else {
                         animation = Assets.getInstance().getBladeAssets().oreForehand;
@@ -125,7 +125,7 @@ public final class Blade extends Hazard implements Indestructible {
                     knockback.set(Constants.PROTRUSION_ORE_KNOCKBACK);
                     break;
                 case ANTIMATTER:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
                         animation = Assets.getInstance().getBladeAssets().antimatterBackflip;
                     } else {
                         animation = Assets.getInstance().getBladeAssets().antimatterForehand;
@@ -134,7 +134,7 @@ public final class Blade extends Hazard implements Indestructible {
                     knockback.set(Constants.SUSPENSION_ANTIMATTER_KNOCKBACK);
                     break;
                 case HYBRID:
-                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                    if (GigaGal.getInstance().getBladeState() == BladeState.BACKFLIP) {
                         animation = Assets.getInstance().getBladeAssets().hybridBackflip;
                     } else {
                         animation = Assets.getInstance().getBladeAssets().hybridForehand;

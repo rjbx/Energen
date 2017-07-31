@@ -59,7 +59,7 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
         if (shotIntensity == ShotIntensity.BLAST) {
             radius = Constants.BLAST_RADIUS;
         } else if (shotIntensity == ShotIntensity.CHARGED) {
-            scale += (Constants.CHARGE_DURATION / 3);
+            scale += (Constants.BLAST_CHARGE_DURATION / 3);
             radius = Constants.SHOT_RADIUS;
             radius *= scale;
         } else {

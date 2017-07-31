@@ -998,9 +998,9 @@ public class Boss extends Hazard implements Destructible, Humanoid {
             if (inputControls.shootButtonPressed || (action == Action.RAPPELLING && (inputControls.rightButtonPressed || inputControls.leftButtonPressed))) {
                 if (chargeStartTime == 0) {
                     chargeStartTime = TimeUtils.nanoTime();
-                } else if (chargeTimeSeconds > Constants.CHARGE_DURATION) {
+                } else if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION) {
                     shotIntensity = ShotIntensity.BLAST;
-                } else if (chargeTimeSeconds > Constants.CHARGE_DURATION / 3) {
+                } else if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION / 3) {
                     shotIntensity = ShotIntensity.CHARGED;
                 }
                 chargeTimeSeconds = Helpers.secondsSince(chargeStartTime) + chargeModifier;

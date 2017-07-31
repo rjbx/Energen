@@ -89,6 +89,8 @@ public class IndicatorHud {
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
+        } else if (GigaGal.getInstance().getBladeState() == Enums.BladeState.CHARGED) {
+
         }
 
         final TextureRegion lifeIcon = Assets.getInstance().getHudAssets().life;

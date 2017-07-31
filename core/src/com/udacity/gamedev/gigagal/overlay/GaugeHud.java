@@ -58,7 +58,7 @@ public final class GaugeHud {
         renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 6, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, (gigaGal.getTurbo() / Constants.MAX_TURBO) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
 
         // ammo
-        if (gigaGal.getChargeTimeSeconds() >  Constants.CHARGE_DURATION / 4) {
+        if (gigaGal.getChargeTimeSeconds() >  Constants.BLAST_CHARGE_DURATION / 4) {
             renderer.setColor(Constants.AMMO_CHARGED_COLOR);
         } else {
             renderer.setColor(Constants.AMMO_NORMAL_COLOR);

@@ -290,10 +290,14 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     private void enableSwipe() {
-        if (!canRush && inputControls.shootButtonPressed) {
+        if (chargeTimeSeconds > Constants.BLADE_CHARGE_DURATION) {
+            bladeState = BladeState.CHARGED;
+        }
+
+        if (!canRush && bladeState == BladeState.CHARGED) {
             if (inputControls.jumpButtonJustPressed) {
                 canFlip = true;
-                bladeState = BladeState.FLIP;
+                bladeState = BladeState.BACKFLIP;
             }
         } else if (canFlip) { // manual deactivation by shoot button release
             Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
@@ -303,9 +307,9 @@ public class GigaGal extends Entity implements Humanoid {
             bladeState = BladeState.RETRACTED;
         }
 
-        if (!canFlip && action == Action.DASHING && chargeTimeSeconds > Constants.CHARGE_DURATION) {
+        if (!canFlip && action == Action.DASHING && bladeState == BladeState.CHARGED) {
             canRush  = true;
-            bladeState = BladeState.RUSH;
+            bladeState = BladeState.BACKHAND;
         } else if (canRush) {
             Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
             flipStartTime = 0;
@@ -313,6 +317,8 @@ public class GigaGal extends Entity implements Humanoid {
             canRush = false;
             bladeState = BladeState.RETRACTED;
         }
+
+
 
         swipe();
     }
@@ -1024,9 +1030,9 @@ public class GigaGal extends Entity implements Humanoid {
             if (inputControls.shootButtonPressed || (action == Action.RAPPELLING && (inputControls.rightButtonPressed || inputControls.leftButtonPressed))) {
                 if (chargeStartTime == 0) {
                     chargeStartTime = TimeUtils.nanoTime();
-                } else if (chargeTimeSeconds > Constants.CHARGE_DURATION) {
+                } else if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION) {
                     shotIntensity = ShotIntensity.BLAST;
-                } else if (chargeTimeSeconds > Constants.CHARGE_DURATION / 3) {
+                } else if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION / 3) {
                     shotIntensity = ShotIntensity.CHARGED;
                 }
                 chargeTimeSeconds = Helpers.secondsSince(chargeStartTime) + chargeModifier;

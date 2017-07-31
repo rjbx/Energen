@@ -637,7 +637,7 @@ public final class Constants {
     public static final Vector2 GATE_CENTER = new Vector2(4, 17.5f);
 
     // Ammo
-    public static final float CHARGE_DURATION = 1;
+    public static final float BLAST_CHARGE_DURATION = 1;
     public static final float AMMO_MAX_SPEED = 300;
     public static final float AMMO_NORMAL_SPEED = 180;
     public static final int AMMO_STANDARD_DAMAGE = 10;
@@ -690,6 +690,8 @@ public final class Constants {
     public static final String BLAST_HYBRID_SPRITE_3 = "ammo-blast-hybrid-3";
 
     // Blade
+    public static final float BLADE_CHARGE_DURATION = 1.5f;
+
     public static final String FLIPSWIPE_NATIVE_SPRITE_1 = "blade-flip-native-1";
     public static final String FLIPSWIPE_NATIVE_SPRITE_2 = "blade-flip-native-2";
     public static final String FLIPSWIPE_NATIVE_SPRITE_3 = "blade-flip-native-3";
