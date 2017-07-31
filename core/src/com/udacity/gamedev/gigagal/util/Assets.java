@@ -743,6 +743,18 @@ public final class Assets implements AssetErrorListener {
         public final Animation nativeForehand;
         public final Animation liquidBackflip;
         public final Animation liquidForehand;
+        public final Animation plasmaBackflip;
+        public final Animation plasmaForehand;
+        public final Animation gasBackflip;
+        public final Animation gasForehand;
+        public final Animation solidBackflip;
+        public final Animation solidForehand;
+        public final Animation oreBackflip;
+        public final Animation oreForehand;
+        public final Animation antimatterBackflip;
+        public final Animation antimatterForehand;
+        public final Animation hybridBackflip;
+        public final Animation hybridForehand;
         
         private BladeAssets(TextureAtlas atlas) {
             
@@ -781,6 +793,114 @@ public final class Assets implements AssetErrorListener {
             sideSwipeLiquidRegions.add(atlas.findRegion(Constants.SIDESWIPE_LIQUID_SPRITE_2));
             sideSwipeLiquidRegions.add(atlas.findRegion(Constants.SIDESWIPE_LIQUID_SPRITE_1));
             liquidForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeLiquidRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> flipSwipePlasmaRegions = new Array<AtlasRegion>();
+            flipSwipePlasmaRegions.add(atlas.findRegion(Constants.FLIPSWIPE_PLASMA_SPRITE_1));
+            flipSwipePlasmaRegions.add(atlas.findRegion(Constants.SIDESWIPE_PLASMA_SPRITE_3));
+            flipSwipePlasmaRegions.add(atlas.findRegion(Constants.FLIPSWIPE_PLASMA_SPRITE_3));
+            flipSwipePlasmaRegions.add(atlas.findRegion(Constants.FLIPSWIPE_PLASMA_SPRITE_4));
+            flipSwipePlasmaRegions.add(atlas.findRegion(Constants.FLIPSWIPE_PLASMA_SPRITE_5));
+            flipSwipePlasmaRegions.add(atlas.findRegion(Constants.FLIPSWIPE_PLASMA_SPRITE_6));
+            plasmaBackflip = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipSwipePlasmaRegions, PlayMode.LOOP);
+
+            Array<AtlasRegion> sideSwipePlasmaRegions = new Array<AtlasRegion>();
+            sideSwipePlasmaRegions.add(atlas.findRegion(Constants.SIDESWIPE_PLASMA_SPRITE_1));
+            sideSwipePlasmaRegions.add(atlas.findRegion(Constants.SIDESWIPE_PLASMA_SPRITE_2));
+            sideSwipePlasmaRegions.add(atlas.findRegion(Constants.SIDESWIPE_PLASMA_SPRITE_3));
+            sideSwipePlasmaRegions.add(atlas.findRegion(Constants.SIDESWIPE_PLASMA_SPRITE_3));
+            sideSwipePlasmaRegions.add(atlas.findRegion(Constants.SIDESWIPE_PLASMA_SPRITE_2));
+            sideSwipePlasmaRegions.add(atlas.findRegion(Constants.SIDESWIPE_PLASMA_SPRITE_1));
+            plasmaForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipePlasmaRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> flipSwipeGasRegions = new Array<AtlasRegion>();
+            flipSwipeGasRegions.add(atlas.findRegion(Constants.FLIPSWIPE_GAS_SPRITE_1));
+            flipSwipeGasRegions.add(atlas.findRegion(Constants.SIDESWIPE_GAS_SPRITE_3));
+            flipSwipeGasRegions.add(atlas.findRegion(Constants.FLIPSWIPE_GAS_SPRITE_3));
+            flipSwipeGasRegions.add(atlas.findRegion(Constants.FLIPSWIPE_GAS_SPRITE_4));
+            flipSwipeGasRegions.add(atlas.findRegion(Constants.FLIPSWIPE_GAS_SPRITE_5));
+            flipSwipeGasRegions.add(atlas.findRegion(Constants.FLIPSWIPE_GAS_SPRITE_6));
+            gasBackflip = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipSwipeGasRegions, PlayMode.LOOP);
+
+            Array<AtlasRegion> sideSwipeGasRegions = new Array<AtlasRegion>();
+            sideSwipeGasRegions.add(atlas.findRegion(Constants.SIDESWIPE_GAS_SPRITE_1));
+            sideSwipeGasRegions.add(atlas.findRegion(Constants.SIDESWIPE_GAS_SPRITE_2));
+            sideSwipeGasRegions.add(atlas.findRegion(Constants.SIDESWIPE_GAS_SPRITE_3));
+            sideSwipeGasRegions.add(atlas.findRegion(Constants.SIDESWIPE_GAS_SPRITE_3));
+            sideSwipeGasRegions.add(atlas.findRegion(Constants.SIDESWIPE_GAS_SPRITE_2));
+            sideSwipeGasRegions.add(atlas.findRegion(Constants.SIDESWIPE_GAS_SPRITE_1));
+            gasForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeGasRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> flipSwipeSolidRegions = new Array<AtlasRegion>();
+            flipSwipeSolidRegions.add(atlas.findRegion(Constants.FLIPSWIPE_SOLID_SPRITE_1));
+            flipSwipeSolidRegions.add(atlas.findRegion(Constants.SIDESWIPE_SOLID_SPRITE_3));
+            flipSwipeSolidRegions.add(atlas.findRegion(Constants.FLIPSWIPE_SOLID_SPRITE_3));
+            flipSwipeSolidRegions.add(atlas.findRegion(Constants.FLIPSWIPE_SOLID_SPRITE_4));
+            flipSwipeSolidRegions.add(atlas.findRegion(Constants.FLIPSWIPE_SOLID_SPRITE_5));
+            flipSwipeSolidRegions.add(atlas.findRegion(Constants.FLIPSWIPE_SOLID_SPRITE_6));
+            solidBackflip = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipSwipeSolidRegions, PlayMode.LOOP);
+
+            Array<AtlasRegion> sideSwipeSolidRegions = new Array<AtlasRegion>();
+            sideSwipeSolidRegions.add(atlas.findRegion(Constants.SIDESWIPE_SOLID_SPRITE_1));
+            sideSwipeSolidRegions.add(atlas.findRegion(Constants.SIDESWIPE_SOLID_SPRITE_2));
+            sideSwipeSolidRegions.add(atlas.findRegion(Constants.SIDESWIPE_SOLID_SPRITE_3));
+            sideSwipeSolidRegions.add(atlas.findRegion(Constants.SIDESWIPE_SOLID_SPRITE_3));
+            sideSwipeSolidRegions.add(atlas.findRegion(Constants.SIDESWIPE_SOLID_SPRITE_2));
+            sideSwipeSolidRegions.add(atlas.findRegion(Constants.SIDESWIPE_SOLID_SPRITE_1));
+            solidForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeSolidRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> flipSwipeOreRegions = new Array<AtlasRegion>();
+            flipSwipeOreRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ORE_SPRITE_1));
+            flipSwipeOreRegions.add(atlas.findRegion(Constants.SIDESWIPE_ORE_SPRITE_3));
+            flipSwipeOreRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ORE_SPRITE_3));
+            flipSwipeOreRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ORE_SPRITE_4));
+            flipSwipeOreRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ORE_SPRITE_5));
+            flipSwipeOreRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ORE_SPRITE_6));
+            oreBackflip = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipSwipeOreRegions, PlayMode.LOOP);
+
+            Array<AtlasRegion> sideSwipeOreRegions = new Array<AtlasRegion>();
+            sideSwipeOreRegions.add(atlas.findRegion(Constants.SIDESWIPE_ORE_SPRITE_1));
+            sideSwipeOreRegions.add(atlas.findRegion(Constants.SIDESWIPE_ORE_SPRITE_2));
+            sideSwipeOreRegions.add(atlas.findRegion(Constants.SIDESWIPE_ORE_SPRITE_3));
+            sideSwipeOreRegions.add(atlas.findRegion(Constants.SIDESWIPE_ORE_SPRITE_3));
+            sideSwipeOreRegions.add(atlas.findRegion(Constants.SIDESWIPE_ORE_SPRITE_2));
+            sideSwipeOreRegions.add(atlas.findRegion(Constants.SIDESWIPE_ORE_SPRITE_1));
+            oreForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeOreRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> flipSwipeAntimatterRegions = new Array<AtlasRegion>();
+            flipSwipeAntimatterRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ANTIMATTER_SPRITE_1));
+            flipSwipeAntimatterRegions.add(atlas.findRegion(Constants.SIDESWIPE_ANTIMATTER_SPRITE_3));
+            flipSwipeAntimatterRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ANTIMATTER_SPRITE_3));
+            flipSwipeAntimatterRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ANTIMATTER_SPRITE_4));
+            flipSwipeAntimatterRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ANTIMATTER_SPRITE_5));
+            flipSwipeAntimatterRegions.add(atlas.findRegion(Constants.FLIPSWIPE_ANTIMATTER_SPRITE_6));
+            antimatterBackflip = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipSwipeAntimatterRegions, PlayMode.LOOP);
+
+            Array<AtlasRegion> sideSwipeAntimatterRegions = new Array<AtlasRegion>();
+            sideSwipeAntimatterRegions.add(atlas.findRegion(Constants.SIDESWIPE_ANTIMATTER_SPRITE_1));
+            sideSwipeAntimatterRegions.add(atlas.findRegion(Constants.SIDESWIPE_ANTIMATTER_SPRITE_2));
+            sideSwipeAntimatterRegions.add(atlas.findRegion(Constants.SIDESWIPE_ANTIMATTER_SPRITE_3));
+            sideSwipeAntimatterRegions.add(atlas.findRegion(Constants.SIDESWIPE_ANTIMATTER_SPRITE_3));
+            sideSwipeAntimatterRegions.add(atlas.findRegion(Constants.SIDESWIPE_ANTIMATTER_SPRITE_2));
+            sideSwipeAntimatterRegions.add(atlas.findRegion(Constants.SIDESWIPE_ANTIMATTER_SPRITE_1));
+            antimatterForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeAntimatterRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> flipSwipeHybridRegions = new Array<AtlasRegion>();
+            flipSwipeHybridRegions.add(atlas.findRegion(Constants.FLIPSWIPE_HYBRID_SPRITE_1));
+            flipSwipeHybridRegions.add(atlas.findRegion(Constants.SIDESWIPE_HYBRID_SPRITE_3));
+            flipSwipeHybridRegions.add(atlas.findRegion(Constants.FLIPSWIPE_HYBRID_SPRITE_3));
+            flipSwipeHybridRegions.add(atlas.findRegion(Constants.FLIPSWIPE_HYBRID_SPRITE_4));
+            flipSwipeHybridRegions.add(atlas.findRegion(Constants.FLIPSWIPE_HYBRID_SPRITE_5));
+            flipSwipeHybridRegions.add(atlas.findRegion(Constants.FLIPSWIPE_HYBRID_SPRITE_6));
+            hybridBackflip = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipSwipeHybridRegions, PlayMode.LOOP);
+
+            Array<AtlasRegion> sideSwipeHybridRegions = new Array<AtlasRegion>();
+            sideSwipeHybridRegions.add(atlas.findRegion(Constants.SIDESWIPE_HYBRID_SPRITE_1));
+            sideSwipeHybridRegions.add(atlas.findRegion(Constants.SIDESWIPE_HYBRID_SPRITE_2));
+            sideSwipeHybridRegions.add(atlas.findRegion(Constants.SIDESWIPE_HYBRID_SPRITE_3));
+            sideSwipeHybridRegions.add(atlas.findRegion(Constants.SIDESWIPE_HYBRID_SPRITE_3));
+            sideSwipeHybridRegions.add(atlas.findRegion(Constants.SIDESWIPE_HYBRID_SPRITE_2));
+            sideSwipeHybridRegions.add(atlas.findRegion(Constants.SIDESWIPE_HYBRID_SPRITE_1));
+            hybridForehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, sideSwipeHybridRegions, PlayMode.NORMAL);
         }
     }
     

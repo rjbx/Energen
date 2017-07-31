@@ -88,6 +88,60 @@ public final class Blade extends Hazard implements Indestructible {
                     damage = Constants.PROTRUSION_LIQUID_DAMAGE;
                     knockback.set(Constants.PROTRUSION_LIQUID_KNOCKBACK);
                     break;
+                case PLASMA:
+                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                        animation = Assets.getInstance().getBladeAssets().plasmaBackflip;
+                    } else {
+                        animation = Assets.getInstance().getBladeAssets().plasmaForehand;
+                    }
+                    damage = Constants.PROTRUSION_PLASMA_DAMAGE;
+                    knockback.set(Constants.PROTRUSION_PLASMA_KNOCKBACK);
+                    break;
+                case GAS:
+                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                        animation = Assets.getInstance().getBladeAssets().gasBackflip;
+                    } else {
+                        animation = Assets.getInstance().getBladeAssets().gasForehand;
+                    }
+                    damage = Constants.PROTRUSION_GAS_DAMAGE;
+                    knockback.set(Constants.PROTRUSION_GAS_KNOCKBACK);
+                    break;
+                case SOLID:
+                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                        animation = Assets.getInstance().getBladeAssets().solidBackflip;
+                    } else {
+                        animation = Assets.getInstance().getBladeAssets().solidForehand;
+                    }
+                    damage = Constants.PROTRUSION_SOLID_DAMAGE;
+                    knockback.set(Constants.PROTRUSION_SOLID_KNOCKBACK);
+                    break;
+                case ORE:
+                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                        animation = Assets.getInstance().getBladeAssets().oreBackflip;
+                    } else {
+                        animation = Assets.getInstance().getBladeAssets().oreForehand;
+                    }
+                    damage = Constants.PROTRUSION_ORE_DAMAGE;
+                    knockback.set(Constants.PROTRUSION_ORE_KNOCKBACK);
+                    break;
+                case ANTIMATTER:
+                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                        animation = Assets.getInstance().getBladeAssets().antimatterBackflip;
+                    } else {
+                        animation = Assets.getInstance().getBladeAssets().antimatterForehand;
+                    }
+                    damage = Constants.SUSPENSION_ANTIMATTER_DAMAGE;
+                    knockback.set(Constants.SUSPENSION_ANTIMATTER_KNOCKBACK);
+                    break;
+                case HYBRID:
+                    if (GigaGal.getInstance().getBladeState() == BladeState.FLIP) {
+                        animation = Assets.getInstance().getBladeAssets().hybridBackflip;
+                    } else {
+                        animation = Assets.getInstance().getBladeAssets().hybridForehand;
+                    }
+                    damage = Constants.SUSPENSION_ANTIMATTER_DAMAGE;
+                    knockback.set(Constants.SUSPENSION_ANTIMATTER_KNOCKBACK);
+                    break;
             }
         }
     }

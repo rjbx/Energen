@@ -700,6 +700,36 @@ public final class Constants {
     public static final String SIDESWIPE_NATIVE_SPRITE_2 = "blade-side-native-2";
     public static final String SIDESWIPE_NATIVE_SPRITE_3 = "blade-side-native-3";
 
+    public static final String FLIPSWIPE_ORE_SPRITE_1 = "blade-flip-polymer-1";
+    public static final String FLIPSWIPE_ORE_SPRITE_2 = "blade-flip-polymer-2";
+    public static final String FLIPSWIPE_ORE_SPRITE_3 = "blade-flip-polymer-3";
+    public static final String FLIPSWIPE_ORE_SPRITE_4 = "blade-flip-polymer-4";
+    public static final String FLIPSWIPE_ORE_SPRITE_5 = "blade-flip-polymer-5";
+    public static final String FLIPSWIPE_ORE_SPRITE_6 = "blade-flip-polymer-6";
+    public static final String SIDESWIPE_ORE_SPRITE_1 = "blade-side-polymer-1";
+    public static final String SIDESWIPE_ORE_SPRITE_2 = "blade-side-polymer-2";
+    public static final String SIDESWIPE_ORE_SPRITE_3 = "blade-side-polymer-3";
+
+    public static final String FLIPSWIPE_PLASMA_SPRITE_1 = "blade-flip-plasma-1";
+    public static final String FLIPSWIPE_PLASMA_SPRITE_2 = "blade-flip-plasma-2";
+    public static final String FLIPSWIPE_PLASMA_SPRITE_3 = "blade-flip-plasma-3";
+    public static final String FLIPSWIPE_PLASMA_SPRITE_4 = "blade-flip-plasma-4";
+    public static final String FLIPSWIPE_PLASMA_SPRITE_5 = "blade-flip-plasma-5";
+    public static final String FLIPSWIPE_PLASMA_SPRITE_6 = "blade-flip-plasma-6";
+    public static final String SIDESWIPE_PLASMA_SPRITE_1 = "blade-side-plasma-1";
+    public static final String SIDESWIPE_PLASMA_SPRITE_2 = "blade-side-plasma-2";
+    public static final String SIDESWIPE_PLASMA_SPRITE_3 = "blade-side-plasma-3";
+    
+    public static final String FLIPSWIPE_GAS_SPRITE_1 = "blade-flip-gas-1";
+    public static final String FLIPSWIPE_GAS_SPRITE_2 = "blade-flip-gas-2";
+    public static final String FLIPSWIPE_GAS_SPRITE_3 = "blade-flip-gas-3";
+    public static final String FLIPSWIPE_GAS_SPRITE_4 = "blade-flip-gas-4";
+    public static final String FLIPSWIPE_GAS_SPRITE_5 = "blade-flip-gas-5";
+    public static final String FLIPSWIPE_GAS_SPRITE_6 = "blade-flip-gas-6";
+    public static final String SIDESWIPE_GAS_SPRITE_1 = "blade-side-gas-1";
+    public static final String SIDESWIPE_GAS_SPRITE_2 = "blade-side-gas-2";
+    public static final String SIDESWIPE_GAS_SPRITE_3 = "blade-side-gas-3";
+
     public static final String FLIPSWIPE_LIQUID_SPRITE_1 = "blade-flip-liquid-1";
     public static final String FLIPSWIPE_LIQUID_SPRITE_2 = "blade-flip-liquid-2";
     public static final String FLIPSWIPE_LIQUID_SPRITE_3 = "blade-flip-liquid-3";
@@ -709,6 +739,36 @@ public final class Constants {
     public static final String SIDESWIPE_LIQUID_SPRITE_1 = "blade-side-liquid-1";
     public static final String SIDESWIPE_LIQUID_SPRITE_2 = "blade-side-liquid-2";
     public static final String SIDESWIPE_LIQUID_SPRITE_3 = "blade-side-liquid-3";
+
+    public static final String FLIPSWIPE_SOLID_SPRITE_1 = "blade-flip-solid-1";
+    public static final String FLIPSWIPE_SOLID_SPRITE_2 = "blade-flip-solid-2";
+    public static final String FLIPSWIPE_SOLID_SPRITE_3 = "blade-flip-solid-3";
+    public static final String FLIPSWIPE_SOLID_SPRITE_4 = "blade-flip-solid-4";
+    public static final String FLIPSWIPE_SOLID_SPRITE_5 = "blade-flip-solid-5";
+    public static final String FLIPSWIPE_SOLID_SPRITE_6 = "blade-flip-solid-6";
+    public static final String SIDESWIPE_SOLID_SPRITE_1 = "blade-side-solid-1";
+    public static final String SIDESWIPE_SOLID_SPRITE_2 = "blade-side-solid-2";
+    public static final String SIDESWIPE_SOLID_SPRITE_3 = "blade-side-solid-3";
+
+    public static final String FLIPSWIPE_ANTIMATTER_SPRITE_1 = "blade-flip-psychic-1";
+    public static final String FLIPSWIPE_ANTIMATTER_SPRITE_2 = "blade-flip-psychic-2";
+    public static final String FLIPSWIPE_ANTIMATTER_SPRITE_3 = "blade-flip-psychic-3";
+    public static final String FLIPSWIPE_ANTIMATTER_SPRITE_4 = "blade-flip-psychic-4";
+    public static final String FLIPSWIPE_ANTIMATTER_SPRITE_5 = "blade-flip-psychic-5";
+    public static final String FLIPSWIPE_ANTIMATTER_SPRITE_6 = "blade-flip-psychic-6";
+    public static final String SIDESWIPE_ANTIMATTER_SPRITE_1 = "blade-side-psychic-1";
+    public static final String SIDESWIPE_ANTIMATTER_SPRITE_2 = "blade-side-psychic-2";
+    public static final String SIDESWIPE_ANTIMATTER_SPRITE_3 = "blade-side-psychic-3";
+    
+    public static final String FLIPSWIPE_HYBRID_SPRITE_1 = "blade-flip-hybrid-1";
+    public static final String FLIPSWIPE_HYBRID_SPRITE_2 = "blade-flip-hybrid-2";
+    public static final String FLIPSWIPE_HYBRID_SPRITE_3 = "blade-flip-hybrid-3";
+    public static final String FLIPSWIPE_HYBRID_SPRITE_4 = "blade-flip-hybrid-4";
+    public static final String FLIPSWIPE_HYBRID_SPRITE_5 = "blade-flip-hybrid-5";
+    public static final String FLIPSWIPE_HYBRID_SPRITE_6 = "blade-flip-hybrid-6";
+    public static final String SIDESWIPE_HYBRID_SPRITE_1 = "blade-side-hybrid-1";
+    public static final String SIDESWIPE_HYBRID_SPRITE_2 = "blade-side-hybrid-2";
+    public static final String SIDESWIPE_HYBRID_SPRITE_3 = "blade-side-hybrid-3";
 
     // Impact
     public static final Vector2 EXPLOSION_CENTER = new Vector2(8, 8);
