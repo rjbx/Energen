@@ -295,7 +295,8 @@ public class GigaGal extends Entity implements Humanoid {
     private void enableSwipe() {
         if (chargeTimeSeconds > Constants.BLADE_CHARGE_DURATION) {
             canSwipe = true;
-        } else {
+        } else if (canSwipe) {
+            shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
             canSwipe = false;
         }
 
@@ -1409,19 +1410,21 @@ public class GigaGal extends Entity implements Humanoid {
                 region = Assets.getInstance().getGigaGalAssets().backflipRight.getKeyFrame(swipeTimeSeconds);
             } else if (canRush) {
                 region = Assets.getInstance().getGigaGalAssets().forehandRight.getKeyFrame(swipeTimeSeconds);
-            } else if (canCut) {
-                region = Assets.getInstance().getGigaGalAssets().uphandRight.getKeyFrame(swipeTimeSeconds);
             } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
-                    if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (canCut) {
+                        region = Assets.getInstance().getGigaGalAssets().uphandRight.getKeyFrame(swipeTimeSeconds);
+                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
                     } else if (action == Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
                 } else if (directionY == Direction.DOWN) {
                     region = Assets.getInstance().getGigaGalAssets().lookdownStandRight;
-                    if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (canCut) {
+                        region = Assets.getInstance().getGigaGalAssets().downhandRight.getKeyFrame(swipeTimeSeconds);
+                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
                     } else if (action == Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
@@ -1463,19 +1466,21 @@ public class GigaGal extends Entity implements Humanoid {
                 region = Assets.getInstance().getGigaGalAssets().backflipLeft.getKeyFrame(swipeTimeSeconds);
             } else if (canRush) {
                 region = Assets.getInstance().getGigaGalAssets().forehandLeft.getKeyFrame(swipeTimeSeconds);
-            } else if (canCut) {
-                region = Assets.getInstance().getGigaGalAssets().uphandLeft.getKeyFrame(swipeTimeSeconds);
             } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
-                    if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (canCut) {
+                        region = Assets.getInstance().getGigaGalAssets().uphandLeft.getKeyFrame(swipeTimeSeconds);
+                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
                     } else if (action == Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 } else if (directionY == Direction.DOWN) {
                     region = Assets.getInstance().getGigaGalAssets().lookdownStandLeft;
-                    if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (canCut) {
+                        region = Assets.getInstance().getGigaGalAssets().downhandLeft.getKeyFrame(swipeTimeSeconds);
+                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
                     } else if (action == Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
