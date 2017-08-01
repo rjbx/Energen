@@ -502,9 +502,9 @@ public class LevelUpdater {
             projectiles.end();
 
             if (Helpers.overlapsPhysicalObject(Blade.getInstance(), destructible)) {
-                if (GigaGal.getInstance().getBladeState() == Enums.BladeState.FLIP
-                        || (GigaGal.getInstance().getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, GigaGal.getInstance().getBottom(), GigaGal.getInstance().getTop()))
-                        || (GigaGal.getInstance().getBladeState() == Enums.BladeState.CUT && Helpers.betweenTwoValues(destructible.getPosition().x, gigaGal.getPosition().x, gigaGal.getPosition().x + Helpers.absoluteToDirectionalValue(gigaGal.getWidth() / 2, gigaGal.getDirectionX(), Enums.Orientation.X)))) {
+                if (gigaGal.getBladeState() == Enums.BladeState.FLIP
+                        || (gigaGal.getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, gigaGal.getBottom(), gigaGal.getTop()))
+                        || (gigaGal.getBladeState() == Enums.BladeState.CUT && Helpers.betweenTwoValues(destructible.getPosition().x, gigaGal.getPosition().x, gigaGal.getPosition().x + Helpers.absoluteToDirectionalValue(gigaGal.getWidth() / 2 + Constants.BLADE_CENTER.x, gigaGal.getDirectionX(), Enums.Orientation.X)))) {
                     Helpers.applyDamage(destructible, Blade.getInstance());
                 }
             }
