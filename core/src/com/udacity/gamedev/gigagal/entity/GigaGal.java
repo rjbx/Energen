@@ -312,7 +312,7 @@ public class GigaGal extends Entity implements Humanoid {
             bladeState = BladeState.RETRACTED;
         }
 
-        if (!canCut && !canFlip && canSwipe && (canRush || (action == Action.DASHING))) {
+        if (!canCut && !canFlip && (canRush || (action == Action.DASHING))) {
             if (!inputControls.leftButtonPressed && !inputControls.rightButtonPressed) {
                 velocity.x /= 2;
                 canRush = true;

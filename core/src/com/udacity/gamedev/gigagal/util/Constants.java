@@ -64,7 +64,7 @@ public final class Constants {
     public static final float GIGAGAL_EYE_HEIGHT = 16.0f;
     public static final float GIGAGAL_STANCE_WIDTH = 20.25f;
     public static final Vector2 GIGAGAL_X_CANNON_OFFSET = new Vector2(17.5f, -5.75f);
-    public static final Vector2 GIGAGAL_Y_CANNON_OFFSET = new Vector2(5.125f, 14.5f);
+    public static final Vector2 GIGAGAL_Y_CANNON_OFFSET = new Vector2(3.625f, 14.5f);
     public static final float GIGAGAL_HEIGHT = 21.0f;
     public static final float GIGAGAL_HEAD_RADIUS = 5;
     public static final float GIGAGAL_STARTING_SPEED = 0.3f;
