@@ -299,7 +299,7 @@ public class GigaGal extends Entity implements Humanoid {
             canSwipe = false;
         }
 
-        if (!canRush && !canCut && canSwipe && groundState == GroundState.AIRBORNE && action != Action.RAPPELLING) {
+        if (!canRush && !canCut && canSwipe && action == Action.FALLING) {
             if (inputControls.upButtonJustPressed || inputControls.downButtonJustPressed) {
                 canFlip = true;
                 bladeState = BladeState.FLIP;
@@ -312,9 +312,12 @@ public class GigaGal extends Entity implements Humanoid {
             bladeState = BladeState.RETRACTED;
         }
 
-        if (!canCut && !canFlip && canSwipe && action == Action.DASHING) {
-            canRush = true;
-            bladeState = BladeState.RUSH;
+        if (!canCut && !canFlip && canSwipe && (canRush || (action == Action.DASHING))) {
+            if (!inputControls.leftButtonPressed && !inputControls.rightButtonPressed) {
+                velocity.x /= 2;
+                canRush = true;
+                bladeState = BladeState.RUSH;
+            }
         } else if (canRush) {  // manual deactivation by dash interrupt
             Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
             swipeStartTime = 0;
@@ -367,22 +370,22 @@ public class GigaGal extends Entity implements Humanoid {
         if (canRush) {
             if (swipeStartTime == 0) {
                 swipeStartTime = TimeUtils.nanoTime();
+                swipeTimeSeconds = 0;
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
+                canDash = true;
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
-                if (turbo > 1) {
-                    turbo -= 1;
-                }
             } else { // auto deactivation when animation completes
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
-                canDash = false;
-                stand();
                 canRush = false;
+                stand();
                 bladeState = BladeState.RETRACTED;
                 if ((directionX == Direction.RIGHT && inputControls.rightButtonPressed) || (directionX == Direction.LEFT && inputControls.leftButtonPressed)) {
                     shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
+                } else {
+                    canDash = false;
                 }
             }
         }
@@ -394,9 +397,6 @@ public class GigaGal extends Entity implements Humanoid {
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
-                if (turbo > 1) {
-                    turbo -= 1;
-                }
             } else { // auto deactivation when animation completes
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
                 swipeStartTime = 0;
@@ -857,23 +857,25 @@ public class GigaGal extends Entity implements Humanoid {
                     strideSpeed = velocity.x;
                     strideStartTime = 0;
                     stand();
-                } else if (action != Action.DASHING) {
-                    if (inputtingX) {
+                } else if (inputtingX) {
+                    if (action != Action.DASHING) {
                         if (!canStride) {
                             if (strideStartTime == 0) {
                                 canStride = true;
                             } else if (Helpers.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
                                 strideStartTime = 0;
-                            } else if (!canSink){
+                            } else if (!canSink) {
                                 canDash = true;
                             } else {
                                 canDash = false;
                             }
                         }
-                    } else {
-                        stand();
-                        canStride = false;
                     }
+                } else {
+                    if (!canRush) {
+                        stand();
+                    }
+                    canStride = false;
                 }
             }
         } else if (groundState == GroundState.AIRBORNE) {
