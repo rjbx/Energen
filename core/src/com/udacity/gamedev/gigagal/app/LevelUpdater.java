@@ -504,7 +504,7 @@ public class LevelUpdater {
             if (Helpers.overlapsPhysicalObject(Blade.getInstance(), destructible)) {
                 if (gigaGal.getBladeState() == Enums.BladeState.FLIP
                         || (gigaGal.getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, gigaGal.getBottom(), gigaGal.getTop()))
-                        || (gigaGal.getBladeState() == Enums.BladeState.CUT && Helpers.betweenTwoValues(destructible.getPosition().x, gigaGal.getPosition().x, gigaGal.getPosition().x + Helpers.absoluteToDirectionalValue(gigaGal.getWidth() / 2 + Constants.BLADE_CENTER.x, gigaGal.getDirectionX(), Enums.Orientation.X)))) {
+                        || (gigaGal.getBladeState() == Enums.BladeState.CUT) && (Helpers.absoluteToDirectionalValue(destructible.getPosition().x, gigaGal.getDirectionX(), Enums.Orientation.X)) - (Helpers.absoluteToDirectionalValue(gigaGal.getPosition().x, gigaGal.getDirectionX(), Enums.Orientation.X)) > 0) {
                     Helpers.applyDamage(destructible, Blade.getInstance());
                 }
             }

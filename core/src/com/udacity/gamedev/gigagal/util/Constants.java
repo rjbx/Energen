@@ -159,7 +159,6 @@ public final class Constants {
     public static final String SIDESWIPE_LEFT_2 = "gg-swipe-side-2-left";
     public static final String SIDESWIPE_LEFT_3 = "gg-swipe-side-3-left";
     public static final float SIDESWIPE_FRAME_DURATION = .08f;
-    public static final Vector2 BLADE_CENTER = new Vector2(40, 35);
 
     // Boss
     public static final String BOSS_SPRITE = "beast";
@@ -690,6 +689,7 @@ public final class Constants {
     public static final String BLAST_HYBRID_SPRITE_3 = "ammo-blast-hybrid-3";
 
     // Blade
+    public static final Vector2 BLADE_CENTER = new Vector2(40, 35);
     public static final float BLADE_CHARGE_DURATION = 1.5f;
 
     public static final String FLIPSWIPE_NATIVE_SPRITE_1 = "blade-flip-native-1";
