@@ -299,8 +299,8 @@ public class GigaGal extends Entity implements Humanoid {
             canSwipe = false;
         }
 
-        if (!canRush && !canCut && canSwipe && groundState == GroundState.AIRBORNE) {
-            if (inputControls.upButtonJustPressed || inputControls.downButtonPressed) {
+        if (!canRush && !canCut && canSwipe && groundState == GroundState.AIRBORNE && action != Action.RAPPELLING) {
+            if (inputControls.upButtonJustPressed || inputControls.downButtonJustPressed) {
                 canFlip = true;
                 bladeState = BladeState.FLIP;
             }
@@ -349,13 +349,16 @@ public class GigaGal extends Entity implements Humanoid {
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
+                if (turbo > 1) {
+                    turbo -= 1;
+                }
             } else { // auto deactivation when animation completes
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
                 canFlip = false;
                 bladeState = BladeState.RETRACTED;
-                if (inputControls.jumpButtonPressed) {
+                if ((directionX == Direction.UP && inputControls.upButtonPressed) || (directionX == Direction.DOWN && inputControls.downButtonPressed)) {
                     shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
                 }
             }
@@ -367,6 +370,9 @@ public class GigaGal extends Entity implements Humanoid {
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
+                if (turbo > 1) {
+                    turbo -= 1;
+                }
             } else { // auto deactivation when animation completes
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
                 swipeStartTime = 0;
@@ -388,6 +394,9 @@ public class GigaGal extends Entity implements Humanoid {
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
+                if (turbo > 1) {
+                    turbo -= 1;
+                }
             } else { // auto deactivation when animation completes
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
                 swipeStartTime = 0;
@@ -1283,7 +1292,7 @@ public class GigaGal extends Entity implements Humanoid {
     private void enableRappel() {
         if (action == Action.RAPPELLING) {
             rappel();
-        } else if (canRappel){
+        } else if (canRappel) {
             if (inputControls.jumpButtonJustPressed) {
                 if (position.y > touchedGround.getTop() - 10) {
                     position.y = touchedGround.getTop() - 10;
