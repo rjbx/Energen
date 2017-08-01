@@ -908,7 +908,7 @@ public class GigaGal extends Entity implements Humanoid {
             }
             if (canLook && !canClimb) {
                 canStride = false;
-                if (inputControls.jumpButtonJustPressed && !canRappel && !canHurdle) { // prevents accidental toggle due to simultaneous jump and directional press for hurdle
+                if (inputControls.jumpButtonJustPressed && !canRappel && !canHurdle && !canSwipe) { // prevents accidental toggle due to simultaneous jump and directional press for hurdle
                     toggleWeapon(directionY);
                 }
                 look(); // also sets chase cam
