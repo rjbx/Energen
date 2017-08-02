@@ -118,7 +118,9 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
                     speedAtChangeXDirection = velocity.x;
                     rollStartTime = TimeUtils.nanoTime();
                 }
-                rollTimeSeconds = Helpers.secondsSince(rollStartTime);
+                if (!armorStruck) {
+                    rollTimeSeconds = Helpers.secondsSince(rollStartTime);
+                }
                 velocity.x = speedAtChangeXDirection + Helpers.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
             }
             for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
@@ -144,16 +146,18 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
             startTime = 0;
             velocity.x = 0;
             position.x = previousFramePosition.x;
-            rollStartTime = TimeUtils.nanoTime();
-            rollTimeSeconds = 0;
+            if (!armorStruck) {
+                rollStartTime = TimeUtils.nanoTime();
+                rollTimeSeconds = 0;
+            }
             if (canSink) {
                 velocity.y = -5;
             }
         }
 
         if (armorStruck) {
+            velocity.x = 0;
             if (startTime == 0 || Helpers.secondsSince(startTime) % 1 == 0) {
-                velocity.x = 0;
                 rollStartTime = TimeUtils.nanoTime();
                 vulnerable = true;
                 int index = MathUtils.random(0, 3);
