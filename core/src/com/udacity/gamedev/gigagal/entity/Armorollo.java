@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -47,7 +48,7 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
         previousFramePosition = new Vector2();
         velocity = new Vector2(0, 0);
         radius = getWidth() / 2;
-        health = Constants.ROLLEN_MAX_HEALTH;
+        health = 1000000;
         xDirection = null;
         speedAtChangeXDirection = 0;
         rollStartTime = 0;
@@ -151,24 +152,25 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
         }
 
         if (armorStruck) {
-            if (animation == Assets.getInstance().getArmorolloAssets().armoredLiquid) {
+            if (startTime == 0 || Helpers.secondsSince(startTime) % 1 == 0) {
+                int index = MathUtils.random(0, 3);
+                Gdx.app.log(TAG + "index", index + "");
+                rollTimeSeconds = index;
+                vulnerability = Enums.Direction.values()[index];
                 animation = Assets.getInstance().getArmorolloAssets().vulnerableLiquid;
+            } else if (Helpers.secondsSince(startTime) > 5.5f) {
+                vulnerable = false;
+                armorStruck = false;
+                animation = Assets.getInstance().getArmorolloAssets().armoredLiquid;
             }
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
-            } else if (Helpers.secondsSince(startTime) > 1) {
-                int index = MathUtils.random(0, 3);
-                rollTimeSeconds = index;
-                vulnerability = Enums.Direction.values()[index];
-            } else if (Helpers.secondsSince(startTime) > 2.5f) {
-                armorStruck = false;
             }
+            Gdx.app.log(TAG + "vulnerability", getVulnerability().name() + health);
             velocity.x = 0;
             rollStartTime = TimeUtils.nanoTime();
             rollTimeSeconds = 0;
             vulnerable = true;
-        } else if (animation == Assets.getInstance().getArmorolloAssets().vulnerableLiquid) {
-            animation = Assets.getInstance().getArmorolloAssets().armoredLiquid;
         }
     }
 

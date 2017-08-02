@@ -489,6 +489,9 @@ public class LevelUpdater {
                     || (ammo.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(ammo.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
                         if (!(hazard instanceof Armored)) {
                             Helpers.applyDamage(destructible, ammo);
+                        } else {
+                            Assets.getInstance().getSoundAssets().hitGround.play();
+                            ammo.deactivate();
                         }
                         score += ammo.getHitScore();
                     } else {
@@ -506,7 +509,6 @@ public class LevelUpdater {
                 if (gigaGal.getBladeState() == Enums.BladeState.FLIP
                         || (gigaGal.getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, gigaGal.getBottom(), gigaGal.getTop()))
                         || (gigaGal.getBladeState() == Enums.BladeState.CUT) && (Helpers.absoluteToDirectionalValue(destructible.getPosition().x, gigaGal.getDirectionX(), Enums.Orientation.X) - Helpers.absoluteToDirectionalValue(gigaGal.getPosition().x, gigaGal.getDirectionX(), Enums.Orientation.X) > 0)) {
-                    Helpers.applyDamage(destructible, Blade.getInstance());
                     if (!(hazard instanceof Armored)) {
                         Helpers.applyDamage(destructible, Blade.getInstance());
                     } else {
