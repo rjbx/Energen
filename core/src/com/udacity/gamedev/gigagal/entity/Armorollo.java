@@ -165,6 +165,12 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
         }
 
         if (armorStruck) {
+            if (startTime == 0) {
+                startTime = TimeUtils.nanoTime();
+            } else if (Helpers.secondsSince(startTime) > 2) {
+                armorStruck = false;
+            }
+            velocity.x = 0;
             vulnerable = true;
             int index = MathUtils.random(0, 3);
             vulnerability = Enums.Direction.values()[index];
@@ -202,5 +208,6 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
     @Override public void strikeArmor() { armorStruck = true; }
     @Override public boolean isVulnerable() { return vulnerable; }
     @Override public Enums.Direction getVulnerability() { return vulnerability; }
+    @Override public final void resetStartTime() { startTime = 0; }
     public final long getStartTime() { return startTime; }
 }

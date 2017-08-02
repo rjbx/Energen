@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sun.org.apache.xerces.internal.impl.dv.xs.YearDV;
 import com.udacity.gamedev.gigagal.entity.*;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
 import com.udacity.gamedev.gigagal.util.Assets;
@@ -482,13 +483,13 @@ public class LevelUpdater {
             projectiles.begin();
             for (int j = 0; j < projectiles.size; j++) {
                 Ammo ammo = projectiles.get(j);
-
                 if (!ammo.equals(hazard) && ammo.isActive() && Helpers.overlapsPhysicalObject(ammo, destructible)) {
-
                     if (!(destructible instanceof Zoomba)
                     || !((ammo.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(ammo.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
                     || (ammo.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(ammo.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
-                        Helpers.applyDamage(destructible, ammo);
+                        if (!(hazard instanceof Armored)) {
+                            Helpers.applyDamage(destructible, ammo);
+                        }
                         score += ammo.getHitScore();
                     } else {
                         ((Zoomba) destructible).convert();
@@ -506,6 +507,25 @@ public class LevelUpdater {
                         || (gigaGal.getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, gigaGal.getBottom(), gigaGal.getTop()))
                         || (gigaGal.getBladeState() == Enums.BladeState.CUT) && (Helpers.absoluteToDirectionalValue(destructible.getPosition().x, gigaGal.getDirectionX(), Enums.Orientation.X) - Helpers.absoluteToDirectionalValue(gigaGal.getPosition().x, gigaGal.getDirectionX(), Enums.Orientation.X) > 0)) {
                     Helpers.applyDamage(destructible, Blade.getInstance());
+                    if (!(hazard instanceof Armored)) {
+                        Helpers.applyDamage(destructible, Blade.getInstance());
+                    } else {
+                        if (((Armored) hazard).isVulnerable()) {
+                            if (Helpers.directionToOrientation(((Armored) hazard).getVulnerability()) == Enums.Orientation.Y
+                                    && gigaGal.getSwipeStatus() && gigaGal.getLookStartTime() != 0
+                                    && Helpers.getOppositeDirection(((Armored) hazard).getVulnerability()) == gigaGal.getDirectionY()) {
+                                Helpers.applyDamage(destructible, Blade.getInstance());
+                                ((Armored) hazard).resetStartTime();
+                            } else if (Helpers.directionToOrientation(((Armored) hazard).getVulnerability()) == Enums.Orientation.X
+                                    && gigaGal.getSwipeStatus() && gigaGal.getLookStartTime() == 0
+                                    /* forehand - backhand */) {
+                                Helpers.applyDamage(destructible, Blade.getInstance());
+                                ((Armored) hazard).resetStartTime();
+                            }
+                        } else {
+                            ((Armored) hazard).strikeArmor();
+                        }
+                    }
                 }
             }
 

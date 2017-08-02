@@ -177,6 +177,15 @@ public final class Helpers {
         return null;
     }
 
+    public static final Enums.Orientation directionToOrientation(Enums.Direction direction) {
+        if (direction == Enums.Direction.LEFT || direction == Enums.Direction.RIGHT) {
+            return X;
+        } else if (direction == Enums.Direction.DOWN || direction == Enums.Direction.UP) {
+            return Y;
+        }
+        return null;
+    }
+
     public static final boolean changeDirection(Vehicular moving, Enums.Direction setTo, Enums.Orientation orientation) {
         if (orientation == X) {
             if (moving instanceof Roving && ((Roving) moving).getDirectionX() != setTo) {
