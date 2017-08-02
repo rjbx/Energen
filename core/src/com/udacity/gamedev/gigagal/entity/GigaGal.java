@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.app.SaveData;
 import com.udacity.gamedev.gigagal.util.InputControls;
@@ -76,7 +75,6 @@ public class GigaGal extends Entity implements Humanoid {
     private boolean canHurdle;
     private boolean canBounce;
     private boolean canMove;
-    private boolean canSwipe;
     private boolean canFlip;
     private boolean canRush;
     private boolean canCut;
@@ -202,7 +200,6 @@ public class GigaGal extends Entity implements Humanoid {
         canSink = false;
         canMove = false;
         canBounce = false;
-        canSwipe = false;
         canFlip = false;
         canRush = false;
         canCut = false;
@@ -294,13 +291,7 @@ public class GigaGal extends Entity implements Humanoid {
 
 
     private void enableSwipe() {
-        if (chargeTimeSeconds > Constants.BLADE_CHARGE_DURATION) {
-            canSwipe = true;
-        } else if (canSwipe) {
-            canSwipe = false;
-        }
-
-        if (!canRush && !canCut && canSwipe && groundState == GroundState.AIRBORNE && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
+        if (!canRush && !canCut && groundState == GroundState.AIRBORNE && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
             if (inputControls.jumpButtonJustPressed && action != Action.RAPPELLING) {
                 resetChaseCamPosition();
                 lookStartTime = TimeUtils.nanoTime();
@@ -329,7 +320,7 @@ public class GigaGal extends Entity implements Humanoid {
         }
 
         if (!canFlip && groundState == GroundState.PLANTED && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
-            if ((canSwipe && inputControls.jumpButtonJustPressed) || canRush) {
+            if (inputControls.jumpButtonJustPressed  || canRush) {
                 resetChaseCamPosition();
                 lookStartTime = TimeUtils.nanoTime();
                 canCut = true;
@@ -365,7 +356,7 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeTimeSeconds = 0;
                 canFlip = false;
                 bladeState = BladeState.RETRACTED;
-                if (inputControls.jumpButtonPressed) {
+                if (inputControls.jumpButtonPressed && chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION) {
                     shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
                 }
             }
@@ -384,7 +375,7 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeTimeSeconds = 0;
                 canRush = false;
                 bladeState = BladeState.RETRACTED;
-                if (canSwipe) {
+                if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION) {
                     shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
                 }
                 if ((directionX == Direction.RIGHT && inputControls.rightButtonPressed) || (directionX == Direction.LEFT && inputControls.leftButtonPressed)) {
@@ -411,7 +402,7 @@ public class GigaGal extends Entity implements Humanoid {
                 canCut = false;
                 canDash = false;
                 bladeState = BladeState.RETRACTED;
-                if (canSwipe && inputControls.jumpButtonPressed) {
+                if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION && inputControls.jumpButtonPressed) {
                     shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
                 }
             }
@@ -913,7 +904,7 @@ public class GigaGal extends Entity implements Humanoid {
         boolean up = inputControls.upButtonPressed;
         boolean down = inputControls.downButtonPressed;
         boolean directionChanged = false;
-        boolean inputtingY = ((up || down) && !(up && down));
+        boolean inputtingY = (up || down);
         if (inputtingY) {
             if (down && !up) {
                 directionChanged = Helpers.changeDirection(this, Direction.DOWN, Orientation.Y);
@@ -927,9 +918,13 @@ public class GigaGal extends Entity implements Humanoid {
             }
             if (canLook && !canClimb) {
                 canStride = false;
-                if (inputControls.jumpButtonJustPressed && !canRappel && !canHurdle && !canSwipe) { // prevents accidental toggle due to simultaneous jump and directional press for hurdle
-                    toggleWeapon(directionY);
+                if (!canRappel && !canHurdle && !getSwipeStatus()) { // prevents accidental toggle due to simultaneous jump and directional press
+                    if (inputControls.downButtonJustPressed && inputControls.upButtonPressed || (inputControls.upButtonJustPressed && inputControls.downButtonPressed)) {
+                        lookStartTime = 0;
+                        toggleWeapon(directionY);
+                    }
                 }
+
                 look(); // also sets chase cam
             }
             jumpStartTime = 0;
@@ -1580,7 +1575,7 @@ public class GigaGal extends Entity implements Humanoid {
     @Override public final boolean getRappelStatus() { return canRappel; }
     @Override public final boolean getDashStatus() { return canDash; }
     @Override public final boolean getClimbStatus() { return canClimb; }
-    public final boolean getSwipeStatus() { return canSwipe; }
+    public final boolean getSwipeStatus() { return canFlip || canRush || canCut; }
     public final boolean getMoveStatus() { return canMove; }
     public final boolean getClingStatus() { return canCling; }
     public final boolean getDispatchStatus() { return canDispatch; }
