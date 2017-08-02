@@ -48,7 +48,7 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
         previousFramePosition = new Vector2();
         velocity = new Vector2(0, 0);
         radius = getWidth() / 2;
-        health = 1000000;
+        health = Constants.ROLLEN_MAX_HEALTH;
         xDirection = null;
         speedAtChangeXDirection = 0;
         rollStartTime = 0;
@@ -153,6 +153,9 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
 
         if (armorStruck) {
             if (startTime == 0 || Helpers.secondsSince(startTime) % 1 == 0) {
+                velocity.x = 0;
+                rollStartTime = TimeUtils.nanoTime();
+                vulnerable = true;
                 int index = MathUtils.random(0, 3);
                 Gdx.app.log(TAG + "index", index + "");
                 rollTimeSeconds = index;
@@ -167,10 +170,6 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
                 startTime = TimeUtils.nanoTime();
             }
             Gdx.app.log(TAG + "vulnerability", getVulnerability().name() + health);
-            velocity.x = 0;
-            rollStartTime = TimeUtils.nanoTime();
-            rollTimeSeconds = 0;
-            vulnerable = true;
         }
     }
 
