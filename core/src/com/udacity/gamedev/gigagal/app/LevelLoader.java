@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.udacity.gamedev.gigagal.entity.Armorollo;
 import com.udacity.gamedev.gigagal.entity.Block;
 import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.Box;
@@ -468,6 +469,10 @@ final class LevelLoader {
                 final Vector2 rollenPosition = imagePosition.add(Constants.ROLLEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the rollen at " + rollenPosition);
                 level.addHazard(new Rollen(level, rollenPosition, type));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ARMOROLLO_LIQUID_SPRITE_0)) {
+                final Vector2 armorolloPosition = imagePosition.add(Constants.ROLLEN_CENTER);
+                Gdx.app.log(TAG, "Loaded the armorollo at " + armorolloPosition);
+                level.addHazard(new Armorollo(level, armorolloPosition, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANNON_SPRITE)) {
                 final Vector2 cannonPosition = imagePosition.add(Constants.X_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);

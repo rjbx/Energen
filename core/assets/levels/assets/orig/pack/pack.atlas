@@ -4,6 +4,13 @@ size: 512,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+armorollo-liquid-0
+  rotate: false
+  xy: 409, 101
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
 beast
   rotate: false
   xy: 213, 42
@@ -23,8 +30,7 @@ box-breakable
   rotate: false
   xy: 62, 2
   size: 58, 58
-  split: 41, 16, 39, 15
-  pad: 40, 16, 39, 15
+  split: 41, 16, 39, 18
   orig: 58, 58
   offset: 0, 0
   index: -1
@@ -165,7 +171,7 @@ pod-1
   index: -1
 pole-1
   rotate: false
-  xy: 444, 78
+  xy: 471, 78
   size: 5, 48
   orig: 5, 48
   offset: 0, 0
@@ -291,7 +297,7 @@ suspension-liquid-1
   index: -1
 suspension-plasma-1
   rotate: false
-  xy: 409, 101
+  xy: 444, 101
   size: 25, 25
   orig: 25, 25
   offset: 0, 0

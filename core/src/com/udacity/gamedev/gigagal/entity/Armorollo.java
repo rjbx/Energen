@@ -54,23 +54,9 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
         rollTimeSeconds = 0;
         collision = rollTimeSeconds;
         switch (type) {
-            case ORE:
-                animation = Assets.getInstance().getRollenAssets().oreRollen;
-                break;
-            case PLASMA:
-                animation = Assets.getInstance().getRollenAssets().plasmaRollen;
-                break;
-            case GAS:
-                animation = Assets.getInstance().getRollenAssets().gasRollen;
-                break;
             case LIQUID:
-                animation = Assets.getInstance().getRollenAssets().liquidRollen;
+                animation = Assets.getInstance().getArmorolloAssets().armoredLiquid;
                 break;
-            case SOLID:
-                animation = Assets.getInstance().getRollenAssets().solidRollen;
-                break;
-            default:
-                animation = Assets.getInstance().getRollenAssets().oreRollen;
         }
     }
 
@@ -165,10 +151,14 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
         }
 
         if (armorStruck) {
+            if (animation == Assets.getInstance().getArmorolloAssets().armoredLiquid) {
+                animation = Assets.getInstance().getArmorolloAssets().vulnerableLiquid;
+            }
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             } else if (Helpers.secondsSince(startTime) > 1) {
                 int index = MathUtils.random(0, 3);
+                rollTimeSeconds = index;
                 vulnerability = Enums.Direction.values()[index];
             } else if (Helpers.secondsSince(startTime) > 2.5f) {
                 armorStruck = false;
@@ -177,6 +167,8 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
             rollStartTime = TimeUtils.nanoTime();
             rollTimeSeconds = 0;
             vulnerable = true;
+        } else if (animation == Assets.getInstance().getArmorolloAssets().vulnerableLiquid) {
+            animation = Assets.getInstance().getArmorolloAssets().armoredLiquid;
         }
     }
 

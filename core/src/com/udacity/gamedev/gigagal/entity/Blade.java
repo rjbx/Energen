@@ -56,7 +56,8 @@ public final class Blade extends Hazard implements Indestructible {
         if (GigaGal.getInstance().getBladeState() != BladeState.RETRACTED) {
             boolean flipX = false;
             boolean flipY = false;
-            if (GigaGal.getInstance().getDirectionX() == Direction.LEFT || (GigaGal.getInstance().getBladeState() == BladeState.RUSH && !InputControls.getInstance().shootButtonPressed)) {
+            if (((GigaGal.getInstance().getBladeState() != BladeState.RUSH || InputControls.getInstance().shootButtonPressed) && GigaGal.getInstance().getDirectionX() == Direction.LEFT)
+            || (GigaGal.getInstance().getBladeState() == BladeState.RUSH && !InputControls.getInstance().shootButtonPressed && GigaGal.getInstance().getDirectionX() == Direction.RIGHT)) {
                 flipX = true;
             }
             if (GigaGal.getInstance().getLookStartTime() != 0 && GigaGal.getInstance().getDirectionY() == Direction.DOWN) {

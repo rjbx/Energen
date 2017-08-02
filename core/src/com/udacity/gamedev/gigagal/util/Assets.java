@@ -38,6 +38,7 @@ public final class Assets implements AssetErrorListener {
     private SwoopaAssets swoopaAssets;
     private OrbenAssets orbenAssets;
     private RollenAssets rollenAssets;
+    private ArmorolloAssets armorolloAssets;
     private ProtrusionAssets protrusionAssets;
     private SuspensionAssets suspensionAssets;
     private ImpactAssets impactAssets;
@@ -103,6 +104,7 @@ public final class Assets implements AssetErrorListener {
         swoopaAssets = new SwoopaAssets(atlas);
         orbenAssets = new OrbenAssets(atlas);
         rollenAssets = new RollenAssets(atlas);
+        armorolloAssets = new ArmorolloAssets(atlas);
         protrusionAssets = new ProtrusionAssets(atlas);
         suspensionAssets = new SuspensionAssets(atlas);
         impactAssets = new ImpactAssets(atlas);
@@ -1198,6 +1200,25 @@ public final class Assets implements AssetErrorListener {
         }
     }
 
+    public static final class ArmorolloAssets {
+
+        public final Animation armoredLiquid;
+        public final Animation vulnerableLiquid;
+
+        private ArmorolloAssets(TextureAtlas atlas) {
+            Array<AtlasRegion> armoredLiquidRegions = new Array<AtlasRegion>();
+            armoredLiquidRegions.add(atlas.findRegion(Constants.ARMOROLLO_LIQUID_SPRITE_0));
+            armoredLiquid = new Animation(Constants.ROLLEN_DURATION / armoredLiquidRegions.size, armoredLiquidRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> vulnerableLiquidRegions = new Array<AtlasRegion>();
+            vulnerableLiquidRegions.add(atlas.findRegion(Constants.ARMOROLLO_LIQUID_SPRITE_1));
+            vulnerableLiquidRegions.add(atlas.findRegion(Constants.ARMOROLLO_LIQUID_SPRITE_2));
+            vulnerableLiquidRegions.add(atlas.findRegion(Constants.ARMOROLLO_LIQUID_SPRITE_3));
+            vulnerableLiquidRegions.add(atlas.findRegion(Constants.ARMOROLLO_LIQUID_SPRITE_4));
+            vulnerableLiquid = new Animation(1, vulnerableLiquidRegions, PlayMode.NORMAL);
+        }
+    }
+
     public static final class ProtrusionAssets {
 
         public final Animation solidProtrustion;
@@ -1632,6 +1653,7 @@ public final class Assets implements AssetErrorListener {
     public final SwoopaAssets getSwoopaAssets() { return swoopaAssets; }
     public final OrbenAssets getOrbenAssets() { return orbenAssets; }
     public final RollenAssets getRollenAssets() { return rollenAssets; }
+    public final ArmorolloAssets getArmorolloAssets() { return armorolloAssets; }
     public final ProtrusionAssets getProtrusionAssets() { return protrusionAssets; }
     public final SuspensionAssets getSuspensionAssets() { return suspensionAssets; }
     public final ImpactAssets getImpactAssets() { return impactAssets; }
