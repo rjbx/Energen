@@ -343,8 +343,9 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
                 if (directionY == Direction.UP) {
-                    velocity.y += Constants.GIGAGAL_MAX_SPEED / 2;
+                    velocity.y += Constants.GIGAGAL_MAX_SPEED / 1.375f;
                 } else if (directionY == Direction.DOWN) {
+                    velocity.y += Constants.GIGAGAL_MAX_SPEED / 2.75f;
                     velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED / 2, directionX, Orientation.X);
                 }
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
@@ -1436,7 +1437,10 @@ public class GigaGal extends Entity implements Humanoid {
     public void render(SpriteBatch batch, Viewport viewport) {
         if (directionX == Direction.RIGHT) {
             if (bladeState == BladeState.RUSH) {
-                region = Assets.getInstance().getGigaGalAssets().forehandRight.getKeyFrame(swipeTimeSeconds);
+                if (inputControls.shootButtonPressed) {
+                    region = Assets.getInstance().getGigaGalAssets().forehandRight.getKeyFrame(swipeTimeSeconds);
+                }
+                region = Assets.getInstance().getGigaGalAssets().backhandRight.getKeyFrame(swipeTimeSeconds);
             } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
@@ -1494,7 +1498,10 @@ public class GigaGal extends Entity implements Humanoid {
             }
         } else if (directionX == Direction.LEFT) {
             if (bladeState == BladeState.RUSH) {
-                region = Assets.getInstance().getGigaGalAssets().forehandLeft.getKeyFrame(swipeTimeSeconds);
+                if (inputControls.shootButtonPressed) {
+                    region = Assets.getInstance().getGigaGalAssets().forehandLeft.getKeyFrame(swipeTimeSeconds);
+                }
+                region = Assets.getInstance().getGigaGalAssets().backhandLeft.getKeyFrame(swipeTimeSeconds);
             } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;

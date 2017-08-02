@@ -517,10 +517,12 @@ public class LevelUpdater {
                                 Helpers.applyDamage(destructible, Blade.getInstance());
                                 ((Armored) hazard).resetStartTime();
                             } else if (Helpers.directionToOrientation(((Armored) hazard).getVulnerability()) == Enums.Orientation.X
-                                    && gigaGal.getSwipeStatus() && gigaGal.getLookStartTime() == 0
-                                    /* forehand - backhand */) {
-                                Helpers.applyDamage(destructible, Blade.getInstance());
-                                ((Armored) hazard).resetStartTime();
+                                    && gigaGal.getBladeState() == Enums.BladeState.RUSH) {
+                                if ((!inputControls.shootButtonPressed && Helpers.getOppositeDirection(((Armored) hazard).getVulnerability()) == gigaGal.getDirectionX()) ||
+                                        (inputControls.shootButtonPressed && ((Armored) hazard).getVulnerability() == gigaGal.getDirectionX())) {
+                                    Helpers.applyDamage(destructible, Blade.getInstance());
+                                    ((Armored) hazard).resetStartTime();
+                                }
                             }
                         } else {
                             ((Armored) hazard).strikeArmor();

@@ -10,6 +10,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums.*;
 import com.udacity.gamedev.gigagal.util.Helpers;
+import com.udacity.gamedev.gigagal.util.InputControls;
 
 // immutable
 public final class Blade extends Hazard implements Indestructible {
@@ -55,7 +56,7 @@ public final class Blade extends Hazard implements Indestructible {
         if (GigaGal.getInstance().getBladeState() != BladeState.RETRACTED) {
             boolean flipX = false;
             boolean flipY = false;
-            if (GigaGal.getInstance().getDirectionX() == Direction.LEFT) {
+            if (GigaGal.getInstance().getDirectionX() == Direction.LEFT || (GigaGal.getInstance().getBladeState() == BladeState.RUSH && !InputControls.getInstance().shootButtonPressed)) {
                 flipX = true;
             }
             if (GigaGal.getInstance().getLookStartTime() != 0 && GigaGal.getInstance().getDirectionY() == Direction.DOWN) {

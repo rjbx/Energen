@@ -167,13 +167,16 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
         if (armorStruck) {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
-            } else if (Helpers.secondsSince(startTime) > 2) {
+            } else if (Helpers.secondsSince(startTime) > 1) {
+                int index = MathUtils.random(0, 3);
+                vulnerability = Enums.Direction.values()[index];
+            } else if (Helpers.secondsSince(startTime) > 2.5f) {
                 armorStruck = false;
             }
             velocity.x = 0;
+            rollStartTime = TimeUtils.nanoTime();
+            rollTimeSeconds = 0;
             vulnerable = true;
-            int index = MathUtils.random(0, 3);
-            vulnerability = Enums.Direction.values()[index];
         }
     }
 
