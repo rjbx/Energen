@@ -774,7 +774,7 @@ public class GigaGal extends Entity implements Humanoid {
                 touchedHazard = hazard;
                 recoil(hazard.getKnockback(), hazard);
             }
-        } else {
+        } else if (!(hazard instanceof Armored) || !((Armored) hazard).isVulnerable()){
             touchedHazard = hazard;
             recoil(hazard.getKnockback(), hazard);
         }

@@ -56,7 +56,7 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
         collision = rollTimeSeconds;
         switch (type) {
             case LIQUID:
-                animation = Assets.getInstance().getArmorolloAssets().armoredLiquid;
+                animation = Assets.getInstance().getRollenAssets().liquidRollen;
                 break;
         }
     }
@@ -68,19 +68,17 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
                 rollStartTime = TimeUtils.nanoTime();
                 vulnerable = true;
                 int index = MathUtils.random(0, 3);
-                Gdx.app.log(TAG + "index", index + "");
                 rollTimeSeconds = index;
                 vulnerability = Enums.Direction.values()[index];
                 animation = Assets.getInstance().getArmorolloAssets().vulnerableLiquid;
             } else if (Helpers.secondsSince(startTime) > 5.5f) {
                 vulnerable = false;
                 armorStruck = false;
-                animation = Assets.getInstance().getArmorolloAssets().armoredLiquid;
+                animation = Assets.getInstance().getRollenAssets().liquidRollen;
             }
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Gdx.app.log(TAG + "vulnerability", getVulnerability().name() + health + "rt" + rollTimeSeconds);
         } else {
             previousFramePosition.set(position);
             position.mulAdd(velocity, delta);
