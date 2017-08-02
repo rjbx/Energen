@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -14,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Armorollo extends Hazard implements Armored, Roving, Destructible {
+public class Armorollo extends Hazard implements Armored, Groundable, Roving, Destructible {
 
     // fields
     public final static String TAG = Rollen.class.getName();
@@ -204,5 +203,6 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
     @Override public boolean isVulnerable() { return vulnerable; }
     @Override public Enums.Direction getVulnerability() { return vulnerability; }
     @Override public final void resetStartTime() { startTime = 0; }
+    @Override public final boolean isDense() { return true; }
     public final long getStartTime() { return startTime; }
 }

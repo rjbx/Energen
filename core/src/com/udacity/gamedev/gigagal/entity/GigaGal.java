@@ -759,10 +759,8 @@ public class GigaGal extends Entity implements Humanoid {
                 if (bounds.overlaps(zoomba.getHazardBounds())) {
                     touchedHazard = hazard;
                     recoil(hazard.getKnockback(), hazard);
-                    touchGround((Groundable) hazard);
-                } else {
-                    touchGround(zoomba);
                 }
+                touchGround(zoomba);
             } else if (hazard instanceof Swoopa) {
                 if (getBottom() >= hazard.getPosition().y && Helpers.betweenTwoValues(position.x, hazard.getPosition().x - Constants.SWOOPA_SHOT_RADIUS, hazard.getPosition().x + Constants.SWOOPA_SHOT_RADIUS)) {
                     touchGroundTop((Swoopa) hazard);
@@ -770,11 +768,13 @@ public class GigaGal extends Entity implements Humanoid {
                     touchedHazard = hazard;
                     recoil(hazard.getKnockback(), hazard);
                 }
+            } else if (hazard instanceof Armorollo && ((Armorollo) hazard).isVulnerable()) {
+                touchGround((Groundable) hazard);
             } else {
                 touchedHazard = hazard;
                 recoil(hazard.getKnockback(), hazard);
             }
-        } else if (!(hazard instanceof Armored) || !((Armored) hazard).isVulnerable()){
+        } else {
             touchedHazard = hazard;
             recoil(hazard.getKnockback(), hazard);
         }
