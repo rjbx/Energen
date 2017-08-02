@@ -62,99 +62,6 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
     }
 
     public void update(float delta) {
-        previousFramePosition.set(position);
-        position.mulAdd(velocity, delta);
-
-        Viewport viewport = level.getViewport();
-        Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
-        Vector3 camera = new Vector3(viewport.getCamera().position);
-        Vector2 activationDistance = new Vector2(worldSpan.x / 1.5f, worldSpan.y / 1.5f);
-
-        boolean touchingSide = false;
-        boolean touchingTop = false;
-        boolean canSink = false;
-        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-            if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (ground instanceof Pourous) {
-                    canSink = true;
-                }
-                if (ground.isDense()) {
-                    if (Helpers.overlapsBetweenTwoSides(position.x, radius, ground.getLeft(), ground.getRight())
-                            && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
-                        touchingSide = true;
-                        if (position.x < ground.getPosition().x) {
-                            velocity.x -= 5;
-                        } else {
-                            velocity.x += 5;
-                        }
-                    }
-                }
-                if (Helpers.overlapsBetweenTwoSides(position.y, radius, ground.getBottom(), ground.getTop())
-                        && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))) {
-                    if (!canSink) {
-                        touchingTop = true;
-                    }
-                }
-            }
-        }
-
-        if (touchingTop) {
-            velocity.y = 0;
-            position.y = previousFramePosition.y;
-            if (Helpers.betweenFourValues(position, camera.x - activationDistance.x, camera.x + activationDistance.x, camera.y - activationDistance.y, camera.y + activationDistance.y)) {
-                if ((position.x >= camera.x - activationDistance.x) && (position.x < camera.x)) {
-                    xDirection = Enums.Direction.RIGHT;
-                } else if ((position.x < camera.x + activationDistance.x) && (position.x >= camera.x)) {
-                    xDirection = Enums.Direction.LEFT;
-                }
-            } else {
-                xDirection = null;
-                startTime = 0;
-                velocity.x = 0;
-            }
-
-            if (xDirection != null) {
-                if (rollStartTime == 0) {
-                    speedAtChangeXDirection = velocity.x;
-                    rollStartTime = TimeUtils.nanoTime();
-                }
-                if (!armorStruck) {
-                    rollTimeSeconds = Helpers.secondsSince(rollStartTime);
-                }
-                velocity.x = speedAtChangeXDirection + Helpers.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
-            }
-            for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
-                if (hazard instanceof Rollen && Helpers.overlapsPhysicalObject(this, hazard) && !(hazard.equals(this))) {
-                    position.set(previousFramePosition);
-                    if (!touchingSide && position.x < hazard.getPosition().x) {
-                        velocity.x -= 5;
-                    } else {
-                        velocity.x += 5;
-                    }
-                }
-            }
-        } else {
-            if (!canSink) {
-                velocity.y -= Constants.GRAVITY;
-            } else {
-                velocity.y = -8;
-            }
-        }
-
-        if (touchingSide) {
-            xDirection = null;
-            startTime = 0;
-            velocity.x = 0;
-            position.x = previousFramePosition.x;
-            if (!armorStruck) {
-                rollStartTime = TimeUtils.nanoTime();
-                rollTimeSeconds = 0;
-            }
-            if (canSink) {
-                velocity.y = -5;
-            }
-        }
-
         if (armorStruck) {
             velocity.x = 0;
             if (startTime == 0 || Helpers.secondsSince(startTime) % 1 == 0) {
@@ -173,17 +80,107 @@ public class Armorollo extends Hazard implements Armored, Roving, Destructible {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Gdx.app.log(TAG + "vulnerability", getVulnerability().name() + health);
+            Gdx.app.log(TAG + "vulnerability", getVulnerability().name() + health + "rt" + rollTimeSeconds);
+        } else {
+            previousFramePosition.set(position);
+            position.mulAdd(velocity, delta);
+
+            Viewport viewport = level.getViewport();
+            Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
+            Vector3 camera = new Vector3(viewport.getCamera().position);
+            Vector2 activationDistance = new Vector2(worldSpan.x / 1.5f, worldSpan.y / 1.5f);
+
+            boolean touchingSide = false;
+            boolean touchingTop = false;
+            boolean canSink = false;
+            for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+                if (Helpers.overlapsPhysicalObject(this, ground)) {
+                    if (ground instanceof Pourous) {
+                        canSink = true;
+                    }
+                    if (ground.isDense()) {
+                        if (Helpers.overlapsBetweenTwoSides(position.x, radius, ground.getLeft(), ground.getRight())
+                                && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.x, radius, ground.getLeft(), ground.getRight()))) {
+                            touchingSide = true;
+                            if (position.x < ground.getPosition().x) {
+                                velocity.x -= 5;
+                            } else {
+                                velocity.x += 5;
+                            }
+                        }
+                    }
+                    if (Helpers.overlapsBetweenTwoSides(position.y, radius, ground.getBottom(), ground.getTop())
+                            && !(Helpers.overlapsBetweenTwoSides(previousFramePosition.y, radius, ground.getBottom(), ground.getTop()))) {
+                        if (!canSink) {
+                            touchingTop = true;
+                        }
+                    }
+                }
+            }
+
+            if (touchingTop) {
+                velocity.y = 0;
+                position.y = previousFramePosition.y;
+                if (Helpers.betweenFourValues(position, camera.x - activationDistance.x, camera.x + activationDistance.x, camera.y - activationDistance.y, camera.y + activationDistance.y)) {
+                    if ((position.x >= camera.x - activationDistance.x) && (position.x < camera.x)) {
+                        xDirection = Enums.Direction.RIGHT;
+                    } else if ((position.x < camera.x + activationDistance.x) && (position.x >= camera.x)) {
+                        xDirection = Enums.Direction.LEFT;
+                    }
+                } else {
+                    xDirection = null;
+                    startTime = 0;
+                    velocity.x = 0;
+                }
+
+                if (xDirection != null) {
+                    if (rollStartTime == 0) {
+                        speedAtChangeXDirection = velocity.x;
+                        rollStartTime = TimeUtils.nanoTime();
+                    }
+                    rollTimeSeconds = Helpers.secondsSince(rollStartTime);
+
+                    velocity.x = speedAtChangeXDirection + Helpers.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
+                }
+                for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+                    if (hazard instanceof Rollen && Helpers.overlapsPhysicalObject(this, hazard) && !(hazard.equals(this))) {
+                        position.set(previousFramePosition);
+                        if (!touchingSide && position.x < hazard.getPosition().x) {
+                            velocity.x -= 5;
+                        } else {
+                            velocity.x += 5;
+                        }
+                    }
+                }
+            } else {
+                if (!canSink) {
+                    velocity.y -= Constants.GRAVITY;
+                } else {
+                    velocity.y = -8;
+                }
+            }
+
+            if (touchingSide) {
+                xDirection = null;
+                startTime = 0;
+                velocity.x = 0;
+                position.x = previousFramePosition.x;
+                rollStartTime = TimeUtils.nanoTime();
+
+                if (canSink) {
+                    velocity.y = -5;
+                }
+            }
+            if (xDirection == Enums.Direction.RIGHT) {
+                animation.setPlayMode(Animation.PlayMode.REVERSED);
+            } else {
+                animation.setPlayMode(Animation.PlayMode.NORMAL);
+            }
         }
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        if (xDirection == Enums.Direction.RIGHT) {
-            animation.setPlayMode(Animation.PlayMode.REVERSED);
-        } else {
-            animation.setPlayMode(Animation.PlayMode.NORMAL);
-        }
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
     }
 

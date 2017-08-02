@@ -509,12 +509,14 @@ public class LevelUpdater {
                 if (gigaGal.getBladeState() == Enums.BladeState.FLIP
                         || (gigaGal.getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, gigaGal.getBottom(), gigaGal.getTop()))
                         || (gigaGal.getBladeState() == Enums.BladeState.CUT) && (Helpers.absoluteToDirectionalValue(destructible.getPosition().x, gigaGal.getDirectionX(), Enums.Orientation.X) - Helpers.absoluteToDirectionalValue(gigaGal.getPosition().x, gigaGal.getDirectionX(), Enums.Orientation.X) > 0)) {
+
+                    Gdx.app.log(TAG, gigaGal.getBladeState().name() + gigaGal.getDirectionY());
                     if (!(hazard instanceof Armored)) {
                         Helpers.applyDamage(destructible, Blade.getInstance());
                     } else {
                         if (((Armored) hazard).isVulnerable()) {
                             if (Helpers.directionToOrientation(((Armored) hazard).getVulnerability()) == Enums.Orientation.Y
-                                    && gigaGal.getSwipeStatus() && gigaGal.getLookStartTime() != 0
+                                    && gigaGal.getBladeState() == Enums.BladeState.CUT
                                     && Helpers.getOppositeDirection(((Armored) hazard).getVulnerability()) == gigaGal.getDirectionY()) {
                                 Helpers.applyDamage(destructible, Blade.getInstance());
                                 ((Armored) hazard).resetStartTime();
