@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
 import com.udacity.gamedev.gigagal.app.SaveData;
 import com.udacity.gamedev.gigagal.util.InputControls;
@@ -299,8 +300,10 @@ public class GigaGal extends Entity implements Humanoid {
             canSwipe = false;
         }
 
-        if (!canRush && !canCut && canSwipe && action == Action.FALLING) {
-            if (inputControls.upButtonJustPressed || inputControls.downButtonJustPressed) {
+        if (!canRush && !canCut && canSwipe && groundState == GroundState.AIRBORNE && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
+            if (inputControls.jumpButtonJustPressed && action != Action.RAPPELLING) {
+                resetChaseCamPosition();
+                lookStartTime = TimeUtils.nanoTime();
                 canFlip = true;
                 bladeState = BladeState.FLIP;
             }
@@ -314,7 +317,6 @@ public class GigaGal extends Entity implements Humanoid {
 
         if (!canCut && !canFlip && (canRush || (action == Action.DASHING))) {
             if (!inputControls.leftButtonPressed && !inputControls.rightButtonPressed) {
-                velocity.x /= 2;
                 canRush = true;
                 bladeState = BladeState.RUSH;
             }
@@ -326,8 +328,8 @@ public class GigaGal extends Entity implements Humanoid {
             bladeState = BladeState.RETRACTED;
         }
 
-        if (!canRush && !canFlip && canSwipe && lookStartTime != 0) {
-            if (inputControls.jumpButtonJustPressed) {
+        if (!canRush && !canFlip && groundState == GroundState.PLANTED && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
+            if ((canSwipe && inputControls.jumpButtonJustPressed) || action == Action.DASHING) {
                 resetChaseCamPosition();
                 lookStartTime = TimeUtils.nanoTime();
                 canCut = true;
@@ -349,19 +351,21 @@ public class GigaGal extends Entity implements Humanoid {
             if (swipeStartTime == 0) {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
+                if (directionY == Direction.UP) {
+                    velocity.y += Constants.GIGAGAL_MAX_SPEED;
+                } else if (directionY == Direction.DOWN) {
+                    velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
+                }
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
-                if (turbo > 1) {
-                    turbo -= 1;
-                }
             } else { // auto deactivation when animation completes
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
                 canFlip = false;
                 bladeState = BladeState.RETRACTED;
-                if ((directionX == Direction.UP && inputControls.upButtonPressed) || (directionX == Direction.DOWN && inputControls.downButtonPressed)) {
+                if (inputControls.jumpButtonPressed) {
                     shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
                 }
             }
@@ -372,7 +376,7 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
-                canDash = true;
+                turbo = 100;
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
             } else { // auto deactivation when animation completes
@@ -380,10 +384,16 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
                 canRush = false;
-                stand();
                 bladeState = BladeState.RETRACTED;
-                if ((directionX == Direction.RIGHT && inputControls.rightButtonPressed) || (directionX == Direction.LEFT && inputControls.leftButtonPressed)) {
+                if (canSwipe) {
                     shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
+                }
+
+                stand();
+                if ((directionX == Direction.RIGHT && inputControls.rightButtonPressed) || (directionX == Direction.LEFT && inputControls.leftButtonPressed)) {
+                    dashStartTime = 0;
+                    canDash = true;
+                    dash();
                 } else {
                     canDash = false;
                 }
@@ -395,6 +405,7 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
+                velocity.x = 0;
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
             } else { // auto deactivation when animation completes
@@ -403,9 +414,12 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeTimeSeconds = 0;
                 canCut = false;
                 bladeState = BladeState.RETRACTED;
-                if (inputControls.jumpButtonPressed) {
+                if (canSwipe && inputControls.jumpButtonPressed) {
                     shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
                 }
+                stand();
+                dashStartTime = 0;
+                canDash = false;
             }
         }
     }
@@ -871,10 +885,8 @@ public class GigaGal extends Entity implements Humanoid {
                             }
                         }
                     }
-                } else {
-                    if (!canRush) {
-                        stand();
-                    }
+                } else { // not inputting x disables dash
+                    stand();
                     canStride = false;
                 }
             }
@@ -1188,11 +1200,9 @@ public class GigaGal extends Entity implements Humanoid {
             strideStartTime = 0;
             canStride = false;
             canDash = false;
-        }
-        float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
-        if (turbo >= 1) {
+        } else if (turbo >= 1) {
             turbo -= Constants.DASH_TURBO_INCREMENT * turboMultiplier;
-            velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed, directionX, Orientation.X);
+            velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
         } else {
             canDash = false;
             dashStartTime = 0;
@@ -1200,7 +1210,7 @@ public class GigaGal extends Entity implements Humanoid {
         }
         if (touchedGround instanceof Skateable
         || (touchedGround instanceof Propelling && directionX == ((Propelling) touchedGround).getDirectionX())) {
-            velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed + Constants.TREADMILL_SPEED, directionX, Orientation.X);
+            velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED + Constants.TREADMILL_SPEED, directionX, Orientation.X);
         }
     }
 
@@ -1635,7 +1645,7 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
     public void addWeapon(Material weapon) { weaponToggler.add(weapon); }
-    public void toggleWeapon(Direction toggleDirection) {
+    public void toggleWeapon(Direction toggleDirection) { // to enable in-game, must discharge blast ammo
         if (weaponList.size() > 1) {
             if (toggleDirection == Direction.UP) {
                 if (!weaponToggler.hasNext()) {
