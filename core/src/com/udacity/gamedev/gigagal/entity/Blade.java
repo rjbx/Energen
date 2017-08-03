@@ -55,11 +55,10 @@ public final class Blade extends Hazard implements Indestructible {
         if (GigaGal.getInstance().getBladeState() != BladeState.RETRACTED) {
             boolean flipX = false;
             boolean flipY = false;
-            if (((GigaGal.getInstance().getBladeState() != BladeState.RUSH || InputControls.getInstance().rightButtonPressed) && GigaGal.getInstance().getDirectionX() == Direction.LEFT)
-            || (GigaGal.getInstance().getBladeState() == BladeState.RUSH && InputControls.getInstance().leftButtonPressed && GigaGal.getInstance().getDirectionX() == Direction.RIGHT)) {
+            if (((GigaGal.getInstance().getBladeState() != BladeState.RUSH && GigaGal.getInstance().getDirectionX() == Direction.LEFT) || InputControls.getInstance().leftButtonPressed)) {
                 flipX = true;
             }
-            if (GigaGal.getInstance().getBladeState() != BladeState.RUSH && GigaGal.getInstance().getLookStartTime() != 0 && GigaGal.getInstance().getDirectionY() == Direction.DOWN) {
+            if (GigaGal.getInstance().getBladeState() != BladeState.RUSH && GigaGal.getInstance().getDirectionY() == Direction.DOWN) {
                 flipY = true;
             }
             Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(GigaGal.getInstance().getSwipeTimeSeconds()), position, Constants.BLADE_CENTER, 1, 0, flipX, flipY);

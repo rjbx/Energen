@@ -917,9 +917,12 @@ public class GigaGal extends Entity implements Humanoid {
             if (canLook && !canClimb) {
                 canStride = false;
                 if (!canRappel && !canHurdle && !getSwipeStatus()) { // prevents accidental toggle due to simultaneous jump and directional press
-                    if (inputControls.downButtonJustPressed && inputControls.upButtonPressed || (inputControls.upButtonJustPressed && inputControls.downButtonPressed)) {
+                    if (((inputControls.downButtonJustPressed && inputControls.upButtonPressed) || (inputControls.upButtonJustPressed && inputControls.downButtonPressed)) && inputControls.shootButtonPressed) {
                         lookStartTime = 0;
                         toggleWeapon(directionY);
+                        chargeStartTime = 0;
+                        chargeTimeSeconds = 0;
+                        canShoot = false; // prevents discharge only if releasing shoot before y input due to stand() condition
                     }
                 }
 
@@ -1006,7 +1009,9 @@ public class GigaGal extends Entity implements Humanoid {
         } else {
             canJump = false;
         }
-
+        if (!inputControls.upButtonPressed && !inputControls.downButtonPressed && !canShoot) { // enables releasing y input before shoot to enable discharge post toggle
+            canShoot = true;
+        }
         if (turbo < Constants.MAX_TURBO) {
             turbo += Constants.STAND_TURBO_INCREMENT;
         }
