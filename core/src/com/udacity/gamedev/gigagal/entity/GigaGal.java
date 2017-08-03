@@ -291,7 +291,7 @@ public class GigaGal extends Entity implements Humanoid {
 
 
     private void enableSwipe() {
-        if (!canRush && !canCut && groundState == GroundState.AIRBORNE && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
+        if (!canRush && !canCut && (groundState == GroundState.AIRBORNE || action == Action.CLIMBING) && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
             if (inputControls.jumpButtonJustPressed && action != Action.RAPPELLING) {
                 resetChaseCamPosition();
                 lookStartTime = TimeUtils.nanoTime();
@@ -321,7 +321,7 @@ public class GigaGal extends Entity implements Humanoid {
             bladeState = BladeState.RETRACTED;
         }
 
-        if (!canFlip && !canRush && groundState == GroundState.PLANTED && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
+        if (!canFlip && !canRush && groundState == GroundState.PLANTED && action != Action.CLIMBING && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
             if (inputControls.jumpButtonPressed) {
                 resetChaseCamPosition();
                 lookStartTime = TimeUtils.nanoTime();
@@ -345,10 +345,16 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
                 if (directionY == Direction.UP) {
-                    velocity.y += Constants.GIGAGAL_MAX_SPEED / 1.375f;
+                    if (velocity.y < Constants.GIGAGAL_MAX_SPEED) {
+                        velocity.y += Constants.GIGAGAL_MAX_SPEED / 1.375f;
+                    }
                 } else if (directionY == Direction.DOWN) {
-                    velocity.y += Constants.GIGAGAL_MAX_SPEED / 2.75f;
-                    velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED / 2, directionX, Orientation.X);
+                    if (velocity.y < Constants.GIGAGAL_MAX_SPEED) {
+                        velocity.y += Constants.GIGAGAL_MAX_SPEED / 2.75f;
+                    }
+                    if (velocity.x < Constants.GIGAGAL_MAX_SPEED) {
+                        velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED / 2, directionX, Orientation.X);
+                    }
                 }
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();

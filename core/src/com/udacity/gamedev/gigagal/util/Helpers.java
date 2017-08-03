@@ -185,6 +185,19 @@ public final class Helpers {
         }
         return null;
     }
+    
+    public static final Enums.Direction inputToDirection() {
+        if (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().leftButtonJustPressed) {
+            return Enums.Direction.LEFT;
+        } else if (InputControls.getInstance().rightButtonPressed || InputControls.getInstance().rightButtonJustPressed) {
+            return Enums.Direction.RIGHT;
+        } else if (InputControls.getInstance().downButtonPressed || InputControls.getInstance().downButtonJustPressed) {
+            return Enums.Direction.DOWN;
+        } else if (InputControls.getInstance().upButtonPressed || InputControls.getInstance().upButtonJustPressed) {
+            return Enums.Direction.UP;
+        }
+        return null;
+    }
 
     public static final boolean changeDirection(Vehicular moving, Enums.Direction setTo, Enums.Orientation orientation) {
         if (orientation == X) {
