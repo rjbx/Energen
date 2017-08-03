@@ -306,8 +306,10 @@ public class GigaGal extends Entity implements Humanoid {
             bladeState = BladeState.RETRACTED;
         }
 
-        if (!canFlip && (canRush || (action == Action.DASHING))) {
-            if (!inputControls.leftButtonPressed && !inputControls.rightButtonPressed) {
+        if (!canFlip && groundState == GroundState.PLANTED && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
+            if (inputControls.leftButtonPressed || inputControls.rightButtonPressed) {
+                resetChaseCamPosition();
+                lookStartTime = TimeUtils.nanoTime();
                 canRush = true;
                 bladeState = BladeState.RUSH;
             }
@@ -319,8 +321,8 @@ public class GigaGal extends Entity implements Humanoid {
             bladeState = BladeState.RETRACTED;
         }
 
-        if (!canFlip && groundState == GroundState.PLANTED && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
-            if (inputControls.jumpButtonJustPressed  || canRush) {
+        if (!canFlip && !canRush && groundState == GroundState.PLANTED && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
+            if (inputControls.jumpButtonPressed) {
                 resetChaseCamPosition();
                 lookStartTime = TimeUtils.nanoTime();
                 canCut = true;
@@ -375,21 +377,16 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
                 canRush = false;
+                canDash = false;
+                stand();
                 bladeState = BladeState.RETRACTED;
-                if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION) {
+                if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION && inputControls.jumpButtonPressed) {
                     shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
-                }
-                if ((directionX == Direction.RIGHT && inputControls.rightButtonPressed) || (directionX == Direction.LEFT && inputControls.leftButtonPressed)) {
-                    dashStartTime = 0;
-                    canDash = true;
-                } else {
-                    canDash = false;
                 }
             }
         }
 
         if (canCut) {
-            velocity.x = 0;
             if (swipeStartTime == 0) {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
@@ -402,6 +399,7 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeTimeSeconds = 0;
                 canCut = false;
                 canDash = false;
+                stand();
                 bladeState = BladeState.RETRACTED;
                 if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION && inputControls.jumpButtonPressed) {
                     shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
@@ -523,12 +521,11 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                     // only when planted
                 } else if (groundState == GroundState.PLANTED) {
-
                     if (Math.abs(getBottom() - ground.getTop()) > 1) {
                         strideSpeed = 0;
                         velocity.x = 0;
                     }
-                    if (!(ground instanceof Propelling) && action == Action.DASHING) {
+                    if (!(ground instanceof Propelling) && action == Action.DASHING && !(ground instanceof Armored)) {
                         stand(); // deactivates dash when bumping ground side
                     } else if (ground instanceof Pliable && (!((Pliable) ground).isBeingCarried() && action == Action.STRIDING)) {
                         canMove = true;
@@ -839,7 +836,7 @@ public class GigaGal extends Entity implements Humanoid {
         boolean right = inputControls.rightButtonPressed;
         boolean directionChanged = false;
         boolean inputtingX = ((left || right) && !(left && right));
-        if (inputtingX) {
+        if (inputtingX && lookStartTime == 0) {
             if (left && !right) {
                 directionChanged = Helpers.changeDirection(this, Direction.LEFT, Orientation.X);
             } else if (!left && right) {
@@ -1131,7 +1128,7 @@ public class GigaGal extends Entity implements Humanoid {
 
     private void look() {
         float offset = 0;
-        if (lookStartTime == 0) {
+        if (lookStartTime == 0 && !canRush) {
             lookStartTime = TimeUtils.nanoTime();
             chaseCamPosition.set(position, 0);
         } else if (action == Action.STANDING || action == Action.CLIMBING) {
@@ -1437,18 +1434,19 @@ public class GigaGal extends Entity implements Humanoid {
     public void render(SpriteBatch batch, Viewport viewport) {
         if (directionX == Direction.RIGHT) {
             if (bladeState == BladeState.RUSH) {
-                if (inputControls.shootButtonPressed) {
+                if (inputControls.rightButtonPressed) {
                     region = Assets.getInstance().getGigaGalAssets().forehandRight.getKeyFrame(swipeTimeSeconds);
+                } else if (inputControls.leftButtonPressed) {
+                    region = Assets.getInstance().getGigaGalAssets().backhandRight.getKeyFrame(swipeTimeSeconds);
                 }
-                region = Assets.getInstance().getGigaGalAssets().backhandRight.getKeyFrame(swipeTimeSeconds);
+            } else if (bladeState == BladeState.CUT) {
+                region = Assets.getInstance().getGigaGalAssets().uphandRight.getKeyFrame(swipeTimeSeconds);
+            } else if (bladeState == BladeState.FLIP) {
+                region = Assets.getInstance().getGigaGalAssets().backflipRight.getKeyFrame(swipeTimeSeconds);
             } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
-                    if (bladeState == BladeState.CUT) {
-                        region = Assets.getInstance().getGigaGalAssets().uphandRight.getKeyFrame(swipeTimeSeconds);
-                    } else if (bladeState == BladeState.FLIP) {
-                        region = Assets.getInstance().getGigaGalAssets().backflipRight.getKeyFrame(swipeTimeSeconds);
-                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
                     } else if (action == Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
@@ -1498,18 +1496,19 @@ public class GigaGal extends Entity implements Humanoid {
             }
         } else if (directionX == Direction.LEFT) {
             if (bladeState == BladeState.RUSH) {
-                if (inputControls.shootButtonPressed) {
+                if (inputControls.leftButtonPressed) {
                     region = Assets.getInstance().getGigaGalAssets().forehandLeft.getKeyFrame(swipeTimeSeconds);
+                } else if (inputControls.rightButtonPressed) {
+                    region = Assets.getInstance().getGigaGalAssets().backhandLeft.getKeyFrame(swipeTimeSeconds);
                 }
-                region = Assets.getInstance().getGigaGalAssets().backhandLeft.getKeyFrame(swipeTimeSeconds);
+            } else if (bladeState == BladeState.CUT) {
+                region = Assets.getInstance().getGigaGalAssets().uphandLeft.getKeyFrame(swipeTimeSeconds);
+            } else if (bladeState == BladeState.FLIP) {
+                region = Assets.getInstance().getGigaGalAssets().backflipLeft.getKeyFrame(swipeTimeSeconds);
             } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
                     region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
-                    if (bladeState == BladeState.CUT) {
-                        region = Assets.getInstance().getGigaGalAssets().uphandLeft.getKeyFrame(swipeTimeSeconds);
-                    } else if (bladeState == BladeState.FLIP) {
-                        region = Assets.getInstance().getGigaGalAssets().backflipLeft.getKeyFrame(swipeTimeSeconds);
-                    } else if (action == Action.FALLING || action == Action.CLIMBING) {
+                    if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
                     } else if (action == Action.HOVERING) {
                         region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
