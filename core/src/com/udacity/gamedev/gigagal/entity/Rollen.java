@@ -19,7 +19,7 @@ public class Rollen extends Hazard implements Destructible, Roving {
 
     private LevelUpdater level;
     private Vector2 position;
-    private Vector2 previousFramePosition; // class-level instantiation
+    private Vector2 previousFramePosition; // class-level instantiationa
     private Enums.Direction xDirection;
     private Enums.Material type;
     private Vector2 velocity; // class-level instantiation
@@ -33,8 +33,7 @@ public class Rollen extends Hazard implements Destructible, Roving {
     private Animation animation;
 
     // ctor
-    public Rollen(LevelUpdater level, Vector2 position, Enums.Material type) {
-        this.level = level;
+    public Rollen(Vector2 position, Enums.Material type) {
         this.type = type;
         this.position = position;
         previousFramePosition = new Vector2();
@@ -71,7 +70,7 @@ public class Rollen extends Hazard implements Destructible, Roving {
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
 
-        Viewport viewport = level.getViewport();
+        Viewport viewport = LevelUpdater.getInstance().getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
         Vector3 camera = new Vector3(viewport.getCamera().position);
         Vector2 activationDistance = new Vector2(worldSpan.x / 1.5f, worldSpan.y / 1.5f);

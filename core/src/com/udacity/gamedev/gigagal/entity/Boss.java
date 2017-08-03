@@ -114,8 +114,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
         private float eyeHeight = Constants.GIGAGAL_EYE_HEIGHT;
         private float width = Constants.GIGAGAL_STANCE_WIDTH;
 
-        public Builder(LevelUpdater level, Vector2 spawnPosition) {
-            this.level = level;
+        public Builder(Vector2 spawnPosition) {
             this.spawnPosition = spawnPosition;
         }
 
@@ -142,7 +141,6 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     }
 
     private Boss(Builder builder) {
-        level = builder.level;
         spawnPosition = builder.spawnPosition;
         position = new Vector2(spawnPosition);
         previousFramePosition = new Vector2();
@@ -164,6 +162,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     }
 
     public void respawn() {
+        level = LevelUpdater.getInstance();
         gigaGal = GigaGal.getInstance();
         position.set(spawnPosition);
         killPlane = position.y + Constants.FALL_LIMIT;

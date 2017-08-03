@@ -22,7 +22,6 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
 
     private final long startTime;
     private final float bobOffset;
-    private LevelUpdater level;
     private Vector2 velocity; // class-level instantiation
     private Vector2 position;
     private final Enums.Direction direction;
@@ -33,8 +32,7 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
     private Sound sound;
 
     // ctor
-    public Swoopa(LevelUpdater level, Vector2 position, Enums.Direction direction, Enums.Material type) {
-        this.level = level;
+    public Swoopa(Vector2 position, Enums.Direction direction, Enums.Material type) {
         this.position = position;
         this.direction = direction;
         this.type = type;
@@ -73,8 +71,9 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
     }
 
     public void update(float delta) {
-        Vector2 worldSpan = new Vector2(level.getViewport().getWorldWidth(), level.getViewport().getWorldHeight());
-        Vector3 camera = new Vector3(level.getViewport().getCamera().position);
+        Viewport viewport = LevelUpdater.getInstance().getViewport();
+        Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
+        Vector3 camera = new Vector3(viewport.getCamera().position);
         // while the swoopa is within a screens' width from the screen center on either side, permit movement
         if (Helpers.betweenTwoValues(position.x, (camera.x - worldSpan.x), (camera.x + worldSpan.x))
             && Helpers.betweenTwoValues(position.y, (camera.y - (worldSpan.y * 1.5f)), (camera.y + (worldSpan.y * 1.5f)))) {
@@ -96,7 +95,7 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
         if (position.x > (camera.x + Math.abs(worldSpan.x * 20))) {
             descentStartTime = 0;
             position.x = camera.x - Helpers.absoluteToDirectionalValue(worldSpan.x + 1, direction, Enums.Orientation.X);
-            position.y = level.getGigaGal().getTop() + Constants.SWOOPA_COLLISION_HEIGHT;
+            position.y = GigaGal.getInstance().getTop() + Constants.SWOOPA_COLLISION_HEIGHT;
             velocity.set(Helpers.absoluteToDirectionalValue(5, direction, Enums.Orientation.X), -5);
         }
     }

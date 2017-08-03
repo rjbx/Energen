@@ -275,6 +275,28 @@ final class LevelLoader {
         return range;
     }
 
+    private static final float extractSpeed(JSONObject object) {
+        float speed = 5.5f;
+        try {
+            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
+                for (String customVar : customVars) {
+                    if (customVar.contains(Constants.LEVEL_SPEED_KEY)) {
+                        String[] speedSplit = customVar.split(Constants.LEVEL_SPEED_KEY + ":");
+                        speed = Float.parseFloat(speedSplit[1]);
+                    }
+                }
+            }
+        } catch (NumberFormatException ex) {
+            runtimeEx = true;
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
+                    + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + "; key: " + Constants.LEVEL_SPEED_KEY);
+        }
+        return speed;
+    }
+
     private static final Vector2 extractDestination(JSONObject object) {
         Vector2 destination = new Vector2(0, 0);
         try {
@@ -363,6 +385,7 @@ final class LevelLoader {
             final Enums.Upgrade upgrade = extractUpgrade(item);
             final Rectangle bounds = extractBounds(item);
             final float range = extractRange(item);
+            final float speed = extractSpeed(item);
             final boolean[] tags = extractTags(item);
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.AMMO_POWERUP_SPRITE)) {
@@ -393,7 +416,7 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOSS_SPRITE)) {
                 final Vector2 bossPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded Boss at " + bossPosition);
-                Boss boss = new Boss.Builder(level, bossPosition).weapon(type).build();
+                Boss boss = new Boss.Builder(bossPosition).weapon(type).build();
                 level.addHazard(boss);
                 level.setBoss(boss);
                 ChaseCam.getInstance().setRoomPosition(bossPosition);
@@ -456,23 +479,23 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SWOOPA_SPRITE_LEFT)) {
                 final Vector2 swoopaPosition = imagePosition.add(Constants.SWOOPA_CENTER);
                 Gdx.app.log(TAG, "Loaded the swoopa at " + swoopaPosition);
-                level.addHazard(new Swoopa(level, swoopaPosition, Enums.Direction.LEFT, type));
+                level.addHazard(new Swoopa(swoopaPosition, Enums.Direction.LEFT, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SWOOPA_SPRITE_RIGHT)) {
                 final Vector2 swoopaPosition = imagePosition.add(Constants.SWOOPA_CENTER);
                 Gdx.app.log(TAG, "Loaded the swoopa at " + swoopaPosition);
-                level.addHazard(new Swoopa(level, swoopaPosition, Enums.Direction.RIGHT, type));
+                level.addHazard(new Swoopa(swoopaPosition, Enums.Direction.RIGHT, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ORBEN_SPRITE)) {
                 final Vector2 orbenPosition = imagePosition.add(Constants.ORBEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the orben at " + orbenPosition);
-                level.addHazard(new Orben(level, orbenPosition, type));
+                level.addHazard(new Orben(orbenPosition, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ROLLEN_ORE_SPRITE_1)) {
                 final Vector2 rollenPosition = imagePosition.add(Constants.ROLLEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the rollen at " + rollenPosition);
-                level.addHazard(new Rollen(level, rollenPosition, type));
+                level.addHazard(new Rollen(rollenPosition, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ARMOROLLO_LIQUID_SPRITE_0)) {
                 final Vector2 armorolloPosition = imagePosition.add(Constants.ROLLEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the armorollo at " + armorolloPosition);
-                level.addHazard(new Armorollo(level, armorolloPosition, type));
+                level.addHazard(new Armorollo(armorolloPosition, type, speed));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANNON_SPRITE)) {
                 final Vector2 cannonPosition = imagePosition.add(Constants.X_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);

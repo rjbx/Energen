@@ -24,7 +24,8 @@ public class Armorollo extends Hazard implements Armored, Groundable, Roving, De
     private Enums.Direction xDirection;
     private Enums.Material type;
     private Vector2 velocity; // class-level instantiation
-    private float collision;
+    private final float collision;
+    private float speed;
     private long startTime;
     private float health;
     private float speedAtChangeXDirection;
@@ -37,10 +38,10 @@ public class Armorollo extends Hazard implements Armored, Groundable, Roving, De
     private boolean armorStruck;
 
     // ctor
-    public Armorollo(LevelUpdater level, Vector2 position, Enums.Material type) {
-        this.level = level;
+    public Armorollo(Vector2 position, Enums.Material type, float speed) {
         this.type = type;
         this.position = position;
+        this.speed = speed;
         vulnerability = null;
         vulnerable = false;
         armorStruck = false;
@@ -70,7 +71,7 @@ public class Armorollo extends Hazard implements Armored, Groundable, Roving, De
                 rollTimeSeconds = index;
                 vulnerability = Enums.Direction.values()[index];
                 animation = Assets.getInstance().getArmorolloAssets().vulnerableLiquid;
-            } else if (Helpers.secondsSince(startTime) > 5.5f) {
+            } else if (Helpers.secondsSince(startTime) > speed) {
                 vulnerable = false;
                 armorStruck = false;
                 animation = Assets.getInstance().getRollenAssets().liquidRollen;
@@ -82,7 +83,7 @@ public class Armorollo extends Hazard implements Armored, Groundable, Roving, De
             previousFramePosition.set(position);
             position.mulAdd(velocity, delta);
 
-            Viewport viewport = level.getViewport();
+            Viewport viewport = LevelUpdater.getInstance().getViewport();
             Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
             Vector3 camera = new Vector3(viewport.getCamera().position);
             Vector2 activationDistance = new Vector2(worldSpan.x / 1.5f, worldSpan.y / 1.5f);

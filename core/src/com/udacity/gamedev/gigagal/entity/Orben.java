@@ -18,7 +18,6 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
     // fields
     public final static String TAG = Orben.class.getName();
 
-    private LevelUpdater level;
     private Vector2 position;
     private Vector2 previousFramePosition;
     private Enums.Direction xDirection;
@@ -32,8 +31,7 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
     private Animation animation;
 
     // ctor
-    public Orben(LevelUpdater level, Vector2 position, Enums.Material type) {
-        this.level = level;
+    public Orben(Vector2 position, Enums.Material type) {
         this.type = type;
         this.position = position;
         this.previousFramePosition = new Vector2();
@@ -73,7 +71,7 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
         position.x += velocity.x;
         position.y += velocity.y;
 
-        Viewport viewport = level.getViewport();
+        Viewport viewport = LevelUpdater.getInstance().getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
         Vector3 camera = new Vector3(viewport.getCamera().position);
         Vector2 activationDistance = new Vector2(worldSpan.x / 4, worldSpan.y / 4);
