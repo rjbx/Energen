@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.app;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -8,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.sun.org.apache.xerces.internal.impl.dv.xs.YearDV;
 import com.udacity.gamedev.gigagal.entity.*;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
 import com.udacity.gamedev.gigagal.util.Assets;
