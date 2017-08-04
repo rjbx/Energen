@@ -1426,12 +1426,11 @@ public class GigaGal extends Entity implements Humanoid {
     private void climb(Orientation orientation) {
         if (canCling) { // canrappel set to false from handleYinputs() if double tapping down
             if (action != Action.CLIMBING) { // at the time of climb initiation
-
                 climbStartTime = 0; // overrides assignment of current time preventing nanotime - climbstarttime < doubletapspeed on next handleY() call
                 groundState = GroundState.PLANTED;
                 action = Action.CLIMBING;
             }
-
+            resetChaseCamPosition();
             canHover = false;
             dashTimeSeconds = Helpers.secondsSince(dashStartTime);
             if (orientation == Orientation.X) {
