@@ -450,6 +450,10 @@ public class GigaGal extends Entity implements Humanoid {
                         if (!(ground instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.CLIMBING)))) {
                             canMove = false;
                             touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
+                            if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+                                canJump = true;
+                                jump();
+                            }
                         }
                     }
                     if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
@@ -688,6 +692,7 @@ public class GigaGal extends Entity implements Humanoid {
         canRappel = false;
         canLook = true;
         canHover = false;
+        Gdx.app.log(TAG, canClimb + "");
         if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
             stand(); // in each frame all grounds save for skateable rely upon this call to switch action from airborne
             lookStartTime = 0;
@@ -1243,9 +1248,6 @@ public class GigaGal extends Entity implements Humanoid {
 
     private void jump() {
         if (canJump) {
-            if (canClimb && (touchedGround == null || !(touchedGround instanceof Climbable))) {
-                canClimb = false;
-            }
             action = Action.JUMPING;
             groundState = GroundState.AIRBORNE;
             if (jumpStartTime <= 1.75f && touchedGround instanceof Rappelable) {
@@ -1405,6 +1407,7 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                 } else {
                     canClimb = false;
+                    canCling = false;
                     canLook = true; // enables look when engaging climbable but not actively climbing
                 }
                 handleXInputs(); // enables change of x direction for shooting left or right
