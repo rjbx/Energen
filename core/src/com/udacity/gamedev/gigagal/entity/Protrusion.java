@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -15,7 +16,6 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
     // fields
     public final static String TAG = Protrusion.class.getName();
 
-    private final Vector2 startPosition;
     private Vector2 position;
     private Animation animation;
     private Vector2 collisionSpan; // class-level instantiation
@@ -32,7 +32,6 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
     // ctor
     public Protrusion(Vector2 position, Enums.Material type, float rotation, boolean state) {
         this.position = position;
-        startPosition = new Vector2(position);
         this.state = state;
         converted = false;
         this.type = type;
@@ -61,11 +60,8 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
     @Override
     public void update(float delta) {
         if (state) {
-            if (!position.equals(startPosition)) {
-                position.set(startPosition);
-                if (knockback.equals(Vector2.Zero)) {
-                    setTypeAttributes(type);
-                }
+            if (knockback.equals(Vector2.Zero)) {
+                setTypeAttributes(type);
             }
         } else if (!knockback.equals(Vector2.Zero)) {
             knockback.setZero();
@@ -78,7 +74,7 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
         if (state) {
             Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, offset, 1, rotation);
         } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getProtrusionAssets().inactiveProtrusion, startPosition.x, startPosition.y, offset.x, offset.y, 1, rotation);
+            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getProtrusionAssets().inactiveProtrusion, position, offset, 1, rotation);
         }
     }
 
