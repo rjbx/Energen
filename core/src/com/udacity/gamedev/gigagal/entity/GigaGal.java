@@ -309,6 +309,9 @@ public class GigaGal extends Entity implements Humanoid {
         if (!canFlip && groundState == GroundState.PLANTED && action != Action.CLIMBING && ((inputControls.downButtonPressed || inputControls.upButtonPressed)
                 || (action == Action.DASHING && chargeStartTime > Constants.BLAST_CHARGE_DURATION && inputControls.jumpButtonPressed))) {
             if (inputControls.leftButtonPressed || inputControls.rightButtonPressed) {
+                if (action != Action.DASHING) {
+                    stand();
+                }
                 resetChaseCamPosition();
                 lookStartTime = TimeUtils.nanoTime();
                 canRush = true;
@@ -924,7 +927,7 @@ public class GigaGal extends Entity implements Humanoid {
                     velocity.y *= 5;
                 }
             }
-            if (canLook && !canClimb && !canRush) {
+            if (canLook && !canClimb) {
                 canStride = false;
                 if (!canRappel && !canHurdle && !getSwipeStatus()) { // prevents accidental toggle due to simultaneous jump and directional press
                     if (((inputControls.downButtonJustPressed && inputControls.upButtonPressed) || (inputControls.upButtonJustPressed && inputControls.downButtonPressed)) && inputControls.shootButtonPressed) {
