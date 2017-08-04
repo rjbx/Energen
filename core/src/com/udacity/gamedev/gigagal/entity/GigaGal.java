@@ -686,7 +686,6 @@ public class GigaGal extends Entity implements Humanoid {
         hoverStartTime = 0;
         rappelStartTime = 0;
         canRappel = false;
-        canMove = false;
         canLook = true;
         canHover = false;
         if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
@@ -708,6 +707,9 @@ public class GigaGal extends Entity implements Humanoid {
                 canCling = false;
             }
         }
+        if (ground instanceof Draggable) {
+            canMove = false;
+        }
     }
 
     private void untouchGround() {
@@ -723,6 +725,9 @@ public class GigaGal extends Entity implements Humanoid {
                     lookTimeSeconds = 0;
                     lookStartTime = 0;
                     if (action != Action.RAPPELLING && action != Action.CLIMBING && action != Action.HOVERING) {
+                        if (touchedGround instanceof Draggable) {
+                            canMove = false;
+                        }
                         fall();
                     } else {
                         canCling = false;
@@ -734,7 +739,6 @@ public class GigaGal extends Entity implements Humanoid {
                         fall();
                     }
                 }
-                canMove = false;
                 canRappel = false;
                 touchedGround = null; // after handling touchedground conditions above
             }
@@ -1603,6 +1607,7 @@ public class GigaGal extends Entity implements Humanoid {
     public final boolean getClingStatus() { return canCling; }
     public final boolean getDispatchStatus() { return canDispatch; }
     public final Hazardous getTouchedHazard() { return touchedHazard; }
+    public final Groundable getTouchedGround() { return touchedGround; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }
     @Override public final Enums.Action getAction() { return action; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }

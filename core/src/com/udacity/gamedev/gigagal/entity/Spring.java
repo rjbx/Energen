@@ -44,6 +44,8 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
         movingGround = null;
         if (beingCarried) {
             this.position.set(carrier.getPosition().x, carrier.getTop());
+            this.velocity.x = carrier.getVelocity().x;
+            position.mulAdd(velocity, delta);
         } else {
             position.mulAdd(velocity, delta);
             velocity.x /= Constants.DRAG_FACTOR * weightFactor();
@@ -62,6 +64,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         }
                         if (ground instanceof Propelling) {
                             velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
+                            velocity.y = 0;
                         } else if (ground instanceof Skateable) {
                             if (Math.abs(velocity.x) > 0.005f) {
                                 velocity.x /= 1.005;
@@ -74,7 +77,9 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                             velocity.setZero();
                         }
                     } else if (ground.isDense() && !(ground instanceof Pliable) && !(ground instanceof Propelling) && !(ground instanceof Box)) {
-                        if (position.x < ground.getPosition().x) {
+                        if (ground instanceof Propelling) {
+                            position.y = ground.getTop();
+                        } else if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {
                             position.x = ground.getRight() + getWidth() / 2;
