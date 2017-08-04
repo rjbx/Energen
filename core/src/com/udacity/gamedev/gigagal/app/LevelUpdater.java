@@ -520,7 +520,7 @@ public class LevelUpdater {
                                 ((Armored) hazard).resetStartTime();
                             } else if (Helpers.directionToOrientation(((Armored) hazard).getVulnerability()) == Enums.Orientation.X
                                     && gigaGal.getBladeState() == Enums.BladeState.RUSH
-                                    && Helpers.getOppositeDirection(((Armored) hazard).getVulnerability()) == Helpers.inputToDirection()) {
+                                    && ((Armored) hazard).getVulnerability() == Helpers.inputToDirection()) {
                                 Helpers.applyDamage(destructible, Blade.getInstance());
                                 ((Armored) hazard).resetStartTime();
                             }

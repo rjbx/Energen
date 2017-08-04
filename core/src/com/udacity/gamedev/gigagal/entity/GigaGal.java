@@ -932,7 +932,6 @@ public class GigaGal extends Entity implements Humanoid {
                         canShoot = false; // prevents discharge only if releasing shoot before y input due to stand() condition
                     }
                 }
-
                 look(); // also sets chase cam
             }
             jumpStartTime = 0;
