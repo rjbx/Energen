@@ -1374,28 +1374,30 @@ public class GigaGal extends Entity implements Humanoid {
                 velocity.x += aerial.getVelocity().x;
                 position.y = aerial.getPosition().y + touchedGround.getHeight() / 2;
             }
-            if (inputControls.downButtonPressed) {
-                velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
-            } else if (inputControls.upButtonPressed && canHurdle) {
-                canHurdle = false;
-                canRappel = false;
-                directionX = Helpers.getOppositeDirection(directionX);
-                velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
-                jump();
-                if (aerial != null) {
-                    velocity.y += aerial.getVelocity().y;
+            if (!(touchedGround instanceof Skateable)) {
+                if (inputControls.downButtonPressed) {
+                    velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
+                } else if (inputControls.upButtonPressed && canHurdle) {
+                    canHurdle = false;
+                    canRappel = false;
+                    directionX = Helpers.getOppositeDirection(directionX);
+                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
+                    jump();
+                    if (aerial != null) {
+                        velocity.y += aerial.getVelocity().y;
+                    }
+                } else if (turbo < 1) {
+                    turbo = 0;
+                    velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
+                } else {
+                    if (!canHurdle) {
+                        turbo -= Constants.RAPPEL_TURBO_INCREMENT * turboMultiplier;
+                    }
+                    if (touchedGround instanceof Treadmill) {
+                        turbo -= 2;
+                    }
+                    velocity.y = 0;
                 }
-            } else if (turbo < 1) {
-                turbo = 0;
-                velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
-            } else {
-                if (!canHurdle) {
-                    turbo -= Constants.RAPPEL_TURBO_INCREMENT * turboMultiplier;
-                }
-                if (touchedGround instanceof Treadmill) {
-                    turbo -= 2;
-                }
-                velocity.y = 0;
             }
         }
     }

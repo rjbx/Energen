@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Slick extends Ground implements Rappelable, Hurdleable, Skateable {
+public class Slick extends Ground implements Rappelable, Skateable {
     
     // fields
     public final static String TAG = Slick.class.getName();
