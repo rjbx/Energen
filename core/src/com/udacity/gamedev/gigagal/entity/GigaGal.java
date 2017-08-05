@@ -1350,7 +1350,11 @@ public class GigaGal extends Entity implements Humanoid {
         if (!inputControls.jumpButtonPressed) {
             if (rappelTimeSeconds >= Constants.RAPPEL_FRAME_DURATION) {
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
-                jump();
+                if (!(touchedGround instanceof Skateable)) {
+                    jump();
+                } else {
+                    fall();
+                }
             } else {
                 canHover = true;
             }
