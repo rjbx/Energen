@@ -35,8 +35,8 @@ public class Block extends Barrier implements Draggable {
     @Override
     public void update(float delta) {
         if (beingCarried && !againstStaticGround) {
-            position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
-            velocity.x = carrier.getVelocity().x;
+            this.position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
+            this.velocity.x = carrier.getVelocity().x;
         }
         position.y += velocity.y * delta;
         velocity.y = -Constants.GRAVITY * 15 * weightFactor();
@@ -45,10 +45,26 @@ public class Block extends Barrier implements Draggable {
         movingGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (!(ground instanceof Climbable) && Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())) { // prevents setting to unreachable, narrower ground
-                    position.y = ground.getTop() + getHeight() / 2;
-                    velocity.y = 0;
-                } else if (ground.isDense() && getTop() > ground.getBottom()) {
+                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())) {
+                    if (!(ground instanceof Climbable)) {
+                        position.y = ground.getTop() + getHeight() / 2;
+                        velocity.y = 0;
+                    }
+                    if (ground instanceof Propelling) {
+                        velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
+                        position.x = velocity.x * delta;
+                        velocity.y = 0;
+                    } else if (ground instanceof Skateable) {
+                        if (Math.abs(velocity.x) > 0.005f) {
+                            velocity.x /= 1.005;
+                        } else {
+                            velocity.x = 0;
+                        }
+                        position.x +=  velocity.x * delta;
+                        velocity.y = 0;
+                    }
+                } else if (ground.isDense() && getTop() > ground.getBottom()
+                        && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable)) {
                     if ((!(ground instanceof Block) ||
                             (((Block) ground).isAgainstStaticGround() && !((Block) ground).isBeingCarried())
                             || (!beingCarried && !againstStaticGround && !((Block) ground).isAgainstStaticGround()))) {
@@ -63,7 +79,7 @@ public class Block extends Barrier implements Draggable {
                         } else {
                             position.x = ground.getRight() + getWidth() / 2;
                         }
-                    } else if (ground instanceof Pliable) {
+                    } else {
                         if (beingCarried && ((Block) ground).isBeingCarried()) {
                             beingCarried = false;
                         } else {

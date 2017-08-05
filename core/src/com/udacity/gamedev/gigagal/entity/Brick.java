@@ -13,18 +13,14 @@ public class Brick extends Barrier implements Tossable {
 
     private Moving movingGround;
     protected Vector2 velocity;
-    private boolean loaded;
     private boolean beingCarried;
-    private boolean atopGround;
     private boolean atopMovingGround;
     private Dynamic carrier;
 
     // ctor
     public Brick(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
         super(xPos, yPos, width, height, type, dense);
-        loaded = false;
         beingCarried = false;
-        atopGround = false;
         atopMovingGround = false;
         velocity = new Vector2(0, 0);
     }
@@ -33,18 +29,19 @@ public class Brick extends Barrier implements Tossable {
     public void update(float delta) {
         if (beingCarried) {
             position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
-            atopGround = false;
         } else {
             position.mulAdd(velocity, delta);
             velocity.x /= Constants.DRAG_FACTOR * weightFactor();
             velocity.y = -Constants.GRAVITY * 15 * weightFactor();
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
-                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
-                            && ground.getWidth() >= this.getWidth() // prevents setting to unreachable, narrower ground
+                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())
                             && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
-                        position.y = ground.getTop() + getHeight() / 2;
-                        atopGround = true;
+                        if ((!(ground instanceof Climbable) || beingCarried)
+                                && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
+                            position.y = ground.getTop() + getHeight() / 2;
+                            velocity.y = 0;
+                        }
                         if (ground instanceof Pliable) {
                             position.x = ground.getPosition().x + ((Pliable) ground).getVelocity().x;
                             position.y = ground.getTop() + getHeight() / 2 + ((Pliable) ground).getVelocity().y;
@@ -53,17 +50,20 @@ public class Brick extends Barrier implements Tossable {
                         }
                         if (ground instanceof Propelling) {
                             velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
+                            velocity.y = 0;
                         } else if (ground instanceof Skateable) {
                             if (Math.abs(velocity.x) > 0.005f) {
                                 velocity.x /= 1.005;
                             } else {
                                 velocity.x = 0;
                             }
+                            position.x +=  velocity.x * delta;
                             velocity.y = 0;
-                        } else {
-                            velocity.setZero();
                         }
-                    } else if (ground.isDense() && !(ground instanceof Pliable) && !(ground instanceof Propelling) && !(ground instanceof Box && ((Box) ground).getHealth() < 1)) {
+                    } else if (ground.isDense()
+                            && getTop() > ground.getBottom()
+                            && !(ground instanceof Pliable)
+                            && !(ground instanceof Propelling) && !(ground instanceof Box && ((Box) ground).getHealth() < 1)) {
                         float bounceBack = 0;
                         if (ground instanceof Tripknob && ((Tripknob) ground).isConverted()) {
                             bounceBack = 5;
@@ -74,6 +74,8 @@ public class Brick extends Barrier implements Tossable {
                             position.x = ground.getRight() + getWidth() / 2 + bounceBack;
                         }
                         velocity.x = 0;
+                    } else if (ground instanceof Box) {
+                        velocity.y = 0;
                     }
                 }
             }

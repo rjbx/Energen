@@ -52,10 +52,13 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
             velocity.y = -Constants.GRAVITY * 15 * weightFactor();
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
-                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop() + 3 * weightFactor())
-                            && ground.getWidth() >= this.getWidth() // prevents setting to unreachable, narrower ground
+                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())
                             && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
-                        position.y = ground.getTop() + getHeight() / 2;
+                        if ((!(ground instanceof Climbable) || beingCarried)
+                                && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
+                            position.y = ground.getTop() + getHeight() / 2;
+                            velocity.y = 0;
+                        }
                         if (ground instanceof Pliable) {
                             position.x = ground.getPosition().x + ((Pliable) ground).getVelocity().x;
                             position.y = ground.getTop() + getHeight() / 2 + ((Pliable) ground).getVelocity().y;
@@ -73,13 +76,12 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                             }
                             position.x +=  velocity.x * delta;
                             velocity.y = 0;
-                        } else {
-                            velocity.setZero();
                         }
-                    } else if (ground.isDense() && !(ground instanceof Pliable) && !(ground instanceof Propelling) && !(ground instanceof Box)) {
-                        if (ground instanceof Propelling) {
-                            position.y = ground.getTop();
-                        } else if (position.x < ground.getPosition().x) {
+                    } else if (ground.isDense()
+                            && getTop() > ground.getBottom()
+                            && !(ground instanceof Pliable)
+                            && !(ground instanceof Propelling) && !(ground instanceof Box)) {
+                        if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {
                             position.x = ground.getRight() + getWidth() / 2;
