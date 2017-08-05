@@ -46,7 +46,8 @@ public class Brick extends Barrier implements Tossable {
                                 && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
                             position.y = ground.getTop() + getHeight() / 2;
                             velocity.y = 0;
-                        } else if (ground instanceof Propelling) {
+                        }
+                        if (ground instanceof Propelling) {
                             velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
                             velocity.y = 0;
                         } else if (ground instanceof Skateable) {
@@ -57,6 +58,8 @@ public class Brick extends Barrier implements Tossable {
                             }
                             position.x += velocity.x * delta;
                             velocity.y = 0;
+                        } else {
+                            velocity.x = 0;
                         }
                     } else if (ground.isDense()
                             && getTop() > ground.getBottom()

@@ -21,7 +21,6 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     private Vector2 velocity;
     private boolean loaded;
     private boolean beingCarried;
-    private boolean atopGround;
     private boolean atopMovingGround;
     private boolean underGround;
     private Dynamic carrier;
@@ -32,7 +31,6 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
         startTime = 0;
         loaded = false;
         beingCarried = false;
-        atopGround = false;
         atopMovingGround = false;
         underGround = false;
         velocity = new Vector2(0, 0);
@@ -52,7 +50,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
             velocity.y = -Constants.GRAVITY * 15 * weightFactor();
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
-                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 6 * weightFactor(), ground.getTop())
+                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())
                             && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                         if (ground instanceof Moving) {
                             position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
@@ -63,7 +61,8 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                                 && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
                             position.y = ground.getTop() + getHeight() / 2;
                             velocity.y = 0;
-                        } else if (ground instanceof Propelling) {
+                        }
+                        if (ground instanceof Propelling) {
                             velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
                             velocity.y = 0;
                         } else if (ground instanceof Skateable) {
@@ -79,7 +78,6 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         }
                     } else if (ground.isDense()
                             && getTop() > ground.getBottom()
-                            && !(ground instanceof Pliable)
                             && !(ground instanceof Propelling) && !(ground instanceof Box)) {
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
@@ -102,7 +100,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
         // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
-                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 3 * weightFactor(), hazard.getTop())) {
+                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 6, hazard.getTop() + 6)) {
                     position.x = hazard.getPosition().x + ((Vehicular) hazard).getVelocity().x;
                     position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
                     atopMovingGround = true;
