@@ -54,7 +54,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
                     if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())
                             && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
-                        if ((!(ground instanceof Climbable) || beingCarried)
+                        if ((!(ground instanceof Climbable))
                                 && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
                             position.y = ground.getTop() + getHeight() / 2;
                             velocity.y = 0;
@@ -76,6 +76,8 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                             }
                             position.x +=  velocity.x * delta;
                             velocity.y = 0;
+                        } else {
+                            velocity.x = 0;
                         }
                     } else if (ground.isDense()
                             && getTop() > ground.getBottom()

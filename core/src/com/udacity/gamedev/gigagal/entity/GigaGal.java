@@ -712,7 +712,7 @@ public class GigaGal extends Entity implements Humanoid {
                 canCling = false;
             }
         }
-        if (ground instanceof Draggable) {
+        if (!inputControls.shootButtonPressed) {
             canMove = false;
         }
     }
@@ -1250,7 +1250,7 @@ public class GigaGal extends Entity implements Humanoid {
         if (canJump) {
             action = Action.JUMPING;
             groundState = GroundState.AIRBORNE;
-            if (jumpStartTime <= 1.75f && touchedGround instanceof Rappelable) {
+            if (jumpStartTime <= 1.75f) {
                 jumpStartTime = TimeUtils.nanoTime();
             }
             canJump = false;
@@ -1426,6 +1426,7 @@ public class GigaGal extends Entity implements Humanoid {
     private void climb(Orientation orientation) {
         if (canCling) { // canrappel set to false from handleYinputs() if double tapping down
             if (action != Action.CLIMBING) { // at the time of climb initiation
+
                 climbStartTime = 0; // overrides assignment of current time preventing nanotime - climbstarttime < doubletapspeed on next handleY() call
                 groundState = GroundState.PLANTED;
                 action = Action.CLIMBING;
