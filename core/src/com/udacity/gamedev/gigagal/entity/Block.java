@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -46,13 +47,17 @@ public class Block extends Barrier implements Draggable {
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())) {
-                    if (!(ground instanceof Climbable)) {
+                    if (ground instanceof Moving) {
+                        position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
+                        position.y = ground.getTop() + getHeight() / 2 + ((Moving) ground).getVelocity().y;
+                        atopMovingGround = true;
+                        movingGround = (Moving) ground;
+                    } else if ((!(ground instanceof Climbable))
+                            && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
                         position.y = ground.getTop() + getHeight() / 2;
                         velocity.y = 0;
-                    }
-                    if (ground instanceof Propelling) {
+                    } else if (ground instanceof Propelling) {
                         velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
-                        position.x = velocity.x * delta;
                         velocity.y = 0;
                     } else if (ground instanceof Skateable) {
                         if (Math.abs(velocity.x) > 0.005f) {
@@ -60,7 +65,7 @@ public class Block extends Barrier implements Draggable {
                         } else {
                             velocity.x = 0;
                         }
-                        position.x +=  velocity.x * delta;
+                        position.x += velocity.x * delta;
                         velocity.y = 0;
                     }
                 } else if (ground.isDense() && getTop() > ground.getBottom()
@@ -92,7 +97,7 @@ public class Block extends Barrier implements Draggable {
         // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
-                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 6, hazard.getTop() + 6)) {
+                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 3 * weightFactor(), hazard.getTop())) {
                     position.x = hazard.getPosition().x + ((Vehicular) hazard).getVelocity().x;
                     position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
                     atopMovingGround = true;

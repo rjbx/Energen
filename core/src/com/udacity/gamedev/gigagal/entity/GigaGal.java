@@ -644,8 +644,8 @@ public class GigaGal extends Entity implements Humanoid {
                     } else if (moving instanceof Pliable) {
                         Pliable pliable = (Pliable) moving;
                         if (pliable.isAtopMovingGround()) {
-                            if (pliable.getMovingGround() instanceof Dynamic) {
-                                aerial = (Dynamic) pliable.getMovingGround();
+                            if (pliable.getMovingGround() instanceof Aerial) {
+                                aerial = (Aerial) pliable.getMovingGround();
                                 position.x += aerial.getVelocity().x;
                             }
                         } else if (Math.abs(pliable.getVelocity().x) > 0) {
@@ -692,7 +692,6 @@ public class GigaGal extends Entity implements Humanoid {
         canRappel = false;
         canLook = true;
         canHover = false;
-        Gdx.app.log(TAG, canClimb + "");
         if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
             stand(); // in each frame all grounds save for skateable rely upon this call to switch action from airborne
             lookStartTime = 0;
@@ -712,7 +711,7 @@ public class GigaGal extends Entity implements Humanoid {
                 canCling = false;
             }
         }
-        if (!inputControls.shootButtonPressed) {
+        if (((!(touchedGround instanceof Pliable && ((Pliable) touchedGround).isBeingCarried())) && (!(ground instanceof Pliable && ((Pliable) ground).isBeingCarried()))) && !inputControls.shootButtonPressed) {
             canMove = false;
         }
     }
@@ -1365,10 +1364,15 @@ public class GigaGal extends Entity implements Humanoid {
                 if (((Pliable) touchedGround).getMovingGround() instanceof Aerial) {
                     aerial = (Aerial) ((Pliable) touchedGround).getMovingGround();
                 }
+                if (Helpers.inputToDirection() == Helpers.getOppositeDirection(directionX)) {
+                    canMove = true;
+                } else {
+                    canMove = false;
+                }
             }
             if (aerial != null) {
                 velocity.x += aerial.getVelocity().x;
-                position.y = aerial.getPosition().y + touchedGround.getHeight();
+                position.y = aerial.getPosition().y + touchedGround.getHeight() / 2;
             }
             if (inputControls.downButtonPressed) {
                 velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
@@ -1446,7 +1450,6 @@ public class GigaGal extends Entity implements Humanoid {
                 directionX = Direction.LEFT;
             }
         } else { // if double tapping down, fall from climbable
-            Gdx.app.log(TAG, canClimb + "" + dashTimeSeconds);
             dashTimeSeconds = 0;
             canCling = false;
             canClimb = false;

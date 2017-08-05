@@ -37,18 +37,16 @@ public class Brick extends Barrier implements Tossable {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
                     if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())
                             && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
-                        if ((!(ground instanceof Climbable))
+                        if (ground instanceof Moving) {
+                            position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
+                            position.y = ground.getTop() + getHeight() / 2 + ((Moving) ground).getVelocity().y;
+                            atopMovingGround = true;
+                            movingGround = (Moving) ground;
+                        } else if ((!(ground instanceof Climbable))
                                 && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
                             position.y = ground.getTop() + getHeight() / 2;
                             velocity.y = 0;
-                        }
-                        if (ground instanceof Pliable) {
-                            position.x = ground.getPosition().x + ((Pliable) ground).getVelocity().x;
-                            position.y = ground.getTop() + getHeight() / 2 + ((Pliable) ground).getVelocity().y;
-                            atopMovingGround = true;
-                            movingGround = (Moving) ground;
-                        }
-                        if (ground instanceof Propelling) {
+                        } else if (ground instanceof Propelling) {
                             velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
                             velocity.y = 0;
                         } else if (ground instanceof Skateable) {
@@ -57,10 +55,8 @@ public class Brick extends Barrier implements Tossable {
                             } else {
                                 velocity.x = 0;
                             }
-                            position.x +=  velocity.x * delta;
+                            position.x += velocity.x * delta;
                             velocity.y = 0;
-                        } else {
-                            velocity.x = 0;
                         }
                     } else if (ground.isDense()
                             && getTop() > ground.getBottom()
@@ -87,7 +83,7 @@ public class Brick extends Barrier implements Tossable {
         // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
-                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 6, hazard.getTop() + 6)) {
+                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 3 * weightFactor(), hazard.getTop())) {
                     position.x = hazard.getPosition().x + ((Vehicular) hazard).getVelocity().x;
                     position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
                     atopMovingGround = true;
