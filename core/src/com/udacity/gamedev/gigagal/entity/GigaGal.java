@@ -525,7 +525,6 @@ public class GigaGal extends Entity implements Humanoid {
                         }
                         // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
                     } else {
-
                         // if not already hovering and descending, also disable hover
                         if (action != Action.HOVERING && velocity.y < 0) {
                             canHover = false; // disable hover
