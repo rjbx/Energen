@@ -85,6 +85,14 @@ public class Brick extends Barrier implements Tossable {
                     velocity.x = 0;
                 } else if (ground instanceof Box) {
                     velocity.y = 0;
+                } else if ((!(ground instanceof Pliable) ||
+                        (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
+                        || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
+                    if (!(ground instanceof Pliable) || !((Pliable) ground).isBeingCarried()) {
+                        if (!beingCarried || velocity.x != 0) {
+                            againstStaticGround = true;
+                        }
+                    }
                 }
             }
             if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround() && ((Pliable) ground).getMovingGround().equals(this)) {
@@ -115,14 +123,15 @@ public class Brick extends Barrier implements Tossable {
     @Override public final void setPosition(Vector2 position) { super.position.set(position); }
     @Override public final Vector2 getVelocity() { return velocity; }
     @Override public final Dynamic getCarrier() { return carrier; }
-    @Override public final void setCarrier(Dynamic entity) { this.carrier = entity; beingCarried = (carrier != null); }
+    @Override public final void setCarrier(Dynamic entity) { againstStaticGround = false; this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
     @Override public Enums.Material getType() { return super.getType(); }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(.2f, ((getWidth() * getHeight()) / 3600) + payload); }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final boolean isDense() { return super.dense || beingCarried; }
-    @Override public final void toss(float velocityX) { velocity.x = velocityX; }public final boolean isAgainstStaticGround() { return againstStaticGround; }
+    @Override public final void toss(float velocityX) { velocity.x = velocityX; }
+    public final boolean isAgainstStaticGround() { return againstStaticGround; }
     public final void setAgainstStaticGround() { this.againstStaticGround = true; }
     public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }
     public final void setMovingGround(Moving ground) { movingGround = ground; }

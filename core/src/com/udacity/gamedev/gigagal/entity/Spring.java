@@ -89,6 +89,14 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         velocity.x = 0;
                     } else if (ground instanceof Box) {
                         velocity.y = 0;
+                    } else if ((!(ground instanceof Pliable) ||
+                            (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
+                            || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
+                        if (!(ground instanceof Pliable) || !((Pliable) ground).isBeingCarried()) {
+                            if (!beingCarried || velocity.x != 0) {
+                                againstStaticGround = true;
+                            }
+                        }
                     }
                     if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 1, ground.getBottom() + 1)) {
                         loaded = true;
@@ -131,7 +139,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     @Override public final Vector2 getVelocity() { return velocity; }
     @Override public final void setPosition(Vector2 position) { this.position.set(position); }
     @Override public final Dynamic getCarrier() { return carrier; }
-    @Override public final void setCarrier(Dynamic entity) { this.carrier = entity; beingCarried = (carrier != null); }
+    @Override public final void setCarrier(Dynamic entity) { againstStaticGround = false; this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
     @Override public final float getHeight() { return Constants.SPRING_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.SPRING_CENTER.x * 2; }

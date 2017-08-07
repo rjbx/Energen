@@ -356,25 +356,6 @@ public class LevelUpdater {
             }
         }
         if (ground instanceof Pliable) {
-            if (GigaGal.getInstance().getTouchedGround() instanceof Pliable && ((Pliable) GigaGal.getInstance().getTouchedGround()).isBeingCarried()) {
-                Pliable carriedGround = (Pliable) GigaGal.getInstance().getTouchedGround();
-                if ((!(ground instanceof Block) ||
-                        (((Block) ground).isAgainstStaticGround() && !((Block) ground).isBeingCarried())
-                        || (!carriedGround.isBeingCarried() && !(carriedGround).isAgainstStaticGround() && !((Block) ground).isAgainstStaticGround()))) {
-                    if (!(ground instanceof Block) || !((Block) ground).isBeingCarried()) {
-                        if (!carriedGround.isBeingCarried() || carriedGround.getVelocity().x != 0) {
-                            (carriedGround).setAgainstStaticGround();
-                        }
-                    }
-                    (carriedGround).setVelocity(new Vector2(0, 0));
-                } else {
-                    if (carriedGround.isBeingCarried() && ((Block) ground).isBeingCarried()) {
-                        (carriedGround).stopCarrying();
-                    } else {
-                        carriedGround.setMovingGround((Moving) ground);
-                    }
-                }
-            }
             if (!((Pliable) ground).isBeingCarried() && Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                 if (gigaGal.getAction() == Enums.Action.RAPPELLING && InputControls.getInstance().shootButtonJustPressed
                 || (gigaGal.getBottom() == ground.getBottom() && (InputControls.getInstance().shootButtonJustPressed) && gigaGal.getAction() == Enums.Action.STRIDING)
@@ -387,11 +368,13 @@ public class LevelUpdater {
                         }
                     }
                     ((Pliable) ground).setCarrier(gigaGal);
+                    gigaGal.setCarriedGround((Pliable) ground);
                 }
             } else if (((Pliable) ground).getCarrier() == gigaGal) {
                 if (ground instanceof Draggable) {
                     if (gigaGal.getVelocity().y > 0) {
                         ((Pliable) ground).setCarrier(null);
+                        gigaGal.setCarriedGround(null);
                     }
                 }
                 if (ground instanceof Barrier && gigaGal.getAction() != Enums.Action.STANDING) {
@@ -404,6 +387,7 @@ public class LevelUpdater {
                     gigaGal.setTurbo(Math.max(adjustedTurbo, 0));
                     if (gigaGal.getTurbo() == 0) {
                         ((Pliable) ground).setCarrier(null);
+                        gigaGal.setCarriedGround(null);
                     }
                 }
                 if (!InputControls.getInstance().shootButtonPressed
@@ -414,6 +398,28 @@ public class LevelUpdater {
                     }
                 }
             }
+            if (gigaGal.getCarriedGround() != null) {
+                if (Helpers.overlapsPhysicalObject(ground, gigaGal.getCarriedGround())) {
+                    
+                }
+            }
+//                if ((!(ground instanceof Block) ||
+//                        (((Block) ground).isAgainstStaticGround() && !((Block) ground).isBeingCarried())
+//                        || (!carriedGround.isBeingCarried() && !(carriedGround).isAgainstStaticGround() && !((Block) ground).isAgainstStaticGround()))) {
+//                    if (!(ground instanceof Block) || !((Block) ground).isBeingCarried()) {
+//                        if (!carriedGround.isBeingCarried() || carriedGround.getVelocity().x != 0) {
+//                            (carriedGround).setAgainstStaticGround();
+//                        }
+//                    }
+
+//                    (carriedGround).setVelocity(new Vector2(0, 0));
+//                } else {
+//                    if (carriedGround.isBeingCarried() && ((Block) ground).isBeingCarried()) {
+//                        (carriedGround).stopCarrying();
+//                    } else {
+//                        carriedGround.setMovingGround((Moving) ground);
+//                    }
+//                }
         }
         if (ground instanceof Destructible) {
             if (((Destructible) ground).getHealth() < 1) {

@@ -54,6 +54,7 @@ public class GigaGal extends Entity implements Humanoid {
     private GroundState groundState;
     private Groundable touchedGround; // class-level instantiation
     private Hazardous touchedHazard;
+    private Pliable carriedGround;
     private ShotIntensity shotIntensity;
     private BladeState bladeState;
     private Material weapon;
@@ -1621,6 +1622,7 @@ public class GigaGal extends Entity implements Humanoid {
     public final boolean getDispatchStatus() { return canDispatch; }
     public final Hazardous getTouchedHazard() { return touchedHazard; }
     public final Groundable getTouchedGround() { return touchedGround; }
+    public final Pliable getCarriedGround() { return carriedGround; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }
     @Override public final Enums.Action getAction() { return action; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
@@ -1639,6 +1641,7 @@ public class GigaGal extends Entity implements Humanoid {
     @Override public Orientation getOrientation() { if (action == Action.CLIMBING || lookStartTime != 0) { return Orientation.Y; } return Orientation.X; }
 
     // Setters
+    public void setCarriedGround(Pliable ground) { this.carriedGround = ground; }
     public void setAction(Action action) { this.action = action; }
     public void setDirectionX(Direction directionX) { this.directionX = directionX; }
     public void setDirectionY(Direction directionY) { this.directionY = directionY; }

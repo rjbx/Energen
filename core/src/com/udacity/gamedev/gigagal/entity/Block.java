@@ -77,15 +77,23 @@ public class Block extends Barrier implements Draggable {
                 && getTop() > ground.getBottom()
                 && !(ground instanceof Pliable)
                 && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable)) {
+                    velocity.x = 0;
                     if (position.x < ground.getPosition().x) {
                         position.x = ground.getLeft() - getWidth() / 2;
                     } else {
                         position.x = ground.getRight() + getWidth() / 2;
                     }
-                    velocity.x = 0;
                 }
                 if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround() && ((Pliable) ground).getMovingGround().equals(this)) {
                     payload = ((Pliable) ground).weightFactor();
+                }
+            } else if ((!(ground instanceof Pliable) ||
+                    (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
+                    || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
+                if (!(ground instanceof Pliable) || !((Pliable) ground).isBeingCarried()) {
+                    if (!beingCarried || velocity.x != 0) {
+                        againstStaticGround = true;
+                    }
                 }
             }
         }
