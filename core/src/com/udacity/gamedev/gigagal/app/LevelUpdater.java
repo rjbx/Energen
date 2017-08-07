@@ -356,6 +356,25 @@ public class LevelUpdater {
             }
         }
         if (ground instanceof Pliable) {
+            if (GigaGal.getInstance().getTouchedGround() instanceof Pliable && ((Pliable) GigaGal.getInstance().getTouchedGround()).isBeingCarried()) {
+                Pliable carriedGround = (Pliable) GigaGal.getInstance().getTouchedGround();
+                if ((!(ground instanceof Block) ||
+                        (((Block) ground).isAgainstStaticGround() && !((Block) ground).isBeingCarried())
+                        || (!carriedGround.isBeingCarried() && !((Block) carriedGround).isAgainstStaticGround() && !((Block) ground).isAgainstStaticGround()))) {
+                    if (!(ground instanceof Block) || !((Block) ground).isBeingCarried()) {
+                        if (!carriedGround.isBeingCarried() || carriedGround.getVelocity().x != 0) {
+                            ((Block) carriedGround).setAgainstStaticGround();
+                        }
+                    }
+                    ((Block) carriedGround).setVelocity(new Vector2(0, 0));
+                } else {
+                    if (carriedGround.isBeingCarried() && ((Block) ground).isBeingCarried()) {
+                        ((Block) carriedGround).stopCarrying();
+                    } else {
+                        ((Block) carriedGround).setMovingGround((Moving) ground);
+                    }
+                }
+            }
             if (!((Pliable) ground).isBeingCarried() && Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                 if (gigaGal.getAction() == Enums.Action.RAPPELLING && InputControls.getInstance().shootButtonJustPressed
                 || (gigaGal.getBottom() == ground.getBottom() && (InputControls.getInstance().shootButtonJustPressed) && gigaGal.getAction() == Enums.Action.STRIDING)
