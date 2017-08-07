@@ -15,6 +15,7 @@ public class Brick extends Barrier implements Tossable {
     // fields
     public final static String TAG = Brick.class.getName();
 
+    private boolean againstStaticGround;
     private Moving movingGround;
     protected Vector2 velocity;
     private boolean beingCarried;
@@ -121,5 +122,9 @@ public class Brick extends Barrier implements Tossable {
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final boolean isDense() { return super.dense || beingCarried; }
-    @Override public final void toss(float velocityX) { velocity.x = velocityX; }
+    @Override public final void toss(float velocityX) { velocity.x = velocityX; }public final boolean isAgainstStaticGround() { return againstStaticGround; }
+    public final void setAgainstStaticGround() { this.againstStaticGround = true; }
+    public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }
+    public final void setMovingGround(Moving ground) { movingGround = ground; }
+    public final void stopCarrying() { beingCarried = false; }
 }

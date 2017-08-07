@@ -15,6 +15,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     // fields
     public final static String TAG = Spring.class.getName();
 
+    private boolean againstStaticGround;
     private Vector2 position;
     private Moving movingGround;
     private long startTime;
@@ -150,4 +151,9 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     @Override public final boolean getState() { return loaded; }
     @Override public final void resetStartTime() { this.startTime = 0; }
     @Override public final float jumpMultiplier() { return Constants.SPRING_JUMP_MULTIPLIER; }
+    public final boolean isAgainstStaticGround() { return againstStaticGround; }
+    public final void setAgainstStaticGround() { this.againstStaticGround = true; }
+    public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }
+    public final void setMovingGround(Moving ground) { movingGround = ground; }
+    public final void stopCarrying() { beingCarried = false; }
 }

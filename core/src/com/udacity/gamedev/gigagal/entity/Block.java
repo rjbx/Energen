@@ -110,17 +110,17 @@ public class Block extends Barrier implements Draggable {
     // Getters
     @Override public final void setPosition(Vector2 position) { super.position.set(position); }
     @Override public final Vector2 getVelocity() { return velocity; }
-    public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }
     @Override public final Dynamic getCarrier() { return carrier; }
     @Override public final void setCarrier(Dynamic entity) { againstStaticGround = false; this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
-    public final void setMovingGround(Moving ground) { movingGround = ground; }
     @Override public Enums.Material getType() { return super.getType(); }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(1, ((getWidth() * getHeight()) / 3600) + payload); }
     @Override public final boolean isBeingCarried() { return beingCarried; }
-    public final void stopCarrying() { beingCarried = false; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried; }
     public final boolean isAgainstStaticGround() { return againstStaticGround; }
     public final void setAgainstStaticGround() { this.againstStaticGround = true; }
+    public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }
+    public final void setMovingGround(Moving ground) { movingGround = ground; }
+    public final void stopCarrying() { beingCarried = false; }
 }

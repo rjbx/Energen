@@ -360,18 +360,18 @@ public class LevelUpdater {
                 Pliable carriedGround = (Pliable) GigaGal.getInstance().getTouchedGround();
                 if ((!(ground instanceof Block) ||
                         (((Block) ground).isAgainstStaticGround() && !((Block) ground).isBeingCarried())
-                        || (!carriedGround.isBeingCarried() && !((Block) carriedGround).isAgainstStaticGround() && !((Block) ground).isAgainstStaticGround()))) {
+                        || (!carriedGround.isBeingCarried() && !(carriedGround).isAgainstStaticGround() && !((Block) ground).isAgainstStaticGround()))) {
                     if (!(ground instanceof Block) || !((Block) ground).isBeingCarried()) {
                         if (!carriedGround.isBeingCarried() || carriedGround.getVelocity().x != 0) {
-                            ((Block) carriedGround).setAgainstStaticGround();
+                            (carriedGround).setAgainstStaticGround();
                         }
                     }
-                    ((Block) carriedGround).setVelocity(new Vector2(0, 0));
+                    (carriedGround).setVelocity(new Vector2(0, 0));
                 } else {
                     if (carriedGround.isBeingCarried() && ((Block) ground).isBeingCarried()) {
-                        ((Block) carriedGround).stopCarrying();
+                        (carriedGround).stopCarrying();
                     } else {
-                        ((Block) carriedGround).setMovingGround((Moving) ground);
+                        carriedGround.setMovingGround((Moving) ground);
                     }
                 }
             }

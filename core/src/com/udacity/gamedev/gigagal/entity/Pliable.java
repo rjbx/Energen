@@ -10,5 +10,10 @@ public interface Pliable extends Moving {
     boolean isBeingCarried();
     boolean isAtopMovingGround();
     Moving getMovingGround();
+    void setMovingGround(Moving ground);
     float weightFactor();
+    boolean isAgainstStaticGround();
+    void setAgainstStaticGround();
+    void setVelocity(Vector2 velocity);
+    void stopCarrying();
 }
