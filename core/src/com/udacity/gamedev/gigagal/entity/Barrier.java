@@ -21,7 +21,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
     protected Vector2 position; // class-level instantiation
     private float width;
     private float height;
-    private boolean dense;
+    protected boolean dense;
     private boolean converted;
     private NinePatch ninePatch;
 

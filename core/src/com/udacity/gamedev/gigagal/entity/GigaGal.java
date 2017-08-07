@@ -477,11 +477,13 @@ public class GigaGal extends Entity implements Humanoid {
                     canHover = false;
                     lookStartTime = 0;
                     lookTimeSeconds = 0;
-                } else if (ground instanceof Brick) { // prevents setting atop non-dense bricks
-                    touchedGround = ground;
                 } else if (!(ground instanceof Pliable) || !(canClimb && directionY == Direction.UP)) { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
                     if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
-                        touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                        if (ground instanceof Brick && !ground.isDense()) { // prevents setting atop non-dense bricks
+                            touchedGround = ground;
+                        } else {
+                            touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                        }
                     }
                 }
             }
@@ -1642,6 +1644,7 @@ public class GigaGal extends Entity implements Humanoid {
     public void setDirectionY(Direction directionY) { this.directionY = directionY; }
     public void setLives(int lives) { this.lives = lives; }
     public void setHealth(int health) { this.health = health; }
+    public void setTurbo(float turbo) { this.turbo = turbo; }
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public void setChaseCamPosition(float offset) {
         lookTimeSeconds = Helpers.secondsSince(lookStartTime);

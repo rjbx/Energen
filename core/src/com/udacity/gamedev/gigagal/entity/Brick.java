@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -10,6 +11,9 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 
 // also functions as shield
 public class Brick extends Barrier implements Tossable {
+
+    // fields
+    public final static String TAG = Brick.class.getName();
 
     private Moving movingGround;
     protected Vector2 velocity;
@@ -27,6 +31,7 @@ public class Brick extends Barrier implements Tossable {
 
     @Override
     public void update(float delta) {
+        Gdx.app.log(TAG, this.isDense() + "");
         if (beingCarried) {
             position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
         } else {
@@ -56,7 +61,7 @@ public class Brick extends Barrier implements Tossable {
                             } else {
                                 velocity.x = 0;
                             }
-                            position.x += velocity.x * delta;
+                            position.x +=  velocity.x * delta;
                             velocity.y = 0;
                         } else {
                             velocity.x = 0;
@@ -108,9 +113,9 @@ public class Brick extends Barrier implements Tossable {
     @Override public final void setCarrier(Dynamic entity) { this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
     @Override public Enums.Material getType() { return super.getType(); }
-    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(.67f, ((getWidth() * getHeight()) / 3600)); }
+    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(1, ((getWidth() * getHeight()) / 3600)); }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
-    @Override public final boolean isDense() { return (!Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried) && super.isDense(); }
+    @Override public final boolean isDense() { return super.dense; }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; }
 }

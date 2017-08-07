@@ -137,7 +137,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     @Override public final float getRight() { return position.x + Constants.SPRING_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
-    @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried; }
+    @Override public final boolean isDense() { return beingCarried || GigaGal.getInstance().getAction() != Enums.Action.CLIMBING; }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; underGround = true; }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * 2 / 3; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
