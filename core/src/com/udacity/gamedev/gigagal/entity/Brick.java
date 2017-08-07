@@ -35,60 +35,59 @@ public class Brick extends Barrier implements Tossable {
     public void update(float delta) {
         if (beingCarried) {
             position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
-        } else {
-            position.mulAdd(velocity, delta);
-            velocity.x /= Constants.DRAG_FACTOR * weightFactor();
-            velocity.y = -Constants.GRAVITY * 15 * weightFactor();
-            payload = 0;
-            for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
-                if (Helpers.overlapsPhysicalObject(this, ground)) {
-                    if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())
-                            && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
-                        if (ground instanceof Moving) {
-                            position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
-                            position.y = ground.getTop() + getHeight() / 2 + ((Moving) ground).getVelocity().y;
-                            atopMovingGround = true;
-                            movingGround = (Moving) ground;
-                        } else if ((!(ground instanceof Climbable))
-                                && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
-                            position.y = ground.getTop() + getHeight() / 2;
-                            velocity.y = 0;
-                        }
-                        if (ground instanceof Propelling) {
-                            velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
-                            velocity.y = 0;
-                        } else if (ground instanceof Skateable) {
-                            if (Math.abs(velocity.x) > 0.005f) {
-                                velocity.x /= 1.005;
-                            } else {
-                                velocity.x = 0;
-                            }
-                            position.x += velocity.x * delta;
-                            velocity.y = 0;
+        }
+        position.mulAdd(velocity, delta);
+        velocity.x /= Constants.DRAG_FACTOR * weightFactor();
+        velocity.y = -Constants.GRAVITY * 15 * weightFactor();
+        payload = 0;
+        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+            if (Helpers.overlapsPhysicalObject(this, ground)) {
+                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())
+                        && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
+                    if (ground instanceof Moving) {
+                        position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
+                        position.y = ground.getTop() + getHeight() / 2 + ((Moving) ground).getVelocity().y;
+                        atopMovingGround = true;
+                        movingGround = (Moving) ground;
+                    } else if ((!(ground instanceof Climbable))
+                            && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
+                        position.y = ground.getTop() + getHeight() / 2;
+                        velocity.y = 0;
+                    }
+                    if (ground instanceof Propelling) {
+                        velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
+                        velocity.y = 0;
+                    } else if (ground instanceof Skateable) {
+                        if (Math.abs(velocity.x) > 0.005f) {
+                            velocity.x /= 1.005;
                         } else {
                             velocity.x = 0;
                         }
-                    } else if (ground.isDense()
-                            && getTop() > ground.getBottom()
-                            && !(ground instanceof Pliable)
-                            && !(ground instanceof Propelling) && !(ground instanceof Box && ((Box) ground).getHealth() < 1)) {
-                        float bounceBack = 0;
-                        if (ground instanceof Tripknob && ((Tripknob) ground).isConverted()) {
-                            bounceBack = 5;
-                        }
-                        if (position.x < ground.getPosition().x) {
-                            position.x = ground.getLeft() - getWidth() / 2 - bounceBack;
-                        } else {
-                            position.x = ground.getRight() + getWidth() / 2 + bounceBack;
-                        }
-                        velocity.x = 0;
-                    } else if (ground instanceof Box) {
+                        position.x += velocity.x * delta;
                         velocity.y = 0;
+                    } else {
+                        velocity.x = 0;
                     }
+                } else if (ground.isDense()
+                        && getTop() > ground.getBottom()
+                        && !(ground instanceof Pliable)
+                        && !(ground instanceof Propelling) && !(ground instanceof Box && ((Box) ground).getHealth() < 1)) {
+                    float bounceBack = 0;
+                    if (ground instanceof Tripknob && ((Tripknob) ground).isConverted()) {
+                        bounceBack = 5;
+                    }
+                    if (position.x < ground.getPosition().x) {
+                        position.x = ground.getLeft() - getWidth() / 2 - bounceBack;
+                    } else {
+                        position.x = ground.getRight() + getWidth() / 2 + bounceBack;
+                    }
+                    velocity.x = 0;
+                } else if (ground instanceof Box) {
+                    velocity.y = 0;
                 }
-                if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround() && ((Pliable) ground).getMovingGround().equals(this)) {
-                    payload = ((Pliable) ground).weightFactor();
-                }
+            }
+            if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround() && ((Pliable) ground).getMovingGround().equals(this)) {
+                payload = ((Pliable) ground).weightFactor();
             }
         }
         atopMovingGround = false;

@@ -375,12 +375,12 @@ public class LevelUpdater {
                         ((Pliable) ground).setCarrier(null);
                     }
                 }
-
-                gigaGal.setVelocity(new Vector2(gigaGal.getVelocity().x / (1 + ((Pliable) ground).weightFactor()), gigaGal.getVelocity().y));
                 if (ground instanceof Barrier && gigaGal.getAction() != Enums.Action.STANDING) {
-                    float adjustedTurbo = gigaGal.getTurbo() - Math.max(2.5f - ((Pliable) ground).weightFactor(), 0);
+                    float adjustedTurbo = gigaGal.getTurbo() - ((Pliable) ground).weightFactor() - .5f;
                     if (gigaGal.getGroundState() != Enums.GroundState.PLANTED) {
-                        adjustedTurbo = gigaGal.getTurbo() - Math.max(3.5f - ((Pliable) ground).weightFactor(), 0);
+                        adjustedTurbo -= 1;
+                    } else {
+                        gigaGal.setVelocity(new Vector2(gigaGal.getVelocity().x / (1 + ((Pliable) ground).weightFactor()), gigaGal.getVelocity().y));
                     }
                     gigaGal.setTurbo(Math.max(adjustedTurbo, 0));
                     if (gigaGal.getTurbo() == 0) {
