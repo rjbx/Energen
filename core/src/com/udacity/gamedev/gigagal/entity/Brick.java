@@ -20,6 +20,7 @@ public class Brick extends Barrier implements Tossable {
     private boolean beingCarried;
     private boolean atopMovingGround;
     private Dynamic carrier;
+    private float payload;
 
     // ctor
     public Brick(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
@@ -27,17 +28,18 @@ public class Brick extends Barrier implements Tossable {
         beingCarried = false;
         atopMovingGround = false;
         velocity = new Vector2(0, 0);
+        payload = 0;
     }
 
     @Override
     public void update(float delta) {
-        Gdx.app.log(TAG, this.isDense() + "");
         if (beingCarried) {
             position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
         } else {
             position.mulAdd(velocity, delta);
             velocity.x /= Constants.DRAG_FACTOR * weightFactor();
             velocity.y = -Constants.GRAVITY * 15 * weightFactor();
+            payload = 0;
             for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
                     if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())
@@ -61,7 +63,7 @@ public class Brick extends Barrier implements Tossable {
                             } else {
                                 velocity.x = 0;
                             }
-                            position.x +=  velocity.x * delta;
+                            position.x += velocity.x * delta;
                             velocity.y = 0;
                         } else {
                             velocity.x = 0;
@@ -83,6 +85,9 @@ public class Brick extends Barrier implements Tossable {
                     } else if (ground instanceof Box) {
                         velocity.y = 0;
                     }
+                }
+                if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround() && ((Pliable) ground).getMovingGround().equals(this)) {
+                    payload = ((Pliable) ground).weightFactor();
                 }
             }
         }
@@ -113,9 +118,9 @@ public class Brick extends Barrier implements Tossable {
     @Override public final void setCarrier(Dynamic entity) { this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
     @Override public Enums.Material getType() { return super.getType(); }
-    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(1, ((getWidth() * getHeight()) / 3600)); }
+    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(.2f, ((getWidth() * getHeight()) / 3600) + payload); }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
-    @Override public final boolean isDense() { return super.dense; }
+    @Override public final boolean isDense() { return super.dense || beingCarried; }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; }
 }

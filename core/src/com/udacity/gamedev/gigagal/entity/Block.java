@@ -22,6 +22,7 @@ public class Block extends Barrier implements Draggable {
     private boolean againstStaticGround;
     private boolean atopMovingGround;
     private Dynamic carrier;
+    private float payload;
 
     // ctor
     public Block(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
@@ -31,6 +32,7 @@ public class Block extends Barrier implements Draggable {
         againstStaticGround = false;
         atopMovingGround = false;
         velocity = new Vector2(0, 0);
+        payload = 0;
     }
 
     @Override
@@ -41,6 +43,7 @@ public class Block extends Barrier implements Draggable {
         }
         position.y += velocity.y * delta;
         velocity.y = -Constants.GRAVITY * 15 * weightFactor();
+        payload = 0;
         againstStaticGround = false;
         atopMovingGround = false;
         movingGround = null;
@@ -93,6 +96,9 @@ public class Block extends Barrier implements Draggable {
                         }
                     }
                 }
+                if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround() && ((Pliable) ground).getMovingGround().equals(this)) {
+                    payload = ((Pliable) ground).weightFactor();
+                }
             }
         }
         // resets to nonstatic position of ground which is cloned every frame
@@ -120,7 +126,7 @@ public class Block extends Barrier implements Draggable {
     @Override public final void setCarrier(Dynamic entity) { againstStaticGround = false; this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
     @Override public Enums.Material getType() { return super.getType(); }
-    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(.67f, ((getWidth() * getHeight()) / 3600)); }
+    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(1, ((getWidth() * getHeight()) / 3600) + payload); }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
     public final boolean isAgainstStaticGround() { return againstStaticGround; }
