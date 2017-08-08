@@ -36,17 +36,21 @@ public class Brick extends Barrier implements Tossable {
     public void update(float delta) {
         if (beingCarried) {
             position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
+            velocity.x = carrier.getVelocity().x;
         }
         position.mulAdd(velocity, delta);
         velocity.x /= Constants.DRAG_FACTOR * weightFactor();
         velocity.y = -Constants.GRAVITY * 15 * weightFactor();
         payload = 0;
+        againstStaticGround = false;
+        atopMovingGround = false;
+        movingGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())
+                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop()) && getBottom() > ground.getBottom()
                         && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
-                        if (!beingCarried) {
+                        if (!beingCarried && (ground instanceof Roving || ((Pliable) ground).isBeingCarried())) {
                             position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
                         }
                         position.y = ground.getTop() + getHeight() / 2;
@@ -77,10 +81,10 @@ public class Brick extends Barrier implements Tossable {
                         velocity.x = 0;
                     }
                 } else if ((ground.isDense()
-                        && getTop() > ground.getBottom()
-                        && !(ground instanceof Pliable)
-                        && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
-                        || (ground instanceof Pliable && !beingCarried)) {
+                && getTop() > ground.getBottom()
+                && !(ground instanceof Pliable)
+                && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
+                || (ground instanceof Pliable && !beingCarried)) {
                     if ((!(ground instanceof Pliable) ||
                             (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
                             || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
@@ -106,8 +110,6 @@ public class Brick extends Barrier implements Tossable {
                 payload = ((Pliable) ground).weightFactor();
             }
         }
-        atopMovingGround = false;
-        movingGround = null;
         // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {

@@ -40,7 +40,8 @@ public class Block extends Barrier implements Draggable {
             this.position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
             this.velocity.x = carrier.getVelocity().x;
         }
-        position.y += velocity.y * delta;
+        position.mulAdd(velocity, delta);
+        velocity.x /= Constants.DRAG_FACTOR * weightFactor();
         velocity.y = -Constants.GRAVITY * 15 * weightFactor();
         payload = 0;
         againstStaticGround = false;
@@ -48,9 +49,10 @@ public class Block extends Barrier implements Draggable {
         movingGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop()) && getBottom() > ground.getBottom()) {
+                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop()) && getBottom() > ground.getBottom()
+                        && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
-                        if (!beingCarried && ground instanceof Roving) {
+                        if (!beingCarried && (ground instanceof Roving || ((Pliable) ground).isBeingCarried())) {
                             position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
                         }
                         position.y = ground.getTop() + getHeight() / 2;
