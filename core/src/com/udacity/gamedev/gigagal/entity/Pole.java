@@ -9,7 +9,7 @@ import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Pole extends Ground implements Climbable {
+public class Pole extends Ground implements Unsteady, Climbable {
 
     // fields
     public final static String TAG = Pole.class.getName();

@@ -48,9 +48,9 @@ public class Block extends Barrier implements Draggable {
         movingGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())) {
+                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop()) && getBottom() > ground.getBottom()) {
                     if (ground instanceof Moving) {
-                        if (!beingCarried) {
+                        if (!beingCarried && ground instanceof Roving) {
                             position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
                         }
                         position.y = ground.getTop() + getHeight() / 2;
@@ -95,7 +95,7 @@ public class Block extends Barrier implements Draggable {
                         }
                     }
                     velocity.x = 0;
-                    if (!againstStaticGround && (!(ground instanceof Pliable) || ground.getBottom() == getBottom())) {
+                    if ((!againstStaticGround && (!(ground instanceof Pliable) ||  ground.getBottom() == getBottom()))) {
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {

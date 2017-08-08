@@ -375,8 +375,6 @@ public class LevelUpdater {
             } else if (((Pliable) ground).getCarrier() == gigaGal) {
                 if (ground instanceof Draggable) {
                     if (gigaGal.getVelocity().y > 0) {
-                        ((Pliable) ground).setCarrier(null);
-                        gigaGal.setCarriedGround(null);
                     }
                 }
                 if (ground instanceof Barrier && gigaGal.getAction() != Enums.Action.STANDING) {
