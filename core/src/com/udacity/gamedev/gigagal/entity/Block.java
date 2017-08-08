@@ -73,27 +73,31 @@ public class Block extends Barrier implements Draggable {
                     } else {
                         velocity.x = 0;
                     }
-                } else if (ground.isDense()
+                } else if ((ground.isDense()
                 && getTop() > ground.getBottom()
                 && !(ground instanceof Pliable)
-                && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable)) {
+                && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
+                || (ground instanceof Pliable && !beingCarried)) {
+                    if ((!(ground instanceof Pliable) ||
+                            (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
+                            || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
+                        if (!(ground instanceof Pliable) || !((Pliable) ground).isBeingCarried()) {
+                            if (!beingCarried || velocity.x != 0) {
+                                againstStaticGround = true;
+                            }
+                        }
+                    }
                     velocity.x = 0;
-                    if (position.x < ground.getPosition().x) {
-                        position.x = ground.getLeft() - getWidth() / 2;
-                    } else {
-                        position.x = ground.getRight() + getWidth() / 2;
+                    if (!againstStaticGround) {
+                        if (position.x < ground.getPosition().x) {
+                            position.x = ground.getLeft() - getWidth() / 2;
+                        } else {
+                            position.x = ground.getRight() + getWidth() / 2;
+                        }
                     }
                 }
                 if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround() && ((Pliable) ground).getMovingGround().equals(this)) {
                     payload = ((Pliable) ground).weightFactor();
-                }
-            } else if ((!(ground instanceof Pliable) ||
-                    (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
-                    || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
-                if (!(ground instanceof Pliable) || !((Pliable) ground).isBeingCarried()) {
-                    if (!beingCarried || velocity.x != 0) {
-                        againstStaticGround = true;
-                    }
                 }
             }
         }

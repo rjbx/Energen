@@ -77,26 +77,30 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         } else {
                             velocity.x = 0;
                         }
-                    } else if (ground.isDense()
+                    } else if ((ground.isDense()
                             && getTop() > ground.getBottom()
                             && !(ground instanceof Pliable)
-                            && !(ground instanceof Propelling) && !(ground instanceof Box)) {
-                        if (position.x < ground.getPosition().x) {
-                            position.x = ground.getLeft() - getWidth() / 2;
-                        } else {
-                            position.x = ground.getRight() + getWidth() / 2;
-                        }
-                        velocity.x = 0;
-                    } else if (ground instanceof Box) {
-                        velocity.y = 0;
-                    } else if ((!(ground instanceof Pliable) ||
-                            (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
-                            || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
-                        if (!(ground instanceof Pliable) || !((Pliable) ground).isBeingCarried()) {
-                            if (!beingCarried || velocity.x != 0) {
-                                againstStaticGround = true;
+                            && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
+                            || (ground instanceof Pliable && !beingCarried)) {
+                        if ((!(ground instanceof Pliable) ||
+                                (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
+                                || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
+                            if (!(ground instanceof Pliable) || !((Pliable) ground).isBeingCarried()) {
+                                if (!beingCarried || velocity.x != 0) {
+                                    againstStaticGround = true;
+                                }
                             }
                         }
+                        velocity.x = 0;
+                        if (!againstStaticGround) {
+                            if (position.x < ground.getPosition().x) {
+                                position.x = ground.getLeft() - getWidth() / 2;
+                            } else {
+                                position.x = ground.getRight() + getWidth() / 2;
+                            }
+                        }
+                    } else if (ground instanceof Box) {
+                        velocity.y = 0;
                     }
                     if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 1, ground.getBottom() + 1)) {
                         loaded = true;
@@ -149,7 +153,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return beingCarried || GigaGal.getInstance().getAction() != Enums.Action.CLIMBING; }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; underGround = true; }
-    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * 2 / 3; }
+    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * .2f; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean underneathGround() { return underGround; }
     public final boolean isAtopMovingGround() { return atopMovingGround; }
