@@ -400,7 +400,7 @@ public class LevelUpdater {
             }
             if (gigaGal.getCarriedGround() != null) {
                 if (Helpers.overlapsPhysicalObject(ground, gigaGal.getCarriedGround())) {
-                    
+
                 }
             }
 //                if ((!(ground instanceof Block) ||
