@@ -50,8 +50,15 @@ public class Block extends Barrier implements Draggable {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())) {
                     if (ground instanceof Moving) {
-                        position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
-                        position.y = ground.getTop() + getHeight() / 2 + ((Moving) ground).getVelocity().y;
+                        if (!beingCarried) {
+                            position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
+                        }
+                        position.y = ground.getTop() + getHeight() / 2;
+                        if (ground instanceof Aerial) {
+                            velocity.y = ((Aerial) ground).getVelocity().y;
+                        } else {
+                            velocity.y = 0;
+                        }
                         atopMovingGround = true;
                         movingGround = (Moving) ground;
                     } else if ((!(ground instanceof Climbable))
