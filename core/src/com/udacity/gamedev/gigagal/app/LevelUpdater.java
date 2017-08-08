@@ -373,18 +373,14 @@ public class LevelUpdater {
                     gigaGal.setCarriedGround((Pliable) ground);
                 }
             } else if (((Pliable) ground).getCarrier() == gigaGal) {
-                if (ground instanceof Draggable) {
-                    if (gigaGal.getVelocity().y > 0) {
-                    }
-                }
                 if (ground instanceof Barrier && gigaGal.getAction() != Enums.Action.STANDING) {
-                    float adjustedTurbo = gigaGal.getTurbo() - ((Pliable) ground).weightFactor() - .5f;
+                    float adjustedTurbo = .75f;
                     if (gigaGal.getGroundState() != Enums.GroundState.PLANTED) {
-                        adjustedTurbo -= 1;
+                        adjustedTurbo *= 2;
                     } else {
                         gigaGal.setVelocity(new Vector2(gigaGal.getVelocity().x / (1 + ((Pliable) ground).weightFactor()), gigaGal.getVelocity().y));
                     }
-                    gigaGal.setTurbo(Math.max(adjustedTurbo, 0));
+                    gigaGal.setTurbo(Math.max(gigaGal.getTurbo() - ((Pliable) ground).weightFactor() - adjustedTurbo, 0));
                     if (gigaGal.getTurbo() == 0) {
                         ((Pliable) ground).setCarrier(null);
                         gigaGal.setCarriedGround(null);
