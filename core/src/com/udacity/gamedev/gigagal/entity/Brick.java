@@ -39,7 +39,7 @@ public class Brick extends Barrier implements Tossable {
             velocity.x = carrier.getVelocity().x;
         }
         position.mulAdd(velocity, delta);
-        velocity.x /= Constants.DRAG_FACTOR * weightFactor();
+        velocity.x /= Constants.DRAG_FACTOR * Math.max(.67f, weightFactor());
         velocity.y = -Constants.GRAVITY * 15 * weightFactor();
         payload = 0;
         againstStaticGround = false;

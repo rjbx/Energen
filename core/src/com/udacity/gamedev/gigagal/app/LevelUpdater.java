@@ -374,13 +374,13 @@ public class LevelUpdater {
                 }
             } else if (((Pliable) ground).getCarrier() == gigaGal) {
                 if (ground instanceof Barrier && gigaGal.getAction() != Enums.Action.STANDING) {
-                    float adjustedTurbo = .75f;
+                    float adjustment = .75f;
                     if (gigaGal.getGroundState() != Enums.GroundState.PLANTED) {
-                        adjustedTurbo *= 2;
+                        adjustment *= 2;
                     } else {
                         gigaGal.setVelocity(new Vector2(gigaGal.getVelocity().x / (1 + ((Pliable) ground).weightFactor()), gigaGal.getVelocity().y));
                     }
-                    gigaGal.setTurbo(Math.max(gigaGal.getTurbo() - ((Pliable) ground).weightFactor() - adjustedTurbo, 0));
+                    gigaGal.setTurbo(Math.max(gigaGal.getTurbo() - ((Pliable) ground).weightFactor() - adjustment, 0));
                     if (gigaGal.getTurbo() == 0) {
                         ((Pliable) ground).setCarrier(null);
                         gigaGal.setCarriedGround(null);
@@ -391,7 +391,7 @@ public class LevelUpdater {
                     ((Pliable) ground).setCarrier(null);
                     gigaGal.setCarriedGround(null);
                     if (ground instanceof Tossable && (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed)) {
-                        ((Tossable) ground).toss((gigaGal.getVelocity().x + Helpers.absoluteToDirectionalValue(ground.getWidth() * 13, gigaGal.getDirectionX(), Enums.Orientation.X)) * ((Tossable) ground).weightFactor());
+                        ((Tossable) ground).toss((gigaGal.getVelocity().x + Helpers.absoluteToDirectionalValue(ground.getWidth() * 13, gigaGal.getDirectionX(), Enums.Orientation.X)));
                     }
                 }
             }

@@ -44,7 +44,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
             this.velocity.x = carrier.getVelocity().x;
         }
         position.mulAdd(velocity, delta);
-        velocity.x /= Constants.DRAG_FACTOR * weightFactor();
+        velocity.x /= Constants.DRAG_FACTOR * Math.max(.67f, weightFactor());
         velocity.y = -Constants.GRAVITY * 15 * weightFactor();
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {

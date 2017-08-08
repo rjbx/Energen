@@ -41,7 +41,7 @@ public class Block extends Barrier implements Draggable {
             this.velocity.x = carrier.getVelocity().x;
         }
         position.mulAdd(velocity, delta);
-        velocity.x /= Constants.DRAG_FACTOR * weightFactor();
+        velocity.x /= Constants.DRAG_FACTOR * Math.max(.67f, weightFactor());
         velocity.y = -Constants.GRAVITY * 15 * weightFactor();
         payload = 0;
         againstStaticGround = false;
