@@ -186,6 +186,7 @@ public class GigaGal extends Entity implements Humanoid {
         startTurbo = turbo;
         touchedGround = null;
         touchedHazard = null;
+        carriedGround = null;
         canClimb = false;
         canCling = false;
         canLook = false;
@@ -450,6 +451,7 @@ public class GigaGal extends Entity implements Humanoid {
                             && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
                         if (!(ground instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.CLIMBING)))) {
                             canMove = false;
+                            carriedGround = null;
                             touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
                             if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
                                 canJump = true;

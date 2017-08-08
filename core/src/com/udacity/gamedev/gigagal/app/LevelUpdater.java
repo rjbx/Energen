@@ -367,7 +367,9 @@ public class LevelUpdater {
                             ((Reboundable) ground).setState(false);
                         }
                     }
-                    ((Pliable) ground).setCarrier(gigaGal);
+                    if (gigaGal.getCarriedGround() == null) { // prevents from carrying simultaneously and in the process setting to overlap two grounds
+                        ((Pliable) ground).setCarrier(gigaGal);
+                    }
                     gigaGal.setCarriedGround((Pliable) ground);
                 }
             } else if (((Pliable) ground).getCarrier() == gigaGal) {
@@ -393,6 +395,7 @@ public class LevelUpdater {
                 if (!InputControls.getInstance().shootButtonPressed
                         || !gigaGal.getMoveStatus()) { // move status set to false when recoiling
                     ((Pliable) ground).setCarrier(null);
+                    gigaGal.setCarriedGround(null);
                     if (ground instanceof Tossable && (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed)) {
                         ((Tossable) ground).toss((gigaGal.getVelocity().x + Helpers.absoluteToDirectionalValue(ground.getWidth() * 13, gigaGal.getDirectionX(), Enums.Orientation.X)) * ((Tossable) ground).weightFactor());
                     }

@@ -84,7 +84,7 @@ public class Brick extends Barrier implements Tossable {
                         }
                     }
                     velocity.x = 0;
-                    if (!againstStaticGround) {
+                    if (!againstStaticGround && (!(ground instanceof Pliable) || ground.getBottom() == getBottom())) {
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {

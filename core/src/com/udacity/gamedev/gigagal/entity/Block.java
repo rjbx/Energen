@@ -88,7 +88,7 @@ public class Block extends Barrier implements Draggable {
                         }
                     }
                     velocity.x = 0;
-                    if (!againstStaticGround) {
+                    if (!againstStaticGround && (!(ground instanceof Pliable) || ground.getBottom() == getBottom())) {
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {
