@@ -360,7 +360,6 @@ public class LevelUpdater {
                 if (gigaGal.getAction() == Enums.Action.RAPPELLING && InputControls.getInstance().shootButtonJustPressed
                 || (gigaGal.getBottom() == ground.getBottom() && (InputControls.getInstance().shootButtonJustPressed) && gigaGal.getAction() == Enums.Action.STRIDING)
                 || ((Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && (InputControls.getInstance().shootButtonJustPressed && InputControls.getInstance().downButtonPressed)))) {
-                    gigaGal.setPosition(new Vector2(ground.getPosition().x, ground.getBottom() + Constants.GIGAGAL_EYE_HEIGHT));
                     if (ground instanceof Reboundable) {
                         if (ground instanceof Spring && !((Spring) ground).underneathGround()) {
                             ((Reboundable) ground).resetStartTime();
@@ -368,6 +367,7 @@ public class LevelUpdater {
                         }
                     }
                     if (gigaGal.getCarriedGround() == null) { // prevents from carrying simultaneously and in the process setting to overlap two grounds
+                        gigaGal.setPosition(new Vector2(ground.getPosition().x, ground.getBottom() + Constants.GIGAGAL_EYE_HEIGHT));
                         ((Pliable) ground).setCarrier(gigaGal);
                     }
                     gigaGal.setCarriedGround((Pliable) ground);
