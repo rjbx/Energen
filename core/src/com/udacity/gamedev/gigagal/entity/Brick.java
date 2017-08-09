@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -26,6 +27,7 @@ public class Brick extends Barrier implements Tossable {
     public Brick(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
         super(xPos, yPos, width, height, type, dense);
         beingCarried = false;
+        againstStaticGround = false;
         atopMovingGround = false;
         velocity = new Vector2(0, 0);
         payload = 0;
@@ -34,10 +36,10 @@ public class Brick extends Barrier implements Tossable {
     @Override
     public void update(float delta) {
         if (beingCarried && !againstStaticGround) {
-            position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
+            super.position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
             velocity.x = carrier.getVelocity().x;
         }
-        position.mulAdd(velocity, delta);
+        super.position.mulAdd(velocity, delta);
         float multiplier = Math.max(1, weightFactor());
         velocity.x /= Constants.DRAG_FACTOR * multiplier;
         velocity.y = -Constants.GRAVITY * 15 * multiplier;
@@ -51,10 +53,10 @@ public class Brick extends Barrier implements Tossable {
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
                         if (!beingCarried && (ground instanceof Roving || ((Pliable) ground).isBeingCarried())) {
-                            position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
+                            super.position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
                         }
                         velocity.x = ((Moving) ground).getVelocity().x;
-                        position.y = ground.getTop() + getHeight() / 2;
+                        super.position.y = ground.getTop() + getHeight() / 2;
                         if (ground instanceof Aerial) {
                             velocity.y = ((Aerial) ground).getVelocity().y;
                         } else {
@@ -64,7 +66,7 @@ public class Brick extends Barrier implements Tossable {
                         movingGround = (Moving) ground;
                     } else if ((!(ground instanceof Climbable))
                             && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
-                        position.y = ground.getTop() + getHeight() / 2;
+                        super.position.y = ground.getTop() + getHeight() / 2;
                         velocity.y = 0;
                     }
                     if (ground instanceof Propelling) {
@@ -76,7 +78,7 @@ public class Brick extends Barrier implements Tossable {
                         } else {
                             velocity.x = 0;
                         }
-                        position.x += velocity.x * delta;
+                        super.position.x += velocity.x * delta;
                         velocity.y = 0;
                     } else {
                         velocity.x = 0;
@@ -85,7 +87,7 @@ public class Brick extends Barrier implements Tossable {
                 && getTop() > ground.getBottom()
                 && !(ground instanceof Pliable)
                 && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
-                || (ground instanceof Pliable && !beingCarried)) {
+                || (ground instanceof Pliable && (!beingCarried || ((Pliable) ground).isAgainstStaticGround()))) {
                     if ((!(ground instanceof Pliable) ||
                             (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
                             || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
@@ -95,12 +97,15 @@ public class Brick extends Barrier implements Tossable {
                             }
                         }
                     }
+                    if (ground instanceof Pliable && ground.getBottom() == getBottom() && beingCarried) {
+                        Gdx.app.log(TAG, ((Pliable) ground).isAgainstStaticGround() + "" + ((Pliable) ground).isBeingCarried() + ground.getPosition().toString());
+                    }
                     velocity.x = 0;
                     if (!againstStaticGround && (!(ground instanceof Pliable) || ground.getBottom() == getBottom())) {
                         if (position.x < ground.getPosition().x) {
-                            position.x = ground.getLeft() - getWidth() / 2;
+                            super.position.x = ground.getLeft() - getWidth() / 2;
                         } else {
-                            position.x = ground.getRight() + getWidth() / 2;
+                            super.position.x = ground.getRight() + getWidth() / 2;
                         }
                     }
                 } else if (ground instanceof Box) {
@@ -111,12 +116,12 @@ public class Brick extends Barrier implements Tossable {
                 payload = ((Pliable) ground).weightFactor();
             }
         }
-        // resets to nonstatic position of ground which is cloned every frame
+        // resets to nonstatic super.position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
                 if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 3 * weightFactor(), hazard.getTop())) {
-                    position.x = hazard.getPosition().x + ((Vehicular) hazard).getVelocity().x;
-                    position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
+                    super.position.x = hazard.getPosition().x + ((Vehicular) hazard).getVelocity().x;
+                    super.position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
                     atopMovingGround = true;
                     movingGround = (Moving) hazard;
                 }

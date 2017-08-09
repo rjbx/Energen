@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.udacity.gamedev.gigagal.entity.Armorollo;
-import com.udacity.gamedev.gigagal.entity.Block;
 import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Brick;
@@ -623,7 +622,6 @@ final class LevelLoader {
 
         Array<Barrier> barrierArray = new Array<Barrier>();
         Array<Box> boxArray = new Array<Box>();
-        Array<Block> blockArray = new Array<Block>();
         Array<Brick> brickArray = new Array<Brick>();
         Array<Ladder> ladderArray = new Array<Ladder>();
 
@@ -646,10 +644,9 @@ final class LevelLoader {
                 boxArray.add(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BLOCK_SPRITE)) {
-                    final Brick brick = new Brick(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
-                    brickArray.add(brick);
-                    Gdx.app.log(TAG, "Loaded the brick at " + imagePosition.add(new Vector2(width / 2, height / 2)));
-
+                final Brick brick = new Brick(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
+                brickArray.add(brick);
+                Gdx.app.log(TAG, "Loaded the brick at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
                 final Ladder ladder = new Ladder(imagePosition.x, imagePosition.y + height, width, height);
                 ladderArray.add(ladder);
@@ -674,18 +671,6 @@ final class LevelLoader {
                     if (o1.getTop() < o2.getTop()) {
                         return 1;
                     } else if (o1.getTop() > o2.getTop()) {
-                        return -1;
-                    }
-                    return 0;
-                }
-            });
-
-            blockArray.sort(new Comparator<Barrier>() {
-                @Override
-                public int compare(Barrier o1, Barrier o2) {
-                    if (o1.getTop() > o2.getTop()) {
-                        return 1;
-                    } else if (o1.getTop() < o2.getTop()) {
                         return -1;
                     }
                     return 0;
@@ -723,10 +708,6 @@ final class LevelLoader {
 
         for (Box box : boxArray) {
             level.addGround(box);
-        }
-
-        for (Block block : blockArray) {
-            level.addGround(block);
         }
 
         for (Brick brick : brickArray) {
