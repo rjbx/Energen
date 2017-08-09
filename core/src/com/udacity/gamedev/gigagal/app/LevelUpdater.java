@@ -533,8 +533,11 @@ public class LevelUpdater {
                         score += ammo.getHitScore();
                     } else {
                         ((Zoomba) destructible).convert();
+                        if (gigaGal.getTouchedGround().equals(destructible)) {
+                            gigaGal.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.GIGAGAL_EYE_HEIGHT));
+                        }
                     }
-                    if (destructible instanceof  Zoomba) {
+                    if (destructible instanceof Zoomba) {
                         this.spawnImpact(ammo.getPosition(), ammo.getType());
                         ammo.deactivate();
                     }

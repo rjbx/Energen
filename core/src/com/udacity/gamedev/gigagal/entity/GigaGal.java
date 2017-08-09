@@ -435,26 +435,26 @@ public class GigaGal extends Entity implements Humanoid {
         untouchGround();
     }
 
-    private void touchGround(Groundable ground) {
-        if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundaries
-            if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collisionouchGroundBottom(ground);
-                touchGroundBottom(ground);
-                touchGroundSide(ground);
-                touchGroundTop(ground);
+    private void touchGround(Groundable g) {
+        if (Helpers.overlapsPhysicalObject(this, g)) {// if overlapping ground boundaries
+            if (g.isDense()) { // for dense grounds: apply side, bottom collision and top collisionouchGroundBottom(ground);
+                touchGroundBottom(g);
+                touchGroundSide(g);
+                touchGroundTop(g);
             } else { // for non-dense grounds:
                 // additional ground collision instructions specific to certain types of grounds
-                if (ground instanceof Climbable) {
-                    if (!(touchedGround != null && touchedGround.isDense() && touchedGround.getTop() == ground.getTop())) { // prevents flickering canclimb state
+                if (g instanceof Climbable) {
+                    if (!(touchedGround != null && touchedGround.isDense() && touchedGround.getTop() == g.getTop())) { // prevents flickering canclimb state
                         canCling = true;
                     }
                     if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
                             && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
-                        if (!(ground instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && action != Action.CLIMBING)))) {
+                        if (!(g instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(g) && touchedGround.isDense() && action != Action.CLIMBING)))) {
                             if (groundState != GroundState.PLANTED) {
                                 canMove = false;
                             }
                             carriedGround = null;
-                            touchedGround = ground; // saves for untouchground where condition within touchgroundtop unmet
+                            touchedGround = g; // saves for untouchground where condition within touchgroundtop unmet
                             if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
                                 canJump = true;
                                 jump();
@@ -464,17 +464,17 @@ public class GigaGal extends Entity implements Humanoid {
                     if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
                         if (action != Action.FALLING // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
                                 || (fallStartTime != 0 && (Helpers.secondsSince(fallStartTime) > .01f))) { // permits call to stand when falling and touching climbable and non-climbable simultaneously and not having immediately called jump/fall
-                            if (ground instanceof Unsteady) {
+                            if (g instanceof Unsteady) {
                                 if (action == Action.STANDING) { // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
-                                    setAtopGround(ground);
+                                    setAtopGround(g);
                                 }
                             } else {
-                                touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                                touchGroundTop(g); // prevents descending below top when on non dense, non sinkable
                             }
                         }
                     }
-                } else if (ground instanceof Pourous) {
-                    setAtopGround(ground); // when any kind of collision detected and not only when breaking plane of ground.top
+                } else if (g instanceof Pourous) {
+                    setAtopGround(g); // when any kind of collision detected and not only when breaking plane of ground.top
                     canCling = false;
                     canClimb = false;
                     canSink = true;
@@ -482,12 +482,12 @@ public class GigaGal extends Entity implements Humanoid {
                     canHover = false;
                     lookStartTime = 0;
                     lookTimeSeconds = 0;
-                } else if (!(ground instanceof Pliable) || !(canClimb && directionY == Direction.UP)) { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
+                } else if (!(g instanceof Pliable) || !(canClimb && directionY == Direction.UP)) { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
                     if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
-                        if (ground instanceof Brick && !ground.isDense()) { // prevents setting atop non-dense bricks
-                            touchedGround = ground;
+                        if (g instanceof Brick && !g.isDense()) { // prevents setting atop non-dense bricks
+                            touchedGround = g;
                         } else {
-                            touchGroundTop(ground); // prevents descending below top when on non dense, non sinkable
+                            touchGroundTop(g); // prevents descending below top when on non dense, non sinkable
                         }
                     }
                 }
@@ -495,39 +495,39 @@ public class GigaGal extends Entity implements Humanoid {
             // if below minimum ground distance while descending excluding post-rappel, disable rappel and hover
             // caution when crossing plane between ground top and minimum hover height / ground distance
             // cannons, which inherit ground, can be mounted along sides of grounds causing accidental plane breakage
-            if (getBottom() < (ground.getTop() + Constants.MIN_GROUND_DISTANCE)
-                    && getBottom() > ground.getTop() // GG's bottom is greater than ground top but less than boundary
+            if (getBottom() < (g.getTop() + Constants.MIN_GROUND_DISTANCE)
+                    && getBottom() > g.getTop() // GG's bottom is greater than ground top but less than boundary
                     && velocity.y < 0 // prevents disabling features when crossing boundary while ascending on jump
                     && rappelStartTime == 0 // only if have not rappeled since last grounded
-                    && !(ground instanceof Cannon)) { // only if ground is not instance of cannon
+                    && !(g instanceof Cannon)) { // only if ground is not instance of cannon
                 canRappel = false; // disables rappel
                 canHover = false; // disables hover
             }
-            if (ground instanceof Ground && ground instanceof Hazardous) {
-                touchHazard((Hazardous) ground);
+            if (g instanceof Ground && g instanceof Hazardous) {
+                touchHazard((Hazardous) g);
             }
-            if (ground instanceof Replenishing) {
-                touchPowerup((Replenishing) ground);
+            if (g instanceof Replenishing) {
+                touchPowerup((Replenishing) g);
             }
         }
     }
 
-    private void touchGroundSide(Groundable ground) {
+    private void touchGroundSide(Groundable g) {
         // ignores case where simultaneously touching two separate grounds with same top position to prevent interrupting stride
-        if (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.getTop() == ground.getTop())) {
+        if (!(touchedGround != null && !touchedGround.equals(g) && touchedGround.getTop() == g.getTop())) {
             // if during previous frame was not, while currently is, between ground left and right sides
-            if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), ground.getLeft(), ground.getRight())) {
+            if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), g.getLeft(), g.getRight())) {
                 // only when not grounded and not recoiling
                 if (groundState != GroundState.PLANTED) {
                     // if x velocity (magnitude, without concern for direction) greater than one third max speed,
                     // boost x velocity by starting speed, enable rappel, verify rappelling ground and capture rappelling ground boundaries
-                    if (Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 8 || ground instanceof Zoomba) {
+                    if (Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 8 || g instanceof Zoomba) {
                         // if already rappelling, halt x progression
                         if (action != Action.RAPPELLING) {
-                            if (ground instanceof Rappelable) {
+                            if (g instanceof Rappelable) {
                                 canRappel = true; // enable rappel
                             }
-                            touchedGround = ground;
+                            touchedGround = g;
                             fallLimit = touchedGround.getBottom() - Constants.FALL_LIMIT;
                         }
                         // if absval x velocity not greater than one fourth max speed but aerial and bumping ground side, fall
@@ -541,19 +541,19 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                     // only when planted
                 } else if (groundState == GroundState.PLANTED) {
-                    if (Math.abs(getBottom() - ground.getTop()) > 1) {
+                    if (Math.abs(getBottom() - g.getTop()) > 1) {
                         strideSpeed = 0;
                         velocity.x = 0;
                     }
-                    if (!(ground instanceof Propelling) && action == Action.DASHING && !(ground instanceof Armored)) {
+                    if (!(g instanceof Propelling) && action == Action.DASHING && !(g instanceof Armored)) {
                         stand(); // deactivates dash when bumping ground side
-                    } else if (ground instanceof Pliable && (!((Pliable) ground).isBeingCarried() && action == Action.STRIDING)) {
+                    } else if (g instanceof Pliable && (!((Pliable) g).isBeingCarried() && action == Action.STRIDING)) {
                         canMove = true;
                     }
                 }
-                if ((!(ground instanceof Propelling && (Math.abs(getBottom() - ground.getTop()) <= 1)))
-                        && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
-                        && !(ground instanceof Hazardous && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
+                if ((!(g instanceof Propelling && (Math.abs(getBottom() - g.getTop()) <= 1)))
+                        && !(g instanceof Skateable && (Math.abs(getBottom() - g.getTop()) <= 1))
+                        && !(g instanceof Hazardous && (Math.abs(getBottom() - g.getTop()) <= 1))) {
                     // if contact with ground sides detected without concern for ground state (either grounded or airborne),
                     // reset stride acceleration, disable stride and dash, and set gigagal at ground side
                     if (action != Action.STRIDING || action != Action.DASHING) {
@@ -566,42 +566,42 @@ public class GigaGal extends Entity implements Humanoid {
             } else { // when both position and previous position overlap ground side edge
 
                 float yTestPosition = position.y;
-                if (ground instanceof Canirol) {
+                if (g instanceof Canirol) {
                     yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
                 }
-                if (!(ground instanceof Pliable)) {
-                    if (Helpers.betweenTwoValues(yTestPosition, ground.getBottom(), ground.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
-                        if (!(ground instanceof Canirol)) {
-                            if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
-                                position.x = ground.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
+                if (!(g instanceof Pliable)) {
+                    if (Helpers.betweenTwoValues(yTestPosition, g.getBottom(), g.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
+                        if (!(g instanceof Canirol)) {
+                            if (Math.abs(position.x - g.getLeft()) < Math.abs(position.x - g.getRight())) {
+                                position.x = g.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
                             } else {
-                                position.x = ground.getRight() + getHalfWidth() + 1; // reset position to ground side edge
+                                position.x = g.getRight() + getHalfWidth() + 1; // reset position to ground side edge
                             }
                         } else { // for canirol only
-                            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // reset position to ground top
-                            setAtopGround(ground);
+                            position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // reset position to ground top
+                            setAtopGround(g);
                         }
                     }
-                } else if (((Pliable) ground).isBeingCarried()) {
+                } else if (((Pliable) g).isBeingCarried()) {
                     canMove = true;
                 }
             }
         } else {
-            touchedGround = ground;
+            touchedGround = g;
         }
     }
 
-    private void touchGroundBottom(Groundable ground) {
+    private void touchGroundBottom(Groundable g) {
         // ignores case where simultaneously touching two separate dense grounds (since side collision does not apply) with same side position to prevent interrupting fall
-        if (!(touchedGround != null && !touchedGround.equals(ground) && ground.isDense() && touchedGround.isDense()
-                && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
+        if (!(touchedGround != null && !touchedGround.equals(g) && g.isDense() && touchedGround.isDense()
+                && ((touchedGround.getLeft() == g.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == g.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
-            if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom() + 1) {
+            if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < g.getBottom() + 1) {
                 velocity.y = 0; // prevents from ascending above ground bottom
                 if (groundState == GroundState.AIRBORNE) { // prevents fall when striding against ground bottom positioned at height distance from ground atop
                     fall(); // descend from point of contact with ground bottom
-                    if (!(ground instanceof Vehicular)) { // prevents from being pushed below ground
-                        position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
+                    if (!(g instanceof Vehicular)) { // prevents from being pushed below ground
+                        position.y = g.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 } else if (action == Action.CLIMBING) { // prevents from disengaging climb
                     fall(); // descend from point of contact with ground bottom
@@ -609,8 +609,8 @@ public class GigaGal extends Entity implements Humanoid {
                     canClimb = true;
                     action = Action.CLIMBING;
                     groundState = GroundState.PLANTED;
-                    if (!(ground instanceof Vehicular)) { // prevents from being pushed below ground
-                        position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
+                    if (!(g instanceof Vehicular)) { // prevents from being pushed below ground
+                        position.y = g.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 }
                 canDash = false;
@@ -619,18 +619,18 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     // applicable to all dense grounds as well as non-sinkables when not climbing downward
-    private void touchGroundTop(Groundable ground) {
-        if (!(touchedGround != null && !touchedGround.equals(ground) && touchedGround.isDense() && ground.isDense()
-                && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
+    private void touchGroundTop(Groundable g) {
+        if (!(touchedGround != null && !touchedGround.equals(g) && touchedGround.isDense() && g.isDense()
+                && ((touchedGround.getLeft() == g.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == g.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground top detected, halt downward progression and set gigagal atop ground
-            if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 2) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
-                if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, ground.getLeft() + 1, ground.getRight() - 1) || action != Action.FALLING || ground instanceof Aerial)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground sides
+            if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= g.getTop() - 2) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
+                if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, g.getLeft() + 1, g.getRight() - 1) || action != Action.FALLING || g instanceof Aerial)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground sides
                     velocity.y = 0; // prevents from descending beneath ground top
-                    position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
-                    setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
+                    position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                    setAtopGround(g); // basic ground top collision instructions common to all types of grounds
                 }
                 // additional ground top collision instructions specific to certain types of grounds
-                if (ground instanceof Skateable) {
+                if (g instanceof Skateable) {
                     if (groundState == GroundState.AIRBORNE) {
                         stand(); // set groundstate to standing
                         lookStartTime = 0;
@@ -638,15 +638,15 @@ public class GigaGal extends Entity implements Humanoid {
                         canCling = false;
                     }
                 }
-                if (ground instanceof Moving) {
-                    Moving moving = (Moving) ground;
+                if (g instanceof Moving) {
+                    Moving moving = (Moving) g;
                     if (!moving.getVelocity().equals(Vector2.Zero)) {
                         lookStartTime = 0;
                     }
                     position.x += moving.getVelocity().x;
                     Aerial aerial = null;
                     if (moving instanceof Aerial) {
-                        aerial = (Aerial) ground;
+                        aerial = (Aerial) g;
                     } else if (moving instanceof Pliable) {
                         Pliable pliable = (Pliable) moving;
                         if (pliable.isAtopMovingGround()) {
@@ -672,52 +672,52 @@ public class GigaGal extends Entity implements Humanoid {
                         }
                     }
                 }
-                if (ground instanceof Reboundable) {
-                    if (!(ground instanceof Pliable && ((Pliable) ground).isBeingCarried() && ((Pliable) ground).getCarrier() == this)) {
+                if (g instanceof Reboundable) {
+                    if (!(g instanceof Pliable && ((Pliable) g).isBeingCarried() && ((Pliable) g).getCarrier() == this)) {
                         canClimb = false;
                         canCling = false;
                     }
                 }
-                if (ground instanceof Destructible) {
-                    if (((Destructible) ground).getHealth() < 1) {
+                if (g instanceof Destructible) {
+                    if (((Destructible) g).getHealth() < 1) {
                         fall();
                     }
                 }
             }
         } else {
-            touchedGround = ground;
+            touchedGround = g;
         }
     }
 
     // basic ground top collision instructions; applicable to sinkables even when previousframe.x < ground.top
-    private void setAtopGround(Groundable ground) {
-        touchedGround = ground;
+    private void setAtopGround(Groundable g) {
+        touchedGround = g;
         fallLimit = touchedGround.getBottom() - Constants.FALL_LIMIT;
         hoverStartTime = 0;
         rappelStartTime = 0;
         canRappel = false;
         canLook = true;
         canHover = false;
-        if (groundState == GroundState.AIRBORNE && !(ground instanceof Skateable)) {
+        if (groundState == GroundState.AIRBORNE && !(g instanceof Skateable)) {
             stand(); // in each frame all grounds save for skateable rely upon this call to switch action from airborne
             lookStartTime = 0;
         } else if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
             canJump = true;
             jump();
-        } else if (action == Action.CLIMBING && !(ground instanceof Climbable)) {
+        } else if (action == Action.CLIMBING && !(g instanceof Climbable)) {
             stand();
         }
         if (action == Action.STANDING) {
-            if ((canClimb && (ground instanceof Climbable) && (touchedGround == null || !(touchedGround instanceof Climbable)))) {
+            if ((canClimb && (g instanceof Climbable) && (touchedGround == null || !(touchedGround instanceof Climbable)))) {
                 canClimb = false;  // prevents maintaining canclimb state when previously but no longer overlapping dense, nondense and climbable grounds
-            } else if (!canClimb && (ground instanceof Climbable || (touchedGround != null && touchedGround instanceof Climbable)) && (touchedGround.equals(ground) && touchedGround.getTop() != ground.getTop())) {
+            } else if (!canClimb && (g instanceof Climbable || (touchedGround != null && touchedGround instanceof Climbable)) && (touchedGround.equals(g) && touchedGround.getTop() != g.getTop())) {
                 canClimb = true;  // prevents setting canclimb to false when overlapping dense, nondense and climbable grounds
             }
-            if (!(ground instanceof Climbable || touchedGround instanceof Climbable)) {
+            if (!(g instanceof Climbable || touchedGround instanceof Climbable)) {
                 canCling = false;
             }
         }
-        if (((!(touchedGround instanceof Pliable && ((Pliable) touchedGround).isBeingCarried())) && (!(ground instanceof Pliable && ((Pliable) ground).isBeingCarried()))) && !inputControls.shootButtonPressed) {
+        if (((!(touchedGround instanceof Pliable && ((Pliable) touchedGround).isBeingCarried())) && (!(g instanceof Pliable && ((Pliable) g).isBeingCarried()))) && !inputControls.shootButtonPressed) {
             canMove = false;
         }
     }
@@ -775,32 +775,32 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
-    private void touchHazard(Hazardous hazard) {
+    private void touchHazard(Hazardous h) {
         chaseCamPosition.set(position, 0);
-        if (hazard instanceof Groundable) {
-            if (hazard instanceof Zoomba) {
-                Zoomba zoomba = (Zoomba) hazard;
+        if (h instanceof Groundable) {
+            if (h instanceof Zoomba) {
+                Zoomba zoomba = (Zoomba) h;
                 if (bounds.overlaps(zoomba.getHazardBounds())) {
-                    touchedHazard = hazard;
-                    recoil(hazard.getKnockback(), hazard);
+                    touchedHazard = h;
+                    recoil(h.getKnockback(), h);
                 }
                 touchGround(zoomba);
-            } else if (hazard instanceof Swoopa) {
-                if (getBottom() >= hazard.getPosition().y && Helpers.betweenTwoValues(position.x, hazard.getPosition().x - Constants.SWOOPA_SHOT_RADIUS, hazard.getPosition().x + Constants.SWOOPA_SHOT_RADIUS)) {
-                    touchGroundTop((Swoopa) hazard);
+            } else if (h instanceof Swoopa) {
+                if (getBottom() >= h.getPosition().y && Helpers.betweenTwoValues(position.x, h.getPosition().x - Constants.SWOOPA_SHOT_RADIUS, h.getPosition().x + Constants.SWOOPA_SHOT_RADIUS)) {
+                    touchGroundTop((Swoopa) h);
                 } else {
-                    touchedHazard = hazard;
-                    recoil(hazard.getKnockback(), hazard);
+                    touchedHazard = h;
+                    recoil(h.getKnockback(), h);
                 }
-            } else if (hazard instanceof Armorollo && ((Armorollo) hazard).isVulnerable()) {
-                touchGround((Groundable) hazard);
+            } else if (h instanceof Armorollo && ((Armorollo) h).isVulnerable()) {
+                touchGround((Groundable) h);
             } else {
-                touchedHazard = hazard;
-                recoil(hazard.getKnockback(), hazard);
+                touchedHazard = h;
+                recoil(h.getKnockback(), h);
             }
         } else {
-            touchedHazard = hazard;
-            recoil(hazard.getKnockback(), hazard);
+            touchedHazard = h;
+            recoil(h.getKnockback(), h);
         }
     }
 
@@ -816,8 +816,8 @@ public class GigaGal extends Entity implements Humanoid {
         }
     }
 
-    private void touchPowerup(Replenishing powerup) {
-        switch(powerup.getType()) {
+    private void touchPowerup(Replenishing r) {
+        switch(r.getType()) {
             case AMMO:
                 Assets.getInstance().getSoundAssets().ammo.play();
                 ammo += Constants.POWERUP_AMMO;
@@ -826,7 +826,7 @@ public class GigaGal extends Entity implements Humanoid {
                 }
                 break;
             case HEALTH:
-                if (powerup instanceof Powerup) {
+                if (r instanceof Powerup) {
                     Assets.getInstance().getSoundAssets().health.play();
                     health += Constants.POWERUP_HEALTH;
                 } else {

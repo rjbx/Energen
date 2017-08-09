@@ -152,7 +152,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     @Override public void setDirectionX(Enums.Direction direction) { updateDirection(direction); }
     @Override public void setDirectionY(Enums.Direction direction) { updateDirection(direction); }
     @Override public void convert() {
-        position.sub(Constants.ZOOMBA_BOB_AMPLITUDE / 2, Constants.ZOOMBA_CENTER.y * 3);
+        position.set(startingPosition);
         updateOrientation(Helpers.getOppositeOrientation(orientation));
         this.converted = true;
     }
@@ -170,7 +170,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             direction = Direction.RIGHT;
         } else {
             bobNadir = position.x;
-            direction = Direction.DOWN;
+            direction = Direction.UP;
         }
     }
     private void updateDirection(Direction direction) {
