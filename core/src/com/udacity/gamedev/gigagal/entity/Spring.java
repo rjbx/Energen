@@ -39,21 +39,26 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
 
     @Override
     public void update(float delta) {
-        if (beingCarried) {
+        if (beingCarried && !againstStaticGround) {
             this.position.set(carrier.getPosition().x, carrier.getTop());
             this.velocity.x = carrier.getVelocity().x;
         }
         position.mulAdd(velocity, delta);
-        velocity.x /= Constants.DRAG_FACTOR * Math.max(1, weightFactor());
-        velocity.y = -Constants.GRAVITY * 15 * weightFactor();
+        float multiplier = Math.max(1, weightFactor());
+        velocity.x /= Constants.DRAG_FACTOR * multiplier;
+        velocity.y = -Constants.GRAVITY * 15 * multiplier;
+        againstStaticGround = false;
+        atopMovingGround = false;
+        movingGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop())
+                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
                         if (!beingCarried && (ground instanceof Roving || ((Pliable) ground).isBeingCarried())) {
                             position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
                         }
+                        velocity.x = ((Moving) ground).getVelocity().x;
                         position.y = ground.getTop() + getHeight() / 2;
                         if (ground instanceof Aerial) {
                             velocity.y = ((Aerial) ground).getVelocity().y;
@@ -155,7 +160,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return beingCarried || GigaGal.getInstance().getAction() != Enums.Action.CLIMBING; }
-    @Override public final void toss(float velocityX) { velocity.x = velocityX; underGround = true; }
+    @Override public final void toss(float velocityX) { velocity.x += velocityX; underGround = true; }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * .2f; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean underneathGround() { return underGround; }

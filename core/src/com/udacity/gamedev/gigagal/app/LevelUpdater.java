@@ -356,10 +356,12 @@ public class LevelUpdater {
             }
         }
         if (ground instanceof Pliable) {
-            if (!((Pliable) ground).isBeingCarried() && Helpers.overlapsPhysicalObject(gigaGal, ground)) {
+            Pliable pliable = (Pliable) ground;
+            if (!(pliable).isBeingCarried() && Helpers.overlapsPhysicalObject(gigaGal, ground)) {
                 if (gigaGal.getAction() == Enums.Action.RAPPELLING && InputControls.getInstance().shootButtonJustPressed
                 || (gigaGal.getBottom() == ground.getBottom() && (InputControls.getInstance().shootButtonJustPressed) && gigaGal.getAction() == Enums.Action.STRIDING)
                 || ((Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && (InputControls.getInstance().shootButtonJustPressed && InputControls.getInstance().downButtonPressed)))) {
+                    
                     if (ground instanceof Reboundable) {
                         if (ground instanceof Spring && !((Spring) ground).underneathGround()) {
                             ((Reboundable) ground).resetStartTime();
@@ -368,30 +370,34 @@ public class LevelUpdater {
                     }
                     if (gigaGal.getCarriedGround() == null) { // prevents from carrying simultaneously and in the process setting to overlap two grounds
                         gigaGal.setPosition(new Vector2(ground.getPosition().x, ground.getBottom() + Constants.GIGAGAL_EYE_HEIGHT));
-                        ((Pliable) ground).setCarrier(gigaGal);
+                        pliable.setCarrier(gigaGal);
                     }
-                    gigaGal.setCarriedGround((Pliable) ground);
+                    gigaGal.setCarriedGround(pliable);
                 }
-            } else if (((Pliable) ground).getCarrier() == gigaGal) {
+            } else if (pliable.getCarrier() == gigaGal) {
                 if (ground instanceof Barrier && gigaGal.getAction() != Enums.Action.STANDING) {
                     float adjustment = .75f;
+//                    if (ground instanceof Draggable && ((Moving) ground).getVelocity().y > 0) {
+//                        (pliable).setCarrier(null);
+//                        gigaGal.setCarriedGround(null);
+//                    }
                     if (gigaGal.getGroundState() != Enums.GroundState.PLANTED) {
                         adjustment *= 2;
                     } else {
-                        gigaGal.setVelocity(new Vector2(gigaGal.getVelocity().x / (1 + ((Pliable) ground).weightFactor()), gigaGal.getVelocity().y));
+                        gigaGal.setVelocity(new Vector2(gigaGal.getVelocity().x / (1 + (pliable).weightFactor()), gigaGal.getVelocity().y));
                     }
-                    gigaGal.setTurbo(Math.max(gigaGal.getTurbo() - ((Pliable) ground).weightFactor() - adjustment, 0));
+                    gigaGal.setTurbo(Math.max(gigaGal.getTurbo() - (pliable).weightFactor() - adjustment, 0));
                     if (gigaGal.getTurbo() == 0) {
-                        ((Pliable) ground).setCarrier(null);
+                        pliable.setCarrier(null);
                         gigaGal.setCarriedGround(null);
                     }
                 }
                 if (!InputControls.getInstance().shootButtonPressed
                         || !gigaGal.getMoveStatus()) { // move status set to false when recoiling
-                    ((Pliable) ground).setCarrier(null);
+                    pliable.setCarrier(null);
                     gigaGal.setCarriedGround(null);
-                    if (ground instanceof Tossable && (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed)) {
-                        ((Tossable) ground).toss((gigaGal.getVelocity().x + Helpers.absoluteToDirectionalValue(ground.getWidth() * 13, gigaGal.getDirectionX(), Enums.Orientation.X)));
+                    if (pliable.getVelocity().x != 0 && (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed)) {
+                        ((Tossable) ground).toss(Helpers.absoluteToDirectionalValue(ground.getWidth() * 13, gigaGal.getDirectionX(), Enums.Orientation.X));
                     }
                 }
             }

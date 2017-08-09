@@ -735,7 +735,7 @@ public class GigaGal extends Entity implements Humanoid {
                     lookTimeSeconds = 0;
                     lookStartTime = 0;
                     if (action != Action.RAPPELLING && action != Action.CLIMBING && action != Action.HOVERING) {
-                        if (touchedGround instanceof Draggable) {
+                        if (touchedGround instanceof Brick) {
                             canMove = false;
                         }
                         fall();

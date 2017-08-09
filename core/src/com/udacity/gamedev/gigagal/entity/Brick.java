@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -34,25 +33,27 @@ public class Brick extends Barrier implements Tossable {
 
     @Override
     public void update(float delta) {
-        if (beingCarried) {
+        if (beingCarried && !againstStaticGround) {
             position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
             velocity.x = carrier.getVelocity().x;
         }
         position.mulAdd(velocity, delta);
-        velocity.x /= Constants.DRAG_FACTOR * Math.max(1, weightFactor());
-        velocity.y = -Constants.GRAVITY * 15 * weightFactor();
+        float multiplier = Math.max(1, weightFactor());
+        velocity.x /= Constants.DRAG_FACTOR * multiplier;
+        velocity.y = -Constants.GRAVITY * 15 * multiplier;
         payload = 0;
         againstStaticGround = false;
         atopMovingGround = false;
         movingGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * weightFactor(), ground.getTop()) && getBottom() > ground.getBottom()
+                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
                         if (!beingCarried && (ground instanceof Roving || ((Pliable) ground).isBeingCarried())) {
                             position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
                         }
+                        velocity.x = ((Moving) ground).getVelocity().x;
                         position.y = ground.getTop() + getHeight() / 2;
                         if (ground instanceof Aerial) {
                             velocity.y = ((Aerial) ground).getVelocity().y;
@@ -135,7 +136,7 @@ public class Brick extends Barrier implements Tossable {
     @Override public final void setCarrier(Dynamic entity) { againstStaticGround = false; this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
     @Override public Enums.Material getType() { return super.getType(); }
-    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(.2f, ((getWidth() * getHeight()) / 3600) + payload); }
+    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(.67f, ((getWidth() * getHeight()) / 3600) + payload); }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final boolean isDense() { return super.dense || beingCarried; }
