@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -40,7 +41,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     @Override
     public void update(float delta) {
         if (beingCarried && !againstStaticGround) {
-            this.position.set(carrier.getPosition().x, carrier.getTop());
+            this.position.set(carrier.getPosition().x, carrier.getBottom() + getHeight());
             this.velocity.x = carrier.getVelocity().x;
         }
         position.mulAdd(velocity, delta);
@@ -90,7 +91,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                 && getTop() > ground.getBottom()
                 && !(ground instanceof Pliable)
                 && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
-                || (ground instanceof Pliable && !beingCarried)) {
+                || (ground instanceof Pliable && (!beingCarried || ((Pliable) ground).isAgainstStaticGround()))) {
                     if ((!(ground instanceof Pliable) ||
                             (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
                             || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
@@ -101,8 +102,8 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         }
                     }
                     velocity.x = 0;
-                    if (!againstStaticGround && (!(ground instanceof Pliable) || ground.getBottom() == getBottom())) {
-                        if (position.x < ground.getPosition().x && ground.getBottom() == getBottom()) {
+                    if (!againstStaticGround) {
+                        if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
                         } else {
                             position.x = ground.getRight() + getWidth() / 2;
@@ -160,7 +161,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return beingCarried || GigaGal.getInstance().getAction() != Enums.Action.CLIMBING; }
-    @Override public final void toss(float velocityX) { velocity.x += velocityX; underGround = true; }
+    @Override public final void toss(float velocityX) { velocity.x = velocityX; underGround = true; }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * .2f; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean underneathGround() { return underGround; }

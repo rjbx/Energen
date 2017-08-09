@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -97,9 +96,6 @@ public class Brick extends Barrier implements Tossable {
                             }
                         }
                     }
-                    if (ground instanceof Pliable && ground.getBottom() == getBottom() && beingCarried) {
-                        Gdx.app.log(TAG, ((Pliable) ground).isAgainstStaticGround() + "" + ((Pliable) ground).isBeingCarried() + ground.getPosition().toString());
-                    }
                     velocity.x = 0;
                     if (!againstStaticGround && (!(ground instanceof Pliable) || ground.getBottom() == getBottom())) {
                         if (position.x < ground.getPosition().x) {
@@ -144,7 +140,7 @@ public class Brick extends Barrier implements Tossable {
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(.67f, ((getWidth() * getHeight()) / 3600) + payload); }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
-    @Override public final boolean isDense() { return super.dense || beingCarried; }
+    @Override public final boolean isDense() { return (super.dense || beingCarried) && GigaGal.getInstance().getAction() != Enums.Action.CLIMBING; }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; }
     public final boolean isAgainstStaticGround() { return againstStaticGround; }
     public final void setAgainstStaticGround() { this.againstStaticGround = true; }
