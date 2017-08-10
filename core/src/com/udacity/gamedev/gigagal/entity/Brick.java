@@ -34,7 +34,8 @@ public class Brick extends Barrier implements Tossable {
 
     @Override
     public void update(float delta) {
-        if (beingCarried && !againstStaticGround) {
+        if (beingCarried &&
+                !againstStaticGround) {
             super.position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
             velocity.x = carrier.getVelocity().x;
         }
