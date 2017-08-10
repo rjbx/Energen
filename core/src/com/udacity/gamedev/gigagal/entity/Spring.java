@@ -59,10 +59,6 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                             position.x = ground.getPosition().x;
                         }
                         velocity.x = ((Moving) ground).getVelocity().x;
-
-                        if (ground instanceof Pliable) {
-                            Gdx.app.log(TAG, ((Moving) ground).getVelocity().x + "");
-                        }
                         position.y = ground.getTop() + getHeight() / 2;
                         if (ground instanceof Aerial) {
                             velocity.y = ((Aerial) ground).getVelocity().y;
@@ -85,9 +81,9 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         } else {
                             velocity.x = 0;
                         }
-                        position.x +=  velocity.x * delta;
+                        position.x += velocity.x * delta;
                         velocity.y = 0;
-                    } else if (!(ground instanceof Nonstatic)) {
+                    } else if (!atopMovingGround) {
                         velocity.x = 0;
                     }
                 } else if ((ground.isDense()
@@ -104,7 +100,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                             }
                         }
                     }
-                    if (!(ground instanceof Nonstatic)) {
+                    if (!atopMovingGround) {
                         velocity.x = 0;
                     }
                     if (Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {

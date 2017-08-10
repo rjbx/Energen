@@ -51,11 +51,11 @@ public class Brick extends Barrier implements Tossable {
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
-                        if (!beingCarried && (ground instanceof Roving || ((Pliable) ground).isBeingCarried())) {
-                            super.position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
+                        if (!beingCarried && (ground instanceof Moving || ((Pliable) ground).isBeingCarried())) {
+                            position.x = ground.getPosition().x;
                         }
                         velocity.x = ((Moving) ground).getVelocity().x;
-                        super.position.y = ground.getTop() + getHeight() / 2;
+                        position.y = ground.getTop() + getHeight() / 2;
                         if (ground instanceof Aerial) {
                             velocity.y = ((Aerial) ground).getVelocity().y;
                         } else {
@@ -65,7 +65,7 @@ public class Brick extends Barrier implements Tossable {
                         movingGround = (Moving) ground;
                     } else if ((!(ground instanceof Climbable))
                             && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
-                        super.position.y = ground.getTop() + getHeight() / 2;
+                        position.y = ground.getTop() + getHeight() / 2;
                         velocity.y = 0;
                     }
                     if (ground instanceof Propelling) {
@@ -77,16 +77,16 @@ public class Brick extends Barrier implements Tossable {
                         } else {
                             velocity.x = 0;
                         }
-                        super.position.x += velocity.x * delta;
+                        position.x += velocity.x * delta;
                         velocity.y = 0;
-                    } else if (ground instanceof Nonstatic) {
+                    } else if (!atopMovingGround) {
                         velocity.x = 0;
                     }
                 } else if ((ground.isDense()
-                && getTop() > ground.getBottom()
-                && !(ground instanceof Pliable)
-                && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
-                || (ground instanceof Pliable && (!beingCarried || ((Pliable) ground).isAgainstStaticGround()))) {
+                        && getTop() > ground.getBottom()
+                        && !(ground instanceof Pliable)
+                        && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
+                        || (ground instanceof Pliable && (!beingCarried || ((Pliable) ground).isAgainstStaticGround()))) {
                     if ((!(ground instanceof Pliable) ||
                             (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
                             || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
@@ -96,12 +96,20 @@ public class Brick extends Barrier implements Tossable {
                             }
                         }
                     }
-                    velocity.x = 0;
-                    if (!againstStaticGround && (!(ground instanceof Pliable) || ground.getBottom() == getBottom())) {
-                        if (position.x < ground.getPosition().x) {
-                            super.position.x = ground.getLeft() - getWidth() / 2;
-                        } else {
-                            super.position.x = ground.getRight() + getWidth() / 2;
+                    if (!atopMovingGround) {
+                        velocity.x = 0;
+                    }
+                    if (Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
+                        if (!beingCarried && ground instanceof Pliable && ground.getBottom() == getBottom()) {
+                            position.y = ground.getTop() + (getHeight() / 2);
+                        }
+                    } else {
+                        if (!againstStaticGround && (!(ground instanceof Pliable) || ((Pliable) ground).isBeingCarried())) {
+                            if (position.x < ground.getPosition().x) {
+                                position.x = ground.getLeft() - getWidth() / 2;
+                            } else {
+                                position.x = ground.getRight() + getWidth() / 2;
+                            }
                         }
                     }
                 } else if (ground instanceof Box) {
