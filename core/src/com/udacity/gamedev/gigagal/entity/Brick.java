@@ -52,19 +52,10 @@ public class Brick extends Barrier implements Tossable {
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
-                        if (!beingCarried && (ground instanceof Moving || ((Pliable) ground).isBeingCarried())) {
-                            position.x = ground.getPosition().x;
-                        }
+                        super.position.x = ground.getPosition().x;
+                        super.position.y = ground.getTop() + getHeight() / 2;
                         velocity.x = ((Moving) ground).getVelocity().x;
-                        position.y = ground.getTop() + getHeight() / 2;
-                        if (ground instanceof Aerial) {
-                            velocity.y = ((Aerial) ground).getVelocity().y;
-                        } else {
-                            velocity.y = 0;
-                        }
-                        if (velocity.y < 0) {
-                            position.y -= 1;
-                        }
+                        velocity.y = ((Moving) ground).getVelocity().y;
                         atopMovingGround = true;
                         movingGround = (Moving) ground;
                     } else if ((!(ground instanceof Climbable))
@@ -129,11 +120,9 @@ public class Brick extends Barrier implements Tossable {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
                 if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getBottom(), hazard.getTop())) {
                     super.position.x = hazard.getPosition().x;
-                    super.position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
+                    super.position.y = hazard.getTop() + getHeight() / 2;
                     velocity.x = ((Vehicular) hazard).getVelocity().x;
-                    if (velocity.y < 0) {
-                        super.position.y -= 1;
-                    }
+                    velocity.y = ((Vehicular) hazard).getVelocity().y;
                     atopMovingGround = true;
                     movingGround = (Moving) hazard;
                 }

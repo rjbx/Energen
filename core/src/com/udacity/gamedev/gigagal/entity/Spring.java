@@ -55,18 +55,10 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
                         && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
-                        if (!beingCarried && (ground instanceof Moving || ((Pliable) ground).isBeingCarried())) {
-                            position.x = ground.getPosition().x;
-                        }
-                        velocity.x = ((Moving) ground).getVelocity().x;
+                        position.x = ground.getPosition().x;
                         position.y = ground.getTop() + getHeight() / 2;
-                        if (ground instanceof Aerial) {
-                            position.y += ((Aerial) ground).getVelocity().y;
-                            if (velocity.y < 0) {
-                                position.y -= 1;
-                            }
-                        }
-                        velocity.y = 0;
+                        velocity.x = ((Moving) ground).getVelocity().x;
+                        velocity.y = ((Moving) ground).getVelocity().y;
                         atopMovingGround = true;
                         movingGround = (Moving) ground;
                     } else if ((!(ground instanceof Climbable))
