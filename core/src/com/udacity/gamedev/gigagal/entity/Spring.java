@@ -56,10 +56,14 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
-                        if (!beingCarried && (ground instanceof Roving || ((Pliable) ground).isBeingCarried())) {
-                            position.x = ground.getPosition().x + ((Moving) ground).getVelocity().x;
+                        if (!beingCarried && (ground instanceof Moving || ((Pliable) ground).isBeingCarried())) {
+                            position.x = ground.getPosition().x;
                         }
                         velocity.x = ((Moving) ground).getVelocity().x;
+
+                        if (ground instanceof Pliable) {
+                            Gdx.app.log(TAG, ((Moving) ground).getVelocity().x + "");
+                        }
                         position.y = ground.getTop() + getHeight() / 2;
                         if (ground instanceof Aerial) {
                             velocity.y = ((Aerial) ground).getVelocity().y;
@@ -84,7 +88,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         }
                         position.x +=  velocity.x * delta;
                         velocity.y = 0;
-                    } else {
+                    } else if (!(ground instanceof Nonstatic)) {
                         velocity.x = 0;
                     }
                 } else if ((ground.isDense()
@@ -98,11 +102,12 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         if (!(ground instanceof Pliable) || !((Pliable) ground).isBeingCarried()) {
                             if (!beingCarried || velocity.x != 0) {
                                 againstStaticGround = true;
-                                Gdx.app.log(TAG, againstStaticGround + "");
                             }
                         }
                     }
-                    velocity.x = 0;
+                    if (!(ground instanceof Nonstatic)) {
+                        velocity.x = 0;
+                    }
                     if (!beingCarried && (!(ground instanceof Pliable) || ground.getBottom() == getBottom())) {
                         if (ground instanceof Pliable && Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
                             position.y = ground.getTop() + (getHeight() / 2);

@@ -79,7 +79,7 @@ public class Brick extends Barrier implements Tossable {
                         }
                         super.position.x += velocity.x * delta;
                         velocity.y = 0;
-                    } else {
+                    } else if (ground instanceof Nonstatic) {
                         velocity.x = 0;
                     }
                 } else if ((ground.isDense()
