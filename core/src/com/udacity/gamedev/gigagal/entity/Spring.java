@@ -134,8 +134,12 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
                 if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getBottom(), hazard.getTop())) {
-                    position.x = hazard.getPosition().x + ((Vehicular) hazard).getVelocity().x;
+                    position.x = hazard.getPosition().x ;
                     position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
+                    velocity.x = ((Vehicular) hazard).getVelocity().x;
+                    if (velocity.y < 0) {
+                        position.y -= 1;
+                    }
                     atopMovingGround = true;
                     movingGround = (Moving) hazard;
                 }
