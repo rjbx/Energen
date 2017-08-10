@@ -66,7 +66,6 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                             velocity.y = 0;
                         }
                         if (velocity.y < 0) {
-                            Gdx.app.log(TAG, position.y + " " + velocity.y + ground.getPosition().y + ((Moving) ground).getVelocity().y);
                             position.y -= 1;
                         }
                         atopMovingGround = true;
@@ -108,7 +107,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         velocity.x = 0;
                     }
                     if (Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
-                        if (!beingCarried && ground instanceof Pliable && ground.getBottom() == getBottom()) {
+                        if ((!beingCarried && ground instanceof Moving && ground.getBottom() == getBottom())) {
                             position.y = ground.getTop() + (getHeight() / 2);
                         }
                     } else {
@@ -134,7 +133,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
         // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
-                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 6, hazard.getTop() + 6)) {
+                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getBottom(), hazard.getTop())) {
                     position.x = hazard.getPosition().x + ((Vehicular) hazard).getVelocity().x;
                     position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
                     atopMovingGround = true;

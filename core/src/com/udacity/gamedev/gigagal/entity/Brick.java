@@ -61,6 +61,9 @@ public class Brick extends Barrier implements Tossable {
                         } else {
                             velocity.y = 0;
                         }
+                        if (velocity.y < 0) {
+                            position.y -= 1;
+                        }
                         atopMovingGround = true;
                         movingGround = (Moving) ground;
                     } else if ((!(ground instanceof Climbable))
@@ -123,7 +126,7 @@ public class Brick extends Barrier implements Tossable {
         // resets to nonstatic super.position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
-                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getTop() - 3 * weightFactor(), hazard.getTop())) {
+                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getBottom(), hazard.getTop())) {
                     super.position.x = hazard.getPosition().x + ((Vehicular) hazard).getVelocity().x;
                     super.position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
                     atopMovingGround = true;

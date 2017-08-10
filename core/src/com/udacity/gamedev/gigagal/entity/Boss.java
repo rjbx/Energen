@@ -1457,6 +1457,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     public final boolean getDispatchStatus() { return canDispatch; }
     public final Hazardous getTouchedHazard() { return touchedHazard; }
     @Override public final Enums.GroundState getGroundState() { return groundState; }
+    public final Groundable getTouchedGround() { return touchedGround; }
     @Override public final Enums.Action getAction() { return action; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
     @Override public final Material getWeapon() { return weapon; }

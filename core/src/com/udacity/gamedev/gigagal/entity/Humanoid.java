@@ -20,4 +20,5 @@ public interface Humanoid extends Dynamic {
     Enums.Action getAction();
     Enums.ShotIntensity getShotIntensity();
     Enums.Material getWeapon();
+    Groundable getTouchedGround();
 }
