@@ -65,6 +65,10 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         } else {
                             velocity.y = 0;
                         }
+                        if (velocity.y < 0) {
+                            Gdx.app.log(TAG, position.y + " " + velocity.y + ground.getPosition().y + ((Moving) ground).getVelocity().y);
+                            position.y -= 1;
+                        }
                         atopMovingGround = true;
                         movingGround = (Moving) ground;
                     } else if ((!(ground instanceof Climbable))

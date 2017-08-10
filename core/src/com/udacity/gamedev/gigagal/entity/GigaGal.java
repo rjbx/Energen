@@ -664,8 +664,9 @@ public class GigaGal extends Entity implements Humanoid {
                             canMove = true;
                         }
                     }
-                    if (aerial != null) {
-                        if (aerial.getDirectionY() == Direction.DOWN) {
+                    if (aerial != null || moving.getVelocity().y < 0) {
+                        if ((aerial != null && aerial.getDirectionY() == Direction.DOWN) || moving.getVelocity().y < 0) {
+                            Gdx.app.log(TAG, "HI");
                             position.y -= 1;
                         } else if (aerial instanceof Dynamic && ((Dynamic) aerial).getOrientation() == Orientation.X) {
                             position.y += aerial.getVelocity().y;
