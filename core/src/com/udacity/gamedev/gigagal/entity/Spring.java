@@ -61,13 +61,12 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         velocity.x = ((Moving) ground).getVelocity().x;
                         position.y = ground.getTop() + getHeight() / 2;
                         if (ground instanceof Aerial) {
-                            velocity.y = ((Aerial) ground).getVelocity().y;
-                        } else {
-                            velocity.y = 0;
+                            position.y += ((Aerial) ground).getVelocity().y;
+                            if (velocity.y < 0) {
+                                position.y -= 1;
+                            }
                         }
-                        if (velocity.y < 0) {
-                            position.y -= 1;
-                        }
+                        velocity.y = 0;
                         atopMovingGround = true;
                         movingGround = (Moving) ground;
                     } else if ((!(ground instanceof Climbable))
@@ -134,12 +133,10 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
                 if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getBottom(), hazard.getTop())) {
-                    position.x = hazard.getPosition().x ;
-                    position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
+                    position.x = hazard.getPosition().x;
+                    position.y = hazard.getTop() + getHeight() / 2;
                     velocity.x = ((Vehicular) hazard).getVelocity().x;
-                    if (velocity.y < 0) {
-                        position.y -= 1;
-                    }
+                    velocity.y = ((Vehicular) hazard).getVelocity().y;
                     atopMovingGround = true;
                     movingGround = (Moving) hazard;
                 }

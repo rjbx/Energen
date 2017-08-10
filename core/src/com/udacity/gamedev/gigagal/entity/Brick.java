@@ -128,7 +128,7 @@ public class Brick extends Barrier implements Tossable {
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
                 if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getBottom(), hazard.getTop())) {
-                    super.position.x = hazard.getPosition().x ;
+                    super.position.x = hazard.getPosition().x;
                     super.position.y = hazard.getTop() + getHeight() / 2 + ((Vehicular) hazard).getVelocity().y;
                     velocity.x = ((Vehicular) hazard).getVelocity().x;
                     if (velocity.y < 0) {

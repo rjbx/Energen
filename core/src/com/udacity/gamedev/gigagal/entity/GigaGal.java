@@ -654,7 +654,7 @@ public class GigaGal extends Entity implements Humanoid {
                                 aerial = (Aerial) pliable.getMovingGround();
                             }
                         } else if (Math.abs(pliable.getVelocity().x) > 0) {
-                            position.x = pliable.getPosition().x;
+                            position.x = pliable.getPosition().x + moving.getVelocity().x;
                         }
                         if (!pliable.isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
                             if (InputControls.getInstance().shootButtonJustPressed) {

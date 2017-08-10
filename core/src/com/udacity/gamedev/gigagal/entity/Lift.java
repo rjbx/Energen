@@ -38,13 +38,15 @@ public class Lift extends Ground implements Dynamic, Convertible {
             case Y:
                 switch (direction) {
                     case UP:
-                        velocity.set(0, Constants.LIFT_SPEED * delta);
+                        velocity.set(0, Constants.LIFT_SPEED);
                         break;
                     case DOWN:
-                        velocity.set(0, -Constants.LIFT_SPEED * delta);
+                        velocity.set(0, -Constants.LIFT_SPEED);
                         break;
                 }
-                position.add(velocity);
+
+                Gdx.app.log(TAG,getVelocity().y + "");
+                position.mulAdd(velocity, delta);
                 if (position.y < (startPosition.y - (range / 2))) {
                     position.y = startPosition.y - (range / 2);
                     direction = Enums.Direction.UP;
@@ -56,13 +58,13 @@ public class Lift extends Ground implements Dynamic, Convertible {
             case X:
                 switch (direction) {
                     case RIGHT:
-                        velocity.set(Constants.LIFT_SPEED * delta, 0);
+                        velocity.set(Constants.LIFT_SPEED, 0);
                         break;
                     case LEFT:
-                        velocity.set(-Constants.LIFT_SPEED * delta, 0);
+                        velocity.set(-Constants.LIFT_SPEED, 0);
                         break;
                 }
-                position.add(velocity);
+                position.mulAdd(velocity, delta);
                 if (position.x < (startPosition.x - (range / 2))) {
                     position.x = startPosition.x - (range / 2);
                     direction = Enums.Direction.RIGHT;

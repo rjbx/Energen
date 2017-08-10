@@ -75,8 +75,8 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
 
     public void update(float delta) {
         if (orientation == Enums.Orientation.X) {
-            position.add(velocity.x, velocity.y);
-            velocity.x = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED * delta, direction, Enums.Orientation.X);
+            position.mulAdd(velocity, delta);
+            velocity.x = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED, direction, Enums.Orientation.X);
             if (position.x < startingPosition.x - (range / 2)) {
                 position.x = startingPosition.x - (range / 2);
                 updateDirection(Direction.RIGHT);
@@ -85,10 +85,10 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
                 updateDirection(Direction.LEFT);
             }
             float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
-            velocity.y = Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier + bobNadir - position.y;
+            velocity.y = (Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier + bobNadir - position.y) * (1 / delta);
         } else {
-            position.add(velocity.x, velocity.y);
-            velocity.y = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED * delta, direction, Enums.Orientation.Y);
+            position.mulAdd(velocity, delta);
+            velocity.y = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED, direction, Enums.Orientation.Y);
             if (position.y < startingPosition.y - range / 2) {
                 position.y = startingPosition.y - range / 2;
                 updateDirection(Direction.UP);
@@ -97,7 +97,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
                 updateDirection(Direction.DOWN);
             }
             float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
-            velocity.x = Constants.ZOOMBA_CENTER.x + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier + bobNadir - position.x;
+            velocity.x = (Constants.ZOOMBA_CENTER.x + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier + bobNadir - position.x) * (1 / delta);
         }
         updateDirection(direction);
 
