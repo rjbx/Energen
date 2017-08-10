@@ -14,12 +14,12 @@ public class Brick extends Barrier implements Tossable {
     // fields
     public final static String TAG = Brick.class.getName();
 
+    private Humanoid carrier;
     private boolean againstStaticGround;
     private Moving movingGround;
     protected Vector2 velocity;
     private boolean beingCarried;
     private boolean atopMovingGround;
-    private Dynamic carrier;
     private float payload;
 
     // ctor
@@ -133,8 +133,8 @@ public class Brick extends Barrier implements Tossable {
     // Getters
     @Override public final void setPosition(Vector2 position) { super.position.set(position); }
     @Override public final Vector2 getVelocity() { return velocity; }
-    @Override public final Dynamic getCarrier() { return carrier; }
-    @Override public final void setCarrier(Dynamic entity) { againstStaticGround = false; this.carrier = entity; beingCarried = (carrier != null); }
+    @Override public final Humanoid getCarrier() { return carrier; }
+    @Override public final void setCarrier(Humanoid entity) { againstStaticGround = false; this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
     @Override public Enums.Material getType() { return super.getType(); }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(.67f, ((getWidth() * getHeight()) / 3600) + payload); }

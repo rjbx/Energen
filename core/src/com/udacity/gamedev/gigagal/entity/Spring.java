@@ -16,6 +16,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     // fields
     public final static String TAG = Spring.class.getName();
 
+    private Humanoid carrier;
     private boolean againstStaticGround;
     private Vector2 position;
     private Moving movingGround;
@@ -25,8 +26,6 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     private boolean beingCarried;
     private boolean atopMovingGround;
     private boolean underGround;
-    private Dynamic carrier;
-
     // ctor
     public Spring(Vector2 position) {
         this.position = position;
@@ -54,7 +53,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
-                && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
+                        && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
                         if (!beingCarried && (ground instanceof Moving || ((Pliable) ground).isBeingCarried())) {
                             position.x = ground.getPosition().x;
@@ -92,10 +91,10 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         velocity.x = 0;
                     }
                 } else if ((ground.isDense()
-                && getTop() > ground.getBottom()
-                && !(ground instanceof Pliable)
-                && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
-                || (ground instanceof Pliable && (!beingCarried || ((Pliable) ground).isAgainstStaticGround()))) {
+                        && getTop() > ground.getBottom()
+                        && !(ground instanceof Pliable)
+                        && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
+                        || (ground instanceof Pliable && (!beingCarried || ((Pliable) ground).isAgainstStaticGround()))) {
                     if ((!(ground instanceof Pliable) ||
                             (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
                             || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
@@ -108,13 +107,17 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                     if (!(ground instanceof Nonstatic)) {
                         velocity.x = 0;
                     }
-                    if (!beingCarried && (!(ground instanceof Pliable) || ground.getBottom() == getBottom())) {
-                        if (ground instanceof Pliable && Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
+                    if (Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
+                        if (!beingCarried && ground instanceof Pliable && ground.getBottom() == getBottom()) {
                             position.y = ground.getTop() + (getHeight() / 2);
-                        } else if (position.x < ground.getPosition().x) {
-                            position.x = ground.getLeft() - getWidth() / 2;
-                        } else {
-                            position.x = ground.getRight() + getWidth() / 2;
+                        }
+                    } else {
+                        if (!againstStaticGround && (!(ground instanceof Pliable) || ((Pliable) ground).isBeingCarried())) {
+                            if (position.x < ground.getPosition().x) {
+                                position.x = ground.getLeft() - getWidth() / 2;
+                            } else {
+                                position.x = ground.getRight() + getWidth() / 2;
+                            }
                         }
                     }
                 } else if (ground instanceof Box) {
@@ -159,8 +162,8 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     @Override public final Vector2 getPosition() { return position; }
     @Override public final Vector2 getVelocity() { return velocity; }
     @Override public final void setPosition(Vector2 position) { this.position.set(position); }
-    @Override public final Dynamic getCarrier() { return carrier; }
-    @Override public final void setCarrier(Dynamic entity) { againstStaticGround = false; this.carrier = entity; beingCarried = (carrier != null); }
+    @Override public final Humanoid getCarrier() { return carrier; }
+    @Override public final void setCarrier(Humanoid entity) { againstStaticGround = false; this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
     @Override public final float getHeight() { return Constants.SPRING_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.SPRING_CENTER.x * 2; }
