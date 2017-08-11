@@ -49,13 +49,14 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
         velocity.y = -Constants.GRAVITY * 15 * multiplier;
         againstStaticGround = false;
         atopMovingGround = false;
+        underGround = false;
         movingGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
                         && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
-                        Gdx.app.log(TAG, hashCode() + " " + getPosition().x);
+                        Gdx.app.log(TAG, hashCode() + " " + getPosition());
                         position.x = ground.getPosition().x;
                         position.y = ground.getTop() + (getHeight() / 2);
                         velocity.x = ((Moving) ground).getVelocity().x;
@@ -115,11 +116,9 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                     velocity.y = 0;
                 }
                 if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2)) {
-                    Gdx.app.log(TAG, loaded + "" + hashCode() + " " + getPosition().x);
+                    Gdx.app.log(TAG, loaded + "" + hashCode() + " " + getPosition());
                     loaded = true;
                     underGround = true;
-                } else {
-                    underGround = false;
                 }
             }
         }

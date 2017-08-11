@@ -348,7 +348,7 @@ public class LevelUpdater {
                 } else if (reboundable.getState() && !(reboundable instanceof Pliable && ((Pliable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
                     if (ground instanceof Compressible && !((Compressible) ground).underneathGround()) {
                         reboundable.resetStartTime();
-                    //    reboundable.setState(false);
+                        reboundable.setState(false);
                     }
                 }
             }
@@ -363,7 +363,7 @@ public class LevelUpdater {
                     if (ground instanceof Reboundable) {
                         if (ground instanceof Spring && !((Spring) ground).underneathGround()) {
                             ((Reboundable) ground).resetStartTime();
-                        //    ((Reboundable) ground).setState(false);
+                            ((Reboundable) ground).setState(false);
                         }
                     }
                     if (gigaGal.getCarriedGround() == null) { // prevents from carrying simultaneously and in the process setting to overlap two grounds
