@@ -55,8 +55,9 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
                         && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
+                        Gdx.app.log(TAG, hashCode() + " " + getPosition().x);
                         position.x = ground.getPosition().x;
-                        position.y = ground.getTop() + getHeight() / 2;
+                        position.y = ground.getTop() + (getHeight() / 2);
                         velocity.x = ((Moving) ground).getVelocity().x;
                         velocity.y = ((Moving) ground).getVelocity().y;
                         atopMovingGround = true;
@@ -113,7 +114,8 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                 } else if (ground instanceof Box) {
                     velocity.y = 0;
                 }
-                if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 1, ground.getBottom() + 1)) {
+                if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2)) {
+                    Gdx.app.log(TAG, loaded + "" + hashCode() + " " + getPosition().x);
                     loaded = true;
                     underGround = true;
                 } else {
