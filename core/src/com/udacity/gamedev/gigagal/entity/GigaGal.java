@@ -646,13 +646,12 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                     position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
                     velocity.x = ((Moving) g).getVelocity().x;
-                    Gdx.app.log(TAG, velocity.x + "");
                     velocity.y = ((Moving) g).getVelocity().y;
                     if (moving instanceof Pliable) {
-                        Pliable pliable = (Pliable) moving;
-                        if (Math.abs(pliable.getVelocity().x) > 0) {
-                            position.x = pliable.getPosition().x + moving.getVelocity().x;
+                        if (velocity.y < 0) {
+                            position.y -= 1;
                         }
+                        Pliable pliable = (Pliable) moving;
                         if (!pliable.isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
                             if (InputControls.getInstance().shootButtonJustPressed) {
                                 fall();

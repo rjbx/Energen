@@ -44,9 +44,8 @@ public class Lift extends Ground implements Dynamic, Convertible {
                         velocity.set(0, -Constants.LIFT_SPEED);
                         break;
                 }
-
                 position.mulAdd(velocity, delta);
-                if (position.y < (startPosition.y - (range / 2))) {
+                if (direction == Enums.Direction.DOWN && position.y < (startPosition.y - (range / 2))) {
                     position.y = startPosition.y - (range / 2);
                     direction = Enums.Direction.UP;
                 } else if (position.y > (startPosition.y + (range / 2))) {
