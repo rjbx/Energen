@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -26,6 +25,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
     private boolean beingCarried;
     private boolean atopMovingGround;
     private boolean underGround;
+
     // ctor
     public Spring(Vector2 position) {
         this.position = position;
@@ -56,7 +56,6 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 3 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
                         && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
-                        Gdx.app.log(TAG, hashCode() + " " + getPosition());
                         position.x = ground.getPosition().x;
                         position.y = ground.getTop() + (getHeight() / 2);
                         velocity.x = ((Moving) ground).getVelocity().x;
@@ -116,7 +115,6 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                     velocity.y = 0;
                 }
                 if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2)) {
-                    Gdx.app.log(TAG, loaded + "" + hashCode() + " " + getPosition());
                     loaded = true;
                     underGround = true;
                 }

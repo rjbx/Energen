@@ -45,7 +45,6 @@ public class Lift extends Ground implements Dynamic, Convertible {
                         break;
                 }
 
-                Gdx.app.log(TAG,getVelocity().y + "");
                 position.mulAdd(velocity, delta);
                 if (position.y < (startPosition.y - (range / 2))) {
                     position.y = startPosition.y - (range / 2);
