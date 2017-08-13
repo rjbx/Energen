@@ -441,7 +441,7 @@ public class GigaGal extends Entity implements Humanoid {
                 touchGroundBottom(g);
                 touchGroundSide(g);
                 touchGroundTop(g);
-            } else { // for non-dense grounds:
+            } else if (getBottom() <= g.getTop()) { // for non-dense grounds:
                 // additional ground collision instructions specific to certain types of grounds
                 if (g instanceof Climbable) {
                     if (!(touchedGround != null && touchedGround.isDense() && touchedGround.getTop() == g.getTop())) { // prevents flickering canclimb state
@@ -1356,19 +1356,17 @@ public class GigaGal extends Entity implements Humanoid {
             Aerial aerial = null;
             if (touchedGround instanceof Aerial) {
                 aerial = (Aerial) touchedGround;
+                position.y = aerial.getBottom() + (aerial.getHeight() / 2);
             } else if (touchedGround instanceof Pliable) {
                 if (((Pliable) touchedGround).getMovingGround() instanceof Aerial) {
                     aerial = (Aerial) ((Pliable) touchedGround).getMovingGround();
+                    position.y = aerial.getBottom() + (aerial.getHeight() / 2);
                 }
                 if (Helpers.inputToDirection() == Helpers.getOppositeDirection(directionX)) {
                     canMove = true;
                 } else {
                     canMove = false;
                 }
-            }
-            if (aerial != null) {
-                position.y = aerial.getBottom() + (aerial.getHeight() / 2);
-                velocity.x = aerial.getVelocity().x;
             }
             if (!(touchedGround instanceof Skateable)) {
                 if (inputControls.downButtonPressed) {
