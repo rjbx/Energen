@@ -106,7 +106,7 @@ public class Brick extends Barrier implements Tossable {
                 } else if (ground instanceof Box) {
                     velocity.y = 0;
                 }
-                if (!(Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2) || !atopMovingGround || (ground instanceof Propelling))) {
+                if (!(Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2) || atopMovingGround || ground instanceof Propelling)) {
                     velocity.x = 0;
                 }
             }

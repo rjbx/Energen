@@ -21,8 +21,7 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     private Rectangle bounds;
     private long startTime;
     private boolean loaded;
-    private boolean beingCarried;
-    private boolean underGround;
+    private boolean underneatheGround;
     private int adjustments;
     private boolean previousState;
     private boolean converted;
@@ -32,8 +31,7 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
         this.position = position;
         startTime = 0;
         loaded = false;
-        beingCarried = false;
-        underGround = false;
+        underneatheGround = false;
         startTime = 0;
         converted = false;
         this.bounds = bounds;
@@ -52,9 +50,10 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
                         resetStartTime();
                     }
                     loaded = true;
-                    underGround = true;
+                    underneatheGround = true;
+                    topGround = ground;
                 } else {
-                    underGround = false;
+                    underneatheGround = false;
                 }
             }
         }
@@ -84,8 +83,8 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     @Override public final float getRight() { return position.x + Constants.LEVER_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.LEVER_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.LEVER_CENTER.y; }
-    @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried; }
-    @Override public final boolean isUnderneatheGround() { return underGround; }
+    @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()); }
+    @Override public final boolean isUnderneatheGround() { return underneatheGround; }
     @Override public final Ground getTopGround() { return topGround; }
     @Override public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
