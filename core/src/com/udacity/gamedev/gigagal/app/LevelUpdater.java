@@ -183,7 +183,6 @@ public class LevelUpdater {
             }
         } else {
             time = timer.getNanos();
-            Blade.getInstance().update(delta);
             if (gigaGal.getDispatchStatus()) {
                 if (gigaGal.getLookStartTime() != 0) {
                     if (gigaGal.getDirectionY() == Direction.UP) {
@@ -266,6 +265,7 @@ public class LevelUpdater {
             powerups.end();
 
             gigaGal.update(delta);
+            Blade.getInstance().update(delta);
         }
     }
 
