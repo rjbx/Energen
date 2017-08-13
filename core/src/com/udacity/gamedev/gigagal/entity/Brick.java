@@ -106,12 +106,12 @@ public class Brick extends Barrier implements Tossable {
                 } else if (ground instanceof Box) {
                     velocity.y = 0;
                 }
+                if (!(Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2) || !atopMovingGround || (ground instanceof Propelling))) {
+                    velocity.x = 0;
+                }
             }
             if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround() && ((Pliable) ground).getMovingGround().equals(this)) {
                 payload = ((Pliable) ground).weightFactor();
-            }
-            if (!Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2)) {
-                velocity.x = 0;
             }
         }
         // resets to nonstatic super.position of ground which is cloned every frame
