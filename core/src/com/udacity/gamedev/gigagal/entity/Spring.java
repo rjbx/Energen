@@ -51,16 +51,13 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
         velocity.y = -Constants.GRAVITY * 15 * multiplier;
         againstStaticGround = false;
         atopMovingGround = false;
-        underneatheGround = false;
         movingGround = null;
+        underneatheGround = false;
         topGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (position.x > 1890 && position.x < 2700 &&  position.y == -205) {
-                    Gdx.app.log(TAG, ground.getClass().toString());
-                }
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 6 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
-                        && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
+                && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
                         position.x = ground.getPosition().x;
                         position.y = ground.getTop() + (getHeight() / 2);
@@ -74,9 +71,6 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
                         velocity.y = 0;
                     }
                     if (ground instanceof Propelling) {
-                        if (position.x > 1890 && position.x < 2700) {
-                            Gdx.app.log(TAG, velocity.x + " " + position.y);
-                        }
                         velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
                         velocity.y = 0;
                     } else if (ground instanceof Skateable) {
