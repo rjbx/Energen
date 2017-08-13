@@ -46,9 +46,5 @@ public class Pod extends Ground implements Reboundable, Replenishing {
     @Override public final float getTop() { return position.y + Constants.POD_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.POD_CENTER.y; }
     @Override public final boolean isDense() { return false; }
-    @Override public final long getStartTime() { return startTime; }
-    @Override public final void setState(boolean state) { this.isActive = state; }
-    @Override public final boolean getState() { return isActive; }
-    @Override public final void resetStartTime() { this.startTime = 0; }
     @Override public final float jumpMultiplier() { return Constants.POD_JUMP_MULTIPLIER; }
 }

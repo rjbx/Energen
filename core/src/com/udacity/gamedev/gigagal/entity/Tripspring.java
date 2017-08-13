@@ -16,6 +16,7 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     // fields
     public final static String TAG = Tripspring.class.getName();
 
+    private Ground topGround;
     private Vector2 position;
     private Rectangle bounds;
     private long startTime;
@@ -84,7 +85,8 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     @Override public final float getTop() { return position.y + Constants.LEVER_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.LEVER_CENTER.y; }
     @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()) || beingCarried; }
-    @Override public final boolean underneathGround() { return underGround; }
+    @Override public final boolean isUnderneatheGround() { return underGround; }
+    @Override public final Ground getTopGround() { return topGround; }
     @Override public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
     @Override public final void setState(boolean state) { this.loaded = state; }

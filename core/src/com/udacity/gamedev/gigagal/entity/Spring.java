@@ -20,12 +20,13 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     private boolean againstStaticGround;
     private Vector2 position;
     private Moving movingGround;
+    private Ground topGround;
     private long startTime;
     private Vector2 velocity;
     private boolean loaded;
     private boolean beingCarried;
     private boolean atopMovingGround;
-    private boolean underGround;
+    private boolean underneatheGround;
 
     // ctor
     public Spring(Vector2 position) {
@@ -34,7 +35,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
         loaded = false;
         beingCarried = false;
         atopMovingGround = false;
-        underGround = false;
+        underneatheGround = false;
         velocity = new Vector2(0, 0);
     }
 
@@ -50,8 +51,9 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
         velocity.y = -Constants.GRAVITY * 15 * multiplier;
         againstStaticGround = false;
         atopMovingGround = false;
-        underGround = false;
+        underneatheGround = false;
         movingGround = null;
+        topGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (position.x > 1890 && position.x < 2700 &&  position.y == -205) {
@@ -120,7 +122,8 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
                 }
                 if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2)) {
                     loaded = true;
-                    underGround = true;
+                    underneatheGround = true;
+                    topGround = ground;
                 } else if (!atopMovingGround && !(ground instanceof Propelling)) {
                     velocity.x = 0;
                 }
@@ -162,6 +165,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     @Override public final Humanoid getCarrier() { return carrier; }
     @Override public final void setCarrier(Humanoid entity) { againstStaticGround = false; this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
+    @Override public final Ground getTopGround() { return topGround; }
     @Override public final float getHeight() { return Constants.SPRING_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.SPRING_CENTER.x * 2; }
     @Override public final float getLeft() { return position.x - Constants.SPRING_CENTER.x; }
@@ -169,10 +173,10 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return beingCarried || GigaGal.getInstance().getAction() != Enums.Action.CLIMBING; }
-    @Override public final void toss(float velocityX) { velocity.x = velocityX; underGround = true; }
+    @Override public final void toss(float velocityX) { velocity.x = velocityX; underneatheGround = true; }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * .2f; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
-    @Override public final boolean underneathGround() { return underGround; }
+    @Override public final boolean isUnderneatheGround() { return underneatheGround; }
     public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }

@@ -226,15 +226,6 @@ public class LevelUpdater {
             }
             transports.end();
 
-            // Update Grounds
-            grounds.begin();
-            for (int i = 0; i < grounds.size; i++) {
-                if (!updateGround(delta, grounds.get(i))) {
-                    grounds.removeIndex(i);
-                }
-            }
-            grounds.end();
-
             // Update Hazards
             hazards.begin();
             for (int i = 0; i < hazards.size; i++) {
@@ -245,6 +236,15 @@ public class LevelUpdater {
                 }
             }
             hazards.end();
+
+            // Update Grounds
+            grounds.begin();
+            for (int i = 0; i < grounds.size; i++) {
+                if (!updateGround(delta, grounds.get(i))) {
+                    grounds.removeIndex(i);
+                }
+            }
+            grounds.end();
 
             // Update Impacts
             impacts.begin();
@@ -338,18 +338,18 @@ public class LevelUpdater {
         if (ground instanceof Nonstatic) {
             ((Nonstatic) ground).update(delta);
         }
-        if (ground instanceof Reboundable) {
+        if (ground instanceof Compressible) {
             if (!(ground instanceof Pliable && ((Pliable) ground).isBeingCarried() && ((Pliable) ground).getCarrier() == gigaGal)) {
-                Reboundable reboundable = (Reboundable) ground;
+                Compressible compressible = (Compressible) ground;
                 if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
-                    if (!reboundable.getState()) {
-                        reboundable.resetStartTime();
+                    if (!compressible.getState()) {
+                        compressible.resetStartTime();
                     }
-                    reboundable.setState(true);
-                } else if (reboundable.getState() && !(reboundable instanceof Pliable && ((Pliable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop(), ground.getTop() + 2))) {
-                    if (ground instanceof Compressible && !((Compressible) ground).underneathGround()) {
-                        reboundable.resetStartTime();
-                        reboundable.setState(false);
+                    compressible.setState(true);
+                } else if (compressible.getState() && !(compressible instanceof Pliable && ((Pliable) compressible).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop(), ground.getTop() + 2))) {
+                    if (!compressible.isUnderneatheGround()) {
+                        compressible.resetStartTime();
+                        compressible.setState(false);
                     }
                 }
             }
@@ -361,10 +361,10 @@ public class LevelUpdater {
                 || (gigaGal.getBottom() == ground.getBottom() && (InputControls.getInstance().shootButtonJustPressed) && gigaGal.getAction() == Enums.Action.STRIDING)
                 || ((Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && (InputControls.getInstance().shootButtonJustPressed && InputControls.getInstance().downButtonPressed)))) {
                     
-                    if (ground instanceof Reboundable) {
-                        if (ground instanceof Spring && !((Spring) ground).underneathGround()) {
-                            ((Reboundable) ground).resetStartTime();
-                            ((Reboundable) ground).setState(false);
+                    if (ground instanceof Compressible) {
+                        if (ground instanceof Spring && !((Spring) ground).isUnderneatheGround()) {
+                            ((Compressible) ground).resetStartTime();
+                            ((Compressible) ground).setState(false);
                         }
                     }
                     if (gigaGal.getCarriedGround() == null) { // prevents from carrying simultaneously and in the process setting to overlap two grounds

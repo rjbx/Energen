@@ -521,7 +521,7 @@ public class GigaGal extends Entity implements Humanoid {
                 if (groundState != GroundState.PLANTED) {
                     // if x velocity (magnitude, without concern for direction) greater than one third max speed,
                     // boost x velocity by starting speed, enable rappel, verify rappelling ground and capture rappelling ground boundaries
-                    if (Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 8 || g instanceof Zoomba) {
+                    if ((Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 8) || g instanceof Hazard) {
                         // if already rappelling, halt x progression
                         if (action != Action.RAPPELLING) {
                             if (g instanceof Rappelable) {
@@ -639,7 +639,7 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                 }
                 if (g instanceof Moving) {
-                    if (groundState == GroundState.PLANTED) {
+                    if (groundState == GroundState.PLANTED || g instanceof Compressible) {
                         Moving moving = (Moving) g;
                         if (!moving.getVelocity().equals(Vector2.Zero)) {
                             lookStartTime = 0;
@@ -1367,8 +1367,8 @@ public class GigaGal extends Entity implements Humanoid {
                 }
             }
             if (aerial != null) {
-                velocity.x += aerial.getVelocity().x;
-                position.y = aerial.getPosition().y + touchedGround.getHeight() / 2;
+                position.y = aerial.getBottom() + (aerial.getHeight() / 2);
+                velocity.x = aerial.getVelocity().x;
             }
             if (!(touchedGround instanceof Skateable)) {
                 if (inputControls.downButtonPressed) {
