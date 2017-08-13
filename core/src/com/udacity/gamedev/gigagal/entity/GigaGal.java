@@ -1353,14 +1353,14 @@ public class GigaGal extends Entity implements Humanoid {
             canHurdle = false;
         } else {
             lookStartTime = 0;
-            Aerial aerial = null;
-            if (touchedGround instanceof Aerial) {
-                aerial = (Aerial) touchedGround;
-                position.y = aerial.getBottom() + (aerial.getHeight() / 2);
+            boolean yMoving = false;
+            if (touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().y != 0) {
+                yMoving = true;
+                position.y = touchedGround.getBottom() + (touchedGround.getHeight() / 2);
             } else if (touchedGround instanceof Pliable) {
-                if (((Pliable) touchedGround).getMovingGround() instanceof Aerial) {
-                    aerial = (Aerial) ((Pliable) touchedGround).getMovingGround();
-                    position.y = aerial.getBottom() + (aerial.getHeight() / 2);
+                if (((Pliable) touchedGround).getMovingGround().getVelocity().y != 0) {
+                    touchedGround = (Groundable) ((Pliable) touchedGround).getMovingGround();
+                    position.y = touchedGround.getBottom() + (touchedGround.getHeight() / 2);
                 }
                 if (Helpers.inputToDirection() == Helpers.getOppositeDirection(directionX)) {
                     canMove = true;
@@ -1377,8 +1377,8 @@ public class GigaGal extends Entity implements Humanoid {
                     directionX = Helpers.getOppositeDirection(directionX);
                     velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
                     jump();
-                    if (aerial != null) {
-                        velocity.y += aerial.getVelocity().y;
+                    if (yMoving && touchedGround != null) {
+                        velocity.y += ((Moving) touchedGround).getVelocity().y;
                     }
                 } else if (turbo < 1) {
                     turbo = 0;
@@ -1397,7 +1397,7 @@ public class GigaGal extends Entity implements Humanoid {
     }
 
     private void enableClimb() {
-        if (canCling) {
+        if (canCling)  {
             if (action != Action.RAPPELLING || inputControls.upButtonPressed) {
                 // when overlapping all but top, set canrappel which if action enablesclimb will set canclimb to true
                 if (inputControls.jumpButtonPressed) {
