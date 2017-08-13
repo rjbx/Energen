@@ -56,6 +56,9 @@ public class Brick extends Barrier implements Tossable {
                         super.position.y = ground.getTop() + getHeight() / 2;
                         velocity.x = ((Moving) ground).getVelocity().x;
                         velocity.y = ((Moving) ground).getVelocity().y;
+                        if (velocity.y < 0) {
+                            position.y -= 1;
+                        }
                         atopMovingGround = true;
                         movingGround = (Moving) ground;
                     } else if ((!(ground instanceof Climbable))

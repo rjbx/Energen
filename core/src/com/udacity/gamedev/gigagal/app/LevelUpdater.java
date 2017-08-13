@@ -183,7 +183,6 @@ public class LevelUpdater {
             }
         } else {
             time = timer.getNanos();
-            gigaGal.update(delta);
             Blade.getInstance().update(delta);
             if (gigaGal.getDispatchStatus()) {
                 if (gigaGal.getLookStartTime() != 0) {
@@ -265,6 +264,8 @@ public class LevelUpdater {
                 }
             }
             powerups.end();
+
+            gigaGal.update(delta);
         }
     }
 
@@ -345,7 +346,7 @@ public class LevelUpdater {
                         reboundable.resetStartTime();
                     }
                     reboundable.setState(true);
-                } else if (reboundable.getState() && !(reboundable instanceof Pliable && ((Pliable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2))) {
+                } else if (reboundable.getState() && !(reboundable instanceof Pliable && ((Pliable) reboundable).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop(), ground.getTop() + 2))) {
                     if (ground instanceof Compressible && !((Compressible) ground).underneathGround()) {
                         reboundable.resetStartTime();
                         reboundable.setState(false);

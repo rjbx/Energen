@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -62,6 +63,7 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         velocity.y = ((Moving) ground).getVelocity().y;
                         atopMovingGround = true;
                         movingGround = (Moving) ground;
+                        Gdx.app.log(TAG, (getBottom() - ground.getTop()) + " " + this.cloneHashCode() + ground.cloneHashCode());
                     } else if ((!(ground instanceof Climbable))
                             && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
                         position.y = ground.getTop() + getHeight() / 2;

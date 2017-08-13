@@ -220,7 +220,6 @@ public class GigaGal extends Entity implements Humanoid {
 
         // positioning
         previousFramePosition.set(position);
-        Gdx.app.log(TAG, velocity.x + "");
         position.mulAdd(velocity, delta);
         setBounds();
         detectInput();
@@ -624,7 +623,7 @@ public class GigaGal extends Entity implements Humanoid {
         if (!(touchedGround != null && !touchedGround.equals(g) && touchedGround.isDense() && g.isDense()
                 && ((touchedGround.getLeft() == g.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == g.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground top detected, halt downward progression and set gigagal atop ground
-            if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= g.getTop() - 2) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
+            if (position.y - Constants.GIGAGAL_EYE_HEIGHT >= g.getTop() - 2) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
                 if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, g.getLeft() + 1, g.getRight() - 1) || action != Action.FALLING || g instanceof Aerial)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground sides
                     velocity.y = 0; // prevents from descending beneath ground top
                     position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
@@ -647,10 +646,8 @@ public class GigaGal extends Entity implements Humanoid {
                     position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
                     velocity.x = ((Moving) g).getVelocity().x;
                     velocity.y = ((Moving) g).getVelocity().y;
-                    if (moving instanceof Pliable) {
-                        if (velocity.y < 0) {
-                            position.y -= 1;
-                        }
+                    Gdx.app.log(TAG, (getBottom() - g.getTop()) + " " + ((Ground) g).cloneHashCode());
+                    if (moving instanceof Pliable && ((Pliable) moving).isAtopMovingGround() && !touchedGround.equals(((Pliable) moving).getMovingGround())) {
                         Pliable pliable = (Pliable) moving;
                         if (!pliable.isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
                             if (InputControls.getInstance().shootButtonJustPressed) {
