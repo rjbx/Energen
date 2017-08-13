@@ -11,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Spring extends Ground implements Reboundable, Tossable, Compressible {
+public class Spring extends Ground implements Reboundable, Rappelable, Tossable, Compressible {
 
     // fields
     public final static String TAG = Spring.class.getName();
@@ -54,6 +54,9 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
         movingGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
+                if (position.x > 1890 && position.x < 2700 &&  position.y == -205) {
+                    Gdx.app.log(TAG, ground.getClass().toString());
+                }
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 6 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
                         && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
@@ -63,13 +66,15 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                         velocity.y = ((Moving) ground).getVelocity().y;
                         atopMovingGround = true;
                         movingGround = (Moving) ground;
-                        Gdx.app.log(TAG, (getBottom() - ground.getTop()) + " " + this.cloneHashCode() + ground.cloneHashCode());
                     } else if ((!(ground instanceof Climbable))
                             && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
                         position.y = ground.getTop() + getHeight() / 2;
                         velocity.y = 0;
                     }
                     if (ground instanceof Propelling) {
+                        if (position.x > 1890 && position.x < 2700) {
+                            Gdx.app.log(TAG, velocity.x + " " + position.y);
+                        }
                         velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
                         velocity.y = 0;
                     } else if (ground instanceof Skateable) {
@@ -97,9 +102,6 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                             }
                         }
                     }
-                    if (!atopMovingGround) {
-                        velocity.x = 0;
-                    }
                     if (Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
                         if ((!beingCarried && ground instanceof Moving && ground.getBottom() == getBottom())) {
                             position.y = ground.getTop() + (getHeight() / 2);
@@ -119,6 +121,8 @@ public class Spring extends Ground implements Reboundable, Tossable, Compressibl
                 if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2)) {
                     loaded = true;
                     underGround = true;
+                } else if (!atopMovingGround && !(ground instanceof Propelling)) {
+                    velocity.x = 0;
                 }
             }
         }
