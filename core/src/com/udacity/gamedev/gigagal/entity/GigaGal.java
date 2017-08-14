@@ -1356,17 +1356,21 @@ public class GigaGal extends Entity implements Humanoid {
             boolean yMoving = false;
             if (touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().y != 0) {
                 yMoving = true;
-                position.y = touchedGround.getBottom() + (touchedGround.getHeight() / 2);
             } else if (touchedGround instanceof Pliable) {
-                if (((Pliable) touchedGround).getMovingGround().getVelocity().y != 0) {
+                if (((Pliable) touchedGround).getMovingGround() != null && ((Pliable) touchedGround).getMovingGround().getVelocity().y != 0) {
                     touchedGround = (Groundable) ((Pliable) touchedGround).getMovingGround();
-                    position.y = touchedGround.getBottom() + (touchedGround.getHeight() / 2);
+                } else if (((Pliable) touchedGround).getMovingGround() instanceof Pliable && !((Pliable) ((Pliable) touchedGround).getMovingGround()).isUnderneatheGround()) { // if touchedground y is moving but not touchedground moving ground
+                    canHurdle = false;
                 }
                 if (Helpers.inputToDirection() == Helpers.getOppositeDirection(directionX)) {
                     canMove = true;
                 } else {
                     canMove = false;
                 }
+            }
+            if (yMoving) {
+                position.y = touchedGround.getBottom() + (touchedGround.getHeight() / 2);
+                canHurdle = false;
             }
             if (!(touchedGround instanceof Skateable)) {
                 if (inputControls.downButtonPressed) {

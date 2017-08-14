@@ -360,7 +360,7 @@ public class LevelUpdater {
                 if (gigaGal.getAction() == Enums.Action.RAPPELLING && InputControls.getInstance().shootButtonJustPressed
                 || (gigaGal.getBottom() == ground.getBottom() && (InputControls.getInstance().shootButtonJustPressed) && gigaGal.getAction() == Enums.Action.STRIDING)
                 || ((Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && (InputControls.getInstance().shootButtonJustPressed && InputControls.getInstance().downButtonPressed)))) {
-                    
+
                     if (ground instanceof Compressible) {
                         if (ground instanceof Spring && !((Spring) ground).isUnderneatheGround()) {
                             ((Compressible) ground).resetStartTime();
@@ -376,10 +376,6 @@ public class LevelUpdater {
             } else if (pliable.getCarrier() == gigaGal) {
                 if (ground instanceof Barrier && gigaGal.getAction() != Enums.Action.STANDING) {
                     float adjustment = .75f;
-//                    if (ground instanceof Draggable && ((Moving) ground).getVelocity().y > 0) {
-//                        (pliable).setCarrier(null);
-//                        gigaGal.setCarriedGround(null);
-//                    }
                     if (gigaGal.getGroundState() != Enums.GroundState.PLANTED) {
                         adjustment *= 2;
                     } else {
@@ -400,28 +396,6 @@ public class LevelUpdater {
                     }
                 }
             }
-            if (gigaGal.getCarriedGround() != null) {
-                if (Helpers.overlapsPhysicalObject(ground, gigaGal.getCarriedGround())) {
-
-                }
-            }
-//                if ((!(ground instanceof Block) ||
-//                        (((Block) ground).isAgainstStaticGround() && !((Block) ground).isBeingCarried())
-//                        || (!carriedGround.isBeingCarried() && !(carriedGround).isAgainstStaticGround() && !((Block) ground).isAgainstStaticGround()))) {
-//                    if (!(ground instanceof Block) || !((Block) ground).isBeingCarried()) {
-//                        if (!carriedGround.isBeingCarried() || carriedGround.getVelocity().x != 0) {
-//                            (carriedGround).setAgainstStaticGround();
-//                        }
-//                    }
-
-//                    (carriedGround).setVelocity(new Vector2(0, 0));
-//                } else {
-//                    if (carriedGround.isBeingCarried() && ((Block) ground).isBeingCarried()) {
-//                        (carriedGround).stopCarrying();
-//                    } else {
-//                        carriedGround.setMovingGround((Moving) ground);
-//                    }
-//                }
         }
         if (ground instanceof Destructible) {
             if (((Destructible) ground).getHealth() < 1) {

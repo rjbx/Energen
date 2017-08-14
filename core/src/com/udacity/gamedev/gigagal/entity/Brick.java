@@ -15,9 +15,11 @@ public class Brick extends Barrier implements Tossable {
     public final static String TAG = Brick.class.getName();
 
     private Humanoid carrier;
-    private boolean againstStaticGround;
     private Moving movingGround;
-    protected Vector2 velocity;
+    private Ground topGround;
+    private Vector2 velocity;
+    private boolean underneatheGround;
+    private boolean againstStaticGround;
     private boolean beingCarried;
     private boolean atopMovingGround;
     private float payload;
@@ -45,10 +47,12 @@ public class Brick extends Barrier implements Tossable {
         againstStaticGround = false;
         atopMovingGround = false;
         movingGround = null;
+        underneatheGround = false;
+        topGround = null;
         payload = 0;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 6 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
+                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 8 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
                         super.position.x = ground.getPosition().x;
@@ -106,7 +110,10 @@ public class Brick extends Barrier implements Tossable {
                 } else if (ground instanceof Box) {
                     velocity.y = 0;
                 }
-                if (!(Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2) || atopMovingGround || ground instanceof Propelling)) {
+                if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2)) {
+                    underneatheGround = true;
+                    topGround = ground;
+                } else if (!atopMovingGround && !(ground instanceof Propelling)) {
                     velocity.x = 0;
                 }
             }
@@ -146,6 +153,8 @@ public class Brick extends Barrier implements Tossable {
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final boolean isDense() { return (super.dense || beingCarried) && GigaGal.getInstance().getAction() != Enums.Action.CLIMBING; }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; }
+    @Override public final Ground getTopGround() { return topGround; }
+    @Override public final boolean isUnderneatheGround() { return underneatheGround; }
     public final boolean isAgainstStaticGround() { return againstStaticGround; }
     public final void setAgainstStaticGround() { this.againstStaticGround = true; }
     public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }

@@ -65,7 +65,6 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Gdx.app.log(TAG, Helpers.secondsSince(startTime) + "");
             Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().loadedLever.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.LEVER_CENTER);
         } else {
             if (startTime == 0) {

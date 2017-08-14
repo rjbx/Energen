@@ -16,4 +16,6 @@ public interface Pliable extends Moving {
     void setAgainstStaticGround();
     void setVelocity(Vector2 velocity);
     void stopCarrying();
+    boolean isUnderneatheGround();
+    Ground getTopGround();
 }
