@@ -1372,7 +1372,6 @@ public class GigaGal extends Entity implements Humanoid {
             }
 
             if (!(touchedGround == null || touchedGround instanceof Skateable)) {
-                Gdx.app.log(TAG, (touchedGround == null) + "");
                 if (inputControls.downButtonPressed) {
                     velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
                 } else if (inputControls.upButtonPressed && canHurdle) {
@@ -1382,7 +1381,7 @@ public class GigaGal extends Entity implements Humanoid {
                     velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
                     float jumpBoost = 0;
                     if (yMoving) {
-                        jumpBoost = Math.abs(((Moving) touchedGround).getVelocity().y * 2);
+                        jumpBoost = Math.abs(((Moving) touchedGround).getVelocity().y);
                     }
                     jump();
                     velocity.y += jumpBoost;
