@@ -1368,10 +1368,8 @@ public class GigaGal extends Entity implements Humanoid {
                     canMove = false;
                 }
             }
-            if (yMoving) {
-                velocity.y = ((Moving) touchedGround).getVelocity().y;
-            }
-            if (!(touchedGround instanceof Skateable)) {
+
+            if (!(touchedGround == null && touchedGround instanceof Skateable)) {
                 if (inputControls.downButtonPressed) {
                     velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
                 } else if (inputControls.upButtonPressed && canHurdle) {
@@ -1380,8 +1378,8 @@ public class GigaGal extends Entity implements Humanoid {
                     directionX = Helpers.getOppositeDirection(directionX);
                     velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
                     jump();
-                    if (yMoving && touchedGround != null) {
-
+                    if (yMoving) {
+                        position.y += ((Moving) touchedGround).getVelocity().y * 2;
                     }
                 } else if (turbo < 1) {
                     turbo = 0;
@@ -1393,7 +1391,9 @@ public class GigaGal extends Entity implements Humanoid {
                     if (touchedGround instanceof Treadmill) {
                         turbo -= 2;
                     }
-                    if (!yMoving) {
+                    if (yMoving) {
+                        velocity.y = ((Moving) touchedGround).getVelocity().y;
+                    } else {
                         velocity.y = 0;
                     }
                 }
