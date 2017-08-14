@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,7 +19,7 @@ public class Brick extends Barrier implements Tossable {
     private Moving movingGround;
     private Ground topGround;
     private Vector2 velocity;
-    private boolean underneatheGround;
+    private boolean beneatheGround;
     private boolean againstStaticGround;
     private boolean beingCarried;
     private boolean atopMovingGround;
@@ -47,7 +48,7 @@ public class Brick extends Barrier implements Tossable {
         againstStaticGround = false;
         atopMovingGround = false;
         movingGround = null;
-        underneatheGround = false;
+        beneatheGround = false;
         topGround = null;
         payload = 0;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
@@ -111,12 +112,14 @@ public class Brick extends Barrier implements Tossable {
                     velocity.y = 0;
                 }
                 if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2)) {
-                    underneatheGround = true;
+                    beneatheGround = true;
                     topGround = ground;
                 } else if (!atopMovingGround && !(ground instanceof Propelling)) {
                     velocity.x = 0;
                 }
             }
+
+            Gdx.app.log(TAG, beneatheGround + "");
             if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround() && ((Pliable) ground).getMovingGround().equals(this)) {
                 payload = ((Pliable) ground).weightFactor();
             }
@@ -154,7 +157,7 @@ public class Brick extends Barrier implements Tossable {
     @Override public final boolean isDense() { return (super.dense || beingCarried) && GigaGal.getInstance().getAction() != Enums.Action.CLIMBING; }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; }
     @Override public final Ground getTopGround() { return topGround; }
-    @Override public final boolean isUnderneatheGround() { return underneatheGround; }
+    @Override public final boolean isBeneatheGround() { return beneatheGround; }
     public final boolean isAgainstStaticGround() { return againstStaticGround; }
     public final void setAgainstStaticGround() { this.againstStaticGround = true; }
     public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }

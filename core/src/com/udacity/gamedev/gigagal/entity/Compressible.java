@@ -1,9 +1,7 @@
 package com.udacity.gamedev.gigagal.entity;
 
-public interface Compressible {
+public interface Compressible extends Stackable{
 
-    boolean isUnderneatheGround();
-    Ground getTopGround();
     void setState(boolean state);
     boolean getState();
     long getStartTime();

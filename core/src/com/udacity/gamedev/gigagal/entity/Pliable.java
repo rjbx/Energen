@@ -2,7 +2,7 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.math.Vector2;
 
-public interface Pliable extends Moving {
+public interface Pliable extends Moving, Stackable {
     void setPosition(Vector2 position);
     Vector2 getVelocity();
     Humanoid getCarrier();
@@ -16,6 +16,6 @@ public interface Pliable extends Moving {
     void setAgainstStaticGround();
     void setVelocity(Vector2 velocity);
     void stopCarrying();
-    boolean isUnderneatheGround();
+    boolean isBeneatheGround();
     Ground getTopGround();
 }

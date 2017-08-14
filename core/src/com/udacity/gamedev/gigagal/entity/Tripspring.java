@@ -83,7 +83,7 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     @Override public final float getTop() { return position.y + Constants.LEVER_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.LEVER_CENTER.y; }
     @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()); }
-    @Override public final boolean isUnderneatheGround() { return underneatheGround; }
+    @Override public final boolean isBeneatheGround() { return underneatheGround; }
     @Override public final Ground getTopGround() { return topGround; }
     @Override public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }

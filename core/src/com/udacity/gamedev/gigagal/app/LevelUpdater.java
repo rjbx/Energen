@@ -347,7 +347,7 @@ public class LevelUpdater {
                     }
                     compressible.setState(true);
                 } else if (compressible.getState() && !(compressible instanceof Pliable && ((Pliable) compressible).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop(), ground.getTop() + 2))) {
-                    if (!compressible.isUnderneatheGround()) {
+                    if (!compressible.isBeneatheGround()) {
                         compressible.resetStartTime();
                         compressible.setState(false);
                     }
@@ -362,7 +362,7 @@ public class LevelUpdater {
                 || ((Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && (InputControls.getInstance().shootButtonJustPressed && InputControls.getInstance().downButtonPressed)))) {
 
                     if (ground instanceof Compressible) {
-                        if (ground instanceof Spring && !((Spring) ground).isUnderneatheGround()) {
+                        if (ground instanceof Spring && !((Spring) ground).isBeneatheGround()) {
                             ((Compressible) ground).resetStartTime();
                             ((Compressible) ground).setState(false);
                         }

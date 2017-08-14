@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -26,7 +25,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     private boolean loaded;
     private boolean beingCarried;
     private boolean atopMovingGround;
-    private boolean underneatheGround;
+    private boolean beneatheGround;
 
     // ctor
     public Spring(Vector2 position) {
@@ -35,7 +34,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
         loaded = false;
         beingCarried = false;
         atopMovingGround = false;
-        underneatheGround = false;
+        beneatheGround = false;
         velocity = new Vector2(0, 0);
     }
 
@@ -52,7 +51,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
         againstStaticGround = false;
         atopMovingGround = false;
         movingGround = null;
-        underneatheGround = false;
+        beneatheGround = false;
         topGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
@@ -116,7 +115,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
                 }
                 if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2)) {
                     loaded = true;
-                    underneatheGround = true;
+                    beneatheGround = true;
                     topGround = ground;
                 } else if (!atopMovingGround && !(ground instanceof Propelling)) {
                     velocity.x = 0;
@@ -167,10 +166,10 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return beingCarried || GigaGal.getInstance().getAction() != Enums.Action.CLIMBING; }
-    @Override public final void toss(float velocityX) { velocity.x = velocityX; underneatheGround = true; }
+    @Override public final void toss(float velocityX) { velocity.x = velocityX; beneatheGround = true; }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * .2f; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
-    @Override public final boolean isUnderneatheGround() { return underneatheGround; }
+    @Override public final boolean isBeneatheGround() { return beneatheGround; }
     public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
