@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.app;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -508,6 +509,7 @@ public class LevelUpdater {
                         ((Zoomba) destructible).convert();
                         if (gigaGal.getTouchedGround() != null && gigaGal.getTouchedGround().equals(destructible)) {
                             gigaGal.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.GIGAGAL_EYE_HEIGHT));
+                            Gdx.app.log(TAG, gigaGal.getPosition() + " " + destructible.getPosition());
                         }
                     }
                     if (destructible instanceof Zoomba) {

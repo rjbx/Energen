@@ -24,8 +24,8 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     private final Enums.Material type;
     private final long startTime;
     private final float bobOffset;
+    private final float range;
     private float bobNadir;
-    private float range;
     private Vector2 position;
     private final Vector2 startingPosition;
     private Rectangle hazardBounds;
@@ -89,11 +89,11 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         } else {
             position.mulAdd(velocity, delta);
             velocity.y = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED, direction, Enums.Orientation.Y);
-            if (position.y < startingPosition.y - range / 2) {
-                position.y = startingPosition.y - range / 2;
+            if (position.y < startingPosition.y - (range / 2)) {
+                position.y = startingPosition.y - (range / 2);
                 updateDirection(Direction.UP);
-            } else if (position.y > startingPosition.y + range) {
-                position.y = startingPosition.y + range;
+            } else if (position.y > startingPosition.y + (range / 2)) {
+                position.y = startingPosition.y + (range / 2);
                 updateDirection(Direction.DOWN);
             }
             float bobMultiplier = 1 + MathUtils.sin(MathUtils.PI2 * (bobOffset + Helpers.secondsSince(startTime) / Constants.ZOOMBA_BOB_PERIOD));
@@ -166,10 +166,10 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     private void updateOrientation(Enums.Orientation orientation) {
         this.orientation = orientation;
         if (orientation == Enums.Orientation.X) {
-            bobNadir = position.y;
+            bobNadir = startingPosition.y - (range / 2);
             direction = Direction.RIGHT;
         } else {
-            bobNadir = position.x;
+            bobNadir = startingPosition.x - (range / 2);
             direction = Direction.UP;
         }
     }
