@@ -31,6 +31,7 @@ public class Brick extends Barrier implements Tossable {
         beingCarried = false;
         againstStaticGround = false;
         atopMovingGround = false;
+        beneatheGround = false;
         velocity = new Vector2(0, 0);
         payload = 0;
     }
@@ -48,12 +49,11 @@ public class Brick extends Barrier implements Tossable {
         againstStaticGround = false;
         atopMovingGround = false;
         movingGround = null;
-        beneatheGround = false;
         topGround = null;
         payload = 0;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 8 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
+                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 8 * multiplier, ground.getTop() + 1) && getBottom() > ground.getBottom()
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
                         super.position.x = ground.getPosition().x;
@@ -111,19 +111,28 @@ public class Brick extends Barrier implements Tossable {
                 } else if (ground instanceof Box) {
                     velocity.y = 0;
                 }
-                if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2)) {
+                if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 4, ground.getBottom() + 4)) {
                     beneatheGround = true;
+//                    if (atopMovingGround) {
+//                        Gdx.app.log(TAG, beneatheGround + " " + cloneHashCode());
+//                    }
                     topGround = ground;
                 } else if (!atopMovingGround && !(ground instanceof Propelling)) {
                     velocity.x = 0;
                 }
             }
-
-            Gdx.app.log(TAG, beneatheGround + "");
             if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround() && ((Pliable) ground).getMovingGround().equals(this)) {
                 payload = ((Pliable) ground).weightFactor();
             }
         }
+
+        if (movingGround instanceof Lift) {
+            Gdx.app.log(TAG + "1", (getBottom() - movingGround.getTop()) + "p: " + position.y + "v: " + velocity.y + " " + isAtopMovingGround() + " " + beneatheGround + "" + cloneHashCode());
+        }
+        if (movingGround instanceof Pliable && ((Pliable) movingGround).getMovingGround() instanceof Lift) {
+            Gdx.app.log(TAG + "2", (getBottom() - movingGround.getTop()) + "p: " + position.y + "v: " + velocity.y + " " + isAtopMovingGround() + " " + beneatheGround + "" + cloneHashCode());
+        }
+
         // resets to nonstatic super.position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
@@ -148,7 +157,7 @@ public class Brick extends Barrier implements Tossable {
     @Override public final void setPosition(Vector2 position) { super.position.set(position); }
     @Override public final Vector2 getVelocity() { return velocity; }
     @Override public final Humanoid getCarrier() { return carrier; }
-    @Override public final void setCarrier(Humanoid entity) { againstStaticGround = false; this.carrier = entity; beingCarried = (carrier != null); }
+    @Override public final void setCarrier(Humanoid entity) { againstStaticGround = false; beneatheGround = false; this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
     @Override public Enums.Material getType() { return super.getType(); }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(.67f, ((getWidth() * getHeight()) / 3600) + payload); }

@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -51,11 +52,10 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
         againstStaticGround = false;
         atopMovingGround = false;
         movingGround = null;
-        beneatheGround = false;
         topGround = null;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
-                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 6 * multiplier, ground.getTop()) && getBottom() > ground.getBottom()
+                if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 6 * multiplier, ground.getTop() + 1) && getBottom() > ground.getBottom()
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
                         position.x = ground.getPosition().x;
@@ -122,6 +122,14 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
                 }
             }
         }
+
+        if (movingGround instanceof Lift) {
+            Gdx.app.log(TAG + "1", (getBottom() - movingGround.getTop()) + "p: " + position.y + "v: " + velocity.y + " " + isAtopMovingGround() + " " + beneatheGround + "" + cloneHashCode());
+        }
+        if (movingGround instanceof Pliable && ((Pliable) movingGround).getMovingGround() instanceof Lift) {
+            Gdx.app.log(TAG + "2", (getBottom() - movingGround.getTop()) + "p: " + position.y + "v: " + velocity.y + " " + isAtopMovingGround() + " " + beneatheGround + "" + cloneHashCode());
+        }
+
         // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
@@ -156,7 +164,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     @Override public final Vector2 getVelocity() { return velocity; }
     @Override public final void setPosition(Vector2 position) { this.position.set(position); }
     @Override public final Humanoid getCarrier() { return carrier; }
-    @Override public final void setCarrier(Humanoid entity) { againstStaticGround = false; this.carrier = entity; beingCarried = (carrier != null); }
+    @Override public final void setCarrier(Humanoid entity) { againstStaticGround = false; beneatheGround = false; this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
     @Override public final Ground getTopGround() { return topGround; }
     @Override public final float getHeight() { return Constants.SPRING_CENTER.y * 2; }
