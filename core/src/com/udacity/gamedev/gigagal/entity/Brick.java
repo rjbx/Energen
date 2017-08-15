@@ -56,10 +56,13 @@ public class Brick extends Barrier implements Tossable {
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 8 * multiplier, ground.getTop() + 1) && getBottom() > ground.getBottom()
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
-                        super.position.x = ground.getPosition().x;
-                        super.position.y = ground.getTop() + getHeight() / 2;
-                        velocity.x = ((Moving) ground).getVelocity().x;
-                        velocity.y = ((Moving) ground).getVelocity().y;
+                        if (!beingCarried) {
+                            Gdx.app.log(TAG, (position.x != ground.getPosition().x) + "");
+                            super.position.x = ground.getPosition().x;
+                            super.position.y = ground.getTop() + getHeight() / 2;
+                            velocity.x = ((Moving) ground).getVelocity().x;
+                            velocity.y = ((Moving) ground).getVelocity().y;
+                        }
                         atopMovingGround = true;
                         movingGround = (Moving) ground;
                     } else if ((!(ground instanceof Climbable))

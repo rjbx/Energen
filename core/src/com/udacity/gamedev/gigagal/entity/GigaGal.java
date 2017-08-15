@@ -645,7 +645,9 @@ public class GigaGal extends Entity implements Humanoid {
                             lookStartTime = 0;
                         }
                         position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
-                        velocity.x = ((Moving) g).getVelocity().x;
+                        if (((Moving) g).getVelocity().x != 0) {
+                            velocity.x = ((Moving) g).getVelocity().x;
+                        }
                         velocity.y = ((Moving) g).getVelocity().y;
                         if (moving instanceof Pliable && ((Pliable) moving).isAtopMovingGround() && (touchedGround == null || !touchedGround.equals(((Pliable) moving).getMovingGround()))) { // atop pliable which is atop moving ground and not simultaneously touching both
                             Pliable pliable = (Pliable) moving;
@@ -720,7 +722,7 @@ public class GigaGal extends Entity implements Humanoid {
                     canSink = false;
                     lookTimeSeconds = 0;
                     lookStartTime = 0;
-                    if (action != Action.RAPPELLING && action != Action.CLIMBING && action != Action.HOVERING) {
+                    if (action != Action.RAPPELLING && action != Action.CLIMBING && action != Action.HOVERING && action != Action.STRIDING) {
                         if (touchedGround instanceof Brick) {
                             canMove = false;
                         }
@@ -1006,7 +1008,7 @@ public class GigaGal extends Entity implements Humanoid {
         } else if (touchedGround instanceof Propelling) {
             velocity.x = 0;
             velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
-        } else if (!(touchedGround instanceof Moving)) {
+        } else if (!(touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().x != 0)) {
             velocity.x = 0;
         }
         fallStartTime = 0;

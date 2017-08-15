@@ -390,6 +390,7 @@ public class LevelUpdater {
                 }
                 if (!InputControls.getInstance().shootButtonPressed
                         || !gigaGal.getMoveStatus()) { // move status set to false when recoiling
+                    Gdx.app.log(TAG, "!");
                     pliable.setCarrier(null);
                     gigaGal.setCarriedGround(null);
                     if (pliable.getVelocity().x != 0 && (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed)) {
