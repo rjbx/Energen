@@ -224,15 +224,14 @@ public class GigaGal extends Entity implements Humanoid {
         setBounds();
         detectInput();
 
-        // collision detection
-        touchAllGrounds(LevelUpdater.getInstance().getGrounds());
-        touchAllHazards(LevelUpdater.getInstance().getHazards());
-        touchAllPowerups(LevelUpdater.getInstance().getPowerups());
+
         // abilities
         if (groundState == GroundState.PLANTED) {
-            if (!(touchedGround instanceof Moving) || ((Moving) touchedGround).getVelocity().y == 0) {
-                velocity.y = 0;
-            }
+            velocity.y = 0;
+            // collision detection
+            touchAllGrounds(LevelUpdater.getInstance().getGrounds());
+            touchAllHazards(LevelUpdater.getInstance().getHazards());
+            touchAllPowerups(LevelUpdater.getInstance().getPowerups());
             if (action == Action.STANDING) {
                 stand();
                 enableStride();
@@ -259,6 +258,10 @@ public class GigaGal extends Entity implements Humanoid {
             }
         } else if (groundState == GroundState.AIRBORNE) {
             velocity.y -= Constants.GRAVITY;
+            // collision detection
+            touchAllGrounds(LevelUpdater.getInstance().getGrounds());
+            touchAllHazards(LevelUpdater.getInstance().getHazards());
+            touchAllPowerups(LevelUpdater.getInstance().getPowerups());
             if (action == Action.FALLING) {
                 fall();
                 enableClimb();
