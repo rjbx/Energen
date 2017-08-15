@@ -230,7 +230,9 @@ public class GigaGal extends Entity implements Humanoid {
         touchAllPowerups(LevelUpdater.getInstance().getPowerups());
         // abilities
         if (groundState == GroundState.PLANTED) {
-            velocity.y = 0;
+            if (!(touchedGround instanceof Moving) || ((Moving) touchedGround).getVelocity().y == 0) {
+                velocity.y = 0;
+            }
             if (action == Action.STANDING) {
                 stand();
                 enableStride();
@@ -383,7 +385,6 @@ public class GigaGal extends Entity implements Humanoid {
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
-                Gdx.app.log(TAG, velocity.x + action.name());
             } else { // auto deactivation when animation completes
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
                 swipeStartTime = 0;
@@ -639,7 +640,6 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                 }
                 if (g instanceof Moving) {
-                    if (groundState == GroundState.PLANTED || g instanceof Compressible) {
                         Moving moving = (Moving) g;
                         if (!moving.getVelocity().equals(Vector2.Zero)) {
                             lookStartTime = 0;
@@ -649,6 +649,7 @@ public class GigaGal extends Entity implements Humanoid {
                             velocity.x = ((Moving) g).getVelocity().x;
                         }
                         velocity.y = ((Moving) g).getVelocity().y;
+                        Gdx.app.log(TAG, position.toString() + velocity.toString() + g.getPosition() + ((Moving) g).getVelocity());
                         if (moving instanceof Pliable && ((Pliable) moving).isAtopMovingGround() && (touchedGround == null || !touchedGround.equals(((Pliable) moving).getMovingGround()))) { // atop pliable which is atop moving ground and not simultaneously touching both
                             Pliable pliable = (Pliable) moving;
                             if (!pliable.isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
@@ -657,7 +658,6 @@ public class GigaGal extends Entity implements Humanoid {
                                 }
                                 canMove = true;
                             }
-                        }
                     }
                 }
                 if (g instanceof Reboundable) {
