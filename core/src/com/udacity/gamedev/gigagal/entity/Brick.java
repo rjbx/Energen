@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -43,6 +44,7 @@ public class Brick extends Barrier implements Tossable {
         }
         super.position.mulAdd(velocity, delta);
         float multiplier = Math.max(1, weightFactor());
+        super.position.mulAdd(velocity, delta);
         velocity.x /= Constants.DRAG_FACTOR * multiplier;
         velocity.y = -Constants.GRAVITY * 15 * multiplier;
         againstStaticGround = false;
@@ -65,7 +67,7 @@ public class Brick extends Barrier implements Tossable {
                         movingGround = (Moving) ground;
                     } else if ((!(ground instanceof Climbable))
                             && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
-                        position.y = ground.getTop() + getHeight() / 2;
+                        super.position.y = ground.getTop() + getHeight() / 2;
                         velocity.y = 0;
                     }
                     if (ground instanceof Propelling) {
@@ -77,16 +79,16 @@ public class Brick extends Barrier implements Tossable {
                         } else {
                             velocity.x = 0;
                         }
-                        position.x += velocity.x * delta;
+                        super.position.x += velocity.x * delta;
                         velocity.y = 0;
                     } else if (!atopMovingGround) {
                         velocity.x = 0;
                     }
                 } else if ((ground.isDense()
-                        && getTop() > ground.getBottom()
-                        && !(ground instanceof Pliable)
-                        && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
-                        || (ground instanceof Pliable && (!beingCarried || ((Pliable) ground).isAgainstStaticGround()))) {
+                    && getTop() > ground.getBottom()
+                    && !(ground instanceof Pliable)
+                    && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
+                    || (ground instanceof Pliable && (!beingCarried || ((Pliable) ground).isAgainstStaticGround()))) {
                     if ((!(ground instanceof Pliable) ||
                             (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
                             || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
@@ -98,15 +100,14 @@ public class Brick extends Barrier implements Tossable {
                     }
                     if (Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
                         if (!beingCarried && ground instanceof Pliable && ground.getBottom() == getBottom()) {
+                            velocity.y = ((Pliable) ground).getVelocity().y;
                             position.y = ground.getTop() + (getHeight() / 2);
                         }
-                    } else {
-                        if (!againstStaticGround && (!(ground instanceof Pliable) || ((Pliable) ground).isBeingCarried())) {
-                            if (position.x < ground.getPosition().x) {
-                                position.x = ground.getLeft() - getWidth() / 2;
-                            } else {
-                                position.x = ground.getRight() + getWidth() / 2;
-                            }
+                    } else if (!againstStaticGround && (!(ground instanceof Pliable) || ground.getBottom() == getBottom())) {
+                        if (position.x < ground.getPosition().x) {
+                            super.position.x = ground.getLeft() - getWidth() / 2;
+                        } else {
+                            super.position.x = ground.getRight() + getWidth() / 2;
                         }
                     }
                 } else if (ground instanceof Box) {
@@ -126,7 +127,7 @@ public class Brick extends Barrier implements Tossable {
                 payload = ((Pliable) ground).weightFactor();
             }
         }
-//
+        //
 //        if (movingGround instanceof Lift) {
 //            Gdx.app.log(TAG + "1", (getBottom() - movingGround.getTop()) + "p: " + position.y + "v: " + velocity.y + " " + isAtopMovingGround() + " " + beneatheGround + "" + cloneHashCode());
 //        }
