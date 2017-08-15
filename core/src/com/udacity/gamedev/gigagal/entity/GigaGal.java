@@ -1372,7 +1372,7 @@ public class GigaGal extends Entity implements Humanoid {
             }
 
             if (!(touchedGround == null || touchedGround instanceof Skateable)) {
-                if (inputControls.downButtonPressed) {
+                if (inputControls.downButtonPressed && (touchedGround instanceof Aerial || !yMoving)) {
                     velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
                 } else if (inputControls.upButtonPressed && canHurdle) {
                     canHurdle = false;
@@ -1389,7 +1389,7 @@ public class GigaGal extends Entity implements Humanoid {
                     turbo = 0;
                     velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
                 } else {
-                    if (!canHurdle) {
+                    if (!canHurdle && !yMoving) {
                         turbo -= Constants.RAPPEL_TURBO_INCREMENT * turboMultiplier;
                     }
                     if (touchedGround instanceof Treadmill) {
