@@ -230,7 +230,6 @@ public class GigaGal extends Entity implements Humanoid {
         touchAllPowerups(LevelUpdater.getInstance().getPowerups());
         // abilities
         if (groundState == GroundState.PLANTED) {
-                velocity.y = 0;
             if (action == Action.STANDING) {
                 stand();
                 enableStride();
@@ -288,6 +287,8 @@ public class GigaGal extends Entity implements Humanoid {
                 enableSwipe();
             }
         }
+
+        Gdx.app.log(TAG, action.name());
     }
 
 
@@ -599,7 +600,7 @@ public class GigaGal extends Entity implements Humanoid {
                 velocity.y = 0; // prevents from ascending above ground bottom
                 if (groundState == GroundState.AIRBORNE) { // prevents fall when striding against ground bottom positioned at height distance from ground atop
                     fall(); // descend from point of contact with ground bottom
-                    if (!(g instanceof Vehicular) && g.isDense()) { // prevents from being pushed below ground
+                    if (!(g instanceof Moving && ((Moving) g).getVelocity().y < 0)) { // prevents from being pushed below ground
                         position.y = g.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 } else if (action == Action.CLIMBING) { // prevents from disengaging climb
@@ -608,7 +609,7 @@ public class GigaGal extends Entity implements Humanoid {
                     canClimb = true;
                     action = Action.CLIMBING;
                     groundState = GroundState.PLANTED;
-                    if (!(g instanceof Vehicular) && g.isDense()) { // prevents from being pushed below ground
+                    if (!(g instanceof Moving && ((Moving) g).getVelocity().y < 0)) { // prevents from being pushed below ground
                         position.y = g.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 }
@@ -623,9 +624,11 @@ public class GigaGal extends Entity implements Humanoid {
                 && ((touchedGround.getLeft() == g.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == g.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground top detected, halt downward progression and set gigagal atop ground
             if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= g.getTop() - 2) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
-                if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, g.getLeft() + 1, g.getRight() - 1) || action != Action.FALLING || g instanceof Aerial)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground sides
-                    velocity.y = 0; // prevents from descending beneath ground top
-                    position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, g.getLeft() + 1, g.getRight() - 1) || action != Action.FALLING || g instanceof Aerial)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground side
+                    if (!(touchedGround instanceof Moving) || ((Moving) touchedGround).getVelocity().y == 0) {
+                        velocity.y = 0;
+                        position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                    }
                     setAtopGround(g); // basic ground top collision instructions common to all types of grounds
                 }
                 // additional ground top collision instructions specific to certain types of grounds
@@ -642,11 +645,12 @@ public class GigaGal extends Entity implements Humanoid {
                         if (!moving.getVelocity().equals(Vector2.Zero)) {
                             lookStartTime = 0;
                         }
-                        position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
                         if (((Moving) g).getVelocity().x != 0) {
                             velocity.x = ((Moving) g).getVelocity().x;
                         }
-                        velocity.y = ((Moving) g).getVelocity().y;
+                        if (groundState == GroundState.PLANTED) {
+                            velocity.y = ((Moving) g).getVelocity().y;
+                        }
                         Gdx.app.log(TAG, position.toString() + velocity.toString() + g.getPosition() + ((Moving) g).getVelocity());
                         if (moving instanceof Pliable && ((Pliable) moving).isAtopMovingGround() && (touchedGround == null || !touchedGround.equals(((Pliable) moving).getMovingGround()))) { // atop pliable which is atop moving ground and not simultaneously touching both
                             Pliable pliable = (Pliable) moving;
