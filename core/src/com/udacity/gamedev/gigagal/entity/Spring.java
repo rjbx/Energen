@@ -58,10 +58,12 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 6 * multiplier, ground.getTop() + 1) && getBottom() > ground.getBottom()
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
-                        position.x = ground.getPosition().x;
-                        position.y = ground.getTop() + (getHeight() / 2);
-                        velocity.x = ((Moving) ground).getVelocity().x;
-                        velocity.y = ((Moving) ground).getVelocity().y;
+                        if (!beingCarried) {
+                            position.x = ground.getPosition().x;
+                            position.y = ground.getTop() + (getHeight() / 2);
+                            velocity.x = ((Moving) ground).getVelocity().x;
+                            velocity.y = ((Moving) ground).getVelocity().y;
+                        }
                         atopMovingGround = true;
                         movingGround = (Moving) ground;
                     } else if ((!(ground instanceof Climbable))
@@ -173,7 +175,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     @Override public final float getRight() { return position.x + Constants.SPRING_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
-    @Override public final boolean isDense() { return beingCarried || GigaGal.getInstance().getAction() != Enums.Action.CLIMBING; }
+    @Override public final boolean isDense() { return beingCarried || !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()); }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; beneatheGround = true; }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * .2f; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
