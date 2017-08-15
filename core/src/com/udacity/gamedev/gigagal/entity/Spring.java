@@ -127,13 +127,6 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
                 }
             }
         }
-//
-//        if (movingGround instanceof Lift) {
-//            Gdx.app.log(TAG + "1", (getBottom() - movingGround.getTop()) + "p: " + position.y + "v: " + velocity.y + " " + isAtopMovingGround() + " " + beneatheGround + "" + cloneHashCode());
-//        }
-//        if (movingGround instanceof Pliable && ((Pliable) movingGround).getMovingGround() instanceof Lift) {
-//            Gdx.app.log(TAG + "2", (getBottom() - movingGround.getTop()) + "p: " + position.y + "v: " + velocity.y + " " + isAtopMovingGround() + " " + beneatheGround + "" + cloneHashCode());
-//        }
 
         // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {

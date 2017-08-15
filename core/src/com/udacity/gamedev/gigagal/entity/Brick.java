@@ -117,9 +117,6 @@ public class Brick extends Barrier implements Tossable {
                 }
                 if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 4, ground.getBottom() + 4)) {
                     beneatheGround = true;
-//                    if (atopMovingGround) {
-//                        Gdx.app.log(TAG, beneatheGround + " " + cloneHashCode());
-//                    }
                     topGround = ground;
                 } else if (!atopMovingGround && !(ground instanceof Propelling)) {
                     velocity.x = 0;
@@ -129,13 +126,6 @@ public class Brick extends Barrier implements Tossable {
                 payload = ((Pliable) ground).weightFactor();
             }
         }
-        //
-//        if (movingGround instanceof Lift) {
-//            Gdx.app.log(TAG + "1", (getBottom() - movingGround.getTop()) + "p: " + position.y + "v: " + velocity.y + " " + isAtopMovingGround() + " " + beneatheGround + "" + cloneHashCode());
-//        }
-//        if (movingGround instanceof Pliable && ((Pliable) movingGround).getMovingGround() instanceof Lift) {
-//            Gdx.app.log(TAG + "2", (getBottom() - movingGround.getTop()) + "p: " + position.y + "v: " + velocity.y + " " + isAtopMovingGround() + " " + beneatheGround + "" + cloneHashCode());
-//        }
 
         // resets to nonstatic super.position of ground which is cloned every frame
         for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
