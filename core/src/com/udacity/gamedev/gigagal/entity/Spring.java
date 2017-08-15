@@ -42,7 +42,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     @Override
     public void update(float delta) {
         if (beingCarried && !againstStaticGround) {
-            this.position.set(carrier.getPosition().x, carrier.getBottom() + getHeight());
+            this.position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
             this.velocity.x = carrier.getVelocity().x;
         }
         position.mulAdd(velocity, delta);
@@ -69,7 +69,9 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
                     } else if ((!(ground instanceof Climbable))
                             && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
                         position.y = ground.getTop() + getHeight() / 2;
-                        velocity.y = 0;
+                        if (Helpers.overlapsBetweenTwoSides(position.x, getWidth() / 2, ground.getLeft() + 2, ground.getRight() - 2)) {
+                            velocity.y = 0;
+                        }
                     }
                     if (ground instanceof Propelling) {
                         velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
@@ -100,7 +102,8 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
                         }
                     }
                     if (Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
-                        if ((!beingCarried && ground instanceof Moving && ground.getBottom() == getBottom())) {
+                        if ((!beingCarried && ground instanceof Moving && getBottom() == ground.getBottom())) {
+                            velocity.y = ((Pliable) ground).getVelocity().y;
                             position.y = ground.getTop() + (getHeight() / 2);
                         }
                     } else {
