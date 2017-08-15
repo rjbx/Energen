@@ -383,6 +383,7 @@ public class GigaGal extends Entity implements Humanoid {
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
+                Gdx.app.log(TAG, velocity.x + action.name());
             } else { // auto deactivation when animation completes
                 Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
                 swipeStartTime = 0;
@@ -873,7 +874,7 @@ public class GigaGal extends Entity implements Humanoid {
                                 canStride = true;
                             } else if (Helpers.secondsSince(strideStartTime) > Constants.DOUBLE_TAP_SPEED) {
                                 strideStartTime = 0;
-                            } else if (!canSink) {
+                            } else if (!canSink && !(canRush && touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().y != 0)) {
                                 canDash = true;
                             } else {
                                 canDash = false;
