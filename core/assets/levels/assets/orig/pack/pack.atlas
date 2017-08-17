@@ -6,7 +6,14 @@ filter: Linear,Linear
 repeat: none
 armorollo-liquid-0
   rotate: false
-  xy: 409, 101
+  xy: 444, 101
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+armorollo-liquid-1
+  rotate: false
+  xy: 337, 37
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
@@ -171,7 +178,7 @@ pod-1
   index: -1
 pole-1
   rotate: false
-  xy: 471, 78
+  xy: 498, 78
   size: 5, 48
   orig: 5, 48
   offset: 0, 0
@@ -248,7 +255,7 @@ protrusion-solid-1
   index: -1
 rollen-polymer-1
   rotate: false
-  xy: 382, 101
+  xy: 385, 18
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
@@ -283,28 +290,28 @@ spring-1
   index: -1
 suspension-gas-1
   rotate: false
-  xy: 337, 37
+  xy: 358, 10
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-liquid-1
   rotate: false
-  xy: 385, 18
+  xy: 409, 101
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-plasma-1
   rotate: false
-  xy: 444, 101
+  xy: 471, 101
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-polymer-1
   rotate: false
-  xy: 358, 10
+  xy: 382, 101
   size: 25, 25
   orig: 25, 25
   offset: 0, 0

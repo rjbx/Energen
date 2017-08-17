@@ -13,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Bladerollo extends Hazard implements Armored, Groundable, Roving, Destructible {
+public class Bladerollo extends Hazard implements Armored, Fencing, Groundable, Roving, Destructible {
 
     // fields
     public final static String TAG = Rollen.class.getName();
@@ -70,7 +70,7 @@ public class Bladerollo extends Hazard implements Armored, Groundable, Roving, D
                 int index = MathUtils.random(0, 3);
                 rollTimeSeconds = index;
                 vulnerability = Enums.Direction.values()[index];
-                animation = Assets.getInstance().getBladerolloAssets().vulnerableLiquid;
+                animation = Assets.getInstance().getArmorolloAssets().vulnerableLiquid;
             } else if (Helpers.secondsSince(startTime) > speed) {
                 vulnerable = false;
                 armorStruck = false;
@@ -180,6 +180,32 @@ public class Bladerollo extends Hazard implements Armored, Groundable, Roving, D
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
+        if (armorStruck) {
+            if (Helpers.secondsSince(startTime) > speed - Constants.FLIPSWIPE_FRAME_DURATION * 3) {
+                switch (vulnerability) {
+                    case LEFT:
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, true);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, false);
+                        break;
+                    case RIGHT:
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, true);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, true, false);
+                        break;
+                    case DOWN:
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, true);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, true);
+                        break;
+                    case UP:
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, true);
+                        break;
+                }
+            }
+        }
     }
 
     @Override public Vector2 getPosition() { return position; }
