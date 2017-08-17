@@ -450,7 +450,7 @@ public class GigaGal extends Entity implements Humanoid {
                 touchGroundBottom(g);
                 touchGroundSide(g);
                 touchGroundTop(g);
-            } else if (getBottom() <= g.getTop()) { // for non-dense grounds:
+            } else { // for non-dense grounds:
                 // additional ground collision instructions specific to certain types of grounds
                 if (g instanceof Climbable) {
                     if (!(touchedGround != null && touchedGround.isDense() && touchedGround.getTop() == g.getTop())) { // prevents flickering canclimb state
