@@ -661,15 +661,10 @@ public class GigaGal extends Entity implements Humanoid {
                 }
                 if (g instanceof Moving) {
                     Moving moving = (Moving) g;
-                    if (!moving.getVelocity().equals(Vector2.Zero)) {
-                        lookStartTime = 0;
-                    }
-                    if (((Moving) g).getVelocity().x != 0) {
-                        velocity.x = ((Moving) g).getVelocity().x;
-                    }
-                    if (groundState == GroundState.PLANTED) {
-                        velocity.y = ((Moving) g).getVelocity().y;
-                    }
+                    lookStartTime = 0;
+                    position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
+                    velocity.x = ((Moving) g).getVelocity().x;
+                    velocity.y = ((Moving) g).getVelocity().y;
                     Gdx.app.log(TAG, position.toString() + velocity.toString() + g.getPosition() + ((Moving) g).getVelocity());
                     if (moving instanceof Pliable && ((Pliable) moving).isAtopMovingGround() && (touchedGround == null || !touchedGround.equals(((Pliable) moving).getMovingGround()))) { // atop pliable which is atop moving ground and not simultaneously touching both
                         Pliable pliable = (Pliable) moving;
