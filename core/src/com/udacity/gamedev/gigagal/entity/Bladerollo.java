@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
@@ -34,17 +35,19 @@ public class Bladerollo extends Hazard implements Armored, Bladed, Groundable, R
     private float rollTimeSeconds;
     private float radius;
     private Animation animation;
-    private Enums.Direction vulnerability;
+    private Array<Enums.Direction> equippedRegions;
     private boolean vulnerable;
     private boolean armorStruck;
+    private int vulnerabilityCount;
 
     // ctor
-    public Bladerollo(Vector2 position, Enums.Material type, float speed) {
+    public Bladerollo(Vector2 position, Enums.Material type, int vulnerabilities) {
         this.type = type;
         this.position = position;
-        this.speed = speed;
+        this.vulnerabilityCount = vulnerabilities;
+        this.speed = 4;
         this.center = Constants.ROLLEN_CENTER;
-        vulnerability = null;
+        equippedRegions = null;
         vulnerable = false;
         armorStruck = false;
         previousFramePosition = new Vector2();
@@ -69,14 +72,16 @@ public class Bladerollo extends Hazard implements Armored, Bladed, Groundable, R
             if (startTime == 0 || Helpers.secondsSince(startTime) % 1 == 0) {
                 rollStartTime = TimeUtils.nanoTime();
                 vulnerable = true;
-                int index = MathUtils.random(0, 3);
-                rollTimeSeconds = index;
-                vulnerability = Enums.Direction.values()[index];
+                for (int i = 0; i < vulnerabilityCount; i++) {
+                    int index = MathUtils.random(0, 3);
+                    equippedRegions.add(Enums.Direction.values()[index]);
+                }
                 animation = Assets.getInstance().getArmorolloAssets().vulnerableLiquid;
             } else if (Helpers.secondsSince(startTime) > speed) {
                 vulnerable = false;
                 armorStruck = false;
                 animation = Assets.getInstance().getRollenAssets().liquidRollen;
+                equippedRegions.clear();
             }
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
@@ -186,27 +191,21 @@ public class Bladerollo extends Hazard implements Armored, Bladed, Groundable, R
         if (armorStruck) {
             if (Helpers.secondsSince(startTime) > speed - Constants.FLIPSWIPE_FRAME_DURATION * 6) {
                 center = Constants.BLADE_CENTER;
-                switch (vulnerability) {
-                    case LEFT:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, true);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
-                        break;
-                    case RIGHT:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, true);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, true, false);
-                        break;
-                    case DOWN:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, true);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, true);
-                        break;
-                    case UP:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, true);
-                        break;
+                for (Enums.Direction region : equippedRegions) {
+                    switch (region) {
+                        case LEFT:
+                            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, true, false);
+                            break;
+                        case RIGHT:
+                            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
+                            break;
+                        case DOWN:
+                            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
+                            break;
+                        case UP:
+                            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, true);
+                            break;
+                    }
                 }
             }
         }
@@ -232,7 +231,8 @@ public class Bladerollo extends Hazard implements Armored, Bladed, Groundable, R
     @Override public void setDirectionX(Enums.Direction direction) { xDirection = direction; }
     @Override public void strikeArmor() { armorStruck = true; }
     @Override public boolean isVulnerable() { return vulnerable; }
-    @Override public Enums.Direction getVulnerability() { return vulnerability; }
+    @Override public Enums.Direction getVulnerability() { return null; }
+    @Override public Array<Enums.Direction> getEquippedRegions() { return equippedRegions; }
     @Override public final void resetStartTime() { startTime = 0; }
     @Override public final boolean isDense() { return true; }
     @Override public final long getStartTime() { return startTime; }
