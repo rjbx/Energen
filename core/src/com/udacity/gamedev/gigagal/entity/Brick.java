@@ -45,7 +45,7 @@ public class Brick extends Barrier implements Tossable {
         float multiplier = Math.max(1, weightFactor());
         super.position.mulAdd(velocity, delta);
         velocity.x /= Constants.DRAG_FACTOR * multiplier;
-        velocity.y = -Constants.GRAVITY * 15 * multiplier;
+        velocity.y = -Constants.GRAVITY * 5 * multiplier;
         againstStaticGround = false;
         atopMovingGround = false;
         movingGround = null;
@@ -99,11 +99,11 @@ public class Brick extends Barrier implements Tossable {
                         }
                     }
                     if (Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
-                        if (!beingCarried && ground instanceof Moving && ground.getBottom() == getBottom()) {
+                        if (!beingCarried && ground instanceof Moving && getBottom() == ground.getBottom()) {
                             velocity.y = ((Moving) ground).getVelocity().y;
                             position.y = ground.getTop() + (getHeight() / 2);
                         }
-                    } else if (!againstStaticGround && (!(ground instanceof Pliable) || ground.getBottom() == getBottom())) {
+                    } else if (!againstStaticGround && (!(ground instanceof Pliable) || getBottom() == ground.getBottom())) {
                         if (position.x < ground.getPosition().x) {
                             super.position.x = ground.getLeft() - getWidth() / 2;
                         } else {
