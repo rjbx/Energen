@@ -620,11 +620,6 @@ final class LevelLoader {
 
     private static final void loadNinePatches(LevelUpdater level, JSONArray ninePatches) {
 
-        Array<Barrier> barrierArray = new Array<Barrier>();
-        Array<Box> boxArray = new Array<Box>();
-        Array<Brick> brickArray = new Array<Brick>();
-        Array<Ladder> ladderArray = new Array<Ladder>();
-
         for (Object o : ninePatches) {
             final JSONObject item = (JSONObject) o;
 
@@ -637,37 +632,21 @@ final class LevelLoader {
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BARRIER_SPRITE)) {
                 final Barrier barrier;
                 barrier = new Barrier(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
-                barrierArray.add(barrier);
+                level.addGround(barrier);
                 Gdx.app.log(TAG, "Loaded the barrier at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
                 final Box box = new Box(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
-                boxArray.add(box);
+                level.addGround(box);
                 Gdx.app.log(TAG, "Loaded the box at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BLOCK_SPRITE)) {
                 final Brick brick = new Brick(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
-                brickArray.add(brick);
+                level.addGround(brick);
                 Gdx.app.log(TAG, "Loaded the brick at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LADDER_SPRITE)) {
                 final Ladder ladder = new Ladder(imagePosition.x, imagePosition.y + height, width, height);
-                ladderArray.add(ladder);
+                level.addGround(ladder);
                 Gdx.app.log(TAG, "Loaded the ladder at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             }
-        }
-
-        for (Barrier barrier : barrierArray) {
-            level.addGround(barrier);
-        }
-
-        for (Box box : boxArray) {
-            level.addGround(box);
-        }
-
-        for (Brick brick : brickArray) {
-            level.addGround(brick);
-        }
-
-        for (Ladder ladder : ladderArray) {
-            level.addGround(ladder);
         }
     }
 }
