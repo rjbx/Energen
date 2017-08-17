@@ -24,6 +24,7 @@ public class Bladerollo extends Hazard implements Armored, Bladed, Groundable, R
     private Enums.Direction xDirection;
     private Enums.Material type;
     private Vector2 velocity; // class-level instantiation
+    private Vector2 center;
     private final float collision;
     private float speed;
     private long startTime;
@@ -42,6 +43,7 @@ public class Bladerollo extends Hazard implements Armored, Bladed, Groundable, R
         this.type = type;
         this.position = position;
         this.speed = speed;
+        this.center = Constants.ROLLEN_CENTER;
         vulnerability = null;
         vulnerable = false;
         armorStruck = false;
@@ -179,29 +181,31 @@ public class Bladerollo extends Hazard implements Armored, Bladed, Groundable, R
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
+        center = Constants.ROLLEN_CENTER;
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, center, Constants.ROLLEN_TEXTURE_SCALE);
         if (armorStruck) {
-            if (Helpers.secondsSince(startTime) > speed - Constants.FLIPSWIPE_FRAME_DURATION * 3) {
+            if (Helpers.secondsSince(startTime) > speed - Constants.FLIPSWIPE_FRAME_DURATION * 6) {
+                center = Constants.BLADE_CENTER;
                 switch (vulnerability) {
                     case LEFT:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(speed - Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, false);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(speed - Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, true);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(speed - Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, true);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
                         break;
                     case RIGHT:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(speed - Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, false);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(speed - Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, true);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(speed - Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, true, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, true);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, true, false);
                         break;
                     case DOWN:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(speed - Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, true);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(speed - Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, false);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(speed - Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, true);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, true);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, true);
                         break;
                     case UP:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(speed - Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, false);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(speed - Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, false);
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(speed - Helpers.secondsSince(startTime), true), position, Constants.BLADE_CENTER, 1, 0, false, true);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, true);
                         break;
                 }
             }
@@ -211,12 +215,12 @@ public class Bladerollo extends Hazard implements Armored, Bladed, Groundable, R
     @Override public Vector2 getPosition() { return position; }
     public Vector2 getVelocity() { return velocity; }
     @Override public final float getHealth() { return health; }
-    @Override public final float getWidth() { return Constants.ROLLEN_CENTER.x * 2; }
-    @Override public final float getHeight() { return Constants.ROLLEN_CENTER.y * 2; }
-    @Override public final float getLeft() { return position.x - Constants.ROLLEN_CENTER.x; }
-    @Override public final float getRight() { return position.x + Constants.ROLLEN_CENTER.x; }
-    @Override public final float getTop() { return position.y + Constants.ROLLEN_CENTER.y; }
-    @Override public final float getBottom() { return position.y - Constants.ROLLEN_CENTER.y; }
+    @Override public final float getWidth() { return center.x * 2; }
+    @Override public final float getHeight() { return center.y * 2; }
+    @Override public final float getLeft() { return position.x - center.x; }
+    @Override public final float getRight() { return position.x + center.x; }
+    @Override public final float getTop() { return position.y + center.y; }
+    @Override public final float getBottom() { return position.y - center.y; }
     @Override public final float getShotRadius() { return Constants.ROLLEN_SHOT_RADIUS; }
     @Override public final int getHitScore() { return Constants.ROLLEN_HIT_SCORE; }
     @Override public final int getKillScore() { return Constants.ROLLEN_KILL_SCORE; }

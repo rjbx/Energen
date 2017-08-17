@@ -798,7 +798,7 @@ public class GigaGal extends Entity implements Humanoid {
                 }
             } else if (h instanceof Armored && ((Armored) h).isVulnerable()) {
                 touchGround((Groundable) h);
-                if (h instanceof Bladed && ((Armored) h).getStartTime() > ((Armored) h).getRecoverySpeed() - Constants.FLIPSWIPE_FRAME_DURATION * 3) {
+                if (h instanceof Bladed && ((Armored) h).getStartTime() > (((Armored) h).getRecoverySpeed() - Constants.FLIPSWIPE_FRAME_DURATION * 6)) {
                     touchedHazard = h;
                     recoil(h.getKnockback(), h);
                 }
