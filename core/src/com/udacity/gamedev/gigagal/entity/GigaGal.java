@@ -693,9 +693,7 @@ public class GigaGal extends Entity implements Humanoid {
 
     // basic ground top collision instructions; applicable to sinkables even when previousframe.x < ground.top
     private void setAtopGround(Groundable g) {
-        if (touchedGround instanceof Climbable || getAction() != Action.CLIMBING || directionY != Direction.UP) {
-            touchedGround = g;
-        }
+        touchedGround = g;
         fallLimit = touchedGround.getBottom() - Constants.FALL_LIMIT;
         hoverStartTime = 0;
         rappelStartTime = 0;
