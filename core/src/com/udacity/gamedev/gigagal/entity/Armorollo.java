@@ -205,5 +205,6 @@ public class Armorollo extends Hazard implements Armored, Groundable, Roving, De
     @Override public Enums.Direction getVulnerability() { return vulnerability; }
     @Override public final void resetStartTime() { startTime = 0; }
     @Override public final boolean isDense() { return true; }
-    public final long getStartTime() { return startTime; }
+    @Override public final long getStartTime() { return startTime; }
+    @Override public final float getRecoverySpeed() { return speed; }
 }
