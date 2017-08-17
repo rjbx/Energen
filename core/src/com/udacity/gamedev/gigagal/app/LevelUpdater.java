@@ -20,6 +20,7 @@ import com.udacity.gamedev.gigagal.util.Timer;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 // mutable
@@ -663,6 +664,17 @@ public class LevelUpdater {
     // level state handling
 
     protected void begin() {
+        grounds.sort(new Comparator<Ground>() {
+            @Override
+            public int compare(Ground o1, Ground o2) {
+                if (o1.getBottom() > o2.getBottom()) {
+                    return 1;
+                } else if (o1.getBottom() < o2.getBottom()) {
+                    return -1;
+                }
+                return 0;
+            }
+        });
         entities.addAll(grounds);
         entities.addAll(hazards);
         entities.addAll(powerups);

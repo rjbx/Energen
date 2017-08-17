@@ -652,54 +652,6 @@ final class LevelLoader {
                 ladderArray.add(ladder);
                 Gdx.app.log(TAG, "Loaded the ladder at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             }
-
-            barrierArray.sort(new Comparator<Barrier>() {
-                @Override
-                public int compare(Barrier o1, Barrier o2) {
-                    if (o1.getTop() > o2.getTop()) {
-                        return 1;
-                    } else if (o1.getTop() < o2.getTop()) {
-                        return -1;
-                    }
-                    return 0;
-                }
-            });
-
-            boxArray.sort(new Comparator<Box>() {
-                @Override
-                public int compare(Box o1, Box o2) {
-                    if (o1.getTop() < o2.getTop()) {
-                        return 1;
-                    } else if (o1.getTop() > o2.getTop()) {
-                        return -1;
-                    }
-                    return 0;
-                }
-            });
-
-            brickArray.sort(new Comparator<Barrier>() {
-                @Override
-                public int compare(Barrier o1, Barrier o2) {
-                    if (o1.getTop() > o2.getTop()) {
-                        return 1;
-                    } else if (o1.getTop() < o2.getTop()) {
-                        return -1;
-                    }
-                    return 0;
-                }
-            });
-
-            ladderArray.sort(new Comparator<Ladder>() {
-                @Override
-                public int compare(Ladder o1, Ladder o2) {
-                    if (o1.getTop() < o2.getTop()) {
-                        return 1;
-                    } else if (o1.getTop() > o2.getTop()) {
-                        return -1;
-                    }
-                    return 0;
-                }
-            });
         }
 
         for (Barrier barrier : barrierArray) {
