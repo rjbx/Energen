@@ -288,7 +288,7 @@ public class GigaGal extends Entity implements Humanoid {
             }
         }
 
-        Gdx.app.log(TAG, action.name());
+        Gdx.app.log(TAG, velocity.toString());
     }
 
 
@@ -473,6 +473,9 @@ public class GigaGal extends Entity implements Humanoid {
                             }
                         }
                     }
+                    if (action == Action.CLIMBING) {
+                        velocity.y = 0;
+                    }
                 } else if (g instanceof Pourous) {
                     setAtopGround(g); // when any kind of collision detected and not only when breaking plane of ground.top
                     canCling = false;
@@ -484,7 +487,7 @@ public class GigaGal extends Entity implements Humanoid {
                     lookTimeSeconds = 0;
                 } else if (!(g instanceof Pliable) || !(canClimb && directionY == Direction.UP)) { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
                     if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
-                        if (g instanceof Brick && !g.isDense()) { // prevents setting atop non-dense bricks
+                        if (g instanceof Brick) { // prevents setting atop non-dense bricks
                             touchedGround = g;
                         } else {
                             touchGroundTop(g); // prevents descending below top when on non dense, non sinkable
@@ -624,7 +627,7 @@ public class GigaGal extends Entity implements Humanoid {
                 && ((touchedGround.getLeft() == g.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == g.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground top detected, halt downward progression and set gigagal atop ground
             if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= g.getTop() - 2) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
-                if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, g.getLeft() + 1, g.getRight() - 1) || action != Action.FALLING || g instanceof Aerial)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground side
+                if (Helpers.overlapsBetweenTwoSides(position.x, halfWidth, g.getLeft() + 1, g.getRight() - 1) || action != Action.FALLING || g instanceof Aerial) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground side
                     if (!((touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().y != 0) || (g instanceof Moving && ((Moving) g).getVelocity().y != 0))) {
                         velocity.y = 0;
                         position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
@@ -1440,7 +1443,6 @@ public class GigaGal extends Entity implements Humanoid {
     private void climb(Orientation orientation) {
         if (canCling) { // canrappel set to false from handleYinputs() if double tapping down
             if (action != Action.CLIMBING) { // at the time of climb initiation
-
                 climbStartTime = 0; // overrides assignment of current time preventing nanotime - climbstarttime < doubletapspeed on next handleY() call
                 groundState = GroundState.PLANTED;
                 action = Action.CLIMBING;

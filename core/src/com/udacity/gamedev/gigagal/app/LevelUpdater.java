@@ -267,6 +267,8 @@ public class LevelUpdater {
 
             gigaGal.update(delta);
             Blade.getInstance().update(delta);
+
+
         }
     }
 
