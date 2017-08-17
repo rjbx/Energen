@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -21,18 +20,18 @@ public class Brick extends Barrier implements Tossable {
     private Vector2 velocity;
     private boolean beneatheGround;
     private boolean againstStaticGround;
-    private boolean beingCarried;
     private boolean atopMovingGround;
+    private boolean beingCarried;
     private float payload;
 
     // ctor
     public Brick(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
         super(xPos, yPos, width, height, type, dense);
+        velocity = new Vector2(0, 0);
         beingCarried = false;
         againstStaticGround = false;
         atopMovingGround = false;
         beneatheGround = false;
-        velocity = new Vector2(0, 0);
         payload = 0;
     }
 
@@ -50,7 +49,6 @@ public class Brick extends Barrier implements Tossable {
         againstStaticGround = false;
         atopMovingGround = false;
         movingGround = null;
-        topGround = null;
         payload = 0;
         for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
@@ -101,8 +99,8 @@ public class Brick extends Barrier implements Tossable {
                         }
                     }
                     if (Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
-                        if (!beingCarried && ground instanceof Pliable && ground.getBottom() == getBottom()) {
-                            velocity.y = ((Pliable) ground).getVelocity().y;
+                        if (!beingCarried && ground instanceof Moving && ground.getBottom() == getBottom()) {
+                            velocity.y = ((Moving) ground).getVelocity().y;
                             position.y = ground.getTop() + (getHeight() / 2);
                         }
                     } else if (!againstStaticGround && (!(ground instanceof Pliable) || ground.getBottom() == getBottom())) {

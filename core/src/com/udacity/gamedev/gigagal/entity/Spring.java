@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -17,26 +16,27 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     public final static String TAG = Spring.class.getName();
 
     private Humanoid carrier;
-    private boolean againstStaticGround;
-    private Vector2 position;
     private Moving movingGround;
     private Ground topGround;
-    private long startTime;
+    private Vector2 position;
     private Vector2 velocity;
-    private boolean loaded;
-    private boolean beingCarried;
-    private boolean atopMovingGround;
     private boolean beneatheGround;
+    private boolean againstStaticGround;
+    private boolean atopMovingGround;
+    private boolean beingCarried;
+    private boolean loaded;
+    private long startTime;
 
     // ctor
     public Spring(Vector2 position) {
         this.position = position;
-        startTime = 0;
-        loaded = false;
+        velocity = new Vector2(0, 0);
         beingCarried = false;
+        againstStaticGround = false;
         atopMovingGround = false;
         beneatheGround = false;
-        velocity = new Vector2(0, 0);
+        loaded = false;
+        startTime = 0;
     }
 
     @Override
@@ -102,17 +102,15 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
                         }
                     }
                     if (Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
-                        if ((!beingCarried && ground instanceof Moving && getBottom() == ground.getBottom())) {
-                            velocity.y = ((Pliable) ground).getVelocity().y;
+                        if (!beingCarried && ground instanceof Moving && getBottom() == ground.getBottom()) {
+                            velocity.y = ((Moving) ground).getVelocity().y;
                             position.y = ground.getTop() + (getHeight() / 2);
                         }
-                    } else {
-                        if (!againstStaticGround && (!(ground instanceof Pliable) || ((Pliable) ground).isBeingCarried())) {
-                            if (position.x < ground.getPosition().x) {
-                                position.x = ground.getLeft() - getWidth() / 2;
-                            } else {
-                                position.x = ground.getRight() + getWidth() / 2;
-                            }
+                    } else if (!againstStaticGround && (!(ground instanceof Pliable) || ground.getBottom() == getBottom())) {
+                        if (position.x < ground.getPosition().x) {
+                            position.x = ground.getLeft() - getWidth() / 2;
+                        } else {
+                            position.x = ground.getRight() + getWidth() / 2;
                         }
                     }
                 } else if (ground instanceof Box) {
@@ -171,7 +169,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     @Override public final float getRight() { return position.x + Constants.SPRING_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
-    @Override public final boolean isDense() { return beingCarried || !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()); }
+    @Override public final boolean isDense() { return beingCarried && GigaGal.getInstance().getAction() != Enums.Action.CLIMBING; }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; beneatheGround = true; }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * .2f; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
