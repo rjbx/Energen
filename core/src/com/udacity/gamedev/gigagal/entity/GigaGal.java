@@ -476,6 +476,8 @@ public class GigaGal extends Entity implements Humanoid {
                             if (g instanceof Unsteady) {
                                 if (action == Action.STANDING) { // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
                                     setAtopGround(g);
+                                } else if ((touchedGround == null || !(touchedGround.isDense()) && action != Action.CLIMBING)) {
+                                    fall();
                                 }
                             } else {
                                 touchGroundTop(g); // prevents descending below top when on non dense, non sinkable
