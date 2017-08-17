@@ -222,12 +222,12 @@ public class GigaGal extends Entity implements Humanoid {
         previousFramePosition.set(position);
 
         if (touchedGround != null)
-            Gdx.app.log(TAG + "1", getBottom() + velocity.toString() + touchedGround.getTop() + getOrientation() + getDirectionY());
+            Gdx.app.log(TAG + "1", touchedGround.getClass().toString());
 
         position.mulAdd(velocity, delta);
 
         if (touchedGround != null)
-            Gdx.app.log(TAG + "2", getBottom() + velocity.toString() + touchedGround.getTop() + getOrientation() + getDirectionY());
+            Gdx.app.log(TAG + "2", touchedGround.getClass().toString());
 
         setBounds();
         detectInput();
@@ -297,7 +297,7 @@ public class GigaGal extends Entity implements Humanoid {
         }
 
         if (touchedGround != null)
-        Gdx.app.log(TAG + "3", getBottom() + velocity.toString() + touchedGround.getTop() + getOrientation() + getDirectionY());
+        Gdx.app.log(TAG + "3", touchedGround.getClass().toString());
     }
 
 
@@ -474,10 +474,15 @@ public class GigaGal extends Entity implements Humanoid {
                         if (action != Action.FALLING // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
                                 || (fallStartTime != 0 && (Helpers.secondsSince(fallStartTime) > .01f))) { // permits call to stand when falling and touching climbable and non-climbable simultaneously and not having immediately called jump/fall
                             if (g instanceof Unsteady) {
-                                if (action == Action.STANDING) { // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
-                                    setAtopGround(g);
-                                } else if ((touchedGround == null || !(touchedGround.isDense()) && action != Action.CLIMBING)) {
-                                    fall();
+                                if (groundState == GroundState.PLANTED) {
+                                    if (action != Action.CLIMBING) { // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
+                                        if (action == Action.STANDING) {
+                                            setAtopGround(g);
+                                        } else if (touchedGround == null || (!touchedGround.isDense() && Helpers.encompassedBetweenFourSides(position, getWidth() / 2, getHeight() / 2, touchedGround.getLeft(), touchedGround.getRight(), touchedGround.getBottom(), touchedGround.getTop()))) {
+                                            Gdx.app.log(TAG, touchedGround.getClass().toString());
+                                            fall();
+                                        }
+                                    }
                                 }
                             } else {
                                 touchGroundTop(g); // prevents descending below top when on non dense, non sinkable
