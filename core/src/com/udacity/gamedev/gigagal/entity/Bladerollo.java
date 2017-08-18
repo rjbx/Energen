@@ -41,13 +41,13 @@ public class Bladerollo extends Hazard implements Armored, Bladed, Groundable, R
     private int vulnerabilityCount;
 
     // ctor
-    public Bladerollo(Vector2 position, Enums.Material type, int vulnerabilities) {
+    public Bladerollo(Vector2 position, Enums.Material type, float vulnerabilities) {
         this.type = type;
         this.position = position;
-        this.vulnerabilityCount = vulnerabilities;
+        this.vulnerabilityCount = (int) vulnerabilities;
         this.speed = 4;
         this.center = Constants.ROLLEN_CENTER;
-        equippedRegions = null;
+        equippedRegions = new Array<Enums.Direction>();
         vulnerable = false;
         armorStruck = false;
         previousFramePosition = new Vector2();
@@ -176,17 +176,20 @@ public class Bladerollo extends Hazard implements Armored, Bladed, Groundable, R
                     velocity.y = -5;
                 }
             }
-            if (xDirection == Enums.Direction.RIGHT) {
-                animation.setPlayMode(Animation.PlayMode.REVERSED);
-            } else {
-                animation.setPlayMode(Animation.PlayMode.NORMAL);
-            }
         }
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         center = Constants.ROLLEN_CENTER;
+        boolean flipX;
+        if (xDirection == Enums.Direction.RIGHT) {
+            animation.setPlayMode(Animation.PlayMode.REVERSED);
+            flipX = false;
+        } else {
+            animation.setPlayMode(Animation.PlayMode.NORMAL);
+            flipX = true;
+        }
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, center, Constants.ROLLEN_TEXTURE_SCALE);
         if (armorStruck) {
             if (Helpers.secondsSince(startTime) > speed - Constants.FLIPSWIPE_FRAME_DURATION * 6) {
@@ -200,10 +203,10 @@ public class Bladerollo extends Hazard implements Armored, Bladed, Groundable, R
                             Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
                             break;
                         case DOWN:
-                            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
+                            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, flipX, false);
                             break;
                         case UP:
-                            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, true);
+                            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, flipX, true);
                             break;
                     }
                 }

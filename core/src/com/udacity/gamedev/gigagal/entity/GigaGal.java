@@ -220,14 +220,14 @@ public class GigaGal extends Entity implements Humanoid {
 
         // positioning
         previousFramePosition.set(position);
-
-        if (touchedGround != null)
-            Gdx.app.log(TAG + "1", touchedGround.getClass().toString());
+//
+//        if (touchedGround != null)
+//            Gdx.app.log(TAG + "1", touchedGround.getClass().toString());
 
         position.mulAdd(velocity, delta);
-
-        if (touchedGround != null)
-            Gdx.app.log(TAG + "2", touchedGround.getClass().toString());
+//
+//        if (touchedGround != null)
+//            Gdx.app.log(TAG + "2", touchedGround.getClass().toString());
 
         setBounds();
         detectInput();
@@ -295,9 +295,9 @@ public class GigaGal extends Entity implements Humanoid {
                 enableSwipe();
             }
         }
-
-        if (touchedGround != null)
-        Gdx.app.log(TAG + "3", touchedGround.getClass().toString());
+//
+//        if (touchedGround != null)
+//        Gdx.app.log(TAG + "3", touchedGround.getClass().toString());
     }
 
 
@@ -479,7 +479,6 @@ public class GigaGal extends Entity implements Humanoid {
                                         if (action == Action.STANDING) {
                                             setAtopGround(g);
                                         } else if (touchedGround == null || (!touchedGround.isDense() && Helpers.encompassedBetweenFourSides(position, getWidth() / 2, getHeight() / 2, touchedGround.getLeft(), touchedGround.getRight(), touchedGround.getBottom(), touchedGround.getTop()))) {
-                                            Gdx.app.log(TAG, touchedGround.getClass().toString());
                                             fall();
                                         }
                                     }
@@ -798,10 +797,13 @@ public class GigaGal extends Entity implements Humanoid {
                 }
             } else if (h instanceof Armored && ((Armored) h).isVulnerable()) {
                 if (h instanceof Bladed && ((Armored) h).getStartTime() > (((Armored) h).getRecoverySpeed() - Constants.FLIPSWIPE_FRAME_DURATION * 6)) {
-                    if (!((directionX == Helpers.getOppositeDirection(((Armored) h).getVulnerability()) && Helpers.betweenTwoValues(position.y, h.getPosition().y - getHeight() / 2, h.getPosition().y + getHeight() / 2))
-                    || (((position.y >= h.getTop() && ((Armored) h).getVulnerability() == Direction.UP) || (position.y <= h.getBottom() && ((Armored) h).getVulnerability() == Direction.DOWN)) && Helpers.betweenTwoValues(position.x, h.getPosition().x - getHalfWidth(), h.getPosition().x + getHalfWidth())))) {
-                        touchedHazard = h;
-                        recoil(h.getKnockback(), h);
+                    Gdx.app.log(TAG, "?" +  ((Bladed) h).getEquippedRegions().toString());
+                    for (int i = 0; i < ((Bladed) h).getEquippedRegions().size; i++) {
+                        if (!((directionX == ((Bladed) h).getEquippedRegions().get(i) && Helpers.betweenTwoValues(position.y, h.getPosition().y - getHeight() / 2, h.getPosition().y + getHeight() / 2))
+                        || (((position.y >= h.getTop() && ((Bladed) h).getEquippedRegions().get(i) == Direction.DOWN) || (position.y <= h.getBottom() && ((Bladed) h).getEquippedRegions().get(i) == Direction.UP)) && Helpers.betweenTwoValues(position.x, h.getPosition().x - getHalfWidth(), h.getPosition().x + getHalfWidth())))) {
+                            touchedHazard = h;
+                            recoil(h.getKnockback(), h);
+                        }
                     }
                 } else {
                     touchGround((Groundable) h);
