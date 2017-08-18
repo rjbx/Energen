@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelUpdater;
@@ -13,7 +14,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Armorollo extends Hazard implements Armored, Groundable, Roving, Destructible {
+public class Bladerollen extends Hazard implements Armored, Bladed, Groundable, Roving, Destructible {
 
     // fields
     public final static String TAG = Rollen.class.getName();
@@ -24,6 +25,7 @@ public class Armorollo extends Hazard implements Armored, Groundable, Roving, De
     private Enums.Direction xDirection;
     private Enums.Material type;
     private Vector2 velocity; // class-level instantiation
+    private Vector2 center;
     private final float collision;
     private float speed;
     private long startTime;
@@ -33,16 +35,19 @@ public class Armorollo extends Hazard implements Armored, Groundable, Roving, De
     private float rollTimeSeconds;
     private float radius;
     private Animation animation;
-    private Enums.Direction vulnerability;
+    private Array<Enums.Direction> equippedRegions;
     private boolean vulnerable;
     private boolean armorStruck;
+    private int vulnerabilityCount;
 
     // ctor
-    public Armorollo(Vector2 position, Enums.Material type, float speed) {
+    public Bladerollen(Vector2 position, Enums.Material type, float vulnerabilities) {
         this.type = type;
         this.position = position;
-        this.speed = speed;
-        vulnerability = null;
+        this.vulnerabilityCount = (int) vulnerabilities;
+        this.speed = 4;
+        this.center = Constants.ROLLEN_CENTER;
+        equippedRegions = new Array<Enums.Direction>();
         vulnerable = false;
         armorStruck = false;
         previousFramePosition = new Vector2();
@@ -67,14 +72,19 @@ public class Armorollo extends Hazard implements Armored, Groundable, Roving, De
             if (startTime == 0 || Helpers.secondsSince(startTime) % 1 == 0) {
                 rollStartTime = TimeUtils.nanoTime();
                 vulnerable = true;
-                int index = MathUtils.random(0, 3);
-                rollTimeSeconds = index;
-                vulnerability = Enums.Direction.values()[index];
+                for (int i = 0; i < vulnerabilityCount; i++) {
+                    int index;
+                    do {
+                        index = MathUtils.random(0, 3);
+                    } while (equippedRegions.contains(Enums.Direction.values()[index], true));
+                    equippedRegions.add(Enums.Direction.values()[index]);
+                }
                 animation = Assets.getInstance().getArmorolloAssets().vulnerableLiquid;
             } else if (Helpers.secondsSince(startTime) > speed) {
                 vulnerable = false;
                 armorStruck = false;
                 animation = Assets.getInstance().getRollenAssets().liquidRollen;
+                equippedRegions.clear();
             }
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
@@ -169,28 +179,55 @@ public class Armorollo extends Hazard implements Armored, Groundable, Roving, De
                     velocity.y = -5;
                 }
             }
-            if (xDirection == Enums.Direction.RIGHT) {
-                animation.setPlayMode(Animation.PlayMode.REVERSED);
-            } else {
-                animation.setPlayMode(Animation.PlayMode.NORMAL);
-            }
         }
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
+        center = Constants.ROLLEN_CENTER;
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, center, Constants.ROLLEN_TEXTURE_SCALE);
+        if (armorStruck) {
+            boolean flipX;
+            float frame = 0;
+            if (xDirection == Enums.Direction.RIGHT) {
+                animation.setPlayMode(Animation.PlayMode.REVERSED);
+                flipX = false;
+            } else {
+                animation.setPlayMode(Animation.PlayMode.NORMAL);
+                flipX = true;
+            }
+            if (Helpers.secondsSince(startTime) > speed - Constants.FLIPSWIPE_FRAME_DURATION * 6) {
+                frame = (Helpers.secondsSince(startTime) - (speed - Constants.FLIPSWIPE_FRAME_DURATION * 6)) / 2;
+                center = Constants.BLADE_CENTER;
+            }
+            for (Enums.Direction region : equippedRegions) {
+                switch (region) {
+                    case LEFT:
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, false, false);
+                        break;
+                    case RIGHT:
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, true, false);
+                        break;
+                    case DOWN:
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, flipX, false);
+                        break;
+                    case UP:
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, flipX, true);
+                        break;
+                }
+            }
+        }
     }
 
     @Override public Vector2 getPosition() { return position; }
     public Vector2 getVelocity() { return velocity; }
     @Override public final float getHealth() { return health; }
-    @Override public final float getWidth() { return Constants.ROLLEN_CENTER.x * 2; }
-    @Override public final float getHeight() { return Constants.ROLLEN_CENTER.y * 2; }
-    @Override public final float getLeft() { return position.x - Constants.ROLLEN_CENTER.x; }
-    @Override public final float getRight() { return position.x + Constants.ROLLEN_CENTER.x; }
-    @Override public final float getTop() { return position.y + Constants.ROLLEN_CENTER.y; }
-    @Override public final float getBottom() { return position.y - Constants.ROLLEN_CENTER.y; }
+    @Override public final float getWidth() { return center.x * 2; }
+    @Override public final float getHeight() { return center.y * 2; }
+    @Override public final float getLeft() { return position.x - center.x; }
+    @Override public final float getRight() { return position.x + center.x; }
+    @Override public final float getTop() { return position.y + center.y; }
+    @Override public final float getBottom() { return position.y - center.y; }
     @Override public final float getShotRadius() { return Constants.ROLLEN_SHOT_RADIUS; }
     @Override public final int getHitScore() { return Constants.ROLLEN_HIT_SCORE; }
     @Override public final int getKillScore() { return Constants.ROLLEN_KILL_SCORE; }
@@ -202,7 +239,8 @@ public class Armorollo extends Hazard implements Armored, Groundable, Roving, De
     @Override public void setDirectionX(Enums.Direction direction) { xDirection = direction; }
     @Override public void strikeArmor() { armorStruck = true; }
     @Override public boolean isVulnerable() { return vulnerable; }
-    @Override public Enums.Direction getVulnerability() { return vulnerability; }
+    @Override public Enums.Direction getVulnerability() { return null; }
+    @Override public Array<Enums.Direction> getEquippedRegions() { return equippedRegions; }
     @Override public final void resetStartTime() { startTime = 0; }
     @Override public final boolean isDense() { return true; }
     @Override public final long getStartTime() { return startTime; }
