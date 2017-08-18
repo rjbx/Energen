@@ -185,33 +185,35 @@ public class Bladerollo extends Hazard implements Armored, Bladed, Groundable, R
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         center = Constants.ROLLEN_CENTER;
-        boolean flipX;
-        if (xDirection == Enums.Direction.RIGHT) {
-            animation.setPlayMode(Animation.PlayMode.REVERSED);
-            flipX = false;
-        } else {
-            animation.setPlayMode(Animation.PlayMode.NORMAL);
-            flipX = true;
-        }
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, center, Constants.ROLLEN_TEXTURE_SCALE);
         if (armorStruck) {
+            boolean flipX;
+            float frame = 0;
+            if (xDirection == Enums.Direction.RIGHT) {
+                animation.setPlayMode(Animation.PlayMode.REVERSED);
+                flipX = false;
+            } else {
+                animation.setPlayMode(Animation.PlayMode.NORMAL);
+                flipX = true;
+            }
             if (Helpers.secondsSince(startTime) > speed - Constants.FLIPSWIPE_FRAME_DURATION * 6) {
+                frame = (speed - Helpers.secondsSince(startTime)) / 2;
                 center = Constants.BLADE_CENTER;
-                for (Enums.Direction region : equippedRegions) {
-                    switch (region) {
-                        case LEFT:
-                            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, true, false);
-                            break;
-                        case RIGHT:
-                            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, false, false);
-                            break;
-                        case DOWN:
-                            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, flipX, false);
-                            break;
-                        case UP:
-                            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame((speed - Helpers.secondsSince(startTime)) / 2, true), position, center, 1, 0, flipX, true);
-                            break;
-                    }
+            }
+            for (Enums.Direction region : equippedRegions) {
+                switch (region) {
+                    case LEFT:
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, true, false);
+                        break;
+                    case RIGHT:
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, false, false);
+                        break;
+                    case DOWN:
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, flipX, false);
+                        break;
+                    case UP:
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, flipX, true);
+                        break;
                 }
             }
         }
