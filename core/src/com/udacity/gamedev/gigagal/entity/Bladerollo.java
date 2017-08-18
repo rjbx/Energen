@@ -73,7 +73,10 @@ public class Bladerollo extends Hazard implements Armored, Bladed, Groundable, R
                 rollStartTime = TimeUtils.nanoTime();
                 vulnerable = true;
                 for (int i = 0; i < vulnerabilityCount; i++) {
-                    int index = MathUtils.random(0, 3);
+                    int index;
+                    do {
+                        index = MathUtils.random(0, 3);
+                    } while (equippedRegions.contains(Enums.Direction.values()[index], true));
                     equippedRegions.add(Enums.Direction.values()[index]);
                 }
                 animation = Assets.getInstance().getArmorolloAssets().vulnerableLiquid;
