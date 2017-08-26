@@ -27,6 +27,7 @@ final class LaunchScreen extends ScreenAdapter {
     public static final String TAG = LaunchScreen.class.getName();
     private static final LaunchScreen INSTANCE = new LaunchScreen();
     private ScreenManager screenManager;
+    private OverworldScreen overworldScreen;
     private SpriteBatch batch;
     private ExtendViewport viewport;
     private Assets assets;
@@ -38,7 +39,6 @@ final class LaunchScreen extends ScreenAdapter {
     private static Cursor cursor;
     private static Menu menu;
     private static Enums.MenuType menuType;
-    private OverworldScreen overworldScreen;
     private Backdrop launchBackdrop;
     private List<String> choices;
     private long launchStartTime;
@@ -68,10 +68,10 @@ final class LaunchScreen extends ScreenAdapter {
         text = assets.getFontAssets().menu;
 
         touchInterface = TouchInterface.getInstance();
-        
+
         inputControls = InputControls.getInstance();
         Gdx.input.setInputProcessor(inputControls); // sends touch events to inputControls
-        
+
         cursor = Cursor.getInstance();
         menu = Menu.getInstance();
 
@@ -171,7 +171,6 @@ final class LaunchScreen extends ScreenAdapter {
                         if (continuing) {
                             if (cursor.getPosition() == 35) {
                                 inputControls.shootButtonJustPressed = false;
-                                overworldScreen.create();
                                 screenManager.setScreen(overworldScreen);
                                 this.dispose();
                                 return;
@@ -207,7 +206,6 @@ final class LaunchScreen extends ScreenAdapter {
                             SaveData.setDifficulty(2);
                         }
                         OverworldScreen overworldScreen = OverworldScreen.getInstance();
-                        overworldScreen.create();
                         screenManager.setScreen(overworldScreen);
                         this.dispose();
                         return;

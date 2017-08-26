@@ -33,8 +33,6 @@ public final class ScreenManager extends com.badlogic.gdx.Game {
         Menu.getInstance().create();
         InputControls.getInstance().create();
         LevelUpdater.getInstance().create();
-        LaunchScreen.getInstance().create();
-        OverworldScreen.getInstance().create();
         setScreen(LaunchScreen.getInstance());
     }
 

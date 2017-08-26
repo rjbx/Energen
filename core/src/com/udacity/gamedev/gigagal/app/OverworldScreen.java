@@ -32,9 +32,17 @@ final class OverworldScreen extends ScreenAdapter {
     // fields
     public static final String TAG = OverworldScreen.class.getName();
     private static final OverworldScreen INSTANCE = new OverworldScreen();
-    private ExtendViewport viewport;
+    private ScreenManager screenManager;
+    private static LevelUpdater levelUpdater;
     private SpriteBatch batch;
+    private ExtendViewport viewport;
+    private Assets assets;
     private BitmapFont font;
+    private TouchInterface touchInterface;
+    private InputControls inputControls;
+    private static GigaGal gigaGal;
+    private static Cursor cursor;
+    private static Menu menu;
     private static Enums.MenuType menuType;
     private boolean messageVisible;
     private static Enums.Theme selection;
@@ -45,22 +53,33 @@ final class OverworldScreen extends ScreenAdapter {
     // static factory method
     protected static OverworldScreen getInstance() { return INSTANCE; }
 
-    protected void create() {
-        this.viewport = StaticCam.getInstance().getViewport();
-        batch = ScreenManager.getInstance().getBatch();
-        font = Assets.getInstance().getFontAssets().menu;
-        setMainMenu();
-    }
-
     @Override
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        menuType = Enums.MenuType.MAIN;
-        messageVisible = false;
-        InputControls.getInstance();
-        TouchInterface.getInstance();
+        screenManager = ScreenManager.getInstance();
+
+        batch = screenManager.getBatch();
+
+        viewport = StaticCam.getInstance().getViewport();
+
+        assets = Assets.getInstance();
+        font = assets.getFontAssets().menu;
+
+        inputControls = InputControls.getInstance();
+        touchInterface = TouchInterface.getInstance();
+
+        gigaGal = GigaGal.getInstance();
+        cursor = Cursor.getInstance();
+
+        menu = Menu.getInstance();
+
+        levelUpdater = LevelUpdater.getInstance();
+
         Gdx.input.setInputProcessor(InputControls.getInstance());
+
+        messageVisible = false;
+        setMainMenu();
     }
 
     public static void setMainMenu() {
@@ -69,22 +88,22 @@ final class OverworldScreen extends ScreenAdapter {
             selectionStrings.add(level.name());
         }
         selectionStrings.add("OPTIONS");
-        Cursor.getInstance().setRange(145, 25);
-        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
-        Cursor.getInstance().resetPosition();
-        Menu.getInstance().clearStrings();
-        Menu.getInstance().setOptionStrings(selectionStrings);
-        Menu.getInstance().TextAlignment(Align.left);
+        cursor.setRange(145, 25);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
+        menu.clearStrings();
+        menu.setOptionStrings(selectionStrings);
+        menu.TextAlignment(Align.left);
         menuType = Enums.MenuType.MAIN;
     }
 
     private static void setOptionsMenu() {
-        Cursor.getInstance().setRange(106, 76);
-        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
-        Cursor.getInstance().resetPosition();
+        cursor.setRange(106, 76);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
         String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
-        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
-        Menu.getInstance().TextAlignment(Align.center);
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.TextAlignment(Align.center);
         menuType = Enums.MenuType.OPTIONS;
     }
 
@@ -97,7 +116,7 @@ final class OverworldScreen extends ScreenAdapter {
         viewport.update(width, height, true);
 //        cursor.getViewport().update(width, height, true);
 //        touchInterface.getViewport().update(width, height, true);
-        TouchInterface.getInstance().recalculateButtonPositions();
+        touchInterface.recalculateButtonPositions();
 //        optionsOverlay.getViewport().update(width, height, true);
 //        optionsOverlay.getCursor().getViewport().update(width, height, true);
 //        errorMessage.getViewport().update(width, height, true);
@@ -114,10 +133,10 @@ final class OverworldScreen extends ScreenAdapter {
 
         switch (menuType) {
             case MAIN:
-                Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
-                if (InputControls.getInstance().shootButtonJustPressed) {
-                    if (Cursor.getInstance().getPosition() <= 145 && Cursor.getInstance().getPosition() >= 40) {
-                        selection = Enums.Theme.valueOf(Cursor.getInstance().getIterator().previous());
+                menu.render(batch, font, viewport, Cursor.getInstance());
+                if (inputControls.shootButtonJustPressed) {
+                    if (cursor.getPosition() <= 145 && cursor.getPosition() >= 40) {
+                        selection = Enums.Theme.valueOf(cursor.getIterator().previous());
                         loadLevel(selection);
                     } else {
                         setOptionsMenu();
@@ -125,17 +144,17 @@ final class OverworldScreen extends ScreenAdapter {
                 }
                 break;
             case OPTIONS:
-                Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
-                if (InputControls.getInstance().shootButtonJustPressed) {
-                    if (Cursor.getInstance().getPosition() == 106) {
+                menu.render(batch, font, viewport, Cursor.getInstance());
+                if (inputControls.shootButtonJustPressed) {
+                    if (cursor.getPosition() == 106) {
                         setMainMenu();
-                    } else if (Cursor.getInstance().getPosition() == 91) {
+                    } else if (cursor.getPosition() == 91) {
                         SaveData.toggleTouchscreen(!SaveData.hasTouchscreen());
-                    } else if (Cursor.getInstance().getPosition() == 76) {
-                        ScreenManager.getInstance().dispose();
-                        ScreenManager.getInstance().create();
+                    } else if (cursor.getPosition() == 76) {
+                        screenManager.dispose();
+                        screenManager.create();
                     }
-                } else if (InputControls.getInstance().pauseButtonJustPressed) {
+                } else if (inputControls.pauseButtonJustPressed) {
                 }
                 break;
         }
@@ -144,8 +163,8 @@ final class OverworldScreen extends ScreenAdapter {
             Helpers.drawBitmapFont(batch, viewport, font, Constants.LEVEL_READ_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5, Align.center);
             font.getData().setScale(.5f);
         }
-        InputControls.getInstance().update();
-        TouchInterface.getInstance().render(batch);
+        inputControls.update();
+        touchInterface.render(batch);
     }
 
     protected void loadLevel(Enums.Theme level) {
@@ -165,35 +184,35 @@ final class OverworldScreen extends ScreenAdapter {
             SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
             SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
         }
-        LevelUpdater.getInstance().setTime(Long.parseLong(allTimes.get(index)));
-        LevelUpdater.getInstance().setScore(Integer.parseInt(allScores.get(index)));
+        levelUpdater.setTime(Long.parseLong(allTimes.get(index)));
+        levelUpdater.setScore(Integer.parseInt(allScores.get(index)));
         messageVisible = false;
         try {
             LevelLoader.load(level);
-            LevelUpdater.getInstance().restoreRemovals(allRemovals.get(index));
+            levelUpdater.restoreRemovals(allRemovals.get(index));
             if (levelRestores > 0) {
-                GigaGal.getInstance().setSpawnPosition(LevelUpdater.getInstance().getTransports().get(0).getPosition());
+                gigaGal.setSpawnPosition(levelUpdater.getTransports().get(0).getPosition());
                 if (levelRestores > 2) {
-                    GigaGal.getInstance().setSpawnPosition(LevelUpdater.getInstance().getTransports().get(1).getPosition());
+                    gigaGal.setSpawnPosition(levelUpdater.getTransports().get(1).getPosition());
                 }
             }
-            ScreenManager.getInstance().setScreen(LevelScreen.getInstance());
+            screenManager.setScreen(LevelScreen.getInstance());
             this.dispose();
             return;
         } catch (IOException ex) {
             Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
             Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
-            Cursor.getInstance().getIterator().next();
+            cursor.getIterator().next();
             messageVisible = true;
         } catch (ParseException ex) {
             Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
             Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
-            Cursor.getInstance().getIterator().next();
+            cursor.getIterator().next();
             messageVisible = true;
         } catch (GdxRuntimeException ex) {
             Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
             Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
-            Cursor.getInstance().getIterator().next();
+            cursor.getIterator().next();
             messageVisible = true;
         }
     }

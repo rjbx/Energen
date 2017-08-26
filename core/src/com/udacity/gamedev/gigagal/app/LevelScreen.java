@@ -92,15 +92,13 @@ class LevelScreen extends ScreenAdapter {
 
         menu = Menu.getInstance();
         levelUpdater = LevelUpdater.getInstance();
-
-        levelUpdater.begin();
-        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
         overworldScreen = OverworldScreen.getInstance();
     }
 
     @Override
     public void resize(int width, int height) {
+        levelUpdater.begin();
         chaseViewport.update(width, height, true);
         staticViewport.update(width, height, true);
         indicatorHud.create();

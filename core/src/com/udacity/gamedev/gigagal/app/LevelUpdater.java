@@ -67,7 +67,6 @@ public class LevelUpdater {
     protected void create() {
 
         levelScreen = LevelScreen.getInstance();
-        levelScreen.create();
 
         timer = Timer.getInstance();
         timer.create();
