@@ -35,7 +35,7 @@ final class OverworldScreen extends ScreenAdapter {
     private ExtendViewport viewport;
     private SpriteBatch batch;
     private BitmapFont font;
-    private static Enums.OverworldMenu menu;
+    private static Enums.MenuType menuType;
     private boolean messageVisible;
     private static Enums.Theme selection;
 
@@ -46,7 +46,7 @@ final class OverworldScreen extends ScreenAdapter {
     protected static OverworldScreen getInstance() { return INSTANCE; }
 
     protected void create() {
-        this.viewport = StaticCam.getInstance().viewport;
+        this.viewport = StaticCam.getInstance().getViewport();
         batch = ScreenManager.getInstance().getBatch();
         font = Assets.getInstance().getFontAssets().menu;
         setMainMenu();
@@ -56,7 +56,7 @@ final class OverworldScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        menu = Enums.OverworldMenu.MAIN;
+        menuType = Enums.MenuType.MAIN;
         messageVisible = false;
         InputControls.getInstance();
         TouchInterface.getInstance();
@@ -75,7 +75,7 @@ final class OverworldScreen extends ScreenAdapter {
         Menu.getInstance().clearStrings();
         Menu.getInstance().setOptionStrings(selectionStrings);
         Menu.getInstance().TextAlignment(Align.left);
-        menu = Enums.OverworldMenu.MAIN;
+        menuType = Enums.MenuType.MAIN;
     }
 
     private static void setOptionsMenu() {
@@ -85,7 +85,7 @@ final class OverworldScreen extends ScreenAdapter {
         String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
         Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
         Menu.getInstance().TextAlignment(Align.center);
-        menu = Enums.OverworldMenu.OPTIONS;
+        menuType = Enums.MenuType.OPTIONS;
     }
 
     private boolean onMobile() {
@@ -112,7 +112,7 @@ final class OverworldScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        switch (menu) {
+        switch (menuType) {
             case MAIN:
                 Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
                 if (InputControls.getInstance().shootButtonJustPressed) {

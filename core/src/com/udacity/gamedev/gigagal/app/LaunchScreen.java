@@ -3,7 +3,6 @@ package com.udacity.gamedev.gigagal.app;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,15 +26,20 @@ final class LaunchScreen extends ScreenAdapter {
     // fields
     public static final String TAG = LaunchScreen.class.getName();
     private static final LaunchScreen INSTANCE = new LaunchScreen();
-    private static InputControls inputControls;
-    private static TouchInterface touchInterface;
+    private ScreenManager screenManager;
     private SpriteBatch batch;
     private ExtendViewport viewport;
+    private Assets assets;
     private BitmapFont font;
     private BitmapFont text;
     private BitmapFont title;
+    private static InputControls inputControls;
+    private static TouchInterface touchInterface;
+    private static Cursor cursor;
+    private static Menu menu;
+    private static Enums.MenuType menuType;
+    private OverworldScreen overworldScreen;
     private Backdrop launchBackdrop;
-    private static Enums.LaunchMenu menu;
     private List<String> choices;
     private long launchStartTime;
     private boolean launching;
@@ -48,12 +52,33 @@ final class LaunchScreen extends ScreenAdapter {
     // static factory method
     protected static LaunchScreen getInstance() { return INSTANCE; }
 
-    protected void create() {
-        viewport = StaticCam.viewport;
-        batch = ScreenManager.getInstance().getBatch();
-        font = Assets.getInstance().getFontAssets().message;
-        title = Assets.getInstance().getFontAssets().title;
-        text = Assets.getInstance().getFontAssets().menu;
+    @Override
+    public void show() {
+        // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
+        // onMobile();
+        screenManager = ScreenManager.getInstance();
+
+        batch = screenManager.getBatch();
+
+        viewport = StaticCam.getInstance().getViewport();
+
+        assets = Assets.getInstance();
+        font = assets.getFontAssets().message;
+        title = assets.getFontAssets().title;
+        text = assets.getFontAssets().menu;
+
+        touchInterface = TouchInterface.getInstance();
+        
+        inputControls = InputControls.getInstance();
+        Gdx.input.setInputProcessor(inputControls); // sends touch events to inputControls
+        
+        cursor = Cursor.getInstance();
+        menu = Menu.getInstance();
+
+        overworldScreen = OverworldScreen.getInstance();
+
+        launchBackdrop = new Backdrop(assets.getOverlayAssets().logo);
+
         gigagalCenter = new Vector2(Constants.GIGAGAL_STANCE_WIDTH / 2, Constants.GIGAGAL_HEIGHT / 2);
         choices = new ArrayList<String>();
         launchStartTime = TimeUtils.nanoTime();
@@ -63,56 +88,45 @@ final class LaunchScreen extends ScreenAdapter {
         choices.add("YES");
     }
 
-    @Override
-    public void show() {
-        // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
-        // onMobile();
-        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
-        launchBackdrop = new Backdrop(Assets.getInstance().getOverlayAssets().logo);
-        inputControls = InputControls.getInstance();
-        touchInterface = TouchInterface.getInstance();
-        Gdx.input.setInputProcessor(inputControls);
-    }
-
     private static void setResumeMenu() {
-        Cursor.getInstance().setRange(35, 20);
-        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
-        Cursor.getInstance().resetPosition();
+        cursor.setRange(35, 20);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
         String[] optionStrings = {"START GAME", "ERASE GAME"};
-        Menu.getInstance().clearStrings();
-        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
-        Menu.getInstance().TextAlignment(Align.center);
-        menu = Enums.LaunchMenu.START;
+        menu.clearStrings();
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.TextAlignment(Align.center);
+        menuType = Enums.MenuType.START;
     }
 
     private static void setEraseMenu() {
-        Cursor.getInstance().setRange(50, 150);
-        Cursor.getInstance().setOrientation(Enums.Orientation.X);
-        Cursor.getInstance().resetPosition();
+        cursor.setRange(50, 150);
+        cursor.setOrientation(Enums.Orientation.X);
+        cursor.resetPosition();
         String[] optionStrings = {"NO", "YES"};
-        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
-        Menu.getInstance().TextAlignment(Align.center);
-        Menu.getInstance().setPromptString(Align.center, "Are you sure you want to start \na new game and erase all saved data?");
-        menu = Enums.LaunchMenu.ERASE;
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.TextAlignment(Align.center);
+        menu.setPromptString(Align.center, "Are you sure you want to start \na new game and erase all saved data?");
+        menuType = Enums.MenuType.ERASE;
     }
 
     private static void setBeginMenu() {
-        Cursor.getInstance().setRange(30, 30);
-        Menu.getInstance().isSingleOption(true);
+        cursor.setRange(30, 30);
+        menu.isSingleOption(true);
         String[] option = {"PRESS START"};
-        Menu.getInstance().setOptionStrings(Arrays.asList(option));
-        Menu.getInstance().TextAlignment(Align.center);
-        menu = Enums.LaunchMenu.START;
+        menu.setOptionStrings(Arrays.asList(option));
+        menu.TextAlignment(Align.center);
+        menuType = Enums.MenuType.START;
     }
 
     private static void setDifficultyMenu() {
-        Cursor.getInstance().setRange(75, 35);
-        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
-        Cursor.getInstance().resetPosition();
+        cursor.setRange(75, 35);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
         String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
-        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
-        Menu.getInstance().isSingleOption(false);
-        menu = Enums.LaunchMenu.DIFFICULTY;
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.isSingleOption(false);
+        menuType = Enums.MenuType.DIFFICULTY;
     }
 
     private boolean onMobile() {
@@ -141,28 +155,27 @@ final class LaunchScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (!launching) {
-            switch(menu) {
+            switch(menuType) {
                 case START:
                     final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f);
 
-                    Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getOverlayAssets().globe, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 1.625f, Constants.GLOBE_CENTER.x, Constants.GLOBE_CENTER.y);
-                    Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
-                    Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getOverlayAssets().beast, viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 1.625f, Constants.BEAST_CENTER.x, Constants.BEAST_CENTER.y);
+                    Helpers.drawTextureRegion(batch, viewport, assets.getOverlayAssets().globe, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 1.625f, Constants.GLOBE_CENTER.x, Constants.GLOBE_CENTER.y);
+                    Helpers.drawTextureRegion(batch, viewport, assets.getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
+                    Helpers.drawTextureRegion(batch, viewport, assets.getOverlayAssets().beast, viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 1.625f, Constants.BEAST_CENTER.x, Constants.BEAST_CENTER.y);
                     Helpers.drawBitmapFont(batch, viewport, title, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, Align.center);
 
-                    Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
+                    menu.render(batch, font, viewport, Cursor.getInstance());
 
                     if (inputControls.shootButtonJustPressed) {
-                        Assets.getInstance().getMusicAssets().intro.stop();
+                        assets.getMusicAssets().intro.stop();
                         if (continuing) {
-                            if (Cursor.getInstance().getPosition() == 35) {
+                            if (cursor.getPosition() == 35) {
                                 inputControls.shootButtonJustPressed = false;
-                                OverworldScreen overworldScreen = OverworldScreen.getInstance();
                                 overworldScreen.create();
-                                ScreenManager.getInstance().setScreen(overworldScreen);
+                                screenManager.setScreen(overworldScreen);
                                 this.dispose();
                                 return;
-                            } else if (Cursor.getInstance().getPosition() == 20) {
+                            } else if (cursor.getPosition() == 20) {
                                 setEraseMenu();
                             }
                         } else {
@@ -171,12 +184,12 @@ final class LaunchScreen extends ScreenAdapter {
                     }
                     break;
                 case ERASE:
-                    Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
+                    menu.render(batch, font, viewport, Cursor.getInstance());
                     if (inputControls.shootButtonJustPressed) {
-                        if (Cursor.getInstance().getPosition() == (150)) {
+                        if (cursor.getPosition() == (150)) {
                             SaveData.erase();
-                            ScreenManager.getInstance().dispose();
-                            ScreenManager.getInstance().create();
+                            screenManager.dispose();
+                            screenManager.create();
                             setBeginMenu();
                         } else {
                             setResumeMenu();
@@ -184,18 +197,18 @@ final class LaunchScreen extends ScreenAdapter {
                     }
                     break;
                 case DIFFICULTY:
-                    Menu.getInstance().render(batch, font, viewport, Cursor.getInstance());
+                    menu.render(batch, font, viewport, Cursor.getInstance());
                     if (inputControls.shootButtonJustPressed) {
-                        if (Cursor.getInstance().getPosition() == 75) {
+                        if (cursor.getPosition() == 75) {
                             SaveData.setDifficulty(0);
-                        } else if (Cursor.getInstance().getPosition() == 60) {
+                        } else if (cursor.getPosition() == 60) {
                             SaveData.setDifficulty(1);
-                        } else if (Cursor.getInstance().getPosition() == 45) {
+                        } else if (cursor.getPosition() == 45) {
                             SaveData.setDifficulty(2);
                         }
                         OverworldScreen overworldScreen = OverworldScreen.getInstance();
                         overworldScreen.create();
-                        ScreenManager.getInstance().setScreen(overworldScreen);
+                        screenManager.setScreen(overworldScreen);
                         this.dispose();
                         return;
                     }
@@ -207,8 +220,8 @@ final class LaunchScreen extends ScreenAdapter {
                     new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f), .375f);
             Helpers.drawBitmapFont(batch, viewport, font, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, Align.center);
             if (Helpers.secondsSince(launchStartTime) > 3) {
-                Assets.getInstance().getMusicAssets().intro.play();
-                Assets.getInstance().getMusicAssets().intro.setLooping(true);
+                assets.getMusicAssets().intro.play();
+                assets.getMusicAssets().intro.setLooping(true);
                 launching = false;
                 if (continuing) {
                     setResumeMenu();

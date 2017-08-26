@@ -25,10 +25,10 @@ import com.udacity.gamedev.gigagal.util.StaticCam;
 
 import java.util.Arrays;
 
-import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.DEBUG;
-import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.MAIN;
-import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.OPTIONS;
-import static com.udacity.gamedev.gigagal.util.Enums.LevelMenu.RESET;
+import static com.udacity.gamedev.gigagal.util.Enums.MenuType.DEBUG;
+import static com.udacity.gamedev.gigagal.util.Enums.MenuType.MAIN;
+import static com.udacity.gamedev.gigagal.util.Enums.MenuType.OPTIONS;
+import static com.udacity.gamedev.gigagal.util.Enums.MenuType.RESET;
 
 // package-private
 class LevelScreen extends ScreenAdapter {
@@ -40,20 +40,20 @@ class LevelScreen extends ScreenAdapter {
     private OverworldScreen overworldScreen;
     private static LevelUpdater levelUpdater;
     private SpriteBatch batch;
-    private ShapeRenderer renderer;
-    private BitmapFont font;
     private ChaseCam chaseCam;
     private static ExtendViewport chaseViewport;
     private StaticCam staticCam;
     private static ExtendViewport staticViewport;
+    private ShapeRenderer renderer;
+    private BitmapFont font;
     private GaugeHud gaugeHud;
     private IndicatorHud indicatorHud;
     private TouchInterface touchInterface;
     private InputControls inputControls;
     private static GigaGal gigaGal;
-    private static Menu menu;
     private static Cursor cursor;
-    private static Enums.LevelMenu menuType;
+    private static Menu menu;
+    private static Enums.MenuType menuType;
     private long levelEndOverlayStartTime;
 
     // cannot be subclassed
@@ -68,36 +68,35 @@ class LevelScreen extends ScreenAdapter {
         
         batch = screenManager.getBatch();
 
+        chaseCam = ChaseCam.getInstance();
+        chaseViewport = chaseCam.getViewport();
+
+        staticCam = StaticCam.getInstance();
+        staticViewport = staticCam.getViewport();
+
         renderer = new ShapeRenderer(); // shared by all overlays instantiated from this class
         renderer.setAutoShapeType(true);
         
         font = Assets.getInstance().getFontAssets().message;
         font.setUseIntegerPositions(false);
         
-        chaseCam = ChaseCam.getInstance();
-        chaseViewport = chaseCam.getViewport();
-        
-        staticCam = StaticCam.getInstance();
-        staticViewport = staticCam.getViewport();
-        
         indicatorHud = IndicatorHud.getInstance();
         gaugeHud = GaugeHud.getInstance();
         touchInterface = TouchInterface.getInstance();
 
         inputControls = InputControls.getInstance();
-        Gdx.input.setInputProcessor(inputControls); // used to send touch events to inputControls
+        Gdx.input.setInputProcessor(inputControls); // sends touch events to inputControls
 
         gigaGal = GigaGal.getInstance();
-        menu = Menu.getInstance();
-        
         cursor = Cursor.getInstance();
-        
+
+        menu = Menu.getInstance();
+        levelUpdater = LevelUpdater.getInstance();
+
+        levelUpdater.begin();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
         overworldScreen = OverworldScreen.getInstance();
-
-        levelUpdater = LevelUpdater.getInstance();
-        levelUpdater.begin();
     }
 
     @Override

@@ -105,24 +105,16 @@ public final class Enums {
         HOVER // press jump and up simultaneously to hurdle out of hover (uses all turbo)
     }
 
-    public enum LevelMenu {
+    public enum MenuType {
         NONE,
+        START,
+        ERASE,
+        DIFFICULTY,
         MAIN,
         OPTIONS,
         RESET,
         DEBUG,
         END
-    }
-
-    public enum OverworldMenu {
-        MAIN,
-        OPTIONS
-    }
-
-    public enum LaunchMenu {
-        START,
-        ERASE,
-        DIFFICULTY,
     }
 
     public enum TimerState {

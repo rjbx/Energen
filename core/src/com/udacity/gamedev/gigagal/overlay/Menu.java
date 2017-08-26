@@ -14,7 +14,7 @@ public final class Menu {
 
     // fields
     public final static String TAG = Menu.class.getName();
-    public static final Menu INSTANCE = new Menu();
+    private static final Menu INSTANCE = new Menu();
     private Object[] optionStrings;
     private String leftPrompt;
     private String centerPrompt;
