@@ -19,7 +19,7 @@ public final class ChaseCam {
     // fields
     public static final String TAG = ChaseCam.class.getName();
     private static final ChaseCam INSTANCE = new ChaseCam();
-    public static ExtendViewport viewport;
+    private static ExtendViewport viewport;
     public OrthographicCamera camera;
     public GigaGal gigaGal;
     public Vector2 roomPosition;

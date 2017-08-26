@@ -3,7 +3,6 @@ package com.udacity.gamedev.gigagal.app;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -37,15 +36,25 @@ class LevelScreen extends ScreenAdapter {
     // fields
     public static final String TAG = LevelScreen.class.getName();
     private static final LevelScreen INSTANCE = new LevelScreen();
-    private ChaseCam chaseCam;
-    private StaticCam staticCam;
-    private static ExtendViewport chaseViewport;
-    private static ExtendViewport staticViewport;
+    private ScreenManager screenManager;
+    private OverworldScreen overworldScreen;
+    private static LevelUpdater levelUpdater;
     private SpriteBatch batch;
     private ShapeRenderer renderer;
     private BitmapFont font;
+    private ChaseCam chaseCam;
+    private static ExtendViewport chaseViewport;
+    private StaticCam staticCam;
+    private static ExtendViewport staticViewport;
+    private GaugeHud gaugeHud;
+    private IndicatorHud indicatorHud;
+    private TouchInterface touchInterface;
+    private InputControls inputControls;
+    private static GigaGal gigaGal;
+    private static Menu menu;
+    private static Cursor cursor;
+    private static Enums.LevelMenu menuType;
     private long levelEndOverlayStartTime;
-    private static Enums.LevelMenu menu;
 
     // cannot be subclassed
     private LevelScreen() {}
@@ -53,32 +62,50 @@ class LevelScreen extends ScreenAdapter {
     // static factory method
     protected static LevelScreen getInstance() { return INSTANCE; }
 
-    protected void create() {}
-
     @Override
     public void show() {
-        batch = ScreenManager.getInstance().getBatch();
+        screenManager = ScreenManager.getInstance();
+        
+        batch = screenManager.getBatch();
+
         renderer = new ShapeRenderer(); // shared by all overlays instantiated from this class
         renderer.setAutoShapeType(true);
+        
         font = Assets.getInstance().getFontAssets().message;
         font.setUseIntegerPositions(false);
+        
         chaseCam = ChaseCam.getInstance();
+        chaseViewport = chaseCam.getViewport();
+        
         staticCam = StaticCam.getInstance();
-        chaseViewport = chaseCam.viewport;
-        staticViewport = staticCam.viewport;
+        staticViewport = staticCam.getViewport();
+        
+        indicatorHud = IndicatorHud.getInstance();
+        gaugeHud = GaugeHud.getInstance();
+        touchInterface = TouchInterface.getInstance();
 
-        // : Use Gdx.input.setInputProcessor() to send touch events to inputControls
-        Gdx.input.setInputProcessor(InputControls.getInstance());
+        inputControls = InputControls.getInstance();
+        Gdx.input.setInputProcessor(inputControls); // used to send touch events to inputControls
+
+        gigaGal = GigaGal.getInstance();
+        menu = Menu.getInstance();
+        
+        cursor = Cursor.getInstance();
+        
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        LevelUpdater.getInstance().begin();
+        
+        overworldScreen = OverworldScreen.getInstance();
+
+        levelUpdater = LevelUpdater.getInstance();
+        levelUpdater.begin();
     }
 
     @Override
     public void resize(int width, int height) {
         chaseViewport.update(width, height, true);
         staticViewport.update(width, height, true);
-        IndicatorHud.getInstance().create();
-        GaugeHud.getInstance().create();
+        indicatorHud.create();
+        gaugeHud.create();
 //        gaugeHud.getViewport().update(width, height, true);
 //        indicatorHud.getViewport().update(width, height, true);
 //        defeatMessage.getViewport().update(width, height, true);
@@ -87,53 +114,53 @@ class LevelScreen extends ScreenAdapter {
 //        optionsMenu.getViewport().update(width, height, true);
 //        optionsMenu.getCursor().getViewport().update(width, height, true);
 //        errorMessage.getViewport().update(width, height, true);
-        TouchInterface.getInstance().getViewport().update(width, height, true);
-        TouchInterface.getInstance().recalculateButtonPositions();
-        GigaGal.getInstance().setInputControls(InputControls.getInstance());
+        touchInterface.getViewport().update(width, height, true);
+        touchInterface.recalculateButtonPositions();
+        gigaGal.setInputControls(inputControls);
     }
 
     private static void setMainMenu() {
-        Cursor.getInstance().setRange(staticViewport.getCamera().position.y, staticViewport.getCamera().position.y - 30);
-        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
-        Cursor.getInstance().resetPosition();
+        cursor.setRange(staticViewport.getCamera().position.y, staticViewport.getCamera().position.y - 30);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
         String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
-        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
-        Menu.getInstance().setPromptString(Align.left, Constants.HUD_AMMO_LABEL + GigaGal.getInstance().getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + GigaGal.getInstance().getHealth() + "\n" + "Turbo: " + GigaGal.getInstance().getTurbo());
-        Menu.getInstance().setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(TimeUtils.nanosToMillis(SaveData.getTotalTime() + LevelUpdater.getInstance().getUnsavedTime())) + "\n" + "Score: " + (SaveData.getTotalScore() + LevelUpdater.getInstance().getUnsavedScore()));
-        Menu.getInstance().setPromptString(Align.right, (GigaGal.getInstance().getWeapon().name() + "\n" + SaveData.getWeapons().replace(GigaGal.getInstance().getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
-        Menu.getInstance().TextAlignment(Align.center);
-        menu = MAIN;
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.setPromptString(Align.left, Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" + "Turbo: " + gigaGal.getTurbo());
+        menu.setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(TimeUtils.nanosToMillis(SaveData.getTotalTime() + levelUpdater.getUnsavedTime())) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
+        menu.setPromptString(Align.right, (gigaGal.getWeapon().name() + "\n" + SaveData.getWeapons().replace(gigaGal.getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
+        menu.TextAlignment(Align.center);
+        menuType = MAIN;
     }
 
     private static void setOptionsMenu() {
-        Cursor.getInstance().setRange(staticViewport.getCamera().position.y + 45, staticViewport.getCamera().position.y - 45);
-        Cursor.getInstance().setOrientation(Enums.Orientation.Y);
-        Cursor.getInstance().resetPosition();
-        Menu.getInstance().isSingleOption(false);
-        Menu.getInstance().clearStrings();
+        cursor.setRange(staticViewport.getCamera().position.y + 45, staticViewport.getCamera().position.y - 45);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
+        menu.isSingleOption(false);
+        menu.clearStrings();
         String[] optionStrings = {"BACK", "RESET LEVEL", "DEBUG CAM", "TOUCH PAD", "MUSIC", "HINTS", "QUIT"};
-        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
-        Menu.getInstance().TextAlignment(Align.center);
-        menu = OPTIONS;
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.TextAlignment(Align.center);
+        menuType = OPTIONS;
     }
 
     private static void setResetMenu() {
-        Cursor.getInstance().setRange(staticViewport.getCamera().position.x - 50, staticViewport.getCamera().position.x + 50);
-        Cursor.getInstance().setOrientation(Enums.Orientation.X);
-        Cursor.getInstance().resetPosition();
+        cursor.setRange(staticViewport.getCamera().position.x - 50, staticViewport.getCamera().position.x + 50);
+        cursor.setOrientation(Enums.Orientation.X);
+        cursor.resetPosition();
         String[] optionStrings = {"NO", "YES"};
-        Menu.getInstance().setOptionStrings(Arrays.asList(optionStrings));
-        Menu.getInstance().TextAlignment(Align.center);
-        Menu.getInstance().setPromptString(Align.center, "Are you sure you want to erase \n all progress on this level?");
-        menu = RESET;
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.TextAlignment(Align.center);
+        menu.setPromptString(Align.center, "Are you sure you want to erase \n all progress on this level?");
+        menuType = RESET;
     }
 
     private static void setDebugMenu() {
-        Cursor.getInstance().setRange(staticViewport.getCamera().position.y, staticViewport.getCamera().position.y);
-        Menu.getInstance().isSingleOption(true);
-        Menu.getInstance().setPromptString(Align.center, Constants.DEBUG_MODE_MESSAGE);
-        Menu.getInstance().TextAlignment(Align.center);
-        menu = DEBUG;
+        cursor.setRange(staticViewport.getCamera().position.y, staticViewport.getCamera().position.y);
+        menu.isSingleOption(true);
+        menu.setPromptString(Align.center, Constants.DEBUG_MODE_MESSAGE);
+        menu.TextAlignment(Align.center);
+        menuType = DEBUG;
     }
 
     @Override
@@ -145,133 +172,133 @@ class LevelScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (LevelUpdater.getInstance().continuing()) {
+        if (levelUpdater.continuing()) {
 
-            if (!LevelUpdater.getInstance().paused()) {
-                LevelUpdater.getInstance().update(delta);
-                ChaseCam.getInstance().update(batch, delta);
-                LevelUpdater.getInstance().render(batch, chaseViewport); // also rendered when viewingDebug; see pause()
-                IndicatorHud.getInstance().render(batch, staticViewport, font, LevelUpdater.getInstance()); // renders after level which sets indicators to foreground
-                if (InputControls.getInstance().pauseButtonJustPressed) {
-                    LevelUpdater.getInstance().pause();
+            if (!levelUpdater.paused()) {
+                levelUpdater.update(delta);
+                chaseCam.update(batch, delta);
+                levelUpdater.render(batch, chaseViewport); // also rendered when viewingDebug; see pause()
+                indicatorHud.render(batch, staticViewport, font, levelUpdater); // renders after level which sets indicators to foreground
+                if (inputControls.pauseButtonJustPressed) {
+                    levelUpdater.pause();
                     setMainMenu();
                 }
             } else {
                 showPauseMenu(delta);
             }
-            GaugeHud.getInstance().render(renderer, staticViewport, GigaGal.getInstance());
-            TouchInterface.getInstance().render(batch);
+            gaugeHud.render(renderer, staticViewport, gigaGal);
+            touchInterface.render(batch);
         } else {
             showExitOverlay();
         }
-        if (LevelUpdater.getInstance().hasLoadEx()) {
+        if (levelUpdater.hasLoadEx()) {
             font.getData().setScale(.25f);
             Helpers.drawBitmapFont(batch, chaseViewport, font, Constants.LEVEL_KEY_MESSAGE, chaseViewport.getCamera().position.x, chaseViewport.getCamera().position.y - chaseViewport.getWorldHeight() / 2.5f, Align.center);
             font.getData().setScale(.4f);
         }
-        InputControls.getInstance().update();
+        inputControls.update();
     }
 
     private void showPauseMenu(float delta) {
-        switch (menu) {
+        switch (menuType) {
             case MAIN:
-                if (InputControls.getInstance().jumpButtonJustPressed) {
-                    GigaGal.getInstance().toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
-                    Menu.getInstance().setPromptString(Align.right, (GigaGal.getInstance().getWeapon().name() + "\n" + SaveData.getWeapons().replace(GigaGal.getInstance().getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
+                if (inputControls.jumpButtonJustPressed) {
+                    gigaGal.toggleWeapon(Enums.Direction.DOWN); // enables gigagal to toggleWeapon weapon during pause without enabling other gigagal features
+                    menu.setPromptString(Align.right, (gigaGal.getWeapon().name() + "\n" + SaveData.getWeapons().replace(gigaGal.getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
                 }
-                if (InputControls.getInstance().shootButtonJustPressed) {
-                    if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y && ChaseCam.getInstance().getState() == Enums.ChaseCamState.FOLLOWING) {
-                        LevelUpdater.getInstance().unpause();
-                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y - 15) {
-                        OverworldScreen.getInstance().setMainMenu();
-                        ScreenManager.getInstance().setScreen(OverworldScreen.getInstance());
-                        LevelUpdater.getInstance().unpause();
-                        LevelUpdater.getInstance().end();
+                if (inputControls.shootButtonJustPressed) {
+                    if (cursor.getPosition() == staticViewport.getCamera().position.y && chaseCam.getState() == Enums.ChaseCamState.FOLLOWING) {
+                        levelUpdater.unpause();
+                    } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 15) {
+                        overworldScreen.setMainMenu();
+                        screenManager.setScreen(overworldScreen);
+                        levelUpdater.unpause();
+                        levelUpdater.end();
                         return;
-                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y - 30) {
+                    } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 30) {
                         setOptionsMenu();
                     }
-                } else if (InputControls.getInstance().pauseButtonJustPressed) {
-                    LevelUpdater.getInstance().unpause();
+                } else if (inputControls.pauseButtonJustPressed) {
+                    levelUpdater.unpause();
                 }
                 break;
             case OPTIONS:
-                if (InputControls.getInstance().shootButtonJustPressed) {
-                    if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y + 45) {
+                if (inputControls.shootButtonJustPressed) {
+                    if (cursor.getPosition() == staticViewport.getCamera().position.y + 45) {
                         setMainMenu();
-                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y + 30) {
+                    } else if (cursor.getPosition() == staticViewport.getCamera().position.y + 30) {
                         setResetMenu();
-                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y + 15) {
-                        if (ChaseCam.getInstance().getState() != Enums.ChaseCamState.DEBUG) {
-                            ChaseCam.getInstance().setState(Enums.ChaseCamState.DEBUG);
+                    } else if (cursor.getPosition() == staticViewport.getCamera().position.y + 15) {
+                        if (chaseCam.getState() != Enums.ChaseCamState.DEBUG) {
+                            chaseCam.setState(Enums.ChaseCamState.DEBUG);
                             setDebugMenu();
                         }
-                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y) {
+                    } else if (cursor.getPosition() == staticViewport.getCamera().position.y) {
                         SaveData.toggleTouchscreen(!SaveData.hasTouchscreen());
-                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y - 15) {
-                        LevelUpdater.getInstance().toggleMusic();
-                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y - 30) {
-                        LevelUpdater.getInstance().toggleHints();
-                    } else if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.y - 45) {
-                        LevelUpdater.getInstance().unpause();
-                        LevelUpdater.getInstance().end();
-                        ScreenManager.getInstance().create();
+                    } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 15) {
+                        levelUpdater.toggleMusic();
+                    } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 30) {
+                        levelUpdater.toggleHints();
+                    } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 45) {
+                        levelUpdater.unpause();
+                        levelUpdater.end();
+                        screenManager.create();
                         return;
                     }
-                } else if (InputControls.getInstance().pauseButtonJustPressed) {
+                } else if (inputControls.pauseButtonJustPressed) {
                     setMainMenu();
                 }
                 break;
             case RESET:
-                if (InputControls.getInstance().shootButtonJustPressed) {
-                    if (Cursor.getInstance().getPosition() == staticViewport.getCamera().position.x + 50) {
-                        LevelUpdater.getInstance().unpause();
-                        LevelUpdater.getInstance().end();
-                        LevelUpdater.getInstance().reset();
-                        OverworldScreen.getInstance().loadLevel(OverworldScreen.getSelection());
+                if (inputControls.shootButtonJustPressed) {
+                    if (cursor.getPosition() == staticViewport.getCamera().position.x + 50) {
+                        levelUpdater.unpause();
+                        levelUpdater.end();
+                        levelUpdater.reset();
+                        overworldScreen.loadLevel(overworldScreen.getSelection());
                     } else {
                         setOptionsMenu();
                     }
                 }
                 break;
             case DEBUG:
-                LevelUpdater.getInstance().render(batch, chaseViewport);
-                ChaseCam.getInstance().update(batch, delta);
-                if (InputControls.getInstance().shootButtonJustPressed) {
-                    ChaseCam.getInstance().setState(Enums.ChaseCamState.FOLLOWING);
+                levelUpdater.render(batch, chaseViewport);
+                chaseCam.update(batch, delta);
+                if (inputControls.shootButtonJustPressed) {
+                    chaseCam.setState(Enums.ChaseCamState.FOLLOWING);
                     setOptionsMenu();
                 }
                 break;
         }
-        Menu.getInstance().render(batch, font, staticViewport, Cursor.getInstance()); // renders after debug level which sets menu to foreground
+        menu.render(batch, font, staticViewport, cursor); // renders after debug level which sets menu to foreground
     }
 
     private void showExitOverlay() {
         String endMessage = "";
-        if (LevelUpdater.getInstance().failed()) {
+        if (levelUpdater.failed()) {
             endMessage = Constants.DEFEAT_MESSAGE;
             font.getData().setScale(.6f);
             if (levelEndOverlayStartTime == 0) {
-                LevelUpdater.getInstance().end();
+                levelUpdater.end();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
             }
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
                 levelEndOverlayStartTime = 0;
-                OverworldScreen.getInstance().setMainMenu();
-                ScreenManager.getInstance().setScreen(OverworldScreen.getInstance());
+                overworldScreen.setMainMenu();
+                screenManager.setScreen(overworldScreen);
                 font.getData().setScale(.4f);
                 return;
             }
-        } else if (LevelUpdater.getInstance().completed()) {
-            endMessage = Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(SaveData.getTotalTime()) + "\nScore: " + SaveData.getTotalScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.secondsToString(LevelUpdater.getInstance().getTime()) + "\n" + "Score: " + LevelUpdater.getInstance().getScore();
+        } else if (levelUpdater.completed()) {
+            endMessage = Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(SaveData.getTotalTime()) + "\nScore: " + SaveData.getTotalScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.secondsToString(levelUpdater.getTime()) + "\n" + "Score: " + levelUpdater.getScore();
             if (levelEndOverlayStartTime == 0) {
-                LevelUpdater.getInstance().end();
+                levelUpdater.end();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
             }
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
                 levelEndOverlayStartTime = 0;
-                OverworldScreen.getInstance().setMainMenu();
-                ScreenManager.getInstance().setScreen(OverworldScreen.getInstance());
+                overworldScreen.setMainMenu();
+                screenManager.setScreen(overworldScreen);
                 return;
             }
         }

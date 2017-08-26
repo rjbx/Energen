@@ -6,7 +6,7 @@ public final class StaticCam {
     // fields
     public static final String TAG = StaticCam.class.getName();
     private static final StaticCam INSTANCE = new StaticCam();
-    public static ExtendViewport viewport;
+    private static ExtendViewport viewport;
 
     // cannot be subclassed
     private StaticCam() {}
@@ -19,4 +19,6 @@ public final class StaticCam {
     public void create() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays
     }
+
+    public final ExtendViewport getViewport() { return viewport; }
 }
