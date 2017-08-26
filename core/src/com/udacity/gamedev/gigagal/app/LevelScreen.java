@@ -57,7 +57,7 @@ class LevelScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        batch = new SpriteBatch(); // shared by all overlays instantiated from this class
+        batch = ScreenManager.getInstance().getBatch();
         renderer = new ShapeRenderer(); // shared by all overlays instantiated from this class
         renderer.setAutoShapeType(true);
         font = Assets.getInstance().getFontAssets().message;

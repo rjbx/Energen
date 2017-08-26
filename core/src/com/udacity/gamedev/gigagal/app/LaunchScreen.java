@@ -49,10 +49,11 @@ final class LaunchScreen extends ScreenAdapter {
     protected static LaunchScreen getInstance() { return INSTANCE; }
 
     protected void create() {
+        viewport = StaticCam.viewport;
+        batch = ScreenManager.getInstance().getBatch();
         font = Assets.getInstance().getFontAssets().message;
         title = Assets.getInstance().getFontAssets().title;
         text = Assets.getInstance().getFontAssets().menu;
-        this.viewport = StaticCam.getInstance().viewport;
         gigagalCenter = new Vector2(Constants.GIGAGAL_STANCE_WIDTH / 2, Constants.GIGAGAL_HEIGHT / 2);
         choices = new ArrayList<String>();
         launchStartTime = TimeUtils.nanoTime();
@@ -66,7 +67,6 @@ final class LaunchScreen extends ScreenAdapter {
     public void show() {
         // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
         // onMobile();
-        batch = new SpriteBatch();
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE); // shared by all overlays instantiated from this class
         launchBackdrop = new Backdrop(Assets.getInstance().getOverlayAssets().logo);
         inputControls = InputControls.getInstance();
@@ -227,7 +227,6 @@ final class LaunchScreen extends ScreenAdapter {
         inputControls.clear();
         text.dispose();
         title.dispose();
-        batch.dispose();
         choices = null;
         inputControls = null;
         launchBackdrop = null;

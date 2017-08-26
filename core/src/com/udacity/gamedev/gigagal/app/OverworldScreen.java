@@ -47,7 +47,7 @@ final class OverworldScreen extends ScreenAdapter {
 
     protected void create() {
         this.viewport = StaticCam.getInstance().viewport;
-        batch = new SpriteBatch();
+        batch = ScreenManager.getInstance().getBatch();
         font = Assets.getInstance().getFontAssets().menu;
         setMainMenu();
     }

@@ -94,6 +94,7 @@ public final class ChaseCam {
         batch.end();
     }
 
+    public final ExtendViewport getViewport() { return viewport; }
     public final Array<Rectangle> getConvertBounds() { return convertBoundsArray; }
     public final void setConvertBounds(Rectangle convertBounds) { this.convertBoundsArray.add(convertBounds); }
     public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }

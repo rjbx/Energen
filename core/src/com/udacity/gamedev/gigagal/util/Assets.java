@@ -353,7 +353,6 @@ public final class Assets implements AssetErrorListener {
         public final AtlasRegion hybrid;
 
         private BackgroundAssets(TextureAtlas atlas) {
-
             home = atlas.findRegion(Constants.BACKGROUND_HOME_SPRITE);
             ore = atlas.findRegion(Constants.BACKGROUND_ORE_SPRITE);
             plasma = atlas.findRegion(Constants.BACKGROUND_PLASMA_SPRITE);
@@ -364,7 +363,6 @@ public final class Assets implements AssetErrorListener {
         }
 
         public TextureRegion getBackground(Enums.Theme theme) {
-
             switch (theme) {
                 case HOME:
                     return home;
@@ -375,7 +373,7 @@ public final class Assets implements AssetErrorListener {
                 case NUCLEAR:
                     return gas;
                 case THERMAL:
-                    return liquid;
+                    return gas;
                 case GRAVITATIONAL:
                     return solid;
                 case FINAL:

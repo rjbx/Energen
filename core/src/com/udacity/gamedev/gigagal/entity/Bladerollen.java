@@ -45,7 +45,7 @@ public class Bladerollen extends Hazard implements Armored, Bladed, Groundable, 
         this.type = type;
         this.position = position;
         this.vulnerabilityCount = (int) vulnerabilities;
-        this.speed = 4;
+        this.speed = 1.8f;
         this.center = Constants.ROLLEN_CENTER;
         equippedRegions = new Array<Enums.Direction>();
         vulnerable = false;
@@ -203,10 +203,10 @@ public class Bladerollen extends Hazard implements Armored, Bladed, Groundable, 
             for (Enums.Direction region : equippedRegions) {
                 switch (region) {
                     case LEFT:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, false, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, true, false);
                         break;
                     case RIGHT:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, true, false);
+                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, false, false);
                         break;
                     case DOWN:
                         Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, flipX, false);
