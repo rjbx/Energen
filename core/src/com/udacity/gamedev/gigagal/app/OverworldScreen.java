@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.entity.GigaGal;
+import com.udacity.gamedev.gigagal.entity.Avatar;
 import com.udacity.gamedev.gigagal.overlay.TouchInterface;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.overlay.Menu;
 import com.udacity.gamedev.gigagal.overlay.Cursor;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// immutable package-private
+// immutable package-private singleton
 final class OverworldScreen extends ScreenAdapter {
 
     // fields
@@ -35,11 +35,11 @@ final class OverworldScreen extends ScreenAdapter {
     private static LevelUpdater levelUpdater;
     private SpriteBatch batch;
     private ExtendViewport viewport;
-    private Assets assets;
+    private AssetManager assetManager;
     private BitmapFont font;
     private TouchInterface touchInterface;
     private InputControls inputControls;
-    private static GigaGal gigaGal;
+    private static Avatar gigaGal;
     private static Cursor cursor;
     private static Menu menu;
     private static Enums.MenuType menuType;
@@ -60,15 +60,15 @@ final class OverworldScreen extends ScreenAdapter {
 
         viewport = StaticCam.getInstance().getViewport();
 
-        assets = Assets.getInstance();
-        font = assets.getFontAssets().menu;
+        assetManager = AssetManager.getInstance();
+        font = assetManager.getFontAssets().menu;
 
         touchInterface = TouchInterface.getInstance();
 
         inputControls = InputControls.getInstance();
         Gdx.input.setInputProcessor(InputControls.getInstance());
 
-        gigaGal = GigaGal.getInstance();
+        gigaGal = Avatar.getInstance();
         cursor = Cursor.getInstance();
 
         menu = Menu.getInstance();

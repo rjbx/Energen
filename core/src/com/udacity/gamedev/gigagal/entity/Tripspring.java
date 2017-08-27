@@ -1,15 +1,16 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.app.LevelAssets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
+
+import java.util.logging.Level;
 
 public class Tripspring extends Ground implements Trippable, Compressible, Reboundable {
 
@@ -43,7 +44,7 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     public void update(float delta) {
         converted = false;
         previousState = loaded;
-        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+        for (Ground ground : LevelAssets.getClonedGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 1, ground.getBottom() + 1)) {
                     if (!loaded) {
@@ -65,12 +66,12 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().loadedLever.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.LEVER_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().loadedLever.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.LEVER_CENTER);
         } else {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().unloadedLever.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.LEVER_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().unloadedLever.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.LEVER_CENTER);
         }
     }
 
@@ -82,7 +83,7 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     @Override public final float getRight() { return position.x + Constants.LEVER_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.LEVER_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.LEVER_CENTER.y; }
-    @Override public final boolean isDense() { return !Helpers.betweenTwoValues(GigaGal.getInstance().getPosition().x, getLeft(), getRight()); }
+    @Override public final boolean isDense() { return !Helpers.betweenTwoValues(Avatar.getInstance().getPosition().x, getLeft(), getRight()); }
     @Override public final boolean isBeneatheGround() { return underneatheGround; }
     @Override public final Ground getTopGround() { return topGround; }
     @Override public final long getStartTime() { return startTime; }

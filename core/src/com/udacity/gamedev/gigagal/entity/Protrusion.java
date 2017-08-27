@@ -1,12 +1,11 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -74,7 +73,7 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
         if (state) {
             Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, offset, 1, rotation);
         } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getProtrusionAssets().inactiveProtrusion, position, offset, 1, rotation);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getProtrusionAssets().inactiveProtrusion, position, offset, 1, rotation);
         }
     }
 
@@ -95,42 +94,42 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
     private final void setTypeAttributes(Enums.Material type) {
         switch (type) {
             case ORE:
-                animation = Assets.getInstance().getProtrusionAssets().oreProtrusion;
+                animation = AssetManager.getInstance().getProtrusionAssets().oreProtrusion;
                 center.set(Constants.PROTRUSION_ORE_CENTER);
                 collisionSpan.set(Constants.PROTRUSION_ORE_COLLISION_WIDTH, Constants.PROTRUSION_ORE_COLLISION_HEIGHT);
                 knockback.set(Constants.PROTRUSION_ORE_KNOCKBACK);
                 damage = Constants.PROTRUSION_ORE_DAMAGE;
                 break;
             case PLASMA:
-                animation = Assets.getInstance().getProtrusionAssets().plasmaProtrusion;
+                animation = AssetManager.getInstance().getProtrusionAssets().plasmaProtrusion;
                 center.set(Constants.PROTRUSION_PLASMA_CENTER);
                 collisionSpan.set(Constants.PROTRUSION_PLASMA_COLLISION_WIDTH, Constants.PROTRUSION_PLASMA_COLLISION_HEIGHT);
                 knockback.set(Constants.PROTRUSION_PLASMA_KNOCKBACK);
                 damage = Constants.PROTRUSION_PLASMA_DAMAGE;
                 break;
             case GAS:
-                animation = Assets.getInstance().getProtrusionAssets().gasProtrusion;
+                animation = AssetManager.getInstance().getProtrusionAssets().gasProtrusion;
                 center.set(Constants.PROTRUSION_GAS_CENTER);
                 collisionSpan.set(Constants.PROTRUSION_GAS_COLLISION_WIDTH, Constants.PROTRUSION_GAS_COLLISION_HEIGHT);
                 knockback.set(Constants.PROTRUSION_GAS_KNOCKBACK);
                 damage = Constants.PROTRUSION_GAS_DAMAGE;
                 break;
             case LIQUID:
-                animation = Assets.getInstance().getProtrusionAssets().liquidProtrusion;
+                animation = AssetManager.getInstance().getProtrusionAssets().liquidProtrusion;
                 center.set(Constants.PROTRUSION_LIQUID_CENTER);
                 collisionSpan.set(Constants.PROTRUSION_LIQUID_COLLISION_WIDTH, Constants.PROTRUSION_LIQUID_COLLISION_HEIGHT);
                 knockback.set(Constants.PROTRUSION_LIQUID_KNOCKBACK);
                 damage = Constants.PROTRUSION_LIQUID_DAMAGE;
                 break;
             case SOLID:
-                animation = Assets.getInstance().getProtrusionAssets().solidProtrustion;
+                animation = AssetManager.getInstance().getProtrusionAssets().solidProtrustion;
                 center.set(Constants.PROTRUSION_SOLID_CENTER);
                 collisionSpan.set(Constants.PROTRUSION_SOLID_COLLISION_WIDTH, Constants.PROTRUSION_SOLID_COLLISION_HEIGHT);
                 knockback.set(Constants.PROTRUSION_SOLID_KNOCKBACK);
                 damage = Constants.PROTRUSION_SOLID_DAMAGE;
                 break;
             default:
-                animation = Assets.getInstance().getProtrusionAssets().oreProtrusion;
+                animation = AssetManager.getInstance().getProtrusionAssets().oreProtrusion;
                 center.set(Constants.PROTRUSION_ORE_CENTER);
                 collisionSpan.set(Constants.PROTRUSION_ORE_COLLISION_WIDTH, Constants.PROTRUSION_ORE_COLLISION_HEIGHT);
                 knockback.set(Constants.PROTRUSION_ORE_KNOCKBACK);

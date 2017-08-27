@@ -7,8 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.app.LevelAssets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
+import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -42,22 +43,22 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
         health = Constants.ORBEN_MAX_HEALTH;
         switch (type) {
             case ORE:
-                animation = Assets.getInstance().getOrbenAssets().oreOrben;
+                animation = AssetManager.getInstance().getOrbenAssets().oreOrben;
                 break;
             case PLASMA:
-                animation = Assets.getInstance().getOrbenAssets().plasmaOrben;
+                animation = AssetManager.getInstance().getOrbenAssets().plasmaOrben;
                 break;
             case GAS:
-                animation = Assets.getInstance().getOrbenAssets().gasOrben;
+                animation = AssetManager.getInstance().getOrbenAssets().gasOrben;
                 break;
             case LIQUID:
-                animation = Assets.getInstance().getOrbenAssets().liquidOrben;
+                animation = AssetManager.getInstance().getOrbenAssets().liquidOrben;
                 break;
             case SOLID:
-                animation = Assets.getInstance().getOrbenAssets().solidOrben;
+                animation = AssetManager.getInstance().getOrbenAssets().solidOrben;
                 break;
             default:
-                animation = Assets.getInstance().getOrbenAssets().oreOrben;
+                animation = AssetManager.getInstance().getOrbenAssets().oreOrben;
         }
     }
 
@@ -71,7 +72,7 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
         position.x += velocity.x;
         position.y += velocity.y;
 
-        Viewport viewport = LevelUpdater.getInstance().getViewport();
+        Viewport viewport = ChaseCam.getInstance().getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
         Vector3 camera = new Vector3(viewport.getCamera().position);
         Vector2 activationDistance = new Vector2(worldSpan.x / 4, worldSpan.y / 4);
@@ -105,13 +106,13 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
 
         if (active) {
             boolean colliding = true;
-            for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+            for (Hazard hazard : LevelAssets.getClonedHazards()) {
                 if (Helpers.overlapsPhysicalObject(this, hazard) && !hazard.equals(this)) {
                     colliding = false;
                 }
             }
 
-            for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+            for (Ground ground : LevelAssets.getClonedGrounds()) {
                 if (ground.isDense()) {
                     if (Helpers.overlapsPhysicalObject(this, ground)) {
                         colliding = false;
@@ -157,7 +158,7 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
     public void render(SpriteBatch batch, Viewport viewport) {
         final TextureRegion region;
         if (xDirection == null || yDirection == null) {
-            region = Assets.getInstance().getOrbenAssets().dormantOrben;
+            region = AssetManager.getInstance().getOrbenAssets().dormantOrben;
         } else {
             region = animation.getKeyFrame(Helpers.secondsSince(startTime), true);
         }

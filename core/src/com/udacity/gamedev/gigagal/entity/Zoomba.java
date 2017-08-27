@@ -8,8 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.app.LevelAssets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.Direction;
@@ -45,22 +45,22 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         this.type = type;
         switch (type) {
 //            case ORE:
-//                animation = Assets.getInstance().getZoombaAssets().oreZoomba;
+//                animation = AssetManager.getInstance().getZoombaAssets().oreZoomba;
 //                break;
 //            case PLASMA:
-//                animation = Assets.getInstance().getZoombaAssets().plasmaZoomba;
+//                animation = AssetManager.getInstance().getZoombaAssets().plasmaZoomba;
 //                break;
             case GAS:
-                animations = Assets.getInstance().getZoombaAssets().gasAnimations;
+                animations = AssetManager.getInstance().getZoombaAssets().gasAnimations;
                 break;
 //            case LIQUID:
-//                animation = Assets.getInstance().getZoombaAssets().liquidZoomba;
+//                animation = AssetManager.getInstance().getZoombaAssets().liquidZoomba;
 //                break;
 //            case SOLID:
-//                animation = Assets.getInstance().getZoombaAssets().solidZoomba;
+//                animation = AssetManager.getInstance().getZoombaAssets().solidZoomba;
 //                break;
             default:
-                animations = Assets.getInstance().getZoombaAssets().gasAnimations;
+                animations = AssetManager.getInstance().getZoombaAssets().gasAnimations;
         }
         animation = animations.get(0);
         startTime = TimeUtils.nanoTime();
@@ -101,7 +101,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         }
         updateDirection(direction);
 
-        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+        for (Ground ground : LevelAssets.getClonedGrounds()) {
             if (ground.isDense() && !(ground instanceof Pliable)) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
                     direction = Helpers.getOppositeDirection(direction);
@@ -114,7 +114,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
                 }
             }
         }
-        for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+        for (Hazard hazard : LevelAssets.getClonedHazards()) {
             if (Helpers.overlapsPhysicalObject(this, hazard)) {
                 if (hazard instanceof Zoomba) {
                     direction = Helpers.getOppositeDirection(direction);

@@ -10,10 +10,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
+import com.udacity.gamedev.gigagal.app.LevelAssets;
 import com.udacity.gamedev.gigagal.app.SaveData;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.InputControls;
-import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -25,13 +25,12 @@ import java.util.List;
 import java.util.ListIterator;
 
 // mutable
-public class GigaGal extends Entity implements Humanoid {
+public class Avatar extends Entity implements Humanoid {
 
     // fields
-    public final static String TAG = GigaGal.class.getName();
-    public static final GigaGal INSTANCE = new GigaGal();
+    public final static String TAG = Avatar.class.getName();
+    public static final Avatar INSTANCE = new Avatar();
 
-    private LevelUpdater level;
     private float width;
     private float height;
     private float headRadius;
@@ -113,10 +112,10 @@ public class GigaGal extends Entity implements Humanoid {
     private int lives;
     private InputControls inputControls;
 
-    // ctor
-    private GigaGal() {}
+    // cannot be subclassed
+    private Avatar() {}
 
-    public static GigaGal getInstance() {
+    public static Avatar getInstance() {
         return INSTANCE;
     }
 
@@ -233,9 +232,10 @@ public class GigaGal extends Entity implements Humanoid {
         detectInput();
 
         // collision detection
-        touchAllGrounds(LevelUpdater.getInstance().getGrounds());
-        touchAllHazards(LevelUpdater.getInstance().getHazards());
-        touchAllPowerups(LevelUpdater.getInstance().getPowerups());
+        touchAllGrounds(LevelAssets.getClonedGrounds());
+        touchAllHazards(LevelAssets.getClonedHazards());
+        touchAllPowerups(LevelAssets.getClonedPowerups());
+
         // abilities
         if (groundState == GroundState.PLANTED) {
             if (action == Action.STANDING) {
@@ -310,7 +310,7 @@ public class GigaGal extends Entity implements Humanoid {
                 bladeState = BladeState.FLIP;
             }
         } else if (canFlip) { // manual deactivation by shoot button release
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+            AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
             swipeStartTime = 0;
             swipeTimeSeconds = 0;
             canFlip = false;
@@ -329,7 +329,7 @@ public class GigaGal extends Entity implements Humanoid {
                 bladeState = BladeState.RUSH;
             }
         } else if (canRush) {  // manual deactivation by dash interrupt
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+            AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
             swipeStartTime = 0;
             swipeTimeSeconds = 0;
             canRush = false;
@@ -344,7 +344,7 @@ public class GigaGal extends Entity implements Humanoid {
                 bladeState = BladeState.CUT;
             }
         } else if (canCut) {
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+            AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
             swipeStartTime = 0;
             swipeTimeSeconds = 0;
             canCut = false;
@@ -372,10 +372,10 @@ public class GigaGal extends Entity implements Humanoid {
                     }
                 }
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
-                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+                AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
             } else { // auto deactivation when animation completes
-                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+                AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
                 canFlip = false;
@@ -391,10 +391,10 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
-                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+                AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
             } else { // auto deactivation when animation completes
-                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+                AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
                 canRush = false;
@@ -412,10 +412,10 @@ public class GigaGal extends Entity implements Humanoid {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
-                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+                AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
             } else { // auto deactivation when animation completes
-                Assets.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+                AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
                 canCut = false;
@@ -584,12 +584,12 @@ public class GigaGal extends Entity implements Humanoid {
             } else { // when both position and previous position overlap ground side edge
 
                 float yTestPosition = position.y;
-                if (g instanceof Canirol) {
+                if (g instanceof Cannoroll) {
                     yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
                 }
                 if (!(g instanceof Pliable)) {
                     if (Helpers.betweenTwoValues(yTestPosition, g.getBottom(), g.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
-                        if (!(g instanceof Canirol)) {
+                        if (!(g instanceof Cannoroll)) {
                             if (Math.abs(position.x - g.getLeft()) < Math.abs(position.x - g.getRight())) {
                                 position.x = g.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
                             } else {
@@ -764,7 +764,7 @@ public class GigaGal extends Entity implements Humanoid {
     private void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
         for (Hazard hazard : hazards) {
-            if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof GigaGal)) {
+            if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Avatar)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
                 } else if (action == Action.STANDING
@@ -833,7 +833,7 @@ public class GigaGal extends Entity implements Humanoid {
     private void touchPowerup(Replenishing r) {
         switch(r.getType()) {
             case AMMO:
-                Assets.getInstance().getSoundAssets().ammo.play();
+                AssetManager.getInstance().getSoundAssets().ammo.play();
                 ammo += Constants.POWERUP_AMMO;
                 if (ammo > Constants.MAX_AMMO) {
                     ammo = Constants.MAX_AMMO;
@@ -841,7 +841,7 @@ public class GigaGal extends Entity implements Humanoid {
                 break;
             case HEALTH:
                 if (r instanceof Powerup) {
-                    Assets.getInstance().getSoundAssets().health.play();
+                    AssetManager.getInstance().getSoundAssets().health.play();
                     health += Constants.POWERUP_HEALTH;
                 } else {
                     health += .1f;
@@ -851,7 +851,7 @@ public class GigaGal extends Entity implements Humanoid {
                 }
                 break;
             case TURBO:
-                Assets.getInstance().getSoundAssets().turbo.play();
+                AssetManager.getInstance().getSoundAssets().turbo.play();
                 turbo += Constants.POWERUP_TURBO;
                 if (action == Action.HOVERING) {
                     hoverStartTime = TimeUtils.nanoTime();
@@ -861,11 +861,11 @@ public class GigaGal extends Entity implements Humanoid {
                 }
                 break;
             case LIFE:
-                Assets.getInstance().getSoundAssets().life.play();
+                AssetManager.getInstance().getSoundAssets().life.play();
                 lives += 1;
                 break;
             case CANNON:
-                Assets.getInstance().getSoundAssets().cannon.play();
+                AssetManager.getInstance().getSoundAssets().cannon.play();
                 chargeModifier = 1;
                 ammo += Constants.POWERUP_AMMO;
                 break;
@@ -1105,7 +1105,7 @@ public class GigaGal extends Entity implements Humanoid {
                 this.velocity.x = Helpers.absoluteToDirectionalValue(velocity.x, directionX, Orientation.X);
             }
             this.velocity.y = velocity.y;
-            Assets.getInstance().getSoundAssets().damage.play();
+            AssetManager.getInstance().getSoundAssets().damage.play();
             shotIntensity = ShotIntensity.NORMAL;
             groundState = GroundState.AIRBORNE;
             action = Action.FALLING;
@@ -1164,9 +1164,9 @@ public class GigaGal extends Entity implements Humanoid {
     public void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
         canDispatch = true;
         if (shotIntensity == ShotIntensity.BLAST) {
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+            AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play();
         } else {
-            Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1, 2, 0);
+            AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play(1, 2, 0);
         }
         ammo -= ammoUsed * ammoMultiplier;
     }
@@ -1495,126 +1495,126 @@ public class GigaGal extends Entity implements Humanoid {
         if (directionX == Direction.RIGHT) {
             if (bladeState == BladeState.RUSH) {
                 if (inputControls.rightButtonPressed) {
-                    region = Assets.getInstance().getGigaGalAssets().forehandRight.getKeyFrame(swipeTimeSeconds);
+                    region = AssetManager.getInstance().getGigaGalAssets().forehandRight.getKeyFrame(swipeTimeSeconds);
                 } else if (inputControls.leftButtonPressed) {
-                    region = Assets.getInstance().getGigaGalAssets().backhandRight.getKeyFrame(swipeTimeSeconds);
+                    region = AssetManager.getInstance().getGigaGalAssets().backhandRight.getKeyFrame(swipeTimeSeconds);
                 }
             } else if (bladeState == BladeState.CUT) {
-                region = Assets.getInstance().getGigaGalAssets().uphandRight.getKeyFrame(swipeTimeSeconds);
+                region = AssetManager.getInstance().getGigaGalAssets().uphandRight.getKeyFrame(swipeTimeSeconds);
             } else if (bladeState == BladeState.FLIP) {
-                region = Assets.getInstance().getGigaGalAssets().backflipRight.getKeyFrame(swipeTimeSeconds);
+                region = AssetManager.getInstance().getGigaGalAssets().backflipRight.getKeyFrame(swipeTimeSeconds);
             } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
-                    region = Assets.getInstance().getGigaGalAssets().lookupStandRight;
+                    region = AssetManager.getInstance().getGigaGalAssets().lookupStandRight;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupFallRight;
+                        region = AssetManager.getInstance().getGigaGalAssets().lookupFallRight;
                     } else if (action == Action.HOVERING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
                 } else if (directionY == Direction.DOWN) {
-                    region = Assets.getInstance().getGigaGalAssets().lookdownStandRight;
+                    region = AssetManager.getInstance().getGigaGalAssets().lookdownStandRight;
                     if (bladeState == BladeState.CUT) {
-                        region = Assets.getInstance().getGigaGalAssets().downhandRight.getKeyFrame(swipeTimeSeconds);
+                        region = AssetManager.getInstance().getGigaGalAssets().downhandRight.getKeyFrame(swipeTimeSeconds);
                     } else if (bladeState == BladeState.FLIP) {
-                        region = Assets.getInstance().getGigaGalAssets().frontflipRight.getKeyFrame(swipeTimeSeconds);
+                        region = AssetManager.getInstance().getGigaGalAssets().frontflipRight.getKeyFrame(swipeTimeSeconds);
                     } else if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownFallRight;
+                        region = AssetManager.getInstance().getGigaGalAssets().lookdownFallRight;
                     } else if (action == Action.HOVERING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
                 }
             } else if (action == Action.CLIMBING) {
-                region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
+                region = AssetManager.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
             } else if (action == Action.STANDING) {
                 if ((!(Helpers.secondsSince(standStartTime) < 1) &&
                       ((Helpers.secondsSince(standStartTime) % 10 < .15f)
                     || (Helpers.secondsSince(standStartTime) % 14 < .1f)
                     || (Helpers.secondsSince(standStartTime) % 15 < .25f)
                     || (Helpers.secondsSince(standStartTime) > 60)))) {
-                    region = Assets.getInstance().getGigaGalAssets().blinkRight;
+                    region = AssetManager.getInstance().getGigaGalAssets().blinkRight;
                 } else if (canPeer) {
-                    region = Assets.getInstance().getGigaGalAssets().lookbackRight;
+                    region = AssetManager.getInstance().getGigaGalAssets().lookbackRight;
                 } else {
-                    region = Assets.getInstance().getGigaGalAssets().standRight;
+                    region = AssetManager.getInstance().getGigaGalAssets().standRight;
                 }
             } else if (action == Action.STRIDING) {
-                region = Assets.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = AssetManager.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Action.DASHING) {
-                region = Assets.getInstance().getGigaGalAssets().dashRight;
+                region = AssetManager.getInstance().getGigaGalAssets().dashRight;
             } else if (action == Action.HOVERING) {
-                region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
+                region = AssetManager.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
             } else if (action == Action.RAPPELLING) {
                 if (canHurdle) {
-                    region = Assets.getInstance().getGigaGalAssets().graspRight;
+                    region = AssetManager.getInstance().getGigaGalAssets().graspRight;
                 } else {
-                    region = Assets.getInstance().getGigaGalAssets().rappelRight;
+                    region = AssetManager.getInstance().getGigaGalAssets().rappelRight;
                 }
             } else if (action == Action.RECOILING){
-                region = Assets.getInstance().getGigaGalAssets().recoilRight;
+                region = AssetManager.getInstance().getGigaGalAssets().recoilRight;
             } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
-                region = Assets.getInstance().getGigaGalAssets().fallRight;
+                region = AssetManager.getInstance().getGigaGalAssets().fallRight;
             }
         } else if (directionX == Direction.LEFT) {
             if (bladeState == BladeState.RUSH) {
                 if (inputControls.leftButtonPressed) {
-                    region = Assets.getInstance().getGigaGalAssets().forehandLeft.getKeyFrame(swipeTimeSeconds);
+                    region = AssetManager.getInstance().getGigaGalAssets().forehandLeft.getKeyFrame(swipeTimeSeconds);
                 } else if (inputControls.rightButtonPressed) {
-                    region = Assets.getInstance().getGigaGalAssets().backhandLeft.getKeyFrame(swipeTimeSeconds);
+                    region = AssetManager.getInstance().getGigaGalAssets().backhandLeft.getKeyFrame(swipeTimeSeconds);
                 }
             } else if (bladeState == BladeState.CUT) {
-                region = Assets.getInstance().getGigaGalAssets().uphandLeft.getKeyFrame(swipeTimeSeconds);
+                region = AssetManager.getInstance().getGigaGalAssets().uphandLeft.getKeyFrame(swipeTimeSeconds);
             } else if (bladeState == BladeState.FLIP) {
-                region = Assets.getInstance().getGigaGalAssets().backflipLeft.getKeyFrame(swipeTimeSeconds);
+                region = AssetManager.getInstance().getGigaGalAssets().backflipLeft.getKeyFrame(swipeTimeSeconds);
             } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
-                    region = Assets.getInstance().getGigaGalAssets().lookupStandLeft;
+                    region = AssetManager.getInstance().getGigaGalAssets().lookupStandLeft;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupFallLeft;
+                        region = AssetManager.getInstance().getGigaGalAssets().lookupFallLeft;
                     } else if (action == Action.HOVERING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 } else if (directionY == Direction.DOWN) {
-                    region = Assets.getInstance().getGigaGalAssets().lookdownStandLeft;
+                    region = AssetManager.getInstance().getGigaGalAssets().lookdownStandLeft;
                     if (canCut) {
-                        region = Assets.getInstance().getGigaGalAssets().downhandLeft.getKeyFrame(swipeTimeSeconds);
+                        region = AssetManager.getInstance().getGigaGalAssets().downhandLeft.getKeyFrame(swipeTimeSeconds);
                     } else if (canFlip) {
-                        region = Assets.getInstance().getGigaGalAssets().backflipLeft.getKeyFrame(swipeTimeSeconds);
+                        region = AssetManager.getInstance().getGigaGalAssets().backflipLeft.getKeyFrame(swipeTimeSeconds);
                     } else if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownFallLeft;
+                        region = AssetManager.getInstance().getGigaGalAssets().lookdownFallLeft;
                     } else if (action == Action.HOVERING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 }
             } else if (action == Action.CLIMBING) {
-                region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
+                region = AssetManager.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (action == Action.STANDING) {
                 if ((!(Helpers.secondsSince(standStartTime) < 1) &&
                   ((Helpers.secondsSince(standStartTime) % 20 < .15f)
                 || (Helpers.secondsSince(standStartTime) % 34 < .1f)
                 || (Helpers.secondsSince(standStartTime) % 35 < .25f)
                 || (Helpers.secondsSince(standStartTime) > 60)))) {
-                    region = Assets.getInstance().getGigaGalAssets().blinkLeft;
+                    region = AssetManager.getInstance().getGigaGalAssets().blinkLeft;
                 } else if (canPeer) {
-                        region = Assets.getInstance().getGigaGalAssets().lookbackLeft;
+                        region = AssetManager.getInstance().getGigaGalAssets().lookbackLeft;
                 } else {
-                        region = Assets.getInstance().getGigaGalAssets().standLeft;
+                        region = AssetManager.getInstance().getGigaGalAssets().standLeft;
                 }
             } else if (action == Action.STRIDING) {
-                region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = AssetManager.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Action.DASHING) {
-                region = Assets.getInstance().getGigaGalAssets().dashLeft;
+                region = AssetManager.getInstance().getGigaGalAssets().dashLeft;
             } else if (action == Action.HOVERING) {
-                region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
+                region = AssetManager.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
             } else if (action == Action.RAPPELLING) {
                 if (canHurdle) {
-                    region = Assets.getInstance().getGigaGalAssets().graspLeft;
+                    region = AssetManager.getInstance().getGigaGalAssets().graspLeft;
                 } else {
-                    region = Assets.getInstance().getGigaGalAssets().rappelLeft;
+                    region = AssetManager.getInstance().getGigaGalAssets().rappelLeft;
                 }
             } else if (action == Action.RECOILING) {
-                region = Assets.getInstance().getGigaGalAssets().recoilLeft;
+                region = AssetManager.getInstance().getGigaGalAssets().recoilLeft;
             } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
-                region = Assets.getInstance().getGigaGalAssets().fallLeft;
+                region = AssetManager.getInstance().getGigaGalAssets().fallLeft;
             }
         }
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);
@@ -1751,7 +1751,6 @@ public class GigaGal extends Entity implements Humanoid {
         setHealth(Constants.MAX_HEALTH);
     }
     public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); canPeer = false; } }
-    public void setLevel(LevelUpdater level) { this.level = level; }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void resetChargeIntensity() { shotIntensity = ShotIntensity.NORMAL; }
     public void dispose() {

@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
+import com.udacity.gamedev.gigagal.app.LevelAssets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.InputControls;
-import com.udacity.gamedev.gigagal.util.Assets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -24,10 +24,9 @@ import java.util.ListIterator;
 public class Boss extends Hazard implements Destructible, Humanoid {
 
     // fields
-    public final static String TAG = GigaGal.class.getName();
+    public final static String TAG = Avatar.class.getName();
 
-    private LevelUpdater level;
-    private GigaGal gigaGal;
+    private Avatar gigaGal;
     private Rectangle roomBounds;
     private float width;
     private float height;
@@ -107,7 +106,6 @@ public class Boss extends Hazard implements Destructible, Humanoid {
 
     public static class Builder {
 
-        private LevelUpdater level;
         private Vector2 spawnPosition;
         private Enums.Material weapon = Enums.Material.NATIVE;
         private float height = Constants.GIGAGAL_HEIGHT;
@@ -162,12 +160,10 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     }
 
     public void respawn() {
-        level = LevelUpdater.getInstance();
-        gigaGal = GigaGal.getInstance();
+        gigaGal = Avatar.getInstance();
         position.set(spawnPosition);
         killPlane = position.y + Constants.FALL_LIMIT;
         chaseCamPosition.set(position, 0);
-        level = LevelUpdater.getInstance();
         left = position.x - halfWidth;
         right = position.x + halfWidth;
         top = position.y + headRadius;
@@ -220,9 +216,9 @@ public class Boss extends Hazard implements Destructible, Humanoid {
         detectInput();
 
         // collision detection
-        touchAllGrounds(LevelUpdater.getInstance().getGrounds());
-        touchAllHazards(LevelUpdater.getInstance().getHazards());
-        touchAllPowerups(LevelUpdater.getInstance().getPowerups());
+        touchAllGrounds(LevelAssets.getClonedGrounds());
+        touchAllHazards(LevelAssets.getClonedHazards());
+        touchAllPowerups(LevelAssets.getClonedPowerups());
 
         // abilities
         if (groundState == GroundState.PLANTED) {
@@ -473,13 +469,13 @@ public class Boss extends Hazard implements Destructible, Humanoid {
                 }
             } else { // when both position and previous position overlap ground side edge
                 float yTestPosition = position.y;
-                if (ground instanceof Canirol) {
+                if (ground instanceof Cannoroll) {
                     yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
                 }
                 if (!(ground instanceof Pliable)) {
                     if (Helpers.betweenTwoValues(yTestPosition, ground.getBottom(), ground.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
 
-                        if (!(ground instanceof Canirol)) {
+                        if (!(ground instanceof Cannoroll)) {
                             if (Math.abs(position.x - ground.getLeft()) < Math.abs(position.x - ground.getRight())) {
                                 position.x = ground.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
                             } else {
@@ -703,7 +699,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     private void touchPowerup(Replenishing powerup) {
         switch(powerup.getType()) {
             case AMMO:
-                Assets.getInstance().getSoundAssets().ammo.play();
+                AssetManager.getInstance().getSoundAssets().ammo.play();
                 ammo += Constants.POWERUP_AMMO;
                 if (ammo > Constants.MAX_AMMO) {
                     ammo = Constants.MAX_AMMO;
@@ -711,7 +707,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
                 break;
             case HEALTH:
                 if (powerup instanceof Powerup) {
-                    Assets.getInstance().getSoundAssets().health.play();
+                    AssetManager.getInstance().getSoundAssets().health.play();
                     health += Constants.POWERUP_HEALTH;
                 } else {
                     health += .1f;
@@ -721,7 +717,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
                 }
                 break;
             case TURBO:
-                Assets.getInstance().getSoundAssets().turbo.play();
+                AssetManager.getInstance().getSoundAssets().turbo.play();
                 turbo += Constants.POWERUP_TURBO;
                 if (action == Action.HOVERING) {
                     hoverStartTime = TimeUtils.nanoTime();
@@ -731,11 +727,11 @@ public class Boss extends Hazard implements Destructible, Humanoid {
                 }
                 break;
             case LIFE:
-                Assets.getInstance().getSoundAssets().life.play();
+                AssetManager.getInstance().getSoundAssets().life.play();
                 lives += 1;
                 break;
             case CANNON:
-                Assets.getInstance().getSoundAssets().cannon.play();
+                AssetManager.getInstance().getSoundAssets().cannon.play();
                 chargeModifier = 1;
                 ammo += Constants.POWERUP_AMMO;
                 break;
@@ -966,7 +962,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
             this.velocity.x = Helpers.absoluteToDirectionalValue(velocity.x, directionX, Orientation.X);
         }
         this.velocity.y = velocity.y;
-        Assets.getInstance().getSoundAssets().damage.play();
+        AssetManager.getInstance().getSoundAssets().damage.play();
         shotIntensity = ShotIntensity.NORMAL;
         groundState = GroundState.AIRBORNE;
         action = Action.FALLING;
@@ -1024,9 +1020,9 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     public void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
         canDispatch = true;
         if (shotIntensity == ShotIntensity.BLAST) {
-      //      Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+      //      AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play();
         } else {
-       //     Assets.getInstance().getSoundAssets().getMaterialSound(weapon).play(1, 2, 0);
+       //     AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play(1, 2, 0);
         }
         ammo -= ammoUsed * ammoMultiplier;
     }
@@ -1332,98 +1328,98 @@ public class Boss extends Hazard implements Destructible, Humanoid {
         if (directionX == Direction.RIGHT) {
             if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
-                    region = Assets.getInstance().getBossAssets().liquidLookupStandRight;
+                    region = AssetManager.getInstance().getBossAssets().liquidLookupStandRight;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = Assets.getInstance().getBossAssets().liquidLookupFallRight;
+                        region = AssetManager.getInstance().getBossAssets().liquidLookupFallRight;
                     } else if (action == Action.HOVERING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
                 } else if (directionY == Direction.DOWN) {
-                    region = Assets.getInstance().getGigaGalAssets().lookdownStandRight;
+                    region = AssetManager.getInstance().getGigaGalAssets().lookdownStandRight;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = Assets.getInstance().getBossAssets().liquidLookdownFallRight;
+                        region = AssetManager.getInstance().getBossAssets().liquidLookdownFallRight;
                     } else if (action == Action.HOVERING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
                 }
             } else if (action == Action.CLIMBING) {
-                region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
+                region = AssetManager.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
             } else if (action == Action.STANDING) {
 //                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
 //                        ((Helpers.secondsSince(standStartTime) % 10 < .15f)
 //                                || (Helpers.secondsSince(standStartTime) % 14 < .1f)
 //                                || (Helpers.secondsSince(standStartTime) % 15 < .25f)
 //                                || (Helpers.secondsSince(standStartTime) > 60)))) {
-//                    region = Assets.getInstance().getGigaGalAssets().blinkRight;
+//                    region = AssetManager.getInstance().getGigaGalAssets().blinkRight;
 //                } else if (canPeer) {
-//                    region = Assets.getInstance().getGigaGalAssets().lookbackRight;
+//                    region = AssetManager.getInstance().getGigaGalAssets().lookbackRight;
 //                } else {
-                    region = Assets.getInstance().getBossAssets().liquidStandRight;
+                    region = AssetManager.getInstance().getBossAssets().liquidStandRight;
 //                }
             } else if (action == Action.STRIDING) {
-                region = Assets.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = AssetManager.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Action.DASHING) {
-                region = Assets.getInstance().getBossAssets().liquidDashRight;
+                region = AssetManager.getInstance().getBossAssets().liquidDashRight;
             } else if (action == Action.HOVERING) {
-                region = Assets.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
+                region = AssetManager.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
             } else if (action == Action.RAPPELLING) {
                 if (canHurdle) {
-                    region = Assets.getInstance().getGigaGalAssets().graspRight;
+                    region = AssetManager.getInstance().getGigaGalAssets().graspRight;
                 } else {
-                    region = Assets.getInstance().getGigaGalAssets().rappelRight;
+                    region = AssetManager.getInstance().getGigaGalAssets().rappelRight;
                 }
             } else if (action == Action.RECOILING){
-                region = Assets.getInstance().getBossAssets().liquidRecoilRight;
+                region = AssetManager.getInstance().getBossAssets().liquidRecoilRight;
             } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
-                region = Assets.getInstance().getBossAssets().liquidFallRight;
+                region = AssetManager.getInstance().getBossAssets().liquidFallRight;
             }
         } else if (directionX == Direction.LEFT) {
             if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
-                    region = Assets.getInstance().getBossAssets().liquidLookupStandLeft;
+                    region = AssetManager.getInstance().getBossAssets().liquidLookupStandLeft;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = Assets.getInstance().getBossAssets().liquidLookupFallLeft;
+                        region = AssetManager.getInstance().getBossAssets().liquidLookupFallLeft;
                     } else if (action == Action.HOVERING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 } else if (directionY == Direction.DOWN) {
-                    region = Assets.getInstance().getGigaGalAssets().lookdownStandLeft;
+                    region = AssetManager.getInstance().getGigaGalAssets().lookdownStandLeft;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = Assets.getInstance().getBossAssets().liquidLookdownFallLeft;
+                        region = AssetManager.getInstance().getBossAssets().liquidLookdownFallLeft;
                     } else if (action == Action.HOVERING) {
-                        region = Assets.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 }
             } else if (action == Action.CLIMBING) {
-                region = Assets.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
+                region = AssetManager.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
             } else if (action == Action.STANDING) {
 //                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
 //                        ((Helpers.secondsSince(standStartTime) % 20 < .15f)
 //                                || (Helpers.secondsSince(standStartTime) % 34 < .1f)
 //                                || (Helpers.secondsSince(standStartTime) % 35 < .25f)
 //                                || (Helpers.secondsSince(standStartTime) > 60)))) {
-//                    region = Assets.getInstance().getGigaGalAssets().blinkLeft;
+//                    region = AssetManager.getInstance().getGigaGalAssets().blinkLeft;
 //                } else if (canPeer) {
-//                    region = Assets.getInstance().getGigaGalAssets().lookbackLeft;
+//                    region = AssetManager.getInstance().getGigaGalAssets().lookbackLeft;
 //                } else {
-                    region = Assets.getInstance().getBossAssets().liquidStandLeft;
+                    region = AssetManager.getInstance().getBossAssets().liquidStandLeft;
 //                }
             } else if (action == Action.STRIDING) {
-                region = Assets.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = AssetManager.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Action.DASHING) {
-                region = Assets.getInstance().getBossAssets().liquidDashLeft;
+                region = AssetManager.getInstance().getBossAssets().liquidDashLeft;
             } else if (action == Action.HOVERING) {
-                region = Assets.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
+                region = AssetManager.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
             } else if (action == Action.RAPPELLING) {
                 if (canHurdle) {
-                    region = Assets.getInstance().getGigaGalAssets().graspLeft;
+                    region = AssetManager.getInstance().getGigaGalAssets().graspLeft;
                 } else {
-                    region = Assets.getInstance().getGigaGalAssets().rappelLeft;
+                    region = AssetManager.getInstance().getGigaGalAssets().rappelLeft;
                 }
             } else if (action == Action.RECOILING) {
-                region = Assets.getInstance().getBossAssets().liquidRecoilLeft;
+                region = AssetManager.getInstance().getBossAssets().liquidRecoilLeft;
             } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
-                region = Assets.getInstance().getBossAssets().liquidFallRight;
+                region = AssetManager.getInstance().getBossAssets().liquidFallRight;
             }
         }
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);
@@ -1564,7 +1560,6 @@ public class Boss extends Hazard implements Destructible, Humanoid {
         setHealth(Constants.MAX_HEALTH);
     }
     public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); canPeer = false; } }
-    public void setLevel(LevelUpdater level) { this.level = level; }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void resetChargeIntensity() { shotIntensity = ShotIntensity.NORMAL; }
     public void dispose() {

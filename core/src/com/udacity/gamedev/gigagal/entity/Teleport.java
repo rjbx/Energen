@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
@@ -26,7 +26,7 @@ public class Teleport extends Transport {
     
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getPortalAssets().teleport.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.TELEPORT_CENTER);
+        Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getPortalAssets().teleport.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.TELEPORT_CENTER);
     }
 
     @Override public final Vector2 getPosition() { return position; }

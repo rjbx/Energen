@@ -7,8 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Enums.*;
@@ -20,7 +19,6 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
     // fields
     public final static String TAG = Ammo.class.getName();
 
-    private final LevelUpdater level;
     private final Vector2 position;
     private Vector2 ammoCenter;
     private final Direction direction;
@@ -40,8 +38,7 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
     private long startTime;
 
     // ctor
-    public Ammo(LevelUpdater level, Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, Material weapon, Entity source) {
-        this.level = level;
+    public Ammo(Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, Material weapon, Entity source) {
         this.position = position;
         this.direction = direction;
         this.orientation = orientation;
@@ -77,72 +74,72 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
                 damage = Constants.AMMO_STANDARD_DAMAGE;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    animation = Assets.getInstance().getAmmoAssets().nativeBlast;
+                    animation = AssetManager.getInstance().getAmmoAssets().nativeBlast;
                 } else {
-                    animation = Assets.getInstance().getAmmoAssets().nativeShot;
+                    animation = AssetManager.getInstance().getAmmoAssets().nativeShot;
                 }
                 break;
             case GAS:
                 damage = Constants.PROTRUSION_GAS_DAMAGE;
                 knockback = Constants.PROTRUSION_GAS_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    animation = Assets.getInstance().getAmmoAssets().gasBlast;
+                    animation = AssetManager.getInstance().getAmmoAssets().gasBlast;
                 } else {
-                    animation = Assets.getInstance().getAmmoAssets().gasShot;
+                    animation = AssetManager.getInstance().getAmmoAssets().gasShot;
                 }
                 break;
             case LIQUID:
                 damage = Constants.PROTRUSION_LIQUID_DAMAGE;
                 knockback = Constants.PROTRUSION_LIQUID_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    animation = Assets.getInstance().getAmmoAssets().liquidBlast;
+                    animation = AssetManager.getInstance().getAmmoAssets().liquidBlast;
                 } else {
-                    animation = Assets.getInstance().getAmmoAssets().liquidShot;
+                    animation = AssetManager.getInstance().getAmmoAssets().liquidShot;
                 }
                 break;
             case PLASMA:
                 damage = Constants.SUSPENSION_PLASMA_DAMAGE;
                 knockback = Constants.SUSPENSION_PLASMA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    animation = Assets.getInstance().getAmmoAssets().plasmaBlast;
+                    animation = AssetManager.getInstance().getAmmoAssets().plasmaBlast;
                 } else {
-                    animation = Assets.getInstance().getAmmoAssets().plasmaShot;
+                    animation = AssetManager.getInstance().getAmmoAssets().plasmaShot;
                 }
                 break;
             case ORE:
                 damage = Constants.SUSPENSION_ORE_DAMAGE;
                 knockback = Constants.SUSPENSION_ORE_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    animation = Assets.getInstance().getAmmoAssets().oreBlast;
+                    animation = AssetManager.getInstance().getAmmoAssets().oreBlast;
                 } else {
-                    animation = Assets.getInstance().getAmmoAssets().oreShot;
+                    animation = AssetManager.getInstance().getAmmoAssets().oreShot;
                 }
                 break;
             case SOLID:
                 damage = Constants.PROTRUSION_SOLID_DAMAGE;
                 knockback = Constants.PROTRUSION_SOLID_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    animation = Assets.getInstance().getAmmoAssets().solidBlast;
+                    animation = AssetManager.getInstance().getAmmoAssets().solidBlast;
                 } else {
-                    animation = Assets.getInstance().getAmmoAssets().solidShot;
+                    animation = AssetManager.getInstance().getAmmoAssets().solidShot;
                 }
                 break;
             case ANTIMATTER:
                 damage = Constants.MAX_HEALTH / 2;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    animation = Assets.getInstance().getAmmoAssets().antimatterBlast;
+                    animation = AssetManager.getInstance().getAmmoAssets().antimatterBlast;
                 } else {
-                    animation = Assets.getInstance().getAmmoAssets().antimatterShot;
+                    animation = AssetManager.getInstance().getAmmoAssets().antimatterShot;
                 }
                 break;
             case HYBRID:
                 damage = Constants.PROTRUSION_SOLID_DAMAGE * 2;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
                 if (shotIntensity == ShotIntensity.BLAST) {
-                    animation = Assets.getInstance().getAmmoAssets().hybridBlast;
+                    animation = AssetManager.getInstance().getAmmoAssets().hybridBlast;
                 } else {
-                    animation = Assets.getInstance().getAmmoAssets().hybridShot;
+                    animation = AssetManager.getInstance().getAmmoAssets().hybridShot;
                 }
                 break;
             default:
@@ -153,7 +150,7 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
 
     public void update(float delta) {
         float ammoSpeed = Constants.AMMO_MAX_SPEED;
-        if (!(source instanceof GigaGal)) {
+        if (!(source instanceof Avatar)) {
             ammoSpeed = Constants.AMMO_NORMAL_SPEED;
         }
 
@@ -176,34 +173,32 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
                     break;
             }
         }
-
-        if (orientation == Orientation.X) {
-            final float rangeWidth = level.getViewport().getWorldWidth() * 1.5f;
-            final float cameraX = level.getViewport().getCamera().position.x;
-            if (position.x < (cameraX - rangeWidth)
-            || (position.x > (cameraX + rangeWidth))) {
-                active = false;
-            }
-        } else if (orientation == Orientation.Y) {
-            final float rangeHeight = level.getViewport().getWorldHeight() * 1.5f;
-            final float cameraY = level.getViewport().getCamera().position.y;
-            if (position.y < (cameraY - rangeHeight)
-            || (position.y > (cameraY + rangeHeight))) {
-                active = false;
-            }
-        }
         bounds.setCenter(position.x, position.y);
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
+        if (orientation == Orientation.X) {
+            final float rangeWidth = viewport.getWorldWidth() * 1.5f;
+            final float cameraX = viewport.getCamera().position.x;
+            if (position.x < (cameraX - rangeWidth)
+                    || (position.x > (cameraX + rangeWidth))) {
+                active = false;
+            }
+        } else if (orientation == Orientation.Y) {
+            final float rangeHeight = viewport.getWorldHeight() * 1.5f;
+            final float cameraY = viewport.getCamera().position.y;
+            if (position.y < (cameraY - rangeHeight)
+                    || (position.y > (cameraY + rangeHeight))) {
+                active = false;
+            }
+        }
         if (active) {
             Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime)), position, ammoCenter, scale, rotation);
         }
     }
 
     public final boolean isActive() { return active; }
-    public final void deactivate() { active = false; }
     public final Enums.Direction getDirection() { return direction; }
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getWidth() { return radius * 2; }
@@ -221,6 +216,8 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
     public final Material getType() { return weapon; }
     public final TextureRegion getTexture() { return animation.getKeyFrame(0); }
     public final int getHitScore() { return hitScore; }
-    public final void setHitScore(int hitScore) { this.hitScore = hitScore; }
     public final Entity getSource() { return source; }
+
+    public final void deactivate() { active = false; }
+    public final void setHitScore(int hitScore) { this.hitScore = hitScore; }
 }

@@ -1,12 +1,11 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -57,7 +56,7 @@ public class Suspension extends Hazard implements Indestructible, Convertible {
         if (state) {
             Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center);
         } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getSuspensionAssets().inactiveSuspension, position, center);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getSuspensionAssets().inactiveSuspension, position, center);
         }
     }
 
@@ -78,49 +77,49 @@ public class Suspension extends Hazard implements Indestructible, Convertible {
     private final void setTypeAttributes(Enums.Material type) {
         switch (type) {
             case ORE:
-                animation = Assets.getInstance().getSuspensionAssets().oreSuspension;
+                animation = AssetManager.getInstance().getSuspensionAssets().oreSuspension;
                 center.set(Constants.SUSPENSION_ORE_CENTER);
                 collisionSpan.set(Constants.SUSPENSION_ORE_COLLISION_WIDTH, Constants.SUSPENSION_ORE_COLLISION_HEIGHT);
                 knockback.set(Constants.SUSPENSION_ORE_KNOCKBACK);
                 damage = Constants.SUSPENSION_ORE_DAMAGE;
                 break;
             case PLASMA:
-                animation = Assets.getInstance().getSuspensionAssets().plasmaSuspension;
+                animation = AssetManager.getInstance().getSuspensionAssets().plasmaSuspension;
                 center.set(Constants.SUSPENSION_PLASMA_CENTER);
                 collisionSpan.set(Constants.SUSPENSION_PLASMA_COLLISION_WIDTH, Constants.SUSPENSION_PLASMA_COLLISION_HEIGHT);
                 knockback.set(Constants.SUSPENSION_PLASMA_KNOCKBACK);
                 damage = Constants.SUSPENSION_PLASMA_DAMAGE;
                 break;
             case GAS:
-                animation = Assets.getInstance().getSuspensionAssets().gasSuspension;
+                animation = AssetManager.getInstance().getSuspensionAssets().gasSuspension;
                 center.set(Constants.SUSPENSION_GAS_CENTER);
                 collisionSpan.set(Constants.SUSPENSION_GAS_COLLISION_WIDTH, Constants.SUSPENSION_GAS_COLLISION_HEIGHT);
                 knockback.set(Constants.SUSPENSION_GAS_KNOCKBACK);
                 damage = Constants.SUSPENSION_GAS_DAMAGE;
                 break;
             case LIQUID:
-                animation = Assets.getInstance().getSuspensionAssets().liquidSuspension;
+                animation = AssetManager.getInstance().getSuspensionAssets().liquidSuspension;
                 center.set(Constants.SUSPENSION_LIQUID_CENTER);
                 collisionSpan.set(Constants.SUSPENSION_LIQUID_COLLISION_WIDTH, Constants.SUSPENSION_LIQUID_COLLISION_HEIGHT);
                 knockback.set(Constants.SUSPENSION_LIQUID_KNOCKBACK);
                 damage = Constants.SUSPENSION_LIQUID_DAMAGE;
                 break;
             case SOLID:
-                animation = Assets.getInstance().getSuspensionAssets().solidSuspension;
+                animation = AssetManager.getInstance().getSuspensionAssets().solidSuspension;
                 center.set(Constants.SUSPENSION_SOLID_CENTER);
                 collisionSpan.set(Constants.SUSPENSION_SOLID_COLLISION_WIDTH, Constants.SUSPENSION_SOLID_COLLISION_HEIGHT);
                 knockback.set(Constants.SUSPENSION_SOLID_KNOCKBACK);
                 damage = Constants.SUSPENSION_SOLID_DAMAGE;
                 break;
             case ANTIMATTER:
-                animation = Assets.getInstance().getSuspensionAssets().antimatterSuspension;
+                animation = AssetManager.getInstance().getSuspensionAssets().antimatterSuspension;
                 center.set(Constants.SUSPENSION_ANTIMATTER_CENTER);
                 collisionSpan.set(Constants.SUSPENSION_ANTIMATTER_COLLISION_WIDTH, Constants.SUSPENSION_ANTIMATTER_COLLISION_HEIGHT);
                 knockback.set(Constants.SUSPENSION_ANTIMATTER_KNOCKBACK);
                 damage = Constants.SUSPENSION_ANTIMATTER_DAMAGE;
                 break;
             default:
-                animation = Assets.getInstance().getSuspensionAssets().oreSuspension;
+                animation = AssetManager.getInstance().getSuspensionAssets().oreSuspension;
                 center.set(Constants.SUSPENSION_ORE_CENTER);
                 collisionSpan.set(Constants.SUSPENSION_ORE_COLLISION_WIDTH, Constants.SUSPENSION_ORE_COLLISION_HEIGHT);
                 knockback.set(Constants.SUSPENSION_ORE_KNOCKBACK);

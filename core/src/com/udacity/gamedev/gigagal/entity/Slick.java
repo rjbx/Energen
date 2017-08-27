@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
@@ -28,7 +28,7 @@ public class Slick extends Ground implements Rappelable, Skateable {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().slick.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
+        Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().slick.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.SLICK_CENTER.y * 2 * scale.y; }

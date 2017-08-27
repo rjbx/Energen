@@ -4,12 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.udacity.gamedev.gigagal.entity.Armorollen;
-import com.udacity.gamedev.gigagal.entity.Bladerollen;
+import com.udacity.gamedev.gigagal.entity.Armoroll;
+import com.udacity.gamedev.gigagal.entity.Avatar;
+import com.udacity.gamedev.gigagal.entity.Bladeroll;
 import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Brick;
-import com.udacity.gamedev.gigagal.entity.Canirol;
+import com.udacity.gamedev.gigagal.entity.Cannoroll;
 import com.udacity.gamedev.gigagal.entity.Cannon;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Coals;
@@ -40,7 +41,6 @@ import com.udacity.gamedev.gigagal.entity.Tripspring;
 import com.udacity.gamedev.gigagal.entity.Triptread;
 import com.udacity.gamedev.gigagal.entity.Vines;
 import com.udacity.gamedev.gigagal.entity.Portal;
-import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.entity.Barrier;
 import com.udacity.gamedev.gigagal.entity.Waves;
 import com.udacity.gamedev.gigagal.entity.Zoomba;
@@ -66,23 +66,20 @@ final class LevelLoader {
 
     protected static final void load(Enums.Theme level) throws ParseException, IOException {
 
+        runtimeEx = false;
+
         LevelUpdater.getInstance().setTheme(level);
 
         final FileHandle file = Gdx.files.internal("levels/" + level + ".dt");
 
         JSONParser parser = new JSONParser();
-        JSONObject rootJsonObject;
-        rootJsonObject = (JSONObject) parser.parse(file.reader());
-
+        JSONObject rootJsonObject = (JSONObject) parser.parse(file.reader());
         JSONObject composite = (JSONObject) rootJsonObject.get(Constants.LEVEL_COMPOSITE);
 
         JSONArray ninePatches = (JSONArray) composite.get(Constants.LEVEL_9PATCHES);
         loadNinePatches(LevelUpdater.getInstance(), ninePatches);
 
         JSONArray images = (JSONArray) composite.get(Constants.LEVEL_IMAGES);
-
-        runtimeEx = false;
-
         loadImages(LevelUpdater.getInstance(), images);
 
         LevelUpdater.getInstance().setLoadEx(runtimeEx);
@@ -409,8 +406,7 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STAND_RIGHT)) {
                 final Vector2 gigaGalPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);
-                GigaGal.getInstance().setSpawnPosition(gigaGalPosition);
-                GigaGal.getInstance().setLevel(level);
+                Avatar.getInstance().setSpawnPosition(gigaGalPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOSS_SPRITE)) {
                 final Vector2 bossPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded Boss at " + bossPosition);
@@ -469,7 +465,7 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANIROL_SPRITE_1)) {
                 final Vector2 canirolPosition = imagePosition.add(Constants.X_CANIROL_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + canirolPosition);
-                level.addGround(new Canirol(canirolPosition, orientation, direction, intensity, range, tags[Constants.OFF_TAG_INDEX]));
+                level.addGround(new Cannoroll(canirolPosition, orientation, direction, intensity, range, tags[Constants.OFF_TAG_INDEX]));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ZOOMBA_SPRITE)) {
                 final Vector2 zoombaPosition = imagePosition.add(Constants.ZOOMBA_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + zoombaPosition);
@@ -493,11 +489,11 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ARMOROLLO_LIQUID_SPRITE_0)) {
                 final Vector2 armorolloPosition = imagePosition.add(Constants.ROLLEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the armorollo at " + armorolloPosition);
-                level.addHazard(new Armorollen(armorolloPosition, type, speed));
+                level.addHazard(new Armoroll(armorolloPosition, type, speed));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ARMOROLLO_LIQUID_SPRITE_1)) {
                 final Vector2 armorolloPosition = imagePosition.add(Constants.ROLLEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the armorollo at " + armorolloPosition);
-                level.addHazard(new Bladerollen(armorolloPosition, type, speed));
+                level.addHazard(new Bladeroll(armorolloPosition, type, speed));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANNON_SPRITE)) {
                 final Vector2 cannonPosition = imagePosition.add(Constants.X_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);

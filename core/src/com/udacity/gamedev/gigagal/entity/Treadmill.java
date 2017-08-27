@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -36,9 +36,9 @@ public class Treadmill extends Ground implements Propelling, Convertible {
     @Override
     public void update(float delta) {
         if (direction == Enums.Direction.RIGHT) {
-            animation = Assets.getInstance().getGroundAssets().treadmillRight;
+            animation = AssetManager.getInstance().getGroundAssets().treadmillRight;
         } else {
-            animation = Assets.getInstance().getGroundAssets().treadmillLeft;
+            animation = AssetManager.getInstance().getGroundAssets().treadmillLeft;
         }
     }
 

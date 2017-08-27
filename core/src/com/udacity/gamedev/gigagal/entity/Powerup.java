@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -29,27 +29,27 @@ public class Powerup extends Entity implements Replenishing {
         this.type = type;
         switch (this.type) {
             case HEALTH:
-                animation = Assets.getInstance().getPowerupAssets().healthPowerup;
+                animation = AssetManager.getInstance().getPowerupAssets().healthPowerup;
                 center = Constants.HEALTH_POWERUP_CENTER;
                 break;
             case TURBO:
-                animation = Assets.getInstance().getPowerupAssets().turboPowerup;
+                animation = AssetManager.getInstance().getPowerupAssets().turboPowerup;
                 center = Constants.TURBO_POWERUP_CENTER;
                 break;
             case AMMO:
-                animation = Assets.getInstance().getPowerupAssets().ammoPowerup;
+                animation = AssetManager.getInstance().getPowerupAssets().ammoPowerup;
                 center = Constants.AMMO_POWERUP_CENTER;
                 break;
             case LIFE:
-                animation = Assets.getInstance().getPowerupAssets().lifePowerup;
+                animation = AssetManager.getInstance().getPowerupAssets().lifePowerup;
                 center = Constants.LIFE_POWERUP_CENTER;
                 break;
             case CANNON:
-                animation = Assets.getInstance().getPowerupAssets().cannonPowerup;
+                animation = AssetManager.getInstance().getPowerupAssets().cannonPowerup;
                 center = Constants.CANNON_POWERUP_CENTER;
                 break;
             default:
-                animation = Assets.getInstance().getPowerupAssets().ammoPowerup;
+                animation = AssetManager.getInstance().getPowerupAssets().ammoPowerup;
                 center = Constants.AMMO_POWERUP_CENTER;
         }
     }

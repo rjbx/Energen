@@ -5,8 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.app.LevelAssets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
+import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -17,7 +18,6 @@ public class Rollen extends Hazard implements Destructible, Roving {
     // fields
     public final static String TAG = Rollen.class.getName();
 
-    private LevelUpdater level;
     private Vector2 position;
     private Vector2 previousFramePosition; // class-level instantiationa
     private Enums.Direction xDirection;
@@ -47,22 +47,22 @@ public class Rollen extends Hazard implements Destructible, Roving {
         collision = rollTimeSeconds;
         switch (type) {
             case ORE:
-                animation = Assets.getInstance().getRollenAssets().oreRollen;
+                animation = AssetManager.getInstance().getRollenAssets().oreRollen;
                 break;
             case PLASMA:
-                animation = Assets.getInstance().getRollenAssets().plasmaRollen;
+                animation = AssetManager.getInstance().getRollenAssets().plasmaRollen;
                 break;
             case GAS:
-                animation = Assets.getInstance().getRollenAssets().gasRollen;
+                animation = AssetManager.getInstance().getRollenAssets().gasRollen;
                 break;
             case LIQUID:
-                animation = Assets.getInstance().getRollenAssets().liquidRollen;
+                animation = AssetManager.getInstance().getRollenAssets().liquidRollen;
                 break;
             case SOLID:
-                animation = Assets.getInstance().getRollenAssets().solidRollen;
+                animation = AssetManager.getInstance().getRollenAssets().solidRollen;
                 break;
             default:
-                animation = Assets.getInstance().getRollenAssets().oreRollen;
+                animation = AssetManager.getInstance().getRollenAssets().oreRollen;
         }
     }
 
@@ -70,7 +70,7 @@ public class Rollen extends Hazard implements Destructible, Roving {
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
 
-        Viewport viewport = LevelUpdater.getInstance().getViewport();
+        Viewport viewport = ChaseCam.getInstance().getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
         Vector3 camera = new Vector3(viewport.getCamera().position);
         Vector2 activationDistance = new Vector2(worldSpan.x / 1.5f, worldSpan.y / 1.5f);
@@ -78,7 +78,7 @@ public class Rollen extends Hazard implements Destructible, Roving {
         boolean touchingSide = false;
         boolean touchingTop = false;
         boolean canSink = false;
-        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+        for (Ground ground : LevelAssets.getClonedGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (ground instanceof Pourous) {
                     canSink = true;
@@ -126,7 +126,7 @@ public class Rollen extends Hazard implements Destructible, Roving {
                 rollTimeSeconds = Helpers.secondsSince(rollStartTime);
                 velocity.x = speedAtChangeXDirection + Helpers.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
             }
-            for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+            for (Hazard hazard : LevelAssets.getClonedHazards()) {
                 if (hazard instanceof Rollen && Helpers.overlapsPhysicalObject(this, hazard) && !(hazard.equals(this))) {
                     position.set(previousFramePosition);
                     if (!touchingSide && position.x < hazard.getPosition().x) {

@@ -3,7 +3,7 @@ package com.udacity.gamedev.gigagal.overlay;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.entity.GigaGal;
+import com.udacity.gamedev.gigagal.entity.Avatar;
 import com.udacity.gamedev.gigagal.util.Constants;
 
 // immutable
@@ -24,7 +24,7 @@ public final class GaugeHud {
         flickerFrequency = 0.5f;
     }
 
-    public void render(ShapeRenderer renderer, ExtendViewport viewport, GigaGal gigaGal) {
+    public void render(ShapeRenderer renderer, ExtendViewport viewport, Avatar gigaGal) {
 
         viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);

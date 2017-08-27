@@ -1,11 +1,9 @@
 package com.udacity.gamedev.gigagal.overlay;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.app.SaveData;
 import com.udacity.gamedev.gigagal.util.*;
 import com.udacity.gamedev.gigagal.util.InputControls;
@@ -19,7 +17,7 @@ public final class TouchInterface {
     private static InputControls inputControls;
     private Viewport viewport; // class-level instantiation
 
-    // non-instantiable; cannot be subclassed
+    // cannot be subclassed
     private TouchInterface() {}
 
     public static TouchInterface getInstance() { return INSTANCE; }
@@ -34,7 +32,7 @@ public final class TouchInterface {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getOverlayAssets().left,
+                    AssetManager.getInstance().getOverlayAssets().left,
                     inputControls.leftCenter,
                     Constants.BUTTON_CENTER
             );
@@ -42,7 +40,7 @@ public final class TouchInterface {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getOverlayAssets().right,
+                    AssetManager.getInstance().getOverlayAssets().right,
                     inputControls.rightCenter,
                     Constants.BUTTON_CENTER
             );
@@ -50,7 +48,7 @@ public final class TouchInterface {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getOverlayAssets().up,
+                    AssetManager.getInstance().getOverlayAssets().up,
                     inputControls.upCenter,
                     Constants.BUTTON_CENTER
             );
@@ -58,7 +56,7 @@ public final class TouchInterface {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getOverlayAssets().down,
+                    AssetManager.getInstance().getOverlayAssets().down,
                     inputControls.downCenter,
                     Constants.BUTTON_CENTER
             );
@@ -66,28 +64,28 @@ public final class TouchInterface {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getOverlayAssets().center,
+                    AssetManager.getInstance().getOverlayAssets().center,
                     inputControls.centerCenter,
                     Constants.BUTTON_CENTER
             );
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getOverlayAssets().shoot,
+                    AssetManager.getInstance().getOverlayAssets().shoot,
                     inputControls.shootCenter,
                     Constants.BUTTON_CENTER
             );
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getOverlayAssets().jump,
+                    AssetManager.getInstance().getOverlayAssets().jump,
                     inputControls.jumpCenter,
                     Constants.BUTTON_CENTER
             );
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getOverlayAssets().pause,
+                    AssetManager.getInstance().getOverlayAssets().pause,
                     inputControls.pauseCenter,
                     Constants.BUTTON_CENTER
             );

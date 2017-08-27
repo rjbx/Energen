@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.entity.*;
 import com.udacity.gamedev.gigagal.overlay.Backdrop;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
@@ -23,13 +23,13 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-// mutable
-public class LevelUpdater {
+// immutable package-private singleton
+class LevelUpdater {
 
     // fields
     public static final String TAG = LevelUpdater.class.getName();
     private static final LevelUpdater INSTANCE = new LevelUpdater();
-    private Assets assets;
+    private AssetManager assetManager;
     private InputControls inputControls;
     private LevelScreen levelScreen;
     private Timer timer;
@@ -45,7 +45,7 @@ public class LevelUpdater {
     private Enums.Material levelWeapon;
     private Enums.Theme theme;
     private Music music;
-    private GigaGal gigaGal;
+    private Avatar gigaGal;
     private Boss boss;
     private ChaseCam chaseCam;
     private String removedHazards;
@@ -70,9 +70,9 @@ public class LevelUpdater {
         timer = Timer.getInstance();
         timer.create();
 
-        gigaGal = GigaGal.getInstance();
+        gigaGal = Avatar.getInstance();
         chaseCam = ChaseCam.getInstance();
-        assets = Assets.getInstance();
+        assetManager = AssetManager.getInstance();
         inputControls = InputControls.getInstance();
         entities = new DelayedRemovalArray<Entity>();
         grounds = new DelayedRemovalArray<Ground>();
@@ -175,7 +175,7 @@ public class LevelUpdater {
                 } else if (InputControls.getInstance().shootButtonJustPressed) {
                     boss.setBattleState(true);
                     if (musicEnabled) {
-                        music = Assets.getInstance().getMusicAssets().boss;
+                        music = AssetManager.getInstance().getMusicAssets().boss;
                         music.setLooping(true);
                         music.play();
                     }
@@ -274,7 +274,7 @@ public class LevelUpdater {
             Weaponized weapon = (Weaponized) ground;
             Enums.Orientation orientation = weapon.getOrientation();
             Vector2 offset = new Vector2();
-            if (weapon instanceof Canirol) {
+            if (weapon instanceof Cannoroll) {
                 offset.set(weapon.getWidth(), weapon.getHeight());
             } else {
                 offset.set(weapon.getWidth() / 2, weapon.getHeight() / 2);
@@ -282,18 +282,18 @@ public class LevelUpdater {
             if (orientation == Enums.Orientation.X) {
                 Vector2 ammoPositionLeft = new Vector2(weapon.getPosition().x - offset.x, weapon.getPosition().y);
                 Vector2 ammoPositionRight = new Vector2(weapon.getPosition().x + offset.x, weapon.getPosition().y);
-                if (GigaGal.getInstance().getPosition().x < (ammoPositionLeft.x - offset.x)) {
+                if (Avatar.getInstance().getPosition().x < (ammoPositionLeft.x - offset.x)) {
                     LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), ground);
-                } else if (GigaGal.getInstance().getPosition().x > (ammoPositionRight.x + (weapon.getWidth() / 2))) {
+                } else if (Avatar.getInstance().getPosition().x > (ammoPositionRight.x + (weapon.getWidth() / 2))) {
                     LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), ground);
                 }
             } else if (orientation == Enums.Orientation.Y) {
                 Vector2 ammoPositionTop = new Vector2(weapon.getPosition().x, weapon.getPosition().y + offset.y);
                 Vector2 ammoPositionBottom = new Vector2(weapon.getPosition().x, weapon.getPosition().y - offset.y);
                 if (weapon instanceof Cannon) {
-                    if (GigaGal.getInstance().getPosition().y < (ammoPositionBottom.y - offset.y)) {
+                    if (Avatar.getInstance().getPosition().y < (ammoPositionBottom.y - offset.y)) {
                         LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), ground);
-                    } else if (GigaGal.getInstance().getPosition().y > (ammoPositionTop.y + (weapon.getHeight() / 2))) {
+                    } else if (Avatar.getInstance().getPosition().y > (ammoPositionTop.y + (weapon.getHeight() / 2))) {
                         LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), ground);
                     }
                 } else {
@@ -401,7 +401,7 @@ public class LevelUpdater {
             if (((Destructible) ground).getHealth() < 1) {
                 if (ground instanceof Box) {
                     grounds.add(new Brick(ground.getPosition().x, ground.getPosition().y, 5, 5, ((Destructible) ground).getType(), false));
-                    assets.getSoundAssets().breakGround.play();
+                    assetManager.getSoundAssets().breakGround.play();
                     active = false;
                 }
             }
@@ -421,7 +421,7 @@ public class LevelUpdater {
                         String savedUpgrades = SaveData.getUpgrades();
                         Enums.Upgrade upgrade = chamber.getUpgrade();
                         if (!savedUpgrades.contains(upgrade.name())) {
-                            assets.getSoundAssets().upgrade.play();
+                            assetManager.getSoundAssets().upgrade.play();
                             gigaGal.addUpgrade(upgrade);
                             SaveData.setUpgrades(upgrade.name() + ", " + savedUpgrades);
                         }
@@ -445,8 +445,8 @@ public class LevelUpdater {
             for (int j = 0; j < projectiles.size; j++) {
                 Ammo ammo = projectiles.get(j);
                 if (Helpers.overlapsPhysicalObject(ammo, ground)) {
-                    if (ammo.getSource() instanceof GigaGal) {
-                        assets.getSoundAssets().hitGround.play();
+                    if (ammo.getSource() instanceof Avatar) {
+                        assetManager.getSoundAssets().hitGround.play();
                     }
                     if (ammo.isActive() &&
                             (ground.isDense() // collides with all sides of dense ground
@@ -461,9 +461,9 @@ public class LevelUpdater {
                         Tripknob tripknob = (Tripknob) strikeable;
                         tripknob.resetStartTime();
                         tripknob.setState(!tripknob.isActive());
-                    } else if (strikeable instanceof Canirol) {
-                        Canirol canirol = (Canirol) strikeable;
-                        canirol.convert();
+                    } else if (strikeable instanceof Cannoroll) {
+                        Cannoroll cannoroll = (Cannoroll) strikeable;
+                        cannoroll.convert();
                     } else if (strikeable instanceof Chargeable) {
                         Chargeable chargeable = (Chargeable) strikeable;
                         if (chargeable instanceof Chamber) {
@@ -500,7 +500,7 @@ public class LevelUpdater {
                         if (!(hazard instanceof Armored)) {
                             Helpers.applyDamage(destructible, ammo);
                         } else {
-                            Assets.getInstance().getSoundAssets().hitGround.play();
+                            AssetManager.getInstance().getSoundAssets().hitGround.play();
                             ammo.deactivate();
                         }
                         score += ammo.getHitScore();
@@ -584,7 +584,7 @@ public class LevelUpdater {
                         portalIndex++;
                     }
                 }
-                assets.getSoundAssets().life.play();
+                assetManager.getSoundAssets().life.play();
                 int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
                 List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
                 List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
@@ -610,7 +610,7 @@ public class LevelUpdater {
                 savedTime = time;
                 savedScore = score;
             } else if (transport instanceof Teleport) {
-                assets.getSoundAssets().warp.play();
+                assetManager.getSoundAssets().warp.play();
                 gigaGal.getPosition().set(transport.getDestination());
             }
         }
@@ -677,8 +677,8 @@ public class LevelUpdater {
         entities.addAll(transports);
         entities.addAll(impacts);
         chaseCam.setState(Enums.ChaseCamState.FOLLOWING);
-        backdrop = new Backdrop(assets.getBackgroundAssets().getBackground(theme));
-        music = assets.getMusicAssets().getThemeMusic(theme);
+        backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(theme));
+        music = assetManager.getMusicAssets().getThemeMusic(theme);
         music.setLooping(true);
         if (musicEnabled) {
             music.play();
@@ -765,7 +765,7 @@ public class LevelUpdater {
             }
             if (musicEnabled) {
                 music.stop();
-                music = Assets.getInstance().getMusicAssets().getThemeMusic(theme);
+                music = AssetManager.getInstance().getMusicAssets().getThemeMusic(theme);
                 music.play();
             }
             gigaGal.respawn();
@@ -783,7 +783,7 @@ public class LevelUpdater {
     }
 
     private void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Material weapon, Entity source) {
-        Ammo ammo = new Ammo(this, position, direction, orientation, shotIntensity, weapon, source);
+        Ammo ammo = new Ammo(position, direction, orientation, shotIntensity, weapon, source);
         hazards.add(ammo);
         projectiles.add(ammo);
     }
@@ -818,59 +818,31 @@ public class LevelUpdater {
         }
     }
 
-    // Getters
+    // Public getters
+    protected final Array<Entity> getEntities() { return entities; }
+    protected final Array<Ground> getGrounds() { return grounds; }
+    protected final Array<Hazard> getHazards() { return hazards; }
+    protected final Array<Powerup> getPowerups() { return powerups; }
+    protected final long getTime() { return time; }
+    protected final int getScore() { return score; }
+    protected final Boss getBoss() { return boss; }
+    protected final Avatar getGigaGal() { return gigaGal; }
+    protected final Enums.Material getType() { return levelWeapon; }
+    protected final Viewport getViewport() { return levelScreen.getViewport(); }
+
+    // Protected getters
+    protected final long getUnsavedTime() { return time - savedTime; }
+    protected final int getUnsavedScore() { return score - savedScore; }
+    protected final void setBoss(Boss boss) { this.boss = boss; }
+    protected final DelayedRemovalArray<Transport> getTransports() { return transports; }
+    protected Enums.Theme getTheme() { return theme; }
+    protected final boolean hasLoadEx() { return loadEx; }
+
+    // Setters
     protected final void addEntity(Entity entity) { entities.add(entity); }
     protected final void addGround(Ground ground) { grounds.add(ground); }
     protected final void addHazard(Hazard hazard) { hazards.add(hazard); }
     protected final void addPowerup(Powerup powerup) { powerups.add(powerup); }
-
-    // to return cloned elements; state changes set from this class
-    public final Array<Entity> getEntities() {
-        Array<Entity> clonedEntities = new Array<Entity>();
-        for (Entity entity : entities) {
-            clonedEntities.add(entity.clone());
-        }
-        return clonedEntities;
-    }
-
-    public final Array<Ground> getGrounds() {
-        Array<Ground> clonedGrounds = new Array<Ground>();
-        for (Ground ground : grounds) {
-            clonedGrounds.add((Ground) ground.clone());
-        }
-        return clonedGrounds;
-    }
-
-    public final Array<Hazard> getHazards() {
-        Array<Hazard> clonedHazards = new Array<Hazard>();
-        for (Hazard hazard : hazards) {
-            clonedHazards.add((Hazard) hazard.clone());
-        }
-        return clonedHazards;
-    }
-
-    public final Array<Powerup> getPowerups() {
-        Array<Powerup> clonedPowerups = new Array<Powerup>();
-        for (Powerup powerup : powerups) {
-            clonedPowerups.add((Powerup) powerup.clone());
-        }
-        return clonedPowerups;
-    }
-
-    public final long getUnsavedTime() { return time - savedTime; }
-    public final int getUnsavedScore() { return score - savedScore; }
-    public final long getTime() { return time; }
-    public final int getScore() { return score; }
-    public final void setBoss(Boss boss) { this.boss = boss; }
-    public final Boss getBoss() { return boss; }
-    public final Viewport getViewport() { return levelScreen.getViewport(); }
-    public final DelayedRemovalArray<Transport> getTransports() { return transports; }
-    public final GigaGal getGigaGal() { return gigaGal; }
-    public final Enums.Material getType() { return levelWeapon; }
-    protected Enums.Theme getTheme() { return theme; }
-    public final boolean hasLoadEx() { return loadEx; }
-
-    // Setters
     protected void setTime(long time) { this.time = time; }
     protected void setScore(int score) {this.score = score; }
     protected void setTheme(Enums.Theme selectedLevel) { theme = selectedLevel; }

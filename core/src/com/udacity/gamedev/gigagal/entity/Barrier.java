@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -32,7 +32,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
         this.type = Enums.Material.NATIVE;
         this.dense = true;
         converted = false;
-        ninePatch = new NinePatch(Assets.getInstance().getGroundAssets().getNinePatch(this));
+        ninePatch = new NinePatch(AssetManager.getInstance().getGroundAssets().getNinePatch(this));
         setColor();
     }
 
@@ -44,7 +44,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
         this.type = type;
         this.dense = dense;
         converted = false;
-        ninePatch = new NinePatch(Assets.getInstance().getGroundAssets().getNinePatch(this));
+        ninePatch = new NinePatch(AssetManager.getInstance().getGroundAssets().getNinePatch(this));
         setColor();
     }
 

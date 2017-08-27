@@ -3,7 +3,7 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -32,12 +32,12 @@ public class Chamber extends Ground implements Chargeable, Strikeable {
         if (active) {
             if (chargeTimeSeconds > 1) {
                 charged = true;
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().chargedChamber.getKeyFrame(chargeTimeSeconds, true), position, Constants.CHAMBER_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().chargedChamber.getKeyFrame(chargeTimeSeconds, true), position, Constants.CHAMBER_CENTER);
             } else {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().activeChamber, position, Constants.CHAMBER_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().activeChamber, position, Constants.CHAMBER_CENTER);
             }
         } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().inactiveChamber, position, Constants.CHAMBER_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().inactiveChamber, position, Constants.CHAMBER_CENTER);
             chargeTimeSeconds = 0;
             charged = false;
         }

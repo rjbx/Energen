@@ -6,8 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -20,7 +19,6 @@ public class Triptread extends Ground implements Trippable, Convertible, Propell
     private Vector2 position;
     private Vector2 velocity;
     private boolean converted;
-    private LevelUpdater level;
     private Rectangle bounds;
     private long startTime;
     private boolean state;
@@ -46,15 +44,15 @@ public class Triptread extends Ground implements Trippable, Convertible, Propell
         previousState = state;
         if (state) {
             if (direction == Enums.Direction.LEFT) {
-                animation = Assets.getInstance().getGroundAssets().triptreadLeftOn;
+                animation = AssetManager.getInstance().getGroundAssets().triptreadLeftOn;
             } else {
-                animation = Assets.getInstance().getGroundAssets().triptreadRightOn;
+                animation = AssetManager.getInstance().getGroundAssets().triptreadRightOn;
             }
         } else {
             if (direction == Enums.Direction.LEFT) {
-                animation = Assets.getInstance().getGroundAssets().triptreadLeftOff;
+                animation = AssetManager.getInstance().getGroundAssets().triptreadLeftOff;
             } else {
-                animation = Assets.getInstance().getGroundAssets().triptreadRightOff;
+                animation = AssetManager.getInstance().getGroundAssets().triptreadRightOff;
             }
         }
     }

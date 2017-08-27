@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.app.LevelAssets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -53,7 +53,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
         atopMovingGround = false;
         movingGround = null;
         topGround = null;
-        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+        for (Ground ground : LevelAssets.getClonedGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 6 * multiplier, ground.getTop() + 1) && getBottom() > ground.getBottom()
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
@@ -127,7 +127,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
         }
 
         // resets to nonstatic position of ground which is cloned every frame
-        for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+        for (Hazard hazard : LevelAssets.getClonedHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
                 if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getBottom(), hazard.getTop())) {
                     position.x = hazard.getPosition().x;
@@ -147,12 +147,12 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().loadedSpring.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.SPRING_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().loadedSpring.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.SPRING_CENTER);
         } else {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().unloadedSpring.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.SPRING_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().unloadedSpring.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.SPRING_CENTER);
         }
     }
 
@@ -169,7 +169,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     @Override public final float getRight() { return position.x + Constants.SPRING_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
-    @Override public final boolean isDense() { return !(beingCarried || GigaGal.getInstance().getAction() == Enums.Action.CLIMBING); }
+    @Override public final boolean isDense() { return !(beingCarried || Avatar.getInstance().getAction() == Enums.Action.CLIMBING); }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; beneatheGround = true; }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * .2f; }
     @Override public final boolean isBeingCarried() { return beingCarried; }

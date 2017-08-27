@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -25,30 +25,30 @@ public class Effect extends Entity {
         this.position = position;
         this.type = type;
         startTime = TimeUtils.nanoTime();
-        animation = Assets.getInstance().getImpactAssets().impactGas;
+        animation = AssetManager.getInstance().getImpactAssets().impactGas;
 //        switch (this.type) {
 //            case PLASMA:
 //                break;
 //            case GAS:
-//                animation = Assets.getInstance().getEffectAssets().effectGas;
+//                animation = AssetManager.getInstance().getEffectAssets().effectGas;
 //                break;
 //            case LIQUID:
-//                animation = Assets.getInstance().getEffectAssets().effectLiquid;
+//                animation = AssetManager.getInstance().getEffectAssets().effectLiquid;
 //                break;
 //            case SOLID:
-//                animation = Assets.getInstance().getEffectAssets().effectSolid;
+//                animation = AssetManager.getInstance().getEffectAssets().effectSolid;
 //                break;
 //            case ANTIMATTER:
-//                animation = Assets.getInstance().getEffectAssets().effectPsychic;
+//                animation = AssetManager.getInstance().getEffectAssets().effectPsychic;
 //                break;
 //            case HYBRID:
-//                animation = Assets.getInstance().getEffectAssets().effectHybrid;
+//                animation = AssetManager.getInstance().getEffectAssets().effectHybrid;
 //                break;
 //            case NATIVE:
-//                animation = Assets.getInstance().getEffectAssets().effectNative;
+//                animation = AssetManager.getInstance().getEffectAssets().effectNative;
 //                break;
 //            default:
-//                animation = Assets.getInstance().getEffectAssets().effectNative;
+//                animation = AssetManager.getInstance().getEffectAssets().effectNative;
 //        }
     }
 

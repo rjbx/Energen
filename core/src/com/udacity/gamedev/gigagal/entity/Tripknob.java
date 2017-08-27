@@ -1,13 +1,12 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.app.LevelAssets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
@@ -56,7 +55,7 @@ public class Tripknob extends Ground implements Trippable, Convertible, Strikeab
     public void update(float delta) {
         converted = false;
         previousState = state;
-        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+        for (Ground ground : LevelAssets.getClonedGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (ground instanceof Brick) {
                     resetStartTime();
@@ -72,12 +71,12 @@ public class Tripknob extends Ground implements Trippable, Convertible, Strikeab
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripknobOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().tripknobOn.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
         } else {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripknobOff.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().tripknobOff.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
         }
     }
 

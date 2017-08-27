@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.entity.GigaGal;
+import com.udacity.gamedev.gigagal.entity.Avatar;
 
 import static com.udacity.gamedev.gigagal.util.Enums.ChaseCamState.BOSS;
 import static com.udacity.gamedev.gigagal.util.Enums.ChaseCamState.CONVERT;
@@ -19,9 +19,9 @@ public final class ChaseCam {
     // fields
     public static final String TAG = ChaseCam.class.getName();
     private static final ChaseCam INSTANCE = new ChaseCam();
-    private static ExtendViewport viewport;
+    private ExtendViewport viewport;
     public OrthographicCamera camera;
-    public GigaGal gigaGal;
+    public Avatar gigaGal;
     public Vector2 roomPosition;
     public Array<Rectangle> convertBoundsArray;
     private Enums.ChaseCamState state;
@@ -39,7 +39,7 @@ public final class ChaseCam {
     public void create() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         state = FOLLOWING;
-        gigaGal = GigaGal.getInstance();
+        gigaGal = Avatar.getInstance();
         convertStartTime = 0;
         convertBoundsArray = new Array<Rectangle>();
         camera = (OrthographicCamera) viewport.getCamera();

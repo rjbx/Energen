@@ -4,28 +4,26 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.app.LevelAssets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
+import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Bladerollen extends Hazard implements Armored, Bladed, Groundable, Roving, Destructible {
+public class Armoroll extends Hazard implements Armored, Groundable, Roving, Destructible {
 
     // fields
     public final static String TAG = Rollen.class.getName();
 
-    private LevelUpdater level;
     private Vector2 position;
     private Vector2 previousFramePosition; // class-level instantiation
     private Enums.Direction xDirection;
     private Enums.Material type;
     private Vector2 velocity; // class-level instantiation
-    private Vector2 center;
     private final float collision;
     private float speed;
     private long startTime;
@@ -35,19 +33,16 @@ public class Bladerollen extends Hazard implements Armored, Bladed, Groundable, 
     private float rollTimeSeconds;
     private float radius;
     private Animation animation;
-    private Array<Enums.Direction> equippedRegions;
+    private Enums.Direction vulnerability;
     private boolean vulnerable;
     private boolean armorStruck;
-    private int vulnerabilityCount;
 
     // ctor
-    public Bladerollen(Vector2 position, Enums.Material type, float vulnerabilities) {
+    public Armoroll(Vector2 position, Enums.Material type, float speed) {
         this.type = type;
         this.position = position;
-        this.vulnerabilityCount = (int) vulnerabilities;
-        this.speed = 1.8f;
-        this.center = Constants.ROLLEN_CENTER;
-        equippedRegions = new Array<Enums.Direction>();
+        this.speed = speed;
+        vulnerability = null;
         vulnerable = false;
         armorStruck = false;
         previousFramePosition = new Vector2();
@@ -61,7 +56,7 @@ public class Bladerollen extends Hazard implements Armored, Bladed, Groundable, 
         collision = rollTimeSeconds;
         switch (type) {
             case LIQUID:
-                animation = Assets.getInstance().getRollenAssets().liquidRollen;
+                animation = AssetManager.getInstance().getRollenAssets().liquidRollen;
                 break;
         }
     }
@@ -72,19 +67,14 @@ public class Bladerollen extends Hazard implements Armored, Bladed, Groundable, 
             if (startTime == 0 || Helpers.secondsSince(startTime) % 1 == 0) {
                 rollStartTime = TimeUtils.nanoTime();
                 vulnerable = true;
-                for (int i = 0; i < vulnerabilityCount; i++) {
-                    int index;
-                    do {
-                        index = MathUtils.random(0, 3);
-                    } while (equippedRegions.contains(Enums.Direction.values()[index], true));
-                    equippedRegions.add(Enums.Direction.values()[index]);
-                }
-                animation = Assets.getInstance().getArmorolloAssets().vulnerableLiquid;
+                int index = MathUtils.random(0, 3);
+                rollTimeSeconds = index;
+                vulnerability = Enums.Direction.values()[index];
+                animation = AssetManager.getInstance().getArmorolloAssets().vulnerableLiquid;
             } else if (Helpers.secondsSince(startTime) > speed) {
                 vulnerable = false;
                 armorStruck = false;
-                animation = Assets.getInstance().getRollenAssets().liquidRollen;
-                equippedRegions.clear();
+                animation = AssetManager.getInstance().getRollenAssets().liquidRollen;
             }
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
@@ -93,7 +83,7 @@ public class Bladerollen extends Hazard implements Armored, Bladed, Groundable, 
             previousFramePosition.set(position);
             position.mulAdd(velocity, delta);
 
-            Viewport viewport = LevelUpdater.getInstance().getViewport();
+            Viewport viewport = ChaseCam.getInstance().getViewport();
             Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
             Vector3 camera = new Vector3(viewport.getCamera().position);
             Vector2 activationDistance = new Vector2(worldSpan.x / 1.5f, worldSpan.y / 1.5f);
@@ -101,7 +91,7 @@ public class Bladerollen extends Hazard implements Armored, Bladed, Groundable, 
             boolean touchingSide = false;
             boolean touchingTop = false;
             boolean canSink = false;
-            for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+            for (Ground ground : LevelAssets.getClonedGrounds()) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
                     if (ground instanceof Pourous) {
                         canSink = true;
@@ -150,7 +140,7 @@ public class Bladerollen extends Hazard implements Armored, Bladed, Groundable, 
 
                     velocity.x = speedAtChangeXDirection + Helpers.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
                 }
-                for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+                for (Hazard hazard : LevelAssets.getClonedHazards()) {
                     if (hazard instanceof Rollen && Helpers.overlapsPhysicalObject(this, hazard) && !(hazard.equals(this))) {
                         position.set(previousFramePosition);
                         if (!touchingSide && position.x < hazard.getPosition().x) {
@@ -179,55 +169,28 @@ public class Bladerollen extends Hazard implements Armored, Bladed, Groundable, 
                     velocity.y = -5;
                 }
             }
+            if (xDirection == Enums.Direction.RIGHT) {
+                animation.setPlayMode(Animation.PlayMode.REVERSED);
+            } else {
+                animation.setPlayMode(Animation.PlayMode.NORMAL);
+            }
         }
     }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        center = Constants.ROLLEN_CENTER;
-        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, center, Constants.ROLLEN_TEXTURE_SCALE);
-        if (armorStruck) {
-            boolean flipX;
-            float frame = 0;
-            if (xDirection == Enums.Direction.RIGHT) {
-                animation.setPlayMode(Animation.PlayMode.REVERSED);
-                flipX = false;
-            } else {
-                animation.setPlayMode(Animation.PlayMode.NORMAL);
-                flipX = true;
-            }
-            if (Helpers.secondsSince(startTime) > speed - Constants.FLIPSWIPE_FRAME_DURATION * 6) {
-                frame = (Helpers.secondsSince(startTime) - (speed - Constants.FLIPSWIPE_FRAME_DURATION * 6)) / 2;
-                center = Constants.BLADE_CENTER;
-            }
-            for (Enums.Direction region : equippedRegions) {
-                switch (region) {
-                    case LEFT:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, true, false);
-                        break;
-                    case RIGHT:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, false, false);
-                        break;
-                    case DOWN:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, flipX, false);
-                        break;
-                    case UP:
-                        Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, flipX, true);
-                        break;
-                }
-            }
-        }
+        Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
     }
 
     @Override public Vector2 getPosition() { return position; }
     public Vector2 getVelocity() { return velocity; }
     @Override public final float getHealth() { return health; }
-    @Override public final float getWidth() { return center.x * 2; }
-    @Override public final float getHeight() { return center.y * 2; }
-    @Override public final float getLeft() { return position.x - center.x; }
-    @Override public final float getRight() { return position.x + center.x; }
-    @Override public final float getTop() { return position.y + center.y; }
-    @Override public final float getBottom() { return position.y - center.y; }
+    @Override public final float getWidth() { return Constants.ROLLEN_CENTER.x * 2; }
+    @Override public final float getHeight() { return Constants.ROLLEN_CENTER.y * 2; }
+    @Override public final float getLeft() { return position.x - Constants.ROLLEN_CENTER.x; }
+    @Override public final float getRight() { return position.x + Constants.ROLLEN_CENTER.x; }
+    @Override public final float getTop() { return position.y + Constants.ROLLEN_CENTER.y; }
+    @Override public final float getBottom() { return position.y - Constants.ROLLEN_CENTER.y; }
     @Override public final float getShotRadius() { return Constants.ROLLEN_SHOT_RADIUS; }
     @Override public final int getHitScore() { return Constants.ROLLEN_HIT_SCORE; }
     @Override public final int getKillScore() { return Constants.ROLLEN_KILL_SCORE; }
@@ -239,8 +202,7 @@ public class Bladerollen extends Hazard implements Armored, Bladed, Groundable, 
     @Override public void setDirectionX(Enums.Direction direction) { xDirection = direction; }
     @Override public void strikeArmor() { armorStruck = true; }
     @Override public boolean isVulnerable() { return vulnerable; }
-    @Override public Enums.Direction getVulnerability() { return null; }
-    @Override public Array<Enums.Direction> getEquippedRegions() { return equippedRegions; }
+    @Override public Enums.Direction getVulnerability() { return vulnerability; }
     @Override public final void resetStartTime() { startTime = 0; }
     @Override public final boolean isDense() { return true; }
     @Override public final long getStartTime() { return startTime; }

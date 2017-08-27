@@ -3,7 +3,6 @@ package com.udacity.gamedev.gigagal.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -20,12 +19,12 @@ import com.udacity.gamedev.gigagal.entity.Brick;
 import com.udacity.gamedev.gigagal.entity.Ground;
 
 // immutable singleton
-public final class Assets implements AssetErrorListener {
+public final class AssetManager implements AssetErrorListener {
 
     // fields class-instantiated save for tag, assetmanager and atlas
-    public static final String TAG = Assets.class.getName();
-    private static final Assets INSTANCE = new Assets();
-    private AssetManager assetManager;
+    public static final String TAG = AssetManager.class.getName();
+    private static final AssetManager INSTANCE = new AssetManager();
+    private com.badlogic.gdx.assets.AssetManager assetManager;
     private GigaGalAssets gigaGalAssets;
     private BossAssets bossAssets;
     private BackgroundAssets backgroundAssets;
@@ -50,13 +49,13 @@ public final class Assets implements AssetErrorListener {
     private FontAssets fontAssets;
 
     // cannot be subclassed
-    private Assets() {}
+    private AssetManager() {}
 
     // static factory
-    public static final Assets getInstance() { return INSTANCE; }
+    public static final AssetManager getInstance() { return INSTANCE; }
 
     public final void create() {
-        this.assetManager = new AssetManager();
+        this.assetManager = new com.badlogic.gdx.assets.AssetManager();
         assetManager.setErrorListener(this);
         assetManager.load(Constants.TEXTURE_ATLAS); // atlas packed upon gradle build; load all at once instead of individually
         assetManager.load(Constants.INTRO_MUSIC);

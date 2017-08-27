@@ -10,17 +10,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.overlay.TouchInterface;
+import com.udacity.gamedev.gigagal.overlay.*;
 import com.udacity.gamedev.gigagal.util.*;
-import com.udacity.gamedev.gigagal.overlay.Cursor;
-import com.udacity.gamedev.gigagal.overlay.Backdrop;
-import com.udacity.gamedev.gigagal.overlay.Menu;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// immutable package-private
+// package-private singleton
 final class LaunchScreen extends ScreenAdapter {
 
     // fields
@@ -30,7 +27,7 @@ final class LaunchScreen extends ScreenAdapter {
     private OverworldScreen overworldScreen;
     private SpriteBatch batch;
     private ExtendViewport viewport;
-    private Assets assets;
+    private AssetManager assetManager;
     private BitmapFont font;
     private BitmapFont text;
     private BitmapFont title;
@@ -60,10 +57,10 @@ final class LaunchScreen extends ScreenAdapter {
 
         viewport = StaticCam.getInstance().getViewport();
 
-        assets = Assets.getInstance();
-        font = assets.getFontAssets().message;
-        title = assets.getFontAssets().title;
-        text = assets.getFontAssets().menu;
+        assetManager = AssetManager.getInstance();
+        font = assetManager.getFontAssets().message;
+        title = assetManager.getFontAssets().title;
+        text = assetManager.getFontAssets().menu;
 
         touchInterface = TouchInterface.getInstance();
 
@@ -75,7 +72,7 @@ final class LaunchScreen extends ScreenAdapter {
 
         overworldScreen = OverworldScreen.getInstance();
 
-        launchBackdrop = new Backdrop(assets.getOverlayAssets().logo);
+        launchBackdrop = new Backdrop(assetManager.getOverlayAssets().logo);
 
         gigagalCenter = new Vector2(Constants.GIGAGAL_STANCE_WIDTH / 2, Constants.GIGAGAL_HEIGHT / 2);
         choices = new ArrayList<String>();
@@ -106,15 +103,15 @@ final class LaunchScreen extends ScreenAdapter {
                 case START:
                     final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f);
 
-                    Helpers.drawTextureRegion(batch, viewport, assets.getOverlayAssets().globe, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 1.625f, Constants.GLOBE_CENTER.x, Constants.GLOBE_CENTER.y);
-                    Helpers.drawTextureRegion(batch, viewport, assets.getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
-                    Helpers.drawTextureRegion(batch, viewport, assets.getOverlayAssets().beast, viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 1.625f, Constants.BEAST_CENTER.x, Constants.BEAST_CENTER.y);
+                    Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().globe, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 1.625f, Constants.GLOBE_CENTER.x, Constants.GLOBE_CENTER.y);
+                    Helpers.drawTextureRegion(batch, viewport, assetManager.getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
+                    Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().beast, viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 1.625f, Constants.BEAST_CENTER.x, Constants.BEAST_CENTER.y);
                     Helpers.drawBitmapFont(batch, viewport, title, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, Align.center);
 
                     menu.render(batch, font, viewport, Cursor.getInstance());
 
                     if (inputControls.shootButtonJustPressed) {
-                        assets.getMusicAssets().intro.stop();
+                        assetManager.getMusicAssets().intro.stop();
                         if (continuing) {
                             if (cursor.getPosition() == 35) {
                                 inputControls.shootButtonJustPressed = false;
@@ -165,8 +162,8 @@ final class LaunchScreen extends ScreenAdapter {
                     new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f), .375f);
             Helpers.drawBitmapFont(batch, viewport, font, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, Align.center);
             if (Helpers.secondsSince(launchStartTime) > 3) {
-                assets.getMusicAssets().intro.play();
-                assets.getMusicAssets().intro.setLooping(true);
+                assetManager.getMusicAssets().intro.play();
+                assetManager.getMusicAssets().intro.setLooping(true);
                 launching = false;
                 if (continuing) {
                     setResumeMenu();

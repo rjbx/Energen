@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -31,9 +31,9 @@ public class Pod extends Ground implements Reboundable, Replenishing {
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (isActive) {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().activePod.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.POD_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().activePod.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.POD_CENTER);
         } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().pod, position, Constants.POD_CENTER);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().pod, position, Constants.POD_CENTER);
         }
     }
 

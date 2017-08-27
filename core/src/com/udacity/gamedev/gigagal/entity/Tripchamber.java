@@ -5,8 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -49,15 +48,15 @@ public class Tripchamber extends Ground implements Trippable, Convertible, Charg
 
         if (active) {
             if (charged) {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripchamberOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPCHAMBER_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().tripchamberOn.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPCHAMBER_CENTER);
             } else {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripchamberOn.getKeyFrame(0), position, Constants.TRIPCHAMBER_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().tripchamberOn.getKeyFrame(0), position, Constants.TRIPCHAMBER_CENTER);
             }
         } else {
             if (charged) {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripchamberOff.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPCHAMBER_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().tripchamberOff.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.TRIPCHAMBER_CENTER);
             } else {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().tripchamberOff.getKeyFrame(0), position, Constants.TRIPCHAMBER_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().tripchamberOff.getKeyFrame(0), position, Constants.TRIPCHAMBER_CENTER);
             }
         }
     }

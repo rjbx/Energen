@@ -3,7 +3,7 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
+import com.udacity.gamedev.gigagal.app.LevelAssets;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -50,7 +50,7 @@ public class Brick extends Barrier implements Tossable {
         atopMovingGround = false;
         movingGround = null;
         payload = 0;
-        for (Ground ground : LevelUpdater.getInstance().getGrounds()) {
+        for (Ground ground : LevelAssets.getClonedGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 8 * multiplier, ground.getTop() + 1) && getBottom() > ground.getBottom()
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
@@ -126,7 +126,7 @@ public class Brick extends Barrier implements Tossable {
         }
 
         // resets to nonstatic super.position of ground which is cloned every frame
-        for (Hazard hazard : LevelUpdater.getInstance().getHazards()) {
+        for (Hazard hazard : LevelAssets.getClonedHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
                 if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getBottom(), hazard.getTop())) {
                     super.position.x = hazard.getPosition().x;

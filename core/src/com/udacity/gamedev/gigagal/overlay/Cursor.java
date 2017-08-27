@@ -2,7 +2,7 @@ package com.udacity.gamedev.gigagal.overlay;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.*;
 import com.udacity.gamedev.gigagal.util.InputControls;
 
@@ -22,7 +22,7 @@ public class Cursor {
     private ListIterator<String> iterator;
     private float position;
 
-    // non-instantiable
+    // cannot be subclassed
     private Cursor() {}
 
     // static factory method
@@ -84,9 +84,9 @@ public class Cursor {
 
     public void render(SpriteBatch batch, ExtendViewport viewport) {
         if (orientation == Enums.Orientation.X) {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getOverlayAssets().selectionCursor, position, viewport.getCamera().position.y);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getOverlayAssets().selectionCursor, position, viewport.getCamera().position.y);
         } else {
-            Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getOverlayAssets().selectionCursor, viewport.getCamera().position.x - viewport.getWorldWidth() / 4, position);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getOverlayAssets().selectionCursor, viewport.getCamera().position.x - viewport.getWorldWidth() / 4, position);
         }
     }
 

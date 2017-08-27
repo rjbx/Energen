@@ -7,10 +7,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
+import com.udacity.gamedev.gigagal.app.LevelAssets;
 import com.udacity.gamedev.gigagal.entity.Ammo;
-import com.udacity.gamedev.gigagal.entity.GigaGal;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.entity.Avatar;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -30,59 +30,59 @@ public class IndicatorHud {
     public void create() {
     }
 
-    public void render(SpriteBatch batch, ExtendViewport viewport, BitmapFont font, LevelUpdater level) {
+    public void render(SpriteBatch batch, ExtendViewport viewport, BitmapFont font) {
         float yIcon = viewport.getCamera().position.y + viewport.getWorldHeight() / 2.5f;
 
         float xAction = viewport.getCamera().position.x + 5;
-        if (GigaGal.getInstance().getMoveStatus()) {
+        if (Avatar.getInstance().getMoveStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getHudAssets().move,
+                    AssetManager.getInstance().getHudAssets().move,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
-        } else if (GigaGal.getInstance().getClingStatus() && GigaGal.getInstance().getClimbStatus()) {
+        } else if (Avatar.getInstance().getClingStatus() && Avatar.getInstance().getClimbStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getHudAssets().climb,
+                    AssetManager.getInstance().getHudAssets().climb,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
-        } else if (GigaGal.getInstance().getRappelStatus() || GigaGal.getInstance().getAction() == Enums.Action.RAPPELLING)  {
+        } else if (Avatar.getInstance().getRappelStatus() || Avatar.getInstance().getAction() == Enums.Action.RAPPELLING)  {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getHudAssets().rappel,
+                    AssetManager.getInstance().getHudAssets().rappel,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
-        }  else if (!GigaGal.getInstance().getJumpStatus() && GigaGal.getInstance().getHoverStatus()) {
+        }  else if (!Avatar.getInstance().getJumpStatus() && Avatar.getInstance().getHoverStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getHudAssets().hover,
+                    AssetManager.getInstance().getHudAssets().hover,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
-        } else if (GigaGal.getInstance().getDashStatus()) {
+        } else if (Avatar.getInstance().getDashStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    Assets.getInstance().getHudAssets().dash,
+                    AssetManager.getInstance().getHudAssets().dash,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
@@ -91,9 +91,9 @@ public class IndicatorHud {
             );
         }
 
-        final TextureRegion lifeIcon = Assets.getInstance().getHudAssets().life;
+        final TextureRegion lifeIcon = AssetManager.getInstance().getHudAssets().life;
         float xLife = viewport.getCamera().position.x - viewport.getWorldWidth() / 2.1f;
-        for (int i = 1; i <= GigaGal.getInstance().getLives(); i++) {
+        for (int i = 1; i <= Avatar.getInstance().getLives(); i++) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
@@ -107,9 +107,9 @@ public class IndicatorHud {
             xLife += 20;
         }
 
-        Enums.Material weapon = GigaGal.getInstance().getWeapon();
-        Enums.ShotIntensity intensity = GigaGal.getInstance().getShotIntensity();
-        Ammo ammo = new Ammo(level, new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, LevelUpdater.getInstance().getGigaGal());
+        Enums.Material weapon = Avatar.getInstance().getWeapon();
+        Enums.ShotIntensity intensity = Avatar.getInstance().getShotIntensity();
+        Ammo ammo = new Ammo(new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, LevelAssets.getClonedAvatar());
         ammo.update(1);
         Vector2 offset = new Vector2();
         switch (intensity) {
@@ -139,8 +139,8 @@ public class IndicatorHud {
             );
         }
 
-        final String scoreString = LevelUpdater.getInstance().getScore() + "";
-        final String timerString = Helpers.secondsToString(TimeUtils.nanosToMillis(level.getTime()));
+        final String scoreString = LevelAssets.getScore() + "";
+        final String timerString = Helpers.secondsToString(TimeUtils.nanosToMillis(LevelAssets.getTime()));
         Helpers.drawBitmapFont(batch, viewport, font, scoreString, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldHeight() / 2.2f, Align.center);
         Helpers.drawBitmapFont(batch, viewport, font, timerString, viewport.getCamera().position.x, viewport.getCamera().position.y - viewport.getWorldHeight() / 2.8f, Align.center);
     }

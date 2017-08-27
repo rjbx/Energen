@@ -8,8 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
+import com.udacity.gamedev.gigagal.util.ChaseCam;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -40,38 +40,38 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
         startTime = TimeUtils.nanoTime();
         health = Constants.SWOOPA_MAX_HEALTH;
         bobOffset = MathUtils.random();
-        sound = Assets.getInstance().getSoundAssets().flight;
+        sound = AssetManager.getInstance().getSoundAssets().flight;
         switch (type) {
             case ORE:
-                animation = Assets.getInstance().getSwoopaAssets().oreSwoopa;
+                animation = AssetManager.getInstance().getSwoopaAssets().oreSwoopa;
                 break;
             case PLASMA:
-                animation = Assets.getInstance().getSwoopaAssets().plasmaSwoopa;
+                animation = AssetManager.getInstance().getSwoopaAssets().plasmaSwoopa;
                 break;
             case GAS:
                 if (direction == Enums.Direction.LEFT) {
-                    animation = Assets.getInstance().getSwoopaAssets().gasSwoopaLeft;
+                    animation = AssetManager.getInstance().getSwoopaAssets().gasSwoopaLeft;
                 } else {
-                    animation = Assets.getInstance().getSwoopaAssets().gasSwoopaRight;
+                    animation = AssetManager.getInstance().getSwoopaAssets().gasSwoopaRight;
                 }
                 break;
             case LIQUID:
-                animation = Assets.getInstance().getSwoopaAssets().liquidSwoopa;
+                animation = AssetManager.getInstance().getSwoopaAssets().liquidSwoopa;
                 break;
             case SOLID:
-                animation = Assets.getInstance().getSwoopaAssets().solidSwoopa;
+                animation = AssetManager.getInstance().getSwoopaAssets().solidSwoopa;
                 break;
             default:
                 if (direction == Enums.Direction.LEFT) {
-                    animation = Assets.getInstance().getSwoopaAssets().gasSwoopaLeft;
+                    animation = AssetManager.getInstance().getSwoopaAssets().gasSwoopaLeft;
                 } else {
-                    animation = Assets.getInstance().getSwoopaAssets().gasSwoopaRight;
+                    animation = AssetManager.getInstance().getSwoopaAssets().gasSwoopaRight;
                 }
         }
     }
 
     public void update(float delta) {
-        Viewport viewport = LevelUpdater.getInstance().getViewport();
+        Viewport viewport = ChaseCam.getInstance().getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
         Vector3 camera = new Vector3(viewport.getCamera().position);
         // while the swoopa is within a screens' width from the screen center on either side, permit movement
@@ -95,7 +95,7 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
         if (position.x > (camera.x + Math.abs(worldSpan.x * 20))) {
             descentStartTime = 0;
             position.x = camera.x - Helpers.absoluteToDirectionalValue(worldSpan.x + 1, direction, Enums.Orientation.X);
-            position.y = GigaGal.getInstance().getTop() + Constants.SWOOPA_COLLISION_HEIGHT;
+            position.y = Avatar.getInstance().getTop() + Constants.SWOOPA_COLLISION_HEIGHT;
             velocity.set(Helpers.absoluteToDirectionalValue(5, direction, Enums.Orientation.X), -5);
         }
     }

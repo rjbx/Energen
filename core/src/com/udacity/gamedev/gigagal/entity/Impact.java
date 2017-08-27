@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
@@ -27,28 +27,28 @@ public class Impact extends Entity {
         startTime = TimeUtils.nanoTime();
         switch (this.type) {
             case PLASMA:
-                animation = Assets.getInstance().getImpactAssets().impactPlasma;
+                animation = AssetManager.getInstance().getImpactAssets().impactPlasma;
                 break;
             case GAS:
-                animation = Assets.getInstance().getImpactAssets().impactGas;
+                animation = AssetManager.getInstance().getImpactAssets().impactGas;
                 break;
             case LIQUID:
-                animation = Assets.getInstance().getImpactAssets().impactLiquid;
+                animation = AssetManager.getInstance().getImpactAssets().impactLiquid;
                 break;
             case SOLID:
-                animation = Assets.getInstance().getImpactAssets().impactSolid;
+                animation = AssetManager.getInstance().getImpactAssets().impactSolid;
                 break;
             case ANTIMATTER:
-                animation = Assets.getInstance().getImpactAssets().impactPsychic;
+                animation = AssetManager.getInstance().getImpactAssets().impactPsychic;
                 break;
             case HYBRID:
-                animation = Assets.getInstance().getImpactAssets().impactHybrid;
+                animation = AssetManager.getInstance().getImpactAssets().impactHybrid;
                 break;
             case NATIVE:
-                animation = Assets.getInstance().getImpactAssets().impactNative;
+                animation = AssetManager.getInstance().getImpactAssets().impactNative;
                 break;
             default:
-                animation = Assets.getInstance().getImpactAssets().impactNative;
+                animation = AssetManager.getInstance().getImpactAssets().impactNative;
         }
     }
 

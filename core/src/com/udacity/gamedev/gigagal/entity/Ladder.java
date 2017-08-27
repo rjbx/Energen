@@ -3,8 +3,7 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
-import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 public class Ladder extends Ground implements Climbable {
@@ -41,7 +40,7 @@ public class Ladder extends Ground implements Climbable {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        Helpers.drawNinePatch(batch, viewport, Assets.getInstance().getGroundAssets().ladderNinePatch, left - 1, bottom - 1, width, height);
+        Helpers.drawNinePatch(batch, viewport, AssetManager.getInstance().getGroundAssets().ladderNinePatch, left - 1, bottom - 1, width, height);
     }
 
     // Getters

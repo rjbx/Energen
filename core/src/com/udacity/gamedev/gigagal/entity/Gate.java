@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
@@ -31,10 +31,10 @@ public class Gate extends Ground implements Strikeable, Nonstatic {
         if (!active) {
             if (startTime == 0 && dense) {
                 startTime = TimeUtils.nanoTime();
-            } else if (startTime != 0 && Helpers.secondsSince(startTime - Constants.GATE_FRAME_DURATION) >= Assets.getInstance().getGroundAssets().gateOpen.getAnimationDuration()) {
+            } else if (startTime != 0 && Helpers.secondsSince(startTime - Constants.GATE_FRAME_DURATION) >= AssetManager.getInstance().getGroundAssets().gateOpen.getAnimationDuration()) {
                 startTime = 0;
                 dense = false;
-            } else if (position.x < GigaGal.getInstance().getPosition().x - GigaGal.getInstance().getWidth() / 2) { // prevents from re-unlocking after crossing gate boundary (always left to right)
+            } else if (position.x < Avatar.getInstance().getPosition().x - Avatar.getInstance().getWidth() / 2) { // prevents from re-unlocking after crossing gate boundary (always left to right)
                 startTime = TimeUtils.nanoTime();
                 dense = true;
                 active = true;
@@ -46,15 +46,15 @@ public class Gate extends Ground implements Strikeable, Nonstatic {
     public void render(SpriteBatch batch, Viewport viewport) {
         if (startTime != 0) {
             if (!active) {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().gateOpen.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.GATE_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().gateOpen.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.GATE_CENTER);
             } else {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().gateClose.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.GATE_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().gateClose.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.GATE_CENTER);
             }
         } else {
             if (dense) {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().gateOpen.getKeyFrame(0), position, Constants.GATE_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().gateOpen.getKeyFrame(0), position, Constants.GATE_CENTER);
             } else {
-                Helpers.drawTextureRegion(batch, viewport, Assets.getInstance().getGroundAssets().gateOpen.getKeyFrame(Constants.GATE_FRAME_DURATION * 6), position, Constants.GATE_CENTER);
+                Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().gateOpen.getKeyFrame(Constants.GATE_FRAME_DURATION * 6), position, Constants.GATE_CENTER);
             }
         }
     }

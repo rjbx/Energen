@@ -6,13 +6,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelUpdater;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Canirol extends Ground implements Weaponized, Orientable, Roving, Strikeable, Convertible {
+public class Cannoroll extends Ground implements Weaponized, Orientable, Roving, Strikeable, Convertible {
 
     // fields
     public final static String TAG = Lift.class.getName();
@@ -32,7 +31,7 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
     private boolean active;
 
     // ctor
-    public Canirol(Vector2 position, Enums.Orientation orientation, Enums.Direction direction, Enums.ShotIntensity intensity, float range, boolean active) {
+    public Cannoroll(Vector2 position, Enums.Orientation orientation, Enums.Direction direction, Enums.ShotIntensity intensity, float range, boolean active) {
         this.position = position;
         center = new Vector2();
         converted = false;
@@ -114,15 +113,15 @@ public class Canirol extends Ground implements Weaponized, Orientable, Roving, S
         this.direction = direction;
         switch (direction) {
             case LEFT:
-                animation = Assets.getInstance().getCanirolAssets().xLeftCanirol;
+                animation = AssetManager.getInstance().getCanirolAssets().xLeftCanirol;
                 velocity.set(-speed * Gdx.graphics.getDeltaTime(), 0);
                 break;
             case RIGHT:
-                animation = Assets.getInstance().getCanirolAssets().xRightCanirol;
+                animation = AssetManager.getInstance().getCanirolAssets().xRightCanirol;
                 velocity.set(speed * Gdx.graphics.getDeltaTime(), 0);
                 break;
             case UP:
-                animation = Assets.getInstance().getCanirolAssets().yCanirol;
+                animation = AssetManager.getInstance().getCanirolAssets().yCanirol;
                 velocity.setZero();
                 break;
         }

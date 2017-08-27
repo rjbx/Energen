@@ -9,10 +9,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.udacity.gamedev.gigagal.entity.Avatar;
 import com.udacity.gamedev.gigagal.overlay.TouchInterface;
-import com.udacity.gamedev.gigagal.util.Assets;
+import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.InputControls;
-import com.udacity.gamedev.gigagal.entity.GigaGal;
 import com.udacity.gamedev.gigagal.overlay.Menu;
 import com.udacity.gamedev.gigagal.overlay.Cursor;
 import com.udacity.gamedev.gigagal.overlay.IndicatorHud;
@@ -25,13 +25,8 @@ import com.udacity.gamedev.gigagal.util.StaticCam;
 
 import java.util.Arrays;
 
-import static com.udacity.gamedev.gigagal.util.Enums.MenuType.DEBUG;
-import static com.udacity.gamedev.gigagal.util.Enums.MenuType.MAIN;
-import static com.udacity.gamedev.gigagal.util.Enums.MenuType.OPTIONS;
-import static com.udacity.gamedev.gigagal.util.Enums.MenuType.RESET;
-
-// immutable package-private
-class LevelScreen extends ScreenAdapter {
+// immutable package-private singleton
+final class LevelScreen extends ScreenAdapter {
 
     // fields
     public static final String TAG = LevelScreen.class.getName();
@@ -50,7 +45,7 @@ class LevelScreen extends ScreenAdapter {
     private IndicatorHud indicatorHud;
     private TouchInterface touchInterface;
     private InputControls inputControls;
-    private static GigaGal gigaGal;
+    private static Avatar gigaGal;
     private static Cursor cursor;
     private static Menu menu;
     private static Enums.MenuType menuType;
@@ -77,7 +72,7 @@ class LevelScreen extends ScreenAdapter {
         renderer = new ShapeRenderer(); // shared by all overlays instantiated from this class
         renderer.setAutoShapeType(true);
         
-        font = Assets.getInstance().getFontAssets().message;
+        font = AssetManager.getInstance().getFontAssets().message;
         font.setUseIntegerPositions(false);
         
         indicatorHud = IndicatorHud.getInstance();
@@ -87,7 +82,7 @@ class LevelScreen extends ScreenAdapter {
         inputControls = InputControls.getInstance();
         Gdx.input.setInputProcessor(inputControls); // sends touch events to inputControls
 
-        gigaGal = GigaGal.getInstance();
+        gigaGal = Avatar.getInstance();
         cursor = Cursor.getInstance();
 
         menu = Menu.getInstance();
@@ -122,7 +117,7 @@ class LevelScreen extends ScreenAdapter {
                 levelUpdater.update(delta);
                 chaseCam.update(batch, delta);
                 levelUpdater.render(batch, chaseViewport); // also rendered when viewingDebug; see pause()
-                indicatorHud.render(batch, staticViewport, font, levelUpdater); // renders after level which sets indicators to foreground
+                indicatorHud.render(batch, staticViewport, font); // renders after level which sets indicators to foreground
                 if (inputControls.pauseButtonJustPressed) {
                     levelUpdater.pause();
                     setMainMenu();
@@ -262,7 +257,7 @@ class LevelScreen extends ScreenAdapter {
         menu.setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(TimeUtils.nanosToMillis(SaveData.getTotalTime() + levelUpdater.getUnsavedTime())) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
         menu.setPromptString(Align.right, (gigaGal.getWeapon().name() + "\n" + SaveData.getWeapons().replace(gigaGal.getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
         menu.TextAlignment(Align.center);
-        menuType = MAIN;
+        menuType = Enums.MenuType.MAIN;
     }
 
     private static void setOptionsMenu() {
@@ -274,7 +269,7 @@ class LevelScreen extends ScreenAdapter {
         String[] optionStrings = {"BACK", "RESET LEVEL", "DEBUG CAM", "TOUCH PAD", "MUSIC", "HINTS", "QUIT"};
         menu.setOptionStrings(Arrays.asList(optionStrings));
         menu.TextAlignment(Align.center);
-        menuType = OPTIONS;
+        menuType = Enums.MenuType.OPTIONS;
     }
 
     private static void setResetMenu() {
@@ -285,7 +280,7 @@ class LevelScreen extends ScreenAdapter {
         menu.setOptionStrings(Arrays.asList(optionStrings));
         menu.TextAlignment(Align.center);
         menu.setPromptString(Align.center, "Are you sure you want to erase \n all progress on this level?");
-        menuType = RESET;
+        menuType = Enums.MenuType.RESET;
     }
 
     private static void setDebugMenu() {
@@ -293,7 +288,7 @@ class LevelScreen extends ScreenAdapter {
         menu.isSingleOption(true);
         menu.setPromptString(Align.center, Constants.DEBUG_MODE_MESSAGE);
         menu.TextAlignment(Align.center);
-        menuType = DEBUG;
+        menuType = Enums.MenuType.DEBUG;
     }
 
     @Override
