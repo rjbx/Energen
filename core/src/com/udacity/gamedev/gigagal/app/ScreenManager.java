@@ -25,10 +25,10 @@ public final class ScreenManager extends com.badlogic.gdx.Game {
     public void create() {
         batch = new SpriteBatch();
         Assets.getInstance().create();
-        GigaGal.getInstance().create();
-        Blade.getInstance().create();
         ChaseCam.getInstance().create();
         StaticCam.getInstance().create();
+        GigaGal.getInstance().create();
+        Blade.getInstance().create();
         Cursor.getInstance().create();
         Menu.getInstance().create();
         InputControls.getInstance().create();

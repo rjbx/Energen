@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.util;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -52,8 +51,7 @@ public class InputControls extends InputAdapter {
     public static InputControls getInstance() { return INSTANCE; }
 
     public void create() {
-        TouchInterface.getInstance().init();
-    //    TouchInterface.getInstance().onMobile = onMobile();
+        TouchInterface.getInstance().create();
         this.viewport = TouchInterface.getInstance().getViewport();
 
         leftCenter = new Vector2();
@@ -64,10 +62,6 @@ public class InputControls extends InputAdapter {
         pauseCenter = new Vector2();
         shootCenter = new Vector2();
         jumpCenter = new Vector2();
-    }
-
-    private boolean onMobile() {
-        return Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
     }
 
     @Override

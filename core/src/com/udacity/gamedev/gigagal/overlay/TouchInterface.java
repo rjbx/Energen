@@ -1,5 +1,7 @@
 package com.udacity.gamedev.gigagal.overlay;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -16,18 +18,15 @@ public final class TouchInterface {
     private static final TouchInterface INSTANCE = new TouchInterface();
     private static InputControls inputControls;
     private Viewport viewport; // class-level instantiation
-    private boolean onMobile;
 
     // non-instantiable; cannot be subclassed
     private TouchInterface() {}
 
     public static TouchInterface getInstance() { return INSTANCE; }
 
-    public final void init() {
+    public final void create() {
         this.inputControls = InputControls.getInstance();
-        this.viewport = new ExtendViewport(
-                Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE,
-                Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE);
+        this.viewport = new ExtendViewport(Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE, Constants.CONTROLS_OVERLAY_VIEWPORT_SIZE);
     }
 
     public void render(SpriteBatch batch) {
@@ -114,5 +113,5 @@ public final class TouchInterface {
 
     public void dispose() { }
 
-    public final Viewport getViewport() { return viewport; }
+    public Viewport getViewport() { return viewport; }
 }

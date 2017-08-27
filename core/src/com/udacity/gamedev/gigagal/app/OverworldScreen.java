@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.app;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -55,8 +54,6 @@ final class OverworldScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
-        // onMobile();
         screenManager = ScreenManager.getInstance();
 
         batch = screenManager.getBatch();
@@ -66,8 +63,10 @@ final class OverworldScreen extends ScreenAdapter {
         assets = Assets.getInstance();
         font = assets.getFontAssets().menu;
 
-        inputControls = InputControls.getInstance();
         touchInterface = TouchInterface.getInstance();
+
+        inputControls = InputControls.getInstance();
+        Gdx.input.setInputProcessor(InputControls.getInstance());
 
         gigaGal = GigaGal.getInstance();
         cursor = Cursor.getInstance();
@@ -76,50 +75,15 @@ final class OverworldScreen extends ScreenAdapter {
 
         levelUpdater = LevelUpdater.getInstance();
 
-        Gdx.input.setInputProcessor(InputControls.getInstance());
-
         messageVisible = false;
         setMainMenu();
-    }
-
-    public static void setMainMenu() {
-        List<String> selectionStrings = new ArrayList();
-        for (Enums.Theme level : Enums.Theme.values()) {
-            selectionStrings.add(level.name());
-        }
-        selectionStrings.add("OPTIONS");
-        cursor.setRange(145, 25);
-        cursor.setOrientation(Enums.Orientation.Y);
-        cursor.resetPosition();
-        menu.clearStrings();
-        menu.setOptionStrings(selectionStrings);
-        menu.TextAlignment(Align.left);
-        menuType = Enums.MenuType.MAIN;
-    }
-
-    private static void setOptionsMenu() {
-        cursor.setRange(106, 76);
-        cursor.setOrientation(Enums.Orientation.Y);
-        cursor.resetPosition();
-        String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
-        menu.setOptionStrings(Arrays.asList(optionStrings));
-        menu.TextAlignment(Align.center);
-        menuType = Enums.MenuType.OPTIONS;
-    }
-
-    private boolean onMobile() {
-        return Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-//        cursor.getViewport().update(width, height, true);
-//        touchInterface.getViewport().update(width, height, true);
+        touchInterface.getViewport().update(width, height, true);
         touchInterface.recalculateButtonPositions();
-//        optionsOverlay.getViewport().update(width, height, true);
-//        optionsOverlay.getCursor().getViewport().update(width, height, true);
-//        errorMessage.getViewport().update(width, height, true);
     }
 
     @Override
@@ -149,7 +113,7 @@ final class OverworldScreen extends ScreenAdapter {
                     if (cursor.getPosition() == 106) {
                         setMainMenu();
                     } else if (cursor.getPosition() == 91) {
-                        SaveData.toggleTouchscreen(!SaveData.hasTouchscreen());
+                        SaveData.setTouchscreen(!SaveData.hasTouchscreen());
                     } else if (cursor.getPosition() == 76) {
                         screenManager.dispose();
                         screenManager.create();
@@ -218,6 +182,32 @@ final class OverworldScreen extends ScreenAdapter {
     }
 
     protected static Enums.Theme getSelection() { return selection; }
+
+
+    public static void setMainMenu() {
+        List<String> selectionStrings = new ArrayList();
+        for (Enums.Theme level : Enums.Theme.values()) {
+            selectionStrings.add(level.name());
+        }
+        selectionStrings.add("OPTIONS");
+        cursor.setRange(145, 25);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
+        menu.clearStrings();
+        menu.setOptionStrings(selectionStrings);
+        menu.TextAlignment(Align.left);
+        menuType = Enums.MenuType.MAIN;
+    }
+
+    private static void setOptionsMenu() {
+        cursor.setRange(106, 76);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
+        String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.TextAlignment(Align.center);
+        menuType = Enums.MenuType.OPTIONS;
+    }
 
     @Override
     public void dispose() {

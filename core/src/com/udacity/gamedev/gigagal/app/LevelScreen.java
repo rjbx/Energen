@@ -30,7 +30,7 @@ import static com.udacity.gamedev.gigagal.util.Enums.MenuType.MAIN;
 import static com.udacity.gamedev.gigagal.util.Enums.MenuType.OPTIONS;
 import static com.udacity.gamedev.gigagal.util.Enums.MenuType.RESET;
 
-// package-private
+// immutable package-private
 class LevelScreen extends ScreenAdapter {
 
     // fields
@@ -103,61 +103,9 @@ class LevelScreen extends ScreenAdapter {
         staticViewport.update(width, height, true);
         indicatorHud.create();
         gaugeHud.create();
-//        gaugeHud.getViewport().update(width, height, true);
-//        indicatorHud.getViewport().update(width, height, true);
-//        defeatMessage.getViewport().update(width, height, true);
-//        mainMenu.getViewport().update(width, height, true);
-//        mainMenu.getCursor().getViewport().update(width, height, true);
-//        optionsMenu.getViewport().update(width, height, true);
-//        optionsMenu.getCursor().getViewport().update(width, height, true);
-//        errorMessage.getViewport().update(width, height, true);
         touchInterface.getViewport().update(width, height, true);
         touchInterface.recalculateButtonPositions();
         gigaGal.setInputControls(inputControls);
-    }
-
-    private static void setMainMenu() {
-        cursor.setRange(staticViewport.getCamera().position.y, staticViewport.getCamera().position.y - 30);
-        cursor.setOrientation(Enums.Orientation.Y);
-        cursor.resetPosition();
-        String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
-        menu.setOptionStrings(Arrays.asList(optionStrings));
-        menu.setPromptString(Align.left, Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" + "Turbo: " + gigaGal.getTurbo());
-        menu.setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(TimeUtils.nanosToMillis(SaveData.getTotalTime() + levelUpdater.getUnsavedTime())) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
-        menu.setPromptString(Align.right, (gigaGal.getWeapon().name() + "\n" + SaveData.getWeapons().replace(gigaGal.getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
-        menu.TextAlignment(Align.center);
-        menuType = MAIN;
-    }
-
-    private static void setOptionsMenu() {
-        cursor.setRange(staticViewport.getCamera().position.y + 45, staticViewport.getCamera().position.y - 45);
-        cursor.setOrientation(Enums.Orientation.Y);
-        cursor.resetPosition();
-        menu.isSingleOption(false);
-        menu.clearStrings();
-        String[] optionStrings = {"BACK", "RESET LEVEL", "DEBUG CAM", "TOUCH PAD", "MUSIC", "HINTS", "QUIT"};
-        menu.setOptionStrings(Arrays.asList(optionStrings));
-        menu.TextAlignment(Align.center);
-        menuType = OPTIONS;
-    }
-
-    private static void setResetMenu() {
-        cursor.setRange(staticViewport.getCamera().position.x - 50, staticViewport.getCamera().position.x + 50);
-        cursor.setOrientation(Enums.Orientation.X);
-        cursor.resetPosition();
-        String[] optionStrings = {"NO", "YES"};
-        menu.setOptionStrings(Arrays.asList(optionStrings));
-        menu.TextAlignment(Align.center);
-        menu.setPromptString(Align.center, "Are you sure you want to erase \n all progress on this level?");
-        menuType = RESET;
-    }
-
-    private static void setDebugMenu() {
-        cursor.setRange(staticViewport.getCamera().position.y, staticViewport.getCamera().position.y);
-        menu.isSingleOption(true);
-        menu.setPromptString(Align.center, Constants.DEBUG_MODE_MESSAGE);
-        menu.TextAlignment(Align.center);
-        menuType = DEBUG;
     }
 
     @Override
@@ -170,7 +118,6 @@ class LevelScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (levelUpdater.continuing()) {
-
             if (!levelUpdater.paused()) {
                 levelUpdater.update(delta);
                 chaseCam.update(batch, delta);
@@ -184,7 +131,6 @@ class LevelScreen extends ScreenAdapter {
                 showPauseMenu(delta);
             }
             gaugeHud.render(renderer, staticViewport, gigaGal);
-            touchInterface.render(batch);
         } else {
             showExitOverlay();
         }
@@ -194,6 +140,7 @@ class LevelScreen extends ScreenAdapter {
             font.getData().setScale(.4f);
         }
         inputControls.update();
+        touchInterface.render(batch);
     }
 
     private void showPauseMenu(float delta) {
@@ -231,7 +178,7 @@ class LevelScreen extends ScreenAdapter {
                             setDebugMenu();
                         }
                     } else if (cursor.getPosition() == staticViewport.getCamera().position.y) {
-                        SaveData.toggleTouchscreen(!SaveData.hasTouchscreen());
+                        SaveData.setTouchscreen(!SaveData.hasTouchscreen());
                     } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 15) {
                         levelUpdater.toggleMusic();
                     } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 30) {
@@ -302,7 +249,52 @@ class LevelScreen extends ScreenAdapter {
         Helpers.drawBitmapFont(batch, staticViewport, font, endMessage, staticViewport.getCamera().position.x, staticViewport.getCamera().position.y + staticViewport.getWorldHeight() / 3, Align.center);
     }
 
-    protected ExtendViewport getViewport() { return chaseViewport; }
+    public final ExtendViewport getViewport() { return chaseViewport; }
+
+
+    private static void setMainMenu() {
+        cursor.setRange(staticViewport.getCamera().position.y, staticViewport.getCamera().position.y - 30);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
+        String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.setPromptString(Align.left, Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" + "Turbo: " + gigaGal.getTurbo());
+        menu.setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(TimeUtils.nanosToMillis(SaveData.getTotalTime() + levelUpdater.getUnsavedTime())) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
+        menu.setPromptString(Align.right, (gigaGal.getWeapon().name() + "\n" + SaveData.getWeapons().replace(gigaGal.getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
+        menu.TextAlignment(Align.center);
+        menuType = MAIN;
+    }
+
+    private static void setOptionsMenu() {
+        cursor.setRange(staticViewport.getCamera().position.y + 45, staticViewport.getCamera().position.y - 45);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
+        menu.isSingleOption(false);
+        menu.clearStrings();
+        String[] optionStrings = {"BACK", "RESET LEVEL", "DEBUG CAM", "TOUCH PAD", "MUSIC", "HINTS", "QUIT"};
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.TextAlignment(Align.center);
+        menuType = OPTIONS;
+    }
+
+    private static void setResetMenu() {
+        cursor.setRange(staticViewport.getCamera().position.x - 50, staticViewport.getCamera().position.x + 50);
+        cursor.setOrientation(Enums.Orientation.X);
+        cursor.resetPosition();
+        String[] optionStrings = {"NO", "YES"};
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.TextAlignment(Align.center);
+        menu.setPromptString(Align.center, "Are you sure you want to erase \n all progress on this level?");
+        menuType = RESET;
+    }
+
+    private static void setDebugMenu() {
+        cursor.setRange(staticViewport.getCamera().position.y, staticViewport.getCamera().position.y);
+        menu.isSingleOption(true);
+        menu.setPromptString(Align.center, Constants.DEBUG_MODE_MESSAGE);
+        menu.TextAlignment(Align.center);
+        menuType = DEBUG;
+    }
 
     @Override
     public void dispose() {

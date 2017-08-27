@@ -54,8 +54,6 @@ final class LaunchScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        // : When you're done testing, use onMobile() turn off the controls when not on a mobile device
-        // onMobile();
         screenManager = ScreenManager.getInstance();
 
         batch = screenManager.getBatch();
@@ -86,72 +84,21 @@ final class LaunchScreen extends ScreenAdapter {
         continuing = SaveData.getDifficulty() != -1;
         choices.add("NO");
         choices.add("YES");
-    }
 
-    private static void setResumeMenu() {
-        cursor.setRange(35, 20);
-        cursor.setOrientation(Enums.Orientation.Y);
-        cursor.resetPosition();
-        String[] optionStrings = {"START GAME", "ERASE GAME"};
-        menu.clearStrings();
-        menu.setOptionStrings(Arrays.asList(optionStrings));
-        menu.TextAlignment(Align.center);
-        menuType = Enums.MenuType.START;
-    }
-
-    private static void setEraseMenu() {
-        cursor.setRange(50, 150);
-        cursor.setOrientation(Enums.Orientation.X);
-        cursor.resetPosition();
-        String[] optionStrings = {"NO", "YES"};
-        menu.setOptionStrings(Arrays.asList(optionStrings));
-        menu.TextAlignment(Align.center);
-        menu.setPromptString(Align.center, "Are you sure you want to start \na new game and erase all saved data?");
-        menuType = Enums.MenuType.ERASE;
-    }
-
-    private static void setBeginMenu() {
-        cursor.setRange(30, 30);
-        menu.isSingleOption(true);
-        String[] option = {"PRESS START"};
-        menu.setOptionStrings(Arrays.asList(option));
-        menu.TextAlignment(Align.center);
-        menuType = Enums.MenuType.START;
-    }
-
-    private static void setDifficultyMenu() {
-        cursor.setRange(75, 35);
-        cursor.setOrientation(Enums.Orientation.Y);
-        cursor.resetPosition();
-        String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
-        menu.setOptionStrings(Arrays.asList(optionStrings));
-        menu.isSingleOption(false);
-        menuType = Enums.MenuType.DIFFICULTY;
-    }
-
-    private boolean onMobile() {
-        return Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
+        if (Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS) {
+            SaveData.setTouchscreen(true);
+        }
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-
-//        cursor.getViewport().update(width, height, true);
-//        touchInterface.getViewport().update(width, height, true);
-//        touchInterface.recalculateButtonPositions();
-//        startMenu.getViewport().update(width, height, true);
-//        startMenu.getCursor().getViewport().update(width, height, true);
-//        difficultyMenu.getViewport().update(width, height, true);
-//        difficultyMenu.getCursor().getViewport().update(width, height, true);
-//        eraseMenu.getViewport().update(width, height, true);
-//        eraseMenu.getCursor().getViewport().update(width, height, true);
-//        launchBackdrop.getViewport().update(width, height, true);
+        touchInterface.getViewport().update(width, height, true);
+        touchInterface.recalculateButtonPositions();
     }
 
     @Override
     public void render(float delta) {
-
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (!launching) {
@@ -232,20 +179,60 @@ final class LaunchScreen extends ScreenAdapter {
         touchInterface.render(batch);
     }
 
+    private static void setResumeMenu() {
+        cursor.setRange(35, 20);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
+        String[] optionStrings = {"START GAME", "ERASE GAME"};
+        menu.clearStrings();
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.TextAlignment(Align.center);
+        menuType = Enums.MenuType.START;
+    }
+
+    private static void setEraseMenu() {
+        cursor.setRange(50, 150);
+        cursor.setOrientation(Enums.Orientation.X);
+        cursor.resetPosition();
+        String[] optionStrings = {"NO", "YES"};
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.TextAlignment(Align.center);
+        menu.setPromptString(Align.center, "Are you sure you want to start \na new game and erase all saved data?");
+        menuType = Enums.MenuType.ERASE;
+    }
+
+    private static void setBeginMenu() {
+        cursor.setRange(30, 30);
+        menu.isSingleOption(true);
+        String[] option = {"PRESS START"};
+        menu.setOptionStrings(Arrays.asList(option));
+        menu.TextAlignment(Align.center);
+        menuType = Enums.MenuType.START;
+    }
+
+    private static void setDifficultyMenu() {
+        cursor.setRange(75, 35);
+        cursor.setOrientation(Enums.Orientation.Y);
+        cursor.resetPosition();
+        String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
+        menu.setOptionStrings(Arrays.asList(optionStrings));
+        menu.isSingleOption(false);
+        menuType = Enums.MenuType.DIFFICULTY;
+    }
+
     @Override
     public void dispose() {
-        choices.clear();
-        inputControls.clear();
-        text.dispose();
-        title.dispose();
-        choices = null;
-        inputControls = null;
-        launchBackdrop = null;
-        text = null;
-        title = null;
-        batch = null;
-        this.hide();
-        super.dispose();
-        System.gc();
+//        choices.clear();
+//        inputControls.clear();
+//        text.dispose();
+//        title.dispose();
+//        choices = null;
+//        inputControls = null;
+//        launchBackdrop = null;
+//        text = null;
+//        title = null;
+//        batch = null;
+//        this.hide();
+//        super.dispose();
     }
 }

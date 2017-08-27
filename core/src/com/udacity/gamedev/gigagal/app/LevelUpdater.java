@@ -31,7 +31,6 @@ public class LevelUpdater {
     private static final LevelUpdater INSTANCE = new LevelUpdater();
     private Assets assets;
     private InputControls inputControls;
-    private Viewport viewport;
     private LevelScreen levelScreen;
     private Timer timer;
     private boolean loadEx;
@@ -314,7 +313,7 @@ public class LevelUpdater {
                 if (hintsEnabled
                         && !trip.maxAdjustmentsReached()
                         && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
-                        && !(trip.getBounds().overlaps(new Rectangle(chaseCam.camera.position.x - viewport.getWorldWidth() / 4, chaseCam.camera.position.y - viewport.getWorldHeight() / 4, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
+                        && !(trip.getBounds().overlaps(new Rectangle(chaseCam.camera.position.x - chaseCam.getViewport().getWorldWidth() / 4, chaseCam.camera.position.y - chaseCam.getViewport().getWorldHeight() / 4, chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getViewport().getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
 
                     chaseCam.setState(Enums.ChaseCamState.CONVERT);
                     chaseCam.setConvertBounds(trip.getBounds());
@@ -694,11 +693,7 @@ public class LevelUpdater {
         gigaGal.setLives(3);
         gigaGal.respawn();
 
-        // set level attributes
-        viewport = levelScreen.getViewport();
-
         timer.reset().start(time);
-
         savedTime = time;
         savedScore = score;
     }
@@ -868,7 +863,7 @@ public class LevelUpdater {
     public final int getScore() { return score; }
     public final void setBoss(Boss boss) { this.boss = boss; }
     public final Boss getBoss() { return boss; }
-    public final Viewport getViewport() { return viewport; }
+    public final Viewport getViewport() { return levelScreen.getViewport(); }
     public final DelayedRemovalArray<Transport> getTransports() { return transports; }
     public final GigaGal getGigaGal() { return gigaGal; }
     public final Enums.Material getType() { return levelWeapon; }
