@@ -264,6 +264,7 @@ class LevelUpdater {
             }
             powerups.end();
 
+            gigaGal.touchAllGrounds(grounds, delta);
             gigaGal.update(delta);
             Blade.getInstance().update(delta);
         }

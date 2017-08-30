@@ -217,22 +217,9 @@ public class Avatar extends Entity implements Humanoid {
 
     public void update(float delta) {
 
-        // positioning
-        previousFramePosition.set(position);
-//
-//        if (touchedGround != null)
-//            Gdx.app.log(TAG + "1", touchedGround.getClass().toString());
 
-        position.mulAdd(velocity, delta);
-//
-//        if (touchedGround != null)
-//            Gdx.app.log(TAG + "2", touchedGround.getClass().toString());
-
-        setBounds();
-        detectInput();
 
         // collision detection
-        touchAllGrounds(LevelAssets.getClonedGrounds());
         touchAllHazards(LevelAssets.getClonedHazards());
         touchAllPowerups(LevelAssets.getClonedPowerups());
 
@@ -299,7 +286,6 @@ public class Avatar extends Entity implements Humanoid {
 //        if (touchedGround != null)
 //        Gdx.app.log(TAG + "3", touchedGround.getClass().toString());
     }
-
 
     private void enableSwipe() {
         if (!canRush && !canCut && (groundState == GroundState.AIRBORNE || action == Action.CLIMBING) && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
@@ -437,7 +423,20 @@ public class Avatar extends Entity implements Humanoid {
         bounds = new Rectangle(left, bottom, width, height);
     }
 
-    private void touchAllGrounds(Array<Ground> grounds) {
+    public void touchAllGrounds(Array<Ground> grounds, float delta) {
+        // positioning
+        previousFramePosition.set(position);
+//
+//        if (touchedGround != null)
+//            Gdx.app.log(TAG + "1", touchedGround.getClass().toString());
+
+        position.mulAdd(velocity, delta);
+//
+//        if (touchedGround != null)
+//            Gdx.app.log(TAG + "2", touchedGround.getClass().toString());
+
+        setBounds();
+        detectInput();
         for (Ground ground : grounds) {
             touchGround(ground);
         }
