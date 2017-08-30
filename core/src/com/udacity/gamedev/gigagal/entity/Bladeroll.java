@@ -15,7 +15,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Roving, Destructible {
+public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Roving, Destructible, Impermeable {
 
     // fields
     public final static String TAG = Rollen.class.getName();
@@ -218,6 +218,9 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
             }
         }
     }
+
+    public void touchAllGrounds(Array<Ground> grounds) {}
+    public void touchAllHazards(Array<Hazard> hazards) {}
 
     @Override public Vector2 getPosition() { return position; }
     public Vector2 getVelocity() { return velocity; }

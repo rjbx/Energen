@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelAssets;
@@ -10,7 +11,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Spring extends Ground implements Reboundable, Rappelable, Tossable, Compressible {
+public class Spring extends Ground implements Reboundable, Rappelable, Tossable, Compressible, Impermeable {
 
     // fields
     public final static String TAG = Spring.class.getName();
@@ -140,6 +141,9 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
             }
         }
     }
+
+    public void touchAllGrounds(Array<Ground> grounds) {}
+    public void touchAllHazards(Array<Hazard> hazards) {}
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {

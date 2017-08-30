@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelAssets;
@@ -14,7 +15,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Armoroll extends Hazard implements Armored, Groundable, Roving, Destructible {
+public class Armoroll extends Hazard implements Armored, Groundable, Roving, Destructible, Impermeable {
 
     // fields
     public final static String TAG = Rollen.class.getName();
@@ -181,6 +182,9 @@ public class Armoroll extends Hazard implements Armored, Groundable, Roving, Des
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
     }
+
+    public void touchAllGrounds(Array<Ground> grounds) {}
+    public void touchAllHazards(Array<Hazard> hazards) {}
 
     @Override public Vector2 getPosition() { return position; }
     public Vector2 getVelocity() { return velocity; }

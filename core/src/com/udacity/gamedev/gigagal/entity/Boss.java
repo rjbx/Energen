@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelAssets;
 import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.InputControls;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -21,7 +20,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 // mutable
-public class Boss extends Hazard implements Destructible, Humanoid {
+public class Boss extends Hazard implements Destructible, Humanoid, Impermeable {
 
     // fields
     public final static String TAG = Avatar.class.getName();
@@ -209,17 +208,6 @@ public class Boss extends Hazard implements Destructible, Humanoid {
 
     public void update(float delta) {
 
-        // positioning
-        previousFramePosition.set(position);
-        position.mulAdd(velocity, delta);
-        setBounds();
-        detectInput();
-
-        // collision detection
-        touchAllGrounds(LevelAssets.getClonedGrounds());
-        touchAllHazards(LevelAssets.getClonedHazards());
-        touchAllPowerups(LevelAssets.getClonedPowerups());
-
         // abilities
         if (groundState == GroundState.PLANTED) {
             velocity.y = 0;
@@ -272,6 +260,14 @@ public class Boss extends Hazard implements Destructible, Humanoid {
 //            }
         }
         rush();
+    }
+
+    public void updatePosition(float delta) {
+        // positioning
+        previousFramePosition.set(position);
+        position.mulAdd(velocity, delta);
+        setBounds();
+        detectInput();
     }
 
     private void setBounds() {
@@ -344,7 +340,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
         }
     }
 
-    private void touchAllGrounds(Array<Ground> grounds) {
+    public void touchAllGrounds(Array<Ground> grounds) {
         for (Ground ground : grounds) {
             touchGround(ground);
         }
@@ -638,7 +634,7 @@ public class Boss extends Hazard implements Destructible, Humanoid {
     }
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    private void touchAllHazards(Array<Hazard> hazards) {
+    public void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Boss)) {

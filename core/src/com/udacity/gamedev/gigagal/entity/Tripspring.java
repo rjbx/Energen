@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelAssets;
@@ -12,7 +13,7 @@ import com.udacity.gamedev.gigagal.util.Helpers;
 
 import java.util.logging.Level;
 
-public class Tripspring extends Ground implements Trippable, Compressible, Reboundable {
+public class Tripspring extends Ground implements Trippable, Compressible, Reboundable, Impermeable {
 
     // fields
     public final static String TAG = Tripspring.class.getName();
@@ -74,6 +75,9 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
             Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().unloadedLever.getKeyFrame(Helpers.secondsSince(startTime), false), position, Constants.LEVER_CENTER);
         }
     }
+
+    public void touchAllGrounds(Array<Ground> grounds) {}
+    public void touchAllHazards(Array<Hazard> hazards) {}
 
     @Override public final Vector2 getPosition() { return position; }
     @Override public final Rectangle getBounds() { return bounds; }

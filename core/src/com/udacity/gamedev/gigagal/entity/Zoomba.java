@@ -16,7 +16,7 @@ import com.udacity.gamedev.gigagal.util.Enums.Direction;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // mutable
-public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable, Rappelable, Hurdleable, Convertible {
+public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable, Rappelable, Hurdleable, Convertible, Impermeable {
 
     // fields
     public final static String TAG = Zoomba.class.getName();
@@ -129,6 +129,9 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     public void render(SpriteBatch batch, Viewport viewport) {
          Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
     }
+
+    public void touchAllGrounds(Array<Ground> grounds) {}
+    public void touchAllHazards(Array<Hazard> hazards) {}
 
     @Override public final Vector2 getPosition() { return position; }
     @Override public final Vector2 getVelocity() { return velocity; }

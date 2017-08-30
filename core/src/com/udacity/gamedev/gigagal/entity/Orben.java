@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelAssets;
@@ -14,7 +15,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonstatic {
+public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonstatic, Impermeable {
 
     // fields
     public final static String TAG = Orben.class.getName();
@@ -164,6 +165,9 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
         }
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.ORBEN_CENTER, Constants.ORBEN_TEXTURE_SCALE);
     }
+
+    public void touchAllGrounds(Array<Ground> grounds) {}
+    public void touchAllHazards(Array<Hazard> hazards) {}
 
     @Override public Vector2 getPosition() { return position; }
     @Override public Vector2 getVelocity() { return velocity; }

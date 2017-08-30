@@ -493,11 +493,18 @@ class LevelUpdater {
             }
             projectiles.end();
         }
+        if (active && ground instanceof Impermeable) {
+            applyCollision((Impermeable) ground);
+        }
         return active;
     }
 
     public boolean updateHazard(float delta, Hazard hazard) {
         boolean active = true;
+        if (hazard instanceof Boss) {
+            ((Boss) hazard).updatePosition(delta);
+            applyCollision((Impermeable) hazard);
+        }
         if (hazard instanceof Destructible) {
             Destructible destructible = (Destructible) hazard;
             projectiles.begin();
@@ -581,6 +588,9 @@ class LevelUpdater {
         }
         if (hazard instanceof Nonstatic) {
             ((Nonstatic) hazard).update(delta);
+        }
+        if (active && hazard instanceof Impermeable) {
+            applyCollision((Impermeable) hazard);
         }
         return active;
     }

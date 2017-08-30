@@ -3,6 +3,7 @@ package com.udacity.gamedev.gigagal.entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelAssets;
@@ -11,7 +12,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // class name avoids confusion with existing button assets and constants
-public class Tripknob extends Ground implements Trippable, Convertible, Strikeable {
+public class Tripknob extends Ground implements Trippable, Convertible, Strikeable, Impermeable {
 
     // fields
     public final static String TAG = Tripknob.class.getName();
@@ -79,6 +80,9 @@ public class Tripknob extends Ground implements Trippable, Convertible, Strikeab
             Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().tripknobOff.getKeyFrame(Helpers.secondsSince(startTime), false), position, offset, 1, rotation);
         }
     }
+
+    public void touchAllGrounds(Array<Ground> grounds) {}
+    public void touchAllHazards(Array<Hazard> hazards) {}
 
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.TRIPKNOB_CENTER.y * 2; }

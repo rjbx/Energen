@@ -2,6 +2,7 @@ package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.udacity.gamedev.gigagal.app.LevelAssets;
 import com.udacity.gamedev.gigagal.util.Constants;
@@ -9,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // also functions as shield
-public class Brick extends Barrier implements Tossable {
+public class Brick extends Barrier implements Tossable, Impermeable {
 
     // fields
     public final static String TAG = Brick.class.getName();
@@ -143,6 +144,9 @@ public class Brick extends Barrier implements Tossable {
     public void render(SpriteBatch batch, Viewport viewport) {
         super.render(batch, viewport);
     }
+    
+    public void touchAllGrounds(Array<Ground> grounds) {}
+    public void touchAllHazards(Array<Hazard> hazards) {}
 
     // Getters
     @Override public final void setPosition(Vector2 position) { super.position.set(position); }
