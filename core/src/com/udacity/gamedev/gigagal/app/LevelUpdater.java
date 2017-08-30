@@ -146,6 +146,14 @@ class LevelUpdater {
         }
     }
 
+    private void applyCollision(Impermeable impermeable) {
+        impermeable.touchAllGrounds(grounds);
+        impermeable.touchAllHazards(hazards);
+        if (impermeable instanceof Avatar) {
+            ((Avatar) impermeable).touchAllPowerups(powerups);
+        }
+    }
+
     // asset handling
     private void updateEntities(float delta) {
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
@@ -264,7 +272,8 @@ class LevelUpdater {
             }
             powerups.end();
 
-            gigaGal.touchAllGrounds(grounds, delta);
+            gigaGal.updatePosition(delta);
+            applyCollision(gigaGal);
             gigaGal.update(delta);
             Blade.getInstance().update(delta);
         }

@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelAssets;
 import com.udacity.gamedev.gigagal.app.SaveData;
 import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.InputControls;
@@ -25,7 +24,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 // mutable
-public class Avatar extends Entity implements Humanoid {
+public class Avatar extends Entity implements Impermeable, Humanoid {
 
     // fields
     public final static String TAG = Avatar.class.getName();
@@ -216,13 +215,6 @@ public class Avatar extends Entity implements Humanoid {
     }
 
     public void update(float delta) {
-
-
-
-        // collision detection
-        touchAllHazards(LevelAssets.getClonedHazards());
-        touchAllPowerups(LevelAssets.getClonedPowerups());
-
         // abilities
         if (groundState == GroundState.PLANTED) {
             if (action == Action.STANDING) {
@@ -423,7 +415,7 @@ public class Avatar extends Entity implements Humanoid {
         bounds = new Rectangle(left, bottom, width, height);
     }
 
-    public void touchAllGrounds(Array<Ground> grounds, float delta) {
+    public void updatePosition(float delta) {
         // positioning
         previousFramePosition.set(position);
 //
@@ -437,6 +429,9 @@ public class Avatar extends Entity implements Humanoid {
 
         setBounds();
         detectInput();
+    }
+
+    public void touchAllGrounds(Array<Ground> grounds) {
         for (Ground ground : grounds) {
             touchGround(ground);
         }
@@ -760,7 +755,7 @@ public class Avatar extends Entity implements Humanoid {
     }
 
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    private void touchAllHazards(Array<Hazard> hazards) {
+    public void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Avatar)) {
@@ -817,7 +812,7 @@ public class Avatar extends Entity implements Humanoid {
         }
     }
 
-    private void touchAllPowerups(Array<Powerup> powerups) {
+    public void touchAllPowerups(Array<Powerup> powerups) {
         for (Powerup powerup : powerups) {
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {
