@@ -45,7 +45,7 @@ class LevelUpdater {
     private Enums.Material levelWeapon;
     private Enums.Theme theme;
     private Music music;
-    private Avatar gigaGal;
+    private Avatar avatar;
     private Boss boss;
     private ChaseCam chaseCam;
     private String removedHazards;
@@ -70,7 +70,7 @@ class LevelUpdater {
         timer = Timer.getInstance();
         timer.create();
 
-        gigaGal = Avatar.getInstance();
+        avatar = Avatar.getInstance();
         chaseCam = ChaseCam.getInstance();
         assetManager = AssetManager.getInstance();
         inputControls = InputControls.getInstance();
@@ -132,7 +132,7 @@ class LevelUpdater {
             }
         }
 
-        gigaGal.render(batch, viewport);
+        avatar.render(batch, viewport);
         Blade.getInstance().render(batch, viewport);
 
         for (Hazard hazard : hazards) {
@@ -172,14 +172,14 @@ class LevelUpdater {
         } else if (boss.isTalking()) {
             if (ChaseCam.getInstance().getState() != Enums.ChaseCamState.BOSS) {
                 ChaseCam.getInstance().setState(Enums.ChaseCamState.BOSS);
-            } else if (gigaGal.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
+            } else if (avatar.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
                 music.stop();
-                gigaGal.setVelocity(new Vector2(40, 0));
-                gigaGal.setPosition(gigaGal.getPosition().mulAdd(gigaGal.getVelocity(), delta));
-                gigaGal.stride();
+                avatar.setVelocity(new Vector2(40, 0));
+                avatar.setPosition(avatar.getPosition().mulAdd(avatar.getVelocity(), delta));
+                avatar.stride();
             } else {
-                if (gigaGal.getAction() != Enums.Action.STANDING) {
-                    gigaGal.setAction(Enums.Action.STANDING);
+                if (avatar.getAction() != Enums.Action.STANDING) {
+                    avatar.setAction(Enums.Action.STANDING);
                 } else if (InputControls.getInstance().shootButtonJustPressed) {
                     boss.setBattleState(true);
                     if (musicEnabled) {
@@ -191,17 +191,17 @@ class LevelUpdater {
             }
         } else {
             time = timer.getNanos();
-            if (gigaGal.getDispatchStatus()) {
-                if (gigaGal.getLookStartTime() != 0) {
-                    if (gigaGal.getDirectionY() == Direction.UP) {
-                        spawnAmmo(new Vector2(gigaGal.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, gigaGal.getDirectionX(), Enums.Orientation.X), gigaGal.getPosition().y + Constants.GIGAGAL_Y_CANNON_OFFSET.y), gigaGal.getDirectionY(), Enums.Orientation.Y, gigaGal.getShotIntensity(), gigaGal.getWeapon(), gigaGal);
+            if (avatar.getDispatchStatus()) {
+                if (avatar.getLookStartTime() != 0) {
+                    if (avatar.getDirectionY() == Direction.UP) {
+                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.GIGAGAL_Y_CANNON_OFFSET.y), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
                     } else {
-                        spawnAmmo(new Vector2(gigaGal.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, gigaGal.getDirectionX(), Enums.Orientation.X), gigaGal.getPosition().y - Constants.GIGAGAL_Y_CANNON_OFFSET.y - 8), gigaGal.getDirectionY(), Enums.Orientation.Y, gigaGal.getShotIntensity(), gigaGal.getWeapon(), gigaGal);
+                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y - Constants.GIGAGAL_Y_CANNON_OFFSET.y - 8), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
                     }
                 } else {
-                    spawnAmmo(new Vector2(gigaGal.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_X_CANNON_OFFSET.x, gigaGal.getDirectionX(), Enums.Orientation.X), gigaGal.getPosition().y + Constants.GIGAGAL_X_CANNON_OFFSET.y), gigaGal.getDirectionX(), Enums.Orientation.X, gigaGal.getShotIntensity(), gigaGal.getWeapon(), gigaGal);
+                    spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_X_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.GIGAGAL_X_CANNON_OFFSET.y), avatar.getDirectionX(), Enums.Orientation.X, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
                 }
-                gigaGal.resetChargeIntensity();
+                avatar.resetChargeIntensity();
             }
 
             if (boss.getDispatchStatus()) {
@@ -217,11 +217,11 @@ class LevelUpdater {
                 boss.resetChargeIntensity();
             }
 
-            if (gigaGal.getTouchedHazard() != null && gigaGal.getAction() == Enums.Action.RECOILING) {
+            if (avatar.getTouchedHazard() != null && avatar.getAction() == Enums.Action.RECOILING) {
                 Vector2 intersectionPoint = new Vector2();
-                Hazardous touchedHazard = gigaGal.getTouchedHazard();
-                intersectionPoint.x = Math.max(gigaGal.getLeft(), touchedHazard.getLeft());
-                intersectionPoint.y = Math.max(gigaGal.getBottom(), touchedHazard.getBottom());
+                Hazardous touchedHazard = avatar.getTouchedHazard();
+                intersectionPoint.x = Math.max(avatar.getLeft(), touchedHazard.getLeft());
+                intersectionPoint.y = Math.max(avatar.getBottom(), touchedHazard.getBottom());
                 spawnImpact(intersectionPoint, touchedHazard.getType());
             }
 
@@ -266,15 +266,15 @@ class LevelUpdater {
             // Update Powerups
             powerups.begin();
             for (int i = 0; i < powerups.size; i++) {
-                if (Helpers.overlapsPhysicalObject(gigaGal, powerups.get(i))) {
+                if (Helpers.overlapsPhysicalObject(avatar, powerups.get(i))) {
                     powerups.removeIndex(i);
                 }
             }
             powerups.end();
 
-            gigaGal.updatePosition(delta);
-            applyCollision(gigaGal);
-            gigaGal.update(delta);
+            avatar.updatePosition(delta);
+            applyCollision(avatar);
+            avatar.update(delta);
             Blade.getInstance().update(delta);
         }
     }
@@ -315,7 +315,7 @@ class LevelUpdater {
         if (ground instanceof Trippable) {
             Trippable trip = (Trippable) ground;
             if (trip instanceof Triptread) {
-                if (Helpers.overlapsPhysicalObject(gigaGal, trip) && gigaGal.getAction() == Enums.Action.DASHING && !gigaGal.getDashStatus()) {
+                if (Helpers.overlapsPhysicalObject(avatar, trip) && avatar.getAction() == Enums.Action.DASHING && !avatar.getDashStatus()) {
                     trip.setState(!trip.isActive());
                 }
             }
@@ -349,14 +349,14 @@ class LevelUpdater {
             ((Nonstatic) ground).update(delta);
         }
         if (ground instanceof Compressible) {
-            if (!(ground instanceof Pliable && ((Pliable) ground).isBeingCarried() && ((Pliable) ground).getCarrier() == gigaGal)) {
+            if (!(ground instanceof Pliable && ((Pliable) ground).isBeingCarried() && ((Pliable) ground).getCarrier() == avatar)) {
                 Compressible compressible = (Compressible) ground;
-                if (Helpers.overlapsPhysicalObject(gigaGal, ground)) {
+                if (Helpers.overlapsPhysicalObject(avatar, ground)) {
                     if (!compressible.getState()) {
                         compressible.resetStartTime();
                     }
                     compressible.setState(true);
-                } else if (compressible.getState() && !(compressible instanceof Pliable && ((Pliable) compressible).isAtopMovingGround() && Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop(), ground.getTop() + 2))) {
+                } else if (compressible.getState() && !(compressible instanceof Pliable && ((Pliable) compressible).isAtopMovingGround() && Helpers.betweenTwoValues(avatar.getBottom(), ground.getTop(), ground.getTop() + 2))) {
                     if (!compressible.isBeneatheGround()) {
                         compressible.resetStartTime();
                         compressible.setState(false);
@@ -366,43 +366,48 @@ class LevelUpdater {
         }
         if (ground instanceof Pliable) {
             Pliable pliable = (Pliable) ground;
-            if (!(pliable).isBeingCarried() && Helpers.overlapsPhysicalObject(gigaGal, ground)) {
-                if (gigaGal.getAction() == Enums.Action.RAPPELLING && InputControls.getInstance().shootButtonJustPressed
-                || (gigaGal.getBottom() == ground.getBottom() && (InputControls.getInstance().shootButtonJustPressed) && gigaGal.getAction() == Enums.Action.STRIDING)
-                || ((Helpers.betweenTwoValues(gigaGal.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && (InputControls.getInstance().shootButtonJustPressed && InputControls.getInstance().downButtonPressed)))) {
-
-                    if (ground instanceof Compressible) {
-                        if (ground instanceof Spring && !((Spring) ground).isBeneatheGround()) {
-                            ((Compressible) ground).resetStartTime();
-                            ((Compressible) ground).setState(false);
+            if (!(pliable).isBeingCarried() && Helpers.overlapsPhysicalObject(avatar, ground)) {
+                if (avatar.getAction() == Enums.Action.RAPPELLING && Helpers.inputToDirection() == Helpers.getOppositeDirection(avatar.getDirectionX())
+                || (avatar.getBottom() == ground.getBottom() && avatar.getAction() == Enums.Action.STRIDING && avatar.getTurbo() == 100)
+                || ((Helpers.betweenTwoValues(avatar.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && InputControls.getInstance().downButtonPressed))) {
+                    avatar.setMoveStatus(true);
+                    if (inputControls.shootButtonPressed) {
+                        if (ground instanceof Compressible) {
+                            if (ground instanceof Spring && !((Spring) ground).isBeneatheGround()) {
+                                ((Compressible) ground).resetStartTime();
+                                ((Compressible) ground).setState(false);
+                            }
                         }
+                        if (avatar.getCarriedGround() == null) { // prevents from carrying simultaneously and in the process setting to overlap two grounds
+                            avatar.setPosition(new Vector2(ground.getPosition().x, ground.getBottom() + Constants.GIGAGAL_EYE_HEIGHT));
+                            pliable.setCarrier(avatar);
+                            Gdx.app.log(TAG, pliable.isBeingCarried() + "" + avatar.getMoveStatus());
+                        }
+                        avatar.setCarriedGround(pliable);
                     }
-                    if (gigaGal.getCarriedGround() == null) { // prevents from carrying simultaneously and in the process setting to overlap two grounds
-                        gigaGal.setPosition(new Vector2(ground.getPosition().x, ground.getBottom() + Constants.GIGAGAL_EYE_HEIGHT));
-                        pliable.setCarrier(gigaGal);
-                    }
-                    gigaGal.setCarriedGround(pliable);
                 }
-            } else if (pliable.getCarrier() == gigaGal) {
-                if (ground instanceof Barrier && gigaGal.getAction() != Enums.Action.STANDING) {
+            } else if (pliable.getCarrier() == avatar) {
+                if (avatar.getAction() != Enums.Action.STANDING) {
                     float adjustment = .75f;
-                    if (gigaGal.getGroundState() != Enums.GroundState.PLANTED) {
+                    if (avatar.getGroundState() != Enums.GroundState.PLANTED) {
                         adjustment *= 2;
                     } else {
-                        gigaGal.setVelocity(new Vector2(gigaGal.getVelocity().x / (1 + (pliable).weightFactor()), gigaGal.getVelocity().y));
+                        avatar.setVelocity(new Vector2(avatar.getVelocity().x / (1 + (pliable).weightFactor()), avatar.getVelocity().y));
                     }
-                    gigaGal.setTurbo(Math.max(gigaGal.getTurbo() - (pliable).weightFactor() - adjustment, 0));
-                    if (gigaGal.getTurbo() == 0) {
+                    avatar.setTurbo(Math.max(avatar.getTurbo() - (pliable).weightFactor() - adjustment, 0));
+                    if (avatar.getTurbo() == 0) {
                         pliable.setCarrier(null);
-                        gigaGal.setCarriedGround(null);
+                        avatar.setCarriedGround(null);
+                        avatar.setMoveStatus(false);
                     }
                 }
                 if (!InputControls.getInstance().shootButtonPressed
-                        || !gigaGal.getMoveStatus()) { // move status set to false when recoiling
+                || !avatar.getMoveStatus()) { // move status set to false when recoiling
                     pliable.setCarrier(null);
-                    gigaGal.setCarriedGround(null);
-                    if (pliable.getVelocity().x != 0 && (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed)) {
-                        ((Tossable) ground).toss(Helpers.absoluteToDirectionalValue(ground.getWidth() * 13, gigaGal.getDirectionX(), Enums.Orientation.X));
+                    avatar.setCarriedGround(null);
+                    avatar.setMoveStatus(false);
+                    if (pliable instanceof Tossable && pliable.getVelocity().x != 0 && (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed)) {
+                        ((Tossable) pliable).toss(Helpers.absoluteToDirectionalValue(ground.getWidth() * 13, avatar.getDirectionX(), Enums.Orientation.X));
                     }
                 }
             }
@@ -418,26 +423,26 @@ class LevelUpdater {
         }
         if (ground instanceof Chargeable) {
             Chargeable chargeable = (Chargeable) ground;
-            if (gigaGal.getChargeTimeSeconds() != Helpers.secondsSince(0) && gigaGal.getDirectionX() == Direction.RIGHT
-                    && (int) gigaGal.getRight() + 1 == chargeable.getLeft() + 1 && gigaGal.getPosition().y - 4 == chargeable.getTop()) {
+            if (avatar.getChargeTimeSeconds() != Helpers.secondsSince(0) && avatar.getDirectionX() == Direction.RIGHT
+                    && (int) avatar.getRight() + 1 == chargeable.getLeft() + 1 && avatar.getPosition().y - 4 == chargeable.getTop()) {
                 if (!chargeable.isActive() && chargeable instanceof Chamber) {
                     chargeable.setState(true);
-                } else if (gigaGal.getChargeTimeSeconds() > 1) {
-                    chargeable.setChargeTime(gigaGal.getChargeTimeSeconds());
+                } else if (avatar.getChargeTimeSeconds() > 1) {
+                    chargeable.setChargeTime(avatar.getChargeTimeSeconds());
                 }
                 if (ground instanceof Chamber) {
                     Chamber chamber = (Chamber) ground;
-                    if (chamber.isActive() && chamber.isCharged() && gigaGal.getShotIntensity() == Enums.ShotIntensity.NORMAL) {
+                    if (chamber.isActive() && chamber.isCharged() && avatar.getShotIntensity() == Enums.ShotIntensity.NORMAL) {
                         String savedUpgrades = SaveData.getUpgrades();
                         Enums.Upgrade upgrade = chamber.getUpgrade();
                         if (!savedUpgrades.contains(upgrade.name())) {
                             assetManager.getSoundAssets().upgrade.play();
-                            gigaGal.addUpgrade(upgrade);
+                            avatar.addUpgrade(upgrade);
                             SaveData.setUpgrades(upgrade.name() + ", " + savedUpgrades);
                         }
                     }
                 } else {
-                    if (gigaGal.getShotIntensity() == Enums.ShotIntensity.BLAST) {
+                    if (avatar.getShotIntensity() == Enums.ShotIntensity.BLAST) {
                         chargeable.charge();
                     }
                 }
@@ -523,9 +528,9 @@ class LevelUpdater {
                         score += ammo.getHitScore();
                     } else {
                         ((Zoomba) destructible).convert();
-                        if (gigaGal.getTouchedGround() != null && gigaGal.getTouchedGround().equals(destructible)) {
-                            gigaGal.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.GIGAGAL_EYE_HEIGHT));
-                            Gdx.app.log(TAG, gigaGal.getPosition() + " " + destructible.getPosition());
+                        if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(destructible)) {
+                            avatar.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.GIGAGAL_EYE_HEIGHT));
+                            Gdx.app.log(TAG, avatar.getPosition() + " " + destructible.getPosition());
                         }
                     }
                     if (destructible instanceof Zoomba) {
@@ -537,20 +542,20 @@ class LevelUpdater {
             projectiles.end();
 
             if (Helpers.overlapsPhysicalObject(Blade.getInstance(), destructible)) {
-                if (gigaGal.getBladeState() == Enums.BladeState.FLIP
-                        || (gigaGal.getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, gigaGal.getBottom(), gigaGal.getTop()))
-                        || (gigaGal.getBladeState() == Enums.BladeState.CUT) && (Helpers.absoluteToDirectionalValue(destructible.getPosition().x, gigaGal.getDirectionX(), Enums.Orientation.X) - Helpers.absoluteToDirectionalValue(gigaGal.getPosition().x, gigaGal.getDirectionX(), Enums.Orientation.X) > 0)) {
+                if (avatar.getBladeState() == Enums.BladeState.FLIP
+                        || (avatar.getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, avatar.getBottom(), avatar.getTop()))
+                        || (avatar.getBladeState() == Enums.BladeState.CUT) && (Helpers.absoluteToDirectionalValue(destructible.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) - Helpers.absoluteToDirectionalValue(avatar.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) > 0)) {
                     if (!(hazard instanceof Armored)) {
                         Helpers.applyDamage(destructible, Blade.getInstance());
                     } else {
                         if (((Armored) hazard).isVulnerable()) {
                             if (Helpers.directionToOrientation(((Armored) hazard).getVulnerability()) == Enums.Orientation.Y
-                                    && gigaGal.getBladeState() == Enums.BladeState.CUT
-                                    && Helpers.getOppositeDirection(((Armored) hazard).getVulnerability()) == gigaGal.getDirectionY()) {
+                                    && avatar.getBladeState() == Enums.BladeState.CUT
+                                    && Helpers.getOppositeDirection(((Armored) hazard).getVulnerability()) == avatar.getDirectionY()) {
                                 Helpers.applyDamage(destructible, Blade.getInstance());
                                 ((Armored) hazard).resetStartTime();
                             } else if (Helpers.directionToOrientation(((Armored) hazard).getVulnerability()) == Enums.Orientation.X
-                                    && gigaGal.getBladeState() == Enums.BladeState.RUSH
+                                    && avatar.getBladeState() == Enums.BladeState.RUSH
                                     && ((Armored) hazard).getVulnerability() == Helpers.inputToDirection()) {
                                 Helpers.applyDamage(destructible, Blade.getInstance());
                                 ((Armored) hazard).resetStartTime();
@@ -597,7 +602,7 @@ class LevelUpdater {
 
     public boolean updateTransport(float delta, Transport transport, int portalIndex) {
         boolean active = true;
-        if (gigaGal.getPosition().dst(transport.getPosition()) < transport.getWidth() / 2 && inputControls.upButtonPressed && inputControls.jumpButtonJustPressed) {
+        if (avatar.getPosition().dst(transport.getPosition()) < transport.getWidth() / 2 && inputControls.upButtonPressed && inputControls.jumpButtonJustPressed) {
             if (transport instanceof Portal) {
                 for (int j = 0; j <= portalIndex; j++) {
                     if (!(transports.get(j) instanceof Portal)) {
@@ -631,7 +636,7 @@ class LevelUpdater {
                 savedScore = score;
             } else if (transport instanceof Teleport) {
                 assetManager.getSoundAssets().warp.play();
-                gigaGal.getPosition().set(transport.getDestination());
+                avatar.getPosition().set(transport.getDestination());
             }
         }
         return active;
@@ -710,8 +715,8 @@ class LevelUpdater {
             }
         }
 
-        gigaGal.setLives(3);
-        gigaGal.respawn();
+        avatar.setLives(3);
+        avatar.respawn();
 
         timer.reset().start(time);
         savedTime = time;
@@ -726,7 +731,7 @@ class LevelUpdater {
             SaveData.setTotalTime(SaveData.getTotalTime() + timer.getSeconds());
             String savedWeapons = SaveData.getWeapons();
             if (!savedWeapons.contains(levelWeapon.name())) {
-                gigaGal.addWeapon(levelWeapon);
+                avatar.addWeapon(levelWeapon);
                 SaveData.setWeapons(levelWeapon.name() + ", " + savedWeapons);
             }
         }
@@ -764,10 +769,10 @@ class LevelUpdater {
     }
 
     protected boolean restarted() {
-        if (gigaGal.getFallLimit() != -10000) {
-            if (gigaGal.getPosition().y < gigaGal.getFallLimit() || gigaGal.getHealth() < 1) {
-                gigaGal.setHealth(0);
-                gigaGal.setLives(gigaGal.getLives() - 1);
+        if (avatar.getFallLimit() != -10000) {
+            if (avatar.getPosition().y < avatar.getFallLimit() || avatar.getHealth() < 1) {
+                avatar.setHealth(0);
+                avatar.setLives(avatar.getLives() - 1);
                 return true;
             }
         }
@@ -776,7 +781,7 @@ class LevelUpdater {
 
     protected boolean failed() {
         if (restarted()) {
-            if (gigaGal.getLives() < 0) {
+            if (avatar.getLives() < 0) {
                 return true;
             }
             boss.setPosition(new Vector2(boss.getRoomBounds().x + boss.getRoomBounds().width / 2, boss.getRoomBounds().y + boss.getRoomBounds().height / 2));
@@ -788,7 +793,7 @@ class LevelUpdater {
                 music = AssetManager.getInstance().getMusicAssets().getThemeMusic(theme);
                 music.play();
             }
-            gigaGal.respawn();
+            avatar.respawn();
             boss.setBattleState(false);
         }
         return false;
@@ -846,7 +851,7 @@ class LevelUpdater {
     protected final long getTime() { return time; }
     protected final int getScore() { return score; }
     protected final Boss getBoss() { return boss; }
-    protected final Avatar getGigaGal() { return gigaGal; }
+    protected final Avatar getAvatar() { return avatar; }
     protected final Enums.Material getType() { return levelWeapon; }
     protected final Viewport getViewport() { return levelScreen.getViewport(); }
 

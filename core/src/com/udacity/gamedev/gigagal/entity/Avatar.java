@@ -453,9 +453,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
                             && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
                         if (!(g instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(g) && touchedGround.isDense() && action != Action.CLIMBING)))) {
-                            if (groundState != GroundState.PLANTED) {
-                                canMove = false;
-                            }
                             carriedGround = null;
                             touchedGround = g; // saves for untouchground where condition within touchgroundtop unmet
                             if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
@@ -559,8 +556,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     }
                     if (!(g instanceof Propelling) && action == Action.DASHING && !(g instanceof Armored)) {
                         stand(); // deactivates dash when bumping ground side
-                    } else if (g instanceof Pliable && (!((Pliable) g).isBeingCarried() && action == Action.STRIDING)) {
-                        canMove = true;
                     }
                 }
                 if ((!(g instanceof Propelling && (Math.abs(getBottom() - g.getTop()) <= 1)))
@@ -594,8 +589,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                             setAtopGround(g);
                         }
                     }
-                } else if (((Pliable) g).isBeingCarried()) {
-                    canMove = true;
                 }
             }
         } else {
@@ -665,7 +658,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                             if (InputControls.getInstance().shootButtonJustPressed) {
                                 fall();
                             }
-                            canMove = true;
                         }
                     }
                 }
@@ -714,9 +706,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 canCling = false;
             }
         }
-        if (((!(touchedGround instanceof Pliable && ((Pliable) touchedGround).isBeingCarried())) && (!(g instanceof Pliable && ((Pliable) g).isBeingCarried()))) && !inputControls.shootButtonPressed) {
-            canMove = false;
-        }
     }
 
     private void untouchGround() {
@@ -732,9 +721,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     lookTimeSeconds = 0;
                     lookStartTime = 0;
                     if (action != Action.RAPPELLING && action != Action.CLIMBING && action != Action.HOVERING && action != Action.STRIDING) {
-                        if (touchedGround instanceof Brick) {
-                            canMove = false;
-                        }
                         fall();
                     } else {
                         canCling = false;
@@ -1121,7 +1107,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canClimb = false;
             canRappel = false;
             canHurdle = false;
-            canMove = false;
         }
     }
 
@@ -1386,11 +1371,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 if (((Pliable) touchedGround).getMovingGround() != null && ((Pliable) touchedGround).getMovingGround().getVelocity().y != 0) {
                     touchedGround = (Groundable) ((Pliable) touchedGround).getMovingGround();
                     yMoving = true;
-                }
-                if (Helpers.inputToDirection() == Helpers.getOppositeDirection(directionX)) {
-                    canMove = true;
-                } else {
-                    canMove = false;
                 }
             }
 
@@ -1667,6 +1647,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     public void setLives(int lives) { this.lives = lives; }
     public void setHealth(int health) { this.health = health; }
     public void setTurbo(float turbo) { this.turbo = turbo; }
+    public void setMoveStatus(boolean state) { canMove = state; }
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public void setChaseCamPosition(float offset) {
         lookTimeSeconds = Helpers.secondsSince(lookStartTime);

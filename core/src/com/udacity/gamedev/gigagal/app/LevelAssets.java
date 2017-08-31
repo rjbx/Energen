@@ -52,7 +52,7 @@ public final class LevelAssets {
     }
 
     public static final Boss getClonedBoss() { return (Boss) levelUpdater.getBoss().clone(); }
-    public static final Avatar getClonedAvatar() { return (Avatar) levelUpdater.getGigaGal().clone(); }
+    public static final Avatar getClonedAvatar() { return (Avatar) levelUpdater.getAvatar().clone(); }
 
     public static final long getTime() { return levelUpdater.getTime(); }
     public static final int getScore() { return levelUpdater.getScore(); }

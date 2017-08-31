@@ -16,17 +16,19 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     // fields
     public final static String TAG = Spring.class.getName();
 
+    private Vector2 position;
+    private boolean loaded;
+    private long startTime;
+
     private Humanoid carrier;
     private Moving movingGround;
     private Ground topGround;
-    private Vector2 position;
     private Vector2 velocity;
     private boolean beneatheGround;
     private boolean againstStaticGround;
     private boolean atopMovingGround;
     private boolean beingCarried;
-    private boolean loaded;
-    private long startTime;
+    private float payload;
 
     // ctor
     public Spring(Vector2 position) {
@@ -54,6 +56,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
         atopMovingGround = false;
         movingGround = null;
         topGround = null;
+        payload = 0;
         for (Ground ground : LevelAssets.getClonedGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 6 * multiplier, ground.getTop() + 1) && getBottom() > ground.getBottom()
@@ -125,6 +128,9 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
                     velocity.x = 0;
                 }
             }
+            if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround() && ((Pliable) ground).getMovingGround().equals(this)) {
+                payload = ((Pliable) ground).weightFactor();
+            }
         }
 
         // resets to nonstatic position of ground which is cloned every frame
@@ -175,7 +181,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return !(beingCarried || Avatar.getInstance().getAction() == Enums.Action.CLIMBING); }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; beneatheGround = true; }
-    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * .2f; }
+    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * .2f + payload; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isBeneatheGround() { return beneatheGround; }
     public final boolean isAtopMovingGround() { return atopMovingGround; }

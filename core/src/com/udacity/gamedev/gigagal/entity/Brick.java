@@ -44,12 +44,12 @@ public class Brick extends Barrier implements Tossable, Impermeable {
         }
         super.position.mulAdd(velocity, delta);
         float multiplier = Math.max(1, weightFactor());
-        super.position.mulAdd(velocity, delta);
         velocity.x /= Constants.DRAG_FACTOR * multiplier;
         velocity.y = -Constants.GRAVITY * 5 * multiplier;
         againstStaticGround = false;
         atopMovingGround = false;
         movingGround = null;
+        topGround = null;
         payload = 0;
         for (Ground ground : LevelAssets.getClonedGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
@@ -57,6 +57,7 @@ public class Brick extends Barrier implements Tossable, Impermeable {
                 && getLeft() != ground.getRight() && getRight() != ground.getLeft()) { // prevents setting atop lower of adjacently stacked grounds when dropping from rappel
                     if (ground instanceof Moving) {
                         if (!beingCarried) {
+                            super.position.x = ground.getPosition().x;
                             super.position.y = ground.getTop() + getHeight() / 2;
                             velocity.x = ((Moving) ground).getVelocity().x;
                             velocity.y = ((Moving) ground).getVelocity().y;
@@ -85,10 +86,10 @@ public class Brick extends Barrier implements Tossable, Impermeable {
                         velocity.x = 0;
                     }
                 } else if ((ground.isDense()
-                    && getTop() > ground.getBottom()
-                    && !(ground instanceof Pliable)
-                    && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
-                    || (ground instanceof Pliable && (!beingCarried || ((Pliable) ground).isAgainstStaticGround()))) {
+                        && getTop() > ground.getBottom()
+                        && !(ground instanceof Pliable)
+                        && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
+                        || (ground instanceof Pliable && (!beingCarried || ((Pliable) ground).isAgainstStaticGround()))) {
                     if ((!(ground instanceof Pliable) ||
                             (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
                             || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
