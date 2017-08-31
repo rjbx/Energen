@@ -609,7 +609,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         position.y = g.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 } else if (action == Action.CLIMBING) { // prevents from disengaging climb
-                    fall(); // descend from point of contact with ground bottom
                     canCling = true;
                     canClimb = true;
                     action = Action.CLIMBING;
