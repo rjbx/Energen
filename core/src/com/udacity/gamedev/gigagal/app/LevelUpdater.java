@@ -366,24 +366,29 @@ class LevelUpdater {
         }
         if (ground instanceof Pliable) {
             Pliable pliable = (Pliable) ground;
-            if (!(pliable).isBeingCarried() && Helpers.overlapsPhysicalObject(avatar, ground)) {
-                if (avatar.getAction() == Enums.Action.RAPPELLING && Helpers.inputToDirection() == Helpers.getOppositeDirection(avatar.getDirectionX())
-                || (avatar.getBottom() == ground.getBottom() && avatar.getAction() == Enums.Action.STRIDING && avatar.getTurbo() == 100)
-                || ((Helpers.betweenTwoValues(avatar.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && InputControls.getInstance().downButtonPressed))) {
-                    avatar.setMoveStatus(true);
-                    if (inputControls.shootButtonPressed) {
-                        if (ground instanceof Compressible) {
-                            if (ground instanceof Spring && !((Spring) ground).isBeneatheGround()) {
-                                ((Compressible) ground).resetStartTime();
-                                ((Compressible) ground).setState(false);
+            if (!(pliable).isBeingCarried()) {
+                if (Helpers.overlapsPhysicalObject(avatar, ground)) {
+                    if (avatar.getAction() == Enums.Action.RAPPELLING && Helpers.inputToDirection() == Helpers.getOppositeDirection(avatar.getDirectionX())
+                            || (avatar.getBottom() == ground.getBottom() && avatar.getAction() == Enums.Action.STRIDING && avatar.getTurbo() == 100)
+                            || ((Helpers.betweenTwoValues(avatar.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && InputControls.getInstance().downButtonPressed))) {
+                        avatar.setMoveStatus(true);
+                        if (inputControls.shootButtonPressed) {
+                            avatar.setMoveStatus(false);
+                            if (ground instanceof Compressible) {
+                                if (ground instanceof Spring && !((Spring) ground).isBeneatheGround()) {
+                                    ((Compressible) ground).resetStartTime();
+                                    ((Compressible) ground).setState(false);
+                                }
                             }
+                            if (avatar.getCarriedGround() == null) { // prevents from carrying simultaneously and in the process setting to overlap two grounds
+                                avatar.setPosition(new Vector2(ground.getPosition().x, ground.getBottom() + Constants.GIGAGAL_EYE_HEIGHT));
+                                pliable.setCarrier(avatar);
+                                Gdx.app.log(TAG, pliable.isBeingCarried() + "" + avatar.getMoveStatus());
+                            }
+                            avatar.setCarriedGround(pliable);
                         }
-                        if (avatar.getCarriedGround() == null) { // prevents from carrying simultaneously and in the process setting to overlap two grounds
-                            avatar.setPosition(new Vector2(ground.getPosition().x, ground.getBottom() + Constants.GIGAGAL_EYE_HEIGHT));
-                            pliable.setCarrier(avatar);
-                            Gdx.app.log(TAG, pliable.isBeingCarried() + "" + avatar.getMoveStatus());
-                        }
-                        avatar.setCarriedGround(pliable);
+                    } else {
+                        avatar.setMoveStatus(false);
                     }
                 }
             } else if (pliable.getCarrier() == avatar) {
@@ -402,10 +407,9 @@ class LevelUpdater {
                     }
                 }
                 if (!InputControls.getInstance().shootButtonPressed
-                || !avatar.getMoveStatus()) { // move status set to false when recoiling
+                || avatar.getAction() == Enums.Action.RECOILING) { // move status set to false when recoiling
                     pliable.setCarrier(null);
                     avatar.setCarriedGround(null);
-                    avatar.setMoveStatus(false);
                     if (pliable instanceof Tossable && pliable.getVelocity().x != 0 && (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed)) {
                         ((Tossable) pliable).toss(Helpers.absoluteToDirectionalValue(ground.getWidth() * 13, avatar.getDirectionX(), Enums.Orientation.X));
                     }

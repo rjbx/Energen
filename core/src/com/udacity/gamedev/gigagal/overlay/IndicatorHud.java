@@ -19,8 +19,9 @@ public class IndicatorHud {
 
     // fields
     public final static String TAG = IndicatorHud.class.getName();
-    public static final IndicatorHud INSTANCE = new IndicatorHud();
-    public ExtendViewport viewport;
+    private static final IndicatorHud INSTANCE = new IndicatorHud();
+    private Avatar avatar;
+    private AssetManager assetManager;
 
     // ctor
     private IndicatorHud() {}
@@ -28,61 +29,63 @@ public class IndicatorHud {
     public static IndicatorHud getInstance() { return INSTANCE; }
 
     public void create() {
+        avatar = Avatar.getInstance();
+        assetManager = AssetManager.getInstance();
     }
 
     public void render(SpriteBatch batch, ExtendViewport viewport, BitmapFont font) {
         float yIcon = viewport.getCamera().position.y + viewport.getWorldHeight() / 2.5f;
 
         float xAction = viewport.getCamera().position.x + 5;
-        if (Avatar.getInstance().getMoveStatus()) {
+        if (avatar.getMoveStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    AssetManager.getInstance().getHudAssets().move,
+                    assetManager.getHudAssets().move,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
-        } else if (Avatar.getInstance().getClingStatus() && Avatar.getInstance().getClimbStatus()) {
+        } else if (avatar.getClingStatus() && avatar.getClimbStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    AssetManager.getInstance().getHudAssets().climb,
+                    assetManager.getHudAssets().climb,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
-        } else if (Avatar.getInstance().getRappelStatus() || Avatar.getInstance().getAction() == Enums.Action.RAPPELLING)  {
+        } else if (avatar.getRappelStatus())  {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    AssetManager.getInstance().getHudAssets().rappel,
+                    assetManager.getHudAssets().rappel,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
-        }  else if (!Avatar.getInstance().getJumpStatus() && Avatar.getInstance().getHoverStatus()) {
+        }  else if (!avatar.getJumpStatus() && avatar.getAction() != Enums.Action.HOVERING && avatar.getHoverStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    AssetManager.getInstance().getHudAssets().hover,
+                    assetManager.getHudAssets().hover,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
                     Constants.ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
-        } else if (Avatar.getInstance().getDashStatus()) {
+        } else if (avatar.getDashStatus()) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    AssetManager.getInstance().getHudAssets().dash,
+                    assetManager.getHudAssets().dash,
                     xAction,
                     yIcon,
                     Constants.ICON_CENTER.x,
@@ -91,9 +94,9 @@ public class IndicatorHud {
             );
         }
 
-        final TextureRegion lifeIcon = AssetManager.getInstance().getHudAssets().life;
+        final TextureRegion lifeIcon = assetManager.getHudAssets().life;
         float xLife = viewport.getCamera().position.x - viewport.getWorldWidth() / 2.1f;
-        for (int i = 1; i <= Avatar.getInstance().getLives(); i++) {
+        for (int i = 1; i <= avatar.getLives(); i++) {
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
@@ -107,8 +110,8 @@ public class IndicatorHud {
             xLife += 20;
         }
 
-        Enums.Material weapon = Avatar.getInstance().getWeapon();
-        Enums.ShotIntensity intensity = Avatar.getInstance().getShotIntensity();
+        Enums.Material weapon = avatar.getWeapon();
+        Enums.ShotIntensity intensity = avatar.getShotIntensity();
         Ammo ammo = new Ammo(new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, LevelAssets.getClonedAvatar());
         ammo.update(1);
         Vector2 offset = new Vector2();

@@ -28,7 +28,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     // fields
     public final static String TAG = Avatar.class.getName();
-    public static final Avatar INSTANCE = new Avatar();
+    private static final Avatar INSTANCE = new Avatar();
 
     private float width;
     private float height;
