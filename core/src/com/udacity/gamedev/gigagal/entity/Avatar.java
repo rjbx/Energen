@@ -635,41 +635,41 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
                     }
                     setAtopGround(g); // basic ground top collision instructions common to all types of grounds
-                }
-                // additional ground top collision instructions specific to certain types of grounds
-                if (g instanceof Skateable) {
-                    if (groundState == GroundState.AIRBORNE) {
-                        stand(); // set groundstate to standing
-                        lookStartTime = 0;
-                    } else if (canClimb) {
-                        canCling = false;
+                    // additional ground top collision instructions specific to certain types of grounds
+                    if (g instanceof Skateable) {
+                        if (groundState == GroundState.AIRBORNE) {
+                            stand(); // set groundstate to standing
+                            lookStartTime = 0;
+                        } else if (canClimb) {
+                            canCling = false;
+                        }
                     }
-                }
-                if (g instanceof Moving) {
-                    Moving moving = (Moving) g;
-                    lookStartTime = 0;
-                    position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
-                    velocity.x = ((Moving) g).getVelocity().x;
-                    velocity.y = ((Moving) g).getVelocity().y;
-                    Gdx.app.log(TAG, position.toString() + velocity.toString() + g.getPosition() + ((Moving) g).getVelocity());
-                    if (moving instanceof Pliable && ((Pliable) moving).isAtopMovingGround() && (touchedGround == null || !touchedGround.equals(((Pliable) moving).getMovingGround()))) { // atop pliable which is atop moving ground and not simultaneously touching both
-                        Pliable pliable = (Pliable) moving;
-                        if (!pliable.isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
-                            if (InputControls.getInstance().shootButtonJustPressed) {
-                                fall();
+                    if (g instanceof Moving) {
+                        Moving moving = (Moving) g;
+                        lookStartTime = 0;
+                        position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
+                        velocity.x = ((Moving) g).getVelocity().x;
+                        velocity.y = ((Moving) g).getVelocity().y;
+                        Gdx.app.log(TAG, position.toString() + velocity.toString() + g.getPosition() + ((Moving) g).getVelocity());
+                        if (moving instanceof Pliable && ((Pliable) moving).isAtopMovingGround() && (touchedGround == null || !touchedGround.equals(((Pliable) moving).getMovingGround()))) { // atop pliable which is atop moving ground and not simultaneously touching both
+                            Pliable pliable = (Pliable) moving;
+                            if (!pliable.isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
+                                if (InputControls.getInstance().shootButtonJustPressed) {
+                                    fall();
+                                }
                             }
                         }
                     }
-                }
-                if (g instanceof Reboundable) {
-                    if (!(g instanceof Pliable && ((Pliable) g).isBeingCarried() && ((Pliable) g).getCarrier() == this)) {
-                        canClimb = false;
-                        canCling = false;
+                    if (g instanceof Reboundable) {
+                        if (!(g instanceof Pliable && ((Pliable) g).isBeingCarried() && ((Pliable) g).getCarrier() == this)) {
+                            canClimb = false;
+                            canCling = false;
+                        }
                     }
-                }
-                if (g instanceof Destructible) {
-                    if (((Destructible) g).getHealth() < 1) {
-                        fall();
+                    if (g instanceof Destructible) {
+                        if (((Destructible) g).getHealth() < 1) {
+                            fall();
+                        }
                     }
                 }
             }
