@@ -523,7 +523,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private void touchGroundSide(Groundable g) {
         // ignores case where simultaneously touching two separate grounds with same top position to prevent interrupting stride
-        if (!(touchedGround != null && !touchedGround.equals(g) && touchedGround.getTop() == g.getTop())) {
+        if (!(touchedGround != null && !touchedGround.equals(g) && touchedGround.getTop() == g.getTop() && action != Action.CLIMBING)) {
             // if during previous frame was not, while currently is, between ground left and right sides
             if (!Helpers.overlapsBetweenTwoSides(previousFramePosition.x, getHalfWidth(), g.getLeft(), g.getRight())) {
                 // only when not grounded and not recoiling
@@ -551,6 +551,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     // only when planted
                 } else if (groundState == GroundState.PLANTED) {
                     if (Math.abs(getBottom() - g.getTop()) > 1) {
+                        Gdx.app.log(TAG, "?");
                         strideSpeed = 0;
                         velocity.x = 0;
                     }
