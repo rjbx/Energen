@@ -548,12 +548,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         canRappel = false;
                         fall(); // fall regardless of whether or not inner condition met
                     }
-                    // only when planted
-                } else if (groundState == GroundState.PLANTED) {
+                } else if (groundState == GroundState.PLANTED) { // only when planted
                     if (Math.abs(getBottom() - g.getTop()) > 1) {
-                        Gdx.app.log(TAG, "?");
                         strideSpeed = 0;
                         velocity.x = 0;
+                    }
+                    if (g instanceof Pliable) {
+                        canMove = true;
                     }
                     if (!(g instanceof Propelling) && action == Action.DASHING && !(g instanceof Armored)) {
                         stand(); // deactivates dash when bumping ground side
@@ -651,12 +652,17 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         velocity.x = ((Moving) g).getVelocity().x;
                         velocity.y = ((Moving) g).getVelocity().y;
                         Gdx.app.log(TAG, position.toString() + velocity.toString() + g.getPosition() + ((Moving) g).getVelocity());
-                        if (moving instanceof Pliable && ((Pliable) moving).isAtopMovingGround() && (touchedGround == null || !touchedGround.equals(((Pliable) moving).getMovingGround()))) { // atop pliable which is atop moving ground and not simultaneously touching both
-                            Pliable pliable = (Pliable) moving;
-                            if (!pliable.isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
-                                if (InputControls.getInstance().shootButtonJustPressed) {
-                                    fall();
+                        if (moving instanceof Pliable) {
+                            if (((Pliable) moving).isAtopMovingGround() && (touchedGround == null || !touchedGround.equals(((Pliable) moving).getMovingGround()))) { // atop pliable which is atop moving ground and not simultaneously touching both
+                                Pliable pliable = (Pliable) moving;
+                                if (!pliable.isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
+                                    if (InputControls.getInstance().shootButtonJustPressed) {
+                                        fall();
+                                    }
                                 }
+                            }
+                            if (inputControls.downButtonPressed) {
+                                canMove = true;
                             }
                         }
                     }
@@ -684,6 +690,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         fallLimit = touchedGround.getBottom() - Constants.FALL_LIMIT;
         hoverStartTime = 0;
         rappelStartTime = 0;
+        canMove = false;
         canRappel = false;
         canLook = true;
         canHover = false;
@@ -732,6 +739,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         fall();
                     }
                 }
+                canMove = false;
                 canRappel = false;
                 touchedGround = null; // after handling touchedground conditions above
             }
@@ -1365,6 +1373,11 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 yMoving = true;
             }
             if (touchedGround instanceof Pliable) {
+                if (Helpers.inputToDirection() == Helpers.getOppositeDirection(directionX)) {
+                    canMove = true;
+                } else {
+                    canMove = false;
+                }
                 if (((Pliable) touchedGround).isBeneatheGround()) { // if touchedground y is moving but not touchedground moving ground
                     canHurdle = false;
                 }

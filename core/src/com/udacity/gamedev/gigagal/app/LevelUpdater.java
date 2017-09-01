@@ -368,13 +368,10 @@ class LevelUpdater {
             Pliable pliable = (Pliable) ground;
             if (!(pliable).isBeingCarried()) {
                 if (Helpers.overlapsPhysicalObject(avatar, ground)) {
-                    if (avatar.getAction() == Enums.Action.RAPPELLING && Helpers.inputToDirection() == Helpers.getOppositeDirection(avatar.getDirectionX())
-                            || (avatar.getBottom() == ground.getBottom() && avatar.getAction() == Enums.Action.STRIDING && avatar.getTurbo() == 100)
-                            || ((Helpers.betweenTwoValues(avatar.getBottom(), ground.getTop() - 2, ground.getTop() + 2) && InputControls.getInstance().downButtonPressed))) {
-                        avatar.setMoveStatus(true);
+                    if (avatar.getMoveStatus()) {
                         if (inputControls.shootButtonPressed) {
-                            avatar.setMoveStatus(false);
                             if (ground instanceof Compressible) {
+                                avatar.setMoveStatus(false);
                                 if (ground instanceof Spring && !((Spring) ground).isBeneatheGround()) {
                                     ((Compressible) ground).resetStartTime();
                                     ((Compressible) ground).setState(false);
@@ -387,8 +384,6 @@ class LevelUpdater {
                             }
                             avatar.setCarriedGround(pliable);
                         }
-                    } else {
-                        avatar.setMoveStatus(false);
                     }
                 }
             } else if (pliable.getCarrier() == avatar) {
