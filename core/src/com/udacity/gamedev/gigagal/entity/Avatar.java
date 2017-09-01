@@ -578,7 +578,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 if (g instanceof Cannoroll) {
                     yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
                 }
-                if (!(g instanceof Pliable)) {
+                if (!(g instanceof Pliable) || action == Action.FALLING) {
                     if (Helpers.betweenTwoValues(yTestPosition, g.getBottom(), g.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
                         if (!(g instanceof Cannoroll)) {
                             if (Math.abs(position.x - g.getLeft()) < Math.abs(position.x - g.getRight())) {
@@ -651,7 +651,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
                         velocity.x = ((Moving) g).getVelocity().x;
                         velocity.y = ((Moving) g).getVelocity().y;
-                        Gdx.app.log(TAG, position.toString() + velocity.toString() + g.getPosition() + ((Moving) g).getVelocity());
+//                        Gdx.app.log(TAG, position.toString() + velocity.toString() + g.getPosition() + ((Moving) g).getVelocity());
                         if (moving instanceof Pliable) {
                             if (((Pliable) moving).isAtopMovingGround() && (touchedGround == null || !touchedGround.equals(((Pliable) moving).getMovingGround()))) { // atop pliable which is atop moving ground and not simultaneously touching both
                                 Pliable pliable = (Pliable) moving;
@@ -1401,6 +1401,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     }
                     jump();
                     velocity.y += jumpBoost;
+                    Gdx.app.log(TAG, velocity.y + "vY " + velocity.x + "vX");
                 } else if (turbo < 1) {
                     turbo = 0;
                     velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
