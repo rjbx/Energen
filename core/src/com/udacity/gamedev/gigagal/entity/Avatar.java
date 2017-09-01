@@ -578,7 +578,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 if (g instanceof Cannoroll) {
                     yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
                 }
-                if (!(g instanceof Pliable) || (action == Action.FALLING && !((Pliable) g).isBeingCarried())) {
+                if (!(g instanceof Pliable) || (action == Action.FALLING && (((Pliable) g).getVelocity().isZero() || ((Pliable) g).isAtopMovingGround()))) {
                     if (Helpers.betweenTwoValues(yTestPosition, g.getBottom(), g.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
                         if (!(g instanceof Cannoroll)) {
                             if (Math.abs(position.x - g.getLeft()) < Math.abs(position.x - g.getRight())) {
