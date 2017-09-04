@@ -1528,9 +1528,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 } else {
                     region = AssetManager.getInstance().getGigaGalAssets().standRight;
                     if (inputControls.shootButtonPressed) {
-                        region = AssetManager.getInstance().getGigaGalAssets().standRightShoot;
+                        region = AssetManager.getInstance().getGigaGalAssets().standShootRight;
                         if (shotIntensity == ShotIntensity.BLAST) {
-                            region = AssetManager.getInstance().getGigaGalAssets().standRightBlast;
+                            region = AssetManager.getInstance().getGigaGalAssets().standBlastRight.getKeyFrame(chargeTimeSeconds);
                         }
                     }
                 }

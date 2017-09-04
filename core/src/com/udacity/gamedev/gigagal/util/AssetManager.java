@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Brick;
 import com.udacity.gamedev.gigagal.entity.Ground;
@@ -129,8 +128,7 @@ public final class AssetManager implements AssetErrorListener {
 
         public final AtlasRegion standLeft;
         public final AtlasRegion standRight;
-        public final AtlasRegion standRightShoot;
-        public final AtlasRegion standRightBlast;
+        public final AtlasRegion standShootRight;
         public final AtlasRegion blinkLeft;
         public final AtlasRegion blinkRight;
         public final AtlasRegion lookbackLeft;
@@ -153,6 +151,7 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion rappelRight;
         public final AtlasRegion graspLeft;
         public final AtlasRegion graspRight;
+        public final Animation standBlastRight;
         public final Animation hoverLeft;
         public final Animation hoverRight;
         public final Animation lookupHoverLeft;
@@ -178,8 +177,7 @@ public final class AssetManager implements AssetErrorListener {
         private GigaGalAssets(TextureAtlas atlas) {
             standLeft = atlas.findRegion(Constants.STAND_LEFT);
             standRight = atlas.findRegion(Constants.STAND_RIGHT);
-            standRightShoot = atlas.findRegion(Constants.STAND_RIGHT_SHOOT);
-            standRightBlast = atlas.findRegion(Constants.STAND_RIGHT_BLAST);
+            standShootRight = atlas.findRegion(Constants.STAND_SHOOT_RIGHT);
             blinkLeft = atlas.findRegion(Constants.BLINK_LEFT);
             blinkRight = atlas.findRegion(Constants.BLINK_RIGHT);
             lookbackLeft = atlas.findRegion(Constants.LOOKBACK_LEFT);
@@ -202,6 +200,12 @@ public final class AssetManager implements AssetErrorListener {
             rappelRight = atlas.findRegion(Constants.RAPPEL_RIGHT);
             graspLeft = atlas.findRegion(Constants.GRASP_LEFT);
             graspRight = atlas.findRegion(Constants.GRASP_RIGHT);
+
+            Array<AtlasRegion> standBlastFrames = new Array<AtlasRegion>();
+            standBlastFrames.add(atlas.findRegion(Constants.STAND_BLAST_RIGHT_1));
+            standBlastFrames.add(atlas.findRegion(Constants.STAND_BLAST_RIGHT_2));
+            standBlastFrames.add(atlas.findRegion(Constants.STAND_BLAST_RIGHT_3));
+            standBlastRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, standBlastFrames, PlayMode.LOOP);
             
             Array<AtlasRegion> hoverLeftFrames = new Array<AtlasRegion>();
             hoverLeftFrames.add(atlas.findRegion(Constants.HOVER_LEFT_1));
