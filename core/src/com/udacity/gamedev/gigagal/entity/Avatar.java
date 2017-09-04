@@ -751,16 +751,19 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     public void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
+        canPeer = false;
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Avatar)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
-                } else if (action == Action.STANDING
-                        && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
-                        && Helpers.absoluteToDirectionalValue(position.x - bounds.x, directionX, Orientation.X) > 0) {
-                    canPeer = true;
-                } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
-                    canPeer = false;
+                } else if (action == Action.STANDING) {
+                    if (position.dst(hazard.getPosition()) < Constants.WORLD_SIZE
+                            && Helpers.absoluteToDirectionalValue(position.x - hazard.getPosition().x, directionX, Orientation.X) > 0) {
+                        canPeer = true;
+                    } else if (canPeer && position.dst(hazard.getPosition()) < Constants.WORLD_SIZE / 2
+                            && Helpers.absoluteToDirectionalValue(position.x - hazard.getPosition().x, directionX, Orientation.X) < 0) {
+                    //    canPeer = false;
+                    }
                 }
             }
         }
@@ -1524,6 +1527,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     region = AssetManager.getInstance().getGigaGalAssets().lookbackRight;
                 } else {
                     region = AssetManager.getInstance().getGigaGalAssets().standRight;
+                    if (inputControls.shootButtonPressed) {
+                        region = AssetManager.getInstance().getGigaGalAssets().standRightShoot;
+                        if (shotIntensity == ShotIntensity.BLAST) {
+                            region = AssetManager.getInstance().getGigaGalAssets().standRightBlast;
+                        }
+                    }
                 }
             } else if (action == Action.STRIDING) {
                 region = AssetManager.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));

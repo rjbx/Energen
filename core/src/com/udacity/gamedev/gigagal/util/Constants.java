@@ -96,6 +96,8 @@ public final class Constants {
 
     // Avatar assets
     public static final String STAND_RIGHT = "avatar-stand-right";
+    public static final String STAND_RIGHT_SHOOT = "avatar-stand-right-shoot";
+    public static final String STAND_RIGHT_BLAST = "avatar-stand-right-blast";
     public static final String STAND_LEFT = "avatar-stand-left";
     public static final String BLINK_RIGHT = "avatar-stand-blink-right";
     public static final String BLINK_LEFT = "avatar-stand-blink-left";

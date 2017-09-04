@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 import com.udacity.gamedev.gigagal.entity.Box;
 import com.udacity.gamedev.gigagal.entity.Brick;
 import com.udacity.gamedev.gigagal.entity.Ground;
@@ -128,6 +129,8 @@ public final class AssetManager implements AssetErrorListener {
 
         public final AtlasRegion standLeft;
         public final AtlasRegion standRight;
+        public final AtlasRegion standRightShoot;
+        public final AtlasRegion standRightBlast;
         public final AtlasRegion blinkLeft;
         public final AtlasRegion blinkRight;
         public final AtlasRegion lookbackLeft;
@@ -175,6 +178,8 @@ public final class AssetManager implements AssetErrorListener {
         private GigaGalAssets(TextureAtlas atlas) {
             standLeft = atlas.findRegion(Constants.STAND_LEFT);
             standRight = atlas.findRegion(Constants.STAND_RIGHT);
+            standRightShoot = atlas.findRegion(Constants.STAND_RIGHT_SHOOT);
+            standRightBlast = atlas.findRegion(Constants.STAND_RIGHT_BLAST);
             blinkLeft = atlas.findRegion(Constants.BLINK_LEFT);
             blinkRight = atlas.findRegion(Constants.BLINK_RIGHT);
             lookbackLeft = atlas.findRegion(Constants.LOOKBACK_LEFT);
