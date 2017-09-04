@@ -1525,7 +1525,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                                     || (Helpers.secondsSince(standStartTime) % 15 < .25f)
                                     || (Helpers.secondsSince(standStartTime) > 60)))) {
                         region = AssetManager.getInstance().getGigaGalAssets().blinkRight;
-                    } else if (!canPeer) {
+                    } else if (!canPeer || Helpers.secondsSince(standStartTime) < .5f) {
                         region = AssetManager.getInstance().getGigaGalAssets().standRight;
                     } else {
                         region = AssetManager.getInstance().getGigaGalAssets().lookbackRight;
