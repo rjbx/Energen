@@ -126,9 +126,9 @@ public final class Constants {
     public static final String RAPPEL_RIGHT = "gg-rappel-right";
     public static final String RAPPEL_LEFT = "gg-rappel-left";
     public static final float RAPPEL_FRAME_DURATION = 0.05f;
-    public static final String HOVER_RIGHT_1 = "gg-hover-1-right";
+    public static final String HOVER_RIGHT_1 = "gg-stand-right-new";
     public static final String HOVER_LEFT_1 = "gg-hover-1-left";
-    public static final String HOVER_RIGHT_2 = "gg-hover-2-right";
+    public static final String HOVER_RIGHT_2 = "gg-stand-right-new";
     public static final String HOVER_LEFT_2 = "gg-hover-2-left";
     public static final float HOVER_FRAME_DURATION = 0.05f;
     public static final String STRIDE_RIGHT_1 = "gg-stride-1-right";
