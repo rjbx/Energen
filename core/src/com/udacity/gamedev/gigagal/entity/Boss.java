@@ -107,9 +107,9 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
 
         private Vector2 spawnPosition;
         private Enums.Material weapon = Enums.Material.NATIVE;
-        private float height = Constants.GIGAGAL_HEIGHT;
-        private float eyeHeight = Constants.GIGAGAL_EYE_HEIGHT;
-        private float width = Constants.GIGAGAL_STANCE_WIDTH;
+        private float height = Constants.AVATAR_HEIGHT;
+        private float eyeHeight = Constants.AVATAR_EYE_HEIGHT;
+        private float width = Constants.AVATAR_STANCE_WIDTH;
 
         public Builder(Vector2 spawnPosition) {
             this.spawnPosition = spawnPosition;
@@ -285,7 +285,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
             if (!battling) {
                 talking = true;
             } else {
-                if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().x, Constants.GIGAGAL_STANCE_WIDTH, getLeft(), getRight())
+                if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().x, Constants.AVATAR_STANCE_WIDTH, getLeft(), getRight())
                         && Math.abs(position.y - gigaGal.getPosition().y) > getHeight()) {
                     dashStartTime = 0;
                     velocity.x = 0;
@@ -299,7 +299,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     }
                     look();
                     shoot(ShotIntensity.BLAST, weapon, 0);
-                } else if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().y, Constants.GIGAGAL_EYE_HEIGHT, getBottom(), getTop())
+                } else if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().y, Constants.AVATAR_EYE_HEIGHT, getBottom(), getTop())
                         && Helpers.absoluteToDirectionalValue(position.x - gigaGal.getPosition().x, directionX, Orientation.X) < 0) {
                     lookStartTime = 0;
                     if (groundState == GroundState.PLANTED) {
@@ -313,7 +313,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                 directionX = Helpers.getOppositeDirection(directionX);
             }
 
-//        if (Math.abs(gigaGal.getVelocity().x) > Constants.GIGAGAL_MAX_SPEED / 2) {
+//        if (Math.abs(gigaGal.getVelocity().x) > Constants.AVATAR_MAX_SPEED / 2) {
 //            stride();
 //        } else if (Math.abs(gigaGal.getPosition().x - this.position.x) > 5) {
 //            dash();
@@ -421,7 +421,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                 if (groundState != GroundState.PLANTED) {
                     // if x velocity (magnitude, without concern for direction) greater than one third max speed,
                     // boost x velocity by starting speed, enable rappel, verify rappelling ground and capture rappelling ground boundaries
-                    if (Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 8 || ground instanceof Zoomba) {
+                    if (Math.abs(velocity.x) >= Constants.AVATAR_MAX_SPEED / 8 || ground instanceof Zoomba) {
                         // if already rappelling, halt x progression
                         if (action != Action.RAPPELLING) {
                             if (ground instanceof Rappelable) {
@@ -466,7 +466,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
             } else { // when both position and previous position overlap ground side edge
                 float yTestPosition = position.y;
                 if (ground instanceof Cannoroll) {
-                    yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
+                    yTestPosition = getBottom() + Constants.AVATAR_HEAD_RADIUS; // for canirol only
                 }
                 if (!(ground instanceof Pliable)) {
                     if (Helpers.betweenTwoValues(yTestPosition, ground.getBottom(), ground.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
@@ -478,7 +478,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                                 position.x = ground.getRight() + getHalfWidth() + 1; // reset position to ground side edge
                             }
                         } else { // for canirol only
-                            position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // reset position to ground top
+                            position.y = ground.getTop() + Constants.AVATAR_EYE_HEIGHT; // reset position to ground top
                             setAtopGround(ground);
                         }
                     }
@@ -493,12 +493,12 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         if (!(touchedGround != null && !touchedGround.equals(ground)
                 && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
-            if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < ground.getBottom() + 1) {
+            if ((previousFramePosition.y + Constants.AVATAR_HEAD_RADIUS) < ground.getBottom() + 1) {
                 velocity.y = 0; // prevents from ascending above ground bottom
                 if (groundState == GroundState.AIRBORNE) { // prevents fall when striding against ground bottom positioned at height distance from ground atop
                     fall(); // descend from point of contact with ground bottom
                     if (!(ground instanceof Vehicular)) { // prevents from being pushed below ground
-                        position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
+                        position.y = ground.getBottom() - Constants.AVATAR_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 } else if (action == Action.CLIMBING) { // prevents from disengaging climb
                     fall(); // descend from point of contact with ground bottom
@@ -507,7 +507,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     action = Action.CLIMBING;
                     groundState = GroundState.PLANTED;
                     if (!(ground instanceof Vehicular)) { // prevents from being pushed below ground
-                        position.y = ground.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
+                        position.y = ground.getBottom() - Constants.AVATAR_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 }
                 canDash = false;
@@ -520,10 +520,10 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         if (!(touchedGround != null && !touchedGround.equals(ground)
                 && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground top detected, halt downward progression and set gigagal atop ground
-            if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
+            if (previousFramePosition.y - Constants.AVATAR_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
                 if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, ground.getLeft() + 1, ground.getRight() - 1) || groundState != GroundState.AIRBORNE)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground sides
                     velocity.y = 0; // prevents from descending beneath ground top
-                    position.y = ground.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                    position.y = ground.getTop() + Constants.AVATAR_EYE_HEIGHT; // sets Gigagal atop ground
                     setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
                 }
                 // additional ground top collision instructions specific to certain types of grounds
@@ -1054,12 +1054,12 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
             strideStartTime = TimeUtils.nanoTime();
         }
         strideTimeSeconds = Helpers.secondsSince(strideStartTime);
-        strideAcceleration = strideTimeSeconds * .75f + Constants.GIGAGAL_STARTING_SPEED ;
-        velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * strideMultiplier), directionX, Orientation.X);
+        strideAcceleration = strideTimeSeconds * .75f + Constants.AVATAR_STARTING_SPEED;
+        velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.AVATAR_MAX_SPEED * strideAcceleration + Constants.AVATAR_STARTING_SPEED, Constants.AVATAR_MAX_SPEED * strideMultiplier), directionX, Orientation.X);
         if (touchedGround instanceof Propelling) {
             velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
         } else if (touchedGround instanceof Skateable) {
-            velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
+            velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.AVATAR_MAX_SPEED * strideAcceleration / 2 + Constants.AVATAR_STARTING_SPEED, Constants.AVATAR_MAX_SPEED * 2), directionX, Orientation.X);
         } else if (canSink) {
             velocity.x = Helpers.absoluteToDirectionalValue(10, directionX, Orientation.X);
             velocity.y = -3;
@@ -1086,7 +1086,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
             canStride = false;
             canDash = false;
         }
-        float dashSpeed = Constants.GIGAGAL_MAX_SPEED;
+        float dashSpeed = Constants.AVATAR_MAX_SPEED;
         if (turbo >= 1) {
             turbo -= Constants.DASH_TURBO_INCREMENT * turboMultiplier;
             velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed, directionX, Orientation.X);
@@ -1108,7 +1108,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
                 } else if (Helpers.secondsSince(jumpStartTime) > 1.75f) {
                     jump();
-                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED / 8, directionX, Orientation.X);
+                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED / 8, directionX, Orientation.X);
                     velocity.y *= (1.35f * jumpMultiplier);
                     jumpStartTime = 0;
                 } else {
@@ -1132,7 +1132,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
             }
             canJump = false;
         }
-        velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
+        velocity.x += Helpers.absoluteToDirectionalValue(Constants.AVATAR_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
         velocity.y = Constants.JUMP_SPEED;
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         if (touchedGround instanceof Reboundable) {
@@ -1227,7 +1227,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         float rappelTimeSeconds = Helpers.secondsSince(rappelStartTime);
         if (!inputControls.jumpButtonPressed) {
             if (rappelTimeSeconds >= Constants.RAPPEL_FRAME_DURATION) {
-                velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
+                velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED, directionX, Orientation.X);
                 jump();
             } else {
                 canHover = true;
@@ -1418,7 +1418,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                 region = AssetManager.getInstance().getBossAssets().liquidFallRight;
             }
         }
-        Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);
+        Helpers.drawTextureRegion(batch, viewport, region, position, Constants.AVATAR_EYE_POSITION);
     }
 
     // Getters

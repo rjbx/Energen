@@ -404,11 +404,11 @@ final class LevelLoader {
                 Gdx.app.log(TAG, "Loaded a CannonPowerup at " + powerupPosition);
                 level.addPowerup(new Powerup(powerupPosition, Enums.PowerupType.CANNON));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STAND_RIGHT)) {
-                final Vector2 gigaGalPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
+                final Vector2 gigaGalPosition = imagePosition.add(Constants.AVATAR_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);
                 Avatar.getInstance().setSpawnPosition(gigaGalPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOSS_SPRITE)) {
-                final Vector2 bossPosition = imagePosition.add(Constants.GIGAGAL_EYE_POSITION);
+                final Vector2 bossPosition = imagePosition.add(Constants.AVATAR_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded Boss at " + bossPosition);
                 Boss boss = new Boss.Builder(bossPosition).weapon(type).build();
                 level.addHazard(boss);

@@ -127,10 +127,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         weaponList = new ArrayList<Material>();
         weaponToggler = weaponList.listIterator();
         upgradeList = new ArrayList<Upgrade>();
-        height = Constants.GIGAGAL_HEIGHT;
-        eyeHeight = Constants.GIGAGAL_EYE_HEIGHT;
-        headRadius = Constants.GIGAGAL_HEAD_RADIUS;
-        width = Constants.GIGAGAL_STANCE_WIDTH;
+        height = Constants.AVATAR_HEIGHT;
+        eyeHeight = Constants.AVATAR_EYE_HEIGHT;
+        headRadius = Constants.AVATAR_HEAD_RADIUS;
+        width = Constants.AVATAR_STANCE_WIDTH;
         halfWidth = width / 2;
         lives = Constants.INITIAL_LIVES;
         turboMultiplier = 1;
@@ -338,15 +338,15 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
                 if (directionY == Direction.UP) {
-                    if (velocity.y < Constants.GIGAGAL_MAX_SPEED) {
-                        velocity.y += Constants.GIGAGAL_MAX_SPEED / 2.25f;
+                    if (velocity.y < Constants.AVATAR_MAX_SPEED) {
+                        velocity.y += Constants.AVATAR_MAX_SPEED / 2.25f;
                     }
                 } else if (directionY == Direction.DOWN) {
-                    if (velocity.y < Constants.GIGAGAL_MAX_SPEED) {
-                        velocity.y += Constants.GIGAGAL_MAX_SPEED / 4.5f;
+                    if (velocity.y < Constants.AVATAR_MAX_SPEED) {
+                        velocity.y += Constants.AVATAR_MAX_SPEED / 4.5f;
                     }
-                    if (velocity.x < Constants.GIGAGAL_MAX_SPEED) {
-                        velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED / 2.25f, directionX, Orientation.X);
+                    if (velocity.x < Constants.AVATAR_MAX_SPEED) {
+                        velocity.x += Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED / 2.25f, directionX, Orientation.X);
                     }
                 }
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
@@ -530,7 +530,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 if (groundState != GroundState.PLANTED) {
                     // if x velocity (magnitude, without concern for direction) greater than one third max speed,
                     // boost x velocity by starting speed, enable rappel, verify rappelling ground and capture rappelling ground boundaries
-                    if ((Math.abs(velocity.x) >= Constants.GIGAGAL_MAX_SPEED / 8) || g instanceof Hazard) {
+                    if ((Math.abs(velocity.x) >= Constants.AVATAR_MAX_SPEED / 8) || g instanceof Hazard) {
                         // if already rappelling, halt x progression
                         if (action != Action.RAPPELLING) {
                             if (g instanceof Rappelable) {
@@ -576,7 +576,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
                 float yTestPosition = position.y;
                 if (g instanceof Cannoroll) {
-                    yTestPosition = getBottom() + Constants.GIGAGAL_HEAD_RADIUS; // for canirol only
+                    yTestPosition = getBottom() + Constants.AVATAR_HEAD_RADIUS; // for canirol only
                 }
                 if (!(g instanceof Pliable) || (action == Action.FALLING && (((Pliable) g).getVelocity().isZero() || ((Pliable) g).isAtopMovingGround()))) {
                     if (Helpers.betweenTwoValues(yTestPosition, g.getBottom(), g.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
@@ -587,7 +587,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                                 position.x = g.getRight() + getHalfWidth() + 1; // reset position to ground side edge
                             }
                         } else { // for canirol only
-                            position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // reset position to ground top
+                            position.y = g.getTop() + Constants.AVATAR_EYE_HEIGHT; // reset position to ground top
                             setAtopGround(g);
                         }
                     }
@@ -603,12 +603,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (!(touchedGround != null && !touchedGround.equals(g) && g.isDense() && touchedGround.isDense()
                 && ((touchedGround.getLeft() == g.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == g.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground bottom detected, halts upward progression and set gigagal at ground bottom
-            if ((previousFramePosition.y + Constants.GIGAGAL_HEAD_RADIUS) < g.getBottom() + 1) {
+            if ((previousFramePosition.y + Constants.AVATAR_HEAD_RADIUS) < g.getBottom() + 1) {
                 velocity.y = 0; // prevents from ascending above ground bottom
                 if (groundState == GroundState.AIRBORNE) { // prevents fall when striding against ground bottom positioned at height distance from ground atop
                     fall(); // descend from point of contact with ground bottom
                     if (!(g instanceof Moving && ((Moving) g).getVelocity().y < 0)) { // prevents from being pushed below ground
-                        position.y = g.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
+                        position.y = g.getBottom() - Constants.AVATAR_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 } else if (action == Action.CLIMBING) { // prevents from disengaging climb
                     canCling = true;
@@ -616,7 +616,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     action = Action.CLIMBING;
                     groundState = GroundState.PLANTED;
                     if (!(g instanceof Moving && ((Moving) g).getVelocity().y < 0)) { // prevents from being pushed below ground
-                        position.y = g.getBottom() - Constants.GIGAGAL_HEAD_RADIUS;  // sets gigagal at ground bottom
+                        position.y = g.getBottom() - Constants.AVATAR_HEAD_RADIUS;  // sets gigagal at ground bottom
                     }
                 }
                 canDash = false;
@@ -629,11 +629,11 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (!(touchedGround != null && !touchedGround.equals(g) && touchedGround.isDense() && g.isDense()
                 && ((touchedGround.getLeft() == g.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == g.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground top detected, halt downward progression and set gigagal atop ground
-            if (previousFramePosition.y - Constants.GIGAGAL_EYE_HEIGHT >= g.getTop() - 2) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
+            if (previousFramePosition.y - Constants.AVATAR_EYE_HEIGHT >= g.getTop() - 2) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
                 if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, g.getLeft() + 1, g.getRight() - 1) || action != Action.FALLING || g instanceof Aerial)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground side
                     if (!((touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().y != 0) || (g instanceof Moving && ((Moving) g).getVelocity().y != 0)) && (action != Action.CLIMBING || getBottom() <= g.getTop())) {
                         velocity.y = 0; // velocity reset for climbing from touchground()
-                        position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT; // sets Gigagal atop ground
+                        position.y = g.getTop() + Constants.AVATAR_EYE_HEIGHT; // sets Gigagal atop ground
                     }
                     setAtopGround(g); // basic ground top collision instructions common to all types of grounds
                     // additional ground top collision instructions specific to certain types of grounds
@@ -648,7 +648,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     if (g instanceof Moving) {
                         Moving moving = (Moving) g;
                         lookStartTime = 0;
-                        position.y = g.getTop() + Constants.GIGAGAL_EYE_HEIGHT;
+                        position.y = g.getTop() + Constants.AVATAR_EYE_HEIGHT;
                         velocity.x = ((Moving) g).getVelocity().x;
                         velocity.y = ((Moving) g).getVelocity().y;
 //                        Gdx.app.log(TAG, position.toString() + velocity.toString() + g.getPosition() + ((Moving) g).getVelocity());
@@ -1188,12 +1188,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             strideStartTime = TimeUtils.nanoTime();
         }
         strideTimeSeconds = Helpers.secondsSince(strideStartTime);
-        strideAcceleration = strideTimeSeconds * .75f + Constants.GIGAGAL_STARTING_SPEED ;
-        velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * strideMultiplier), directionX, Orientation.X);
+        strideAcceleration = strideTimeSeconds * .75f + Constants.AVATAR_STARTING_SPEED;
+        velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.AVATAR_MAX_SPEED * strideAcceleration + Constants.AVATAR_STARTING_SPEED, Constants.AVATAR_MAX_SPEED * strideMultiplier), directionX, Orientation.X);
         if (touchedGround instanceof Propelling) {
             velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
         } else if (touchedGround instanceof Skateable) {
-            velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.GIGAGAL_MAX_SPEED * strideAcceleration / 2 + Constants.GIGAGAL_STARTING_SPEED, Constants.GIGAGAL_MAX_SPEED * 2), directionX, Orientation.X);
+            velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.AVATAR_MAX_SPEED * strideAcceleration / 2 + Constants.AVATAR_STARTING_SPEED, Constants.AVATAR_MAX_SPEED * 2), directionX, Orientation.X);
         } else if (canSink) {
             velocity.x = Helpers.absoluteToDirectionalValue(10, directionX, Orientation.X);
             velocity.y = -3;
@@ -1221,7 +1221,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canDash = false;
         } else if (turbo >= 1) {
             turbo -= Constants.DASH_TURBO_INCREMENT * turboMultiplier;
-            velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
+            velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED, directionX, Orientation.X);
         } else {
             canDash = false;
             dashStartTime = 0;
@@ -1229,7 +1229,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         if (touchedGround instanceof Skateable
         || (touchedGround instanceof Propelling && directionX == ((Propelling) touchedGround).getDirectionX())) {
-            velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED + Constants.TREADMILL_SPEED, directionX, Orientation.X);
+            velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED + Constants.TREADMILL_SPEED, directionX, Orientation.X);
         }
     }
 
@@ -1240,7 +1240,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
                 } else if (Helpers.secondsSince(jumpStartTime) > 1.75f) {
                     jump();
-                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED / 8, directionX, Orientation.X);
+                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED / 8, directionX, Orientation.X);
                     velocity.y *= (1.35f * jumpMultiplier);
                     jumpStartTime = 0;
                 } else {
@@ -1261,7 +1261,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
             canJump = false;
         }
-        velocity.x += Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
+        velocity.x += Helpers.absoluteToDirectionalValue(Constants.AVATAR_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
         velocity.y = Constants.JUMP_SPEED;
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         if (touchedGround instanceof Reboundable) {
@@ -1356,7 +1356,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         float rappelTimeSeconds = Helpers.secondsSince(rappelStartTime);
         if (!inputControls.jumpButtonPressed) {
             if (rappelTimeSeconds >= Constants.RAPPEL_FRAME_DURATION) {
-                velocity.x = Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_MAX_SPEED, directionX, Orientation.X);
+                velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED, directionX, Orientation.X);
                 if (!(touchedGround instanceof Skateable)) {
                     jump();
                 } else {
@@ -1605,7 +1605,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 region = AssetManager.getInstance().getGigaGalAssets().fallLeft;
             }
         }
-        Helpers.drawTextureRegion(batch, viewport, region, position, Constants.GIGAGAL_EYE_POSITION);
+        Helpers.drawTextureRegion(batch, viewport, region, position, Constants.AVATAR_EYE_POSITION);
     }
 
     // Getters

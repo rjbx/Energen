@@ -194,12 +194,12 @@ class LevelUpdater {
             if (avatar.getDispatchStatus()) {
                 if (avatar.getLookStartTime() != 0) {
                     if (avatar.getDirectionY() == Direction.UP) {
-                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.GIGAGAL_Y_CANNON_OFFSET.y), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
+                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
                     } else {
-                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y - Constants.GIGAGAL_Y_CANNON_OFFSET.y - 8), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
+                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
                     }
                 } else {
-                    spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_X_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.GIGAGAL_X_CANNON_OFFSET.y), avatar.getDirectionX(), Enums.Orientation.X, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
+                    spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_X_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), avatar.getDirectionX(), Enums.Orientation.X, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
                 }
                 avatar.resetChargeIntensity();
             }
@@ -207,12 +207,12 @@ class LevelUpdater {
             if (boss.getDispatchStatus()) {
                 if (boss.getLookStartTime() != 0) {
                     if (boss.getDirectionY() == Direction.UP) {
-                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.GIGAGAL_Y_CANNON_OFFSET.y), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getWeapon(), boss);
+                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getWeapon(), boss);
                     } else {
-                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.GIGAGAL_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getWeapon(), boss);
+                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getWeapon(), boss);
                     }
                 } else {
-                    spawnAmmo(new Vector2(boss.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.GIGAGAL_X_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.GIGAGAL_X_CANNON_OFFSET.y), boss.getDirectionX(), Enums.Orientation.X, boss.getShotIntensity(), boss.getWeapon(), boss);
+                    spawnAmmo(new Vector2(boss.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_X_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), boss.getDirectionX(), Enums.Orientation.X, boss.getShotIntensity(), boss.getWeapon(), boss);
                 }
                 boss.resetChargeIntensity();
             }
@@ -378,7 +378,7 @@ class LevelUpdater {
                                 }
                             }
                             if (avatar.getCarriedGround() == null) { // prevents from carrying simultaneously and in the process setting to overlap two grounds
-                                avatar.setPosition(new Vector2(ground.getPosition().x, ground.getBottom() + Constants.GIGAGAL_EYE_HEIGHT));
+                                avatar.setPosition(new Vector2(ground.getPosition().x, ground.getBottom() + Constants.AVATAR_EYE_HEIGHT));
                                 pliable.setCarrier(avatar);
                                 Gdx.app.log(TAG, pliable.isBeingCarried() + "" + avatar.getMoveStatus());
                             }
@@ -528,7 +528,7 @@ class LevelUpdater {
                     } else {
                         ((Zoomba) destructible).convert();
                         if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(destructible)) {
-                            avatar.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.GIGAGAL_EYE_HEIGHT));
+                            avatar.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.AVATAR_EYE_HEIGHT));
                             Gdx.app.log(TAG, avatar.getPosition() + " " + destructible.getPosition());
                         }
                     }

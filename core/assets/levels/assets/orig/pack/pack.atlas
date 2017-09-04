@@ -98,7 +98,7 @@ gate-0
   orig: 8, 35
   offset: 0, 0
   index: -1
-gg-stand-right
+avatar-stand-right
   rotate: false
   xy: 247, 45
   size: 26, 33

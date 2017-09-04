@@ -74,7 +74,7 @@ final class LaunchScreen extends ScreenAdapter {
 
         launchBackdrop = new Backdrop(assetManager.getOverlayAssets().logo);
 
-        gigagalCenter = new Vector2(Constants.GIGAGAL_STANCE_WIDTH / 2, Constants.GIGAGAL_HEIGHT / 2);
+        gigagalCenter = new Vector2(Constants.AVATAR_STANCE_WIDTH / 2, Constants.AVATAR_HEIGHT / 2);
         choices = new ArrayList<String>();
         launchStartTime = TimeUtils.nanoTime();
         launching = true;
