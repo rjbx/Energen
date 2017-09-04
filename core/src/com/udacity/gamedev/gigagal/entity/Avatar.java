@@ -1518,22 +1518,24 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else if (action == Action.CLIMBING) {
                 region = AssetManager.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
             } else if (action == Action.STANDING) {
-                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
-                      ((Helpers.secondsSince(standStartTime) % 10 < .15f)
-                    || (Helpers.secondsSince(standStartTime) % 14 < .1f)
-                    || (Helpers.secondsSince(standStartTime) % 15 < .25f)
-                    || (Helpers.secondsSince(standStartTime) > 60)))) {
-                    region = AssetManager.getInstance().getGigaGalAssets().blinkRight;
-                } else if (canPeer) {
-                    region = AssetManager.getInstance().getGigaGalAssets().lookbackRight;
-                } else {
-                    region = AssetManager.getInstance().getGigaGalAssets().standRight;
-                    if (inputControls.shootButtonPressed) {
-                        region = AssetManager.getInstance().getGigaGalAssets().standShootRight;
-                        if (shotIntensity == ShotIntensity.BLAST && chargeModifier == 0) {
-                            region = AssetManager.getInstance().getGigaGalAssets().standBlastRight.getKeyFrame(chargeTimeSeconds);
-                        }
+                if (!inputControls.shootButtonPressed) {
+                    if ((!(Helpers.secondsSince(standStartTime) < 1) &&
+                            ((Helpers.secondsSince(standStartTime) % 10 < .15f)
+                                    || (Helpers.secondsSince(standStartTime) % 14 < .1f)
+                                    || (Helpers.secondsSince(standStartTime) % 15 < .25f)
+                                    || (Helpers.secondsSince(standStartTime) > 60)))) {
+                        region = AssetManager.getInstance().getGigaGalAssets().blinkRight;
+                    } else if (!canPeer) {
+                        region = AssetManager.getInstance().getGigaGalAssets().standRight;
+                    } else {
+                        region = AssetManager.getInstance().getGigaGalAssets().lookbackRight;
                     }
+                } else if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
+                    region = AssetManager.getInstance().getGigaGalAssets().standShootRight;
+                } else if (shotIntensity != ShotIntensity.BLAST) {
+                    region = AssetManager.getInstance().getGigaGalAssets().standChargeRight.getKeyFrame(chargeTimeSeconds / 1.25f);
+                } else {
+                    region = AssetManager.getInstance().getGigaGalAssets().standBlastRight.getKeyFrame(chargeTimeSeconds / 2);
                 }
             } else if (action == Action.STRIDING) {
                 region = AssetManager.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));

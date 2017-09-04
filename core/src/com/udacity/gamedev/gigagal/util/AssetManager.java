@@ -151,6 +151,7 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion rappelRight;
         public final AtlasRegion graspLeft;
         public final AtlasRegion graspRight;
+        public final Animation standChargeRight;
         public final Animation standBlastRight;
         public final Animation hoverLeft;
         public final Animation hoverRight;
@@ -201,11 +202,13 @@ public final class AssetManager implements AssetErrorListener {
             graspLeft = atlas.findRegion(Constants.GRASP_LEFT);
             graspRight = atlas.findRegion(Constants.GRASP_RIGHT);
 
-            Array<AtlasRegion> standBlastFrames = new Array<AtlasRegion>();
-            standBlastFrames.add(atlas.findRegion(Constants.STAND_BLAST_RIGHT_1));
-            standBlastFrames.add(atlas.findRegion(Constants.STAND_BLAST_RIGHT_2));
-            standBlastFrames.add(atlas.findRegion(Constants.STAND_BLAST_RIGHT_3));
-            standBlastRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, standBlastFrames, PlayMode.LOOP);
+            Array<AtlasRegion> standChargeFrames = new Array<AtlasRegion>();
+            standChargeFrames.add(atlas.findRegion(Constants.STAND_BLAST_RIGHT_1));
+            standChargeFrames.add(atlas.findRegion(Constants.STAND_BLAST_RIGHT_2));
+            standChargeRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, standChargeFrames, PlayMode.LOOP);
+
+            standChargeFrames.add(atlas.findRegion(Constants.STAND_BLAST_RIGHT_3));
+            standBlastRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, standChargeFrames, PlayMode.LOOP);
             
             Array<AtlasRegion> hoverLeftFrames = new Array<AtlasRegion>();
             hoverLeftFrames.add(atlas.findRegion(Constants.HOVER_LEFT_1));
@@ -609,9 +612,6 @@ public final class AssetManager implements AssetErrorListener {
             activeChamber = atlas.findRegion(Constants.CHAMBER_SPRITE);
 
             Array<AtlasRegion> sinkRegions = new Array<AtlasRegion>();
-            sinkRegions.add(atlas.findRegion(Constants.SINK_SPRITE_1));
-            sinkRegions.add(atlas.findRegion(Constants.SINK_SPRITE_2));
-
             sinkRegions.add(atlas.findRegion(Constants.SINK_SPRITE_1));
             sinkRegions.add(atlas.findRegion(Constants.SINK_SPRITE_2));
 
