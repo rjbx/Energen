@@ -148,6 +148,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             weapon = weaponToggler.previous();
         } else {
             addWeapon(Material.NATIVE);
+            addWeapon(Material.GAS);
             weapon = weaponToggler.previous();
         }
 
@@ -1529,7 +1530,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     region = AssetManager.getInstance().getGigaGalAssets().standRight;
                     if (inputControls.shootButtonPressed) {
                         region = AssetManager.getInstance().getGigaGalAssets().standShootRight;
-                        if (shotIntensity == ShotIntensity.BLAST) {
+                        if (shotIntensity == ShotIntensity.BLAST && chargeModifier == 0) {
                             region = AssetManager.getInstance().getGigaGalAssets().standBlastRight.getKeyFrame(chargeTimeSeconds);
                         }
                     }

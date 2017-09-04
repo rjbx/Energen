@@ -130,9 +130,9 @@ public final class Constants {
     public static final String RAPPEL_RIGHT = "avatar-rappel-right";
     public static final String RAPPEL_LEFT = "avatar-rappel-left";
     public static final float RAPPEL_FRAME_DURATION = 0.05f;
-    public static final String HOVER_RIGHT_1 = "avatar-stand-right-new";
+    public static final String HOVER_RIGHT_1 = "avatar-hover-1-right";
     public static final String HOVER_LEFT_1 = "avatar-hover-1-left";
-    public static final String HOVER_RIGHT_2 = "avatar-stand-right-new";
+    public static final String HOVER_RIGHT_2 = "avatar-hover-2-right";
     public static final String HOVER_LEFT_2 = "avatar-hover-2-left";
     public static final float HOVER_FRAME_DURATION = 0.05f;
     public static final String STRIDE_RIGHT_1 = "avatar-stride-1-right";
