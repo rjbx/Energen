@@ -407,7 +407,7 @@ final class LevelLoader {
                 final Vector2 gigaGalPosition = imagePosition.add(Constants.AVATAR_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);
                 Avatar.getInstance().setSpawnPosition(gigaGalPosition);
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOSS_SPRITE)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BEAST_SPRITE)) {
                 final Vector2 bossPosition = imagePosition.add(Constants.AVATAR_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded Boss at " + bossPosition);
                 Boss boss = new Boss.Builder(bossPosition).weapon(type).build();
