@@ -1487,137 +1487,134 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (directionX == Direction.RIGHT) {
             if (bladeState == BladeState.RUSH) {
                 if (inputControls.rightButtonPressed) {
-                    region = AssetManager.getInstance().getGigaGalAssets().forehandRight.getKeyFrame(swipeTimeSeconds);
+                    region = AssetManager.getInstance().getAvatarAssets().forehandRight.getKeyFrame(swipeTimeSeconds);
                 } else if (inputControls.leftButtonPressed) {
-                    region = AssetManager.getInstance().getGigaGalAssets().backhandRight.getKeyFrame(swipeTimeSeconds);
+                    region = AssetManager.getInstance().getAvatarAssets().backhandRight.getKeyFrame(swipeTimeSeconds);
                 }
             } else if (bladeState == BladeState.CUT) {
-                region = AssetManager.getInstance().getGigaGalAssets().uphandRight.getKeyFrame(swipeTimeSeconds);
+                region = AssetManager.getInstance().getAvatarAssets().uphandRight.getKeyFrame(swipeTimeSeconds);
             } else if (bladeState == BladeState.FLIP) {
-                region = AssetManager.getInstance().getGigaGalAssets().backflipRight.getKeyFrame(swipeTimeSeconds);
+                region = AssetManager.getInstance().getAvatarAssets().backflipRight.getKeyFrame(swipeTimeSeconds);
             } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
-                    region = AssetManager.getInstance().getGigaGalAssets().lookupStandRight;
+                    region = AssetManager.getInstance().getAvatarAssets().lookupStandRight;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookupFallRight;
-                    } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getAvatarAssets().lookupFallRight;
                     }
                 } else if (directionY == Direction.DOWN) {
-                    region = AssetManager.getInstance().getGigaGalAssets().lookdownStandRight;
+                    region = AssetManager.getInstance().getAvatarAssets().lookdownStandRight;
                     if (bladeState == BladeState.CUT) {
-                        region = AssetManager.getInstance().getGigaGalAssets().downhandRight.getKeyFrame(swipeTimeSeconds);
+                        region = AssetManager.getInstance().getAvatarAssets().downhandRight.getKeyFrame(swipeTimeSeconds);
                     } else if (bladeState == BladeState.FLIP) {
-                        region = AssetManager.getInstance().getGigaGalAssets().frontflipRight.getKeyFrame(swipeTimeSeconds);
+                        region = AssetManager.getInstance().getAvatarAssets().frontflipRight.getKeyFrame(swipeTimeSeconds);
                     } else if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookdownFallRight;
-                    } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getAvatarAssets().lookdownFallRight;
                     }
                 }
             } else if (action == Action.CLIMBING) {
-                region = AssetManager.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
-            } else if (action == Action.STANDING) {
+                region = AssetManager.getInstance().getAvatarAssets().climb.getKeyFrame(0.25f);
+            } else if (action == Action.STANDING || action == Action.HOVERING) {
                 if (!inputControls.shootButtonPressed) {
                     if ((!(Helpers.secondsSince(standStartTime) < 1) &&
                             ((Helpers.secondsSince(standStartTime) % 10 < .15f)
                                     || (Helpers.secondsSince(standStartTime) % 14 < .1f)
                                     || (Helpers.secondsSince(standStartTime) % 15 < .25f)
                                     || (Helpers.secondsSince(standStartTime) > 60)))) {
-                        region = AssetManager.getInstance().getGigaGalAssets().blinkRight;
+                        region = AssetManager.getInstance().getAvatarAssets().blinkRight;
                     } else if (!canPeer || Helpers.secondsSince(standStartTime) < .5f) {
-                        region = AssetManager.getInstance().getGigaGalAssets().standRight;
+                        region = AssetManager.getInstance().getAvatarAssets().standRight;
                     } else {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookbackRight;
+                        region = AssetManager.getInstance().getAvatarAssets().lookbackRight;
                     }
                 } else if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
-                    region = AssetManager.getInstance().getGigaGalAssets().standShootRight;
+                    region = AssetManager.getInstance().getAvatarAssets().standShootRight;
                 } else if (shotIntensity != ShotIntensity.BLAST) {
-                    region = AssetManager.getInstance().getGigaGalAssets().standChargeRight.getKeyFrame(chargeTimeSeconds / 1.25f);
+                    region = AssetManager.getInstance().getAvatarAssets().standChargeRight.getKeyFrame(chargeTimeSeconds / 1.25f);
                 } else {
-                    region = AssetManager.getInstance().getGigaGalAssets().standBlastRight.getKeyFrame(chargeTimeSeconds / 2);
+                    region = AssetManager.getInstance().getAvatarAssets().standBlastRight.getKeyFrame(chargeTimeSeconds / 2);
                 }
             } else if (action == Action.STRIDING) {
-                region = AssetManager.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = AssetManager.getInstance().getAvatarAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Action.DASHING) {
-                region = AssetManager.getInstance().getGigaGalAssets().dashRight;
-            } else if (action == Action.HOVERING) {
-                region = AssetManager.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
+                region = AssetManager.getInstance().getAvatarAssets().dashRight;
             } else if (action == Action.RAPPELLING) {
                 if (canHurdle) {
-                    region = AssetManager.getInstance().getGigaGalAssets().graspRight;
+                    region = AssetManager.getInstance().getAvatarAssets().graspRight;
                 } else {
-                    region = AssetManager.getInstance().getGigaGalAssets().rappelRight;
+                    region = AssetManager.getInstance().getAvatarAssets().rappelRight;
                 }
             } else if (action == Action.RECOILING){
-                region = AssetManager.getInstance().getGigaGalAssets().recoilRight;
+                region = AssetManager.getInstance().getAvatarAssets().recoilRight;
             } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
-                region = AssetManager.getInstance().getGigaGalAssets().fallRight;
+                region = AssetManager.getInstance().getAvatarAssets().fallRight;
             }
         } else if (directionX == Direction.LEFT) {
             if (bladeState == BladeState.RUSH) {
                 if (inputControls.leftButtonPressed) {
-                    region = AssetManager.getInstance().getGigaGalAssets().forehandLeft.getKeyFrame(swipeTimeSeconds);
+                    region = AssetManager.getInstance().getAvatarAssets().forehandLeft.getKeyFrame(swipeTimeSeconds);
                 } else if (inputControls.rightButtonPressed) {
-                    region = AssetManager.getInstance().getGigaGalAssets().backhandLeft.getKeyFrame(swipeTimeSeconds);
+                    region = AssetManager.getInstance().getAvatarAssets().backhandLeft.getKeyFrame(swipeTimeSeconds);
                 }
             } else if (bladeState == BladeState.CUT) {
-                region = AssetManager.getInstance().getGigaGalAssets().uphandLeft.getKeyFrame(swipeTimeSeconds);
+                region = AssetManager.getInstance().getAvatarAssets().uphandLeft.getKeyFrame(swipeTimeSeconds);
             } else if (bladeState == BladeState.FLIP) {
-                region = AssetManager.getInstance().getGigaGalAssets().backflipLeft.getKeyFrame(swipeTimeSeconds);
+                region = AssetManager.getInstance().getAvatarAssets().backflipLeft.getKeyFrame(swipeTimeSeconds);
             } else if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
-                    region = AssetManager.getInstance().getGigaGalAssets().lookupStandLeft;
+                    region = AssetManager.getInstance().getAvatarAssets().lookupStandLeft;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookupFallLeft;
+                        region = AssetManager.getInstance().getAvatarAssets().lookupFallLeft;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getAvatarAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 } else if (directionY == Direction.DOWN) {
-                    region = AssetManager.getInstance().getGigaGalAssets().lookdownStandLeft;
+                    region = AssetManager.getInstance().getAvatarAssets().lookdownStandLeft;
                     if (canCut) {
-                        region = AssetManager.getInstance().getGigaGalAssets().downhandLeft.getKeyFrame(swipeTimeSeconds);
+                        region = AssetManager.getInstance().getAvatarAssets().downhandLeft.getKeyFrame(swipeTimeSeconds);
                     } else if (canFlip) {
-                        region = AssetManager.getInstance().getGigaGalAssets().backflipLeft.getKeyFrame(swipeTimeSeconds);
+                        region = AssetManager.getInstance().getAvatarAssets().backflipLeft.getKeyFrame(swipeTimeSeconds);
                     } else if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookdownFallLeft;
+                        region = AssetManager.getInstance().getAvatarAssets().lookdownFallLeft;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getAvatarAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 }
             } else if (action == Action.CLIMBING) {
-                region = AssetManager.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
+                region = AssetManager.getInstance().getAvatarAssets().climb.getKeyFrame(0.12f);
             } else if (action == Action.STANDING) {
                 if ((!(Helpers.secondsSince(standStartTime) < 1) &&
                   ((Helpers.secondsSince(standStartTime) % 20 < .15f)
                 || (Helpers.secondsSince(standStartTime) % 34 < .1f)
                 || (Helpers.secondsSince(standStartTime) % 35 < .25f)
                 || (Helpers.secondsSince(standStartTime) > 60)))) {
-                    region = AssetManager.getInstance().getGigaGalAssets().blinkLeft;
+                    region = AssetManager.getInstance().getAvatarAssets().blinkLeft;
                 } else if (canPeer) {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookbackLeft;
+                        region = AssetManager.getInstance().getAvatarAssets().lookbackLeft;
                 } else {
-                        region = AssetManager.getInstance().getGigaGalAssets().standLeft;
+                        region = AssetManager.getInstance().getAvatarAssets().standLeft;
                 }
             } else if (action == Action.STRIDING) {
-                region = AssetManager.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = AssetManager.getInstance().getAvatarAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Action.DASHING) {
-                region = AssetManager.getInstance().getGigaGalAssets().dashLeft;
+                region = AssetManager.getInstance().getAvatarAssets().dashLeft;
             } else if (action == Action.HOVERING) {
-                region = AssetManager.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
+                region = AssetManager.getInstance().getAvatarAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
             } else if (action == Action.RAPPELLING) {
                 if (canHurdle) {
-                    region = AssetManager.getInstance().getGigaGalAssets().graspLeft;
+                    region = AssetManager.getInstance().getAvatarAssets().graspLeft;
                 } else {
-                    region = AssetManager.getInstance().getGigaGalAssets().rappelLeft;
+                    region = AssetManager.getInstance().getAvatarAssets().rappelLeft;
                 }
             } else if (action == Action.RECOILING) {
-                region = AssetManager.getInstance().getGigaGalAssets().recoilLeft;
+                region = AssetManager.getInstance().getAvatarAssets().recoilLeft;
             } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
-                region = AssetManager.getInstance().getGigaGalAssets().fallLeft;
+                region = AssetManager.getInstance().getAvatarAssets().fallLeft;
             }
         }
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.AVATAR_EYE_POSITION);
+        if (action == Action.HOVERING) {
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getAvatarAssets().hoverRight.getKeyFrame(hoverTimeSeconds), position, Constants.AVATAR_EYE_POSITION);
+        }
     }
 
     // Getters

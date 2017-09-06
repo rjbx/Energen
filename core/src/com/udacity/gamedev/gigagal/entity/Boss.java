@@ -1328,41 +1328,41 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = AssetManager.getInstance().getBossAssets().liquidLookupFallRight;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getAvatarAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
                 } else if (directionY == Direction.DOWN) {
-                    region = AssetManager.getInstance().getGigaGalAssets().lookdownStandRight;
+                    region = AssetManager.getInstance().getAvatarAssets().lookdownStandRight;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = AssetManager.getInstance().getBossAssets().liquidLookdownFallRight;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getAvatarAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
                     }
                 }
             } else if (action == Action.CLIMBING) {
-                region = AssetManager.getInstance().getGigaGalAssets().climb.getKeyFrame(0.25f);
+                region = AssetManager.getInstance().getAvatarAssets().climb.getKeyFrame(0.25f);
             } else if (action == Action.STANDING) {
 //                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
 //                        ((Helpers.secondsSince(standStartTime) % 10 < .15f)
 //                                || (Helpers.secondsSince(standStartTime) % 14 < .1f)
 //                                || (Helpers.secondsSince(standStartTime) % 15 < .25f)
 //                                || (Helpers.secondsSince(standStartTime) > 60)))) {
-//                    region = AssetManager.getInstance().getGigaGalAssets().blinkRight;
+//                    region = AssetManager.getInstance().getAvatarAssets().blinkRight;
 //                } else if (canPeer) {
-//                    region = AssetManager.getInstance().getGigaGalAssets().lookbackRight;
+//                    region = AssetManager.getInstance().getAvatarAssets().lookbackRight;
 //                } else {
                     region = AssetManager.getInstance().getBossAssets().liquidStandRight;
 //                }
             } else if (action == Action.STRIDING) {
-                region = AssetManager.getInstance().getGigaGalAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = AssetManager.getInstance().getAvatarAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Action.DASHING) {
                 region = AssetManager.getInstance().getBossAssets().liquidDashRight;
             } else if (action == Action.HOVERING) {
-                region = AssetManager.getInstance().getGigaGalAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
+                region = AssetManager.getInstance().getAvatarAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
             } else if (action == Action.RAPPELLING) {
                 if (canHurdle) {
-                    region = AssetManager.getInstance().getGigaGalAssets().graspRight;
+                    region = AssetManager.getInstance().getAvatarAssets().graspRight;
                 } else {
-                    region = AssetManager.getInstance().getGigaGalAssets().rappelRight;
+                    region = AssetManager.getInstance().getAvatarAssets().rappelRight;
                 }
             } else if (action == Action.RECOILING){
                 region = AssetManager.getInstance().getBossAssets().liquidRecoilRight;
@@ -1376,41 +1376,41 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = AssetManager.getInstance().getBossAssets().liquidLookupFallLeft;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getAvatarAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 } else if (directionY == Direction.DOWN) {
-                    region = AssetManager.getInstance().getGigaGalAssets().lookdownStandLeft;
+                    region = AssetManager.getInstance().getAvatarAssets().lookdownStandLeft;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = AssetManager.getInstance().getBossAssets().liquidLookdownFallLeft;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getGigaGalAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getAvatarAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
                     }
                 }
             } else if (action == Action.CLIMBING) {
-                region = AssetManager.getInstance().getGigaGalAssets().climb.getKeyFrame(0.12f);
+                region = AssetManager.getInstance().getAvatarAssets().climb.getKeyFrame(0.12f);
             } else if (action == Action.STANDING) {
 //                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
 //                        ((Helpers.secondsSince(standStartTime) % 20 < .15f)
 //                                || (Helpers.secondsSince(standStartTime) % 34 < .1f)
 //                                || (Helpers.secondsSince(standStartTime) % 35 < .25f)
 //                                || (Helpers.secondsSince(standStartTime) > 60)))) {
-//                    region = AssetManager.getInstance().getGigaGalAssets().blinkLeft;
+//                    region = AssetManager.getInstance().getAvatarAssets().blinkLeft;
 //                } else if (canPeer) {
-//                    region = AssetManager.getInstance().getGigaGalAssets().lookbackLeft;
+//                    region = AssetManager.getInstance().getAvatarAssets().lookbackLeft;
 //                } else {
                     region = AssetManager.getInstance().getBossAssets().liquidStandLeft;
 //                }
             } else if (action == Action.STRIDING) {
-                region = AssetManager.getInstance().getGigaGalAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = AssetManager.getInstance().getAvatarAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
             } else if (action == Action.DASHING) {
                 region = AssetManager.getInstance().getBossAssets().liquidDashLeft;
             } else if (action == Action.HOVERING) {
-                region = AssetManager.getInstance().getGigaGalAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
+                region = AssetManager.getInstance().getAvatarAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
             } else if (action == Action.RAPPELLING) {
                 if (canHurdle) {
-                    region = AssetManager.getInstance().getGigaGalAssets().graspLeft;
+                    region = AssetManager.getInstance().getAvatarAssets().graspLeft;
                 } else {
-                    region = AssetManager.getInstance().getGigaGalAssets().rappelLeft;
+                    region = AssetManager.getInstance().getAvatarAssets().rappelLeft;
                 }
             } else if (action == Action.RECOILING) {
                 region = AssetManager.getInstance().getBossAssets().liquidRecoilLeft;

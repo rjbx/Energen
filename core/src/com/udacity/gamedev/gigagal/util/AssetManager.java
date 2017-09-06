@@ -25,7 +25,7 @@ public final class AssetManager implements AssetErrorListener {
     public static final String TAG = AssetManager.class.getName();
     private static final AssetManager INSTANCE = new AssetManager();
     private com.badlogic.gdx.assets.AssetManager assetManager;
-    private GigaGalAssets gigaGalAssets;
+    private AvatarAssets avatarAssets;
     private BossAssets bossAssets;
     private BackgroundAssets backgroundAssets;
     private GroundAssets groundAssets;
@@ -91,7 +91,7 @@ public final class AssetManager implements AssetErrorListener {
         assetManager.load(Constants.TITLE_FONT);
         assetManager.finishLoading();
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
-        gigaGalAssets = new GigaGalAssets(atlas);
+        avatarAssets = new AvatarAssets(atlas);
         bossAssets = new BossAssets(atlas);
         backgroundAssets = new BackgroundAssets(atlas);
         groundAssets = new GroundAssets(atlas);
@@ -124,7 +124,7 @@ public final class AssetManager implements AssetErrorListener {
         assetManager.clear(); // disposes all assets
     }
 
-    public static final class GigaGalAssets {
+    public static final class AvatarAssets {
 
         public final AtlasRegion standLeft;
         public final AtlasRegion standRight;
@@ -175,7 +175,7 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation uphandLeft;
         public final Animation climb;
 
-        private GigaGalAssets(TextureAtlas atlas) {
+        private AvatarAssets(TextureAtlas atlas) {
             standLeft = atlas.findRegion(Constants.STAND_LEFT);
             standRight = atlas.findRegion(Constants.STAND_RIGHT);
             standShootRight = atlas.findRegion(Constants.STAND_SHOOT_RIGHT);
@@ -1647,7 +1647,7 @@ public final class AssetManager implements AssetErrorListener {
     }
 
     // Getters
-    public final GigaGalAssets getGigaGalAssets() { return gigaGalAssets; }
+    public final AvatarAssets getAvatarAssets() { return avatarAssets; }
     public final BossAssets getBossAssets() { return bossAssets; }
     public final BackgroundAssets getBackgroundAssets() { return backgroundAssets; }
     public final GroundAssets getGroundAssets() { return groundAssets; }

@@ -104,7 +104,7 @@ final class LaunchScreen extends ScreenAdapter {
                     final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f);
 
                     Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().globe, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 1.625f, Constants.GLOBE_CENTER.x, Constants.GLOBE_CENTER.y);
-                    Helpers.drawTextureRegion(batch, viewport, assetManager.getGigaGalAssets().fallRight, gigagalPosition, gigagalCenter);
+                    Helpers.drawTextureRegion(batch, viewport, assetManager.getAvatarAssets().fallRight, gigagalPosition, gigagalCenter);
                     Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().beast, viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 1.625f, Constants.BEAST_CENTER.x, Constants.BEAST_CENTER.y);
                     Helpers.drawBitmapFont(batch, viewport, title, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, Align.center);
 
