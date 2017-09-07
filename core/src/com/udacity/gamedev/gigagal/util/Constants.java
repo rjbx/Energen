@@ -142,9 +142,7 @@ public final class Constants {
     public static final String STRIDE_RIGHT_3 = "avatar-stride-3-right";
     public static final String STRIDE_LEFT_3 = "avatar-stride-3-left";
     public static final float STRIDE_FRAME_DURATION = 0.1f;
-    public static final String CLIMB_1 = "avatar-climb-1";
-    public static final String CLIMB_2 = "avatar-climb-2";
-    public static final float CLIMB_FRAME_DURATION = 0.25f;
+    public static final String CLIMB = "avatar-climb";
     public static final String FLIPSWIPE_RIGHT_1 = "avatar-swipe-flip-1-right";
     public static final String FLIPSWIPE_RIGHT_2 = "avatar-swipe-flip-2-right";
     public static final String FLIPSWIPE_RIGHT_3 = "avatar-swipe-flip-3-right";

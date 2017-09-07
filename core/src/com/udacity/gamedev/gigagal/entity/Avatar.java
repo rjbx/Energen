@@ -1512,7 +1512,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 }
             }
         } else if (action == Action.CLIMBING) {
-            region = AssetManager.getInstance().getAvatarAssets().climb.getKeyFrame(0.25f);
+            region = AssetManager.getInstance().getAvatarAssets().climb;
         } else if (action == Action.STANDING || action == Action.HOVERING) {
             if (!inputControls.shootButtonPressed) {
                 if ((!(Helpers.secondsSince(standStartTime) < 1) &&

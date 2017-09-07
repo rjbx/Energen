@@ -151,6 +151,7 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion rappelRight;
         public final AtlasRegion graspLeft;
         public final AtlasRegion graspRight;
+        public final AtlasRegion climb;
         public final Animation standChargeRight;
         public final Animation standBlastRight;
         public final Animation hoverLeft;
@@ -173,7 +174,6 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation uphandRight;
         public final Animation downhandLeft;
         public final Animation uphandLeft;
-        public final Animation climb;
 
         private AvatarAssets(TextureAtlas atlas) {
             standLeft = atlas.findRegion(Constants.STAND_LEFT);
@@ -201,6 +201,7 @@ public final class AssetManager implements AssetErrorListener {
             rappelRight = atlas.findRegion(Constants.RAPPEL_RIGHT);
             graspLeft = atlas.findRegion(Constants.GRASP_LEFT);
             graspRight = atlas.findRegion(Constants.GRASP_RIGHT);
+            climb = atlas.findRegion(Constants.CLIMB);
 
             Array<AtlasRegion> standChargeFrames = new Array<AtlasRegion>();
             standChargeFrames.add(atlas.findRegion(Constants.STAND_BLAST_RIGHT_1));
@@ -233,11 +234,6 @@ public final class AssetManager implements AssetErrorListener {
             strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_2));
             strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_3));
             strideRight = new Animation(Constants.STRIDE_FRAME_DURATION, strideRightFrames, PlayMode.LOOP);
-
-            Array<AtlasRegion> climbFrames = new Array<AtlasRegion>();
-            climbFrames.add(atlas.findRegion(Constants.CLIMB_1));
-            climbFrames.add(atlas.findRegion(Constants.CLIMB_2));
-            climb = new Animation(Constants.CLIMB_FRAME_DURATION, climbFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> lookupHoverLeftFrames = new Array<AtlasRegion>();
             lookupHoverLeftFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_LEFT_1));
