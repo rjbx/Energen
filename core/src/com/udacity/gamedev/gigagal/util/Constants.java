@@ -60,11 +60,11 @@ public final class Constants {
     public static final AssetDescriptor<BitmapFont> TITLE_FONT = new AssetDescriptor<BitmapFont>("font/title.fnt", BitmapFont.class);
 
     // Avatar attributes
-    public static final Vector2 AVATAR_EYE_POSITION = new Vector2(14.5f, 24);
+    public static final Vector2 AVATAR_EYE_POSITION = new Vector2(12, 24);
     public static final float AVATAR_EYE_HEIGHT = 16.0f;
-    public static final float AVATAR_STANCE_WIDTH = 23;
+    public static final float AVATAR_STANCE_WIDTH = 20.25f;
     public static final Vector2 AVATAR_X_CANNON_OFFSET = new Vector2(17.5f, -5.75f);
-    public static final Vector2 AVATAR_Y_CANNON_OFFSET = new Vector2(5.5f, 9.5f);
+    public static final Vector2 AVATAR_Y_CANNON_OFFSET = new Vector2(4.5f, 9.5f);
     public static final float AVATAR_HEIGHT = 21.0f;
     public static final float AVATAR_HEAD_RADIUS = 5;
     public static final float AVATAR_STARTING_SPEED = 0.3f;
@@ -109,7 +109,7 @@ public final class Constants {
     public static final String RECOILING_LEFT = "avatar-recoil-left";
     public static final String FALL_RIGHT = "avatar-fall-right";
     public static final String FALL_LEFT = "avatar-fall-left";
-    public static final String LOOKUP_STAND_RIGHT = "avatar-lookup-stand-right";
+    public static final String LOOKUP_STAND_RIGHT = "avatar-lookup-stand";
     public static final String LOOKUP_STAND_LEFT = "avatar-lookup-stand-left";
     public static final String LOOKDOWN_STAND_RIGHT = "avatar-lookdown-stand-right";
     public static final String LOOKDOWN_STAND_LEFT = "avatar-lookdown-stand-left";
