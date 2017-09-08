@@ -60,11 +60,11 @@ public final class Constants {
     public static final AssetDescriptor<BitmapFont> TITLE_FONT = new AssetDescriptor<BitmapFont>("font/title.fnt", BitmapFont.class);
 
     // Avatar attributes
-    public static final Vector2 AVATAR_EYE_POSITION = new Vector2(14, 24);
+    public static final Vector2 AVATAR_EYE_POSITION = new Vector2(14.5f, 24);
     public static final float AVATAR_EYE_HEIGHT = 16.0f;
-    public static final float AVATAR_STANCE_WIDTH = 20.25f;
+    public static final float AVATAR_STANCE_WIDTH = 23;
     public static final Vector2 AVATAR_X_CANNON_OFFSET = new Vector2(17.5f, -5.75f);
-    public static final Vector2 AVATAR_Y_CANNON_OFFSET = new Vector2(3.625f, 14.5f);
+    public static final Vector2 AVATAR_Y_CANNON_OFFSET = new Vector2(5.5f, 9.5f);
     public static final float AVATAR_HEIGHT = 21.0f;
     public static final float AVATAR_HEAD_RADIUS = 5;
     public static final float AVATAR_STARTING_SPEED = 0.3f;
@@ -651,7 +651,7 @@ public final class Constants {
     public static final int AMMO_SPECIALIZED_DAMAGE = 30;
     public static final int AMMO_WEAK_DAMAGE = 1;
     public static final float SHOT_FRAME_DURATION = 0.1f;
-    public static final float SHOT_RADIUS = 4;
+    public static final float SHOT_RADIUS = 4.5f;
     public static final float BLAST_RADIUS = 9;
     public static final Vector2 SHOT_CENTER = new Vector2(SHOT_RADIUS, SHOT_RADIUS);
     public static final Vector2 BLAST_CENTER = new Vector2(BLAST_RADIUS, BLAST_RADIUS);
