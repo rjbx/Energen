@@ -1328,14 +1328,14 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = AssetManager.getInstance().getBossAssets().liquidLookupFallRight;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getAvatarAssets().lookupHoverRight.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getBossAssets().liquidRecoilRight;
                     }
                 } else if (directionY == Direction.DOWN) {
-                    region = AssetManager.getInstance().getAvatarAssets().lookdownStandRight;
+                    region = AssetManager.getInstance().getBossAssets().liquidRecoilRight;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = AssetManager.getInstance().getBossAssets().liquidLookdownFallRight;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getAvatarAssets().lookdownHoverRight.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getBossAssets().liquidRecoilRight;
                     }
                 }
             } else if (action == Action.CLIMBING) {
@@ -1353,16 +1353,16 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     region = AssetManager.getInstance().getBossAssets().liquidStandRight;
 //                }
             } else if (action == Action.STRIDING) {
-                region = AssetManager.getInstance().getAvatarAssets().strideRight.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = AssetManager.getInstance().getBossAssets().liquidRecoilRight;
             } else if (action == Action.DASHING) {
                 region = AssetManager.getInstance().getBossAssets().liquidDashRight;
             } else if (action == Action.HOVERING) {
-                region = AssetManager.getInstance().getAvatarAssets().hoverRight.getKeyFrame(hoverTimeSeconds);
+                region = AssetManager.getInstance().getBossAssets().liquidRecoilRight;
             } else if (action == Action.RAPPELLING) {
                 if (canHurdle) {
-                    region = AssetManager.getInstance().getAvatarAssets().graspRight;
+                    region = AssetManager.getInstance().getBossAssets().liquidRecoilRight;
                 } else {
-                    region = AssetManager.getInstance().getAvatarAssets().rappelRight;
+                    region = AssetManager.getInstance().getBossAssets().liquidRecoilRight;
                 }
             } else if (action == Action.RECOILING){
                 region = AssetManager.getInstance().getBossAssets().liquidRecoilRight;
@@ -1376,14 +1376,14 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = AssetManager.getInstance().getBossAssets().liquidLookupFallLeft;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getAvatarAssets().lookupHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getBossAssets().liquidRecoilLeft;
                     }
                 } else if (directionY == Direction.DOWN) {
-                    region = AssetManager.getInstance().getAvatarAssets().lookdownStandLeft;
+                    region = AssetManager.getInstance().getBossAssets().liquidRecoilLeft;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = AssetManager.getInstance().getBossAssets().liquidLookdownFallLeft;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getAvatarAssets().lookdownHoverLeft.getKeyFrame(hoverTimeSeconds);
+                        region = AssetManager.getInstance().getBossAssets().liquidRecoilLeft;
                     }
                 }
             } else if (action == Action.CLIMBING) {
@@ -1401,16 +1401,16 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     region = AssetManager.getInstance().getBossAssets().liquidStandLeft;
 //                }
             } else if (action == Action.STRIDING) {
-                region = AssetManager.getInstance().getAvatarAssets().strideLeft.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                region = AssetManager.getInstance().getBossAssets().liquidRecoilLeft;
             } else if (action == Action.DASHING) {
                 region = AssetManager.getInstance().getBossAssets().liquidDashLeft;
             } else if (action == Action.HOVERING) {
-                region = AssetManager.getInstance().getAvatarAssets().hoverLeft.getKeyFrame(hoverTimeSeconds);
+                region = AssetManager.getInstance().getBossAssets().liquidRecoilLeft;
             } else if (action == Action.RAPPELLING) {
                 if (canHurdle) {
-                    region = AssetManager.getInstance().getAvatarAssets().graspLeft;
+                    region = AssetManager.getInstance().getBossAssets().liquidRecoilLeft;
                 } else {
-                    region = AssetManager.getInstance().getAvatarAssets().rappelLeft;
+                    region = AssetManager.getInstance().getBossAssets().liquidRecoilLeft;
                 }
             } else if (action == Action.RECOILING) {
                 region = AssetManager.getInstance().getBossAssets().liquidRecoilLeft;

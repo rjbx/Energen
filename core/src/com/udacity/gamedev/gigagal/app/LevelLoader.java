@@ -403,7 +403,7 @@ final class LevelLoader {
                 final Vector2 powerupPosition = imagePosition.add(Constants.CANNON_POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded a CannonPowerup at " + powerupPosition);
                 level.addPowerup(new Powerup(powerupPosition, Enums.PowerupType.CANNON));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STAND_RIGHT)) {
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STAND)) {
                 final Vector2 gigaGalPosition = imagePosition.add(Constants.AVATAR_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);
                 Avatar.getInstance().setSpawnPosition(gigaGalPosition);

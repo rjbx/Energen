@@ -126,192 +126,107 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class AvatarAssets {
 
-        public final AtlasRegion standLeft;
-        public final AtlasRegion standRight;
-        public final AtlasRegion standShootRight;
-        public final AtlasRegion blinkLeft;
-        public final AtlasRegion blinkRight;
-        public final AtlasRegion lookbackLeft;
-        public final AtlasRegion lookbackRight;
-        public final AtlasRegion recoilLeft;
-        public final AtlasRegion recoilRight;
-        public final AtlasRegion fallLeft;
-        public final AtlasRegion fallRight;
-        public final AtlasRegion lookupStandLeft;
-        public final AtlasRegion lookupStandRight;
-        public final AtlasRegion lookdownStandLeft;
-        public final AtlasRegion lookdownStandRight;
-        public final AtlasRegion lookupFallLeft;
-        public final AtlasRegion lookupFallRight;
-        public final AtlasRegion lookdownFallLeft;
-        public final AtlasRegion lookdownFallRight;
-        public final AtlasRegion dashLeft;
-        public final AtlasRegion dashRight;
-        public final AtlasRegion rappelLeft;
-        public final AtlasRegion rappelRight;
-        public final AtlasRegion graspLeft;
-        public final AtlasRegion graspRight;
+        public final AtlasRegion stand;
+        public final AtlasRegion standShoot;
+        public final AtlasRegion blink;
+        public final AtlasRegion lookback;
+        public final AtlasRegion recoil;
+        public final AtlasRegion fall;
+        public final AtlasRegion lookupStand;
+        public final AtlasRegion lookdownStand;
+        public final AtlasRegion lookupFall;
+        public final AtlasRegion lookdownFall;
+        public final AtlasRegion dash;
+        public final AtlasRegion rappel;
+        public final AtlasRegion grasp;
         public final AtlasRegion climb;
-        public final Animation standChargeRight;
-        public final Animation standBlastRight;
-        public final Animation hoverLeft;
-        public final Animation hoverRight;
-        public final Animation lookupHoverLeft;
-        public final Animation lookupHoverRight;
-        public final Animation lookdownHoverLeft;
-        public final Animation lookdownHoverRight;
-        public final Animation strideLeft;
-        public final Animation strideRight;
-        public final Animation backflipRight;
-        public final Animation frontflipRight;
-        public final Animation forehandRight;
-        public final Animation backhandRight;
-        public final Animation backflipLeft;
-        public final Animation frontflipLeft;
-        public final Animation forehandLeft;
-        public final Animation backhandLeft;
-        public final Animation downhandRight;
-        public final Animation uphandRight;
-        public final Animation downhandLeft;
-        public final Animation uphandLeft;
+        public final Animation standCharge;
+        public final Animation standBlast;
+        public final Animation hover;
+        public final Animation lookupHover;
+        public final Animation lookdownHover;
+        public final Animation stride;
+        public final Animation backflip;
+        public final Animation frontflip;
+        public final Animation forehand;
+        public final Animation backhand;
+        public final Animation downhand;
+        public final Animation uphand;
 
         private AvatarAssets(TextureAtlas atlas) {
-            standLeft = atlas.findRegion(Constants.STAND_LEFT);
-            standRight = atlas.findRegion(Constants.STAND_RIGHT);
-            standShootRight = atlas.findRegion(Constants.STAND_SHOOT_RIGHT);
-            blinkLeft = atlas.findRegion(Constants.BLINK_LEFT);
-            blinkRight = atlas.findRegion(Constants.BLINK_RIGHT);
-            lookbackLeft = atlas.findRegion(Constants.LOOKBACK_LEFT);
-            lookbackRight = atlas.findRegion(Constants.LOOKBACK_RIGHT);
-            recoilLeft = atlas.findRegion(Constants.RECOILING_LEFT);
-            recoilRight = atlas.findRegion(Constants.RECOILING_RIGHT);
-            fallLeft = atlas.findRegion(Constants.FALL_LEFT);
-            fallRight = atlas.findRegion(Constants.FALL_RIGHT);
-            lookupStandLeft = atlas.findRegion(Constants.LOOKUP_STAND_LEFT);
-            lookupStandRight = atlas.findRegion(Constants.LOOKUP_STAND_RIGHT);
-            lookdownStandLeft = atlas.findRegion(Constants.LOOKDOWN_STAND_LEFT);
-            lookdownStandRight = atlas.findRegion(Constants.LOOKDOWN_STAND_RIGHT);
-            lookupFallLeft = atlas.findRegion(Constants.LOOKUP_FALL_LEFT);
-            lookupFallRight = atlas.findRegion(Constants.LOOKUP_FALL_RIGHT);
-            lookdownFallLeft = atlas.findRegion(Constants.LOOKDOWN_FALL_LEFT);
-            lookdownFallRight = atlas.findRegion(Constants.LOOKDOWN_FALL_RIGHT);
-            dashLeft = atlas.findRegion(Constants.STRIDE_LEFT_2);
-            dashRight = atlas.findRegion(Constants.STRIDE_RIGHT_2);
-            rappelLeft = atlas.findRegion(Constants.RAPPEL_LEFT);
-            rappelRight = atlas.findRegion(Constants.RAPPEL_RIGHT);
-            graspLeft = atlas.findRegion(Constants.GRASP_LEFT);
-            graspRight = atlas.findRegion(Constants.GRASP_RIGHT);
+            stand = atlas.findRegion(Constants.STAND);
+            standShoot = atlas.findRegion(Constants.STAND_SHOOT);
+            blink = atlas.findRegion(Constants.BLINK);
+            lookback = atlas.findRegion(Constants.LOOKBACK);
+            recoil = atlas.findRegion(Constants.RECOILING);
+            fall = atlas.findRegion(Constants.FALL);
+            lookupStand = atlas.findRegion(Constants.LOOKUP_STAND);
+            lookdownStand = atlas.findRegion(Constants.LOOKDOWN_STAND);
+            lookupFall = atlas.findRegion(Constants.LOOKUP_FALL);
+            lookdownFall = atlas.findRegion(Constants.LOOKDOWN_FALL);
+            dash = atlas.findRegion(Constants.STRIDE_2);
+            rappel = atlas.findRegion(Constants.RAPPEL);
+            grasp = atlas.findRegion(Constants.GRASP);
             climb = atlas.findRegion(Constants.CLIMB);
 
             Array<AtlasRegion> standChargeFrames = new Array<AtlasRegion>();
-            standChargeFrames.add(atlas.findRegion(Constants.STAND_BLAST_RIGHT_1));
-            standChargeFrames.add(atlas.findRegion(Constants.STAND_BLAST_RIGHT_2));
-            standChargeRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, standChargeFrames, PlayMode.LOOP);
+            standChargeFrames.add(atlas.findRegion(Constants.STAND_BLAST_1));
+            standChargeFrames.add(atlas.findRegion(Constants.STAND_BLAST_2));
+            standCharge = new Animation(Constants.SIDESWIPE_FRAME_DURATION, standChargeFrames, PlayMode.LOOP);
 
-            standChargeFrames.add(atlas.findRegion(Constants.STAND_BLAST_RIGHT_3));
-            standBlastRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, standChargeFrames, PlayMode.LOOP);
-            
-            Array<AtlasRegion> hoverLeftFrames = new Array<AtlasRegion>();
-            hoverLeftFrames.add(atlas.findRegion(Constants.HOVER_LEFT_1));
-            hoverLeftFrames.add(atlas.findRegion(Constants.HOVER_LEFT_2));
-            hoverLeft = new Animation(Constants.HOVER_FRAME_DURATION, hoverLeftFrames, PlayMode.LOOP);
+            standChargeFrames.add(atlas.findRegion(Constants.STAND_BLAST_3));
+            standBlast = new Animation(Constants.SIDESWIPE_FRAME_DURATION, standChargeFrames, PlayMode.LOOP);
 
-            Array<AtlasRegion> hoverRightFrames = new Array<AtlasRegion>();
-            hoverRightFrames.add(atlas.findRegion(Constants.HOVER_RIGHT_1));
-            hoverRightFrames.add(atlas.findRegion(Constants.HOVER_RIGHT_2));
-            hoverRight = new Animation(Constants.HOVER_FRAME_DURATION, hoverRightFrames, PlayMode.LOOP);
+            Array<AtlasRegion> hoverFrames = new Array<AtlasRegion>();
+            hoverFrames.add(atlas.findRegion(Constants.HOVER_1));
+            hoverFrames.add(atlas.findRegion(Constants.HOVER_2));
+            hover = new Animation(Constants.HOVER_FRAME_DURATION, hoverFrames, PlayMode.LOOP);
 
-            Array<AtlasRegion> strideLeftFrames = new Array<AtlasRegion>();
-            strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_2));
-            strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_3));
-            strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_2));
-            strideLeftFrames.add(atlas.findRegion(Constants.STRIDE_LEFT_1));
-            strideLeft = new Animation(Constants.STRIDE_FRAME_DURATION, strideLeftFrames, PlayMode.LOOP);
+            Array<AtlasRegion> strideFrames = new Array<AtlasRegion>();
+            strideFrames.add(atlas.findRegion(Constants.STRIDE_2));
+            strideFrames.add(atlas.findRegion(Constants.STRIDE_1));
+            strideFrames.add(atlas.findRegion(Constants.STRIDE_2));
+            strideFrames.add(atlas.findRegion(Constants.STRIDE_3));
+            stride = new Animation(Constants.STRIDE_FRAME_DURATION, strideFrames, PlayMode.LOOP);
 
-            Array<AtlasRegion> strideRightFrames = new Array<AtlasRegion>();
-            strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_2));
-            strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_1));
-            strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_2));
-            strideRightFrames.add(atlas.findRegion(Constants.STRIDE_RIGHT_3));
-            strideRight = new Animation(Constants.STRIDE_FRAME_DURATION, strideRightFrames, PlayMode.LOOP);
+            Array<AtlasRegion> lookupHoverFrames = new Array<AtlasRegion>();
+            lookupHoverFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_1));
+            lookupHoverFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_2));
+            lookupHover = new Animation(Constants.HOVER_FRAME_DURATION, lookupHoverFrames, PlayMode.LOOP);
 
-            Array<AtlasRegion> lookupHoverLeftFrames = new Array<AtlasRegion>();
-            lookupHoverLeftFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_LEFT_1));
-            lookupHoverLeftFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_LEFT_2));
-            lookupHoverLeft = new Animation(Constants.HOVER_FRAME_DURATION, lookupHoverLeftFrames, PlayMode.LOOP);
+            Array<AtlasRegion> lookdownHoverFrames = new Array<AtlasRegion>();
+            lookdownHoverFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_1));
+            lookdownHoverFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_2));
+            lookdownHover = new Animation(Constants.HOVER_FRAME_DURATION, lookdownHoverFrames, PlayMode.LOOP);
 
-            Array<AtlasRegion> lookupHoverRightFrames = new Array<AtlasRegion>();
-            lookupHoverRightFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_RIGHT_1));
-            lookupHoverRightFrames.add(atlas.findRegion(Constants.LOOKUP_HOVER_RIGHT_2));
-            lookupHoverRight = new Animation(Constants.HOVER_FRAME_DURATION, lookupHoverRightFrames, PlayMode.LOOP);
+            Array<AtlasRegion> flipFrames = new Array<AtlasRegion>();
+            flipFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND));
+            flipFrames.add(atlas.findRegion(Constants.FLIPSWIPE_1));
+            flipFrames.add(atlas.findRegion(Constants.FLIPSWIPE_2));
+            flipFrames.add(atlas.findRegion(Constants.FLIPSWIPE_3));
+            flipFrames.add(atlas.findRegion(Constants.FLIPSWIPE_4));
+            flipFrames.add(atlas.findRegion(Constants.FLIPSWIPE_5));
+            backflip = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipFrames, PlayMode.LOOP);
 
-            Array<AtlasRegion> lookdownHoverLeftFrames = new Array<AtlasRegion>();
-            lookdownHoverLeftFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_LEFT_1));
-            lookdownHoverLeftFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_LEFT_2));
-            lookdownHoverLeft = new Animation(Constants.HOVER_FRAME_DURATION, lookdownHoverLeftFrames, PlayMode.LOOP);
+            frontflip = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipFrames, PlayMode.LOOP_REVERSED);
 
-            Array<AtlasRegion> lookdownHoverRightFrames = new Array<AtlasRegion>();
-            lookdownHoverRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_RIGHT_1));
-            lookdownHoverRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_HOVER_RIGHT_2));
-            lookdownHoverRight = new Animation(Constants.HOVER_FRAME_DURATION, lookdownHoverRightFrames, PlayMode.LOOP);
+            Array<AtlasRegion> rushFrames = new Array<AtlasRegion>();
+            rushFrames.add(atlas.findRegion(Constants.SIDESWIPE_1));
+            rushFrames.add(atlas.findRegion(Constants.SIDESWIPE_2));
+            rushFrames.add(atlas.findRegion(Constants.SIDESWIPE_3));
+            rushFrames.add(atlas.findRegion(Constants.SIDESWIPE_3));
+            forehand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, rushFrames, PlayMode.NORMAL);
 
-            Array<AtlasRegion> flipRightFrames = new Array<AtlasRegion>();
-            flipRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_RIGHT));
-            flipRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_1));
-            flipRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_2));
-            flipRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_3));
-            flipRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_4));
-            flipRightFrames.add(atlas.findRegion(Constants.FLIPSWIPE_RIGHT_5));
-            backflipRight = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipRightFrames, PlayMode.LOOP);
+            backhand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, rushFrames, PlayMode.REVERSED);
 
-            frontflipRight = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipRightFrames, PlayMode.LOOP_REVERSED);
+            Array<AtlasRegion> cutFrames = new Array<AtlasRegion>();
+            cutFrames.add(atlas.findRegion(Constants.LOOKUP_STAND));
+            cutFrames.add(atlas.findRegion(Constants.STAND));
+            cutFrames.add(atlas.findRegion(Constants.STAND));
+            cutFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND));
+            downhand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, cutFrames, PlayMode.NORMAL);
 
-            Array<AtlasRegion> rushRightFrames = new Array<AtlasRegion>();
-            rushRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_1));
-            rushRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_2));
-            rushRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_3));
-            rushRightFrames.add(atlas.findRegion(Constants.SIDESWIPE_RIGHT_3));
-            forehandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, rushRightFrames, PlayMode.NORMAL);
-
-            backhandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, rushRightFrames, PlayMode.REVERSED);
-
-            Array<AtlasRegion> cutRightFrames = new Array<AtlasRegion>();
-            cutRightFrames.add(atlas.findRegion(Constants.LOOKUP_STAND_RIGHT));
-            cutRightFrames.add(atlas.findRegion(Constants.STAND_RIGHT));
-            cutRightFrames.add(atlas.findRegion(Constants.STAND_RIGHT));
-            cutRightFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_RIGHT));
-            downhandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, cutRightFrames, PlayMode.NORMAL);
-
-            uphandRight = new Animation(Constants.SIDESWIPE_FRAME_DURATION, cutRightFrames, PlayMode.REVERSED);
-
-            Array<AtlasRegion> flipLeftFrames = new Array<AtlasRegion>();
-            flipLeftFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_LEFT));
-            flipLeftFrames.add(atlas.findRegion(Constants.FLIPSWIPE_LEFT_1));
-            flipLeftFrames.add(atlas.findRegion(Constants.FLIPSWIPE_LEFT_2));
-            flipLeftFrames.add(atlas.findRegion(Constants.FLIPSWIPE_LEFT_3));
-            flipLeftFrames.add(atlas.findRegion(Constants.FLIPSWIPE_LEFT_4));
-            flipLeftFrames.add(atlas.findRegion(Constants.FLIPSWIPE_LEFT_5));
-            backflipLeft = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipLeftFrames, PlayMode.LOOP);
-
-            frontflipLeft = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipLeftFrames, PlayMode.LOOP_REVERSED);
-
-            Array<AtlasRegion> rushLeftFrames = new Array<AtlasRegion>();
-            rushLeftFrames.add(atlas.findRegion(Constants.SIDESWIPE_LEFT_1));
-            rushLeftFrames.add(atlas.findRegion(Constants.SIDESWIPE_LEFT_2));
-            rushLeftFrames.add(atlas.findRegion(Constants.SIDESWIPE_LEFT_3));
-            rushLeftFrames.add(atlas.findRegion(Constants.SIDESWIPE_LEFT_3));
-            forehandLeft = new Animation(Constants.SIDESWIPE_FRAME_DURATION, rushLeftFrames, PlayMode.NORMAL);
-
-            backhandLeft = new Animation(Constants.SIDESWIPE_FRAME_DURATION, rushLeftFrames, PlayMode.REVERSED);
-
-            Array<AtlasRegion> cutLeftFrames = new Array<AtlasRegion>();
-            cutLeftFrames.add(atlas.findRegion(Constants.LOOKUP_STAND_LEFT));
-            cutLeftFrames.add(atlas.findRegion(Constants.STAND_LEFT));
-            cutLeftFrames.add(atlas.findRegion(Constants.STAND_LEFT));
-            cutLeftFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_LEFT));
-            downhandLeft = new Animation(Constants.SIDESWIPE_FRAME_DURATION, cutLeftFrames, PlayMode.NORMAL);
-
-            uphandLeft = new Animation(Constants.SIDESWIPE_FRAME_DURATION, cutLeftFrames, PlayMode.REVERSED);
+            uphand = new Animation(Constants.SIDESWIPE_FRAME_DURATION, cutFrames, PlayMode.REVERSED);
         }
     }
 
