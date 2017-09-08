@@ -144,6 +144,8 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation standBlast;
         public final Animation lookupStandCharge;
         public final Animation lookupStandBlast;
+        public final Animation lookdownStandCharge;
+        public final Animation lookdownStandBlast;
         public final Animation hover;
         public final Animation lookupHover;
         public final Animation lookdownHover;
@@ -186,7 +188,15 @@ public final class AssetManager implements AssetErrorListener {
 
             lookupStandChargeFrames.add(atlas.findRegion(Constants.LOOKUP_STAND_BLAST_3));
             lookupStandBlast = new Animation(Constants.SIDESWIPE_FRAME_DURATION, lookupStandChargeFrames, PlayMode.LOOP);
+            
+            Array<AtlasRegion> lookdownStandChargeFrames = new Array<AtlasRegion>();
+            lookdownStandChargeFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_BLAST_1));
+            lookdownStandChargeFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_BLAST_2));
+            lookdownStandCharge = new Animation(Constants.SIDESWIPE_FRAME_DURATION, lookdownStandChargeFrames, PlayMode.LOOP);
 
+            lookdownStandChargeFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_BLAST_3));
+            lookdownStandBlast = new Animation(Constants.SIDESWIPE_FRAME_DURATION, lookdownStandChargeFrames, PlayMode.LOOP);
+            
             Array<AtlasRegion> hoverFrames = new Array<AtlasRegion>();
             hoverFrames.add(atlas.findRegion(Constants.HOVER_1));
             hoverFrames.add(atlas.findRegion(Constants.HOVER_2));

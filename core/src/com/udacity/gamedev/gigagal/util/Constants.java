@@ -109,6 +109,9 @@ public final class Constants {
     public static final String LOOKUP_STAND_BLAST_2 = "avatar-lookup-stand-blast-2";
     public static final String LOOKUP_STAND_BLAST_3 = "avatar-lookup-stand-blast-3";
     public static final String LOOKDOWN_STAND = "avatar-lookdown-stand";
+    public static final String LOOKDOWN_STAND_BLAST_1 = "avatar-lookdown-stand-blast-1";
+    public static final String LOOKDOWN_STAND_BLAST_2 = "avatar-lookdown-stand-blast-2";
+    public static final String LOOKDOWN_STAND_BLAST_3 = "avatar-lookdown-stand-blast-3";
     public static final String LOOKUP_FALL = "avatar-lookup-fall";
     public static final String LOOKDOWN_FALL = "avatar-lookdown-fall";
     public static final String LOOKUP_HOVER_1 = "avatar-lookup-hover-1";

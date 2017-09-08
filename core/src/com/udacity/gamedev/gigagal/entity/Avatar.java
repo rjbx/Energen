@@ -1497,24 +1497,28 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             region = AssetManager.getInstance().getAvatarAssets().backflip.getKeyFrame(swipeTimeSeconds);
         } else if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
-                if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
+                if (action == Action.FALLING || action == Action.CLIMBING) {
+                    region = AssetManager.getInstance().getAvatarAssets().lookupFall;
+                } else if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
                     region = AssetManager.getInstance().getAvatarAssets().lookupStand;
                 } else if (shotIntensity != ShotIntensity.BLAST) {
                     region = AssetManager.getInstance().getAvatarAssets().lookupStandBlast.getKeyFrame(chargeTimeSeconds / 1.25f);
                 } else {
                     region = AssetManager.getInstance().getAvatarAssets().lookupStandBlast.getKeyFrame(chargeTimeSeconds / 2);
                 }
-                if (action == Action.FALLING || action == Action.CLIMBING) {
-                    region = AssetManager.getInstance().getAvatarAssets().lookupFall;
-                }
             } else if (directionY == Direction.DOWN) {
-                region = AssetManager.getInstance().getAvatarAssets().lookdownStand;
                 if (bladeState == BladeState.CUT) {
                     region = AssetManager.getInstance().getAvatarAssets().downhand.getKeyFrame(swipeTimeSeconds);
                 } else if (bladeState == BladeState.FLIP) {
                     region = AssetManager.getInstance().getAvatarAssets().frontflip.getKeyFrame(swipeTimeSeconds);
                 } else if (action == Action.FALLING || action == Action.CLIMBING) {
                     region = AssetManager.getInstance().getAvatarAssets().lookdownFall;
+                } else if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
+                    region = AssetManager.getInstance().getAvatarAssets().lookdownStand;
+                } else if (shotIntensity != ShotIntensity.BLAST) {
+                    region = AssetManager.getInstance().getAvatarAssets().lookdownStandBlast.getKeyFrame(chargeTimeSeconds / 1.25f);
+                } else {
+                    region = AssetManager.getInstance().getAvatarAssets().lookdownStandBlast.getKeyFrame(chargeTimeSeconds / 2);
                 }
             }
         } else if (action == Action.CLIMBING) {
