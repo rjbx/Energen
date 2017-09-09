@@ -184,7 +184,7 @@ class LevelUpdater {
                     boss.setBattleState(true);
                     if (musicEnabled) {
                         music = AssetManager.getInstance().getMusicAssets().boss;
-                        music.setLooping(true);
+                       music.setLooping(true);
                         music.play();
                     }
                 }
