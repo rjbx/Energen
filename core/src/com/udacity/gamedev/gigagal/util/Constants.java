@@ -64,7 +64,7 @@ public final class Constants {
     public static final float AVATAR_EYE_HEIGHT = 16.0f;
     public static final float AVATAR_STANCE_WIDTH = 20.25f;
     public static final Vector2 AVATAR_X_CANNON_OFFSET = new Vector2(17.5f, -5.75f);
-    public static final Vector2 AVATAR_Y_CANNON_OFFSET = new Vector2(4.5f, 9.5f);
+    public static final Vector2 AVATAR_Y_CANNON_OFFSET = new Vector2(6.625f, 9.5f);
     public static final float AVATAR_HEIGHT = 21.0f;
     public static final float AVATAR_HEAD_RADIUS = 5;
     public static final float AVATAR_STARTING_SPEED = 0.3f;

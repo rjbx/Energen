@@ -196,7 +196,7 @@ class LevelUpdater {
                     if (avatar.getDirectionY() == Direction.UP) {
                         spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
                     } else {
-                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
+                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
                     }
                 } else {
                     spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_X_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), avatar.getDirectionX(), Enums.Orientation.X, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
