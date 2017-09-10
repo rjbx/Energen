@@ -1225,6 +1225,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canStride = false;
             canDash = false;
         } else if (turbo >= 1) {
+            dashTimeSeconds = Helpers.secondsSince(dashStartTime);
             turbo -= Constants.DASH_TURBO_INCREMENT * turboMultiplier;
             velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED, directionX, Orientation.X);
         } else {
@@ -1509,7 +1510,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 //                region = AssetManager.getInstance().getAvatarAssets().climb;
                 break;
             case DASHING:
-//                region = AssetManager.getInstance().getAvatarAssets().dash;
+                backArm = AssetManager.getInstance().getAvatarAssets().relax;
+                frontArm = AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(2);
+                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
+                legs = AssetManager.getInstance().getAvatarAssets().legsDash.getKeyFrame(dashTimeSeconds);
                 break;
             case FALLING:
                 backArm = AssetManager.getInstance().getAvatarAssets().reach;
@@ -1527,9 +1531,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 break;
             case HOVERING:
                 backArm = AssetManager.getInstance().getAvatarAssets().relax;
-                frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                frontArm = AssetManager.getInstance().getAvatarAssets().release;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                legs = AssetManager.getInstance().getAvatarAssets().legsStand;
+                legs = AssetManager.getInstance().getAvatarAssets().legsHover.getKeyFrame(hoverTimeSeconds);
                 break;
             case RAPPELLING:
 //            if (canHurdle) {
@@ -1571,7 +1575,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getAvatarAssets().torso, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
         Helpers.drawTextureRegion(batch, viewport, backArm, position, Constants.AVATAR_EYE_POSITION, 1, 0, !flip, false);
         Helpers.drawTextureRegion(batch, viewport, legs, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
-
         if (inputControls.shootButtonPressed) {
             if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
                 Helpers.drawTextureRegion(batch, viewport, shoot.getKeyFrame(0), position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
@@ -1582,10 +1585,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
         } else {
             Helpers.drawTextureRegion(batch, viewport, frontArm, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
-        }
-
-        if (action == Action.HOVERING) {
-            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getAvatarAssets().hover.getKeyFrame(hoverTimeSeconds), position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
         }
     }
 

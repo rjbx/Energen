@@ -137,6 +137,7 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation armCurl;
         public final Animation armSwing;
         public final Animation legsStride;
+        public final Animation legsDash;
         public final Animation pointForward;
         public final Animation pointUp;
         public final Animation pointDown;
@@ -163,7 +164,7 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation lookupStandBlast;
         public final Animation lookdownStandCharge;
         public final Animation lookdownStandBlast;
-        public final Animation hover;
+        public final Animation legsHover;
         public final Animation lookupHover;
         public final Animation lookdownHover;
         public final Animation stride;
@@ -207,6 +208,16 @@ public final class AssetManager implements AssetErrorListener {
             legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_2));
             legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_3));
             legsStride = new Animation(Constants.SIDESWIPE_FRAME_DURATION, legStrideFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> legsDashFrames = new Array<AtlasRegion>();
+            legsDashFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_2));
+            legsDashFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_4));
+            legsDash = new Animation(Constants.HOVER_FRAME_DURATION, legsDashFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> hoverFrames = new Array<AtlasRegion>();
+            hoverFrames.add(atlas.findRegion(Constants.LEGS_HOVER_1));
+            hoverFrames.add(atlas.findRegion(Constants.LEGS_HOVER_2));
+            legsHover = new Animation(Constants.HOVER_FRAME_DURATION, hoverFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> armSwingFrames = new Array<AtlasRegion>();
             armSwingFrames.add(atlas.findRegion(Constants.ARM_CLENCH));
@@ -264,11 +275,6 @@ public final class AssetManager implements AssetErrorListener {
 
             lookdownStandChargeFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_BLAST_3));
             lookdownStandBlast = new Animation(Constants.SIDESWIPE_FRAME_DURATION, lookdownStandChargeFrames, PlayMode.LOOP);
-
-            Array<AtlasRegion> hoverFrames = new Array<AtlasRegion>();
-            hoverFrames.add(atlas.findRegion(Constants.HOVER_1));
-            hoverFrames.add(atlas.findRegion(Constants.HOVER_2));
-            hover = new Animation(Constants.HOVER_FRAME_DURATION, hoverFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> strideFrames = new Array<AtlasRegion>();
             strideFrames.add(atlas.findRegion(Constants.STRIDE_2));
