@@ -117,7 +117,8 @@ public final class Constants {
     public static final String LEGS_STRIDE_2 = "avatar-legs-stride-2";
     public static final String LEGS_STRIDE_3 = "avatar-legs-stride-3";
     public static final String LEGS_STRIDE_4 = "avatar-legs-stride-4";
-    public static final String LEGS_STRIDE_5 = "avatar-legs-stride-5";
+    public static final String LEGS_HOVER_1 = "avatar-legs-hover-1";
+    public static final String LEGS_HOVER_2 = "avatar-legs-hover-2";
 
     public static final String STAND = "avatar-stand";
     public static final String STAND_SHOOT = "avatar-stand-shoot";
@@ -144,8 +145,6 @@ public final class Constants {
     public static final String LOOKDOWN_HOVER_1 = "avatar-lookdown-hover-1";
     public static final String LOOKUP_HOVER_2 = "avatar-lookup-hover-2";
     public static final String LOOKDOWN_HOVER_2 = "avatar-lookdown-hover-2";
-    public static final String LEGS_HOVER_1 = "avatar-hover-1";
-    public static final String LEGS_HOVER_2 = "avatar-hover-2";
     public static final float HOVER_FRAME_DURATION = 0.125f;
     public static final String GRASP = "avatar-grasp";
     public static final String RAPPEL = "avatar-rappel";
