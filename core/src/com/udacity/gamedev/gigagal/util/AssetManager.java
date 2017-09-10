@@ -134,6 +134,9 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion clench;
         public final AtlasRegion legsStand;
         public final AtlasRegion legsFall;
+        public final Animation armCurl;
+        public final Animation armSwing;
+        public final Animation legsStride;
         public final Animation pointForward;
         public final Animation pointUp;
         public final Animation pointDown;
@@ -197,6 +200,23 @@ public final class AssetManager implements AssetErrorListener {
             lowerFrames.add(atlas.findRegion(Constants.ARM_LOWER_1));
             lowerFrames.add(atlas.findRegion(Constants.ARM_LOWER_2));
             pointDown = new Animation(Constants.SIDESWIPE_FRAME_DURATION, lowerFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> legStrideFrames = new Array<AtlasRegion>();
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_2));
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_1));
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_2));
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_3));
+            legsStride = new Animation(Constants.SIDESWIPE_FRAME_DURATION, legStrideFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> armSwingFrames = new Array<AtlasRegion>();
+            armSwingFrames.add(atlas.findRegion(Constants.ARM_CLENCH));
+            armSwingFrames.add(atlas.findRegion(Constants.ARM_RELAX));
+            armSwing = new Animation(Constants.SIDESWIPE_FRAME_DURATION, armSwingFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> armCurlFrames = new Array<AtlasRegion>();
+            armCurlFrames.add(atlas.findRegion(Constants.ARM_RELEASE));
+            armCurlFrames.add(atlas.findRegion(Constants.ARM_CURL));
+            armCurl = new Animation(Constants.SIDESWIPE_FRAME_DURATION, armCurlFrames, PlayMode.LOOP);
 
             stand = atlas.findRegion(Constants.STAND);
             standShoot = atlas.findRegion(Constants.STAND_SHOOT);

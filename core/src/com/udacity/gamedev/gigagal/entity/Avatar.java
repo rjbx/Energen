@@ -1494,12 +1494,16 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         switch (action) {
             case STANDING:
                 backArm = AssetManager.getInstance().getAvatarAssets().relax;
-                frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                frontArm = AssetManager.getInstance().getAvatarAssets().release;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 legs = AssetManager.getInstance().getAvatarAssets().legsStand;
                 break;
             case STRIDING:
-//                region = AssetManager.getInstance().getAvatarAssets().stride.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
+                backArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 2);
+                frontArm = AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 2);
+                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
+                legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame);
                 break;
             case CLIMBING:
 //                region = AssetManager.getInstance().getAvatarAssets().climb;
