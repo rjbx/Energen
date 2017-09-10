@@ -95,6 +95,24 @@ public final class Constants {
     public static final float MAX_TURBO = 100;
 
     // Avatar assets
+    public static final String TORSO = "avatar-torso";
+    public static final String ARM_RELEASE = "avatar-arm-release";
+    public static final String ARM_RELAX = "avatar-arm-relax";
+    public static final String ARM_CLENCH = "avatar-arm-clench";
+    public static final String ARM_SHOOT = "avatar-arm-shoot";
+    public static final String ARM_RAISE = "avatar-arm-raise";
+    public static final String ARM_RAISE_1 = "avatar-arm-raise-1";
+    public static final String ARM_RAISE_2 = "avatar-arm-raise-2";
+    public static final String ARM_LOWER = "avatar-arm-lower";
+    public static final String ARM_LOWER_1 = "avatar-arm-lower-1";
+    public static final String ARM_LOWER_2 = "avatar-arm-lower-2";
+
+    public static final String ARM_BLAST_1 = "avatar-arm-blast-1";
+    public static final String ARM_BLAST_2 = "avatar-arm-blast-2";
+    public static final String ARM_REACH = "avatar-arm-reach";
+    public static final String LEGS_STAND = "avatar-legs-stand";
+    public static final String LEGS_FALL = "avatar-legs-fall";
+
     public static final String STAND = "avatar-stand";
     public static final String STAND_SHOOT = "avatar-stand-shoot";
     public static final String STAND_BLAST_1 = "avatar-stand-blast-1";
@@ -104,6 +122,8 @@ public final class Constants {
     public static final String LOOKBACK = "avatar-stand-lookback";
     public static final String RECOILING = "avatar-recoil";
     public static final String FALL = "avatar-fall";
+    public static final String FALL_BLAST_1 = "avatar-fall-blast-1";
+    public static final String FALL_BLAST_2 = "avatar-fall-blast-2";
     public static final String LOOKUP_STAND = "avatar-lookup-stand";
     public static final String LOOKUP_STAND_BLAST_1 = "avatar-lookup-stand-blast-1";
     public static final String LOOKUP_STAND_BLAST_2 = "avatar-lookup-stand-blast-2";
@@ -155,7 +175,7 @@ public final class Constants {
     public static final String BOSS_LIQUID_LOOKUP_FALL_RIGHT = "boss-liquid-lookup-fall-right";
     public static final String BOSS_LIQUID_LOOKDOWN_FALL_LEFT = "boss-liquid-lookdown-fall-left";
     public static final String BOSS_LIQUID_LOOKDOWN_FALL_RIGHT = "boss-liquid-lookdown-fall-right";
-    
+
     // Background
     public static final String BACKGROUND_HOME_SPRITE = "background-home";
     public static final String BACKGROUND_ORE_SPRITE = "background-ore";
@@ -238,7 +258,7 @@ public final class Constants {
     public static final float TRIPKNOB_LOAD_DURATION = 0.25f;
     public static final float TRIPKNOB_UNLOAD_DURATION = 0.5f;
     public static final float TRIPKNOB_SHOT_RADIUS = 6;
-    
+
     // Triptread
     public static final Vector2 TRIPTREAD_CENTER = new Vector2(19, 9);
     public static final String TRIPTREAD_SPRITE_1_LEFT_OFF = "treadmill-trip-1-left-off";
@@ -251,7 +271,7 @@ public final class Constants {
     public static final String TRIPTREAD_SPRITE_2_RIGHT_ON = "treadmill-trip-2-right-on";
     public static final float TRIPTREAD_DURATION = .1f;
     public static final float TRIPTREAD_SPEED = 175;
-    
+
     // Tripchamber
     public static final Vector2 TRIPCHAMBER_CENTER = new Vector2(4.5f, 6);
     public static final String TRIPCHAMBER_SPRITE_1_OFF = "chamber-trip-1-off";
@@ -259,7 +279,7 @@ public final class Constants {
     public static final String TRIPCHAMBER_SPRITE_2_OFF = "chamber-trip-2-off";
     public static final String TRIPCHAMBER_SPRITE_2_ON = "chamber-trip-2-on";
     public static final float TRIPCHAMBER_LOAD_DURATION = 0.1f;
-    
+
     // Tripspring
     public static final Vector2 LEVER_CENTER = new Vector2(14.5f, 3);
     public static final String LEVER_SPRITE_1 = "lever-1";
@@ -360,7 +380,7 @@ public final class Constants {
 
     public static final String FIERYZOOMBA_SPRITE_1_RIGHT = "zoomba-gas-1-right";
     public static final String FIERYZOOMBA_SPRITE_2_RIGHT = "zoomba-gas-2-right";
-    
+
     public static final String FIERYZOOMBA_SPRITE_1_UP = "zoomba-gas-1-up";
     public static final String FIERYZOOMBA_SPRITE_2_UP = "zoomba-gas-2-up";
 
@@ -478,7 +498,7 @@ public final class Constants {
     public static final String ROLLEN_SOLID_SPRITE_1 = "rollen-solid-1";
     public static final String ROLLEN_SOLID_SPRITE_2 = "rollen-solid-2";
     public static final String ROLLEN_SOLID_SPRITE_3 = "rollen-solid-3";
-    
+
     // Armorollen
     public static final String ARMOROLLO_LIQUID_SPRITE_0 = "armorollo-liquid-0";
     public static final String ARMOROLLO_LIQUID_SPRITE_1 = "armorollo-liquid-1";
@@ -610,7 +630,7 @@ public final class Constants {
     public static final String TELEPORT_SPRITE_1 = "teleport-1";
     public static final String TELEPORT_SPRITE_2 = "teleport-2";
     public static final String TELEPORT_SPRITE_3 = "teleport-3";
-    
+
     // Gate
     public static final String GATE_SPRITE_0 = "gate-0";
     public static final String GATE_SPRITE_1 = "gate-1";
@@ -706,7 +726,7 @@ public final class Constants {
     public static final String SIDESWIPE_PLASMA_SPRITE_1 = "blade-side-plasma-1";
     public static final String SIDESWIPE_PLASMA_SPRITE_2 = "blade-side-plasma-2";
     public static final String SIDESWIPE_PLASMA_SPRITE_3 = "blade-side-plasma-3";
-    
+
     public static final String FLIPSWIPE_GAS_SPRITE_1 = "blade-flip-gas-1";
     public static final String FLIPSWIPE_GAS_SPRITE_2 = "blade-flip-gas-2";
     public static final String FLIPSWIPE_GAS_SPRITE_3 = "blade-flip-gas-3";
@@ -746,7 +766,7 @@ public final class Constants {
     public static final String SIDESWIPE_ANTIMATTER_SPRITE_1 = "blade-side-psychic-1";
     public static final String SIDESWIPE_ANTIMATTER_SPRITE_2 = "blade-side-psychic-2";
     public static final String SIDESWIPE_ANTIMATTER_SPRITE_3 = "blade-side-psychic-3";
-    
+
     public static final String FLIPSWIPE_HYBRID_SPRITE_1 = "blade-flip-hybrid-1";
     public static final String FLIPSWIPE_HYBRID_SPRITE_2 = "blade-flip-hybrid-2";
     public static final String FLIPSWIPE_HYBRID_SPRITE_3 = "blade-flip-hybrid-3";

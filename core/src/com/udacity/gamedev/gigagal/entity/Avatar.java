@@ -1,6 +1,7 @@
 package com.udacity.gamedev.gigagal.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -1485,6 +1486,72 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         boolean flip = directionX == Direction.LEFT;
+        TextureRegion backArm = null;
+        TextureRegion frontArm = null;
+        Animation shoot = null;
+        TextureRegion legs = null;
+
+        switch (action) {
+            case STANDING:
+                backArm = AssetManager.getInstance().getAvatarAssets().relax;
+                frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
+                legs = AssetManager.getInstance().getAvatarAssets().legsStand;
+                break;
+            case STRIDING:
+//                region = AssetManager.getInstance().getAvatarAssets().stride.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
+                break;
+            case CLIMBING:
+//                region = AssetManager.getInstance().getAvatarAssets().climb;
+                break;
+            case DASHING:
+//                region = AssetManager.getInstance().getAvatarAssets().dash;
+                break;
+            case FALLING:
+                backArm = AssetManager.getInstance().getAvatarAssets().reach;
+                frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
+                legs = AssetManager.getInstance().getAvatarAssets().legsFall;
+                break;
+            case JUMPING:
+                backArm = AssetManager.getInstance().getAvatarAssets().reach;
+                frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
+                legs = AssetManager.getInstance().getAvatarAssets().legsFall;
+                break;
+            case TWISTING:
+                break;
+            case HOVERING:
+                backArm = AssetManager.getInstance().getAvatarAssets().relax;
+                frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
+                legs = AssetManager.getInstance().getAvatarAssets().legsStand;
+                break;
+            case RAPPELLING:
+//            if (canHurdle) {
+//                region = AssetManager.getInstance().getAvatarAssets().grasp;
+//            } else {
+//                region = AssetManager.getInstance().getAvatarAssets().rappel;
+//            }
+                break;
+            case RECOILING:
+//                region = AssetManager.getInstance().getAvatarAssets().recoil;
+                break;
+        }
+
+        if (lookStartTime != 0) {
+            if (directionY == Direction.UP) {
+                backArm = AssetManager.getInstance().getAvatarAssets().clench;
+                frontArm = AssetManager.getInstance().getAvatarAssets().pointUp.getKeyFrame(0);
+                shoot = AssetManager.getInstance().getAvatarAssets().pointUp;
+
+            } else {
+                backArm = AssetManager.getInstance().getAvatarAssets().reach;
+                frontArm = AssetManager.getInstance().getAvatarAssets().pointDown.getKeyFrame(0);
+                shoot = AssetManager.getInstance().getAvatarAssets().pointDown;
+            }
+        }
+
         if (bladeState == BladeState.RUSH) {
             if (inputControls.rightButtonPressed) {
                 region = AssetManager.getInstance().getAvatarAssets().forehand.getKeyFrame(swipeTimeSeconds);
@@ -1495,70 +1562,24 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             region = AssetManager.getInstance().getAvatarAssets().uphand.getKeyFrame(swipeTimeSeconds);
         } else if (bladeState == BladeState.FLIP) {
             region = AssetManager.getInstance().getAvatarAssets().backflip.getKeyFrame(swipeTimeSeconds);
-        } else if (lookStartTime != 0) {
-            if (directionY == Direction.UP) {
-                if (action == Action.FALLING || action == Action.CLIMBING) {
-                    region = AssetManager.getInstance().getAvatarAssets().lookupFall;
-                } else if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
-                    region = AssetManager.getInstance().getAvatarAssets().lookupStand;
-                } else if (shotIntensity != ShotIntensity.BLAST) {
-                    region = AssetManager.getInstance().getAvatarAssets().lookupStandBlast.getKeyFrame(chargeTimeSeconds / 1.25f);
-                } else {
-                    region = AssetManager.getInstance().getAvatarAssets().lookupStandBlast.getKeyFrame(chargeTimeSeconds / 2);
-                }
-            } else if (directionY == Direction.DOWN) {
-                if (bladeState == BladeState.CUT) {
-                    region = AssetManager.getInstance().getAvatarAssets().downhand.getKeyFrame(swipeTimeSeconds);
-                } else if (bladeState == BladeState.FLIP) {
-                    region = AssetManager.getInstance().getAvatarAssets().frontflip.getKeyFrame(swipeTimeSeconds);
-                } else if (action == Action.FALLING || action == Action.CLIMBING) {
-                    region = AssetManager.getInstance().getAvatarAssets().lookdownFall;
-                } else if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
-                    region = AssetManager.getInstance().getAvatarAssets().lookdownStand;
-                } else if (shotIntensity != ShotIntensity.BLAST) {
-                    region = AssetManager.getInstance().getAvatarAssets().lookdownStandBlast.getKeyFrame(chargeTimeSeconds / 1.25f);
-                } else {
-                    region = AssetManager.getInstance().getAvatarAssets().lookdownStandBlast.getKeyFrame(chargeTimeSeconds / 2);
-                }
-            }
-        } else if (action == Action.CLIMBING) {
-            region = AssetManager.getInstance().getAvatarAssets().climb ;
-        } else if (action == Action.STANDING || action == Action.HOVERING) {
-            if (!inputControls.shootButtonPressed) {
-                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
-                        ((Helpers.secondsSince(standStartTime) % 10 < .15f)
-                                || (Helpers.secondsSince(standStartTime) % 14 < .1f)
-                                || (Helpers.secondsSince(standStartTime) % 15 < .25f)
-                                || (Helpers.secondsSince(standStartTime) > 60)))) {
-                    region = AssetManager.getInstance().getAvatarAssets().blink;
-                } else if (!canPeer || Helpers.secondsSince(standStartTime) < .5f) {
-                    region = AssetManager.getInstance().getAvatarAssets().stand;
-                } else {
-                    region = AssetManager.getInstance().getAvatarAssets().lookback;
-                }
-            } else if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
-                region = AssetManager.getInstance().getAvatarAssets().standShoot;
-            } else if (shotIntensity != ShotIntensity.BLAST) {
-                region = AssetManager.getInstance().getAvatarAssets().standCharge.getKeyFrame(chargeTimeSeconds / 1.25f);
-            } else {
-                region = AssetManager.getInstance().getAvatarAssets().standBlast.getKeyFrame(chargeTimeSeconds / 2);
-            }
-        } else if (action == Action.STRIDING) {
-            region = AssetManager.getInstance().getAvatarAssets().stride.getKeyFrame(Math.min(strideAcceleration * strideAcceleration, strideAcceleration));
-        } else if (action == Action.DASHING) {
-            region = AssetManager.getInstance().getAvatarAssets().dash;
-        } else if (action == Action.RAPPELLING) {
-            if (canHurdle) {
-                region = AssetManager.getInstance().getAvatarAssets().grasp;
-            } else {
-                region = AssetManager.getInstance().getAvatarAssets().rappel;
-            }
-        } else if (action == Action.RECOILING){
-            region = AssetManager.getInstance().getAvatarAssets().recoil;
-        } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
-            region = AssetManager.getInstance().getAvatarAssets().fall;
         }
-        Helpers.drawTextureRegion(batch, viewport, region, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+
+        Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getAvatarAssets().torso, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+        Helpers.drawTextureRegion(batch, viewport, backArm, position, Constants.AVATAR_EYE_POSITION, 1, 0, !flip, false);
+        Helpers.drawTextureRegion(batch, viewport, legs, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+
+        if (inputControls.shootButtonPressed) {
+            if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
+                Helpers.drawTextureRegion(batch, viewport, shoot.getKeyFrame(0), position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+            } else if (shotIntensity != ShotIntensity.BLAST) {
+                Helpers.drawTextureRegion(batch, viewport, shoot.getKeyFrame(chargeTimeSeconds / 1.25f), position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+            } else {
+                Helpers.drawTextureRegion(batch, viewport, shoot.getKeyFrame(chargeTimeSeconds / 2), position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+            }
+        } else {
+            Helpers.drawTextureRegion(batch, viewport, frontArm, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+        }
+
         if (action == Action.HOVERING) {
             Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getAvatarAssets().hover.getKeyFrame(hoverTimeSeconds), position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
         }
@@ -1686,7 +1707,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         if (upgradeList.contains(Upgrade.TURBO)) {
             turboMultiplier = .7f;
-        }         
+        }
         if (upgradeList.contains(Upgrade.STRIDE)) {
             strideMultiplier = 1.35f;
         }

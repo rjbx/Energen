@@ -126,12 +126,24 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class AvatarAssets {
 
+        public final AtlasRegion torso;
+        public final AtlasRegion shoot;
+        public final AtlasRegion release;
+        public final AtlasRegion relax;
+        public final AtlasRegion reach;
+        public final AtlasRegion clench;
+        public final AtlasRegion legsStand;
+        public final AtlasRegion legsFall;
+        public final Animation pointForward;
+        public final Animation pointUp;
+        public final Animation pointDown;
+
         public final AtlasRegion stand;
         public final AtlasRegion standShoot;
         public final AtlasRegion blink;
         public final AtlasRegion lookback;
-        public final AtlasRegion recoil;
         public final AtlasRegion fall;
+        public final AtlasRegion recoil;
         public final AtlasRegion lookupStand;
         public final AtlasRegion lookdownStand;
         public final AtlasRegion lookupFall;
@@ -142,6 +154,8 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion climb;
         public final Animation standCharge;
         public final Animation standBlast;
+        public final Animation fallCharge;
+        public final Animation fallBlast;
         public final Animation lookupStandCharge;
         public final Animation lookupStandBlast;
         public final Animation lookdownStandCharge;
@@ -158,12 +172,38 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation uphand;
 
         private AvatarAssets(TextureAtlas atlas) {
+            torso = atlas.findRegion(Constants.TORSO);
+            shoot = atlas.findRegion(Constants.ARM_SHOOT);
+            release = atlas.findRegion(Constants.ARM_RELEASE);
+            relax = atlas.findRegion(Constants.ARM_RELAX);
+            reach = atlas.findRegion(Constants.ARM_REACH);
+            clench = atlas.findRegion(Constants.ARM_CLENCH);
+            legsFall = atlas.findRegion(Constants.LEGS_FALL);
+            legsStand = atlas.findRegion(Constants.LEGS_STAND);
+
+            Array<AtlasRegion> chargeFrames = new Array<AtlasRegion>();
+            chargeFrames.add(atlas.findRegion(Constants.ARM_SHOOT));
+            chargeFrames.add(atlas.findRegion(Constants.ARM_BLAST_1));
+            pointForward = new Animation(Constants.SIDESWIPE_FRAME_DURATION, chargeFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> raiseFrames = new Array<AtlasRegion>();
+            raiseFrames.add(atlas.findRegion(Constants.ARM_RAISE));
+            raiseFrames.add(atlas.findRegion(Constants.ARM_RAISE_1));
+            raiseFrames.add(atlas.findRegion(Constants.ARM_RAISE_2));
+            pointUp = new Animation(Constants.SIDESWIPE_FRAME_DURATION, raiseFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> lowerFrames = new Array<AtlasRegion>();
+            lowerFrames.add(atlas.findRegion(Constants.ARM_LOWER));
+            lowerFrames.add(atlas.findRegion(Constants.ARM_LOWER_1));
+            lowerFrames.add(atlas.findRegion(Constants.ARM_LOWER_2));
+            pointDown = new Animation(Constants.SIDESWIPE_FRAME_DURATION, lowerFrames, PlayMode.LOOP);
+
             stand = atlas.findRegion(Constants.STAND);
             standShoot = atlas.findRegion(Constants.STAND_SHOOT);
+            fall = atlas.findRegion(Constants.FALL);
             blink = atlas.findRegion(Constants.BLINK);
             lookback = atlas.findRegion(Constants.LOOKBACK);
             recoil = atlas.findRegion(Constants.RECOILING);
-            fall = atlas.findRegion(Constants.FALL);
             lookupStand = atlas.findRegion(Constants.LOOKUP_STAND);
             lookdownStand = atlas.findRegion(Constants.LOOKDOWN_STAND);
             lookupFall = atlas.findRegion(Constants.LOOKUP_FALL);
@@ -181,6 +221,14 @@ public final class AssetManager implements AssetErrorListener {
             standChargeFrames.add(atlas.findRegion(Constants.STAND_BLAST_3));
             standBlast = new Animation(Constants.SIDESWIPE_FRAME_DURATION, standChargeFrames, PlayMode.LOOP);
 
+            Array<AtlasRegion> fallChargeFrames = new Array<AtlasRegion>();
+            fallChargeFrames.add(atlas.findRegion(Constants.FALL));
+            fallChargeFrames.add(atlas.findRegion(Constants.FALL_BLAST_1));
+            fallCharge = new Animation(Constants.SIDESWIPE_FRAME_DURATION, fallChargeFrames, PlayMode.LOOP);
+
+            fallChargeFrames.add(atlas.findRegion(Constants.FALL_BLAST_2));
+            fallBlast = new Animation(Constants.SIDESWIPE_FRAME_DURATION, fallChargeFrames, PlayMode.LOOP);
+
             Array<AtlasRegion> lookupStandChargeFrames = new Array<AtlasRegion>();
             lookupStandChargeFrames.add(atlas.findRegion(Constants.LOOKUP_STAND_BLAST_1));
             lookupStandChargeFrames.add(atlas.findRegion(Constants.LOOKUP_STAND_BLAST_2));
@@ -188,7 +236,7 @@ public final class AssetManager implements AssetErrorListener {
 
             lookupStandChargeFrames.add(atlas.findRegion(Constants.LOOKUP_STAND_BLAST_3));
             lookupStandBlast = new Animation(Constants.SIDESWIPE_FRAME_DURATION, lookupStandChargeFrames, PlayMode.LOOP);
-            
+
             Array<AtlasRegion> lookdownStandChargeFrames = new Array<AtlasRegion>();
             lookdownStandChargeFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_BLAST_1));
             lookdownStandChargeFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_BLAST_2));
@@ -196,7 +244,7 @@ public final class AssetManager implements AssetErrorListener {
 
             lookdownStandChargeFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND_BLAST_3));
             lookdownStandBlast = new Animation(Constants.SIDESWIPE_FRAME_DURATION, lookdownStandChargeFrames, PlayMode.LOOP);
-            
+
             Array<AtlasRegion> hoverFrames = new Array<AtlasRegion>();
             hoverFrames.add(atlas.findRegion(Constants.HOVER_1));
             hoverFrames.add(atlas.findRegion(Constants.HOVER_2));
@@ -327,7 +375,7 @@ public final class AssetManager implements AssetErrorListener {
     }
 
     public static final class GroundAssets {
-        
+
         public final NinePatch ladderNinePatch;
         public final AtlasRegion lift;
         public final AtlasRegion yCannon;
@@ -612,7 +660,7 @@ public final class AssetManager implements AssetErrorListener {
             nativeBlastRegions.add(atlas.findRegion(Constants.BLAST_NATIVE_SPRITE_2));
             nativeBlastRegions.add(atlas.findRegion(Constants.BLAST_NATIVE_SPRITE_3));
             nativeBlast = new Animation(Constants.SHOT_FRAME_DURATION, nativeBlastRegions, PlayMode.LOOP_PINGPONG);
-            
+
             Array<AtlasRegion> oreShotRegions = new Array<AtlasRegion>();
             oreShotRegions.add(atlas.findRegion(Constants.SHOT_ORE_SPRITE_1));
             oreShotRegions.add(atlas.findRegion(Constants.SHOT_ORE_SPRITE_2));
@@ -668,7 +716,7 @@ public final class AssetManager implements AssetErrorListener {
             plasmaBlastRegions.add(atlas.findRegion(Constants.BLAST_PLASMA_SPRITE_2));
             plasmaBlastRegions.add(atlas.findRegion(Constants.BLAST_PLASMA_SPRITE_3));
             plasmaBlast = new Animation(Constants.SHOT_FRAME_DURATION, plasmaBlastRegions, PlayMode.LOOP_PINGPONG);
-            
+
             Array<AtlasRegion> antimatterShotRegions = new Array<AtlasRegion>();
             antimatterShotRegions.add(atlas.findRegion(Constants.SHOT_ANTIMATTER_SPRITE_1));
             antimatterShotRegions.add(atlas.findRegion(Constants.SHOT_ANTIMATTER_SPRITE_2));
@@ -679,7 +727,7 @@ public final class AssetManager implements AssetErrorListener {
             antimatterBlastRegions.add(atlas.findRegion(Constants.BLAST_ANTIMATTER_SPRITE_2));
             antimatterBlastRegions.add(atlas.findRegion(Constants.BLAST_ANTIMATTER_SPRITE_3));
             antimatterBlast = new Animation(Constants.SHOT_FRAME_DURATION, antimatterBlastRegions, PlayMode.LOOP_PINGPONG);
-            
+
             Array<AtlasRegion> hybridShotRegions = new Array<AtlasRegion>();
             hybridShotRegions.add(atlas.findRegion(Constants.SHOT_HYBRID_SPRITE));
             hybridShotRegions.add(atlas.findRegion(Constants.SHOT_HYBRID_SPRITE_2));
@@ -719,9 +767,9 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation hybridBackflip;
         public final Animation hybridForehand;
         public final Animation hybridUppercut;
-        
+
         private BladeAssets(TextureAtlas atlas) {
-            
+
             Array<AtlasRegion> flipSwipeNativeRegions = new Array<AtlasRegion>();
             flipSwipeNativeRegions.add(atlas.findRegion(Constants.FLIPSWIPE_NATIVE_SPRITE_1));
             flipSwipeNativeRegions.add(atlas.findRegion(Constants.SIDESWIPE_NATIVE_SPRITE_3));
@@ -907,13 +955,13 @@ public final class AssetManager implements AssetErrorListener {
             hybridUppercut = new Animation(Constants.SIDESWIPE_FRAME_DURATION, vertSwipeHybridRegions, PlayMode.NORMAL);
         }
     }
-    
+
     public static final class CanirolAssets {
-        
+
         public final Animation xLeftCanirol;
         public final Animation xRightCanirol;
         public final Animation yCanirol;
-        
+
         private CanirolAssets(TextureAtlas atlas) {
             Array<AtlasRegion> xLeftCanirolRegions = new Array<AtlasRegion>();
             xLeftCanirolRegions.add(atlas.findRegion(Constants.X_CANIROL_SPRITE_1));
@@ -968,7 +1016,7 @@ public final class AssetManager implements AssetErrorListener {
             gasZoombaRightRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_1_RIGHT));
             gasZoombaRightRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_2_RIGHT));
             gasZoombaRight = new Animation(Constants.PROTRUSION_GAS_DURATION / gasZoombaRightRegions.size, gasZoombaRightRegions, PlayMode.NORMAL);
-            
+
             Array<AtlasRegion> gasZoombaDownRegions = new Array<AtlasRegion>();
             gasZoombaDownRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_1_DOWN));
             gasZoombaDownRegions.add(atlas.findRegion(Constants.FIERYZOOMBA_SPRITE_2_DOWN));
@@ -984,7 +1032,7 @@ public final class AssetManager implements AssetErrorListener {
             gasAnimations.add(gasZoombaRight);
             gasAnimations.add(gasZoombaDown);
             gasAnimations.add(gasZoombaUp);
-            
+
             Array<AtlasRegion> liquidZoombaRegions = new Array<AtlasRegion>();
             liquidZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_1));
             liquidZoombaRegions.add(atlas.findRegion(Constants.GUSHINGZOOMBA_SPRITE_2));
@@ -1266,7 +1314,7 @@ public final class AssetManager implements AssetErrorListener {
 
             teleport = new Animation(Constants.TELEPORT_FRAME_DURATION,
                     teleportRegions, PlayMode.NORMAL);
-        }        
+        }
     }
 
     public static final class ImpactAssets {
@@ -1347,13 +1395,13 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation cannonPowerup;
 
         private PowerupAssets(TextureAtlas atlas) {
-            
+
             Array<AtlasRegion> ammoPowerupRegions = new Array<AtlasRegion>();
             ammoPowerupRegions.add(atlas.findRegion(Constants.AMMO_POWERUP_SPRITE_1));
             ammoPowerupRegions.add(atlas.findRegion(Constants.AMMO_POWERUP_SPRITE_2));
             ammoPowerupRegions.add(atlas.findRegion(Constants.AMMO_POWERUP_SPRITE));
             ammoPowerup = new Animation(Constants.POWERUP_DURATION / ammoPowerupRegions.size, ammoPowerupRegions, PlayMode.NORMAL);
-            
+
             Array<AtlasRegion> healthPowerupRegions = new Array<AtlasRegion>();
             healthPowerupRegions.add(atlas.findRegion(Constants.HEALTH_POWERUP_SPRITE_1));
             healthPowerupRegions.add(atlas.findRegion(Constants.HEALTH_POWERUP_SPRITE_2));
@@ -1365,7 +1413,7 @@ public final class AssetManager implements AssetErrorListener {
             turboPowerupRegions.add(atlas.findRegion(Constants.TURBO_POWERUP_SPRITE_2));
             turboPowerupRegions.add(atlas.findRegion(Constants.TURBO_POWERUP_SPRITE));
             turboPowerup = new Animation(Constants.POWERUP_DURATION / turboPowerupRegions.size, turboPowerupRegions, PlayMode.NORMAL);
-            
+
             Array<AtlasRegion> lifePowerupRegions = new Array<AtlasRegion>();
             lifePowerupRegions.add(atlas.findRegion(Constants.LIFE_POWERUP_SPRITE_1));
             lifePowerupRegions.add(atlas.findRegion(Constants.LIFE_POWERUP_SPRITE_2));
@@ -1459,7 +1507,7 @@ public final class AssetManager implements AssetErrorListener {
         public final Sound breakGround;
         public final Sound damage;
         public final Sound flight;
-        
+
         private SoundAssets() {
 
             health = assetManager.get(Constants.HEALTH_SOUND); // use of descriptor enforces type checking
@@ -1527,7 +1575,7 @@ public final class AssetManager implements AssetErrorListener {
             nuclear = assetManager.get(Constants.NUCLEAR_MUSIC); // use of descriptor enforces type checking
             mysterious = assetManager.get(Constants.MYSTERIOUS_MUSIC); // use of descriptor enforces type checking
         }
-        
+
         public Music getThemeMusic(Enums.Theme theme) {
             switch (theme) {
                 case HOME:
