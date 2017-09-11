@@ -1584,8 +1584,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
 
         Helpers.drawTextureRegion(batch, viewport, torso, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
-        Helpers.drawTextureRegion(batch, viewport, backArm, position, Constants.AVATAR_EYE_POSITION, 1, 0, !flip, false);
         Helpers.drawTextureRegion(batch, viewport, legs, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+        Helpers.drawTextureRegion(batch, viewport, backArm, position, Constants.AVATAR_EYE_POSITION, 1, 0, !flip, false);
         if (inputControls.shootButtonPressed) {
             if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
                 Helpers.drawTextureRegion(batch, viewport, shoot.getKeyFrame(0), position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
