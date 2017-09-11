@@ -98,6 +98,7 @@ public final class Constants {
     public static final String TORSO = "avatar-torso";
     public static final String TORSO_1 = "avatar-torso-1";
     public static final String TORSO_2 = "avatar-torso-2";
+    public static final String TORSO_RECOIL = "avatar-torso-recoil";
     public static final String ARM_RELEASE = "avatar-arm-release";
     public static final String ARM_RELAX = "avatar-arm-relax";
     public static final String ARM_CLENCH = "avatar-arm-clench";
@@ -116,6 +117,7 @@ public final class Constants {
     public static final String LEGS_STAND = "avatar-legs-stand";
     public static final String LEGS_FALL = "avatar-legs-fall";
     public static final String LEGS_RAPPEL = "avatar-legs-rappel";
+    public static final String LEGS_RECOIL = "avatar-legs-recoil";
     public static final String LEGS_STRIDE_1 = "avatar-legs-stride-1";
     public static final String LEGS_STRIDE_2 = "avatar-legs-stride-2";
     public static final String LEGS_STRIDE_3 = "avatar-legs-stride-3";

@@ -1547,19 +1547,18 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 legs = AssetManager.getInstance().getAvatarAssets().legsHover.getKeyFrame(hoverTimeSeconds);
                 break;
             case RAPPELLING:
-                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
+                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(0);
                 backArm = AssetManager.getInstance().getAvatarAssets().reach;
-                frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                frontArm = AssetManager.getInstance().getAvatarAssets().release;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 legs = AssetManager.getInstance().getAvatarAssets().legsRappel;
-//            if (canHurdle) {
-//                region = AssetManager.getInstance().getAvatarAssets().grasp;
-//            } else {
-//                region = AssetManager.getInstance().getAvatarAssets().rappel;
-//            }
                 break;
             case RECOILING:
-//                region = AssetManager.getInstance().getAvatarAssets().recoil;
+                torso = AssetManager.getInstance().getAvatarAssets().torsoRecoil;
+                backArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(2);
+                frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
+                legs = AssetManager.getInstance().getAvatarAssets().legsRecoil;
                 break;
         }
 
@@ -1568,7 +1567,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 backArm = AssetManager.getInstance().getAvatarAssets().clench;
                 frontArm = AssetManager.getInstance().getAvatarAssets().pointUp.getKeyFrame(0);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointUp;
-
             } else {
                 backArm = AssetManager.getInstance().getAvatarAssets().reach;
                 frontArm = AssetManager.getInstance().getAvatarAssets().pointDown.getKeyFrame(0);

@@ -134,6 +134,8 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion legsStand;
         public final AtlasRegion legsFall;
         public final AtlasRegion legsRappel;
+        public final AtlasRegion legsRecoil;
+        public final AtlasRegion torsoRecoil;
         public final Animation torso;
         public final Animation armCurl;
         public final Animation armSwing;
@@ -185,6 +187,8 @@ public final class AssetManager implements AssetErrorListener {
             legsStand = atlas.findRegion(Constants.LEGS_STAND);
             legsFall = atlas.findRegion(Constants.LEGS_FALL);
             legsRappel = atlas.findRegion(Constants.LEGS_RAPPEL);
+            legsRecoil = atlas.findRegion(Constants.LEGS_RECOIL);
+            torsoRecoil = atlas.findRegion(Constants.TORSO_RECOIL);
             
             Array<AtlasRegion> torsoFrames = new Array<AtlasRegion>();
             torsoFrames.add(atlas.findRegion(Constants.TORSO));
