@@ -135,7 +135,9 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion legsFall;
         public final AtlasRegion legsRappel;
         public final AtlasRegion legsRecoil;
+        public final AtlasRegion legsClimb;
         public final AtlasRegion torsoRecoil;
+        public final AtlasRegion torsoClimb;
         public final Animation torso;
         public final Animation armCurl;
         public final Animation armSwing;
@@ -159,6 +161,8 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion rappel;
         public final AtlasRegion grasp;
         public final AtlasRegion climb;
+        public final AtlasRegion grab;
+        public final AtlasRegion hold;
         public final Animation standCharge;
         public final Animation standBlast;
         public final Animation fallCharge;
@@ -184,11 +188,15 @@ public final class AssetManager implements AssetErrorListener {
             relax = atlas.findRegion(Constants.ARM_RELAX);
             reach = atlas.findRegion(Constants.ARM_REACH);
             clench = atlas.findRegion(Constants.ARM_CLENCH);
+            grab = atlas.findRegion(Constants.ARM_GRAB);
+            hold = atlas.findRegion(Constants.ARM_HOLD);
             legsStand = atlas.findRegion(Constants.LEGS_STAND);
             legsFall = atlas.findRegion(Constants.LEGS_FALL);
             legsRappel = atlas.findRegion(Constants.LEGS_RAPPEL);
             legsRecoil = atlas.findRegion(Constants.LEGS_RECOIL);
+            legsClimb = atlas.findRegion(Constants.LEGS_CLIMB);
             torsoRecoil = atlas.findRegion(Constants.TORSO_RECOIL);
+            torsoClimb = atlas.findRegion(Constants.TORSO_CLIMB);
             
             Array<AtlasRegion> torsoFrames = new Array<AtlasRegion>();
             torsoFrames.add(atlas.findRegion(Constants.TORSO));
@@ -214,11 +222,10 @@ public final class AssetManager implements AssetErrorListener {
             pointDown = new Animation(Constants.SIDESWIPE_FRAME_DURATION, lowerFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> legStrideFrames = new Array<AtlasRegion>();
-            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_2));
             legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_1));
             legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_2));
             legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_3));
-            legsStride = new Animation(Constants.SIDESWIPE_FRAME_DURATION, legStrideFrames, PlayMode.LOOP);
+            legsStride = new Animation(Constants.SIDESWIPE_FRAME_DURATION, legStrideFrames, PlayMode.LOOP_PINGPONG);
 
             Array<AtlasRegion> legsDashFrames = new Array<AtlasRegion>();
             legsDashFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_2));
