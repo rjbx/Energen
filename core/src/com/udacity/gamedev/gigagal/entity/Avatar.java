@@ -1508,8 +1508,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             case STRIDING:
                 float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
-                backArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 3);
-                frontArm = AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 3);
+                backArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6);
+                frontArm = AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 6);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame / 1.5f);
                 break;
@@ -1547,6 +1547,11 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 legs = AssetManager.getInstance().getAvatarAssets().legsHover.getKeyFrame(hoverTimeSeconds);
                 break;
             case RAPPELLING:
+                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
+                backArm = AssetManager.getInstance().getAvatarAssets().reach;
+                frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
+                legs = AssetManager.getInstance().getAvatarAssets().legsRappel;
 //            if (canHurdle) {
 //                region = AssetManager.getInstance().getAvatarAssets().grasp;
 //            } else {
@@ -1579,6 +1584,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
         } else if (bladeState == BladeState.CUT) {
             region = AssetManager.getInstance().getAvatarAssets().uphand.getKeyFrame(swipeTimeSeconds);
+
         } else if (bladeState == BladeState.FLIP) {
             region = AssetManager.getInstance().getAvatarAssets().backflip.getKeyFrame(swipeTimeSeconds);
         }

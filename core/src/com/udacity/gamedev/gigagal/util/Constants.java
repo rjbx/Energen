@@ -115,6 +115,7 @@ public final class Constants {
     public static final String ARM_REACH = "avatar-arm-reach";
     public static final String LEGS_STAND = "avatar-legs-stand";
     public static final String LEGS_FALL = "avatar-legs-fall";
+    public static final String LEGS_RAPPEL = "avatar-legs-rappel";
     public static final String LEGS_STRIDE_1 = "avatar-legs-stride-1";
     public static final String LEGS_STRIDE_2 = "avatar-legs-stride-2";
     public static final String LEGS_STRIDE_3 = "avatar-legs-stride-3";
