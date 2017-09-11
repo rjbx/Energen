@@ -93,6 +93,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private float chargeTimeSeconds;
     private float lookTimeSeconds;
     private float dashTimeSeconds;
+    private float fallTimeSeconds;
     private float hoverTimeSeconds;
     private float swipeTimeSeconds;
     private float strideTimeSeconds;
@@ -1058,7 +1059,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         canJump = false;
         canDash = false;
         canLook = true;
-        fallStartTime = TimeUtils.nanoTime();
+        if (fallStartTime == 0) {
+            fallStartTime = TimeUtils.nanoTime();
+        }
+        fallTimeSeconds = Helpers.secondsSince(fallStartTime);
         if (!(touchedGround instanceof Skateable)) {
             strideStartTime = 0;
         }
@@ -1487,6 +1491,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         boolean flip = directionX == Direction.LEFT;
+        TextureRegion torso = null;
         TextureRegion backArm = null;
         TextureRegion frontArm = null;
         Animation shoot = null;
@@ -1494,6 +1499,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
         switch (action) {
             case STANDING:
+                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(0);
                 backArm = AssetManager.getInstance().getAvatarAssets().relax;
                 frontArm = AssetManager.getInstance().getAvatarAssets().release;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
@@ -1501,27 +1507,31 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 break;
             case STRIDING:
                 float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
-                backArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 3);
-                frontArm = AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 3);
+                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideFrame);
+                backArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 2.5f);
+                frontArm = AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 2.5f);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame / 1.5f);
+                legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame / 1.25f);
                 break;
             case CLIMBING:
 //                region = AssetManager.getInstance().getAvatarAssets().climb;
                 break;
             case DASHING:
+                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(4);
                 backArm = AssetManager.getInstance().getAvatarAssets().relax;
                 frontArm = AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(2);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 legs = AssetManager.getInstance().getAvatarAssets().legsDash.getKeyFrame(dashTimeSeconds);
                 break;
             case FALLING:
+                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(fallTimeSeconds);
                 backArm = AssetManager.getInstance().getAvatarAssets().reach;
                 frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 legs = AssetManager.getInstance().getAvatarAssets().legsFall;
                 break;
             case JUMPING:
+                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(0);
                 backArm = AssetManager.getInstance().getAvatarAssets().reach;
                 frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
@@ -1530,6 +1540,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             case TWISTING:
                 break;
             case HOVERING:
+                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(hoverTimeSeconds);
                 backArm = AssetManager.getInstance().getAvatarAssets().relax;
                 frontArm = AssetManager.getInstance().getAvatarAssets().release;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
@@ -1572,7 +1583,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             region = AssetManager.getInstance().getAvatarAssets().backflip.getKeyFrame(swipeTimeSeconds);
         }
 
-        Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getAvatarAssets().torso, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+        Helpers.drawTextureRegion(batch, viewport, torso, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
         Helpers.drawTextureRegion(batch, viewport, backArm, position, Constants.AVATAR_EYE_POSITION, 1, 0, !flip, false);
         Helpers.drawTextureRegion(batch, viewport, legs, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
         if (inputControls.shootButtonPressed) {

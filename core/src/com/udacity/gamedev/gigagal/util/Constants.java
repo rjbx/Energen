@@ -96,6 +96,8 @@ public final class Constants {
 
     // Avatar assets
     public static final String TORSO = "avatar-torso";
+    public static final String TORSO_1 = "avatar-torso-1";
+    public static final String TORSO_2 = "avatar-torso-2";
     public static final String ARM_RELEASE = "avatar-arm-release";
     public static final String ARM_RELAX = "avatar-arm-relax";
     public static final String ARM_CLENCH = "avatar-arm-clench";

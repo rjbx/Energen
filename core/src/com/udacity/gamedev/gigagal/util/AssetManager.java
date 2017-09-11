@@ -125,8 +125,7 @@ public final class AssetManager implements AssetErrorListener {
     }
 
     public static final class AvatarAssets {
-
-        public final AtlasRegion torso;
+        
         public final AtlasRegion shoot;
         public final AtlasRegion release;
         public final AtlasRegion relax;
@@ -134,6 +133,7 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion clench;
         public final AtlasRegion legsStand;
         public final AtlasRegion legsFall;
+        public final Animation torso;
         public final Animation armCurl;
         public final Animation armSwing;
         public final Animation legsStride;
@@ -176,7 +176,6 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation uphand;
 
         private AvatarAssets(TextureAtlas atlas) {
-            torso = atlas.findRegion(Constants.TORSO);
             shoot = atlas.findRegion(Constants.ARM_SHOOT);
             release = atlas.findRegion(Constants.ARM_RELEASE);
             relax = atlas.findRegion(Constants.ARM_RELAX);
@@ -184,6 +183,12 @@ public final class AssetManager implements AssetErrorListener {
             clench = atlas.findRegion(Constants.ARM_CLENCH);
             legsFall = atlas.findRegion(Constants.LEGS_FALL);
             legsStand = atlas.findRegion(Constants.LEGS_STAND);
+            
+            Array<AtlasRegion> torsoFrames = new Array<AtlasRegion>();
+            torsoFrames.add(atlas.findRegion(Constants.TORSO));
+            torsoFrames.add(atlas.findRegion(Constants.TORSO_1));
+            torsoFrames.add(atlas.findRegion(Constants.TORSO_2));
+            torso = new Animation(Constants.SIDESWIPE_FRAME_DURATION, torsoFrames, PlayMode.LOOP_PINGPONG);
 
             Array<AtlasRegion> chargeFrames = new Array<AtlasRegion>();
             chargeFrames.add(atlas.findRegion(Constants.ARM_SHOOT));
