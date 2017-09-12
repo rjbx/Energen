@@ -1531,7 +1531,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 backArm = AssetManager.getInstance().getAvatarAssets().reach;
                 frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
-                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
+                shoot = AssetManager.getInstance().getAvatarAssets().pointForward; 
                 legs = AssetManager.getInstance().getAvatarAssets().legsFall;
                 break;
             case JUMPING:
