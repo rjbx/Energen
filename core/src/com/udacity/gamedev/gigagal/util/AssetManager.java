@@ -125,7 +125,7 @@ public final class AssetManager implements AssetErrorListener {
     }
 
     public static final class AvatarAssets {
-        
+
         public final AtlasRegion shoot;
         public final AtlasRegion release;
         public final AtlasRegion relax;
@@ -138,6 +138,7 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion legsClimb;
         public final AtlasRegion torsoRecoil;
         public final AtlasRegion torsoClimb;
+        public final AtlasRegion obfuscated;
         public final Animation torso;
         public final Animation armCurl;
         public final Animation armSwing;
@@ -197,6 +198,7 @@ public final class AssetManager implements AssetErrorListener {
             legsClimb = atlas.findRegion(Constants.LEGS_CLIMB);
             torsoRecoil = atlas.findRegion(Constants.TORSO_RECOIL);
             torsoClimb = atlas.findRegion(Constants.TORSO_CLIMB);
+            obfuscated = atlas.findRegion(Constants.OBFUSCATED);
             
             Array<AtlasRegion> torsoFrames = new Array<AtlasRegion>();
             torsoFrames.add(atlas.findRegion(Constants.TORSO));
