@@ -1576,6 +1576,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 frontArm = AssetManager.getInstance().getAvatarAssets().pointDown.getKeyFrame(0);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointDown;
             }
+            if (action == Action.CLIMBING) {
+                backArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+            }
         }
 
         if (bladeState == BladeState.RUSH) {
@@ -1591,9 +1594,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             region = AssetManager.getInstance().getAvatarAssets().backflip.getKeyFrame(swipeTimeSeconds);
         }
 
-        Helpers.drawTextureRegion(batch, viewport, torso, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
-        Helpers.drawTextureRegion(batch, viewport, legs, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
-        Helpers.drawTextureRegion(batch, viewport, backArm, position, Constants.AVATAR_EYE_POSITION, 1, 0, !flip, false);
         if (inputControls.shootButtonPressed) {
             if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
                 Helpers.drawTextureRegion(batch, viewport, shoot.getKeyFrame(0), position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
@@ -1602,9 +1602,15 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else {
                 Helpers.drawTextureRegion(batch, viewport, shoot.getKeyFrame(chargeTimeSeconds / 2), position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
             }
+            if (action == Action.CLIMBING) {
+                backArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+            }
         } else {
             Helpers.drawTextureRegion(batch, viewport, frontArm, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
         }
+        Helpers.drawTextureRegion(batch, viewport, torso, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+        Helpers.drawTextureRegion(batch, viewport, legs, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+        Helpers.drawTextureRegion(batch, viewport, backArm, position, Constants.AVATAR_EYE_POSITION, 1, 0, !flip, false);
     }
 
     // Getters
