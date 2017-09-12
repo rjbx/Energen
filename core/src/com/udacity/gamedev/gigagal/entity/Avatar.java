@@ -1508,10 +1508,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             case STRIDING:
                 float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
-                backArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6);
-                frontArm = AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 6);
+                backArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 5);
+                frontArm = AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 5);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame / 1.5f);
+                legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame / 1.25f);
                 break;
             case CLIMBING:
                 torso = AssetManager.getInstance().getAvatarAssets().torsoClimb;
