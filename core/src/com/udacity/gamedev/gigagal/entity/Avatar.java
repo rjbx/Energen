@@ -1592,18 +1592,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
         } else if (bladeState == BladeState.CUT) {
             region = AssetManager.getInstance().getAvatarAssets().uphand.getKeyFrame(swipeTimeSeconds);
-
         } else if (bladeState == BladeState.FLIP) {
             region = AssetManager.getInstance().getAvatarAssets().backflip.getKeyFrame(swipeTimeSeconds);
-        }
-        if (action == Action.CLIMBING) {
-            backArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
-            frontFacing = false;
         }
 
         body.add(torso);
         body.add(legs);
-        body.add(backArm);
         if (inputControls.shootButtonPressed) {
             if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
                 body.add(shoot.getKeyFrame(0));
@@ -1612,10 +1606,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else {
                 body.add(shoot.getKeyFrame(chargeTimeSeconds / 2));
             }
+            if (action == Action.CLIMBING) {
+                backArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+            }
         } else {
             body.add(frontArm);
         }
-
+        body.add(backArm);
         if (!frontFacing) {
             body.reverse();
         }
@@ -1623,7 +1620,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         for (TextureRegion region : body) {
             Helpers.drawTextureRegion(batch, viewport, region, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
         }
-
         body.clear();
     }
 
