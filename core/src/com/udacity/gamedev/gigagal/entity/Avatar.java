@@ -282,6 +282,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 //        Gdx.app.log(TAG + "3", touchedGround.getClass().toString());
     }
 
+
     private void enableSwipe() {
         if (!canRush && !canCut && (groundState == GroundState.AIRBORNE || action == Action.CLIMBING) && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
             if (inputControls.jumpButtonJustPressed && action != Action.RAPPELLING) {
@@ -1490,7 +1491,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
+        Array<TextureRegion> body = new Array<TextureRegion>();
         boolean flip = directionX == Direction.LEFT;
+        boolean frontFacing = true;
         TextureRegion torso = null;
         TextureRegion backArm = null;
         TextureRegion frontArm = null;
@@ -1593,24 +1596,35 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         } else if (bladeState == BladeState.FLIP) {
             region = AssetManager.getInstance().getAvatarAssets().backflip.getKeyFrame(swipeTimeSeconds);
         }
+        if (action == Action.CLIMBING) {
+            backArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+            frontFacing = false;
+        }
 
+        body.add(torso);
+        body.add(legs);
+        body.add(backArm);
         if (inputControls.shootButtonPressed) {
             if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
-                Helpers.drawTextureRegion(batch, viewport, shoot.getKeyFrame(0), position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+                body.add(shoot.getKeyFrame(0));
             } else if (shotIntensity != ShotIntensity.BLAST) {
-                Helpers.drawTextureRegion(batch, viewport, shoot.getKeyFrame(chargeTimeSeconds / 1.25f), position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+                body.add(shoot.getKeyFrame(chargeTimeSeconds / 1.25f));
             } else {
-                Helpers.drawTextureRegion(batch, viewport, shoot.getKeyFrame(chargeTimeSeconds / 2), position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
-            }
-            if (action == Action.CLIMBING) {
-                backArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                body.add(shoot.getKeyFrame(chargeTimeSeconds / 2));
             }
         } else {
-            Helpers.drawTextureRegion(batch, viewport, frontArm, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+            body.add(frontArm);
         }
-        Helpers.drawTextureRegion(batch, viewport, torso, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
-        Helpers.drawTextureRegion(batch, viewport, legs, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
-        Helpers.drawTextureRegion(batch, viewport, backArm, position, Constants.AVATAR_EYE_POSITION, 1, 0, !flip, false);
+
+        if (!frontFacing) {
+            body.reverse();
+        }
+
+        for (TextureRegion region : body) {
+            Helpers.drawTextureRegion(batch, viewport, region, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+        }
+
+        body.clear();
     }
 
     // Getters
