@@ -19,7 +19,7 @@ public final class LevelAssets {
     private LevelAssets() {}
 
     // Public getters
-    public  static final Array<Entity> getClonedEntities() {
+    public static final Array<Entity> getClonedEntities() {
         Array<Entity> clonedEntities = new Array<Entity>();
         for (Entity entity : levelUpdater.getEntities()) {
             clonedEntities.add(entity.clone());

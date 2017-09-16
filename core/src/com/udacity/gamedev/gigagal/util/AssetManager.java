@@ -224,8 +224,10 @@ public final class AssetManager implements AssetErrorListener {
             pointDown = new Animation(Constants.SIDESWIPE_FRAME_DURATION, lowerFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> legStrideFrames = new Array<AtlasRegion>();
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_4));
             legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_3));
             legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_2));
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_5));
             legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_1));
             legsStride = new Animation(Constants.SIDESWIPE_FRAME_DURATION, legStrideFrames, PlayMode.LOOP_PINGPONG);
 
