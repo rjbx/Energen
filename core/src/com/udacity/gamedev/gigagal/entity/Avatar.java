@@ -1198,7 +1198,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             strideStartTime = TimeUtils.nanoTime();
         }
         strideTimeSeconds = Helpers.secondsSince(strideStartTime);
-        strideAcceleration = strideTimeSeconds * .75f + Constants.AVATAR_STARTING_SPEED;
+        strideAcceleration = strideTimeSeconds + Constants.AVATAR_STARTING_SPEED;
         velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.AVATAR_MAX_SPEED * strideAcceleration + Constants.AVATAR_STARTING_SPEED, Constants.AVATAR_MAX_SPEED * strideMultiplier), directionX, Orientation.X);
         if (touchedGround instanceof Propelling) {
             velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
@@ -1509,12 +1509,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().release);
                 break;
             case STRIDING:
-                float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration * 1.25f);
+                float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
-                legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame * 1.25f);
+                legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 5));
-                frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 5));
+                backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 4));
+                frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 4));
                 break;
             case CLIMBING:
                 frontFacing = false;
@@ -1568,7 +1568,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 torso = AssetManager.getInstance().getAvatarAssets().torsoRecoil;
                 legs = AssetManager.getInstance().getAvatarAssets().legsRecoil;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(2));
+                backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(0));
                 frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0));
                 break;
         }

@@ -233,7 +233,7 @@ public final class AssetManager implements AssetErrorListener {
 
             Array<AtlasRegion> legsDashFrames = new Array<AtlasRegion>();
             legsDashFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_2));
-            legsDashFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_4));
+            legsDashFrames.add(atlas.findRegion(Constants.LEGS_DASH));
             legsDash = new Animation(Constants.HOVER_FRAME_DURATION, legsDashFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> hoverFrames = new Array<AtlasRegion>();

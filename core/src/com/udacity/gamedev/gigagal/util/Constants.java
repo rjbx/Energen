@@ -122,6 +122,7 @@ public final class Constants {
     public static final String LEGS_RAPPEL = "avatar-legs-rappel";
     public static final String LEGS_RECOIL = "avatar-legs-recoil";
     public static final String LEGS_CLIMB = "avatar-legs-climb";
+    public static final String LEGS_DASH = "avatar-legs-dash";
     public static final String LEGS_STRIDE_1 = "avatar-legs-stride-1";
     public static final String LEGS_STRIDE_2 = "avatar-legs-stride-2";
     public static final String LEGS_STRIDE_3 = "avatar-legs-stride-3";
