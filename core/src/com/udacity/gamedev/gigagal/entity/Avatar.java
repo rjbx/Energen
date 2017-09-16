@@ -1505,60 +1505,93 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             case STANDING:
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(0);
                 legs = AssetManager.getInstance().getAvatarAssets().legsStand;
-                backArm = AssetManager.getInstance().getAvatarAssets().relax;
-                frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                backArm = getLookFrame(false);
+                if (backArm == null) {
+                    backArm = AssetManager.getInstance().getAvatarAssets().relax;
+                }
+                frontArm = getLookFrame(true);
                 if (frontArm == null) {
-                    frontArm = AssetManager.getInstance().getAvatarAssets().release;
+                    frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                    if (frontArm == null) {
+                        frontArm = AssetManager.getInstance().getAvatarAssets().release;
+                    }
                 }
                 break;
             case STRIDING:
                 float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame / 1.25f);
-                backArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 5);
-                frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                backArm = getLookFrame(false);
+                if (backArm == null) {
+                    backArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 5);
+                }
+                frontArm = getLookFrame(true);
                 if (frontArm == null) {
-                    frontArm = AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 5);
+                    frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                    if (frontArm == null) {
+                        frontArm = AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 5);
+                    }
                 }
                 break;
             case CLIMBING:
                 frontFacing = false;
                 torso = AssetManager.getInstance().getAvatarAssets().torsoClimb;
                 legs = AssetManager.getInstance().getAvatarAssets().legsClimb;
-                backArm = AssetManager.getInstance().getAvatarAssets().hold;
-                frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                backArm = AssetManager.getInstance().getAvatarAssets().hold;;
+                frontArm = getLookFrame(true);
                 if (lookStartTime != 0 || frontArm != null) {
                     backArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
                 }
                 if (frontArm == null) {
-                    frontArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                    frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                    if (frontArm == null) {
+                        frontArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                    }
                 }
                 break;
             case DASHING:
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(dashTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsDash.getKeyFrame(dashTimeSeconds);
-                backArm = AssetManager.getInstance().getAvatarAssets().relax;
-                frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                backArm = getLookFrame(false);
+                if (backArm == null) {
+                    backArm = AssetManager.getInstance().getAvatarAssets().relax;
+                }
+                frontArm = getLookFrame(true);
                 if (frontArm == null) {
-                    frontArm = AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(2);
+                    frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                    if (frontArm == null) {
+                        frontArm = AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(2);
+                    }
                 }
                 break;
             case FALLING:
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsFall;
-                backArm = AssetManager.getInstance().getAvatarAssets().reach;
-                frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                backArm = getLookFrame(false);
+                if (backArm == null) {
+                    backArm = AssetManager.getInstance().getAvatarAssets().reach;
+                }
+                frontArm = getLookFrame(true);
                 if (frontArm == null) {
-                    frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                    frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                    if (frontArm == null) {
+                        frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                    }
                 }
                 break;
             case JUMPING:
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(0);
                 legs = AssetManager.getInstance().getAvatarAssets().legsFall;
-                backArm = AssetManager.getInstance().getAvatarAssets().reach;
-                frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                backArm = getLookFrame(false);
+                if (backArm == null) {
+                    backArm = AssetManager.getInstance().getAvatarAssets().reach;
+                }
+                frontArm = getLookFrame(true);
                 if (frontArm == null) {
-                    frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                    frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                    if (frontArm == null) {
+                        frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                    }
                 }
                 break;
             case TWISTING:
@@ -1566,28 +1599,46 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             case HOVERING:
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(hoverTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsHover.getKeyFrame(hoverTimeSeconds);
-                backArm = AssetManager.getInstance().getAvatarAssets().relax;
-                frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                backArm = getLookFrame(false);
+                if (backArm == null) {
+                    backArm = AssetManager.getInstance().getAvatarAssets().relax;
+                }
+                frontArm = getLookFrame(true);
                 if (frontArm == null) {
-                    frontArm = AssetManager.getInstance().getAvatarAssets().release;
+                    frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                    if (frontArm == null) {
+                        frontArm = AssetManager.getInstance().getAvatarAssets().release;
+                    }
                 }
                 break;
             case RAPPELLING:
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(0);
                 legs = AssetManager.getInstance().getAvatarAssets().legsRappel;
-                backArm = AssetManager.getInstance().getAvatarAssets().reach;
-                frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                backArm = getLookFrame(false);
+                if (backArm == null) {
+                    backArm = AssetManager.getInstance().getAvatarAssets().reach;
+                }
+                frontArm = getLookFrame(true);
                 if (frontArm == null) {
-                    frontArm = AssetManager.getInstance().getAvatarAssets().release;
+                    frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                    if (frontArm == null) {
+                        frontArm = AssetManager.getInstance().getAvatarAssets().release;
+                    }
                 }
                 break;
             case RECOILING:
                 torso = AssetManager.getInstance().getAvatarAssets().torsoRecoil;
                 legs = AssetManager.getInstance().getAvatarAssets().legsRecoil;
-                backArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(2);
-                frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                backArm = getLookFrame(false);
+                if (backArm == null) {
+                    backArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(2);
+                }
+                frontArm = getLookFrame(true);
                 if (frontArm == null) {
-                    frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                    frontArm = getShotFrame(AssetManager.getInstance().getAvatarAssets().pointForward);
+                    if (frontArm == null) {
+                        frontArm = AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0);
+                    }
                 }
                 break;
         }
@@ -1660,6 +1711,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 //        } else if (bladeState == BladeState.FLIP) {
 //            region = AssetManager.getInstance().getAvatarAssets().backflip.getKeyFrame(swipeTimeSeconds);
 //        }
+        return null;
     }
 
     // Getters
