@@ -104,6 +104,7 @@ public final class Constants {
     public static final String ARM_RELAX = "avatar-arm-relax";
     public static final String ARM_CLENCH = "avatar-arm-clench";
     public static final String ARM_CURL = "avatar-arm-curl";
+    public static final String ARM_CURL_2 = "avatar-arm-curl-2";
     public static final String ARM_SHOOT = "avatar-arm-shoot";
     public static final String ARM_RAISE = "avatar-arm-raise";
     public static final String ARM_RAISE_1 = "avatar-arm-raise-1";
