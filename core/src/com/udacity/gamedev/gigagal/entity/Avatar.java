@@ -1251,7 +1251,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
                 } else if (Helpers.secondsSince(jumpStartTime) > 1.75f) {
                     jump();
-                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED / 8, directionX, Orientation.X);
+                    velocity.x += Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED / 8, directionX, Orientation.X);
                     velocity.y *= (1.35f * jumpMultiplier);
                     jumpStartTime = 0;
                 } else {
