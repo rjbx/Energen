@@ -764,9 +764,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     if (position.dst(hazard.getPosition()) < Constants.WORLD_SIZE
                             && Helpers.absoluteToDirectionalValue(position.x - hazard.getPosition().x, directionX, Orientation.X) > 0) {
                         canPeer = true;
-                    } else if (canPeer && position.dst(hazard.getPosition()) < Constants.WORLD_SIZE / 2
-                            && Helpers.absoluteToDirectionalValue(position.x - hazard.getPosition().x, directionX, Orientation.X) < 0) {
-                    //    canPeer = false;
                     }
                 }
             }
@@ -803,7 +800,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 } else {
                     touchGround((Groundable) h);
                 }
-            } else {
+            } else if (!h.getKnockback().equals(Vector2.Zero)) {
                 touchedHazard = h;
                 recoil(h.getKnockback(), h);
             }
@@ -1090,29 +1087,19 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoil(Vector2 velocity, Hazardous hazard) {
-        if (!hazard.getKnockback().equals(Vector2.Zero)) {
-            float margin = 0;
-            if (hazard instanceof Destructible) {
-                margin = hazard.getWidth() / 6;
-            }
-            if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
-                this.velocity.x = -velocity.x;
-            } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
-                this.velocity.x = velocity.x;
+        if (Helpers.secondsSince(recoveryStartTime) > Constants.RECOVERY_TIME) {
+            float xRelationship = Math.signum(position.x - hazard.getPosition().x);
+            if (xRelationship != 0) {
+                this.velocity.x = velocity.x * xRelationship;
             } else {
                 this.velocity.x = Helpers.absoluteToDirectionalValue(velocity.x, directionX, Orientation.X);
             }
             this.velocity.y = velocity.y;
             AssetManager.getInstance().getSoundAssets().damage.play();
             shotIntensity = ShotIntensity.NORMAL;
-            groundState = GroundState.AIRBORNE;
-            action = Action.FALLING;
-            float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
-            if (recoveryTimeSeconds > Constants.RECOVERY_TIME) {
-                health -= hazard.getDamage() * healthMultiplier;
-                action = Action.RECOILING;
-                recoveryStartTime = TimeUtils.nanoTime();
-            }
+            health -= hazard.getDamage() * healthMultiplier;
+            action = Action.RECOILING;
+            recoveryStartTime = TimeUtils.nanoTime();
             chargeModifier = 0;
             chargeStartTime = 0;
             strideStartTime = 0;
