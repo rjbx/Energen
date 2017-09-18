@@ -1088,7 +1088,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         }
         float dashSpeed = Constants.AVATAR_MAX_SPEED;
         if (turbo >= 1) {
-            turbo -= Constants.DASH_TURBO_INCREMENT * turboMultiplier;
+            turbo -= Constants.DASH_TURBO_DECREMENT * turboMultiplier;
             velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed, directionX, Orientation.X);
         } else {
             canDash = false;
@@ -1180,7 +1180,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         hoverTimeSeconds = Helpers.secondsSince(hoverStartTime); // for comparing with max hover time
         if (turbo >= 1) {
             velocity.y = 0; // disables impact of gravity
-            turbo -= Constants.HOVER_TURBO_INCREMENT * turboMultiplier;
+            turbo -= Constants.HOVER_TURBO_DECREMENT * turboMultiplier;
         } else {
             canHover = false;
             fall(); // when max hover time is exceeded
@@ -1255,7 +1255,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                 velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
             } else {
                 if (!canHurdle) {
-                    turbo -= Constants.RAPPEL_TURBO_INCREMENT * turboMultiplier;
+                    turbo -= Constants.RAPPEL_TURBO_DECREMENT * turboMultiplier;
                 }
                 if (touchedGround instanceof Treadmill) {
                     turbo -= 2;

@@ -1231,7 +1231,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canDash = false;
         } else if (turbo >= 1) {
             dashTimeSeconds = Helpers.secondsSince(dashStartTime);
-            turbo -= Constants.DASH_TURBO_INCREMENT * turboMultiplier;
+            turbo -= Constants.DASH_TURBO_DECREMENT * turboMultiplier;
             velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED, directionX, Orientation.X);
         } else {
             canDash = false;
@@ -1320,7 +1320,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         hoverTimeSeconds = Helpers.secondsSince(hoverStartTime); // for comparing with max hover time
         if (turbo >= 1) {
             velocity.y = 0; // disables impact of gravity
-            turbo -= Constants.HOVER_TURBO_INCREMENT * turboMultiplier;
+            turbo -= Constants.HOVER_TURBO_DECREMENT * turboMultiplier;
         } else {
             canHover = false;
             fall(); // when max hover time is exceeded
@@ -1418,7 +1418,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
                 } else {
                     if (!canHurdle && !yMoving) {
-                        turbo -= Constants.RAPPEL_TURBO_INCREMENT * turboMultiplier;
+                        turbo -= Constants.RAPPEL_TURBO_DECREMENT * turboMultiplier;
                     }
                     if (touchedGround instanceof Treadmill) {
                         turbo -= 2;
@@ -1513,8 +1513,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 4));
-                frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 4));
+                backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6));
+                frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 6));
                 break;
             case CLIMBING:
                 frontFacing = false;
