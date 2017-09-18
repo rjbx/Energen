@@ -209,6 +209,7 @@ public final class AssetManager implements AssetErrorListener {
             Array<AtlasRegion> chargeFrames = new Array<AtlasRegion>();
             chargeFrames.add(atlas.findRegion(Constants.ARM_SHOOT));
             chargeFrames.add(atlas.findRegion(Constants.ARM_BLAST_1));
+            chargeFrames.add(atlas.findRegion(Constants.ARM_BLAST_2));
             pointForward = new Animation(Constants.SIDESWIPE_FRAME_DURATION, chargeFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> raiseFrames = new Array<AtlasRegion>();
