@@ -83,8 +83,8 @@ public final class Constants {
     public static final float RAPPEL_TURBO_DECREMENT = 0.5f;
     public static final float HOVER_TURBO_DECREMENT = 1;
     public static final float STRIDE_TURBO_INCREMENT = 0.375f;
-    public static final float FALL_TURBO_INCREMENT = 0.625f;
-    public static final float STAND_TURBO_INCREMENT = 0.875f;
+    public static final float FALL_TURBO_INCREMENT = 0.875f;
+    public static final float STAND_TURBO_INCREMENT = .125f;
     public static final int BLAST_AMMO_CONSUMPTION = 3;
     public static final int SHOT_AMMO_CONSUMPTION = 1;
     public static final int INITIAL_AMMO = 30;

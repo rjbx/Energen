@@ -1236,16 +1236,27 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (canJump && action != Action.JUMPING) {
             if (jumpStartTime != 0 && action == Action.STANDING) {
                 if (inputControls.jumpButtonPressed) {
-                    turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
+                    if (startTurbo == 0) {
+                        startTurbo = turbo;
+                        Gdx.app.log(TAG, startTurbo + "1");
+                    }
+                    if (turbo > 0) {
+                        turbo -= Constants.HOVER_TURBO_DECREMENT;
+                    }
                 } else if (Helpers.secondsSince(jumpStartTime) > 1.75f) {
                     jump();
                     velocity.x += Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED / 8, directionX, Orientation.X);
-                    velocity.y *= (1.35f * jumpMultiplier);
+                    Gdx.app.log(TAG, startTurbo + "2");
+                    velocity.y *= (1 + (startTurbo/100 * .35f)) * jumpMultiplier;
+                    Gdx.app.log(TAG, velocity.y + "3");
+                    startTurbo = 0;
                     jumpStartTime = 0;
                 } else {
+                    startTurbo = 0;
                     jumpStartTime = 0;
                 }
             } else if (inputControls.jumpButtonJustPressed && lookStartTime == 0) {
+                startTurbo = 0;
                 jump();
             }
         }
@@ -1263,6 +1274,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         velocity.x += Helpers.absoluteToDirectionalValue(Constants.AVATAR_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
         velocity.y = Constants.JUMP_SPEED;
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
+
+        Gdx.app.log(TAG, velocity.y + "3");
         if (touchedGround instanceof Reboundable) {
             if (!(touchedGround instanceof Pliable && ((Pliable) touchedGround).isBeingCarried() && ((Pliable) touchedGround).getCarrier() == this)) {
                 velocity.y *= ((Reboundable) touchedGround).jumpMultiplier();
