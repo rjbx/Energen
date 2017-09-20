@@ -1243,10 +1243,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         startTurbo = turbo;
                         Gdx.app.log(TAG, startTurbo + "1");
                     }
-                    if (turbo >= Constants.HOVER_TURBO_DECREMENT) {
-                        turbo -= Constants.HOVER_TURBO_DECREMENT;
+                    if (turbo >= Constants.LEAP_TURBO_DECREMENT) {
+                        turbo -= Constants.LEAP_TURBO_DECREMENT;
                     }
-                } else if (turbo < Constants.HOVER_TURBO_DECREMENT) {
+                } else if (turbo < Constants.LEAP_TURBO_DECREMENT) {
                     jump();
                     velocity.x += Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED / 8, directionX, Orientation.X);
                     Gdx.app.log(TAG, startTurbo + "2");
