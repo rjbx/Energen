@@ -875,7 +875,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else if (!left && right) {
                 directionChanged = Helpers.changeDirection(this, Direction.RIGHT, Orientation.X);
             }
-            jumpStartTime = 0;
         }
         if (groundState != GroundState.AIRBORNE && action != Action.CLIMBING) {
             if (lookStartTime == 0) {
@@ -960,7 +959,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 }
                 look(); // also sets chase cam
             }
-            jumpStartTime = 0;
         } else if (action == Action.STANDING || action == Action.CLIMBING) { // if neither up nor down pressed (and either standing or climbing)
             resetChaseCamPosition();
         } else { // if neither standing nor climbing and not inputting y
@@ -1044,7 +1042,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (!inputControls.upButtonPressed && !inputControls.downButtonPressed && !canShoot) { // enables releasing y input before shoot to enable discharge post toggle
             canShoot = true;
         }
-        if (turbo < Constants.MAX_TURBO) {
+        if (turbo < Constants.MAX_TURBO && startTurbo == 0) {
             turbo += Constants.STAND_TURBO_INCREMENT;
         }
     }
@@ -1158,6 +1156,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private void look() {
         float offset = 0;
+        jumpStartTime = 0;
+        startTurbo = 0;
         if (lookStartTime == 0 && !canRush) {
             lookStartTime = TimeUtils.nanoTime();
             chaseCamPosition.set(position, 0);
@@ -1177,6 +1177,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         action = Action.STRIDING;
         groundState = GroundState.PLANTED;
         if (turbo < Constants.MAX_TURBO) {
+            jumpStartTime = 0;
+            startTurbo = 0;
             turbo += Constants.STRIDE_TURBO_INCREMENT;
         }
         if (strideStartTime == 0) {
@@ -1235,15 +1237,16 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private void enableJump() {
         if (canJump && action != Action.JUMPING) {
             if (jumpStartTime != 0 && action == Action.STANDING) {
+                Gdx.app.log(TAG, turbo + "4");
                 if (inputControls.jumpButtonPressed) {
                     if (startTurbo == 0) {
                         startTurbo = turbo;
                         Gdx.app.log(TAG, startTurbo + "1");
                     }
-                    if (turbo > 0) {
+                    if (turbo >= Constants.HOVER_TURBO_DECREMENT) {
                         turbo -= Constants.HOVER_TURBO_DECREMENT;
                     }
-                } else if (Helpers.secondsSince(jumpStartTime) > 1.75f) {
+                } else if (turbo < Constants.HOVER_TURBO_DECREMENT) {
                     jump();
                     velocity.x += Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED / 8, directionX, Orientation.X);
                     Gdx.app.log(TAG, startTurbo + "2");
@@ -1256,7 +1259,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     jumpStartTime = 0;
                 }
             } else if (inputControls.jumpButtonJustPressed && lookStartTime == 0) {
-                startTurbo = 0;
                 jump();
             }
         }
@@ -1270,11 +1272,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 jumpStartTime = TimeUtils.nanoTime();
             }
             canJump = false;
+        } else {
+            startTurbo = 0;
         }
         velocity.x += Helpers.absoluteToDirectionalValue(Constants.AVATAR_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
         velocity.y = Constants.JUMP_SPEED;
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
-
         Gdx.app.log(TAG, velocity.y + "3");
         if (touchedGround instanceof Reboundable) {
             if (!(touchedGround instanceof Pliable && ((Pliable) touchedGround).isBeingCarried() && ((Pliable) touchedGround).getCarrier() == this)) {
@@ -1312,8 +1315,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (action != Action.HOVERING) {
             canClimb = false;
             canCling = false;
-            jumpStartTime = 0;
-            startTurbo = turbo;
             action = Action.HOVERING; // indicates currently hovering
             groundState = GroundState.AIRBORNE;
             hoverStartTime = TimeUtils.nanoTime(); // begins timing hover duration
