@@ -1254,7 +1254,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     Gdx.app.log(TAG, velocity.y + "3");
                     startTurbo = 0;
                     jumpStartTime = 0;
-                } else {
+                } else { 
                     startTurbo = 0;
                     jumpStartTime = 0;
                 }
