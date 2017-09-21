@@ -1504,6 +1504,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().relax);
                 frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().release);
+                getSwipeBody(body);
                 break;
             case STRIDING:
                 float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
@@ -1537,6 +1538,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().reach);
                 frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0));
+                getSwipeBody(body);
                 break;
             case JUMPING:
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(0);
@@ -1618,19 +1620,35 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         return backArm;
     }
 
-    private TextureRegion getCutFrame(BladeState bladeState) {
-//        if (bladeState == BladeState.RUSH) {
-//            if (inputControls.rightButtonPressed) {
-//                region = AssetManager.getInstance().getAvatarAssets().forehand.getKeyFrame(swipeTimeSeconds);
-//            } else if (inputControls.leftButtonPressed) {
-//                region = AssetManager.getInstance().getAvatarAssets().backhand.getKeyFrame(swipeTimeSeconds);
-//            }
-//        } else if (bladeState == BladeState.CUT) {
-//            region = AssetManager.getInstance().getAvatarAssets().uphand.getKeyFrame(swipeTimeSeconds);
-//        } else if (bladeState == BladeState.FLIP) {
-//            region = AssetManager.getInstance().getAvatarAssets().backflip.getKeyFrame(swipeTimeSeconds);
-//        }
-        return null;
+    private Array<TextureRegion> getSwipeBody(Array<TextureRegion> body) {
+        if (bladeState == BladeState.RUSH) {
+            if (inputControls.rightButtonPressed) {
+                float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
+                body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f)));
+                body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame));
+                body.set(2, getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6)));
+                body.set(3, AssetManager.getInstance().getAvatarAssets().forehand.getKeyFrame(swipeTimeSeconds));
+            } else if (inputControls.leftButtonPressed) {
+                float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
+                body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f)));
+                body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame));
+                body.set(2, getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6)));
+                body.set(3, AssetManager.getInstance().getAvatarAssets().backhand.getKeyFrame(swipeTimeSeconds));
+            }
+        } else if (bladeState == BladeState.CUT) {
+            float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
+            body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f)));
+            body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame));
+            body.set(2, getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6)));
+            body.set(3, AssetManager.getInstance().getAvatarAssets().uphand.getKeyFrame(swipeTimeSeconds));
+        } else if (bladeState == BladeState.FLIP) {
+            float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
+            body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f)));
+            body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame));
+            body.set(2, getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6)));
+            body.set(3, AssetManager.getInstance().getAvatarAssets().backflip.getKeyFrame(swipeTimeSeconds));
+        }
+        return body;
     }
 
     // Getters
