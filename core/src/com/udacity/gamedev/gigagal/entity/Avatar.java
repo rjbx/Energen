@@ -282,7 +282,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 //        Gdx.app.log(TAG + "3", touchedGround.getClass().toString());
     }
 
-
     private void enableSwipe() {
         if (!canRush && !canCut && (groundState == GroundState.AIRBORNE || action == Action.CLIMBING) && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
             if (inputControls.jumpButtonJustPressed && action != Action.RAPPELLING) {
@@ -1157,7 +1156,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private void look() {
         float offset = 0;
         jumpStartTime = 0;
-        startTurbo = 0;
         if (lookStartTime == 0 && !canRush) {
             lookStartTime = TimeUtils.nanoTime();
             chaseCamPosition.set(position, 0);
@@ -1178,7 +1176,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         groundState = GroundState.PLANTED;
         if (turbo < Constants.MAX_TURBO) {
             jumpStartTime = 0;
-            startTurbo = 0;
             turbo += Constants.STRIDE_TURBO_INCREMENT;
         }
         if (strideStartTime == 0) {
@@ -1212,7 +1209,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private void dash() {
         if (action != Action.DASHING) {
-            startTurbo = turbo;
             action = Action.DASHING;
             groundState = GroundState.PLANTED;
             dashStartTime = TimeUtils.nanoTime();
@@ -1345,7 +1341,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (canRappel) {
             action = Action.RAPPELLING;
             groundState = GroundState.AIRBORNE;
-            startTurbo = turbo;
             rappelStartTime = TimeUtils.nanoTime();
             if (!Helpers.movingOppositeDirection(velocity.x, directionX, Orientation.X)) {
                 directionX = Helpers.getOppositeDirection(directionX);
