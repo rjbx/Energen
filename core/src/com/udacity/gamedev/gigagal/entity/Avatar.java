@@ -1212,6 +1212,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             action = Action.DASHING;
             groundState = GroundState.PLANTED;
             dashStartTime = TimeUtils.nanoTime();
+            jumpStartTime = 0;
+            startTurbo = 0;
             strideStartTime = 0;
             canStride = false;
             canDash = false;
