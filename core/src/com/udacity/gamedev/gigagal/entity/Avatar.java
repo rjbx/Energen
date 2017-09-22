@@ -1504,7 +1504,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().relax);
                 frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().release);
-                getSwipeBody(body);
                 break;
             case STRIDING:
                 float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
@@ -1538,7 +1537,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().reach);
                 frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0));
-                getSwipeBody(body);
                 break;
             case JUMPING:
                 torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(0);
@@ -1576,6 +1574,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         body.add(legs);
         body.add(backArm);
         body.add(frontArm);
+        body = getSwipeBody(body);
         if (!frontFacing) {
             body.reverse();
         }
@@ -1621,32 +1620,30 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
 
     private Array<TextureRegion> getSwipeBody(Array<TextureRegion> body) {
-        if (bladeState == BladeState.RUSH) {
-            if (inputControls.rightButtonPressed) {
-                float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
-                body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f)));
-                body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame));
-                body.set(2, getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6)));
-                body.set(3, AssetManager.getInstance().getAvatarAssets().forehand.getKeyFrame(swipeTimeSeconds));
-            } else if (inputControls.leftButtonPressed) {
-                float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
-                body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f)));
-                body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame));
-                body.set(2, getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6)));
-                body.set(3, AssetManager.getInstance().getAvatarAssets().backhand.getKeyFrame(swipeTimeSeconds));
+        if (canCut) {
+            if (bladeState == BladeState.RUSH) {
+                if (inputControls.rightButtonPressed) {
+                    body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(swipeTimeSeconds));
+                    body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds));
+                    body.set(2, getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds)));
+                    body.set(3, AssetManager.getInstance().getAvatarAssets().forehand.getKeyFrame(swipeTimeSeconds));
+                } else if (inputControls.leftButtonPressed) {
+                    body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(swipeTimeSeconds));
+                    body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds));
+                    body.set(2, getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds)));
+                    body.set(3, AssetManager.getInstance().getAvatarAssets().backhand.getKeyFrame(swipeTimeSeconds));
+                }
+            } else if (bladeState == BladeState.CUT) {
+                body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(swipeTimeSeconds));
+                body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds));
+                body.set(2, getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds)));
+                body.set(3, AssetManager.getInstance().getAvatarAssets().uphand.getKeyFrame(swipeTimeSeconds));
+            } else if (bladeState == BladeState.FLIP) {
+                body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(swipeTimeSeconds));
+                body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds));
+                body.set(2, getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds)));
+                body.set(3, AssetManager.getInstance().getAvatarAssets().backflip.getKeyFrame(swipeTimeSeconds));
             }
-        } else if (bladeState == BladeState.CUT) {
-            float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
-            body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f)));
-            body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame));
-            body.set(2, getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6)));
-            body.set(3, AssetManager.getInstance().getAvatarAssets().uphand.getKeyFrame(swipeTimeSeconds));
-        } else if (bladeState == BladeState.FLIP) {
-            float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
-            body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f)));
-            body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame));
-            body.set(2, getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6)));
-            body.set(3, AssetManager.getInstance().getAvatarAssets().backflip.getKeyFrame(swipeTimeSeconds));
         }
         return body;
     }
