@@ -133,14 +133,14 @@ public final class Constants {
     public static final String LEGS_HOVER_1 = "avatar-legs-hover-1";
     public static final String LEGS_HOVER_2 = "avatar-legs-hover-2";
     public static final String OBFUSCATED = "avatar-obfuscated";
+    public static final String STAND = "avatar-eyes-open";
+    public static final String BLINK = "avatar-eyes-blink";
+    public static final String PEER = "avatar-eyes-peer";
 
-    public static final String STAND = "avatar-stand";
     public static final String STAND_SHOOT = "avatar-stand-shoot";
     public static final String STAND_BLAST_1 = "avatar-stand-blast-1";
     public static final String STAND_BLAST_2 = "avatar-stand-blast-2";
     public static final String STAND_BLAST_3 = "avatar-stand-blast-3";
-    public static final String BLINK = "avatar-stand-blink";
-    public static final String LOOKBACK = "avatar-stand-lookback";
     public static final String RECOILING = "avatar-recoil";
     public static final String FALL = "avatar-fall";
     public static final String FALL_BLAST_1 = "avatar-fall-blast-1";

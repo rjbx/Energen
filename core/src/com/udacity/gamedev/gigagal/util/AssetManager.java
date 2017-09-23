@@ -256,7 +256,7 @@ public final class AssetManager implements AssetErrorListener {
             standShoot = atlas.findRegion(Constants.STAND_SHOOT);
             fall = atlas.findRegion(Constants.FALL);
             blink = atlas.findRegion(Constants.BLINK);
-            lookback = atlas.findRegion(Constants.LOOKBACK);
+            lookback = atlas.findRegion(Constants.PEER);
             recoil = atlas.findRegion(Constants.RECOILING);
             lookupStand = atlas.findRegion(Constants.LOOKUP_STAND);
             lookdownStand = atlas.findRegion(Constants.LOOKDOWN_STAND);
