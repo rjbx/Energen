@@ -79,7 +79,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private boolean canCut;
     private long chargeStartTime;
     private long shootStartTime;
-    private long blinkStartTime;
+    private long standStartTime;
     private long lookStartTime;
     private long fallStartTime;
     private long jumpStartTime;
@@ -212,7 +212,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         fallStartTime = 0;
         dashStartTime = 0;
         swipeStartTime = 0;
-        blinkStartTime = TimeUtils.nanoTime();
+        standStartTime = TimeUtils.nanoTime();
         recoveryStartTime = TimeUtils.nanoTime();
     }
 
@@ -429,6 +429,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 //            Gdx.app.log(TAG + "2", touchedGround.getClass().toString());
 
         setBounds();
+        detectInput();
     }
 
     public void touchAllGrounds(Array<Ground> grounds) {
@@ -1621,11 +1622,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private TextureRegion getEyes(TextureRegion eyes) {
         if (!inputControls.shootButtonPressed) {
-            if ((!(Helpers.secondsSince(blinkStartTime) < 1) &&
-                    ((Helpers.secondsSince(blinkStartTime) % 10 < .15f)
-                            || (Helpers.secondsSince(blinkStartTime) % 14 < .1f)
-                            || (Helpers.secondsSince(blinkStartTime) % 15 < .25f)
-                            || (Helpers.secondsSince(blinkStartTime) > 60)))) {
+            if ((!(Helpers.secondsSince(shootStartTime) < 1) &&
+                ((Helpers.secondsSince(shootStartTime) % 5 < .1f)
+                || (Helpers.secondsSince(shootStartTime) % 10 < .2f)
+                || (Helpers.secondsSince(shootStartTime) % 14 < .1f)
+                || (Helpers.secondsSince(shootStartTime) % 15 < .3f)
+                || (Helpers.secondsSince(standStartTime) > 60)))) {
                 eyes = AssetManager.getInstance().getAvatarAssets().blink;
             } else if (canPeer && Helpers.secondsSince(shootStartTime) > 2) {
                 eyes = AssetManager.getInstance().getAvatarAssets().peer;
@@ -1796,6 +1798,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void resetChargeIntensity() { shotIntensity = ShotIntensity.NORMAL; }
+    public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); } }
     public void dispose() {
         weaponList.clear();
     }
