@@ -73,7 +73,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private boolean canStride;
     private boolean canSink;
     private boolean canHurdle;
-    private boolean canBounce;
     private boolean canMove;
     private boolean canFlip;
     private boolean canRush;
@@ -202,7 +201,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         canDispatch = false;
         canSink = false;
         canMove = false;
-        canBounce = false;
         canFlip = false;
         canRush = false;
         canCut = false;
@@ -331,7 +329,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canCut = false;
             bladeState = BladeState.RETRACTED;
         }
-
         swipe();
     }
 
@@ -551,7 +548,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         canRappel = false;
                         fall(); // fall regardless of whether or not inner condition met
                     }
-                } else if (groundState == GroundState.PLANTED) { // only when planted
+                } else { // only when planted
                     if (Math.abs(getBottom() - g.getTop()) > 1) {
                         strideSpeed = 0;
                         velocity.x = 0;
@@ -937,7 +934,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (inputtingY) {
             if (down && !up) {
                 directionChanged = Helpers.changeDirection(this, Direction.DOWN, Orientation.Y);
-            } else if (!down && up) {
+            } else if (!down) { // if up
                 directionChanged = Helpers.changeDirection(this, Direction.UP, Orientation.Y);
             }
             if (directionY == Direction.DOWN) {
@@ -1143,7 +1140,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
     }
 
-    public void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
+    private void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
         canDispatch = true;
         if (shotIntensity == ShotIntensity.BLAST) {
             AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play();
@@ -1378,11 +1375,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 yMoving = true;
             }
             if (touchedGround instanceof Pliable) {
-                if (Helpers.inputToDirection() == Helpers.getOppositeDirection(directionX)) {
-                    canMove = true;
-                } else {
-                    canMove = false;
-                }
+                canMove = Helpers.inputToDirection() == Helpers.getOppositeDirection(directionX);
                 if (((Pliable) touchedGround).isBeneatheGround()) { // if touchedground y is moving but not touchedground moving ground
                     canHurdle = false;
                 }
