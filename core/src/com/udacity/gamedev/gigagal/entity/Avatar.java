@@ -1628,9 +1628,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                             || (Helpers.secondsSince(standStartTime) > 60)))) {
                 eyes = AssetManager.getInstance().getAvatarAssets().blink;
             } else if (!canPeer || Helpers.secondsSince(standStartTime) < .5f) {
-                eyes = AssetManager.getInstance().getAvatarAssets().stand;
+                eyes = AssetManager.getInstance().getAvatarAssets().open;
             } else {
-                eyes = AssetManager.getInstance().getAvatarAssets().lookback;
+                eyes = AssetManager.getInstance().getAvatarAssets().peer;
             }
         }
         return eyes;

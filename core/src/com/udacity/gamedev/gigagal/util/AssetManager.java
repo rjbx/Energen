@@ -149,9 +149,9 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation pointDown;
 
         public final AtlasRegion stand;
-        public final AtlasRegion standShoot;
+        public final AtlasRegion open;
         public final AtlasRegion blink;
-        public final AtlasRegion lookback;
+        public final AtlasRegion peer;
         public final AtlasRegion fall;
         public final AtlasRegion recoil;
         public final AtlasRegion lookupStand;
@@ -253,10 +253,10 @@ public final class AssetManager implements AssetErrorListener {
             armCurl = new Animation(Constants.SIDESWIPE_FRAME_DURATION, armCurlFrames, PlayMode.LOOP);
 
             stand = atlas.findRegion(Constants.STAND);
-            standShoot = atlas.findRegion(Constants.STAND_SHOOT);
+            open = atlas.findRegion(Constants.EYES_OPEN);
             fall = atlas.findRegion(Constants.FALL);
-            blink = atlas.findRegion(Constants.BLINK);
-            lookback = atlas.findRegion(Constants.PEER);
+            blink = atlas.findRegion(Constants.EYES_BLINK);
+            peer = atlas.findRegion(Constants.EYES_PEER);
             recoil = atlas.findRegion(Constants.RECOILING);
             lookupStand = atlas.findRegion(Constants.LOOKUP_STAND);
             lookdownStand = atlas.findRegion(Constants.LOOKDOWN_STAND);
