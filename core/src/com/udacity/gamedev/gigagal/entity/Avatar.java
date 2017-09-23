@@ -78,7 +78,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private boolean canRush;
     private boolean canCut;
     private long chargeStartTime;
-    private long standStartTime;
+    private long shootStartTime;
+    private long blinkStartTime;
     private long lookStartTime;
     private long fallStartTime;
     private long jumpStartTime;
@@ -211,7 +212,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         fallStartTime = 0;
         dashStartTime = 0;
         swipeStartTime = 0;
-        standStartTime = TimeUtils.nanoTime();
+        blinkStartTime = TimeUtils.nanoTime();
         recoveryStartTime = TimeUtils.nanoTime();
     }
 
@@ -428,7 +429,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 //            Gdx.app.log(TAG + "2", touchedGround.getClass().toString());
 
         setBounds();
-        detectInput();
     }
 
     public void touchAllGrounds(Array<Ground> grounds) {
@@ -756,11 +756,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Avatar)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
-                } else if (action == Action.STANDING) {
-                    if (position.dst(hazard.getPosition()) < Constants.WORLD_SIZE
-                            && Helpers.absoluteToDirectionalValue(position.x - hazard.getPosition().x, directionX, Orientation.X) > 0) {
-                        canPeer = true;
-                    }
+                } else if (position.dst(hazard.getPosition()) < Constants.WORLD_SIZE
+                        && Helpers.absoluteToDirectionalValue(position.x - hazard.getPosition().x, directionX, Orientation.X) > 0) {
+                    canPeer = true;
                 }
             }
         }
@@ -1141,6 +1139,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
 
     private void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
+        shootStartTime = TimeUtils.nanoTime();
         canDispatch = true;
         if (shotIntensity == ShotIntensity.BLAST) {
             AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play();
@@ -1622,13 +1621,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private TextureRegion getEyes(TextureRegion eyes) {
         if (!inputControls.shootButtonPressed) {
-            if ((!(Helpers.secondsSince(standStartTime) < 1) &&
-                    ((Helpers.secondsSince(standStartTime) % 10 < .15f)
-                            || (Helpers.secondsSince(standStartTime) % 14 < .1f)
-                            || (Helpers.secondsSince(standStartTime) % 15 < .25f)
-                            || (Helpers.secondsSince(standStartTime) > 60)))) {
+            if ((!(Helpers.secondsSince(blinkStartTime) < 1) &&
+                    ((Helpers.secondsSince(blinkStartTime) % 10 < .15f)
+                            || (Helpers.secondsSince(blinkStartTime) % 14 < .1f)
+                            || (Helpers.secondsSince(blinkStartTime) % 15 < .25f)
+                            || (Helpers.secondsSince(blinkStartTime) > 60)))) {
                 eyes = AssetManager.getInstance().getAvatarAssets().blink;
-            } else if (canPeer && Helpers.secondsSince(standStartTime) < .5f) {
+            } else if (canPeer && Helpers.secondsSince(shootStartTime) > 2) {
                 eyes = AssetManager.getInstance().getAvatarAssets().peer;
             }
         }
@@ -1795,7 +1794,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         setHealth(Constants.MAX_HEALTH);
     }
-    public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); canPeer = false; } }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void resetChargeIntensity() { shotIntensity = ShotIntensity.NORMAL; }
     public void dispose() {
