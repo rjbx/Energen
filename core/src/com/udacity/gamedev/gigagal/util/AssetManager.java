@@ -147,11 +147,11 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation pointForward;
         public final Animation pointUp;
         public final Animation pointDown;
+        public final Animation peer;
 
         public final AtlasRegion stand;
         public final AtlasRegion open;
         public final AtlasRegion blink;
-        public final AtlasRegion peer;
         public final AtlasRegion fall;
         public final AtlasRegion recoil;
         public final AtlasRegion lookupStand;
@@ -252,11 +252,17 @@ public final class AssetManager implements AssetErrorListener {
             armCurlFrames.add(atlas.findRegion(Constants.ARM_CURL));
             armCurl = new Animation(Constants.SIDESWIPE_FRAME_DURATION, armCurlFrames, PlayMode.LOOP);
 
+            Array<AtlasRegion> peerFrames = new Array<AtlasRegion>();
+            peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_1));
+            peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_2));
+            peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_3));
+            peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_4));
+            peer = new Animation(Constants.EYE_ROLL_FRAME_DURATION, peerFrames, PlayMode.LOOP);
+
             stand = atlas.findRegion(Constants.STAND);
-            open = atlas.findRegion(Constants.EYES_OPEN);
+            open = atlas.findRegion(Constants.EYES_OPEN_1);
             fall = atlas.findRegion(Constants.FALL);
             blink = atlas.findRegion(Constants.EYES_BLINK);
-            peer = atlas.findRegion(Constants.EYES_PEER);
             recoil = atlas.findRegion(Constants.RECOILING);
             lookupStand = atlas.findRegion(Constants.LOOKUP_STAND);
             lookdownStand = atlas.findRegion(Constants.LOOKDOWN_STAND);

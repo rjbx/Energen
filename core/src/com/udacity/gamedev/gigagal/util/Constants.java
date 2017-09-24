@@ -134,8 +134,11 @@ public final class Constants {
     public static final String LEGS_HOVER_2 = "avatar-legs-hover-2";
     public static final String OBFUSCATED = "avatar-obfuscated";
     public static final String EYES_BLINK = "avatar-eyes-blink";
-    public static final String EYES_PEER = "avatar-eyes-peer";
-    public static final String EYES_OPEN = "avatar-eyes-open";
+    public static final String EYES_OPEN_1 = "avatar-eyes-open-1";
+    public static final String EYES_OPEN_2 = "avatar-eyes-open-2";
+    public static final String EYES_OPEN_3 = "avatar-eyes-open-3";
+    public static final String EYES_OPEN_4 = "avatar-eyes-open-4";
+    public static final float EYE_ROLL_FRAME_DURATION = 1;
 
     public static final String STAND = "avatar-stand";
     public static final String STAND_BLAST_1 = "avatar-stand-blast-1";
