@@ -79,14 +79,14 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private boolean canCut;
     private long chargeStartTime;
     private long shootStartTime;
-    private long standStartTime;
+    private long activeStartTime;
     private long lookStartTime;
     private long fallStartTime;
     private long jumpStartTime;
     private long dashStartTime;
     private long hoverStartTime;
     private long rappelStartTime;
-    private long climbStartTime;
+    private long peerStartTime;
     private long strideStartTime;
     private long recoveryStartTime;
     private long swipeStartTime;
@@ -207,12 +207,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         canCut = false;
         chargeStartTime = 0;
         strideStartTime = 0;
-        climbStartTime = 0;
+        peerStartTime = 0;
         jumpStartTime = 0;
         fallStartTime = 0;
         dashStartTime = 0;
         swipeStartTime = 0;
-        standStartTime = TimeUtils.nanoTime();
+        activeStartTime = TimeUtils.nanoTime();
         recoveryStartTime = TimeUtils.nanoTime();
     }
 
@@ -752,7 +752,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     public void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
-        canPeer = false;
+        if (Helpers.secondsSince(peerStartTime) > Constants.CANNON_DISPATCH_RATE) {
+            canPeer = false;
+        }
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Avatar)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
@@ -760,6 +762,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 } else if (position.dst(hazard.getPosition()) < Constants.WORLD_SIZE
                         && Helpers.absoluteToDirectionalValue(position.x - hazard.getPosition().x, directionX, Orientation.X) > 0) {
                     canPeer = true;
+                    peerStartTime = TimeUtils.nanoTime();
                 }
             }
         }
@@ -1123,7 +1126,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 chargeTimeSeconds = Helpers.secondsSince(chargeStartTime) + chargeModifier;
             } else if (chargeStartTime != 0) {
                 int ammoUsed;
-
                 if (weapon == Material.NATIVE
                         || (ammo < Constants.BLAST_AMMO_CONSUMPTION && shotIntensity == ShotIntensity.BLAST)
                         || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
@@ -1450,7 +1452,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private void climb(Orientation orientation) {
         if (canCling) { // canrappel set to false from handleYinputs() if double tapping down
             if (action != Action.CLIMBING) { // at the time of climb initiation
-                climbStartTime = 0; // overrides assignment of current time preventing nanotime - climbstarttime < doubletapspeed on next handleY() call
                 groundState = GroundState.PLANTED;
                 action = Action.CLIMBING;
             }
@@ -1621,13 +1622,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
 
     private TextureRegion getEyes(TextureRegion eyes) {
-        if (!inputControls.shootButtonPressed) {
+        if (!inputControls.shootButtonPressed || chargeTimeSeconds > 2) {
             if ((!(Helpers.secondsSince(shootStartTime) < 1) &&
                 ((Helpers.secondsSince(shootStartTime) % 5 < .1f)
                 || (Helpers.secondsSince(shootStartTime) % 10 < .2f)
                 || (Helpers.secondsSince(shootStartTime) % 14 < .1f)
                 || (Helpers.secondsSince(shootStartTime) % 15 < .3f)
-                || (Helpers.secondsSince(standStartTime) > 60)))) {
+                || (Helpers.secondsSince(activeStartTime) > 60)))) {
                 eyes = AssetManager.getInstance().getAvatarAssets().blink;
             } else if (canPeer && Helpers.secondsSince(shootStartTime) > 2) {
                 eyes = AssetManager.getInstance().getAvatarAssets().peer;
@@ -1798,7 +1799,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void resetChargeIntensity() { shotIntensity = ShotIntensity.NORMAL; }
-    public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); } }
+    public void detectInput() { if (InputControls.getInstance().hasInput()) { activeStartTime = TimeUtils.nanoTime(); } }
     public void dispose() {
         weaponList.clear();
     }

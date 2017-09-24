@@ -368,6 +368,7 @@ public final class Constants {
     public static final String X_CANNON_SPRITE = "cannon-x";
     public static final Vector2 Y_CANNON_CENTER = new Vector2(8, 10);
     public static final String Y_CANNON_SPRITE = "cannon-y";
+    public static final float CANNON_DISPATCH_RATE = 1.5f;
 
     // Canirol
     public static final Vector2 X_CANIROL_CENTER = new Vector2(10, 7.5f);

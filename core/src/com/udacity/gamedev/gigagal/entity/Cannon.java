@@ -49,7 +49,7 @@ public class Cannon extends Ground implements Weaponized, Nonstatic, Rappelable,
             if (this.getStartTime() == 0) {
                 this.setStartTime(TimeUtils.nanoTime());
             }
-            if ((Helpers.secondsSince(this.getStartTime()) > 1.5f)) {
+            if ((Helpers.secondsSince(this.getStartTime()) > Constants.CANNON_DISPATCH_RATE)) {
                 this.setStartTime(TimeUtils.nanoTime());
                 canDispatch = true;
             }
