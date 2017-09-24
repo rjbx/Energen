@@ -752,14 +752,15 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     // detects contact with enemy (change aerial & ground state to recoil until grounded)
     public void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
-        if (Helpers.secondsSince(peerStartTime) > Constants.CANNON_DISPATCH_RATE) {
+        if (Helpers.secondsSince(peerStartTime) > 0.5f) {
             canPeer = false;
         }
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Avatar)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
-                } else if (position.dst(hazard.getPosition()) < Constants.WORLD_SIZE
+                } else if (hazard instanceof Moving
+                        &&position.dst(hazard.getPosition()) < Constants.WORLD_SIZE
                         && Helpers.absoluteToDirectionalValue(position.x - hazard.getPosition().x, directionX, Orientation.X) > 0) {
                     canPeer = true;
                     peerStartTime = TimeUtils.nanoTime();
