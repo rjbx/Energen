@@ -1,5 +1,6 @@
 package com.udacity.gamedev.gigagal.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -179,7 +180,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     @Override public final float getRight() { return position.x + Constants.SPRING_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.SPRING_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
-    @Override public final boolean isDense() { return !(beingCarried || Avatar.getInstance().getAction() == Enums.Action.CLIMBING); }
+    @Override public final boolean isDense() { return beingCarried; }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; beneatheGround = true; }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * .2f + payload; }
     @Override public final boolean isBeingCarried() { return beingCarried; }

@@ -422,7 +422,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 //
 //        if (touchedGround != null)
 //            Gdx.app.log(TAG + "1", touchedGround.getClass().toString());
-
         position.mulAdd(velocity, delta);
 //
 //        if (touchedGround != null)
@@ -1585,7 +1584,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (!frontFacing) {
             body.reverse();
         }
-
         for (TextureRegion region : body) {
             Helpers.drawTextureRegion(batch, viewport, region, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
         }
