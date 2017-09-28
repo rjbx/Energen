@@ -18,6 +18,13 @@ armorollo-liquid-1
   orig: 25, 25
   offset: 0, 0
   index: -1
+avatar-stand
+  rotate: false
+  xy: 247, 45
+  size: 26, 33
+  orig: 26, 33
+  offset: 0, 0
+  index: -1
 beast
   rotate: false
   xy: 213, 42
@@ -96,13 +103,6 @@ gate-0
   xy: 412, 6
   size: 8, 35
   orig: 8, 35
-  offset: 0, 0
-  index: -1
-avatar-stand-right
-  rotate: false
-  xy: 247, 45
-  size: 26, 33
-  orig: 26, 33
   offset: 0, 0
   index: -1
 ice-1
