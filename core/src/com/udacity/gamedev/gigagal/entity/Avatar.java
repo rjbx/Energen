@@ -753,27 +753,24 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     public void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
         if (Helpers.secondsSince(peerStartTime) > 0.5f) {
+            lookQuadrant  = 1;
             canPeer = false;
         }
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Avatar)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
-                } else if (hazard instanceof Moving && position.dst(hazard.getPosition()) < Constants.WORLD_SIZE) {
+                } else if (lookQuadrant != 3 && hazard instanceof Moving && position.dst(hazard.getPosition()) < Constants.WORLD_SIZE) {
                     if (Helpers.absoluteToDirectionalValue(position.x - hazard.getPosition().x, directionX, Orientation.X) > 0) {
                         canPeer = true;
                         peerStartTime = TimeUtils.nanoTime();
-                        if (position.y - hazard.getPosition().y < 0) {
-                            lookQuadrant = 1;
-                        } else {
+                        if (position.y - hazard.getPosition().y > hazard.getHeight()) {
                             lookQuadrant = 2;
+                        } else {
+                            lookQuadrant = 1;
                         }
-                    } else if (position.y - hazard.getPosition().y > 0) {
-                        canPeer = true;
-                        peerStartTime = TimeUtils.nanoTime();
+                    } else if (position.y - hazard.getPosition().y > hazard.getHeight()) {
                         lookQuadrant = 3;
-                    } else {
-                        lookQuadrant = 0;
                     }
                 }
             }
