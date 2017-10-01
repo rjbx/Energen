@@ -757,22 +757,23 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Avatar)) {
-                lookQuadrant = 0;
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
                 } else if (hazard instanceof Moving && position.dst(hazard.getPosition()) < Constants.WORLD_SIZE) {
                     if (Helpers.absoluteToDirectionalValue(position.x - hazard.getPosition().x, directionX, Orientation.X) > 0) {
                         canPeer = true;
                         peerStartTime = TimeUtils.nanoTime();
-                        if (position.y - hazard.getPosition().y > 0) {
+                        if (position.y - hazard.getPosition().y < 0) {
                             lookQuadrant = 1;
                         } else {
                             lookQuadrant = 2;
                         }
-                    } else if (position.y - hazard.getPosition().y < 0) {
+                    } else if (position.y - hazard.getPosition().y > 0) {
                         canPeer = true;
                         peerStartTime = TimeUtils.nanoTime();
                         lookQuadrant = 3;
+                    } else {
+                        lookQuadrant = 0;
                     }
                 }
             }
@@ -1645,7 +1646,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 || (Helpers.secondsSince(activeStartTime) > 60)))) {
                 eyes = AssetManager.getInstance().getAvatarAssets().blink;
             } else if (canPeer && Helpers.secondsSince(shootStartTime) > 2) {
-                eyes = AssetManager.getInstance().getAvatarAssets().peer.getKeyFrame(1);
+                eyes = AssetManager.getInstance().getAvatarAssets().peer.getKeyFrame(lookQuadrant);
             }
         }
         return eyes; // defaults to parameter value if no conditions met
