@@ -1500,6 +1500,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         TextureRegion backArm = null;
         TextureRegion frontArm = null;
         TextureRegion eyes = null;
+        TextureRegion hair = null;
+        TextureRegion mouth = null;
         Animation shoot = null;
 
         switch (action) {
