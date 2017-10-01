@@ -108,6 +108,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private float startTurbo;
     private float turbo;
     private float fallLimit;
+    private float lookQuadrant;
     private float ammo;
     private float health;
     private int lives;
@@ -756,13 +757,23 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Avatar)) {
+                lookQuadrant = 0;
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
-                } else if (hazard instanceof Moving
-                        &&position.dst(hazard.getPosition()) < Constants.WORLD_SIZE
-                        && Helpers.absoluteToDirectionalValue(position.x - hazard.getPosition().x, directionX, Orientation.X) > 0) {
-                    canPeer = true;
-                    peerStartTime = TimeUtils.nanoTime();
+                } else if (hazard instanceof Moving && position.dst(hazard.getPosition()) < Constants.WORLD_SIZE) {
+                    if (Helpers.absoluteToDirectionalValue(position.x - hazard.getPosition().x, directionX, Orientation.X) > 0) {
+                        canPeer = true;
+                        peerStartTime = TimeUtils.nanoTime();
+                        if (position.y - hazard.getPosition().y > 0) {
+                            lookQuadrant = 1;
+                        } else {
+                            lookQuadrant = 2;
+                        }
+                    } else if (position.y - hazard.getPosition().y < 0) {
+                        canPeer = true;
+                        peerStartTime = TimeUtils.nanoTime();
+                        lookQuadrant = 3;
+                    }
                 }
             }
         }
