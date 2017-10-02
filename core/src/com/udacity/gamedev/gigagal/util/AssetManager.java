@@ -127,7 +127,9 @@ public final class AssetManager implements AssetErrorListener {
     public static final class AvatarAssets {
 
         public final AtlasRegion shoot;
-        public final AtlasRegion release;
+        public final AtlasRegion releaseForward;
+        public final AtlasRegion releaseUp;
+        public final AtlasRegion releaseDown;
         public final AtlasRegion relax;
         public final AtlasRegion reach;
         public final AtlasRegion clench;
@@ -185,7 +187,9 @@ public final class AssetManager implements AssetErrorListener {
 
         private AvatarAssets(TextureAtlas atlas) {
             shoot = atlas.findRegion(Constants.ARM_SHOOT);
-            release = atlas.findRegion(Constants.ARM_RELEASE);
+            releaseForward = atlas.findRegion(Constants.ARM_RELEASE);
+            releaseUp = atlas.findRegion(Constants.ARM_RAISE);
+            releaseDown = atlas.findRegion(Constants.ARM_LOWER);
             relax = atlas.findRegion(Constants.ARM_RELAX);
             reach = atlas.findRegion(Constants.ARM_REACH);
             clench = atlas.findRegion(Constants.ARM_CLENCH);
@@ -213,13 +217,13 @@ public final class AssetManager implements AssetErrorListener {
             pointForward = new Animation(Constants.SIDESWIPE_FRAME_DURATION, chargeFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> raiseFrames = new Array<AtlasRegion>();
-            raiseFrames.add(atlas.findRegion(Constants.ARM_RAISE));
+            raiseFrames.add(atlas.findRegion(Constants.ARM_RAISE_0));
             raiseFrames.add(atlas.findRegion(Constants.ARM_RAISE_1));
             raiseFrames.add(atlas.findRegion(Constants.ARM_RAISE_2));
             pointUp = new Animation(Constants.SIDESWIPE_FRAME_DURATION, raiseFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> lowerFrames = new Array<AtlasRegion>();
-            lowerFrames.add(atlas.findRegion(Constants.ARM_LOWER));
+            lowerFrames.add(atlas.findRegion(Constants.ARM_LOWER_0));
             lowerFrames.add(atlas.findRegion(Constants.ARM_LOWER_1));
             lowerFrames.add(atlas.findRegion(Constants.ARM_LOWER_2));
             pointDown = new Animation(Constants.SIDESWIPE_FRAME_DURATION, lowerFrames, PlayMode.LOOP);

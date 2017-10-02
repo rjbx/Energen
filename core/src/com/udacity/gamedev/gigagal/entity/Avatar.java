@@ -1510,7 +1510,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 legs = AssetManager.getInstance().getAvatarAssets().legsStand;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().relax);
-                frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().release);
+                frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().releaseForward);
                 eyes = getEyes(AssetManager.getInstance().getAvatarAssets().open);
                 break;
             case STRIDING:
@@ -1565,7 +1565,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 legs = AssetManager.getInstance().getAvatarAssets().legsHover.getKeyFrame(hoverTimeSeconds);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().relax);
-                frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().release);
+                frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().releaseForward);
                 eyes = getEyes(AssetManager.getInstance().getAvatarAssets().open);
                 break;
             case RAPPELLING:
@@ -1573,7 +1573,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 legs = AssetManager.getInstance().getAvatarAssets().legsRappel;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().reach);
-                frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().release);
+                frontArm = getFrontArm(shoot, AssetManager.getInstance().getAvatarAssets().releaseForward);
                 eyes = getEyes(AssetManager.getInstance().getAvatarAssets().open);
                 break;
             case RECOILING:
@@ -1605,10 +1605,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
                 shoot = AssetManager.getInstance().getAvatarAssets().pointUp;
-                nonShoot =  AssetManager.getInstance().getAvatarAssets().pointUp.getKeyFrame(0);
+                nonShoot =  AssetManager.getInstance().getAvatarAssets().releaseUp;
             } else {
                 shoot = AssetManager.getInstance().getAvatarAssets().pointDown;
-                nonShoot = AssetManager.getInstance().getAvatarAssets().pointDown.getKeyFrame(0);
+                nonShoot = AssetManager.getInstance().getAvatarAssets().releaseDown;
             }
         }
         if (inputControls.shootButtonPressed) {

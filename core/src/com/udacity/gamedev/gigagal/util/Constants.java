@@ -108,9 +108,11 @@ public final class Constants {
     public static final String ARM_CURL_2 = "avatar-arm-curl-2";
     public static final String ARM_SHOOT = "avatar-arm-shoot";
     public static final String ARM_RAISE = "avatar-arm-raise";
+    public static final String ARM_RAISE_0 = "avatar-arm-raise-0";
     public static final String ARM_RAISE_1 = "avatar-arm-raise-1";
     public static final String ARM_RAISE_2 = "avatar-arm-raise-2";
     public static final String ARM_LOWER = "avatar-arm-lower";
+    public static final String ARM_LOWER_0 = "avatar-arm-lower-0";
     public static final String ARM_LOWER_1 = "avatar-arm-lower-1";
     public static final String ARM_LOWER_2 = "avatar-arm-lower-2";
 
