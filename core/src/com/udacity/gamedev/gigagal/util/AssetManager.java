@@ -252,7 +252,7 @@ public final class AssetManager implements AssetErrorListener {
             armSwing = new Animation(Constants.SIDESWIPE_FRAME_DURATION, armSwingFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> armCurlFrames = new Array<AtlasRegion>();
-            armCurlFrames.add(atlas.findRegion(Constants.ARM_CURL_2));
+            armCurlFrames.add(atlas.findRegion(Constants.ARM_RELEASE));
             armCurlFrames.add(atlas.findRegion(Constants.ARM_CURL));
             armCurl = new Animation(Constants.SIDESWIPE_FRAME_DURATION, armCurlFrames, PlayMode.LOOP);
 
