@@ -99,6 +99,13 @@ public final class Constants {
     public static final String TORSO = "avatar-torso";
     public static final String TORSO_1 = "avatar-torso-1";
     public static final String TORSO_2 = "avatar-torso-2";
+    public static final String TORSO_0 = "avatar-torso-0";
+    public static final String HEAD = "avatar-head";
+    public static final String HAIR_1 = "avatar-hair-1";
+    public static final String HAIR_2 = "avatar-hair-2";
+    public static final String HAIR_3 = "avatar-hair-3";
+    public static final String MOUTH_OPEN = "avatar-mouth-open";
+    public static final String MOUTH_CLOSED = "avatar-mouth-closed";
     public static final String TORSO_RECOIL = "avatar-torso-recoil";
     public static final String TORSO_CLIMB = "avatar-torso-climb";
     public static final String ARM_RELEASE = "avatar-arm-release";

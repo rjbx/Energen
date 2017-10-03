@@ -141,6 +141,11 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion torsoRecoil;
         public final AtlasRegion torsoClimb;
         public final AtlasRegion obfuscated;
+        public final AtlasRegion head;
+        public final AtlasRegion midsection;
+        public final AtlasRegion mouthOpen;
+        public final AtlasRegion mouthClosed;
+        public final Animation hair;
         public final Animation torso;
         public final Animation armCurl;
         public final Animation armSwing;
@@ -202,6 +207,10 @@ public final class AssetManager implements AssetErrorListener {
             legsClimb = atlas.findRegion(Constants.LEGS_CLIMB);
             torsoRecoil = atlas.findRegion(Constants.TORSO_RECOIL);
             torsoClimb = atlas.findRegion(Constants.TORSO_CLIMB);
+            midsection = atlas.findRegion(Constants.TORSO_0);
+            head = atlas.findRegion(Constants.HEAD);
+            mouthOpen = atlas.findRegion(Constants.MOUTH_OPEN);
+            mouthClosed= atlas.findRegion(Constants.MOUTH_CLOSED);
             obfuscated = atlas.findRegion(Constants.OBFUSCATED);
             
             Array<AtlasRegion> torsoFrames = new Array<AtlasRegion>();
@@ -209,6 +218,12 @@ public final class AssetManager implements AssetErrorListener {
             torsoFrames.add(atlas.findRegion(Constants.TORSO_1));
             torsoFrames.add(atlas.findRegion(Constants.TORSO_2));
             torso = new Animation(Constants.SIDESWIPE_FRAME_DURATION, torsoFrames, PlayMode.LOOP_PINGPONG);
+
+            Array<AtlasRegion> hairFrames = new Array<AtlasRegion>();
+            hairFrames.add(atlas.findRegion(Constants.HAIR_1));
+            hairFrames.add(atlas.findRegion(Constants.HAIR_2));
+            hairFrames.add(atlas.findRegion(Constants.HAIR_3));
+            hair = new Animation(Constants.SIDESWIPE_FRAME_DURATION, hairFrames, PlayMode.LOOP_PINGPONG);
 
             Array<AtlasRegion> chargeFrames = new Array<AtlasRegion>();
             chargeFrames.add(atlas.findRegion(Constants.ARM_SHOOT));
@@ -422,7 +437,7 @@ public final class AssetManager implements AssetErrorListener {
                 case NUCLEAR:
                     return gas;
                 case THERMAL:
-                    return gas;
+                    return plasma;
                 case GRAVITATIONAL:
                     return solid;
                 case FINAL:
