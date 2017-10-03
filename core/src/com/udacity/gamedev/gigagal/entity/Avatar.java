@@ -1617,27 +1617,24 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
         body.add(hair);
         body.add(head);
-        body.add(eyes);
         body.add(mouth);
         body.add(torso);
         body.add(legs);
         body.add(backArm);
         body.add(frontArm);
+        body.add(eyes);
         body = getSwipeBody(body);
         if (!frontFacing) {
             body.reverse();
         }
-
-        for (int i = 0; i < body.size; i++) {
-            if (i > 3) {
-                batch.setColor(weapon.theme().color());
-            }
-            Helpers.drawTextureRegion(batch, viewport, body.get(i), position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
-
+        for (TextureRegion region : body) {
+            Helpers.drawTextureRegion(batch, viewport, region, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+            batch.setColor(Color.WHITE);
         }
-        batch.setColor(Color.WHITE);
         body.clear();
     }
+
+    private static TextureRegion reshadeTexture
 
     private TextureRegion getFrontArm(Animation shoot, TextureRegion nonShoot) {
         if (lookStartTime != 0) {

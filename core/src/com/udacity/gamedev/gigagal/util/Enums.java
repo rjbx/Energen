@@ -80,13 +80,13 @@ public final class Enums {
 
     public enum Theme {
 
-        HOME { @Override public final Color color() { return Color.TAN; } },
+        HOME { @Override public final Color color() { return Color.FOREST; } },
 
         MECHANICAL { @Override public final Color color() { return Color.LIGHT_GRAY; } },
         ELECTROMAGNETIC { @Override public final Color color() { return Color.DARK_GRAY; } },
-        NUCLEAR { @Override public final Color color() { return Color.RED; } },
+        NUCLEAR { @Override public final Color color() { return Color.FIREBRICK; } },
         THERMAL { @Override public final Color color() { return Color.DARK_GRAY; } },
-        GRAVITATIONAL { @Override public final Color color() { return Color.FIREBRICK; } },
+        GRAVITATIONAL { @Override public final Color color() { return Color.NAVY; } },
         MYSTERIOUS { @Override public final Color color() { return Color.BLACK; } },
 
         FINAL { @Override public final Color color() { return Color.MAROON; } };
