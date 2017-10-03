@@ -101,6 +101,9 @@ public final class Constants {
     public static final String TORSO_2 = "avatar-torso-2";
     public static final String TORSO_0 = "avatar-torso-0";
     public static final String HEAD = "avatar-head";
+    public static final String TORSO_CLIMB_0 = "avatar-torso-climb-0";
+    public static final String HEAD_CLIMB = "avatar-head-climb";
+    public static final String HAIR_CLIMB = "avatar-hair-climb";
     public static final String HAIR_1 = "avatar-hair-1";
     public static final String HAIR_2 = "avatar-hair-2";
     public static final String HAIR_3 = "avatar-hair-3";

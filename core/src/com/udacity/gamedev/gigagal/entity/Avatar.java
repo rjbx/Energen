@@ -1502,11 +1502,15 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         TextureRegion eyes = null;
         TextureRegion hair = null;
         TextureRegion mouth = null;
+        TextureRegion head = null;
         Animation shoot = null;
 
         switch (action) {
             case STANDING:
-                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(0);
+                head = AssetManager.getInstance().getAvatarAssets().head;
+                mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(0);
                 legs = AssetManager.getInstance().getAvatarAssets().legsStand;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().relax);
@@ -1515,7 +1519,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 break;
             case STRIDING:
                 float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
-                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
+                head = AssetManager.getInstance().getAvatarAssets().head;
+                mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6));
@@ -1524,7 +1531,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 break;
             case CLIMBING:
                 frontFacing = false;
-                torso = AssetManager.getInstance().getAvatarAssets().torsoClimb;
+                head = AssetManager.getInstance().getAvatarAssets().headClimb;
+                mouth = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                torso = AssetManager.getInstance().getAvatarAssets().midsectionClimb;
+                hair = AssetManager.getInstance().getAvatarAssets().hairClimb;
                 legs = AssetManager.getInstance().getAvatarAssets().legsClimb;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = AssetManager.getInstance().getAvatarAssets().hold;
@@ -1535,7 +1545,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 eyes = getEyes(AssetManager.getInstance().getAvatarAssets().obfuscated);
                 break;
             case DASHING:
-                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(dashTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
+                head = AssetManager.getInstance().getAvatarAssets().head;
+                mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(dashTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsDash.getKeyFrame(dashTimeSeconds);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().relax);
@@ -1543,7 +1556,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 eyes = getEyes(AssetManager.getInstance().getAvatarAssets().open);
                 break;
             case FALLING:
-                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
+                head = AssetManager.getInstance().getAvatarAssets().head;
+                mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsFall;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().reach);
@@ -1551,7 +1567,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 eyes = getEyes(AssetManager.getInstance().getAvatarAssets().open);
                 break;
             case JUMPING:
-                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(0);
+                head = AssetManager.getInstance().getAvatarAssets().head;
+                mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(0);
                 legs = AssetManager.getInstance().getAvatarAssets().legsFall;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().reach);
@@ -1561,7 +1580,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             case TWISTING:
                 break;
             case HOVERING:
-                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(hoverTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
+                head = AssetManager.getInstance().getAvatarAssets().head;
+                mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(hoverTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsHover.getKeyFrame(hoverTimeSeconds);
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().relax);
@@ -1569,7 +1591,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 eyes = getEyes(AssetManager.getInstance().getAvatarAssets().open);
                 break;
             case RAPPELLING:
-                torso = AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(0);
+                head = AssetManager.getInstance().getAvatarAssets().head;
+                mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(0);
                 legs = AssetManager.getInstance().getAvatarAssets().legsRappel;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().reach);
@@ -1577,7 +1602,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 eyes = getEyes(AssetManager.getInstance().getAvatarAssets().open);
                 break;
             case RECOILING:
-                torso = AssetManager.getInstance().getAvatarAssets().torsoRecoil;
+                head = AssetManager.getInstance().getAvatarAssets().head;
+                mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(2);
                 legs = AssetManager.getInstance().getAvatarAssets().legsRecoil;
                 shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
                 backArm = getBackArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(0));
@@ -1585,7 +1613,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 eyes = AssetManager.getInstance().getAvatarAssets().blink;
                 break;
         }
-
+        
+        body.add(hair);
+        body.add(head);
+        body.add(mouth);
         body.add(torso);
         body.add(legs);
         body.add(backArm);

@@ -145,6 +145,9 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion midsection;
         public final AtlasRegion mouthOpen;
         public final AtlasRegion mouthClosed;
+        public final AtlasRegion midsectionClimb;
+        public final AtlasRegion headClimb;
+        public final AtlasRegion hairClimb;
         public final Animation hair;
         public final Animation torso;
         public final Animation armCurl;
@@ -209,6 +212,9 @@ public final class AssetManager implements AssetErrorListener {
             torsoClimb = atlas.findRegion(Constants.TORSO_CLIMB);
             midsection = atlas.findRegion(Constants.TORSO_0);
             head = atlas.findRegion(Constants.HEAD);
+            midsectionClimb = atlas.findRegion(Constants.TORSO_CLIMB_0);
+            headClimb = atlas.findRegion(Constants.HEAD_CLIMB);
+            hairClimb = atlas.findRegion(Constants.HAIR_CLIMB);
             mouthOpen = atlas.findRegion(Constants.MOUTH_OPEN);
             mouthClosed= atlas.findRegion(Constants.MOUTH_CLOSED);
             obfuscated = atlas.findRegion(Constants.OBFUSCATED);
