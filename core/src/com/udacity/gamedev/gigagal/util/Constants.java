@@ -137,7 +137,8 @@ public final class Constants {
     public static final String FEET_RAPPEL = "avatar-feet-rappel";
     public static final String FEET_RECOIL = "avatar-feet-recoil";
     public static final String FEET_CLIMB = "avatar-feet-climb";
-    public static final String FEET_DASH = "avatar-feet-dash";
+    public static final String FEET_DASH_1 = "avatar-feet-dash-1";
+    public static final String FEET_DASH_2 = "avatar-feet-dash-2";
     public static final String FEET_STRIDE_1 = "avatar-feet-stride-1";
     public static final String FEET_STRIDE_2 = "avatar-feet-stride-2";
     public static final String FEET_STRIDE_3 = "avatar-feet-stride-3";
