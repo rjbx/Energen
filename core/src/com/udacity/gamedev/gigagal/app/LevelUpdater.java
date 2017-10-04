@@ -526,6 +526,8 @@ class LevelUpdater {
                     || (ammo.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(ammo.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
                         if (!(hazard instanceof Armored)) {
                             Helpers.applyDamage(destructible, ammo);
+                            this.spawnImpact(ammo.getPosition(), ammo.getType());
+                            ammo.deactivate();
                         } else {
                             AssetManager.getInstance().getSoundAssets().hitGround.play();
                             ammo.deactivate();
