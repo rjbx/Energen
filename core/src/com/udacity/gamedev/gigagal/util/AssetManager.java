@@ -160,17 +160,18 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion obfuscated;
         public final Animation hair;
         public final Animation armCurl;
-        public final Animation handCurl;
         public final Animation armSwing;
+        public final Animation handCurl;
         public final Animation handSwing;
-        public final Animation legsStride;
-        public final Animation feetDash;
-        public final Animation feetStride;
+        public final Animation handRappel;
         public final Animation handPoint;
         public final Animation handRaise;
         public final Animation handLower;
-        public final Animation eyesOpen;
+        public final Animation legsStride;
+        public final Animation feetDash;
+        public final Animation feetStride;
         public final Animation feetHover;
+        public final Animation eyesOpen;
 
         public final AtlasRegion stand;
         public final AtlasRegion fall;
@@ -267,6 +268,11 @@ public final class AssetManager implements AssetErrorListener {
             armSwingFrames.add(atlas.findRegion(Constants.ARM_CLENCH));
             armSwingFrames.add(atlas.findRegion(Constants.ARM_RELAX));
             armSwing = new Animation(Constants.SIDESWIPE_FRAME_DURATION, armSwingFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> rappelFrames = new Array<AtlasRegion>();
+            rappelFrames.add(atlas.findRegion(Constants.HAND_RAPPEL_2));
+            rappelFrames.add(atlas.findRegion(Constants.HAND_RAPPEL_1));
+            handRappel = new Animation(Constants.HOVER_FRAME_DURATION, rappelFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> handSwingFrames = new Array<AtlasRegion>();
             handSwingFrames.add(atlas.findRegion(Constants.HAND_CLENCH));

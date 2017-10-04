@@ -1376,6 +1376,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             if (rappelTimeSeconds >= Constants.RAPPEL_FRAME_DURATION) {
                 velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED, directionX, Orientation.X);
                 if (!(touchedGround instanceof Skateable)) {
+                    rappelStartTime = 0;
                     jump();
                 } else {
                     fall();
@@ -1403,10 +1404,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
             if (!(touchedGround == null || touchedGround instanceof Skateable)) {
                 if (inputControls.downButtonPressed && (touchedGround instanceof Aerial || !yMoving)) {
+                    rappelStartTime = 0;
                     velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
                 } else if (inputControls.upButtonPressed && canHurdle) {
                     canHurdle = false;
                     canRappel = false;
+                    rappelStartTime = 0;
                     directionX = Helpers.getOppositeDirection(directionX);
                     velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
                     float jumpBoost = 0;
@@ -1415,11 +1418,14 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     }
                     jump();
                     velocity.y += jumpBoost;
-                    Gdx.app.log(TAG, velocity.y + "vY " + velocity.x + "vX");
                 } else if (turbo < Constants.RAPPEL_TURBO_DECREMENT) {
                     turbo = 0;
+                    rappelStartTime = 0;
                     velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
                 } else {
+                    if (rappelStartTime == 0) {
+                        rappelStartTime = TimeUtils.nanoTime();
+                    }
                     if (!canHurdle && !yMoving) {
                         turbo -= Constants.RAPPEL_TURBO_DECREMENT * turboMultiplier;
                     }
@@ -1735,6 +1741,11 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 rearHand =  AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(0);
             } else {
                 rearHand = AssetManager.getInstance().getAvatarAssets().handReach;
+            }
+        } else if (rappelStartTime != 0) {
+            float rappelTimeSeconds = Helpers.secondsSince(rappelStartTime);
+            if (rappelTimeSeconds > 0.2f) {
+                rearHand = AssetManager.getInstance().getAvatarAssets().handRappel.getKeyFrame(Helpers.secondsSince(rappelTimeSeconds));
             }
         }
         return rearHand; // defaults to parameter value if no conditions met
