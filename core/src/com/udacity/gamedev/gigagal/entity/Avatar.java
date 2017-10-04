@@ -1500,7 +1500,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Array<TextureRegion> body = new Array<TextureRegion>();
-        boolean flip = directionX == Direction.LEFT;
+        boolean flipped = directionX == Direction.LEFT;
         boolean frontFacing = true;
         TextureRegion hair = null;
         TextureRegion torso = null;
@@ -1667,10 +1667,16 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         } else {
             body.reverse();
         }
+        Vector2 renderPosition = new Vector2().set(position);
+        if (flipped) {
+            renderPosition.x -= 2;
+        }
 
+        if (action == Action.RAPPELLING) {
+            Gdx.app.log(TAG, (touchedGround.getPosition().x - position.x) + "");
+        }
         for (TextureRegion region : body) {
-            Gdx.app.log(TAG, body.indexOf(region, true) + "");
-            Helpers.drawTextureRegion(batch, viewport, region, position, Constants.AVATAR_EYE_POSITION, 1, 0, flip, false);
+            Helpers.drawTextureRegion(batch, viewport, region, renderPosition, Constants.AVATAR_EYE_POSITION, 1, 0, flipped, false);
             if (region == frontArm) {
                 if (frontFacing) {
                     batch.setColor(Color.WHITE);
