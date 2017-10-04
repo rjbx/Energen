@@ -126,16 +126,18 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class AvatarAssets {
 
-        public final AtlasRegion shoot;
-        public final AtlasRegion releaseForward;
-        public final AtlasRegion releaseUp;
-        public final AtlasRegion releaseDown;
-        public final AtlasRegion extendUp;
-        public final AtlasRegion extendDown;
-        public final AtlasRegion relax;
+        public final AtlasRegion armPoint;
+        public final AtlasRegion armReleaseForward;
+        public final AtlasRegion armReleaseUp;
+        public final AtlasRegion armReleaseDown;
+        public final AtlasRegion handReleaseUp;
+        public final AtlasRegion handReleaseDown;
+        public final AtlasRegion armRaise;
+        public final AtlasRegion armLower;
+        public final AtlasRegion armRelax;
         public final AtlasRegion armReach;
         public final AtlasRegion handReach;
-        public final AtlasRegion clench;
+        public final AtlasRegion armClench;
         public final AtlasRegion legsStand;
         public final AtlasRegion legsFall;
         public final AtlasRegion legsRappel;
@@ -154,7 +156,7 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion hairClimb;
         public final AtlasRegion mouthOpen;
         public final AtlasRegion mouthClosed;
-        public final AtlasRegion blink;
+        public final AtlasRegion eyesBlink;
         public final AtlasRegion obfuscated;
         public final Animation hair;
         public final Animation armCurl;
@@ -162,13 +164,13 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation armSwing;
         public final Animation handSwing;
         public final Animation legsStride;
-        public final Animation dash;
+        public final Animation feetDash;
         public final Animation feetStride;
-        public final Animation pointForward;
-        public final Animation pointUp;
-        public final Animation pointDown;
-        public final Animation peer;
-        public final Animation hover;
+        public final Animation handPoint;
+        public final Animation handRaise;
+        public final Animation handLower;
+        public final Animation eyesOpen;
+        public final Animation feetHover;
 
         public final AtlasRegion stand;
         public final AtlasRegion fall;
@@ -180,17 +182,19 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation uphand;
 
         private AvatarAssets(TextureAtlas atlas) {
-            shoot = atlas.findRegion(Constants.ARM_POINT);
-            releaseForward = atlas.findRegion(Constants.ARM_RELEASE);
-            releaseUp = atlas.findRegion(Constants.ARM_RAISE);
-            releaseDown = atlas.findRegion(Constants.ARM_LOWER);
-            extendUp = atlas.findRegion(Constants.ARM_RAISE_0);
-            extendDown = atlas.findRegion(Constants.ARM_LOWER_0);
-            relax = atlas.findRegion(Constants.ARM_RELAX);
-            armReach = atlas.findRegion(Constants.ARM_REACH);
-            handReach = atlas.findRegion(Constants.HAND_REACH);
-            clench = atlas.findRegion(Constants.ARM_CLENCH);
+            armClench = atlas.findRegion(Constants.ARM_CLENCH);
             armClimb = atlas.findRegion(Constants.ARM_CLIMB);
+            armRelax = atlas.findRegion(Constants.ARM_RELAX);
+            armReach = atlas.findRegion(Constants.ARM_REACH);
+            armPoint = atlas.findRegion(Constants.ARM_POINT);
+            armRaise = atlas.findRegion(Constants.ARM_RAISE_0);
+            armLower = atlas.findRegion(Constants.ARM_LOWER_0);
+            armReleaseForward = atlas.findRegion(Constants.ARM_RELEASE);
+            armReleaseUp = atlas.findRegion(Constants.ARM_RAISE);
+            armReleaseDown = atlas.findRegion(Constants.ARM_LOWER);
+            handReleaseUp = atlas.findRegion(Constants.HAND_RAISE);
+            handReleaseDown = atlas.findRegion(Constants.HAND_LOWER);
+            handReach = atlas.findRegion(Constants.HAND_REACH);
             legsStand = atlas.findRegion(Constants.LEGS_STAND);
             legsFall = atlas.findRegion(Constants.LEGS_FALL);
             legsRappel = atlas.findRegion(Constants.LEGS_RAPPEL);
@@ -208,7 +212,7 @@ public final class AssetManager implements AssetErrorListener {
             hairClimb = atlas.findRegion(Constants.HAIR_CLIMB);
             mouthOpen = atlas.findRegion(Constants.MOUTH_OPEN);
             mouthClosed= atlas.findRegion(Constants.MOUTH_CLOSED);
-            blink = atlas.findRegion(Constants.EYES_BLINK);
+            eyesBlink = atlas.findRegion(Constants.EYES_BLINK);
             obfuscated = atlas.findRegion(Constants.OBFUSCATED);
 
             Array<AtlasRegion> hairFrames = new Array<AtlasRegion>();
@@ -221,21 +225,19 @@ public final class AssetManager implements AssetErrorListener {
             chargeFrames.add(atlas.findRegion(Constants.HAND_SHOOT));
             chargeFrames.add(atlas.findRegion(Constants.HAND_BLAST_1));
             chargeFrames.add(atlas.findRegion(Constants.HAND_BLAST_2));
-            pointForward = new Animation(Constants.SIDESWIPE_FRAME_DURATION, chargeFrames, PlayMode.LOOP);
+            handPoint = new Animation(Constants.SIDESWIPE_FRAME_DURATION, chargeFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> raiseFrames = new Array<AtlasRegion>();
-            raiseFrames.add(atlas.findRegion(Constants.HAND_RAISE));
             raiseFrames.add(atlas.findRegion(Constants.HAND_RAISE_0));
             raiseFrames.add(atlas.findRegion(Constants.HAND_RAISE_1));
             raiseFrames.add(atlas.findRegion(Constants.HAND_RAISE_2));
-            pointUp = new Animation(Constants.SIDESWIPE_FRAME_DURATION, raiseFrames, PlayMode.LOOP);
+            handRaise = new Animation(Constants.SIDESWIPE_FRAME_DURATION, raiseFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> lowerFrames = new Array<AtlasRegion>();
-            lowerFrames.add(atlas.findRegion(Constants.HAND_LOWER));
             lowerFrames.add(atlas.findRegion(Constants.HAND_LOWER_0));
             lowerFrames.add(atlas.findRegion(Constants.HAND_LOWER_1));
             lowerFrames.add(atlas.findRegion(Constants.HAND_LOWER_2));
-            pointDown = new Animation(Constants.SIDESWIPE_FRAME_DURATION, lowerFrames, PlayMode.LOOP);
+            handLower = new Animation(Constants.SIDESWIPE_FRAME_DURATION, lowerFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> legStrideFrames = new Array<AtlasRegion>();
             legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_4));
@@ -254,12 +256,12 @@ public final class AssetManager implements AssetErrorListener {
             Array<AtlasRegion> dashFrames = new Array<AtlasRegion>();
             dashFrames.add(atlas.findRegion(Constants.FEET_STRIDE_3));
             dashFrames.add(atlas.findRegion(Constants.FEET_DASH));
-            dash = new Animation(Constants.HOVER_FRAME_DURATION, dashFrames, PlayMode.LOOP);
+            feetDash = new Animation(Constants.HOVER_FRAME_DURATION, dashFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> hoverFrames = new Array<AtlasRegion>();
             hoverFrames.add(atlas.findRegion(Constants.FEET_HOVER_1));
             hoverFrames.add(atlas.findRegion(Constants.FEET_HOVER_2));
-            hover = new Animation(Constants.HOVER_FRAME_DURATION, hoverFrames, PlayMode.LOOP);
+            feetHover = new Animation(Constants.HOVER_FRAME_DURATION, hoverFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> armSwingFrames = new Array<AtlasRegion>();
             armSwingFrames.add(atlas.findRegion(Constants.ARM_CLENCH));
@@ -286,7 +288,7 @@ public final class AssetManager implements AssetErrorListener {
             peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_2));
             peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_3));
             peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_4));
-            peer = new Animation(Constants.EYE_ROLL_FRAME_DURATION, peerFrames, PlayMode.LOOP);
+            eyesOpen = new Animation(Constants.EYE_ROLL_FRAME_DURATION, peerFrames, PlayMode.LOOP);
 
             stand = atlas.findRegion(Constants.STAND);
             fall = atlas.findRegion(Constants.FALL);

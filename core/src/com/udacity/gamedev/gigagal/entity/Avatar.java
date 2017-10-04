@@ -1500,9 +1500,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         TextureRegion torso = null;
         TextureRegion legs = null;
         TextureRegion feet = null;
-        TextureRegion backArm = null;
+        TextureRegion rearArm = null;
         TextureRegion frontArm = null;
-        TextureRegion backHand = null;
+        TextureRegion rearHand = null;
         TextureRegion frontHand = null;
         TextureRegion eyes = null;
         TextureRegion mouth = null;
@@ -1517,12 +1517,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(0);
                 legs = AssetManager.getInstance().getAvatarAssets().legsStand;
                 feet = AssetManager.getInstance().getAvatarAssets().feetStand;
-                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                backArm = getBackHand(AssetManager.getInstance().getAvatarAssets().relax);
-                frontArm = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().releaseForward);
-                backHand = getBackHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(2));
+                shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
+                rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armRelax);
+                frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armReleaseForward);
+                rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(2));
                 frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(0));
-                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().peer.getKeyFrame(0));
+                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                 break;
             case STRIDING:
                 float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
@@ -1532,12 +1532,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame);
                 feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(strideFrame);
-                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                backArm = getBackHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6));
-                frontArm = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 6));
-                backHand = getBackHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(strideFrame / 6));
+                shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
+                rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6));
+                frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 6));
+                rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(strideFrame / 6));
                 frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(strideFrame / 6));
-                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().peer.getKeyFrame(0));
+                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                 break;
             case CLIMBING:
                 frontFacing = false;
@@ -1547,15 +1547,15 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 hair = AssetManager.getInstance().getAvatarAssets().hairClimb;
                 legs = AssetManager.getInstance().getAvatarAssets().legsClimb;
                 feet = AssetManager.getInstance().getAvatarAssets().feetClimb;
-                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                backArm = AssetManager.getInstance().getAvatarAssets().armClimb;
-                backHand = AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(0);
-                frontHand = AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(2);
+                shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
+                rearArm = AssetManager.getInstance().getAvatarAssets().armClimb;
+                rearHand = AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(0);
+                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(2));
                 if (lookStartTime != 0 || inputControls.shootButtonPressed) {
-                    backArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                    rearArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
                 }
-                frontArm = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().obfuscated);
-                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().peer.getKeyFrame(0));
+                frontArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                 break;
             case DASHING:
                 head = AssetManager.getInstance().getAvatarAssets().head;
@@ -1563,13 +1563,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(dashTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(4);
-                feet = AssetManager.getInstance().getAvatarAssets().dash.getKeyFrame(dashTimeSeconds);
-                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                backArm = getBackHand(AssetManager.getInstance().getAvatarAssets().relax);
-                frontArm = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(2));
-                backHand = getBackHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(2));
+                feet = AssetManager.getInstance().getAvatarAssets().feetDash.getKeyFrame(dashTimeSeconds);
+                shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
+                rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armRelax);
+                frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(2));
+                rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(2));
                 frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(2));
-                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().peer.getKeyFrame(0));
+                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                 break;
             case FALLING:
                 head = AssetManager.getInstance().getAvatarAssets().head;
@@ -1578,12 +1578,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsFall;
                 feet = AssetManager.getInstance().getAvatarAssets().feetFall;
-                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                backArm = getBackHand(AssetManager.getInstance().getAvatarAssets().armReach);
-                frontArm = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().shoot);
-                backHand = getBackHand(AssetManager.getInstance().getAvatarAssets().handReach);
-                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0));
-                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().peer.getKeyFrame(0));
+                shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
+                rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armReach);
+                frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armPoint);
+                rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handReach);
+                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handPoint.getKeyFrame(0));
+                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                 break;
             case JUMPING:
                 mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
@@ -1591,12 +1591,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsFall;
                 feet = AssetManager.getInstance().getAvatarAssets().feetFall;
-                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                backArm = getBackHand(AssetManager.getInstance().getAvatarAssets().armReach);
-                frontArm = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().shoot);
-                backHand = getBackHand(AssetManager.getInstance().getAvatarAssets().handReach);
-                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0));
-                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().peer.getKeyFrame(0));
+                shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
+                rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armReach);
+                frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armPoint);
+                rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handReach);
+                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handPoint.getKeyFrame(0));
+                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                 break;
             case TWISTING:
                 break;
@@ -1606,13 +1606,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(hoverTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsStand;
-                feet = AssetManager.getInstance().getAvatarAssets().hover.getKeyFrame(hoverTimeSeconds);
-                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                backArm = getBackHand(AssetManager.getInstance().getAvatarAssets().relax);
-                frontArm = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().releaseForward);
-                backHand = getBackHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(2));
+                feet = AssetManager.getInstance().getAvatarAssets().feetHover.getKeyFrame(hoverTimeSeconds);
+                shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
+                rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armRelax);
+                frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armReleaseForward);
+                rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(2));
                 frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(0));
-                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().peer.getKeyFrame(0));
+                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                 break;
             case RAPPELLING:
                 head = AssetManager.getInstance().getAvatarAssets().head;
@@ -1621,12 +1621,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(0);
                 legs = AssetManager.getInstance().getAvatarAssets().legsRappel;
                 feet = AssetManager.getInstance().getAvatarAssets().feetRappel;
-                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                backArm = getBackHand(AssetManager.getInstance().getAvatarAssets().armReach);
-                frontArm = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().releaseForward);
-                backHand = getBackHand(AssetManager.getInstance().getAvatarAssets().handReach);
-                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0));
-                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().peer.getKeyFrame(0));
+                shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
+                rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armReach);
+                frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armReleaseForward);
+                rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handReach);
+                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handPoint.getKeyFrame(0));
+                eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                 break;
             case RECOILING:
                 head = AssetManager.getInstance().getAvatarAssets().head;
@@ -1635,24 +1635,24 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(2);
                 legs = AssetManager.getInstance().getAvatarAssets().legsRecoil;
                 feet = AssetManager.getInstance().getAvatarAssets().feetRecoil;
-                shoot = AssetManager.getInstance().getAvatarAssets().pointForward;
-                backArm = getBackHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(0));
-                frontArm = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0));
-                backHand = getBackHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(0));
-                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().pointForward.getKeyFrame(0));
-                eyes = AssetManager.getInstance().getAvatarAssets().blink;
+                shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
+                rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(0));
+                frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armPoint);
+                rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(0));
+                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handPoint.getKeyFrame(0));
+                eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
                 break;
         }
 
         body.add(torso);
         body.add(legs);
-        body.add(backArm);
+        body.add(rearArm);
         body.add(frontArm);
         body.add(hair);
         body.add(head);
         body.add(mouth);
         body.add(eyes);
-        body.add(backHand);
+        body.add(rearHand);
         body.add(frontHand);
         body.add(feet);
         body = getSwipeBody(body);
@@ -1677,18 +1677,32 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         body.clear();
     }
 
-    private TextureRegion getFrontArm(TextureRegion shoot, TextureRegion nonShoot) {
-        return null;
+    private TextureRegion getFrontArm(TextureRegion nonShoot) {
+        TextureRegion shoot = AssetManager.getInstance().getAvatarAssets().armPoint;
+        if (lookStartTime != 0) {
+            if (directionY == Direction.UP) {
+                shoot = AssetManager.getInstance().getAvatarAssets().armRaise;
+                nonShoot =  AssetManager.getInstance().getAvatarAssets().armReleaseUp;
+            } else {
+                shoot = AssetManager.getInstance().getAvatarAssets().armLower;
+                nonShoot = AssetManager.getInstance().getAvatarAssets().armReleaseDown;
+            }
+        }
+        if (inputControls.shootButtonPressed) {
+            return shoot;
+        } else {
+            return nonShoot; // defaults to parameter value if no conditions met
+        }
     }
 
     private TextureRegion getFrontHand(Animation shoot, TextureRegion nonShoot) {
         if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
-                shoot = AssetManager.getInstance().getAvatarAssets().pointUp;
-                nonShoot =  AssetManager.getInstance().getAvatarAssets().pointUp.getKeyFrame(0);
+                shoot = AssetManager.getInstance().getAvatarAssets().handRaise;
+                nonShoot =  AssetManager.getInstance().getAvatarAssets().handReleaseUp;
             } else {
-                shoot = AssetManager.getInstance().getAvatarAssets().pointDown;
-                nonShoot = AssetManager.getInstance().getAvatarAssets().pointDown.getKeyFrame(0);
+                shoot = AssetManager.getInstance().getAvatarAssets().handLower;
+                nonShoot = AssetManager.getInstance().getAvatarAssets().handReleaseDown;
             }
         }
         if (inputControls.shootButtonPressed) {
@@ -1704,10 +1718,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
     }
 
-    private TextureRegion getBackHand(TextureRegion backArm) {
+    private TextureRegion getRearHand(TextureRegion backArm) {
         if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
-                backArm =  AssetManager.getInstance().getAvatarAssets().clench;
+                backArm =  AssetManager.getInstance().getAvatarAssets().armClench;
             } else {
                 backArm = AssetManager.getInstance().getAvatarAssets().armReach;
             }
@@ -1723,9 +1737,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 || (Helpers.secondsSince(shootStartTime) % 14 < .1f)
                 || (Helpers.secondsSince(shootStartTime) % 15 < .3f)
                 || (Helpers.secondsSince(activeStartTime) > 60)))) {
-                eyes = AssetManager.getInstance().getAvatarAssets().blink;
+                eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
             } else if (canPeer && Helpers.secondsSince(shootStartTime) > 2) {
-                eyes = AssetManager.getInstance().getAvatarAssets().peer.getKeyFrame(lookQuadrant);
+                eyes = AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(lookQuadrant);
             }
         }
         return eyes; // defaults to parameter value if no conditions met
@@ -1737,23 +1751,23 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 if (inputControls.rightButtonPressed) {
 //                    body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(swipeTimeSeconds));
                     body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds));
-                    body.set(2, getBackHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds)));
+                    body.set(2, getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds)));
                     body.set(3, AssetManager.getInstance().getAvatarAssets().forehand.getKeyFrame(swipeTimeSeconds));
                 } else if (inputControls.leftButtonPressed) {
 //                    body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(swipeTimeSeconds));
                     body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds));
-                    body.set(2, getBackHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds)));
+                    body.set(2, getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds)));
                     body.set(3, AssetManager.getInstance().getAvatarAssets().backhand.getKeyFrame(swipeTimeSeconds));
                 }
             } else if (bladeState == BladeState.CUT) {
 //                body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(swipeTimeSeconds));
                 body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds));
-                body.set(2, getBackHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds)));
+                body.set(2, getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds)));
                 body.set(3, AssetManager.getInstance().getAvatarAssets().uphand.getKeyFrame(swipeTimeSeconds));
             } else if (bladeState == BladeState.FLIP) {
 //                body.set(0, AssetManager.getInstance().getAvatarAssets().torso.getKeyFrame(swipeTimeSeconds));
                 body.set(1, AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds));
-                body.set(2, getBackHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds)));
+                body.set(2, getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds)));
                 body.set(3, AssetManager.getInstance().getAvatarAssets().backflip.getKeyFrame(swipeTimeSeconds));
             }
         }
