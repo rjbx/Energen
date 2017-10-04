@@ -1339,7 +1339,6 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     }
                 }
             } else if (action == Action.CLIMBING) {
-                region = AssetManager.getInstance().getAvatarAssets().climb;
             } else if (action == Action.STANDING) {
 //                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
 //                        ((Helpers.secondsSince(standStartTime) % 10 < .15f)
@@ -1387,7 +1386,6 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     }
                 }
             } else if (action == Action.CLIMBING) {
-                region = AssetManager.getInstance().getAvatarAssets().climb;
             } else if (action == Action.STANDING) {
 //                if ((!(Helpers.secondsSince(standStartTime) < 1) &&
 //                        ((Helpers.secondsSince(standStartTime) % 20 < .15f)
