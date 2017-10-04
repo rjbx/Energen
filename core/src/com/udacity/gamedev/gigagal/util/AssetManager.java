@@ -130,14 +130,22 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion releaseForward;
         public final AtlasRegion releaseUp;
         public final AtlasRegion releaseDown;
+        public final AtlasRegion extendUp;
+        public final AtlasRegion extendDown;
         public final AtlasRegion relax;
-        public final AtlasRegion reach;
+        public final AtlasRegion armReach;
+        public final AtlasRegion handReach;
         public final AtlasRegion clench;
         public final AtlasRegion legsStand;
         public final AtlasRegion legsFall;
         public final AtlasRegion legsRappel;
         public final AtlasRegion legsRecoil;
         public final AtlasRegion legsClimb;
+        public final AtlasRegion feetStand;
+        public final AtlasRegion feetFall;
+        public final AtlasRegion feetRappel;
+        public final AtlasRegion feetRecoil;
+        public final AtlasRegion feetClimb;
         public final AtlasRegion armClimb;
         public final AtlasRegion head;
         public final AtlasRegion headClimb;
@@ -176,8 +184,11 @@ public final class AssetManager implements AssetErrorListener {
             releaseForward = atlas.findRegion(Constants.ARM_RELEASE);
             releaseUp = atlas.findRegion(Constants.ARM_RAISE);
             releaseDown = atlas.findRegion(Constants.ARM_LOWER);
+            extendUp = atlas.findRegion(Constants.ARM_RAISE_0);
+            extendDown = atlas.findRegion(Constants.ARM_LOWER_0);
             relax = atlas.findRegion(Constants.ARM_RELAX);
-            reach = atlas.findRegion(Constants.ARM_REACH);
+            armReach = atlas.findRegion(Constants.ARM_REACH);
+            handReach = atlas.findRegion(Constants.HAND_REACH);
             clench = atlas.findRegion(Constants.ARM_CLENCH);
             armClimb = atlas.findRegion(Constants.ARM_CLIMB);
             legsStand = atlas.findRegion(Constants.LEGS_STAND);
@@ -185,6 +196,11 @@ public final class AssetManager implements AssetErrorListener {
             legsRappel = atlas.findRegion(Constants.LEGS_RAPPEL);
             legsRecoil = atlas.findRegion(Constants.LEGS_RECOIL);
             legsClimb = atlas.findRegion(Constants.LEGS_CLIMB);
+            feetStand = atlas.findRegion(Constants.FEET_STAND);
+            feetFall = atlas.findRegion(Constants.FEET_FALL);
+            feetRappel = atlas.findRegion(Constants.FEET_RAPPEL);
+            feetRecoil = atlas.findRegion(Constants.FEET_RECOIL);
+            feetClimb = atlas.findRegion(Constants.FEET_CLIMB);
             midsection = atlas.findRegion(Constants.TORSO_0);
             head = atlas.findRegion(Constants.HEAD);
             midsectionClimb = atlas.findRegion(Constants.TORSO_CLIMB_0);
@@ -208,12 +224,14 @@ public final class AssetManager implements AssetErrorListener {
             pointForward = new Animation(Constants.SIDESWIPE_FRAME_DURATION, chargeFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> raiseFrames = new Array<AtlasRegion>();
+            raiseFrames.add(atlas.findRegion(Constants.HAND_RAISE));
             raiseFrames.add(atlas.findRegion(Constants.HAND_RAISE_0));
             raiseFrames.add(atlas.findRegion(Constants.HAND_RAISE_1));
             raiseFrames.add(atlas.findRegion(Constants.HAND_RAISE_2));
             pointUp = new Animation(Constants.SIDESWIPE_FRAME_DURATION, raiseFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> lowerFrames = new Array<AtlasRegion>();
+            lowerFrames.add(atlas.findRegion(Constants.HAND_LOWER));
             lowerFrames.add(atlas.findRegion(Constants.HAND_LOWER_0));
             lowerFrames.add(atlas.findRegion(Constants.HAND_LOWER_1));
             lowerFrames.add(atlas.findRegion(Constants.HAND_LOWER_2));
