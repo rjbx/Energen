@@ -135,6 +135,12 @@ class LevelUpdater {
         avatar.render(batch, viewport);
         Blade.getInstance().render(batch, viewport);
 
+        for (Ground ground : grounds) {
+            if (ground instanceof Pliable && ((Pliable) ground).isBeingCarried()) {
+                ground.render(batch, viewport);
+            }
+        }
+
         for (Hazard hazard : hazards) {
             if (hazard instanceof Ammo) {
                 hazard.render(batch, viewport);

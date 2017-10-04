@@ -39,7 +39,7 @@ public class Brick extends Barrier implements Tossable, Impermeable {
     @Override
     public void update(float delta) {
         if (beingCarried && !againstStaticGround) {
-            super.position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
+            super.position.set(carrier.getPosition().x + Helpers.absoluteToDirectionalValue(this.getWidth() / 2, carrier.getDirectionX(), Enums.Orientation.X), carrier.getBottom() + getHeight() / 2);
             velocity.x = carrier.getVelocity().x;
         }
         super.position.mulAdd(velocity, delta);

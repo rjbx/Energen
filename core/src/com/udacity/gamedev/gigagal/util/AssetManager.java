@@ -164,6 +164,7 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation handCurl;
         public final Animation handSwing;
         public final Animation handRappel;
+        public final Animation handMove;
         public final Animation handPoint;
         public final Animation handRaise;
         public final Animation handLower;
@@ -273,6 +274,11 @@ public final class AssetManager implements AssetErrorListener {
             rappelFrames.add(atlas.findRegion(Constants.HAND_RAPPEL_2));
             rappelFrames.add(atlas.findRegion(Constants.HAND_RAPPEL_1));
             handRappel = new Animation(Constants.HOVER_FRAME_DURATION, rappelFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> moveFrames = new Array<AtlasRegion>();
+            moveFrames.add(atlas.findRegion(Constants.HAND_MOVE_2));
+            moveFrames.add(atlas.findRegion(Constants.HAND_MOVE_1));
+            handMove = new Animation(Constants.HOVER_FRAME_DURATION, moveFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> handSwingFrames = new Array<AtlasRegion>();
             handSwingFrames.add(atlas.findRegion(Constants.HAND_CLENCH));

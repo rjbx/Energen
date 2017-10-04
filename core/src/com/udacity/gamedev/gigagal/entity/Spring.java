@@ -46,7 +46,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     @Override
     public void update(float delta) {
         if (beingCarried && !againstStaticGround) {
-            this.position.set(carrier.getPosition().x, carrier.getBottom() + getHeight() / 2);
+            this.position.set(carrier.getPosition().x + Helpers.absoluteToDirectionalValue(this.getWidth() / 2, carrier.getDirectionX(), Enums.Orientation.X), carrier.getBottom() + getHeight() / 2);
             this.velocity.x = carrier.getVelocity().x;
         }
         position.mulAdd(velocity, delta);

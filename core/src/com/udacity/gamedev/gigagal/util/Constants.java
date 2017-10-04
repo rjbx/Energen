@@ -134,6 +134,8 @@ public final class Constants {
     public static final String HAND_BLAST_2 = "avatar-hand-blast-2";
     public static final String HAND_RAPPEL_1 = "avatar-hand-rappel-1";
     public static final String HAND_RAPPEL_2 = "avatar-hand-rappel-2";
+    public static final String HAND_MOVE_1 = "avatar-hand-move-1";
+    public static final String HAND_MOVE_2 = "avatar-hand-move-2";
     public static final String FEET_STAND = "avatar-feet-stand";
     public static final String FEET_FALL = "avatar-feet-fall";
     public static final String FEET_RAPPEL = "avatar-feet-rappel";
