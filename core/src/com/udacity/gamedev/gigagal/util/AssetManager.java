@@ -159,6 +159,7 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion eyesBlink;
         public final AtlasRegion obfuscated;
         public final Animation hair;
+        public final Animation waist;
         public final Animation armCurl;
         public final Animation armSwing;
         public final Animation handCurl;
@@ -301,6 +302,14 @@ public final class AssetManager implements AssetErrorListener {
             peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_3));
             peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_4));
             eyesOpen = new Animation(Constants.EYE_ROLL_FRAME_DURATION, peerFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> waistFrames = new Array<AtlasRegion>();
+            waistFrames.add(atlas.findRegion(Constants.WAIST_1));
+            waistFrames.add(atlas.findRegion(Constants.WAIST_1));
+            waistFrames.add(atlas.findRegion(Constants.WAIST_2));
+            waistFrames.add(atlas.findRegion(Constants.WAIST_3));
+            waistFrames.add(atlas.findRegion(Constants.WAIST_4));
+            waist = new Animation(Constants.SIDESWIPE_FRAME_DURATION, waistFrames, PlayMode.LOOP_PINGPONG);
 
             stand = atlas.findRegion(Constants.STAND);
             fall = atlas.findRegion(Constants.FALL);

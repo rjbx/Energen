@@ -104,6 +104,10 @@ public final class Constants {
     public static final String HAIR_1 = "avatar-hair-1";
     public static final String HAIR_2 = "avatar-hair-2";
     public static final String HAIR_3 = "avatar-hair-3";
+    public static final String WAIST_1 = "avatar-waist-1";
+    public static final String WAIST_2 = "avatar-waist-2";
+    public static final String WAIST_3 = "avatar-waist-3";
+    public static final String WAIST_4 = "avatar-waist-4";
     public static final String MOUTH_OPEN = "avatar-mouth-open";
     public static final String MOUTH_CLOSED = "avatar-mouth-closed";
     public static final String ARM_REACH = "avatar-arm-reach";
