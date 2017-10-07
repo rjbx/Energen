@@ -76,7 +76,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     public void update(float delta) {
         if (orientation == Enums.Orientation.X) {
             position.mulAdd(velocity, delta);
-            velocity.x = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED, direction, Enums.Orientation.X);
+            velocity.x = Helpers.speedToVelocity(Constants.ZOOMBA_MOVEMENT_SPEED, direction, Enums.Orientation.X);
             if (position.x < startingPosition.x - (range / 2)) {
                 position.x = startingPosition.x - (range / 2);
                 updateDirection(Direction.RIGHT);
@@ -88,7 +88,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             velocity.y = (Constants.ZOOMBA_CENTER.y + Constants.ZOOMBA_BOB_AMPLITUDE * bobMultiplier + bobNadir - position.y) * (1 / delta);
         } else {
             position.mulAdd(velocity, delta);
-            velocity.y = Helpers.absoluteToDirectionalValue(Constants.ZOOMBA_MOVEMENT_SPEED, direction, Enums.Orientation.Y);
+            velocity.y = Helpers.speedToVelocity(Constants.ZOOMBA_MOVEMENT_SPEED, direction, Enums.Orientation.Y);
             if (position.y < startingPosition.y - (range / 2)) {
                 position.y = startingPosition.y - (range / 2);
                 updateDirection(Direction.UP);
@@ -105,7 +105,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             if (ground.isDense() && !(ground instanceof Pliable)) {
                 if (Helpers.overlapsPhysicalObject(this, ground)) {
                     direction = Helpers.getOppositeDirection(direction);
-                    velocity.set(Helpers.absoluteToDirectionalValue(-velocity.x, direction, Enums.Orientation.X), Helpers.absoluteToDirectionalValue(-velocity.y, direction, Enums.Orientation.Y));
+                    velocity.set(Helpers.speedToVelocity(-velocity.x, direction, Enums.Orientation.X), Helpers.speedToVelocity(-velocity.y, direction, Enums.Orientation.Y));
                     position.add(velocity);
                     if (Helpers.overlapsPhysicalObject(this, ground)) { // prevents post conversion reposition below ground top
                         position.set(startingPosition.x, ground.getTop() + getHeight());
@@ -118,7 +118,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
             if (Helpers.overlapsPhysicalObject(this, hazard)) {
                 if (hazard instanceof Zoomba) {
                     direction = Helpers.getOppositeDirection(direction);
-                    velocity.set(Helpers.absoluteToDirectionalValue(-velocity.x, direction, Enums.Orientation.X), Helpers.absoluteToDirectionalValue(-velocity.y, direction, Enums.Orientation.Y));
+                    velocity.set(Helpers.speedToVelocity(-velocity.x, direction, Enums.Orientation.X), Helpers.speedToVelocity(-velocity.y, direction, Enums.Orientation.Y));
                     position.add(velocity);
                 }
             }

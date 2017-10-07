@@ -36,7 +36,7 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
         this.position = position;
         this.direction = direction;
         this.type = type;
-        velocity = new Vector2(Helpers.absoluteToDirectionalValue(5, direction, Enums.Orientation.X), -5);
+        velocity = new Vector2(Helpers.speedToVelocity(5, direction, Enums.Orientation.X), -5);
         startTime = TimeUtils.nanoTime();
         health = Constants.SWOOPA_MAX_HEALTH;
         bobOffset = MathUtils.random();
@@ -85,7 +85,7 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
                     velocity.x /= 1.1f;
                     velocity.y /= 1.1f;
             } else {
-                velocity.x = Helpers.absoluteToDirectionalValue(Math.min(10, Helpers.absoluteToDirectionalValue(velocity.x, direction, Enums.Orientation.X) * 1.0375f), direction, Enums.Orientation.X);
+                velocity.x = Helpers.speedToVelocity(Math.min(10, Helpers.speedToVelocity(velocity.x, direction, Enums.Orientation.X) * 1.0375f), direction, Enums.Orientation.X);
                 velocity.y = 0;
             }
         }
@@ -94,9 +94,9 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
         // when the swoopa progresses past the center screen position with a margin of ten screen widths, reset x and y position
         if (position.x > (camera.x + Math.abs(worldSpan.x * 20))) {
             descentStartTime = 0;
-            position.x = camera.x - Helpers.absoluteToDirectionalValue(worldSpan.x + 1, direction, Enums.Orientation.X);
+            position.x = camera.x - Helpers.speedToVelocity(worldSpan.x + 1, direction, Enums.Orientation.X);
             position.y = Avatar.getInstance().getTop() + Constants.SWOOPA_COLLISION_HEIGHT;
-            velocity.set(Helpers.absoluteToDirectionalValue(5, direction, Enums.Orientation.X), -5);
+            velocity.set(Helpers.speedToVelocity(5, direction, Enums.Orientation.X), -5);
         }
     }
 

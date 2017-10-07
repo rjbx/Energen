@@ -126,23 +126,6 @@ public final class Helpers {
         return timeStr.substring(0, timeStr.length() - 4);
     }
 
-    public static final float absoluteToDirectionalValue(float delta, Enums.Direction direction, Enums.Orientation orientation) {
-        if (orientation == X) {
-            if (direction == Enums.Direction.RIGHT) {
-                return delta;
-            } else if (direction == Enums.Direction.LEFT) {
-                return -delta;
-            }
-        } else if (orientation == Y) {
-            if (direction == Enums.Direction.UP) {
-                return delta;
-            } else if (direction == Enums.Direction.DOWN) {
-                return -delta;
-            }
-        }
-        return 0;
-    }
-
     public static final float vectorToAxisValue(Vector2 vector, Enums.Orientation orientation) {
         if (orientation == X) {
             return vector.x;
@@ -150,6 +133,44 @@ public final class Helpers {
             return vector.y;
         }
         return 0;
+    }
+
+    public static final float speedToVelocity(float speed, Enums.Direction direction, Enums.Orientation orientation) {
+        if (orientation == X) {
+            if (direction == Enums.Direction.RIGHT) {
+                return speed;
+            } else if (direction == Enums.Direction.LEFT) {
+                return -speed;
+            }
+        } else if (orientation == Y) {
+            if (direction == Enums.Direction.UP) {
+                return speed;
+            } else if (direction == Enums.Direction.DOWN) {
+                return -speed;
+            }
+        }
+        return 0;
+    }
+
+    public static final Enums.Direction velocityToOppositeDirection(float velocity, Enums.Orientation orientation) {
+        if (orientation == X) {
+            if (velocity > 0) {
+                return Enums.Direction.LEFT;
+            } else if (velocity < 0) {
+                return Enums.Direction.RIGHT;
+            } else {
+                return null;
+            }
+        } else if (orientation == Y) {
+            if (velocity > 0) {
+                return Enums.Direction.DOWN;
+            } else if (velocity < 0) {
+                return Enums.Direction.UP;
+            } else {
+                return null;
+            }
+        }
+        return null;
     }
 
     public static final Enums.Direction getOppositeDirection(Enums.Direction direction) {

@@ -148,7 +148,7 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
                     }
                     rollTimeSeconds = Helpers.secondsSince(rollStartTime);
 
-                    velocity.x = speedAtChangeXDirection + Helpers.absoluteToDirectionalValue(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
+                    velocity.x = speedAtChangeXDirection + Helpers.speedToVelocity(Math.min(Constants.ROLLEN_MOVEMENT_SPEED * rollTimeSeconds, Constants.ROLLEN_MOVEMENT_SPEED), xDirection, Enums.Orientation.X);
                 }
                 for (Hazard hazard : LevelAssets.getClonedHazards()) {
                     if (hazard instanceof Rollen && Helpers.overlapsPhysicalObject(this, hazard) && !(hazard.equals(this))) {

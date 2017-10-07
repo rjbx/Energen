@@ -300,7 +300,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     look();
                     shoot(ShotIntensity.BLAST, weapon, 0);
                 } else if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().y, Constants.AVATAR_EYE_HEIGHT, getBottom(), getTop())
-                        && Helpers.absoluteToDirectionalValue(position.x - gigaGal.getPosition().x, directionX, Orientation.X) < 0) {
+                        && Helpers.speedToVelocity(position.x - gigaGal.getPosition().x, directionX, Orientation.X) < 0) {
                     lookStartTime = 0;
                     if (groundState == GroundState.PLANTED) {
                         dash();
@@ -642,7 +642,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     touchHazard(hazard);
                 } else if (action == Action.STANDING
                         && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
-                        && Helpers.absoluteToDirectionalValue(position.x - bounds.x, directionX, Orientation.X) > 0) {
+                        && Helpers.speedToVelocity(position.x - bounds.x, directionX, Orientation.X) > 0) {
                     canPeer = true;
                 } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
                     canPeer = false;
@@ -889,7 +889,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
             }
         } else if (touchedGround instanceof Propelling) {
             velocity.x = 0;
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
+            velocity.x += Helpers.speedToVelocity(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
         } else {
             velocity.x = 0;
         }
@@ -955,7 +955,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
             this.velocity.x = velocity.x;
         } else {
-            this.velocity.x = Helpers.absoluteToDirectionalValue(velocity.x, directionX, Orientation.X);
+            this.velocity.x = Helpers.speedToVelocity(velocity.x, directionX, Orientation.X);
         }
         this.velocity.y = velocity.y;
         AssetManager.getInstance().getSoundAssets().damage.play();
@@ -1055,13 +1055,13 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         }
         strideTimeSeconds = Helpers.secondsSince(strideStartTime);
         strideAcceleration = strideTimeSeconds * .75f + Constants.AVATAR_STARTING_SPEED;
-        velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.AVATAR_MAX_SPEED * strideAcceleration + Constants.AVATAR_STARTING_SPEED, Constants.AVATAR_MAX_SPEED * strideMultiplier), directionX, Orientation.X);
+        velocity.x = Helpers.speedToVelocity(Math.min(Constants.AVATAR_MAX_SPEED * strideAcceleration + Constants.AVATAR_STARTING_SPEED, Constants.AVATAR_MAX_SPEED * strideMultiplier), directionX, Orientation.X);
         if (touchedGround instanceof Propelling) {
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
+            velocity.x += Helpers.speedToVelocity(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
         } else if (touchedGround instanceof Skateable) {
-            velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.AVATAR_MAX_SPEED * strideAcceleration / 2 + Constants.AVATAR_STARTING_SPEED, Constants.AVATAR_MAX_SPEED * 2), directionX, Orientation.X);
+            velocity.x = strideSpeed + Helpers.speedToVelocity(Math.min(Constants.AVATAR_MAX_SPEED * strideAcceleration / 2 + Constants.AVATAR_STARTING_SPEED, Constants.AVATAR_MAX_SPEED * 2), directionX, Orientation.X);
         } else if (canSink) {
-            velocity.x = Helpers.absoluteToDirectionalValue(10, directionX, Orientation.X);
+            velocity.x = Helpers.speedToVelocity(10, directionX, Orientation.X);
             velocity.y = -3;
         }
     }
@@ -1089,7 +1089,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         float dashSpeed = Constants.AVATAR_MAX_SPEED;
         if (turbo >= 1) {
             turbo -= Constants.DASH_TURBO_DECREMENT * turboMultiplier;
-            velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed, directionX, Orientation.X);
+            velocity.x = Helpers.speedToVelocity(dashSpeed, directionX, Orientation.X);
         } else {
             canDash = false;
             dashStartTime = 0;
@@ -1097,7 +1097,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         }
         if (touchedGround instanceof Skateable
                 || (touchedGround instanceof Propelling && directionX == ((Propelling) touchedGround).getDirectionX())) {
-            velocity.x = Helpers.absoluteToDirectionalValue(dashSpeed + Constants.TREADMILL_SPEED, directionX, Orientation.X);
+            velocity.x = Helpers.speedToVelocity(dashSpeed + Constants.TREADMILL_SPEED, directionX, Orientation.X);
         }
     }
 
@@ -1108,7 +1108,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
                 } else if (Helpers.secondsSince(jumpStartTime) > 1.75f) {
                     jump();
-                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED / 8, directionX, Orientation.X);
+                    velocity.x = Helpers.speedToVelocity(Constants.AVATAR_MAX_SPEED / 8, directionX, Orientation.X);
                     velocity.y *= (1.35f * jumpMultiplier);
                     jumpStartTime = 0;
                 } else {
@@ -1132,7 +1132,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
             }
             canJump = false;
         }
-        velocity.x += Helpers.absoluteToDirectionalValue(Constants.AVATAR_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
+        velocity.x += Helpers.speedToVelocity(Constants.AVATAR_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
         velocity.y = Constants.JUMP_SPEED;
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         if (touchedGround instanceof Reboundable) {
@@ -1227,7 +1227,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         float rappelTimeSeconds = Helpers.secondsSince(rappelStartTime);
         if (!inputControls.jumpButtonPressed) {
             if (rappelTimeSeconds >= Constants.RAPPEL_FRAME_DURATION) {
-                velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED, directionX, Orientation.X);
+                velocity.x = Helpers.speedToVelocity(Constants.AVATAR_MAX_SPEED, directionX, Orientation.X);
                 jump();
             } else {
                 canHover = true;
@@ -1245,7 +1245,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                 canHurdle = false;
                 canRappel = false;
                 directionX = Helpers.getOppositeDirection(directionX);
-                velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
+                velocity.x = Helpers.speedToVelocity(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
                 jump();
                 if (touchedGround instanceof Aerial) {
                     velocity.y += ((Vehicular) touchedGround).getVelocity().y + touchedGround.getHeight();
@@ -1285,7 +1285,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
             if (action == Action.CLIMBING) {
                 fall();
                 if (!(touchedGround instanceof Climbable && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())))  {
-                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
+                    velocity.x = Helpers.speedToVelocity(Constants.CLIMB_SPEED, directionX, Orientation.X);
                 }
             }
         }
@@ -1301,9 +1301,9 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
             canHover = false;
             dashTimeSeconds = Helpers.secondsSince(dashStartTime);
             if (orientation == Orientation.X) {
-                velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
+                velocity.x = Helpers.speedToVelocity(Constants.CLIMB_SPEED, directionX, Orientation.X);
             } else if (orientation == Orientation.Y) {
-                velocity.y = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Orientation.Y);
+                velocity.y = Helpers.speedToVelocity(Constants.CLIMB_SPEED, directionY, Orientation.Y);
             }
             int climbAnimationPercent = (int) (dashTimeSeconds * 100);
             if ((climbAnimationPercent) % 25 >= 0 && (climbAnimationPercent) % 25 <= 13) {
@@ -1482,7 +1482,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         if (lookTimeSeconds > 1) {
             offset += 1.5f;
             if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {
-                chaseCamPosition.y += Helpers.absoluteToDirectionalValue(offset, directionY, Orientation.Y);
+                chaseCamPosition.y += Helpers.speedToVelocity(offset, directionY, Orientation.Y);
                 chaseCamPosition.x = position.x;
             }
         }

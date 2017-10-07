@@ -349,7 +349,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         velocity.y += Constants.AVATAR_MAX_SPEED / 4.5f;
                     }
                     if (velocity.x < Constants.AVATAR_MAX_SPEED) {
-                        velocity.x += Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED / 2.25f, directionX, Orientation.X);
+                        velocity.x += Helpers.speedToVelocity(Constants.AVATAR_MAX_SPEED / 2.25f, directionX, Orientation.X);
                     }
                 }
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
@@ -762,7 +762,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
                 } else if (lookQuadrant != 3 && hazard instanceof Moving && position.dst(hazard.getPosition()) < Constants.WORLD_SIZE) {
-                    if (Helpers.absoluteToDirectionalValue(position.x - hazard.getPosition().x, directionX, Orientation.X) > 0) {
+                    if (Helpers.speedToVelocity(position.x - hazard.getPosition().x, directionX, Orientation.X) > 0) {
                         canPeer = true;
                         peerStartTime = TimeUtils.nanoTime();
                         if (position.y - hazard.getPosition().y > hazard.getHeight()) {
@@ -824,7 +824,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             if (getBounds().overlaps(bounds)) {
                 touchPowerup(powerup);
             } else if (position.dst(powerup.getPosition()) < (Constants.WORLD_SIZE * 2)
-                    && Helpers.absoluteToDirectionalValue(position.x - powerup.getPosition().x, directionX, Orientation.X) > 0) {
+                    && Helpers.speedToVelocity(position.x - powerup.getPosition().x, directionX, Orientation.X) > 0) {
                 canPeer = true;
                 peerStartTime = TimeUtils.nanoTime();
             }
@@ -1035,7 +1035,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
         } else if (touchedGround instanceof Propelling) {
             velocity.x = 0;
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
+            velocity.x += Helpers.speedToVelocity(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
         } else if (!(touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().x != 0)) {
             velocity.x = 0;
         }
@@ -1103,7 +1103,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             if (xRelationship != 0) {
                 this.velocity.x = velocity.x * xRelationship;
             } else {
-                this.velocity.x = Helpers.absoluteToDirectionalValue(velocity.x, directionX, Orientation.X);
+                this.velocity.x = Helpers.speedToVelocity(velocity.x, directionX, Orientation.X);
             }
             this.velocity.y = velocity.y;
             AssetManager.getInstance().getSoundAssets().damage.play();
@@ -1201,13 +1201,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         strideTimeSeconds = Helpers.secondsSince(strideStartTime);
         strideAcceleration = strideTimeSeconds + Constants.AVATAR_STARTING_SPEED;
-        velocity.x = Helpers.absoluteToDirectionalValue(Math.min(Constants.AVATAR_MAX_SPEED * strideAcceleration + Constants.AVATAR_STARTING_SPEED, Constants.AVATAR_MAX_SPEED * strideMultiplier), directionX, Orientation.X);
+        velocity.x = Helpers.speedToVelocity(Math.min(Constants.AVATAR_MAX_SPEED * strideAcceleration + Constants.AVATAR_STARTING_SPEED, Constants.AVATAR_MAX_SPEED * strideMultiplier), directionX, Orientation.X);
         if (touchedGround instanceof Propelling) {
-            velocity.x += Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
+            velocity.x += Helpers.speedToVelocity(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
         } else if (touchedGround instanceof Skateable) {
-            velocity.x = strideSpeed + Helpers.absoluteToDirectionalValue(Math.min(Constants.AVATAR_MAX_SPEED * strideAcceleration / 2 + Constants.AVATAR_STARTING_SPEED, Constants.AVATAR_MAX_SPEED * 2), directionX, Orientation.X);
+            velocity.x = strideSpeed + Helpers.speedToVelocity(Math.min(Constants.AVATAR_MAX_SPEED * strideAcceleration / 2 + Constants.AVATAR_STARTING_SPEED, Constants.AVATAR_MAX_SPEED * 2), directionX, Orientation.X);
         } else if (canSink) {
-            velocity.x = Helpers.absoluteToDirectionalValue(10, directionX, Orientation.X);
+            velocity.x = Helpers.speedToVelocity(10, directionX, Orientation.X);
             velocity.y = -3;
         }
     }
@@ -1235,7 +1235,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         } else if (turbo >= Constants.DASH_TURBO_DECREMENT) {
             dashTimeSeconds = Helpers.secondsSince(dashStartTime);
             turbo -= Constants.DASH_TURBO_DECREMENT * turboMultiplier;
-            velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED, directionX, Orientation.X);
+            velocity.x = Helpers.speedToVelocity(Constants.AVATAR_MAX_SPEED, directionX, Orientation.X);
         } else {
             canDash = false;
             dashStartTime = 0;
@@ -1243,7 +1243,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         if (touchedGround instanceof Skateable
         || (touchedGround instanceof Propelling && directionX == ((Propelling) touchedGround).getDirectionX())) {
-            velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED + Constants.TREADMILL_SPEED, directionX, Orientation.X);
+            velocity.x = Helpers.speedToVelocity(Constants.AVATAR_MAX_SPEED + Constants.TREADMILL_SPEED, directionX, Orientation.X);
         }
     }
 
@@ -1259,7 +1259,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     }
                 } else if (turbo < Constants.LEAP_TURBO_DECREMENT) {
                     jump();
-                    velocity.x += Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED / 8, directionX, Orientation.X);
+                    velocity.x += Helpers.speedToVelocity(Constants.AVATAR_MAX_SPEED / 8, directionX, Orientation.X);
                     velocity.y *= (1 + (startTurbo/100 * .35f)) * jumpMultiplier;
                     startTurbo = 0;
                     jumpStartTime = 0;
@@ -1284,7 +1284,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         } else {
             startTurbo = 0;
         }
-        velocity.x += Helpers.absoluteToDirectionalValue(Constants.AVATAR_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
+        velocity.x += Helpers.speedToVelocity(Constants.AVATAR_STARTING_SPEED * Constants.STRIDING_JUMP_MULTIPLIER, directionX, Orientation.X);
         velocity.y = Constants.JUMP_SPEED;
         velocity.y *= Constants.STRIDING_JUMP_MULTIPLIER;
         if (touchedGround instanceof Reboundable) {
@@ -1352,9 +1352,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             groundState = GroundState.AIRBORNE;
             rappelStartTime = TimeUtils.nanoTime();
             canJump = true;
-            if (!Helpers.movingOppositeDirection(velocity.x, directionX, Orientation.X)) { // prevents setting opposite direction when twisting mid air prior to engaging rappel
-                directionX = Helpers.getOppositeDirection(directionX);
-            }
+            directionX = Helpers.velocityToOppositeDirection(velocity.x, Orientation.X);
         }
         canHurdle = false;
         if (position.y >= touchedGround.getTop() - 10) {
@@ -1373,7 +1371,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         float rappelTimeSeconds = Helpers.secondsSince(rappelStartTime);
         if (!inputControls.jumpButtonPressed) {
             if (rappelTimeSeconds >= Constants.RAPPEL_FRAME_DURATION) {
-                velocity.x = Helpers.absoluteToDirectionalValue(Constants.AVATAR_MAX_SPEED, directionX, Orientation.X);
+                velocity.x = Helpers.speedToVelocity(Constants.AVATAR_MAX_SPEED, directionX, Orientation.X);
                 if (!(touchedGround instanceof Skateable)) {
                     rappelStartTime = 0;
                     jump();
@@ -1411,7 +1409,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     canRappel = false;
                     rappelStartTime = 0;
                     directionX = Helpers.getOppositeDirection(directionX);
-                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
+                    velocity.x = Helpers.speedToVelocity(Constants.CLIMB_SPEED / 2, directionX, Orientation.X);
                     float jumpBoost = 0;
                     if (yMoving) {
                         jumpBoost = Math.abs(((Moving) touchedGround).getVelocity().y);
@@ -1463,7 +1461,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             if (action == Action.CLIMBING) {
                 fall();
                 if (!(touchedGround instanceof Climbable && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())))  {
-                    velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
+                    velocity.x = Helpers.speedToVelocity(Constants.CLIMB_SPEED, directionX, Orientation.X);
                 }
             }
         }
@@ -1479,9 +1477,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canHover = false;
             dashTimeSeconds = Helpers.secondsSince(dashStartTime);
             if (orientation == Orientation.X) {
-                velocity.x = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionX, Orientation.X);
+                velocity.x = Helpers.speedToVelocity(Constants.CLIMB_SPEED, directionX, Orientation.X);
             } else if (orientation == Orientation.Y) {
-                velocity.y = Helpers.absoluteToDirectionalValue(Constants.CLIMB_SPEED, directionY, Orientation.Y);
+                velocity.y = Helpers.speedToVelocity(Constants.CLIMB_SPEED, directionY, Orientation.Y);
             }
             int climbAnimationPercent = (int) (dashTimeSeconds * 100);
             if ((climbAnimationPercent) % 25 >= 0 && (climbAnimationPercent) % 25 <= 13) {
@@ -1877,7 +1875,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (lookTimeSeconds > 1) {
             offset += 1.5f;
             if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {
-                chaseCamPosition.y += Helpers.absoluteToDirectionalValue(offset, directionY, Orientation.Y);
+                chaseCamPosition.y += Helpers.speedToVelocity(offset, directionY, Orientation.Y);
                 chaseCamPosition.x = position.x;
             }
         }

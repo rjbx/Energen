@@ -39,7 +39,7 @@ public class Brick extends Barrier implements Tossable, Impermeable {
     @Override
     public void update(float delta) {
         if (beingCarried && !againstStaticGround) {
-            super.position.set(carrier.getPosition().x + Helpers.absoluteToDirectionalValue(this.getWidth() / 2, carrier.getDirectionX(), Enums.Orientation.X), carrier.getBottom() + getHeight() / 2);
+            super.position.set(carrier.getPosition().x + Helpers.speedToVelocity(this.getWidth() / 2, carrier.getDirectionX(), Enums.Orientation.X), carrier.getBottom() + getHeight() / 2);
             velocity.x = carrier.getVelocity().x;
         }
         super.position.mulAdd(velocity, delta);
@@ -72,7 +72,7 @@ public class Brick extends Barrier implements Tossable, Impermeable {
                         }
                     }
                     if (ground instanceof Propelling) {
-                        velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
+                        velocity.x = Helpers.speedToVelocity(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
                         velocity.y = 0;
                     } else if (ground instanceof Skateable) {
                         if (Math.abs(velocity.x) > 0.005f) {

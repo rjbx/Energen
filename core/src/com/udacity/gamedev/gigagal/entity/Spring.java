@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -46,7 +45,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     @Override
     public void update(float delta) {
         if (beingCarried && !againstStaticGround) {
-            this.position.set(carrier.getPosition().x + Helpers.absoluteToDirectionalValue(this.getWidth() / 2, carrier.getDirectionX(), Enums.Orientation.X), carrier.getBottom() + getHeight() / 2);
+            this.position.set(carrier.getPosition().x + Helpers.speedToVelocity(this.getWidth() / 2, carrier.getDirectionX(), Enums.Orientation.X), carrier.getBottom() + getHeight() / 2);
             this.velocity.x = carrier.getVelocity().x;
         }
         position.mulAdd(velocity, delta);
@@ -79,7 +78,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
                         }
                     }
                     if (ground instanceof Propelling) {
-                        velocity.x = Helpers.absoluteToDirectionalValue(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
+                        velocity.x = Helpers.speedToVelocity(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
                         velocity.y = 0;
                     } else if (ground instanceof Skateable) {
                         if (Math.abs(velocity.x) > 0.005f) {

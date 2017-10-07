@@ -200,12 +200,12 @@ class LevelUpdater {
             if (avatar.getDispatchStatus()) {
                 if (avatar.getLookStartTime() != 0) {
                     if (avatar.getDirectionY() == Direction.UP) {
-                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
+                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
                     } else {
-                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
+                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
                     }
                 } else {
-                    spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_X_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), avatar.getDirectionX(), Enums.Orientation.X, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
+                    spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), avatar.getDirectionX(), Enums.Orientation.X, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
                 }
                 avatar.resetChargeIntensity();
             }
@@ -213,12 +213,12 @@ class LevelUpdater {
             if (boss.getDispatchStatus()) {
                 if (boss.getLookStartTime() != 0) {
                     if (boss.getDirectionY() == Direction.UP) {
-                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getWeapon(), boss);
+                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getWeapon(), boss);
                     } else {
-                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getWeapon(), boss);
+                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getWeapon(), boss);
                     }
                 } else {
-                    spawnAmmo(new Vector2(boss.getPosition().x + Helpers.absoluteToDirectionalValue(Constants.AVATAR_X_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), boss.getDirectionX(), Enums.Orientation.X, boss.getShotIntensity(), boss.getWeapon(), boss);
+                    spawnAmmo(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), boss.getDirectionX(), Enums.Orientation.X, boss.getShotIntensity(), boss.getWeapon(), boss);
                 }
                 boss.resetChargeIntensity();
             }
@@ -412,7 +412,7 @@ class LevelUpdater {
                     pliable.setCarrier(null);
                     avatar.setCarriedGround(null);
                     if (pliable instanceof Tossable && pliable.getVelocity().x != 0 && (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed)) {
-                        ((Tossable) pliable).toss(Helpers.absoluteToDirectionalValue(ground.getWidth() * 13, avatar.getDirectionX(), Enums.Orientation.X));
+                        ((Tossable) pliable).toss(Helpers.speedToVelocity(ground.getWidth() * 13, avatar.getDirectionX(), Enums.Orientation.X));
                     }
                 }
             }
@@ -551,7 +551,7 @@ class LevelUpdater {
             if (Helpers.overlapsPhysicalObject(Blade.getInstance(), destructible)) {
                 if (avatar.getBladeState() == Enums.BladeState.FLIP
                         || (avatar.getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, avatar.getBottom(), avatar.getTop()))
-                        || (avatar.getBladeState() == Enums.BladeState.CUT) && (Helpers.absoluteToDirectionalValue(destructible.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) - Helpers.absoluteToDirectionalValue(avatar.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) > 0)) {
+                        || (avatar.getBladeState() == Enums.BladeState.CUT) && (Helpers.speedToVelocity(destructible.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) - Helpers.speedToVelocity(avatar.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) > 0)) {
                     if (!(hazard instanceof Armored)) {
                         Helpers.applyDamage(destructible, Blade.getInstance());
                     } else {
