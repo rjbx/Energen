@@ -1072,6 +1072,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         fallTimeSeconds = Helpers.secondsSince(fallStartTime);
         if (!(touchedGround instanceof Skateable)) {
+            rappelStartTime = 0;
             strideStartTime = 0;
         }
 
@@ -1113,6 +1114,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             recoveryStartTime = TimeUtils.nanoTime();
             chargeModifier = 0;
             chargeStartTime = 0;
+            rappelStartTime = 0;
             strideStartTime = 0;
             lookStartTime = 0;
             turbo = 0;
@@ -1306,6 +1308,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     velocity.x -= velocity.x / 2;
                     fall();
                 } else {
+                    hoverStartTime = 0;
                     hover(); // else hover if canHover is true (set to false after beginning hover)
                 }
                 // if jump key not pressed, but already hovering, continue to hover
@@ -1337,26 +1340,21 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
 
     private void enableRappel() {
-        if (action == Action.RAPPELLING) {
+        if (action == Action.RAPPELLING || (canRappel && inputControls.jumpButtonJustPressed)) {
             rappel();
-        } else if (canRappel) {
-            if (inputControls.jumpButtonJustPressed) {
-                rappel();
-            }
         }
     }
 
     private void rappel() {
         if (canRappel) {
+            canRappel = false;
             action = Action.RAPPELLING;
             groundState = GroundState.AIRBORNE;
             rappelStartTime = TimeUtils.nanoTime();
-            if (!Helpers.movingOppositeDirection(velocity.x, directionX, Orientation.X)) {
+            canJump = true;
+            if (!Helpers.movingOppositeDirection(velocity.x, directionX, Orientation.X)) { // prevents setting opposite direction when twisting mid air prior to engaging rappel
                 directionX = Helpers.getOppositeDirection(directionX);
             }
-            hoverStartTime = 0;
-            canJump = true;
-            canRappel = false;
         }
         canHurdle = false;
         if (position.y >= touchedGround.getTop() - 10) {
@@ -1380,6 +1378,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     rappelStartTime = 0;
                     jump();
                 } else {
+                    rappelStartTime = 0;
                     fall();
                 }
             } else {
