@@ -80,16 +80,16 @@ public final class Enums {
 
     public enum Theme {
 
-        HOME { @Override public final Color color() { return Color.FOREST; } },
+        HOME { @Override public final Color color() { return new Color(0, 0.4f, .65f, 1); } },
 
-        MECHANICAL { @Override public final Color color() { return Color.LIGHT_GRAY; } },
-        ELECTROMAGNETIC { @Override public final Color color() { return Color.DARK_GRAY; } },
-        NUCLEAR { @Override public final Color color() { return Color.FIREBRICK; } },
-        THERMAL { @Override public final Color color() { return Color.DARK_GRAY; } },
-        GRAVITATIONAL { @Override public final Color color() { return Color.NAVY; } },
-        MYSTERIOUS { @Override public final Color color() { return Color.BLACK; } },
+        MECHANICAL { @Override public final Color color() { return new Color(.2f, .5f, 0, 1); } },
+        ELECTROMAGNETIC { @Override public final Color color() { return new Color(.8f, .6f, 0, 1); } },
+        NUCLEAR { @Override public final Color color() { return new Color(.65f, .2f, 0, 1); } },
+        THERMAL { @Override public final Color color() { return new Color(.3f, .3f, .3f, 1); } },
+        GRAVITATIONAL { @Override public final Color color() { return new Color(.4f, .5f, .6f, 1); } },
+        MYSTERIOUS { @Override public final Color color() { return new Color(.5f, 0, .7f, 1); } },
 
-        FINAL { @Override public final Color color() { return Color.MAROON; } };
+        FINAL { @Override public final Color color() { return new Color(1, 1, 1, 1); } };
 
         abstract public Color color();
     }

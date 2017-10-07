@@ -152,7 +152,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             weapon = weaponToggler.previous();
         } else {
             addWeapon(Material.NATIVE);
+            addWeapon(Material.ORE);
+            addWeapon(Material.PLASMA);
             addWeapon(Material.GAS);
+            addWeapon(Material.LIQUID);
+            addWeapon(Material.SOLID);
+            addWeapon(Material.ANTIMATTER);
+            addWeapon(Material.HYBRID);
             weapon = weaponToggler.previous();
         }
 
