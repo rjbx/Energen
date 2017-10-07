@@ -181,7 +181,7 @@ public final class Constants {
     public static final String SIDESWIPE_3 = "avatar-swipe-side-3";
 
     public static final float EYE_ROLL_FRAME_DURATION = 1;
-    public static final float HOVER_FRAME_DURATION = 0.125f;
+    public static final float FLICKER_FRAME_DURATION = 0.125f;
     public static final float RAPPEL_FRAME_DURATION = 0.05f;
     public static final float STRIDE_FRAME_DURATION = 0.1f;
     public static final float FLIPSWIPE_FRAME_DURATION = .08f;
