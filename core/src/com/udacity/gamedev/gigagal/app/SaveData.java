@@ -24,7 +24,7 @@ public final class SaveData {
     public static String getLevelTimes() { return getPreferences().getString("LevelTimes", "0, 0, 0, 0, 0, 0, 0, 0"); }
     public static String getLevelRestores() { return getPreferences().getString("LevelRestores", "0, 0, 0, 0, 0, 0, 0, 0"); }
     public static String getLevelRemovals() { return getPreferences().getString("LevelRemovals", "-1, -1, -1, -1, -1, -1, -1, -1"); }
-    public static String getWeapons() { return getPreferences().getString("Weapons", Enums.Material.NATIVE.name()); }
+    public static String getWeapons() { return getPreferences().getString("Weapons", Enums.Material.NATIVE.name() + ", " + Enums.Material.ORE + ", " + Enums.Material.PLASMA + ", " + Enums.Material.GAS + ", " + Enums.Material.LIQUID + ", " + Enums.Material.SOLID + ", " + Enums.Material.ANTIMATTER + ", " + Enums.Material.HYBRID); }
     public static String getUpgrades() { return getPreferences().getString("Upgrades", Enums.Upgrade.NONE.name()); }
 
     protected static void setTouchscreen(boolean touchscreen) { getPreferences().putBoolean("Touchscreen", touchscreen); getPreferences().flush(); }
