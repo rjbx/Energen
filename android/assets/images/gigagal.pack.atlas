@@ -2530,14 +2530,14 @@ boss-liquid-lookup-fall-right
   orig: 26, 33
   offset: 0, 0
   index: -1
-boss-liquid-lookup-stand
+boss-liquid-lookup-stand-left
   rotate: false
   xy: 738, 969
   size: 26, 33
   orig: 26, 33
   offset: 0, 0
   index: -1
-boss-liquid-lookup-stand-left
+boss-liquid-lookup-stand-right
   rotate: false
   xy: 707, 934
   size: 26, 33
