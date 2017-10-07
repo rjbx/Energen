@@ -1553,7 +1553,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 head = AssetManager.getInstance().getAvatarAssets().headClimb;
                 mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
                 torso = AssetManager.getInstance().getAvatarAssets().midsectionClimb;
-                waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
+                waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
                 hair = AssetManager.getInstance().getAvatarAssets().hairClimb;
                 legs = AssetManager.getInstance().getAvatarAssets().legsClimb;
                 feet = AssetManager.getInstance().getAvatarAssets().feetClimb;
@@ -1571,7 +1571,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 head = AssetManager.getInstance().getAvatarAssets().head;
                 mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
+                waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(dashTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
                 feet = AssetManager.getInstance().getAvatarAssets().feetDash.getKeyFrame(dashTimeSeconds);
@@ -1586,7 +1586,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 head = AssetManager.getInstance().getAvatarAssets().head;
                 mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
+                waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsFall;
                 feet = AssetManager.getInstance().getAvatarAssets().feetFall;
@@ -1601,7 +1601,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 head = AssetManager.getInstance().getAvatarAssets().head;
                 mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
+                waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                 legs = AssetManager.getInstance().getAvatarAssets().legsFall;
                 feet = AssetManager.getInstance().getAvatarAssets().feetFall;

@@ -226,18 +226,18 @@ public final class AssetManager implements AssetErrorListener {
 
             Array<AtlasRegion> waistFrames = new Array<AtlasRegion>();
             waistFrames.add(atlas.findRegion(Constants.WAIST_1));
-            waistFrames.add(atlas.findRegion(Constants.WAIST_1));
             waistFrames.add(atlas.findRegion(Constants.WAIST_2));
+            waistFrames.add(atlas.findRegion(Constants.WAIST_3));
             waistFrames.add(atlas.findRegion(Constants.WAIST_3));
             waistFrames.add(atlas.findRegion(Constants.WAIST_4));
             waist = new Animation(Constants.STRIDE_FRAME_DURATION, waistFrames, PlayMode.LOOP_PINGPONG);
 
             Array<AtlasRegion> legStrideFrames = new Array<AtlasRegion>();
-            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_4));
-            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_3));
-            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_2));
-            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_5));
             legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_1));
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_2));
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_3));
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_4));
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_5));
             legsStride = new Animation(Constants.STRIDE_FRAME_DURATION, legStrideFrames, PlayMode.LOOP_PINGPONG);
 
             Array<AtlasRegion> feetStrideFrames = new Array<AtlasRegion>();

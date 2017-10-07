@@ -183,9 +183,9 @@ public final class Constants {
     public static final float EYE_ROLL_FRAME_DURATION = 1;
     public static final float FLICKER_FRAME_DURATION = 0.125f;
     public static final float RAPPEL_FRAME_DURATION = 0.05f;
-    public static final float STRIDE_FRAME_DURATION = 0.1f;
-    public static final float FLIPSWIPE_FRAME_DURATION = .08f;
-    public static final float SIDESWIPE_FRAME_DURATION = .08f;
+    public static final float STRIDE_FRAME_DURATION = 0.08f;
+    public static final float FLIPSWIPE_FRAME_DURATION = 0.08f;
+    public static final float SIDESWIPE_FRAME_DURATION = 0.08f;
 
     // Boss
     public static final String BOSS_LIQUID_STAND_LEFT = "boss-liquid-stand-left";
