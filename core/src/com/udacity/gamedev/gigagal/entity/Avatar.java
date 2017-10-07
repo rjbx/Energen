@@ -1341,12 +1341,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             rappel();
         } else if (canRappel) {
             if (inputControls.jumpButtonJustPressed) {
-                if (position.y > touchedGround.getTop() - 10) {
-                    position.y = touchedGround.getTop() - 10;
-                    if (touchedGround instanceof Hurdleable) {
-                        canHurdle = true;
-                    }
-                }
                 rappel();
             }
         }
@@ -1363,6 +1357,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             hoverStartTime = 0;
             canJump = true;
             canRappel = false;
+        }
+        canHurdle = false;
+        if (position.y >= touchedGround.getTop() - 10) {
+            position.y = touchedGround.getTop() - 10;
+            if (touchedGround instanceof Hurdleable) {
+                canHurdle = true;
+            }
         }
         if (touchedGround != null) {
             if (directionX == Direction.LEFT) {
