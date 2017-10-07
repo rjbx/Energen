@@ -1416,6 +1416,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                 region = AssetManager.getInstance().getBossAssets().liquidFallRight;
             }
         }
+        Gdx.app.log(TAG, action.name() + directionX.name() + directionY.name());
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.AVATAR_EYE_POSITION);
     }
 
