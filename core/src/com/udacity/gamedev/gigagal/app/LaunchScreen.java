@@ -202,6 +202,7 @@ final class LaunchScreen extends ScreenAdapter {
         cursor.setRange(30, 30);
         menu.isSingleOption(true);
         String[] option = {"PRESS START"};
+        menu.clearStrings();
         menu.setOptionStrings(Arrays.asList(option));
         menu.TextAlignment(Align.center);
         menuType = Enums.MenuType.START;

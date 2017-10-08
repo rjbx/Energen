@@ -126,15 +126,6 @@ public final class Helpers {
         return timeStr.substring(0, timeStr.length() - 4);
     }
 
-    public static final float vectorToAxisValue(Vector2 vector, Enums.Orientation orientation) {
-        if (orientation == X) {
-            return vector.x;
-        } else if (orientation == Y) {
-            return vector.y;
-        }
-        return 0;
-    }
-
     public static final float speedToVelocity(float speed, Enums.Direction direction, Enums.Orientation orientation) {
         if (orientation == X) {
             if (direction == Enums.Direction.RIGHT) {
@@ -148,6 +139,15 @@ public final class Helpers {
             } else if (direction == Enums.Direction.DOWN) {
                 return -speed;
             }
+        }
+        return 0;
+    }
+
+    public static final float vectorToAxisValue(Vector2 vector, Enums.Orientation orientation) {
+        if (orientation == X) {
+            return vector.x;
+        } else if (orientation == Y) {
+            return vector.y;
         }
         return 0;
     }
