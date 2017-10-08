@@ -147,7 +147,7 @@ final class LevelScreen extends ScreenAdapter {
                     menu.setPromptString(Align.right, (gigaGal.getWeapon().name() + "\n" + SaveData.getWeapons().replace(gigaGal.getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
                 }
                 if (inputControls.shootButtonJustPressed) {
-                    if (cursor.getPosition() == staticViewport.getCamera().position.y && chaseCam.getState() == Enums.ChaseCamState.FOLLOWING) {
+                    if (cursor.getPosition() == staticViewport.getCamera().position.y && chaseCam.getState() != Enums.ChaseCamState.DEBUG) {
                         levelUpdater.unpause();
                     } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 15) {
                         overworldScreen.setMainMenu();
