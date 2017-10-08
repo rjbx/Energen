@@ -282,9 +282,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
 
         canDispatch = false;
         if (roomBounds.overlaps(gigaGal.getBounds())) {
-            if (!battling) {
-                talking = true;
-            } else {
+            if (battling) {
                 if (Helpers.overlapsBetweenTwoSides(gigaGal.getPosition().x, Constants.AVATAR_STANCE_WIDTH, getLeft(), getRight())
                         && Math.abs(position.y - gigaGal.getPosition().y) > getHeight()) {
                     dashStartTime = 0;
@@ -1473,6 +1471,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
 
     // Setters
     public void setBattleState(boolean state) { this.talking = false; this.battling = state;}
+    public void setTalkState(boolean state) { this.talking = state; this.battling = false;}
     public void setDirectionX(Direction directionX) { this.directionX = directionX; }
     public void setDirectionY(Direction directionY) { this.directionY = directionY; }
     public void setLives(int lives) { this.lives = lives; }

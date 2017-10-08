@@ -176,8 +176,8 @@ class LevelUpdater {
             }
             grounds.end();
         } else if (boss.isTalking()) {
-            if (ChaseCam.getInstance().getState() != Enums.ChaseCamState.BOSS) {
-                ChaseCam.getInstance().setState(Enums.ChaseCamState.BOSS);
+            if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
+                chaseCam.setState(Enums.ChaseCamState.BOSS);
             } else if (avatar.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
                 music.stop();
                 avatar.setVelocity(new Vector2(40, 0));
@@ -190,7 +190,7 @@ class LevelUpdater {
                     boss.setBattleState(true);
                     if (musicEnabled) {
                         music = AssetManager.getInstance().getMusicAssets().boss;
-                       music.setLooping(true);
+                        music.setLooping(true);
                         music.play();
                     }
                 }
@@ -514,6 +514,11 @@ class LevelUpdater {
         if (hazard instanceof Boss) {
             ((Boss) hazard).updatePosition(delta);
             applyCollision((Impermeable) hazard);
+            if (boss.getRoomBounds().overlaps(avatar.getBounds())) {
+                if (!boss.isBattling()) {
+                    boss.setTalkState(true);
+                }
+            }
         }
         if (hazard instanceof Destructible) {
             Destructible destructible = (Destructible) hazard;

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.entity.Avatar;
+import com.udacity.gamedev.gigagal.entity.Boss;
 import com.udacity.gamedev.gigagal.overlay.TouchInterface;
 import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.InputControls;
@@ -201,10 +202,15 @@ final class LevelScreen extends ScreenAdapter {
                 }
                 break;
             case DEBUG:
+                boolean inBossArea = LevelUpdater.getInstance().getBoss().isBattling();
                 levelUpdater.render(batch, chaseViewport);
                 chaseCam.update(batch, delta);
                 if (inputControls.shootButtonJustPressed) {
-                    chaseCam.setState(Enums.ChaseCamState.FOLLOWING);
+                    if (inBossArea) {
+                        chaseCam.setState(Enums.ChaseCamState.BOSS);
+                    } else {
+                        chaseCam.setState(Enums.ChaseCamState.FOLLOWING);
+                    }
                     setOptionsMenu();
                 }
                 break;
