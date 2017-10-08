@@ -638,7 +638,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 && ((touchedGround.getLeft() == g.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == g.getRight() && position.x > touchedGround.getPosition().x)))) {
             // if contact with ground top detected, halt downward progression and set gigagal atop ground
             if (previousFramePosition.y - Constants.AVATAR_EYE_HEIGHT >= g.getTop() - 2) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
-                if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, g.getLeft() + 1, g.getRight() - 1) || action != Action.FALLING || g instanceof Aerial)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground side
+                if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, g.getLeft() + 1, g.getRight() - 1)
+                        || action != Action.FALLING || g instanceof Aerial) // prevents interrupting fall when inputting x directional against and overlapping two separate ground side
+                        && !(action == Action.RAPPELLING && g instanceof Pliable)) { // prevents interrupting rappel down stacked moving pliables
                     if (!((touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().y != 0) || (g instanceof Moving && ((Moving) g).getVelocity().y != 0)) && (action != Action.CLIMBING || getBottom() <= g.getTop())) {
                         velocity.y = 0; // velocity reset for climbing from touchground()
                         position.y = g.getTop() + Constants.AVATAR_EYE_HEIGHT; // sets Gigagal atop ground
@@ -1362,20 +1364,20 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         canHurdle = false;
         if (touchedGround != null) {
-            if (position.y >= touchedGround.getTop() - 10) {
+            if (position.y >= touchedGround.getTop() - 10) { // manage hurdle
                 position.y = touchedGround.getTop() - 10;
                 if (touchedGround instanceof Hurdleable) {
                     canHurdle = true;
                 }
             }
-            if (directionX == Direction.LEFT) {
+            if (directionX == Direction.LEFT) { // set position relative to rappelled ground
                 position.x = touchedGround.getLeft() - getHalfWidth();
             } else {
                 position.x = touchedGround.getRight() + getHalfWidth();
             }
         }
         float rappelTimeSeconds = Helpers.secondsSince(rappelStartTime);
-        if (!inputControls.jumpButtonPressed) {
+        if (!inputControls.jumpButtonPressed) { // discontinue rappel
             if (rappelTimeSeconds >= Constants.RAPPEL_FRAME_DURATION) {
                 velocity.x = Helpers.speedToVelocity(Constants.AVATAR_MAX_SPEED, directionX, Orientation.X);
                 if (!(touchedGround instanceof Skateable)) {
@@ -1389,15 +1391,16 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 canHover = true;
             }
             canHurdle = false;
-        } else {
+        } else { // rappel
             lookStartTime = 0;
+            // detect moving ground
             boolean yMoving = false;
             if (touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().y != 0) {
                 yMoving = true;
             }
             if (touchedGround instanceof Pliable) {
                 canMove = Helpers.inputToDirection() == Helpers.getOppositeDirection(directionX);
-                if (((Pliable) touchedGround).isBeneatheGround()) { // if touchedground y is moving but not touchedground moving ground
+                if (((Pliable) touchedGround).isBeneatheGround()) { // prevent hurdle when not positioned atop series of stacked grounds
                     canHurdle = false;
                 }
                 if (((Pliable) touchedGround).getMovingGround() != null && ((Pliable) touchedGround).getMovingGround().getVelocity().y != 0) {
@@ -1405,12 +1408,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     yMoving = true;
                 }
             }
-
+            // manage ground interaction save for skateables
             if (!(touchedGround == null || touchedGround instanceof Skateable)) {
-                if (inputControls.downButtonPressed && (touchedGround instanceof Aerial || !yMoving)) {
+                if (inputControls.downButtonPressed || turbo < Constants.RAPPEL_TURBO_DECREMENT) { // descend on command or turbo depletion
                     rappelStartTime = 0;
                     velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
-                } else if (inputControls.upButtonPressed && canHurdle) {
+                } else if (inputControls.upButtonPressed && canHurdle) { // hurdle on command
                     canHurdle = false;
                     canRappel = false;
                     rappelStartTime = 0;
@@ -1422,21 +1425,11 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     }
                     jump();
                     velocity.y += jumpBoost;
-                } else if (turbo < Constants.RAPPEL_TURBO_DECREMENT) {
-                    turbo = 0;
-                    rappelStartTime = 0;
-                    velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
-                } else {
-                    if (rappelStartTime == 0) {
-                        rappelStartTime = TimeUtils.nanoTime();
-                    }
-                    if (!canHurdle && !yMoving) {
+                } else { // cling by default
+                    if (canHurdle || yMoving) { // decrement turbo when ground is not moving and cannot hurdle
                         turbo -= Constants.RAPPEL_TURBO_DECREMENT * turboMultiplier;
                     }
-                    if (touchedGround instanceof Treadmill) {
-                        turbo -= 2;
-                    }
-                    if (yMoving) {
+                    if (yMoving) { // maintain position relative to rappelled ground
                         velocity.y = ((Moving) touchedGround).getVelocity().y;
                     } else {
                         velocity.y = 0;
