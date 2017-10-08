@@ -1361,13 +1361,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             directionX = Helpers.velocityToOppositeDirection(velocity.x, Orientation.X);
         }
         canHurdle = false;
-        if (position.y >= touchedGround.getTop() - 10) {
-            position.y = touchedGround.getTop() - 10;
-            if (touchedGround instanceof Hurdleable) {
-                canHurdle = true;
-            }
-        }
         if (touchedGround != null) {
+            if (position.y >= touchedGround.getTop() - 10) {
+                position.y = touchedGround.getTop() - 10;
+                if (touchedGround instanceof Hurdleable) {
+                    canHurdle = true;
+                }
+            }
             if (directionX == Direction.LEFT) {
                 position.x = touchedGround.getLeft() - getHalfWidth();
             } else {
