@@ -235,7 +235,7 @@ final class LevelScreen extends ScreenAdapter {
                 return;
             }
         } else if (levelUpdater.completed()) {
-            endMessage = Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(SaveData.getTotalTime()) + "\nScore: " + SaveData.getTotalScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.secondsToString(levelUpdater.getTime()) + "\n" + "Score: " + levelUpdater.getScore();
+            endMessage = Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(SaveData.getTotalTime()) + "\nScore: " + SaveData.getTotalScore() + "\n\nLEVEL TOTAL\n" + "Time: " + Helpers.secondsToString(levelUpdater.getUnsavedTime()) + "\n" + "Score: " + levelUpdater.getScore();
             if (levelEndOverlayStartTime == 0) {
                 levelUpdater.end();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
@@ -260,7 +260,7 @@ final class LevelScreen extends ScreenAdapter {
         String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
         menu.setOptionStrings(Arrays.asList(optionStrings));
         menu.setPromptString(Align.left, Constants.HUD_AMMO_LABEL + gigaGal.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + gigaGal.getHealth() + "\n" + "Turbo: " + gigaGal.getTurbo());
-        menu.setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(TimeUtils.nanosToMillis(SaveData.getTotalTime() + levelUpdater.getUnsavedTime())) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
+        menu.setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString((SaveData.getTotalTime()) + levelUpdater.getUnsavedTime()) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
         menu.setPromptString(Align.right, (gigaGal.getWeapon().name() + "\n" + SaveData.getWeapons().replace(gigaGal.getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
         menu.TextAlignment(Align.center);
         menuType = Enums.MenuType.MAIN;

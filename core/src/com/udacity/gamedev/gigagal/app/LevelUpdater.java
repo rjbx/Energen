@@ -868,7 +868,7 @@ class LevelUpdater {
     protected final Viewport getViewport() { return levelScreen.getViewport(); }
 
     // Protected getters
-    protected final long getUnsavedTime() { return time - savedTime; }
+    protected final long getUnsavedTime() { return timer.getSeconds(); }
     protected final int getUnsavedScore() { return score - savedScore; }
     protected final void setBoss(Boss boss) { this.boss = boss; }
     protected final DelayedRemovalArray<Transport> getTransports() { return transports; }
