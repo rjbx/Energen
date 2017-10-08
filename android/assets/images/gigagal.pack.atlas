@@ -48,14 +48,14 @@ ammo-blast-solid-3
   index: -1
 ammo-shot-gas-1
   rotate: false
-  xy: 157, 3
+  xy: 177, 3
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-gas-2
   rotate: false
-  xy: 168, 3
+  xy: 188, 3
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
@@ -69,42 +69,28 @@ ammo-shot-hybrid
   index: -1
 ammo-shot-liquid-1
   rotate: false
-  xy: 179, 3
+  xy: 199, 3
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-liquid-2
   rotate: false
-  xy: 190, 3
+  xy: 210, 3
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-native-1
   rotate: false
-  xy: 201, 3
+  xy: 221, 3
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-native-2
   rotate: false
-  xy: 212, 3
-  size: 9, 7
-  orig: 9, 7
-  offset: 0, 0
-  index: -1
-ammo-shot-plasma-1
-  rotate: false
-  xy: 223, 3
-  size: 9, 7
-  orig: 9, 7
-  offset: 0, 0
-  index: -1
-ammo-shot-plasma-2
-  rotate: false
-  xy: 234, 3
+  xy: 232, 3
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
@@ -947,6 +933,20 @@ gate-3
   xy: 1014, 148
   size: 8, 35
   orig: 8, 35
+  offset: 0, 0
+  index: -1
+gem-ruby-1
+  rotate: false
+  xy: 157, 2
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+gem-ruby-2
+  rotate: false
+  xy: 167, 2
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: -1
 globe
@@ -1891,6 +1891,20 @@ ammo-shot-hybrid-2
   xy: 305, 220
   size: 8, 7
   orig: 8, 7
+  offset: 0, 0
+  index: -1
+ammo-shot-plasma-1
+  rotate: false
+  xy: 348, 271
+  size: 9, 7
+  orig: 9, 7
+  offset: 0, 0
+  index: -1
+ammo-shot-plasma-2
+  rotate: false
+  xy: 651, 348
+  size: 9, 7
+  orig: 9, 7
   offset: 0, 0
   index: -1
 armorollo-liquid-4
