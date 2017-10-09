@@ -769,18 +769,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Avatar)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
-                } else if (lookQuadrant != 3 && hazard instanceof Moving && position.dst(hazard.getPosition()) < Constants.WORLD_SIZE) {
-                    if (Helpers.speedToVelocity(position.x - hazard.getPosition().x, directionX, Orientation.X) > 0) {
-                        canPeer = true;
-                        peerStartTime = TimeUtils.nanoTime();
-                        if (position.y - hazard.getPosition().y > hazard.getHeight()) {
-                            lookQuadrant = 2;
-                        } else {
-                            lookQuadrant = 1;
-                        }
-                    } else if (position.y - hazard.getPosition().y > hazard.getHeight()) {
-                        lookQuadrant = 3;
-                    }
+                } else if (hazard instanceof Moving) {
+                    setPeerTarget(hazard, 1);
                 }
             }
         }
@@ -831,22 +821,28 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {
                 touchPowerup(powerup);
-            } else if (lookQuadrant != 3 && powerup instanceof Moving && position.dst(powerup.getPosition()) < Constants.WORLD_SIZE * 2) {
-                if (Helpers.speedToVelocity(position.x - powerup.getPosition().x, directionX, Orientation.X) > 0) {
-                    canPeer = true;
-                    peerStartTime = TimeUtils.nanoTime();
-                    if (position.y - powerup.getPosition().y > powerup.getHeight()) {
-                        lookQuadrant = 2;
-                    } else {
-                        lookQuadrant = 1;
-                    }
-                } else if (position.y - powerup.getPosition().y > powerup.getHeight()) {
-                    lookQuadrant = 3;
-                }
+            } else {
+                setPeerTarget(powerup, 2);
             }
         }
         if (turbo > Constants.MAX_TURBO) {
             turbo = Constants.MAX_TURBO;
+        }
+    }
+
+    private void setPeerTarget(Physical target, float rangeMultiplier) {
+        if (lookQuadrant != 3 && position.dst(target.getPosition()) < Constants.WORLD_SIZE * rangeMultiplier) {
+            if (Helpers.speedToVelocity(position.x - target.getPosition().x, directionX, Orientation.X) > 0) {
+                canPeer = true;
+                peerStartTime = TimeUtils.nanoTime();
+                if (position.y - target.getPosition().y > target.getHeight()) {
+                    lookQuadrant = 2;
+                } else {
+                    lookQuadrant = 1;
+                }
+            } else if (position.y - target.getPosition().y > target.getHeight()) {
+                lookQuadrant = 3;
+            }
         }
     }
 
