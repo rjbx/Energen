@@ -862,6 +862,17 @@ public final class Constants {
     public static final String CANNON_POWERUP_SPRITE = "powerup-cannon";
     public static final Vector2 CANNON_POWERUP_CENTER = new Vector2(8, 5);
 
+    public static final String RUBY_SPRITE_1 = "gem-ruby-1";
+    public static final String RUBY_SPRITE_2 = "gem-ruby-2";
+
+    public static final String SAPPHIRE_SPRITE_1 = "gem-sapphire-1";
+    public static final String SAPPHIRE_SPRITE_2 = "gem-sapphire-2";
+
+    public static final String EMERALD_SPRITE_1 = "gem-emerald-1";
+    public static final String EMERALD_SPRITE_2 = "gem-emerald-2";
+    
+    public static final Vector2 GEM_CENTER = new Vector2(4, 4);
+
     // Level Loading
     public static final String LEVEL_COMPOSITE = "composite";
     public static final String LEVEL_9PATCHES = "sImage9patchs";

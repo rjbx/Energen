@@ -403,6 +403,18 @@ final class LevelLoader {
                 final Vector2 powerupPosition = imagePosition.add(Constants.CANNON_POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded a CannonPowerup at " + powerupPosition);
                 level.addPowerup(new Powerup(powerupPosition, Enums.PowerupType.CANNON));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.RUBY_SPRITE_1)) {
+                final Vector2 powerupPosition = imagePosition.add(Constants.GEM_CENTER);
+                Gdx.app.log(TAG, "Loaded a Ruby at " + powerupPosition);
+                level.addPowerup(new Powerup(powerupPosition, Enums.PowerupType.RUBY));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SAPPHIRE_SPRITE_1)) {
+                final Vector2 powerupPosition = imagePosition.add(Constants.GEM_CENTER);
+                Gdx.app.log(TAG, "Loaded a Sapphire at " + powerupPosition);
+                level.addPowerup(new Powerup(powerupPosition, Enums.PowerupType.SAPPHIRE));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.EMERALD_SPRITE_1)) {
+                final Vector2 powerupPosition = imagePosition.add(Constants.GEM_CENTER);
+                Gdx.app.log(TAG, "Loaded a Emerald at " + powerupPosition);
+                level.addPowerup(new Powerup(powerupPosition, Enums.PowerupType.EMERALD));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STAND)) {
                 final Vector2 gigaGalPosition = imagePosition.add(Constants.AVATAR_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);

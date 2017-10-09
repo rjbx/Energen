@@ -1439,6 +1439,9 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation turboPowerup;
         public final Animation lifePowerup;
         public final Animation cannonPowerup;
+        public final Animation ruby;
+        public final Animation sapphire;
+        public final Animation emerald;
 
         private PowerupAssets(TextureAtlas atlas) {
 
@@ -1472,6 +1475,21 @@ public final class AssetManager implements AssetErrorListener {
             cannonPowerupRegions.add(atlas.findRegion(Constants.CANNON_POWERUP_SPRITE_3));
             cannonPowerupRegions.add(atlas.findRegion(Constants.CANNON_POWERUP_SPRITE));
             cannonPowerup = new Animation(Constants.POWERUP_DURATION / cannonPowerupRegions.size, cannonPowerupRegions, PlayMode.NORMAL);
+            
+            Array<AtlasRegion> rubyRegions = new Array<AtlasRegion>();
+            rubyRegions.add(atlas.findRegion(Constants.RUBY_SPRITE_1));
+            rubyRegions.add(atlas.findRegion(Constants.RUBY_SPRITE_2));
+            ruby = new Animation(Constants.POWERUP_DURATION / rubyRegions.size, rubyRegions, PlayMode.NORMAL);
+            
+            Array<AtlasRegion> sapphireRegions = new Array<AtlasRegion>();
+            sapphireRegions.add(atlas.findRegion(Constants.SAPPHIRE_SPRITE_1));
+            sapphireRegions.add(atlas.findRegion(Constants.SAPPHIRE_SPRITE_2));
+            sapphire = new Animation(Constants.POWERUP_DURATION / sapphireRegions.size, sapphireRegions, PlayMode.NORMAL);
+
+            Array<AtlasRegion> emeraldRegions = new Array<AtlasRegion>();
+            emeraldRegions.add(atlas.findRegion(Constants.EMERALD_SPRITE_1));
+            emeraldRegions.add(atlas.findRegion(Constants.EMERALD_SPRITE_2));
+            emerald = new Animation(Constants.POWERUP_DURATION / emeraldRegions.size, emeraldRegions, PlayMode.NORMAL);
         }
     }
 

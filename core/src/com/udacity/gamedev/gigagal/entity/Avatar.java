@@ -109,7 +109,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private float startTurbo;
     private float turbo;
     private float fallLimit;
-    private float lookQuadrant;
+    private float peerQuadrant;
     private float ammo;
     private float health;
     private int lives;
@@ -762,7 +762,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     public void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
         if (Helpers.secondsSince(peerStartTime) > 0.5f) {
-            lookQuadrant  = 1;
+            peerQuadrant = 1;
             canPeer = false;
         }
         for (Hazard hazard : hazards) {
@@ -827,22 +827,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         if (turbo > Constants.MAX_TURBO) {
             turbo = Constants.MAX_TURBO;
-        }
-    }
-
-    private void setPeerTarget(Physical target, float rangeMultiplier) {
-        if (lookQuadrant != 3 && position.dst(target.getPosition()) < Constants.WORLD_SIZE * rangeMultiplier) {
-            if (Helpers.speedToVelocity(position.x - target.getPosition().x, directionX, Orientation.X) > 0) {
-                canPeer = true;
-                peerStartTime = TimeUtils.nanoTime();
-                if (position.y - target.getPosition().y > target.getHeight()) {
-                    lookQuadrant = 2;
-                } else {
-                    lookQuadrant = 1;
-                }
-            } else if (position.y - target.getPosition().y > target.getHeight()) {
-                lookQuadrant = 3;
-            }
         }
     }
 
@@ -1783,7 +1767,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 || (Helpers.secondsSince(activeStartTime) > 60)))) {
                 eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
             } else if (canPeer && Helpers.secondsSince(shootStartTime) > 2) {
-                eyes = AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(lookQuadrant);
+                eyes = AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(peerQuadrant);
             }
         }
         return eyes; // defaults to parameter value if no conditions met
@@ -1816,6 +1800,22 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
         }
         return body; // defaults to parameter value if no conditions met
+    }
+
+    private void setPeerTarget(Physical target, float rangeMultiplier) {
+        if (peerQuadrant != 3 && position.dst(target.getPosition()) < Constants.WORLD_SIZE * rangeMultiplier) {
+            if (Helpers.speedToVelocity(position.x - target.getPosition().x, directionX, Orientation.X) > 0) {
+                canPeer = true;
+                peerStartTime = TimeUtils.nanoTime();
+                if (position.y - target.getPosition().y > target.getHeight()) {
+                    peerQuadrant = 2;
+                } else {
+                    peerQuadrant = 1;
+                }
+            } else if (position.y - target.getPosition().y > target.getHeight()) {
+                peerQuadrant = 3;
+            }
+        }
     }
 
     // Getters

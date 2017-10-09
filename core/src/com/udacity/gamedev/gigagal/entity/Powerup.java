@@ -48,6 +48,18 @@ public class Powerup extends Entity implements Replenishing {
                 animation = AssetManager.getInstance().getPowerupAssets().cannonPowerup;
                 center = Constants.CANNON_POWERUP_CENTER;
                 break;
+            case RUBY:
+                animation = AssetManager.getInstance().getPowerupAssets().ruby;
+                center = Constants.GEM_CENTER;
+                break;
+            case SAPPHIRE:
+                animation = AssetManager.getInstance().getPowerupAssets().sapphire;
+                center = Constants.GEM_CENTER;
+                break;
+            case EMERALD:
+                animation = AssetManager.getInstance().getPowerupAssets().emerald;
+                center = Constants.GEM_CENTER;
+                break;
             default:
                 animation = AssetManager.getInstance().getPowerupAssets().ammoPowerup;
                 center = Constants.AMMO_POWERUP_CENTER;
