@@ -1491,6 +1491,18 @@ public final class AssetManager implements AssetErrorListener {
             emeraldRegions.add(atlas.findRegion(Constants.EMERALD_SPRITE_2));
             emerald = new Animation(Constants.GEM_DURATION / emeraldRegions.size, emeraldRegions, PlayMode.NORMAL);
         }
+
+        public Animation getGemTexture(Enums.GemType type) {
+            switch (type) {
+                case RUBY:
+                    return ruby;
+                case SAPPHIRE:
+                    return sapphire;
+                case EMERALD:
+                    return emerald;
+            }
+            return ruby;
+        }
     }
 
     public static final class HudAssets {

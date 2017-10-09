@@ -23,7 +23,7 @@ import java.util.ListIterator;
 public class Boss extends Hazard implements Destructible, Humanoid, Impermeable {
 
     // fields
-    public final static String TAG = Avatar.class.getName();
+    public final static String TAG = Boss.class.getName();
 
     private Avatar gigaGal;
     private Rectangle roomBounds;
@@ -1414,7 +1414,6 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                 region = AssetManager.getInstance().getBossAssets().liquidFallRight;
             }
         }
-        Gdx.app.log(TAG, action.name() + directionX.name());
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.AVATAR_EYE_POSITION);
     }
 

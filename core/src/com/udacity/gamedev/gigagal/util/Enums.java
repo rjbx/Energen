@@ -46,6 +46,10 @@ public final class Enums {
         TURBO,
         AMMO,
         CANNON,
+        GEM
+    }
+
+    public enum GemType {
         RUBY,
         SAPPHIRE,
         EMERALD

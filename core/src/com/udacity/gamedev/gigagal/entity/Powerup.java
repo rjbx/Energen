@@ -21,6 +21,7 @@ public class Powerup extends Entity implements Replenishing {
     private final Enums.PowerupType type;
     private final Animation animation;
     private long startTime;
+    private Enums.GemType gemType;
 
     // ctor
     public Powerup(Vector2 position, Enums.PowerupType type) {
@@ -48,22 +49,20 @@ public class Powerup extends Entity implements Replenishing {
                 animation = AssetManager.getInstance().getPowerupAssets().cannonPowerup;
                 center = Constants.CANNON_POWERUP_CENTER;
                 break;
-            case RUBY:
-                animation = AssetManager.getInstance().getPowerupAssets().ruby;
-                center = Constants.GEM_CENTER;
-                break;
-            case SAPPHIRE:
-                animation = AssetManager.getInstance().getPowerupAssets().sapphire;
-                center = Constants.GEM_CENTER;
-                break;
-            case EMERALD:
-                animation = AssetManager.getInstance().getPowerupAssets().emerald;
-                center = Constants.GEM_CENTER;
-                break;
             default:
                 animation = AssetManager.getInstance().getPowerupAssets().ammoPowerup;
                 center = Constants.AMMO_POWERUP_CENTER;
         }
+    }
+
+    // overload ctor
+    public Powerup(Vector2 position, Enums.PowerupType type, Enums.GemType gemType) {
+        startTime = TimeUtils.nanoTime();
+        this.position = position;
+        this.type = type;
+        this.gemType = gemType;
+        animation = AssetManager.getInstance().getPowerupAssets().getGemTexture(gemType);
+        center = Constants.GEM_CENTER;
     }
 
     @Override
@@ -79,4 +78,5 @@ public class Powerup extends Entity implements Replenishing {
     @Override public final float getRight() { return position.x + center.x; }
     @Override public final float getTop() { return position.y + center.y; }
     @Override public final float getBottom() { return position.y - center.y; }
+    public final Enums.GemType getGemType() { return gemType; }
 }
