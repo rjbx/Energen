@@ -831,10 +831,11 @@ public final class Constants {
     public static final String IMPACT_NATIVE_SMALL = "impact-native-small";
 
     // Powerup
-    public static final float POWERUP_DURATION = 0.5f;
     public static final int POWERUP_AMMO = 20;
     public static final int POWERUP_HEALTH = 50;
     public static final int POWERUP_TURBO = 100;
+
+    public static final float POWERUP_DURATION = 0.5f;
 
     public static final String AMMO_POWERUP_SPRITE_1 = "powerup-ammo-1";
     public static final String AMMO_POWERUP_SPRITE_2 = "powerup-ammo-2";
@@ -862,6 +863,8 @@ public final class Constants {
     public static final String CANNON_POWERUP_SPRITE = "powerup-cannon";
     public static final Vector2 CANNON_POWERUP_CENTER = new Vector2(8, 5);
 
+    public static final float GEM_DURATION = 0.3f;
+
     public static final String RUBY_SPRITE_1 = "gem-ruby-1";
     public static final String RUBY_SPRITE_2 = "gem-ruby-2";
 
@@ -870,7 +873,7 @@ public final class Constants {
 
     public static final String EMERALD_SPRITE_1 = "gem-emerald-1";
     public static final String EMERALD_SPRITE_2 = "gem-emerald-2";
-    
+
     public static final Vector2 GEM_CENTER = new Vector2(4, 4);
 
     // Level Loading

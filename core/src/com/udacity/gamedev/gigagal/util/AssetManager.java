@@ -1479,17 +1479,17 @@ public final class AssetManager implements AssetErrorListener {
             Array<AtlasRegion> rubyRegions = new Array<AtlasRegion>();
             rubyRegions.add(atlas.findRegion(Constants.RUBY_SPRITE_1));
             rubyRegions.add(atlas.findRegion(Constants.RUBY_SPRITE_2));
-            ruby = new Animation(Constants.POWERUP_DURATION / rubyRegions.size, rubyRegions, PlayMode.NORMAL);
+            ruby = new Animation(Constants.GEM_DURATION / rubyRegions.size, rubyRegions, PlayMode.NORMAL);
             
             Array<AtlasRegion> sapphireRegions = new Array<AtlasRegion>();
             sapphireRegions.add(atlas.findRegion(Constants.SAPPHIRE_SPRITE_1));
             sapphireRegions.add(atlas.findRegion(Constants.SAPPHIRE_SPRITE_2));
-            sapphire = new Animation(Constants.POWERUP_DURATION / sapphireRegions.size, sapphireRegions, PlayMode.NORMAL);
+            sapphire = new Animation(Constants.GEM_DURATION / sapphireRegions.size, sapphireRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> emeraldRegions = new Array<AtlasRegion>();
             emeraldRegions.add(atlas.findRegion(Constants.EMERALD_SPRITE_1));
             emeraldRegions.add(atlas.findRegion(Constants.EMERALD_SPRITE_2));
-            emerald = new Animation(Constants.POWERUP_DURATION / emeraldRegions.size, emeraldRegions, PlayMode.NORMAL);
+            emerald = new Animation(Constants.GEM_DURATION / emeraldRegions.size, emeraldRegions, PlayMode.NORMAL);
         }
     }
 

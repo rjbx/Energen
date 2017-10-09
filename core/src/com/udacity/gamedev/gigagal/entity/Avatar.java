@@ -113,6 +113,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private float ammo;
     private float health;
     private int lives;
+    private int[] gems = {0,0,0};
     private InputControls inputControls;
 
     // cannot be subclassed
@@ -868,6 +869,15 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 AssetManager.getInstance().getSoundAssets().cannon.play();
                 chargeModifier = 1;
                 ammo += Constants.POWERUP_AMMO;
+                break;
+            case RUBY:
+                gems[0]++;
+                break;
+            case SAPPHIRE:
+                gems[1]++;
+                break;
+            case EMERALD:
+                gems[2]++;
                 break;
         }
     }
