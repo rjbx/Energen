@@ -831,10 +831,18 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
             if (getBounds().overlaps(bounds)) {
                 touchPowerup(powerup);
-            } else if (position.dst(powerup.getPosition()) < (Constants.WORLD_SIZE * 2)
-                    && Helpers.speedToVelocity(position.x - powerup.getPosition().x, directionX, Orientation.X) > 0) {
-                canPeer = true;
-                peerStartTime = TimeUtils.nanoTime();
+            } else if (lookQuadrant != 3 && powerup instanceof Moving && position.dst(powerup.getPosition()) < Constants.WORLD_SIZE * 2) {
+                if (Helpers.speedToVelocity(position.x - powerup.getPosition().x, directionX, Orientation.X) > 0) {
+                    canPeer = true;
+                    peerStartTime = TimeUtils.nanoTime();
+                    if (position.y - powerup.getPosition().y > powerup.getHeight()) {
+                        lookQuadrant = 2;
+                    } else {
+                        lookQuadrant = 1;
+                    }
+                } else if (position.y - powerup.getPosition().y > powerup.getHeight()) {
+                    lookQuadrant = 3;
+                }
             }
         }
         if (turbo > Constants.MAX_TURBO) {
