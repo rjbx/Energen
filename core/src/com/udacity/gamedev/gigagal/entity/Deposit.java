@@ -8,7 +8,7 @@ import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Deposit extends Barrier implements Destructible {
+public class Deposit extends Ground implements Destructible {
     // fields
     public final static String TAG = Box.class.getName();
 
@@ -30,6 +30,13 @@ public class Deposit extends Barrier implements Destructible {
     }
 
     // Getters
+    @Override public final Vector2 getPosition() { return position; }
+    @Override public final float getHeight() { return Constants.BOX_DEPOSIT_CENTER.y * 2; }
+    @Override public final float getWidth() { return Constants.BOX_DEPOSIT_CENTER.x * 2; }
+    @Override public final float getLeft() { return position.x - Constants.BOX_DEPOSIT_CENTER.x; }
+    @Override public final float getRight() { return position.x + Constants.BOX_DEPOSIT_CENTER.x; }
+    @Override public final float getTop() { return position.y + Constants.BOX_DEPOSIT_CENTER.y; }
+    @Override public final float getBottom() { return position.y - Constants.BOX_DEPOSIT_CENTER.y; }
     @Override public int getKillScore() { return 0; }
     @Override public int getHitScore() { return 0; }
     @Override public float getShotRadius() { return Math.min(getWidth(), getHeight()) / 2; }

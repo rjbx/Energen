@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import sun.security.krb5.internal.crypto.Des;
+
 // immutable package-private singleton
 class LevelUpdater {
 
@@ -422,8 +424,8 @@ class LevelUpdater {
                 if (ground instanceof Box) {
                     grounds.add(new Brick(ground.getPosition().x, ground.getPosition().y, 5, 5, ((Destructible) ground).getType(), false));
                     assetManager.getSoundAssets().breakGround.play();
-                    active = false;
                 }
+                active = false;
             }
         }
         if (ground instanceof Chargeable) {
@@ -495,6 +497,7 @@ class LevelUpdater {
                             }
                         }
                     } else if (strikeable instanceof Destructible) {
+                        Gdx.app.log(TAG, ((Destructible) strikeable).getHealth() + "");
                         Helpers.applyDamage((Destructible) ground, ammo);
                     } else if (strikeable instanceof Gate && ammo.getDirection() == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
                         ((Gate) strikeable).deactivate();

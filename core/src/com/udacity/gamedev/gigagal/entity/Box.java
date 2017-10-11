@@ -18,9 +18,6 @@ public class Box extends Barrier implements Destructible {
         damage = 50;
     }
 
-    @Override
-    public void update(float delta) {}
-
     // Getters
     @Override public int getKillScore() { return 0; }
     @Override public int getHitScore() { return 0; }
