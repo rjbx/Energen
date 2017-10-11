@@ -711,6 +711,13 @@ box-breakable
   orig: 58, 58
   offset: 0, 0
   index: -1
+box-breakable-deposit
+  rotate: false
+  xy: 930, 176
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 box-draggable
   rotate: false
   xy: 954, 176
@@ -1376,21 +1383,7 @@ protrusion-plasma-1
   orig: 9, 16
   offset: 0, 0
   index: -1
-protrusion-plasma-2
-  rotate: false
-  xy: 930, 176
-  size: 9, 16
-  orig: 9, 16
-  offset: 0, 0
-  index: -1
 protrusion-solid-1
-  rotate: false
-  xy: 941, 176
-  size: 7, 16
-  orig: 7, 16
-  offset: 0, 0
-  index: -1
-protrusion-solid-2
   rotate: false
   xy: 668, 2
   size: 7, 16
@@ -1902,35 +1895,35 @@ ammo-shot-liquid-1
   index: -1
 ammo-shot-liquid-2
   rotate: false
-  xy: 651, 348
+  xy: 359, 271
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-native-1
   rotate: false
-  xy: 359, 271
+  xy: 370, 271
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-native-2
   rotate: false
-  xy: 370, 271
+  xy: 381, 271
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-plasma-1
   rotate: false
-  xy: 381, 271
+  xy: 392, 271
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-plasma-2
   rotate: false
-  xy: 392, 271
+  xy: 403, 271
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
@@ -2854,21 +2847,21 @@ orben-solid-active-0
   index: -1
 orben-solid-active-1
   rotate: false
-  xy: 615, 345
+  xy: 626, 345
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-active-2
   rotate: false
-  xy: 627, 345
+  xy: 638, 345
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-alert
   rotate: false
-  xy: 639, 345
+  xy: 650, 345
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -2922,6 +2915,13 @@ protrusion-gas-2
   orig: 17, 27
   offset: 0, 0
   index: -1
+protrusion-plasma-2
+  rotate: false
+  xy: 615, 339
+  size: 9, 16
+  orig: 9, 16
+  offset: 0, 0
+  index: -1
 protrusion-polymer-1
   rotate: false
   xy: 2, 2
@@ -2934,6 +2934,13 @@ protrusion-polymer-2
   xy: 23, 2
   size: 19, 15
   orig: 19, 15
+  offset: 0, 0
+  index: -1
+protrusion-solid-2
+  rotate: false
+  xy: 305, 202
+  size: 7, 16
+  orig: 7, 16
   offset: 0, 0
   index: -1
 rollen-gas-1

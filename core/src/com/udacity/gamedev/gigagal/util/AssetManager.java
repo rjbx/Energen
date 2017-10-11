@@ -424,6 +424,7 @@ public final class AssetManager implements AssetErrorListener {
     public static final class GroundAssets {
 
         public final NinePatch ladderNinePatch;
+        public final AtlasRegion deposit;
         public final AtlasRegion lift;
         public final AtlasRegion yCannon;
         public final AtlasRegion xCannon;
@@ -471,6 +472,7 @@ public final class AssetManager implements AssetErrorListener {
             box = new NinePatch(atlas.findRegion(Constants.BOX_SPRITE), 4, 2, 39, 15);
             block = new NinePatch(atlas.findRegion(Constants.BLOCK_SPRITE), edge, edge, edge, edge);
 
+            deposit = atlas.findRegion(Constants.BOX_DEPOSIT_SPRITE);
             pillar = atlas.findRegion(Constants.PILLAR_SPRITE);
             lift = atlas.findRegion(Constants.LIFT_SPRITE);
             yCannon = atlas.findRegion(Constants.Y_CANNON_SPRITE);

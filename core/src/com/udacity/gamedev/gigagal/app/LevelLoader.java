@@ -14,6 +14,7 @@ import com.udacity.gamedev.gigagal.entity.Cannoroll;
 import com.udacity.gamedev.gigagal.entity.Cannon;
 import com.udacity.gamedev.gigagal.entity.Chamber;
 import com.udacity.gamedev.gigagal.entity.Coals;
+import com.udacity.gamedev.gigagal.entity.Deposit;
 import com.udacity.gamedev.gigagal.entity.Gate;
 import com.udacity.gamedev.gigagal.entity.Ice;
 import com.udacity.gamedev.gigagal.entity.Knob;
@@ -415,6 +416,10 @@ final class LevelLoader {
                 final Vector2 powerupPosition = imagePosition.add(Constants.GEM_CENTER);
                 Gdx.app.log(TAG, "Loaded a Emerald at " + powerupPosition);
                 level.addPowerup(new Powerup(powerupPosition, Enums.PowerupType.GEM, Enums.GemType.EMERALD));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_DEPOSIT_SPRITE)) {
+                final Vector2 depositPosition = imagePosition.add(Constants.BOX_DEPOSIT_CENTER);
+                Gdx.app.log(TAG, "Loaded a Deposit at " + depositPosition);
+                level.addGround(new Deposit(depositPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STAND)) {
                 final Vector2 gigaGalPosition = imagePosition.add(Constants.AVATAR_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded GigaGal at " + gigaGalPosition);
