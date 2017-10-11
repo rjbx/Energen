@@ -863,7 +863,7 @@ public final class Constants {
     public static final String CANNON_POWERUP_SPRITE = "powerup-cannon";
     public static final Vector2 CANNON_POWERUP_CENTER = new Vector2(8, 5);
 
-    public static final float GEM_DURATION = 0.3f;
+    public static final float GEM_DURATION = 0.2f;
 
     public static final String RUBY_SPRITE_1 = "gem-ruby-1";
     public static final String RUBY_SPRITE_2 = "gem-ruby-2";
