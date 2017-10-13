@@ -117,7 +117,7 @@ class LevelUpdater {
         }
 
         for (Ground ground : grounds) {
-            if (ground instanceof Vines) {
+            if (ground instanceof Vines || ground instanceof Deposit) {
                 ground.render(batch, viewport);
             }
         }
@@ -129,7 +129,7 @@ class LevelUpdater {
         }
 
         for (Ground ground : grounds) {
-            if (ground.isDense() && !(ground instanceof Tripknob || ground instanceof Tripspring || ground instanceof Spring)) {
+            if (ground.isDense() && !(ground instanceof Tripknob || ground instanceof Tripspring || ground instanceof Spring || ground instanceof Deposit)) {
                 ground.render(batch, viewport);
             }
         }

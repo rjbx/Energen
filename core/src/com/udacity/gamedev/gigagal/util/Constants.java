@@ -220,7 +220,7 @@ public final class Constants {
     public static final String BOX_SPRITE = "box-breakable";
     public static final String BLOCK_SPRITE = "box-draggable";
     public static final String BOX_DEPOSIT_SPRITE = "box-breakable-deposit";
-    public static final Vector2 BOX_DEPOSIT_CENTER = new Vector2(8, 8);
+    public static final Vector2 BOX_DEPOSIT_CENTER = new Vector2(16, 16);
 
     // Pillar
     public static final Vector2 PILLAR_CENTER = new Vector2(6, 3);
