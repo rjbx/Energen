@@ -1708,10 +1708,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 } else {
                     rotation = 0;
                 }
+
                 rotation = Helpers.speedToVelocity(rotation, Helpers.inputToDirection(), Orientation.Y);
-                if (flipped) {
+                if (inputControls.downButtonPressed) {
                     rotation *= -1;
-                    center = center.scl(1, 1);
                 }
                 Gdx.app.log(TAG, center.toString() + rotation);
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
