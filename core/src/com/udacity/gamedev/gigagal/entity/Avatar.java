@@ -1508,155 +1508,203 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (bladeState == BladeState.RETRACTED) {
             switch (action) {
                 case STANDING:
-                    head = AssetManager.getInstance().getAvatarAssets().head;
-                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
                     torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
-                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(0);
                     legs = AssetManager.getInstance().getAvatarAssets().legsStand;
-                    feet = AssetManager.getInstance().getAvatarAssets().feetStand;
-                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().armRelax);
                     frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armReleaseForward);
+                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(0);
+                    head = AssetManager.getInstance().getAvatarAssets().head;
+                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
+                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
+                    feet = AssetManager.getInstance().getAvatarAssets().feetStand;
+                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3));
                     frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(0));
-                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                     break;
                 case STRIDING:
                     float strideFrame = Math.min(strideAcceleration * strideAcceleration, strideAcceleration);
-                    head = AssetManager.getInstance().getAvatarAssets().head;
-                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
                     torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(strideFrame);
-                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                     legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(strideFrame);
-                    feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(strideFrame);
-                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(strideFrame / 6));
                     frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(strideFrame / 6));
+                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(strideTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
+                    head = AssetManager.getInstance().getAvatarAssets().head;
+                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
+                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(strideFrame);
+                    feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(strideFrame);
+                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(strideFrame / 6));
                     frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(strideFrame / 6));
-                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                     break;
                 case CLIMBING:
                     frontFacing = false;
-                    head = AssetManager.getInstance().getAvatarAssets().headClimb;
-                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
-                    torso = AssetManager.getInstance().getAvatarAssets().midsectionClimb;
-                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
-                    hair = AssetManager.getInstance().getAvatarAssets().hairClimb;
-                    legs = AssetManager.getInstance().getAvatarAssets().legsClimb;
                     feet = AssetManager.getInstance().getAvatarAssets().feetClimb;
                     shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
-                    rearArm = AssetManager.getInstance().getAvatarAssets().armClimb;
-                    rearHand = AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(0);
                     frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3));
+                    rearHand = AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(0);
+                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
+                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
+                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                    head = AssetManager.getInstance().getAvatarAssets().headClimb;
+                    hair = AssetManager.getInstance().getAvatarAssets().hairClimb;
+                    frontArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                    rearArm = AssetManager.getInstance().getAvatarAssets().armClimb;
                     if (lookStartTime != 0 || inputControls.shootButtonPressed) {
                         rearArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
                     }
-                    frontArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
-                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
+                    legs = AssetManager.getInstance().getAvatarAssets().legsClimb;
+                    torso = AssetManager.getInstance().getAvatarAssets().midsectionClimb;
                     break;
                 case DASHING:
-                    head = AssetManager.getInstance().getAvatarAssets().head;
-                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
                     torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
-                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(dashTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                     legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
-                    feet = AssetManager.getInstance().getAvatarAssets().feetDash.getKeyFrame(dashTimeSeconds);
-                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().armRelax);
                     frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armCurl.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3));
+                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(dashTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
+                    head = AssetManager.getInstance().getAvatarAssets().head;
+                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
+                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
+                    feet = AssetManager.getInstance().getAvatarAssets().feetDash.getKeyFrame(dashTimeSeconds);
+                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3));
                     frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3));
-                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                     break;
                 case FALLING:
-                    head = AssetManager.getInstance().getAvatarAssets().head;
-                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
                     torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
-                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                     legs = AssetManager.getInstance().getAvatarAssets().legsFall;
-                    feet = AssetManager.getInstance().getAvatarAssets().feetFall;
-                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().armReach);
                     frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armPoint);
+                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
+                    head = AssetManager.getInstance().getAvatarAssets().head;
+                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
+                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
+                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handReach);
                     frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handPoint.getKeyFrame(0));
-                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
+                    feet = AssetManager.getInstance().getAvatarAssets().feetFall;
                     break;
                 case JUMPING:
-                    head = AssetManager.getInstance().getAvatarAssets().head;
-                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
                     torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
-                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                     legs = AssetManager.getInstance().getAvatarAssets().legsFall;
-                    feet = AssetManager.getInstance().getAvatarAssets().feetFall;
-                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().armReach);
                     frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armPoint);
+                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
+                    head = AssetManager.getInstance().getAvatarAssets().head;
+                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
+                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
+                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handReach);
                     frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handPoint.getKeyFrame(0));
-                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
+                    feet = AssetManager.getInstance().getAvatarAssets().feetFall;
                     break;
                 case TWISTING:
                     break;
                 case HOVERING:
-                    head = AssetManager.getInstance().getAvatarAssets().head;
-                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
                     torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
-                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(hoverTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                     legs = AssetManager.getInstance().getAvatarAssets().legsStand;
-                    feet = AssetManager.getInstance().getAvatarAssets().feetHover.getKeyFrame(hoverTimeSeconds);
-                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().armRelax);
                     frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armReleaseForward);
+                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(hoverTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
+                    head = AssetManager.getInstance().getAvatarAssets().head;
+                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
+                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
+                    feet = AssetManager.getInstance().getAvatarAssets().feetHover.getKeyFrame(hoverTimeSeconds);
+                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3));
                     frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(0));
-                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                     break;
                 case RAPPELLING:
-                    head = AssetManager.getInstance().getAvatarAssets().head;
-                    mouth = AssetManager.getInstance().getAvatarAssets().mouthOpen;
                     torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
-                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(0);
                     legs = AssetManager.getInstance().getAvatarAssets().legsRappel;
-                    feet = AssetManager.getInstance().getAvatarAssets().feetRappel;
-                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().armReach);
                     frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armReleaseForward);
-                    rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handReach);
-                    frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(0));
-                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
-                    break;
-                case RECOILING:
+                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(0);
                     head = AssetManager.getInstance().getAvatarAssets().head;
                     mouth = AssetManager.getInstance().getAvatarAssets().mouthOpen;
-                    torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
-                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
-                    legs = AssetManager.getInstance().getAvatarAssets().legsRecoil;
-                    feet = AssetManager.getInstance().getAvatarAssets().feetRecoil;
+                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
+                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
                     shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
+                    rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handReach);
+                    frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(0));
+                    feet = AssetManager.getInstance().getAvatarAssets().feetRappel;
+                    break;
+                case RECOILING:
+                    torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                    legs = AssetManager.getInstance().getAvatarAssets().legsRecoil;
                     rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(0));
                     frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armPoint);
+                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
+                    head = AssetManager.getInstance().getAvatarAssets().head;
+                    mouth = AssetManager.getInstance().getAvatarAssets().mouthOpen;
+                    eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
+                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
+                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                     rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(0));
                     frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handPoint.getKeyFrame(0));
-                    eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
+                    feet = AssetManager.getInstance().getAvatarAssets().feetRecoil;
                     break;
             }
         } else {
             if (bladeState == BladeState.RUSH) {
                 if (inputControls.rightButtonPressed) {
+                    torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                    legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
+                    rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds));
+                    frontArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(swipeTimeSeconds);
+                    head = AssetManager.getInstance().getAvatarAssets().head;
+                    mouth = AssetManager.getInstance().getAvatarAssets().mouthOpen;
+                    eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
+                    waist =  AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(3);
+                    rearHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                    frontHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                    feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
                 } else if (inputControls.leftButtonPressed) {
+                    torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                    legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
+                    rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds));
+                    frontArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(swipeTimeSeconds);
+                    head = AssetManager.getInstance().getAvatarAssets().head;
+                    mouth = AssetManager.getInstance().getAvatarAssets().mouthOpen;
+                    eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
+                    waist =  AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(3);
+                    rearHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                    frontHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                    feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
                 }
             } else if (bladeState == BladeState.CUT) {
+                torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
+                rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds));
+                frontArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(swipeTimeSeconds);
+                head = AssetManager.getInstance().getAvatarAssets().head;
+                mouth = AssetManager.getInstance().getAvatarAssets().mouthOpen;
+                eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
+                waist =  AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(3);
+                rearHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                frontHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
             } else if (bladeState == BladeState.FLIP) {
+                torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
+                rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds));
+                frontArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(swipeTimeSeconds);
+                head = AssetManager.getInstance().getAvatarAssets().head;
+                mouth = AssetManager.getInstance().getAvatarAssets().mouthOpen;
+                eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
+                waist =  AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(3);
+                rearHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                frontHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
             }
         }
 
