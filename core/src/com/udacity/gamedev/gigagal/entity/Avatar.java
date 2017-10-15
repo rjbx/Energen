@@ -1695,13 +1695,23 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 frontHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
                 feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
             } else if (bladeState == BladeState.FLIP) {
-                rotation = 360 * (swipeTimeSeconds / (Constants.FLIPSWIPE_FRAME_DURATION * 5));
-                if (rotation > 270) {
-                    center = new Vector2(Constants.AVATAR_EYE_POSITION.x, Constants.AVATAR_EYE_POSITION.y);
-                } else if (rotation > 180) {
-                    center = new Vector2(-Constants.AVATAR_EYE_POSITION.x, -Constants.AVATAR_EYE_POSITION.y);
-                } else if (rotation > 90) {
-                    center = new Vector2(-Constants.AVATAR_EYE_POSITION.x, Constants.AVATAR_EYE_POSITION.y);
+                float elapsedFrames = (Constants.FLIPSWIPE_FRAME_DURATION * 5) / swipeTimeSeconds;
+                if (elapsedFrames > 4) {
+                    center = new Vector2(24, -12);
+                    rotation = 270;
+                } else if (elapsedFrames > 3) {
+                    center = new Vector2(-12, -12);
+                    rotation = 180;
+                } else if (elapsedFrames > 2) {
+                    center = new Vector2(-24, 24);
+                    rotation = 90;
+                } else {
+                    rotation = 0;
+                }
+                rotation = Helpers.speedToVelocity(rotation, Helpers.inputToDirection(), Orientation.Y);
+                if (flipped) {
+                    rotation *= -1;
+                    center = center.scl(1, 1);
                 }
                 Gdx.app.log(TAG, center.toString() + rotation);
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
