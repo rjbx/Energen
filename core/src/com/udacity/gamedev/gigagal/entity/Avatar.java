@@ -1489,6 +1489,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Array<TextureRegion> body = new Array<TextureRegion>();
+        Vector2 center = Constants.AVATAR_EYE_POSITION;
         float rotation = 0;
         boolean flipped = directionX == Direction.LEFT;
         boolean frontFacing = true;
@@ -1695,6 +1696,19 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
             } else if (bladeState == BladeState.FLIP) {
                 rotation = 360 * (swipeTimeSeconds / (Constants.FLIPSWIPE_FRAME_DURATION * 5));
+                switch ((int) rotation) {
+                    case 90:
+                        center = new Vector2(-Constants.AVATAR_EYE_POSITION.x, Constants.AVATAR_EYE_POSITION.y);
+                        break;
+                    case 180:
+                        center = new Vector2(-Constants.AVATAR_EYE_POSITION.x, -Constants.AVATAR_EYE_POSITION.y);
+                        break;
+                    case 270:
+                        center = new Vector2(Constants.AVATAR_EYE_POSITION.x, -Constants.AVATAR_EYE_POSITION.y);
+                        break;
+                    default:
+                        center = Constants.AVATAR_EYE_POSITION;
+                }
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
                 rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds));
@@ -1734,7 +1748,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
 
         for (TextureRegion region : body) {
-            Helpers.drawTextureRegion(batch, viewport, region, renderPosition, Constants.AVATAR_EYE_POSITION, 1, rotation, flipped, false);
+            Helpers.drawTextureRegion(batch, viewport, region, renderPosition, center, 1, rotation, flipped, false);
             if (region == frontArm) {
                 if (frontFacing) {
                     batch.setColor(Color.WHITE);
