@@ -1489,6 +1489,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Array<TextureRegion> body = new Array<TextureRegion>();
+        float rotation = 0;
         boolean flipped = directionX == Direction.LEFT;
         boolean frontFacing = true;
         TextureRegion hair = null;
@@ -1693,6 +1694,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 frontHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
                 feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
             } else if (bladeState == BladeState.FLIP) {
+                rotation = 360 * (swipeTimeSeconds / (Constants.FLIPSWIPE_FRAME_DURATION * 5));
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
                 rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds));
@@ -1732,7 +1734,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
 
         for (TextureRegion region : body) {
-            Helpers.drawTextureRegion(batch, viewport, region, renderPosition, Constants.AVATAR_EYE_POSITION, 1, 0, flipped, false);
+            Helpers.drawTextureRegion(batch, viewport, region, renderPosition, Constants.AVATAR_EYE_POSITION, 1, rotation, flipped, false);
             if (region == frontArm) {
                 if (frontFacing) {
                     batch.setColor(Color.WHITE);
