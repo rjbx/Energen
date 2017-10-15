@@ -1696,19 +1696,14 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
             } else if (bladeState == BladeState.FLIP) {
                 rotation = 360 * (swipeTimeSeconds / (Constants.FLIPSWIPE_FRAME_DURATION * 5));
-                switch ((int) rotation) {
-                    case 90:
-                        center = new Vector2(-Constants.AVATAR_EYE_POSITION.x, Constants.AVATAR_EYE_POSITION.y);
-                        break;
-                    case 180:
-                        center = new Vector2(-Constants.AVATAR_EYE_POSITION.x, -Constants.AVATAR_EYE_POSITION.y);
-                        break;
-                    case 270:
-                        center = new Vector2(Constants.AVATAR_EYE_POSITION.x, -Constants.AVATAR_EYE_POSITION.y);
-                        break;
-                    default:
-                        center = Constants.AVATAR_EYE_POSITION;
+                if (rotation > 270) {
+                    center = new Vector2(Constants.AVATAR_EYE_POSITION.x, Constants.AVATAR_EYE_POSITION.y);
+                } else if (rotation > 180) {
+                    center = new Vector2(-Constants.AVATAR_EYE_POSITION.x, -Constants.AVATAR_EYE_POSITION.y);
+                } else if (rotation > 90) {
+                    center = new Vector2(-Constants.AVATAR_EYE_POSITION.x, Constants.AVATAR_EYE_POSITION.y);
                 }
+                Gdx.app.log(TAG, center.toString() + rotation);
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
                 rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds));
@@ -1736,7 +1731,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         body.add(rearHand);
         body.add(frontHand);
         body.add(feet);
-        Gdx.app.log(TAG, frontFacing + action.name());
         if (frontFacing) {
             batch.setColor(weapon.theme().color());
         } else {
