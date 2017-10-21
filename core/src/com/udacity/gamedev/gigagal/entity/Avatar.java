@@ -1491,7 +1491,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         Array<TextureRegion> body = new Array<TextureRegion>();
         Vector2 center = Constants.AVATAR_EYE_POSITION;
         float rotation = 0;
-        boolean flipped = directionX == Direction.LEFT;
+        boolean inverseX = directionX == Direction.LEFT;
+        boolean inverseY = inputControls.downButtonPressed;
         boolean frontFacing = true;
         TextureRegion hair = null;
         TextureRegion torso = null;
@@ -1708,12 +1709,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 } else {
                     rotation = 0;
                 }
-
-                rotation = Helpers.speedToVelocity(rotation, Helpers.inputToDirection(), Orientation.Y);
-                if (flipped) {
+                if (inverseX ^ inverseY) {
                     rotation *= -1;
                 }
-                Gdx.app.log(TAG, center.toString() + rotation + " " + directionX);
+                Gdx.app.log(TAG, center.toString() + rotation + " " + directionX + (inverseX ^ inverseY));
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
                 rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds));
@@ -1747,12 +1746,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             body.reverse();
         }
         Vector2 renderPosition = new Vector2().set(position);
-        if (flipped) {
+        if (inverseX) {
             renderPosition.x -= 2;
         }
 
         for (TextureRegion region : body) {
-            Helpers.drawTextureRegion(batch, viewport, region, renderPosition, center, 1, rotation, flipped, false);
+            Helpers.drawTextureRegion(batch, viewport, region, renderPosition, center, 1, rotation, inverseX, false);
             if (region == frontArm) {
                 if (frontFacing) {
                     batch.setColor(Color.WHITE);
