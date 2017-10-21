@@ -1697,20 +1697,18 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
             } else if (bladeState == BladeState.FLIP) {
                 float remainingFrames = (Constants.FLIPSWIPE_FRAME_DURATION * 5) / swipeTimeSeconds;
+                rotation = Helpers.booleanToDirectionalValue(inverseX ^ inverseY); // if either but not both directions inverse
                 if (remainingFrames < 2) {
-                    center = new Vector2(24, -12);
-                    rotation = 270;
+                    center = new Vector2(rotation * 24, rotation * -12);
+                    rotation *= 270;
                 } else if (remainingFrames < 3) {
                     center = new Vector2(-12, -12);
-                    rotation = 180;
+                    rotation *= 180;
                 } else if (remainingFrames < 4) {
-                    center = new Vector2(-24, 24);
-                    rotation = 90;
+                    center = new Vector2(rotation * -24, rotation * 24);
+                    rotation *= 90;
                 } else {
-                    rotation = 0;
-                }
-                if (inverseX ^ inverseY) {
-                    rotation *= -1;
+                    rotation *= 0;
                 }
                 Gdx.app.log(TAG, center.toString() + rotation + " " + directionX + (inverseX ^ inverseY));
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;

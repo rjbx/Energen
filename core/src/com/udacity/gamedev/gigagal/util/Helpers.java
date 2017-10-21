@@ -115,6 +115,8 @@ public final class Helpers {
         batch.end();
     }
 
+    public static final int booleanToDirectionalValue(boolean state) { return state? -1 : 1; }
+
     public static final float secondsSincePause(long pauseTime) { return secondsSince(pauseTime); }
 
     public static final float secondsSince(long timeNanos) { return MathUtils.nanoToSec * (TimeUtils.nanoTime() - timeNanos); }
