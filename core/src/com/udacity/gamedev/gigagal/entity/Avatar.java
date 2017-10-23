@@ -347,16 +347,18 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             if (swipeStartTime == 0) {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
-                if (directionY == Direction.UP) {
+                    if (directionY == Direction.UP) {if (velocity.x < Constants.AVATAR_MAX_SPEED) {
+                        velocity.x -= Helpers.speedToVelocity(Constants.AVATAR_MAX_SPEED / 2.25f, directionX, Orientation.X);
+                    }
                     if (velocity.y < Constants.AVATAR_MAX_SPEED) {
                         velocity.y += Constants.AVATAR_MAX_SPEED / 2.25f;
                     }
                 } else if (directionY == Direction.DOWN) {
-                    if (velocity.y < Constants.AVATAR_MAX_SPEED) {
-                        velocity.y += Constants.AVATAR_MAX_SPEED / 4.5f;
-                    }
                     if (velocity.x < Constants.AVATAR_MAX_SPEED) {
                         velocity.x += Helpers.speedToVelocity(Constants.AVATAR_MAX_SPEED / 2.25f, directionX, Orientation.X);
+                    }
+                    if (velocity.y < Constants.AVATAR_MAX_SPEED) {
+                        velocity.y += Constants.AVATAR_MAX_SPEED / 4.5f;
                     }
                 }
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
