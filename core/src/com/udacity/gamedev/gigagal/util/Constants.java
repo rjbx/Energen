@@ -125,6 +125,7 @@ public final class Constants {
     public static final String HAND_RELAX = "avatar-hand-relax";
     public static final String HAND_CLENCH = "avatar-hand-clench";
     public static final String HAND_CURL = "avatar-hand-curl";
+    public static final String HAND_OUTWARD = "avatar-hand-outward";
     public static final String HAND_SHOOT = "avatar-hand-shoot";
     public static final String HAND_RAISE = "avatar-hand-raise";
     public static final String HAND_RAISE_0 = "avatar-hand-raise-0";
