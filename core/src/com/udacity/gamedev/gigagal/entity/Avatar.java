@@ -1715,15 +1715,15 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 Gdx.app.log(TAG, center.toString() + rotation + " " + directionX + (inverseX ^ inverseY));
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
-                rearArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
-                frontArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().obfuscated);
+                frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().obfuscated);
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(swipeTimeSeconds);
                 head = AssetManager.getInstance().getAvatarAssets().head;
                 mouth = AssetManager.getInstance().getAvatarAssets().mouthOpen;
                 eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
                 waist =  AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(3);
-                rearHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
-                frontHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().obfuscated);
+                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().obfuscated);
                 feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
             }
         }
