@@ -1687,15 +1687,15 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else if (bladeState == BladeState.CUT) {
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
-                rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds));
-                frontArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().obfuscated);
+                frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().obfuscated);
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(swipeTimeSeconds);
                 head = AssetManager.getInstance().getAvatarAssets().head;
                 mouth = AssetManager.getInstance().getAvatarAssets().mouthOpen;
                 eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
                 waist =  AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(3);
-                rearHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
-                frontHand = AssetManager.getInstance().getAvatarAssets().obfuscated;
+                rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().obfuscated);
+                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().obfuscated);
                 feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
             } else if (bladeState == BladeState.FLIP) {
                 float remainingFrames = (Constants.FLIPSWIPE_FRAME_DURATION * 5) / swipeTimeSeconds;
@@ -1767,13 +1767,14 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private TextureRegion getFrontArm(TextureRegion nonShoot) {
         TextureRegion shoot = AssetManager.getInstance().getAvatarAssets().armPoint;
         float frame = (bladeState == BladeState.RETRACTED ? 3 : swipeTimeSeconds);
+        float multiplier = (bladeState == BladeState.CUT ? 10 : 1);
         if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
                 shoot = AssetManager.getInstance().getAvatarAssets().armRaise;
-                nonShoot =  AssetManager.getInstance().getAvatarAssets().uparm.getKeyFrame(frame);
+                nonShoot =  AssetManager.getInstance().getAvatarAssets().uparm.getKeyFrame(frame * multiplier);
             } else {
                 shoot = AssetManager.getInstance().getAvatarAssets().armLower;
-                nonShoot = AssetManager.getInstance().getAvatarAssets().downarm.getKeyFrame(frame);
+                nonShoot = AssetManager.getInstance().getAvatarAssets().downarm.getKeyFrame(frame * multiplier);
             }
         }
         if (inputControls.shootButtonPressed) {
@@ -1785,13 +1786,14 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private TextureRegion getFrontHand(Animation shoot, TextureRegion nonShoot) {
         float frame = (bladeState == BladeState.RETRACTED ? 3 : swipeTimeSeconds);
+        float multiplier = (bladeState == BladeState.CUT ? 10 : 1);
         if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
                 shoot = AssetManager.getInstance().getAvatarAssets().handRaise;
-                nonShoot =  AssetManager.getInstance().getAvatarAssets().uphand.getKeyFrame(frame);
+                nonShoot =  AssetManager.getInstance().getAvatarAssets().uphand.getKeyFrame(frame * multiplier);
             } else {
                 shoot = AssetManager.getInstance().getAvatarAssets().handLower;
-                nonShoot = AssetManager.getInstance().getAvatarAssets().downhand.getKeyFrame(frame);
+                nonShoot = AssetManager.getInstance().getAvatarAssets().downhand.getKeyFrame(frame * multiplier);
             }
         }
         if (inputControls.shootButtonPressed) {
