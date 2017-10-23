@@ -1713,7 +1713,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 Gdx.app.log(TAG, center.toString() + rotation + " " + directionX + (inverseX ^ inverseY));
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
-                rearArm = getRearHand(AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(swipeTimeSeconds));
+                rearArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
                 frontArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(swipeTimeSeconds);
                 head = AssetManager.getInstance().getAvatarAssets().head;
