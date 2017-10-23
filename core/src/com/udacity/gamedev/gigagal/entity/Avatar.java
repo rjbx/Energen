@@ -1751,7 +1751,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private TextureRegion getFrontArm(TextureRegion nonShoot) {
         TextureRegion shoot = AssetManager.getInstance().getAvatarAssets().armPoint;
         float frame = (bladeState == BladeState.RETRACTED ? 3 : swipeTimeSeconds);
-        float multiplier = (bladeState == BladeState.CUT ? 10 : 1);
         if (bladeState == BladeState.RUSH) {
             if (inputControls.leftButtonPressed) {
                 nonShoot = AssetManager.getInstance().getAvatarAssets().armPull.getKeyFrame(swipeTimeSeconds);
@@ -1761,10 +1760,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         } else if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
                 shoot = AssetManager.getInstance().getAvatarAssets().armRaise;
-                nonShoot =  AssetManager.getInstance().getAvatarAssets().armUp.getKeyFrame(frame * multiplier);
+                nonShoot =  AssetManager.getInstance().getAvatarAssets().armUp.getKeyFrame(frame);
             } else {
                 shoot = AssetManager.getInstance().getAvatarAssets().armLower;
-                nonShoot = AssetManager.getInstance().getAvatarAssets().armDown.getKeyFrame(frame * multiplier);
+                nonShoot = AssetManager.getInstance().getAvatarAssets().armDown.getKeyFrame(frame);
             }
         }
         if (inputControls.shootButtonPressed) {
@@ -1776,7 +1775,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private TextureRegion getFrontHand(Animation shoot, TextureRegion nonShoot) {
         float frame = (bladeState == BladeState.RETRACTED ? 3 : swipeTimeSeconds);
-        float multiplier = (bladeState == BladeState.CUT ? 10 : 1);
         if (bladeState == BladeState.RUSH) {
             if (inputControls.leftButtonPressed) {
                 nonShoot = AssetManager.getInstance().getAvatarAssets().handBack.getKeyFrame(swipeTimeSeconds);
@@ -1786,10 +1784,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         } else if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
                 shoot = AssetManager.getInstance().getAvatarAssets().handRaise;
-                nonShoot = AssetManager.getInstance().getAvatarAssets().handUp.getKeyFrame(frame * multiplier);
+                nonShoot = AssetManager.getInstance().getAvatarAssets().handUp.getKeyFrame(frame);
             } else {
                 shoot = AssetManager.getInstance().getAvatarAssets().handLower;
-                nonShoot = AssetManager.getInstance().getAvatarAssets().handDown.getKeyFrame(frame * multiplier);
+                nonShoot = AssetManager.getInstance().getAvatarAssets().handDown.getKeyFrame(frame);
             }
         }
         if (inputControls.shootButtonPressed) {
