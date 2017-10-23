@@ -1766,13 +1766,14 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private TextureRegion getFrontArm(TextureRegion nonShoot) {
         TextureRegion shoot = AssetManager.getInstance().getAvatarAssets().armPoint;
+        float frame = (bladeState == BladeState.RETRACTED ? 3 : swipeTimeSeconds);
         if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
                 shoot = AssetManager.getInstance().getAvatarAssets().armRaise;
-                nonShoot =  AssetManager.getInstance().getAvatarAssets().armReleaseUp;
+                nonShoot =  AssetManager.getInstance().getAvatarAssets().uparm.getKeyFrame(frame);
             } else {
                 shoot = AssetManager.getInstance().getAvatarAssets().armLower;
-                nonShoot = AssetManager.getInstance().getAvatarAssets().armReleaseDown;
+                nonShoot = AssetManager.getInstance().getAvatarAssets().downarm.getKeyFrame(frame);
             }
         }
         if (inputControls.shootButtonPressed) {
@@ -1783,13 +1784,14 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
 
     private TextureRegion getFrontHand(Animation shoot, TextureRegion nonShoot) {
+        float frame = (bladeState == BladeState.RETRACTED ? 3 : swipeTimeSeconds);
         if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
                 shoot = AssetManager.getInstance().getAvatarAssets().handRaise;
-                nonShoot =  AssetManager.getInstance().getAvatarAssets().handReleaseUp;
+                nonShoot =  AssetManager.getInstance().getAvatarAssets().uphand.getKeyFrame(frame);
             } else {
                 shoot = AssetManager.getInstance().getAvatarAssets().handLower;
-                nonShoot = AssetManager.getInstance().getAvatarAssets().handReleaseDown;
+                nonShoot = AssetManager.getInstance().getAvatarAssets().downhand.getKeyFrame(frame);
             }
         }
         if (inputControls.shootButtonPressed) {

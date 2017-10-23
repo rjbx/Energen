@@ -177,12 +177,12 @@ public final class AssetManager implements AssetErrorListener {
 
         public final AtlasRegion stand;
         public final AtlasRegion fall;
-        public final Animation backflip;
-        public final Animation frontflip;
         public final Animation forehand;
         public final Animation backhand;
         public final Animation downhand;
         public final Animation uphand;
+        public final Animation downarm;
+        public final Animation uparm;
 
         private AvatarAssets(TextureAtlas atlas) {
             armClench = atlas.findRegion(Constants.ARM_CLENCH);
@@ -314,17 +314,6 @@ public final class AssetManager implements AssetErrorListener {
             stand = atlas.findRegion(Constants.STAND);
             fall = atlas.findRegion(Constants.FALL);
 
-            Array<AtlasRegion> flipFrames = new Array<AtlasRegion>();
-//            flipFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND));
-            flipFrames.add(atlas.findRegion(Constants.FLIPSWIPE_1));
-            flipFrames.add(atlas.findRegion(Constants.FLIPSWIPE_2));
-            flipFrames.add(atlas.findRegion(Constants.FLIPSWIPE_3));
-            flipFrames.add(atlas.findRegion(Constants.FLIPSWIPE_4));
-            flipFrames.add(atlas.findRegion(Constants.FLIPSWIPE_5));
-            backflip = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipFrames, PlayMode.LOOP);
-
-            frontflip = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, flipFrames, PlayMode.LOOP_REVERSED);
-
             Array<AtlasRegion> rushFrames = new Array<AtlasRegion>();
             rushFrames.add(atlas.findRegion(Constants.SIDESWIPE_1));
             rushFrames.add(atlas.findRegion(Constants.SIDESWIPE_2));
@@ -334,14 +323,21 @@ public final class AssetManager implements AssetErrorListener {
 
             backhand = new Animation(Constants.STRIDE_FRAME_DURATION, rushFrames, PlayMode.REVERSED);
 
-            Array<AtlasRegion> cutFrames = new Array<AtlasRegion>();
-//            cutFrames.add(atlas.findRegion(Constants.LOOKUP_STAND));
-            cutFrames.add(atlas.findRegion(Constants.STAND));
-            cutFrames.add(atlas.findRegion(Constants.STAND));
-//            cutFrames.add(atlas.findRegion(Constants.LOOKDOWN_STAND));
-            downhand = new Animation(Constants.STRIDE_FRAME_DURATION, cutFrames, PlayMode.NORMAL);
+            Array<AtlasRegion> downhandFrames = new Array<AtlasRegion>();
+            downhandFrames.add(atlas.findRegion(Constants.HAND_RAISE));
+            downhandFrames.add(atlas.findRegion(Constants.HAND_SHOOT));
+            downhandFrames.add(atlas.findRegion(Constants.HAND_LOWER));
+            downhand = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, downhandFrames, PlayMode.NORMAL);
 
-            uphand = new Animation(Constants.STRIDE_FRAME_DURATION, cutFrames, PlayMode.REVERSED);
+            uphand = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, downhandFrames, PlayMode.REVERSED);
+
+            Array<AtlasRegion> downarmFrames = new Array<AtlasRegion>();
+            downarmFrames.add(atlas.findRegion(Constants.ARM_RAISE));
+            downarmFrames.add(atlas.findRegion(Constants.ARM_POINT));
+            downarmFrames.add(atlas.findRegion(Constants.ARM_LOWER));
+            downarm = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, downarmFrames, PlayMode.NORMAL);
+
+            uparm = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, downarmFrames, PlayMode.REVERSED);
         }
     }
 
