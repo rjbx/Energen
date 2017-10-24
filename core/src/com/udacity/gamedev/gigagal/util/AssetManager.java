@@ -166,6 +166,8 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation armSwing;
         public final Animation armDown;
         public final Animation armUp;
+        public final Animation armAway;
+        public final Animation armToward;
         public final Animation handCurl;
         public final Animation handSwing;
         public final Animation handRappel;
@@ -177,6 +179,8 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation handFore;
         public final Animation handDown;
         public final Animation handUp;
+        public final Animation handToward;
+        public final Animation handAway;
         public final Animation legsStride;
         public final Animation feetDash;
         public final Animation feetStride;
@@ -216,7 +220,7 @@ public final class AssetManager implements AssetErrorListener {
             headClimb = atlas.findRegion(Constants.HEAD_CLIMB);
             hairClimb = atlas.findRegion(Constants.HAIR_CLIMB);
             mouthOpen = atlas.findRegion(Constants.MOUTH_OPEN);
-            mouthClosed= atlas.findRegion(Constants.MOUTH_CLOSED);
+            mouthClosed = atlas.findRegion(Constants.MOUTH_CLOSED);
             eyesBlink = atlas.findRegion(Constants.EYES_BLINK);
             obfuscated = atlas.findRegion(Constants.OBFUSCATED);
 
@@ -226,6 +230,13 @@ public final class AssetManager implements AssetErrorListener {
             hairFrames.add(atlas.findRegion(Constants.HAIR_3));
             hair = new Animation(Constants.STRIDE_FRAME_DURATION, hairFrames, PlayMode.LOOP_PINGPONG);
 
+            Array<AtlasRegion> peerFrames = new Array<AtlasRegion>();
+            peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_1));
+            peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_2));
+            peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_3));
+            peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_4));
+            eyesOpen = new Animation(Constants.EYE_ROLL_FRAME_DURATION, peerFrames, PlayMode.LOOP);
+
             Array<AtlasRegion> waistFrames = new Array<AtlasRegion>();
             waistFrames.add(atlas.findRegion(Constants.WAIST_1));
             waistFrames.add(atlas.findRegion(Constants.WAIST_2));
@@ -233,25 +244,6 @@ public final class AssetManager implements AssetErrorListener {
             waistFrames.add(atlas.findRegion(Constants.WAIST_3));
             waistFrames.add(atlas.findRegion(Constants.WAIST_4));
             waist = new Animation(Constants.STRIDE_FRAME_DURATION, waistFrames, PlayMode.LOOP_PINGPONG);
-
-            Array<AtlasRegion> legStrideFrames = new Array<AtlasRegion>();
-            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_1));
-            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_2));
-            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_3));
-            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_4));
-            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_5));
-            legsStride = new Animation(Constants.STRIDE_FRAME_DURATION, legStrideFrames, PlayMode.LOOP_PINGPONG);
-
-            Array<AtlasRegion> feetStrideFrames = new Array<AtlasRegion>();
-            feetStrideFrames.add(atlas.findRegion(Constants.FEET_STRIDE_1));
-            feetStrideFrames.add(atlas.findRegion(Constants.FEET_STRIDE_2));
-            feetStrideFrames.add(atlas.findRegion(Constants.FEET_STRIDE_3));
-            feetStride = new Animation(Constants.STRIDE_FRAME_DURATION, feetStrideFrames, PlayMode.LOOP_PINGPONG);
-
-            Array<AtlasRegion> armSwingFrames = new Array<AtlasRegion>();
-            armSwingFrames.add(atlas.findRegion(Constants.ARM_CLENCH));
-            armSwingFrames.add(atlas.findRegion(Constants.ARM_RELAX));
-            armSwing = new Animation(Constants.STRIDE_FRAME_DURATION, armSwingFrames, PlayMode.LOOP);
 
             Array<AtlasRegion> moveFrames = new Array<AtlasRegion>();
             moveFrames.add(atlas.findRegion(Constants.HAND_MOVE_2));
@@ -263,15 +255,9 @@ public final class AssetManager implements AssetErrorListener {
             handSwingFrames.add(atlas.findRegion(Constants.HAND_RELAX));
             handSwing = new Animation(Constants.STRIDE_FRAME_DURATION, handSwingFrames, PlayMode.LOOP);
 
-            Array<AtlasRegion> armCurlFrames = new Array<AtlasRegion>();
-            armCurlFrames.add(atlas.findRegion(Constants.ARM_RELEASE));
-            armCurlFrames.add(atlas.findRegion(Constants.ARM_POINT));
-            armCurl = new Animation(Constants.STRIDE_FRAME_DURATION, armCurlFrames, PlayMode.LOOP);
-
-            Array<AtlasRegion> armPullFrames = new Array<AtlasRegion>(armCurlFrames);
-            armPullFrames.add(atlas.findRegion(Constants.ARM_POINT));
-            armPush = new Animation(Constants.STRIDE_FRAME_DURATION, armCurlFrames, PlayMode.NORMAL);
-            armPull = new Animation(Constants.STRIDE_FRAME_DURATION, armCurlFrames, PlayMode.REVERSED);
+            handSwingFrames.add(atlas.findRegion(Constants.HAND_REACH));
+            handAway = new Animation(Constants.STRIDE_FRAME_DURATION, handSwingFrames, PlayMode.NORMAL);
+            handToward = new Animation(Constants.STRIDE_FRAME_DURATION, handSwingFrames, PlayMode.REVERSED);
 
             Array<AtlasRegion> handCurlFrames = new Array<AtlasRegion>();
             handCurlFrames.add(atlas.findRegion(Constants.HAND_RELEASE));
@@ -296,6 +282,66 @@ public final class AssetManager implements AssetErrorListener {
             lowerFrames.add(atlas.findRegion(Constants.HAND_LOWER_2));
             handLower = new Animation(Constants.FLICKER_FRAME_DURATION, lowerFrames, PlayMode.LOOP);
 
+
+            Array<AtlasRegion> downhandFrames = new Array<AtlasRegion>();
+            downhandFrames.add(atlas.findRegion(Constants.HAND_RAISE));
+            downhandFrames.add(atlas.findRegion(Constants.HAND_SHOOT));
+            downhandFrames.add(atlas.findRegion(Constants.HAND_LOWER));
+            handDown = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, downhandFrames, PlayMode.NORMAL);
+
+            handUp = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, downhandFrames, PlayMode.REVERSED);
+
+            Array<AtlasRegion> handAcrossFrames = new Array<AtlasRegion>();
+            handAcrossFrames.add(atlas.findRegion(Constants.HAND_SHOOT));
+            handAcrossFrames.add(atlas.findRegion(Constants.HAND_OUTWARD));
+            handAcrossFrames.add(atlas.findRegion(Constants.HAND_CURL));
+            handBack = new Animation(Constants.SIDESWIPE_FRAME_DURATION, handAcrossFrames, PlayMode.NORMAL);
+
+            handFore = new Animation(Constants.SIDESWIPE_FRAME_DURATION, handAcrossFrames, PlayMode.REVERSED);
+
+            Array<AtlasRegion> rappelFrames = new Array<AtlasRegion>();
+            rappelFrames.add(atlas.findRegion(Constants.HAND_RAPPEL_2));
+            rappelFrames.add(atlas.findRegion(Constants.HAND_RAPPEL_1));
+            handRappel = new Animation(Constants.RAPPEL_FRAME_DURATION, rappelFrames, PlayMode.LOOP);
+
+            Array<AtlasRegion> downarmFrames = new Array<AtlasRegion>();
+            downarmFrames.add(atlas.findRegion(Constants.ARM_RAISE));
+            downarmFrames.add(atlas.findRegion(Constants.ARM_POINT));
+            downarmFrames.add(atlas.findRegion(Constants.ARM_LOWER));
+            armDown = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, downarmFrames, PlayMode.NORMAL);
+
+            armUp = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, downarmFrames, PlayMode.REVERSED);
+
+            Array<AtlasRegion> armCurlFrames = new Array<AtlasRegion>();
+            armCurlFrames.add(atlas.findRegion(Constants.ARM_RELEASE));
+            armCurlFrames.add(atlas.findRegion(Constants.ARM_POINT));
+            armCurl = new Animation(Constants.STRIDE_FRAME_DURATION, armCurlFrames, PlayMode.LOOP);
+            armPush = new Animation(Constants.STRIDE_FRAME_DURATION, armCurlFrames, PlayMode.NORMAL);
+            armPull = new Animation(Constants.STRIDE_FRAME_DURATION, armCurlFrames, PlayMode.REVERSED);
+
+            Array<AtlasRegion> armSwingFrames = new Array<AtlasRegion>();
+            armSwingFrames.add(atlas.findRegion(Constants.ARM_CLENCH));
+            armSwingFrames.add(atlas.findRegion(Constants.ARM_RELAX));
+            armSwing = new Animation(Constants.STRIDE_FRAME_DURATION, armSwingFrames, PlayMode.LOOP);
+
+            armSwingFrames.add(atlas.findRegion(Constants.ARM_REACH));
+            armAway = new Animation(Constants.STRIDE_FRAME_DURATION, armSwingFrames, PlayMode.NORMAL);
+            armToward = new Animation(Constants.STRIDE_FRAME_DURATION, armSwingFrames, PlayMode.REVERSED);
+
+            Array<AtlasRegion> legStrideFrames = new Array<AtlasRegion>();
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_1));
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_2));
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_3));
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_4));
+            legStrideFrames.add(atlas.findRegion(Constants.LEGS_STRIDE_5));
+            legsStride = new Animation(Constants.STRIDE_FRAME_DURATION, legStrideFrames, PlayMode.LOOP_PINGPONG);
+
+            Array<AtlasRegion> feetStrideFrames = new Array<AtlasRegion>();
+            feetStrideFrames.add(atlas.findRegion(Constants.FEET_STRIDE_1));
+            feetStrideFrames.add(atlas.findRegion(Constants.FEET_STRIDE_2));
+            feetStrideFrames.add(atlas.findRegion(Constants.FEET_STRIDE_3));
+            feetStride = new Animation(Constants.STRIDE_FRAME_DURATION, feetStrideFrames, PlayMode.LOOP_PINGPONG);
+
             Array<AtlasRegion> dashFrames = new Array<AtlasRegion>();
             dashFrames.add(atlas.findRegion(Constants.FEET_DASH_2));
             dashFrames.add(atlas.findRegion(Constants.FEET_DASH_1));
@@ -306,44 +352,8 @@ public final class AssetManager implements AssetErrorListener {
             hoverFrames.add(atlas.findRegion(Constants.FEET_HOVER_2));
             feetHover = new Animation(Constants.FLICKER_FRAME_DURATION, hoverFrames, PlayMode.LOOP);
 
-            Array<AtlasRegion> rappelFrames = new Array<AtlasRegion>();
-            rappelFrames.add(atlas.findRegion(Constants.HAND_RAPPEL_2));
-            rappelFrames.add(atlas.findRegion(Constants.HAND_RAPPEL_1));
-            handRappel = new Animation(Constants.RAPPEL_FRAME_DURATION, rappelFrames, PlayMode.LOOP);
-
-            Array<AtlasRegion> peerFrames = new Array<AtlasRegion>();
-            peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_1));
-            peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_2));
-            peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_3));
-            peerFrames.add(atlas.findRegion(Constants.EYES_OPEN_4));
-            eyesOpen = new Animation(Constants.EYE_ROLL_FRAME_DURATION, peerFrames, PlayMode.LOOP);
-
             stand = atlas.findRegion(Constants.STAND);
             fall = atlas.findRegion(Constants.FALL);
-
-            Array<AtlasRegion> downhandFrames = new Array<AtlasRegion>();
-            downhandFrames.add(atlas.findRegion(Constants.HAND_RAISE));
-            downhandFrames.add(atlas.findRegion(Constants.HAND_SHOOT));
-            downhandFrames.add(atlas.findRegion(Constants.HAND_LOWER));
-            handDown = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, downhandFrames, PlayMode.NORMAL);
-
-            handUp = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, downhandFrames, PlayMode.REVERSED);
-
-            Array<AtlasRegion> downarmFrames = new Array<AtlasRegion>();
-            downarmFrames.add(atlas.findRegion(Constants.ARM_RAISE));
-            downarmFrames.add(atlas.findRegion(Constants.ARM_POINT));
-            downarmFrames.add(atlas.findRegion(Constants.ARM_LOWER));
-            armDown = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, downarmFrames, PlayMode.NORMAL);
-
-            armUp = new Animation(Constants.FLIPSWIPE_FRAME_DURATION, downarmFrames, PlayMode.REVERSED);
-
-            Array<AtlasRegion> handAcrossFrames = new Array<AtlasRegion>();
-            handAcrossFrames.add(atlas.findRegion(Constants.HAND_SHOOT));
-            handAcrossFrames.add(atlas.findRegion(Constants.HAND_OUTWARD));
-            handAcrossFrames.add(atlas.findRegion(Constants.HAND_CURL));
-            handBack = new Animation(Constants.SIDESWIPE_FRAME_DURATION, handAcrossFrames, PlayMode.NORMAL);
-
-            handFore = new Animation(Constants.SIDESWIPE_FRAME_DURATION, handAcrossFrames, PlayMode.REVERSED);
         }
     }
 

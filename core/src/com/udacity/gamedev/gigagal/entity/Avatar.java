@@ -1659,20 +1659,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             if (bladeState == BladeState.RUSH) {
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
                 legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
-                rearArm = AssetManager.getInstance().getAvatarAssets().armReach;
-                frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().obfuscated);
-                hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(swipeTimeSeconds);
-                head = AssetManager.getInstance().getAvatarAssets().head;
-                mouth = AssetManager.getInstance().getAvatarAssets().mouthOpen;
-                eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
-                waist =  AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(3);
-                rearHand = AssetManager.getInstance().getAvatarAssets().handReach;
-                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().obfuscated);
-                feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
-            } else if (bladeState == BladeState.CUT) {
-                torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
-                rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().obfuscated);
+                rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().armToward.getKeyFrame(swipeTimeSeconds));
                 frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().obfuscated);
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(swipeTimeSeconds);
                 head = AssetManager.getInstance().getAvatarAssets().head;
@@ -1682,6 +1669,19 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().obfuscated);
                 frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().obfuscated);
                 feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
+            } else if (bladeState == BladeState.CUT) {
+                torso = AssetManager.getInstance().getAvatarAssets().midsection;
+                legs = AssetManager.getInstance().getAvatarAssets().legsStand;
+                rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().obfuscated);
+                frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().obfuscated);
+                hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(swipeTimeSeconds);
+                head = AssetManager.getInstance().getAvatarAssets().head;
+                mouth = AssetManager.getInstance().getAvatarAssets().mouthOpen;
+                eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
+                waist =  AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(3);
+                rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().obfuscated);
+                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().obfuscated);
+                feet = AssetManager.getInstance().getAvatarAssets().feetStand;
             } else if (bladeState == BladeState.FLIP) {
                 float remainingFrames = (Constants.FLIPSWIPE_FRAME_DURATION * 5) / swipeTimeSeconds;
                 rotation = Helpers.booleanToDirectionalValue(inverseX ^ inverseY); // if either but not both directions inverse
@@ -1804,7 +1804,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
     
     private TextureRegion getRearArm(TextureRegion rearArm) {
-        if (lookStartTime != 0) {
+        if (bladeState == BladeState.RUSH) {
+            if (inputControls.leftButtonPressed) {
+                rearArm = AssetManager.getInstance().getAvatarAssets().armAway.getKeyFrame(swipeTimeSeconds);
+            } else {
+                rearArm = AssetManager.getInstance().getAvatarAssets().armToward.getKeyFrame(swipeTimeSeconds);
+            }
+        } else if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
                 rearArm =  AssetManager.getInstance().getAvatarAssets().armClench;
             } else {
@@ -1815,7 +1821,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
 
     private TextureRegion getRearHand(TextureRegion rearHand) {
-        if (lookStartTime != 0) {
+        if (bladeState == BladeState.RUSH) {
+            if (inputControls.leftButtonPressed) {
+                rearHand = AssetManager.getInstance().getAvatarAssets().handAway.getKeyFrame(swipeTimeSeconds);
+            } else {
+                rearHand = AssetManager.getInstance().getAvatarAssets().handToward.getKeyFrame(swipeTimeSeconds);
+            }
+        } else if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
                 rearHand =  AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(0);
             } else {
