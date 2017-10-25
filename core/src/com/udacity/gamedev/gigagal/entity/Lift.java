@@ -19,16 +19,18 @@ public class Lift extends Ground implements Dynamic, Convertible {
     private Vector2 velocity; // class-level instantiation
     private final Vector2 startPosition; // class-level instantiation
     private float range;
+    private float speed;
     private boolean converted;
 
     // ctor
-    public Lift(Vector2 position, Enums.Orientation orientation, float range) {
+    public Lift(Vector2 position, Enums.Orientation orientation, float range, float speed) {
         this.position = position;
         setOrientation(orientation);
         converted = false;
         velocity = new Vector2();
         startPosition = new Vector2(position);
         this.range = range;
+        this.speed = speed;
     }
 
     @Override
@@ -37,10 +39,10 @@ public class Lift extends Ground implements Dynamic, Convertible {
             case Y:
                 switch (direction) {
                     case UP:
-                        velocity.set(0, Constants.LIFT_SPEED);
+                        velocity.set(0, speed);
                         break;
                     case DOWN:
-                        velocity.set(0, -Constants.LIFT_SPEED);
+                        velocity.set(0, -speed);
                         break;
                 }
                 position.mulAdd(velocity, delta);
@@ -55,10 +57,10 @@ public class Lift extends Ground implements Dynamic, Convertible {
             case X:
                 switch (direction) {
                     case RIGHT:
-                        velocity.set(Constants.LIFT_SPEED, 0);
+                        velocity.set(speed, 0);
                         break;
                     case LEFT:
-                        velocity.set(-Constants.LIFT_SPEED, 0);
+                        velocity.set(-speed, 0);
                         break;
                 }
                 position.mulAdd(velocity, delta);

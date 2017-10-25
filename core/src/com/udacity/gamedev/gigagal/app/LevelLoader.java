@@ -272,7 +272,7 @@ final class LevelLoader {
     }
 
     private static final float extractSpeed(JSONObject object) {
-        float speed = 5.5f;
+        float speed = Constants.LIFT_SPEED;
         try {
             if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
                 String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
@@ -535,7 +535,7 @@ final class LevelLoader {
                 level.addGround(chamber);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LIFT_SPRITE)) {
                 final Vector2 liftPosition = imagePosition.add(Constants.LIFT_CENTER);
-                Lift lift = new Lift(liftPosition, orientation, range);
+                Lift lift = new Lift(liftPosition, orientation, range, speed);
                 Gdx.app.log(TAG, "Loaded the lift at " + liftPosition);
                 level.addGround(lift);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ROPE_SPRITE)) {

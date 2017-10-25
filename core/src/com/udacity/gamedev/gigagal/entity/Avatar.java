@@ -1658,7 +1658,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         } else {
             if (bladeState == BladeState.RUSH) {
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                legs = AssetManager.getInstance().getAvatarAssets().legsStride.getKeyFrame(swipeTimeSeconds);
+                legs = AssetManager.getInstance().getAvatarAssets().legsStand;
                 rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().armToward.getKeyFrame(swipeTimeSeconds));
                 frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().obfuscated);
                 hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(swipeTimeSeconds);
@@ -1668,7 +1668,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 waist =  AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(3);
                 rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().obfuscated);
                 frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().obfuscated);
-                feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
+                feet = AssetManager.getInstance().getAvatarAssets().feetStand;
             } else if (bladeState == BladeState.CUT) {
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
                 legs = AssetManager.getInstance().getAvatarAssets().legsStand;
