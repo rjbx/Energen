@@ -23,8 +23,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import sun.security.krb5.internal.crypto.Des;
-
 // immutable package-private singleton
 class LevelUpdater {
 

@@ -10,7 +10,7 @@ import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
 // also functions as shield
-public class Brick extends Barrier implements Tossable, Impermeable {
+public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable {
 
     // fields
     public final static String TAG = Brick.class.getName();
