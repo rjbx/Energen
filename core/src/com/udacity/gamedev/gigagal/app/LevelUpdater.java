@@ -274,7 +274,8 @@ class LevelUpdater {
             // Update Powerups
             powerups.begin();
             for (int i = 0; i < powerups.size; i++) {
-                if (Helpers.overlapsPhysicalObject(avatar, powerups.get(i))) {
+                if (Helpers.overlapsPhysicalObject(avatar, powerups.get(i))
+                || (avatar.getBladeState() != Enums.BladeState.RETRACTED && Helpers.overlapsPhysicalObject(Blade.getInstance(), powerups.get(i)))) {
                     powerups.removeIndex(i);
                 }
             }
