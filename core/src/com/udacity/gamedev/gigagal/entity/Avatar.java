@@ -1393,6 +1393,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 yMoving = true;
             }
             if (touchedGround instanceof Pliable) {
+                if (Avatar.getInstance().getCarriedGround() != null) {
+                    Gdx.app.log(TAG, Avatar.getInstance().getVelocity().toString() + Avatar.getInstance().getPosition().toString());
+                }
                 canMove = Helpers.inputToDirection() == Helpers.getOppositeDirection(directionX);
                 if (((Pliable) touchedGround).isBeneatheGround()) { // prevent hurdle when not positioned atop series of stacked grounds
                     canHurdle = false;

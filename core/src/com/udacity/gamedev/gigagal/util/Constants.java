@@ -590,7 +590,7 @@ public final class Constants {
     public static final Vector2 SUSPENSION_GAS_CENTER = new Vector2(12.5f, 12.5f);
     public static final float SUSPENSION_GAS_DURATION = 0.1f;
     public static final int SUSPENSION_GAS_DAMAGE = 5;
-    public static final Vector2 SUSPENSION_GAS_KNOCKBACK = new Vector2(200, 250);
+    public static final Vector2 SUSPENSION_GAS_KNOCKBACK = new Vector2(200, Y_KNOCKBACK + 100);
     public static final float SUSPENSION_GAS_COLLISION_WIDTH = 25;
     public static final float SUSPENSION_GAS_COLLISION_HEIGHT = 25;
     public static final String SUSPENSION_GAS_SPRITE_1 = "suspension-gas-1";
@@ -599,7 +599,7 @@ public final class Constants {
     public static final Vector2 SUSPENSION_PLASMA_CENTER = new Vector2(12.5f, 12.5f);
     public static final float SUSPENSION_PLASMA_DURATION = 0.5f;
     public static final int SUSPENSION_PLASMA_DAMAGE = 5;
-    public static final Vector2 SUSPENSION_PLASMA_KNOCKBACK = new Vector2(200, 50);
+    public static final Vector2 SUSPENSION_PLASMA_KNOCKBACK = new Vector2(200, Y_KNOCKBACK);
     public static final float SUSPENSION_PLASMA_COLLISION_WIDTH = 25;
     public static final float SUSPENSION_PLASMA_COLLISION_HEIGHT = 25;
     public static final String SUSPENSION_PLASMA_SPRITE_1 = "suspension-plasma-1";
@@ -608,7 +608,7 @@ public final class Constants {
     public static final Vector2 SUSPENSION_LIQUID_CENTER = new Vector2(12.5f, 12.5f);
     public static final float SUSPENSION_LIQUID_DURATION = 0.5f;
     public static final int SUSPENSION_LIQUID_DAMAGE = 5;
-    public static final Vector2 SUSPENSION_LIQUID_KNOCKBACK = new Vector2(200, 50);
+    public static final Vector2 SUSPENSION_LIQUID_KNOCKBACK = new Vector2(200, Y_KNOCKBACK);
     public static final float SUSPENSION_LIQUID_COLLISION_WIDTH = 25;
     public static final float SUSPENSION_LIQUID_COLLISION_HEIGHT = 25;
     public static final String SUSPENSION_LIQUID_SPRITE_1 = "suspension-liquid-1";
@@ -617,7 +617,7 @@ public final class Constants {
     public static final Vector2 SUSPENSION_SOLID_CENTER = new Vector2(12.5f, 12.5f);
     public static final float SUSPENSION_SOLID_DURATION = 0.5f;
     public static final int SUSPENSION_SOLID_DAMAGE = 5;
-    public static final Vector2 SUSPENSION_SOLID_KNOCKBACK = new Vector2(200, 50);
+    public static final Vector2 SUSPENSION_SOLID_KNOCKBACK = new Vector2(200, Y_KNOCKBACK);
     public static final float SUSPENSION_SOLID_COLLISION_WIDTH = 25;
     public static final float SUSPENSION_SOLID_COLLISION_HEIGHT = 25;
     public static final String SUSPENSION_SOLID_SPRITE_1 = "suspension-solid-1";
@@ -626,7 +626,7 @@ public final class Constants {
     public static final Vector2 SUSPENSION_ORE_CENTER = new Vector2(12.5f, 12.5f);
     public static final float SUSPENSION_ORE_DURATION = 0.1f;
     public static final int SUSPENSION_ORE_DAMAGE = 5;
-    public static final Vector2 SUSPENSION_ORE_KNOCKBACK = new Vector2(200, 250);
+    public static final Vector2 SUSPENSION_ORE_KNOCKBACK = new Vector2(200, Y_KNOCKBACK + 100);
     public static final float SUSPENSION_ORE_COLLISION_WIDTH = 25;
     public static final float SUSPENSION_ORE_COLLISION_HEIGHT = 25;
     public static final String SUSPENSION_ORE_SPRITE_1 = "suspension-polymer-1";
@@ -635,7 +635,7 @@ public final class Constants {
     public static final Vector2 SUSPENSION_ANTIMATTER_CENTER = new Vector2(31, 31);
     public static final float SUSPENSION_ANTIMATTER_FRAME_DURATION = 0.4f;
     public static final int SUSPENSION_ANTIMATTER_DAMAGE = 100;
-    public static final Vector2 SUSPENSION_ANTIMATTER_KNOCKBACK = new Vector2(100, 10);
+    public static final Vector2 SUSPENSION_ANTIMATTER_KNOCKBACK = new Vector2(100, Y_KNOCKBACK);
     public static final float SUSPENSION_ANTIMATTER_COLLISION_WIDTH = 25;
     public static final float SUSPENSION_ANTIMATTER_COLLISION_HEIGHT = 25;
     public static final String SUSPENSION_ANTIMATTER_SPRITE_1 = "suspension-psychic-1";
