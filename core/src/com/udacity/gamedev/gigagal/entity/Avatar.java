@@ -1043,9 +1043,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             velocity.x = 0;
         }
         fallStartTime = 0;
-        action = Action.STANDING;
-        groundState = GroundState.PLANTED;
-
+        if (action != Action.RECOILING || Helpers.secondsSince(recoveryStartTime) > Constants.RECOVERY_TIME) {
+            action = Action.STANDING;
+            groundState = GroundState.PLANTED;
+        }
         if (!canClimb) {
             canJump = true;
             handleYInputs(); // disabled when canclimb to prevent look from overriding climb
@@ -1065,8 +1066,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private void fall() {
         handleXInputs();
         handleYInputs();
-        action = Action.FALLING;
-        groundState = GroundState.AIRBORNE;
+        if (action != Action.RECOILING || Helpers.secondsSince(recoveryStartTime) > Constants.RECOVERY_TIME) {
+            action = Action.FALLING;
+            groundState = GroundState.AIRBORNE;
+        }
         canJump = false;
         canDash = false;
         canLook = true;
