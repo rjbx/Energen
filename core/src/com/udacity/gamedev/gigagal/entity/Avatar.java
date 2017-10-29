@@ -659,6 +659,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         }
                     }
                     if (g instanceof Moving) {
+                        Gdx.app.log(TAG, ((Moving) g).getVelocity().x + "");
                         Moving moving = (Moving) g;
                         lookStartTime = 0;
                         position.y = g.getTop() + Constants.AVATAR_EYE_HEIGHT;
@@ -790,7 +791,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 }
                 touchGround(zoomba);
             } else if (h instanceof Swoopa) {
-                if (getBottom() >= h.getPosition().y && Helpers.betweenTwoValues(position.x, h.getPosition().x - Constants.SWOOPA_SHOT_RADIUS, h.getPosition().x + Constants.SWOOPA_SHOT_RADIUS)) {
+                if (getBottom() >= h.getPosition().y && Helpers.betweenTwoValues(position.x, h.getPosition().x - Constants.SWOOPA_COLLISION_WIDTH, h.getPosition().x + Constants.SWOOPA_COLLISION_HEIGHT)) {
                     touchGroundTop((Swoopa) h);
                 } else {
                     touchedHazard = h;
