@@ -1066,7 +1066,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private void fall() {
         handleXInputs();
         handleYInputs();
-        if (action != Action.RECOILING || Helpers.secondsSince(recoveryStartTime) > Constants.RECOVERY_TIME) {
+        if (action != Action.RECOILING || Helpers.secondsSince(recoveryStartTime) > Constants.RECOVERY_TIME) { // prevents overriding recoil before full recovery
             action = Action.FALLING;
             groundState = GroundState.AIRBORNE;
         }
@@ -1275,6 +1275,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 }
             } else if (inputControls.jumpButtonJustPressed && lookStartTime == 0) {
                 jump();
+            } else {
+                startTurbo = 0;
             }
         }
     }

@@ -386,7 +386,7 @@ class LevelUpdater {
                             }
                             if (avatar.getCarriedGround() == null) { // prevents from carrying simultaneously and in the process setting to overlap two grounds
                                 float yPos = avatar.getAction() != Enums.Action.RAPPELLING ? ground.getBottom() : ground.getTop();
-                                avatar.setPosition(new Vector2(ground.getPosition().x, yPos + Constants.AVATAR_EYE_HEIGHT));
+                                avatar.setPosition(new Vector2(ground.getPosition().x, yPos + Constants.AVATAR_EYE_HEIGHT)); // prevents overlap with and attribute inheritance of pliable stacked atop
                                 pliable.setCarrier(avatar);
                                 Gdx.app.log(TAG, pliable.isBeingCarried() + "" + avatar.getMoveStatus());
                             }
