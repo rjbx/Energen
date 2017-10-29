@@ -92,10 +92,10 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
         position.mulAdd(velocity, delta);
 
         // when the swoopa progresses past the center screen position with a margin of ten screen widths, reset x and y position
-        if (position.x > (camera.x + Math.abs(worldSpan.x * 5))) {
+        if (position.x > (camera.x + Math.abs(worldSpan.x * 2))) {
             descentStartTime = 0;
             position.x = camera.x - Helpers.speedToVelocity(worldSpan.x + 1, direction, Enums.Orientation.X);
-            position.y = Avatar.getInstance().getTop() + Constants.SWOOPA_COLLISION_HEIGHT;
+//            position.y = Avatar.getInstance().getTop() + Constants.SWOOPA_COLLISION_HEIGHT;
             velocity.set(Helpers.speedToVelocity(5, direction, Enums.Orientation.X), -5);
         }
     }
