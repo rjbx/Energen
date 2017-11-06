@@ -127,6 +127,10 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
             }
         }
 
+        if (Helpers.overlapsPhysicalObject(Avatar.getInstance(), this) && Helpers.betweenTwoValues(Avatar.getInstance().getBottom(), this.getTop() - 1, this.getTop() + 1)) {
+            payload += Avatar.getInstance().weightFactor();
+        }
+
         // resets to nonstatic super.position of ground which is cloned every frame
         for (Hazard hazard : LevelAssets.getClonedHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {

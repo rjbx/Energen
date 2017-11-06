@@ -109,6 +109,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private float startTurbo;
     private float turbo;
     private float fallLimit;
+    private float payload;
     private float peerQuadrant;
     private float ammo;
     private float health;
@@ -1925,6 +1926,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private final float getHalfWidth() { return halfWidth; }
     public List<Material> getWeaponList() { return weaponList; }
     public List<Upgrade> getUpgrades() { return upgradeList; }
+    public float weightFactor() { float weight = Constants.AVATAR_WEIGHT; return (carriedGround != null ? weight + carriedGround.weightFactor() : weight); }
     public final float getAmmo() { return ammo; }
     public int getLives() { return lives; }
     public Vector3 getChaseCamPosition() { return chaseCamPosition; }

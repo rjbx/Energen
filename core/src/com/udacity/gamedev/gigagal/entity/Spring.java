@@ -134,6 +134,10 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
             }
         }
 
+        if (Helpers.overlapsPhysicalObject(Avatar.getInstance(), this) && Helpers.betweenTwoValues(Avatar.getInstance().getBottom(), this.getTop() - 1, this.getTop() + 1)) {
+            payload += Avatar.getInstance().weightFactor();
+        }
+
         // resets to nonstatic position of ground which is cloned every frame
         for (Hazard hazard : LevelAssets.getClonedHazards()) {
             if (hazard instanceof Groundable && hazard instanceof Vehicular) {
