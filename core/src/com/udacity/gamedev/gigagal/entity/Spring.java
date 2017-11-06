@@ -187,9 +187,9 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     public final boolean isAtopMovingGround() { return atopMovingGround; }
     @Override public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
+    @Override public final void resetStartTime() { this.startTime = 0; }
     @Override public final void setState(boolean state) { this.loaded = state; }
     @Override public final boolean getState() { return loaded; }
-    @Override public final void resetStartTime() { this.startTime = 0; }
     @Override public final float jumpMultiplier() { return Constants.SPRING_JUMP_MULTIPLIER; }
     public final boolean isAgainstStaticGround() { return againstStaticGround; }
     public final void setAgainstStaticGround() { this.againstStaticGround = true; }

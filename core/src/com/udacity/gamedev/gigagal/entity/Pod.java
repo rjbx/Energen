@@ -4,29 +4,44 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.udacity.gamedev.gigagal.app.LevelAssets;
 import com.udacity.gamedev.gigagal.util.AssetManager;
 import com.udacity.gamedev.gigagal.util.Constants;
 import com.udacity.gamedev.gigagal.util.Enums;
 import com.udacity.gamedev.gigagal.util.Helpers;
 
-public class Pod extends Ground implements Reboundable, Replenishing {
+public class Pod extends Ground implements Reboundable, Replenishing, Compressible {
 
     // fields
     public final static String TAG = Pod.class.getName();
 
     private Vector2 position;
+    private Ground topGround;
     private long startTime;
     private boolean isActive;
+    private boolean beneatheGround;
 
     // ctor
     public Pod(Vector2 position) {
         this.position = position;
         isActive = false;
+        beneatheGround = false;
         startTime = TimeUtils.nanoTime();
     }
 
     @Override
-    public void update(float delta) {}
+    public void update(float delta) {
+        topGround = null;
+        for (Ground ground : LevelAssets.getClonedGrounds()) {
+            if (Helpers.overlapsPhysicalObject(this, ground)) {
+                if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2)) {
+                    isActive = true;
+                    beneatheGround = true;
+                    topGround = ground;
+                }
+            }
+        }
+    }
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
@@ -47,4 +62,10 @@ public class Pod extends Ground implements Reboundable, Replenishing {
     @Override public final float getBottom() { return position.y - Constants.POD_CENTER.y; }
     @Override public final boolean isDense() { return false; }
     @Override public final float jumpMultiplier() { return Constants.POD_JUMP_MULTIPLIER; }
+    @Override public final void setState(boolean state) { this.isActive = state; }
+    @Override public final boolean getState() { return isActive; }
+    @Override public final long getStartTime() { return startTime; }
+    @Override public final void resetStartTime() { this.startTime = 0; }
+    @Override public final boolean isBeneatheGround() { return beneatheGround; }
+    @Override public final Ground getTopGround() { return topGround; }
 }
