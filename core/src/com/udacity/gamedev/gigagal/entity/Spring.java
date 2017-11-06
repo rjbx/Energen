@@ -54,6 +54,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
         velocity.y = -Constants.GRAVITY * 5 * multiplier;
         againstStaticGround = false;
         atopMovingGround = false;
+        beneatheGround = false;
         movingGround = null;
         topGround = null;
         payload = 0;
