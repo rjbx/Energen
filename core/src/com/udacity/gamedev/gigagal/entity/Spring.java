@@ -182,7 +182,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     @Override public final float getBottom() { return position.y - Constants.SPRING_CENTER.y; }
     @Override public final boolean isDense() { return ((beingCarried || LevelAssets.getClonedAvatar().getCarriedGround() == null) && LevelAssets.getClonedAvatar().getAction() != Enums.Action.CLIMBING); }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; beneatheGround = true; }
-    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * .2f + payload; }
+    @Override public final float weightFactor() { return Constants.MAX_WEIGHT * .25f + payload; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isBeneatheGround() { return beneatheGround; }
     public final boolean isAtopMovingGround() { return atopMovingGround; }
