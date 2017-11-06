@@ -564,7 +564,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         strideSpeed = 0;
                         velocity.x = 0;
                     }
-                    if (g instanceof Pliable) {
+                    if (g instanceof Pliable && getBottom() == g.getBottom()) {
                         canMove = true;
                     }
                     if (!(g instanceof Propelling) && action == Action.DASHING && !(g instanceof Armored)) {

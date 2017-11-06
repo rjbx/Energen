@@ -390,9 +390,7 @@ class LevelUpdater {
                                 pliable.setCarrier(avatar);
                                 Gdx.app.log(TAG, pliable.isBeingCarried() + "" + avatar.getMoveStatus());
                             }
-                            if (!(ground instanceof Spring) || !(((Spring) ground).isAtopMovingGround() && avatar.getGroundState() == Enums.GroundState.PLANTED)) {
-                                avatar.setCarriedGround(pliable);
-                            }
+                            avatar.setCarriedGround(pliable);
                         }
                     }
                 }
