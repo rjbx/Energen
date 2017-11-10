@@ -696,9 +696,7 @@ class LevelUpdater {
         projectiles = null;
     }
 
-
     // level state handling
-
     protected void begin() {
         grounds.sort(new Comparator<Ground>() {
             @Override
