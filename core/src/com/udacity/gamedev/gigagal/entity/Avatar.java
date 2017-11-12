@@ -725,7 +725,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 canClimb = true;  // prevents setting canclimb to false when overlapping dense, nondense and climbable grounds
             }
             if (!(g instanceof Climbable || touchedGround instanceof Climbable)) {
-                canCling = false;
+          //      canCling = false;
             }
         }
     }
