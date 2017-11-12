@@ -32,7 +32,7 @@ public class Cannoroll extends Ground implements Weaponized, Orientable, Roving,
     private boolean active;
 
     // ctor
-    public Cannoroll(Vector2 position, Enums.Orientation orientation, Enums.Direction direction, Enums.ShotIntensity intensity, float range, boolean active) {
+    public Cannoroll(Vector2 position, Enums.Orientation orientation, Enums.ShotIntensity intensity, float range, boolean active) {
         this.position = position;
         center = new Vector2();
         converted = false;
@@ -58,7 +58,7 @@ public class Cannoroll extends Ground implements Weaponized, Orientable, Roving,
             canDispatch = true;
         }
         if (orientation == Enums.Orientation.X) {
-            position.add(velocity);
+            position.mulAdd(velocity, delta);
             if (position.x < (startPosition.x - (range / 2))) {
                 position.x = startPosition.x - (range / 2);
                 updateDirection(Enums.Direction.RIGHT);
@@ -118,11 +118,11 @@ public class Cannoroll extends Ground implements Weaponized, Orientable, Roving,
         switch (direction) {
             case LEFT:
                 animation = AssetManager.getInstance().getCanirolAssets().xLeftCanirol;
-                velocity.set(-speed * Gdx.graphics.getDeltaTime(), 0);
+                velocity.set(-speed, 0);
                 break;
             case RIGHT:
                 animation = AssetManager.getInstance().getCanirolAssets().xRightCanirol;
-                velocity.set(speed * Gdx.graphics.getDeltaTime(), 0);
+                velocity.set(speed, 0);
                 break;
             case UP:
                 animation = AssetManager.getInstance().getCanirolAssets().yCanirol;
