@@ -651,14 +651,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     }
                     setAtopGround(g); // basic ground top collision instructions common to all types of grounds
                     // additional ground top collision instructions specific to certain types of grounds
-                    if (g instanceof Skateable) {
-                        if (groundState == GroundState.AIRBORNE) {
-                            stand(); // set groundstate to standing
-                            lookStartTime = 0;
-                        } else if (canClimb) {
-                            canCling = false;
-                        }
-                    }
+
                     if (g instanceof Moving) {
                         Gdx.app.log(TAG, ((Moving) g).getVelocity().x + "");
                         Moving moving = (Moving) g;
@@ -709,7 +702,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         canRappel = false;
         canLook = true;
         canHover = false;
-        if (groundState == GroundState.AIRBORNE && !(g instanceof Skateable)) {
+        if (groundState == GroundState.AIRBORNE) {
             stand(); // in each frame all grounds save for skateable rely upon this call to switch action from airborne
             lookStartTime = 0;
         } else if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
