@@ -262,12 +262,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 enableRappel();
                 enableShoot(weapon);
                 enableSwipe();
-            } else if (action == Action.JUMPING) {
-                enableJump();
-                enableClimb();
-                enableRappel();
-                enableShoot(weapon);
-                enableSwipe();
             } else if (action == Action.HOVERING) {
                 enableHover();
                 enableRappel();
@@ -1247,7 +1241,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
 
     private void enableJump() {
-        if (canJump && action != Action.JUMPING) {
+        if (canJump) {
             if (jumpStartTime != 0 && action == Action.STANDING) {
                 if (inputControls.jumpButtonPressed) {
                     if (startTurbo == 0) {
@@ -1276,7 +1270,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private void jump() {
         if (canJump) {
-            action = Action.JUMPING;
+            action = Action.FALLING; // prevents from rendering stride sprite when striding against ground side and jumping on reboundable
             groundState = GroundState.AIRBORNE;
             if (jumpStartTime <= 1.75f) {
                 jumpStartTime = TimeUtils.nanoTime();
@@ -1293,7 +1287,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 velocity.y *= ((Reboundable) touchedGround).jumpMultiplier();
                 jumpStartTime = 0;
             }
-            action = Action.FALLING; // prevents from rendering stride sprite when striding against ground side and jumping on reboundable
         } else {
             fall(); // causes fall texture to render for one frame
         }
@@ -1593,23 +1586,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handReach);
                     frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handPoint.getKeyFrame(0));
                     feet = AssetManager.getInstance().getAvatarAssets().feetFall;
-                    break;
-                case JUMPING:
-                    torso = AssetManager.getInstance().getAvatarAssets().midsection;
-                    legs = AssetManager.getInstance().getAvatarAssets().legsFall;
-                    rearArm = getRearArm(AssetManager.getInstance().getAvatarAssets().armReach);
-                    frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armPoint);
-                    hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
-                    head = AssetManager.getInstance().getAvatarAssets().head;
-                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
-                    eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
-                    waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
-                    shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
-                    rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handReach);
-                    frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handPoint.getKeyFrame(0));
-                    feet = AssetManager.getInstance().getAvatarAssets().feetFall;
-                    break;
-                case TWISTING:
                     break;
                 case HOVERING:
                     torso = AssetManager.getInstance().getAvatarAssets().midsection;

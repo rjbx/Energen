@@ -27,8 +27,6 @@ public final class Enums {
         CLIMBING,
         DASHING,
         FALLING,
-        JUMPING,
-        TWISTING,
         HOVERING,
         RAPPELLING,
         RECOILING

@@ -1100,7 +1100,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     }
 
     private void enableJump() {
-        if (canJump && action != Action.JUMPING) {
+        if (canJump) {
             if (jumpStartTime != 0 && action == Action.STANDING) {
                 if (inputControls.jumpButtonPressed) {
                     turbo = Math.max(175 - 100 * Helpers.secondsSince(jumpStartTime), 0);
@@ -1123,7 +1123,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
             if (canClimb && (touchedGround == null || !(touchedGround instanceof Climbable))) {
                 canClimb = false;
             }
-            action = Action.JUMPING;
+            action = Action.FALLING;
             groundState = GroundState.AIRBORNE;
             if (jumpStartTime <= 1.75f && touchedGround instanceof Rappelable) {
                 jumpStartTime = TimeUtils.nanoTime();
