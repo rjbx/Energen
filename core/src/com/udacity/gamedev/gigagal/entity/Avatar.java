@@ -1550,10 +1550,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     head = AssetManager.getInstance().getAvatarAssets().headClimb;
                     hair = AssetManager.getInstance().getAvatarAssets().hairClimb;
                     frontArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
-                    rearArm = AssetManager.getInstance().getAvatarAssets().armClimb;
-                    if (lookStartTime != 0 || inputControls.shootButtonPressed) {
-                        rearArm = AssetManager.getInstance().getAvatarAssets().obfuscated;
-                    }
+                    rearArm = (lookStartTime != 0 || inputControls.shootButtonPressed) ? AssetManager.getInstance().getAvatarAssets().obfuscated : AssetManager.getInstance().getAvatarAssets().armClimb;
                     legs = AssetManager.getInstance().getAvatarAssets().legsClimb;
                     torso = AssetManager.getInstance().getAvatarAssets().midsectionClimb;
                     break;
@@ -1579,7 +1576,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     frontArm = getFrontArm(AssetManager.getInstance().getAvatarAssets().armPoint);
                     hair = AssetManager.getInstance().getAvatarAssets().hair.getKeyFrame(fallTimeSeconds * Math.max(Math.abs(velocity.x / Constants.AVATAR_MAX_SPEED), .33f));
                     head = AssetManager.getInstance().getAvatarAssets().head;
-                    mouth = AssetManager.getInstance().getAvatarAssets().mouthClosed;
+                    mouth = velocity.y > 0 ? AssetManager.getInstance().getAvatarAssets().mouthOpen : AssetManager.getInstance().getAvatarAssets().mouthClosed;
                     eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                     waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
                     shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
