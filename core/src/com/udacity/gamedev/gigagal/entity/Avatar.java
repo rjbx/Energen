@@ -468,6 +468,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                             carriedGround = null;
                             touchedGround = g; // saves for untouchground where condition within touchgroundtop unmet
                             if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+                             //   Gdx.app.log(TAG, "???");
                                 canJump = true;
                                 jump();
                             }
@@ -650,10 +651,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         position.y = g.getTop() + Constants.AVATAR_EYE_HEIGHT; // sets Gigagal atop ground
                     }
                     setAtopGround(g); // basic ground top collision instructions common to all types of grounds
-                    // additional ground top collision instructions specific to certain types of grounds
-
-                    if (g instanceof Moving) {
-                        Gdx.app.log(TAG, ((Moving) g).getVelocity().x + "");
+                    // additional ground top collision instructions specific to certain types of grounds; touchedground instance checking handles null assignment from canclimb-jump-fall sequence initiated through setatopground
+                    if (touchedGround instanceof Moving) {
                         Moving moving = (Moving) g;
                         lookStartTime = 0;
                         position.y = g.getTop() + Constants.AVATAR_EYE_HEIGHT;
@@ -664,7 +663,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                             if (((Pliable) moving).isAtopMovingGround() && (touchedGround == null || !touchedGround.equals(((Pliable) moving).getMovingGround()))) { // atop pliable which is atop moving ground and not simultaneously touching both
                                 Pliable pliable = (Pliable) moving;
                                 if (!pliable.isBeingCarried() && directionY == Direction.DOWN && lookStartTime != 0) {
-                                    if (InputControls.getInstance().shootButtonJustPressed) {
+                                    if (inputControls.shootButtonJustPressed) {
                                         fall();
                                     }
                                 }
@@ -674,13 +673,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                             }
                         }
                     }
-                    if (g instanceof Reboundable) {
+                    if (touchedGround instanceof Reboundable) {
                         if (!(g instanceof Pliable && ((Pliable) g).isBeingCarried() && ((Pliable) g).getCarrier() == this)) {
                             canClimb = false;
                             canCling = false;
                         }
                     }
-                    if (g instanceof Destructible) {
+                    if (touchedGround instanceof Destructible) {
                         if (((Destructible) g).getHealth() < 1) {
                             fall();
                         }
