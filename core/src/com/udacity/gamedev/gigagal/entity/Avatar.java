@@ -1818,6 +1818,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else {
                 rearArm = AssetManager.getInstance().getAvatarAssets().armReach;
             }
+        } else if (carriedGround != null) {
+                rearArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(0);
         }
         return rearArm; // defaults to parameter value if no conditions met
     }
