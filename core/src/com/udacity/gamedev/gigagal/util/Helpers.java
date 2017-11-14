@@ -154,19 +154,19 @@ public final class Helpers {
         return 0;
     }
 
-    public static final Enums.Direction velocityToOppositeDirection(float velocity, Enums.Orientation orientation) {
+    public static final Enums.Direction velocityToDirection(Vector2 velocity, Enums.Orientation orientation) {
         if (orientation == X) {
-            if (velocity > 0) {
+            if (velocity.x < 0) {
                 return Enums.Direction.LEFT;
-            } else if (velocity < 0) {
+            } else if (velocity.x > 0) {
                 return Enums.Direction.RIGHT;
             } else {
                 return null;
             }
         } else if (orientation == Y) {
-            if (velocity > 0) {
+            if (velocity.y < 0) {
                 return Enums.Direction.DOWN;
-            } else if (velocity < 0) {
+            } else if (velocity.y > 0) {
                 return Enums.Direction.UP;
             } else {
                 return null;

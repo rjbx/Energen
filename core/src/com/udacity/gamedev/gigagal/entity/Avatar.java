@@ -648,7 +648,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     // additional ground top collision instructions specific to certain types of grounds; touchedground instance checking handles null assignment from canclimb-jump-fall sequence initiated through setatopground
                     if (touchedGround instanceof Moving) {
                         Moving moving = (Moving) g;
-                        lookStartTime = 0;
                         position.y = g.getTop() + Constants.AVATAR_EYE_HEIGHT;
                         velocity.x = ((Moving) g).getVelocity().x;
                         velocity.y = ((Moving) g).getVelocity().y;
@@ -963,7 +962,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
         } else if (action == Action.STANDING || action == Action.CLIMBING) { // if neither up nor down pressed (and either standing or climbing)
             resetChaseCamPosition();
-        } else { // if neither standing nor climbing and not inputting y
+        } else { // if neither standing nor climbing nor inputting y
             chaseCamPosition.set(position, 0);
             lookStartTime = 0;
         }
@@ -1346,7 +1345,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             groundState = GroundState.AIRBORNE;
             rappelStartTime = TimeUtils.nanoTime();
             canJump = true;
-            directionX = Helpers.velocityToOppositeDirection(velocity.x, Orientation.X);
+            directionX = Helpers.getOppositeDirection(Helpers.velocityToDirection(velocity, Orientation.X));
         }
         canHurdle = false;
         if (touchedGround != null) {
@@ -1915,7 +1914,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public void setChaseCamPosition(float offset) {
         lookTimeSeconds = Helpers.secondsSince(lookStartTime);
-        if (lookTimeSeconds > 1) {
+        if (lookTimeSeconds > 1 || velocity.y != 0) {
             offset += 1.5f;
             if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {
                 chaseCamPosition.y += Helpers.speedToVelocity(offset, directionY, Orientation.Y);
@@ -1935,6 +1934,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             chaseCamPosition.x = position.x; // set chasecam position to gigagal xposition
         } else if (chaseCamPosition.y != position.y) { // if chasecam offset less than 5 but greater than 0 and actively looking
             chaseCamPosition.set(position, 0); // reset chasecam
+            lookStartTime = 0;
             canLook = false; // disable look
         } else {
             lookStartTime = 0;
