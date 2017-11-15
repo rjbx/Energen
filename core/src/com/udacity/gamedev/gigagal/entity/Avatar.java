@@ -1935,13 +1935,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 chaseCamPosition.y -= 2.5f;
             }
             chaseCamPosition.x = position.x; // set chasecam position to gigagal xposition
-        } else if (chaseCamPosition.y != position.y) { // if chasecam offset less than 5 but greater than 0 and actively looking
-            chaseCamPosition.set(position, 0); // reset chasecam
+        } else if (chaseCamPosition.y == position.y || velocity.y != 0) { // if chasecam offset less than 5 but greater than 0 and actively looking
             lookTimeSeconds = 0;
-            canLook = false; // disable look
-        } else {
             lookStartTime = 0;
-            lookTimeSeconds = 0;
+        } else {
+            Gdx.app.log(TAG, lookStartTime + "");
+            chaseCamPosition.set(position, 0); // reset chasecam
+            canLook = false; // disable look
         }
     }
     public void addWeapon(Material weapon) { weaponToggler.add(weapon); }
