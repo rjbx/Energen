@@ -665,9 +665,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                                 canMove = true;
                             }
                         }
-                        if (Helpers.inputToDirection() == Helpers.velocityToDirection(velocity, Orientation.Y)) {
-                            resetChaseCamPosition();
-                        }
                     }
                     if (touchedGround instanceof Reboundable) {
                         if (!(g instanceof Pliable && ((Pliable) g).isBeingCarried() && ((Pliable) g).getCarrier() == this)) {
@@ -1169,8 +1166,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (lookStartTime == 0 && !canRush) {
             lookStartTime = TimeUtils.nanoTime();
             chaseCamPosition.set(position, 0);
-        } else if (action == Action.STANDING || action == Action.CLIMBING) {
+        } else if ((action == Action.STANDING || action == Action.CLIMBING) && (!(touchedGround instanceof Moving) || Helpers.inputToDirection() != Helpers.velocityToDirection(velocity, Orientation.Y))) {
             setChaseCamPosition(offset);
+        } else {
+            resetChaseCamPosition();
         }
     }
 
