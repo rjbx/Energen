@@ -288,7 +288,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private void enableSwipe() {
         if (!canRush && !canCut && (groundState == GroundState.AIRBORNE || action == Action.CLIMBING) && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
             if (inputControls.jumpButtonJustPressed && action != Action.RAPPELLING) {
-                resetChaseCamPosition();
                 lookStartTime = TimeUtils.nanoTime();
                 canFlip = true;
                 bladeState = BladeState.FLIP;
@@ -307,7 +306,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 if (action != Action.DASHING) {
                     stand();
                 }
-                resetChaseCamPosition();
                 lookStartTime = TimeUtils.nanoTime();
                 canRush = true;
                 bladeState = BladeState.RUSH;
@@ -322,7 +320,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
         if (!canFlip && !canRush && groundState == GroundState.PLANTED && action != Action.CLIMBING && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
             if (inputControls.jumpButtonPressed) {
-                resetChaseCamPosition();
                 lookStartTime = TimeUtils.nanoTime();
                 canCut = true;
                 bladeState = BladeState.CUT;
@@ -1166,10 +1163,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (lookStartTime == 0 && !canRush) {
             lookStartTime = TimeUtils.nanoTime();
             chaseCamPosition.set(position, 0);
-        } else if ((action == Action.STANDING || action == Action.CLIMBING) && (!(touchedGround instanceof Moving) || Helpers.inputToDirection() != Helpers.velocityToDirection(velocity, Orientation.Y))) {
-            setChaseCamPosition(offset);
-        } else {
-            resetChaseCamPosition();
+        } else if (groundState != GroundState.AIRBORNE) {
+            if (!getSwipeStatus() && (velocity.y == 0 || Helpers.inputToDirection() != Helpers.velocityToDirection(velocity, Orientation.Y))) {
+                setChaseCamPosition(offset);
+            } else {
+                resetChaseCamPosition();
+            }
         }
     }
 
