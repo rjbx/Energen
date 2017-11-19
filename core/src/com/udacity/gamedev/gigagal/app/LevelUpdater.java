@@ -252,6 +252,18 @@ class LevelUpdater {
             hazards.end();
 
             // Update Grounds
+            grounds.sort(new Comparator<Ground>() {
+                @Override
+                public int compare(Ground o1, Ground o2) {
+                    if (o1.getBottom() > o2.getBottom()) {
+                        return 1;
+                    } else if (o1.getBottom() < o2.getBottom()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+            });
+            
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
                 if (!(grounds.get(i) instanceof Pliable)
@@ -727,17 +739,6 @@ class LevelUpdater {
 
     // level state handling
     protected void begin() {
-        grounds.sort(new Comparator<Ground>() {
-            @Override
-            public int compare(Ground o1, Ground o2) {
-                if (o1.getBottom() > o2.getBottom()) {
-                    return 1;
-                } else if (o1.getBottom() < o2.getBottom()) {
-                    return -1;
-                }
-                return 0;
-            }
-        });
         entities.addAll(grounds);
         entities.addAll(hazards);
         entities.addAll(powerups);
