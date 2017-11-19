@@ -272,8 +272,7 @@ class LevelUpdater {
             // Update Powerups
             powerups.begin();
             for (int i = 0; i < powerups.size; i++) {
-                if (Helpers.overlapsPhysicalObject(avatar, powerups.get(i))
-                || (avatar.getBladeState() != Enums.BladeState.RETRACTED && Helpers.overlapsPhysicalObject(Blade.getInstance(), powerups.get(i)))) {
+                if (!updatePowerup(delta, powerups.get(i))) {
                     powerups.removeIndex(i);
                 }
             }
@@ -613,6 +612,16 @@ class LevelUpdater {
             applyCollision((Impermeable) hazard);
         }
         return active;
+    }
+
+    public boolean updatePowerup(float delta, Powerup powerup) {
+        if (Helpers.overlapsPhysicalObject(avatar, powerup)
+                || (avatar.getBladeState() != Enums.BladeState.RETRACTED && Helpers.overlapsPhysicalObject(Blade.getInstance(), powerup))) {
+            powerup.deactivate();
+        } else {
+            powerup.update(delta);
+        }
+        return powerup.isActive();
     }
 
     public boolean updateTransport(float delta, Transport transport, int portalIndex) {

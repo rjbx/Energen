@@ -22,12 +22,14 @@ public class Powerup extends Entity implements Replenishing {
     private final Animation animation;
     private long startTime;
     private Enums.GemType gemType;
+    private boolean active;
 
     // ctor
     public Powerup(Vector2 position, Enums.PowerupType type) {
         startTime = TimeUtils.nanoTime();
         this.position = position;
         this.type = type;
+        active = true;
         switch (this.type) {
             case HEALTH:
                 animation = AssetManager.getInstance().getPowerupAssets().healthPowerup;
@@ -55,6 +57,8 @@ public class Powerup extends Entity implements Replenishing {
         }
     }
 
+    public void update(float delta) {}
+
     // overload ctor
     public Powerup(Vector2 position, Enums.PowerupType type, Enums.GemType gemType) {
         startTime = TimeUtils.nanoTime();
@@ -78,5 +82,7 @@ public class Powerup extends Entity implements Replenishing {
     @Override public final float getRight() { return position.x + center.x; }
     @Override public final float getTop() { return position.y + center.y; }
     @Override public final float getBottom() { return position.y - center.y; }
+    public boolean isActive() { return active; }
+    public void deactivate() { active = false; }
     public final Enums.GemType getGemType() { return gemType; }
 }
