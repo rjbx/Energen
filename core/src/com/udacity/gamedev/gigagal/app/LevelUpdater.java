@@ -254,7 +254,10 @@ class LevelUpdater {
             // Update Grounds
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
-                if (!(grounds.get(i) instanceof Pliable) || !(((Pliable) grounds.get(i)).isBeingCarried())) {
+                if (!(grounds.get(i) instanceof Pliable)
+                        || !(((Pliable) grounds.get(i)).isBeingCarried())
+                        || !(((Pliable) grounds.get(i)).getMovingGround() instanceof Pliable)
+                        || !((Pliable) ((Pliable) grounds.get(i)).getMovingGround()).isBeingCarried()) {
                     if (!updateGround(delta, grounds.get(i))) {
                         grounds.removeIndex(i);
                     }
@@ -288,7 +291,11 @@ class LevelUpdater {
             // Update Grounds
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
-                if ((grounds.get(i) instanceof Pliable) && (((Pliable) grounds.get(i)).isBeingCarried())) {
+                if ((grounds.get(i) instanceof Pliable)
+                        && ((((Pliable) grounds.get(i)).isBeingCarried())
+                            || (((Pliable) grounds.get(i)).isAtopMovingGround()
+                                && ((Pliable) grounds.get(i)).getMovingGround() instanceof Pliable
+                                && ((Pliable) ((Pliable) grounds.get(i)).getMovingGround()).isBeingCarried()))) {
                     if (!updateGround(delta, grounds.get(i))) {
                         grounds.removeIndex(i);
                     }
