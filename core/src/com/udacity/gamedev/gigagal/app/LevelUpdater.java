@@ -254,8 +254,10 @@ class LevelUpdater {
             // Update Grounds
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
-                if (!updateGround(delta, grounds.get(i))) {
-                    grounds.removeIndex(i);
+                if (!(grounds.get(i) instanceof Pliable) || !(((Pliable) grounds.get(i)).isBeingCarried())) {
+                    if (!updateGround(delta, grounds.get(i))) {
+                        grounds.removeIndex(i);
+                    }
                 }
             }
             grounds.end();
@@ -282,6 +284,17 @@ class LevelUpdater {
             applyCollision(avatar);
             avatar.update(delta);
             Blade.getInstance().update(delta);
+
+            // Update Grounds
+            grounds.begin();
+            for (int i = 0; i < grounds.size; i++) {
+                if ((grounds.get(i) instanceof Pliable) && (((Pliable) grounds.get(i)).isBeingCarried())) {
+                    if (!updateGround(delta, grounds.get(i))) {
+                        grounds.removeIndex(i);
+                    }
+                }
+            }
+            grounds.end();
         }
     }
 
