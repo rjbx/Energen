@@ -227,6 +227,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
 
     public void update(float delta) {
+        Gdx.app.log(TAG, velocity.toString());
         // abilities
         if (groundState == GroundState.PLANTED) {
             if (action == Action.STANDING) {
@@ -577,22 +578,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     position.x = previousFramePosition.x;
                 }
             } else { // when both position and previous position overlap ground side edge
-
                 float yTestPosition = position.y;
-                if (g instanceof Cannoroll) {
-                    yTestPosition = getBottom() + Constants.AVATAR_HEAD_RADIUS; // for canirol only
-                }
                 if (!(g instanceof Pliable) || (action == Action.FALLING && !((Pliable) g).isBeingCarried() && (!(((Pliable) g).isAtopMovingGround() && ((Pliable) g).getMovingGround() instanceof Pliable && g.getPosition().dst(position) < getHeight() / 2)))) {
                     if (Helpers.betweenTwoValues(yTestPosition, g.getBottom(), g.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
-                        if (!(g instanceof Cannoroll)) {
-                            if (Math.abs(position.x - g.getLeft()) < Math.abs(position.x - g.getRight())) {
-                                position.x = g.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
-                            } else {
-                                position.x = g.getRight() + getHalfWidth() + 1; // reset position to ground side edge
-                            }
-                        } else { // for canirol only
-                            position.y = g.getTop() + Constants.AVATAR_EYE_HEIGHT; // reset position to ground top
-                            setAtopGround(g);
+                        if (Math.abs(position.x - g.getLeft()) < Math.abs(position.x - g.getRight())) {
+                            position.x = g.getLeft() - getHalfWidth() - 1; // reset position to ground side edge
+                        } else {
+                            position.x = g.getRight() + getHalfWidth() + 1; // reset position to ground side edge
                         }
                     }
                 }
