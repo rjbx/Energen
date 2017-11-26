@@ -263,7 +263,7 @@ class LevelUpdater {
                     return 0;
                 }
             });
-            
+
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
                 if (!(grounds.get(i) instanceof Pliable)
