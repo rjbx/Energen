@@ -578,6 +578,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     position.x = previousFramePosition.x;
                 }
             } else { // when both position and previous position overlap ground side edge
+
                 float yTestPosition = position.y;
                 if (!(g instanceof Pliable) || (action == Action.FALLING && !((Pliable) g).isBeingCarried() && (!(((Pliable) g).isAtopMovingGround() && ((Pliable) g).getMovingGround() instanceof Pliable && g.getPosition().dst(position) < getHeight() / 2)))) {
                     if (Helpers.betweenTwoValues(yTestPosition, g.getBottom(), g.getTop())) { // when test position is between ground top and bottom (to prevent resetting to grounds simultaneously planted upon)
