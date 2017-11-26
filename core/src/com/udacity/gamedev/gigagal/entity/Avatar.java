@@ -451,47 +451,47 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else { // for non-dense grounds:
                 // additional ground collision instructions specific to certain types of grounds
                 if (g instanceof Climbable) {
-                        Gdx.app.log(TAG, "2");
-                        if (!(touchedGround != null && touchedGround.isDense() && touchedGround.getTop() == g.getTop())) { // prevents flickering canclimb state
-                            canCling = true;
-                        }
-                        if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
-                                && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
-                            if (!(g instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(g) && touchedGround.isDense() && action != Action.CLIMBING)))) {
-                                carriedGround = null;
-                                if (!(touchedGround instanceof Moving) && (action == Action.CLIMBING || getBottom() > g.getTop())) {
-                                    touchedGround = g; // saves for untouchground where condition within touchgroundtop unmet
-                                }
-                                if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
-                                    //   Gdx.app.log(TAG, "???");
-                                    canJump = true;
-                                    jump();
-                                }
+                    Gdx.app.log(TAG, "2");
+                    if (!(touchedGround != null && touchedGround.isDense() && touchedGround.getTop() == g.getTop())) { // prevents flickering canclimb state
+                        canCling = true;
+                    }
+                    if (!(!canClimb && groundState == GroundState.PLANTED && touchedGround instanceof Skateable) // prevents from overriding handling of simultaneously touched skateable ground i.e. overriding ground physics
+                            && (!(groundState == GroundState.AIRBORNE && touchedGround instanceof Rappelable))) { // prevents from overriding handling of simultaneously touched rappelable ground i.e. for rappel position reset)
+                        if (!(g instanceof Unsteady) || (touchedGround == null || (!(touchedGround != null && !touchedGround.equals(g) && touchedGround.isDense() && action != Action.CLIMBING)))) {
+                            carriedGround = null;
+                            if (canClimb) {
+                                touchedGround = g; // saves for untouchground where condition within touchgroundtop unmet
+                            }
+                            if (canClimb && !inputControls.jumpButtonPressed && action == Action.STANDING) {
+                                //   Gdx.app.log(TAG, "???");
+                                canJump = true;
+                                jump();
                             }
                         }
-                        if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
-                            if (action != Action.FALLING // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
-                                    || (fallStartTime != 0 && (Helpers.secondsSince(fallStartTime) > .01f))) { // permits call to stand when falling and touching climbable and non-climbable simultaneously and not having immediately called jump/fall
-                                if (g instanceof Unsteady) {
-                                    if (groundState == GroundState.PLANTED) {
-                                        if (action != Action.CLIMBING) { // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
-                                            if (action == Action.STANDING) {
-                                                if (!(touchedGround instanceof Moving) && (action == Action.CLIMBING || getBottom() > g.getTop())) {
-                                                    setAtopGround(g);
-                                                }
-                                            } else if (touchedGround == null || (!touchedGround.isDense() && Helpers.encompassedBetweenFourSides(position, getWidth() / 2, getHeight() / 2, touchedGround.getLeft(), touchedGround.getRight(), touchedGround.getBottom(), touchedGround.getTop()))) {
-                                                fall();
-                                            }
+                    }
+                    if (!(canClimb && directionY == Direction.DOWN)) { // ignore side and bottom collision always and top collision when can climb and looking downward
+                        if (action != Action.FALLING // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
+                                || (fallStartTime != 0 && (Helpers.secondsSince(fallStartTime) > .01f))) { // permits call to stand when falling and touching climbable and non-climbable simultaneously and not having immediately called jump/fall
+                            if (g instanceof Unsteady) {
+                                if (groundState == GroundState.PLANTED) {
+                                    if (action != Action.CLIMBING) { // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
+                                        if (action == Action.STANDING) {
+                                            if (canClimb)
+                                                setAtopGround(g);
+
+                                        } else if (touchedGround == null || (!touchedGround.isDense() && Helpers.encompassedBetweenFourSides(position, getWidth() / 2, getHeight() / 2, touchedGround.getLeft(), touchedGround.getRight(), touchedGround.getBottom(), touchedGround.getTop()))) {
+                                            fall();
                                         }
                                     }
-                                } else {
-                                    touchGroundTop(g); // prevents descending below top when on non dense, non sinkable
                                 }
+                            } else {
+                                touchGroundTop(g); // prevents descending below top when on non dense, non sinkable
                             }
                         }
-                        if (action == Action.CLIMBING) {
-                            velocity.y = 0; // halts progress when no directional input
-                        }
+                    }
+                    if (action == Action.CLIMBING) {
+                        velocity.y = 0; // halts progress when no directional input
+                    }
                 } else if (g instanceof Pourous) {
                     setAtopGround(g); // when any kind of collision detected and not only when breaking plane of ground.top
                     canCling = false;
