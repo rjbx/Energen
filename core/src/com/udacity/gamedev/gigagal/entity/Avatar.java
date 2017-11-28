@@ -476,9 +476,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                                 if (groundState == GroundState.PLANTED) {
                                     if (action != Action.CLIMBING) { // prevents from immediately calling stand after calling jump/fall when touching climbable and non-climbable simultaneously
                                         if (action == Action.STANDING) {
-                                            if (canClimb)
+                                            if (canClimb) {
                                                 setAtopGround(g);
-
+                                            }
                                         } else if (touchedGround == null || (!touchedGround.isDense() && Helpers.encompassedBetweenFourSides(position, getWidth() / 2, getHeight() / 2, touchedGround.getLeft(), touchedGround.getRight(), touchedGround.getBottom(), touchedGround.getTop()))) {
                                             fall();
                                         }
@@ -1794,6 +1794,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
         } else if (carriedGround != null) {
                 rearArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(0);
+        } else if (canClimb) {
+            rearArm = AssetManager.getInstance().getAvatarAssets().armReach;
         }
         return rearArm; // defaults to parameter value if no conditions met
     }
@@ -1814,7 +1816,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         } else if (rappelStartTime != 0) {
             float rappelTimeSeconds = Helpers.secondsSince(rappelStartTime);
             if (rappelTimeSeconds > 0.2f) {
-                rearHand = AssetManager.getInstance().getAvatarAssets().handRappel.getKeyFrame(Helpers.secondsSince(rappelTimeSeconds));
+                rearHand = AssetManager.getInstance().getAvatarAssets().handRappel.getKeyFrame(rappelTimeSeconds);
             }
         } else if (carriedGround != null) {
             if (velocity.x != 0) {
@@ -1822,6 +1824,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else {
                 rearHand = AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(0);
             }
+        } else if (canClimb) {
+            rearHand = AssetManager.getInstance().getAvatarAssets().handReach;
         }
         return rearHand; // defaults to parameter value if no conditions met
     }
