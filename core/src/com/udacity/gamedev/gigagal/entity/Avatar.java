@@ -705,7 +705,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 canClimb = true;  // prevents setting canclimb to false when overlapping dense, nondense and climbable grounds
             }
             if (!(g instanceof Climbable || touchedGround instanceof Climbable)) {
-          //      canCling = false;
+                canCling = false;
             }
         }
     }
@@ -1171,9 +1171,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
 
     private void enableStride() {
-
-
-        Gdx.app.log(TAG, "1");
         handleXInputs();
         if (canStride) {
             stride();
@@ -1794,7 +1791,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
         } else if (carriedGround != null) {
                 rearArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(0);
-        } else if (canClimb) {
+        } else if (canCling) {
             rearArm = AssetManager.getInstance().getAvatarAssets().armReach;
         }
         return rearArm; // defaults to parameter value if no conditions met
@@ -1824,7 +1821,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else {
                 rearHand = AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(0);
             }
-        } else if (canClimb) {
+        } else if (canCling) {
             rearHand = AssetManager.getInstance().getAvatarAssets().handReach;
         }
         return rearHand; // defaults to parameter value if no conditions met
