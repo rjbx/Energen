@@ -1020,7 +1020,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         } else if (touchedGround instanceof Propelling) {
             velocity.x = 0;
             velocity.x += Helpers.speedToVelocity(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
-        } else if (!(touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().x != 0)) {
+        } else if (!(touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().x != 0) && !(touchedGround instanceof Climbable)) {
             velocity.x = 0;
         }
         fallStartTime = 0;
@@ -1791,8 +1791,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
         } else if (carriedGround != null) {
                 rearArm = AssetManager.getInstance().getAvatarAssets().armSwing.getKeyFrame(0);
-        } else if (canCling) {
-            rearArm = AssetManager.getInstance().getAvatarAssets().armReach;
         }
         return rearArm; // defaults to parameter value if no conditions met
     }
@@ -1821,8 +1819,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else {
                 rearHand = AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(0);
             }
-        } else if (canCling) {
-            rearHand = AssetManager.getInstance().getAvatarAssets().handReach;
         }
         return rearHand; // defaults to parameter value if no conditions met
     }
