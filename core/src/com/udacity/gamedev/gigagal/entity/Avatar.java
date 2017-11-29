@@ -1413,7 +1413,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     jump();
                     velocity.y += jumpBoost;
                 } else { // cling by default
-                    if (!(canHurdle || yMoving)) { // decrement turbo when ground is not moving and cannot hurdle
+                    if (!canHurdle) { // decrement turbo when ground is not moving and cannot hurdle
                         turbo -= Constants.RAPPEL_TURBO_DECREMENT * turboMultiplier;
                     }
                     if (yMoving) { // maintain position relative to rappelled ground
