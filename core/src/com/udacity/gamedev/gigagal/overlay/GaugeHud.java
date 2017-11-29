@@ -24,7 +24,7 @@ public final class GaugeHud {
         flickerFrequency = 0.5f;
     }
 
-    public void render(ShapeRenderer renderer, ExtendViewport viewport, Avatar gigaGal) {
+    public void render(ShapeRenderer renderer, ExtendViewport viewport, Avatar avatar) {
 
         viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);
@@ -36,36 +36,36 @@ public final class GaugeHud {
         renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 2, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, viewport.getWorldWidth(), viewport.getWorldHeight() / 15);
 
         // health
-        if (gigaGal.getHealth() < Constants.MAX_HEALTH / 4) {
+        if (avatar.getHealth() < Constants.MAX_HEALTH / 4) {
             renderer.setColor(Constants.HEALTH_CRITICAL_COLOR);
-        } else if (gigaGal.getHealth() < Constants.MAX_HEALTH / 2) {
+        } else if (avatar.getHealth() < Constants.MAX_HEALTH / 2) {
             renderer.setColor(Constants.HEALTH_LOW_COLOR);
-        } else if (gigaGal.getHealth() < Constants.MAX_HEALTH) {
-            renderer.setColor(Constants.HEALTH_NORMAL_COLOR);
+        } else if (avatar.getHealth() < Constants.MAX_HEALTH) {
+            renderer.setColor(avatar.getWeapon().theme().color().mul(.8f));
         } else {
-            renderer.setColor(Constants.HEALTH_MAX_COLOR);
+            renderer.setColor(avatar.getWeapon().theme().color());
         }
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getCamera().position.x - viewport.getWorldWidth() / 2, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, ((float) gigaGal.getHealth() / Constants.MAX_HEALTH) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
+        renderer.rect(viewport.getCamera().position.x - viewport.getWorldWidth() / 2, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, ((float) avatar.getHealth() / Constants.MAX_HEALTH) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
 
         // turbo
-        if (gigaGal.getTurbo() < Constants.MAX_TURBO) {
+        if (avatar.getTurbo() < Constants.MAX_TURBO) {
             renderer.setColor(Constants.TURBO_NORMAL_COLOR);
         } else {
             renderer.setColor(Constants.TURBO_MAX_COLOR);
         }
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 6, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, (gigaGal.getTurbo() / Constants.MAX_TURBO) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
+        renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 6, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, (avatar.getTurbo() / Constants.MAX_TURBO) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
 
         // ammo
-        if (gigaGal.getChargeTimeSeconds() >  Constants.BLAST_CHARGE_DURATION / 4) {
+        if (avatar.getChargeTimeSeconds() >  Constants.BLAST_CHARGE_DURATION / 4) {
             renderer.setColor(Constants.AMMO_CHARGED_COLOR);
         } else {
             renderer.setColor(Constants.AMMO_NORMAL_COLOR);
         }
 
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getCamera().position.x  + viewport.getWorldWidth() / 6, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, ((float) gigaGal.getAmmo() / Constants.MAX_AMMO) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
+        renderer.rect(viewport.getCamera().position.x  + viewport.getWorldWidth() / 6, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, ((float) avatar.getAmmo() / Constants.MAX_AMMO) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
         renderer.end();
     }
 }
