@@ -1020,7 +1020,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         } else if (touchedGround instanceof Propelling) {
             velocity.x = 0;
             velocity.x += Helpers.speedToVelocity(Constants.TREADMILL_SPEED, ((Propelling) touchedGround).getDirectionX(), Orientation.X);
-        } else if (!(touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().x != 0) && !(touchedGround instanceof Climbable && getBottom() < touchedGround.getTop())) {
+        } else if (touchedGround == null || !(touchedGround instanceof Moving) && getBottom() >= touchedGround.getTop()) {
             velocity.x = 0;
         }
         fallStartTime = 0;
