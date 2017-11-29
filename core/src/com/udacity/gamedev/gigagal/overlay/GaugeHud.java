@@ -41,9 +41,9 @@ public final class GaugeHud {
         } else if (avatar.getHealth() < Constants.MAX_HEALTH / 2) {
             renderer.setColor(Constants.HEALTH_LOW_COLOR);
         } else if (avatar.getHealth() < Constants.MAX_HEALTH) {
-            renderer.setColor(avatar.getWeapon().theme().color().mul(.8f));
+            renderer.setColor(Constants.HEALTH_NORMAL_COLOR);
         } else {
-            renderer.setColor(avatar.getWeapon().theme().color());
+            renderer.setColor(Constants.HEALTH_MAX_COLOR);
         }
         renderer.set(ShapeRenderer.ShapeType.Filled);
         renderer.rect(viewport.getCamera().position.x - viewport.getWorldWidth() / 2, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, ((float) avatar.getHealth() / Constants.MAX_HEALTH) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
