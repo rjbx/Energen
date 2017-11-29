@@ -1118,7 +1118,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private void enableShoot(Material weapon) {
         canDispatch = false;
         if (canShoot) {
-            if (inputControls.shootButtonPressed || (action == Action.RAPPELLING && (inputControls.rightButtonPressed || inputControls.leftButtonPressed))) {
+            if (getCarriedGround() == null && (inputControls.shootButtonPressed || (action == Action.RAPPELLING && (inputControls.rightButtonPressed || inputControls.leftButtonPressed)))) {
                 if (chargeStartTime == 0) {
                     chargeStartTime = TimeUtils.nanoTime();
                 } else if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION) {
