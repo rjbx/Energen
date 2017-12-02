@@ -198,7 +198,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         touchedGround = null;
         touchedHazard = null;
         carriedGround = null;
-        canClimb = false;
+        canClimb = true;
         canCling = false;
         canLook = false;
         canPeer = false;
