@@ -433,7 +433,9 @@ class LevelUpdater {
                     } else {
                         avatar.setVelocity(new Vector2(avatar.getVelocity().x / (1 + (pliable).weightFactor()), avatar.getVelocity().y));
                     }
-                    avatar.setTurbo(Math.max(avatar.getTurbo() - (pliable).weightFactor() - adjustment, 0));
+                    if (pliable.weightFactor() > .25f) { // prevents flickering gauge for lighter objects
+                        avatar.setTurbo(Math.max(avatar.getTurbo() - (pliable).weightFactor() * adjustment, 0));
+                    }
                     if (avatar.getTurbo() == 0) {
                         pliable.setCarrier(null);
                         avatar.setCarriedGround(null);
