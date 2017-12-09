@@ -942,6 +942,7 @@ public final class Constants {
     public static final Color TURBO_MAX_COLOR = new Color(0x006400FF);
     public static final Color AMMO_NORMAL_COLOR = new Color(0xB8860BFF);
     public static final Color AMMO_CHARGED_COLOR = Color.GOLDENROD;
+    public static final Color AMMO_BLAST_COLOR = new Color(0xFAC94EFF);
 
     // Onscreen Controls
     public static final float CONTROLS_OVERLAY_VIEWPORT_SIZE = 200;

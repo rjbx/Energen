@@ -120,7 +120,7 @@ public class IndicatorHud {
                 offset.scl(Constants.AMMO_ICON_SCALE);
                 break;
             case BLAST:
-                offset.set(Constants.BLAST_CENTER);
+                offset.set(Constants.BLAST_CENTER.x, Constants.BLAST_CENTER.y * 1.5f);
                 offset.scl(Constants.AMMO_ICON_SCALE);
                 break;
             default:
@@ -132,8 +132,9 @@ public class IndicatorHud {
 
             Helpers.drawTextureRegion(
                     batch,
-                    viewport, ammo.getTexture(),
-                    viewport.getCamera().position.x + viewport.getWorldWidth() / 2.5f,
+                    viewport,
+                    ammo.getTexture(),
+                    viewport.getCamera().position.x + viewport.getWorldWidth() / 2.75f,
                     yIcon,
                     offset.x,
                     offset.y,

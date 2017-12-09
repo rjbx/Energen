@@ -214,7 +214,7 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
     public final Vector2 getKnockback() { return knockback; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
     public final Material getType() { return weapon; }
-    public final TextureRegion getTexture() { return animation.getKeyFrame(0); }
+    public final TextureRegion getTexture() { float frame = weapon.equals(Material.ANTIMATTER) ? 1 : 0; return animation.getKeyFrame(frame); }
     public final int getHitScore() { return hitScore; }
     public final Entity getSource() { return source; }
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.udacity.gamedev.gigagal.entity.Avatar;
 import com.udacity.gamedev.gigagal.util.Constants;
+import com.udacity.gamedev.gigagal.util.Enums;
 
 // immutable
 public final class GaugeHud {
@@ -58,7 +59,9 @@ public final class GaugeHud {
         renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 6, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.1f, (avatar.getTurbo() / Constants.MAX_TURBO) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 30);
 
         // ammo
-        if (avatar.getChargeTimeSeconds() >  Constants.BLAST_CHARGE_DURATION / 4) {
+        if (avatar.getShotIntensity() == Enums.ShotIntensity.BLAST) {
+            renderer.setColor(Constants.AMMO_BLAST_COLOR);
+        } else if (avatar.getChargeTimeSeconds() >  Constants.BLAST_CHARGE_DURATION / 4) {
             renderer.setColor(Constants.AMMO_CHARGED_COLOR);
         } else {
             renderer.setColor(Constants.AMMO_NORMAL_COLOR);
