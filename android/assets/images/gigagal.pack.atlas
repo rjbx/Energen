@@ -993,21 +993,21 @@ icon-hover
   index: -1
 icon-life
   rotate: false
-  xy: 1009, 13
-  size: 13, 13
-  orig: 13, 13
+  xy: 478, 3
+  size: 14, 9
+  orig: 14, 9
   offset: 0, 0
   index: -1
 icon-life-1
   rotate: false
-  xy: 902, 3
+  xy: 1009, 13
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
   index: -1
 icon-life-2
   rotate: false
-  xy: 917, 3
+  xy: 902, 3
   size: 13, 13
   orig: 13, 13
   offset: 0, 0
@@ -1168,40 +1168,47 @@ orben-plasma-active-2
   index: -1
 orben-plasma-alert
   rotate: false
-  xy: 478, 2
+  xy: 917, 6
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-0
   rotate: false
-  xy: 932, 6
+  xy: 929, 6
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-1
   rotate: false
-  xy: 788, 3
+  xy: 941, 6
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-2
   rotate: false
-  xy: 800, 3
+  xy: 788, 3
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-alert
   rotate: false
-  xy: 812, 3
+  xy: 800, 3
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-shoot
+  rotate: false
+  xy: 812, 3
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+orben-solid-active-0
   rotate: false
   xy: 824, 3
   size: 10, 10
@@ -1916,21 +1923,21 @@ ammo-shot-native-1
   index: -1
 ammo-shot-native-2
   rotate: false
-  xy: 540, 265
+  xy: 1012, 991
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-plasma-1
   rotate: false
-  xy: 683, 441
+  xy: 540, 265
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-plasma-2
   rotate: false
-  xy: 694, 442
+  xy: 683, 441
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
@@ -2859,30 +2866,23 @@ old-stride-2-right
   orig: 26, 35
   offset: 0, 0
   index: -1
-orben-solid-active-0
+orben-solid-active-1
   rotate: false
   xy: 1012, 1012
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
-orben-solid-active-1
+orben-solid-active-2
   rotate: false
   xy: 651, 928
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
-orben-solid-active-2
-  rotate: false
-  xy: 1012, 1000
-  size: 10, 10
-  orig: 10, 10
-  offset: 0, 0
-  index: -1
 orben-solid-alert
   rotate: false
-  xy: 1012, 988
+  xy: 1012, 1000
   size: 10, 10
   orig: 10, 10
   offset: 0, 0

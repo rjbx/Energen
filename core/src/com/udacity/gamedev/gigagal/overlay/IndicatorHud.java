@@ -44,8 +44,8 @@ public class IndicatorHud {
                     assetManager.getHudAssets().move,
                     xAction,
                     yIcon,
-                    Constants.ICON_CENTER.x,
-                    Constants.ICON_CENTER.y,
+                    Constants.ABILITY_ICON_CENTER.x,
+                    Constants.ABILITY_ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
         } else if (avatar.getClingStatus() && avatar.getClimbStatus()) {
@@ -55,8 +55,8 @@ public class IndicatorHud {
                     assetManager.getHudAssets().climb,
                     xAction,
                     yIcon,
-                    Constants.ICON_CENTER.x,
-                    Constants.ICON_CENTER.y,
+                    Constants.ABILITY_ICON_CENTER.x,
+                    Constants.ABILITY_ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
         } else if (avatar.getRappelStatus())  {
@@ -66,8 +66,8 @@ public class IndicatorHud {
                     assetManager.getHudAssets().rappel,
                     xAction,
                     yIcon,
-                    Constants.ICON_CENTER.x,
-                    Constants.ICON_CENTER.y,
+                    Constants.ABILITY_ICON_CENTER.x,
+                    Constants.ABILITY_ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
         }  else if (!avatar.getJumpStatus() && avatar.getAction() != Enums.Action.HOVERING && avatar.getHoverStatus()) {
@@ -77,8 +77,8 @@ public class IndicatorHud {
                     assetManager.getHudAssets().hover,
                     xAction,
                     yIcon,
-                    Constants.ICON_CENTER.x,
-                    Constants.ICON_CENTER.y,
+                    Constants.ABILITY_ICON_CENTER.x,
+                    Constants.ABILITY_ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
         } else if (avatar.getDashStatus()) {
@@ -88,14 +88,14 @@ public class IndicatorHud {
                     assetManager.getHudAssets().dash,
                     xAction,
                     yIcon,
-                    Constants.ICON_CENTER.x,
-                    Constants.ICON_CENTER.y,
+                    Constants.ABILITY_ICON_CENTER.x,
+                    Constants.ABILITY_ICON_CENTER.y,
                     Constants.ACTION_ICON_SCALE
             );
         }
 
         final TextureRegion lifeIcon = assetManager.getHudAssets().life;
-        float xLife = viewport.getCamera().position.x - viewport.getWorldWidth() / 2.1f;
+        float xLife = viewport.getCamera().position.x - viewport.getWorldWidth() / 2.15f;
         for (int i = 1; i <= avatar.getLives(); i++) {
             Helpers.drawTextureRegion(
                     batch,
@@ -103,8 +103,8 @@ public class IndicatorHud {
                     lifeIcon,
                     xLife,
                     yIcon,
-                    Constants.SHOT_CENTER.x,
-                    Constants.SHOT_CENTER.y,
+                    Constants.LIFE_ICON_CENTER.x,
+                    Constants.LIFE_ICON_CENTER.y,
                     Constants.LIFE_ICON_SCALE
             );
             xLife += 20;
