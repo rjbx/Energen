@@ -33,7 +33,7 @@ public final class GaugeHud {
         // backdrop
         renderer.setColor(Color.BLACK);
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 2, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, viewport.getWorldWidth(), viewport.getWorldHeight() / 15);
+        renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 2, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.1f, viewport.getWorldWidth(), viewport.getWorldHeight() / 30);
 
         // health
         if (avatar.getHealth() < Constants.MAX_HEALTH / 4) {
@@ -46,7 +46,7 @@ public final class GaugeHud {
             renderer.setColor(Constants.HEALTH_MAX_COLOR);
         }
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getCamera().position.x - viewport.getWorldWidth() / 2, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, ((float) avatar.getHealth() / Constants.MAX_HEALTH) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
+        renderer.rect(viewport.getCamera().position.x - viewport.getWorldWidth() / 2, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.1f, ((float) avatar.getHealth() / Constants.MAX_HEALTH) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 30);
 
         // turbo
         if (avatar.getTurbo() < Constants.MAX_TURBO) {
@@ -55,7 +55,7 @@ public final class GaugeHud {
             renderer.setColor(Constants.TURBO_MAX_COLOR);
         }
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 6, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, (avatar.getTurbo() / Constants.MAX_TURBO) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
+        renderer.rect(viewport.getCamera().position.x  - viewport.getWorldWidth() / 6, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.1f, (avatar.getTurbo() / Constants.MAX_TURBO) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 30);
 
         // ammo
         if (avatar.getChargeTimeSeconds() >  Constants.BLAST_CHARGE_DURATION / 4) {
@@ -65,7 +65,7 @@ public final class GaugeHud {
         }
 
         renderer.set(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(viewport.getCamera().position.x  + viewport.getWorldWidth() / 6, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f, ((float) avatar.getAmmo() / Constants.MAX_AMMO) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 15);
+        renderer.rect(viewport.getCamera().position.x  + viewport.getWorldWidth() / 6, viewport.getCamera().position.y + viewport.getWorldHeight() / 2.1f, ((float) avatar.getAmmo() / Constants.MAX_AMMO) * viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 30);
         renderer.end();
     }
 }

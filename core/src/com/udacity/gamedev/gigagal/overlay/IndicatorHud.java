@@ -34,8 +34,7 @@ public class IndicatorHud {
     }
 
     public void render(SpriteBatch batch, ExtendViewport viewport, BitmapFont font) {
-        float yIcon = viewport.getCamera().position.y + viewport.getWorldHeight() / 2.5f;
-
+        float yIcon = viewport.getCamera().position.y + viewport.getWorldHeight() / 2.25f;
         float xAction = viewport.getCamera().position.x + 5;
         if (avatar.getMoveStatus()) {
             Helpers.drawTextureRegion(
@@ -102,7 +101,7 @@ public class IndicatorHud {
                     viewport,
                     lifeIcon,
                     xLife,
-                    yIcon, 
+                    yIcon,
                     Constants.LIFE_ICON_CENTER.x,
                     Constants.LIFE_ICON_CENTER.y,
                     Constants.LIFE_ICON_SCALE
