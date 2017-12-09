@@ -164,7 +164,7 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(.1f, ((getWidth() * getHeight()) / 1000)) + payload; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }
-    @Override public final boolean isDense() { return super.dense || beingCarried; }
+    @Override public final boolean isDense() { return ((super.dense || beingCarried) && LevelAssets.getClonedAvatar().getAction() != Enums.Action.CLIMBING); }
     @Override public final void toss(float velocityX) { velocity.x = velocityX; }
     @Override public final Ground getTopGround() { return topGround; }
     @Override public final boolean isBeneatheGround() { return beneatheGround; }
