@@ -102,7 +102,7 @@ public class IndicatorHud {
                     viewport,
                     lifeIcon,
                     xLife,
-                    yIcon,
+                    yIcon, 
                     Constants.LIFE_ICON_CENTER.x,
                     Constants.LIFE_ICON_CENTER.y,
                     Constants.LIFE_ICON_SCALE
