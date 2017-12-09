@@ -57,17 +57,18 @@ public class Powerup extends Entity implements Replenishing {
         }
     }
 
-    public void update(float delta) {}
-
     // overload ctor
-    public Powerup(Vector2 position, Enums.PowerupType type, Enums.GemType gemType) {
+    public Powerup(Vector2 position, Enums.GemType gemType) {
+        active = true;
         startTime = TimeUtils.nanoTime();
-        this.position = position;
-        this.type = type;
+        type = Enums.PowerupType.GEM;
         this.gemType = gemType;
+        this.position = position;
         animation = AssetManager.getInstance().getPowerupAssets().getGemTexture(gemType);
         center = Constants.GEM_CENTER;
     }
+
+    public void update(float delta) {}
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {

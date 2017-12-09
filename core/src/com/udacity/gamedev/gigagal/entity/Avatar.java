@@ -227,7 +227,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
 
     public void update(float delta) {
-        Gdx.app.log(TAG, velocity.toString());
         // abilities
         if (groundState == GroundState.PLANTED) {
             if (action == Action.STANDING) {
@@ -451,7 +450,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else { // for non-dense grounds:
                 // additional ground collision instructions specific to certain types of grounds
                 if (g instanceof Climbable) {
-                    Gdx.app.log(TAG, "2");
                     if (!(touchedGround != null && touchedGround.isDense() && touchedGround.getTop() == g.getTop())) { // prevents flickering canclimb state
                         canCling = true;
                     }
@@ -780,7 +778,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 }
             } else if (h instanceof Armored && ((Armored) h).isVulnerable()) {
                 if (h instanceof Bladed && Helpers.secondsSince(((Armored) h).getStartTime()) > (((Armored) h).getRecoverySpeed() - Constants.FLIPSWIPE_FRAME_DURATION * 6)) {
-                    Gdx.app.log(TAG, "?" +  ((Bladed) h).getEquippedRegions().toString());
                     for (int i = 0; i < ((Bladed) h).getEquippedRegions().size; i++) {
                         if (!((directionX == ((Bladed) h).getEquippedRegions().get(i) && Helpers.betweenTwoValues(position.y, h.getPosition().y - getHeight() / 2, h.getPosition().y + getHeight() / 2))
                         || (((position.y >= h.getTop() && ((Bladed) h).getEquippedRegions().get(i) == Direction.DOWN) || (position.y <= h.getBottom() && ((Bladed) h).getEquippedRegions().get(i) == Direction.UP)) && Helpers.betweenTwoValues(position.x, h.getPosition().x - getHalfWidth(), h.getPosition().x + getHalfWidth())))) {
@@ -1383,9 +1380,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 yMoving = true;
             }
             if (touchedGround instanceof Pliable) {
-                if (Avatar.getInstance().getCarriedGround() != null) {
-                    Gdx.app.log(TAG, Avatar.getInstance().getVelocity().toString() + Avatar.getInstance().getPosition().toString());
-                }
                 canMove = Helpers.inputToDirection() == Helpers.getOppositeDirection(directionX);
                 if (((Pliable) touchedGround).isBeneatheGround()) { // prevent hurdle when not positioned atop series of stacked grounds
                     canHurdle = false;
@@ -1935,7 +1929,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             lookTimeSeconds = 0;
             lookStartTime = 0;
         } else {
-            Gdx.app.log(TAG, lookStartTime + "");
             chaseCamPosition.set(position, 0); // reset chasecam
             canLook = false; // disable look
         }

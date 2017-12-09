@@ -407,15 +407,15 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.RUBY_SPRITE_1)) {
                 final Vector2 powerupPosition = imagePosition.add(Constants.GEM_CENTER);
                 Gdx.app.log(TAG, "Loaded a Ruby at " + powerupPosition);
-                level.addPowerup(new Powerup(powerupPosition, Enums.PowerupType.GEM, Enums.GemType.RUBY));
+                level.addPowerup(new Powerup(powerupPosition, Enums.GemType.RUBY));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SAPPHIRE_SPRITE_1)) {
                 final Vector2 powerupPosition = imagePosition.add(Constants.GEM_CENTER);
                 Gdx.app.log(TAG, "Loaded a Sapphire at " + powerupPosition);
-                level.addPowerup(new Powerup(powerupPosition, Enums.PowerupType.GEM, Enums.GemType.SAPPHIRE));
+                level.addPowerup(new Powerup(powerupPosition, Enums.GemType.SAPPHIRE));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.EMERALD_SPRITE_1)) {
                 final Vector2 powerupPosition = imagePosition.add(Constants.GEM_CENTER);
                 Gdx.app.log(TAG, "Loaded a Emerald at " + powerupPosition);
-                level.addPowerup(new Powerup(powerupPosition, Enums.PowerupType.GEM, Enums.GemType.EMERALD));
+                level.addPowerup(new Powerup(powerupPosition, Enums.GemType.EMERALD));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_DEPOSIT_SPRITE)) {
                 final Vector2 depositPosition = imagePosition.add(Constants.BOX_DEPOSIT_CENTER);
                 Gdx.app.log(TAG, "Loaded a Deposit at " + depositPosition);

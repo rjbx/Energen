@@ -419,7 +419,6 @@ class LevelUpdater {
                                 float yPos = avatar.getAction() != Enums.Action.RAPPELLING ? ground.getBottom() : ground.getTop();
                                 avatar.setPosition(new Vector2(ground.getPosition().x, yPos + Constants.AVATAR_EYE_HEIGHT)); // prevents overlap with and attribute inheritance of pliable stacked atop
                                 pliable.setCarrier(avatar);
-                                Gdx.app.log(TAG, pliable.isBeingCarried() + "" + avatar.getMoveStatus());
                             }
                             avatar.setCarriedGround(pliable);
                         }
@@ -530,7 +529,6 @@ class LevelUpdater {
                             }
                         }
                     } else if (strikeable instanceof Destructible) {
-                        Gdx.app.log(TAG, ((Destructible) strikeable).getHealth() + "");
                         Helpers.applyDamage((Destructible) ground, ammo);
                     } else if (strikeable instanceof Gate && ammo.getDirection() == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
                         ((Gate) strikeable).deactivate();
@@ -578,7 +576,6 @@ class LevelUpdater {
                         ((Zoomba) destructible).convert();
                         if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(destructible)) {
                             avatar.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.AVATAR_EYE_HEIGHT));
-                            Gdx.app.log(TAG, avatar.getPosition() + " " + destructible.getPosition());
                         }
                     }
                     if (destructible instanceof Zoomba) {
