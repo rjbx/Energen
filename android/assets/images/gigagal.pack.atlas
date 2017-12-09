@@ -67,6 +67,20 @@ ammo-shot-hybrid
   orig: 8, 7
   offset: 0, 0
   index: -1
+ammo-shot-liquid-1
+  rotate: false
+  xy: 1009, 3
+  size: 9, 7
+  orig: 9, 7
+  offset: 0, 0
+  index: -1
+ammo-shot-liquid-2
+  rotate: false
+  xy: 888, 3
+  size: 9, 7
+  orig: 9, 7
+  offset: 0, 0
+  index: -1
 ammo-shot-polymer-1
   rotate: false
   xy: 107, 2
@@ -86,13 +100,6 @@ ammo-shot-psychic-1
   xy: 127, 2
   size: 8, 8
   orig: 8, 8
-  offset: 0, 0
-  index: -1
-ammo-shot-psychic-2
-  rotate: false
-  xy: 1009, 2
-  size: 9, 9
-  orig: 9, 9
   offset: 0, 0
   index: -1
 ammo-shot-solid-1
@@ -1000,16 +1007,16 @@ icon-life
   index: -1
 icon-life-1
   rotate: false
-  xy: 1009, 13
-  size: 13, 13
-  orig: 13, 13
+  xy: 824, 4
+  size: 14, 9
+  orig: 14, 9
   offset: 0, 0
   index: -1
 icon-life-2
   rotate: false
-  xy: 902, 3
-  size: 13, 13
-  orig: 13, 13
+  xy: 936, 7
+  size: 14, 9
+  orig: 14, 9
   offset: 0, 0
   index: -1
 icon-move
@@ -1168,49 +1175,49 @@ orben-plasma-active-2
   index: -1
 orben-plasma-alert
   rotate: false
-  xy: 917, 6
+  xy: 888, 12
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-0
   rotate: false
-  xy: 929, 6
+  xy: 788, 3
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-1
   rotate: false
-  xy: 941, 6
+  xy: 800, 3
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-2
   rotate: false
-  xy: 788, 3
+  xy: 812, 3
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-alert
   rotate: false
-  xy: 800, 3
+  xy: 900, 6
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-shoot
   rotate: false
-  xy: 812, 3
+  xy: 912, 6
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-active-0
   rotate: false
-  xy: 824, 3
+  xy: 924, 6
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -1637,7 +1644,7 @@ trip-3
   index: -1
 trip-4
   rotate: false
-  xy: 888, 8
+  xy: 1009, 12
   size: 12, 14
   orig: 12, 14
   offset: 0, 0
@@ -1900,46 +1907,39 @@ ammo-shot-hybrid-2
   orig: 8, 7
   offset: 0, 0
   index: -1
-ammo-shot-liquid-1
+ammo-shot-native-1
   rotate: false
   xy: 389, 201
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
-ammo-shot-liquid-2
-  rotate: false
-  xy: 581, 348
-  size: 9, 7
-  orig: 9, 7
-  offset: 0, 0
-  index: -1
-ammo-shot-native-1
+ammo-shot-native-2
   rotate: false
   xy: 721, 452
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
-ammo-shot-native-2
+ammo-shot-plasma-1
   rotate: false
   xy: 1012, 991
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
-ammo-shot-plasma-1
+ammo-shot-plasma-2
   rotate: false
-  xy: 540, 265
+  xy: 578, 337
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
-ammo-shot-plasma-2
+ammo-shot-psychic-2
   rotate: false
-  xy: 683, 441
-  size: 9, 7
-  orig: 9, 7
+  xy: 581, 346
+  size: 9, 9
+  orig: 9, 9
   offset: 0, 0
   index: -1
 armorollo-liquid-4
