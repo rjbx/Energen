@@ -1,6 +1,5 @@
 package com.udacity.gamedev.gigagal.app;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -426,7 +425,7 @@ class LevelUpdater {
                 }
             } else if (pliable.getCarrier() == avatar) {
                 if (avatar.getAction() != Enums.Action.STANDING) {
-                    float adjustment = .75f;
+                    float adjustment = .25f;
                     if (avatar.getGroundState() != Enums.GroundState.PLANTED) {
                         adjustment *= 2;
                     } else {
