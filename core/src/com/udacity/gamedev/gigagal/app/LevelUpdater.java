@@ -915,4 +915,90 @@ class LevelUpdater {
     protected void toggleMusic() { musicEnabled = !musicEnabled; }
     protected void toggleHints() { hintsEnabled = !hintsEnabled; }
     protected final void setLoadEx(boolean state) { loadEx = state; }
+
+    /*
+    //physics rewrite
+
+    private void applyPhysics(Array<Physical> physicals) {
+
+        for (Physical p : physicals) {
+
+            // movement
+            float gravity = Constants.GRAVITY;
+            float drag = Constants.DRAG;
+
+            for (Rectangle v : vacuums) {
+                v.overlaps(p) ? gravity *= gravityManipulator : 0;
+            }
+
+            for (Rectangle v :  vortexes) {
+                v.overlaps(p) ? drag *= dragManipulator : 0;
+            }
+
+            p.getMass();
+            p.getForce();
+            p.getDensity();
+            p.queueChanges(acceleration, velocity, momentum);
+
+            // collision
+            boolean topCollision, bottomCollision, sideCollision;
+            object topPhysical, bottomPhysical, sidePhysical;
+            for (Physical p2 : physicals) {
+                if (p != p2) {
+                    if (p.overlaps(p2)) {
+                        applyTopCollision(p, p2);
+                        applyBottomCollision(p, p2);
+                        applySideCollision(p, p2);
+                    }
+                }
+            }
+        }
+
+        for (Physical p : physicals) {
+            p.propogateChanges(); // prevents changing before determining other object collision
+        }
+    }
+
+    boolean applyTopCollision(Physical p1, Physical p2) {
+        switch (p1.getType()) {
+            switch (p1.getMovement()) {
+                switch (p2.getType()) {
+                    switch (p2.getMovement()) {
+                        p2.getVelocity();
+                        p2.getMomentum();
+                        p1.queueChanges(acceleration, velocity, momentum);
+                    }
+                }
+            }
+        }
+    }
+
+    boolean applyBottomCollision(Physical p1, Physical p2) {
+        switch (p1.getType()) {
+            switch (p1.getMovement()) {
+                switch (p2.getType()) {
+                    switch (p2.getMovement()) {
+                        p2.getVelocity();
+                        p2.getMomentum();
+                        p1.queueChanges(acceleration, velocity, momentum);
+                    }
+                }
+            }
+        }
+    }
+
+    boolean applySideCollision(Physical p1, Physical p2) {
+        switch (p1.getType()) {
+            switch (p1.getMovement()) {
+                switch (p2.getType()) {
+                    switch (p2.getMovement()) {
+                        p2.getVelocity();
+                        p2.getMomentum();
+                        p1.queueChanges(acceleration, velocity, momentum);
+                    }
+                }
+            }
+        }
+    }
+    */
 }

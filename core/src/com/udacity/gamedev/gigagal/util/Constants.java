@@ -22,7 +22,7 @@ public final class Constants {
     public static final float FALL_LIMIT = 1500;
     public static final float GRAVITY = 10;
     public static final float MAX_WEIGHT = 1.2f;
-    public static final float DRAG_FACTOR = 1;
+    public static final float DRAG = 1;
     public static final float CHASE_CAM_MOVE_SPEED = WORLD_SIZE;
 
     // Asset files

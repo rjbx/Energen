@@ -50,7 +50,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
         }
         position.mulAdd(velocity, delta);
         float multiplier = Math.max(1, weightFactor());
-        velocity.x /= Constants.DRAG_FACTOR * multiplier;
+        velocity.x /= Constants.DRAG * multiplier;
         velocity.y = -Constants.GRAVITY * 5 * multiplier;
         againstStaticGround = false;
         atopMovingGround = false;
