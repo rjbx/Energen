@@ -978,7 +978,7 @@ public final class Constants {
     public static final String BEAST_SPRITE = "beast";
     public static final Vector2 BEAST_CENTER = new Vector2(16, 16);
     public static final String GLOBE_SPRITE = "globe";
-    public static final Vector2 GLOBE_CENTER = new Vector2(20, 20);
+    public static final Vector2 GLOBE_CENTER = new Vector2(50, 50);
 
     // Scoring
     public static final int ZOOMBA_KILL_SCORE = 100;

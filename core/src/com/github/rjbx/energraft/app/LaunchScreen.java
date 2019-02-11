@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.github.rjbx.energraft.entity.Avatar;
 import com.github.rjbx.energraft.overlay.*;
 import com.github.rjbx.energraft.util.*;
 
@@ -101,11 +102,15 @@ final class LaunchScreen extends ScreenAdapter {
         if (!launching) {
             switch(menuType) {
                 case START:
-                    final Vector2 gigagalPosition = new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2.5f);
+                    final Vector2 avatarPosition = new Vector2(viewport.getWorldWidth() / 2.5f, viewport.getWorldHeight() / 2.5f);
 
-                    Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().globe, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 1.625f, Constants.GLOBE_CENTER.x, Constants.GLOBE_CENTER.y);
-                    Helpers.drawTextureRegion(batch, viewport, assetManager.getAvatarAssets().fall, gigagalPosition, gigagalCenter);
-                    Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().beast, viewport.getWorldWidth() / 3, viewport.getWorldHeight() / 1.625f, Constants.BEAST_CENTER.x, Constants.BEAST_CENTER.y);
+                    Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().beast, viewport.getWorldWidth() / 4.25f, viewport.getWorldHeight() / 1.625f, Constants.BEAST_CENTER.x, Constants.BEAST_CENTER.y, 2f);
+                    Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().globe, viewport.getWorldWidth() / 2.25f, viewport.getWorldHeight() / 2.6125f, Constants.GLOBE_CENTER.x, Constants.GLOBE_CENTER.y, 3f);
+                    AssetManager.getInstance().create();
+                    Avatar avatar = Avatar.getInstance();
+                    avatar.setPosition(avatarPosition);
+                    avatar.respawn();
+                    avatar.render(batch, viewport);
                     Helpers.drawBitmapFont(batch, viewport, title, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, Align.center);
 
                     menu.render(batch, font, viewport, Cursor.getInstance());

@@ -222,6 +222,24 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         fallStartTime = 0;
         dashStartTime = 0;
         swipeStartTime = 0;
+        shootStartTime = 0;
+        lookStartTime = 0;
+        hoverStartTime = 0;
+        rappelStartTime = 0;
+        Direction directionY = Direction.UP;
+//        region = TextureRegion.
+        chargeTimeSeconds = 0f;
+        lookTimeSeconds = 0f;
+        dashTimeSeconds = 0f;
+        fallTimeSeconds = 0f;
+        hoverTimeSeconds = 0f;
+        swipeTimeSeconds = 0f;
+        strideTimeSeconds = 0f;
+        strideSpeed = 0f;
+        strideAcceleration = 0f;
+        payload = 0f;
+        peerQuadrant = 0f;
+        inputControls = InputControls.getInstance();
         activeStartTime = TimeUtils.nanoTime();
         recoveryStartTime = TimeUtils.nanoTime();
     }
@@ -1481,7 +1499,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         Vector2 center = Constants.AVATAR_EYE_POSITION;
         float rotation = 0;
         boolean inverseX = directionX == Direction.LEFT;
-        boolean inverseY = inputControls.downButtonPressed;
+        boolean inverseY = inputControls != null ? false : inputControls.downButtonPressed;
         boolean frontFacing = true;
         float staticIndex = Helpers.secondsSince(Helpers.secondsSince(System.nanoTime()) * .25f);
         TextureRegion hair = null;
