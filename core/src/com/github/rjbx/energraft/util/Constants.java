@@ -47,17 +47,20 @@ public final class Constants {
     public static final AssetDescriptor<Sound> FLIGHT_SOUND = new AssetDescriptor<Sound>("audio/flight.wav", Sound.class);
     public static final AssetDescriptor<Sound> BREAK_GROUND_SOUND = new AssetDescriptor<Sound>("audio/break_ground.wav", Sound.class);
     public static final AssetDescriptor<Sound> DAMAGE_SOUND = new AssetDescriptor<Sound>("audio/damage.wav", Sound.class);
-    public static final AssetDescriptor<Music> INTRO_MUSIC = new AssetDescriptor<Music>("audio/riff-intro.wav", Music.class);
+    public static final AssetDescriptor<BitmapFont> MESSAGE_FONT = new AssetDescriptor<BitmapFont>("font/message.fnt", BitmapFont.class);
+    public static final AssetDescriptor<BitmapFont> MENU_FONT = new AssetDescriptor<BitmapFont>("font/menu.fnt", BitmapFont.class);
+    public static final AssetDescriptor<BitmapFont> INACTIVE_FONT = new AssetDescriptor<BitmapFont>("font/inactive.fnt", BitmapFont.class);
+    public static final AssetDescriptor<BitmapFont> TITLE_FONT = new AssetDescriptor<BitmapFont>("font/title.fnt", BitmapFont.class);
+
+    // TODO: Convert all to .wav
+    public static final AssetDescriptor<Music> INTRO_MUSIC = new AssetDescriptor<Music>("audio/riff-intro.mp3", Music.class);
     public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/riff-level.mp3", Music.class);
     public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/riff-level3.wav", Music.class);
     public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/thermal.mp3", Music.class);
     public static final AssetDescriptor<Music> NUCLEAR_MUSIC = new AssetDescriptor<Music>("audio/nuclear.mp3", Music.class);
     public static final AssetDescriptor<Music> MECHANICAL_MUSIC = new AssetDescriptor<Music>("audio/mechanical.mp3", Music.class);
     public static final AssetDescriptor<Music> MYSTERIOUS_MUSIC = new AssetDescriptor<Music>("audio/mysterious.mp3", Music.class);
-    public static final AssetDescriptor<BitmapFont> MESSAGE_FONT = new AssetDescriptor<BitmapFont>("font/message.fnt", BitmapFont.class);
-    public static final AssetDescriptor<BitmapFont> MENU_FONT = new AssetDescriptor<BitmapFont>("font/menu.fnt", BitmapFont.class);
-    public static final AssetDescriptor<BitmapFont> INACTIVE_FONT = new AssetDescriptor<BitmapFont>("font/inactive.fnt", BitmapFont.class);
-    public static final AssetDescriptor<BitmapFont> TITLE_FONT = new AssetDescriptor<BitmapFont>("font/title.fnt", BitmapFont.class);
+
 
     // Avatar attributes
     public static final Vector2 AVATAR_EYE_POSITION = new Vector2(12, 24);
