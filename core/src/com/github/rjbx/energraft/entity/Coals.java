@@ -1,14 +1,15 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.github.rjbx.energraft.entity;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.AssetManager;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Helpers;
+import com.github.rjbx.energraft.util.AssetManager;
+import com.github.rjbx.energraft.util.Constants;
+import com.github.rjbx.energraft.util.Enums;
+import com.github.rjbx.energraft.util.Helpers;
 
 import java.util.Random;
 
@@ -21,7 +22,7 @@ public class Coals extends Ground implements Hazardous {
     private Vector2 scale;
     private Vector2 adjustedCenter;
     private long startTime;
-    private Animation animation;
+    private Animation<TextureRegion> animation;
 
     // ctor
     public Coals(Vector2 position, Vector2 scale, Vector2 adjustedCenter) {

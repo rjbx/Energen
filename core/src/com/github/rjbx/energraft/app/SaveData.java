@@ -1,9 +1,9 @@
-package com.udacity.gamedev.gigagal.app;
+package com.github.rjbx.energraft.app;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.udacity.gamedev.gigagal.entity.Ammo;
-import com.udacity.gamedev.gigagal.util.Enums;
+import com.github.rjbx.energraft.entity.Ammo;
+import com.github.rjbx.energraft.util.Enums;
 
 public final class SaveData {
 

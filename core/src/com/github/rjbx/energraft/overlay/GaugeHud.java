@@ -1,11 +1,11 @@
-package com.udacity.gamedev.gigagal.overlay;
+package com.github.rjbx.energraft.overlay;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.entity.Avatar;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
+import com.github.rjbx.energraft.entity.Avatar;
+import com.github.rjbx.energraft.util.Constants;
+import com.github.rjbx.energraft.util.Enums;
 
 // immutable
 public final class GaugeHud {

@@ -1,13 +1,13 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.github.rjbx.energraft.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelAssets;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Helpers;
+import com.github.rjbx.energraft.app.LevelAssets;
+import com.github.rjbx.energraft.util.Constants;
+import com.github.rjbx.energraft.util.Enums;
+import com.github.rjbx.energraft.util.Helpers;
 
 // also functions as shield
 public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable {

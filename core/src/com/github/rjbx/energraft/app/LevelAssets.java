@@ -1,14 +1,14 @@
-package com.udacity.gamedev.gigagal.app;
+package com.github.rjbx.energraft.app;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.entity.Avatar;
-import com.udacity.gamedev.gigagal.entity.Boss;
-import com.udacity.gamedev.gigagal.entity.Entity;
-import com.udacity.gamedev.gigagal.entity.Ground;
-import com.udacity.gamedev.gigagal.entity.Hazard;
-import com.udacity.gamedev.gigagal.entity.Powerup;
-import com.udacity.gamedev.gigagal.util.Enums;
+import com.github.rjbx.energraft.entity.Avatar;
+import com.github.rjbx.energraft.entity.Boss;
+import com.github.rjbx.energraft.entity.Entity;
+import com.github.rjbx.energraft.entity.Ground;
+import com.github.rjbx.energraft.entity.Hazard;
+import com.github.rjbx.energraft.entity.Powerup;
+import com.github.rjbx.energraft.util.Enums;
 
 public final class LevelAssets {
 

@@ -1,10 +1,10 @@
-package com.udacity.gamedev.gigagal.app;
+package com.github.rjbx.energraft.app;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.udacity.gamedev.gigagal.entity.Blade;
-import com.udacity.gamedev.gigagal.entity.Avatar;
-import com.udacity.gamedev.gigagal.overlay.*;
-import com.udacity.gamedev.gigagal.util.*;
+import com.github.rjbx.energraft.entity.Blade;
+import com.github.rjbx.energraft.entity.Avatar;
+import com.github.rjbx.energraft.overlay.*;
+import com.github.rjbx.energraft.util.*;
 
 // immutable singleton
 public final class ScreenManager extends com.badlogic.gdx.Game {

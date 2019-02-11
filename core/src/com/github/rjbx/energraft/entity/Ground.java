@@ -1,3 +1,3 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.github.rjbx.energraft.entity;
 
 public abstract class Ground extends Entity implements Groundable {}

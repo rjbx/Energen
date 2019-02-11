@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.github.rjbx.energraft.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -12,13 +12,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.SaveData;
-import com.udacity.gamedev.gigagal.util.AssetManager;
-import com.udacity.gamedev.gigagal.util.InputControls;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Enums.*;
-import com.udacity.gamedev.gigagal.util.Helpers;
+import com.github.rjbx.energraft.app.SaveData;
+import com.github.rjbx.energraft.util.AssetManager;
+import com.github.rjbx.energraft.util.InputControls;
+import com.github.rjbx.energraft.util.Constants;
+import com.github.rjbx.energraft.util.Enums;
+import com.github.rjbx.energraft.util.Enums.*;
+import com.github.rjbx.energraft.util.Helpers;
 import java.lang.String;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1495,7 +1495,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         TextureRegion eyes = null;
         TextureRegion mouth = null;
         TextureRegion head = null;
-        Animation shoot = null;
+        Animation<TextureRegion> shoot = null;
 
         if (bladeState == BladeState.RETRACTED) {
             switch (action) {
@@ -1740,7 +1740,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
     }
 
-    private TextureRegion getFrontHand(Animation shoot, TextureRegion nonShoot) {
+    private TextureRegion getFrontHand(Animation<TextureRegion> shoot, TextureRegion nonShoot) {
         float frame = (bladeState == BladeState.RETRACTED ? 3 : swipeTimeSeconds);
         if (bladeState == BladeState.RUSH) {
             if (inputControls.leftButtonPressed) {

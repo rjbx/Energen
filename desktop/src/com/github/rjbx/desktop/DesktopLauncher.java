@@ -2,11 +2,11 @@ package com.github.rjbx.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.github.rjbx.Energraft;
+import com.github.rjbx.energraft.app.ScreenManager;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new Energraft(), config);
+		new LwjglApplication(ScreenManager.getInstance(), config);
 	}
 }

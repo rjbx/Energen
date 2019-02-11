@@ -1,8 +1,8 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.github.rjbx.energraft.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.Enums;
+import com.github.rjbx.energraft.util.Enums;
 
 // mutable
 public class Box extends Barrier implements Destructible {

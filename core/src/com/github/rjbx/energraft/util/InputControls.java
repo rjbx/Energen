@@ -1,11 +1,11 @@
-package com.udacity.gamedev.gigagal.util;
+package com.github.rjbx.energraft.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.overlay.TouchInterface;
+import com.github.rjbx.energraft.overlay.TouchInterface;
 
 // mutable
 public class InputControls extends InputAdapter {

@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal.util;
+package com.github.rjbx.energraft.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
@@ -14,9 +14,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.udacity.gamedev.gigagal.entity.Box;
-import com.udacity.gamedev.gigagal.entity.Brick;
-import com.udacity.gamedev.gigagal.entity.Ground;
+import com.github.rjbx.energraft.entity.Box;
+import com.github.rjbx.energraft.entity.Brick;
+import com.github.rjbx.energraft.entity.Ground;
 
 // immutable singleton
 public final class AssetManager implements AssetErrorListener {
@@ -158,34 +158,34 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion mouthClosed;
         public final AtlasRegion eyesBlink;
         public final AtlasRegion obfuscated;
-        public final Animation hair;
-        public final Animation waist;
-        public final Animation armCurl;
-        public final Animation armPush;
-        public final Animation armPull;
-        public final Animation armSwing;
-        public final Animation armDown;
-        public final Animation armUp;
-        public final Animation armAway;
-        public final Animation armToward;
-        public final Animation handCurl;
-        public final Animation handSwing;
-        public final Animation handRappel;
-        public final Animation handMove;
-        public final Animation handPoint;
-        public final Animation handRaise;
-        public final Animation handLower;
-        public final Animation handBack;
-        public final Animation handFore;
-        public final Animation handDown;
-        public final Animation handUp;
-        public final Animation handToward;
-        public final Animation handAway;
-        public final Animation legsStride;
-        public final Animation feetDash;
-        public final Animation feetStride;
-        public final Animation feetHover;
-        public final Animation eyesOpen;
+        public final Animation<TextureRegion> hair;
+        public final Animation<TextureRegion> waist;
+        public final Animation<TextureRegion> armCurl;
+        public final Animation<TextureRegion> armPush;
+        public final Animation<TextureRegion> armPull;
+        public final Animation<TextureRegion> armSwing;
+        public final Animation<TextureRegion> armDown;
+        public final Animation<TextureRegion> armUp;
+        public final Animation<TextureRegion> armAway;
+        public final Animation<TextureRegion> armToward;
+        public final Animation<TextureRegion> handCurl;
+        public final Animation<TextureRegion> handSwing;
+        public final Animation<TextureRegion> handRappel;
+        public final Animation<TextureRegion> handMove;
+        public final Animation<TextureRegion> handPoint;
+        public final Animation<TextureRegion> handRaise;
+        public final Animation<TextureRegion> handLower;
+        public final Animation<TextureRegion> handBack;
+        public final Animation<TextureRegion> handFore;
+        public final Animation<TextureRegion> handDown;
+        public final Animation<TextureRegion> handUp;
+        public final Animation<TextureRegion> handToward;
+        public final Animation<TextureRegion> handAway;
+        public final Animation<TextureRegion> legsStride;
+        public final Animation<TextureRegion> feetDash;
+        public final Animation<TextureRegion> feetStride;
+        public final Animation<TextureRegion> feetHover;
+        public final Animation<TextureRegion> eyesOpen;
 
         public final AtlasRegion stand;
         public final AtlasRegion fall;
@@ -446,32 +446,32 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion pod;
         public final AtlasRegion inactiveChamber;
         public final AtlasRegion activeChamber;
-        public final Animation chargedChamber;
-        public final Animation knob;
-        public final Animation pole;
-        public final Animation slick;
-        public final Animation ice;
-        public final Animation treadmillRight;
-        public final Animation treadmillLeft;
-        public final Animation loadedSpring;
-        public final Animation unloadedSpring;
-        public final Animation loadedLever;
-        public final Animation unloadedLever;
-        public final Animation tripknobOn;
-        public final Animation tripknobOff;
-        public final Animation triptreadLeftOn;
-        public final Animation triptreadLeftOff;
-        public final Animation triptreadRightOn;
-        public final Animation triptreadRightOff;
-        public final Animation tripchamberOff;
-        public final Animation tripchamberOn;
-        public final Animation activePod;
-        public final Animation sink;
-        public final Animation coals;
-        public final Animation lava;
-        public final Animation waves;
-        public final Animation gateOpen;
-        public final Animation gateClose;
+        public final Animation<TextureRegion> chargedChamber;
+        public final Animation<TextureRegion> knob;
+        public final Animation<TextureRegion> pole;
+        public final Animation<TextureRegion> slick;
+        public final Animation<TextureRegion> ice;
+        public final Animation<TextureRegion> treadmillRight;
+        public final Animation<TextureRegion> treadmillLeft;
+        public final Animation<TextureRegion> loadedSpring;
+        public final Animation<TextureRegion> unloadedSpring;
+        public final Animation<TextureRegion> loadedLever;
+        public final Animation<TextureRegion> unloadedLever;
+        public final Animation<TextureRegion> tripknobOn;
+        public final Animation<TextureRegion> tripknobOff;
+        public final Animation<TextureRegion> triptreadLeftOn;
+        public final Animation<TextureRegion> triptreadLeftOff;
+        public final Animation<TextureRegion> triptreadRightOn;
+        public final Animation<TextureRegion> triptreadRightOff;
+        public final Animation<TextureRegion> tripchamberOff;
+        public final Animation<TextureRegion> tripchamberOn;
+        public final Animation<TextureRegion> activePod;
+        public final Animation<TextureRegion> sink;
+        public final Animation<TextureRegion> coals;
+        public final Animation<TextureRegion> lava;
+        public final Animation<TextureRegion> waves;
+        public final Animation<TextureRegion> gateOpen;
+        public final Animation<TextureRegion> gateClose;
         public final NinePatch barrier;
         public final NinePatch box;
         public final NinePatch block;
@@ -692,22 +692,22 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class AmmoAssets {
 
-        public final Animation nativeShot;
-        public final Animation nativeBlast;
-        public final Animation gasShot;
-        public final Animation gasBlast;
-        public final Animation liquidShot;
-        public final Animation liquidBlast;
-        public final Animation plasmaShot;
-        public final Animation plasmaBlast;
-        public final Animation oreShot;
-        public final Animation oreBlast;
-        public final Animation solidShot;
-        public final Animation solidBlast;
-        public final Animation antimatterShot;
-        public final Animation antimatterBlast;
-        public final Animation hybridShot;
-        public final Animation hybridBlast;
+        public final Animation<TextureRegion> nativeShot;
+        public final Animation<TextureRegion> nativeBlast;
+        public final Animation<TextureRegion> gasShot;
+        public final Animation<TextureRegion> gasBlast;
+        public final Animation<TextureRegion> liquidShot;
+        public final Animation<TextureRegion> liquidBlast;
+        public final Animation<TextureRegion> plasmaShot;
+        public final Animation<TextureRegion> plasmaBlast;
+        public final Animation<TextureRegion> oreShot;
+        public final Animation<TextureRegion> oreBlast;
+        public final Animation<TextureRegion> solidShot;
+        public final Animation<TextureRegion> solidBlast;
+        public final Animation<TextureRegion> antimatterShot;
+        public final Animation<TextureRegion> antimatterBlast;
+        public final Animation<TextureRegion> hybridShot;
+        public final Animation<TextureRegion> hybridBlast;
 
         private AmmoAssets(TextureAtlas atlas) {
 
@@ -803,30 +803,30 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class BladeAssets {
 
-        public final Animation nativeBackflip;
-        public final Animation nativeForehand;
-        public final Animation nativeUppercut;
-        public final Animation liquidBackflip;
-        public final Animation liquidForehand;
-        public final Animation liquidUppercut;
-        public final Animation plasmaBackflip;
-        public final Animation plasmaForehand;
-        public final Animation plasmaUppercut;
-        public final Animation gasBackflip;
-        public final Animation gasForehand;
-        public final Animation gasUppercut;
-        public final Animation solidBackflip;
-        public final Animation solidForehand;
-        public final Animation solidUppercut;
-        public final Animation oreBackflip;
-        public final Animation oreForehand;
-        public final Animation oreUppercut;
-        public final Animation antimatterBackflip;
-        public final Animation antimatterForehand;
-        public final Animation antimatterUppercut;
-        public final Animation hybridBackflip;
-        public final Animation hybridForehand;
-        public final Animation hybridUppercut;
+        public final Animation<TextureRegion> nativeBackflip;
+        public final Animation<TextureRegion> nativeForehand;
+        public final Animation<TextureRegion> nativeUppercut;
+        public final Animation<TextureRegion> liquidBackflip;
+        public final Animation<TextureRegion> liquidForehand;
+        public final Animation<TextureRegion> liquidUppercut;
+        public final Animation<TextureRegion> plasmaBackflip;
+        public final Animation<TextureRegion> plasmaForehand;
+        public final Animation<TextureRegion> plasmaUppercut;
+        public final Animation<TextureRegion> gasBackflip;
+        public final Animation<TextureRegion> gasForehand;
+        public final Animation<TextureRegion> gasUppercut;
+        public final Animation<TextureRegion> solidBackflip;
+        public final Animation<TextureRegion> solidForehand;
+        public final Animation<TextureRegion> solidUppercut;
+        public final Animation<TextureRegion> oreBackflip;
+        public final Animation<TextureRegion> oreForehand;
+        public final Animation<TextureRegion> oreUppercut;
+        public final Animation<TextureRegion> antimatterBackflip;
+        public final Animation<TextureRegion> antimatterForehand;
+        public final Animation<TextureRegion> antimatterUppercut;
+        public final Animation<TextureRegion> hybridBackflip;
+        public final Animation<TextureRegion> hybridForehand;
+        public final Animation<TextureRegion> hybridUppercut;
 
         private BladeAssets(TextureAtlas atlas) {
 
@@ -1018,9 +1018,9 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class CanirolAssets {
 
-        public final Animation xLeftCanirol;
-        public final Animation xRightCanirol;
-        public final Animation yCanirol;
+        public final Animation<TextureRegion> xLeftCanirol;
+        public final Animation<TextureRegion> xRightCanirol;
+        public final Animation<TextureRegion> yCanirol;
 
         private CanirolAssets(TextureAtlas atlas) {
             Array<AtlasRegion> xLeftCanirolRegions = new Array<AtlasRegion>();
@@ -1044,15 +1044,15 @@ public final class AssetManager implements AssetErrorListener {
     public static final class ZoombaAssets {
 
         public final AtlasRegion zoomba;
-        public final Animation gasZoombaLeft;
-        public final Animation gasZoombaRight;
-        public final Animation gasZoombaDown;
-        public final Animation gasZoombaUp;
+        public final Animation<TextureRegion> gasZoombaLeft;
+        public final Animation<TextureRegion> gasZoombaRight;
+        public final Animation<TextureRegion> gasZoombaDown;
+        public final Animation<TextureRegion> gasZoombaUp;
         public final Array<Animation> gasAnimations;
-        public final Animation liquidZoomba;
-        public final Animation plasmaZoomba;
-        public final Animation oreZoomba;
-        public final Animation solidZoomba;
+        public final Animation<TextureRegion> liquidZoomba;
+        public final Animation<TextureRegion> plasmaZoomba;
+        public final Animation<TextureRegion> oreZoomba;
+        public final Animation<TextureRegion> solidZoomba;
 
         private ZoombaAssets(TextureAtlas atlas) {
             zoomba = atlas.findRegion(Constants.ZOOMBA_SPRITE);
@@ -1109,12 +1109,12 @@ public final class AssetManager implements AssetErrorListener {
 
         public final AtlasRegion swoopaLeft;
         public final AtlasRegion swoopaRight;
-        public final Animation gasSwoopaLeft;
-        public final Animation gasSwoopaRight;
-        public final Animation liquidSwoopa;
-        public final Animation plasmaSwoopa;
-        public final Animation oreSwoopa;
-        public final Animation solidSwoopa;
+        public final Animation<TextureRegion> gasSwoopaLeft;
+        public final Animation<TextureRegion> gasSwoopaRight;
+        public final Animation<TextureRegion> liquidSwoopa;
+        public final Animation<TextureRegion> plasmaSwoopa;
+        public final Animation<TextureRegion> oreSwoopa;
+        public final Animation<TextureRegion> solidSwoopa;
 
         private SwoopaAssets(TextureAtlas atlas) {
             swoopaLeft = atlas.findRegion(Constants.SWOOPA_SPRITE_LEFT);
@@ -1155,11 +1155,11 @@ public final class AssetManager implements AssetErrorListener {
     public static final class OrbenAssets {
 
         public final AtlasRegion dormantOrben;
-        public final Animation plasmaOrben;
-        public final Animation gasOrben;
-        public final Animation liquidOrben;
-        public final Animation solidOrben;
-        public final Animation oreOrben;
+        public final Animation<TextureRegion> plasmaOrben;
+        public final Animation<TextureRegion> gasOrben;
+        public final Animation<TextureRegion> liquidOrben;
+        public final Animation<TextureRegion> solidOrben;
+        public final Animation<TextureRegion> oreOrben;
 
         private OrbenAssets(TextureAtlas atlas) {
 
@@ -1199,11 +1199,11 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class RollenAssets {
 
-        public final Animation plasmaRollen;
-        public final Animation gasRollen;
-        public final Animation liquidRollen;
-        public final Animation solidRollen;
-        public final Animation oreRollen;
+        public final Animation<TextureRegion> plasmaRollen;
+        public final Animation<TextureRegion> gasRollen;
+        public final Animation<TextureRegion> liquidRollen;
+        public final Animation<TextureRegion> solidRollen;
+        public final Animation<TextureRegion> oreRollen;
 
         private RollenAssets(TextureAtlas atlas) {
 
@@ -1246,8 +1246,8 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class ArmorolloAssets {
 
-        public final Animation armoredLiquid;
-        public final Animation vulnerableLiquid;
+        public final Animation<TextureRegion> armoredLiquid;
+        public final Animation<TextureRegion> vulnerableLiquid;
 
         private ArmorolloAssets(TextureAtlas atlas) {
             Array<AtlasRegion> armoredLiquidRegions = new Array<AtlasRegion>();
@@ -1265,11 +1265,11 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class ProtrusionAssets {
 
-        public final Animation solidProtrustion;
-        public final Animation liquidProtrusion;
-        public final Animation gasProtrusion;
-        public final Animation plasmaProtrusion;
-        public final Animation oreProtrusion;
+        public final Animation<TextureRegion> solidProtrustion;
+        public final Animation<TextureRegion> liquidProtrusion;
+        public final Animation<TextureRegion> gasProtrusion;
+        public final Animation<TextureRegion> plasmaProtrusion;
+        public final Animation<TextureRegion> oreProtrusion;
         public final AtlasRegion inactiveProtrusion;
 
         private ProtrusionAssets(TextureAtlas atlas) {
@@ -1305,12 +1305,12 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class SuspensionAssets {
 
-        public final Animation gasSuspension;
-        public final Animation solidSuspension;
-        public final Animation oreSuspension;
-        public final Animation liquidSuspension;
-        public final Animation plasmaSuspension;
-        public final Animation antimatterSuspension;
+        public final Animation<TextureRegion> gasSuspension;
+        public final Animation<TextureRegion> solidSuspension;
+        public final Animation<TextureRegion> oreSuspension;
+        public final Animation<TextureRegion> liquidSuspension;
+        public final Animation<TextureRegion> plasmaSuspension;
+        public final Animation<TextureRegion> antimatterSuspension;
         public final AtlasRegion inactiveSuspension;
 
         private SuspensionAssets(TextureAtlas atlas) {
@@ -1352,8 +1352,8 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class PortalAssets {
 
-        public final Animation portal;
-        public final Animation teleport;
+        public final Animation<TextureRegion> portal;
+        public final Animation<TextureRegion> teleport;
 
         private PortalAssets(TextureAtlas atlas) {
             Array<AtlasRegion> portalRegions = new Array<AtlasRegion>();
@@ -1379,13 +1379,13 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class ImpactAssets {
 
-        public final Animation impactPlasma;
-        public final Animation impactGas;
-        public final Animation impactLiquid;
-        public final Animation impactSolid;
-        public final Animation impactPsychic;
-        public final Animation impactHybrid;
-        public final Animation impactNative;
+        public final Animation<TextureRegion> impactPlasma;
+        public final Animation<TextureRegion> impactGas;
+        public final Animation<TextureRegion> impactLiquid;
+        public final Animation<TextureRegion> impactSolid;
+        public final Animation<TextureRegion> impactPsychic;
+        public final Animation<TextureRegion> impactHybrid;
+        public final Animation<TextureRegion> impactNative;
 
         private ImpactAssets(TextureAtlas atlas) {
 
@@ -1448,14 +1448,14 @@ public final class AssetManager implements AssetErrorListener {
     }
 
     public static final class PowerupAssets {
-        public final Animation ammoPowerup;
-        public final Animation healthPowerup;
-        public final Animation turboPowerup;
-        public final Animation lifePowerup;
-        public final Animation cannonPowerup;
-        public final Animation ruby;
-        public final Animation sapphire;
-        public final Animation emerald;
+        public final Animation<TextureRegion> ammoPowerup;
+        public final Animation<TextureRegion> healthPowerup;
+        public final Animation<TextureRegion> turboPowerup;
+        public final Animation<TextureRegion> lifePowerup;
+        public final Animation<TextureRegion> cannonPowerup;
+        public final Animation<TextureRegion> ruby;
+        public final Animation<TextureRegion> sapphire;
+        public final Animation<TextureRegion> emerald;
 
         private PowerupAssets(TextureAtlas atlas) {
 
@@ -1506,7 +1506,7 @@ public final class AssetManager implements AssetErrorListener {
             emerald = new Animation(Constants.GEM_DURATION / emeraldRegions.size, emeraldRegions, PlayMode.NORMAL);
         }
 
-        public Animation getGemTexture(Enums.GemType type) {
+        public Animation<TextureRegion> getGemTexture(Enums.GemType type) {
             switch (type) {
                 case RUBY:
                     return ruby;

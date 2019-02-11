@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal.util;
+package com.github.rjbx.energraft.util;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,11 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.entity.Avatar;
+import com.github.rjbx.energraft.entity.Avatar;
 
-import static com.udacity.gamedev.gigagal.util.Enums.ChaseCamState.BOSS;
-import static com.udacity.gamedev.gigagal.util.Enums.ChaseCamState.CONVERT;
-import static com.udacity.gamedev.gigagal.util.Enums.ChaseCamState.FOLLOWING;
+import static com.github.rjbx.energraft.util.Enums.ChaseCamState.BOSS;
+import static com.github.rjbx.energraft.util.Enums.ChaseCamState.CONVERT;
+import static com.github.rjbx.energraft.util.Enums.ChaseCamState.FOLLOWING;
 
 // immutable singleton
 public final class ChaseCam {

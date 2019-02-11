@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal.util;
+package com.github.rjbx.energraft.util;
 
 import com.badlogic.gdx.graphics.Color;
 

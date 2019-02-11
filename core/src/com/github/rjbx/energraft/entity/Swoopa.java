@@ -1,18 +1,19 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.github.rjbx.energraft.entity;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.AssetManager;
-import com.udacity.gamedev.gigagal.util.ChaseCam;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Helpers;
+import com.github.rjbx.energraft.util.AssetManager;
+import com.github.rjbx.energraft.util.ChaseCam;
+import com.github.rjbx.energraft.util.Constants;
+import com.github.rjbx.energraft.util.Enums;
+import com.github.rjbx.energraft.util.Helpers;
 
 // mutable
 public class Swoopa extends Hazard implements Destructible, Vehicular, Groundable {
@@ -28,7 +29,7 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
     private final Enums.Material type;
     private float health;
     private long descentStartTime;
-    private Animation animation;
+    private Animation<TextureRegion> animation;
     private Sound sound;
 
     // ctor

@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.github.rjbx.energraft.entity;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,11 +7,11 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.AssetManager;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Enums.*;
-import com.udacity.gamedev.gigagal.util.Helpers;
+import com.github.rjbx.energraft.util.AssetManager;
+import com.github.rjbx.energraft.util.Constants;
+import com.github.rjbx.energraft.util.Enums;
+import com.github.rjbx.energraft.util.Enums.*;
+import com.github.rjbx.energraft.util.Helpers;
 
 // immutable
 public final class Ammo extends Hazard implements Indestructible, Orientable {
@@ -34,7 +34,7 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
     private boolean active;
     private int hitScore;
     private Vector2 knockback; // class-level instantiation
-    private Animation animation;
+    private Animation<TextureRegion> animation;
     private long startTime;
 
     // ctor

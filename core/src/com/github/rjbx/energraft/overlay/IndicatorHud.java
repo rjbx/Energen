@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal.overlay;
+package com.github.rjbx.energraft.overlay;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,13 +7,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.app.LevelAssets;
-import com.udacity.gamedev.gigagal.entity.Ammo;
-import com.udacity.gamedev.gigagal.entity.Avatar;
-import com.udacity.gamedev.gigagal.util.AssetManager;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Helpers;
+import com.github.rjbx.energraft.app.LevelAssets;
+import com.github.rjbx.energraft.entity.Ammo;
+import com.github.rjbx.energraft.entity.Avatar;
+import com.github.rjbx.energraft.util.AssetManager;
+import com.github.rjbx.energraft.util.Constants;
+import com.github.rjbx.energraft.util.Enums;
+import com.github.rjbx.energraft.util.Helpers;
 
 public class IndicatorHud {
 

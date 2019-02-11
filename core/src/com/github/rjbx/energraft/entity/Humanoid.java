@@ -1,8 +1,8 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.github.rjbx.energraft.entity;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.udacity.gamedev.gigagal.util.Enums;
+import com.github.rjbx.energraft.util.Enums;
 
 public interface Humanoid extends Dynamic {
 

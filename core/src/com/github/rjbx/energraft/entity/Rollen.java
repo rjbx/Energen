@@ -1,17 +1,18 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.github.rjbx.energraft.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelAssets;
-import com.udacity.gamedev.gigagal.util.AssetManager;
-import com.udacity.gamedev.gigagal.util.ChaseCam;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Helpers;
+import com.github.rjbx.energraft.app.LevelAssets;
+import com.github.rjbx.energraft.util.AssetManager;
+import com.github.rjbx.energraft.util.ChaseCam;
+import com.github.rjbx.energraft.util.Constants;
+import com.github.rjbx.energraft.util.Enums;
+import com.github.rjbx.energraft.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class Rollen extends Hazard implements Destructible, Roving, Impermeable {
@@ -31,7 +32,7 @@ public class Rollen extends Hazard implements Destructible, Roving, Impermeable 
     private long rollStartTime;
     private float rollTimeSeconds;
     private float radius;
-    private Animation animation;
+    private Animation<TextureRegion> animation;
 
     // ctor
     public Rollen(Vector2 position, Enums.Material type) {

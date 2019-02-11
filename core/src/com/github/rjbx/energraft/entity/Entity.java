@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.github.rjbx.energraft.entity;
 
 public abstract class Entity implements Physical, Visible, Cloneable {
 

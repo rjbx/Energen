@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal.app;
+package com.github.rjbx.energraft.app;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
@@ -10,8 +10,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.overlay.*;
-import com.udacity.gamedev.gigagal.util.*;
+import com.github.rjbx.energraft.overlay.*;
+import com.github.rjbx.energraft.util.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal.app;
+package com.github.rjbx.energraft.app;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -9,20 +9,20 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.entity.Avatar;
-import com.udacity.gamedev.gigagal.entity.Boss;
-import com.udacity.gamedev.gigagal.overlay.TouchInterface;
-import com.udacity.gamedev.gigagal.util.AssetManager;
-import com.udacity.gamedev.gigagal.util.InputControls;
-import com.udacity.gamedev.gigagal.overlay.Menu;
-import com.udacity.gamedev.gigagal.overlay.Cursor;
-import com.udacity.gamedev.gigagal.overlay.IndicatorHud;
-import com.udacity.gamedev.gigagal.overlay.GaugeHud;
-import com.udacity.gamedev.gigagal.util.ChaseCam;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Helpers;
-import com.udacity.gamedev.gigagal.util.StaticCam;
+import com.github.rjbx.energraft.entity.Avatar;
+import com.github.rjbx.energraft.entity.Boss;
+import com.github.rjbx.energraft.overlay.TouchInterface;
+import com.github.rjbx.energraft.util.AssetManager;
+import com.github.rjbx.energraft.util.InputControls;
+import com.github.rjbx.energraft.overlay.Menu;
+import com.github.rjbx.energraft.overlay.Cursor;
+import com.github.rjbx.energraft.overlay.IndicatorHud;
+import com.github.rjbx.energraft.overlay.GaugeHud;
+import com.github.rjbx.energraft.util.ChaseCam;
+import com.github.rjbx.energraft.util.Constants;
+import com.github.rjbx.energraft.util.Enums;
+import com.github.rjbx.energraft.util.Helpers;
+import com.github.rjbx.energraft.util.StaticCam;
 
 import java.util.Arrays;
 

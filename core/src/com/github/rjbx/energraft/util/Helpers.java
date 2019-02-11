@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal.util;
+package com.github.rjbx.energraft.util;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -8,22 +8,22 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.SaveData;
-import com.udacity.gamedev.gigagal.entity.Aerial;
-import com.udacity.gamedev.gigagal.entity.Ammo;
-import com.udacity.gamedev.gigagal.entity.Avatar;
-import com.udacity.gamedev.gigagal.entity.Destructible;
-import com.udacity.gamedev.gigagal.entity.Hazard;
-import com.udacity.gamedev.gigagal.entity.Vehicular;
-import com.udacity.gamedev.gigagal.entity.Orben;
-import com.udacity.gamedev.gigagal.entity.Physical;
-import com.udacity.gamedev.gigagal.entity.Roving;
+import com.github.rjbx.energraft.app.SaveData;
+import com.github.rjbx.energraft.entity.Aerial;
+import com.github.rjbx.energraft.entity.Ammo;
+import com.github.rjbx.energraft.entity.Avatar;
+import com.github.rjbx.energraft.entity.Destructible;
+import com.github.rjbx.energraft.entity.Hazard;
+import com.github.rjbx.energraft.entity.Vehicular;
+import com.github.rjbx.energraft.entity.Orben;
+import com.github.rjbx.energraft.entity.Physical;
+import com.github.rjbx.energraft.entity.Roving;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import java.util.List;
 
-import static com.udacity.gamedev.gigagal.util.Enums.Orientation.X;
-import static com.udacity.gamedev.gigagal.util.Enums.Orientation.Y;
+import static com.github.rjbx.energraft.util.Enums.Orientation.X;
+import static com.github.rjbx.energraft.util.Enums.Orientation.Y;
 
 // immutable non-instantiable static
 public final class Helpers {

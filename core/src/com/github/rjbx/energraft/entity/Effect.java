@@ -1,23 +1,24 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.github.rjbx.energraft.entity;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.util.AssetManager;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Helpers;
+import com.github.rjbx.energraft.util.AssetManager;
+import com.github.rjbx.energraft.util.Constants;
+import com.github.rjbx.energraft.util.Enums;
+import com.github.rjbx.energraft.util.Helpers;
 
 // mutable
 public class Effect extends Entity {
 
     //fields
-    public static final String TAG = com.udacity.gamedev.gigagal.entity.Effect.class.getName();
+    public static final String TAG = com.github.rjbx.energraft.entity.Effect.class.getName();
     private final Vector2 position;
     private final Enums.Material type;
-    private final Animation animation;
+    private final Animation<TextureRegion> animation;
     private final long startTime;
 
     // ctor

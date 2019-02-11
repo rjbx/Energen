@@ -1,19 +1,20 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.github.rjbx.energraft.entity;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.udacity.gamedev.gigagal.app.LevelAssets;
-import com.udacity.gamedev.gigagal.util.AssetManager;
-import com.udacity.gamedev.gigagal.util.Constants;
-import com.udacity.gamedev.gigagal.util.Enums;
-import com.udacity.gamedev.gigagal.util.Enums.Direction;
-import com.udacity.gamedev.gigagal.util.Helpers;
+import com.github.rjbx.energraft.app.LevelAssets;
+import com.github.rjbx.energraft.util.AssetManager;
+import com.github.rjbx.energraft.util.Constants;
+import com.github.rjbx.energraft.util.Enums;
+import com.github.rjbx.energraft.util.Enums.Direction;
+import com.github.rjbx.energraft.util.Helpers;
 
 // mutable
 public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable, Rappelable, Hurdleable, Convertible, Impermeable {
@@ -34,7 +35,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     private Direction direction;
     private Enums.Orientation orientation;
     private Array<Animation> animations;
-    private Animation animation;
+    private Animation<TextureRegion> animation;
     private boolean converted;
 
     // ctor

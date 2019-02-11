@@ -1,10 +1,10 @@
-package com.udacity.gamedev.gigagal.overlay;
+package com.github.rjbx.energraft.overlay;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.udacity.gamedev.gigagal.util.AssetManager;
-import com.udacity.gamedev.gigagal.util.*;
-import com.udacity.gamedev.gigagal.util.InputControls;
+import com.github.rjbx.energraft.util.AssetManager;
+import com.github.rjbx.energraft.util.*;
+import com.github.rjbx.energraft.util.InputControls;
 
 import java.util.ListIterator;
 

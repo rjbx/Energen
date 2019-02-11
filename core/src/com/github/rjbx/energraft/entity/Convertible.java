@@ -1,4 +1,4 @@
-package com.udacity.gamedev.gigagal.entity;
+package com.github.rjbx.energraft.entity;
 
 public interface Convertible extends Nonstatic {
 
