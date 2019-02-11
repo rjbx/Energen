@@ -44,6 +44,7 @@ public final class ChaseCam {
         convertBoundsArray = new Array<Rectangle>();
         camera = (OrthographicCamera) viewport.getCamera();
         inputControls = InputControls.getInstance();
+        camera.zoom *= 1.25f;
     }
 
     public void update(SpriteBatch batch, float delta) {
@@ -99,6 +100,13 @@ public final class ChaseCam {
     public final void setConvertBounds(Rectangle convertBounds) { this.convertBoundsArray.add(convertBounds); }
     public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public final void setRoomPosition(Vector2 position) { roomPosition = position; }
-    public final void setState(Enums.ChaseCamState state) { this.state = state; if (state == BOSS) { camera.zoom += .5f; } else { camera.zoom = 1; } }
     public final Enums.ChaseCamState getState() { return state; }
+    public final void setState(Enums.ChaseCamState state) {
+        this.state = state;
+        switch (state) {
+            case BOSS: camera.zoom += .25f; break;
+            case DEBUG: camera.zoom = .75f; break;
+            default: camera.zoom = 1.25f;
+        }
+    }
 }
