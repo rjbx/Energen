@@ -75,10 +75,8 @@ final class LaunchScreen extends ScreenAdapter {
 
         launchBackdrop = new Backdrop(assetManager.getOverlayAssets().logo);
 
-        final Vector2 avatarPosition = new Vector2(viewport.getWorldWidth() / 0.5f, viewport.getWorldHeight() / 0.5f);
         avatar = Avatar.getInstance();
         avatar.respawn();
-        avatar.setPosition(avatarPosition);
 
         choices = new ArrayList<String>();
         launchStartTime = TimeUtils.nanoTime();
@@ -95,6 +93,8 @@ final class LaunchScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
+        final Vector2 avatarPosition = new Vector2(viewport.getWorldWidth() / 2.1f, viewport.getWorldHeight() / 2f);
+        avatar.setPosition(avatarPosition);
         touchInterface.getViewport().update(width, height, true);
         touchInterface.recalculateButtonPositions();
     }
@@ -108,7 +108,7 @@ final class LaunchScreen extends ScreenAdapter {
                 case START:
                     Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().beast, viewport.getWorldWidth() / 4.25f, viewport.getWorldHeight() / 1.625f, Constants.BEAST_CENTER.x, Constants.BEAST_CENTER.y, 2f);
                     Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().globe, viewport.getWorldWidth() / 2.25f, viewport.getWorldHeight() / 2.6125f, Constants.GLOBE_CENTER.x, Constants.GLOBE_CENTER.y, 3f);
-                    Helpers.drawBitmapFont(batch, viewport, title, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - Constants.HUD_MARGIN, Align.center);
+                    Helpers.drawBitmapFont(batch, viewport, title, "ENERGRAFT", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - 10f, Align.center);
                     avatar.render(batch, viewport);
                     menu.render(batch, font, viewport, Cursor.getInstance());
 
