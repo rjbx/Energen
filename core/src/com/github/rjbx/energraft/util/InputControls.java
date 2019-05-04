@@ -196,7 +196,7 @@ public class InputControls extends InputAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             rightButtonPressed = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT)) {
             jumpButtonPressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
