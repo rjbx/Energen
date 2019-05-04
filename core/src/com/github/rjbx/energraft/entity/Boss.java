@@ -19,6 +19,7 @@ import java.lang.String;
 import java.util.List;
 import java.util.ListIterator;
 
+// TODO: Improve AI
 // mutable
 public class Boss extends Hazard implements Destructible, Humanoid, Impermeable {
 

@@ -10,8 +10,11 @@ import com.github.rjbx.energraft.entity.Hazard;
 import com.github.rjbx.energraft.entity.Powerup;
 import com.github.rjbx.energraft.util.Enums;
 
-// TODO: Stylize interface
-// TODO: Consolidate into single 'open-world' level with additional save points
+// TODO[H]: Either
+//  a. Consolidate into single 'open-world' level with additional save points and
+//   i. Remove level selector
+//   ii. Display images of save points overlaid on map for level selection
+//  b. Improve existing levels and remove unfinished
 public final class LevelAssets {
 
     public static final String TAG = LevelAssets.class.toString();
