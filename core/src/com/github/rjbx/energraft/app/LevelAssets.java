@@ -10,6 +10,8 @@ import com.github.rjbx.energraft.entity.Hazard;
 import com.github.rjbx.energraft.entity.Powerup;
 import com.github.rjbx.energraft.util.Enums;
 
+// TODO: Stylize interface
+// TODO: Consolidate into single 'open-world' level with additional save points
 public final class LevelAssets {
 
     public static final String TAG = LevelAssets.class.toString();
