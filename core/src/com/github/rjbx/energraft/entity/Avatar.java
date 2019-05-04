@@ -1150,7 +1150,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         || (ammo < Constants.BLAST_AMMO_CONSUMPTION && shotIntensity == ShotIntensity.BLAST)
                         || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
                     ammoUsed = 0;
-                    weapon = Material.NATIVE;
+                    this.weapon = Material.NATIVE;
                 } else {
                     ammoUsed = Helpers.useAmmo(shotIntensity);
                 }
