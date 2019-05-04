@@ -25,6 +25,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
+// TODO: Render default while equipping and after having depleted different type
+// TODO: Simplify moveable cascading physics
 // mutable
 public class Avatar extends Entity implements Impermeable, Humanoid {
 
