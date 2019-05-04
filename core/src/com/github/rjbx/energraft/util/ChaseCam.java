@@ -13,6 +13,7 @@ import static com.github.rjbx.energraft.util.Enums.ChaseCamState.BOSS;
 import static com.github.rjbx.energraft.util.Enums.ChaseCamState.CONVERT;
 import static com.github.rjbx.energraft.util.Enums.ChaseCamState.FOLLOWING;
 
+// TODO: Add zoom toggle from overworld pause
 // immutable singleton
 public final class ChaseCam {
 
