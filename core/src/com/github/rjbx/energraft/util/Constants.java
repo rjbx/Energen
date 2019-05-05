@@ -973,7 +973,7 @@ public final class Constants {
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TIME_PATTERN);
 
     // Start screen
-    public static final String LOGO_SPRITE = "qualiv";
+    public static final String LOGO_SPRITE = "logo-eg";
     public static final Vector2 LOGO_CENTER = new Vector2(117.5f, 117.5f);
     public static final String BEAST_SPRITE = "beast";
     public static final Vector2 BEAST_CENTER = new Vector2(16, 16);

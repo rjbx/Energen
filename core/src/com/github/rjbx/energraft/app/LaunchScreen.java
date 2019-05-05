@@ -161,7 +161,7 @@ final class LaunchScreen extends ScreenAdapter {
         } else {
             launchBackdrop.render(batch, viewport,
                     new Vector2(viewport.getWorldWidth() / 2, viewport.getWorldHeight() * .625f),
-                    new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f), .375f);
+                    new Vector2(Constants.LOGO_CENTER.x * .375f, Constants.LOGO_CENTER.y * .375f), .23f);
             Helpers.drawBitmapFont(batch, viewport, font, Constants.LAUNCH_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN, Align.center);
             if (Helpers.secondsSince(launchStartTime) > 3) {
                 assetManager.getMusicAssets().intro.play();

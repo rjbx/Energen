@@ -235,7 +235,6 @@ final class LevelScreen extends ScreenAdapter {
                 levelEndOverlayStartTime = 0;
                 overworldScreen.setMainMenu();
                 screenManager.setScreen(overworldScreen);
-                font.getData().setScale(.4f);
                 return;
             }
             Gdx.gl.glClearColor(0, 0, 0, 0);
