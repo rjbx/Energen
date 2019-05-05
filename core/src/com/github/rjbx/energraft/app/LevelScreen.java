@@ -223,7 +223,7 @@ final class LevelScreen extends ScreenAdapter {
     private void showExitOverlay() {
         String endMessage = "";
         float yDivisor = 0;
-        if (levelUpdater.completed()) {
+        if (levelUpdater.failed()) {
             endMessage = Constants.FAIL_MESSAGE;
             yDivisor = 12;
             font.getData().setScale(.4f);
@@ -240,7 +240,7 @@ final class LevelScreen extends ScreenAdapter {
             }
             Gdx.gl.glClearColor(0, 0, 0, 0);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        } else if (levelUpdater.failed()) {
+        } else if (levelUpdater.completed()) {
             endMessage = Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "TIME: " + Helpers.secondsToString(SaveData.getTotalTime()) + "\nSCORE: " + SaveData.getTotalScore() + "\n\nLEVEL TOTAL\n" + "TIME: " + Helpers.secondsToString(levelUpdater.getUnsavedTime()) + "\n" + "SCORE " + levelUpdater.getScore();
             yDivisor = 3;
             if (levelEndOverlayStartTime == 0) {
