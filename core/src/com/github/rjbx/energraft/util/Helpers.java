@@ -1,4 +1,4 @@
-package com.github.rjbx.energraft.util;
+package com.github.rjbx.energage.util;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -8,22 +8,22 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.rjbx.energraft.app.SaveData;
-import com.github.rjbx.energraft.entity.Aerial;
-import com.github.rjbx.energraft.entity.Ammo;
-import com.github.rjbx.energraft.entity.Avatar;
-import com.github.rjbx.energraft.entity.Destructible;
-import com.github.rjbx.energraft.entity.Hazard;
-import com.github.rjbx.energraft.entity.Vehicular;
-import com.github.rjbx.energraft.entity.Orben;
-import com.github.rjbx.energraft.entity.Physical;
-import com.github.rjbx.energraft.entity.Roving;
+import com.github.rjbx.energage.app.SaveData;
+import com.github.rjbx.energage.entity.Aerial;
+import com.github.rjbx.energage.entity.Ammo;
+import com.github.rjbx.energage.entity.Avatar;
+import com.github.rjbx.energage.entity.Destructible;
+import com.github.rjbx.energage.entity.Hazard;
+import com.github.rjbx.energage.entity.Vehicular;
+import com.github.rjbx.energage.entity.Orben;
+import com.github.rjbx.energage.entity.Physical;
+import com.github.rjbx.energage.entity.Roving;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import java.util.List;
 
-import static com.github.rjbx.energraft.util.Enums.Orientation.X;
-import static com.github.rjbx.energraft.util.Enums.Orientation.Y;
+import static com.github.rjbx.energage.util.Enums.Orientation.X;
+import static com.github.rjbx.energage.util.Enums.Orientation.Y;
 
 // immutable non-instantiable static
 public final class Helpers {

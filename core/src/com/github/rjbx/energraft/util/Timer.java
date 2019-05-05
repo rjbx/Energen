@@ -1,13 +1,13 @@
-package com.github.rjbx.energraft.util;
+package com.github.rjbx.energage.util;
 
 import com.badlogic.gdx.utils.TimeUtils;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
-import static com.github.rjbx.energraft.util.Enums.TimerState.RUNNING;
-import static com.github.rjbx.energraft.util.Enums.TimerState.STOPPED;
-import static com.github.rjbx.energraft.util.Enums.TimerState.SUSPENDED;
-import static com.github.rjbx.energraft.util.Enums.TimerState.UNSTARTED;
+import static com.github.rjbx.energage.util.Enums.TimerState.RUNNING;
+import static com.github.rjbx.energage.util.Enums.TimerState.STOPPED;
+import static com.github.rjbx.energage.util.Enums.TimerState.SUSPENDED;
+import static com.github.rjbx.energage.util.Enums.TimerState.UNSTARTED;
 
 // An implementation of apache.commons.lang3.time.StopWatch that eliminates unused methods and permits start time offset with additional start method
 public class Timer {

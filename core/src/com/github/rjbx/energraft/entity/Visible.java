@@ -1,4 +1,4 @@
-package com.github.rjbx.energraft.entity;
+package com.github.rjbx.energage.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;

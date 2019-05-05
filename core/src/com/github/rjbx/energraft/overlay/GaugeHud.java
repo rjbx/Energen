@@ -1,11 +1,11 @@
-package com.github.rjbx.energraft.overlay;
+package com.github.rjbx.energage.overlay;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.github.rjbx.energraft.entity.Avatar;
-import com.github.rjbx.energraft.util.Constants;
-import com.github.rjbx.energraft.util.Enums;
+import com.github.rjbx.energage.entity.Avatar;
+import com.github.rjbx.energage.util.Constants;
+import com.github.rjbx.energage.util.Enums;
 
 // immutable
 public final class GaugeHud {

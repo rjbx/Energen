@@ -1,3 +1,3 @@
-package com.github.rjbx.energraft.entity;
+package com.github.rjbx.energage.entity;
 
 public interface Strikeable extends Physical {}

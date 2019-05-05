@@ -1,10 +1,10 @@
-package com.github.rjbx.energraft.overlay;
+package com.github.rjbx.energage.overlay;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.github.rjbx.energraft.util.AssetManager;
-import com.github.rjbx.energraft.util.*;
-import com.github.rjbx.energraft.util.InputControls;
+import com.github.rjbx.energage.util.AssetManager;
+import com.github.rjbx.energage.util.*;
+import com.github.rjbx.energage.util.InputControls;
 
 import java.util.ListIterator;
 

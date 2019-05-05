@@ -1,4 +1,4 @@
-package com.github.rjbx.energraft.entity;
+package com.github.rjbx.energage.entity;
 
 public abstract class Entity implements Physical, Visible, Cloneable {
 

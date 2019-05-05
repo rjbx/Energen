@@ -1,4 +1,4 @@
-package com.github.rjbx.energraft.util;
+package com.github.rjbx.energage.util;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,11 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.github.rjbx.energraft.entity.Avatar;
+import com.github.rjbx.energage.entity.Avatar;
 
-import static com.github.rjbx.energraft.util.Enums.ChaseCamState.BOSS;
-import static com.github.rjbx.energraft.util.Enums.ChaseCamState.CONVERT;
-import static com.github.rjbx.energraft.util.Enums.ChaseCamState.FOLLOWING;
+import static com.github.rjbx.energage.util.Enums.ChaseCamState.BOSS;
+import static com.github.rjbx.energage.util.Enums.ChaseCamState.CONVERT;
+import static com.github.rjbx.energage.util.Enums.ChaseCamState.FOLLOWING;
 
 // TODO[L]: Add zoom toggle from overworld pause
 // immutable singleton
@@ -22,7 +22,7 @@ public final class ChaseCam {
     private static final ChaseCam INSTANCE = new ChaseCam();
     private ExtendViewport viewport;
     public OrthographicCamera camera;
-    public Avatar gigaGal;
+    public Avatar energage;
     public Vector2 roomPosition;
     public Array<Rectangle> convertBoundsArray;
     private Enums.ChaseCamState state;
@@ -40,7 +40,7 @@ public final class ChaseCam {
     public void create() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         state = FOLLOWING;
-        gigaGal = Avatar.getInstance();
+        energage = Avatar.getInstance();
         convertStartTime = 0;
         convertBoundsArray = new Array<Rectangle>();
         camera = (OrthographicCamera) viewport.getCamera();
@@ -52,11 +52,11 @@ public final class ChaseCam {
         batch.begin();
         switch (state) {
             case FOLLOWING:
-                camera.position.x = gigaGal.getPosition().x;
-                if (gigaGal.getLookStartTime() != 0 && gigaGal.getGroundState() == Enums.GroundState.PLANTED) {
-                    camera.position.y = gigaGal.getChaseCamPosition().y;
+                camera.position.x = energage.getPosition().x;
+                if (energage.getLookStartTime() != 0 && energage.getGroundState() == Enums.GroundState.PLANTED) {
+                    camera.position.y = energage.getChaseCamPosition().y;
                 } else {
-                    camera.position.y = gigaGal.getPosition().y;
+                    camera.position.y = energage.getPosition().y;
                 }
                 if (convertStartTime != 0 && Helpers.secondsSince(convertStartTime) > .5f) {
                     state = CONVERT;

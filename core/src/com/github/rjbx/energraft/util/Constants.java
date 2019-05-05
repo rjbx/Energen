@@ -1,4 +1,4 @@
-package com.github.rjbx.energraft.util;
+package com.github.rjbx.energage.util;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.audio.Music;
@@ -968,7 +968,7 @@ public final class Constants {
     public static final int ZOOMBA_COUNT = 200;
     public static final String VICTORY_MESSAGE = "COURSE CLEARED";
     public static final String FAIL_MESSAGE = "GAME OVER";
-    public static final String LAUNCH_MESSAGE = "Energraft v0.0.1";
+    public static final String LAUNCH_MESSAGE = "Energage v0.0.1";
     public static final String TIME_PATTERN = "HH:mm:ss";
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TIME_PATTERN);
 

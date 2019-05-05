@@ -1,4 +1,4 @@
-package com.github.rjbx.energraft.util;
+package com.github.rjbx.energage.util;
 
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 

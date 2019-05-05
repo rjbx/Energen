@@ -1,4 +1,4 @@
-package com.github.rjbx.energraft.entity;
+package com.github.rjbx.energage.entity;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,12 +8,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.rjbx.energraft.app.LevelAssets;
-import com.github.rjbx.energraft.util.AssetManager;
-import com.github.rjbx.energraft.util.ChaseCam;
-import com.github.rjbx.energraft.util.Constants;
-import com.github.rjbx.energraft.util.Enums;
-import com.github.rjbx.energraft.util.Helpers;
+import com.github.rjbx.energage.app.LevelAssets;
+import com.github.rjbx.energage.util.AssetManager;
+import com.github.rjbx.energage.util.ChaseCam;
+import com.github.rjbx.energage.util.Constants;
+import com.github.rjbx.energage.util.Enums;
+import com.github.rjbx.energage.util.Helpers;
 
 public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonstatic, Impermeable {
 
