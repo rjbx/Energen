@@ -2,6 +2,7 @@ package com.github.rjbx.energraft.app;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -225,7 +226,7 @@ final class LevelScreen extends ScreenAdapter {
             endMessage = Constants.FAIL_MESSAGE;
             font.getData().setScale(.4f);
             if (levelEndOverlayStartTime == 0) {
-//                levelUpdater.end();
+                levelUpdater.end();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
             }
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
@@ -249,9 +250,9 @@ final class LevelScreen extends ScreenAdapter {
                 screenManager.setScreen(overworldScreen);
                 return;
             }
-            AssetManager assetManager = AssetManager.getInstance();
-            Backdrop backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(levelUpdater.getTheme()));
-            backdrop.render(batch, staticViewport, new Vector2(chaseCam.camera.position.x, chaseCam.camera.position.y), Constants.BACKGROUND_CENTER, 1);
+            Color color = Color.SKY;
+            Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         }
         Helpers.drawBitmapFont(batch, staticViewport, font, endMessage, staticViewport.getCamera().position.x, staticViewport.getCamera().position.y + staticViewport.getWorldHeight() / 10f, Align.center);
     }

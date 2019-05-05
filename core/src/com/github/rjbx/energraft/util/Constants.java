@@ -966,9 +966,9 @@ public final class Constants {
     public static final float LEVEL_END_DURATION = 5;
     public static final int EXPLOSION_COUNT = 500;
     public static final int ZOOMBA_COUNT = 200;
-    public static final String VICTORY_MESSAGE = "Boo Ya.";
+    public static final String VICTORY_MESSAGE = "COURSE CLEARED";
     public static final String FAIL_MESSAGE = "GAME OVER";
-    public static final String LAUNCH_MESSAGE = "Energraft v0.0.1 (c) Qualiv 2017";
+    public static final String LAUNCH_MESSAGE = "Energraft v0.0.1";
     public static final String TIME_PATTERN = "HH:mm:ss";
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TIME_PATTERN);
 
