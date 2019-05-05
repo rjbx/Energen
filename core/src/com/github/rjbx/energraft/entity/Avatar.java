@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 // TODO[H]: Prevent dash on lateral swipe
-// TODO[H]: Restore in-game material toggle
 // TODO[H]: Improve recognition of climbable overlapping platform
 // TODO[H]: Simplify moveable cascading physics
 // mutable
