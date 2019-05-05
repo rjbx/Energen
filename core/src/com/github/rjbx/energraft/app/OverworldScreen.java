@@ -1,4 +1,4 @@
-package com.github.rjbx.energage.app;
+package com.github.rjbx.energen.app;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -8,16 +8,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.github.rjbx.energage.entity.Avatar;
-import com.github.rjbx.energage.overlay.TouchInterface;
-import com.github.rjbx.energage.util.AssetManager;
-import com.github.rjbx.energage.util.InputControls;
-import com.github.rjbx.energage.overlay.Menu;
-import com.github.rjbx.energage.overlay.Cursor;
-import com.github.rjbx.energage.util.Constants;
-import com.github.rjbx.energage.util.Enums;
-import com.github.rjbx.energage.util.Helpers;
-import com.github.rjbx.energage.util.StaticCam;
+import com.github.rjbx.energen.entity.Avatar;
+import com.github.rjbx.energen.overlay.TouchInterface;
+import com.github.rjbx.energen.util.AssetManager;
+import com.github.rjbx.energen.util.InputControls;
+import com.github.rjbx.energen.overlay.Menu;
+import com.github.rjbx.energen.overlay.Cursor;
+import com.github.rjbx.energen.util.Constants;
+import com.github.rjbx.energen.util.Enums;
+import com.github.rjbx.energen.util.Helpers;
+import com.github.rjbx.energen.util.StaticCam;
 
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
@@ -39,7 +39,7 @@ final class OverworldScreen extends ScreenAdapter {
     private BitmapFont font;
     private TouchInterface touchInterface;
     private InputControls inputControls;
-    private static Avatar energage;
+    private static Avatar energen;
     private static Cursor cursor;
     private static Menu menu;
     private static Enums.MenuType menuType;
@@ -68,7 +68,7 @@ final class OverworldScreen extends ScreenAdapter {
         inputControls = InputControls.getInstance();
         Gdx.input.setInputProcessor(InputControls.getInstance());
 
-        energage = Avatar.getInstance();
+        energen = Avatar.getInstance();
         cursor = Cursor.getInstance();
 
         menu = Menu.getInstance();
@@ -155,9 +155,9 @@ final class OverworldScreen extends ScreenAdapter {
             LevelLoader.load(level);
             levelUpdater.restoreRemovals(allRemovals.get(index));
             if (levelRestores > 0) {
-                energage.setSpawnPosition(levelUpdater.getTransports().get(0).getPosition());
+                energen.setSpawnPosition(levelUpdater.getTransports().get(0).getPosition());
                 if (levelRestores > 2) {
-                    energage.setSpawnPosition(levelUpdater.getTransports().get(1).getPosition());
+                    energen.setSpawnPosition(levelUpdater.getTransports().get(1).getPosition());
                 }
             }
             screenManager.setScreen(LevelScreen.getInstance());

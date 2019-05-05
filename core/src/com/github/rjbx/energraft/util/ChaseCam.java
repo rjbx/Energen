@@ -1,4 +1,4 @@
-package com.github.rjbx.energage.util;
+package com.github.rjbx.energen.util;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,11 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.github.rjbx.energage.entity.Avatar;
+import com.github.rjbx.energen.entity.Avatar;
 
-import static com.github.rjbx.energage.util.Enums.ChaseCamState.BOSS;
-import static com.github.rjbx.energage.util.Enums.ChaseCamState.CONVERT;
-import static com.github.rjbx.energage.util.Enums.ChaseCamState.FOLLOWING;
+import static com.github.rjbx.energen.util.Enums.ChaseCamState.BOSS;
+import static com.github.rjbx.energen.util.Enums.ChaseCamState.CONVERT;
+import static com.github.rjbx.energen.util.Enums.ChaseCamState.FOLLOWING;
 
 // TODO[L]: Add zoom toggle from overworld pause
 // immutable singleton
@@ -22,7 +22,7 @@ public final class ChaseCam {
     private static final ChaseCam INSTANCE = new ChaseCam();
     private ExtendViewport viewport;
     public OrthographicCamera camera;
-    public Avatar energage;
+    public Avatar energen;
     public Vector2 roomPosition;
     public Array<Rectangle> convertBoundsArray;
     private Enums.ChaseCamState state;
@@ -40,7 +40,7 @@ public final class ChaseCam {
     public void create() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         state = FOLLOWING;
-        energage = Avatar.getInstance();
+        energen = Avatar.getInstance();
         convertStartTime = 0;
         convertBoundsArray = new Array<Rectangle>();
         camera = (OrthographicCamera) viewport.getCamera();
@@ -52,11 +52,11 @@ public final class ChaseCam {
         batch.begin();
         switch (state) {
             case FOLLOWING:
-                camera.position.x = energage.getPosition().x;
-                if (energage.getLookStartTime() != 0 && energage.getGroundState() == Enums.GroundState.PLANTED) {
-                    camera.position.y = energage.getChaseCamPosition().y;
+                camera.position.x = energen.getPosition().x;
+                if (energen.getLookStartTime() != 0 && energen.getGroundState() == Enums.GroundState.PLANTED) {
+                    camera.position.y = energen.getChaseCamPosition().y;
                 } else {
-                    camera.position.y = energage.getPosition().y;
+                    camera.position.y = energen.getPosition().y;
                 }
                 if (convertStartTime != 0 && Helpers.secondsSince(convertStartTime) > .5f) {
                     state = CONVERT;

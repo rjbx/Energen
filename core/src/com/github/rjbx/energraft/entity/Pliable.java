@@ -1,4 +1,4 @@
-package com.github.rjbx.energage.entity;
+package com.github.rjbx.energen.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;

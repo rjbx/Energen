@@ -1,4 +1,4 @@
-package com.github.rjbx.energage.util;
+package com.github.rjbx.energen.util;
 
 import com.badlogic.gdx.graphics.Color;
 

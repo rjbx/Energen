@@ -1,4 +1,4 @@
-package com.github.rjbx.energage.app;
+package com.github.rjbx.energen.app;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
@@ -10,9 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.github.rjbx.energage.entity.Avatar;
-import com.github.rjbx.energage.overlay.*;
-import com.github.rjbx.energage.util.*;
+import com.github.rjbx.energen.entity.Avatar;
+import com.github.rjbx.energen.overlay.*;
+import com.github.rjbx.energen.util.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -108,7 +108,7 @@ final class LaunchScreen extends ScreenAdapter {
                 case START:
                     Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().beast, viewport.getWorldWidth() / 4.25f, viewport.getWorldHeight() / 1.625f, Constants.BEAST_CENTER.x, Constants.BEAST_CENTER.y, 2f);
                     Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().globe, viewport.getWorldWidth() / 2.25f, viewport.getWorldHeight() / 2.6125f, Constants.GLOBE_CENTER.x, Constants.GLOBE_CENTER.y, 3f);
-                    Helpers.drawBitmapFont(batch, viewport, title, "ENERGAGE", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - 10f, Align.center);
+                    Helpers.drawBitmapFont(batch, viewport, title, "ENERGEN", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - 10f, Align.center);
                     avatar.render(batch, viewport);
                     menu.render(batch, font, viewport, Cursor.getInstance());
 

@@ -1,4 +1,4 @@
-package com.github.rjbx.energage.overlay;
+package com.github.rjbx.energen.overlay;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,13 +7,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.github.rjbx.energage.app.LevelAssets;
-import com.github.rjbx.energage.entity.Ammo;
-import com.github.rjbx.energage.entity.Avatar;
-import com.github.rjbx.energage.util.AssetManager;
-import com.github.rjbx.energage.util.Constants;
-import com.github.rjbx.energage.util.Enums;
-import com.github.rjbx.energage.util.Helpers;
+import com.github.rjbx.energen.app.LevelAssets;
+import com.github.rjbx.energen.entity.Ammo;
+import com.github.rjbx.energen.entity.Avatar;
+import com.github.rjbx.energen.util.AssetManager;
+import com.github.rjbx.energen.util.Constants;
+import com.github.rjbx.energen.util.Enums;
+import com.github.rjbx.energen.util.Helpers;
 
 public class IndicatorHud {
 

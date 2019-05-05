@@ -1,9 +1,9 @@
-package com.github.rjbx.energage.app;
+package com.github.rjbx.energen.app;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.github.rjbx.energage.entity.Ammo;
-import com.github.rjbx.energage.util.Enums;
+import com.github.rjbx.energen.entity.Ammo;
+import com.github.rjbx.energen.util.Enums;
 
 public final class SaveData {
 
@@ -12,7 +12,7 @@ public final class SaveData {
     // cannot be subclassed
     private SaveData() {}
 
-    private static Preferences getPreferences() { return Gdx.app.getPreferences("energage-prefs"); }
+    private static Preferences getPreferences() { return Gdx.app.getPreferences("energen-prefs"); }
 
     protected static void erase() { getPreferences().clear(); getPreferences().flush(); }
 

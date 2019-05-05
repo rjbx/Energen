@@ -1,12 +1,12 @@
-package com.github.rjbx.energage.entity;
+package com.github.rjbx.energen.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.rjbx.energage.util.AssetManager;
-import com.github.rjbx.energage.util.Constants;
-import com.github.rjbx.energage.util.Enums;
-import com.github.rjbx.energage.util.Helpers;
+import com.github.rjbx.energen.util.AssetManager;
+import com.github.rjbx.energen.util.Constants;
+import com.github.rjbx.energen.util.Enums;
+import com.github.rjbx.energen.util.Helpers;
 
 public class Chamber extends Ground implements Chargeable, Strikeable {
 

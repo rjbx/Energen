@@ -1,10 +1,10 @@
-package com.github.rjbx.energage.app;
+package com.github.rjbx.energen.app;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.github.rjbx.energage.entity.Blade;
-import com.github.rjbx.energage.entity.Avatar;
-import com.github.rjbx.energage.overlay.*;
-import com.github.rjbx.energage.util.*;
+import com.github.rjbx.energen.entity.Blade;
+import com.github.rjbx.energen.entity.Avatar;
+import com.github.rjbx.energen.overlay.*;
+import com.github.rjbx.energen.util.*;
 
 // immutable singleton
 public final class ScreenManager extends com.badlogic.gdx.Game {

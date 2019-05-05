@@ -1,4 +1,4 @@
-package com.github.rjbx.energage.util;
+package com.github.rjbx.energen.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
@@ -14,9 +14,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.github.rjbx.energage.entity.Box;
-import com.github.rjbx.energage.entity.Brick;
-import com.github.rjbx.energage.entity.Ground;
+import com.github.rjbx.energen.entity.Box;
+import com.github.rjbx.energen.entity.Brick;
+import com.github.rjbx.energen.entity.Ground;
 
 // immutable singleton
 public final class AssetManager implements AssetErrorListener {

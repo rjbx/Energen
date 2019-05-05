@@ -1,14 +1,14 @@
-package com.github.rjbx.energage.app;
+package com.github.rjbx.energen.app;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.rjbx.energage.entity.Avatar;
-import com.github.rjbx.energage.entity.Boss;
-import com.github.rjbx.energage.entity.Entity;
-import com.github.rjbx.energage.entity.Ground;
-import com.github.rjbx.energage.entity.Hazard;
-import com.github.rjbx.energage.entity.Powerup;
-import com.github.rjbx.energage.util.Enums;
+import com.github.rjbx.energen.entity.Avatar;
+import com.github.rjbx.energen.entity.Boss;
+import com.github.rjbx.energen.entity.Entity;
+import com.github.rjbx.energen.entity.Ground;
+import com.github.rjbx.energen.entity.Hazard;
+import com.github.rjbx.energen.entity.Powerup;
+import com.github.rjbx.energen.util.Enums;
 
 // TODO[H]: Either
 //  a. Consolidate into single 'open-world' level with additional save points and

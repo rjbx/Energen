@@ -1,8 +1,8 @@
-package com.github.rjbx.energage.entity;
+package com.github.rjbx.energen.entity;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.github.rjbx.energage.util.Enums;
+import com.github.rjbx.energen.util.Enums;
 
 public interface Humanoid extends Dynamic {
 

@@ -1,4 +1,4 @@
-package com.github.rjbx.energage.app;
+package com.github.rjbx.energen.app;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -11,20 +11,20 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.github.rjbx.energage.entity.Avatar;
-import com.github.rjbx.energage.overlay.Backdrop;
-import com.github.rjbx.energage.overlay.TouchInterface;
-import com.github.rjbx.energage.util.AssetManager;
-import com.github.rjbx.energage.util.InputControls;
-import com.github.rjbx.energage.overlay.Menu;
-import com.github.rjbx.energage.overlay.Cursor;
-import com.github.rjbx.energage.overlay.IndicatorHud;
-import com.github.rjbx.energage.overlay.GaugeHud;
-import com.github.rjbx.energage.util.ChaseCam;
-import com.github.rjbx.energage.util.Constants;
-import com.github.rjbx.energage.util.Enums;
-import com.github.rjbx.energage.util.Helpers;
-import com.github.rjbx.energage.util.StaticCam;
+import com.github.rjbx.energen.entity.Avatar;
+import com.github.rjbx.energen.overlay.Backdrop;
+import com.github.rjbx.energen.overlay.TouchInterface;
+import com.github.rjbx.energen.util.AssetManager;
+import com.github.rjbx.energen.util.InputControls;
+import com.github.rjbx.energen.overlay.Menu;
+import com.github.rjbx.energen.overlay.Cursor;
+import com.github.rjbx.energen.overlay.IndicatorHud;
+import com.github.rjbx.energen.overlay.GaugeHud;
+import com.github.rjbx.energen.util.ChaseCam;
+import com.github.rjbx.energen.util.Constants;
+import com.github.rjbx.energen.util.Enums;
+import com.github.rjbx.energen.util.Helpers;
+import com.github.rjbx.energen.util.StaticCam;
 
 import java.util.Arrays;
 
@@ -48,7 +48,7 @@ final class LevelScreen extends ScreenAdapter {
     private IndicatorHud indicatorHud;
     private TouchInterface touchInterface;
     private InputControls inputControls;
-    private static Avatar energage;
+    private static Avatar energen;
     private static Cursor cursor;
     private static Menu menu;
     private static Enums.MenuType menuType;
@@ -85,7 +85,7 @@ final class LevelScreen extends ScreenAdapter {
         inputControls = InputControls.getInstance();
         Gdx.input.setInputProcessor(inputControls); // sends touch events to inputControls
 
-        energage = Avatar.getInstance();
+        energen = Avatar.getInstance();
         cursor = Cursor.getInstance();
 
         menu = Menu.getInstance();
@@ -103,7 +103,7 @@ final class LevelScreen extends ScreenAdapter {
         gaugeHud.create();
         touchInterface.getViewport().update(width, height, true);
         touchInterface.recalculateButtonPositions();
-        energage.setInputControls(inputControls);
+        energen.setInputControls(inputControls);
     }
 
     @Override
@@ -128,7 +128,7 @@ final class LevelScreen extends ScreenAdapter {
             } else {
                 showPauseMenu(delta);
             }
-            gaugeHud.render(renderer, staticViewport, energage);
+            gaugeHud.render(renderer, staticViewport, energen);
         } else {
             showExitOverlay();
         }
@@ -145,8 +145,8 @@ final class LevelScreen extends ScreenAdapter {
         switch (menuType) {
             case MAIN:
                 if (inputControls.jumpButtonJustPressed) {
-                    energage.toggleWeapon(Enums.Direction.DOWN); // enables energage to toggleWeapon weapon during pause without enabling other energage features
-                    menu.setPromptString(Align.right, (energage.getWeapon().name() + "\n" + SaveData.getWeapons().replace(energage.getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
+                    energen.toggleWeapon(Enums.Direction.DOWN); // enables energen to toggleWeapon weapon during pause without enabling other energen features
+                    menu.setPromptString(Align.right, (energen.getWeapon().name() + "\n" + SaveData.getWeapons().replace(energen.getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
                 }
                 if (inputControls.shootButtonJustPressed) {
                     if (cursor.getPosition() == staticViewport.getCamera().position.y && chaseCam.getState() != Enums.ChaseCamState.DEBUG) {
@@ -268,9 +268,9 @@ final class LevelScreen extends ScreenAdapter {
         cursor.resetPosition();
         String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
         menu.setOptionStrings(Arrays.asList(optionStrings));
-        menu.setPromptString(Align.left, Constants.HUD_AMMO_LABEL + energage.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + energage.getHealth() + "\n" + "Turbo: " + energage.getTurbo());
+        menu.setPromptString(Align.left, Constants.HUD_AMMO_LABEL + energen.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + energen.getHealth() + "\n" + "Turbo: " + energen.getTurbo());
         menu.setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString((SaveData.getTotalTime()) + levelUpdater.getUnsavedTime()) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
-        menu.setPromptString(Align.right, (energage.getWeapon().name() + "\n" + SaveData.getWeapons().replace(energage.getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
+        menu.setPromptString(Align.right, (energen.getWeapon().name() + "\n" + SaveData.getWeapons().replace(energen.getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
         menu.TextAlignment(Align.center);
         menuType = Enums.MenuType.MAIN;
     }

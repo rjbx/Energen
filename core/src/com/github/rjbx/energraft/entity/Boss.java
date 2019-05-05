@@ -1,4 +1,4 @@
-package com.github.rjbx.energage.entity;
+package com.github.rjbx.energen.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,12 +9,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.rjbx.energage.util.AssetManager;
-import com.github.rjbx.energage.util.InputControls;
-import com.github.rjbx.energage.util.Constants;
-import com.github.rjbx.energage.util.Enums;
-import com.github.rjbx.energage.util.Enums.*;
-import com.github.rjbx.energage.util.Helpers;
+import com.github.rjbx.energen.util.AssetManager;
+import com.github.rjbx.energen.util.InputControls;
+import com.github.rjbx.energen.util.Constants;
+import com.github.rjbx.energen.util.Enums;
+import com.github.rjbx.energen.util.Enums.*;
+import com.github.rjbx.energen.util.Helpers;
 import java.lang.String;
 import java.util.List;
 import java.util.ListIterator;
@@ -26,7 +26,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     // fields
     public final static String TAG = Boss.class.getName();
 
-    private Avatar energage;
+    private Avatar energen;
     private Rectangle roomBounds;
     private float width;
     private float height;
@@ -160,7 +160,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     }
 
     public void respawn() {
-        energage = Avatar.getInstance();
+        energen = Avatar.getInstance();
         position.set(spawnPosition);
         killPlane = position.y + Constants.FALL_LIMIT;
         chaseCamPosition.set(position, 0);
@@ -282,15 +282,15 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     private void rush() {
 
         canDispatch = false;
-        if (roomBounds.overlaps(energage.getBounds())) {
+        if (roomBounds.overlaps(energen.getBounds())) {
             if (battling) {
-                if (Helpers.overlapsBetweenTwoSides(energage.getPosition().x, Constants.AVATAR_STANCE_WIDTH, getLeft(), getRight())
-                        && Math.abs(position.y - energage.getPosition().y) > getHeight()) {
+                if (Helpers.overlapsBetweenTwoSides(energen.getPosition().x, Constants.AVATAR_STANCE_WIDTH, getLeft(), getRight())
+                        && Math.abs(position.y - energen.getPosition().y) > getHeight()) {
                     dashStartTime = 0;
                     velocity.x = 0;
-                    if (energage.getBottom() > getTop()) {
+                    if (energen.getBottom() > getTop()) {
                         directionY = Direction.UP;
-                        if (groundState == GroundState.PLANTED && energage.getBottom() > getTop() + getHeight()) {
+                        if (groundState == GroundState.PLANTED && energen.getBottom() > getTop() + getHeight()) {
                             jump();
                         }
                     } else {
@@ -298,8 +298,8 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     }
                     look();
                     shoot(ShotIntensity.BLAST, weapon, 0);
-                } else if (Helpers.overlapsBetweenTwoSides(energage.getPosition().y, Constants.AVATAR_EYE_HEIGHT, getBottom(), getTop())
-                        && Helpers.speedToVelocity(position.x - energage.getPosition().x, directionX, Orientation.X) < 0) {
+                } else if (Helpers.overlapsBetweenTwoSides(energen.getPosition().y, Constants.AVATAR_EYE_HEIGHT, getBottom(), getTop())
+                        && Helpers.speedToVelocity(position.x - energen.getPosition().x, directionX, Orientation.X) < 0) {
                     lookStartTime = 0;
                     if (groundState == GroundState.PLANTED) {
                         dash();
@@ -308,32 +308,32 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                 }
             }
 
-            if (energage.getDirectionX() == this.getDirectionX()) {
+            if (energen.getDirectionX() == this.getDirectionX()) {
                 directionX = Helpers.getOppositeDirection(directionX);
             }
 
-//        if (Math.abs(energage.getVelocity().x) > Constants.AVATAR_MAX_SPEED / 2) {
+//        if (Math.abs(energen.getVelocity().x) > Constants.AVATAR_MAX_SPEED / 2) {
 //            stride();
-//        } else if (Math.abs(energage.getPosition().x - this.position.x) > 5) {
+//        } else if (Math.abs(energen.getPosition().x - this.position.x) > 5) {
 //            dash();
 //        } else {
 //            jump();
-//            if (Math.abs(energage.getPosition().x - this.position.x) < 5) {
+//            if (Math.abs(energen.getPosition().x - this.position.x) < 5) {
 //                directionY = Enums.Direction.DOWN;
 //                look();
 ////                    attack();
 //            }
 //        }
 //
-//        if (Math.abs(energage.getPosition().y - this.position.y) > 15) {
-//            if (Math.abs(energage.getPosition().x - this.position.x) > 5) {
+//        if (Math.abs(energen.getPosition().y - this.position.y) > 15) {
+//            if (Math.abs(energen.getPosition().x - this.position.x) > 5) {
 //                dash();
 //            } else {
 //                directionY = Enums.Direction.UP;
 //                look();
 ////                    attack();
 //            }
-//        } else if (Math.abs(energage.getPosition().x - this.position.x) > 10) {
+//        } else if (Math.abs(energen.getPosition().x - this.position.x) > 10) {
 //            stride();
 //        }
         }
@@ -454,7 +454,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                         && !(ground instanceof Skateable && (Math.abs(getBottom() - ground.getTop()) <= 1))
                         && !(ground instanceof Hazardous && (Math.abs(getBottom() - ground.getTop()) <= 1))) {
                     // if contact with ground sides detected without concern for ground state (either grounded or airborne),
-                    // reset stride acceleration, disable stride and dash, and set energage at ground side
+                    // reset stride acceleration, disable stride and dash, and set energen at ground side
                     if (action != Action.STRIDING || action != Action.DASHING) {
                         strideStartTime = 0; // reset stride acceleration
                     }
@@ -491,13 +491,13 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     private void touchGroundBottom(Groundable ground) {
         if (!(touchedGround != null && !touchedGround.equals(ground)
                 && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
-            // if contact with ground bottom detected, halts upward progression and set energage at ground bottom
+            // if contact with ground bottom detected, halts upward progression and set energen at ground bottom
             if ((previousFramePosition.y + Constants.AVATAR_HEAD_RADIUS) < ground.getBottom() + 1) {
                 velocity.y = 0; // prevents from ascending above ground bottom
                 if (groundState == GroundState.AIRBORNE) { // prevents fall when striding against ground bottom positioned at height distance from ground atop
                     fall(); // descend from point of contact with ground bottom
                     if (!(ground instanceof Vehicular)) { // prevents from being pushed below ground
-                        position.y = ground.getBottom() - Constants.AVATAR_HEAD_RADIUS;  // sets energage at ground bottom
+                        position.y = ground.getBottom() - Constants.AVATAR_HEAD_RADIUS;  // sets energen at ground bottom
                     }
                 } else if (action == Action.CLIMBING) { // prevents from disengaging climb
                     fall(); // descend from point of contact with ground bottom
@@ -506,7 +506,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                     action = Action.CLIMBING;
                     groundState = GroundState.PLANTED;
                     if (!(ground instanceof Vehicular)) { // prevents from being pushed below ground
-                        position.y = ground.getBottom() - Constants.AVATAR_HEAD_RADIUS;  // sets energage at ground bottom
+                        position.y = ground.getBottom() - Constants.AVATAR_HEAD_RADIUS;  // sets energen at ground bottom
                     }
                 }
                 canDash = false;
@@ -518,11 +518,11 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     private void touchGroundTop(Groundable ground) {
         if (!(touchedGround != null && !touchedGround.equals(ground)
                 && ((touchedGround.getLeft() == ground.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == ground.getRight() && position.x > touchedGround.getPosition().x)))) {
-            // if contact with ground top detected, halt downward progression and set energage atop ground
+            // if contact with ground top detected, halt downward progression and set energen atop ground
             if (previousFramePosition.y - Constants.AVATAR_EYE_HEIGHT >= ground.getTop() - 1) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
                 if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, ground.getLeft() + 1, ground.getRight() - 1) || groundState != GroundState.AIRBORNE)) { // prevents interrupting fall when inputting x directional against and overlapping two separate ground sides
                     velocity.y = 0; // prevents from descending beneath ground top
-                    position.y = ground.getTop() + Constants.AVATAR_EYE_HEIGHT; // sets energage atop ground
+                    position.y = ground.getTop() + Constants.AVATAR_EYE_HEIGHT; // sets energen atop ground
                     setAtopGround(ground); // basic ground top collision instructions common to all types of grounds
                 }
                 // additional ground top collision instructions specific to certain types of grounds
@@ -1489,14 +1489,14 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     }
     public void resetChaseCamPosition() {
         float offsetDistance = chaseCamPosition.y - position.y;
-        // move chasecam back towards energage yposition provided yposition cannot be changed until fully reset
-        if (Math.abs(offsetDistance) > 5) { // if chasecam offset from energage yposition more than five pixels
+        // move chasecam back towards energen yposition provided yposition cannot be changed until fully reset
+        if (Math.abs(offsetDistance) > 5) { // if chasecam offset from energen yposition more than five pixels
             if (offsetDistance < 0) {
                 chaseCamPosition.y += 2.5f;
             } else if (offsetDistance > 0) {
                 chaseCamPosition.y -= 2.5f;
             }
-            chaseCamPosition.x = position.x; // set chasecam position to energage xposition
+            chaseCamPosition.x = position.x; // set chasecam position to energen xposition
         } else if (chaseCamPosition.y != position.y) { // if chasecam offset less than 5 but greater than 0 and actively looking
             chaseCamPosition.set(position, 0); // reset chasecam
             canLook = false; // disable look

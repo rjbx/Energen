@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.github.rjbx.energage.app.ScreenManager;
+import com.github.rjbx.energen.app.ScreenManager;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
