@@ -1220,7 +1220,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private void enableDash() {
         handleXInputs();
-        if (canDash) {
+        if (canDash && !canRush) {
             dash();
         } else if (action == Action.DASHING) {
             dash();
