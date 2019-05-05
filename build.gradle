@@ -26,7 +26,7 @@ allprojects {
 
     version = '1.0'
     ext {
-        appName = "energraft"
+        appName = "Ener"
         gdxVersion = '1.9.9'
         roboVMVersion = '2.3.5'
         box2DLightsVersion = '1.4'
@@ -122,18 +122,18 @@ project(":core") {
     }
 
     task packTextures {
-        def pack = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack.png")
-        def pack2 = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack2.png")
-        def pack3 = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack3.png")
-        def pack4 = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack4.png")
-        def atlas = new File("${rootProject.getRootDir()}/android/assets/images/gigagal.pack.atlas")
+        def pack = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack.png")
+        def pack2 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack2.png")
+        def pack3 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack3.png")
+        def pack4 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack4.png")
+        def atlas = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack.atlas")
 
         inputs.dir "${rootProject.getRootDir()}/core/assets/images"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack2.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack3.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack4.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/gigagal.pack.atlas"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack.png"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack2.png"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack3.png"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack4.png"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack.atlas"
 
         doLast {
             pack.delete()
@@ -141,7 +141,7 @@ project(":core") {
             pack3.delete()
             pack4.delete()
             atlas.delete()
-            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/android/assets/images", "gigagal.pack")
+            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/android/assets/images", "energen.pack")
         }
     }
 

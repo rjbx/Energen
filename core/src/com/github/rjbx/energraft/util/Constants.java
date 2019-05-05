@@ -26,7 +26,7 @@ public final class Constants {
     public static final float CHASE_CAM_MOVE_SPEED = WORLD_SIZE;
 
     // Asset files
-    public static final AssetDescriptor<TextureAtlas> TEXTURE_ATLAS = new AssetDescriptor<TextureAtlas>("images/gigagal.pack.atlas", TextureAtlas.class);
+    public static final AssetDescriptor<TextureAtlas> TEXTURE_ATLAS = new AssetDescriptor<TextureAtlas>("images/energen.pack.atlas", TextureAtlas.class);
     public static final AssetDescriptor<Sound> HEALTH_SOUND = new AssetDescriptor<Sound>("audio/health.wav", Sound.class);
     public static final AssetDescriptor<Sound> AMMO_SOUND = new AssetDescriptor<Sound>("audio/ammo.wav", Sound.class);
     public static final AssetDescriptor<Sound> TURBO_SOUND = new AssetDescriptor<Sound>("audio/turbo.wav", Sound.class);

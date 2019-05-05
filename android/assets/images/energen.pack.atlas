@@ -1,5 +1,5 @@
 
-gigagal.pack.png
+energen.pack.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
@@ -1713,7 +1713,7 @@ zoomba-solid-2
   offset: 0, 0
   index: -1
 
-gigagal.pack2.png
+energen.pack2.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
@@ -3301,7 +3301,7 @@ zoomba-gas-2
   offset: 0, 0
   index: -1
 
-gigagal.pack3.png
+energen.pack3.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
@@ -3321,7 +3321,7 @@ background-plasma
   offset: 0, 0
   index: -1
 
-gigagal.pack4.png
+energen.pack4.png
 size: 1024,512
 format: RGBA8888
 filter: Nearest,Nearest
