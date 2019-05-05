@@ -6,10 +6,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.github.rjbx.energraft.entity.Avatar;
+import com.github.rjbx.energraft.overlay.Backdrop;
 import com.github.rjbx.energraft.overlay.TouchInterface;
 import com.github.rjbx.energraft.util.AssetManager;
 import com.github.rjbx.energraft.util.InputControls;
@@ -223,7 +225,7 @@ final class LevelScreen extends ScreenAdapter {
             endMessage = Constants.FAIL_MESSAGE;
             font.getData().setScale(.4f);
             if (levelEndOverlayStartTime == 0) {
-                levelUpdater.end();
+//                levelUpdater.end();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
             }
             if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
@@ -233,6 +235,8 @@ final class LevelScreen extends ScreenAdapter {
                 font.getData().setScale(.4f);
                 return;
             }
+            Gdx.gl.glClearColor(0, 0, 0, 0);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         } else if (levelUpdater.completed()) {
             endMessage = Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "TIME: " + Helpers.secondsToString(SaveData.getTotalTime()) + "\nSCORE: " + SaveData.getTotalScore() + "\n\nLEVEL TOTAL\n" + "TIME: " + Helpers.secondsToString(levelUpdater.getUnsavedTime()) + "\n" + "SCORE " + levelUpdater.getScore();
             if (levelEndOverlayStartTime == 0) {
@@ -245,9 +249,10 @@ final class LevelScreen extends ScreenAdapter {
                 screenManager.setScreen(overworldScreen);
                 return;
             }
+            AssetManager assetManager = AssetManager.getInstance();
+            Backdrop backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(levelUpdater.getTheme()));
+            backdrop.render(batch, staticViewport, new Vector2(chaseCam.camera.position.x, chaseCam.camera.position.y), Constants.BACKGROUND_CENTER, 1);
         }
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Helpers.drawBitmapFont(batch, staticViewport, font, endMessage, staticViewport.getCamera().position.x, staticViewport.getCamera().position.y + staticViewport.getWorldHeight() / 10f, Align.center);
     }
 
