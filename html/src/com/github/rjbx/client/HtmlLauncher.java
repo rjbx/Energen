@@ -3,7 +3,8 @@ package com.github.rjbx.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.github.rjbx.Energen;
+import com.github.rjbx.energen.*;
+import com.github.rjbx.energen.app.ScreenManager;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -46,6 +47,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new Energen();
+                return ScreenManager.getInstance();
         }
 }
