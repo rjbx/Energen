@@ -145,8 +145,8 @@ final class LevelScreen extends ScreenAdapter {
         switch (menuType) {
             case MAIN:
                 if (inputControls.jumpButtonJustPressed) {
-                    energen.toggleWeapon(Enums.Direction.DOWN); // enables energen to toggleWeapon weapon during pause without enabling other energen features
-                    menu.setPromptString(Align.right, (energen.getWeapon().name() + "\n" + SaveData.getWeapons().replace(energen.getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
+                    energen.toggleEnergy(Enums.Direction.DOWN); // enables energen to toggleEnergy energy during pause without enabling other energen features
+                    menu.setPromptString(Align.right, (energen.getEnergy().name() + "\n" + SaveData.getEnergys().replace(energen.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
                 }
                 if (inputControls.shootButtonJustPressed) {
                     if (cursor.getPosition() == staticViewport.getCamera().position.y && chaseCam.getState() != Enums.ChaseCamState.DEBUG) {
@@ -270,7 +270,7 @@ final class LevelScreen extends ScreenAdapter {
         menu.setOptionStrings(Arrays.asList(optionStrings));
         menu.setPromptString(Align.left, Constants.HUD_AMMO_LABEL + energen.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + energen.getHealth() + "\n" + "Turbo: " + energen.getTurbo());
         menu.setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString((SaveData.getTotalTime()) + levelUpdater.getUnsavedTime()) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
-        menu.setPromptString(Align.right, (energen.getWeapon().name() + "\n" + SaveData.getWeapons().replace(energen.getWeapon().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
+        menu.setPromptString(Align.right, (energen.getEnergy().name() + "\n" + SaveData.getEnergys().replace(energen.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
         menu.TextAlignment(Align.center);
         menuType = Enums.MenuType.MAIN;
     }

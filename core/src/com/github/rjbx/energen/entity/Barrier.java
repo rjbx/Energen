@@ -16,7 +16,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
     // fields
     public final static String TAG = Barrier.class.getName();
 
-    private final Enums.Material type;
+    private final Enums.Energy type;
     protected Vector2 position; // class-level instantiation
     private float width;
     private float height;
@@ -29,7 +29,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
         this.width = 0;
         this.height = 0;
         this.position = new Vector2();
-        this.type = Enums.Material.NATIVE;
+        this.type = Enums.Energy.NATIVE;
         this.dense = true;
         converted = false;
         ninePatch = new NinePatch(AssetManager.getInstance().getGroundAssets().getNinePatch(this));
@@ -37,7 +37,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
     }
 
     // ctor
-    public Barrier(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
+    public Barrier(float xPos, float yPos, float width, float height, Enums.Energy type, boolean dense) {
         this.width = width;
         this.height = height;
         this.position = new Vector2(xPos + (width / 2), yPos + (height / 2));
@@ -73,7 +73,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
     @Override public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
     @Override public void convert() { dense = !dense; converted = true; }
     @Override public boolean isConverted() { return converted; }
-    public Enums.Material getType() { return type; }
+    public Enums.Energy getType() { return type; }
     public Color getColor() { return ninePatch.getColor(); }
     private void setColor() {
         if (isDense()) {

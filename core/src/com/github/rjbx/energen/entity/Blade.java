@@ -19,7 +19,7 @@ public final class Blade extends Hazard implements Indestructible {
     public final static String TAG = Blade.class.getName();
     public static final Blade INSTANCE = new Blade();
     private Vector2 position;
-    private Material weapon;
+    private Energy energy;
     private Rectangle bounds;
     private int damage;
     private Vector2 center;
@@ -38,7 +38,7 @@ public final class Blade extends Hazard implements Indestructible {
         position = Avatar.getInstance().getPosition();
         center = Constants.BLADE_CENTER;
         bounds = new Rectangle(getLeft(), getBottom(), getWidth(), getHeight());
-        this.weapon = Avatar.getInstance().getWeapon();
+        this.energy = Avatar.getInstance().getEnergy();
         knockback = new Vector2();
         damage = 0;
         active = true;
@@ -48,7 +48,7 @@ public final class Blade extends Hazard implements Indestructible {
     }
 
     public void update(float delta) {
-        setAttributes(Avatar.getInstance().getWeapon());
+        setAttributes(Avatar.getInstance().getEnergy());
     }
 
     @Override
@@ -66,9 +66,9 @@ public final class Blade extends Hazard implements Indestructible {
         }
     }
 
-    public void setAttributes(Material weapon) {
+    public void setAttributes(Energy energy) {
         if (Avatar.getInstance().getBladeState() != BladeState.RETRACTED) {
-            switch (weapon) {
+            switch (energy) {
                 case NATIVE:
                     switch (Avatar.getInstance().getBladeState()) {
                         case FLIP:
@@ -204,6 +204,6 @@ public final class Blade extends Hazard implements Indestructible {
     public Rectangle getBounds() { return bounds; }
     public final int getDamage() { return damage; }
     public final Vector2 getKnockback() { return knockback; }
-    public final Material getType() { return weapon; }
+    public final Energy getType() { return energy; }
     public final int getHitScore() { return hitScore; }
 }

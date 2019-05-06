@@ -17,7 +17,7 @@ public class Suspension extends Hazard implements Indestructible, Convertible {
     public final static String TAG = Suspension.class.getName();
 
     private Vector2 position;
-    private Enums.Material type;
+    private Enums.Energy type;
     private Vector2 collisionSpan; // class-level instantiation
     private Vector2 center; // class-level instantiation
     private Vector2 knockback; // class-level instantiation
@@ -28,7 +28,7 @@ public class Suspension extends Hazard implements Indestructible, Convertible {
     private long startTime;
 
     // ctor
-    public Suspension(Vector2 position, Enums.Material type) {
+    public Suspension(Vector2 position, Enums.Energy type) {
         this.position = position;
         this.type = type;
         startTime = TimeUtils.nanoTime();
@@ -70,12 +70,12 @@ public class Suspension extends Hazard implements Indestructible, Convertible {
     @Override public final float getBottom() { return position.y - center.y; }
     @Override public final int getDamage() { return damage; }
     @Override public final Vector2 getKnockback() { return knockback; }
-    @Override public final Enums.Material getType() { return type; }
+    @Override public final Enums.Energy getType() { return type; }
     public final long getStartTime() { return startTime; }
     public final void resetStartTime() { this.startTime = 0; }
     @Override public void convert() { state = !state; converted = true; }
     @Override public boolean isConverted() { return converted; }
-    private final void setTypeAttributes(Enums.Material type) {
+    private final void setTypeAttributes(Enums.Energy type) {
         switch (type) {
             case ORE:
                 animation = AssetManager.getInstance().getSuspensionAssets().oreSuspension;

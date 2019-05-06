@@ -67,7 +67,7 @@ public final class Enums {
         WEAK
     }
 
-    public enum Material {
+    public enum Energy {
 
         NATIVE { @Override public final Theme theme() { return Theme.HOME; } },
 

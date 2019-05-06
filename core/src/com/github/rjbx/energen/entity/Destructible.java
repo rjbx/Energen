@@ -4,7 +4,7 @@ import com.github.rjbx.energen.util.Enums;
 
 public interface Destructible extends Strikeable {
 
-    Enums.Material getType();
+    Enums.Energy getType();
     float getShotRadius();
     float getHealth();
     void setHealth(float health);

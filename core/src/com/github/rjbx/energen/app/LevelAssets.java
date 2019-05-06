@@ -61,6 +61,6 @@ public final class LevelAssets {
 
     public static final long getTime() { return levelUpdater.getTime(); }
     public static final int getScore() { return levelUpdater.getScore(); }
-    public static final Enums.Material getType() { return levelUpdater.getType(); }
+    public static final Enums.Energy getType() { return levelUpdater.getType(); }
     public static final Viewport getViewport() { return levelUpdater.getViewport(); }
 }

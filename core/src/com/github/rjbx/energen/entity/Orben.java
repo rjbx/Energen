@@ -24,7 +24,7 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
     private Vector2 previousFramePosition;
     private Enums.Direction xDirection;
     private Enums.Direction yDirection;
-    private Enums.Material type;
+    private Enums.Energy type;
     private Vector2 velocity; // class-level instantiation
     private boolean canDispatch;
     private long startTime;
@@ -33,7 +33,7 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
     private Animation<TextureRegion> animation;
 
     // ctor
-    public Orben(Vector2 position, Enums.Material type) {
+    public Orben(Vector2 position, Enums.Energy type) {
         this.type = type;
         this.position = position;
         this.previousFramePosition = new Vector2();
@@ -184,7 +184,7 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
     @Override public final int getDamage() { return Constants.ORBEN_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ORBEN_KNOCKBACK; }
     @Override public final void setHealth( float health ) { this.health = health; }
-    @Override public Enums.Material getType() { return type; }
+    @Override public Enums.Energy getType() { return type; }
     @Override public Enums.Direction getDirectionX() { return xDirection; }
     @Override public Enums.Direction getDirectionY() { return yDirection; }
     @Override public void setDirectionX(Enums.Direction direction) { xDirection = direction; }

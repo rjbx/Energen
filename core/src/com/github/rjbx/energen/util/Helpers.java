@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.rjbx.energen.app.SaveData;
 import com.github.rjbx.energen.entity.Aerial;
-import com.github.rjbx.energen.entity.Ammo;
+import com.github.rjbx.energen.entity.Projectile;
 import com.github.rjbx.energen.entity.Avatar;
 import com.github.rjbx.energen.entity.Destructible;
 import com.github.rjbx.energen.entity.Hazard;
@@ -310,16 +310,16 @@ public final class Helpers {
 
         damage = damage / Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()];
 
-        if (hazard instanceof Ammo) {
-            Ammo ammo = (Ammo) hazard;
-            if (!(ammo.getSource() instanceof Avatar)) {
+        if (hazard instanceof Projectile) {
+            Projectile projectile = (Projectile) hazard;
+            if (!(projectile.getSource() instanceof Avatar)) {
                 damage -= Constants.AMMO_WEAK_DAMAGE;
                 damage /= 2;
             } else {
-                ammo.setHitScore(ammo.getHitScore() + destructible.getHitScore());
+                projectile.setHitScore(projectile.getHitScore() + destructible.getHitScore());
             }
             if (!(destructible instanceof Orben && !(((Orben) destructible).isActive()))) {
-                if (ammo.getShotIntensity() == Enums.ShotIntensity.NORMAL) {
+                if (projectile.getShotIntensity() == Enums.ShotIntensity.NORMAL) {
                     damage *= .67f;
                 }
             }
@@ -327,18 +327,18 @@ public final class Helpers {
         destructible.setHealth(destructible.getHealth() - damage);
     }
 
-    public static Enums.ReactionIntensity getAmmoEffectiveness(Enums.Material enemyType, Enums.Material ammoType) {
+    public static Enums.ReactionIntensity getAmmoEffectiveness(Enums.Energy enemyType, Enums.Energy ammoType) {
         if (enemyType == ammoType) {
             return Enums.ReactionIntensity.WEAK;
         }
         if (
-           (enemyType == Enums.Material.SOLID && ammoType == Enums.Material.LIQUID)
-        || (enemyType == Enums.Material.ORE && ammoType == Enums.Material.SOLID)
-        || (enemyType == Enums.Material.PLASMA && ammoType == Enums.Material.ORE)
-        || (enemyType == Enums.Material.LIQUID && ammoType == Enums.Material.GAS)
-        || (enemyType == Enums.Material.GAS && ammoType == Enums.Material.PLASMA)
-        || (ammoType == Enums.Material.ANTIMATTER)
-        || (ammoType == Enums.Material.HYBRID)) {
+           (enemyType == Enums.Energy.SOLID && ammoType == Enums.Energy.LIQUID)
+        || (enemyType == Enums.Energy.ORE && ammoType == Enums.Energy.SOLID)
+        || (enemyType == Enums.Energy.PLASMA && ammoType == Enums.Energy.ORE)
+        || (enemyType == Enums.Energy.LIQUID && ammoType == Enums.Energy.GAS)
+        || (enemyType == Enums.Energy.GAS && ammoType == Enums.Energy.PLASMA)
+        || (ammoType == Enums.Energy.ANTIMATTER)
+        || (ammoType == Enums.Energy.HYBRID)) {
             return Enums.ReactionIntensity.STRONG;
         }
         return Enums.ReactionIntensity.NORMAL;

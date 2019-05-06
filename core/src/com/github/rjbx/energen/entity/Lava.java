@@ -43,7 +43,7 @@ public class Lava extends Ground implements Indestructible, Pourous, Hazardous {
     @Override public final float getRight() { return position.x + Constants.LAVA_CENTER.x * scale.x; }
     @Override public final float getTop() { return position.y + Constants.LAVA_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.LAVA_CENTER.y * scale.y; }
-    @Override public final Enums.Material getType() { return Enums.Material.LIQUID; }
+    @Override public final Enums.Energy getType() { return Enums.Energy.LIQUID; }
     @Override public final Vector2 getKnockback() { return Constants.LAVA_KNOCKBACK; }
     @Override public final int getDamage() { return Constants.LAVA_DAMAGE; }
     @Override public final boolean isDense() { return false; }

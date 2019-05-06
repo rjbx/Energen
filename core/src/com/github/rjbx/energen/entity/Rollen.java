@@ -23,7 +23,7 @@ public class Rollen extends Hazard implements Destructible, Roving, Impermeable 
     private Vector2 position;
     private Vector2 previousFramePosition; // class-level instantiationa
     private Enums.Direction xDirection;
-    private Enums.Material type;
+    private Enums.Energy type;
     private Vector2 velocity; // class-level instantiation
     private float collision;
     private long startTime;
@@ -35,7 +35,7 @@ public class Rollen extends Hazard implements Destructible, Roving, Impermeable 
     private Animation<TextureRegion> animation;
 
     // ctor
-    public Rollen(Vector2 position, Enums.Material type) {
+    public Rollen(Vector2 position, Enums.Energy type) {
         this.type = type;
         this.position = position;
         previousFramePosition = new Vector2();
@@ -188,7 +188,7 @@ public class Rollen extends Hazard implements Destructible, Roving, Impermeable 
     @Override public final int getDamage() { return Constants.ROLLEN_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ROLLEN_KNOCKBACK; }
     @Override public final void setHealth( float health ) { this.health = health; }
-    @Override public final Enums.Material getType() { return type; }
+    @Override public final Enums.Energy getType() { return type; }
     @Override public Enums.Direction getDirectionX() { return xDirection; }
     @Override public void setDirectionX(Enums.Direction direction) { xDirection = direction; }
     public final long getStartTime() { return startTime; }

@@ -17,12 +17,12 @@ public class Impact extends Entity {
     //fields
     public static final String TAG = Impact.class.getName();
     private final Vector2 position;
-    private final Enums.Material type;
+    private final Enums.Energy type;
     private final Animation<TextureRegion> animation;
     private final long startTime;
 
     // ctor
-    public Impact(Vector2 position, Enums.Material type) {
+    public Impact(Vector2 position, Enums.Energy type) {
         this.position = position;
         this.type = type;
         startTime = TimeUtils.nanoTime();

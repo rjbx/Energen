@@ -1,7 +1,5 @@
 package com.github.rjbx.energen.entity;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.rjbx.energen.util.Enums;
 
 // mutable
@@ -13,7 +11,7 @@ public class Box extends Barrier implements Destructible {
     private float damage;
 
     // ctor
-    public Box(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
+    public Box(float xPos, float yPos, float width, float height, Enums.Energy type, boolean dense) {
         super(xPos, yPos, width, height, type, dense);
         damage = 50;
     }

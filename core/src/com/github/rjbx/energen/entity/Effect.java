@@ -17,12 +17,12 @@ public class Effect extends Entity {
     //fields
     public static final String TAG = com.github.rjbx.energen.entity.Effect.class.getName();
     private final Vector2 position;
-    private final Enums.Material type;
+    private final Enums.Energy type;
     private final Animation<TextureRegion> animation;
     private final long startTime;
 
     // ctor
-    public Effect(Vector2 position, Enums.Material type) {
+    public Effect(Vector2 position, Enums.Energy type) {
         this.position = position;
         this.type = type;
         startTime = TimeUtils.nanoTime();

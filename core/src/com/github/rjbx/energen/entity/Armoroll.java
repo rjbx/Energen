@@ -24,7 +24,7 @@ public class Armoroll extends Hazard implements Armored, Groundable, Roving, Des
     private Vector2 position;
     private Vector2 previousFramePosition; // class-level instantiation
     private Enums.Direction xDirection;
-    private Enums.Material type;
+    private Enums.Energy type;
     private Vector2 velocity; // class-level instantiation
     private final float collision;
     private float speed;
@@ -40,7 +40,7 @@ public class Armoroll extends Hazard implements Armored, Groundable, Roving, Des
     private boolean armorStruck;
 
     // ctor
-    public Armoroll(Vector2 position, Enums.Material type, float speed) {
+    public Armoroll(Vector2 position, Enums.Energy type, float speed) {
         this.type = type;
         this.position = position;
         this.speed = speed;
@@ -202,7 +202,7 @@ public class Armoroll extends Hazard implements Armored, Groundable, Roving, Des
     @Override public final int getDamage() { return Constants.ROLLEN_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ROLLEN_KNOCKBACK; }
     @Override public final void setHealth( float health ) { this.health = health; }
-    @Override public final Enums.Material getType() { return type; }
+    @Override public final Enums.Energy getType() { return type; }
     @Override public Enums.Direction getDirectionX() { return xDirection; }
     @Override public void setDirectionX(Enums.Direction direction) { xDirection = direction; }
     @Override public void strikeArmor() { armorStruck = true; }

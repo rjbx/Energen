@@ -218,7 +218,7 @@ portal-1
   orig: 64, 64
   offset: 0, 0
   index: -1
-powerup-ammo
+powerup-projectile
   rotate: false
   xy: 346, 6
   size: 15, 17

@@ -22,7 +22,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     // fields
     public final static String TAG = Zoomba.class.getName();
 
-    private final Enums.Material type;
+    private final Enums.Energy type;
     private final long startTime;
     private final float bobOffset;
     private final float range;
@@ -39,7 +39,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     private boolean converted;
 
     // ctor
-    public Zoomba(Vector2 position, Enums.Orientation orientation, Enums.Material type, float range) {
+    public Zoomba(Vector2 position, Enums.Orientation orientation, Enums.Energy type, float range) {
         this.position = position;
         this.startingPosition = new Vector2(position);
         velocity = new Vector2();
@@ -147,7 +147,7 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
     @Override public final int getHitScore() { return Constants.ZOOMBA_HIT_SCORE; }
     @Override public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
     @Override public final int getDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
-    @Override public Enums.Material getType() { return type; }
+    @Override public Enums.Energy getType() { return type; }
     @Override public final void setHealth( float health ) { this.health = health; }
     @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     @Override public Enums.Orientation getOrientation() { return orientation; }

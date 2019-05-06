@@ -182,15 +182,15 @@ final class LevelLoader {
         return direction;
     }
 
-    private static final Enums.Material extractType(JSONObject object) {
-        Enums.Material type = Enums.Material.NATIVE;
+    private static final Enums.Energy extractType(JSONObject object) {
+        Enums.Energy type = Enums.Energy.NATIVE;
         try {
             if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
                 String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_TYPE_KEY)) {
                         String[] typeSplit = customVar.split(Constants.LEVEL_TYPE_KEY + ":");
-                        type = Enums.Material.valueOf(typeSplit[1]);
+                        type = Enums.Energy.valueOf(typeSplit[1]);
                     }
                 }
             }
@@ -376,7 +376,7 @@ final class LevelLoader {
             final Vector2 destination = extractDestination(item);
             final Enums.Orientation orientation = extractOrientation(item);
             final Enums.Direction direction = extractDirection(item);
-            final Enums.Material type = extractType(item);
+            final Enums.Energy type = extractType(item);
             final Enums.ShotIntensity intensity = extractIntensity(item);
             final Enums.Upgrade upgrade = extractUpgrade(item);
             final Rectangle bounds = extractBounds(item);
@@ -427,7 +427,7 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BEAST_SPRITE)) {
                 final Vector2 bossPosition = imagePosition.add(Constants.AVATAR_EYE_POSITION);
                 Gdx.app.log(TAG, "Loaded Boss at " + bossPosition);
-                Boss boss = new Boss.Builder(bossPosition).weapon(type).build();
+                Boss boss = new Boss.Builder(bossPosition).energy(type).build();
                 level.addHazard(boss);
                 level.setBoss(boss);
                 ChaseCam.getInstance().setRoomPosition(bossPosition);
@@ -442,43 +442,43 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_ORE_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_ORE_CENTER);
                 Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
-                level.addHazard(new Protrusion(spikePosition, Enums.Material.ORE, rotation, !tags[Constants.ON_TAG_INDEX]));
+                level.addHazard(new Protrusion(spikePosition, Enums.Energy.ORE, rotation, !tags[Constants.ON_TAG_INDEX]));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_PLASMA_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_SOLID_CENTER);
                 Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
-                level.addHazard(new Protrusion(spikePosition, Enums.Material.PLASMA, rotation, !tags[Constants.ON_TAG_INDEX]));
+                level.addHazard(new Protrusion(spikePosition, Enums.Energy.PLASMA, rotation, !tags[Constants.ON_TAG_INDEX]));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_GAS_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_GAS_CENTER);
                 Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
-                level.addHazard(new Protrusion(spikePosition, Enums.Material.GAS, rotation, !tags[Constants.ON_TAG_INDEX]));
+                level.addHazard(new Protrusion(spikePosition, Enums.Energy.GAS, rotation, !tags[Constants.ON_TAG_INDEX]));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_LIQUID_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_LIQUID_CENTER);
                 Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
-                level.addHazard(new Protrusion(spikePosition, Enums.Material.LIQUID, rotation, !tags[Constants.ON_TAG_INDEX]));
+                level.addHazard(new Protrusion(spikePosition, Enums.Energy.LIQUID, rotation, !tags[Constants.ON_TAG_INDEX]));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_SOLID_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_SOLID_CENTER);
                 Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);
-                level.addHazard(new Protrusion(spikePosition, Enums.Material.SOLID, rotation, !tags[Constants.ON_TAG_INDEX]));
+                level.addHazard(new Protrusion(spikePosition, Enums.Energy.SOLID, rotation, !tags[Constants.ON_TAG_INDEX]));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_ORE_SPRITE_1)) {
                 final Vector2 suspensionPosition = imagePosition.add(Constants.SUSPENSION_ORE_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + suspensionPosition);
-                level.addHazard(new Suspension(suspensionPosition, Enums.Material.ORE));
+                level.addHazard(new Suspension(suspensionPosition, Enums.Energy.ORE));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_PLASMA_SPRITE_1)) {
                 final Vector2 suspensionPosition = imagePosition.add(Constants.SUSPENSION_SOLID_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + suspensionPosition);
-                level.addHazard(new Suspension(suspensionPosition, Enums.Material.PLASMA));
+                level.addHazard(new Suspension(suspensionPosition, Enums.Energy.PLASMA));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_GAS_SPRITE_1)) {
                 final Vector2 suspensionPosition = imagePosition.add(Constants.SUSPENSION_GAS_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + suspensionPosition);
-                level.addHazard(new Suspension(suspensionPosition, Enums.Material.GAS));
+                level.addHazard(new Suspension(suspensionPosition, Enums.Energy.GAS));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_LIQUID_SPRITE_1)) {
                 final Vector2 suspensionPosition = imagePosition.add(Constants.SUSPENSION_LIQUID_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + suspensionPosition);
-                level.addHazard(new Suspension(suspensionPosition, Enums.Material.LIQUID));
+                level.addHazard(new Suspension(suspensionPosition, Enums.Energy.LIQUID));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_SOLID_SPRITE_1)) {
                 final Vector2 suspensionPosition = imagePosition.add(Constants.SUSPENSION_SOLID_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + suspensionPosition);
-                level.addHazard(new Suspension(suspensionPosition, Enums.Material.SOLID));
+                level.addHazard(new Suspension(suspensionPosition, Enums.Energy.SOLID));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANIROL_SPRITE_1)) {
                 final Vector2 canirolPosition = imagePosition.add(Constants.X_CANIROL_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + canirolPosition);
@@ -641,7 +641,7 @@ final class LevelLoader {
 
             final Vector2 imagePosition = extractPosition(item);
             final boolean[] tags = extractTags(item);
-            final Enums.Material type = extractType(item);
+            final Enums.Energy type = extractType(item);
             float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
             float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
 

@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.github.rjbx.energen.app.LevelAssets;
-import com.github.rjbx.energen.entity.Ammo;
+import com.github.rjbx.energen.entity.Projectile;
 import com.github.rjbx.energen.entity.Avatar;
 import com.github.rjbx.energen.util.AssetManager;
 import com.github.rjbx.energen.util.Constants;
@@ -109,10 +109,10 @@ public class IndicatorHud {
             xLife += 20;
         }
 
-        Enums.Material weapon = avatar.getWeapon();
+        Enums.Energy energy = avatar.getEnergy();
         Enums.ShotIntensity intensity = avatar.getShotIntensity();
-        Ammo ammo = new Ammo(new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, weapon, LevelAssets.getClonedAvatar());
-        ammo.update(1);
+        Projectile projectile = new Projectile(new Vector2(0,0), Enums.Direction.RIGHT, Enums.Orientation.X, intensity, energy, LevelAssets.getClonedAvatar());
+        projectile.update(1);
         Vector2 offset = new Vector2();
         switch (intensity) {
             case NORMAL:
@@ -128,12 +128,12 @@ public class IndicatorHud {
                 offset.scl(Constants.AMMO_ICON_SCALE);
         }
 
-        if (ammo.getTexture() != null) {
+        if (projectile.getTexture() != null) {
 
             Helpers.drawTextureRegion(
                     batch,
                     viewport,
-                    ammo.getTexture(),
+                    projectile.getTexture(),
                     viewport.getCamera().position.x + viewport.getWorldWidth() / 2.75f,
                     yIcon,
                     offset.x,

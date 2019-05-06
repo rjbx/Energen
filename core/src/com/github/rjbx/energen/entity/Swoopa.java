@@ -26,14 +26,14 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
     private Vector2 velocity; // class-level instantiation
     private Vector2 position;
     private final Enums.Direction direction;
-    private final Enums.Material type;
+    private final Enums.Energy type;
     private float health;
     private long descentStartTime;
     private Animation<TextureRegion> animation;
     private Sound sound;
 
     // ctor
-    public Swoopa(Vector2 position, Enums.Direction direction, Enums.Material type) {
+    public Swoopa(Vector2 position, Enums.Direction direction, Enums.Energy type) {
         this.position = position;
         this.direction = direction;
         this.type = type;
@@ -120,7 +120,7 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
     @Override public final int getKillScore() { return Constants.SWOOPA_KILL_SCORE; }
     @Override public final int getDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.SWOOPA_KNOCKBACK; }
-    @Override public final Enums.Material getType() { return type; }
+    @Override public final Enums.Energy getType() { return type; }
     @Override public final boolean isDense() { return true; }
     public int getMountDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.SWOOPA_KNOCKBACK; }

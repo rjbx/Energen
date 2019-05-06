@@ -58,9 +58,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private Pliable carriedGround;
     private ShotIntensity shotIntensity;
     private BladeState bladeState;
-    private Material weapon;
-    private List<Material> weaponList; // class-level instantiation
-    private ListIterator<Material> weaponToggler; // class-level instantiation
+    private Energy energy;
+    private List<Energy> energyList; // class-level instantiation
+    private ListIterator<Energy> energyToggler; // class-level instantiation
     private List<Upgrade> upgradeList;
     private boolean canShoot;
     private boolean canDispatch;
@@ -131,8 +131,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         previousFramePosition = new Vector2();
         chaseCamPosition = new Vector3();
         velocity = new Vector2();
-        weaponList = new ArrayList<Material>();
-        weaponToggler = weaponList.listIterator();
+        energyList = new ArrayList<Energy>();
+        energyToggler = energyList.listIterator();
         upgradeList = new ArrayList<Upgrade>();
         height = Constants.AVATAR_HEIGHT;
         eyeHeight = Constants.AVATAR_EYE_HEIGHT;
@@ -146,27 +146,27 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         strideMultiplier = 1;
         jumpMultiplier = 1;
         chargeModifier = 0;
-        String savedWeapons = SaveData.getWeapons();
-        if (!savedWeapons.equals(Material.NATIVE.name())) {
-            List<String> savedWeaponsList = Arrays.asList(savedWeapons.split(", "));
-            for (String weaponString : savedWeaponsList) {
-                addWeapon(Material.valueOf(weaponString));
+        String savedEnergys = SaveData.getEnergys();
+        if (!savedEnergys.equals(Energy.NATIVE.name())) {
+            List<String> savedEnergysList = Arrays.asList(savedEnergys.split(", "));
+            for (String energyString : savedEnergysList) {
+                addEnergy(Energy.valueOf(energyString));
             }
-            weapon = weaponToggler.previous();
+            energy = energyToggler.previous();
         } else {
-            addWeapon(Material.NATIVE);
-            addWeapon(Material.ORE);
-            addWeapon(Material.PLASMA);
-            addWeapon(Material.GAS);
-            addWeapon(Material.LIQUID);
-            addWeapon(Material.SOLID);
-            addWeapon(Material.ANTIMATTER);
-            addWeapon(Material.HYBRID);
-            weapon = weaponToggler.previous();
+            addEnergy(Energy.NATIVE);
+            addEnergy(Energy.ORE);
+            addEnergy(Energy.PLASMA);
+            addEnergy(Energy.GAS);
+            addEnergy(Energy.LIQUID);
+            addEnergy(Energy.SOLID);
+            addEnergy(Energy.ANTIMATTER);
+            addEnergy(Energy.HYBRID);
+            energy = energyToggler.previous();
         }
 
         String savedUpgrades = SaveData.getUpgrades();
-        if (!savedUpgrades.equals(Material.NATIVE.name())) {
+        if (!savedUpgrades.equals(Energy.NATIVE.name())) {
             List<String> savedUpgradesList = Arrays.asList(savedUpgrades.split(", "));
             for (String upgradeString : savedUpgradesList) {
                 addUpgrade(Upgrade.valueOf(upgradeString));
@@ -254,22 +254,22 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 enableDash();
                 enableClimb(); // must come before jump (for now)
                 enableJump();
-                enableShoot(weapon);
+                enableShoot(energy);
                 enableSwipe();
             } else if (action == Action.STRIDING) {
                 enableStride();
                 enableDash();
                 enableJump();
-                enableShoot(weapon);
+                enableShoot(energy);
                 enableSwipe();
             } else if (action == Action.CLIMBING) {
                 enableClimb();
-                enableShoot(weapon);
+                enableShoot(energy);
                 enableSwipe();
             } else if (action == Action.DASHING) {
                 enableDash();
                 enableJump();
-                enableShoot(weapon);
+                enableShoot(energy);
             }
         } else if (groundState == GroundState.AIRBORNE) {
             velocity.y -= Constants.GRAVITY;
@@ -278,23 +278,23 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 enableClimb();
                 enableHover();
                 enableRappel();
-                enableShoot(weapon);
+                enableShoot(energy);
                 enableSwipe();
             } else if (action == Action.HOVERING) {
                 enableHover();
                 enableRappel();
                 enableClimb();
-                enableShoot(weapon);
+                enableShoot(energy);
                 enableSwipe();
             } else if (action == Action.RAPPELLING) {
                 enableJump();
                 enableRappel();
                 enableClimb();
-                enableShoot(weapon);
+                enableShoot(energy);
                 enableSwipe();
             } else if (action == Action.RECOILING) {
                 enableRappel();
-                enableShoot(weapon);
+                enableShoot(energy);
                 enableSwipe();
             }
         }
@@ -311,7 +311,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 bladeState = BladeState.FLIP;
             }
         } else if (canFlip) { // manual deactivation by shoot button release
-            AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+            AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
             swipeStartTime = 0;
             swipeTimeSeconds = 0;
             canFlip = false;
@@ -329,7 +329,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 bladeState = BladeState.RUSH;
             }
         } else if (canRush) {  // manual deactivation by dash interrupt
-            AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+            AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
             swipeStartTime = 0;
             swipeTimeSeconds = 0;
             canRush = false;
@@ -343,7 +343,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 bladeState = BladeState.CUT;
             }
         } else if (canCut) {
-            AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+            AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
             swipeStartTime = 0;
             swipeTimeSeconds = 0;
             canCut = false;
@@ -372,16 +372,16 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     }
                 }
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
-                AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+                AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
             } else { // auto deactivation when animation completes
-                AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+                AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
                 canFlip = false;
                 bladeState = BladeState.RETRACTED;
                 if (inputControls.jumpButtonPressed && chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION) {
-                    shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
+                    shoot(shotIntensity, energy, Helpers.useAmmo(shotIntensity));
                 }
             }
         }
@@ -391,16 +391,16 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
-                AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+                AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
             } else { // auto deactivation when animation completes
-                AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+                AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
                 canRush = false;
                 bladeState = BladeState.RETRACTED;
                 if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION && action == Action.DASHING) {
-                    shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
+                    shoot(shotIntensity, energy, Helpers.useAmmo(shotIntensity));
                 }
                 canDash = false;
                 stand();
@@ -412,16 +412,16 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
-                AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+                AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
             } else { // auto deactivation when animation completes
-                AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).stop();
+                AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
                 canCut = false;
                 bladeState = BladeState.RETRACTED;
                 if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION && inputControls.jumpButtonPressed) {
-                    shoot(shotIntensity, weapon, Helpers.useAmmo(shotIntensity));
+                    shoot(shotIntensity, energy, Helpers.useAmmo(shotIntensity));
                 }
                 canDash = false;
                 stand();
@@ -767,7 +767,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canPeer = false;
         }
         for (Hazard hazard : hazards) {
-            if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Avatar)) {
+            if (!(hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Avatar)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
                 } else if (hazard instanceof Moving) {
@@ -962,7 +962,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 if (!canRappel && !canHurdle && !getSwipeStatus()) { // prevents accidental toggle due to simultaneous jump and directional press
                     if (((inputControls.downButtonJustPressed && inputControls.upButtonPressed) || (inputControls.upButtonJustPressed && inputControls.downButtonPressed)) && inputControls.shootButtonPressed) {
                         lookStartTime = 0;
-                        toggleWeapon(directionY);
+                        toggleEnergy(directionY);
                         chargeStartTime = 0;
                         chargeTimeSeconds = 0;
                         canShoot = false; // prevents discharge only if releasing shoot before y input due to stand() condition
@@ -1130,7 +1130,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
     }
 
-    private void enableShoot(Material weapon) {
+    private void enableShoot(Energy energy) {
         canDispatch = false;
         if (canShoot) {
             if (getCarriedGround() == null && (inputControls.shootButtonPressed || (action == Action.RAPPELLING && (inputControls.rightButtonPressed || inputControls.leftButtonPressed)))) {
@@ -1144,28 +1144,28 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 chargeTimeSeconds = Helpers.secondsSince(chargeStartTime) + chargeModifier;
             } else if (chargeStartTime != 0) {
                 int ammoUsed;
-                if (weapon == Material.NATIVE
+                if (energy == Energy.NATIVE
                         || (ammo < Constants.BLAST_AMMO_CONSUMPTION && shotIntensity == ShotIntensity.BLAST)
                         || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
                     ammoUsed = 0;
-                    this.weapon = Material.NATIVE;
+                    this.energy = Energy.NATIVE;
                 } else {
                     ammoUsed = Helpers.useAmmo(shotIntensity);
                 }
                 chargeStartTime = 0;
                 chargeTimeSeconds = 0;
-                shoot(shotIntensity, weapon, ammoUsed);
+                shoot(shotIntensity, energy, ammoUsed);
             }
         }
     }
 
-    private void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
+    private void shoot(ShotIntensity shotIntensity, Energy energy, int ammoUsed) {
         shootStartTime = TimeUtils.nanoTime();
         canDispatch = true;
         if (shotIntensity == ShotIntensity.BLAST) {
-            AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+            AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
         } else {
-            AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play(1, 2, 0);
+            AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play(1, 2, 0);
         }
         ammo -= ammoUsed * ammoMultiplier;
     }
@@ -1307,7 +1307,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private void enableHover() {
         if (canHover) {
-            if (!(inputControls.upButtonPressed || inputControls.downButtonPressed)  // prevents from deactivating hover when toggling weapon
+            if (!(inputControls.upButtonPressed || inputControls.downButtonPressed)  // prevents from deactivating hover when toggling energy
             && inputControls.jumpButtonJustPressed) {
                 if (action == Action.HOVERING) {
                     //   canHover = false;
@@ -1711,7 +1711,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         body.add(frontHand);
         body.add(feet);
         if (frontFacing) {
-            batch.setColor(weapon.theme().color());
+            batch.setColor(energy.theme().color());
         } else {
             body.reverse();
         }
@@ -1726,7 +1726,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 if (frontFacing) {
                     batch.setColor(Color.WHITE);
                 } else {
-                    batch.setColor(weapon.theme().color());
+                    batch.setColor(energy.theme().color());
                 }
             }
         }
@@ -1900,9 +1900,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     @Override public final Enums.Action getAction() { return action; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
     public final BladeState getBladeState() { return bladeState; }
-    @Override public final Material getWeapon() { return weapon; }
+    @Override public final Energy getEnergy() { return energy; }
     private final float getHalfWidth() { return halfWidth; }
-    public List<Material> getWeaponList() { return weaponList; }
+    public List<Energy> getEnergyList() { return energyList; }
     public List<Upgrade> getUpgrades() { return upgradeList; }
     public float weightFactor() { float weight = Constants.AVATAR_WEIGHT; return (carriedGround != null ? weight + carriedGround.weightFactor() : weight); }
     public final float getAmmo() { return ammo; }
@@ -1952,30 +1952,30 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canLook = false; // disable look
         }
     }
-    public void addWeapon(Material weapon) { weaponToggler.add(weapon); }
-    public void toggleWeapon(Direction toggleDirection) { // to enable in-game, must discharge blast ammo
-        if (weaponList.size() > 1) {
+    public void addEnergy(Energy energy) { energyToggler.add(energy); }
+    public void toggleEnergy(Direction toggleDirection) { // to enable in-game, must discharge blast ammo
+        if (energyList.size() > 1) {
             if (toggleDirection == Direction.UP) {
-                if (!weaponToggler.hasNext()) {
-                    while (weaponToggler.hasPrevious()) {
-                        weaponToggler.previous();
+                if (!energyToggler.hasNext()) {
+                    while (energyToggler.hasPrevious()) {
+                        energyToggler.previous();
                     }
                 }
-                if (weapon == weaponToggler.next()) {
-                    toggleWeapon(toggleDirection);
+                if (energy == energyToggler.next()) {
+                    toggleEnergy(toggleDirection);
                 } else {
-                    weapon = weaponToggler.previous();
+                    energy = energyToggler.previous();
                 }
             } else if (toggleDirection == Direction.DOWN) {
-                if (!weaponToggler.hasPrevious()) {
-                    while (weaponToggler.hasNext()) {
-                        weaponToggler.next();
+                if (!energyToggler.hasPrevious()) {
+                    while (energyToggler.hasNext()) {
+                        energyToggler.next();
                     }
                 }
-                if (weapon == weaponToggler.previous()) {
-                    toggleWeapon(toggleDirection);
+                if (energy == energyToggler.previous()) {
+                    toggleEnergy(toggleDirection);
                 } else {
-                    weapon = weaponToggler.next();
+                    energy = energyToggler.next();
                 }
             }
         }
@@ -2004,6 +2004,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     public void resetChargeIntensity() { shotIntensity = ShotIntensity.NORMAL; }
     public void detectInput() { if (InputControls.getInstance().hasInput()) { activeStartTime = TimeUtils.nanoTime(); } }
     public void dispose() {
-        weaponList.clear();
+        energyList.clear();
     }
 }

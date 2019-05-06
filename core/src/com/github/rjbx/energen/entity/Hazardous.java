@@ -6,5 +6,5 @@ import com.github.rjbx.energen.util.Enums;
 public interface Hazardous extends Physical {
     int getDamage();
     Vector2 getKnockback();
-    Enums.Material getType();
+    Enums.Energy getType();
 }

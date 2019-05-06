@@ -26,7 +26,7 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
     private float payload;
 
     // ctor
-    public Brick(float xPos, float yPos, float width, float height, Enums.Material type, boolean dense) {
+    public Brick(float xPos, float yPos, float width, float height, Enums.Energy type, boolean dense) {
         super(xPos, yPos, width, height, type, dense);
         velocity = new Vector2(0, 0);
         beingCarried = false;
@@ -160,7 +160,7 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
     @Override public final Humanoid getCarrier() { return carrier; }
     @Override public final void setCarrier(Humanoid entity) { againstStaticGround = false; beneatheGround = false; this.carrier = entity; beingCarried = (carrier != null); }
     @Override public final Moving getMovingGround() { return movingGround; }
-    @Override public Enums.Material getType() { return super.getType(); }
+    @Override public Enums.Energy getType() { return super.getType(); }
     @Override public final float weightFactor() { return Constants.MAX_WEIGHT * Math.max(.1f, ((getWidth() * getHeight()) / 1000)) + payload; }
     @Override public final boolean isBeingCarried() { return beingCarried; }
     @Override public final boolean isAtopMovingGround() { return atopMovingGround; }

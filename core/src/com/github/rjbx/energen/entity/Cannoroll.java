@@ -12,7 +12,7 @@ import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 
-public class Cannoroll extends Ground implements Weaponized, Orientable, Roving, Strikeable, Convertible, Impermeable {
+public class Cannoroll extends Ground implements Energized, Orientable, Roving, Strikeable, Convertible, Impermeable {
 
     // fields
     public final static String TAG = Lift.class.getName();

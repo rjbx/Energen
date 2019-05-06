@@ -676,7 +676,7 @@ public final class Constants {
     public static final float GATE_FRAME_DURATION = 0.1f;
     public static final Vector2 GATE_CENTER = new Vector2(4, 17.5f);
 
-    // Ammo
+    // Projectile
     public static final float BLAST_CHARGE_DURATION = 1;
     public static final float AMMO_MAX_SPEED = 300;
     public static final float AMMO_NORMAL_SPEED = 180;
@@ -931,10 +931,10 @@ public final class Constants {
     public static final String DASH_ICON = "icon-dash";
     public static final String MOVE_ICON = "icon-move";
     public static final String LIFE_ICON = "icon-life";
-    public static final String HUD_AMMO_LABEL = "Ammo: ";
+    public static final String HUD_AMMO_LABEL = "Projectile: ";
     public static final String HUD_SCORE_LABEL = "Score: ";
     public static final String HUD_HEALTH_LABEL = "Health: ";
-    public static final String HUD_WEAPON_LABEL = "WeaponType: ";
+    public static final String HUD_ENERGY_LABEL = "EnergyType: ";
     public static final Vector2 ABILITY_ICON_CENTER = new Vector2(20, 8.5f);
     public static final Vector2 LIFE_ICON_CENTER = new Vector2(7, 4.5f);
     public static final Color HEALTH_CRITICAL_COLOR = Color.RED;

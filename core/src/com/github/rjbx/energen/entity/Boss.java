@@ -51,9 +51,9 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     private Groundable touchedGround; // class-level instantiation
     private Hazardous touchedHazard;
     private ShotIntensity shotIntensity;
-    private Material weapon;
-    private List<Material> weaponList; // class-level instantiation
-    private ListIterator<Material> weaponToggler; // class-level instantiation
+    private Energy energy;
+    private List<Energy> energyList; // class-level instantiation
+    private ListIterator<Energy> energyToggler; // class-level instantiation
     private List<Upgrade> upgradeList;
     private boolean battling;
     private boolean talking;
@@ -107,7 +107,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     public static class Builder {
 
         private Vector2 spawnPosition;
-        private Enums.Material weapon = Enums.Material.NATIVE;
+        private Energy energy = Energy.NATIVE;
         private float height = Constants.AVATAR_HEIGHT;
         private float eyeHeight = Constants.AVATAR_EYE_HEIGHT;
         private float width = Constants.AVATAR_STANCE_WIDTH;
@@ -116,8 +116,8 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
             this.spawnPosition = spawnPosition;
         }
 
-        public Builder weapon(Enums.Material weapon) {
-            this.weapon = weapon; return this;
+        public Builder energy(Energy energy) {
+            this.energy = energy; return this;
         }
 
         public Builder height(float height) {
@@ -145,13 +145,13 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         chaseCamPosition = new Vector3();
         roomBounds = new Rectangle(spawnPosition.x - 125, spawnPosition.y - 125, 250, 250);
         velocity = new Vector2();
-        weapon = builder.weapon;
+        energy = builder.energy;
         height = builder.height;
         eyeHeight = builder.eyeHeight;
         width = builder.width;
         headRadius = height - eyeHeight;
         halfWidth = width / 2;/*
-        switch (weapon) {
+        switch (energy) {
             case LIQUID:
               region =
               break;
@@ -218,19 +218,19 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
 //                enableDash();
 //                enableClimb(); // must come before jump (for now)
 //                enableJump();
-//                enableShoot(weapon);
+//                enableShoot(energy);
 //            } else if (action == Action.STRIDING) {
 //                enableStride();
 //                enableDash();
 //                enableJump();
-//                enableShoot(weapon);
+//                enableShoot(energy);
 //            } else if (action == Action.CLIMBING) {
 //                enableClimb();
-//                enableShoot(weapon);
+//                enableShoot(energy);
 //            } else if (action == Action.DASHING) {
 //                enableDash();
 //                enableJump();
-//                enableShoot(weapon);
+//                enableShoot(energy);
 //            }
         } else if (groundState == GroundState.AIRBORNE) {
             velocity.y -= Constants.GRAVITY;
@@ -239,25 +239,25 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
 //                enableClimb();
 //                enableHover();
 //                enableRappel();
-//                enableShoot(weapon);
+//                enableShoot(energy);
 //            } else if (action == Action.JUMPING) {
 //                enableJump();
 //                enableClimb();
 //                enableRappel();
-//                enableShoot(weapon);
+//                enableShoot(energy);
 //            } else if (action == Action.HOVERING) {
 //                enableHover();
 //                enableRappel();
 //                enableClimb();
-//                enableShoot(weapon);
+//                enableShoot(energy);
 //            } else if (action == Action.RAPPELLING) {
 //                enableJump();
 //                enableRappel();
 //                enableClimb();
-//                enableShoot(weapon);
+//                enableShoot(energy);
 //            } else if (action == Action.RECOILING) {
 //                enableRappel();
-//                enableShoot(weapon);
+//                enableShoot(energy);
 //            }
         }
         rush();
@@ -297,14 +297,14 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
                         directionY = Direction.DOWN;
                     }
                     look();
-                    shoot(ShotIntensity.BLAST, weapon, 0);
+                    shoot(ShotIntensity.BLAST, energy, 0);
                 } else if (Helpers.overlapsBetweenTwoSides(energen.getPosition().y, Constants.AVATAR_EYE_HEIGHT, getBottom(), getTop())
                         && Helpers.speedToVelocity(position.x - energen.getPosition().x, directionX, Orientation.X) < 0) {
                     lookStartTime = 0;
                     if (groundState == GroundState.PLANTED) {
                         dash();
                     }
-                    shoot(ShotIntensity.BLAST, weapon, 0);
+                    shoot(ShotIntensity.BLAST, energy, 0);
                 }
             }
 
@@ -636,7 +636,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     public void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
         for (Hazard hazard : hazards) {
-            if (!(hazard instanceof Ammo && ((Ammo) hazard).getSource() instanceof Boss)) {
+            if (!(hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Boss)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
                 } else if (action == Action.STANDING
@@ -819,7 +819,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
 //            if (canLook && !canClimb) {
 //                canStride = false;
 //                if (inputControls.jumpButtonJustPressed && !canRappel && !canHurdle) { // prevents accidental toggle due to simultaneous jump and directional press for hurdle
-//                    toggleWeapon(directionY);
+//                    toggleEnergy(directionY);
 //                }
 //                look(); // also sets chase cam
 //            }
@@ -982,7 +982,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         canHurdle = false;
     }
 
-    private void enableShoot(Material weapon) {
+    private void enableShoot(Energy energy) {
         canDispatch = false;
         if (canShoot) {
             if (inputControls.shootButtonPressed || (action == Action.RAPPELLING && (inputControls.rightButtonPressed || inputControls.leftButtonPressed))) {
@@ -997,27 +997,27 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
             } else if (chargeStartTime != 0) {
                 int ammoUsed;
 
-                if (weapon == Material.NATIVE
+                if (energy == Energy.NATIVE
                         || (ammo < Constants.BLAST_AMMO_CONSUMPTION && shotIntensity == ShotIntensity.BLAST)
                         || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
                     ammoUsed = 0;
-                    weapon = Material.NATIVE;
+                    energy = Energy.NATIVE;
                 } else {
                     ammoUsed = Helpers.useAmmo(shotIntensity);
                 }
                 chargeStartTime = 0;
                 chargeTimeSeconds = 0;
-                shoot(shotIntensity, weapon, ammoUsed);
+                shoot(shotIntensity, energy, ammoUsed);
             }
         }
     }
 
-    public void shoot(ShotIntensity shotIntensity, Material weapon, int ammoUsed) {
+    public void shoot(ShotIntensity shotIntensity, Energy energy, int ammoUsed) {
         canDispatch = true;
         if (shotIntensity == ShotIntensity.BLAST) {
-      //      AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play();
+      //      AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
         } else {
-       //     AssetManager.getInstance().getSoundAssets().getMaterialSound(weapon).play(1, 2, 0);
+       //     AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play(1, 2, 0);
         }
         ammo -= ammoUsed * ammoMultiplier;
     }
@@ -1147,7 +1147,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
 
     private void enableHover() {
         if (canHover) {
-            if (!(inputControls.upButtonPressed || inputControls.downButtonPressed)  // prevents from deactivating hover when toggling weapon
+            if (!(inputControls.upButtonPressed || inputControls.downButtonPressed)  // prevents from deactivating hover when toggling energy
                     && inputControls.jumpButtonJustPressed) {
                 if (action == Action.HOVERING) {
                     //   canHover = false;
@@ -1449,9 +1449,9 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     public final Groundable getTouchedGround() { return touchedGround; }
     @Override public final Enums.Action getAction() { return action; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
-    @Override public final Material getWeapon() { return weapon; }
+    @Override public final Energy getEnergy() { return energy; }
     private final float getHalfWidth() { return halfWidth; }
-    public List<Material> getWeaponList() { return weaponList; }
+    public List<Energy> getEnergyList() { return energyList; }
     public List<Upgrade> getUpgrades() { return upgradeList; }
     public final float getAmmo() { return ammo; }
     public int getLives() { return lives; }
@@ -1462,7 +1462,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     @Override public Orientation getOrientation() { if (action == Action.CLIMBING || lookStartTime != 0) { return Orientation.Y; } return Orientation.X; }
     @Override public final int getDamage() { return Constants.AMMO_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
-    @Override public final Enums.Material getType() { return weapon; }
+    @Override public final Energy getType() { return energy; }
     @Override public final float getShotRadius() { return Constants.ZOOMBA_SHOT_RADIUS; }
     @Override public final int getHitScore() { return Constants.ZOOMBA_HIT_SCORE; }
     @Override public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
@@ -1505,30 +1505,30 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
             lookTimeSeconds = 0;
         }
     }
-    public void addWeapon(Material weapon) { weaponToggler.add(weapon); }
-    public void toggleWeapon(Direction toggleDirection) {
-        if (weaponList.size() > 1) {
+    public void addEnergy(Energy energy) { energyToggler.add(energy); }
+    public void toggleEnergy(Direction toggleDirection) {
+        if (energyList.size() > 1) {
             if (toggleDirection == Direction.UP) {
-                if (!weaponToggler.hasNext()) {
-                    while (weaponToggler.hasPrevious()) {
-                        weaponToggler.previous();
+                if (!energyToggler.hasNext()) {
+                    while (energyToggler.hasPrevious()) {
+                        energyToggler.previous();
                     }
                 }
-                if (weapon == weaponToggler.next()) {
-                    toggleWeapon(toggleDirection);
+                if (energy == energyToggler.next()) {
+                    toggleEnergy(toggleDirection);
                 } else {
-                    weapon = weaponToggler.previous();
+                    energy = energyToggler.previous();
                 }
             } else if (toggleDirection == Direction.DOWN) {
-                if (!weaponToggler.hasPrevious()) {
-                    while (weaponToggler.hasNext()) {
-                        weaponToggler.next();
+                if (!energyToggler.hasPrevious()) {
+                    while (energyToggler.hasNext()) {
+                        energyToggler.next();
                     }
                 }
-                if (weapon == weaponToggler.previous()) {
-                    toggleWeapon(toggleDirection);
+                if (energy == energyToggler.previous()) {
+                    toggleEnergy(toggleDirection);
                 } else {
-                    weapon = weaponToggler.next();
+                    energy = energyToggler.next();
                 }
             }
         }
@@ -1557,6 +1557,6 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void resetChargeIntensity() { shotIntensity = ShotIntensity.NORMAL; }
     public void dispose() {
-        weaponList.clear();
+        energyList.clear();
     }
 }

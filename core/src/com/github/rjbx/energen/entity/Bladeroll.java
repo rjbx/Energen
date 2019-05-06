@@ -24,7 +24,7 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
     private Vector2 position;
     private Vector2 previousFramePosition; // class-level instantiation
     private Enums.Direction xDirection;
-    private Enums.Material type;
+    private Enums.Energy type;
     private Vector2 velocity; // class-level instantiation
     private Vector2 center;
     private final float collision;
@@ -42,7 +42,7 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
     private int vulnerabilityCount;
 
     // ctor
-    public Bladeroll(Vector2 position, Enums.Material type, float vulnerabilities) {
+    public Bladeroll(Vector2 position, Enums.Energy type, float vulnerabilities) {
         this.type = type;
         this.position = position;
         this.vulnerabilityCount = (int) vulnerabilities;
@@ -238,7 +238,7 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
     @Override public final int getDamage() { return Constants.ROLLEN_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.ROLLEN_KNOCKBACK; }
     @Override public final void setHealth( float health ) { this.health = health; }
-    @Override public final Enums.Material getType() { return type; }
+    @Override public final Enums.Energy getType() { return type; }
     @Override public Enums.Direction getDirectionX() { return xDirection; }
     @Override public void setDirectionX(Enums.Direction direction) { xDirection = direction; }
     @Override public void strikeArmor() { armorStruck = true; }

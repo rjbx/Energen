@@ -42,6 +42,6 @@ public class Deposit extends Ground implements Destructible {
     @Override public float getShotRadius() { return Math.min(getWidth(), getHeight()) / 2; }
     @Override public void setHealth(float damage) { this.damage = damage; }
     @Override public float getHealth() { return damage; }
-    @Override public Enums.Material getType() { return Enums.Material.ORE; }
+    @Override public Enums.Energy getType() { return Enums.Energy.ORE; }
     @Override public boolean isDense() { return true; }
 }

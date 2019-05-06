@@ -40,8 +40,8 @@ class LevelUpdater {
     private DelayedRemovalArray<Powerup> powerups;
     private DelayedRemovalArray<Transport> transports;
     private DelayedRemovalArray<Impact> impacts;
-    private DelayedRemovalArray<Ammo> projectiles;
-    private Enums.Material levelWeapon;
+    private DelayedRemovalArray<Projectile> projectiles;
+    private Enums.Energy levelEnergy;
     private Enums.Theme theme;
     private Music music;
     private Avatar avatar;
@@ -76,7 +76,7 @@ class LevelUpdater {
         entities = new DelayedRemovalArray<Entity>();
         grounds = new DelayedRemovalArray<Ground>();
         hazards = new DelayedRemovalArray<Hazard>();
-        projectiles = new DelayedRemovalArray<Ammo>();
+        projectiles = new DelayedRemovalArray<Projectile>();
         impacts = new DelayedRemovalArray<Impact>();
         powerups = new DelayedRemovalArray<Powerup>();
         transports = new DelayedRemovalArray<Transport>();
@@ -120,7 +120,7 @@ class LevelUpdater {
         }
 
         for (Hazard hazard : hazards) {
-            if (!(hazard instanceof Ammo)) {
+            if (!(hazard instanceof Projectile)) {
                 hazard.render(batch, viewport);
             }
         }
@@ -141,7 +141,7 @@ class LevelUpdater {
         }
 
         for (Hazard hazard : hazards) {
-            if (hazard instanceof Ammo) {
+            if (hazard instanceof Projectile) {
                 hazard.render(batch, viewport);
             }
         }
@@ -199,12 +199,12 @@ class LevelUpdater {
             if (avatar.getDispatchStatus()) {
                 if (avatar.getLookStartTime() != 0) {
                     if (avatar.getDirectionY() == Direction.UP) {
-                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
+                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
                     } else {
-                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
+                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
                     }
                 } else {
-                    spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), avatar.getDirectionX(), Enums.Orientation.X, avatar.getShotIntensity(), avatar.getWeapon(), avatar);
+                    spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), avatar.getDirectionX(), Enums.Orientation.X, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
                 }
                 avatar.resetChargeIntensity();
             }
@@ -212,12 +212,12 @@ class LevelUpdater {
             if (boss.getDispatchStatus()) {
                 if (boss.getLookStartTime() != 0) {
                     if (boss.getDirectionY() == Direction.UP) {
-                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getWeapon(), boss);
+                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
                     } else {
-                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getWeapon(), boss);
+                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
                     }
                 } else {
-                    spawnAmmo(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), boss.getDirectionX(), Enums.Orientation.X, boss.getShotIntensity(), boss.getWeapon(), boss);
+                    spawnAmmo(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), boss.getDirectionX(), Enums.Orientation.X, boss.getShotIntensity(), boss.getEnergy(), boss);
                 }
                 boss.resetChargeIntensity();
             }
@@ -317,34 +317,34 @@ class LevelUpdater {
     }
 
     public boolean updateGround(float delta, Ground ground) {
-        if (ground instanceof Weaponized && ((Weaponized) ground).getDispatchStatus()) {
-            Weaponized weapon = (Weaponized) ground;
-            Enums.Orientation orientation = weapon.getOrientation();
+        if (ground instanceof Energized && ((Energized) ground).getDispatchStatus()) {
+            Energized energy = (Energized) ground;
+            Enums.Orientation orientation = energy.getOrientation();
             Vector2 offset = new Vector2();
-            if (weapon instanceof Cannoroll) {
-                offset.set(weapon.getWidth(), weapon.getHeight());
+            if (energy instanceof Cannoroll) {
+                offset.set(energy.getWidth(), energy.getHeight());
             } else {
-                offset.set(weapon.getWidth() / 2, weapon.getHeight() / 2);
+                offset.set(energy.getWidth() / 2, energy.getHeight() / 2);
             }
             if (orientation == Enums.Orientation.X) {
-                Vector2 ammoPositionLeft = new Vector2(weapon.getPosition().x - offset.x, weapon.getPosition().y);
-                Vector2 ammoPositionRight = new Vector2(weapon.getPosition().x + offset.x, weapon.getPosition().y);
+                Vector2 ammoPositionLeft = new Vector2(energy.getPosition().x - offset.x, energy.getPosition().y);
+                Vector2 ammoPositionRight = new Vector2(energy.getPosition().x + offset.x, energy.getPosition().y);
                 if (Avatar.getInstance().getPosition().x < (ammoPositionLeft.x - offset.x)) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), ground);
-                } else if (Avatar.getInstance().getPosition().x > (ammoPositionRight.x + (weapon.getWidth() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                } else if (Avatar.getInstance().getPosition().x > (ammoPositionRight.x + (energy.getWidth() / 2))) {
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
                 }
             } else if (orientation == Enums.Orientation.Y) {
-                Vector2 ammoPositionTop = new Vector2(weapon.getPosition().x, weapon.getPosition().y + offset.y);
-                Vector2 ammoPositionBottom = new Vector2(weapon.getPosition().x, weapon.getPosition().y - offset.y);
-                if (weapon instanceof Cannon) {
+                Vector2 ammoPositionTop = new Vector2(energy.getPosition().x, energy.getPosition().y + offset.y);
+                Vector2 ammoPositionBottom = new Vector2(energy.getPosition().x, energy.getPosition().y - offset.y);
+                if (energy instanceof Cannon) {
                     if (Avatar.getInstance().getPosition().y < (ammoPositionBottom.y - offset.y)) {
-                        LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), ground);
-                    } else if (Avatar.getInstance().getPosition().y > (ammoPositionTop.y + (weapon.getHeight() / 2))) {
-                        LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                        LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                    } else if (Avatar.getInstance().getPosition().y > (ammoPositionTop.y + (energy.getHeight() / 2))) {
+                        LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
                     }
                 } else {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, weapon.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                    LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
                 }
             }
         }
@@ -496,18 +496,18 @@ class LevelUpdater {
         if (ground instanceof Strikeable) {
             projectiles.begin();
             for (int j = 0; j < projectiles.size; j++) {
-                Ammo ammo = projectiles.get(j);
-                if (Helpers.overlapsPhysicalObject(ammo, ground)) {
-                    if (ammo.getSource() instanceof Avatar) {
+                Projectile projectile = projectiles.get(j);
+                if (Helpers.overlapsPhysicalObject(projectile, ground)) {
+                    if (projectile.getSource() instanceof Avatar) {
                         assetManager.getSoundAssets().hitGround.play();
                     }
-                    if (ammo.isActive() &&
+                    if (projectile.isActive() &&
                             (ground.isDense() // collides with all sides of dense ground
-                                    || Helpers.overlapsBetweenTwoSides(ammo.getPosition().y, ammo.getHeight() / 2, ground.getTop() - 3, ground.getTop()))) { // collides only with top of non-dense ground
-                        if (!ammo.getPosition().equals(Vector2.Zero)) {
-                            this.spawnImpact(ammo.getPosition(), ammo.getType());
+                                    || Helpers.overlapsBetweenTwoSides(projectile.getPosition().y, projectile.getHeight() / 2, ground.getTop() - 3, ground.getTop()))) { // collides only with top of non-dense ground
+                        if (!projectile.getPosition().equals(Vector2.Zero)) {
+                            this.spawnImpact(projectile.getPosition(), projectile.getType());
                         }
-                        ammo.deactivate();
+                        projectile.deactivate();
                     }
                     Strikeable strikeable = (Strikeable) ground;
                     if (strikeable instanceof Tripknob) {
@@ -521,15 +521,15 @@ class LevelUpdater {
                         Chargeable chargeable = (Chargeable) strikeable;
                         if (chargeable instanceof Chamber) {
                             chargeable.setState(false);
-                        } else if (chargeable instanceof Tripchamber && ammo.getShotIntensity() == Enums.ShotIntensity.BLAST) {
+                        } else if (chargeable instanceof Tripchamber && projectile.getShotIntensity() == Enums.ShotIntensity.BLAST) {
                             if (chargeable.isCharged()) {
                                 chargeable.setState(!chargeable.isActive());
                                 chargeable.uncharge();
                             }
                         }
                     } else if (strikeable instanceof Destructible) {
-                        Helpers.applyDamage((Destructible) ground, ammo);
-                    } else if (strikeable instanceof Gate && ammo.getDirection() == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
+                        Helpers.applyDamage((Destructible) ground, projectile);
+                    } else if (strikeable instanceof Gate && projectile.getDirection() == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
                         ((Gate) strikeable).deactivate();
                     }
                 }
@@ -557,20 +557,20 @@ class LevelUpdater {
             Destructible destructible = (Destructible) hazard;
             projectiles.begin();
             for (int j = 0; j < projectiles.size; j++) {
-                Ammo ammo = projectiles.get(j);
-                if (!ammo.equals(hazard) && ammo.isActive() && Helpers.overlapsPhysicalObject(ammo, destructible)) {
+                Projectile projectile = projectiles.get(j);
+                if (!projectile.equals(hazard) && projectile.isActive() && Helpers.overlapsPhysicalObject(projectile, destructible)) {
                     if (!(destructible instanceof Zoomba)
-                    || !((ammo.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(ammo.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
-                    || (ammo.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(ammo.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
+                    || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
+                    || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
                         if (!(hazard instanceof Armored)) {
-                            Helpers.applyDamage(destructible, ammo);
-                            this.spawnImpact(ammo.getPosition(), ammo.getType());
-                            ammo.deactivate();
+                            Helpers.applyDamage(destructible, projectile);
+                            this.spawnImpact(projectile.getPosition(), projectile.getType());
+                            projectile.deactivate();
                         } else {
                             AssetManager.getInstance().getSoundAssets().hitGround.play();
-                            ammo.deactivate();
+                            projectile.deactivate();
                         }
-                        score += ammo.getHitScore();
+                        score += projectile.getHitScore();
                     } else {
                         ((Zoomba) destructible).convert();
                         if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(destructible)) {
@@ -578,8 +578,8 @@ class LevelUpdater {
                         }
                     }
                     if (destructible instanceof Zoomba) {
-                        this.spawnImpact(ammo.getPosition(), ammo.getType());
-                        ammo.deactivate();
+                        this.spawnImpact(projectile.getPosition(), projectile.getType());
+                        projectile.deactivate();
                     }
                 }
             }
@@ -627,12 +627,12 @@ class LevelUpdater {
                 LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
                 LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
             }
-        } else if (hazard instanceof Ammo) {
-            Ammo ammo = (Ammo) hazard;
-            ammo.update(delta);
-            if (!ammo.isActive()) {
+        } else if (hazard instanceof Projectile) {
+            Projectile projectile = (Projectile) hazard;
+            projectile.update(delta);
+            if (!projectile.isActive()) {
                 active = false;
-                projectiles.removeValue(ammo, false);
+                projectiles.removeValue(projectile, false);
             }
         }
         if (hazard instanceof Nonstatic) {
@@ -749,10 +749,10 @@ class LevelUpdater {
         if (musicEnabled) {
             music.play();
         }
-        levelWeapon = Enums.Material.NATIVE;
-        for (Enums.Material weapon : Arrays.asList(Enums.Material.values())) {
-            if (weapon.theme().equals(theme)) {
-                levelWeapon = weapon;
+        levelEnergy = Enums.Energy.NATIVE;
+        for (Enums.Energy energy : Arrays.asList(Enums.Energy.values())) {
+            if (energy.theme().equals(theme)) {
+                levelEnergy = energy;
             }
         }
 
@@ -770,10 +770,10 @@ class LevelUpdater {
         if (completed()) {
             SaveData.setTotalScore(SaveData.getTotalScore() + score);
             SaveData.setTotalTime(SaveData.getTotalTime() + timer.getSeconds());
-            String savedWeapons = SaveData.getWeapons();
-            if (!savedWeapons.contains(levelWeapon.name())) {
-                avatar.addWeapon(levelWeapon);
-                SaveData.setWeapons(levelWeapon.name() + ", " + savedWeapons);
+            String savedEnergys = SaveData.getEnergys();
+            if (!savedEnergys.contains(levelEnergy.name())) {
+                avatar.addEnergy(levelEnergy);
+                SaveData.setEnergys(levelEnergy.name() + ", " + savedEnergys);
             }
         }
         clearEntities();
@@ -848,18 +848,18 @@ class LevelUpdater {
         return paused;
     }
 
-    private void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Material weapon, Entity source) {
-        Ammo ammo = new Ammo(position, direction, orientation, shotIntensity, weapon, source);
-        hazards.add(ammo);
-        projectiles.add(ammo);
+    private void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Energy energy, Entity source) {
+        Projectile projectile = new Projectile(position, direction, orientation, shotIntensity, energy, source);
+        hazards.add(projectile);
+        projectiles.add(projectile);
     }
 
-    private void spawnImpact(Vector2 position, Enums.Material type) {
+    private void spawnImpact(Vector2 position, Enums.Energy type) {
         impacts.add(new Impact(position, type));
     }
 
     private void spawnPowerup(Hazard hazard) {
-        if (!(hazard instanceof Ammo)) {
+        if (!(hazard instanceof Projectile)) {
             switch (hazard.getType()) {
                 case ORE:
                     powerups.add(new Powerup(hazard.getPosition().add(-5, 5), Enums.PowerupType.AMMO));
@@ -893,7 +893,7 @@ class LevelUpdater {
     protected final int getScore() { return score; }
     protected final Boss getBoss() { return boss; }
     protected final Avatar getAvatar() { return avatar; }
-    protected final Enums.Material getType() { return levelWeapon; }
+    protected final Enums.Energy getType() { return levelEnergy; }
     protected final Viewport getViewport() { return levelScreen.getViewport(); }
 
     // Protected getters

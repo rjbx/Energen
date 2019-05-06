@@ -10,7 +10,7 @@ import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 
-public class Cannon extends Ground implements Weaponized, Nonstatic, Rappelable, Convertible {
+public class Cannon extends Ground implements Energized, Nonstatic, Rappelable, Convertible {
 
     // fields
     public final static String TAG = Cannon.class.getName();

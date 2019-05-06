@@ -14,17 +14,17 @@ import com.github.rjbx.energen.util.Enums.*;
 import com.github.rjbx.energen.util.Helpers;
 
 // immutable
-public final class Ammo extends Hazard implements Indestructible, Orientable {
+public final class Projectile extends Hazard implements Indestructible, Orientable {
 
     // fields
-    public final static String TAG = Ammo.class.getName();
+    public final static String TAG = Projectile.class.getName();
 
     private final Vector2 position;
     private Vector2 ammoCenter;
     private final Direction direction;
     private final Orientation orientation;
     private final ShotIntensity shotIntensity;
-    private final Material weapon;
+    private final Energy energy;
     private Rectangle bounds;
     private int damage;
     private float radius;
@@ -38,12 +38,12 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
     private long startTime;
 
     // ctor
-    public Ammo(Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, Material weapon, Entity source) {
+    public Projectile(Vector2 position, Direction direction, Orientation orientation, ShotIntensity shotIntensity, Energy energy, Entity source) {
         this.position = position;
         this.direction = direction;
         this.orientation = orientation;
         this.shotIntensity = shotIntensity;
-        this.weapon = weapon;
+        this.energy = energy;
         this.source = source;
         startTime = TimeUtils.nanoTime();
         knockback = new Vector2();
@@ -69,7 +69,7 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
             ammoCenter = new Vector2(radius, radius);
         }
         bounds = new Rectangle(getLeft(), getBottom(), getWidth(), getHeight());
-        switch (weapon) {
+        switch (energy) {
             case NATIVE:
                 damage = Constants.AMMO_STANDARD_DAMAGE;
                 knockback = Constants.ZOOMBA_KNOCKBACK;
@@ -213,8 +213,8 @@ public final class Ammo extends Hazard implements Indestructible, Orientable {
     public final int getDamage() { return damage; }
     public final Vector2 getKnockback() { return knockback; }
     public final ShotIntensity getShotIntensity() { return shotIntensity; }
-    public final Material getType() { return weapon; }
-    public final TextureRegion getTexture() { float frame = weapon.equals(Material.ANTIMATTER) ? 1 : 0; return animation.getKeyFrame(frame); }
+    public final Energy getType() { return energy; }
+    public final TextureRegion getTexture() { float frame = energy.equals(Energy.ANTIMATTER) ? 1 : 0; return animation.getKeyFrame(frame); }
     public final int getHitScore() { return hitScore; }
     public final Entity getSource() { return source; }
 
