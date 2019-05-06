@@ -4,140 +4,140 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-projectile-blast-hybrid-1
+ammo-blast-hybrid-1
   rotate: false
   xy: 584, 550
   size: 19, 17
   orig: 19, 17
   offset: 0, 0
   index: -1
-projectile-blast-solid-1
+ammo-blast-solid-1
   rotate: false
   xy: 584, 611
   size: 19, 19
   orig: 19, 19
   offset: 0, 0
   index: -1
-projectile-blast-solid-2
+ammo-blast-solid-2
   rotate: false
   xy: 584, 590
   size: 19, 19
   orig: 19, 19
   offset: 0, 0
   index: -1
-projectile-blast-solid-3
+ammo-blast-solid-3
   rotate: false
   xy: 584, 569
   size: 19, 19
   orig: 19, 19
   offset: 0, 0
   index: -1
-projectile-shot-gas-1
+ammo-shot-gas-1
   rotate: false
   xy: 1013, 401
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
-projectile-shot-gas-2
+ammo-shot-gas-2
   rotate: false
   xy: 1013, 392
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
-projectile-shot-hybrid
+ammo-shot-hybrid
   rotate: false
   xy: 1013, 111
   size: 8, 7
   orig: 8, 7
   offset: 0, 0
   index: -1
-projectile-shot-hybrid-2
+ammo-shot-hybrid-2
   rotate: false
   xy: 1013, 102
   size: 8, 7
   orig: 8, 7
   offset: 0, 0
   index: -1
-projectile-shot-liquid-1
+ammo-shot-liquid-1
   rotate: false
   xy: 1013, 383
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
-projectile-shot-liquid-2
+ammo-shot-liquid-2
   rotate: false
   xy: 1013, 374
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
-projectile-shot-native-1
+ammo-shot-native-1
   rotate: false
   xy: 1013, 365
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
-projectile-shot-native-2
+ammo-shot-native-2
   rotate: false
   xy: 1013, 356
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
-projectile-shot-plasma-1
+ammo-shot-plasma-1
   rotate: false
   xy: 1013, 347
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
-projectile-shot-plasma-2
+ammo-shot-plasma-2
   rotate: false
   xy: 1013, 338
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
-projectile-shot-polymer-1
+ammo-shot-polymer-1
   rotate: false
   xy: 1013, 180
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-projectile-shot-polymer-2
+ammo-shot-polymer-2
   rotate: false
   xy: 1013, 170
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-projectile-shot-psychic-1
+ammo-shot-psychic-1
   rotate: false
   xy: 1013, 160
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-projectile-shot-psychic-2
+ammo-shot-psychic-2
   rotate: false
   xy: 376, 2
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
   index: -1
-projectile-shot-solid-1
+ammo-shot-solid-1
   rotate: false
   xy: 755, 18
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-projectile-shot-solid-2
+ammo-shot-solid-2
   rotate: false
   xy: 834, 440
   size: 8, 8
@@ -1194,21 +1194,21 @@ portal-6
   orig: 64, 64
   offset: 0, 0
   index: -1
-powerup-projectile
+powerup-ammo
   rotate: false
   xy: 630, 550
   size: 12, 8
   orig: 12, 8
   offset: 0, 0
   index: -1
-powerup-projectile-1
+powerup-ammo-1
   rotate: false
   xy: 644, 550
   size: 12, 8
   orig: 12, 8
   offset: 0, 0
   index: -1
-powerup-projectile-2
+powerup-ammo-2
   rotate: false
   xy: 658, 550
   size: 12, 8
@@ -1718,140 +1718,140 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-projectile-blast-gas-1
+ammo-blast-gas-1
   rotate: false
   xy: 828, 896
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
-projectile-blast-gas-2
+ammo-blast-gas-2
   rotate: false
   xy: 832, 634
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
-projectile-blast-gas-3
+ammo-blast-gas-3
   rotate: false
   xy: 852, 634
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
-projectile-blast-hybrid-2
+ammo-blast-hybrid-2
   rotate: false
   xy: 872, 634
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
-projectile-blast-hybrid-3
+ammo-blast-hybrid-3
   rotate: false
   xy: 699, 752
   size: 19, 17
   orig: 19, 17
   offset: 0, 0
   index: -1
-projectile-blast-liquid-1
+ammo-blast-liquid-1
   rotate: false
   xy: 892, 634
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
-projectile-blast-liquid-2
+ammo-blast-liquid-2
   rotate: false
   xy: 915, 720
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
-projectile-blast-liquid-3
+ammo-blast-liquid-3
   rotate: false
   xy: 915, 701
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
-projectile-blast-native-1
+ammo-blast-native-1
   rotate: false
   xy: 294, 116
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
-projectile-blast-native-2
+ammo-blast-native-2
   rotate: false
   xy: 923, 824
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
-projectile-blast-native-3
+ammo-blast-native-3
   rotate: false
   xy: 933, 851
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
-projectile-blast-plasma-1
+ammo-blast-plasma-1
   rotate: false
   xy: 557, 175
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
-projectile-blast-plasma-2
+ammo-blast-plasma-2
   rotate: false
   xy: 722, 645
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
-projectile-blast-plasma-3
+ammo-blast-plasma-3
   rotate: false
   xy: 821, 805
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
-projectile-blast-polymer-1
+ammo-blast-polymer-1
   rotate: false
   xy: 915, 682
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
-projectile-blast-polymer-2
+ammo-blast-polymer-2
   rotate: false
   xy: 823, 825
   size: 17, 18
   orig: 17, 18
   offset: 0, 0
   index: -1
-projectile-blast-polymer-3
+ammo-blast-polymer-3
   rotate: false
   xy: 915, 663
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
-projectile-blast-psychic-1
+ammo-blast-psychic-1
   rotate: false
   xy: 905, 897
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
-projectile-blast-psychic-2
+ammo-blast-psychic-2
   rotate: false
   xy: 832, 849
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
-projectile-blast-psychic-3
+ammo-blast-psychic-3
   rotate: false
   xy: 293, 96
   size: 18, 18
