@@ -10,7 +10,7 @@ import com.github.rjbx.energen.entity.Hazard;
 import com.github.rjbx.energen.entity.Powerup;
 import com.github.rjbx.energen.util.Enums;
 
-// TODO[H]: Either
+// TODO[M]: Either
 //  a. Consolidate into single 'open-world' level with additional save points and
 //   i. Remove level selector
 //   ii. Display images of save points overlaid on map for level selection
