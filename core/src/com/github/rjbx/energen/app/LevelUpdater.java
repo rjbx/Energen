@@ -770,10 +770,10 @@ class LevelUpdater {
         if (completed()) {
             SaveData.setTotalScore(SaveData.getTotalScore() + score);
             SaveData.setTotalTime(SaveData.getTotalTime() + timer.getSeconds());
-            String savedEnergys = SaveData.getEnergys();
-            if (!savedEnergys.contains(levelEnergy.name())) {
+            String savedEnergies = SaveData.getEnergies();
+            if (!savedEnergies.contains(levelEnergy.name())) {
                 avatar.addEnergy(levelEnergy);
-                SaveData.setEnergys(levelEnergy.name() + ", " + savedEnergys);
+                SaveData.setEnergies(levelEnergy.name() + ", " + savedEnergies);
             }
         }
         clearEntities();

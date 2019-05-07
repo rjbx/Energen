@@ -144,7 +144,7 @@ final class LevelScreen extends ScreenAdapter {
             case MAIN:
                 if (inputControls.jumpButtonJustPressed) {
                     avatar.toggleEnergy(Enums.Direction.DOWN); // enables avatar to toggleEnergy energy during pause without enabling other avatar features
-                    menu.setPromptString(Align.right, (avatar.getEnergy().name() + "\n" + SaveData.getEnergys().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
+                    menu.setPromptString(Align.right, (avatar.getEnergy().name() + "\n" + SaveData.getEnergies().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
                 }
                 if (inputControls.shootButtonJustPressed) {
                     if (cursor.getPosition() == staticViewport.getCamera().position.y && chaseCam.getState() != Enums.ChaseCamState.DEBUG) {
@@ -268,7 +268,7 @@ final class LevelScreen extends ScreenAdapter {
         menu.setOptionStrings(Arrays.asList(optionStrings));
         menu.setPromptString(Align.left, Constants.HUD_AMMO_LABEL + avatar.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + avatar.getHealth() + "\n" + "Turbo: " + avatar.getTurbo());
         menu.setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString((SaveData.getTotalTime()) + levelUpdater.getUnsavedTime()) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
-        menu.setPromptString(Align.right, (avatar.getEnergy().name() + "\n" + SaveData.getEnergys().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
+        menu.setPromptString(Align.right, (avatar.getEnergy().name() + "\n" + SaveData.getEnergies().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
         menu.TextAlignment(Align.center);
         menuType = Enums.MenuType.MAIN;
     }

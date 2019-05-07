@@ -1622,7 +1622,7 @@ public final class AssetManager implements AssetErrorListener {
             flight = assetManager.get(Constants.FLIGHT_SOUND);
         }
 
-        public Sound getEnergySound(Enums.Energy energy) {
+        public Sound getEnergiesound(Enums.Energy energy) {
             switch (energy) {
                 case NATIVE:
                     return blast;
