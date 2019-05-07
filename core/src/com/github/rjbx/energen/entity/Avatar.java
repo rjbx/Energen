@@ -716,12 +716,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         if (action == Action.STANDING) {
             if ((canClimb && (g instanceof Climbable) && (touchedGround == null || !(touchedGround instanceof Climbable)))) {
-                canClimb = false;  // prevents maintaining canclimb state when previously but no longer overlapping dense, nondense and climbable grounds
+//                canClimb = false;  // prevents maintaining canclimb state when previously but no longer overlapping dense, nondense and climbable grounds
             } else if (!canClimb && (g instanceof Climbable || (touchedGround != null && touchedGround instanceof Climbable)) && (touchedGround.equals(g) && touchedGround.getTop() != g.getTop())) {
                 canClimb = true;  // prevents setting canclimb to false when overlapping dense, nondense and climbable grounds
             }
             if (!(g instanceof Climbable || touchedGround instanceof Climbable)) {
-                canCling = false;
+//                canCling = false;
             }
         }
     }
