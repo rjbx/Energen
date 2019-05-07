@@ -39,7 +39,7 @@ final class OverworldScreen extends ScreenAdapter {
     private BitmapFont font;
     private TouchInterface touchInterface;
     private InputControls inputControls;
-    private static Avatar energen;
+    private static Avatar avatar;
     private static Cursor cursor;
     private static Menu menu;
     private static Enums.MenuType menuType;
@@ -68,7 +68,7 @@ final class OverworldScreen extends ScreenAdapter {
         inputControls = InputControls.getInstance();
         Gdx.input.setInputProcessor(InputControls.getInstance());
 
-        energen = Avatar.getInstance();
+        avatar = Avatar.getInstance();
         cursor = Cursor.getInstance();
 
         menu = Menu.getInstance();
@@ -155,9 +155,9 @@ final class OverworldScreen extends ScreenAdapter {
             LevelLoader.load(level);
             levelUpdater.restoreRemovals(allRemovals.get(index));
             if (levelRestores > 0) {
-                energen.setSpawnPosition(levelUpdater.getTransports().get(0).getPosition());
+                avatar.setSpawnPosition(levelUpdater.getTransports().get(0).getPosition());
                 if (levelRestores > 2) {
-                    energen.setSpawnPosition(levelUpdater.getTransports().get(1).getPosition());
+                    avatar.setSpawnPosition(levelUpdater.getTransports().get(1).getPosition());
                 }
             }
             screenManager.setScreen(LevelScreen.getInstance());

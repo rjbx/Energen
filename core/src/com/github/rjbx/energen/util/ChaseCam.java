@@ -9,7 +9,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.github.rjbx.energen.entity.Avatar;
 
-import static com.github.rjbx.energen.util.Enums.ChaseCamState.BOSS;
 import static com.github.rjbx.energen.util.Enums.ChaseCamState.CONVERT;
 import static com.github.rjbx.energen.util.Enums.ChaseCamState.FOLLOWING;
 
@@ -22,7 +21,7 @@ public final class ChaseCam {
     private static final ChaseCam INSTANCE = new ChaseCam();
     private ExtendViewport viewport;
     public OrthographicCamera camera;
-    public Avatar energen;
+    public Avatar avatar;
     public Vector2 roomPosition;
     public Array<Rectangle> convertBoundsArray;
     private Enums.ChaseCamState state;
@@ -40,7 +39,7 @@ public final class ChaseCam {
     public void create() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         state = FOLLOWING;
-        energen = Avatar.getInstance();
+        avatar = Avatar.getInstance();
         convertStartTime = 0;
         convertBoundsArray = new Array<Rectangle>();
         camera = (OrthographicCamera) viewport.getCamera();
@@ -52,11 +51,11 @@ public final class ChaseCam {
         batch.begin();
         switch (state) {
             case FOLLOWING:
-                camera.position.x = energen.getPosition().x;
-                if (energen.getLookStartTime() != 0 && energen.getGroundState() == Enums.GroundState.PLANTED) {
-                    camera.position.y = energen.getChaseCamPosition().y;
+                camera.position.x = avatar.getPosition().x;
+                if (avatar.getLookStartTime() != 0 && avatar.getGroundState() == Enums.GroundState.PLANTED) {
+                    camera.position.y = avatar.getChaseCamPosition().y;
                 } else {
-                    camera.position.y = energen.getPosition().y;
+                    camera.position.y = avatar.getPosition().y;
                 }
                 if (convertStartTime != 0 && Helpers.secondsSince(convertStartTime) > .5f) {
                     state = CONVERT;

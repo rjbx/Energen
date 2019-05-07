@@ -100,7 +100,7 @@ public class InputControls extends InputAdapter {
             downButtonPressed = true;
             downButtonJustPressed = true;
         }  else if (viewportPosition.dst(pauseCenter) < Constants.TOUCH_RADIUS) {
-            // : Save the pausePointer, and set energen.pauseButtonPressed = true
+            // : Save the pausePointer, and set avatar.pauseButtonPressed = true
             this.pausePointer = pointer;
             pauseButtonPressed = true;
             pauseButtonJustPressed = true;
@@ -115,10 +115,10 @@ public class InputControls extends InputAdapter {
         if (pointer == leftPointer && viewportPosition.dst(rightCenter) < Constants.TOUCH_RADIUS) {
 
             // : Handle the case where the left button touch has been dragged to the right button
-            // Inform energen that the left button is no longer pressed
+            // Inform avatar that the left button is no longer pressed
             leftButtonPressed = false;
             rightButtonPressed = true;
-            // Inform energen that the right button is now pressed
+            // Inform avatar that the right button is now pressed
 
             // Zero leftPointer
             leftPointer = 0;
@@ -132,7 +132,7 @@ public class InputControls extends InputAdapter {
             rightButtonPressed = false;
             leftButtonPressed = true;
 
-            // Inform energen that the right button is now pressed
+            // Inform avatar that the right button is now pressed
 
             // Zero leftPointer
             rightPointer = 0;
@@ -143,10 +143,10 @@ public class InputControls extends InputAdapter {
         if (pointer == upPointer && viewportPosition.dst(downCenter) < Constants.TOUCH_RADIUS) {
 
             // : Handle the case where the up button touch has been dragged to the down button
-            // Inform energen that the up button is no longer pressed
+            // Inform avatar that the up button is no longer pressed
             upButtonPressed = false;
             downButtonPressed = true;
-            // Inform energen that the down button is now pressed
+            // Inform avatar that the down button is now pressed
 
             // Zero upPointer
             upPointer = 0;
@@ -160,7 +160,7 @@ public class InputControls extends InputAdapter {
             downButtonPressed = false;
             upButtonPressed = true;
 
-            // Inform energen that the down button is now pressed
+            // Inform avatar that the down button is now pressed
 
             // Zero upPointer
             downPointer = 0;

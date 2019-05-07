@@ -26,7 +26,7 @@ public final class Constants {
     public static final float CHASE_CAM_MOVE_SPEED = WORLD_SIZE;
 
     // Asset files
-    public static final AssetDescriptor<TextureAtlas> TEXTURE_ATLAS = new AssetDescriptor<TextureAtlas>("images/energen.pack.atlas", TextureAtlas.class);
+    public static final AssetDescriptor<TextureAtlas> TEXTURE_ATLAS = new AssetDescriptor<TextureAtlas>("images/avatar.pack.atlas", TextureAtlas.class);
     public static final AssetDescriptor<Sound> HEALTH_SOUND = new AssetDescriptor<Sound>("audio/health.wav", Sound.class);
     public static final AssetDescriptor<Sound> AMMO_SOUND = new AssetDescriptor<Sound>("audio/ammo.wav", Sound.class);
     public static final AssetDescriptor<Sound> TURBO_SOUND = new AssetDescriptor<Sound>("audio/turbo.wav", Sound.class);
@@ -968,7 +968,7 @@ public final class Constants {
     public static final int ZOOMBA_COUNT = 200;
     public static final String VICTORY_MESSAGE = "COURSE CLEARED";
     public static final String FAIL_MESSAGE = "GAME OVER";
-    public static final String LAUNCH_MESSAGE = "energen v0.0.1";
+    public static final String LAUNCH_MESSAGE = "avatar v0.0.1";
     public static final String TIME_PATTERN = "HH:mm:ss";
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TIME_PATTERN);
 

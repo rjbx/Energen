@@ -590,7 +590,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         && !(g instanceof Skateable && (Math.abs(getBottom() - g.getTop()) <= 1))
                         && !(g instanceof Hazardous && (Math.abs(getBottom() - g.getTop()) <= 1))) {
                     // if contact with ground sides detected without concern for ground state (either grounded or airborne),
-                    // reset stride acceleration, disable stride and dash, and set energen at ground side
+                    // reset stride acceleration, disable stride and dash, and set avatar at ground side
                     if (action != Action.STRIDING || action != Action.DASHING) {
                         strideStartTime = 0; // reset stride acceleration
                     }
@@ -620,13 +620,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         // ignores case where simultaneously touching two separate dense grounds (since side collision does not apply) with same side position to prevent interrupting fall
         if (!(touchedGround != null && !touchedGround.equals(g) && g.isDense() && touchedGround.isDense()
                 && ((touchedGround.getLeft() == g.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == g.getRight() && position.x > touchedGround.getPosition().x)))) {
-            // if contact with ground bottom detected, halts upward progression and set energen at ground bottom
+            // if contact with ground bottom detected, halts upward progression and set avatar at ground bottom
             if ((previousFramePosition.y + Constants.AVATAR_HEAD_RADIUS) < g.getBottom() + 1) {
                 velocity.y = 0; // prevents from ascending above ground bottom
                 if (groundState == GroundState.AIRBORNE) { // prevents fall when striding against ground bottom positioned at height distance from ground atop
                     fall(); // descend from point of contact with ground bottom
                     if (!(g instanceof Moving && ((Moving) g).getVelocity().y < 0)) { // prevents from being pushed below ground
-                        position.y = g.getBottom() - Constants.AVATAR_HEAD_RADIUS;  // sets energen at ground bottom
+                        position.y = g.getBottom() - Constants.AVATAR_HEAD_RADIUS;  // sets avatar at ground bottom
                     }
                 } else if (action == Action.CLIMBING) { // prevents from disengaging climb
                     canCling = true;
@@ -634,7 +634,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     action = Action.CLIMBING;
                     groundState = GroundState.PLANTED;
                     if (!(g instanceof Moving && ((Moving) g).getVelocity().y < 0)) { // prevents from being pushed below ground
-                        position.y = g.getBottom() - Constants.AVATAR_HEAD_RADIUS;  // sets energen at ground bottom
+                        position.y = g.getBottom() - Constants.AVATAR_HEAD_RADIUS;  // sets avatar at ground bottom
                     }
                 }
                 canDash = false;
@@ -646,14 +646,14 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private void touchGroundTop(Groundable g) {
         if (!(touchedGround != null && !touchedGround.equals(g) && touchedGround.isDense() && g.isDense()
                 && ((touchedGround.getLeft() == g.getLeft() && position.x < touchedGround.getPosition().x) || (touchedGround.getRight() == g.getRight() && position.x > touchedGround.getPosition().x)))) {
-            // if contact with ground top detected, halt downward progression and set energen atop ground
+            // if contact with ground top detected, halt downward progression and set avatar atop ground
             if (previousFramePosition.y - Constants.AVATAR_EYE_HEIGHT >= g.getTop() - 2) { // and not simultaneously touching two different grounds (prevents stand which interrupts striding atop)
                 if ((Helpers.overlapsBetweenTwoSides(position.x, halfWidth, g.getLeft() + 1, g.getRight() - 1)
                         || action != Action.FALLING || g instanceof Aerial) // prevents interrupting fall when inputting x directional against and overlapping two separate ground side
                         && !(action == Action.RAPPELLING && g instanceof Pliable)) { // prevents interrupting rappel down stacked moving pliables
                     if (!((touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().y != 0) || (g instanceof Moving && ((Moving) g).getVelocity().y != 0)) && (action != Action.CLIMBING || getBottom() <= g.getTop())) {
                         velocity.y = 0; // velocity reset for climbing from touchground()
-                        position.y = g.getTop() + Constants.AVATAR_EYE_HEIGHT; // sets energen atop ground
+                        position.y = g.getTop() + Constants.AVATAR_EYE_HEIGHT; // sets avatar atop ground
                     }
                     setAtopGround(g); // basic ground top collision instructions common to all types of grounds
                     // additional ground top collision instructions specific to certain types of grounds; touchedground instance checking handles null assignment from canclimb-jump-fall sequence initiated through setatopground
@@ -1936,14 +1936,14 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
     public void resetChaseCamPosition() {
         float offsetDistance = chaseCamPosition.y - position.y;
-        // move chasecam back towards energen yposition provided yposition cannot be changed until fully reset
-        if (Math.abs(offsetDistance) > 5) { // if chasecam offset from energen yposition more than five pixels
+        // move chasecam back towards avatar yposition provided yposition cannot be changed until fully reset
+        if (Math.abs(offsetDistance) > 5) { // if chasecam offset from avatar yposition more than five pixels
             if (offsetDistance < 0) {
                 chaseCamPosition.y += 2.5f;
             } else if (offsetDistance > 0) {
                 chaseCamPosition.y -= 2.5f;
             }
-            chaseCamPosition.x = position.x; // set chasecam position to energen xposition
+            chaseCamPosition.x = position.x; // set chasecam position to avatar xposition
         } else if (chaseCamPosition.y == position.y || velocity.y != 0) { // if chasecam offset less than 5 but greater than 0 and actively looking
             lookTimeSeconds = 0;
             lookStartTime = 0;

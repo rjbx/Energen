@@ -422,7 +422,7 @@ final class LevelLoader {
                 level.addGround(new Deposit(depositPosition));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.STAND)) {
                 final Vector2 energenPosition = imagePosition.add(Constants.AVATAR_EYE_POSITION);
-                Gdx.app.log(TAG, "Loaded energen at " + energenPosition);
+                Gdx.app.log(TAG, "Loaded avatar at " + energenPosition);
                 Avatar.getInstance().setSpawnPosition(energenPosition);
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BEAST_SPRITE)) {
                 final Vector2 bossPosition = imagePosition.add(Constants.AVATAR_EYE_POSITION);

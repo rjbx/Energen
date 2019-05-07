@@ -11,7 +11,7 @@ public final class SaveData {
     // cannot be subclassed
     private SaveData() {}
 
-    private static Preferences getPreferences() { return Gdx.app.getPreferences("energen-prefs"); }
+    private static Preferences getPreferences() { return Gdx.app.getPreferences("avatar-prefs"); }
 
     protected static void erase() { getPreferences().clear(); getPreferences().flush(); }
 

@@ -7,12 +7,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.github.rjbx.energen.entity.Avatar;
-import com.github.rjbx.energen.overlay.Backdrop;
 import com.github.rjbx.energen.overlay.TouchInterface;
 import com.github.rjbx.energen.util.AssetManager;
 import com.github.rjbx.energen.util.InputControls;
@@ -48,7 +46,7 @@ final class LevelScreen extends ScreenAdapter {
     private IndicatorHud indicatorHud;
     private TouchInterface touchInterface;
     private InputControls inputControls;
-    private static Avatar energen;
+    private static Avatar avatar;
     private static Cursor cursor;
     private static Menu menu;
     private static Enums.MenuType menuType;
@@ -85,7 +83,7 @@ final class LevelScreen extends ScreenAdapter {
         inputControls = InputControls.getInstance();
         Gdx.input.setInputProcessor(inputControls); // sends touch events to inputControls
 
-        energen = Avatar.getInstance();
+        avatar = Avatar.getInstance();
         cursor = Cursor.getInstance();
 
         menu = Menu.getInstance();
@@ -103,7 +101,7 @@ final class LevelScreen extends ScreenAdapter {
         gaugeHud.create();
         touchInterface.getViewport().update(width, height, true);
         touchInterface.recalculateButtonPositions();
-        energen.setInputControls(inputControls);
+        avatar.setInputControls(inputControls);
     }
 
     @Override
@@ -128,7 +126,7 @@ final class LevelScreen extends ScreenAdapter {
             } else {
                 showPauseMenu(delta);
             }
-            gaugeHud.render(renderer, staticViewport, energen);
+            gaugeHud.render(renderer, staticViewport, avatar);
         } else {
             showExitOverlay();
         }
@@ -145,8 +143,8 @@ final class LevelScreen extends ScreenAdapter {
         switch (menuType) {
             case MAIN:
                 if (inputControls.jumpButtonJustPressed) {
-                    energen.toggleEnergy(Enums.Direction.DOWN); // enables energen to toggleEnergy energy during pause without enabling other energen features
-                    menu.setPromptString(Align.right, (energen.getEnergy().name() + "\n" + SaveData.getEnergys().replace(energen.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
+                    avatar.toggleEnergy(Enums.Direction.DOWN); // enables avatar to toggleEnergy energy during pause without enabling other avatar features
+                    menu.setPromptString(Align.right, (avatar.getEnergy().name() + "\n" + SaveData.getEnergys().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
                 }
                 if (inputControls.shootButtonJustPressed) {
                     if (cursor.getPosition() == staticViewport.getCamera().position.y && chaseCam.getState() != Enums.ChaseCamState.DEBUG) {
@@ -268,9 +266,9 @@ final class LevelScreen extends ScreenAdapter {
         cursor.resetPosition();
         String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
         menu.setOptionStrings(Arrays.asList(optionStrings));
-        menu.setPromptString(Align.left, Constants.HUD_AMMO_LABEL + energen.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + energen.getHealth() + "\n" + "Turbo: " + energen.getTurbo());
+        menu.setPromptString(Align.left, Constants.HUD_AMMO_LABEL + avatar.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + avatar.getHealth() + "\n" + "Turbo: " + avatar.getTurbo());
         menu.setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString((SaveData.getTotalTime()) + levelUpdater.getUnsavedTime()) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
-        menu.setPromptString(Align.right, (energen.getEnergy().name() + "\n" + SaveData.getEnergys().replace(energen.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
+        menu.setPromptString(Align.right, (avatar.getEnergy().name() + "\n" + SaveData.getEnergys().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
         menu.TextAlignment(Align.center);
         menuType = Enums.MenuType.MAIN;
     }
