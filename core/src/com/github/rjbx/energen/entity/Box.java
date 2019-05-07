@@ -2,6 +2,7 @@ package com.github.rjbx.energen.entity;
 
 import com.github.rjbx.energen.util.Enums;
 
+// TODO: Add bounds attribute for ledge switching when all activators in area are tripped
 // mutable
 public class Box extends Barrier implements Destructible {
 
