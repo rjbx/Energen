@@ -1,6 +1,5 @@
-import com.badlogic.gdx.tools.texturepacker.TexturePacker
-
 buildscript {
+    
 
     repositories {
         mavenLocal()
@@ -13,10 +12,9 @@ buildscript {
     dependencies {
         classpath 'org.wisepersist:gwt-gradle-plugin:1.0.6'
         classpath 'com.android.tools.build:gradle:3.2.0'
-        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.5'
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-        classpath 'org.robovm:robovm-gradle-plugin:1.8.0'
-        classpath "com.badlogicgames.gdx:gdx-tools:1.9.9"
+        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.6'
+        
+
     }
 }
 
@@ -28,7 +26,7 @@ allprojects {
     ext {
         appName = "energen"
         gdxVersion = '1.9.9'
-        roboVMVersion = '2.3.5'
+        roboVMVersion = '2.3.6'
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
@@ -37,6 +35,7 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+        jcenter()
         google()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
@@ -75,6 +74,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
+        
     }
 }
 
@@ -90,6 +90,7 @@ project(":ios") {
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
+        
     }
 }
 
@@ -105,6 +106,7 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion:sources"
+        
     }
 }
 
@@ -116,64 +118,10 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "joda-time:joda-time:2.2"
-        implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
-        implementation ('com.googlecode.json-simple:json-simple:1.1.1')
-        implementation group: 'junit', name: 'junit', version: '4.12'
+        compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
+        compile ('com.googlecode.json-simple:json-simple:1.1.1')
+        compile group: 'junit', name: 'junit', version: '4.12'
     }
-
-    task packTextures {
-        def pack = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack.png")
-        def pack2 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack2.png")
-        def pack3 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack3.png")
-        def pack4 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack4.png")
-        def atlas = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack.atlas")
-
-        inputs.dir "${rootProject.getRootDir()}/core/assets/images"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack2.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack3.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack4.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack.atlas"
-
-        doLast {
-            pack.delete()
-            pack2.delete()
-            pack3.delete()
-            pack4.delete()
-            atlas.delete()
-            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/android/assets/images", "energen.pack")
-        }
-    }
-
-    task copyLevels(type: Copy){
-        from "../core/assets/levels/scenes"
-        into "../android/assets/levels"
-        //    into "../ios/assets/levels"
-        //    into "../desktop/assets/levels"
-        //    into "../html/assets/levels"
-        exclude "MainScene.dt"
-    }
-
-    task copyAudio(type: Copy){
-        from "../core/assets/audio"
-        into "../android/assets/audio"
-        //    into "../ios/assets/audio"
-        //    into "../desktop/assets/audio"
-        //    into "../html/assets/audio"
-    }
-
-    task copyFont(type: Copy){
-        from "../core/assets/font"
-        into "../android/assets/font"
-        //    into "../ios/assets/font"
-        //    into "../desktop/assets/font"
-        //    into "../html/assets/font"
-    }
-
-    project.tasks.compileJava.dependsOn packTextures
-    project.tasks.compileJava.dependsOn copyLevels
-    project.tasks.compileJava.dependsOn copyAudio
-    project.tasks.compileJava.dependsOn copyFont
 }
 
 tasks.eclipse.doLast {

@@ -1,4 +1,4 @@
-package com.github.rjbx;
+package com.github.rjbx.energen;
 
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
@@ -20,3 +20,5 @@ public class IOSLauncher extends IOSApplication.Delegate {
         pool.close();
     }
 }
+
+

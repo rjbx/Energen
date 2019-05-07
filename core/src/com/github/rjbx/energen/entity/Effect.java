@@ -15,7 +15,7 @@ import com.github.rjbx.energen.util.Helpers;
 public class Effect extends Entity {
 
     //fields
-    public static final String TAG = com.github.rjbx.energen.entity.Effect.class.getName();
+    public static final String TAG = Effect.class.getName();
     private final Vector2 position;
     private final Enums.Energy type;
     private final Animation<TextureRegion> animation;

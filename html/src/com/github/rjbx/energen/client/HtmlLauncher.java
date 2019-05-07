@@ -1,9 +1,8 @@
-package com.github.rjbx.client;
+package com.github.rjbx.energen.client;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.github.rjbx.energen.*;
 import com.github.rjbx.energen.app.ScreenManager;
 
 public class HtmlLauncher extends GwtApplication {

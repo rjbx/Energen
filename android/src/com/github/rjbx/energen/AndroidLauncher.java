@@ -1,4 +1,4 @@
-package com.github.rjbx;
+package com.github.rjbx.energen;
 
 import android.os.Bundle;
 

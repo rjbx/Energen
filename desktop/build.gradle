@@ -3,7 +3,7 @@ apply plugin: "java"
 sourceCompatibility = 1.6
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-project.ext.mainClassName = "com.github.rjbx.desktop.DesktopLauncher"
+project.ext.mainClassName = "com.github.rjbx.energen.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../android/assets");
 
 task run(dependsOn: classes, type: JavaExec) {
@@ -23,16 +23,18 @@ task debug(dependsOn: classes, type: JavaExec) {
     debug = true
 }
 
-task dist(dependsOn: classes, type: Jar) {
-    from files(sourceSets.main.output.classesDirs)
+task dist(type: Jar) {
+    from files(sourceSets.main.output.classesDir)
     from files(sourceSets.main.output.resourcesDir)
     from {configurations.compile.collect {zipTree(it)}}
-    from files(project.assetsDir)
+    from files(project.assetsDir);
  
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
 }
+
+dist.dependsOn classes
 
 eclipse {
     project {

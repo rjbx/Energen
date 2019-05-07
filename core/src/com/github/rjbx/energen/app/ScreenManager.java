@@ -6,12 +6,6 @@ import com.github.rjbx.energen.entity.Avatar;
 import com.github.rjbx.energen.overlay.*;
 import com.github.rjbx.energen.util.*;
 
-// TODO[H]: Restore full functionality to Gradle tasks by
-//  a. Migrating source and assets to newly-created project base with:
-//  i. Latest dependencies
-//  ii. Last working dependencies
-//  b. Validating ApplicationListener implementation
-
 // immutable singleton
 public final class ScreenManager extends com.badlogic.gdx.Game {
 

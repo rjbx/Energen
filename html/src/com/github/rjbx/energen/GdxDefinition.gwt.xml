@@ -4,8 +4,8 @@
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 	<inherits name='com.badlogic.gdx.physics.box2d.box2d-gwt' />
 
-	<inherits name='energen' />
-	<entry-point class='com.github.rjbx.client.HtmlLauncher' />
+	<inherits name='Energen' />
+	<entry-point class='com.github.rjbx.energen.client.HtmlLauncher' />
 	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
 	<set-configuration-property name="gdx.assetpath" value="../android/assets" />
 </module>

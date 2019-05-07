@@ -1,6 +1,6 @@
 android {
     buildToolsVersion "28.0.3"
-    compileSdkVersion 28
+    compileSdkVersion 27
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -17,9 +17,9 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "com.github.rjbx"
+        applicationId "com.github.rjbx.energen"
         minSdkVersion 9
-        targetSdkVersion 28
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -86,7 +86,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.github.rjbx/com.github.rjbx.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.github.rjbx.energen/com.github.rjbx.energen.AndroidLauncher'
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.
