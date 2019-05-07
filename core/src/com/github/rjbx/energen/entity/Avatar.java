@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
-// TODO[H]: Improve recognition of climbable overlapping platform
+
 // TODO[H]: Simplify moveable cascading physics
 // mutable
 public class Avatar extends Entity implements Impermeable, Humanoid {
