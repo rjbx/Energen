@@ -60,6 +60,7 @@ public class Armoroll extends Hazard implements Armored, Groundable, Roving, Des
             case LIQUID:
                 animation = AssetManager.getInstance().getRollenAssets().liquidRollen;
                 break;
+            default: animation = AssetManager.getInstance().getRollenAssets().liquidRollen;
         }
     }
 
