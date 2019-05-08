@@ -1952,6 +1952,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canLook = false; // disable look
         }
     }
+    public void setFallLimit(float limit) { fallLimit = limit; }
     public void addEnergy(Energy energy) { energyToggler.add(energy); }
     public void toggleEnergy(Direction toggleDirection) { // to enable in-game, must discharge blast ammo
         if (energyList.size() > 1) {
