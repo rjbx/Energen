@@ -97,37 +97,39 @@ class LevelUpdater {
 
     protected void render(SpriteBatch batch, Viewport viewport) {
 
+        Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 250, avatar.getPosition().y - 250, 500, 500);
+
         backdrop.render(batch, viewport, new Vector2(chaseCam.camera.position.x, chaseCam.camera.position.y), Constants.BACKGROUND_CENTER, 1);
 
         for (Ground ground : grounds) {
             if (!ground.isDense() || ground instanceof Tripknob || ground instanceof Tripspring || ground instanceof Spring) {
-                ground.render(batch, viewport);
+                if (renderBounds.overlaps(new Rectangle(ground.getPosition().x, ground.getPosition().y, ground.getWidth(), ground.getHeight()))) ground.render(batch, viewport);
             }
         }
 
         for (Transport transport : transports) {
-            transport.render(batch, viewport);
+            if (renderBounds.overlaps(new Rectangle(transport.getPosition().x, transport.getPosition().y, transport.getWidth(), transport.getHeight()))) transport.render(batch, viewport);
         }
 
         for (Powerup powerup : powerups) {
-            powerup.render(batch, viewport);
+            if (renderBounds.overlaps(new Rectangle(powerup.getPosition().x, powerup.getPosition().y, powerup.getWidth(), powerup.getHeight()))) powerup.render(batch, viewport);
         }
 
         for (Ground ground : grounds) {
             if (ground instanceof Vines || ground instanceof Deposit) {
-                ground.render(batch, viewport);
+                if (renderBounds.overlaps(new Rectangle(ground.getPosition().x, ground.getPosition().y, ground.getWidth(), ground.getHeight()))) ground.render(batch, viewport);
             }
         }
 
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Projectile)) {
-                hazard.render(batch, viewport);
+                if (renderBounds.overlaps(new Rectangle(hazard.getPosition().x, hazard.getPosition().y, hazard.getWidth(), hazard.getHeight()))) hazard.render(batch, viewport);
             }
         }
 
         for (Ground ground : grounds) {
             if (ground.isDense() && !(ground instanceof Tripknob || ground instanceof Tripspring || ground instanceof Spring || ground instanceof Deposit)) {
-                ground.render(batch, viewport);
+                if (renderBounds.overlaps(new Rectangle(ground.getPosition().x, ground.getPosition().y, ground.getWidth(), ground.getHeight()))) ground.render(batch, viewport);
             }
         }
 
@@ -136,18 +138,18 @@ class LevelUpdater {
 
         for (Ground ground : grounds) {
             if (ground instanceof Pliable && ((Pliable) ground).isBeingCarried()) {
-                ground.render(batch, viewport);
+                if (renderBounds.overlaps(new Rectangle(ground.getPosition().x, ground.getPosition().y, ground.getWidth(), ground.getHeight()))) ground.render(batch, viewport);
             }
         }
 
         for (Hazard hazard : hazards) {
             if (hazard instanceof Projectile) {
-                hazard.render(batch, viewport);
+                if (renderBounds.overlaps(new Rectangle(hazard.getPosition().x, hazard.getPosition().y, hazard.getWidth(), hazard.getHeight()))) hazard.render(batch, viewport);
             }
         }
 
         for (Impact impact : impacts) {
-            impact.render(batch, viewport);
+            if (renderBounds.overlaps(new Rectangle(impact.getPosition().x, impact.getPosition().y, impact.getWidth(), impact.getHeight()))) impact.render(batch, viewport);
         }
     }
 
