@@ -63,10 +63,12 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
             if (knockback.equals(Vector2.Zero)) {
                 setTypeAttributes(type);
             }
-        } else if (!knockback.equals(Vector2.Zero)) {
-            knockback.setZero();
+        } else {
+            converted = false;
+            if (!knockback.equals(Vector2.Zero)) {
+                knockback.setZero();
+            }
         }
-        converted = false;
     }
 
     @Override
