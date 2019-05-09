@@ -93,7 +93,7 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
     public final long getStartTime() { return startTime; }
     public final void resetStartTime() { this.startTime = 0; }
     @Override public void convert() { state = !state; converted = true; }
-    @Override public boolean isConverted() { return converted; }
+    @Override public boolean isConverted() { return !state; }
     private final void setTypeAttributes(Enums.Energy type) {
         switch (type) {
             case ORE:
