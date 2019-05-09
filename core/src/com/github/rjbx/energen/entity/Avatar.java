@@ -304,6 +304,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
 
     private void enableSwipe() {
+        if (getMoveStatus()) {
+            canRush = false;
+            canCut = false;
+            bladeState = BladeState.RETRACTED;
+            return;
+        }
         if (!canRush && !canCut && (groundState == GroundState.AIRBORNE || action == Action.CLIMBING) && (inputControls.downButtonPressed || inputControls.upButtonPressed)) {
             if (inputControls.jumpButtonJustPressed && action != Action.RAPPELLING) {
                 lookStartTime = TimeUtils.nanoTime();
