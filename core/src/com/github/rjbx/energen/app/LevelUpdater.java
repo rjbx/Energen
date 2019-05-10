@@ -97,6 +97,8 @@ class LevelUpdater {
 
     protected void render(SpriteBatch batch, Viewport viewport) {
 
+        if (!continuing()) return;
+
         Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 250, avatar.getPosition().y - 250, 500, 500);
 
         backdrop.render(batch, viewport, new Vector2(chaseCam.camera.position.x, chaseCam.camera.position.y), Constants.BACKGROUND_CENTER, 1);
