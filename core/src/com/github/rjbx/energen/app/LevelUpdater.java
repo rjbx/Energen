@@ -549,7 +549,7 @@ class LevelUpdater {
     }
 
     public boolean updateHazard(float delta, Hazard hazard) {
-        Rectangle updateBounds = new Rectangle(avatar.getPosition().x - 3000, avatar.getPosition().y - 300, 750, 750);
+        Rectangle updateBounds = new Rectangle(avatar.getPosition().x - 300, avatar.getPosition().y - 300, 750, 750);
         if (!updateBounds.overlaps(new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight()))) return true;
 
         boolean active = true;
@@ -656,7 +656,7 @@ class LevelUpdater {
     }
 
     public boolean updatePowerup(float delta, Powerup powerup) {
-        Rectangle updateBounds = new Rectangle(avatar.getPosition().x - 3000, avatar.getPosition().y - 300, 750, 750);
+        Rectangle updateBounds = new Rectangle(avatar.getPosition().x - 300, avatar.getPosition().y - 300, 750, 750);
         if (!updateBounds.overlaps(new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight()))) return true;
 
         if (Helpers.overlapsPhysicalObject(avatar, powerup)
@@ -669,8 +669,8 @@ class LevelUpdater {
     }
 
     public boolean updateTransport(float delta, Transport transport, int portalIndex) {
-        Rectangle updateBounds = new Rectangle(avatar.getPosition().x - 3000, avatar.getPosition().y - 300, 750, 750);
-        if (!updateBounds.overlaps(new Rectangle(transport.getLeft(), transport.getBottom(), transport.getWidth(), transport.getHeight()))) return true;
+        Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 300, avatar.getPosition().y - 300, 750, 750);
+        if (!renderBounds.overlaps(new Rectangle(transport.getLeft(), transport.getBottom(), transport.getWidth(), transport.getHeight()))) return true;
 
         boolean active = true;
         if (avatar.getPosition().dst(transport.getPosition()) < transport.getWidth() / 2 && inputControls.upButtonPressed && inputControls.jumpButtonJustPressed) {
