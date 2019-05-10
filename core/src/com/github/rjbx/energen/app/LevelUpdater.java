@@ -89,7 +89,6 @@ class LevelUpdater {
         paused = false;
     }
 
-    // TODO: Prevent asset update outside render bounds
     protected void update(float delta) {
         if (continuing() && !paused()) {
             updateEntities(delta);
@@ -320,7 +319,10 @@ class LevelUpdater {
     }
 
     public boolean updateGround(float delta, Ground ground) {
-        if ()
+
+        Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 250, avatar.getPosition().y - 250, 500, 500);
+        if (!renderBounds.overlaps(new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight()))) return false;
+
         if (ground instanceof Energized && ((Energized) ground).getDispatchStatus()) {
             Energized energy = (Energized) ground;
             Enums.Orientation orientation = energy.getOrientation();
@@ -547,6 +549,9 @@ class LevelUpdater {
     }
 
     public boolean updateHazard(float delta, Hazard hazard) {
+        Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 250, avatar.getPosition().y - 250, 500, 500);
+        if (!renderBounds.overlaps(new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight()))) return false;
+
         boolean active = true;
         if (hazard instanceof Boss) {
             ((Boss) hazard).updatePosition(delta);
@@ -649,6 +654,9 @@ class LevelUpdater {
     }
 
     public boolean updatePowerup(float delta, Powerup powerup) {
+        Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 250, avatar.getPosition().y - 250, 500, 500);
+        if (!renderBounds.overlaps(new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight()))) return false;
+
         if (Helpers.overlapsPhysicalObject(avatar, powerup)
                 || (avatar.getBladeState() != Enums.BladeState.RETRACTED && Helpers.overlapsPhysicalObject(Blade.getInstance(), powerup))) {
             powerup.deactivate();
@@ -659,6 +667,9 @@ class LevelUpdater {
     }
 
     public boolean updateTransport(float delta, Transport transport, int portalIndex) {
+        Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 250, avatar.getPosition().y - 250, 500, 500);
+        if (!renderBounds.overlaps(new Rectangle(transport.getLeft(), transport.getBottom(), transport.getWidth(), transport.getHeight()))) return false;
+
         boolean active = true;
         if (avatar.getPosition().dst(transport.getPosition()) < transport.getWidth() / 2 && inputControls.upButtonPressed && inputControls.jumpButtonJustPressed) {
             if (transport instanceof Portal) {
