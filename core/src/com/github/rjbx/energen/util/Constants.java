@@ -401,7 +401,7 @@ public final class Constants {
     public static final float ZOOMBA_MOVEMENT_SPEED = 20;
     public static final float ZOOMBA_BOB_AMPLITUDE = 20;
     public static final float ZOOMBA_BOB_PERIOD = 2f;
-    public static final int ZOOMBA_MAX_HEALTH = 30;
+    public static final int ZOOMBA_MAX_HEALTH = 300;
     public static final int ZOOMBA_STANDARD_DAMAGE = 1;
     public static final Vector2 ZOOMBA_KNOCKBACK = new Vector2(75, Y_KNOCKBACK);
     public static final float ZOOMBA_COLLISION_WIDTH = 29;
@@ -437,7 +437,7 @@ public final class Constants {
     // Swoopa
     public static final Vector2 SWOOPA_CENTER = new Vector2(25f, 13.5f);
     public static final float SWOOPA_MOVEMENT_SPEED = 150;
-    public static final int SWOOPA_MAX_HEALTH = 30;
+    public static final int SWOOPA_MAX_HEALTH = 300;
     public static final int SWOOPA_STANDARD_DAMAGE = 1;
     public static final Vector2 SWOOPA_KNOCKBACK = new Vector2(75, Y_KNOCKBACK);
     public static final float SWOOPA_COLLISION_WIDTH = 50;

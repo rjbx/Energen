@@ -16,7 +16,7 @@ import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 
 // mutable
-public class Swoopa extends Hazard implements Indestructible, Vehicular, Groundable {
+public class Swoopa extends Hazard implements Destructible, Vehicular, Groundable {
 
     // fields
     public final static String TAG = Swoopa.class.getName();
@@ -108,12 +108,16 @@ public class Swoopa extends Hazard implements Indestructible, Vehicular, Grounda
 
     @Override public Vector2 getPosition() { return position; }
     @Override public Vector2 getVelocity() { return velocity; }
+    @Override public final float getHealth() { return health; }
     @Override public final float getWidth() { return Constants.SWOOPA_COLLISION_WIDTH; }
     @Override public final float getHeight() { return Constants.SWOOPA_COLLISION_HEIGHT; }
     @Override public final float getLeft() { return position.x - Constants.SWOOPA_CENTER.x; }
     @Override public final float getRight() { return position.x + Constants.SWOOPA_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.SWOOPA_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SWOOPA_CENTER.y; }
+    @Override public final float getShotRadius() { return Constants.SWOOPA_SHOT_RADIUS; }
+    @Override public final int getHitScore() { return Constants.SWOOPA_HIT_SCORE; }
+    @Override public final int getKillScore() { return Constants.SWOOPA_KILL_SCORE; }
     @Override public final int getDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     @Override public final Vector2 getKnockback() { return Constants.SWOOPA_KNOCKBACK; }
     @Override public final Enums.Energy getType() { return type; }
@@ -121,6 +125,8 @@ public class Swoopa extends Hazard implements Indestructible, Vehicular, Grounda
     public int getMountDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.SWOOPA_KNOCKBACK; }
     public final long getStartTime() { return startTime; }
+
+    @Override public final void setHealth( float health ) { this.health = health; }
 
     public void dispose() {
         sound.stop();
