@@ -1202,7 +1202,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     public void stride() {
         action = Action.STRIDING;
         groundState = GroundState.PLANTED;
-        if (turbo < Constants.MAX_TURBO) {
+        if (turbo < Constants.MAX_TURBO && !(touchedGround instanceof Treadmill && ((Treadmill) touchedGround).getDirectionX() == Direction.LEFT)) {
             jumpStartTime = 0;
             turbo += Constants.STRIDE_TURBO_INCREMENT;
         }
