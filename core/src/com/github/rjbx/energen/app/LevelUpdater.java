@@ -624,6 +624,7 @@ class LevelUpdater {
             if (destructible.getHealth() < 1) {
                 if (destructible instanceof Armoroll || destructible instanceof Bladeroll) {
                     Trippable trip = (Trippable) destructible;
+                    trip.convert();
                     if (trip.tripped()) {
                         if (hintsEnabled
                                 && !trip.maxAdjustmentsReached()
