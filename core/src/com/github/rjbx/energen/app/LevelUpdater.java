@@ -95,11 +95,9 @@ class LevelUpdater {
         }
     }
 
-    protected void render(SpriteBatch batch, Viewport viewport, float delta) {
+    protected void render(SpriteBatch batch, Viewport viewport) {
 
         if (!continuing() || batch == null || viewport == null) return;
-
-        update(delta);
 
         Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 250, avatar.getPosition().y - 250, 500, 500);
 
