@@ -122,8 +122,6 @@ public class Swoopa extends Hazard implements Indestructible, Vehicular, Grounda
     public Vector2 getMountKnockback() { return Constants.SWOOPA_KNOCKBACK; }
     public final long getStartTime() { return startTime; }
 
-    @Override public final void setHealth( float health ) { this.health = health; }
-
     public void dispose() {
         sound.stop();
     }
