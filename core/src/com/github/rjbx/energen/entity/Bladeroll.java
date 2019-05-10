@@ -3,6 +3,7 @@ package com.github.rjbx.energen.entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -28,6 +29,11 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
     private Vector2 velocity; // class-level instantiation
     private Vector2 center;
     private final float collision;
+    private boolean converted;
+    private Rectangle bounds;
+    private boolean state;
+    private int camAdjustments;
+    private Enums.Direction direction;
     private float speed;
     private long startTime;
     private float health;
@@ -42,12 +48,14 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
     private int vulnerabilityCount;
 
     // ctor
-    public Bladeroll(Vector2 position, Enums.Energy type, float vulnerabilities) {
+    public Bladeroll(Vector2 position, Rectangle bounds, Enums.Energy type, float vulnerabilities) {
         this.type = type;
         this.position = position;
         this.vulnerabilityCount = (int) vulnerabilities;
         this.speed = 4f;
         this.center = Constants.ROLLEN_CENTER;
+        this.bounds = bounds;
+        camAdjustments = 0;
         equippedRegions = new Array<Enums.Direction>();
         vulnerable = false;
         armorStruck = false;
@@ -249,4 +257,13 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
     @Override public final boolean isDense() { return true; }
     @Override public final long getStartTime() { return startTime; }
     @Override public final float getRecoverySpeed() { return speed; }
+
+    @Override public void setState(boolean state) { this.state = !state; }
+    @Override public boolean tripped() { return state; }
+    @Override public boolean isActive() { return state; }
+    @Override public void addCamAdjustment() { camAdjustments++; }
+    @Override public boolean maxAdjustmentsReached() { return camAdjustments >= 2; }
+    @Override public Rectangle getBounds() { return bounds; }
+    @Override public boolean isConverted() { return state; }
+    @Override public void convert() { state = !state; }
 }

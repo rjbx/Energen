@@ -30,21 +30,27 @@ public class Armoroll extends Hazard implements Armored, Groundable, Roving, Des
     private final float collision;
     private float speed;
     private long startTime;
+    private boolean converted;
+    private Rectangle bounds;
+    private boolean state;
     private float health;
     private float speedAtChangeXDirection;
     private long rollStartTime;
     private float rollTimeSeconds;
     private float radius;
+    private int camAdjustments;
     private Animation<TextureRegion> animation;
     private Enums.Direction vulnerability;
     private boolean vulnerable;
     private boolean armorStruck;
 
     // ctor
-    public Armoroll(Vector2 position, Enums.Energy type) {
+    public Armoroll(Vector2 position, Rectangle bounds, Enums.Energy type) {
         this.type = type;
         this.position = position;
         this.speed = 3f;
+        this.bounds = bounds;
+        camAdjustments = 0;
         vulnerability = null;
         vulnerable = false;
         armorStruck = false;
@@ -215,43 +221,12 @@ public class Armoroll extends Hazard implements Armored, Groundable, Roving, Des
     @Override public final long getStartTime() { return startTime; }
     @Override public final float getRecoverySpeed() { return speed; }
 
-    @Override
-    public void setState(boolean state) {
-
-    }
-
-    @Override
-    public boolean tripped() {
-        return false;
-    }
-
-    @Override
-    public boolean isActive() {
-        return false;
-    }
-
-    @Override
-    public void addCamAdjustment() {
-
-    }
-
-    @Override
-    public boolean maxAdjustmentsReached() {
-        return false;
-    }
-
-    @Override
-    public Rectangle getBounds() {
-        return null;
-    }
-
-    @Override
-    public boolean isConverted() {
-        return false;
-    }
-
-    @Override
-    public void convert() {
-
-    }
+    @Override public void setState(boolean state) { this.state = !state; }
+    @Override public boolean tripped() { return state; }
+    @Override public boolean isActive() { return state; }
+    @Override public void addCamAdjustment() { camAdjustments++; }
+    @Override public boolean maxAdjustmentsReached() { return camAdjustments >= 2; }
+    @Override public Rectangle getBounds() { return bounds; }
+    @Override public boolean isConverted() { return state; }
+    @Override public void convert() { state = !state; }
 }

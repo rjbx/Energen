@@ -506,11 +506,11 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ARMOROLL_LIQUID_SPRITE_0)) {
                 final Vector2 armorollPosition = imagePosition.add(Constants.ROLLEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the armorollo at " + armorollPosition);
-                level.addHazard(new Armoroll(armorollPosition, type));
+                level.addHazard(new Armoroll(armorollPosition, bounds, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ARMOROLLO_LIQUID_SPRITE_1)) {
                 final Vector2 bladerollPosition = imagePosition.add(Constants.ROLLEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the bladeroll at " + bladerollPosition);
-                level.addHazard(new Bladeroll(bladerollPosition, type, speed));
+                level.addHazard(new Bladeroll(bladerollPosition, bounds, type, speed));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANNON_SPRITE)) {
                 final Vector2 cannonPosition = imagePosition.add(Constants.X_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
