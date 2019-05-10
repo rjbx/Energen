@@ -40,10 +40,10 @@ public class Armoroll extends Hazard implements Armored, Groundable, Roving, Des
     private boolean armorStruck;
 
     // ctor
-    public Armoroll(Vector2 position, Enums.Energy type, float speed) {
+    public Armoroll(Vector2 position, Enums.Energy type) {
         this.type = type;
         this.position = position;
-        this.speed = speed;
+        this.speed = 3f;
         vulnerability = null;
         vulnerable = false;
         armorStruck = false;

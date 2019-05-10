@@ -503,10 +503,10 @@ final class LevelLoader {
                 final Vector2 rollenPosition = imagePosition.add(Constants.ROLLEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the rollen at " + rollenPosition);
                 level.addHazard(new Rollen(rollenPosition, type));
-            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ARMOROLLO_LIQUID_SPRITE_0)) {
-                final Vector2 armorolloPosition = imagePosition.add(Constants.ROLLEN_CENTER);
-                Gdx.app.log(TAG, "Loaded the armorollo at " + armorolloPosition);
-                level.addHazard(new Armoroll(armorolloPosition, type, speed));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ARMOROLL_LIQUID_SPRITE_0)) {
+                final Vector2 armorollPosition = imagePosition.add(Constants.ROLLEN_CENTER);
+                Gdx.app.log(TAG, "Loaded the armorollo at " + armorollPosition);
+                level.addHazard(new Armoroll(armorollPosition, type));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.ARMOROLLO_LIQUID_SPRITE_1)) {
                 final Vector2 armorolloPosition = imagePosition.add(Constants.ROLLEN_CENTER);
                 Gdx.app.log(TAG, "Loaded the armorollo at " + armorolloPosition);

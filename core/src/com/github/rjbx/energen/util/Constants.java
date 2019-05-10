@@ -535,7 +535,7 @@ public final class Constants {
     public static final String ROLLEN_SOLID_SPRITE_3 = "rollen-solid-3";
 
     // Armorollen
-    public static final String ARMOROLLO_LIQUID_SPRITE_0 = "armorollo-liquid-0";
+    public static final String ARMOROLL_LIQUID_SPRITE_0 = "armorollo-liquid-0";
     public static final String ARMOROLLO_LIQUID_SPRITE_1 = "armorollo-liquid-1";
     public static final String ARMOROLLO_LIQUID_SPRITE_2 = "armorollo-liquid-2";
     public static final String ARMOROLLO_LIQUID_SPRITE_3 = "armorollo-liquid-3";

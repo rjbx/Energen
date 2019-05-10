@@ -1251,7 +1251,7 @@ public final class AssetManager implements AssetErrorListener {
 
         private ArmorolloAssets(TextureAtlas atlas) {
             Array<AtlasRegion> armoredLiquidRegions = new Array<AtlasRegion>();
-            armoredLiquidRegions.add(atlas.findRegion(Constants.ARMOROLLO_LIQUID_SPRITE_0));
+            armoredLiquidRegions.add(atlas.findRegion(Constants.ARMOROLL_LIQUID_SPRITE_0));
             armoredLiquid = new Animation(Constants.ROLLEN_DURATION / armoredLiquidRegions.size, armoredLiquidRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> vulnerableLiquidRegions = new Array<AtlasRegion>();

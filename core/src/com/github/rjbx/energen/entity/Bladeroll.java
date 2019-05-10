@@ -46,7 +46,7 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
         this.type = type;
         this.position = position;
         this.vulnerabilityCount = (int) vulnerabilities;
-        this.speed = 1.8f;
+        this.speed = 4f;
         this.center = Constants.ROLLEN_CENTER;
         equippedRegions = new Array<Enums.Direction>();
         vulnerable = false;
