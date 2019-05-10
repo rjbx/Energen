@@ -37,6 +37,7 @@ public class Triptread extends Ground implements Trippable, Convertible, Propell
         startTime = TimeUtils.nanoTime();
         converted = false;
         adjustments = 0;
+        animation = AssetManager.getInstance().getGroundAssets().treadmillRight;
     }
 
     @Override

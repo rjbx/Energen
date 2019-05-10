@@ -32,6 +32,7 @@ public class Treadmill extends Ground implements Nonstatic, Propelling, Converti
         this.direction = direction;
         startTime = TimeUtils.nanoTime();
         tripped = false;
+        animation = AssetManager.getInstance().getGroundAssets().treadmillRight;
     }
 
     @Override
