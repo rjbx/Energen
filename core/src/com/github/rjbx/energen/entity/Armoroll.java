@@ -16,6 +16,7 @@ import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
+// TODO: Implement trippable
 public class Armoroll extends Hazard implements Armored, Groundable, Roving, Destructible, Impermeable {
 
     // fields
