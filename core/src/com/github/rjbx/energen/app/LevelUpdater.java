@@ -99,9 +99,9 @@ class LevelUpdater {
 
         if (!continuing() || batch == null || viewport == null) return;
 
-        Rectangle renderBounds = new Rectangle(chaseCam.getViewport().getRightGutterX() - 200, chaseCam.getViewport().getTopGutterY() - 200, 500, 500);
+        Rectangle renderBounds = new Rectangle(chaseCam.getCamera().position.x - 200, chaseCam.getCamera().position.y - 200, 500, 500);
 
-        backdrop.render(batch, viewport, new Vector2(chaseCam.camera.position.x, chaseCam.camera.position.y), Constants.BACKGROUND_CENTER, 1);
+        backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
         for (Ground ground : grounds) {
             if (!ground.isDense() || ground instanceof Tripknob || ground instanceof Tripspring || ground instanceof Spring) {
@@ -322,7 +322,7 @@ class LevelUpdater {
 
     public boolean updateGround(float delta, Ground ground) {
 
-        Rectangle updateBounds = new Rectangle(chaseCam.getViewport().getRightGutterX() - 250, chaseCam.getViewport().getTopGutterY() - 250, 750, 750);
+        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - 250, chaseCam.getCamera().position.y - 250, 750, 750);
         if (!updateBounds.overlaps(new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight()))) return true;
 
         if (ground instanceof Energized && ((Energized) ground).getDispatchStatus()) {
@@ -366,7 +366,7 @@ class LevelUpdater {
                 if (hintsEnabled
                         && !trip.maxAdjustmentsReached()
                         && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
-                        && !(trip.getBounds().overlaps(new Rectangle(chaseCam.camera.position.x - chaseCam.getViewport().getWorldWidth() / 4, chaseCam.camera.position.y - chaseCam.getViewport().getWorldHeight() / 4, chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getViewport().getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
+                        && !(trip.getBounds().overlaps(new Rectangle(chaseCam.getCamera().position.x - chaseCam.getViewport().getWorldWidth() / 4, chaseCam.getCamera().position.y - chaseCam.getViewport().getWorldHeight() / 4, chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getViewport().getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
 
                     chaseCam.setState(Enums.ChaseCamState.CONVERT);
                     chaseCam.setConvertBounds(trip.getBounds());
@@ -549,7 +549,7 @@ class LevelUpdater {
     }
 
     public boolean updateHazard(float delta, Hazard hazard) {
-        Rectangle updateBounds = new Rectangle(chaseCam.getViewport().getRightGutterX() - 250, chaseCam.getViewport().getTopGutterY() - 250, 750, 750);
+        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - 250, chaseCam.getCamera().position.y - 250, 750, 750);
         if (!updateBounds.overlaps(new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight()))) return true;
 
         boolean active = true;
@@ -629,7 +629,7 @@ class LevelUpdater {
                         if (hintsEnabled
                                 && !trip.maxAdjustmentsReached()
                                 && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
-                                && !(trip.getBounds().overlaps(new Rectangle(chaseCam.camera.position.x - chaseCam.getViewport().getWorldWidth() / 4, chaseCam.camera.position.y - chaseCam.getViewport().getWorldHeight() / 4, chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getViewport().getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
+                                && !(trip.getBounds().overlaps(new Rectangle(chaseCam.getCamera().position.x - chaseCam.getViewport().getWorldWidth() / 4, chaseCam.getCamera().position.y - chaseCam.getViewport().getWorldHeight() / 4, chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getViewport().getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
 
                             chaseCam.setState(Enums.ChaseCamState.CONVERT);
                             chaseCam.setConvertBounds(trip.getBounds());
@@ -684,7 +684,7 @@ class LevelUpdater {
     }
 
     public boolean updatePowerup(float delta, Powerup powerup) {
-        Rectangle updateBounds = new Rectangle(chaseCam.getViewport().getRightGutterX() - 250, chaseCam.getViewport().getTopGutterY() - 250, 750, 750);
+        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - 250, chaseCam.getCamera().position.y - 250, 750, 750);
         if (!updateBounds.overlaps(new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight()))) return true;
 
         if (Helpers.overlapsPhysicalObject(avatar, powerup)
@@ -697,7 +697,7 @@ class LevelUpdater {
     }
 
     public boolean updateTransport(float delta, Transport transport, int portalIndex) {
-        Rectangle updateBounds = new Rectangle(chaseCam.getViewport().getRightGutterX() - 250, chaseCam.getViewport().getTopGutterY() - 250, 750, 750);
+        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - 250, chaseCam.getCamera().position.y - 250, 750, 750);
         if (!updateBounds.overlaps(new Rectangle(transport.getLeft(), transport.getBottom(), transport.getWidth(), transport.getHeight()))) return true;
 
         boolean active = true;

@@ -100,25 +100,11 @@ public final class ChaseCam {
     public final void setConvertBounds(Rectangle convertBounds) { this.convertBoundsArray.add(convertBounds); }
     public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public final void setRoomPosition(Vector2 position) { roomPosition = position; }
-
-    public OrthographicCamera getCamera() {
-        return camera;
-    }
-
-    public void setCamera(OrthographicCamera camera) {
-        this.camera = camera;
-    }
-
-    public Avatar getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(Avatar avatar) {
-        this.avatar = avatar;
-    }
-
+    public OrthographicCamera getCamera() { return camera; }
+    public void setCamera(OrthographicCamera camera) { this.camera = camera; }
+    public Avatar getAvatar() { return avatar; }
+    public void setAvatar(Avatar avatar) { this.avatar = avatar; }
     public final Enums.ChaseCamState getState() { return state; }
-
     public final void setState(Enums.ChaseCamState state) {
         this.state = state;
         switch (state) {
