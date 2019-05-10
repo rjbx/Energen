@@ -731,7 +731,7 @@ public final class Constants {
 
     // Blade
     public static final Vector2 BLADE_CENTER = new Vector2(40, 35);
-    public static final int BLADE_DAMAGE_FACTOR = 100;
+    public static final int BLADE_DAMAGE_FACTOR = 10;
 
     public static final String FLIPSWIPE_NATIVE_SPRITE_1 = "blade-flip-native-1";
     public static final String FLIPSWIPE_NATIVE_SPRITE_2 = "blade-flip-native-2";
