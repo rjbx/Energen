@@ -623,7 +623,7 @@ class LevelUpdater {
 
             if (destructible.getHealth() < 1) {
                 if (destructible instanceof Armoroll || destructible instanceof Bladeroll) {
-
+                    ((Trippable) destructible).convert();
                 }
                 spawnImpact(destructible.getPosition(), destructible.getType());
                 active = false;
