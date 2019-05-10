@@ -11,7 +11,7 @@ import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 
-public class Treadmill extends Ground implements Propelling, Convertible {
+public class Treadmill extends Ground implements Nonstatic, Propelling, Convertible {
 
     // fields
     public final static String TAG = Treadmill.class.getName();
