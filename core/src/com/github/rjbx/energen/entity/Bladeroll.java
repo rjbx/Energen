@@ -212,16 +212,16 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
             for (Enums.Direction region : equippedRegions) {
                 switch (region) {
                     case LEFT:
-                        Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getBladeAssets().nativeForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, true, false);
+                        Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getBladeAssets().solidForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, true, false);
                         break;
                     case RIGHT:
-                        Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getBladeAssets().nativeForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, false, false);
+                        Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getBladeAssets().solidForehand.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, false, false);
                         break;
                     case DOWN:
-                        Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, flipX, false);
+                        Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getBladeAssets().solidUppercut.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, flipX, false);
                         break;
                     case UP:
-                        Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getBladeAssets().nativeUppercut.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, flipX, true);
+                        Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getBladeAssets().solidUppercut.getKeyFrame(frame, true), position, Constants.BLADE_CENTER, 1, 0, flipX, true);
                         break;
                 }
             }
