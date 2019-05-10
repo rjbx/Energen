@@ -68,11 +68,7 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
         rollStartTime = 0;
         rollTimeSeconds = 0;
         collision = rollTimeSeconds;
-        switch (type) {
-            case LIQUID:
-                animation = AssetManager.getInstance().getRollenAssets().liquidRollen;
-                break;
-        }
+        animation = AssetManager.getInstance().getRollenAssets().liquidRollen;
     }
 
     public void update(float delta) {
