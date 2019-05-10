@@ -623,7 +623,32 @@ class LevelUpdater {
 
             if (destructible.getHealth() < 1) {
                 if (destructible instanceof Armoroll || destructible instanceof Bladeroll) {
-                    ((Trippable) destructible).convert();
+                    Trippable trip = (Trippable) destructible;
+                    if (trip.tripped()) {
+                        if (hintsEnabled
+                                && !trip.maxAdjustmentsReached()
+                                && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
+                                && !(trip.getBounds().overlaps(new Rectangle(chaseCam.camera.position.x - chaseCam.getViewport().getWorldWidth() / 4, chaseCam.camera.position.y - chaseCam.getViewport().getWorldHeight() / 4, chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getViewport().getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
+
+                            chaseCam.setState(Enums.ChaseCamState.CONVERT);
+                            chaseCam.setConvertBounds(trip.getBounds());
+                            trip.addCamAdjustment();
+                        }
+                        for (Ground g : grounds) {
+                            if (g instanceof Convertible && (g != trip || g instanceof Triptread)) {
+                                if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
+                                    ((Convertible) g).convert();
+                                }
+                            }
+                        }
+                        for (Hazard h : hazards) {
+                            if (h instanceof Convertible && (h != trip)) {
+                                if (Helpers.betweenFourValues(h.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
+                                    ((Convertible) h).convert();
+                                }
+                            }
+                        }
+                    }
                 }
                 spawnImpact(destructible.getPosition(), destructible.getType());
                 active = false;
