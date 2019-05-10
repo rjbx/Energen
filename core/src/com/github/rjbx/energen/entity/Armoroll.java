@@ -3,6 +3,7 @@ package com.github.rjbx.energen.entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -16,8 +17,7 @@ import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-// TODO: Implement trippable
-public class Armoroll extends Hazard implements Armored, Groundable, Roving, Destructible, Impermeable {
+public class Armoroll extends Hazard implements Armored, Groundable, Roving, Destructible, Impermeable, Trippable {
 
     // fields
     public final static String TAG = Rollen.class.getName();
@@ -214,4 +214,44 @@ public class Armoroll extends Hazard implements Armored, Groundable, Roving, Des
     @Override public final boolean isDense() { return true; }
     @Override public final long getStartTime() { return startTime; }
     @Override public final float getRecoverySpeed() { return speed; }
+
+    @Override
+    public void setState(boolean state) {
+
+    }
+
+    @Override
+    public boolean tripped() {
+        return false;
+    }
+
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
+    @Override
+    public void addCamAdjustment() {
+
+    }
+
+    @Override
+    public boolean maxAdjustmentsReached() {
+        return false;
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return null;
+    }
+
+    @Override
+    public boolean isConverted() {
+        return false;
+    }
+
+    @Override
+    public void convert() {
+
+    }
 }

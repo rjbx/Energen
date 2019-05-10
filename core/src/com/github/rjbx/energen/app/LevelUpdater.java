@@ -595,7 +595,6 @@ class LevelUpdater {
             projectiles.end();
 
             if (Helpers.overlapsPhysicalObject(Blade.getInstance(), destructible)) {
-                // TODO: Deactivate on contact or decrease effectiveness due to multiple overlapping passes
                 if (avatar.getBladeState() == Enums.BladeState.FLIP
                         || (avatar.getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, avatar.getBottom(), avatar.getTop()))
                         || (avatar.getBladeState() == Enums.BladeState.CUT) && (Helpers.speedToVelocity(destructible.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) - Helpers.speedToVelocity(avatar.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) > 0)) {
@@ -623,6 +622,9 @@ class LevelUpdater {
             }
 
             if (destructible.getHealth() < 1) {
+                if (destructible instanceof Armoroll || destructible instanceof Bladeroll) {
+
+                }
                 spawnImpact(destructible.getPosition(), destructible.getType());
                 active = false;
                 score += (destructible.getKillScore() * Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()]);
