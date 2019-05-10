@@ -99,7 +99,7 @@ class LevelUpdater {
 
         if (!continuing() || batch == null || viewport == null) return;
 
-        Rectangle renderBounds = new Rectangle(chaseCam.getCamera().position.x - chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getCamera().position.y - chaseCam.getViewport().getWorldHeight() / 2, chaseCam.getViewport().getWorldWidth(), chaseCam.getViewport().getWorldHeight());
+        Rectangle renderBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() / 4), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() / 4), chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getViewport().getWorldHeight() / 2);
 
         backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
@@ -322,7 +322,7 @@ class LevelUpdater {
 
     public boolean updateGround(float delta, Ground ground) {
 
-        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getCamera().position.y - chaseCam.getViewport().getWorldHeight() / 2, chaseCam.getViewport().getWorldWidth() * 1.25f, chaseCam.getViewport().getWorldHeight() * 1.25f);
+        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() / 2), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() / 2), chaseCam.getViewport().getWorldWidth(), chaseCam.getViewport().getWorldHeight());
         if (!updateBounds.overlaps(new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight()))) return true;
 
         if (ground instanceof Energized && ((Energized) ground).getDispatchStatus()) {
@@ -549,7 +549,7 @@ class LevelUpdater {
     }
 
     public boolean updateHazard(float delta, Hazard hazard) {
-        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getCamera().position.y - chaseCam.getViewport().getWorldHeight() / 2, chaseCam.getViewport().getWorldWidth() * 1.25f, chaseCam.getViewport().getWorldHeight() * 1.25f);
+        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() / 2), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() / 2), chaseCam.getViewport().getWorldWidth(), chaseCam.getViewport().getWorldHeight());
         if (!updateBounds.overlaps(new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight()))) return true;
 
         boolean active = true;
@@ -684,7 +684,7 @@ class LevelUpdater {
     }
 
     public boolean updatePowerup(float delta, Powerup powerup) {
-        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getCamera().position.y - chaseCam.getViewport().getWorldHeight() / 2, chaseCam.getViewport().getWorldWidth() * 1.25f, chaseCam.getViewport().getWorldHeight() * 1.25f);
+        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() / 2), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() / 2), chaseCam.getViewport().getWorldWidth(), chaseCam.getViewport().getWorldHeight());
         if (!updateBounds.overlaps(new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight()))) return true;
 
         if (Helpers.overlapsPhysicalObject(avatar, powerup)
@@ -697,7 +697,7 @@ class LevelUpdater {
     }
 
     public boolean updateTransport(float delta, Transport transport, int portalIndex) {
-        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getCamera().position.y - chaseCam.getViewport().getWorldHeight() / 2, chaseCam.getViewport().getWorldWidth() * 1.25f, chaseCam.getViewport().getWorldHeight() * 1.25f);
+        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() / 2), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() / 2), chaseCam.getViewport().getWorldWidth(), chaseCam.getViewport().getWorldHeight());
         if (!updateBounds.overlaps(new Rectangle(transport.getLeft(), transport.getBottom(), transport.getWidth(), transport.getHeight()))) return true;
 
         boolean active = true;
