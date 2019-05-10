@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.rjbx.energen.app.SaveData;
 import com.github.rjbx.energen.entity.Aerial;
+import com.github.rjbx.energen.entity.Blade;
 import com.github.rjbx.energen.entity.Projectile;
 import com.github.rjbx.energen.entity.Avatar;
 import com.github.rjbx.energen.entity.Destructible;
@@ -308,7 +309,8 @@ public final class Helpers {
                 damage = Constants.AMMO_STANDARD_DAMAGE;
         }
 
-        damage = damage / Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()];
+        damage /= Constants.DIFFICULTY_MULTIPLIER[SaveData.getDifficulty()];
+        if (hazard instanceof Blade) damage /= Constants.BLADE_DAMAGE_FACTOR;
 
         if (hazard instanceof Projectile) {
             Projectile projectile = (Projectile) hazard;
