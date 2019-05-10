@@ -89,6 +89,7 @@ class LevelUpdater {
         paused = false;
     }
 
+    // TODO: Prevent asset update outside render bounds
     protected void update(float delta) {
         if (continuing() && !paused()) {
             updateEntities(delta);
@@ -319,6 +320,7 @@ class LevelUpdater {
     }
 
     public boolean updateGround(float delta, Ground ground) {
+        if ()
         if (ground instanceof Energized && ((Energized) ground).getDispatchStatus()) {
             Energized energy = (Energized) ground;
             Enums.Orientation orientation = energy.getOrientation();
