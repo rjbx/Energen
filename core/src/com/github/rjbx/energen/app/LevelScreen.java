@@ -115,9 +115,8 @@ final class LevelScreen extends ScreenAdapter {
 
         if (levelUpdater.continuing()) {
             if (!levelUpdater.paused()) {
-                levelUpdater.update(delta);
                 chaseCam.update(batch, delta);
-                levelUpdater.render(batch, chaseViewport); // also rendered when viewingDebug; see pause()
+                levelUpdater.render(batch, chaseViewport, delta); // also rendered when viewingDebug; see pause()
                 indicatorHud.render(batch, staticViewport, font); // renders after level which sets indicators to foreground
                 if (inputControls.pauseButtonJustPressed) {
                     levelUpdater.pause();
@@ -203,7 +202,7 @@ final class LevelScreen extends ScreenAdapter {
                 break;
             case DEBUG:
                 boolean inBossArea = LevelUpdater.getInstance().getBoss().isBattling();
-                levelUpdater.render(batch, chaseViewport);
+                levelUpdater.render(batch, chaseViewport, delta);
                 chaseCam.update(batch, delta);
                 if (inputControls.shootButtonJustPressed) {
                     if (inBossArea) {

@@ -95,9 +95,11 @@ class LevelUpdater {
         }
     }
 
-    protected void render(SpriteBatch batch, Viewport viewport) {
+    protected void render(SpriteBatch batch, Viewport viewport, float delta) {
 
-        if (!continuing()) return;
+        if (!continuing() || batch == null || viewport == null) return;
+
+        update(delta);
 
         Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 250, avatar.getPosition().y - 250, 500, 500);
 
@@ -322,7 +324,7 @@ class LevelUpdater {
 
     public boolean updateGround(float delta, Ground ground) {
 
-        Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 250, avatar.getPosition().y - 250, 500, 500);
+        Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 300, avatar.getPosition().y - 300, 750, 750);
         if (!renderBounds.overlaps(new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight()))) return true;
 
         if (ground instanceof Energized && ((Energized) ground).getDispatchStatus()) {
