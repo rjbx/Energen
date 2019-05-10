@@ -20,10 +20,10 @@ public final class ChaseCam {
     public static final String TAG = ChaseCam.class.getName();
     private static final ChaseCam INSTANCE = new ChaseCam();
     private ExtendViewport viewport;
-    public OrthographicCamera camera;
-    public Avatar avatar;
-    public Vector2 roomPosition;
-    public Array<Rectangle> convertBoundsArray;
+    private OrthographicCamera camera;
+    private Avatar avatar;
+    private Vector2 roomPosition;
+    private Array<Rectangle> convertBoundsArray;
     private Enums.ChaseCamState state;
     private long convertStartTime;
     private InputControls inputControls;
@@ -100,7 +100,25 @@ public final class ChaseCam {
     public final void setConvertBounds(Rectangle convertBounds) { this.convertBoundsArray.add(convertBounds); }
     public final void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public final void setRoomPosition(Vector2 position) { roomPosition = position; }
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public void setCamera(OrthographicCamera camera) {
+        this.camera = camera;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
+    }
+
     public final Enums.ChaseCamState getState() { return state; }
+
     public final void setState(Enums.ChaseCamState state) {
         this.state = state;
         switch (state) {
