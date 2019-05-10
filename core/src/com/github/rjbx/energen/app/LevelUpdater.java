@@ -321,7 +321,7 @@ class LevelUpdater {
     public boolean updateGround(float delta, Ground ground) {
 
         Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 250, avatar.getPosition().y - 250, 500, 500);
-        if (!renderBounds.overlaps(new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight()))) return false;
+        if (!renderBounds.overlaps(new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight()))) return true;
 
         if (ground instanceof Energized && ((Energized) ground).getDispatchStatus()) {
             Energized energy = (Energized) ground;
@@ -329,8 +329,6 @@ class LevelUpdater {
             Vector2 offset = new Vector2();
             if (energy instanceof Cannoroll) {
                 offset.set(energy.getWidth(), energy.getHeight());
-            } else {
-                offset.set(energy.getWidth() / 2, energy.getHeight() / 2);
             }
             if (orientation == Enums.Orientation.X) {
                 Vector2 ammoPositionLeft = new Vector2(energy.getPosition().x - offset.x, energy.getPosition().y);
@@ -550,7 +548,7 @@ class LevelUpdater {
 
     public boolean updateHazard(float delta, Hazard hazard) {
         Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 250, avatar.getPosition().y - 250, 500, 500);
-        if (!renderBounds.overlaps(new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight()))) return false;
+        if (!renderBounds.overlaps(new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight()))) return true;
 
         boolean active = true;
         if (hazard instanceof Boss) {
@@ -655,7 +653,7 @@ class LevelUpdater {
 
     public boolean updatePowerup(float delta, Powerup powerup) {
         Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 250, avatar.getPosition().y - 250, 500, 500);
-        if (!renderBounds.overlaps(new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight()))) return false;
+        if (!renderBounds.overlaps(new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight()))) return true;
 
         if (Helpers.overlapsPhysicalObject(avatar, powerup)
                 || (avatar.getBladeState() != Enums.BladeState.RETRACTED && Helpers.overlapsPhysicalObject(Blade.getInstance(), powerup))) {
@@ -668,7 +666,7 @@ class LevelUpdater {
 
     public boolean updateTransport(float delta, Transport transport, int portalIndex) {
         Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 250, avatar.getPosition().y - 250, 500, 500);
-        if (!renderBounds.overlaps(new Rectangle(transport.getLeft(), transport.getBottom(), transport.getWidth(), transport.getHeight()))) return false;
+        if (!renderBounds.overlaps(new Rectangle(transport.getLeft(), transport.getBottom(), transport.getWidth(), transport.getHeight()))) return true;
 
         boolean active = true;
         if (avatar.getPosition().dst(transport.getPosition()) < transport.getWidth() / 2 && inputControls.upButtonPressed && inputControls.jumpButtonJustPressed) {
