@@ -17,7 +17,7 @@ import com.github.rjbx.energen.util.Enums.Direction;
 import com.github.rjbx.energen.util.Helpers;
 
 // mutable
-public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable, Rappelable, Hurdleable, Convertible, Impermeable {
+public class Zoomba extends Hazard implements Indestructible, Dynamic, Groundable, Rappelable, Hurdleable, Convertible, Impermeable {
 
     // fields
     public final static String TAG = Zoomba.class.getName();
@@ -136,19 +136,14 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
 
     @Override public final Vector2 getPosition() { return position; }
     @Override public final Vector2 getVelocity() { return velocity; }
-    @Override public final float getHealth() { return health; }
     @Override public final float getWidth() { return Constants.ZOOMBA_COLLISION_WIDTH; }
     @Override public final float getHeight() { return Constants.ZOOMBA_COLLISION_HEIGHT; }
     @Override public final float getLeft() { return position.x - Constants.ZOOMBA_COLLISION_WIDTH / 2; }
     @Override public final float getRight() { return position.x + Constants.ZOOMBA_COLLISION_WIDTH / 2; }
     @Override public final float getTop() { return position.y + Constants.ZOOMBA_COLLISION_HEIGHT / 2; }
     @Override public final float getBottom() { return position.y - Constants.ZOOMBA_COLLISION_HEIGHT / 2; }
-    @Override public final float getShotRadius() { return Constants.ZOOMBA_SHOT_RADIUS; }
-    @Override public final int getHitScore() { return Constants.ZOOMBA_HIT_SCORE; }
-    @Override public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
     @Override public final int getDamage() { return Constants.ZOOMBA_STANDARD_DAMAGE; }
     @Override public Enums.Energy getType() { return type; }
-    @Override public final void setHealth( float health ) { this.health = health; }
     @Override public final Vector2 getKnockback() { return Constants.ZOOMBA_KNOCKBACK; }
     @Override public Enums.Orientation getOrientation() { return orientation; }
     @Override public Enums.Direction getDirectionX() { return direction; }
