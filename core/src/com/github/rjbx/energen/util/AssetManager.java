@@ -1255,7 +1255,7 @@ public final class AssetManager implements AssetErrorListener {
             armoredLiquid = new Animation(Constants.ROLLEN_DURATION / armoredLiquidRegions.size, armoredLiquidRegions, PlayMode.NORMAL);
 
             Array<AtlasRegion> vulnerableLiquidRegions = new Array<AtlasRegion>();
-            vulnerableLiquidRegions.add(atlas.findRegion(Constants.ARMOROLLO_LIQUID_SPRITE_1));
+            vulnerableLiquidRegions.add(atlas.findRegion(Constants.ARMOROLL_LIQUID_SPRITE_1));
             vulnerableLiquidRegions.add(atlas.findRegion(Constants.ARMOROLLO_LIQUID_SPRITE_2));
             vulnerableLiquidRegions.add(atlas.findRegion(Constants.ARMOROLLO_LIQUID_SPRITE_3));
             vulnerableLiquidRegions.add(atlas.findRegion(Constants.ARMOROLLO_LIQUID_SPRITE_4));
