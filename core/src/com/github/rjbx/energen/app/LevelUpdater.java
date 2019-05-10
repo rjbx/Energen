@@ -595,13 +595,13 @@ class LevelUpdater {
             projectiles.end();
 
             if (Helpers.overlapsPhysicalObject(Blade.getInstance(), destructible)) {
-                spawnImpact(Blade.getInstance().getPosition(), Blade.getInstance().getType());
                 // TODO: Deactivate on contact or decrease effectiveness due to multiple overlapping passes
                 if (avatar.getBladeState() == Enums.BladeState.FLIP
                         || (avatar.getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, avatar.getBottom(), avatar.getTop()))
                         || (avatar.getBladeState() == Enums.BladeState.CUT) && (Helpers.speedToVelocity(destructible.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) - Helpers.speedToVelocity(avatar.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) > 0)) {
                     if (!(hazard instanceof Armored)) {
                         Helpers.applyDamage(destructible, Blade.getInstance());
+                        spawnImpt act(Blade.getInstance().getPosition(), Blade.getInstance().getType());
                     } else {
                         if (((Armored) hazard).isVulnerable()) {
                             if (Helpers.directionToOrientation(((Armored) hazard).getVulnerability()) == Enums.Orientation.Y
