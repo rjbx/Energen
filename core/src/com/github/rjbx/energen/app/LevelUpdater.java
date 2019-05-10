@@ -99,7 +99,7 @@ class LevelUpdater {
 
         if (!continuing() || batch == null || viewport == null) return;
 
-        Rectangle renderBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() / 2), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() / 2), chaseCam.getViewport().getWorldWidth(), chaseCam.getViewport().getWorldHeight());
+        Rectangle renderBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() / 1.25f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() / 1.25f), chaseCam.getViewport().getWorldWidth() * 2.5f, chaseCam.getViewport().getWorldHeight() * 2.5f);
 
         backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
