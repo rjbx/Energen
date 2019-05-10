@@ -322,7 +322,7 @@ class LevelUpdater {
 
     public boolean updateGround(float delta, Ground ground) {
 
-        Rectangle updateBounds = new Rectangle(avatar.getPosition().x - 300, avatar.getPosition().y - 300, 750, 750);
+        Rectangle updateBounds = new Rectangle(chaseCam.getViewport().getScreenX() - 300, chaseCam.getViewport().getScreenY() - 300, 750, 750);
         if (!updateBounds.overlaps(new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight()))) return true;
 
         if (ground instanceof Energized && ((Energized) ground).getDispatchStatus()) {
@@ -697,7 +697,7 @@ class LevelUpdater {
     }
 
     public boolean updateTransport(float delta, Transport transport, int portalIndex) {
-        Rectangle renderBounds = new Rectangle(avatar.getPosition().x - 300, avatar.getPosition().y - 300, 750, 750);
+        Rectangle renderBounds = new Rectangle(chaseCam.getViewport().getScreenX() - 300, chaseCam.getViewport().getScreenY() - 300, 750, 750);
         if (!renderBounds.overlaps(new Rectangle(transport.getLeft(), transport.getBottom(), transport.getWidth(), transport.getHeight()))) return true;
 
         boolean active = true;
