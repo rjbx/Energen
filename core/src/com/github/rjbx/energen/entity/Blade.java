@@ -81,7 +81,7 @@ public final class Blade extends Hazard implements Indestructible {
                             animation = AssetManager.getInstance().getBladeAssets().nativeUppercut;
                             break;
                     }
-                    damage = Constants.AMMO_STANDARD_DAMAGE;
+                    damage = Constants.AMMO_STANDARD_DAMAGE / Constants.BLADE_DAMAGE_FACTOR;
                     knockback.set(Constants.ZOOMBA_KNOCKBACK);
                     break;
                 case LIQUID:
@@ -96,7 +96,7 @@ public final class Blade extends Hazard implements Indestructible {
                             animation = AssetManager.getInstance().getBladeAssets().liquidUppercut;
                             break;
                     }
-                    damage = Constants.PROTRUSION_LIQUID_DAMAGE;
+                    damage = Constants.PROTRUSION_LIQUID_DAMAGE / Constants.BLADE_DAMAGE_FACTOR;
                     knockback.set(Constants.PROTRUSION_LIQUID_KNOCKBACK);
                     break;
                 case PLASMA:
@@ -111,7 +111,7 @@ public final class Blade extends Hazard implements Indestructible {
                             animation = AssetManager.getInstance().getBladeAssets().plasmaUppercut;
                             break;
                     }
-                    damage = Constants.PROTRUSION_PLASMA_DAMAGE;
+                    damage = Constants.PROTRUSION_PLASMA_DAMAGE / Constants.BLADE_DAMAGE_FACTOR;
                     knockback.set(Constants.PROTRUSION_PLASMA_KNOCKBACK);
                     break;
                 case GAS:
@@ -126,7 +126,7 @@ public final class Blade extends Hazard implements Indestructible {
                             animation = AssetManager.getInstance().getBladeAssets().gasUppercut;
                             break;
                     }
-                    damage = Constants.PROTRUSION_GAS_DAMAGE;
+                    damage = Constants.PROTRUSION_GAS_DAMAGE / Constants.BLADE_DAMAGE_FACTOR;
                     knockback.set(Constants.PROTRUSION_GAS_KNOCKBACK);
                     break;
                 case SOLID:
@@ -141,7 +141,7 @@ public final class Blade extends Hazard implements Indestructible {
                             animation = AssetManager.getInstance().getBladeAssets().solidUppercut;
                             break;
                     }
-                    damage = Constants.PROTRUSION_SOLID_DAMAGE;
+                    damage = Constants.PROTRUSION_SOLID_DAMAGE / Constants.BLADE_DAMAGE_FACTOR;
                     knockback.set(Constants.PROTRUSION_SOLID_KNOCKBACK);
                     break;
                 case ORE:
@@ -156,7 +156,7 @@ public final class Blade extends Hazard implements Indestructible {
                             animation = AssetManager.getInstance().getBladeAssets().oreUppercut;
                             break;
                     }
-                    damage = Constants.PROTRUSION_ORE_DAMAGE;
+                    damage = Constants.PROTRUSION_ORE_DAMAGE / Constants.BLADE_DAMAGE_FACTOR;
                     knockback.set(Constants.PROTRUSION_ORE_KNOCKBACK);
                     break;
                 case ANTIMATTER:
@@ -171,7 +171,7 @@ public final class Blade extends Hazard implements Indestructible {
                             animation = AssetManager.getInstance().getBladeAssets().antimatterUppercut;
                             break;
                     }
-                    damage = Constants.SUSPENSION_ANTIMATTER_DAMAGE;
+                    damage = Constants.SUSPENSION_ANTIMATTER_DAMAGE / Constants.BLADE_DAMAGE_FACTOR;
                     knockback.set(Constants.SUSPENSION_ANTIMATTER_KNOCKBACK);
                     break;
                 case HYBRID:
@@ -186,7 +186,7 @@ public final class Blade extends Hazard implements Indestructible {
                             animation = AssetManager.getInstance().getBladeAssets().hybridUppercut;
                             break;
                     }
-                    damage = Constants.SUSPENSION_ANTIMATTER_DAMAGE;
+                    damage = Constants.SUSPENSION_ANTIMATTER_DAMAGE / Constants.BLADE_DAMAGE_FACTOR;
                     knockback.set(Constants.SUSPENSION_ANTIMATTER_KNOCKBACK);
                     break;
             }
