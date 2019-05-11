@@ -295,7 +295,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else if (action == Action.RECOILING) {
                 enableRappel();
                 enableShoot(energy);
-                enableSwipe();
             }
         }
 //
