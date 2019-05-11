@@ -916,6 +916,8 @@ public final class Constants {
     public static final int ON_TAG_INDEX = 1;
     public static final String OFF_TAG = "off";
     public static final int OFF_TAG_INDEX = 2;
+    public static final String CONVERTIBLE_TAG = "convertible";
+    public static final int CONVERTIBLE_TAG_INDEX = 3;
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;

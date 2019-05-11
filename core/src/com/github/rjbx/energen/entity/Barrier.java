@@ -22,6 +22,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
     private float height;
     protected boolean dense;
     private boolean converted;
+    private boolean convertible;
     private NinePatch ninePatch;
 
     //default ctor
@@ -31,18 +32,20 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
         this.position = new Vector2();
         this.type = Enums.Energy.NATIVE;
         this.dense = true;
+        convertible = false;
         converted = false;
         ninePatch = new NinePatch(AssetManager.getInstance().getGroundAssets().getNinePatch(this));
         setColor();
     }
 
     // ctor
-    public Barrier(float xPos, float yPos, float width, float height, Enums.Energy type, boolean dense) {
+    public Barrier(float xPos, float yPos, float width, float height, Enums.Energy type, boolean dense, boolean convertible) {
         this.width = width;
         this.height = height;
         this.position = new Vector2(xPos + (width / 2), yPos + (height / 2));
         this.type = type;
         this.dense = dense;
+        this.convertible = convertible;
         converted = false;
         ninePatch = new NinePatch(AssetManager.getInstance().getGroundAssets().getNinePatch(this));
         setColor();
@@ -71,7 +74,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
     @Override public Vector2 getPosition() { return position; }
     public void setDensity(boolean state) { dense = state; }
     @Override public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
-    @Override public void convert() { dense = !dense; converted = true; }
+    @Override public void convert() { if (convertible) dense = !dense; converted = true; }
     @Override public boolean isConverted() { return converted; }
     public Enums.Energy getType() { return type; }
     public Color getColor() { return ninePatch.getColor(); }

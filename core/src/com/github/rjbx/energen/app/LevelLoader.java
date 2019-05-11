@@ -339,7 +339,7 @@ final class LevelLoader {
     }
 
     private static final boolean[] extractTags(JSONObject object) {
-        boolean[] tagBooleans = {false, false, true};
+        boolean[] tagBooleans = {false, false, true, false};
         try {
             if (object.containsKey(Constants.LEVEL_TAGS_KEY)) {
                 JSONArray tags = (JSONArray) object.get(Constants.LEVEL_TAGS_KEY);
@@ -353,6 +353,9 @@ final class LevelLoader {
                     }
                     if (item.equals(Constants.OFF_TAG)) {
                         tagBooleans[Constants.OFF_TAG_INDEX] = false;
+                    }
+                    if (item.equals(Constants.CONVERTIBLE_TAG)) {
+                        tagBooleans[Constants.CONVERTIBLE_TAG_INDEX] = true;
                     }
                 }
             }
@@ -647,7 +650,7 @@ final class LevelLoader {
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BARRIER_SPRITE)) {
                 final Barrier barrier;
-                barrier = new Barrier(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX]);
+                barrier = new Barrier(imagePosition.x, imagePosition.y, width, height, type, !tags[Constants.LEDGE_TAG_INDEX], tags[Constants.CONVERTIBLE_TAG_INDEX]);
                 level.addGround(barrier);
                 Gdx.app.log(TAG, "Loaded the barrier at " + imagePosition.add(new Vector2(width / 2, height / 2)));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BOX_SPRITE)) {
