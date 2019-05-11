@@ -295,6 +295,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else if (action == Action.RECOILING) {
                 enableRappel();
                 enableShoot(energy);
+                enableSwipe();
             }
         }
 //
@@ -379,7 +380,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
                 AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
-                if (action != Action.HOVERING) turbo -= Constants.FALL_TURBO_INCREMENT;
+                if (action != Action.HOVERING && action != Action.RECOILING) turbo -= Constants.FALL_TURBO_INCREMENT;
             } else { // auto deactivation when animation completes
                 AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
                 swipeStartTime = 0;
@@ -1135,9 +1136,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canClimb = false;
             canRappel = false;
             canHurdle = false;
-            canFlip = false;
-            canCut = false;
-            canRush = false;
         }
     }
 
