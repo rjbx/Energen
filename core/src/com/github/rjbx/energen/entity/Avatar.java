@@ -1127,6 +1127,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             rappelStartTime = 0;
             strideStartTime = 0;
             lookStartTime = 0;
+            swipeStartTime = 0;
             turbo = 0;
             canStride = false;
             canDash = false;
@@ -1135,6 +1136,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canClimb = false;
             canRappel = false;
             canHurdle = false;
+            canFlip = false;
+            canCut = false;
+            canRush = false;
         }
     }
 
