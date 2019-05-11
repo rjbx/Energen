@@ -26,8 +26,8 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
     private float payload;
 
     // ctor
-    public Brick(float xPos, float yPos, float width, float height, Enums.Energy type, boolean dense) {
-        super(xPos, yPos, width, height, type, dense);
+    public Brick(float xPos, float yPos, float width, float height, Enums.Energy type) {
+        super(xPos, yPos, width, height, type, false, false);
         velocity = new Vector2(0, 0);
         beingCarried = false;
         againstStaticGround = false;
