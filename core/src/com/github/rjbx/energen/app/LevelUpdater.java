@@ -742,6 +742,7 @@ class LevelUpdater {
         return active;
     }
 
+    // TODO: Consider factoring out
     protected void restoreRemovals(String removals) {
         removedHazards = removals;
         List<String> levelRemovalStrings = Arrays.asList(removedHazards.split(";"));
