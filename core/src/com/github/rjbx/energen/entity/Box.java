@@ -13,7 +13,7 @@ public class Box extends Barrier implements Destructible {
 
     // ctor
     public Box(float xPos, float yPos, float width, float height, Enums.Energy type) {
-        super(xPos, yPos, width, height, type, false, false);
+        super(xPos, yPos, width, height, type, true, false);
         damage = 50;
     }
 

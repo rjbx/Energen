@@ -317,7 +317,7 @@ final class LevelLoader {
     }
 
     private static final Enums.Upgrade extractUpgrade(JSONObject object) {
-       Enums.Upgrade upgrade = Enums.Upgrade.NONE;
+        Enums.Upgrade upgrade = Enums.Upgrade.NONE;
         try {
             if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
                 String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
