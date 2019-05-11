@@ -380,7 +380,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
                 AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
-                turbo -= Constants.FALL_TURBO_INCREMENT;
+                if (action != Action.HOVERING) turbo -= Constants.FALL_TURBO_INCREMENT;
             } else { // auto deactivation when animation completes
                 AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
                 swipeStartTime = 0;
