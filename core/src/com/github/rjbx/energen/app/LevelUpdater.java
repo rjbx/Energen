@@ -742,7 +742,7 @@ class LevelUpdater {
         return active;
     }
 
-    // TODO: Consider factoring out
+    // TODO: Consider factoring out or account for projectile transience (prevent from propagating to removed or implement separate interface from hazards)
     protected void restoreRemovals(String removals) {
         removedHazards = removals;
         List<String> levelRemovalStrings = Arrays.asList(removedHazards.split(";"));
