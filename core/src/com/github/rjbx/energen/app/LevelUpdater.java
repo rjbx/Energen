@@ -719,7 +719,7 @@ class LevelUpdater {
                 if (restores == 0) {
                     allRestores.set(level, Integer.toString(transportIndex + 1));
                 } else if (restores != (transportIndex + 1)) {
-                    allRestores.set(level, Integer.toString(3));
+                    allRestores.set(level, Integer.toString(8));
                 }
                 allTimes.set(level, Long.toString(time));
                 allScores.set(level, Integer.toString(score));
@@ -752,7 +752,7 @@ class LevelUpdater {
             levelRemovals.add(Integer.parseInt(removalStr));
         }
         for (Integer removal : levelRemovals) {
-            if (removal != -1) {
+            if (removal < hazards.size && removal != -1) {
                 hazards.removeIndex(removal);
             }
         }
