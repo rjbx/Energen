@@ -696,16 +696,17 @@ class LevelUpdater {
         return powerup.isActive();
     }
 
-    public boolean updateTransport(float delta, Transport transport, int portalIndex) {
+    public boolean updateTransport(float delta, Transport transport, int transportIndex) {
         Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
         if (!updateBounds.overlaps(new Rectangle(transport.getLeft(), transport.getBottom(), transport.getWidth(), transport.getHeight()))) return true;
 
         boolean active = true;
         if (avatar.getPosition().dst(transport.getPosition()) < transport.getWidth() / 2 && inputControls.upButtonPressed && inputControls.jumpButtonJustPressed) {
             if (transport instanceof Portal) {
-                for (int j = 0; j <= portalIndex; j++) {
-                    if (!(transports.get(j) instanceof Portal)) {
-                        portalIndex++;
+                for (int j = 0; j <= transportIndex; j++) {
+                    if (j < transports.size && !(transports.get(j) instanceof Portal)) {
+                        // Persisted indeces are prior adjusted to align with list values on level load; outliers are spawns
+                        transportIndex++;
                     }
                 }
                 assetManager.getSoundAssets().life.play();
@@ -716,8 +717,8 @@ class LevelUpdater {
                 List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
                 int restores = Integer.parseInt(allRestores.get(level));
                 if (restores == 0) {
-                    allRestores.set(level, Integer.toString(portalIndex + 1));
-                } else if (restores != (portalIndex + 1)) {
+                    allRestores.set(level, Integer.toString(transportIndex + 1));
+                } else if (restores != (transportIndex + 1)) {
                     allRestores.set(level, Integer.toString(3));
                 }
                 allTimes.set(level, Long.toString(time));
