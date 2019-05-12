@@ -203,12 +203,12 @@ class LevelUpdater {
             if (avatar.getDispatchStatus()) {
                 if (avatar.getLookStartTime() != 0) {
                     if (avatar.getDirectionY() == Direction.UP) {
-                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
+                        spawnProjectile(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
                     } else {
-                        spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
+                        spawnProjectile(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
                     }
                 } else {
-                    spawnAmmo(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), avatar.getDirectionX(), Enums.Orientation.X, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
+                    spawnProjectile(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), avatar.getDirectionX(), Enums.Orientation.X, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
                 }
                 avatar.resetChargeIntensity();
             }
@@ -216,12 +216,12 @@ class LevelUpdater {
             if (boss.getDispatchStatus()) {
                 if (boss.getLookStartTime() != 0) {
                     if (boss.getDirectionY() == Direction.UP) {
-                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
+                        spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
                     } else {
-                        spawnAmmo(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
+                        spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
                     }
                 } else {
-                    spawnAmmo(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), boss.getDirectionX(), Enums.Orientation.X, boss.getShotIntensity(), boss.getEnergy(), boss);
+                    spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), boss.getDirectionX(), Enums.Orientation.X, boss.getShotIntensity(), boss.getEnergy(), boss);
                 }
                 boss.resetChargeIntensity();
             }
@@ -336,21 +336,21 @@ class LevelUpdater {
                 Vector2 ammoPositionLeft = new Vector2(energy.getPosition().x - offset.x, energy.getPosition().y);
                 Vector2 ammoPositionRight = new Vector2(energy.getPosition().x + offset.x, energy.getPosition().y);
                 if (Avatar.getInstance().getPosition().x < (ammoPositionLeft.x - offset.x)) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                    LevelUpdater.getInstance().spawnProjectile(ammoPositionLeft, Enums.Direction.LEFT, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
                 } else if (Avatar.getInstance().getPosition().x > (ammoPositionRight.x + (energy.getWidth() / 2))) {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                    LevelUpdater.getInstance().spawnProjectile(ammoPositionRight, Enums.Direction.RIGHT, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
                 }
             } else if (orientation == Enums.Orientation.Y) {
                 Vector2 ammoPositionTop = new Vector2(energy.getPosition().x, energy.getPosition().y + offset.y);
                 Vector2 ammoPositionBottom = new Vector2(energy.getPosition().x, energy.getPosition().y - offset.y);
                 if (energy instanceof Cannon) {
                     if (Avatar.getInstance().getPosition().y < (ammoPositionBottom.y - offset.y)) {
-                        LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                        LevelUpdater.getInstance().spawnProjectile(ammoPositionBottom, Enums.Direction.DOWN, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
                     } else if (Avatar.getInstance().getPosition().y > (ammoPositionTop.y + (energy.getHeight() / 2))) {
-                        LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                        LevelUpdater.getInstance().spawnProjectile(ammoPositionTop, Enums.Direction.UP, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
                     }
                 } else {
-                    LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                    LevelUpdater.getInstance().spawnProjectile(ammoPositionTop, Enums.Direction.UP, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
                 }
             }
         }
@@ -661,10 +661,10 @@ class LevelUpdater {
                 Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, destructible.getPosition().y + (destructible.getHeight() * 1.1f));
                 Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, destructible.getPosition().y - (destructible.getHeight() * 1.1f));
 
-                LevelUpdater.getInstance().spawnAmmo(ammoPositionLeft, Enums.Direction.LEFT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
-                LevelUpdater.getInstance().spawnAmmo(ammoPositionRight, Enums.Direction.RIGHT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
-                LevelUpdater.getInstance().spawnAmmo(ammoPositionBottom, Enums.Direction.DOWN, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
-                LevelUpdater.getInstance().spawnAmmo(ammoPositionTop, Enums.Direction.UP, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
+                LevelUpdater.getInstance().spawnProjectile(ammoPositionLeft, Enums.Direction.LEFT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
+                LevelUpdater.getInstance().spawnProjectile(ammoPositionRight, Enums.Direction.RIGHT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
+                LevelUpdater.getInstance().spawnProjectile(ammoPositionBottom, Enums.Direction.DOWN, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
+                LevelUpdater.getInstance().spawnProjectile(ammoPositionTop, Enums.Direction.UP, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
             }
         } else if (hazard instanceof Projectile) {
             Projectile projectile = (Projectile) hazard;
@@ -895,14 +895,15 @@ class LevelUpdater {
         return paused;
     }
 
-    private void spawnAmmo(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Energy energy, Entity source) {
+    private void spawnImpact(Vector2 position, Enums.Energy type) {
+        impacts.add(new Impact(position, type));
+    }
+
+    //TODO: Distinguish spawned assets from those generated on level load to prevent persistence and attempted removal from loaded assets
+    private void spawnProjectile(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Energy energy, Entity source) {
         Projectile projectile = new Projectile(position, direction, orientation, shotIntensity, energy, source);
         hazards.add(projectile);
         projectiles.add(projectile);
-    }
-
-    private void spawnImpact(Vector2 position, Enums.Energy type) {
-        impacts.add(new Impact(position, type));
     }
 
     private void spawnPowerup(Hazard hazard) {
