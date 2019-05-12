@@ -156,7 +156,7 @@ final class OverworldScreen extends ScreenAdapter {
             levelUpdater.restoreRemovals(allRemovals.get(index));
             if (levelRestores > 0) {
                 avatar.setSpawnPosition(levelUpdater.getTransports().get(0).getPosition());
-                if (levelRestores > 7) {
+                if (levelRestores < 7) {
                     avatar.setSpawnPosition(levelUpdater.getTransports().get(1).getPosition());
                 }
             }
