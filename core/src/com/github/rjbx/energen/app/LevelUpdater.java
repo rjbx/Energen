@@ -711,7 +711,7 @@ class LevelUpdater {
                 }
                 assetManager.getSoundAssets().life.play();
                 int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
-                List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
+                List<String> allRestores = Arrays.asList(SaveData.getLevelRestore().split(", "));
                 List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
                 List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
                 List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
@@ -724,7 +724,7 @@ class LevelUpdater {
                 allTimes.set(level, Long.toString(time));
                 allScores.set(level, Integer.toString(score));
                 allRemovals.set(level, removedHazards);
-                SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
+                SaveData.setLevelRestore(allRestores.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
@@ -843,7 +843,7 @@ class LevelUpdater {
 
     protected void reset() {
         int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
-        List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
+        List<String> allRestores = Arrays.asList(SaveData.getLevelRestore().split(", "));
         List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
         List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
         List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
@@ -851,7 +851,7 @@ class LevelUpdater {
         allScores.set(level, "0");
         allRestores.set(level, "0");
         allRemovals.set(level, "-1");
-        SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
+        SaveData.setLevelRestore(allRestores.toString().replace("[", "").replace("]", ""));
         SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
         SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
         SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));

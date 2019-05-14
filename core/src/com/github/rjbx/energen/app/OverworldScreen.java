@@ -132,7 +132,7 @@ final class OverworldScreen extends ScreenAdapter {
     }
 
     protected void loadLevel(Enums.Theme level) {
-        List<String> allRestores = Arrays.asList(SaveData.getLevelRestores().split(", "));
+        List<String> allRestores = Arrays.asList(SaveData.getLevelRestore().split(", "));
         List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
         List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
         List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
@@ -143,7 +143,7 @@ final class OverworldScreen extends ScreenAdapter {
             allRemovals.set(index, "-1");
             allTimes.set(index, "0");
             allScores.set(index, "0");
-            SaveData.setLevelRestores(allRestores.toString().replace("[", "").replace("]", ""));
+            SaveData.setLevelRestore(allRestores.toString().replace("[", "").replace("]", ""));
             SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
             SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
             SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
