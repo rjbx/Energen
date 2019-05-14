@@ -2,14 +2,12 @@ package com.github.rjbx.energen.app;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.math.Vector2;
 import com.github.rjbx.energen.util.Enums;
-
-import org.apache.commons.lang3.tuple.Pair;
 
 public final class SaveData {
 
     // TODO: Restore preference save and load
+    // TODO: Store single coordinate set rather than transport index for each level restore
     public final static String TAG = SaveData.class.getName();
 
     // cannot be subclassed
@@ -25,7 +23,7 @@ public final class SaveData {
     public static long getTotalTime() { return getPreferences().getLong("TotalTime", 0); }
     public static String getLevelScores() { return getPreferences().getString("LevelScores", "0, 0, 0, 0, 0, 0, 0, 0"); }
     public static String getLevelTimes() { return getPreferences().getString("LevelTimes", "0, 0, 0, 0, 0, 0, 0, 0"); }
-    public static String getLevelRestore() { return getPreferences().getString("LevelRestore", "0, 0, 0, 0, 0, 0, 0, 0"); }
+    public static String getLevelRestore() { return getPreferences().getString("LevelRestores", "0, 0, 0, 0, 0, 0, 0, 0"); }
     public static String getLevelRemovals() { return getPreferences().getString("LevelRemovals", "-1, -1, -1, -1, -1, -1, -1, -1"); }
     public static String getEnergies() { return getPreferences().getString("Energies", Enums.Energy.NATIVE.name() + ", " + Enums.Energy.ORE + ", " + Enums.Energy.PLASMA + ", " + Enums.Energy.GAS + ", " + Enums.Energy.LIQUID + ", " + Enums.Energy.SOLID + ", " + Enums.Energy.ANTIMATTER + ", " + Enums.Energy.HYBRID); }
     public static String getUpgrades() { return getPreferences().getString("Upgrades", Enums.Upgrade.NONE.name()); }
@@ -36,7 +34,7 @@ public final class SaveData {
     protected static void setTotalTime(long time) { getPreferences().putLong("TotalTime", time); getPreferences().flush(); }
     protected static void setLevelScores(String scores) { getPreferences().putString("LevelScores", scores); getPreferences().flush(); }
     protected static void setLevelTimes(String times) { getPreferences().putString("LevelTimes", times); getPreferences().flush(); }
-    protected static void setLevelRestore(Vector2 coordinates) { getPreferences().putString("LevelRestore", coordinates.toString()); getPreferences().flush(); }
+    protected static void setLevelRestore(String restores) { getPreferences().putString("LevelRestores", restores); getPreferences().flush(); }
     protected static void setLevelRemovals(String removals) { getPreferences().putString("LevelRemovals", removals); getPreferences().flush(); }
     protected static void setEnergies(String energies) { getPreferences().putString("Energies", energies); getPreferences().flush(); }
     protected static void setUpgrades(String upgrades) { getPreferences().putString("Upgrades", upgrades); getPreferences().flush(); }
