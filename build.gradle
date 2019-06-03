@@ -131,56 +131,56 @@ project(":core") {
         def androidPack2 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack2.png")
         def androidPack3 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack3.png")
         def androidPack4 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack4.png")
-        def androidAtlas = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack.androidAtlas")
+        def androidAtlas = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack.atlas")
 
         inputs.dir "${rootProject.getRootDir()}/core/assets/images"
         outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack.png"
         outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack2.png"
         outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack3.png"
         outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack4.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack.androidAtlas"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack.atlas"
 
 
         def iosPack = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack.png")
         def iosPack2 = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack2.png")
         def iosPack3 = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack3.png")
         def iosPack4 = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack4.png")
-        def iosAtlas = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack.iosAtlas")
+        def iosAtlas = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack.atlas")
 
         inputs.dir "${rootProject.getRootDir()}/core/assets/images"
         outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.pack.png"
         outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.pack2.png"
         outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.pack3.png"
         outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.pack4.png"
-        outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.pack.iosAtlas"
+        outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.pack.atlas"
 
 
         def desktopPack = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack.png")
         def desktopPack2 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack2.png")
         def desktopPack3 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack3.png")
         def desktopPack4 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack4.png")
-        def desktopAtlas = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack.desktopAtlas")
+        def desktopAtlas = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack.Atlas")
 
         inputs.dir "${rootProject.getRootDir()}/core/assets/images"
         outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack.png"
         outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack2.png"
         outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack3.png"
         outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack4.png"
-        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack.desktopAtlas"
+        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack.Atlas"
 
 
         def htmlPack = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack.png")
         def htmlPack2 = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack2.png")
         def htmlPack3 = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack3.png")
         def htmlPack4 = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack4.png")
-        def htmlAtlas = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack.htmlAtlas")
+        def htmlAtlas = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack.atlas")
 
         inputs.dir "${rootProject.getRootDir()}/core/assets/images"
         outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.pack.png"
         outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.pack2.png"
         outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.pack3.png"
         outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.pack4.png"
-        outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.pack.htmlAtlas"
+        outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.pack.atlas"
 
         doLast {
             androidPack.delete()
@@ -189,6 +189,27 @@ project(":core") {
             androidPack4.delete()
             androidAtlas.delete()
             TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/android/assets/images", "energen.pack")
+
+            iosPack.delete()
+            iosPack2.delete()
+            iosPack3.delete()
+            iosPack4.delete()
+            iosAtlas.delete()
+            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/ios/assets/images", "energen.pack")
+
+            desktopPack.delete()
+            desktopPack2.delete()
+            desktopPack3.delete()
+            desktopPack4.delete()
+            desktopAtlas.delete()
+            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/desktop/assets/images", "energen.pack")
+
+            htmlPack.delete()
+            htmlPack2.delete()
+            htmlPack3.delete()
+            htmlPack4.delete()
+            htmlAtlas.delete()
+            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/html/assets/images", "energen.pack")
         }
     }
 
