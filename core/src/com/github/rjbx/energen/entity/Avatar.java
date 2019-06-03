@@ -1677,7 +1677,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
                 waist =  AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(3);
                 rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().obfuscated);
-                frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().obfuscated);
+                frontHand = getFrontHand(null, AssetManager.getInstance().getAvatarAssets().obfuscated);
                 feet = AssetManager.getInstance().getAvatarAssets().feetStand;
             } else if (bladeState == BladeState.CUT) {
                 torso = AssetManager.getInstance().getAvatarAssets().midsection;
@@ -1689,6 +1689,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 mouth = AssetManager.getInstance().getAvatarAssets().mouthOpen;
                 eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
                 waist =  AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(3);
+                shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                 rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().obfuscated);
                 frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().obfuscated);
                 feet = AssetManager.getInstance().getAvatarAssets().feetStand;
@@ -1716,6 +1717,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 mouth = AssetManager.getInstance().getAvatarAssets().mouthOpen;
                 eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
                 waist =  AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(3);
+                shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
                 rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().obfuscated);
                 frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().obfuscated);
                 feet = AssetManager.getInstance().getAvatarAssets().feetStride.getKeyFrame(swipeTimeSeconds);
