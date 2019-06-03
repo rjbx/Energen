@@ -899,6 +899,7 @@ public final class Constants {
     public static final String LEVEL_X_SCALE_KEY = "scaleX";
     public static final String LEVEL_Y_SCALE_KEY = "scaleY";
     public static final String LEVEL_ROTATION_KEY = "rotation";
+    public static final String LEVEL_ORIENTATION_KEY = "orientation";
     public static final String LEVEL_IDENTIFIER_KEY = "itemIdentifier";
     public static final String LEVEL_CUSTOM_VARS_KEY = "customVars";
     public static final String LEVEL_TAGS_KEY = "tags";

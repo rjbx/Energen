@@ -147,7 +147,7 @@ final class LevelLoader {
         Enums.Orientation orientation = Enums.Orientation.X;
         try {
             if (object.containsKey(Constants.LEVEL_IDENTIFIER_KEY)) {
-                String identifierVar = (String) object.get(Constants.LEVEL_IDENTIFIER_KEY);
+                String identifierVar = (String) object.get(Constants.LEVEL_ORIENTATION_KEY);
                 orientation = Enums.Orientation.valueOf(identifierVar);
             }
         } catch (IllegalArgumentException ex) {
@@ -155,7 +155,7 @@ final class LevelLoader {
             Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
                     + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
                     + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
-                    + "; key: " + Constants.LEVEL_IDENTIFIER_KEY);
+                    + "; key: " + Constants.LEVEL_ORIENTATION_KEY);
         }
         return orientation;
     }
@@ -177,7 +177,7 @@ final class LevelLoader {
             Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
                     + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
                     + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
-                    + "; key: " + Constants.LEVEL_INTENSITY_KEY);
+                    + "; key: " + Constants.LEVEL_DIRECTION_KEY);
         }
         return direction;
     }
