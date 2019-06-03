@@ -159,14 +159,14 @@ project(":core") {
         def desktopPack2 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack2.png")
         def desktopPack3 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack3.png")
         def desktopPack4 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack4.png")
-        def desktopAtlas = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack.Atlas")
+        def desktopAtlas = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack.atlas")
 
         inputs.dir "${rootProject.getRootDir()}/core/assets/images"
         outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack.png"
         outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack2.png"
         outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack3.png"
         outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack4.png"
-        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack.Atlas"
+        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack.atlas"
 
 
         def htmlPack = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack.png")
