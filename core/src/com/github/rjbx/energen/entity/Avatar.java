@@ -1511,19 +1511,19 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         boolean inverseY = inputControls != null ? false : inputControls.downButtonPressed;
         boolean frontFacing = true;
         float staticIndex = Helpers.secondsSince(Helpers.secondsSince(System.nanoTime()) * .25f);
-        TextureRegion hair = null;
-        TextureRegion torso = null;
-        TextureRegion waist = null;
-        TextureRegion legs = null;
-        TextureRegion feet = null;
-        TextureRegion rearArm = null;
-        TextureRegion frontArm = null;
-        TextureRegion rearHand = null;
-        TextureRegion frontHand = null;
-        TextureRegion eyes = null;
-        TextureRegion mouth = null;
-        TextureRegion head = null;
-        Animation<TextureRegion> shoot = null;
+        TextureRegion hair;
+        TextureRegion torso;
+        TextureRegion waist;
+        TextureRegion legs;
+        TextureRegion feet;
+        TextureRegion rearArm;
+        TextureRegion frontArm;
+        TextureRegion rearHand;
+        TextureRegion frontHand;
+        TextureRegion eyes;
+        TextureRegion mouth;
+        TextureRegion head;
+        Animation<TextureRegion> shoot;
 
         if (bladeState == BladeState.RETRACTED) {
             switch (action) {
