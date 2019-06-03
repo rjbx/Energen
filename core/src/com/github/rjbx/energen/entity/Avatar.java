@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
-// TODO: Enable rappel with upward point
 // TODO[H]: Simplify moveable cascading physics
 // mutable
 public class Avatar extends Entity implements Impermeable, Humanoid {
@@ -1401,8 +1400,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
             canHurdle = false;
         } else { // rappel
-            lookStartTime = 0;
+//            lookStartTime = 0;
             // detect moving ground
+            handleYInputs();
             boolean yMoving = false;
             if (touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().y != 0) {
                 yMoving = true;
