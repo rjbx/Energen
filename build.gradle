@@ -127,26 +127,92 @@ project(":core") {
     }
 
     task packTextures {
-        def pack = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack.png")
-        def pack2 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack2.png")
-        def pack3 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack3.png")
-        def pack4 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack4.png")
-        def atlas = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack.atlas")
+        def androidPack = new File("${rootProject.getRootDir()}/android/assets/images/energen.androidPack.png")
+        def androidPack2 = new File("${rootProject.getRootDir()}/android/assets/images/energen.androidPack2.png")
+        def androidPack3 = new File("${rootProject.getRootDir()}/android/assets/images/energen.androidPack3.png")
+        def androidPack4 = new File("${rootProject.getRootDir()}/android/assets/images/energen.androidPack4.png")
+        def androidAtlas = new File("${rootProject.getRootDir()}/android/assets/images/energen.androidPack.androidAtlas")
 
         inputs.dir "${rootProject.getRootDir()}/core/assets/images"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack2.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack3.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack4.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack.atlas"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.androidPack.png"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.androidPack2.png"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.androidPack3.png"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.androidPack4.png"
+        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.androidPack.androidAtlas"
 
         doLast {
-            pack.delete()
-            pack2.delete()
-            pack3.delete()
-            pack4.delete()
-            atlas.delete()
+            androidPack.delete()
+            androidPack2.delete()
+            androidPack3.delete()
+            androidPack4.delete()
+            androidAtlas.delete()
             TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/android/assets/images", "energen.pack")
+        }
+
+        def iosPack = new File("${rootProject.getRootDir()}/ios/assets/images/energen.iosPack.png")
+        def iosPack2 = new File("${rootProject.getRootDir()}/ios/assets/images/energen.iosPack2.png")
+        def iosPack3 = new File("${rootProject.getRootDir()}/ios/assets/images/energen.iosPack3.png")
+        def iosPack4 = new File("${rootProject.getRootDir()}/ios/assets/images/energen.iosPack4.png")
+        def iosAtlas = new File("${rootProject.getRootDir()}/ios/assets/images/energen.iosPack.iosAtlas")
+
+        inputs.dir "${rootProject.getRootDir()}/core/assets/images"
+        outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.iosPack.png"
+        outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.iosPack2.png"
+        outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.iosPack3.png"
+        outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.iosPack4.png"
+        outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.iosPack.iosAtlas"
+
+        doLast {
+            iosPack.delete()
+            iosPack2.delete()
+            iosPack3.delete()
+            iosPack4.delete()
+            iosAtlas.delete()
+            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/ios/assets/images", "energen.pack")
+        }
+
+        def desktopPack = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.desktopPack.png")
+        def desktopPack2 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.desktopPack2.png")
+        def desktopPack3 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.desktopPack3.png")
+        def desktopPack4 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.desktopPack4.png")
+        def desktopAtlas = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.desktopPack.desktopAtlas")
+
+        inputs.dir "${rootProject.getRootDir()}/core/assets/images"
+        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.desktopPack.png"
+        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.desktopPack2.png"
+        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.desktopPack3.png"
+        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.desktopPack4.png"
+        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.desktopPack.desktopAtlas"
+
+        doLast {
+            desktopPack.delete()
+            desktopPack2.delete()
+            desktopPack3.delete()
+            desktopPack4.delete()
+            desktopAtlas.delete()
+            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/desktop/assets/images", "energen.pack")
+        }
+
+        def htmlPack = new File("${rootProject.getRootDir()}/html/assets/images/energen.htmlPack.png")
+        def htmlPack2 = new File("${rootProject.getRootDir()}/html/assets/images/energen.htmlPack2.png")
+        def htmlPack3 = new File("${rootProject.getRootDir()}/html/assets/images/energen.htmlPack3.png")
+        def htmlPack4 = new File("${rootProject.getRootDir()}/html/assets/images/energen.htmlPack4.png")
+        def htmlAtlas = new File("${rootProject.getRootDir()}/html/assets/images/energen.htmlPack.htmlAtlas")
+
+        inputs.dir "${rootProject.getRootDir()}/core/assets/images"
+        outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.htmlPack.png"
+        outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.htmlPack2.png"
+        outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.htmlPack3.png"
+        outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.htmlPack4.png"
+        outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.htmlPack.htmlAtlas"
+
+        doLast {
+            htmlPack.delete()
+            htmlPack2.delete()
+            htmlPack3.delete()
+            htmlPack4.delete()
+            htmlAtlas.delete()
+            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/html/assets/images", "energen.pack")
         }
     }
 
