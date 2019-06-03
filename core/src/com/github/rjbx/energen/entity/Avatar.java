@@ -1363,6 +1363,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private void rappel() {
         if (canRappel) {
+            lookStartTime = 0;
             canRappel = false;
             action = Action.RAPPELLING;
             groundState = GroundState.AIRBORNE;
@@ -1631,7 +1632,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                     waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
                     shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
-                    rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handReach);
+                    rearHand = AssetManager.getInstance().getAvatarAssets().handRappel.getKeyFrame(0);
                     frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(0));
                     feet = AssetManager.getInstance().getAvatarAssets().feetRappel;
                     break;
