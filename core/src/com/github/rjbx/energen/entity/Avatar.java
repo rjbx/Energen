@@ -1436,6 +1436,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     jump();
                     velocity.y += jumpBoost;
                 } else { // cling by default
+                    if (rappelStartTime == 0) rappelStartTime = TimeUtils.nanoTime();
                     if (!canHurdle) { // decrement turbo when ground is not moving and cannot hurdle
                         turbo -= Constants.RAPPEL_TURBO_DECREMENT * turboMultiplier;
                     }
@@ -1632,7 +1633,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     eyes = getEyes(AssetManager.getInstance().getAvatarAssets().eyesOpen.getKeyFrame(0));
                     waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 2);
                     shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
-                    rearHand = AssetManager.getInstance().getAvatarAssets().handRappel.getKeyFrame(0);
+                    rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handRappel.getKeyFrame(0));
                     frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handCurl.getKeyFrame(0));
                     feet = AssetManager.getInstance().getAvatarAssets().feetRappel;
                     break;
@@ -1857,16 +1858,16 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else {
                 rearHand = AssetManager.getInstance().getAvatarAssets().handToward.getKeyFrame(swipeTimeSeconds);
             }
+        } else if (rappelStartTime != 0) {
+            float rappelTimeSeconds = Helpers.secondsSince(rappelStartTime);
+            if (rappelTimeSeconds > 0.2f) {
+                rearHand = AssetManager.getInstance().getAvatarAssets().handRappel.getKeyFrame(rappelTimeSeconds);
+            }
         } else if (lookStartTime != 0) {
             if (directionY == Direction.UP) {
                 rearHand =  AssetManager.getInstance().getAvatarAssets().handSwing.getKeyFrame(0);
             } else {
                 rearHand = AssetManager.getInstance().getAvatarAssets().handReach;
-            }
-        } else if (rappelStartTime != 0) {
-            float rappelTimeSeconds = Helpers.secondsSince(rappelStartTime);
-            if (rappelTimeSeconds > 0.2f) {
-                rearHand = AssetManager.getInstance().getAvatarAssets().handRappel.getKeyFrame(rappelTimeSeconds);
             }
         } else if (carriedGround != null) {
             if (velocity.x != 0) {
