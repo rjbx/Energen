@@ -6,14 +6,14 @@ filter: Linear,Linear
 repeat: none
 armorollo-liquid-0
   rotate: false
-  xy: 390, 8
+  xy: 383, 82
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 armorollo-liquid-1
   rotate: false
-  xy: 352, 33
+  xy: 410, 85
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
@@ -50,7 +50,7 @@ box-breakable
   index: -1
 box-breakable-deposit
   rotate: false
-  xy: 257, 94
+  xy: 223, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -114,28 +114,28 @@ gate-0
   index: -1
 gem-emerald-1
   rotate: false
-  xy: 293, 50
+  xy: 322, 98
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 gem-ruby-1
   rotate: false
-  xy: 332, 98
+  xy: 293, 50
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 gem-sapphire-1
   rotate: false
-  xy: 322, 98
+  xy: 332, 98
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 ice-1
   rotate: false
-  xy: 189, 76
+  xy: 182, 6
   size: 48, 16
   orig: 48, 16
   offset: 0, 0
@@ -164,7 +164,7 @@ ladder
   index: -1
 lava-1
   rotate: false
-  xy: 189, 94
+  xy: 257, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -218,7 +218,7 @@ portal-1
   orig: 64, 64
   offset: 0, 0
   index: -1
-powerup-projectile
+powerup-ammo
   rotate: false
   xy: 346, 6
   size: 15, 17
@@ -234,14 +234,14 @@ powerup-cannon
   index: -1
 powerup-health
   rotate: false
-  xy: 360, 62
+  xy: 377, 62
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 377, 62
+  xy: 360, 62
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -283,7 +283,7 @@ protrusion-solid-1
   index: -1
 rollen-polymer-1
   rotate: false
-  xy: 379, 35
+  xy: 390, 8
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
@@ -304,7 +304,7 @@ sink-1
   index: -1
 slick-1
   rotate: false
-  xy: 182, 6
+  xy: 189, 76
   size: 48, 16
   orig: 48, 16
   offset: 0, 0
@@ -318,28 +318,28 @@ spring-1
   index: -1
 suspension-gas-1
   rotate: false
-  xy: 383, 82
+  xy: 356, 81
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-liquid-1
   rotate: false
-  xy: 410, 85
+  xy: 363, 6
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-plasma-1
   rotate: false
-  xy: 406, 40
+  xy: 379, 35
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-polymer-1
   rotate: false
-  xy: 363, 6
+  xy: 352, 33
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
@@ -353,21 +353,21 @@ suspension-psychic-1
   index: -1
 suspension-solid-1
   rotate: false
-  xy: 356, 81
+  xy: 406, 40
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 swoopa-left
   rotate: false
-  xy: 134, 99
+  xy: 134, 70
   size: 53, 27
   orig: 53, 27
   offset: 0, 0
   index: -1
 swoopa-right
   rotate: false
-  xy: 134, 70
+  xy: 134, 99
   size: 53, 27
   orig: 53, 27
   offset: 0, 0
@@ -416,7 +416,7 @@ vines
   index: -1
 waves-1
   rotate: false
-  xy: 223, 94
+  xy: 189, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
