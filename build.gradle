@@ -154,7 +154,6 @@ project(":core") {
         outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.pack4.png"
         outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.pack.atlas"
 
-
         def desktopPack = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack.png")
         def desktopPack2 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack2.png")
         def desktopPack3 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack3.png")
@@ -217,7 +216,7 @@ project(":core") {
         from "../core/assets/levels/scenes"
         into "../android/assets/levels"
         into "../ios/assets/levels"
-        into "../desktop/assets/levels"
+//        into "../desktop/assets/levels"
         into "../html/assets/levels"
         exclude "MainScene.dt"
     }
@@ -226,7 +225,7 @@ project(":core") {
         from "../core/assets/audio"
         into "../android/assets/audio"
         into "../ios/assets/audio"
-        into "../desktop/assets/audio"
+//        into "../desktop/assets/audio"
         into "../html/assets/audio"
     }
 
@@ -234,7 +233,7 @@ project(":core") {
         from "../core/assets/font"
         into "../android/assets/font"
         into "../ios/assets/font"
-        into "../desktop/assets/font"
+//        into "../desktop/assets/font"
         into "../html/assets/font"
     }
 
