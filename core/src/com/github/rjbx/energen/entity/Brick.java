@@ -38,6 +38,7 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
 
     @Override
     public void update(float delta) {
+
         if (beingCarried && !againstStaticGround) {
             super.position.set(carrier.getPosition().x + Helpers.speedToVelocity(this.getWidth() / 2, carrier.getDirectionX(), Enums.Orientation.X), carrier.getBottom() + getHeight() / 2);
             velocity.x = carrier.getVelocity().x;
@@ -72,7 +73,7 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
                             velocity.y = 0;
                         }
                     }
-                    if (ground instanceof Skateable) {
+                    if (!againstStaticGround && ground instanceof Skateable) {
                         if (Math.abs(velocity.x) > 0.005f) {
                             velocity.x /= 1.005;
                         } else {
@@ -99,6 +100,8 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
                         if (!(ground instanceof Pliable) || !((Pliable) ground).isBeingCarried()) {
                             if (!beingCarried || velocity.x != 0) {
                                 againstStaticGround = true;
+                                velocity.x *= -1;
+                                return;
                             }
                         }
                     }
