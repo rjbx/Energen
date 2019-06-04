@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
+// TODO[M]: Descend during rappel only on double down tap
 // TODO[H]: Simplify moveable cascading physics
 // mutable
 public class Avatar extends Entity implements Impermeable, Humanoid {
