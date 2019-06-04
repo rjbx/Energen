@@ -75,7 +75,8 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
                     if (ground instanceof Propelling) {
                         velocity.x = Helpers.speedToVelocity(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
                         velocity.y = 0;
-                    } else if (ground instanceof Skateable) {
+                    }
+                    if (ground instanceof Skateable) {
                         if (Math.abs(velocity.x) > 0.005f) {
                             velocity.x /= 1.005;
                         } else {
@@ -83,7 +84,8 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
                         }
                         super.position.x += velocity.x * delta;
                         velocity.y = 0;
-                    } else if (!atopMovingGround) {
+                    }
+                    if (!atopMovingGround) {
                         velocity.x = 0;
                     }
                 } else if ((ground.isDense()
