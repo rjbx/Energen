@@ -81,68 +81,68 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
                         super.position.x += velocity.x * delta;
                         velocity.y = 0;
                     }
-//                    else if (ground instanceof Propelling) {
-//                        velocity.x = Helpers.speedToVelocity(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
-//                        velocity.y = 0;
-//                    }
-//                    else if (!atopMovingGround) {
-//                        velocity.x = 0;
-//                    }
-//                } else if ((ground.isDense()
-//                        && getTop() > ground.getBottom()
-//                        && !(ground instanceof Pliable)
-//                        && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
-//                        || (ground instanceof Pliable && (!beingCarried || ((Pliable) ground).isAgainstStaticGround()))) {
-//                    if ((!(ground instanceof Pliable) ||
-//                            (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
-//                            || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
-//                        if (!(ground instanceof Pliable) || !((Pliable) ground).isBeingCarried()) {
-//                            if (!beingCarried || velocity.x != 0) {
-//                                againstStaticGround = true;
-//                            }
-//                        }
-//                    }
-//                    if (!(ground instanceof Pliable) && Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
-//                        if (!beingCarried && ground instanceof Moving && getBottom() == ground.getBottom()) {
-//                            velocity.y = ((Moving) ground).getVelocity().y;
-//                            position.y = ground.getTop() + (getHeight() / 2);
-//                        }
-//                    } else if (!againstStaticGround && (!(ground instanceof Pliable) || getBottom() == ground.getBottom())) {
-//                        if (position.x < ground.getPosition().x) {
-//                            super.position.x = ground.getLeft() - getWidth() / 2;
-//                        } else {
-//                            super.position.x = ground.getRight() + getWidth() / 2;
-//                        }
-//                    }
-//                } else if (ground instanceof Box) {
-//                    velocity.y = 0;
-//                }
-//                if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 4, ground.getBottom() + 4)) {
-//                    beneatheGround = true;
-//                    topGround = ground;
-//                } else if (!atopMovingGround && !(ground instanceof Propelling)) {
-//                    velocity.x = 0;
-//                }
-//            }
-//            if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround() && ((Pliable) ground).getMovingGround().equals(this)) {
-//                payload = ((Pliable) ground).weightFactor();
-//            }
-//        }
-//
-//        if (Helpers.overlapsPhysicalObject(Avatar.getInstance(), this) && Helpers.betweenTwoValues(Avatar.getInstance().getBottom(), this.getTop() - 1, this.getTop() + 1)) {
-//            payload += Avatar.getInstance().weightFactor();
-//        }
-//
-//        // resets to nonstatic super.position of ground which is cloned every frame
-//        for (Hazard hazard : LevelAssets.getClonedHazards()) {
-//            if (hazard instanceof Groundable && hazard instanceof Vehicular) {
-//                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getBottom(), hazard.getTop())) {
-//                    super.position.x = hazard.getPosition().x;
-//                    super.position.y = hazard.getTop() + getHeight() / 2;
-//                    velocity.x = ((Vehicular) hazard).getVelocity().x;
-//                    velocity.y = ((Vehicular) hazard).getVelocity().y;
-//                    atopMovingGround = true;
-//                    movingGround = (Moving) hazard;
+                    else if (ground instanceof Propelling) {
+                        velocity.x = Helpers.speedToVelocity(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
+                        velocity.y = 0;
+                    }
+                    else if (!atopMovingGround) {
+                        velocity.x = 0;
+                    }
+                } else if ((ground.isDense()
+                        && getTop() > ground.getBottom()
+                        && !(ground instanceof Pliable)
+                        && !(ground instanceof Propelling) && !(ground instanceof Box) && !(ground instanceof Climbable))
+                        || (ground instanceof Pliable && (!beingCarried || ((Pliable) ground).isAgainstStaticGround()))) {
+                    if ((!(ground instanceof Pliable) ||
+                            (((Pliable) ground).isAgainstStaticGround() && !((Pliable) ground).isBeingCarried())
+                            || (!beingCarried && !againstStaticGround && !((Pliable) ground).isAgainstStaticGround()))) {
+                        if (!(ground instanceof Pliable) || !((Pliable) ground).isBeingCarried()) {
+                            if (!beingCarried || velocity.x != 0) {
+                                againstStaticGround = true;
+                            }
+                        }
+                    }
+                    if (!(ground instanceof Pliable) && Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
+                        if (!beingCarried && ground instanceof Moving && getBottom() == ground.getBottom()) {
+                            velocity.y = ((Moving) ground).getVelocity().y;
+                            position.y = ground.getTop() + (getHeight() / 2);
+                        }
+                    } else if (!againstStaticGround && (!(ground instanceof Pliable) || getBottom() == ground.getBottom())) {
+                        if (position.x < ground.getPosition().x) {
+                            super.position.x = ground.getLeft() - getWidth() / 2;
+                        } else {
+                            super.position.x = ground.getRight() + getWidth() / 2;
+                        }
+                    }
+                } else if (ground instanceof Box) {
+                    velocity.y = 0;
+                }
+                if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 4, ground.getBottom() + 4)) {
+                    beneatheGround = true;
+                    topGround = ground;
+                } else if (!atopMovingGround && !(ground instanceof Propelling) && !(ground instanceof Skateable)) {
+                    velocity.x = 0;
+                }
+            }
+            if (ground instanceof Pliable && ((Pliable) ground).isAtopMovingGround() && ((Pliable) ground).getMovingGround().equals(this)) {
+                payload = ((Pliable) ground).weightFactor();
+            }
+        }
+
+        if (Helpers.overlapsPhysicalObject(Avatar.getInstance(), this) && Helpers.betweenTwoValues(Avatar.getInstance().getBottom(), this.getTop() - 1, this.getTop() + 1)) {
+            payload += Avatar.getInstance().weightFactor();
+        }
+
+        // resets to nonstatic super.position of ground which is cloned every frame
+        for (Hazard hazard : LevelAssets.getClonedHazards()) {
+            if (hazard instanceof Groundable && hazard instanceof Vehicular) {
+                if (Helpers.overlapsPhysicalObject(this, hazard) && Helpers.betweenTwoValues(this.getBottom(), hazard.getBottom(), hazard.getTop())) {
+                    super.position.x = hazard.getPosition().x;
+                    super.position.y = hazard.getTop() + getHeight() / 2;
+                    velocity.x = ((Vehicular) hazard).getVelocity().x;
+                    velocity.y = ((Vehicular) hazard).getVelocity().y;
+                    atopMovingGround = true;
+                    movingGround = (Moving) hazard;
                 }
             }
         }
