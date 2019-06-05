@@ -1871,7 +1871,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
         } else if (action == Action.RAPPELLING) {
             float rappelTimeSeconds = Helpers.secondsSince(rappelStartTime);
-            if (rappelStartTime != 0 && rappelTimeSeconds > 0.2f && velocity.y < 0) {
+            if (rappelStartTime != 0 && rappelTimeSeconds > 0.2f && velocity.y == 0) {
                 rearHand = AssetManager.getInstance().getAvatarAssets().handRappel.getKeyFrame(rappelTimeSeconds);
             } else {
                 rearHand = AssetManager.getInstance().getAvatarAssets().handReach;
