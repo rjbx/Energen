@@ -112,6 +112,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private float turbo;
     private float fallLimit;
     private float payload;
+    private boolean canSlump;
     private float peerQuadrant;
     private float ammo;
     private float health;
@@ -217,6 +218,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         canFlip = false;
         canRush = false;
         canCut = false;
+        canSlump = false;
         chargeStartTime = 0;
         strideStartTime = 0;
         peerStartTime = 0;
@@ -1370,6 +1372,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             groundState = GroundState.AIRBORNE;
             rappelStartTime = TimeUtils.nanoTime();
             canJump = true;
+            canSink = false;
             directionX = Helpers.getOppositeDirection(Helpers.velocityToDirection(velocity, Orientation.X));
         }
         canHurdle = false;
@@ -1421,9 +1424,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
             // manage ground interaction save for skateables
             if (!(touchedGround == null || touchedGround instanceof Skateable)) {
-                if (/*inputControls.downButtonPressed || */turbo < Constants.RAPPEL_TURBO_DECREMENT || (directionY == Direction.DOWN && Helpers.secondsSince(lookStartTime) < Constants.DOUBLE_TAP_SPEED)) { // descend on command or turbo depletion
-//                    rappelStartTime = 0;
-//                    velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
+                if (/*inputControls.downButtonPressed || */turbo < Constants.RAPPEL_TURBO_DECREMENT || (inputControls.downButtonPressed && canSlump)) { // descend on command or turbo depletion
+                    rappelStartTime = 0;
+                    velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
                 } else if (inputControls.upButtonPressed && canHurdle) { // hurdle on command
                     canHurdle = false;
                     canRappel = false;
@@ -1446,6 +1449,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     } else {
                         velocity.y = 0;
                     }
+                }
+                if (inputControls.downButtonJustPressed) {
+                    if (lookStartTime == 0) lookStartTime = TimeUtils.nanoTime();
+                    else if (Helpers.secondsSince(lookStartTime) < Constants.DOUBLE_TAP_SPEED) canSlump = true;
                 }
             }
         }
