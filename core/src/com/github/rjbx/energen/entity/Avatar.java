@@ -1407,7 +1407,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         } else { // rappel
 //            lookStartTime = 0;
             // detect moving ground
-            handleYInputs();
             boolean yMoving = false;
             if (touchedGround instanceof Moving && ((Moving) touchedGround).getVelocity().y != 0) {
                 yMoving = true;
@@ -1451,9 +1450,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     }
                 }
                 if (inputControls.downButtonJustPressed) {
-                    if (lookStartTime == 0) lookStartTime = TimeUtils.nanoTime();
+                    if (lookStartTime == 0) {
+                        lookStartTime = TimeUtils.nanoTime();
+                        canSlump = false;
+                    }
                     else if (Helpers.secondsSince(lookStartTime) < Constants.DOUBLE_TAP_SPEED) canSlump = true;
                 }
+                handleYInputs();
             }
         }
     }
