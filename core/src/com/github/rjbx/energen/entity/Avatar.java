@@ -983,9 +983,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
         } else if (action == Action.STANDING || action == Action.CLIMBING) { // if neither up nor down pressed (and either standing or climbing)
             resetChaseCamPosition();
-        } else if (action != Action.RAPPELLING) { // if neither standing nor climbing nor inputting y
+        } else { // if neither standing nor climbing nor inputting y
             chaseCamPosition.set(position, 0);
-            lookStartTime = 0;
+            if (action != Action.RAPPELLING) lookStartTime = 0;
         }
         if (canClimb) {
             if (inputtingY) {
@@ -1449,18 +1449,17 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         velocity.y = 0;
                     }
                 }
-                if (!canClimb) {
-                    if (inputControls.downButtonJustPressed) {
-                        if (lookStartTime == 0) {
-                            lookStartTime = TimeUtils.nanoTime();
-                            canSlump = false;
-                        } else if (Helpers.secondsSince(lookStartTime) < Constants.DOUBLE_TAP_SPEED)
-                            canSlump = true;
-                    }
-                    if (!inputControls.downButtonPressed && Helpers.secondsSince(lookStartTime) > Constants.DOUBLE_TAP_SPEED)
-                        lookStartTime = 0;
-                    handleYInputs();
+
+                if (inputControls.downButtonJustPressed) {
+                    if (lookStartTime == 0) {
+                        lookStartTime = TimeUtils.nanoTime();
+                        canSlump = false;
+                    } else if (Helpers.secondsSince(lookStartTime) < Constants.DOUBLE_TAP_SPEED)
+                        canSlump = true;
                 }
+                if (!inputControls.downButtonPressed && Helpers.secondsSince(lookStartTime) > Constants.DOUBLE_TAP_SPEED)
+                    lookStartTime = 0;
+                handleYInputs();
             }
         }
     }
