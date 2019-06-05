@@ -983,7 +983,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
         } else if (action == Action.STANDING || action == Action.CLIMBING) { // if neither up nor down pressed (and either standing or climbing)
             resetChaseCamPosition();
-        } else { // if neither standing nor climbing nor inputting y
+        } else if (action != Action.RAPPELLING) { // if neither standing nor climbing nor inputting y
             chaseCamPosition.set(position, 0);
             lookStartTime = 0;
         }
@@ -1366,7 +1366,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private void rappel() {
         if (canRappel) {
-//            lookStartTime = 0;
+            lookStartTime = 0;
             canRappel = false;
             action = Action.RAPPELLING;
             groundState = GroundState.AIRBORNE;
