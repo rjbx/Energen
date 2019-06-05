@@ -1364,7 +1364,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private void rappel() {
         if (canRappel) {
-            lookStartTime = 0;
+//            lookStartTime = 0;
             canRappel = false;
             action = Action.RAPPELLING;
             groundState = GroundState.AIRBORNE;
@@ -1421,9 +1421,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
             // manage ground interaction save for skateables
             if (!(touchedGround == null || touchedGround instanceof Skateable)) {
-                if (inputControls.downButtonPressed || turbo < Constants.RAPPEL_TURBO_DECREMENT) { // descend on command or turbo depletion
-                    rappelStartTime = 0;
-                    velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
+                if (/*inputControls.downButtonPressed || */turbo < Constants.RAPPEL_TURBO_DECREMENT || (directionY == Direction.DOWN && Helpers.secondsSince(lookStartTime) < Constants.DOUBLE_TAP_SPEED)) { // descend on command or turbo depletion
+//                    rappelStartTime = 0;
+//                    velocity.y += Constants.RAPPEL_GRAVITY_OFFSET;
                 } else if (inputControls.upButtonPressed && canHurdle) { // hurdle on command
                     canHurdle = false;
                     canRappel = false;
