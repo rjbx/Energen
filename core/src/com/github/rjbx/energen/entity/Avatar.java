@@ -1456,6 +1456,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     } else if (Helpers.secondsSince(lookStartTime) < Constants.DOUBLE_TAP_SPEED)
                         canSlump = true;
                 }
+                if (!inputControls.downButtonPressed && Helpers.secondsSince(lookStartTime) > Constants.DOUBLE_TAP_SPEED) lookStartTime = 0;
                 handleYInputs();
             }
         }
