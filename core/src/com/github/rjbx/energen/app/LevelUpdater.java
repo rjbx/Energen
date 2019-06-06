@@ -715,11 +715,11 @@ class LevelUpdater {
                 List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
                 List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
                 List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
-                int restores = Integer.parseInt(allRestores.get(level));
-                if (restores == 0) {
+                boolean restored = allRestores.get(level).equals("0:0");
+                if (!restored) {
                     allRestores.set(level, updateBounds.x + ":" + updateBounds.y);
-                } else if (restores != (transportIndex + 1)) {
-                    allRestores.set(level, Integer.toString(8));
+                } else {
+                    allRestores.set(level, "0:0");
                 }
                 allTimes.set(level, Long.toString(time));
                 allScores.set(level, Integer.toString(score));
