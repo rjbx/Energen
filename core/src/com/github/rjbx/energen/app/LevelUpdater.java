@@ -718,8 +718,6 @@ class LevelUpdater {
                 if (!restored) {
                     Vector2 restorePosition = avatar.getPosition();
                     allRestores.set(level, restorePosition.x + ":" + restorePosition.y);
-                } else {
-                    allRestores.set(level, "0:0");
                 }
                 allTimes.set(level, Long.toString(time));
                 allScores.set(level, Integer.toString(score));
