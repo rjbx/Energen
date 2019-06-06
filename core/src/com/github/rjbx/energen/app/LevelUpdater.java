@@ -699,7 +699,6 @@ class LevelUpdater {
     public boolean updateTransport(float delta, Transport transport, int transportIndex) {
         Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
         if (!updateBounds.overlaps(new Rectangle(transport.getLeft(), transport.getBottom(), transport.getWidth(), transport.getHeight()))) return true;
-
         boolean active = true;
         if (avatar.getPosition().dst(transport.getPosition()) < transport.getWidth() / 2 && inputControls.upButtonPressed && inputControls.jumpButtonJustPressed) {
             if (transport instanceof Portal) {
@@ -717,7 +716,8 @@ class LevelUpdater {
                 List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
                 boolean restored = !allRestores.get(level).equals("0:0");
                 if (!restored) {
-                    allRestores.set(level, updateBounds.x + ":" + updateBounds.y);
+                    Vector2 restorePosition = avatar.getPosition();
+                    allRestores.set(level, restorePosition.x + ":" + restorePosition.y);
                 } else {
                     allRestores.set(level, "0:0");
                 }
