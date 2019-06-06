@@ -138,9 +138,9 @@ final class OverworldScreen extends ScreenAdapter {
         List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
         List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
         int index = Arrays.asList(Enums.Theme.values()).indexOf(level);
-        int levelRestores = Integer.parseInt(allRestores.get(index));
-        if (levelRestores == 0) {
-            allRestores.set(index, "0");
+        boolean levelRestored = allRestores.get(index).equals("0:0");
+        if (!levelRestored) {
+            allRestores.set(index, "0:0");
             allRemovals.set(index, "-1");
             allTimes.set(index, "0");
             allScores.set(index, "0");
@@ -155,11 +155,11 @@ final class OverworldScreen extends ScreenAdapter {
         try {
             LevelLoader.load(level);
             levelUpdater.restoreRemovals(allRemovals.get(index));
-            if (levelRestores > 0) {
+            if (levelRestored) {
                 String[] coordinateStr = allRestores.get(index).split(":");
                 Vector2 position = new Vector2(Float.valueOf(coordinateStr[0]), Float.valueOf(coordinateStr[1]));
                 avatar.setSpawnPosition(position);
-                if (levelRestores < 7) {
+                if (!levelRestored) {
                     avatar.setSpawnPosition(levelUpdater.getTransports().get(1).getPosition());
                 }
             }

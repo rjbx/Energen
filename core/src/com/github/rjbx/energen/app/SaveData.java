@@ -23,7 +23,7 @@ public final class SaveData {
     public static long getTotalTime() { return getPreferences().getLong("TotalTime", 0); }
     public static String getLevelScores() { return getPreferences().getString("LevelScores", "0, 0, 0, 0, 0, 0, 0, 0"); }
     public static String getLevelTimes() { return getPreferences().getString("LevelTimes", "0, 0, 0, 0, 0, 0, 0, 0"); }
-    public static String getLevelRestore() { return getPreferences().getString("LevelRestores", "0, 0, 0, 0, 0, 0, 0, 0"); }
+    public static String getLevelRestore() { return getPreferences().getString("LevelRestores", "0:0, 0:0, 0:0, 0:0, 0:0, 0:0, 0:0, 0:0"); }
     public static String getLevelRemovals() { return getPreferences().getString("LevelRemovals", "-1, -1, -1, -1, -1, -1, -1, -1"); }
     public static String getEnergies() { return getPreferences().getString("Energies", Enums.Energy.NATIVE.name() + ", " + Enums.Energy.ORE + ", " + Enums.Energy.PLASMA + ", " + Enums.Energy.GAS + ", " + Enums.Energy.LIQUID + ", " + Enums.Energy.SOLID + ", " + Enums.Energy.ANTIMATTER + ", " + Enums.Energy.HYBRID); }
     public static String getUpgrades() { return getPreferences().getString("Upgrades", Enums.Upgrade.NONE.name()); }
