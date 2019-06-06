@@ -714,11 +714,8 @@ class LevelUpdater {
                 List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
                 List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
                 List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
-                boolean restored = !allRestores.get(level).equals("0:0");
-                if (!restored) {
-                    Vector2 restorePosition = avatar.getPosition();
-                    allRestores.set(level, restorePosition.x + ":" + restorePosition.y);
-                }
+                Vector2 restorePosition = avatar.getPosition();
+                allRestores.set(level, restorePosition.x + ":" + restorePosition.y);
                 allTimes.set(level, Long.toString(time));
                 allScores.set(level, Integer.toString(score));
                 allRemovals.set(level, removedHazards);
