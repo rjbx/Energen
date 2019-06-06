@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -155,7 +156,9 @@ final class OverworldScreen extends ScreenAdapter {
             LevelLoader.load(level);
             levelUpdater.restoreRemovals(allRemovals.get(index));
             if (levelRestores > 0) {
-                avatar.setSpawnPosition(levelUpdater.getTransports().get(0).getPosition());
+                String[] coordinateStr = allRestores.get(index).split(":");
+                Vector2 position = new Vector2(Float.valueOf(coordinateStr[0]), Float.valueOf(coordinateStr[1]));
+                avatar.setSpawnPosition(position);
                 if (levelRestores < 7) {
                     avatar.setSpawnPosition(levelUpdater.getTransports().get(1).getPosition());
                 }

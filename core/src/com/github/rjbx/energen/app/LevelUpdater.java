@@ -717,7 +717,7 @@ class LevelUpdater {
                 List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
                 int restores = Integer.parseInt(allRestores.get(level));
                 if (restores == 0) {
-                    allRestores.set(level, Integer.toString(transportIndex + 1));
+                    allRestores.set(level, updateBounds.x + ":" + updateBounds.y);
                 } else if (restores != (transportIndex + 1)) {
                     allRestores.set(level, Integer.toString(8));
                 }
