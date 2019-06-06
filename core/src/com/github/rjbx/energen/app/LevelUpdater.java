@@ -715,7 +715,7 @@ class LevelUpdater {
                 List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
                 List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
                 List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
-                boolean restored = allRestores.get(level).equals("0:0");
+                boolean restored = !allRestores.get(level).equals("0:0");
                 if (!restored) {
                     allRestores.set(level, updateBounds.x + ":" + updateBounds.y);
                 } else {
