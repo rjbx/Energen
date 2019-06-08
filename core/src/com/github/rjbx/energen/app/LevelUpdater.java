@@ -844,7 +844,7 @@ class LevelUpdater {
         List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
         allTimes.set(level, "0");
         allScores.set(level, "0");
-        allRestores.set(level, "0");
+        allRestores.set(level, "0:0");
         allRemovals.set(level, "-1");
         SaveData.setLevelRestore(allRestores.toString().replace("[", "").replace("]", ""));
         SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
