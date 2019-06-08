@@ -10,11 +10,10 @@ import com.github.rjbx.energen.entity.Hazard;
 import com.github.rjbx.energen.entity.Powerup;
 import com.github.rjbx.energen.util.Enums;
 
-// TODO[M]: Either
+// TODO[M]:
 //  a. Consolidate into single 'open-world' level with additional save points and
 //   i. Remove level selector
 //   ii. Display images of save points overlaid on map for level selection
-//  b. Improve existing levels and remove unfinished
 public final class LevelAssets {
 
     public static final String TAG = LevelAssets.class.toString();

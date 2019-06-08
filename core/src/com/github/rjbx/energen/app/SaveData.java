@@ -7,7 +7,6 @@ import com.github.rjbx.energen.util.Enums;
 public final class SaveData {
 
     // TODO: Restore preference save and load
-    // TODO: Store single coordinate set rather than transport index for each level restore
     public final static String TAG = SaveData.class.getName();
 
     // cannot be subclassed
