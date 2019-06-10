@@ -891,7 +891,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         boolean directionChanged = false;
         boolean inputtingX = ((left || right) && !(left && right));
         if (inputtingX && lookStartTime == 0) {
-            if (left && !right) {
+            if (left && !right && !canRush) {
                 directionChanged = Helpers.changeDirection(this, Direction.LEFT, Orientation.X);
             } else if (!left && right) {
                 directionChanged = Helpers.changeDirection(this, Direction.RIGHT, Orientation.X);
