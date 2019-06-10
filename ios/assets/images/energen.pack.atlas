@@ -1383,18 +1383,18 @@ spring-4
   orig: 23, 20
   offset: 0, 0
   index: -1
+suspension-antimatter-1
+  rotate: false
+  xy: 768, 3
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 suspension-gas-2
   rotate: false
   xy: 884, 3
   size: 23, 23
   orig: 23, 23
-  offset: 0, 0
-  index: -1
-suspension-psychic-1
-  rotate: false
-  xy: 768, 3
-  size: 64, 64
-  orig: 64, 64
   offset: 0, 0
   index: -1
 swoopa-gas-1-left
@@ -3139,6 +3139,20 @@ selection-cursor
   orig: 15, 15
   offset: 0, 0
   index: -1
+suspension-antimatter-2
+  rotate: false
+  xy: 248, 234
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+suspension-antimatter-3
+  rotate: false
+  xy: 544, 670
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 suspension-gas-1
   rotate: false
   xy: 861, 734
@@ -3193,20 +3207,6 @@ suspension-polymer-2
   xy: 834, 653
   size: 25, 25
   orig: 25, 25
-  offset: 0, 0
-  index: -1
-suspension-psychic-2
-  rotate: false
-  xy: 248, 234
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-suspension-psychic-3
-  rotate: false
-  xy: 544, 670
-  size: 64, 64
-  orig: 64, 64
   offset: 0, 0
   index: -1
 suspension-solid-1
