@@ -569,7 +569,7 @@ final class LevelLoader {
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.LEVER_SPRITE_1)) {
                 final Vector2 leverPosition = imagePosition.add(Constants.LEVER_CENTER);
                 Gdx.app.log(TAG, "Loaded the tripspring at " + leverPosition);
-                level.addGround(new Tripspring(leverPosition, bounds));
+                level.addGround(new Tripspring(leverPosition, bounds, tags[Constants.ON_TAG_INDEX]));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TRIPKNOB_SPRITE_1)) {
                 final Vector2 tripPosition = imagePosition.add(Constants.TRIPKNOB_CENTER);
                 Gdx.app.log(TAG, "Loaded the tripknob at " + tripPosition);

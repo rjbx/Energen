@@ -11,8 +11,6 @@ import com.github.rjbx.energen.util.AssetManager;
 import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Helpers;
 
-import java.util.logging.Level;
-
 public class Tripspring extends Ground implements Trippable, Compressible, Reboundable, Impermeable {
 
     // fields
@@ -22,36 +20,36 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     private Vector2 position;
     private Rectangle bounds;
     private long startTime;
-    private boolean loaded;
+    private boolean state;
     private boolean underneatheGround;
     private int adjustments;
     private boolean previousState;
     private boolean converted;
 
     // ctor
-    public Tripspring(Vector2 position, Rectangle bounds) {
+    public Tripspring(Vector2 position, Rectangle bounds, boolean state) {
         this.position = position;
         startTime = 0;
-        loaded = false;
         underneatheGround = false;
         startTime = 0;
         converted = false;
         this.bounds = bounds;
-        previousState = loaded;
+        this.state = state;
+        previousState = state;
         adjustments++;
     }
 
     @Override
     public void update(float delta) {
         converted = false;
-        previousState = loaded;
+        previousState = state;
         for (Ground ground : LevelAssets.getClonedGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 1, ground.getBottom() + 1)) {
-                    if (!loaded) {
+                    if (!state) {
                         resetStartTime();
                     }
-                    loaded = true;
+                    state = true;
                     underneatheGround = true;
                     topGround = ground;
                 } else {
@@ -63,7 +61,7 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
-        if (loaded) {
+        if (state) {
             if (startTime == 0) {
                 startTime = TimeUtils.nanoTime();
             }
@@ -92,14 +90,14 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     @Override public final Ground getTopGround() { return topGround; }
     @Override public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
-    @Override public final void setState(boolean state) { this.loaded = state; }
-    @Override public final boolean getState() { return loaded; }
+    @Override public final void setState(boolean state) { this.state = state; }
+    @Override public final boolean getState() { return state; }
     @Override public final void resetStartTime() { this.startTime = 0; }
     @Override public void addCamAdjustment() { adjustments++; }
     @Override public boolean maxAdjustmentsReached() { return adjustments > 2; }
-    @Override public boolean tripped() { return previousState != loaded; }
-    @Override public boolean isActive() { return loaded; }
-    @Override public void convert() { loaded = !loaded; converted = true; }
+    @Override public boolean tripped() { return previousState != state; }
+    @Override public boolean isActive() { return state; }
+    @Override public void convert() { state = !state; converted = true; }
     @Override public boolean isConverted() { return converted; }
     @Override public final float jumpMultiplier() { return Constants.LEVER_JUMP_MULTIPLIER; }
 }
