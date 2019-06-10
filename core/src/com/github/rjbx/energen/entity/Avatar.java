@@ -1180,7 +1180,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         } else {
             AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play(1, 2, 0);
         }
-        ammo -= ammoUsed * ammoMultiplier;
+        if (health < 100) ammo -= ammoUsed * ammoMultiplier;
     }
 
     private void look() {
