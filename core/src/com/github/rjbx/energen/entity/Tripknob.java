@@ -100,6 +100,6 @@ public class Tripknob extends Ground implements Trippable, Convertible, Strikeab
     @Override public void convert() { state = !state; converted = true; }
     @Override public boolean isConverted() { return converted; }
     @Override public void addCamAdjustment() { adjustments++; }
-    @Override public boolean maxAdjustmentsReached() { return adjustments > 2; }
+    @Override public boolean maxAdjustmentsReached() { return adjustments > 3; }
     @Override public boolean tripped() { return previousState != state; }
 }

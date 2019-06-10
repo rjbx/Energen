@@ -94,7 +94,7 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     @Override public final boolean getState() { return state; }
     @Override public final void resetStartTime() { this.startTime = 0; }
     @Override public void addCamAdjustment() { adjustments++; }
-    @Override public boolean maxAdjustmentsReached() { return adjustments > 2; }
+    @Override public boolean maxAdjustmentsReached() { return adjustments > 3; }
     @Override public boolean tripped() { return previousState != state; }
     @Override public boolean isActive() { return state; }
     @Override public void convert() { state = !state; converted = true; }

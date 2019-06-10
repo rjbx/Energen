@@ -79,7 +79,7 @@ public class Triptread extends Ground implements Trippable, Convertible, Propell
     @Override public void convert() { direction = Helpers.getOppositeDirection(direction); }
     @Override public boolean isConverted() { return converted; }
     @Override public void addCamAdjustment() { adjustments++; }
-    @Override public boolean maxAdjustmentsReached() { return adjustments >= 2; }
+    @Override public boolean maxAdjustmentsReached() { return adjustments > 3; }
     @Override public boolean tripped() { return previousState != state; }
     @Override public final Enums.Direction getDirectionX() { return direction; }
 }
