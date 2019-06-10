@@ -1101,6 +1101,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canHover = true;
         }
 
+        if (canMove && !inputControls.rightButtonJustPressed || inputControls.leftButtonJustPressed) canMove = false;
+
         canSink = false;
 
         if (turbo < Constants.MAX_TURBO) {
