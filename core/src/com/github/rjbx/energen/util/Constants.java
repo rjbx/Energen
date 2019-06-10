@@ -642,9 +642,9 @@ public final class Constants {
     public static final Vector2 SUSPENSION_ANTIMATTER_KNOCKBACK = new Vector2(100, Y_KNOCKBACK);
     public static final float SUSPENSION_ANTIMATTER_COLLISION_WIDTH = 25;
     public static final float SUSPENSION_ANTIMATTER_COLLISION_HEIGHT = 25;
-    public static final String SUSPENSION_ANTIMATTER_SPRITE_1 = "suspension-psychic-1";
-    public static final String SUSPENSION_ANTIMATTER_SPRITE_2 = "suspension-psychic-2";
-    public static final String SUSPENSION_ANTIMATTER_SPRITE_3 = "suspension-psychic-3";
+    public static final String SUSPENSION_ANTIMATTER_SPRITE_1 = "suspension-antimatter-1";
+    public static final String SUSPENSION_ANTIMATTER_SPRITE_2 = "suspension-antimatter-2";
+    public static final String SUSPENSION_ANTIMATTER_SPRITE_3 = "suspension-antimatter-3";
 
     public static final Vector2 SUSPENSION_INACTIVE_CENTER = new Vector2(12.5f, 12.5f);
     public static final String SUSPENSION_INACTIVE_SPRITE = "suspension-inactive";

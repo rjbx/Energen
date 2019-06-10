@@ -482,6 +482,10 @@ final class LevelLoader {
                 final Vector2 suspensionPosition = imagePosition.add(Constants.SUSPENSION_SOLID_CENTER);
                 Gdx.app.log(TAG, "Loaded the suspension at " + suspensionPosition);
                 level.addHazard(new Suspension(suspensionPosition, Enums.Energy.SOLID));
+            } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUSPENSION_ANTIMATTER_SPRITE_1)) {
+                final Vector2 suspensionPosition = imagePosition.add(Constants.SUSPENSION_ANTIMATTER_CENTER);
+                Gdx.app.log(TAG, "Loaded the suspension at " + suspensionPosition);
+                level.addHazard(new Suspension(suspensionPosition, Enums.Energy.ANTIMATTER));
             } else if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANIROL_SPRITE_1)) {
                 final Vector2 canirolPosition = imagePosition.add(Constants.X_CANIROL_CENTER);
                 Gdx.app.log(TAG, "Loaded the zoomba at " + canirolPosition);
