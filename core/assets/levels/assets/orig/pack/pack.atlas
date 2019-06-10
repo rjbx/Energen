@@ -213,7 +213,7 @@ pole-1
   index: -1
 portal-1
   rotate: false
-  xy: 68, 62
+  xy: 2, 62
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -316,6 +316,13 @@ spring-1
   orig: 23, 14
   offset: 0, 0
   index: -1
+suspension-antimatter-1
+  rotate: false
+  xy: 68, 62
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 suspension-gas-1
   rotate: false
   xy: 356, 81
@@ -342,13 +349,6 @@ suspension-polymer-1
   xy: 352, 33
   size: 25, 25
   orig: 25, 25
-  offset: 0, 0
-  index: -1
-suspension-psychic-1
-  rotate: false
-  xy: 2, 62
-  size: 64, 64
-  orig: 64, 64
   offset: 0, 0
   index: -1
 suspension-solid-1
