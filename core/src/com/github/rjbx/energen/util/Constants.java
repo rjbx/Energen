@@ -19,7 +19,7 @@ public final class Constants {
     // World Camera
     public static final Color BACKGROUND_COLOR = Color.SLATE;
     public static final float WORLD_SIZE = 160;
-    public static final float FALL_LIMIT = 1500;
+    public static final float FALL_LIMIT = 6000;
     public static final float GRAVITY = 10;
     public static final float MAX_WEIGHT = 1.2f;
     public static final float DRAG = 1;
