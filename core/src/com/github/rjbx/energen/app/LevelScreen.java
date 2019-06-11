@@ -238,7 +238,7 @@ final class LevelScreen extends ScreenAdapter {
             Gdx.gl.glClearColor(0, 0, 0, 0);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         } else if (levelUpdater.completed()) {
-            endMessage = Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "TIME: " + Helpers.secondsToString((long) Helpers.secondsSince(SaveData.getTotalTime())) + "\nSCORE: " + SaveData.getTotalScore() + "\n\nLEVEL TOTAL\n" + "TIME: " + Helpers.secondsToString(levelUpdater.getUnsavedTime()) + "\n" + "SCORE " + levelUpdater.getScore();
+            endMessage = Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "TIME: " + Helpers.secondsToString(TimeUtils.nanosToMillis(SaveData.getTotalTime())) + "\nSCORE: " + SaveData.getTotalScore() + "\n\nLEVEL TOTAL\n" + "TIME: " + Helpers.secondsToString(levelUpdater.getUnsavedTime()) + "\n" + "SCORE " + levelUpdater.getScore();
             yDivisor = 3;
             if (levelEndOverlayStartTime == 0) {
                 levelUpdater.end();
@@ -267,7 +267,7 @@ final class LevelScreen extends ScreenAdapter {
         String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
         menu.setOptionStrings(Arrays.asList(optionStrings));
         menu.setPromptString(Align.left, Constants.HUD_AMMO_LABEL + avatar.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + avatar.getHealth() + "\n" + "Turbo: " + avatar.getTurbo());
-        menu.setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString(((long) Helpers.secondsSince(SaveData.getTotalTime())) + levelUpdater.getUnsavedTime()) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
+        menu.setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString((TimeUtils.nanosToMillis(SaveData.getTotalTime()) + levelUpdater.getUnsavedTime())) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
         menu.setPromptString(Align.right, (avatar.getEnergy().name() + "\n" + SaveData.getEnergies().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
         menu.TextAlignment(Align.center);
         menuType = Enums.MenuType.MAIN;
