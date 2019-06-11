@@ -960,7 +960,7 @@ class LevelUpdater {
         theme = selectedLevel;
 
         int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
-        savedTime = Long.parseLong(SaveData.getLevelScores().split(",")[level]);
+        savedTime = Long.parseLong(SaveData.getLevelScores().split(", ")[level]);
     }
     protected void toggleMusic() { musicEnabled = !musicEnabled; }
     protected void toggleHints() { hintsEnabled = !hintsEnabled; }
