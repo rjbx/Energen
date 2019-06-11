@@ -993,7 +993,7 @@ public final class Constants {
     public static final int ORBEN_HIT_SCORE = 25;
     public static final int ROLLEN_KILL_SCORE = 100;
     public static final int ROLLEN_HIT_SCORE = 25;
-    public static final int POWERUP_SCORE = 50;
+    public static final int POWERUP_SCORE = 200;
 
     // Preferences
     public static final int[] DIFFICULTY_MULTIPLIER = {1, 2, 3};
