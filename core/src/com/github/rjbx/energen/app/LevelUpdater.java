@@ -724,7 +724,7 @@ class LevelUpdater {
                 SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
 
-                SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
+                SaveData.setTotalTime((long) Helpers.secondsSince(Helpers.numStrToSum(allTimes)));
                 SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
 
                 savedTime = time;
@@ -812,7 +812,7 @@ class LevelUpdater {
         timer.suspend();
         if (completed()) {
             SaveData.setTotalScore(SaveData.getTotalScore() + score);
-            SaveData.setTotalTime(Helpers.secondsToString(SaveData.getTotalTime()) + timer.getSeconds());
+            SaveData.setTotalTime(SaveData.getTotalTime() + timer.getSeconds());
             String savedEnergies = SaveData.getEnergies();
             if (!savedEnergies.contains(levelEnergy.name())) {
                 avatar.addEnergy(levelEnergy);
