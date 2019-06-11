@@ -91,7 +91,7 @@ class LevelUpdater {
         paused = false;
 
         int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
-        savedTime = Long.parseLong(SaveData.getLevelScores().split(";")[level]);
+        savedTime = Long.parseLong(SaveData.getLevelScores().split(",")[level]);
     }
 
     protected void update(float delta) {
