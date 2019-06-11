@@ -106,7 +106,7 @@ public class IndicatorHud {
                     Constants.LIFE_ICON_CENTER.y,
                     Constants.LIFE_ICON_SCALE
             );
-            xLife += 20;
+            xLife += 19;
         }
 
         Enums.Energy energy = avatar.getEnergy();
