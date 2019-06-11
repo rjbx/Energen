@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.rjbx.energen.entity.*;
 import com.github.rjbx.energen.overlay.Backdrop;
@@ -944,7 +945,7 @@ class LevelUpdater {
     protected final Viewport getViewport() { return levelScreen.getViewport(); }
 
     // Protected getters
-    protected final long getUnsavedTime() { return timer.getSeconds(); }
+    protected final long getUnsavedTime() { return timer.getSeconds() - TimeUtils.nanosToMillis(savedTime); }
     protected final int getUnsavedScore() { return score - savedScore; }
     protected final void setBoss(Boss boss) { this.boss = boss; }
     protected final DelayedRemovalArray<Transport> getTransports() { return transports; }
