@@ -98,6 +98,7 @@ public final class Constants {
     public static final int MAX_AMMO = 100;
     public static final int MAX_HEALTH = 100;
     public static final float MAX_TURBO = 100;
+    public static final int MAX_LIVES = 4;
 
     // Avatar assets
     public static final String TORSO_0 = "avatar-torso-0";

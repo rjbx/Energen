@@ -872,7 +872,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 break;
             case LIFE:
                 AssetManager.getInstance().getSoundAssets().life.play();
-                lives += 1;
+                if (lives < Constants.MAX_LIVES) lives ++;
                 break;
             case CANNON:
                 AssetManager.getInstance().getSoundAssets().cannon.play();
