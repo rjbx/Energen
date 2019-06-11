@@ -2,6 +2,7 @@ package com.github.rjbx.energen.app;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -87,6 +88,9 @@ class LevelUpdater {
         score = 0;
         time = 0;
         paused = false;
+
+        int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
+        savedTime = Long.parseLong(SaveData.getLevelScores().split(";")[level]);
     }
 
     protected void update(float delta) {
@@ -727,7 +731,6 @@ class LevelUpdater {
                 SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
                 SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
 
-                savedTime = time;
                 savedScore = score;
             } else if (transport instanceof Teleport) {
                 assetManager.getSoundAssets().warp.play();
