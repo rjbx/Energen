@@ -812,7 +812,7 @@ class LevelUpdater {
         timer.suspend();
         if (completed()) {
             SaveData.setTotalScore(SaveData.getTotalScore() + score);
-            SaveData.setTotalTime(SaveData.getTotalTime() + timer.getSeconds());
+            SaveData.setTotalTime(Helpers.secondsToString(SaveData.getTotalTime()) + timer.getSeconds());
             String savedEnergies = SaveData.getEnergies();
             if (!savedEnergies.contains(levelEnergy.name())) {
                 avatar.addEnergy(levelEnergy);
