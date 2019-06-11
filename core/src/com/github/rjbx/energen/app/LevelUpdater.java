@@ -89,9 +89,6 @@ class LevelUpdater {
         score = 0;
         time = 0;
         paused = false;
-
-        int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
-        savedTime = Long.parseLong(SaveData.getLevelScores().split(",")[level]);
     }
 
     protected void update(float delta) {
@@ -959,7 +956,12 @@ class LevelUpdater {
     protected final void addPowerup(Powerup powerup) { powerups.add(powerup); }
     protected void setTime(long time) { this.time = time; }
     protected void setScore(int score) {this.score = score; }
-    protected void setTheme(Enums.Theme selectedLevel) { theme = selectedLevel; }
+    protected void setTheme(Enums.Theme selectedLevel) {
+        theme = selectedLevel;
+
+        int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
+        savedTime = Long.parseLong(SaveData.getLevelScores().split(",")[level]);
+    }
     protected void toggleMusic() { musicEnabled = !musicEnabled; }
     protected void toggleHints() { hintsEnabled = !hintsEnabled; }
     protected final void setLoadEx(boolean state) { loadEx = state; }
