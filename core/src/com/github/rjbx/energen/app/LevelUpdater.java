@@ -692,6 +692,7 @@ class LevelUpdater {
         if (Helpers.overlapsPhysicalObject(avatar, powerup)
                 || (avatar.getBladeState() != Enums.BladeState.RETRACTED && Helpers.overlapsPhysicalObject(Blade.getInstance(), powerup))) {
             powerup.deactivate();
+            score += Constants.POWERUP_SCORE;
         } else {
             powerup.update(delta);
         }
