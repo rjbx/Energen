@@ -716,7 +716,7 @@ class LevelUpdater {
                 List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
                 Vector2 restorePosition = avatar.getPosition();
                 allRestores.set(level, restorePosition.x + ":" + restorePosition.y);
-                allTimes.set(level, Long.toString((long) Helpers.secondsSince(time)));
+                allTimes.set(level, Long.toString(time));
                 allScores.set(level, Integer.toString(score));
                 allRemovals.set(level, removedHazards);
                 SaveData.setLevelRestore(allRestores.toString().replace("[", "").replace("]", ""));
@@ -724,7 +724,7 @@ class LevelUpdater {
                 SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
 
-                SaveData.setTotalTime((long) Helpers.secondsSince(Helpers.numStrToSum(allTimes)));
+                SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
                 SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
 
                 savedTime = time;
