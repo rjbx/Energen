@@ -730,6 +730,7 @@ class LevelUpdater {
                 SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
 
                 savedScore = score;
+                savedTime = Long.parseLong(allTimes.get(level));
             } else if (transport instanceof Teleport) {
                 assetManager.getSoundAssets().warp.play();
                 avatar.getPosition().set(transport.getDestination());
