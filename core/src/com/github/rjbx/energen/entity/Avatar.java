@@ -1484,6 +1484,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 handleXInputs(); // enables change of x direction for shooting left or right
                 handleYInputs(); // enables change of y direction for looking and climbing up or down
             }
+            if (!inputControls.hasInput()) turbo += Constants.CLIMB_TURBO_INCREMENT;
         } else {
             if (action == Action.CLIMBING) {
                 fall();
