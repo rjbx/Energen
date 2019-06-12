@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -216,6 +217,7 @@ final class LevelScreen extends ScreenAdapter {
                 }
                 break;
         }
+        levelUpdater.getBackdrop().render(batch, staticViewport, new Vector2(staticViewport.getCamera().position.x, staticViewport.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
         menu.render(batch, font, staticViewport, cursor); // renders after debug level which sets menu to foreground
     }
 

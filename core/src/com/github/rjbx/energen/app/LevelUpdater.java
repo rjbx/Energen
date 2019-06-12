@@ -972,4 +972,6 @@ class LevelUpdater {
     protected void toggleMusic() { musicEnabled = !musicEnabled; }
     protected void toggleHints() { hintsEnabled = !hintsEnabled; }
     protected final void setLoadEx(boolean state) { loadEx = state; }
+
+    protected final Backdrop getBackdrop() { return backdrop; }
 }
