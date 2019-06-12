@@ -964,6 +964,7 @@ class LevelUpdater {
         int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
         savedTime = Long.parseLong(SaveData.getLevelScores().split(", ")[level]);
     }
+    protected int getIndex() { return Arrays.asList(Enums.Theme.values()).indexOf(this.theme); }
     protected void toggleMusic() { musicEnabled = !musicEnabled; }
     protected void toggleHints() { hintsEnabled = !hintsEnabled; }
     protected final void setLoadEx(boolean state) { loadEx = state; }
