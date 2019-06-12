@@ -113,6 +113,7 @@ final class LevelScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.b,
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        levelUpdater.getBackdrop().render(batch, staticViewport, new Vector2(staticViewport.getCamera().position.x, staticViewport.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
         if (levelUpdater.continuing()) {
             if (!levelUpdater.paused()) {
@@ -217,7 +218,6 @@ final class LevelScreen extends ScreenAdapter {
                 }
                 break;
         }
-        levelUpdater.getBackdrop().render(batch, staticViewport, new Vector2(staticViewport.getCamera().position.x, staticViewport.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
         menu.render(batch, font, staticViewport, cursor); // renders after debug level which sets menu to foreground
     }
 

@@ -96,6 +96,8 @@ final class OverworldScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        levelUpdater.getBackdrop().render(batch, viewport, new Vector2(viewport.getCamera().position.x, viewport.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
+
         switch (menuType) {
             case MAIN:
                 menu.render(batch, font, viewport, Cursor.getInstance());
