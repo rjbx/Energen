@@ -266,9 +266,9 @@ final class LevelScreen extends ScreenAdapter {
         cursor.resetPosition();
         String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
         menu.setOptionStrings(Arrays.asList(optionStrings));
-        menu.setPromptString(Align.left, Constants.HUD_AMMO_LABEL + avatar.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + avatar.getHealth() + "\n" + "Turbo: " + avatar.getTurbo());
-        menu.setPromptString(Align.center, "GAME TOTAL\n" + "Time: " + Helpers.secondsToString((TimeUtils.nanosToMillis(SaveData.getTotalTime()) + levelUpdater.getUnsavedTime())) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
-        menu.setPromptString(Align.right, (avatar.getEnergy().name() + "\n" + SaveData.getEnergies().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
+        menu.setPromptString(Align.left, "GAUGES\n" + Constants.HUD_AMMO_LABEL + avatar.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + avatar.getHealth() + "\n" + "Turbo: " + avatar.getTurbo());
+        menu.setPromptString(Align.center, "GAME TOTALS\n" + "Time: " + Helpers.secondsToString((TimeUtils.nanosToMillis(SaveData.getTotalTime()) + levelUpdater.getUnsavedTime())) + "\n" + "Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()));
+        menu.setPromptString(Align.right, "ENERGIES\n" + (avatar.getEnergy().name() + "\n" + SaveData.getEnergies().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n"));
         menu.TextAlignment(Align.center);
         menuType = Enums.MenuType.MAIN;
     }
