@@ -61,6 +61,7 @@ public class Cannoroll extends Ground implements Energized, Orientable, Roving, 
         boolean encompassed = false;
         for (Ground ground : LevelAssets.getClonedGrounds()) {
             encompassed = Helpers.encompassesPhysicalObject(ground, this);
+            break;
         }
         if (!encompassed && orientation == Enums.Orientation.X) {
             position.mulAdd(velocity, delta);
