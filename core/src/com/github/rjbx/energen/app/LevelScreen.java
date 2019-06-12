@@ -268,7 +268,7 @@ final class LevelScreen extends ScreenAdapter {
         String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
         menu.setOptionStrings(Arrays.asList(optionStrings));
         menu.setPromptString(Align.left, "GAUGE\n" + Constants.HUD_AMMO_LABEL + avatar.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + avatar.getHealth() + "\n" + "Turbo: " + avatar.getTurbo() + "\nEnergy: " + avatar.getEnergy().toString());
-        menu.setPromptString(Align.right, "TOTAL\n" + "Game Time: " + Helpers.secondsToString((TimeUtils.nanosToMillis(SaveData.getTotalTime()) + levelUpdater.getUnsavedTime())) + "\n" + "Game Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()) + "\nLevel Time: " + levelUpdater.getTime() + "\nLevel Score: " + levelUpdater.getScore());
+        menu.setPromptString(Align.right, "TOTAL\n" + "Game Time: " + Helpers.secondsToString((TimeUtils.nanosToMillis(SaveData.getTotalTime()) + levelUpdater.getUnsavedTime())) + "\n" + "Game Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()) + "\nLevel Time: " + Helpers.secondsToString(TimeUtils.nanosToMillis(levelUpdater.getTime())) + "\nLevel Score: " + levelUpdater.getScore());
 //        menu.setPromptString(Align.right, "ENERGY\n" + (avatar.getEnergy().name().toLowerCase() + "\n" + SaveData.getEnergies().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n").toLowerCase());
         menu.TextAlignment(Align.center);
         menuType = Enums.MenuType.MAIN;
