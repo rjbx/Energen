@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.rjbx.energen.app.LevelAssets;
 import com.github.rjbx.energen.util.AssetManager;
 import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
@@ -57,7 +58,11 @@ public class Cannoroll extends Ground implements Energized, Orientable, Roving, 
             this.setStartTime(TimeUtils.nanoTime());
             canDispatch = true;
         }
-        if (orientation == Enums.Orientation.X) {
+        boolean encompassed = false;
+        for (Ground ground : LevelAssets.getClonedGrounds()) {
+            encompassed = Helpers.encompassesPhysicalObject(ground, this);
+        }
+        if (!encompassed && orientation == Enums.Orientation.X) {
             position.mulAdd(velocity, delta);
             if (position.x < (startPosition.x - (range / 2))) {
                 position.x = startPosition.x - (range / 2);
