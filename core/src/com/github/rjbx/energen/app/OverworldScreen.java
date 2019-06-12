@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.github.rjbx.energen.entity.Avatar;
+import com.github.rjbx.energen.overlay.Backdrop;
 import com.github.rjbx.energen.overlay.TouchInterface;
 import com.github.rjbx.energen.util.AssetManager;
 import com.github.rjbx.energen.util.InputControls;
@@ -96,7 +97,7 @@ final class OverworldScreen extends ScreenAdapter {
                 Constants.BACKGROUND_COLOR.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        levelUpdater.getBackdrop().render(batch, viewport, new Vector2(viewport.getCamera().position.x, viewport.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
+        new Backdrop(assetManager.getBackgroundAssets().gas).render(batch, viewport, new Vector2(viewport.getCamera().position.x, viewport.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
         switch (menuType) {
             case MAIN:
