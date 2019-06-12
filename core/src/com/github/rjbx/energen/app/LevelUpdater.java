@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -103,7 +104,8 @@ class LevelUpdater {
 
         Rectangle renderBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() / 1.25f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() / 1.25f), chaseCam.getViewport().getWorldWidth() * 2.5f, chaseCam.getViewport().getWorldHeight() * 2.5f);
 
-        if (chaseCam.getCamera().position.y > 1000) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.ELECTROMAGNETIC));
+        Vector3 camPosition = chaseCam.getCamera().position;
+        if ((camPosition.x > 1500 && camPosition.x < 3500 && camPosition.y > 500) || (camPosition.x > 3500 && camPosition.y > 815) || camPosition.y > 1030) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.ELECTROMAGNETIC));
         else backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(theme));
         backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
