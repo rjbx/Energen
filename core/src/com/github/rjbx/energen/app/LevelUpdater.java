@@ -106,10 +106,10 @@ class LevelUpdater {
 
         Vector3 camPosition = chaseCam.getCamera().position;
 
-        if (camPosition.y > 810 || (camPosition.x < 3575 && camPosition.y > 575)) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.ELECTROMAGNETIC));
+        if (camPosition.y > 810 || (camPosition.x < 3575 && camPosition.y > 490)) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.ELECTROMAGNETIC));
         else if (camPosition.x < -180) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.HOME));
         else if (camPosition.y < 35) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.FINAL));
-        else backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.MECHANICAL));
+        else backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.GRAVITATIONAL));
 
         backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
