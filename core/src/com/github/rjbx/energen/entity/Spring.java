@@ -107,7 +107,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
                         }
                     }
                     if (Helpers.betweenTwoValues(position.x, ground.getLeft() + 2, ground.getRight() - 2)) {
-//                        if (!beingCarried && ground instanceof Moving && getBottom() == ground.getBottom()) { velocity.y = ((Moving) ground).getVelocity().y;position.y = ground.getTop() + (getHeight() / 2); }
+//                        if (!beingCarried && ground instanceof Moving && getBottom() == ground.getBottom()) { velocity.y = ((Moving) ground).getVelocity().y;position.y = ground.getTop() + (getHeight() / 2);
                     } else if (!againstStaticGround && (!(ground instanceof Pliable) || getBottom() == ground.getBottom())) {
                         if (position.x < ground.getPosition().x) {
                             position.x = ground.getLeft() - getWidth() / 2;
