@@ -144,7 +144,7 @@ final class LevelScreen extends ScreenAdapter {
             case MAIN:
                 if (inputControls.jumpButtonJustPressed) {
                     avatar.toggleEnergy(Enums.Direction.DOWN); // enables avatar to toggleEnergy energy during pause without enabling other avatar features
-                    menu.setPromptString(Align.right, (avatar.getEnergy().name().toLowerCase() + "\n" + SaveData.getEnergies().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n").toLowerCase());
+                    menu.setPromptString(Align.right, "ENERGY\n" + (avatar.getEnergy().name().toLowerCase() + "\n" + SaveData.getEnergies().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n").toLowerCase());
                 }
                 if (inputControls.shootButtonJustPressed) {
                     if (cursor.getPosition() == staticViewport.getCamera().position.y && chaseCam.getState() != Enums.ChaseCamState.DEBUG) {
