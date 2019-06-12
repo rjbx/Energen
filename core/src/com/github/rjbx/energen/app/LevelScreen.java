@@ -148,15 +148,15 @@ final class LevelScreen extends ScreenAdapter {
 //                    menu.setPromptString(Align.right, "ENERGY\n" + (avatar.getEnergy().name().toLowerCase() + "\n" + SaveData.getEnergies().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n").toLowerCase());
                 }
                 if (inputControls.shootButtonJustPressed) {
-                    if (cursor.getPosition() == staticViewport.getCamera().position.y && chaseCam.getState() != Enums.ChaseCamState.DEBUG) {
+                    if (cursor.getPosition() == staticViewport.getCamera().position.y - 30 && chaseCam.getState() != Enums.ChaseCamState.DEBUG) {
                         levelUpdater.unpause();
-                    } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 15) {
+                    } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 45) {
                         overworldScreen.setMainMenu();
                         screenManager.setScreen(overworldScreen);
                         levelUpdater.unpause();
                         levelUpdater.end();
                         return;
-                    } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 30) {
+                    } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 60) {
                         setOptionsMenu();
                     }
                 } else if (inputControls.pauseButtonJustPressed) {
@@ -262,7 +262,7 @@ final class LevelScreen extends ScreenAdapter {
 
 
     private static void setMainMenu() {
-        cursor.setRange(staticViewport.getCamera().position.y -30, staticViewport.getCamera().position.y - 60);
+        cursor.setRange(staticViewport.getCamera().position.y - 30, staticViewport.getCamera().position.y - 60);
         cursor.setOrientation(Enums.Orientation.Y);
         cursor.resetPosition();
         String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
