@@ -853,8 +853,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 if (r instanceof Powerup) {
                     AssetManager.getInstance().getSoundAssets().health.play();
                     health += Constants.POWERUP_HEALTH;
-                } else {
-                    health += .1f;
+                } else if (r instanceof Pod) {
+                    if (touchedGround == r) health += .1f;
                 }
                 if (health > Constants.MAX_HEALTH) {
                     health = Constants.MAX_HEALTH;
