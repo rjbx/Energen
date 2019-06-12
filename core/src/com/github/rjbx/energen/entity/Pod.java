@@ -60,7 +60,7 @@ public class Pod extends Ground implements Reboundable, Replenishing, Compressib
     @Override public final float getRight() { return position.x + Constants.POD_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.POD_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.POD_CENTER.y; }
-    @Override public final boolean isDense() { return false; }
+    @Override public final boolean isDense() { return true; }
     @Override public final float jumpMultiplier() { return Constants.POD_JUMP_MULTIPLIER; }
     @Override public final void setState(boolean state) { this.isActive = state; }
     @Override public final boolean getState() { return isActive; }
