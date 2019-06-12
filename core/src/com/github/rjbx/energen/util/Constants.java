@@ -216,7 +216,7 @@ public final class Constants {
     public static final String BACKGROUND_GAS_SPRITE = "background-gas-1";
     public static final String BACKGROUND_LIQUID_SPRITE = "background-gas-2";
     public static final String BACKGROUND_SOLID_SPRITE = "background-solid";
-    public static final String BACKGROUND_HYBRID_SPRITE = "background-home";
+    public static final String BACKGROUND_HYBRID_SPRITE = "background-hybrid";
     public static final Vector2 BACKGROUND_CENTER = new Vector2(270, 180);
 
     // Box

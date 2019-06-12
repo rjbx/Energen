@@ -105,8 +105,12 @@ class LevelUpdater {
         Rectangle renderBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() / 1.25f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() / 1.25f), chaseCam.getViewport().getWorldWidth() * 2.5f, chaseCam.getViewport().getWorldHeight() * 2.5f);
 
         Vector3 camPosition = chaseCam.getCamera().position;
-        if ((camPosition.x > 1500 && camPosition.x < 3500 && camPosition.y > 500) || (camPosition.x > 3500 && camPosition.y > 815) || camPosition.y > 1030) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.ELECTROMAGNETIC));
-        else backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(theme));
+
+        if (camPosition.y > 810 || (camPosition.x < 3575 && camPosition.y > 575)) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.ELECTROMAGNETIC));
+        else if (camPosition.x < -180) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.HOME));
+        else if (camPosition.y < 35) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.FINAL));
+        else backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.MECHANICAL));
+
         backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
         for (Ground ground : grounds) {
