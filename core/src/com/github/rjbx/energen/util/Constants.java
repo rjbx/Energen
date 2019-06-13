@@ -938,7 +938,7 @@ public final class Constants {
     public static final String LIFE_ICON = "icon-life";
     public static final String HUD_AMMO_LABEL = "Fuel: ";
     public static final String HUD_SCORE_LABEL = "Score: ";
-    public static final String HUD_HEALTH_LABEL = "Stamina: ";
+    public static final String HUD_HEALTH_LABEL = "Health: ";
     public static final String HUD_ENERGY_LABEL = "EnergyType: ";
     public static final Vector2 ABILITY_ICON_CENTER = new Vector2(20, 8.5f);
     public static final Vector2 LIFE_ICON_CENTER = new Vector2(7, 4.5f);
