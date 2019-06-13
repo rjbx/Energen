@@ -143,7 +143,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         position = new Vector2(spawnPosition);
         previousFramePosition = new Vector2();
         chaseCamPosition = new Vector3();
-        roomBounds = new Rectangle(spawnPosition.x - 125, spawnPosition.y - 125, 250, 250);
+        roomBounds = new Rectangle(spawnPosition.x - 110, spawnPosition.y - 75, 250, 250);
         velocity = new Vector2();
         energy = builder.energy;
         height = builder.height;
