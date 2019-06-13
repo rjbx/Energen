@@ -584,7 +584,7 @@ class LevelUpdater {
                     if (!(destructible instanceof Zoomba)
                     || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
                     || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
-                        if (!(hazard instanceof Armored)) {
+                        if (!(hazard instanceof Armored) && !(hazard instanceof Boss)) {
                             Helpers.applyDamage(destructible, projectile);
                             this.spawnImpact(projectile.getPosition(), projectile.getType());
                             projectile.deactivate();
