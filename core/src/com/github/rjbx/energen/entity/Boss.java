@@ -204,6 +204,12 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         jumpStartTime = 0;
         fallStartTime = 0;
         dashStartTime = 0;
+        turboMultiplier = 1;
+        ammoMultiplier = 1;
+        healthMultiplier = 1;
+        strideMultiplier = 1;
+        jumpMultiplier = 1;
+        chargeModifier = 0;
         standStartTime = TimeUtils.nanoTime();
         recoveryStartTime = TimeUtils.nanoTime();
     }
