@@ -1403,7 +1403,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
 //                } else if (canPeer) {
 //                    region = AssetManager.getInstance().getAvatarAssets().lookbackLeft;
 //                } else {
-                    region = AssetManager.getInstance().getBossAssets().liquidStandLeft;
+                    region = battling ? AssetManager.getInstance().getBossAssets().liquidStandLeft : AssetManager.getInstance().getBossAssets().liquidDefault;
 //                }
             } else if (action == Action.STRIDING) {
                 region = AssetManager.getInstance().getBossAssets().liquidRecoilLeft;
