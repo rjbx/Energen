@@ -449,10 +449,9 @@ class LevelUpdater {
                     } else {
                         avatar.setVelocity(new Vector2(avatar.getVelocity().x / (1 + (pliable).weightFactor()), avatar.getVelocity().y));
                     }
-                    if (pliable.weightFactor() > .25f) { // prevents flickering gauge for lighter objects
-
+                    if (pliable.weightFactor() > .627f) { // prevents flickering gauge for lighter objects
                         float decrement = (pliable).weightFactor() * adjustment;
-                        if (decrement > Constants.STRIDE_TURBO_INCREMENT) avatar.setTurbo(Math.max(avatar.getTurbo() - decrement, 0));
+                        avatar.setTurbo(Math.max(avatar.getTurbo() - decrement, 0));
                     }
                     if (avatar.getTurbo() == 0) {
                         pliable.setCarrier(null);
