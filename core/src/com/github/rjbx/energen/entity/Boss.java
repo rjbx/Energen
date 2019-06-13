@@ -638,7 +638,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         touchedHazard = null;
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Boss)
-                    && !(ChaseCam.getInstance().getState() == ChaseCamState.FOLLOWING && hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Avatar)) {
+                    && !(!battling && hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Avatar)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
                 } else if (action == Action.STANDING
@@ -1468,7 +1468,6 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     @Override public final float getShotRadius() { return Constants.ZOOMBA_SHOT_RADIUS; }
     @Override public final int getHitScore() { return Constants.ZOOMBA_HIT_SCORE; }
     @Override public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
-    @Override public final void setHealth( float health ) { this.health = health; }
     public final Rectangle getRoomBounds() { return roomBounds; }
 
     // Setters
