@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.rjbx.energen.util.AssetManager;
+import com.github.rjbx.energen.util.ChaseCam;
 import com.github.rjbx.energen.util.InputControls;
 import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
@@ -637,7 +638,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         touchedHazard = null;
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Boss)
-                    && !(isTalking() && hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Avatar)) {
+                    && !((ChaseCam.getInstance().getState() == ChaseCamState.FOLLOWING || isTalking()) && hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Avatar)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
                 } else if (action == Action.STANDING
