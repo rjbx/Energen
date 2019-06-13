@@ -752,8 +752,7 @@ class LevelUpdater {
         return active;
     }
 
-    // TODO: Consider factoring out or account for projectile transience (prevent from propagating to removed or implement separate interface from hazards)
-    protected void restoreRemovals(String removals) {
+   protected void restoreRemovals(String removals) {
         removedHazards = removals;
         List<String> levelRemovalStrings = Arrays.asList(removedHazards.split(";"));
         List<Integer> levelRemovals = new ArrayList<Integer>();
@@ -909,7 +908,6 @@ class LevelUpdater {
         impacts.add(new Impact(position, type));
     }
 
-    //TODO: Distinguish spawned assets from those generated on level load to prevent persistence and attempted removal from loaded assets
     private void spawnProjectile(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Energy energy, Entity source) {
         Projectile projectile = new Projectile(position, direction, orientation, shotIntensity, energy, source);
         hazards.add(projectile);
