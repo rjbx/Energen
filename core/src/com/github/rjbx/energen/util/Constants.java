@@ -936,10 +936,11 @@ public final class Constants {
     public static final String DASH_ICON = "icon-dash";
     public static final String MOVE_ICON = "icon-move";
     public static final String LIFE_ICON = "icon-life";
-    public static final String HUD_AMMO_LABEL = "Fuel: ";
+    public static final String HUD_FUEL_LABEL = "Fuel: ";
+    public static final String HUD_STAMINA_LABEL = "Stamina: ";
     public static final String HUD_SCORE_LABEL = "Score: ";
     public static final String HUD_HEALTH_LABEL = "Health: ";
-    public static final String HUD_ENERGY_LABEL = "EnergyType: ";
+    public static final String HUD_ENERGY_LABEL = "Energy: ";
     public static final Vector2 ABILITY_ICON_CENTER = new Vector2(20, 8.5f);
     public static final Vector2 LIFE_ICON_CENTER = new Vector2(7, 4.5f);
     public static final Color HEALTH_CRITICAL_COLOR = Color.RED;
