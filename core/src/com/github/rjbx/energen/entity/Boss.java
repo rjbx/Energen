@@ -638,7 +638,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
         touchedHazard = null;
         for (Hazard hazard : hazards) {
             if (!(hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Boss)
-                    && !((ChaseCam.getInstance().getState() == ChaseCamState.FOLLOWING || isTalking()) && hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Avatar)) {
+                    && !(ChaseCam.getInstance().getState() == ChaseCamState.FOLLOWING && hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Avatar)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
                 } else if (action == Action.STANDING
