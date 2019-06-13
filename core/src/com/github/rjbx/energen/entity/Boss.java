@@ -643,8 +643,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     public void touchAllHazards(Array<Hazard> hazards) {
         touchedHazard = null;
         for (Hazard hazard : hazards) {
-            if (!(hazard instanceof Boss) && !(hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Boss)
-                    && !(!battling && hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Avatar) && ((Avatar)((Projectile) hazard).getSource()).getDirectionX() == directionX) {
+            if (!(hazard instanceof Boss) && !(hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Boss)) {
                 if (Helpers.overlapsPhysicalObject(this, hazard)) {
                     touchHazard(hazard);
                 } else if (action == Action.STANDING
@@ -660,7 +659,9 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
 
     private void touchHazard(Hazardous hazard) {
         chaseCamPosition.set(position, 0);
-        if (hazard instanceof Groundable) {
+        if ((!battling && hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Avatar)) {
+            directionX = Direction.LEFT;
+        } else if (hazard instanceof Groundable) {
             if (hazard instanceof Zoomba) {
                 Zoomba zoomba = (Zoomba) hazard;
                 if (bounds.overlaps(zoomba.getHazardBounds())) {
