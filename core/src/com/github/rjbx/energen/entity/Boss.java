@@ -1476,7 +1476,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     public void setDirectionX(Direction directionX) { this.directionX = directionX; }
     public void setDirectionY(Direction directionY) { this.directionY = directionY; }
     public void setLives(int lives) { this.lives = lives; }
-    public void setHealth(int health) { this.health = health; }
+    public void setHealth(float health) { this.health = health; }
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
     public void setChaseCamPosition(float offset) {
         lookTimeSeconds = Helpers.secondsSince(lookStartTime);

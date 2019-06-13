@@ -1984,7 +1984,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     public void setDirectionX(Direction directionX) { this.directionX = directionX; }
     public void setDirectionY(Direction directionY) { this.directionY = directionY; }
     public void setLives(int lives) { this.lives = lives; }
-    public void setHealth(int health) { this.health = health; }
+    public void setHealth(float health) { this.health = health; }
     public void setTurbo(float turbo) { this.turbo = turbo; }
     public void setMoveStatus(boolean state) { canMove = state; }
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
