@@ -195,7 +195,10 @@ public final class Constants {
     public static final float SIDESWIPE_FRAME_DURATION = 0.08f;
 
     // Boss
-    public static final String BOSS_LIQUID_DEFAULT = "boss-liquid-default";
+    public static final String BOSS_LIQUID_BLOCK_LEFT = "boss-liquid-block-left";
+    public static final String BOSS_LIQUID_BLOCK_RIGHT = "boss-liquid-block-right";
+    public static final String BOSS_LIQUID_LOOKUP_BLOCK_LEFT = "boss-liquid-lookup-block-left";
+    public static final String BOSS_LIQUID_LOOKUP_BLOCK_RIGHT = "boss-liquid-lookup-block-right";
     public static final String BOSS_LIQUID_STAND_LEFT = "boss-liquid-stand-left";
     public static final String BOSS_LIQUID_STAND_RIGHT = "boss-liquid-stand-right";
     public static final String BOSS_LIQUID_FALL_LEFT = "boss-liquid-fall-left";
