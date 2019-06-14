@@ -614,7 +614,7 @@ class LevelUpdater {
                     if (!(hazard instanceof Armored)) {
                         Helpers.applyDamage(destructible, Blade.getInstance());
                         spawnImpact(hazard.getPosition(), Blade.getInstance().getType());
-                    } else {
+                    } else if (!(hazard instanceof Boss)) {
                         if (((Armored) hazard).isVulnerable()) {
                             if (Helpers.directionToOrientation(((Armored) hazard).getVulnerability()) == Enums.Orientation.Y
                                     && avatar.getBladeState() == Enums.BladeState.CUT
