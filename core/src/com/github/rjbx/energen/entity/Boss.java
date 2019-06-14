@@ -676,10 +676,18 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         chaseCamPosition.set(position, 0);
         if (hazard instanceof Projectile) {
             if (armorStartTime == 0) {
-                invulnerability = Helpers.getOppositeDirection(((Projectile) hazard).getDirection());
+                Direction projectileOppositeDirection = Helpers.getOppositeDirection(((Projectile) hazard).getDirection());
+                invulnerability = projectileOppositeDirection;
+                switch (Helpers.directionToOrientation(projectileOppositeDirection)) {
+                    case X:
+                        directionX = invulnerability;
+                        break;
+                    case Y:
+                        directionY = invulnerability;
+                        break;
+                }
                 shielded = true;
                 armorStartTime = TimeUtils.nanoTime();
-                invulnerability = Helpers.directionToOrientation(((Projectile) hazard).getDirection()) == X ? directionX : directionY;
             } else if (Helpers.getOppositeDirection(((Projectile) hazard).getDirection()) != invulnerability) {
                 touchedHazard = hazard;
                 recoil(hazard.getKnockback(), hazard);

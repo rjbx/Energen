@@ -25,6 +25,7 @@ import java.util.List;
 
 import static com.github.rjbx.energen.util.Enums.Orientation.X;
 import static com.github.rjbx.energen.util.Enums.Orientation.Y;
+import static com.github.rjbx.energen.util.Enums.Orientation.Z;
 
 // immutable non-instantiable static
 public final class Helpers {
@@ -206,7 +207,7 @@ public final class Helpers {
         } else if (direction == Enums.Direction.DOWN || direction == Enums.Direction.UP) {
             return Y;
         }
-        return null;
+        return Z;
     }
     
     public static final Enums.Direction inputToDirection() {
