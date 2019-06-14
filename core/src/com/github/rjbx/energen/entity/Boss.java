@@ -675,9 +675,15 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 
     private void touchHazard(Hazardous hazard) {
         chaseCamPosition.set(position, 0);
-        if (!battling && hazard instanceof Projectile) {
-            invulnerability = Helpers.getOppositeDirection(((Projectile) hazard).getDirection())
-            if (((Projectile) hazard).getSource() instanceof Avatar) directionX = Direction.LEFT;
+        if (hazard instanceof Projectile) {
+            if (armorStartTime == 0) {
+                invulnerability = Helpers.getOppositeDirection(((Projectile) hazard).getDirection());
+                armorStruck = true;
+            } else if (((Projectile) hazard).getDirection() != invulnerability) {
+                touchedHazard = hazard;
+                recoil(hazard.getKnockback(), hazard);
+            }
+            if (!battling && ((Projectile) hazard).getSource() instanceof Avatar) directionX = Direction.LEFT;
         } else if (hazard instanceof Groundable) {
             if (hazard instanceof Zoomba) {
                 Zoomba zoomba = (Zoomba) hazard;
