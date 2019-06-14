@@ -690,9 +690,15 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                             break;
                     }
                 } else {
-                    if (avatar.getPosition().y > position.y + 5) invulnerability = Direction.UP;
-                    else if (avatar.getPosition().x < position.x) invulnerability = Direction.LEFT;
-                    else invulnerability = Direction.RIGHT;
+                    if (avatar.getPosition().y > position.y + 5) {
+                        invulnerability = Direction.UP;
+                        directionY = invulnerability;
+                    }
+                    else {
+                        if (avatar.getPosition().x < position.x) invulnerability = Direction.LEFT;
+                        else invulnerability = Direction.RIGHT;
+                        directionX = invulnerability;
+                    }
                 }
                 shielded = true;
                 armorStartTime = TimeUtils.nanoTime();
