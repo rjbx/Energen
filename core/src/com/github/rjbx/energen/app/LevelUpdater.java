@@ -607,7 +607,7 @@ class LevelUpdater {
             }
             projectiles.end();
 
-            if (Helpers.overlapsPhysicalObject(Blade.getInstance(), destructible) && !(hazard instanceof Boss) {
+            if (Helpers.overlapsPhysicalObject(Blade.getInstance(), destructible) && !(hazard instanceof Boss)) {
                 if (avatar.getBladeState() == Enums.BladeState.FLIP
                         || (avatar.getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, avatar.getBottom(), avatar.getTop()))
                         || (avatar.getBladeState() == Enums.BladeState.CUT) && (Helpers.speedToVelocity(destructible.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) - Helpers.speedToVelocity(avatar.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) > 0)) {
