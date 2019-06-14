@@ -1017,18 +1017,20 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoil(Vector2 velocity, Hazardous hazard) {
-        float margin = 0;
-        if (hazard instanceof Destructible) {
-            margin = hazard.getWidth() / 6;
+        if (!(hazard instanceof Blade)) {
+            float margin = 0;
+            if (hazard instanceof Destructible) {
+                margin = hazard.getWidth() / 6;
+            }
+            if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
+                this.velocity.x = -velocity.x;
+            } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
+                this.velocity.x = velocity.x;
+            } else {
+                this.velocity.x = Helpers.speedToVelocity(velocity.x, directionX, X);
+            }
+            this.velocity.y = velocity.y;
         }
-        if (position.x < (hazard.getPosition().x - (hazard.getWidth() / 2) + margin)) {
-            this.velocity.x = -velocity.x;
-        } else if (position.x > (hazard.getPosition().x + (hazard.getWidth() / 2) - margin)) {
-            this.velocity.x = velocity.x;
-        } else {
-            this.velocity.x = Helpers.speedToVelocity(velocity.x, directionX, X);
-        }
-        this.velocity.y = velocity.y;
         AssetManager.getInstance().getSoundAssets().damage.play();
         shotIntensity = ShotIntensity.NORMAL;
         groundState = GroundState.AIRBORNE;
