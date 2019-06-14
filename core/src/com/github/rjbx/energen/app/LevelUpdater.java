@@ -611,7 +611,7 @@ class LevelUpdater {
                 if (avatar.getBladeState() == Enums.BladeState.FLIP
                         || (avatar.getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, avatar.getBottom(), avatar.getTop()))
                         || (avatar.getBladeState() == Enums.BladeState.CUT) && (Helpers.speedToVelocity(destructible.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) - Helpers.speedToVelocity(avatar.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) > 0)) {
-                    if (!(hazard instanceof Armored)) {
+                    if (!(hazard instanceof Armored) && !(hazard instanceof Boss)) {
                         Helpers.applyDamage(destructible, Blade.getInstance());
                         spawnImpact(hazard.getPosition(), Blade.getInstance().getType());
                     } else {
