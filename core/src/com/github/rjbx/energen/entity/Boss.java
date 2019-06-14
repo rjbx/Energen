@@ -72,6 +72,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     private boolean canHurdle;
     private boolean canBounce;
     private boolean canMove;
+    private long shootStartTime;
     private long chargeStartTime;
     private long standStartTime;
     private long lookStartTime;
@@ -207,6 +208,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         climbStartTime = 0;
         jumpStartTime = 0;
         fallStartTime = 0;
+        shootStartTime = 0;
         dashStartTime = 0;
         turboMultiplier = 1;
         ammoMultiplier = 1;
@@ -1042,12 +1044,15 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 
     public void shoot(ShotIntensity shotIntensity, Energy energy, int ammoUsed) {
         canDispatch = true;
-        if (shotIntensity == ShotIntensity.BLAST) {
-      //      AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
-        } else {
-       //     AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play(1, 2, 0);
+        if (Helpers.secondsSince(shootStartTime) < .5f) {
+            if (shotIntensity == ShotIntensity.BLAST) {
+                //      AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
+            } else {
+                //     AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play(1, 2, 0);
+            }
+            ammo -= ammoUsed * ammoMultiplier;
         }
-        ammo -= ammoUsed * ammoMultiplier;
+        shootStartTime = 0;
     }
 
     private void look() {
