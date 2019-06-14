@@ -607,14 +607,14 @@ class LevelUpdater {
             }
             projectiles.end();
 
-            if (Helpers.overlapsPhysicalObject(Blade.getInstance(), destructible)) {
+            if (Helpers.overlapsPhysicalObject(Blade.getInstance(), destructible) && !(hazard instanceof Boss) {
                 if (avatar.getBladeState() == Enums.BladeState.FLIP
                         || (avatar.getBladeState() == Enums.BladeState.RUSH && Helpers.betweenTwoValues(destructible.getPosition().y, avatar.getBottom(), avatar.getTop()))
                         || (avatar.getBladeState() == Enums.BladeState.CUT) && (Helpers.speedToVelocity(destructible.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) - Helpers.speedToVelocity(avatar.getPosition().x, avatar.getDirectionX(), Enums.Orientation.X) > 0)) {
                     if (!(hazard instanceof Armored)) {
                         Helpers.applyDamage(destructible, Blade.getInstance());
                         spawnImpact(hazard.getPosition(), Blade.getInstance().getType());
-                    } else if (!(hazard instanceof Boss)) {
+                    } else {
                         if (((Armored) hazard).isVulnerable()) {
                             if (Helpers.directionToOrientation(((Armored) hazard).getVulnerability()) == Enums.Orientation.Y
                                     && avatar.getBladeState() == Enums.BladeState.CUT
