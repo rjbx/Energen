@@ -670,7 +670,8 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                 }
             }
         }
-        if (Helpers.overlapsPhysicalObject(Blade.getInstance(), this)) touchHazard(Blade.getInstance());
+        Blade blade = Blade.getInstance();
+        if (avatar.getBladeState() != BladeState.RETRACTED && Helpers.overlapsPhysicalObject(blade, this)) touchHazard(blade);
     }
 
     private void touchHazard(Hazardous hazard) {
