@@ -3,7 +3,6 @@ package com.github.rjbx.energen.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.rjbx.energen.util.AssetManager;
-import com.github.rjbx.energen.util.ChaseCam;
 import com.github.rjbx.energen.util.InputControls;
 import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
@@ -105,7 +103,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     private float health;
     private float armorStartTime;
     private int lives;
-    private Enums.Direction vulnerability;
+    private Enums.Direction invulnerability;
     private boolean armorStruck;
     private InputControls inputControls;
 
@@ -183,7 +181,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         turbo = Constants.MAX_TURBO;
         shotIntensity = ShotIntensity.NORMAL;
         startTurbo = turbo;
-        vulnerability = null;
+        invulnerability = null;
         armorStruck = false;
         battling = false;
         talking = false;
@@ -225,7 +223,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         if (armorStruck) {
             velocity.x = 0;
             if (armorStartTime == 0 || Helpers.secondsSince(armorStartTime) % 1 == 0) {
-                int index =
+//                int index =
             } else if (Helpers.secondsSince(armorStartTime) > 3) {
                 armorStruck = false;
             }
@@ -677,8 +675,9 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 
     private void touchHazard(Hazardous hazard) {
         chaseCamPosition.set(position, 0);
-        if ((!battling && hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Avatar)) {
-            directionX = Direction.LEFT;
+        if (!battling && hazard instanceof Projectile) {
+            invulnerability = Helpers.getOppositeDirection(((Projectile) hazard).getDirection())
+            if (((Projectile) hazard).getSource() instanceof Avatar) directionX = Direction.LEFT;
         } else if (hazard instanceof Groundable) {
             if (hazard instanceof Zoomba) {
                 Zoomba zoomba = (Zoomba) hazard;
