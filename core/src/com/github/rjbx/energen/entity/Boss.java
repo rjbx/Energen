@@ -678,6 +678,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
             } else if (Helpers.getOppositeDirection(((Projectile) hazard).getDirection()) != invulnerability) {
                 touchedHazard = hazard;
                 recoil(hazard.getKnockback(), hazard);
+                directionX = invulnerability;
             }
         } else if (hazard instanceof Groundable) {
             if (hazard instanceof Zoomba) {
