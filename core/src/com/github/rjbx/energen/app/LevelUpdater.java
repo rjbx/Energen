@@ -190,10 +190,10 @@ class LevelUpdater {
                 }
             }
             grounds.end();
-        } else if (chaseCam.getState() != Enums.ChaseCamState.BOSS && boss.getRoomBounds().overlaps(avatar.getBounds())) {
-            chaseCam.setState(Enums.ChaseCamState.BOSS);
-            if (boss.isTalking()) {
-            if (avatar.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
+        } else if (boss.isTalking()) {
+            if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
+                chaseCam.setState(Enums.ChaseCamState.BOSS);
+            } else if (avatar.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
                 music.stop();
                 avatar.setVelocity(new Vector2(40, 0));
                 avatar.setPosition(avatar.getPosition().mulAdd(avatar.getVelocity(), delta));
@@ -210,7 +210,6 @@ class LevelUpdater {
                     }
                 }
             }
-        }
         } else {
             time = timer.getNanos();
             if (avatar.getDispatchStatus()) {
@@ -571,7 +570,7 @@ class LevelUpdater {
             ((Boss) hazard).updatePosition(delta);
             applyCollision((Impermeable) hazard);
             if (boss.getRoomBounds().overlaps(avatar.getBounds())) {
-                if (!boss.isBattling()) {
+                if (!boss.isBattling() || boss.getHealth() < 1) {
                     boss.setTalkState(true);
                 }
             }
@@ -897,7 +896,7 @@ class LevelUpdater {
         return false;
     }
 
-    protected boolean completed() { return chaseCam.getState() == Enums.ChaseCamState.BOSS && (boss == null || boss.getHealth() < 1); }
+    protected boolean completed() { return chaseCam.getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1; }
 
     protected boolean continuing() { return !(completed() || failed()); }
 
