@@ -2600,28 +2600,28 @@ boss-final-eyes-right
   orig: 26, 33
   offset: 0, 0
   index: -1
-boss-liquid-block-right
+boss-liquid-block-left
   rotate: false
   xy: 778, 735
   size: 26, 33
   orig: 26, 33
   offset: 0, 0
   index: -1
-boss-liquid-dash-left
+boss-liquid-block-right
   rotate: false
   xy: 750, 665
   size: 26, 33
   orig: 26, 33
   offset: 0, 0
   index: -1
-boss-liquid-dash-right
+boss-liquid-dash-left
   rotate: false
   xy: 778, 700
   size: 26, 33
   orig: 26, 33
   offset: 0, 0
   index: -1
-boss-liquid-default
+boss-liquid-dash-right
   rotate: false
   xy: 806, 735
   size: 26, 33

@@ -104,7 +104,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     private float armorStartTime;
     private int lives;
     private Enums.Direction invulnerability;
-    private boolean armorStruck;
+    private boolean shielded;
     private InputControls inputControls;
 
     public static class Builder {
@@ -182,7 +182,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         shotIntensity = ShotIntensity.NORMAL;
         startTurbo = turbo;
         invulnerability = null;
-        armorStruck = false;
+        shielded = false;
         battling = false;
         talking = false;
         touchedGround = null;
@@ -220,10 +220,10 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 
     public void update(float delta) {
 
-        if (armorStruck) {
+        if (shielded) {
             velocity.x = 0;
             if (Helpers.secondsSince(armorStartTime) > 3) {
-                armorStruck = false;
+                shielded = false;
                 armorStartTime = 0;
             }
         }
@@ -673,7 +673,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         if (hazard instanceof Projectile) {
             if (armorStartTime == 0) {
                 invulnerability = Helpers.getOppositeDirection(((Projectile) hazard).getDirection());
-                armorStruck = true;
+                shielded = true;
                 armorStartTime = TimeUtils.nanoTime();
                 directionX = invulnerability;
             } else if (Helpers.getOppositeDirection(((Projectile) hazard).getDirection()) != invulnerability) {
@@ -1351,7 +1351,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         if (directionX == Direction.RIGHT) {
             if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
-                    region = AssetManager.getInstance().getBossAssets().liquidLookupStandRight;
+                    region = shielded ? AssetManager.getInstance().getBossAssets().liquidLookupBlockRight : AssetManager.getInstance().getBossAssets().liquidLookupStandRight;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = AssetManager.getInstance().getBossAssets().liquidLookupFallRight;
                     } else if (action == Action.HOVERING) {
@@ -1376,7 +1376,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 //                } else if (canPeer) {
 //                    region = AssetManager.getInstance().getAvatarAssets().lookbackRight;
 //                } else {
-                    region = AssetManager.getInstance().getBossAssets().liquidStandRight;
+                    region = shielded ? AssetManager.getInstance().getBossAssets().liquidBlockRight : AssetManager.getInstance().getBossAssets().liquidStandRight;
 //                }
             } else if (action == Action.STRIDING) {
                 region = AssetManager.getInstance().getBossAssets().liquidRecoilRight;
@@ -1398,7 +1398,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         } else if (directionX == Direction.LEFT) {
             if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
-                    region = AssetManager.getInstance().getBossAssets().liquidLookupStandLeft;
+                    region = shielded ? AssetManager.getInstance().getBossAssets().liquidLookupBlockLeft: AssetManager.getInstance().getBossAssets().liquidLookupStandLeft;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = AssetManager.getInstance().getBossAssets().liquidLookupFallLeft;
                     } else if (action == Action.HOVERING) {
@@ -1423,7 +1423,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 //                } else if (canPeer) {
 //                    region = AssetManager.getInstance().getAvatarAssets().lookbackLeft;
 //                } else {
-                    region = battling ? AssetManager.getInstance().getBossAssets().liquidStandLeft : AssetManager.getInstance().getBossAssets().liquidBlockLeft;
+                    region = shielded ? AssetManager.getInstance().getBossAssets().liquidBlockLeft : AssetManager.getInstance().getBossAssets().liquidStandLeft;
 //                }
             } else if (action == Action.STRIDING) {
                 region = AssetManager.getInstance().getBossAssets().liquidRecoilLeft;
