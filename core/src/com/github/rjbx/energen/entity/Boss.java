@@ -224,16 +224,17 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 
     public void update(float delta) {
         canDispatch = false;
+            // abilities
         if (shielded) {
             velocity.x = 0;
+            action = Action.STANDING;
             if (Helpers.secondsSince(armorStartTime) > 1) {
                 shielded = false;
                 armorStartTime = 0;
             }
-        }
-            // abilities
-        if (groundState == GroundState.PLANTED) {
-            velocity.y = 0;
+        } else {
+            if (groundState == GroundState.PLANTED) {
+                velocity.y = 0;
 //            if (action == Action.STANDING) {
 //                stand();
 //                enableStride();
@@ -254,8 +255,8 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 //                enableJump();
 //                enableShoot(energy);
 //            }
-        } else if (groundState == GroundState.AIRBORNE) {
-            velocity.y -= Constants.GRAVITY;
+            } else if (groundState == GroundState.AIRBORNE) {
+                velocity.y -= Constants.GRAVITY;
 //            if (action == Action.FALLING) {
 //                fall();
 //                enableClimb();
@@ -281,8 +282,9 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 //                enableRappel();
 //                enableShoot(energy);
 //            }
+            }
+            rush();
         }
-        rush();
     }
 
     public void updatePosition(float delta) {
@@ -675,7 +677,6 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     private void touchHazard(Hazardous hazard) {
         if (hazard instanceof Projectile || hazard instanceof Blade) {
             action = Action.STANDING;
-            velocity.x = 0;
             if (hazard instanceof Projectile) {
                 if (armorStartTime == 0) {
                     Direction projectileOppositeDirection = Helpers.getOppositeDirection(((Projectile) hazard).getDirection());
@@ -1149,7 +1150,6 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     }
 
     private void dash() {
-        if (shielded) return;
         if (action != Action.DASHING) {
             startTurbo = turbo;
             action = Action.DASHING;
