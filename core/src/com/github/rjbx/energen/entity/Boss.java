@@ -22,7 +22,7 @@ import java.util.ListIterator;
 
 // TODO[M]: Improve AI
 // mutable
-public class Boss extends Hazard implements Destructible, Humanoid, Impermeable {
+public class Boss extends Hazard implements Destructible, Humanoid, Impermeable, Armored {
 
     // fields
     public final static String TAG = Boss.class.getName();
@@ -1564,6 +1564,37 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable 
     public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); canPeer = false; } }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void resetChargeIntensity() { shotIntensity = ShotIntensity.NORMAL; }
+
+    @Override
+    public long getStartTime() {
+        return 0;
+    }
+
+    @Override
+    public void resetStartTime() {
+
+    }
+
+    @Override
+    public void strikeArmor() {
+
+    }
+
+    @Override
+    public boolean isVulnerable() {
+        return true;
+    }
+
+    @Override
+    public Direction getVulnerability() {
+        return null;
+    }
+
+    @Override
+    public float getRecoverySpeed() {
+        return 0;
+    }
+
     public void dispose() {
         energyList.clear();
     }
