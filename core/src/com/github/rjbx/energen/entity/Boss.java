@@ -226,7 +226,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         canDispatch = false;
         if (shielded) {
             velocity.x = 0;
-            if (Helpers.secondsSince(armorStartTime) > 1.5f) {
+            if (Helpers.secondsSince(armorStartTime) > 1) {
                 shielded = false;
                 armorStartTime = 0;
             }
