@@ -683,6 +683,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                         directionX = invulnerability;
                         break;
                     case Y:
+                        look();
                         directionY = invulnerability;
                         break;
                 }
