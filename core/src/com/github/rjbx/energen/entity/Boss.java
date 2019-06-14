@@ -681,6 +681,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                     invulnerability = projectileOppositeDirection;
                     switch (Helpers.directionToOrientation(projectileOppositeDirection)) {
                         case X:
+                            lookStartTime = 0;
                             directionX = invulnerability;
                             break;
                         case Y:
