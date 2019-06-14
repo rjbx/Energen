@@ -190,7 +190,7 @@ class LevelUpdater {
                 }
             }
             grounds.end();
-        } else if (boss.isTalking()) {
+        } else if (boss.isTalking() || boss.getHealth() < 1) {
             if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
                 chaseCam.setState(Enums.ChaseCamState.BOSS);
             } else if (avatar.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
@@ -896,7 +896,7 @@ class LevelUpdater {
         return false;
     }
 
-    protected boolean completed() { return chaseCam.getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1; }
+    protected boolean completed() { return boss.getRoomBounds().overlaps(avatar.getBounds()) || chaseCam.getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1; }
 
     protected boolean continuing() { return !(completed() || failed()); }
 
