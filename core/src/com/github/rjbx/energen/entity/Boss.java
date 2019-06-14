@@ -1004,7 +1004,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         action = Action.FALLING;
         float recoveryTimeSeconds = Helpers.secondsSince(recoveryStartTime);
         if (recoveryTimeSeconds > Constants.RECOVERY_TIME) {
-            health -= hazard.getDamage() * healthMultiplier;
+            health -= hazard.getDamage() * ((hazard instanceof Blade) ? Constants.BLADE_DAMAGE_FACTOR : 1);
             action = Action.RECOILING;
             recoveryStartTime = TimeUtils.nanoTime();
         }
