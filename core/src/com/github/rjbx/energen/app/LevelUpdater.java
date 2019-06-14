@@ -896,7 +896,7 @@ class LevelUpdater {
         return false;
     }
 
-    protected boolean completed() { return boss.getRoomBounds().overlaps(avatar.getBounds()) || chaseCam.getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1; }
+    protected boolean completed() { return boss.getRoomBounds().overlaps(avatar.getBounds()) && chaseCam.getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1; }
 
     protected boolean continuing() { return !(completed() || failed()); }
 
