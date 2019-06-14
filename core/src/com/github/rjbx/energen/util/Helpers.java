@@ -334,11 +334,11 @@ public final class Helpers {
             return Enums.ReactionIntensity.WEAK;
         }
         if (
-           (enemyType == Enums.Energy.SOLID && ammoType == Enums.Energy.LIQUID)
-        || (enemyType == Enums.Energy.ORE && ammoType == Enums.Energy.SOLID)
-        || (enemyType == Enums.Energy.PLASMA && ammoType == Enums.Energy.ORE)
-        || (enemyType == Enums.Energy.LIQUID && ammoType == Enums.Energy.GAS)
+        (enemyType == Enums.Energy.PLASMA && ammoType == Enums.Energy.NATIVE)
         || (enemyType == Enums.Energy.GAS && ammoType == Enums.Energy.PLASMA)
+        || (enemyType == Enums.Energy.LIQUID && ammoType == Enums.Energy.GAS)
+        || (enemyType == Enums.Energy.SOLID && ammoType == Enums.Energy.LIQUID)
+        || (enemyType == Enums.Energy.ORE && ammoType == Enums.Energy.SOLID)
         || (ammoType == Enums.Energy.ANTIMATTER)
         || (ammoType == Enums.Energy.HYBRID)) {
             return Enums.ReactionIntensity.STRONG;
