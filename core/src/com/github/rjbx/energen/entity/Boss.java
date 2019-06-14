@@ -1043,7 +1043,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     }
 
     public void shoot(ShotIntensity shotIntensity, Energy energy, int ammoUsed) {
-        if (Helpers.secondsSince(shootStartTime) > .5f) {
+        if (Helpers.secondsSince(shootStartTime) > 1) {
             canDispatch = true;
             if (shotIntensity == ShotIntensity.BLAST) {
                 //      AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
@@ -1384,7 +1384,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                     region = shielded ? AssetManager.getInstance().getBossAssets().liquidBlockRight : AssetManager.getInstance().getBossAssets().liquidStandRight;
 //                }
             } else if (action == Action.STRIDING) {
-                region = AssetManager.getInstance().getBossAssets().liquidRecoilRight;
+                region = AssetManager.getInstance().getBossAssets().liquidDashRight;
             } else if (action == Action.DASHING) {
                 region = AssetManager.getInstance().getBossAssets().liquidDashRight;
             } else if (action == Action.HOVERING) {
@@ -1431,7 +1431,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                     region = shielded ? AssetManager.getInstance().getBossAssets().liquidBlockLeft : AssetManager.getInstance().getBossAssets().liquidStandLeft;
 //                }
             } else if (action == Action.STRIDING) {
-                region = AssetManager.getInstance().getBossAssets().liquidRecoilLeft;
+                region = AssetManager.getInstance().getBossAssets().liquidDashLeft;
             } else if (action == Action.DASHING) {
                 region = AssetManager.getInstance().getBossAssets().liquidDashLeft;
             } else if (action == Action.HOVERING) {
