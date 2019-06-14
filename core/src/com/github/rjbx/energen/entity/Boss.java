@@ -676,8 +676,8 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         if (hazard instanceof Projectile || hazard instanceof Blade) {
             action = Action.STANDING;
             velocity.x = 0;
-            if (armorStartTime == 0) {
-                if (hazard instanceof Projectile) {
+            if (hazard instanceof Projectile) {
+                if (armorStartTime == 0) {
                     Direction projectileOppositeDirection = Helpers.getOppositeDirection(((Projectile) hazard).getDirection());
                     invulnerability = projectileOppositeDirection;
                     switch (Helpers.directionToOrientation(projectileOppositeDirection)) {
@@ -689,23 +689,25 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                             directionY = invulnerability;
                             break;
                     }
-                } else {
+                } else if (Helpers.getOppositeDirection(((Projectile) hazard).getDirection()) != invulnerability) {
+                    touchedHazard = hazard;
+                    recoil(hazard.getKnockback(), hazard);
+                }
+            } else {
+                if (armorStartTime == 0) {
                     if (avatar.getPosition().y > position.y + 5) {
                         invulnerability = Direction.UP;
                         directionY = invulnerability;
-                    }
-                    else {
-                        if (avatar.getPosition().x < position.x) invulnerability = Direction.LEFT;
+                    } else {
+                        if (avatar.getPosition().x < position.x)
+                            invulnerability = Direction.LEFT;
                         else invulnerability = Direction.RIGHT;
                         directionX = invulnerability;
                     }
                 }
-                shielded = true;
-                armorStartTime = TimeUtils.nanoTime();
-            } else if (Helpers.getOppositeDirection(((Projectile) hazard).getDirection()) != invulnerability) {
-                touchedHazard = hazard;
-                recoil(hazard.getKnockback(), hazard);
             }
+            shielded = true;
+            armorStartTime = TimeUtils.nanoTime();
         } else if (hazard instanceof Groundable) {
             if (hazard instanceof Zoomba) {
                 Zoomba zoomba = (Zoomba) hazard;
