@@ -225,14 +225,6 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     public void update(float delta) {
         canDispatch = false;
             // abilities
-        if (shielded) {
-            velocity.x = 0;
-            action = Action.STANDING;
-            if (Helpers.secondsSince(armorStartTime) > 1) {
-                shielded = false;
-                armorStartTime = 0;
-            }
-        } else {
             if (groundState == GroundState.PLANTED) {
                 velocity.y = 0;
 //            if (action == Action.STANDING) {
@@ -283,8 +275,14 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 //                enableShoot(energy);
 //            }
             }
-            rush();
-        }
+        if (shielded) {
+            velocity.x = 0;
+            action = Action.STANDING;
+            if (Helpers.secondsSince(armorStartTime) > 1) {
+                shielded = false;
+                armorStartTime = 0;
+            }
+        } else rush();
     }
 
     public void updatePosition(float delta) {
