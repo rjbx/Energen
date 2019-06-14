@@ -1043,8 +1043,8 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     }
 
     public void shoot(ShotIntensity shotIntensity, Energy energy, int ammoUsed) {
-        canDispatch = true;
         if (Helpers.secondsSince(shootStartTime) < .5f) {
+            canDispatch = true;
             if (shotIntensity == ShotIntensity.BLAST) {
                 //      AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
             } else {
