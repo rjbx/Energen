@@ -3,6 +3,7 @@ package com.github.rjbx.energen.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -22,7 +23,7 @@ import java.util.ListIterator;
 
 // TODO[M]: Improve AI
 // mutable
-public class Boss extends Hazard implements Destructible, Humanoid, Impermeable, Armored {
+public class Boss extends Hazard implements Destructible, Humanoid, Impermeable, Shielded {
 
     // fields
     public final static String TAG = Boss.class.getName();
@@ -102,7 +103,10 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     private float killPlane;
     private float ammo;
     private float health;
+    private float armorStartTime;
     private int lives;
+    private Enums.Direction vulnerability;
+    private boolean armorStruck;
     private InputControls inputControls;
 
     public static class Builder {
@@ -179,6 +183,8 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         turbo = Constants.MAX_TURBO;
         shotIntensity = ShotIntensity.NORMAL;
         startTurbo = turbo;
+        vulnerability = null;
+        armorStruck = false;
         battling = false;
         talking = false;
         touchedGround = null;
@@ -216,9 +222,20 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 
     public void update(float delta) {
 
-        // abilities
-        if (groundState == GroundState.PLANTED) {
-            velocity.y = 0;
+        if (armorStruck) {
+            velocity.x = 0;
+            if (armorStartTime == 0 || Helpers.secondsSince(armorStartTime) % 1 == 0) {
+                int index =
+            } else if (Helpers.secondsSince(armorStartTime) > 3) {
+                armorStruck = false;
+            }
+            if (armorStartTime == 0) {
+                armorStartTime = TimeUtils.nanoTime();
+            }
+        } else {
+            // abilities
+            if (groundState == GroundState.PLANTED) {
+                velocity.y = 0;
 //            if (action == Action.STANDING) {
 //                stand();
 //                enableStride();
@@ -239,8 +256,8 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 //                enableJump();
 //                enableShoot(energy);
 //            }
-        } else if (groundState == GroundState.AIRBORNE) {
-            velocity.y -= Constants.GRAVITY;
+            } else if (groundState == GroundState.AIRBORNE) {
+                velocity.y -= Constants.GRAVITY;
 //            if (action == Action.FALLING) {
 //                fall();
 //                enableClimb();
@@ -266,8 +283,9 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 //                enableRappel();
 //                enableShoot(energy);
 //            }
+            }
+            rush();
         }
-        rush();
     }
 
     public void updatePosition(float delta) {
@@ -1581,18 +1599,13 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     }
 
     @Override
-    public boolean isVulnerable() {
-        return true;
-    }
-
-    @Override
-    public Direction getVulnerability() {
-        return null;
-    }
-
-    @Override
     public float getRecoverySpeed() {
         return 0;
+    }
+
+    @Override
+    public Direction getInvulnerability() {
+        return null;
     }
 
     public void dispose() {
