@@ -222,13 +222,9 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 
         if (armorStruck) {
             velocity.x = 0;
-            if (armorStartTime == 0 || Helpers.secondsSince(armorStartTime) % 1 == 0) {
-//                int index =
-            } else if (Helpers.secondsSince(armorStartTime) > 3) {
+            if (Helpers.secondsSince(armorStartTime) > 3) {
                 armorStruck = false;
-            }
-            if (armorStartTime == 0) {
-                armorStartTime = TimeUtils.nanoTime();
+                armorStartTime = 0;
             }
         } else {
             // abilities
@@ -679,6 +675,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
             if (armorStartTime == 0) {
                 invulnerability = Helpers.getOppositeDirection(((Projectile) hazard).getDirection());
                 armorStruck = true;
+                armorStartTime = TimeUtils.nanoTime();
             } else if (((Projectile) hazard).getDirection() != invulnerability) {
                 touchedHazard = hazard;
                 recoil(hazard.getKnockback(), hazard);
