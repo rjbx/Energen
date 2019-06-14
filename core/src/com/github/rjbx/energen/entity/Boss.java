@@ -705,14 +705,15 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                         directionX = invulnerability;
                     }
                 } else {
-                    if (Helpers.directionToOrientation(invulnerability) == Enums.Orientation.Y
+                    if (invulnerability == Direction.UP
                     && !(avatar.getBladeState() == Enums.BladeState.CUT
                         && Helpers.getOppositeDirection(((Armored) hazard).getVulnerability()) == avatar.getDirectionY())
                     && avatar.getBladeState() != Enums.BladeState.FLIP) {
                         recoil(hazard.getKnockback(), hazard);
                     } else if (Helpers.directionToOrientation(invulnerability) == Enums.Orientation.X
                             && !(avatar.getBladeState() == Enums.BladeState.RUSH
-                                && Helpers.getOppositeDirection(invulnerability) == Helpers.inputToDirection())) {
+                                && avatar.getPosition().x < position.x && invulnerability == Direction.LEFT)
+                                || !(avatar.getPosition().x > position.x && invulnerability == Direction.RIGHT)){
                        recoil(hazard.getKnockback(), hazard);
                     }
                 }
