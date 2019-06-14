@@ -675,6 +675,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     private void touchHazard(Hazardous hazard) {
         if (hazard instanceof Projectile || hazard instanceof Blade) {
             action = Action.STANDING;
+            velocity.x = 0;
             if (armorStartTime == 0) {
                 Direction projectileOppositeDirection = Helpers.getOppositeDirection(((Projectile) hazard).getDirection());
                 invulnerability = projectileOppositeDirection;
