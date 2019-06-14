@@ -707,7 +707,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                 } else {
                     if (invulnerability == Direction.UP
                     && !(avatar.getBladeState() == Enums.BladeState.CUT
-                        && Helpers.getOppositeDirection(((Armored) hazard).getVulnerability()) == avatar.getDirectionY())
+                        &&  avatar.getDirectionY() == Direction.DOWN)
                     && avatar.getBladeState() != Enums.BladeState.FLIP) {
                         touchedHazard = hazard;
                         recoil(hazard.getKnockback(), hazard);
