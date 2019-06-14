@@ -305,7 +305,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 
         canDispatch = false;
         if (roomBounds.overlaps(avatar.getBounds())) {
-            if (battling) {
+            if (battling && !shielded) {
                 if (Helpers.overlapsBetweenTwoSides(avatar.getPosition().x, Constants.AVATAR_STANCE_WIDTH, getLeft(), getRight())
                         && Math.abs(position.y - avatar.getPosition().y) > getHeight()) {
                     dashStartTime = 0;
