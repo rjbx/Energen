@@ -15,14 +15,14 @@ public abstract class Entity implements Physical, Visible, Cloneable {
         }
         return false;
     }
-    @Override public final Entity clone() {
-        try {
-            Entity clone = (Entity) super.clone();
-            clone.cloneHashCode = this.hashCode();
-            return clone;
-        } catch (CloneNotSupportedException ex) {
-            throw new AssertionError();
-        }
-    }
+//    public final Entity safeClone() {
+//        try {
+//            Entity clone = (Entity) super.clone();
+//            clone.cloneHashCode = this.hashCode();
+//            return clone;
+//        } catch (CloneNotSupportedException ex) {
+//            throw new AssertionError();
+//        }
+//    }
     protected final int cloneHashCode() { return cloneHashCode; }
 }
