@@ -202,14 +202,11 @@ class LevelUpdater {
                 if (avatar.getAction() != Enums.Action.STANDING) {
                     avatar.setAction(Enums.Action.STANDING);
                 } else if (InputControls.getInstance().shootButtonJustPressed) {
-                    if (boss.getHealth() < 1) completed();
-                    else {
-                        boss.setBattleState(true);
-                        if (musicEnabled) {
-                            music = AssetManager.getInstance().getMusicAssets().boss;
-                            music.setLooping(true);
-                            music.play();
-                        }
+                    boss.setBattleState(true);
+                    if (musicEnabled) {
+                        music = AssetManager.getInstance().getMusicAssets().boss;
+                        music.setLooping(true);
+                        music.play();
                     }
                 }
             }
@@ -899,7 +896,7 @@ class LevelUpdater {
         return false;
     }
 
-    protected boolean completed() { return boss.getRoomBounds().overlaps(avatar.getBounds()) && chaseCam.getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1; }
+    protected boolean completed() { return chaseCam.getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1 && boss.isBattling(); }
 
     protected boolean continuing() { return !(completed() || failed()); }
 
