@@ -189,7 +189,7 @@ class LevelUpdater {
                 }
             }
             grounds.end();
-        } else if (boss.isTalking() || boss.getHealth() < 1) {
+        } else if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
             if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
                 chaseCam.setState(Enums.ChaseCamState.BOSS);
             } else if (avatar.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
