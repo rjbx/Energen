@@ -166,16 +166,6 @@ final class OverworldScreen extends ScreenAdapter {
             screenManager.setScreen(LevelScreen.getInstance());
             this.dispose();
             return;
-        } catch (IOException ex) {
-            Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-            Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
-            cursor.getIterator().next();
-            messageVisible = true;
-        } catch (ParseException ex) {
-            Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
-            Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
-            cursor.getIterator().next();
-            messageVisible = true;
         } catch (GdxRuntimeException ex) {
             Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
             Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
