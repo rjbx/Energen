@@ -1530,7 +1530,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         boolean inverseX = directionX == Direction.LEFT;
         boolean inverseY = inputControls != null ? false : inputControls.downButtonPressed;
         boolean frontFacing = true;
-        float staticIndex = Helpers.secondsSince(Helpers.secondsSince(System.nanoTime()) * .25f);
+        float staticIndex = Helpers.secondsSince(Helpers.secondsSince(TimeUtils.nanoTime()) * .25f);
         TextureRegion hair;
         TextureRegion torso;
         TextureRegion waist;
