@@ -22,7 +22,7 @@ public final class LevelAssets {
     public static final Array<Entity> getClonedEntities() {
 //        Array<Entity> clonedEntities = new Array<Entity>();
 //        for (Entity entity : levelUpdater.getEntities()) {
-//            clonedEntities.add(entity.safeClone());
+//            clonedEntities.add(entity.clone());
 //        }
         return levelUpdater.getEntities();
     }
@@ -30,7 +30,7 @@ public final class LevelAssets {
     public static final Array<Ground> getClonedGrounds() {
 //        Array<Ground> clonedGrounds = new Array<Ground>();
 //        for (Ground ground : levelUpdater.getGrounds()) {
-//            clonedGrounds.add((Ground) ground.safeClone());
+//            clonedGrounds.add((Ground) ground.clone());
 //        }
         return levelUpdater.getGrounds();
     }
@@ -38,7 +38,7 @@ public final class LevelAssets {
     public static final Array<Hazard> getClonedHazards() {
 //        Array<Hazard> clonedHazards = new Array<Hazard>();
 //        for (Hazard hazard : levelUpdater.getHazards()) {
-//            clonedHazards.add((Hazard) hazard.safeClone());
+//            clonedHazards.add((Hazard) hazard.clone());
 //        }
         return levelUpdater.getHazards();
     }
@@ -46,13 +46,13 @@ public final class LevelAssets {
     public static final Array<Powerup> getClonedPowerups() {
 //        Array<Powerup> clonedPowerups = new Array<Powerup>();
 //        for (Powerup powerup : levelUpdater.getPowerups()) {
-//            clonedPowerups.add((Powerup) powerup.safeClone());
+//            clonedPowerups.add((Powerup) powerup.clone());
 //        }
         return levelUpdater.getPowerups();
     }
 
-    public static final Boss getClonedBoss() { return (Boss) levelUpdater.getBoss().safeClone(); }
-    public static final Avatar getClonedAvatar() { return (Avatar) levelUpdater.getAvatar().safeClone(); }
+//    public static final Boss getClonedBoss() { return (Boss) levelUpdater.getBoss().clone(); }
+//    public static final Avatar getClonedAvatar() { return (Avatar) levelUpdater.getAvatar().clone(); }
 
     public static final long getTime() { return levelUpdater.getTime(); }
     public static final int getScore() { return levelUpdater.getScore(); }
