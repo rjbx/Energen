@@ -2,8 +2,6 @@ package com.github.rjbx.energen.util;
 
 import com.badlogic.gdx.utils.TimeUtils;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
-
 import static com.github.rjbx.energen.util.Enums.TimerState.RUNNING;
 import static com.github.rjbx.energen.util.Enums.TimerState.STOPPED;
 import static com.github.rjbx.energen.util.Enums.TimerState.SUSPENDED;
@@ -90,7 +88,7 @@ public class Timer {
         return this;
     }
 
-    public long getSeconds() {
+    public long getMillis() {
         return TimeUtils.nanosToMillis(getNanos());
     }
 
@@ -106,7 +104,7 @@ public class Timer {
     }
 
     public String toString() {
-        return DurationFormatUtils.formatDurationHMS(getSeconds());
+        return Helpers.millisToString(getMillis());
     }
     public Enums.TimerState getState() { return state; }
 }

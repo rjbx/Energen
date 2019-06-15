@@ -2,7 +2,6 @@ package com.github.rjbx.energen.app;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -825,7 +824,7 @@ class LevelUpdater {
         timer.suspend();
         if (completed()) {
             SaveData.setTotalScore(SaveData.getTotalScore() + score);
-            SaveData.setTotalTime(SaveData.getTotalTime() + timer.getSeconds());
+            SaveData.setTotalTime(SaveData.getTotalTime() + timer.getMillis());
             String savedEnergies = SaveData.getEnergies();
             if (!savedEnergies.contains(levelEnergy.name())) {
                 avatar.addEnergy(levelEnergy);
@@ -953,7 +952,7 @@ class LevelUpdater {
     protected final Viewport getViewport() { return levelScreen.getViewport(); }
 
     // Protected getters
-    protected final long getUnsavedTime() { return timer.getSeconds() - TimeUtils.nanosToMillis(savedTime); }
+    protected final long getUnsavedTime() { return timer.getMillis() - TimeUtils.nanosToMillis(savedTime); }
     protected final int getUnsavedScore() { return score - savedScore; }
     protected final void setBoss(Boss boss) { this.boss = boss; }
     protected final DelayedRemovalArray<Transport> getTransports() { return transports; }
