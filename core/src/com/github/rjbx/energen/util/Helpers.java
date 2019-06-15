@@ -134,7 +134,7 @@ public final class Helpers {
         minutes = minutes % 60;
         seconds = seconds % 60;
 
-        return ("00" + hours).substring(2) + ("00" + minutes).substring(2) + ("00" + seconds).substring(2);
+        return ("00" + hours).substring(1) + ":" + ("00" + minutes).substring(1) + ":" + ("00" + seconds).substring(1);
     }
 
     public static final float speedToVelocity(float speed, Enums.Direction direction, Enums.Orientation orientation) {
