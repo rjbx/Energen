@@ -125,8 +125,8 @@ public final class Helpers {
 
     public static final float secondsSince(float timeNanos) { return MathUtils.nanoToSec * (TimeUtils.nanoTime() - timeNanos); }
 
-    public static String secondsToString(long seconds) {
-        String timeStr = DurationFormatUtils.formatDurationHMS(seconds);
+    public static String millisToString(long milliseconds) {
+        String timeStr = DurationFormatUtils.formatDurationHMS(milliseconds);
         return timeStr.substring(0, timeStr.length() - 4);
     }
 

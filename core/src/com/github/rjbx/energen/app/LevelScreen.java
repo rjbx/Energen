@@ -241,7 +241,7 @@ final class LevelScreen extends ScreenAdapter {
             Gdx.gl.glClearColor(0, 0, 0, 0);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         } else if (levelUpdater.completed()) {
-            endMessage = Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "TIME: " + Helpers.secondsToString(TimeUtils.nanosToMillis(SaveData.getTotalTime())) + "\nSCORE: " + SaveData.getTotalScore() + "\n\nLEVEL TOTAL\n" + "TIME: " + Helpers.secondsToString(levelUpdater.getUnsavedTime()) + "\n" + "SCORE " + levelUpdater.getScore();
+            endMessage = Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "TIME: " + Helpers.millisToString(TimeUtils.nanosToMillis(SaveData.getTotalTime())) + "\nSCORE: " + SaveData.getTotalScore() + "\n\nLEVEL TOTAL\n" + "TIME: " + Helpers.millisToString(levelUpdater.getUnsavedTime()) + "\n" + "SCORE " + levelUpdater.getScore();
             yDivisor = 3;
             if (levelEndOverlayStartTime == 0) {
                 levelUpdater.end();
@@ -270,7 +270,7 @@ final class LevelScreen extends ScreenAdapter {
         String[] optionStrings = {"RESUME", "EXIT", "OPTIONS"};
         menu.setOptionStrings(Arrays.asList(optionStrings));
         menu.setPromptString(Align.left, "GAUGE\n" + Constants.HUD_FUEL_LABEL + avatar.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + avatar.getHealth() + "\n" + Constants.HUD_STAMINA_LABEL + avatar.getTurbo() + "\n" + Constants.HUD_ENERGY_LABEL + avatar.getEnergy().toString());
-        menu.setPromptString(Align.right, "STATS\n" + "Game Time: " + Helpers.secondsToString((TimeUtils.nanosToMillis(SaveData.getTotalTime()) + levelUpdater.getUnsavedTime())) + "\nLevel Time: " + Helpers.secondsToString(TimeUtils.nanosToMillis(levelUpdater.getTime())) + "\nGame Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()) + "\nLevel Score: " + levelUpdater.getScore());
+        menu.setPromptString(Align.right, "STATS\n" + "Game Time: " + Helpers.millisToString((TimeUtils.nanosToMillis(SaveData.getTotalTime()) + levelUpdater.getUnsavedTime())) + "\nLevel Time: " + Helpers.millisToString(TimeUtils.nanosToMillis(levelUpdater.getTime())) + "\nGame Score: " + (SaveData.getTotalScore() + levelUpdater.getUnsavedScore()) + "\nLevel Score: " + levelUpdater.getScore());
 //        menu.setPromptString(Align.right, "ENERGY\n" + (avatar.getEnergy().name().toLowerCase() + "\n" + SaveData.getEnergies().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n").toLowerCase());
         menu.TextAlignment(Align.center);
         menuType = Enums.MenuType.MAIN;
