@@ -869,6 +869,7 @@ class LevelUpdater {
             if (avatar.getPosition().y < avatar.getFallLimit() || avatar.getHealth() < 1) {
                 avatar.setHealth(0);
                 avatar.setLives(avatar.getLives() - 1);
+                boss.setBattleState(false);
                 return true;
             }
         }
