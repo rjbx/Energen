@@ -138,9 +138,9 @@ public final class Helpers {
         String minutesStr = String.valueOf(minutes);
         String secondsStr = String.valueOf(seconds);
 
-        return ("0" + hoursStr).substring(hoursStr.length()) + ":"
-                + ("0" + minutesStr).substring(minutesStr.length())
-                + ":" + ("0" + secondsStr).substring(secondsStr.length());
+        return ("00" + hoursStr).substring(hoursStr.length()) + ":"
+                + ("00" + minutesStr).substring(minutesStr.length())
+                + ":" + ("00" + secondsStr).substring(secondsStr.length());
     }
 
     public static final float speedToVelocity(float speed, Enums.Direction direction, Enums.Orientation orientation) {
