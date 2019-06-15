@@ -580,7 +580,7 @@ class LevelUpdater {
             for (int j = 0; j < projectiles.size; j++) {
                 Projectile projectile = projectiles.get(j);
                 if (!projectile.equals(hazard) && projectile.isActive() && Helpers.overlapsPhysicalObject(projectile, destructible)) {
-                    if (!(destructible instanceof Zoomba) && !(destructible instanceof Boss)
+                    if (!(destructible instanceof Zoomba || destructible instanceof Boss)
                     || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
                     || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
                         if (!(hazard instanceof Armored)) {
@@ -592,7 +592,7 @@ class LevelUpdater {
                             projectile.deactivate();
                         }
                         score += projectile.getHitScore();
-                    } else {
+                    } else if (destructible instanceof Zoomba) {
                         ((Zoomba) destructible).convert();
                         if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(destructible)) {
                             avatar.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.AVATAR_EYE_HEIGHT));
