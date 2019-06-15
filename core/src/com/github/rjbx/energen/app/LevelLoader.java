@@ -51,6 +51,8 @@ import com.github.rjbx.energen.util.ChaseCam;
 import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 
+import org.json.simple.JSONValue;
+
 // immutable non-instantiable static
 final class LevelLoader {
 
@@ -336,8 +338,8 @@ final class LevelLoader {
         try {
             if (object.hasChild(Constants.LEVEL_TAGS_KEY)) {
                 JsonValue.JsonIterator tags = object.get(Constants.LEVEL_TAGS_KEY).iterator();
-                for (Object tag : tags) {
-                    String item = (String) tag;
+                for (JsonValue tag : tags) {
+                    String item = tag.asString();
                     if (item.equals(Constants.LEDGE_TAG)) {
                         tagBooleans[Constants.LEDGE_TAG_INDEX] = true;
                     }
