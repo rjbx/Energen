@@ -195,13 +195,13 @@ final class LevelScreen extends ScreenAdapter {
             case RESET:
                 if (inputControls.shootButtonJustPressed) {
                     if (cursor.getPosition() == staticViewport.getCamera().position.x + 50) {
+
                         levelUpdater.unpause();
                         levelUpdater.end();
                         levelUpdater.reset();
                         overworldScreen.loadLevel(overworldScreen.getSelection());
-                    } else {
-                        setOptionsMenu();
                     }
+                    setOptionsMenu();
                 }
                 break;
             case DEBUG:
