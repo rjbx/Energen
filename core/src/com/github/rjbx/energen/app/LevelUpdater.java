@@ -823,19 +823,19 @@ class LevelUpdater {
         music.stop();
         timer.suspend();
         if (completed()) {
-            int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
-            List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
-            List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
-            List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
-            allTimes.set(level, Long.toString(time));
-            allScores.set(level, Integer.toString(score));
-            allRemovals.set(level, "1");
-            SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
-            SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
-            SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
+//            int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
+//            List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
+//            List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
+//            List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
+//            allTimes.set(level, Long.toString(time));
+//            allScores.set(level, Integer.toString(score));
+//            allRemovals.set(level, "1");
+//            SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
+//            SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
+//            SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
 
             SaveData.setTotalScore(SaveData.getTotalScore() + score);
-            SaveData.setTotalTime(SaveData.getTotalTime() + timer.getMillis());
+            SaveData.setTotalTime(SaveData.getTotalTime() + time);
 
             String savedEnergies = SaveData.getEnergies();
             if (!savedEnergies.contains(levelEnergy.name())) {
