@@ -202,11 +202,14 @@ class LevelUpdater {
                 if (avatar.getAction() != Enums.Action.STANDING) {
                     avatar.setAction(Enums.Action.STANDING);
                 } else if (InputControls.getInstance().shootButtonJustPressed) {
-                    boss.setBattleState(true);
-                    if (musicEnabled) {
-                        music = AssetManager.getInstance().getMusicAssets().boss;
-                        music.setLooping(true);
-                        music.play();
+                    if (boss.getHealth() < 1) completed();
+                    else {
+                        boss.setBattleState(true);
+                        if (musicEnabled) {
+                            music = AssetManager.getInstance().getMusicAssets().boss;
+                            music.setLooping(true);
+                            music.play();
+                        }
                     }
                 }
             }
