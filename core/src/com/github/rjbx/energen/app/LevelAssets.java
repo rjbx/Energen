@@ -51,8 +51,8 @@ public final class LevelAssets {
         return levelUpdater.getPowerups();
     }
 
-//    public static final Boss getClonedBoss() { return (Boss) levelUpdater.getBoss().clone(); }
-//    public static final Avatar getClonedAvatar() { return (Avatar) levelUpdater.getAvatar().clone(); }
+    public static final Boss getClonedBoss() { return levelUpdater.getBoss(); }
+    public static final Avatar getClonedAvatar() { return levelUpdater.getAvatar(); }
 
     public static final long getTime() { return levelUpdater.getTime(); }
     public static final int getScore() { return levelUpdater.getScore(); }
