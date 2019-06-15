@@ -134,7 +134,7 @@ public final class Helpers {
         minutes = minutes % 60;
         seconds = seconds % 60;
 
-        return String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
+        return ("00" + hours).substring(2) + ("00" + minutes).substring(2) + ("00" + seconds).substring(2);
     }
 
     public static final float speedToVelocity(float speed, Enums.Direction direction, Enums.Orientation orientation) {
