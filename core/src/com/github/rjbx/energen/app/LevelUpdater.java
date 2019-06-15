@@ -824,24 +824,19 @@ class LevelUpdater {
         timer.suspend();
         if (completed()) {
             int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
-            List<String> allRestores = Arrays.asList(SaveData.getLevelRestore().split(", "));
             List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
             List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
             List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
-            allRestores.set(level, "0:0");
             allTimes.set(level, Long.toString(time));
             allScores.set(level, Integer.toString(score));
-            allRemovals.set(level, "-1");
-            SaveData.setLevelRestore(allRestores.toString().replace("[", "").replace("]", ""));
+            allRemovals.set(level, "1");
             SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
             SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
             SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
 
-            SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
-            SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
+            SaveData.setTotalScore(SaveData.getTotalScore() + score);
+            SaveData.setTotalTime(SaveData.getTotalTime() + timer.getMillis());
 
-            savedScore = score;
-            savedTime = Long.parseLong(allTimes.get(level));
             String savedEnergies = SaveData.getEnergies();
             if (!savedEnergies.contains(levelEnergy.name())) {
                 avatar.addEnergy(levelEnergy);
