@@ -229,7 +229,7 @@ class LevelUpdater {
                     if (boss.getDirectionY() == Direction.UP) {
                         spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
                     } else {
-                        spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
+                        spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
                     }
                 } else {
                     spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), boss.getDirectionX(), Enums.Orientation.X, boss.getShotIntensity(), boss.getEnergy(), boss);
