@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 // immutable non-instantiable static
 public final class Constants {
@@ -980,7 +978,6 @@ public final class Constants {
     public static final String FAIL_MESSAGE = "GAME OVER";
     public static final String LAUNCH_MESSAGE = "Energen v0.0.1";
     public static final String TIME_PATTERN = "HH:mm:ss";
-    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormat.forPattern(TIME_PATTERN);
 
     // Start screen
     public static final String LOGO_SPRITE = "logo-eg";
