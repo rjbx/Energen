@@ -20,9 +20,7 @@ import com.github.rjbx.energen.entity.Orben;
 import com.github.rjbx.energen.entity.Physical;
 import com.github.rjbx.energen.entity.Roving;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import java.util.List;
-import java.util.Locale;
 
 import static com.github.rjbx.energen.util.Enums.Orientation.X;
 import static com.github.rjbx.energen.util.Enums.Orientation.Y;
@@ -138,9 +136,9 @@ public final class Helpers {
         String minutesStr = String.valueOf(minutes);
         String secondsStr = String.valueOf(seconds);
 
-        return ("00" + hoursStr).substring(hoursStr.length()) + ":"
-                + ("00" + minutesStr).substring(minutesStr.length())
-                + ":" + ("00" + secondsStr).substring(secondsStr.length());
+        return ("00" + hoursStr).substring(hoursStr.length()) + ":" +
+                ("00" + minutesStr).substring(minutesStr.length()) + ":" +
+                ("00" + secondsStr).substring(secondsStr.length());
     }
 
     public static final float speedToVelocity(float speed, Enums.Direction direction, Enums.Orientation orientation) {
