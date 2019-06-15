@@ -828,11 +828,10 @@ class LevelUpdater {
             List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
             List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
             List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
-            Vector2 restorePosition = avatar.getPosition();
-            allRestores.set(level, restorePosition.x + ":" + restorePosition.y);
+            allRestores.set(level, "0:0");
             allTimes.set(level, Long.toString(time));
             allScores.set(level, Integer.toString(score));
-            allRemovals.set(level, removedHazards);
+            allRemovals.set(level, "-1");
             SaveData.setLevelRestore(allRestores.toString().replace("[", "").replace("]", ""));
             SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
             SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
@@ -843,7 +842,6 @@ class LevelUpdater {
 
             savedScore = score;
             savedTime = Long.parseLong(allTimes.get(level));
-
             String savedEnergies = SaveData.getEnergies();
             if (!savedEnergies.contains(levelEnergy.name())) {
                 avatar.addEnergy(levelEnergy);
