@@ -22,6 +22,7 @@ import com.github.rjbx.energen.entity.Roving;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import java.util.List;
+import java.util.Locale;
 
 import static com.github.rjbx.energen.util.Enums.Orientation.X;
 import static com.github.rjbx.energen.util.Enums.Orientation.Y;
@@ -126,8 +127,14 @@ public final class Helpers {
     public static final float secondsSince(float timeNanos) { return MathUtils.nanoToSec * (TimeUtils.nanoTime() - timeNanos); }
 
     public static String millisToString(long milliseconds) {
-        String timeStr = DurationFormatUtils.formatDurationHMS(milliseconds);
-        return timeStr.substring(0, timeStr.length() - 4);
+
+        long seconds = milliseconds / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        minutes = minutes % 60;
+        seconds = seconds % 60;
+
+        return String.format(Locale.getDefault(), "%01d:%01d:%01d", hours, minutes, seconds);
     }
 
     public static final float speedToVelocity(float speed, Enums.Direction direction, Enums.Orientation orientation) {
