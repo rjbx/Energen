@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.github.rjbx.energen.entity.Armoroll;
 import com.github.rjbx.energen.entity.Avatar;
 import com.github.rjbx.energen.entity.Bladeroll;
@@ -49,13 +51,6 @@ import com.github.rjbx.energen.util.ChaseCam;
 import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.IOException;
-
 // immutable non-instantiable static
 final class LevelLoader {
 
@@ -65,7 +60,7 @@ final class LevelLoader {
     // cannot be subclassed
     private LevelLoader() {}
 
-    protected static final void load(Enums.Theme level) throws ParseException, IOException {
+    protected static final void load(Enums.Theme level) {
 
         runtimeEx = false;
 
@@ -73,30 +68,28 @@ final class LevelLoader {
 
         final FileHandle file = Gdx.files.internal("levels/" + level + ".dt");
 
-        JSONParser parser = new JSONParser();
-        JSONObject rootJsonObject = (JSONObject) parser.parse(file.reader());
-        JSONObject composite = (JSONObject) rootJsonObject.get(Constants.LEVEL_COMPOSITE);
-
-        JSONArray ninePatches = (JSONArray) composite.get(Constants.LEVEL_9PATCHES);
+        JsonReader reader = new JsonReader();
+        JsonValue rootJsonValue = reader.parse(file.reader());
+        
+        JsonValue compositeJsonValue = rootJsonValue.get(Constants.LEVEL_COMPOSITE);
+        
+        JsonValue.JsonIterator ninePatches = compositeJsonValue.get(Constants.LEVEL_9PATCHES).iterator();
         loadNinePatches(LevelUpdater.getInstance(), ninePatches);
 
-        JSONArray images = (JSONArray) composite.get(Constants.LEVEL_IMAGES);
+        JsonValue.JsonIterator images = compositeJsonValue.get(Constants.LEVEL_IMAGES).iterator();
         loadImages(LevelUpdater.getInstance(), images);
 
         LevelUpdater.getInstance().setLoadEx(runtimeEx);
     }
 
-    private static final Vector2 extractPosition(JSONObject object) {
+    private static final Vector2 extractPosition(JsonValue object) {
         Vector2 position = new Vector2(0, 0);
 
         try {
-            Number x = (Number) object.get(Constants.LEVEL_X_POSITION_KEY);
-            Number y = (Number) object.get(Constants.LEVEL_Y_POSITION_KEY);
+            Float x = object.getFloat(Constants.LEVEL_X_POSITION_KEY);
+            Float y = object.getFloat(Constants.LEVEL_Y_POSITION_KEY);
 
-            position.set(
-                    (x == null) ? 0 : x.floatValue(),
-                    (y == null) ? 0 : y.floatValue()
-            );
+            position.set(x, y);
         } catch (NumberFormatException ex) {
             runtimeEx = true;
             Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
@@ -108,14 +101,14 @@ final class LevelLoader {
         return position;
     }
 
-    private static final Vector2 extractScale(JSONObject object) {
+    private static final Vector2 extractScale(JsonValue object) {
         Vector2 scale = new Vector2(1, 1);
         try {
-            if (object.containsKey(Constants.LEVEL_X_SCALE_KEY)) {
-                scale.x = ((Number) object.get(Constants.LEVEL_X_SCALE_KEY)).floatValue();
+            if (object.has(Constants.LEVEL_X_SCALE_KEY)) {
+                scale.x = object.getFloat(Constants.LEVEL_X_SCALE_KEY);
             }
-            if (object.containsKey(Constants.LEVEL_Y_SCALE_KEY)) {
-                scale.y = ((Number) object.get(Constants.LEVEL_Y_SCALE_KEY)).floatValue();
+            if (object.has(Constants.LEVEL_Y_SCALE_KEY)) {
+                scale.y = object.getFloat(Constants.LEVEL_Y_SCALE_KEY);
             }
         } catch (NumberFormatException ex) {
             runtimeEx = true;
@@ -127,11 +120,11 @@ final class LevelLoader {
         return scale;
     }
 
-    private static final float extractRotation(JSONObject object) {
+    private static final float extractRotation(JsonValue object) {
         float rotation = 0;
         try {
-            if (object.containsKey(Constants.LEVEL_ROTATION_KEY)) {
-                rotation = ((Number) object.get(Constants.LEVEL_ROTATION_KEY)).floatValue();
+            if (object.has(Constants.LEVEL_ROTATION_KEY)) {
+                rotation = object.getFloat(Constants.LEVEL_ROTATION_KEY);
             }
         } catch (NumberFormatException ex) {
             runtimeEx = true;
@@ -143,11 +136,11 @@ final class LevelLoader {
         return rotation;
     }
 
-    private static final Enums.Orientation extractOrientation(JSONObject object) {
+    private static final Enums.Orientation extractOrientation(JsonValue object) {
         Enums.Orientation orientation = Enums.Orientation.X;
         try {
-            if (object.containsKey(Constants.LEVEL_IDENTIFIER_KEY)) {
-                String identifierVar = (String) object.get(Constants.LEVEL_IDENTIFIER_KEY);
+            if (object.has(Constants.LEVEL_IDENTIFIER_KEY)) {
+                String identifierVar = object.getString(Constants.LEVEL_IDENTIFIER_KEY);
                 orientation = Enums.Orientation.valueOf(identifierVar);
             }
         } catch (IllegalArgumentException ex) {
@@ -160,11 +153,11 @@ final class LevelLoader {
         return orientation;
     }
 
-    private static final Enums.Direction extractDirection(JSONObject object) {
+    private static final Enums.Direction extractDirection(JsonValue object) {
         Enums.Direction direction = Enums.Direction.RIGHT;
         try {
-            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
-                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
+            if (object.has(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = object.getString(Constants.LEVEL_CUSTOM_VARS_KEY).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_DIRECTION_KEY)) {
                         String[] directionSplit = customVar.split(Constants.LEVEL_DIRECTION_KEY + ":");
@@ -182,11 +175,11 @@ final class LevelLoader {
         return direction;
     }
 
-    private static final Enums.Energy extractType(JSONObject object) {
+    private static final Enums.Energy extractType(JsonValue object) {
         Enums.Energy type = Enums.Energy.NATIVE;
         try {
-            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
-                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
+            if (object.has(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = (object.getString(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_TYPE_KEY)) {
                         String[] typeSplit = customVar.split(Constants.LEVEL_TYPE_KEY + ":");
@@ -204,11 +197,11 @@ final class LevelLoader {
         return type;
     }
 
-    private static final Enums.ShotIntensity extractIntensity(JSONObject object) {
+    private static final Enums.ShotIntensity extractIntensity(JsonValue object) {
         Enums.ShotIntensity intensity = Enums.ShotIntensity.NORMAL;
         try {
-            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
-                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
+            if (object.has(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = object.getString(Constants.LEVEL_CUSTOM_VARS_KEY).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_INTENSITY_KEY)) {
                         String[] intensitySplit = customVar.split(Constants.LEVEL_INTENSITY_KEY + ":");
@@ -226,11 +219,11 @@ final class LevelLoader {
         return intensity;
     }
 
-    private static final Rectangle extractBounds(JSONObject object) {
+    private static final Rectangle extractBounds(JsonValue object) {
         Rectangle bounds = new Rectangle(0, 0, 0, 0);
         try {
-            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
-                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
+            if (object.has(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = object.getString(Constants.LEVEL_CUSTOM_VARS_KEY).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_BOUNDS_KEY)) {
                         String[] boundsSplit = customVar.split(Constants.LEVEL_BOUNDS_KEY + ":");
@@ -249,11 +242,11 @@ final class LevelLoader {
         return bounds;
     }
 
-    private static final float extractRange(JSONObject object) {
+    private static final float extractRange(JsonValue object) {
         float range = Constants.ZOOMBA_RANGE;
         try {
-            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
-                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
+            if (object.has(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = object.getString(Constants.LEVEL_CUSTOM_VARS_KEY).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_RANGE_KEY)) {
                         String[] rangeSplit = customVar.split(Constants.LEVEL_RANGE_KEY + ":");
@@ -271,11 +264,11 @@ final class LevelLoader {
         return range;
     }
 
-    private static final float extractSpeed(JSONObject object) {
+    private static final float extractSpeed(JsonValue object) {
         float speed = Constants.LIFT_SPEED;
         try {
-            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
-                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
+            if (object.has(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = object.getString(Constants.LEVEL_CUSTOM_VARS_KEY).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_SPEED_KEY)) {
                         String[] speedSplit = customVar.split(Constants.LEVEL_SPEED_KEY + ":");
@@ -293,11 +286,11 @@ final class LevelLoader {
         return speed;
     }
 
-    private static final Vector2 extractDestination(JSONObject object) {
+    private static final Vector2 extractDestination(JsonValue object) {
         Vector2 destination = new Vector2(0, 0);
         try {
-            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
-                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
+            if (object.has(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = object.getString(Constants.LEVEL_CUSTOM_VARS_KEY).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_DESTINATION_KEY)) {
                         String[] destinationSplit = customVar.split(Constants.LEVEL_DESTINATION_KEY + ":");
@@ -316,11 +309,11 @@ final class LevelLoader {
         return destination;
     }
 
-    private static final Enums.Upgrade extractUpgrade(JSONObject object) {
+    private static final Enums.Upgrade extractUpgrade(JsonValue object) {
         Enums.Upgrade upgrade = Enums.Upgrade.NONE;
         try {
-            if (object.containsKey(Constants.LEVEL_CUSTOM_VARS_KEY)) {
-                String[] customVars = ((String) object.get(Constants.LEVEL_CUSTOM_VARS_KEY)).split(";");
+            if (object.has(Constants.LEVEL_CUSTOM_VARS_KEY)) {
+                String[] customVars = object.getString(Constants.LEVEL_CUSTOM_VARS_KEY).split(";");
                 for (String customVar : customVars) {
                     if (customVar.contains(Constants.LEVEL_UPGRADE_KEY)) {
                         String[] upgradeSplit = customVar.split(Constants.LEVEL_UPGRADE_KEY + ":");
@@ -338,11 +331,11 @@ final class LevelLoader {
         return upgrade;
     }
 
-    private static final boolean[] extractTags(JSONObject object) {
+    private static final boolean[] extractTags(JsonValue object) {
         boolean[] tagBooleans = {false, false, true, false};
         try {
-            if (object.containsKey(Constants.LEVEL_TAGS_KEY)) {
-                JSONArray tags = (JSONArray) object.get(Constants.LEVEL_TAGS_KEY);
+            if (object.hasChild(Constants.LEVEL_TAGS_KEY)) {
+                JsonValue.JsonIterator tags = object.get(Constants.LEVEL_TAGS_KEY).iterator();
                 for (Object tag : tags) {
                     String item = (String) tag;
                     if (item.equals(Constants.LEDGE_TAG)) {
@@ -369,9 +362,9 @@ final class LevelLoader {
         return tagBooleans;
     }
 
-    private static final void loadImages(LevelUpdater level, JSONArray images) {
+    private static final void loadImages(LevelUpdater level, JsonValue.JsonIterator images) {
         for (Object o : images) {
-            final JSONObject item = (JSONObject) o;
+            final JsonValue item = (JsonValue) o;
 
             final Vector2 imagePosition = extractPosition(item);
             final Vector2 scale = extractScale(item);
@@ -641,16 +634,16 @@ final class LevelLoader {
         }
     }
 
-    private static final void loadNinePatches(LevelUpdater level, JSONArray ninePatches) {
+    private static final void loadNinePatches(LevelUpdater level, JsonValue.JsonIterator ninePatches) {
 
         for (Object o : ninePatches) {
-            final JSONObject item = (JSONObject) o;
+            final JsonValue item = (JsonValue) o;
 
             final Vector2 imagePosition = extractPosition(item);
             final boolean[] tags = extractTags(item);
             final Enums.Energy type = extractType(item);
-            float width = ((Number) item.get(Constants.LEVEL_WIDTH_KEY)).floatValue();
-            float height = ((Number) item.get(Constants.LEVEL_HEIGHT_KEY)).floatValue();
+            float width = item.getFloat(Constants.LEVEL_WIDTH_KEY);
+            float height = item.getFloat(Constants.LEVEL_HEIGHT_KEY);
 
             if (item.get(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.BARRIER_SPRITE)) {
                 final Barrier barrier;
