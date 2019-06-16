@@ -192,7 +192,6 @@ class LevelUpdater {
         } else if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
             if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
                 chaseCam.setState(Enums.ChaseCamState.BOSS);
-                boss.setPosition(new Vector2(boss.getRoomBounds().x + boss.getRoomBounds().width / 2, boss.getRoomBounds().y + boss.getRoomBounds().height / 2));
             } else if (avatar.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
                 music.stop();
                 avatar.setVelocity(new Vector2(40, 0));
@@ -903,6 +902,7 @@ class LevelUpdater {
                 music.play();
             }
             avatar.respawn();
+            boss.setPosition(new Vector2(boss.getRoomBounds().x + boss.getRoomBounds().width / 2, boss.getRoomBounds().y + boss.getRoomBounds().height / 2));
         }
         return false;
     }
