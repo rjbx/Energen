@@ -881,6 +881,10 @@ class LevelUpdater {
             if (avatar.getPosition().y < avatar.getFallLimit() || avatar.getHealth() < 1) {
                 avatar.setHealth(0);
                 avatar.setLives(avatar.getLives() - 1);
+                boss.setPosition(new Vector2(boss.getRoomBounds().x + boss.getRoomBounds().width / 2, boss.getRoomBounds().y + boss.getRoomBounds().height / 2));
+                if (chaseCam.getState() == Enums.ChaseCamState.BOSS) {
+                    chaseCam.setState(Enums.ChaseCamState.FOLLOWING);
+                }
                 boss.setBattleState(false);
                 return true;
             }
@@ -893,17 +897,12 @@ class LevelUpdater {
             if (avatar.getLives() < 0) {
                 return true;
             }
-            boss.setPosition(new Vector2(boss.getRoomBounds().x + boss.getRoomBounds().width / 2, boss.getRoomBounds().y + boss.getRoomBounds().height / 2));
-            if (chaseCam.getState() == Enums.ChaseCamState.BOSS) {
-                chaseCam.setState(Enums.ChaseCamState.FOLLOWING);
-            }
             if (musicEnabled) {
                 music.stop();
                 music = AssetManager.getInstance().getMusicAssets().getThemeMusic(theme);
                 music.play();
             }
             avatar.respawn();
-            boss.setBattleState(false);
         }
         return false;
     }
