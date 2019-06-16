@@ -245,7 +245,7 @@ class LevelUpdater {
                 spawnImpact(intersectionPoint, touchedHazard.getType());
             }
 
-            if (boss.getTouchedHazard() != null && boss.getAction() == Enums.Action.RECOILING) {
+            if (boss.getTouchedHazard() != null) {
                 Vector2 intersectionPoint = new Vector2();
                 Hazardous touchedHazard = boss.getTouchedHazard();
                 intersectionPoint.x = Math.max(boss.getLeft(), touchedHazard.getLeft());
