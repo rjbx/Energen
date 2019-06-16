@@ -710,6 +710,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                             invulnerability = Direction.LEFT;
                         else invulnerability = Direction.RIGHT;
                         directionX = invulnerability;
+                        shoot(ShotIntensity.BLAST, Energy.LIQUID, 0);
                     }
                     shielded = true;
                     armorStartTime = TimeUtils.nanoTime();
