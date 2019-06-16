@@ -16,6 +16,7 @@ import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Enums.*;
 import com.github.rjbx.energen.util.Helpers;
 import java.lang.String;
+import java.sql.Time;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -691,6 +692,8 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                             directionY = invulnerability;
                             break;
                     }
+                    shielded = true;
+                    armorStartTime = TimeUtils.nanoTime();
                 } else if (Helpers.getOppositeDirection(((Projectile) hazard).getDirection()) != invulnerability) {
                     touchedHazard = hazard;
                     recoil(hazard.getKnockback(), hazard);
@@ -702,12 +705,14 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                         invulnerability = Direction.UP;
                         directionY = invulnerability;
                         look();
-                    } else {
+                    } else if (avatar.getDirectionY() != Direction.DOWN) {
                         if (avatar.getPosition().x < position.x)
                             invulnerability = Direction.LEFT;
                         else invulnerability = Direction.RIGHT;
                         directionX = invulnerability;
                     }
+                    shielded = true;
+                    armorStartTime = TimeUtils.nanoTime();
                 } else {
                     if (invulnerability == Direction.UP
                     && !(avatar.getBladeState() == Enums.BladeState.CUT
@@ -724,8 +729,6 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                     }
                 }
             }
-            shielded = true;
-            armorStartTime = TimeUtils.nanoTime();
         } else if (hazard instanceof Groundable) {
             if (hazard instanceof Zoomba) {
                 Zoomba zoomba = (Zoomba) hazard;
