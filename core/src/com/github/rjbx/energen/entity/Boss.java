@@ -729,6 +729,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
                         recoil(hazard.getKnockback(), hazard);
                     }
                 }
+                touchedHazard = hazard;
             }
         } else if (hazard instanceof Groundable) {
             if (hazard instanceof Zoomba) {
