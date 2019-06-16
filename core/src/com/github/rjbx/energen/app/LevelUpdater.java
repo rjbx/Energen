@@ -245,6 +245,14 @@ class LevelUpdater {
                 spawnImpact(intersectionPoint, touchedHazard.getType());
             }
 
+            if (boss.getTouchedHazard() != null && boss.getAction() == Enums.Action.RECOILING) {
+                Vector2 intersectionPoint = new Vector2();
+                Hazardous touchedHazard = boss.getTouchedHazard();
+                intersectionPoint.x = Math.max(boss.getLeft(), touchedHazard.getLeft());
+                intersectionPoint.y = Math.max(boss.getBottom(), touchedHazard.getBottom());
+                spawnImpact(intersectionPoint, touchedHazard.getType());
+            }
+            
             // Update Transports
             transports.begin();
             for (int i = 0; i < transports.size; i++) {
