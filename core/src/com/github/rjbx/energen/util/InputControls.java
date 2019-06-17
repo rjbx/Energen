@@ -196,10 +196,10 @@ public class InputControls extends InputAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             rightButtonPressed = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.APOSTROPHE)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.COMMA)) {
             jumpButtonPressed = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.PERIOD)) {
             shootButtonPressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -217,10 +217,10 @@ public class InputControls extends InputAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             rightButtonJustPressed = true;
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.APOSTROPHE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.COMMA)) {
             jumpButtonJustPressed = true;
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.PERIOD)) {
             shootButtonJustPressed = true;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -228,10 +228,10 @@ public class InputControls extends InputAdapter {
         }
 
 
-        if (!Gdx.input.isTouched(shootPointer) && !Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+        if (!Gdx.input.isTouched(shootPointer) && !Gdx.input.isKeyPressed(Input.Keys.PERIOD)) {
             shootButtonPressed = false;
         }
-        if (!Gdx.input.isKeyJustPressed(shootPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+        if (!Gdx.input.isKeyJustPressed(shootPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.PERIOD)) {
             shootButtonJustPressed = false;
             shootPointer = 0;
         }
@@ -274,10 +274,10 @@ public class InputControls extends InputAdapter {
             pausePointer = 0;
         }
 
-        if (!Gdx.input.isTouched(jumpPointer) && !Gdx.input.isKeyPressed(Input.Keys.APOSTROPHE)) {
+        if (!Gdx.input.isTouched(jumpPointer) && !Gdx.input.isKeyPressed(Input.Keys.COMMA)) {
             jumpButtonPressed = false;
         }
-        if (!Gdx.input.isKeyJustPressed(jumpPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.APOSTROPHE)) {
+        if (!Gdx.input.isKeyJustPressed(jumpPointer) && !Gdx.input.isKeyJustPressed(Input.Keys.COMMA)) {
             jumpButtonJustPressed = false;
             jumpPointer = 0;
         }
