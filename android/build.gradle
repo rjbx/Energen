@@ -20,8 +20,8 @@ android {
         applicationId "com.github.rjbx.energen"
         minSdkVersion 9
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName project.APP_VERSION
     }
     buildTypes {
         release {
