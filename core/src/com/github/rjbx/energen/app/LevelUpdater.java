@@ -57,6 +57,7 @@ class LevelUpdater {
     private long time;
     private int savedScore;
     private long savedTime;
+    private long refreshTime;
 
     // cannot be subclassed
     private LevelUpdater() {}
@@ -88,6 +89,7 @@ class LevelUpdater {
         removedHazards = "-1";
         score = 0;
         time = 0;
+        refreshTime = 0;
         paused = false;
     }
 
@@ -287,17 +289,20 @@ class LevelUpdater {
             hazards.end();
 
             // Update Grounds
-            grounds.sort(new Comparator<Ground>() {
-                @Override
-                public int compare(Ground o1, Ground o2) {
-                    if (o1.getBottom() > o2.getBottom()) {
-                        return 1;
-                    } else if (o1.getBottom() < o2.getBottom()) {
-                        return -1;
+            if (Helpers.secondsSince(refreshTime) > 10) {
+                grounds.sort(new Comparator<Ground>() {
+                    @Override
+                    public int compare(Ground o1, Ground o2) {
+                        if (o1.getBottom() > o2.getBottom()) {
+                            return 1;
+                        } else if (o1.getBottom() < o2.getBottom()) {
+                            return -1;
+                        }
+                        return 0;
                     }
-                    return 0;
-                }
-            });
+                });
+                refreshTime = TimeUtils.nanoTime();
+            }
 
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
