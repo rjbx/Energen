@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.rjbx.energen.app.SaveData;
 import com.github.rjbx.energen.util.AssetManager;
+import com.github.rjbx.energen.util.ChaseCam;
 import com.github.rjbx.energen.util.InputControls;
 import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
@@ -461,8 +462,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
 
     public void touchAllGrounds(Array<Ground> grounds) {
-        for (Ground ground : grounds) {
-            touchGround(ground);
+        for (Ground g : grounds) {
+            ChaseCam chaseCam = ChaseCam.getInstance();
+            Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
+            if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                touchGround(g);
+            }
         }
         untouchGround();
     }
@@ -774,13 +779,17 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             peerQuadrant = 1;
             canPeer = false;
         }
-        for (Hazard hazard : hazards) {
-            if (!(hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Avatar)
-                && !(hazard instanceof Protrusion && ((Protrusion) hazard).isConverted())) {
-                if (Helpers.overlapsPhysicalObject(this, hazard)) {
-                    touchHazard(hazard);
-                } else if (hazard instanceof Moving) {
-                    setPeerTarget(hazard, 1);
+        for (Hazard h : hazards) {
+            ChaseCam chaseCam = ChaseCam.getInstance();
+            Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
+            if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
+                if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
+                        && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
+                    if (Helpers.overlapsPhysicalObject(this, h)) {
+                        touchHazard(h);
+                    } else if (h instanceof Moving) {
+                        setPeerTarget(h, 1);
+                    }
                 }
             }
         }
@@ -826,12 +835,16 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
 
     public void touchAllPowerups(Array<Powerup> powerups) {
-        for (Powerup powerup : powerups) {
-            Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
-            if (getBounds().overlaps(bounds)) {
-                touchPowerup(powerup);
-            } else {
-                setPeerTarget(powerup, 2);
+        for (Powerup p : powerups) {
+            ChaseCam chaseCam = ChaseCam.getInstance();
+            Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
+            if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
+                Rectangle bounds = new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight());
+                if (getBounds().overlaps(bounds)) {
+                    touchPowerup(p);
+                } else {
+                    setPeerTarget(p, 2);
+                }
             }
         }
         if (turbo > Constants.MAX_TURBO) {
