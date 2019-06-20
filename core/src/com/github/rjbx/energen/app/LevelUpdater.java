@@ -179,11 +179,15 @@ class LevelUpdater {
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
-                Ground ground = grounds.get(i);
-                if (ground instanceof Nonstatic) {
-                    for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
-                        if (convertBounds.overlaps(new Rectangle(ground.getPosition().x, ground.getPosition().y, ground.getWidth(), ground.getHeight()))) {
-                            updateGround(delta, ground);
+                Ground g = grounds.get(i);
+                Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
+                if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                    Ground ground = grounds.get(i);
+                    if (ground instanceof Nonstatic) {
+                        for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
+                            if (convertBounds.overlaps(new Rectangle(ground.getPosition().x, ground.getPosition().y, ground.getWidth(), ground.getHeight()))) {
+                                updateGround(delta, ground);
+                            }
                         }
                     }
                 }
@@ -340,9 +344,6 @@ class LevelUpdater {
     }
 
     public boolean updateGround(float delta, Ground ground) {
-
-        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
-        if (!updateBounds.overlaps(new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight()))) return true;
 
         if (ground instanceof Energized && ((Energized) ground).getDispatchStatus()) {
             Energized energy = (Energized) ground;
