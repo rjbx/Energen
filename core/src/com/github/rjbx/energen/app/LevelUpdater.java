@@ -279,8 +279,20 @@ class LevelUpdater {
             for (int i = 0; i < hazards.size; i++) {
                 Hazard h = hazards.get(i);
                 if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
-                    avatar.touchHazard(h);
-                    boss.touchHazard(h);
+                    if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
+                            && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
+                        if (Helpers.overlapsPhysicalObject(avatar, h)) {
+                            avatar.touchHazard(h);
+                        } else if (h instanceof Moving) {
+                            avatar.setPeerTarget(h, 1);
+                        }
+                    }
+                    if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
+                            && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
+                        if (Helpers.overlapsPhysicalObject(boss, h)) {
+                            boss.touchHazard(h);
+                        }
+                    }
                     if (!updateHazard(delta, h)) {
                         spawnPowerup(h);
                         hazards.removeIndex(i);

@@ -1929,7 +1929,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         return eyes; // defaults to parameter value if no conditions met
     }
 
-    private void setPeerTarget(Physical target, float rangeMultiplier) {
+    public void setPeerTarget(Physical target, float rangeMultiplier) {
         if (peerQuadrant != 3 && position.dst(target.getPosition()) < Constants.WORLD_SIZE * rangeMultiplier) {
             if (Helpers.speedToVelocity(position.x - target.getPosition().x, directionX, Orientation.X) > 0) {
                 canPeer = true;
