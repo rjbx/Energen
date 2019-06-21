@@ -81,9 +81,6 @@ public class Tripknob extends Ground implements Trippable, Convertible, Strikeab
         }
     }
 
-    public void touchAllGrounds(Array<Ground> grounds) {}
-    public void touchAllHazards(Array<Hazard> hazards) {}
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getHeight() { return Constants.TRIPKNOB_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.TRIPKNOB_CENTER.x * 2; }

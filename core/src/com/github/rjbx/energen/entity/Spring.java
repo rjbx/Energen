@@ -150,9 +150,6 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
         }
     }
 
-    public void touchAllGrounds(Array<Ground> grounds) {}
-    public void touchAllHazards(Array<Hazard> hazards) {}
-
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (loaded) {

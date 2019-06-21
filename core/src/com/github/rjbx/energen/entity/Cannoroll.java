@@ -80,9 +80,6 @@ public class Cannoroll extends Ground implements Energized, Orientable, Roving, 
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center);
     }
 
-    public void touchAllGrounds(Array<Ground> grounds) {}
-    public void touchAllHazards(Array<Hazard> hazards) {}
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final Vector2 getVelocity() { return velocity; }
     public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }

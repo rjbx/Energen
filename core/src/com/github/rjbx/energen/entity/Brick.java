@@ -149,9 +149,6 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
         super.render(batch, viewport);
     }
 
-    public void touchAllGrounds(Array<Ground> grounds) {}
-    public void touchAllHazards(Array<Hazard> hazards) {}
-
     // Getters
     @Override public final void setPosition(Vector2 position) { super.position.set(position); }
     @Override public final Vector2 getVelocity() { return velocity; }

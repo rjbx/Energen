@@ -362,14 +362,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         }
     }
 
-    public void touchAllGrounds(Array<Ground> grounds) {
-        for (Ground ground : grounds) {
-            touchGround(ground);
-        }
-        untouchGround();
-    }
-
-    private void touchGround(Groundable ground) {
+    public void touchGround(Groundable ground) {
         if (Helpers.overlapsPhysicalObject(this, ground)) {// if overlapping ground boundaries
             if (ground.isDense()) { // for dense grounds: apply side, bottom collision and top collisionouchGroundBottom(ground);
                 touchGroundBottom(ground);
@@ -622,7 +615,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         }
     }
 
-    private void untouchGround() {
+    public void untouchGround() {
         if (touchedGround != null) {
             if (!Helpers.overlapsPhysicalObject(this, touchedGround)) {
                 if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom()) {
@@ -655,25 +648,25 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         }
     }
 
-    // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    public void touchAllHazards(Array<Hazard> hazards) {
-        touchedHazard = null;
-        for (Hazard hazard : hazards) {
-            if (!(hazard instanceof Boss) && !(hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Boss)) {
-                if (Helpers.overlapsPhysicalObject(this, hazard)) {
-                    touchHazard(hazard);
-                } else if (action == Action.STANDING
-                        && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
-                        && Helpers.speedToVelocity(position.x - bounds.x, directionX, X) > 0) {
-                    canPeer = true;
-                } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
-                    canPeer = false;
-                }
-            }
-        }
-        Blade blade = Blade.getInstance();
-        if (avatar.getBladeState() != BladeState.RETRACTED && Helpers.overlapsPhysicalObject(blade, this)) touchHazard(blade);
-    }
+//    // detects contact with enemy (change aerial & ground state to recoil until grounded)
+//    public void touchAllHazards(Array<Hazard> hazards) {
+//        touchedHazard = null;
+//        for (Hazard hazard : hazards) {
+//            if (!(hazard instanceof Boss) && !(hazard instanceof Projectile && ((Projectile) hazard).getSource() instanceof Boss)) {
+//                if (Helpers.overlapsPhysicalObject(this, hazard)) {
+//                    touchHazard(hazard);
+//                } else if (action == Action.STANDING
+//                        && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE
+//                        && Helpers.speedToVelocity(position.x - bounds.x, directionX, X) > 0) {
+//                    canPeer = true;
+//                } else if (canPeer && position.dst(bounds.getCenter(new Vector2())) < Constants.WORLD_SIZE / 2) {
+//                    canPeer = false;
+//                }
+//            }
+//        }
+//        Blade blade = Blade.getInstance();
+//        if (avatar.getBladeState() != BladeState.RETRACTED && Helpers.overlapsPhysicalObject(blade, this)) touchHazard(blade);
+//    }
 
     private void touchHazard(Hazardous hazard) {
         if (hazard instanceof Projectile || hazard instanceof Blade) {

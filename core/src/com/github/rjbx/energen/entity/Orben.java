@@ -166,9 +166,6 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
         Helpers.drawTextureRegion(batch, viewport, region, position, Constants.ORBEN_CENTER, Constants.ORBEN_TEXTURE_SCALE);
     }
 
-    public void touchAllGrounds(Array<Ground> grounds) {}
-    public void touchAllHazards(Array<Hazard> hazards) {}
-
     @Override public Vector2 getPosition() { return position; }
     @Override public Vector2 getVelocity() { return velocity; }
     @Override public final float getHealth() { return health; }

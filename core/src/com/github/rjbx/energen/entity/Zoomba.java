@@ -131,9 +131,6 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
          Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.ZOOMBA_CENTER);
     }
 
-    public void touchAllGrounds(Array<Ground> grounds) {}
-    public void touchAllHazards(Array<Hazard> hazards) {}
-
     @Override public final Vector2 getPosition() { return position; }
     @Override public final Vector2 getVelocity() { return velocity; }
     @Override public final float getHealth() { return health; }

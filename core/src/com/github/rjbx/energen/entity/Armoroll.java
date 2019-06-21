@@ -192,9 +192,6 @@ public class Armoroll extends Hazard implements Armored, Groundable, Roving, Des
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(rollTimeSeconds, true), position, Constants.ROLLEN_CENTER, Constants.ROLLEN_TEXTURE_SCALE);
     }
 
-    public void touchAllGrounds(Array<Ground> grounds) {}
-    public void touchAllHazards(Array<Hazard> hazards) {}
-
     @Override public Vector2 getPosition() { return position; }
     public Vector2 getVelocity() { return velocity; }
     @Override public final float getHealth() { return health; }

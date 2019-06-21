@@ -224,9 +224,6 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
         }
     }
 
-    public void touchAllGrounds(Array<Ground> grounds) {}
-    public void touchAllHazards(Array<Hazard> hazards) {}
-
     @Override public Vector2 getPosition() { return position; }
     public Vector2 getVelocity() { return velocity; }
     @Override public final float getHealth() { return health; }
