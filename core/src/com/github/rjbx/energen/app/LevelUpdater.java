@@ -302,6 +302,8 @@ class LevelUpdater {
             }
             hazards.end();
 
+            // TODO: Create one additional cloned list iteration for interactions with other objects after completing the original list iteration to replace all entity level iterations globally
+
             // Update Grounds
             if (Helpers.secondsSince(refreshTime) > 10) {
                 grounds.sort(new Comparator<Ground>() {
