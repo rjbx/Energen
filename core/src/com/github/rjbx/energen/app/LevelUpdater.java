@@ -239,22 +239,21 @@ class LevelUpdater {
                     intersectionPoint.y = Math.max(boss.getBottom(), touchedHazard.getBottom());
                     spawnImpact(intersectionPoint, touchedHazard.getType());
                 }
-            } else {
-                time = timer.getNanos();
-                if (avatar.getDispatchStatus()) {
-                    if (avatar.getLookStartTime() != 0) {
-                        if (avatar.getDirectionY() == Direction.UP) {
-                            spawnProjectile(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
-                        } else {
-                            spawnProjectile(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
-                        }
-                    } else {
-                        spawnProjectile(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), avatar.getDirectionX(), Enums.Orientation.X, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
-                    }
-                    avatar.resetChargeIntensity();
-                }
             }
 
+            time = timer.getNanos();
+            if (avatar.getDispatchStatus()) {
+                if (avatar.getLookStartTime() != 0) {
+                    if (avatar.getDirectionY() == Direction.UP) {
+                        spawnProjectile(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
+                    } else {
+                        spawnProjectile(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), avatar.getDirectionY(), Enums.Orientation.Y, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
+                    }
+                } else {
+                    spawnProjectile(new Vector2(avatar.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, avatar.getDirectionX(), Enums.Orientation.X), avatar.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), avatar.getDirectionX(), Enums.Orientation.X, avatar.getShotIntensity(), avatar.getEnergy(), avatar);
+                }
+                avatar.resetChargeIntensity();
+            }
 
             if (avatar.getTouchedHazard() != null && avatar.getAction() == Enums.Action.RECOILING) {
                 Vector2 intersectionPoint = new Vector2();
