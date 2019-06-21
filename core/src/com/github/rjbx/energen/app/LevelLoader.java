@@ -437,7 +437,7 @@ final class LevelLoader {
             } else if (item.getString(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TELEPORT_SPRITE_1)) {
                 final Vector2 teleportPosition = imagePosition.add(Constants.TELEPORT_CENTER);
                 Gdx.app.log(TAG, "Loaded the exit teleport at " + teleportPosition);
-                level.getTransports().add(new Teleport(teleportPosition, destination));
+                level.getTransports().add(new Teleport(teleportPosition, destination, tags[Constants.GOAL_TAG_INDEX]));
             } else if (item.getString(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PROTRUSION_ORE_SPRITE_1)) {
                 final Vector2 spikePosition = imagePosition.add(Constants.PROTRUSION_ORE_CENTER);
                 Gdx.app.log(TAG, "Loaded the protrusion at " + spikePosition);

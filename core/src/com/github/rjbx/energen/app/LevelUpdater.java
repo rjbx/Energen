@@ -783,6 +783,10 @@ class LevelUpdater {
                 savedScore = score;
                 savedTime = Long.parseLong(allTimes.get(level));
             } else if (transport instanceof Teleport) {
+                if (((Teleport) transport).isGoal()) {
+                    goalReached = true;
+                    return false;
+                }
                 assetManager.getSoundAssets().warp.play();
                 avatar.getPosition().set(transport.getDestination());
                 avatar.setFallLimit(transport.getDestination().y - Constants.FALL_LIMIT);
