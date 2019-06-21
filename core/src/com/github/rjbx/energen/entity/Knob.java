@@ -24,6 +24,13 @@ public class Knob extends Ground implements Climbable {
     }
 
     @Override
+    public Knob safeClone() {
+        Knob clone = new Knob(position);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
+    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().knob.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.KNOB_CENTER);
     }
