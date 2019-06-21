@@ -50,6 +50,7 @@ class LevelUpdater {
     private Boss boss;
     private ChaseCam chaseCam;
     private String removedHazards;
+    private boolean goalReached;
     private boolean paused;
     private boolean musicEnabled;
     private boolean hintsEnabled;
@@ -750,6 +751,10 @@ class LevelUpdater {
         boolean active = true;
         if (avatar.getPosition().dst(transport.getPosition()) < transport.getWidth() / 2 && inputControls.upButtonPressed && inputControls.jumpButtonJustPressed) {
             if (transport instanceof Portal) {
+                if (((Portal) transport).isGoal()) {
+                    goalReached = true;
+                    return false;
+                }
                 for (int j = 0; j <= transportIndex; j++) {
                     if (j < transports.size && !(transports.get(j) instanceof Portal)) {
                         // Persisted indeces are prior adjusted to align with list values on level load; outliers are spawns
@@ -942,7 +947,7 @@ class LevelUpdater {
         return false;
     }
 
-    protected boolean completed() { return chaseCam.getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1 && boss.isBattling(); }
+    protected boolean completed() { return goalReached || (chaseCam.getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1 && boss.isBattling()); }
 
     protected boolean continuing() { return !(completed() || failed()); }
 
