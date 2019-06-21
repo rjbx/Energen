@@ -279,6 +279,8 @@ class LevelUpdater {
             for (int i = 0; i < hazards.size; i++) {
                 Hazard h = hazards.get(i);
                 if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
+                    avatar.touchHazard(h);
+                    boss.touchHazard(h);
                     if (!updateHazard(delta, h)) {
                         spawnPowerup(h);
                         hazards.removeIndex(i);

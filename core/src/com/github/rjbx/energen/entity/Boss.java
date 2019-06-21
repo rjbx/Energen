@@ -16,7 +16,6 @@ import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Enums.*;
 import com.github.rjbx.energen.util.Helpers;
 import java.lang.String;
-import java.sql.Time;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -668,7 +667,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 //        if (avatar.getBladeState() != BladeState.RETRACTED && Helpers.overlapsPhysicalObject(blade, this)) touchHazard(blade);
 //    }
 
-    private void touchHazard(Hazardous hazard) {
+    public void touchHazard(Hazardous hazard) {
         if (hazard instanceof Projectile || hazard instanceof Blade) {
             action = Action.STANDING;
             if (hazard instanceof Projectile) {

@@ -772,30 +772,30 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
     }
 
-    // detects contact with enemy (change aerial & ground state to recoil until grounded)
-    public void touchAllHazards(Array<Hazard> hazards) {
-        touchedHazard = null;
-        if (Helpers.secondsSince(peerStartTime) > 0.5f) {
-            peerQuadrant = 1;
-            canPeer = false;
-        }
-        for (Hazard h : hazards) {
-            ChaseCam chaseCam = ChaseCam.getInstance();
-            Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
-            if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
-                if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
-                        && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
-                    if (Helpers.overlapsPhysicalObject(this, h)) {
-                        touchHazard(h);
-                    } else if (h instanceof Moving) {
-                        setPeerTarget(h, 1);
-                    }
-                }
-            }
-        }
-    }
+//    // detects contact with enemy (change aerial & ground state to recoil until grounded)
+//    public void touchAllHazards(Array<Hazard> hazards) {
+//        touchedHazard = null;
+//        if (Helpers.secondsSince(peerStartTime) > 0.5f) {
+//            peerQuadrant = 1;
+//            canPeer = false;
+//        }
+//        for (Hazard h : hazards) {
+//            ChaseCam chaseCam = ChaseCam.getInstance();
+//            Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
+//            if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
+//                if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
+//                        && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
+//                    if (Helpers.overlapsPhysicalObject(this, h)) {
+//                        touchHazard(h);
+//                    } else if (h instanceof Moving) {
+//                        setPeerTarget(h, 1);
+//                    }
+//                }
+//            }
+//        }
+//    }
 
-    private void touchHazard(Hazardous h) {
+    public void touchHazard(Hazardous h) {
         chaseCamPosition.set(position, 0);
         if (h instanceof Groundable) {
             if (h instanceof Zoomba) {
