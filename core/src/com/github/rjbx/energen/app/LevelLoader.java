@@ -50,6 +50,7 @@ import com.github.rjbx.energen.entity.Zoomba;
 import com.github.rjbx.energen.util.ChaseCam;
 import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 // immutable non-instantiable static
 final class LevelLoader {
@@ -332,7 +333,7 @@ final class LevelLoader {
     }
 
     private static final boolean[] extractTags(JsonValue object) {
-        boolean[] tagBooleans = {false, false, true, false};
+        boolean[] tagBooleans = {false, false, true, false, false};
         try {
             if (object.has(Constants.LEVEL_TAGS_KEY)) {
                 JsonValue.JsonIterator tags = object.get(Constants.LEVEL_TAGS_KEY).iterator();
@@ -349,6 +350,9 @@ final class LevelLoader {
                     }
                     if (item.equals(Constants.CONVERTIBLE_TAG)) {
                         tagBooleans[Constants.CONVERTIBLE_TAG_INDEX] = true;
+                    }
+                    if (item.equals(Constants.GOAL_TAG)) {
+                        tagBooleans[Constants.GOAL_TAG_INDEX] = true;
                     }
                 }
             }
@@ -429,7 +433,7 @@ final class LevelLoader {
             } else if (item.getString(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PORTAL_SPRITE_1)) {
                 final Vector2 portalPosition = imagePosition.add(Constants.PORTAL_CENTER);
                 Gdx.app.log(TAG, "Loaded the exit portal at " + portalPosition);
-                level.getTransports().add(new Portal(portalPosition));
+                level.getTransports().add(new Portal(portalPosition, tags[Constants.GOAL_TAG_INDEX]));
             } else if (item.getString(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.TELEPORT_SPRITE_1)) {
                 final Vector2 teleportPosition = imagePosition.add(Constants.TELEPORT_CENTER);
                 Gdx.app.log(TAG, "Loaded the exit teleport at " + teleportPosition);

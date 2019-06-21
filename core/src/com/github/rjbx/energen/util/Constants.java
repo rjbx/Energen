@@ -922,6 +922,9 @@ public final class Constants {
     public static final int OFF_TAG_INDEX = 2;
     public static final String CONVERTIBLE_TAG = "convertible";
     public static final int CONVERTIBLE_TAG_INDEX = 3;
+    public static final String GOAL_TAG = "goal";
+    public static final int GOAL_TAG_INDEX = 4;
+
 
     // HUD
     public static final float HUD_VIEWPORT_SIZE = 480;
