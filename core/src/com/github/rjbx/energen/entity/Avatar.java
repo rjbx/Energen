@@ -890,6 +890,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 AssetManager.getInstance().getSoundAssets().cannon.play();
                 chargeModifier = 1;
                 ammo += Constants.POWERUP_AMMO;
+                shotIntensity = ShotIntensity.BLAST;
                 break;
             case GEM:
                 gems[((Powerup) r).getGemType().ordinal()]++;
@@ -2078,7 +2079,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         setHealth(Constants.MAX_HEALTH);
     }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
-    public void resetChargeIntensity() { shotIntensity = ShotIntensity.NORMAL; }
+    public void resetChargeIntensity() { if (chargeModifier == 0) shotIntensity = ShotIntensity.NORMAL; }
     public void detectInput() { if (InputControls.getInstance().hasInput()) { activeStartTime = TimeUtils.nanoTime(); } }
     public void dispose() {
         energyList.clear();

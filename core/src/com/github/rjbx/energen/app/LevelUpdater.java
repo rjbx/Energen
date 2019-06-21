@@ -327,8 +327,6 @@ class LevelUpdater {
             boss.untouchGround();
             grounds.end();
 
-            avatar.update(delta);
-            Blade.getInstance().update(delta);
             // Update Impacts
             impacts.begin();
             for (int index = 0; index < impacts.size; index++) {
@@ -353,6 +351,9 @@ class LevelUpdater {
                 }
             }
             powerups.end();
+
+            avatar.update(delta);
+            Blade.getInstance().update(delta);
 
             // Update Grounds
             grounds.begin();
