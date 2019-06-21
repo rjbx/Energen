@@ -16,11 +16,13 @@ public final class Portal extends Transport {
     private final Vector2 position;
     private final Vector2 destination;
     private final long startTime;
+    private final boolean goal;
 
     //ctor
-    public Portal(Vector2 position, boolean levelEnd) {
+    public Portal(Vector2 position, boolean goal) {
         this.position = position;
         this.destination = position;
+        this.goal = goal;
         startTime = TimeUtils.nanoTime();
     }
 
@@ -37,5 +39,6 @@ public final class Portal extends Transport {
     @Override public final float getRight() { return position.x + Constants.PORTAL_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.PORTAL_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.PORTAL_CENTER.y; }
+    public boolean isGoal() { return goal; }
 }
 
