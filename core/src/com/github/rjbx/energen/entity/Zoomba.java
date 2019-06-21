@@ -74,6 +74,13 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
         updateDirection(this.direction);
     }
 
+    @Override
+    public Zoomba safeClone() {
+        Zoomba clone = new Zoomba(position, orientation, type, range);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     public void update(float delta) {
         if (orientation == Enums.Orientation.X) {
             position.mulAdd(velocity, delta);

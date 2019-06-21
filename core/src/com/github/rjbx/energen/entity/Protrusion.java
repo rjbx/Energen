@@ -58,6 +58,13 @@ public class Protrusion extends Hazard implements Indestructible, Convertible {
     }
 
     @Override
+    public Protrusion safeClone() {
+        Protrusion clone = new Protrusion(position, type, rotation, state);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
+    @Override
     public void update(float delta) {
         if (state) {
             if (knockback.equals(Vector2.Zero)) {

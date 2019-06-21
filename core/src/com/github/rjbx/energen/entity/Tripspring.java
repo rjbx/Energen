@@ -40,6 +40,13 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     }
 
     @Override
+    public Tripspring safeClone() {
+        Tripspring clone = new Tripspring(position, bounds, state);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
+    @Override
     public void update(float delta) {
         converted = false;
         previousState = state;

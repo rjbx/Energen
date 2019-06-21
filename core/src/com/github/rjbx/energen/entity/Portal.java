@@ -26,6 +26,12 @@ public final class Portal extends Transport {
         startTime = TimeUtils.nanoTime();
     }
 
+    public Portal safeClone() {
+        Portal clone = new Portal(position, goal);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getPortalAssets().portal.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.PORTAL_CENTER);

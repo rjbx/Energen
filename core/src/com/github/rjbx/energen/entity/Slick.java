@@ -27,6 +27,13 @@ public class Slick extends Ground implements Rappelable, Skateable {
     }
 
     @Override
+    public Slick safeClone() {
+        Slick clone = new Slick(position, scale, adjustedCenter);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
+    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().slick.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }

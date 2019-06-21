@@ -53,6 +53,12 @@ public class Impact extends Entity {
         }
     }
 
+    public Impact safeClone() {
+        Impact clone = new Impact(position, type);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (!isFinished()) {

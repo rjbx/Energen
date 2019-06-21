@@ -63,6 +63,12 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
         }
     }
 
+    public Orben safeClone() {
+        Orben clone = new Orben(position, type);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     public void update(float delta) {
         move(delta);
         shoot();

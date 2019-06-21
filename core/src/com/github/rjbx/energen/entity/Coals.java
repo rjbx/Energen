@@ -33,6 +33,12 @@ public class Coals extends Ground implements Hazardous {
         animation = AssetManager.getInstance().getGroundAssets().coals;
     }
 
+    public Coals safeClone() {
+        Coals clone = new Coals(position, scale, adjustedCenter);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);

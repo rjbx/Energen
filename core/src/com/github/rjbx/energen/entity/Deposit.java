@@ -21,6 +21,12 @@ public class Deposit extends Ground implements Destructible {
         damage = 50;
     }
 
+    public Deposit safeClone() {
+        Deposit clone = new Deposit(position);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void update(float delta) {}
 

@@ -32,6 +32,13 @@ public class Waves extends Ground implements Indestructible, Pourous, Hazardous 
     }
 
     @Override
+    public Waves safeClone() {
+        Waves clone = new Waves(position, scale, adjustedCenter);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
+    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);
     }

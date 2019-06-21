@@ -24,7 +24,14 @@ public class Teleport extends Transport {
         this.startTime = TimeUtils.nanoTime();
         this.goal = goal;
     }
-    
+
+    @Override
+    public Teleport safeClone() {
+        Teleport clone = new Teleport(position, destination, goal);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getPortalAssets().teleport.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.TELEPORT_CENTER);

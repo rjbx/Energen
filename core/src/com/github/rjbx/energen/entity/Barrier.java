@@ -51,6 +51,12 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
         setColor();
     }
 
+    public Barrier safeClone() {
+        Barrier clone = new Barrier(position.x, position.y, width, height, type, dense, convertible);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void update(float delta) {
         if (converted) {

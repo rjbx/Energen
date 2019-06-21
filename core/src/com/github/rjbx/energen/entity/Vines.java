@@ -24,6 +24,13 @@ public class Vines extends Ground implements Climbable, Unsteady {
     }
 
     @Override
+    public Vines safeClone() {
+        Vines clone = new Vines(position, scale, adjustedCenter);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
+    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().vines, position, adjustedCenter, scale);
     }

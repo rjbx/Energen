@@ -41,6 +41,13 @@ public class Triptread extends Ground implements Trippable, Convertible, Propell
     }
 
     @Override
+    public Triptread safeClone() {
+        Triptread clone = new Triptread(position, bounds, state, direction);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
+    @Override
     public void update(float delta) {
         converted = false;
         previousState = state;

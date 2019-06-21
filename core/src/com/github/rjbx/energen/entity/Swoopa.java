@@ -71,6 +71,13 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
         }
     }
 
+    @Override
+    public Swoopa safeClone() {
+        Swoopa clone = new Swoopa(position, direction, type);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     public void update(float delta) {
         Viewport viewport = ChaseCam.getInstance().getViewport();
         Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());

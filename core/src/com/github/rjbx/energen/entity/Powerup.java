@@ -58,6 +58,12 @@ public class Powerup extends Entity implements Replenishing {
         }
     }
 
+    public Powerup safeClone() {
+        Powerup clone = new Powerup(position, type);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     // overload ctor
     public Powerup(Vector2 position, Enums.GemType gemType) {
         active = true;

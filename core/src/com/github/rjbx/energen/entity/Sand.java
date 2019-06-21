@@ -23,6 +23,13 @@ public class Sand extends Ground implements Pourous {
     }
 
     @Override
+    public Sand safeClone() {
+        Sand clone = new Sand(position);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
+    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().sink.getKeyFrame(Helpers.secondsSince(startTime)), position, Constants.SINK_CENTER);
     }

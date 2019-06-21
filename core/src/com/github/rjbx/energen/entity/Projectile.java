@@ -148,6 +148,12 @@ public final class Projectile extends Hazard implements Indestructible, Orientab
         }
     }
 
+    public Projectile safeClone() {
+        Projectile clone = new Projectile(position, direction, orientation, shotIntensity, energy, source);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     public void update(float delta) {
         float ammoSpeed = Constants.AMMO_MAX_SPEED;
         if (!(source instanceof Avatar)) {

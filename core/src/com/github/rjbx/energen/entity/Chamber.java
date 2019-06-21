@@ -27,6 +27,12 @@ public class Chamber extends Ground implements Chargeable, Strikeable {
         chargeTimeSeconds = 0;
     }
 
+    public Chamber safeClone() {
+        Chamber clone = new Chamber(position);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (active) {

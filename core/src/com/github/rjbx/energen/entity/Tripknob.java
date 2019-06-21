@@ -53,6 +53,13 @@ public class Tripknob extends Ground implements Trippable, Convertible, Strikeab
     }
 
     @Override
+    public Tripknob safeClone() {
+        Tripknob clone = new Tripknob(position, bounds, rotation, state);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
+    @Override
     public void update(float delta) {
         converted = false;
         previousState = state;

@@ -71,6 +71,12 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
         animation = AssetManager.getInstance().getRollenAssets().liquidRollen;
     }
 
+    public Bladeroll safeClone() {
+        Bladeroll clone = new Bladeroll(position, bounds, type, vulnerabilityCount);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     public void update(float delta) {
         if (armorStruck) {
             velocity.x = 0;

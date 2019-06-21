@@ -43,6 +43,12 @@ public class Cannon extends Ground implements Energized, Nonstatic, Rappelable, 
         }
     }
 
+    public Cannon safeClone() {
+        Cannon clone = new Cannon(position, orientation, intensity, active);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     public void update(float delta) {
         canDispatch = false;
         if (active) {

@@ -36,6 +36,12 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
         payload = 0;
     }
 
+    public Brick safeClone() {
+        Brick clone = new Brick(position.x, position.y, getWidth(), getHeight(), getType());
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void update(float delta) {
         if (beingCarried && !againstStaticGround) {

@@ -26,6 +26,12 @@ public class Ice extends Ground implements Rappelable, Skateable {
         this.startTime = TimeUtils.nanoTime();
     }
 
+    public Ice safeClone() {
+        Ice clone = new Ice(position, scale, adjustedCenter);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().ice.getKeyFrame(Helpers.secondsSince(startTime), true), position, adjustedCenter, scale);

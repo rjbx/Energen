@@ -43,6 +43,13 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     }
 
     @Override
+    public Spring safeClone() {
+        Spring clone = new Spring(position);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
+    @Override
     public void update(float delta) {
         if (beingCarried && !againstStaticGround) {
             this.position.set(carrier.getPosition().x + Helpers.speedToVelocity(this.getWidth() / 2, carrier.getDirectionX(), Enums.Orientation.X), carrier.getBottom() + getHeight() / 2);

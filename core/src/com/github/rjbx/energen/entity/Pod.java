@@ -29,6 +29,12 @@ public class Pod extends Ground implements Reboundable, Replenishing, Compressib
         startTime = TimeUtils.nanoTime();
     }
 
+    public Pod safeClone() {
+        Pod clone = new Pod(position);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void update(float delta) {
         topGround = null;

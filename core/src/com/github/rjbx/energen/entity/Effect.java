@@ -53,6 +53,12 @@ public class Effect extends Entity {
 //        }
     }
 
+    public Effect safeClone() {
+        Effect clone = new Effect(position, type);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         if (!isFinished()) {

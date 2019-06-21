@@ -178,6 +178,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         dispenseUpgrades();
     }
 
+    public Avatar safeClone() {
+        Avatar clone = Avatar.getInstance();
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     public void respawn() {
         position.set(spawnPosition);
         fallLimit = position.y - Constants.FALL_LIMIT;

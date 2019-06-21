@@ -42,6 +42,13 @@ public class Suspension extends Hazard implements Indestructible, Convertible {
     }
 
     @Override
+    public Suspension safeClone() {
+        Suspension clone = new Suspension(position, type);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
+    @Override
     public void update(float delta) {
         converted = false;
         if (!state && !knockback.equals(Vector2.Zero)) {

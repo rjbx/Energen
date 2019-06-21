@@ -26,6 +26,12 @@ public class Gate extends Ground implements Strikeable, Nonstatic {
         dense = true;
     }
 
+    public Gate safeClone() {
+        Gate clone = new Gate(position);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void update(float delta) {
         if (!active) {

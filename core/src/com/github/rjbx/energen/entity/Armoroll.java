@@ -71,6 +71,12 @@ public class Armoroll extends Hazard implements Armored, Groundable, Roving, Des
         }
     }
 
+    public Armoroll safeClone() {
+        Armoroll clone = new Armoroll(position, bounds, type);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     public void update(float delta) {
         if (armorStruck) {
             velocity.x = 0;

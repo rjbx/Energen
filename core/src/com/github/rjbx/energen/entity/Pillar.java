@@ -19,6 +19,12 @@ public class Pillar extends Ground implements Climbable {
         this.position = position;
     }
 
+    public Pillar safeClone() {
+        Pillar clone = new Pillar(position);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().pillar, position, Constants.PILLAR_CENTER);

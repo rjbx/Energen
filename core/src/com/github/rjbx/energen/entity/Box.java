@@ -17,6 +17,12 @@ public class Box extends Barrier implements Destructible {
         damage = 50;
     }
 
+    public Box safeClone() {
+        Box clone = new Box(position.x, position.y, getWidth(), getHeight(), getType());
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     // Getters
     @Override public int getKillScore() { return 0; }
     @Override public int getHitScore() { return 0; }

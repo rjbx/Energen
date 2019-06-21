@@ -33,6 +33,12 @@ public class Lift extends Ground implements Dynamic, Convertible {
         this.speed = speed;
     }
 
+    public Lift safeClone() {
+        Lift clone = new Lift(position, orientation, range, speed);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void update(float delta) {
         switch (orientation) {

@@ -36,6 +36,13 @@ public class Treadmill extends Ground implements Nonstatic, Propelling, Converti
     }
 
     @Override
+    public Treadmill safeClone() {
+        Treadmill clone = new Treadmill(position, scale, adjustedCenter, direction);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
+    @Override
     public void update(float delta) {
         if (direction == Enums.Direction.RIGHT) {
             animation = AssetManager.getInstance().getGroundAssets().treadmillRight;

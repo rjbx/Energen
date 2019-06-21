@@ -47,6 +47,12 @@ public final class Blade extends Hazard implements Indestructible {
         scale = 1;
     }
 
+    public Blade safeClone() {
+        Blade clone = Blade.getInstance();
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     public void update(float delta) {
         setAttributes(Avatar.getInstance().getEnergy());
     }

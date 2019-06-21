@@ -68,6 +68,13 @@ public class Rollen extends Hazard implements Destructible, Roving, Impermeable 
         }
     }
 
+    @Override
+    public Rollen safeClone() {
+        Rollen clone = new Rollen(position, type);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     public void update(float delta) {
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);

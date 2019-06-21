@@ -38,6 +38,12 @@ public class Ladder extends Ground implements Climbable {
         this.height = height;
     }
 
+    public Ladder safeClone() {
+        Ladder clone = new Ladder(left, top, width, height);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawNinePatch(batch, viewport, AssetManager.getInstance().getGroundAssets().ladderNinePatch, left - 1, bottom - 1, width, height);

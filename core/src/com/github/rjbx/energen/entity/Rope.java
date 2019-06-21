@@ -20,6 +20,13 @@ public class Rope extends Ground implements Climbable {
     }
 
     @Override
+    public Rope safeClone() {
+        Rope clone = new Rope(position);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
+    @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().rope, position, Constants.ROPE_CENTER);
     }

@@ -48,6 +48,12 @@ public class Cannoroll extends Ground implements Energized, Orientable, Roving, 
         this.active = active;
     }
 
+    public Cannoroll safeClone() {
+        Cannoroll clone = new Cannoroll(position, orientation, intensity, range, active);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void update(float delta) {
         canDispatch = false;

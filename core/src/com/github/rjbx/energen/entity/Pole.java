@@ -23,6 +23,12 @@ public class Pole extends Ground implements Unsteady, Climbable {
         this.startTime = TimeUtils.nanoTime();
     }
 
+    public Pole safeClone() {
+        Pole clone = new Pole(position);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void render(SpriteBatch batch, Viewport viewport) {
         Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getGroundAssets().pole.getKeyFrame(Helpers.secondsSince(startTime), true), position, Constants.POLE_CENTER);

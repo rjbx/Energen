@@ -165,6 +165,12 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         respawn();
     }
 
+    public Boss safeClone() {
+        Boss clone = new Boss.Builder(spawnPosition).energy(energy).build();
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     public void respawn() {
         avatar = Avatar.getInstance();
         position.set(spawnPosition);

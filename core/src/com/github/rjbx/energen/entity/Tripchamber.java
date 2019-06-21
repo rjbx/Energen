@@ -37,6 +37,12 @@ public class Tripchamber extends Ground implements Trippable, Convertible, Charg
         adjustments = 0;
     }
 
+    public Tripchamber safeClone() {
+        Tripchamber clone = new Tripchamber(position, bounds, active);
+        clone.setClonedHashCode(hashCode());
+        return clone;
+    }
+
     @Override
     public void update(float delta) {
         converted = false;
