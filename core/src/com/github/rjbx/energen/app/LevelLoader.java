@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.Logger;
 import com.github.rjbx.energen.entity.Armoroll;
 import com.github.rjbx.energen.entity.Avatar;
 import com.github.rjbx.energen.entity.Bladeroll;
@@ -51,7 +50,6 @@ import com.github.rjbx.energen.entity.Zoomba;
 import com.github.rjbx.energen.util.ChaseCam;
 import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 // immutable non-instantiable static
 final class LevelLoader {
@@ -89,7 +87,7 @@ final class LevelLoader {
 
         try {
             Float x = object.getFloat(Constants.LEVEL_X_POSITION_KEY);
-            Float y = object.getFloat(Constants.LEVEL_Y_POSITION_KEY); // TODO: Resolve IllegalArgumentException: Named value not found: y
+            Float y = object.getFloat(Constants.LEVEL_Y_POSITION_KEY);
 
             position.set(x, y);
         } catch (NumberFormatException ex) {
@@ -99,7 +97,10 @@ final class LevelLoader {
                     + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
                     + "; key: " + Constants.LEVEL_X_POSITION_KEY + Constants.LEVEL_Y_POSITION_KEY);
         } catch (IllegalArgumentException ex) {
-            String s = object.asString();
+            Gdx.app.log(TAG, Constants.LEVEL_KEY_MESSAGE
+                    + ": object: " + object.asString()
+                    + ": id " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
+                    + ": key " + Constants.LEVEL_X_SCALE_KEY + Constants.LEVEL_Y_SCALE_KEY);
         }
 
         return position;
