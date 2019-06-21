@@ -172,9 +172,9 @@ class LevelUpdater {
     private void applyCollision(Impermeable impermeable) {
         impermeable.touchAllGrounds(grounds);
         impermeable.touchAllHazards(hazards);
-        if (impermeable instanceof Avatar) {
-            ((Avatar) impermeable).touchAllPowerups(powerups);
-        }
+//        if (impermeable instanceof Avatar) {
+//            ((Avatar) impermeable).touchAllPowerups(powerups);
+//        }
     }
 
     // asset handling
@@ -336,6 +336,7 @@ class LevelUpdater {
             powerups.begin();
             for (int i = 0; i < powerups.size; i++) {
                 Powerup p = powerups.get(i);
+                p.safeClone();
                 // TODO: Resolve inconsistently applied collision caused by attempting to access removed element from updated list occurring in single frame in absence of cloned list
                 if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
                     if (!updatePowerup(delta, p)) {
@@ -345,7 +346,6 @@ class LevelUpdater {
             }
             powerups.end();
 
-            avatar.safeClone();
             avatar.updatePosition(delta);
             applyCollision(avatar);
             avatar.update(delta);
@@ -738,6 +738,7 @@ class LevelUpdater {
 
         if (Helpers.overlapsPhysicalObject(avatar, powerup)
                 || (avatar.getBladeState() != Enums.BladeState.RETRACTED && Helpers.overlapsPhysicalObject(Blade.getInstance(), powerup))) {
+            avatar.touchPowerup(powerup);
             powerup.deactivate();
             if (powerup.getType() == Enums.PowerupType.LIFE) score += Constants.POWERUP_SCORE;
         } else {

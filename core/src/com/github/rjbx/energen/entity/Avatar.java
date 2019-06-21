@@ -834,7 +834,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
     }
 
-    public void touchAllPowerups(Array<Powerup> powerups) {
+   /* public void touchAllPowerups(Array<Powerup> powerups) {
         for (Powerup p : powerups) {
             ChaseCam chaseCam = ChaseCam.getInstance();
             Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
@@ -851,8 +851,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             turbo = Constants.MAX_TURBO;
         }
     }
-
-    private void touchPowerup(Replenishing r) {
+*/
+    public void touchPowerup(Replenishing r) {
         switch(r.getType()) {
             case AMMO:
                 AssetManager.getInstance().getSoundAssets().ammo.play();
