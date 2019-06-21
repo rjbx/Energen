@@ -196,7 +196,6 @@ class LevelUpdater {
             }
             grounds.end();
         } else {
-            // TODO: Restore projectile spawn when in Boss range
             Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
             if (updateBounds.overlaps(new Rectangle(boss.getLeft(), boss.getBottom(), boss.getWidth(), boss.getHeight()))) {
                 if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
@@ -617,7 +616,6 @@ class LevelUpdater {
             for (int j = 0; j < projectiles.size; j++) {
                 Projectile projectile = projectiles.get(j);
                 if (!projectile.equals(hazard) && projectile.isActive() && Helpers.overlapsPhysicalObject(projectile, destructible)) {
-                    // TODO: Restore projectile spawn when in Zoomba range
                     if (!(destructible instanceof Zoomba)
                     || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
                     || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
