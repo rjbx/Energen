@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.Logger;
 import com.github.rjbx.energen.entity.Armoroll;
 import com.github.rjbx.energen.entity.Avatar;
 import com.github.rjbx.energen.entity.Bladeroll;
@@ -97,6 +98,8 @@ final class LevelLoader {
                     + "; object: " + object.get(Constants.LEVEL_IMAGENAME_KEY)
                     + "; id: " + object.get(Constants.LEVEL_UNIQUE_ID_KEY)
                     + "; key: " + Constants.LEVEL_X_POSITION_KEY + Constants.LEVEL_Y_POSITION_KEY);
+        } catch (IllegalArgumentException ex) {
+            String s = object.asString();
         }
 
         return position;
