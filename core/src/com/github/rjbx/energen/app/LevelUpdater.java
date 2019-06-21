@@ -319,9 +319,9 @@ class LevelUpdater {
                         }
                     }
                 }
-                avatar.untouchGround();
-                boss.untouchGround();
             }
+            avatar.untouchGround();
+            boss.untouchGround();
             grounds.end();
 
             // Update Impacts
