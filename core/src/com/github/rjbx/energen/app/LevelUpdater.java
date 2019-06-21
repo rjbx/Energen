@@ -345,6 +345,7 @@ class LevelUpdater {
             }
             powerups.end();
 
+            avatar.safeClone();
             avatar.updatePosition(delta);
             applyCollision(avatar);
             avatar.update(delta);

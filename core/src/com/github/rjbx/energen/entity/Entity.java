@@ -17,5 +17,5 @@ public abstract class Entity implements Physical, Visible, Cloneable {
     }
 
     public abstract Entity safeClone();
-    protected final int cloneHashCode() { return cloneHashCode; }
+    protected final void setClonedHashCode(int hashCode) { this.cloneHashCode = hashCode; }
 }

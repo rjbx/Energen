@@ -76,6 +76,13 @@ public class Powerup extends Entity implements Replenishing {
         Helpers.drawTextureRegion(batch, viewport, animation.getKeyFrame(Helpers.secondsSince(startTime), true), position, center);
     }
 
+    @Override
+    public Powerup safeClone() {
+        Powerup clone = new Powerup(this.position, this.type);
+        clone.setClonedHashCode(clone.hashCode());
+        return clone;
+    }
+
     @Override public Enums.PowerupType getType() { return this.type; }
     @Override public final Vector2 getPosition() { return position; }
     @Override public final float getWidth() { return center.x * 2; }
