@@ -18,7 +18,7 @@ public final class Portal extends Transport {
     private final long startTime;
 
     //ctor
-    public Portal(Vector2 position) {
+    public Portal(Vector2 position, boolean levelEnd) {
         this.position = position;
         this.destination = position;
         startTime = TimeUtils.nanoTime();
