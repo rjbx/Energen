@@ -20,39 +20,39 @@ public final class LevelAssets {
 
     // Public getters
     public static final Array<Entity> getClonedEntities() {
-//        Array<Entity> clonedEntities = new Array<Entity>();
-//        for (Entity entity : levelUpdater.getEntities()) {
-//            clonedEntities.add(entity.safeClone());
-//        }
-        return levelUpdater.getEntities();
+        Array<Entity> clonedEntities = new Array<Entity>();
+        for (Entity entity : levelUpdater.getEntities()) {
+            clonedEntities.add(entity.safeClone());
+        }
+        return clonedEntities;
     }
 
     public static final Array<Ground> getClonedGrounds() {
-//        Array<Ground> clonedGrounds = new Array<Ground>();
-//        for (Ground ground : levelUpdater.getGrounds()) {
-//            clonedGrounds.add((Ground) ground.safeClone());
-//        }
-        return levelUpdater.getGrounds();
+        Array<Ground> clonedGrounds = new Array<Ground>();
+        for (Ground ground : levelUpdater.getGrounds()) {
+            clonedGrounds.add((Ground) ground.safeClone());
+        }
+        return clonedGrounds;
     }
 
     public static final Array<Hazard> getClonedHazards() {
-//        Array<Hazard> clonedHazards = new Array<Hazard>();
-//        for (Hazard hazard : levelUpdater.getHazards()) {
-//            clonedHazards.add((Hazard) hazard.safeClone());
-//        }
-        return levelUpdater.getHazards();
+        Array<Hazard> clonedHazards = new Array<Hazard>();
+        for (Hazard hazard : levelUpdater.getHazards()) {
+            clonedHazards.add((Hazard) hazard.safeClone());
+        }
+        return clonedHazards;
     }
 
     public static final Array<Powerup> getClonedPowerups() {
-//        Array<Powerup> clonedPowerups = new Array<Powerup>();
-//        for (Powerup powerup : levelUpdater.getPowerups()) {
-//            clonedPowerups.add((Powerup) powerup.safeClone());
-//        }
-        return levelUpdater.getPowerups();
+        Array<Powerup> clonedPowerups = new Array<Powerup>();
+        for (Powerup powerup : levelUpdater.getPowerups()) {
+            clonedPowerups.add((Powerup) powerup.safeClone());
+        }
+        return clonedPowerups;
     }
 
-    public static final Boss getClonedBoss() { return levelUpdater.getBoss(); }
-    public static final Avatar getClonedAvatar() { return levelUpdater.getAvatar(); }
+    public static final Boss getClonedBoss() { return levelUpdater.getBoss().safeClone(); }
+    public static final Avatar getClonedAvatar() { return levelUpdater.getAvatar().safeClone(); }
 
     public static final long getTime() { return levelUpdater.getTime(); }
     public static final int getScore() { return levelUpdater.getScore(); }
