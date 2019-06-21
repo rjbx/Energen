@@ -22,7 +22,7 @@ public final class LevelAssets {
     public static final Array<Entity> getClonedEntities() {
 //        Array<Entity> clonedEntities = new Array<Entity>();
 //        for (Entity entity : levelUpdater.getEntities()) {
-//            clonedEntities.add(entity.clone());
+//            clonedEntities.add(entity.safeClone());
 //        }
         return levelUpdater.getEntities();
     }
@@ -30,7 +30,7 @@ public final class LevelAssets {
     public static final Array<Ground> getClonedGrounds() {
 //        Array<Ground> clonedGrounds = new Array<Ground>();
 //        for (Ground ground : levelUpdater.getGrounds()) {
-//            clonedGrounds.add((Ground) ground.clone());
+//            clonedGrounds.add((Ground) ground.safeClone());
 //        }
         return levelUpdater.getGrounds();
     }
@@ -38,7 +38,7 @@ public final class LevelAssets {
     public static final Array<Hazard> getClonedHazards() {
 //        Array<Hazard> clonedHazards = new Array<Hazard>();
 //        for (Hazard hazard : levelUpdater.getHazards()) {
-//            clonedHazards.add((Hazard) hazard.clone());
+//            clonedHazards.add((Hazard) hazard.safeClone());
 //        }
         return levelUpdater.getHazards();
     }
@@ -46,7 +46,7 @@ public final class LevelAssets {
     public static final Array<Powerup> getClonedPowerups() {
 //        Array<Powerup> clonedPowerups = new Array<Powerup>();
 //        for (Powerup powerup : levelUpdater.getPowerups()) {
-//            clonedPowerups.add((Powerup) powerup.clone());
+//            clonedPowerups.add((Powerup) powerup.safeClone());
 //        }
         return levelUpdater.getPowerups();
     }
