@@ -75,6 +75,7 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
                     if (ground instanceof Propelling) {
                         velocity.x = Helpers.speedToVelocity(Constants.TREADMILL_SPEED, ((Propelling) ground).getDirectionX(), Enums.Orientation.X);
                         velocity.y = 0;
+                        // TODO: Maintain forward momentum when atop Skateable and not being carried
                     } else if (ground instanceof Skateable) {
                         if (Math.abs(velocity.x) > 0.005f) {
                             velocity.x /= 1.005;

@@ -88,7 +88,7 @@ final class LevelLoader {
 
         try {
             Float x = object.getFloat(Constants.LEVEL_X_POSITION_KEY);
-            Float y = object.getFloat(Constants.LEVEL_Y_POSITION_KEY);
+            Float y = object.getFloat(Constants.LEVEL_Y_POSITION_KEY); // TODO: Resolve IllegalArgumentException: Named value not found: y
 
             position.set(x, y);
         } catch (NumberFormatException ex) {
