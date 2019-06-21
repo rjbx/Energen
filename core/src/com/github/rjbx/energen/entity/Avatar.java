@@ -461,18 +461,18 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         detectInput();
     }
 
-    public void touchAllGrounds(Array<Ground> grounds) {
-        for (Ground g : grounds) {
-            ChaseCam chaseCam = ChaseCam.getInstance();
-            Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
-            if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                touchGround(g);
-            }
-        }
-        untouchGround();
-    }
+//    public void touchAllGrounds(Array<Ground> grounds) {
+//        for (Ground g : grounds) {
+//            ChaseCam chaseCam = ChaseCam.getInstance();
+//            Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
+//            if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+//                touchGround(g);
+//            }
+//        }
+//        untouchGround();
+//    }
 
-    private void touchGround(Groundable g) {
+    public void touchGround(Groundable g) {
         if (Helpers.overlapsPhysicalObject(this, g)) {// if overlapping ground boundaries
             if (g.isDense()) { // for dense grounds: apply side, bottom collision and top collisionouchGroundBottom(ground);
                 touchGroundBottom(g);
@@ -739,7 +739,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
     }
 
-    private void untouchGround() {
+    public void untouchGround() {
         if (touchedGround != null) {
             if (!Helpers.overlapsPhysicalObject(this, touchedGround)) {
                 if (getBottom() > touchedGround.getTop() || getTop() < touchedGround.getBottom()) {

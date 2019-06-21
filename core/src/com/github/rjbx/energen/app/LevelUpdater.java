@@ -308,6 +308,7 @@ class LevelUpdater {
             for (int i = 0; i < grounds.size; i++) {
                 Ground g = grounds.get(i);
                 if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                    avatar.touchGround(g);
                     if (!(g instanceof Pliable)
                             || !(((Pliable) g).isBeingCarried())
                             || !(((Pliable) g).getMovingGround() instanceof Pliable)
@@ -317,6 +318,7 @@ class LevelUpdater {
                         }
                     }
                 }
+                avatar.untouchGround();
             }
             grounds.end();
 
