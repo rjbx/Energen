@@ -15,6 +15,7 @@ public final class LevelAssets {
     public static final String TAG = LevelAssets.class.toString();
     private static LevelUpdater levelUpdater = LevelUpdater.getInstance();
 
+    // TODO: Work iterations into body of LevelUpdater or run entity updates interally to prevent additional iteration
     // non-instantiable
     private LevelAssets() {}
 
