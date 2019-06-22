@@ -375,7 +375,7 @@ class LevelUpdater {
                             avatar.setPeerTarget(clone, 1);
                         }
                     }
-                    if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
+                    if (!(clone instanceof Projectile && ((Projectile) clone).getSource() instanceof Avatar)
                             && !(clone instanceof Protrusion && ((Protrusion) clone).isConverted())) {
                         if (Helpers.overlapsPhysicalObject(boss, clone)) {
                             boss.touchHazard(clone);
