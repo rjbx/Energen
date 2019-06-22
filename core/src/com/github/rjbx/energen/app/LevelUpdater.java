@@ -109,10 +109,10 @@ class LevelUpdater {
         Vector3 camPosition = chaseCam.getCamera().position;
 
 //        if (theme == Enums.Theme.FINAL) {
-        if (camPosition.y > 810 || (camPosition.x < 3575 && camPosition.y > 535)) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.ELECTROMAGNETIC));
-        else if (camPosition.x < -180) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.HOME));
-        else if (camPosition.y < 35) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.FINAL));
-        else backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.GRAVITATIONAL));
+            if (camPosition.y > 810 || (camPosition.x < 3575 && camPosition.y > 535)) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.ELECTROMAGNETIC));
+            else if (camPosition.x < -180) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.HOME));
+            else if (camPosition.y < 35) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.FINAL));
+            else backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.GRAVITATIONAL));
 //        } else backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(theme));
 
         backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
@@ -170,10 +170,11 @@ class LevelUpdater {
     }
 
     private void applyCollision(Impermeable impermeable) {
-        if (impermeable instanceof Avatar) {
-            avatar.touchAllGrounds(grounds);
-            avatar.touchAllHazards(hazards);
-        }
+//        impermeable.touchAllGrounds(grounds);
+//        impermeable.touchAllHazards(hazards);
+//        if (impermeable instanceof Avatar) {
+//            ((Avatar) impermeable).touchAllPowerups(powerups);
+//        }
     }
 
     // asset handling
@@ -287,6 +288,8 @@ class LevelUpdater {
             }
             hazards.end();
 
+            // TODO: Create one additional cloned list iteration for interactions with other objects after completing the original list iteration to replace all entity level iterations globally
+
             // Update Grounds
             if (Helpers.secondsSince(refreshTime) > 10) {
                 grounds.sort(new Comparator<Ground>() {
@@ -307,6 +310,7 @@ class LevelUpdater {
             for (int i = 0; i < grounds.size; i++) {
                 Ground g = grounds.get(i);
                 if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+
                     if (!(g instanceof Pliable)
                             || !(((Pliable) g).isBeingCarried())
                             || !(((Pliable) g).getMovingGround() instanceof Pliable)
@@ -335,7 +339,6 @@ class LevelUpdater {
             powerups.begin();
             for (int i = 0; i < powerups.size; i++) {
                 Powerup p = powerups.get(i);
-                p.safeClone();
                 // TODO: Resolve inconsistently applied collision caused by attempting to access removed element from updated list occurring in single frame in absence of cloned list
                 if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
                     if (!updatePowerup(delta, p)) {
@@ -347,6 +350,43 @@ class LevelUpdater {
 
             avatar.updatePosition(delta);
             applyCollision(avatar);
+
+            grounds.begin();
+            for (int i = 0; i < grounds.size; i++) {
+                Ground g = grounds.get(i);
+                if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                    Ground clone = (Ground) g.safeClone();
+                    avatar.touchGround(g);
+//                    boss.touchGround(g);
+                }
+            }
+            grounds.end();
+            avatar.untouchGround();
+//            boss.untouchGround();
+
+            hazards.begin();
+            for (int i = 0; i < hazards.size; i++) {
+                Hazard h = hazards.get(i);
+                if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
+//                    Hazard h = (Hazard) h.safeh();
+                    if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
+                            && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
+                        if (Helpers.overlapsPhysicalObject(avatar, h)) {
+                            avatar.touchHazard(h);
+                        } else if (h instanceof Moving) {
+                            avatar.setPeerTarget(h, 1);
+                        }
+                    }
+/*                    if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
+                            && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
+                        if (Helpers.overlapsPhysicalObject(boss, h)) {
+                            boss.touchHazard(h);
+                        }
+                    }*/
+                }
+            }
+            hazards.end();
+
             avatar.update(delta);
             Blade.getInstance().update(delta);
 
@@ -495,7 +535,7 @@ class LevelUpdater {
                     }
                 }
                 if (!InputControls.getInstance().shootButtonPressed
-                        || avatar.getAction() == Enums.Action.RECOILING) { // move status set to false when recoiling
+                || avatar.getAction() == Enums.Action.RECOILING) { // move status set to false when recoiling
                     pliable.setCarrier(null);
                     avatar.setCarriedGround(null);
                     if (pliable instanceof Tossable && pliable.getVelocity().x != 0 && (InputControls.getInstance().leftButtonPressed || InputControls.getInstance().rightButtonPressed)) {
@@ -617,8 +657,8 @@ class LevelUpdater {
                 Projectile projectile = projectiles.get(j);
                 if (!projectile.equals(hazard) && projectile.isActive() && Helpers.overlapsPhysicalObject(projectile, destructible)) {
                     if (!(destructible instanceof Zoomba)
-                            || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
-                            || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
+                    || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
+                    || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
                         if (!(hazard instanceof Armored || hazard instanceof Boss)) {
                             Helpers.applyDamage(destructible, projectile);
                             this.spawnImpact(projectile.getPosition(), projectile.getType());
@@ -796,7 +836,7 @@ class LevelUpdater {
         return active;
     }
 
-    protected void restoreRemovals(String removals) {
+   protected void restoreRemovals(String removals) {
         removedHazards = removals;
         List<String> levelRemovalStrings = Arrays.asList(removedHazards.split(";"));
         List<Integer> levelRemovals = new ArrayList<Integer>();
