@@ -378,6 +378,7 @@ class LevelUpdater {
             Blade.getInstance().update(delta);
 
             // Update Grounds
+            grounds.begin();
             for (int i = 0; i < scopedGrounds.size; i++) {
                 Ground g = scopedGrounds.get(i);
                if ((g instanceof Pliable)
@@ -393,6 +394,7 @@ class LevelUpdater {
                    } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
                }
             }
+            grounds.end();
         }
     }
 
