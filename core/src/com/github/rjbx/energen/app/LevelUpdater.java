@@ -288,8 +288,7 @@ class LevelUpdater {
             }
             hazards.end();
 
-            // TODO: Create one additional cloned list iteration for interactions with other objects after completing the original list iteration to replace all entity level iterations globally
-
+            // TODO: Replace all entity level iterations
             // Update Grounds
             if (Helpers.secondsSince(refreshTime) > 10) {
                 grounds.sort(new Comparator<Ground>() {
@@ -339,7 +338,6 @@ class LevelUpdater {
             powerups.begin();
             for (int i = 0; i < powerups.size; i++) {
                 Powerup p = powerups.get(i);
-                // TODO: Resolve inconsistently applied collision caused by attempting to access removed element from updated list occurring in single frame in absence of cloned list
                 if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
                     if (!updatePowerup(delta, p)) {
                         powerups.removeIndex(i);
