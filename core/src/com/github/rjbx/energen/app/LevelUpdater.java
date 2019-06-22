@@ -327,18 +327,19 @@ class LevelUpdater {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
                 Ground g = grounds.get(i);
-                if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                    if (!(g instanceof Pliable)
+                 if (!(g instanceof Pliable)
                             || !(((Pliable) g).isBeingCarried())
                             || !(((Pliable) g).getMovingGround() instanceof Pliable)
                             || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried()) {
-                        if (!updateGround(delta, g)) {
-                            grounds.removeIndex(i);
-                            if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
-                        } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
-                    }
-                } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
-            }
+                     if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                         if (!updateGround(delta, g)) {
+                             grounds.removeIndex(i);
+                             if (scopedGrounds.contains(g, true))
+                                 scopedGrounds.removeValue(g, true);
+                         } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
+                     } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                 }
+             }
             grounds.end();
 
             // Update Impacts
@@ -375,18 +376,18 @@ class LevelUpdater {
             // Update Grounds
             for (int i = 0; i < scopedGrounds.size; i++) {
                 Ground g = scopedGrounds.get(i);
-                if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                    if ((g instanceof Pliable)
+               if ((g instanceof Pliable)
                             && ((((Pliable) g).isBeingCarried())
                             || (((Pliable) g).isAtopMovingGround()
                             && ((Pliable) g).getMovingGround() instanceof Pliable
                             && ((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried()))) {
-                        if (!updateGround(delta, g)) {
-                            grounds.removeIndex(i);
-                            if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
-                        } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
-                    }
-                } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                   if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                       if (!updateGround(delta, g)) {
+                           grounds.removeIndex(i);
+                           if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                       } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
+                   } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+               }
             }
         }
     }
