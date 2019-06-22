@@ -361,6 +361,7 @@ class LevelUpdater {
             powerups.begin();
             for (int i = 0; i < powerups.size; i++) {
                 Powerup p = powerups.get(i);
+                p.safeClone();
                 // TODO: Resolve inconsistently applied collision caused by attempting to access removed element from updated list occurring in single frame in absence of cloned list
                 if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
                     scopedPowerups.add(p);
@@ -377,17 +378,22 @@ class LevelUpdater {
             Blade.getInstance().update(delta);
 
             // Update Grounds
-            for (Ground g : scopedGrounds) {
+            grounds.begin();
+            for (int i = 0; i < grounds.size; i++) {
+                Ground g = grounds.get(i);
                 if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                    if ((g instanceof Pliable)
-                            && ((((Pliable) g).isBeingCarried())
-                            || (((Pliable) g).isAtopMovingGround()
-                            && ((Pliable) g).getMovingGround() instanceof Pliable
-                            && ((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried()))) {
-                        updateGround(delta, g);
+                    if ((grounds.get(i) instanceof Pliable)
+                            && ((((Pliable) grounds.get(i)).isBeingCarried())
+                            || (((Pliable) grounds.get(i)).isAtopMovingGround()
+                            && ((Pliable) grounds.get(i)).getMovingGround() instanceof Pliable
+                            && ((Pliable) ((Pliable) grounds.get(i)).getMovingGround()).isBeingCarried()))) {
+                        if (!updateGround(delta, grounds.get(i))) {
+                            grounds.removeIndex(i);
+                        }
                     }
                 }
             }
+            grounds.end();
         }
     }
 
@@ -440,14 +446,14 @@ class LevelUpdater {
                     chaseCam.setConvertBounds(trip.getBounds());
                     trip.addCamAdjustment();
                 }
-                for (Ground g : scopedGrounds) {
+                for (Ground g : grounds) {
                     if (g instanceof Convertible && (g != trip || g instanceof Triptread)) {
                         if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                             ((Convertible) g).convert();
                         }
                     }
                 }
-                for (Hazard h : scopedHazards) {
+                for (Hazard h : hazards) {
                     if (h instanceof Convertible && (h != trip)) {
                         if (Helpers.betweenFourValues(h.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                             ((Convertible) h).convert();
@@ -609,6 +615,7 @@ class LevelUpdater {
                     }
                 }
             }
+            projectiles.end();
         }
         if (active && ground instanceof Impermeable) {
             applyCollision((Impermeable) ground);
@@ -703,14 +710,14 @@ class LevelUpdater {
                             chaseCam.setConvertBounds(trip.getBounds());
                             trip.addCamAdjustment();
                         }
-                        for (Ground g : scopedGrounds) {
+                        for (Ground g : grounds) {
                             if (g instanceof Convertible && (g != trip || g instanceof Triptread)) {
                                 if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                                     ((Convertible) g).convert();
                                 }
                             }
                         }
-                        for (Hazard h : scopedHazards) {
+                        for (Hazard h : hazards) {
                             if (h instanceof Convertible && (h != trip)) {
                                 if (Helpers.betweenFourValues(h.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                                     ((Convertible) h).convert();
