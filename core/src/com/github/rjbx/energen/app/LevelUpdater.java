@@ -208,10 +208,13 @@ class LevelUpdater {
                     if (g instanceof Nonstatic) {
                         for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
                             if (convertBounds.overlaps(new Rectangle(g.getPosition().x, g.getPosition().y, g.getWidth(), g.getHeight()))) {
-                                updateGround(delta, g);
-                                if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
-                            } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
-                        } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                                if (!updateGround(delta, g)) {
+                                    grounds.removeIndex(i);
+                                    if (scopedGrounds.contains(g, true))
+                                        scopedGrounds.removeValue(g, true);
+                                } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
+                            } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                        }
                     }
                 }
             }
