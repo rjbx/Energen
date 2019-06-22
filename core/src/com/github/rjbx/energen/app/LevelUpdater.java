@@ -209,7 +209,8 @@ class LevelUpdater {
                         for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
                             if (convertBounds.overlaps(new Rectangle(g.getPosition().x, g.getPosition().y, g.getWidth(), g.getHeight()))) {
                                 updateGround(delta, g);
-                            } else scopedGrounds.add(g);
+                                if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                            } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
                         }
                     }
                 }
