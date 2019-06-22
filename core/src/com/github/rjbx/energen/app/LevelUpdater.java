@@ -180,6 +180,7 @@ class LevelUpdater {
 
     // asset handling
     private void updateEntities(float delta) {
+
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {

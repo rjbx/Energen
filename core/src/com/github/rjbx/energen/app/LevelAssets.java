@@ -18,6 +18,8 @@ public final class LevelAssets {
     // non-instantiable
     private LevelAssets() {}
 
+    // TODO: Remove / add items to list based on update bounds overlap to be globally accessed
+
     // Public getters
     public static final Array<Entity> getClonedEntities() {
 //        Array<Entity> clonedEntities = new Array<Entity>();
