@@ -131,7 +131,7 @@ class LevelUpdater {
 
         backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
-        for (Ground ground : grounds) {
+        for (Ground ground : scopedGrounds) {
             if (!ground.isDense() || ground instanceof Tripknob || ground instanceof Tripspring || ground instanceof Spring) {
                 if (renderBounds.overlaps(new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight()))) ground.render(batch, viewport);
             }
@@ -145,19 +145,19 @@ class LevelUpdater {
             if (renderBounds.overlaps(new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight()))) powerup.render(batch, viewport);
         }
 
-        for (Ground ground : grounds) {
+        for (Ground ground : scopedGrounds) {
             if (ground instanceof Vines || ground instanceof Deposit) {
                 if (renderBounds.overlaps(new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight()))) ground.render(batch, viewport);
             }
         }
 
-        for (Hazard hazard : hazards) {
+        for (Hazard hazard : scopedHazards) {
             if (!(hazard instanceof Projectile)) {
                 if (renderBounds.overlaps(new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight()))) hazard.render(batch, viewport);
             }
         }
 
-        for (Ground ground : grounds) {
+        for (Ground ground : scopedGrounds) {
             if (ground.isDense() && !(ground instanceof Tripknob || ground instanceof Tripspring || ground instanceof Spring || ground instanceof Deposit)) {
                 if (renderBounds.overlaps(new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight()))) ground.render(batch, viewport);
             }
@@ -166,13 +166,13 @@ class LevelUpdater {
         avatar.render(batch, viewport);
         Blade.getInstance().render(batch, viewport);
 
-        for (Ground ground : grounds) {
+        for (Ground ground : scopedGrounds) {
             if (ground instanceof Pliable && ((Pliable) ground).isBeingCarried()) {
                 if (renderBounds.overlaps(new Rectangle(ground.getLeft(), ground.getBottom(), ground.getWidth(), ground.getHeight()))) ground.render(batch, viewport);
             }
         }
 
-        for (Hazard hazard : hazards) {
+        for (Hazard hazard : scopedHazards) {
             if (hazard instanceof Projectile) {
                 if (renderBounds.overlaps(new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight()))) hazard.render(batch, viewport);
             }
