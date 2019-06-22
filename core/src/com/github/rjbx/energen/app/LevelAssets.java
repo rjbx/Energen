@@ -36,7 +36,7 @@ public final class LevelAssets {
 //        for (Ground ground : levelUpdater.getGrounds()) {
 //            clonedGrounds.add((Ground) ground.safeClone());
 //        }
-        return levelUpdater.getGrounds();
+        return levelUpdater.getScopedGrounds();
     }
 
     public static final Array<Hazard> getClonedHazards() {
@@ -44,7 +44,7 @@ public final class LevelAssets {
 //        for (Hazard hazard : levelUpdater.getHazards()) {
 //            clonedHazards.add((Hazard) hazard.safeClone());
 //        }
-        return levelUpdater.getHazards();
+        return levelUpdater.getScopedHazards();
     }
 
     public static final Array<Powerup> getClonedPowerups() {

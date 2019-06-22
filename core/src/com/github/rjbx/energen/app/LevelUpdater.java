@@ -194,12 +194,15 @@ class LevelUpdater {
 
     // asset handling
     private void updateEntities(float delta) {
+        scopedGrounds.clear();
+        scopedHazards.clear();
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
                 Ground g = grounds.get(i);
                 Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
                 if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                    scopedGrounds.add(g);
                     if (g instanceof Nonstatic) {
                         for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
                             if (convertBounds.overlaps(new Rectangle(g.getPosition().x, g.getPosition().y, g.getWidth(), g.getHeight()))) {
@@ -294,6 +297,7 @@ class LevelUpdater {
             for (int i = 0; i < hazards.size; i++) {
                 Hazard h = hazards.get(i);
                 if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
+                    scopedHazards.add(h);
                     if (!updateHazard(delta, h)) {
                         spawnPowerup(h);
                         hazards.removeIndex(i);
@@ -323,6 +327,7 @@ class LevelUpdater {
             for (int i = 0; i < grounds.size; i++) {
                 Ground g = grounds.get(i);
                 if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                    scopedGrounds.add(g);
                     if (!(g instanceof Pliable)
                             || !(((Pliable) g).isBeingCarried())
                             || !(((Pliable) g).getMovingGround() instanceof Pliable)
@@ -1051,4 +1056,15 @@ class LevelUpdater {
     protected final void setLoadEx(boolean state) { loadEx = state; }
 
     protected final Backdrop getBackdrop() { return backdrop; }
+
+    public Array<Ground> getScopedGrounds() { return scopedGrounds; }
+    public void setScopedGrounds(Array<Ground> scopedGrounds) { this.scopedGrounds = scopedGrounds; }
+
+    public Array<Hazard> getScopedHazards() {
+        return scopedHazards;
+    }
+
+    public void setScopedHazards(Array<Hazard> scopedHazards) {
+        this.scopedHazards = scopedHazards;
+    }
 }
