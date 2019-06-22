@@ -65,6 +65,7 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
         movingGround = null;
         topGround = null;
         payload = 0;
+        // TODO: Apply object updates to complete list
         for (Ground ground : LevelAssets.getClonedGrounds()) {
             if (Helpers.overlapsPhysicalObject(this, ground)) {
                 if (Helpers.betweenTwoValues(getBottom(), ground.getTop() - 6 * multiplier, ground.getTop() + 1) && getBottom() > ground.getBottom()
