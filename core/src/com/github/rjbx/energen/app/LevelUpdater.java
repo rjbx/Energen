@@ -275,28 +275,6 @@ class LevelUpdater {
             }
             transports.end();
 
-            // Update Hazards
-            hazards.begin();
-            for (int i = 0; i < hazards.size; i++) {
-                Hazard h = hazards.get(i);
-                if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
-                    if (!updateHazard(delta, h)) {
-                        spawnPowerup(h);
-                        hazards.removeIndex(i);
-                        removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
-                    }
-                    if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
-                            && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
-                        if (Helpers.overlapsPhysicalObject(avatar, h)) {
-                            avatar.touchHazard(h);
-                        } else if (h instanceof Moving) {
-                            avatar.setPeerTarget(h, 1);
-                        }
-                    }
-                }
-            }
-            hazards.end();
-
             // TODO: Replace all entity level iterations
             // Update Grounds
             if (Helpers.secondsSince(refreshTime) > 10) {
@@ -378,6 +356,29 @@ class LevelUpdater {
             }
             grounds.end();
             avatar.untouchGround();
+
+
+            // Update Hazards
+            hazards.begin();
+            for (int i = 0; i < hazards.size; i++) {
+                Hazard h = hazards.get(i);
+                if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
+                    if (!updateHazard(delta, h)) {
+                        spawnPowerup(h);
+                        hazards.removeIndex(i);
+                        removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
+                    }
+                    if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
+                            && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
+                        if (Helpers.overlapsPhysicalObject(avatar, h)) {
+                            avatar.touchHazard(h);
+                        } else if (h instanceof Moving) {
+                            avatar.setPeerTarget(h, 1);
+                        }
+                    }
+                }
+            }
+            hazards.end();
 //            boss.untouchGround();
 
 //            hazards.begin();
