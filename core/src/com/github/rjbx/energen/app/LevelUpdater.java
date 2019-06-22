@@ -43,6 +43,13 @@ class LevelUpdater {
     private DelayedRemovalArray<Transport> transports;
     private DelayedRemovalArray<Impact> impacts;
     private DelayedRemovalArray<Projectile> projectiles;
+    private Array<Entity> scopedEntities;
+    private Array<Ground> scopedGrounds;
+    private Array<Hazard> scopedHazards;
+    private Array<Powerup> scopedPowerups;
+    private Array<Transport> scopedTransports;
+    private Array<Impact> scopedImpacts;
+    private Array<Projectile> scopedProjectiles;
     private Enums.Energy levelEnergy;
     private Enums.Theme theme;
     private Music music;
@@ -84,6 +91,13 @@ class LevelUpdater {
         impacts = new DelayedRemovalArray<Impact>();
         powerups = new DelayedRemovalArray<Powerup>();
         transports = new DelayedRemovalArray<Transport>();
+        scopedEntities = new Array<Entity>();
+        scopedGrounds = new Array<Ground>();
+        scopedHazards = new Array<Hazard>();
+        scopedProjectiles = new Array<Projectile>();
+        scopedImpacts = new Array<Impact>();
+        scopedPowerups = new Array<Powerup>();
+        scopedTransports = new Array<Transport>();
         loadEx = false;
         musicEnabled = false;
         hintsEnabled = true;
