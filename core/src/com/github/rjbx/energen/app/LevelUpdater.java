@@ -353,9 +353,18 @@ class LevelUpdater {
             for (int i = 0; i < grounds.size; i++) {
                 Ground g = grounds.get(i);
                 if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                    Ground clone = (Ground) g.safeClone();
+//                    Ground clone = (Ground) g.safeClone();
                     avatar.touchGround(g);
 //                    boss.touchGround(g);
+                    if ((grounds.get(i) instanceof Pliable)
+                            && ((((Pliable) grounds.get(i)).isBeingCarried())
+                            || (((Pliable) grounds.get(i)).isAtopMovingGround()
+                            && ((Pliable) grounds.get(i)).getMovingGround() instanceof Pliable
+                            && ((Pliable) ((Pliable) grounds.get(i)).getMovingGround()).isBeingCarried()))) {
+                        if (!updateGround(delta, grounds.get(i))) {
+                            grounds.removeIndex(i);
+                        }
+                    }
                 }
             }
             grounds.end();
@@ -387,24 +396,6 @@ class LevelUpdater {
 
             avatar.update(delta);
             Blade.getInstance().update(delta);
-
-            // Update Grounds
-            grounds.begin();
-            for (int i = 0; i < grounds.size; i++) {
-                Ground g = grounds.get(i);
-                if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                    if ((grounds.get(i) instanceof Pliable)
-                            && ((((Pliable) grounds.get(i)).isBeingCarried())
-                            || (((Pliable) grounds.get(i)).isAtopMovingGround()
-                            && ((Pliable) grounds.get(i)).getMovingGround() instanceof Pliable
-                            && ((Pliable) ((Pliable) grounds.get(i)).getMovingGround()).isBeingCarried()))) {
-                        if (!updateGround(delta, grounds.get(i))) {
-                            grounds.removeIndex(i);
-                        }
-                    }
-                }
-            }
-            grounds.end();
         }
     }
 
