@@ -837,10 +837,6 @@ class LevelUpdater {
     }
 
     protected void clearEntities() {
-        getEntities().clear();
-        getGrounds().clear();
-        getHazards().clear();
-        getPowerups().clear();
         entities.clear();
         grounds.clear();
         hazards.clear();
@@ -848,6 +844,12 @@ class LevelUpdater {
         transports.clear();
         impacts.clear();
         projectiles.clear();
+        scopedGrounds.clear();
+        scopedHazards.clear();
+        scopedProjectiles.clear();
+        scopedImpacts.clear();
+        scopedTransports.clear();
+        scopedPowerups.clear();
     }
 
     protected void dispose() {
@@ -859,6 +861,12 @@ class LevelUpdater {
         transports = null;
         impacts = null;
         projectiles = null;
+        scopedGrounds = null;
+        scopedTransports = null;
+        scopedPowerups = null;
+        scopedImpacts = null;
+        scopedHazards = null;
+        scopedProjectiles = null;
     }
 
     // level state handling
