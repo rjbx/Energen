@@ -361,7 +361,6 @@ class LevelUpdater {
             powerups.begin();
             for (int i = 0; i < powerups.size; i++) {
                 Powerup p = powerups.get(i);
-                p.safeClone();
                 // TODO: Resolve inconsistently applied collision caused by attempting to access removed element from updated list occurring in single frame in absence of cloned list
                 if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
                     scopedPowerups.add(p);
