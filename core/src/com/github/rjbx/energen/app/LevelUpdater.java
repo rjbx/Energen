@@ -365,7 +365,7 @@ class LevelUpdater {
 
             hazards.begin();
             for (Hazard h : hazards) {
-                if (updateBounds.overlaps(new Rectangle(h.getLeft(), .getBottom(), h.getWidth(), h.getHeight()))) {
+                if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
                     Hazard clone = (Hazard) h.safeClone();
                     if (!(clone instanceof Projectile && ((Projectile) clone).getSource() instanceof Avatar)
                             && !(clone instanceof Protrusion && ((Protrusion) clone).isConverted())) {
