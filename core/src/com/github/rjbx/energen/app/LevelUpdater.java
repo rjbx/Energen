@@ -349,7 +349,7 @@ class LevelUpdater {
             for (int index = 0; index < impacts.size; index++) {
                 Impact i = impacts.get(index);
                 if (updateBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
-                    impacts.add(i);
+                    scopedImpacts.add(i);
                     if (i.isFinished()) {
                         impacts.removeIndex(index);
                     }
