@@ -337,7 +337,7 @@ class LevelUpdater {
                             if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
                         } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
                     }
-                }
+                } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
             }
             grounds.end();
 
@@ -386,7 +386,7 @@ class LevelUpdater {
                             if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
                         } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
                     }
-                }
+                } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
             }
         }
     }
