@@ -52,7 +52,7 @@ public final class LevelAssets {
 //        for (Powerup powerup : levelUpdater.getPowerups()) {
 //            clonedPowerups.add((Powerup) powerup.safeClone());
 //        }
-        return levelUpdater.getPowerups();
+        return levelUpdater.getScopedPowerups();
     }
 
     public static final Boss getClonedBoss() { return levelUpdater.getBoss(); }

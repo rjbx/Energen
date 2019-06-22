@@ -137,11 +137,11 @@ class LevelUpdater {
             }
         }
 
-        for (Transport transport : transports) {
+        for (Transport transport : scopedTransports) {
             if (renderBounds.overlaps(new Rectangle(transport.getLeft(), transport.getBottom(), transport.getWidth(), transport.getHeight()))) transport.render(batch, viewport);
         }
 
-        for (Powerup powerup : powerups) {
+        for (Powerup powerup : scopedPowerups) {
             if (renderBounds.overlaps(new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight()))) powerup.render(batch, viewport);
         }
 
@@ -178,7 +178,7 @@ class LevelUpdater {
             }
         }
 
-        for (Impact impact : impacts) {
+        for (Impact impact : scopedImpacts) {
             if (renderBounds.overlaps(new Rectangle(impact.getLeft(), impact.getBottom(), impact.getWidth(), impact.getHeight()))) impact.render(batch, viewport);
         }
     }
@@ -196,6 +196,9 @@ class LevelUpdater {
     private void updateEntities(float delta) {
         scopedGrounds.clear();
         scopedHazards.clear();
+        scopedPowerups.clear();
+        scopedTransports.clear();
+        scopedImpacts.clear();
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
@@ -285,6 +288,7 @@ class LevelUpdater {
             for (int i = 0; i < transports.size; i++) {
                 Transport t = transports.get(i);
                 if (updateBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
+                    scopedTransports.add(t);
                     if (!updateTransport(delta, t, i)) {
                         transports.removeIndex(i);
                     }
@@ -345,6 +349,7 @@ class LevelUpdater {
             for (int index = 0; index < impacts.size; index++) {
                 Impact i = impacts.get(index);
                 if (updateBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
+                    impacts.add(i);
                     if (i.isFinished()) {
                         impacts.removeIndex(index);
                     }
@@ -359,6 +364,7 @@ class LevelUpdater {
                 p.safeClone();
                 // TODO: Resolve inconsistently applied collision caused by attempting to access removed element from updated list occurring in single frame in absence of cloned list
                 if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
+                    scopedPowerups.add(p);
                     if (!updatePowerup(delta, p)) {
                         powerups.removeIndex(i);
                     }
@@ -1059,12 +1065,14 @@ class LevelUpdater {
 
     public Array<Ground> getScopedGrounds() { return scopedGrounds; }
     public void setScopedGrounds(Array<Ground> scopedGrounds) { this.scopedGrounds = scopedGrounds; }
-
-    public Array<Hazard> getScopedHazards() {
-        return scopedHazards;
-    }
-
-    public void setScopedHazards(Array<Hazard> scopedHazards) {
-        this.scopedHazards = scopedHazards;
-    }
+    public Array<Hazard> getScopedHazards() { return scopedHazards; }
+    public void setScopedHazards(Array<Hazard> scopedHazards) { this.scopedHazards = scopedHazards; }
+    public Array<Powerup> getScopedPowerups() { return scopedPowerups; }
+    public void setScopedPowerups(Array<Powerup> scopedPowerups) { this.scopedPowerups = scopedPowerups; }
+    public Array<Transport> getScopedTransports() { return scopedTransports; }
+    public void setScopedTransports(Array<Transport> scopedTransports) { this.scopedTransports = scopedTransports; }
+    public Array<Impact> getScopedImpacts() { return scopedImpacts; }
+    public void setScopedImpacts(Array<Impact> scopedImpacts) { this.scopedImpacts = scopedImpacts; }
+    public Array<Projectile> getScopedProjectiles() { return scopedProjectiles; }
+    public void setScopedProjectiles(Array<Projectile> scopedProjectiles) { this.scopedProjectiles = scopedProjectiles; }
 }
