@@ -1292,7 +1292,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     if (startTurbo == 0) {
                         startTurbo = turbo;
                     }
-                    if (!canMove && carriedGround == null && turbo >= Constants.LEAP_TURBO_DECREMENT) {
+                    if (turbo >= Constants.LEAP_TURBO_DECREMENT) {
                         turbo -= Constants.LEAP_TURBO_DECREMENT;
                     }
                 } else if (turbo < Constants.LEAP_TURBO_DECREMENT) {
