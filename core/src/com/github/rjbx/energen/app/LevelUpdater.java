@@ -320,15 +320,11 @@ class LevelUpdater {
                 refreshTime = TimeUtils.nanoTime();
             }
 
-            avatar.updatePosition(delta);
-            applyCollision(avatar);
-
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
                 Ground g = grounds.get(i);
                 if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                    avatar.touchGround(g);
-                    boss.touchGround(g);
+
                     if (!(g instanceof Pliable)
                             || !(((Pliable) g).isBeingCarried())
                             || !(((Pliable) g).getMovingGround() instanceof Pliable)
@@ -339,8 +335,6 @@ class LevelUpdater {
                     }
                 }
             }
-            avatar.untouchGround();
-            boss.untouchGround();
             grounds.end();
 
             // Update Impacts
@@ -367,6 +361,21 @@ class LevelUpdater {
                 }
             }
             powerups.end();
+
+            avatar.updatePosition(delta);
+            applyCollision(avatar);
+
+            grounds.begin();
+            for (Ground g : grounds) {
+                if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                    Ground clone = (Ground) g.safeClone();
+                    avatar.touchGround(clone);
+                    boss.touchGround(clone);
+                }
+            }
+            grounds.end();
+            avatar.untouchGround();
+            boss.untouchGround();
 
             avatar.update(delta);
             Blade.getInstance().update(delta);
