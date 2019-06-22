@@ -205,12 +205,11 @@ class LevelUpdater {
                 Ground g = grounds.get(i);
                 Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
                 if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                    scopedGrounds.add(g);
                     if (g instanceof Nonstatic) {
                         for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
                             if (convertBounds.overlaps(new Rectangle(g.getPosition().x, g.getPosition().y, g.getWidth(), g.getHeight()))) {
                                 updateGround(delta, g);
-                            }
+                            } else scopedGrounds.add(g);
                         }
                     }
                 }
@@ -373,15 +372,16 @@ class LevelUpdater {
             Blade.getInstance().update(delta);
 
             // Update Grounds
-            for (int i = 0; i < scopedGrounds.size; i++) {
-                Ground g = scopedGrounds.get(i);
+            for (int i = 0; i < grounds.size; i++) {
+                Ground g = grounds.get(i);
                 if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
                     if ((g instanceof Pliable)
                             && ((((Pliable) g).isBeingCarried())
                             || (((Pliable) g).isAtopMovingGround()
                             && ((Pliable) g).getMovingGround() instanceof Pliable
                             && ((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried()))) {
-                        updateGround(delta, g);
+                        if (!updateGround(delta, g)) grounds.removeIndex(i);
+                        else scopedGrounds.add(g);
                     }
                 }
             }
