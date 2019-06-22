@@ -100,6 +100,7 @@ class LevelUpdater {
         }
     }
 
+    // TODO: Combine update and render loops and add indicator for determining sort order
     protected void render(SpriteBatch batch, Viewport viewport) {
 
         if (!continuing() || batch == null || viewport == null) return;
