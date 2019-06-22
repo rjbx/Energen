@@ -440,14 +440,14 @@ class LevelUpdater {
                     chaseCam.setConvertBounds(trip.getBounds());
                     trip.addCamAdjustment();
                 }
-                for (Ground g : scopedGrounds) {
+                for (Ground g : grounds) {
                     if (g instanceof Convertible && (g != trip || g instanceof Triptread)) {
                         if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                             ((Convertible) g).convert();
                         }
                     }
                 }
-                for (Hazard h : scopedHazards) {
+                for (Hazard h : hazards) {
                     if (h instanceof Convertible && (h != trip)) {
                         if (Helpers.betweenFourValues(h.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                             ((Convertible) h).convert();
@@ -528,7 +528,9 @@ class LevelUpdater {
         if (ground instanceof Destructible) {
             if (((Destructible) ground).getHealth() < 1) {
                 if (ground instanceof Box) {
-                    grounds.add(new Brick(ground.getPosition().x, ground.getPosition().y, 5, 5, ((Destructible) ground).getType()));
+                    Brick brick = new Brick(ground.getPosition().x, ground.getPosition().y, 5, 5, ((Destructible) ground).getType());
+                    grounds.add(brick);
+                    scopedGrounds.add(brick);
                     assetManager.getSoundAssets().breakGround.play();
                 }
                 active = false;
@@ -703,14 +705,14 @@ class LevelUpdater {
                             chaseCam.setConvertBounds(trip.getBounds());
                             trip.addCamAdjustment();
                         }
-                        for (Ground g : scopedGrounds) {
+                        for (Ground g : grounds) {
                             if (g instanceof Convertible && (g != trip || g instanceof Triptread)) {
                                 if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                                     ((Convertible) g).convert();
                                 }
                             }
                         }
-                        for (Hazard h : scopedHazards) {
+                        for (Hazard h : hazards) {
                             if (h instanceof Convertible && (h != trip)) {
                                 if (Helpers.betweenFourValues(h.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                                     ((Convertible) h).convert();
@@ -981,13 +983,17 @@ class LevelUpdater {
     }
 
     private void spawnImpact(Vector2 position, Enums.Energy type) {
-        impacts.add(new Impact(position, type));
+        Impact impact = new Impact(position, type);
+        impacts.add(impact);
+        scopedImpacts.add(impact);
     }
 
     private void spawnProjectile(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Energy energy, Entity source) {
         Projectile projectile = new Projectile(position, direction, orientation, shotIntensity, energy, source);
         hazards.add(projectile);
+        scopedHazards.add(projectile);
         projectiles.add(projectile);
+        scopedProjectiles.add(projectile);
     }
 
     private void spawnPowerup(Hazard hazard) {
