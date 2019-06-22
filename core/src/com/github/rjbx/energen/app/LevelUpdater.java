@@ -194,7 +194,6 @@ class LevelUpdater {
 
     // asset handling
     private void updateEntities(float delta) {
-        scopedHazards.clear();
         scopedProjectiles.clear();
         scopedImpacts.clear();
         scopedPowerups.clear();
@@ -307,8 +306,9 @@ class LevelUpdater {
                         spawnPowerup(h);
                         hazards.removeIndex(i);
                         removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
-                    } else scopedHazards.add(h);
-                }
+                        if (scopedHazards.contains(h, true)) scopedHazards.removeValue(h, true);
+                    } else if (!scopedHazards.contains(h, true)) scopedHazards.add(h);
+                } else if (scopedHazards.contains(h, true)) scopedHazards.removeValue(h, true);
             }
             hazards.end();
 
