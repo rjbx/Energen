@@ -285,6 +285,14 @@ class LevelUpdater {
                         hazards.removeIndex(i);
                         removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                     }
+                    if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
+                            && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
+                        if (Helpers.overlapsPhysicalObject(avatar, h)) {
+                            avatar.touchHazard(h);
+                        } else if (h instanceof Moving) {
+                            avatar.setPeerTarget(h, 1);
+                        }
+                    }
                 }
             }
             hazards.end();
@@ -372,28 +380,21 @@ class LevelUpdater {
             avatar.untouchGround();
 //            boss.untouchGround();
 
-            hazards.begin();
-            for (int i = 0; i < hazards.size; i++) {
-                Hazard h = hazards.get(i);
-                if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
-//                    Hazard h = (Hazard) h.safeh();
-                    if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
-                            && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
-                        if (Helpers.overlapsPhysicalObject(avatar, h)) {
-                            avatar.touchHazard(h);
-                        } else if (h instanceof Moving) {
-                            avatar.setPeerTarget(h, 1);
-                        }
-                    }
-/*                    if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
-                            && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
-                        if (Helpers.overlapsPhysicalObject(boss, h)) {
-                            boss.touchHazard(h);
-                        }
-                    }*/
-                }
-            }
-            hazards.end();
+//            hazards.begin();
+//            for (int i = 0; i < hazards.size; i++) {
+//                Hazard h = hazards.get(i);
+//                if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
+////                    Hazard h = (Hazard) h.safeh();
+//
+///*                    if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
+//                            && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
+//                        if (Helpers.overlapsPhysicalObject(boss, h)) {
+//                            boss.touchHazard(h);
+//                        }
+//                    }*/
+//                }
+//            }
+//            hazards.end();
 
             avatar.update(delta);
             Blade.getInstance().update(delta);
