@@ -194,11 +194,11 @@ class LevelUpdater {
 
     // asset handling
     private void updateEntities(float delta) {
-        scopedGrounds.clear();
         scopedHazards.clear();
+        scopedProjectiles.clear();
+        scopedImpacts.clear();
         scopedPowerups.clear();
         scopedTransports.clear();
-        scopedImpacts.clear();
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
@@ -334,7 +334,8 @@ class LevelUpdater {
                             || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried()) {
                         if (!updateGround(delta, g)) {
                             grounds.removeIndex(i);
-                        } else scopedGrounds.add(g);
+                            if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                        } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
                     }
                 }
             }
@@ -372,16 +373,18 @@ class LevelUpdater {
             Blade.getInstance().update(delta);
 
             // Update Grounds
-            for (int i = 0; i < grounds.size; i++) {
-                Ground g = grounds.get(i);
+            for (int i = 0; i < scopedGrounds.size; i++) {
+                Ground g = scopedGrounds.get(i);
                 if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
                     if ((g instanceof Pliable)
                             && ((((Pliable) g).isBeingCarried())
                             || (((Pliable) g).isAtopMovingGround()
                             && ((Pliable) g).getMovingGround() instanceof Pliable
                             && ((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried()))) {
-                        if (!updateGround(delta, g)) grounds.removeIndex(i);
-                        else scopedGrounds.add(g);
+                        if (!updateGround(delta, g)) {
+                            grounds.removeIndex(i);
+                            if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                        } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
                     }
                 }
             }
@@ -441,7 +444,7 @@ class LevelUpdater {
                     if (g instanceof Convertible && (g != trip || g instanceof Triptread)) {
                         if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                             ((Convertible) g).convert();
-                        }
+                       }
                     }
                 }
                 for (Hazard h : hazards) {
