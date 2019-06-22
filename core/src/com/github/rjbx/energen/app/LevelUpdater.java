@@ -288,10 +288,9 @@ class LevelUpdater {
             for (int i = 0; i < transports.size; i++) {
                 Transport t = transports.get(i);
                 if (updateBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
-                    scopedTransports.add(t);
                     if (!updateTransport(delta, t, i)) {
                         transports.removeIndex(i);
-                    }
+                    } else scopedTransports.add(t);
                 }
             }
             transports.end();
@@ -301,12 +300,11 @@ class LevelUpdater {
             for (int i = 0; i < hazards.size; i++) {
                 Hazard h = hazards.get(i);
                 if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
-                    scopedHazards.add(h);
                     if (!updateHazard(delta, h)) {
                         spawnPowerup(h);
                         hazards.removeIndex(i);
                         removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
-                    }
+                    } else scopedHazards.add(h);
                 }
             }
             hazards.end();
@@ -331,14 +329,13 @@ class LevelUpdater {
             for (int i = 0; i < grounds.size; i++) {
                 Ground g = grounds.get(i);
                 if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                    scopedGrounds.add(g);
                     if (!(g instanceof Pliable)
                             || !(((Pliable) g).isBeingCarried())
                             || !(((Pliable) g).getMovingGround() instanceof Pliable)
                             || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried()) {
                         if (!updateGround(delta, g)) {
                             grounds.removeIndex(i);
-                        }
+                        } else scopedGrounds.add(g);
                     }
                 }
             }
@@ -349,10 +346,9 @@ class LevelUpdater {
             for (int index = 0; index < impacts.size; index++) {
                 Impact i = impacts.get(index);
                 if (updateBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
-                    scopedImpacts.add(i);
                     if (i.isFinished()) {
                         impacts.removeIndex(index);
-                    }
+                    } else scopedImpacts.add(i);
                 }
             }
             impacts.end();
@@ -364,10 +360,9 @@ class LevelUpdater {
                 p.safeClone();
                 // TODO: Resolve inconsistently applied collision caused by attempting to access removed element from updated list occurring in single frame in absence of cloned list
                 if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
-                    scopedPowerups.add(p);
                     if (!updatePowerup(delta, p)) {
                         powerups.removeIndex(i);
-                    }
+                    } else scopedPowerups.add(p);
                 }
             }
             powerups.end();
