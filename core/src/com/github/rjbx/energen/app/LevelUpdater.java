@@ -378,7 +378,8 @@ class LevelUpdater {
             Blade.getInstance().update(delta);
 
             // Update Grounds
-            for (Ground g : scopedGrounds) {
+            for (int i = 0; i < scopedGrounds.size; i++) {
+                Ground g = scopedGrounds.get(i);
                 if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
                     if ((g instanceof Pliable)
                             && ((((Pliable) g).isBeingCarried())
