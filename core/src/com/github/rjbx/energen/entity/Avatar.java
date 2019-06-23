@@ -20,7 +20,6 @@ import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Enums.*;
 import com.github.rjbx.energen.util.Helpers;
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 import java.lang.String;
 import java.util.ArrayList;
