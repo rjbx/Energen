@@ -20,6 +20,8 @@ import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Enums.*;
 import com.github.rjbx.energen.util.Helpers;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
+
 import java.lang.String;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -863,9 +865,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             case AMMO:
                 AssetManager.getInstance().getSoundAssets().ammo.play();
                 ammo += Constants.POWERUP_AMMO;
-                if (ammo > Constants.MAX_AMMO) {
-                    ammo = Constants.MAX_AMMO;
-                }
+                if (ammo > Constants.MAX_AMMO) ammo = Constants.MAX_AMMO;
                 break;
             case HEALTH:
                 if (r instanceof Powerup) {
@@ -874,19 +874,18 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 } else if (r instanceof Pod) {
                     if (touchedGround == r) health += .1f;
                 }
-                if (health > Constants.MAX_HEALTH) {
-                    health = Constants.MAX_HEALTH;
-                }
+                if (health > Constants.MAX_HEALTH) health = Constants.MAX_HEALTH;
                 break;
             case TURBO:
                 AssetManager.getInstance().getSoundAssets().turbo.play();
-                turbo += Constants.POWERUP_TURBO;
+                turbo = Constants.POWERUP_TURBO;
                 if (action == Action.HOVERING) {
                     hoverStartTime = TimeUtils.nanoTime();
                 }
                 if (action == Action.DASHING) {
                     dashStartTime = TimeUtils.nanoTime();
                 }
+                if (turbo > Constants.MAX_TURBO) turbo = Constants.MAX_TURBO;
                 break;
             case LIFE:
                 AssetManager.getInstance().getSoundAssets().life.play();
