@@ -53,7 +53,7 @@ public final class Constants {
     // TODO[M]: Convert all to .wav
     public static final AssetDescriptor<Music> INTRO_MUSIC = new AssetDescriptor<Music>("audio/riff-intro.mp3", Music.class);
     public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/riff-level.mp3", Music.class);
-    public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/riff-level3.wav", Music.class);
+    public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/boss.mp3", Music.class);
     public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/thermal.mp3", Music.class);
     public static final AssetDescriptor<Music> NUCLEAR_MUSIC = new AssetDescriptor<Music>("audio/nuclear.mp3", Music.class);
     public static final AssetDescriptor<Music> MECHANICAL_MUSIC = new AssetDescriptor<Music>("audio/mechanical.mp3", Music.class);

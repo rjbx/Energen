@@ -59,12 +59,12 @@ public final class AssetManager implements AssetErrorListener {
         assetManager.setErrorListener(this);
         assetManager.load(Constants.TEXTURE_ATLAS); // atlas packed upon gradle build; load all at once instead of individually
         assetManager.load(Constants.INTRO_MUSIC);
-        assetManager.load(Constants.LEVEL_MUSIC);
+//        assetManager.load(Constants.LEVEL_MUSIC);
         assetManager.load(Constants.BOSS_MUSIC);
-        assetManager.load(Constants.MECHANICAL_MUSIC);
-        assetManager.load(Constants.THERMAL_MUSIC);
-        assetManager.load(Constants.MYSTERIOUS_MUSIC);
-        assetManager.load(Constants.NUCLEAR_MUSIC);
+//        assetManager.load(Constants.MECHANICAL_MUSIC);
+//        assetManager.load(Constants.THERMAL_MUSIC);
+//        assetManager.load(Constants.MYSTERIOUS_MUSIC);
+//        assetManager.load(Constants.NUCLEAR_MUSIC);
         assetManager.load(Constants.HEALTH_SOUND);
         assetManager.load(Constants.AMMO_SOUND);
         assetManager.load(Constants.TURBO_SOUND);
@@ -1657,44 +1657,45 @@ public final class AssetManager implements AssetErrorListener {
     public final class MusicAssets {
 
         public final Music intro;
-        public final Music level;
+//        public final Music level;
         public final Music boss;
-        public final Music mechanical;
-        public final Music thermal;
-        public final Music nuclear;
-        public final Music mysterious;
+//        public final Music mechanical;
+//        public final Music thermal;
+//        public final Music nuclear;
+//        public final Music mysterious;
 
         private MusicAssets() {
             intro = assetManager.get(Constants.INTRO_MUSIC);
-            level = assetManager.get(Constants.LEVEL_MUSIC); // use of descriptor enforces type checking
+//            level = assetManager.get(Constants.LEVEL_MUSIC); // use of descriptor enforces type checking
             boss = assetManager.get(Constants.BOSS_MUSIC); // use of descriptor enforces type checking
-            mechanical = assetManager.get(Constants.MECHANICAL_MUSIC);
-            thermal = assetManager.get(Constants.THERMAL_MUSIC); // use of descriptor enforces type checking
-            nuclear = assetManager.get(Constants.NUCLEAR_MUSIC); // use of descriptor enforces type checking
-            mysterious = assetManager.get(Constants.MYSTERIOUS_MUSIC); // use of descriptor enforces type checking
+//            mechanical = assetManager.get(Constants.MECHANICAL_MUSIC);
+//            thermal = assetManager.get(Constants.THERMAL_MUSIC); // use of descriptor enforces type checking
+//            nuclear = assetManager.get(Constants.NUCLEAR_MUSIC); // use of descriptor enforces type checking
+//            mysterious = assetManager.get(Constants.MYSTERIOUS_MUSIC); // use of descriptor enforces type checking
         }
 
         public Music getThemeMusic(Enums.Theme theme) {
-            switch (theme) {
-                case HOME:
-                    return thermal;
-                case MECHANICAL:
-                    return mechanical;
-                case ELECTROMAGNETIC:
-                    return thermal;
-                case NUCLEAR:
-                    return nuclear;
-                case THERMAL:
-                    return thermal;
-                case GRAVITATIONAL:
-                    return thermal;
-                case MYSTERIOUS:
-                    return mysterious;
-                case FINAL:
-                    return boss;
-                default:
-                    return level;
-            }
+            return intro;
+//            switch (theme) {
+//                case HOME:
+//                    return thermal;
+//                case MECHANICAL:
+//                    return mechanical;
+//                case ELECTROMAGNETIC:
+//                    return thermal;
+//                case NUCLEAR:
+//                    return nuclear;
+//                case THERMAL:
+//                    return thermal;
+//                case GRAVITATIONAL:
+//                    return thermal;
+//                case MYSTERIOUS:
+//                    return mysterious;
+//                case FINAL:
+//                    return boss;
+//                default:
+//                    return level;
+//            }
         }
     }
 
