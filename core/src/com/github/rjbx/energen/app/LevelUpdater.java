@@ -447,14 +447,14 @@ class LevelUpdater {
                     chaseCam.setConvertBounds(trip.getBounds());
                     trip.addCamAdjustment();
                 }
-                for (Ground g : grounds) {
+                for (Ground g : scopedGrounds) {
                     if (g instanceof Convertible && (g != trip || g instanceof Triptread)) {
                         if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                             ((Convertible) g).convert();
                        }
                     }
                 }
-                for (Hazard h : hazards) {
+                for (Hazard h : scopedHazards) {
                     if (h instanceof Convertible && (h != trip)) {
                         if (Helpers.betweenFourValues(h.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                             ((Convertible) h).convert();
@@ -711,14 +711,14 @@ class LevelUpdater {
                             chaseCam.setConvertBounds(trip.getBounds());
                             trip.addCamAdjustment();
                         }
-                        for (Ground g : grounds) {
+                        for (Ground g : scopedGrounds) {
                             if (g instanceof Convertible && (g != trip || g instanceof Triptread)) {
                                 if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                                     ((Convertible) g).convert();
                                 }
                             }
                         }
-                        for (Hazard h : hazards) {
+                        for (Hazard h : scopedHazards) {
                             if (h instanceof Convertible && (h != trip)) {
                                 if (Helpers.betweenFourValues(h.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
                                     ((Convertible) h).convert();
