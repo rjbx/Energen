@@ -71,7 +71,7 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
                         }
                         atopMovingGround = true;
                         movingGround = (Moving) ground;
-                    } else if ((!(ground instanceof Climbable) && isBeingCarried())
+                    } else if ((!(ground instanceof Climbable && isBeingCarried()))
                             && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
                         position.y = ground.getTop() + getHeight() / 2;
 //                        if (Helpers.overlapsBetweenTwoSides(position.x, getWidth() / 2, ground.getLeft() + 2, ground.getRight() - 2)) {
@@ -121,11 +121,12 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
                     }
                 } else if (ground instanceof Box) {
                     velocity.y = 0;
-                } else if (!againstStaticGround && (!(ground instanceof Pliable) || getBottom() == ground.getBottom())) {
-                    if (position.x < ground.getPosition().x) {
-                        position.x = ground.getLeft() - getWidth() / 2;
-                    } else {
-                        position.x = ground.getRight() + getWidth() / 2;
+                }
+                if (!againstStaticGround && !(ground instanceof Box) && (!(ground instanceof Pliable))) {
+                    if (getLeft() + getWidth() > ground.getLeft()) {
+                        position.x = ground.getLeft() - getWidth();
+                    } else if (getRight() - getWidth() < ground.getRight()) {
+                        position.x = ground.getRight() + getWidth();
                     }
                 }
                 if (Helpers.betweenTwoValues(getTop(), ground.getBottom() - 2, ground.getBottom() + 2)) {
