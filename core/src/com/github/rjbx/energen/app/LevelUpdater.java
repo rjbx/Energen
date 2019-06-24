@@ -194,10 +194,6 @@ class LevelUpdater {
 
     // asset handling
     private void updateEntities(float delta) {
-        scopedProjectiles.clear();
-        scopedImpacts.clear();
-        scopedPowerups.clear();
-        scopedTransports.clear();
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
@@ -218,6 +214,10 @@ class LevelUpdater {
             }
             grounds.end();
         } else {
+            scopedProjectiles.clear();
+            scopedImpacts.clear();
+            scopedPowerups.clear();
+            scopedTransports.clear();
             Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
             if (updateBounds.overlaps(new Rectangle(boss.getLeft(), boss.getBottom(), boss.getWidth(), boss.getHeight()))) {
                 if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
