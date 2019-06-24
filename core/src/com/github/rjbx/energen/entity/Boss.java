@@ -1670,6 +1670,10 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 
     }
 
+    public Vector2 getSpawnPosition() {
+        return spawnPosition;
+    }
+
     @Override
     public float getRecoverySpeed() {
         return 0;

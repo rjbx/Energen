@@ -955,6 +955,7 @@ class LevelUpdater {
                     chaseCam.setState(Enums.ChaseCamState.FOLLOWING);
                 }
                 boss.setBattleState(false);
+                boss.setPosition(boss.getSpawnPosition());
                 return true;
             }
         }
@@ -972,7 +973,6 @@ class LevelUpdater {
                 music.play();
             }
             avatar.respawn();
-            boss.setPosition(new Vector2(boss.getRoomBounds().x + boss.getRoomBounds().width / 2, boss.getRoomBounds().y + boss.getRoomBounds().height / 2));
         }
         return false;
     }
