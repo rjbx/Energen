@@ -218,6 +218,7 @@ class LevelUpdater {
                     }
                 }
             }
+        } else {
             if (boss.getDispatchStatus()) {
                 if (boss.getLookStartTime() != 0) {
                     if (boss.getDirectionY() == Direction.UP) {
@@ -237,7 +238,6 @@ class LevelUpdater {
                 intersectionPoint.y = Math.max(boss.getBottom(), touchedHazard.getBottom());
                 spawnImpact(intersectionPoint, touchedHazard.getType());
             }
-        } else {
             time = timer.getNanos();
             if (avatar.getDispatchStatus()) {
                 if (avatar.getLookStartTime() != 0) {
