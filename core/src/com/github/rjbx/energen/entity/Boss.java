@@ -23,6 +23,9 @@ import static com.github.rjbx.energen.util.Enums.Orientation.X;
 
 // TODO[M]: Improve AI
 // TODO: Recolor suit to white and apply color through texture shading and projectile by type
+//  Considerations:
+//    -Would need to modularize rendering as with Avatar
+//    -Alternative is to create distinct sprites for each type and provide from AssetManager a texture by type accessor
 // mutable
 public class Boss extends Hazard implements Destructible, Humanoid, Impermeable, Shielded {
 
