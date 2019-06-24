@@ -199,10 +199,6 @@ class LevelUpdater {
             }
             grounds.end();
         } else {
-            scopedProjectiles.clear();
-            scopedImpacts.clear();
-            scopedPowerups.clear();
-            scopedTransports.clear();
             Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
             if (updateBounds.overlaps(new Rectangle(boss.getLeft(), boss.getBottom(), boss.getWidth(), boss.getHeight()))) {
                 if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
@@ -276,8 +272,9 @@ class LevelUpdater {
                 if (updateBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
                     if (!updateTransport(delta, t, i)) {
                         transports.removeIndex(i);
-                    } else scopedTransports.add(t);
-                }
+                        if (scopedTransports.contains(t, true)) scopedTransports.removeValue(t, true);
+                    } else if (!scopedTransports.contains(t, true)) scopedTransports.add(t);
+                } else if (scopedTransports.contains(t, true)) scopedTransports.removeValue(t, true);
             }
             transports.end();
 
@@ -322,8 +319,7 @@ class LevelUpdater {
                      if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
                          if (!updateGround(delta, g)) {
                              grounds.removeIndex(i);
-                             if (scopedGrounds.contains(g, true))
-                                 scopedGrounds.removeValue(g, true);
+                             if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
                          } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
                      } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
                  }
@@ -337,8 +333,9 @@ class LevelUpdater {
                 if (updateBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
                     if (i.isFinished()) {
                         impacts.removeIndex(index);
-                    } else scopedImpacts.add(i);
-                }
+                        if (scopedImpacts.contains(i, true)) scopedImpacts.removeValue(i, true);
+                    } else if (!scopedImpacts.contains(i, true)) scopedImpacts.add(i);
+                } else if (scopedImpacts.contains(i, true)) scopedImpacts.removeValue(i, true);
             }
             impacts.end();
 
@@ -350,8 +347,9 @@ class LevelUpdater {
                 if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
                     if (!updatePowerup(delta, p)) {
                         powerups.removeIndex(i);
-                    } else scopedPowerups.add(p);
-                }
+                        if (scopedPowerups.contains(p, true)) scopedPowerups.removeValue(p, true);
+                    } else if (!scopedPowerups.contains(p, true)) scopedPowerups.add(p);
+                } else if (scopedPowerups.contains(p, true)) scopedPowerups.removeValue(p, true);
             }
             powerups.end();
 
@@ -768,7 +766,7 @@ class LevelUpdater {
                     return false;
                 }
                 for (int j = 0; j <= transportIndex; j++) {
-                    if (j < transports.size && !(transports.get(j) instanceof Portal)) {
+                    if (j < scopedTransports.size && !(scopedTransports.get(j) instanceof Portal)) {
                         // Persisted indeces are prior adjusted to align with list values on level load; outliers are spawns
                         transportIndex++;
                     }
