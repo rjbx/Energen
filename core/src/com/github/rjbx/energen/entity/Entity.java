@@ -5,6 +5,8 @@ public abstract class Entity implements Physical, Visible, Cloneable {
     public static final String TAG = Entity.class.toString();
 
     private int cloneHashCode;
+    private int renderPriority;
+    private int updatePriority;
 
     // TODO: Add field for determining sort priority so as to eliminate need for
     //  multiple and/or distinct passes through subtype loops due to logic ordering
@@ -22,4 +24,9 @@ public abstract class Entity implements Physical, Visible, Cloneable {
 
     public abstract Entity safeClone();
     protected final void setClonedHashCode(int hashCode) { this.cloneHashCode = hashCode; }
+
+    public int getRenderPriority() { return renderPriority; }
+    public void setRenderPriority(int renderPriority) { this.renderPriority = renderPriority; }
+    public int getUpdatePriority() { return updatePriority; }
+    public void setUpdatePriority(int updatePriority) { this.updatePriority = updatePriority; }
 }
