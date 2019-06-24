@@ -171,10 +171,9 @@ class LevelUpdater {
 
     private void applyCollision(Impermeable impermeable) {
 //        impermeable.touchAllGrounds(grounds);
-//        impermeable.touchAllHazards(hazards);
-        if (impermeable instanceof Avatar) {
-            avatar.touchAllGrounds(grounds);
-            avatar.touchAllHazards(hazards);
+        if (impermeable instanceof Humanoid) {
+            ((Humanoid) impermeable).touchAllGrounds(scopedGrounds);
+            ((Humanoid) impermeable).touchAllHazards(scopedHazards);
         }
     }
 

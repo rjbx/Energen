@@ -2,6 +2,7 @@ package com.github.rjbx.energen.entity;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.github.rjbx.energen.util.Enums;
 
 public interface Humanoid extends Dynamic {
@@ -21,4 +22,6 @@ public interface Humanoid extends Dynamic {
     Enums.ShotIntensity getShotIntensity();
     Enums.Energy getEnergy();
     Groundable getTouchedGround();
+    void touchAllGrounds(Array<Ground> groundList);
+    void touchAllHazards(Array<Hazard> hazardList);
 }
