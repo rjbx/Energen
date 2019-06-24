@@ -203,14 +203,13 @@ class LevelUpdater {
             for (int i = 0; i < grounds.size; i++) {
                 Ground g = grounds.get(i);
                 Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
-                if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                    if (g instanceof Nonstatic) {
-                        for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
-                            if (convertBounds.overlaps(new Rectangle(g.getPosition().x, g.getPosition().y, g.getWidth(), g.getHeight()))) {
+                if (g instanceof Nonstatic) {
+                    for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
+                        if (convertBounds.overlaps(new Rectangle(g.getPosition().x, g.getPosition().y, g.getWidth(), g.getHeight()))) {
+                            if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
                                 if (!updateGround(delta, g)) {
                                     grounds.removeIndex(i);
-                                    if (scopedGrounds.contains(g, true))
-                                        scopedGrounds.removeValue(g, true);
+                                    if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
                                 } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
                             } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
                         }
