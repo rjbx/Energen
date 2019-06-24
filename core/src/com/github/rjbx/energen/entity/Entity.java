@@ -6,6 +6,9 @@ public abstract class Entity implements Physical, Visible, Cloneable {
 
     private int cloneHashCode;
 
+    // TODO: Add field for determining sort order so as to replace multiple passes through
+    //  the same loops with a single entity loop
+
     // default ctor
     public Entity() { cloneHashCode = hashCode(); }
 
