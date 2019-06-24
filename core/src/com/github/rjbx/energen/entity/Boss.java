@@ -22,6 +22,7 @@ import java.util.ListIterator;
 import static com.github.rjbx.energen.util.Enums.Orientation.X;
 
 // TODO[M]: Improve AI
+// TODO: Recolor suit to white and apply color through texture shading and projectile by type
 // mutable
 public class Boss extends Hazard implements Destructible, Humanoid, Impermeable, Shielded {
 
