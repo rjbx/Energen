@@ -4,7 +4,7 @@ public abstract class Entity implements Physical, Visible, Cloneable {
 
     public static final String TAG = Entity.class.toString();
 
-//    private int cloneHashCode;
+    private int cloneHashCode;
 //    private int renderPriority;
 //    private int updatePriority;
 
