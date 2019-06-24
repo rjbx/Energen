@@ -679,29 +679,31 @@ class LevelUpdater {
 
     public boolean updateProjectile(float delta, Projectile projectile) {
         for (Hazard hazard : scopedHazards) {
-            Destructible destructible = (Destructible) hazard;
-            if (!projectile.equals(hazard) && projectile.isActive() && Helpers.overlapsPhysicalObject(projectile, destructible)) {
-                if (!(destructible instanceof Zoomba)
-                        || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
-                        || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
-                    if (!(hazard instanceof Armored || hazard instanceof Boss)) {
-                        Helpers.applyDamage(destructible, projectile);
+            if (hazard instanceof Destructible) {
+                Destructible destructible = (Destructible) hazard;
+                if (!projectile.equals(hazard) && projectile.isActive() && Helpers.overlapsPhysicalObject(projectile, destructible)) {
+                    if (!(destructible instanceof Zoomba)
+                            || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
+                            || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
+                        if (!(hazard instanceof Armored || hazard instanceof Boss)) {
+                            Helpers.applyDamage(destructible, projectile);
+                            this.spawnImpact(projectile.getPosition(), projectile.getType());
+                            projectile.deactivate();
+                        } else {
+                            AssetManager.getInstance().getSoundAssets().hitGround.play();
+                            projectile.deactivate();
+                        }
+                        score += projectile.getHitScore();
+                    } else if (destructible instanceof Zoomba) {
+                        ((Zoomba) destructible).convert();
+                        if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(destructible)) {
+                            avatar.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.AVATAR_EYE_HEIGHT));
+                        }
+                    }
+                    if (destructible instanceof Zoomba) {
                         this.spawnImpact(projectile.getPosition(), projectile.getType());
                         projectile.deactivate();
-                    } else {
-                        AssetManager.getInstance().getSoundAssets().hitGround.play();
-                        projectile.deactivate();
                     }
-                    score += projectile.getHitScore();
-                } else if (destructible instanceof Zoomba) {
-                    ((Zoomba) destructible).convert();
-                    if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(destructible)) {
-                        avatar.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.AVATAR_EYE_HEIGHT));
-                    }
-                }
-                if (destructible instanceof Zoomba) {
-                    this.spawnImpact(projectile.getPosition(), projectile.getType());
-                    projectile.deactivate();
                 }
             }
         }
