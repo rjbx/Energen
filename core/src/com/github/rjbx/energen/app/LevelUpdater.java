@@ -896,6 +896,7 @@ class LevelUpdater {
     protected void end() {
         music.stop();
         timer.suspend();
+        goalReached = false;
         if (completed()) {
 //            int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
 //            List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
