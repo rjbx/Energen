@@ -680,75 +680,68 @@ class LevelUpdater {
     public boolean updateProjectile(float delta, Projectile projectile) {
         for (Hazard hazard : scopedHazards) {
             Destructible destructible = (Destructible) hazard;
-            projectiles.begin();
-            for (int j = 0; j < projectiles.size; j++) {
-                if (!projectile.equals(hazard) && projectile.isActive() && Helpers.overlapsPhysicalObject(projectile, destructible)) {
-                    if (!(destructible instanceof Zoomba)
-                            || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
-                            || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
-                        if (!(hazard instanceof Armored || hazard instanceof Boss)) {
-                            Helpers.applyDamage(destructible, projectile);
-                            this.spawnImpact(projectile.getPosition(), projectile.getType());
-                            projectile.deactivate();
-                        } else {
-                            AssetManager.getInstance().getSoundAssets().hitGround.play();
-                            projectile.deactivate();
-                        }
-                        score += projectile.getHitScore();
-                    } else if (destructible instanceof Zoomba) {
-                        ((Zoomba) destructible).convert();
-                        if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(destructible)) {
-                            avatar.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.AVATAR_EYE_HEIGHT));
-                        }
-                    }
-                    if (destructible instanceof Zoomba) {
+            if (!projectile.equals(hazard) && projectile.isActive() && Helpers.overlapsPhysicalObject(projectile, destructible)) {
+                if (!(destructible instanceof Zoomba)
+                        || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
+                        || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
+                    if (!(hazard instanceof Armored || hazard instanceof Boss)) {
+                        Helpers.applyDamage(destructible, projectile);
                         this.spawnImpact(projectile.getPosition(), projectile.getType());
                         projectile.deactivate();
+                    } else {
+                        AssetManager.getInstance().getSoundAssets().hitGround.play();
+                        projectile.deactivate();
+                    }
+                    score += projectile.getHitScore();
+                } else if (destructible instanceof Zoomba) {
+                    ((Zoomba) destructible).convert();
+                    if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(destructible)) {
+                        avatar.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.AVATAR_EYE_HEIGHT));
                     }
                 }
+                if (destructible instanceof Zoomba) {
+                    this.spawnImpact(projectile.getPosition(), projectile.getType());
+                    projectile.deactivate();
+                }
             }
-            projectiles.end();
         }
 
         for (Ground ground : scopedGrounds) {
             if (ground instanceof Strikeable) {
-                projectiles.begin();
-                for (int j = 0; j < projectiles.size; j++) {
-                    if (Helpers.overlapsPhysicalObject(projectile, ground)) {
-                        if (projectile.getSource() instanceof Avatar) {
-                            assetManager.getSoundAssets().hitGround.play();
+                if (Helpers.overlapsPhysicalObject(projectile, ground)) {
+                    if (projectile.getSource() instanceof Avatar) {
+                        assetManager.getSoundAssets().hitGround.play();
+                    }
+                    if (projectile.isActive() &&
+                            (ground.isDense() // collides with all sides of dense ground
+                                    || Helpers.overlapsBetweenTwoSides(projectile.getPosition().y, projectile.getHeight() / 2, ground.getTop() - 3, ground.getTop()))) { // collides only with top of non-dense ground
+                        if (!projectile.getPosition().equals(Vector2.Zero)) {
+                            this.spawnImpact(projectile.getPosition(), projectile.getType());
                         }
-                        if (projectile.isActive() &&
-                                (ground.isDense() // collides with all sides of dense ground
-                                        || Helpers.overlapsBetweenTwoSides(projectile.getPosition().y, projectile.getHeight() / 2, ground.getTop() - 3, ground.getTop()))) { // collides only with top of non-dense ground
-                            if (!projectile.getPosition().equals(Vector2.Zero)) {
-                                this.spawnImpact(projectile.getPosition(), projectile.getType());
+                        projectile.deactivate();
+                    }
+                    Strikeable strikeable = (Strikeable) ground;
+                    if (strikeable instanceof Tripknob) {
+                        Tripknob tripknob = (Tripknob) strikeable;
+                        tripknob.resetStartTime();
+                        tripknob.setState(!tripknob.isActive());
+                    } else if (strikeable instanceof Cannoroll) {
+                        Cannoroll cannoroll = (Cannoroll) strikeable;
+                        cannoroll.convert();
+                    } else if (strikeable instanceof Chargeable) {
+                        Chargeable chargeable = (Chargeable) strikeable;
+                        if (chargeable instanceof Chamber) {
+                            chargeable.setState(false);
+                        } else if (chargeable instanceof Tripchamber && projectile.getShotIntensity() == Enums.ShotIntensity.BLAST) {
+                            if (chargeable.isCharged()) {
+                                chargeable.setState(!chargeable.isActive());
+                                chargeable.uncharge();
                             }
-                            projectile.deactivate();
                         }
-                        Strikeable strikeable = (Strikeable) ground;
-                        if (strikeable instanceof Tripknob) {
-                            Tripknob tripknob = (Tripknob) strikeable;
-                            tripknob.resetStartTime();
-                            tripknob.setState(!tripknob.isActive());
-                        } else if (strikeable instanceof Cannoroll) {
-                            Cannoroll cannoroll = (Cannoroll) strikeable;
-                            cannoroll.convert();
-                        } else if (strikeable instanceof Chargeable) {
-                            Chargeable chargeable = (Chargeable) strikeable;
-                            if (chargeable instanceof Chamber) {
-                                chargeable.setState(false);
-                            } else if (chargeable instanceof Tripchamber && projectile.getShotIntensity() == Enums.ShotIntensity.BLAST) {
-                                if (chargeable.isCharged()) {
-                                    chargeable.setState(!chargeable.isActive());
-                                    chargeable.uncharge();
-                                }
-                            }
-                        } else if (strikeable instanceof Destructible) {
-                            Helpers.applyDamage((Destructible) ground, projectile);
-                        } else if (strikeable instanceof Gate && projectile.getDirection() == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
-                            ((Gate) strikeable).deactivate();
-                        }
+                    } else if (strikeable instanceof Destructible) {
+                        Helpers.applyDamage((Destructible) ground, projectile);
+                    } else if (strikeable instanceof Gate && projectile.getDirection() == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
+                        ((Gate) strikeable).deactivate();
                     }
                 }
             }
