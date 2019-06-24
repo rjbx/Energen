@@ -179,11 +179,11 @@ class LevelUpdater {
 
     // asset handling
     private void updateEntities(float delta) {
+        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
                 Ground g = grounds.get(i);
-                Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
                 if (g instanceof Nonstatic) {
                     for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
                         if (convertBounds.overlaps(new Rectangle(g.getPosition().x, g.getPosition().y, g.getWidth(), g.getHeight()))) {
@@ -198,51 +198,46 @@ class LevelUpdater {
                 }
             }
             grounds.end();
-        } else {
-            Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
-            if (updateBounds.overlaps(new Rectangle(boss.getLeft(), boss.getBottom(), boss.getWidth(), boss.getHeight()))) {
-                if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
-                    if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
-                        chaseCam.setState(Enums.ChaseCamState.BOSS);
-                    } else if (avatar.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
-                        music.stop();
-                        avatar.setVelocity(new Vector2(40, 0));
-                        avatar.setPosition(avatar.getPosition().mulAdd(avatar.getVelocity(), delta));
-                        avatar.stride();
-                    } else {
-                        if (avatar.getAction() != Enums.Action.STANDING) {
-                            avatar.setAction(Enums.Action.STANDING);
-                        } else if (InputControls.getInstance().shootButtonJustPressed) {
-                            boss.setBattleState(true);
-                            if (musicEnabled) {
-                                music = AssetManager.getInstance().getMusicAssets().boss;
-                                music.setLooping(true);
-                                music.play();
-                            }
-                        }
+        } else if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
+            if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
+                chaseCam.setState(Enums.ChaseCamState.BOSS);
+            } else if (avatar.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
+                music.stop();
+                avatar.setVelocity(new Vector2(40, 0));
+                avatar.setPosition(avatar.getPosition().mulAdd(avatar.getVelocity(), delta));
+                avatar.stride();
+            } else {
+                if (avatar.getAction() != Enums.Action.STANDING) {
+                    avatar.setAction(Enums.Action.STANDING);
+                } else if (InputControls.getInstance().shootButtonJustPressed) {
+                    boss.setBattleState(true);
+                    if (musicEnabled) {
+                        music = AssetManager.getInstance().getMusicAssets().boss;
+                        music.setLooping(true);
+                        music.play();
                     }
-                }
-                if (boss.getDispatchStatus()) {
-                    if (boss.getLookStartTime() != 0) {
-                        if (boss.getDirectionY() == Direction.UP) {
-                            spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y + 5), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
-                        } else {
-                            spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
-                        }
-                    } else {
-                        spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), boss.getDirectionX(), Enums.Orientation.X, boss.getShotIntensity(), boss.getEnergy(), boss);
-                    }
-                    boss.resetChargeIntensity();
-                }
-                if (boss.getTouchedHazard() != null) {
-                    Vector2 intersectionPoint = new Vector2();
-                    Hazardous touchedHazard = boss.getTouchedHazard();
-                    intersectionPoint.x = Math.max(boss.getLeft(), touchedHazard.getLeft());
-                    intersectionPoint.y = Math.max(boss.getBottom(), touchedHazard.getBottom());
-                    spawnImpact(intersectionPoint, touchedHazard.getType());
                 }
             }
-
+            if (boss.getDispatchStatus()) {
+                if (boss.getLookStartTime() != 0) {
+                    if (boss.getDirectionY() == Direction.UP) {
+                        spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y + 5), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
+                    } else {
+                        spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
+                    }
+                } else {
+                    spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), boss.getDirectionX(), Enums.Orientation.X, boss.getShotIntensity(), boss.getEnergy(), boss);
+                }
+                boss.resetChargeIntensity();
+            }
+            if (boss.getTouchedHazard() != null) {
+                Vector2 intersectionPoint = new Vector2();
+                Hazardous touchedHazard = boss.getTouchedHazard();
+                intersectionPoint.x = Math.max(boss.getLeft(), touchedHazard.getLeft());
+                intersectionPoint.y = Math.max(boss.getBottom(), touchedHazard.getBottom());
+                spawnImpact(intersectionPoint, touchedHazard.getType());
+            }
+        } else {
             time = timer.getNanos();
             if (avatar.getDispatchStatus()) {
                 if (avatar.getLookStartTime() != 0) {
