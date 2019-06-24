@@ -359,23 +359,23 @@ class LevelUpdater {
 
             // Update Grounds
             grounds.begin();
-            for (int i = 0; i < scopedGrounds.size; i++) { 
+            for (int i = 0; i < scopedGrounds.size; i++) {
                 Ground g = scopedGrounds.get(i);
                 if ((g instanceof Pliable)
                             && ((((Pliable) g).isBeingCarried())
                             || (((Pliable) g).isAtopMovingGround()
                             && ((Pliable) g).getMovingGround() instanceof Pliable
                             && ((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried()))) {
-                   if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                       if (!updateGround(delta, g)) {
-                           grounds.removeIndex(i);
-                           if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
-                       } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
-                   } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
-               }
+                    if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                        if (!updateGround(delta, g)) {
+                            grounds.removeIndex(i);
+                            if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                        } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
+                    } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                }
             }
             grounds.end();
-            
+
             projectiles.begin();
             for (int i = 0; i < projectiles.size; i++) {
                 Projectile p = projectiles.get(i);
@@ -386,6 +386,7 @@ class LevelUpdater {
                     } else if (!scopedProjectiles.contains(p, true)) scopedProjectiles.add(p);
                 } else if (scopedProjectiles.contains(p, true)) scopedProjectiles.removeValue(p, true);
             }
+            projectiles.end();
         }
     }
 
