@@ -201,7 +201,7 @@ class LevelUpdater {
         } else if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
             if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
                 chaseCam.setState(Enums.ChaseCamState.BOSS);
-            } else if (avatar.getPosition().x < boss.getRoomBounds().x + boss.getRoomBounds().width / 3) {
+            } else if (avatar.getPosition().x < boss.getPosition().x - boss.getRoomBounds().width / 3) {
                 music.stop();
                 avatar.setVelocity(new Vector2(40, 0));
                 avatar.setPosition(avatar.getPosition().mulAdd(avatar.getVelocity(), delta));
