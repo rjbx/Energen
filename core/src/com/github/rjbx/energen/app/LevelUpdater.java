@@ -379,9 +379,8 @@ class LevelUpdater {
                 if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
                     if (!updateProjectile(delta, p)) {
                         projectiles.removeIndex(i);
-                        if (scopedProjectiles.contains(p, true)) scopedProjectiles.removeValue(p, true);
-                    } else if (!scopedProjectiles.contains(p, true)) scopedProjectiles.add(p);
-                } else if (scopedProjectiles.contains(p, true)) scopedProjectiles.removeValue(p, true);
+                    } else if (!projectiles.contains(p, true)) projectiles.add(p);
+                } else projectiles.removeValue(p, true);
             }
             projectiles.end();
         }
