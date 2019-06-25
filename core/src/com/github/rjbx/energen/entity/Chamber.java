@@ -8,7 +8,7 @@ import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 
-public class Chamber extends Ground implements Chargeable, Strikeable {
+public class Chamber extends Ground implements Chargeable, Strikeable, Boxable {
 
     // fields
     public final static String TAG = Chamber.class.getName();
