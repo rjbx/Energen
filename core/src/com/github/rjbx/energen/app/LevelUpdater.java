@@ -656,13 +656,6 @@ class LevelUpdater {
                 LevelUpdater.getInstance().spawnProjectile(ammoPositionBottom, Enums.Direction.DOWN, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
                 LevelUpdater.getInstance().spawnProjectile(ammoPositionTop, Enums.Direction.UP, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
             }
-        } else if (hazard instanceof Projectile) {
-            Projectile projectile = (Projectile) hazard;
-            projectile.update(delta);
-            if (!projectile.isActive()) {
-                active = false;
-                projectiles.removeValue(projectile, false);
-            }
         }
         if (hazard instanceof Nonstatic) {
             ((Nonstatic) hazard).update(delta);
