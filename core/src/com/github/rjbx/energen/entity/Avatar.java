@@ -838,6 +838,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else if (!h.getKnockback().equals(Vector2.Zero)) {
                 touchedHazard = h;
                 recoil(h.getKnockback(), h);
+                position.y += 5;
             }
         } else {
             touchedHazard = h;
