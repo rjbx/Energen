@@ -349,7 +349,6 @@ class LevelUpdater {
             }
             powerups.end();
 
-            // TODO: Apply gravity when standing atop and breaking box
             avatar.updatePosition(delta);
             applyCollision(avatar);
             avatar.update(delta);
@@ -731,7 +730,7 @@ class LevelUpdater {
         }
         return active;
     }
-// TODO: Factor out redundant projectile scoped and complete lists and handle from hazard list
+
     public boolean updateProjectile(float delta, Projectile projectile) {
         projectile.update(delta);
 
