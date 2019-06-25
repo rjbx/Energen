@@ -369,7 +369,10 @@ class LevelUpdater {
                             && ((Pliable) g).getMovingGround() instanceof Pliable
                             && ((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())))) {
                     if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                        if (!updateGround(delta, g)) scopedGrounds.removeIndex(i);
+                        if (!updateGround(delta, g)) {
+                            scopedGrounds.removeIndex(i);
+                            if (grounds.contains(g, true)) grounds.removeIndex(i);
+                        }
                     } else scopedGrounds.removeIndex(i);
                 }
             }
