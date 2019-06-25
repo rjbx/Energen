@@ -19,6 +19,8 @@ import com.github.rjbx.energen.util.Enums.Direction;
 import com.github.rjbx.energen.util.InputControls;
 import com.github.rjbx.energen.util.Timer;
 import com.github.rjbx.energen.util.Helpers;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -395,6 +397,7 @@ class LevelUpdater {
                 offset.set(energy.getWidth(), energy.getHeight());
             }
             if (orientation == Enums.Orientation.X) {
+                offset.add(Constants.X_CANNON_CENTER);
                 Vector2 ammoPositionLeft = new Vector2(energy.getPosition().x - offset.x, energy.getPosition().y);
                 Vector2 ammoPositionRight = new Vector2(energy.getPosition().x + offset.x, energy.getPosition().y);
                 if (Avatar.getInstance().getPosition().x < (ammoPositionLeft.x - offset.x)) {
@@ -403,6 +406,7 @@ class LevelUpdater {
                     LevelUpdater.getInstance().spawnProjectile(ammoPositionRight, Enums.Direction.RIGHT, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
                 }
             } else if (orientation == Enums.Orientation.Y) {
+                offset.add(Constants.Y_CANNON_CENTER);
                 Vector2 ammoPositionTop = new Vector2(energy.getPosition().x, energy.getPosition().y + offset.y);
                 Vector2 ammoPositionBottom = new Vector2(energy.getPosition().x, energy.getPosition().y - offset.y);
                 if (energy instanceof Cannon) {
@@ -700,7 +704,6 @@ class LevelUpdater {
         for (Ground ground : scopedGrounds) {
             if (ground instanceof Strikeable) {
                 if (Helpers.overlapsPhysicalObject(projectile, ground)) {
-                    if (ground instanceof Cannon) continue;
                     if (projectile.getSource() instanceof Avatar) {
                         assetManager.getSoundAssets().hitGround.play();
                     }
