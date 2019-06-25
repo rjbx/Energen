@@ -10,7 +10,7 @@ import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 
-public class Tripchamber extends Ground implements Trippable, Convertible, Chargeable, Strikeable {
+public class Tripchamber extends Ground implements Trippable, Convertible, Chargeable, Boxable, Strikeable {
 
     // fields
     public final static String TAG = Tripchamber.class.getName();

@@ -10,7 +10,7 @@ import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 
-public class Pod extends Ground implements Reboundable, Replenishing, Compressible {
+public class Pod extends Ground implements Reboundable, Replenishing, Compressible, Boxable {
 
     // fields
     public final static String TAG = Pod.class.getName();
