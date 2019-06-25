@@ -512,7 +512,7 @@ class LevelUpdater {
                 }
             }
         }
-        if (ground instanceof Destructible) {
+        if (ground instanceof Destructible && active) {
             if (((Destructible) ground).getHealth() < 1) {
                 if (ground instanceof Box) {
                     grounds.add(new Brick(ground.getPosition().x, ground.getPosition().y, 5, 5, ((Destructible) ground).getType()));
