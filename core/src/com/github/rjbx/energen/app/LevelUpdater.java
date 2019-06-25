@@ -720,6 +720,7 @@ class LevelUpdater {
                     }
                 }
             }
+            projectile.update(delta);
             active = projectile.isActive();
         }
         if (hazard instanceof Nonstatic) {
