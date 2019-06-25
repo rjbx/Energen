@@ -669,7 +669,7 @@ class LevelUpdater {
         }
         return active;
     }
-
+// TODO: Factor out redundant projectile scoped and complete lists and handle from hazard list
     public boolean updateProjectile(float delta, Projectile projectile) {
         projectile.update(delta);
         for (Hazard hazard : scopedHazards) {
