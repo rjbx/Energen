@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+// TODO: Restart level at save point before exiting or completing with level assets reset
 // immutable package-private singleton
 class LevelUpdater {
 
