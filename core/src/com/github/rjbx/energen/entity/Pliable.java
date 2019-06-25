@@ -1,7 +1,6 @@
 package com.github.rjbx.energen.entity;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 
 public interface Pliable extends Moving, Stackable {
     void setPosition(Vector2 position);
