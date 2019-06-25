@@ -276,6 +276,21 @@ class LevelUpdater {
             }
             transports.end();
 
+            // Update Hazards
+            hazards.begin();
+            for (int i = 0; i < hazards.size; i++) {
+                Hazard h = hazards.get(i);
+                if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
+                    if (!updateHazard(delta, h)) {
+                        spawnPowerup(h);
+                        hazards.removeIndex(i);
+                        removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
+                        if (scopedHazards.contains(h, true)) scopedHazards.removeValue(h, true);
+                    } else if (!scopedHazards.contains(h, true)) scopedHazards.add(h);
+                } else if (scopedHazards.contains(h, true)) scopedHazards.removeValue(h, true);
+            }
+            hazards.end();
+
             // Update Grounds
             if (Helpers.secondsSince(refreshTime) > 10) {
                 grounds.sort(new Comparator<Ground>() {
@@ -295,37 +310,22 @@ class LevelUpdater {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
                 Ground g = grounds.get(i);
-                if ((!(g instanceof Pliable)
-                        || !(((Pliable) g).isBeingCarried())
-                        || !(((Pliable) g).getMovingGround() instanceof Pliable)
-                        || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())) {
-                    if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                        if (!updateGround(delta, g)) {
-                            if (!(g instanceof Destructible)) {
-                                grounds.removeIndex(i);
-                                if (scopedGrounds.contains(g, true))
-                                    scopedGrounds.removeValue(g, true);
-                            }
-                        }else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
-                    } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
-                }
-            }
+                 if ((!(g instanceof Pliable)
+                            || !(((Pliable) g).isBeingCarried())
+                            || !(((Pliable) g).getMovingGround() instanceof Pliable)
+                            || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())) {
+                     if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                         if (!updateGround(delta, g)) {
+                             if (!(g instanceof Destructible)) {
+                                 grounds.removeIndex(i);
+                                 if (scopedGrounds.contains(g, true))
+                                     scopedGrounds.removeValue(g, true);
+                             }
+                         }else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
+                     } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                 }
+             }
             grounds.end();
-
-            // Update Hazards
-            hazards.begin();
-            for (int i = 0; i < hazards.size; i++) {
-                Hazard h = hazards.get(i);
-                if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
-                    if (!updateHazard(delta, h)) {
-                        spawnPowerup(h);
-                        hazards.removeIndex(i);
-                        removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
-                        if (scopedHazards.contains(h, true)) scopedHazards.removeValue(h, true);
-                    } else if (!scopedHazards.contains(h, true)) scopedHazards.add(h);
-                } else if (scopedHazards.contains(h, true)) scopedHazards.removeValue(h, true);
-            }
-            hazards.end();
 
             // Update Impacts
             impacts.begin();
