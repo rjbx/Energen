@@ -399,9 +399,9 @@ class LevelUpdater {
                 Vector2 ammoPositionLeft = new Vector2(energy.getPosition().x - offset.x, energy.getPosition().y);
                 Vector2 ammoPositionRight = new Vector2(energy.getPosition().x + offset.x, energy.getPosition().y);
                 if (Avatar.getInstance().getPosition().x < (ammoPositionLeft.x - offset.x)) {
-                    LevelUpdater.getInstance().spawnProjectile(ammoPositionLeft, Enums.Direction.LEFT, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                    spawnProjectile(ammoPositionLeft, Enums.Direction.LEFT, orientation, energy.getIntensity(), getType(), ground);
                 } else if (Avatar.getInstance().getPosition().x > (ammoPositionRight.x + (energy.getWidth() / 2))) {
-                    LevelUpdater.getInstance().spawnProjectile(ammoPositionRight, Enums.Direction.RIGHT, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                    spawnProjectile(ammoPositionRight, Enums.Direction.RIGHT, orientation, energy.getIntensity(), getType(), ground);
                 }
             } else if (orientation == Enums.Orientation.Y) {
                 offset.add(Constants.Y_CANNON_CENTER);
@@ -409,12 +409,12 @@ class LevelUpdater {
                 Vector2 ammoPositionBottom = new Vector2(energy.getPosition().x, energy.getPosition().y - offset.y);
                 if (energy instanceof Cannon) {
                     if (Avatar.getInstance().getPosition().y < (ammoPositionBottom.y - offset.y)) {
-                        LevelUpdater.getInstance().spawnProjectile(ammoPositionBottom, Enums.Direction.DOWN, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                        spawnProjectile(ammoPositionBottom, Enums.Direction.DOWN, orientation, energy.getIntensity(), getType(), ground);
                     } else if (Avatar.getInstance().getPosition().y > (ammoPositionTop.y + (energy.getHeight() / 2))) {
-                        LevelUpdater.getInstance().spawnProjectile(ammoPositionTop, Enums.Direction.UP, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                        spawnProjectile(ammoPositionTop, Enums.Direction.UP, orientation, energy.getIntensity(), getType(), ground);
                     }
                 } else {
-                    LevelUpdater.getInstance().spawnProjectile(ammoPositionTop, Enums.Direction.UP, orientation, energy.getIntensity(), LevelUpdater.getInstance().getType(), ground);
+                    spawnProjectile(ammoPositionTop, Enums.Direction.UP, orientation, energy.getIntensity(), getType(), ground);
                 }
             }
         }
@@ -653,10 +653,10 @@ class LevelUpdater {
                 Vector2 ammoPositionTop = new Vector2(destructible.getPosition().x, destructible.getPosition().y + (destructible.getHeight() * 1.1f));
                 Vector2 ammoPositionBottom = new Vector2(destructible.getPosition().x, destructible.getPosition().y - (destructible.getHeight() * 1.1f));
 
-                LevelUpdater.getInstance().spawnProjectile(ammoPositionLeft, Enums.Direction.LEFT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
-                LevelUpdater.getInstance().spawnProjectile(ammoPositionRight, Enums.Direction.RIGHT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
-                LevelUpdater.getInstance().spawnProjectile(ammoPositionBottom, Enums.Direction.DOWN, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
-                LevelUpdater.getInstance().spawnProjectile(ammoPositionTop, Enums.Direction.UP, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
+                spawnProjectile(ammoPositionLeft, Enums.Direction.LEFT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
+                spawnProjectile(ammoPositionRight, Enums.Direction.RIGHT, Enums.Orientation.X, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
+                spawnProjectile(ammoPositionBottom, Enums.Direction.DOWN, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
+                spawnProjectile(ammoPositionTop, Enums.Direction.UP, Enums.Orientation.Y, Enums.ShotIntensity.BLAST, destructible.getType(), hazard);
             }
         }
         if (hazard instanceof Nonstatic) {
