@@ -349,6 +349,7 @@ class LevelUpdater {
             }
             powerups.end();
 
+            // TODO: Apply gravity when standing atop and breaking box
             avatar.updatePosition(delta);
             applyCollision(avatar);
             avatar.update(delta);
