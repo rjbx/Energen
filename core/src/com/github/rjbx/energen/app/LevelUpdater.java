@@ -378,7 +378,7 @@ class LevelUpdater {
                 Projectile p = projectiles.get(i);
                 if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
                     if (!updateProjectile(delta, p)) projectiles.removeIndex(i);
-                } else projectiles.removeValue(p, true);
+                } else projectiles.removeIndex(i);
             }
             projectiles.end();
         }
