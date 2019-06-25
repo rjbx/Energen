@@ -700,6 +700,7 @@ class LevelUpdater {
         for (Ground ground : scopedGrounds) {
             if (ground instanceof Strikeable) {
                 if (Helpers.overlapsPhysicalObject(projectile, ground)) {
+                    if (ground instanceof Cannon) continue;
                     if (projectile.getSource() instanceof Avatar) {
                         assetManager.getSoundAssets().hitGround.play();
                     }
