@@ -21,8 +21,6 @@ import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 import com.github.rjbx.energen.util.StaticCam;
 
-import org.json.simple.parser.ParseException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
