@@ -25,6 +25,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import sun.security.krb5.internal.crypto.Des;
+
 // immutable package-private singleton
 class LevelUpdater {
 
@@ -305,27 +307,24 @@ class LevelUpdater {
                 refreshTime = TimeUtils.nanoTime();
             }
 
-            // TODO: Apply gravity when standing atop and breaking box
-            avatar.updatePosition(delta);
-            applyCollision(avatar);
-            avatar.update(delta);
-            Blade.getInstance().update(delta);
-
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
                 Ground g = grounds.get(i);
-                if (!(g instanceof Pliable)
+                 if ((!(g instanceof Pliable)
                             || !(((Pliable) g).isBeingCarried())
                             || !(((Pliable) g).getMovingGround() instanceof Pliable)
-                            || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried()) {
+                            || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())) {
                      if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
                          if (!updateGround(delta, g)) {
-                             grounds.removeIndex(i);
-                             if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
-                         } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
+                             if (!(g instanceof Destructible)) {
+                                 grounds.removeIndex(i);
+                                 if (scopedGrounds.contains(g, true))
+                                     scopedGrounds.removeValue(g, true);
+                             }
+                         }else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
                      } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
                  }
-            }
+             }
             grounds.end();
 
             // Update Impacts
@@ -354,24 +353,26 @@ class LevelUpdater {
             }
             powerups.end();
 
+            // TODO: Apply gravity when standing atop and breaking box
+            avatar.updatePosition(delta);
+            applyCollision(avatar);
+            avatar.update(delta);
+            Blade.getInstance().update(delta);
+
             // Update Grounds
-            grounds.begin();
             for (int i = 0; i < scopedGrounds.size; i++) {
                 Ground g = scopedGrounds.get(i);
-                if ((g instanceof Pliable)
+                if (g instanceof Destructible ||
+                        (g instanceof Pliable
                             && ((((Pliable) g).isBeingCarried())
                             || (((Pliable) g).isAtopMovingGround()
                             && ((Pliable) g).getMovingGround() instanceof Pliable
-                            && ((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried()))) {
+                            && ((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())))) {
                     if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                        if (!updateGround(delta, g)) {
-                            grounds.removeIndex(i);
-                            if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
-                        } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
-                    } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                        if (!updateGround(delta, g)) scopedGrounds.removeIndex(i);
+                    } else scopedGrounds.removeIndex(i);
                 }
             }
-            grounds.end();
         }
     }
 
