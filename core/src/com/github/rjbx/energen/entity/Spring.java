@@ -11,7 +11,7 @@ import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 
-public class Spring extends Ground implements Reboundable, Rappelable, Tossable, Compressible, Impermeable {
+public class Spring extends Ground implements Reboundable, Rappelable, Tossable, Compressible, Impermeable, Boxable {
 
     // fields
     public final static String TAG = Spring.class.getName();

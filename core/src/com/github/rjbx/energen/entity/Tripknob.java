@@ -12,7 +12,7 @@ import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Helpers;
 
 // class name avoids confusion with existing button assets and constants
-public class Tripknob extends Ground implements Trippable, Convertible, Strikeable, Impermeable {
+public class Tripknob extends Ground implements Trippable, Convertible, Strikeable, Boxable, Impermeable {
 
     // fields
     public final static String TAG = Tripknob.class.getName();

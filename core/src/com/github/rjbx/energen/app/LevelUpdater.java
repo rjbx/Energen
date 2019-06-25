@@ -132,7 +132,7 @@ class LevelUpdater {
         backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
         for (Ground ground : scopedGrounds) {
-            if (!ground.isDense() || ground instanceof Trippable || ground instanceof Spring) {
+            if (!ground.isDense() || ground instanceof Boxable) {
                 ground.render(batch, viewport);
             }
         }
@@ -150,7 +150,7 @@ class LevelUpdater {
         }
 
         for (Ground ground : scopedGrounds) {
-            if ((ground.isDense() && !(ground instanceof Trippable || ground instanceof Spring)) || ground instanceof Climbable) {
+            if ((ground.isDense() && !(ground instanceof Boxable)) || ground instanceof Climbable) {
                 ground.render(batch, viewport);
             }
         }
