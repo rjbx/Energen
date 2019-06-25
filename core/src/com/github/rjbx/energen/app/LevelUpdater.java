@@ -305,10 +305,16 @@ class LevelUpdater {
                 refreshTime = TimeUtils.nanoTime();
             }
 
+            // TODO: Apply gravity when standing atop and breaking box
+            avatar.updatePosition(delta);
+            applyCollision(avatar);
+            avatar.update(delta);
+            Blade.getInstance().update(delta);
+
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
                 Ground g = grounds.get(i);
-                 if (!(g instanceof Pliable)
+                if (!(g instanceof Pliable)
                             || !(((Pliable) g).isBeingCarried())
                             || !(((Pliable) g).getMovingGround() instanceof Pliable)
                             || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried()) {
@@ -319,7 +325,7 @@ class LevelUpdater {
                          } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
                      } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
                  }
-             }
+            }
             grounds.end();
 
             // Update Impacts
@@ -347,12 +353,6 @@ class LevelUpdater {
                 } else if (scopedPowerups.contains(p, true)) scopedPowerups.removeValue(p, true);
             }
             powerups.end();
-
-            // TODO: Apply gravity when standing atop and breaking box
-            avatar.updatePosition(delta);
-            applyCollision(avatar);
-            avatar.update(delta);
-            Blade.getInstance().update(delta);
 
             // Update Grounds
             grounds.begin();
