@@ -45,14 +45,12 @@ class LevelUpdater {
     private DelayedRemovalArray<Powerup> powerups;
     private DelayedRemovalArray<Transport> transports;
     private DelayedRemovalArray<Impact> impacts;
-    private DelayedRemovalArray<Projectile> projectiles;
     private Array<Entity> scopedEntities;
     private Array<Ground> scopedGrounds;
     private Array<Hazard> scopedHazards;
     private Array<Powerup> scopedPowerups;
     private Array<Transport> scopedTransports;
     private Array<Impact> scopedImpacts;
-    private Array<Projectile> scopedProjectiles;
     private Enums.Energy levelEnergy;
     private Enums.Theme theme;
     private Music music;
@@ -90,14 +88,12 @@ class LevelUpdater {
         entities = new DelayedRemovalArray<Entity>();
         grounds = new DelayedRemovalArray<Ground>();
         hazards = new DelayedRemovalArray<Hazard>();
-        projectiles = new DelayedRemovalArray<Projectile>();
         impacts = new DelayedRemovalArray<Impact>();
         powerups = new DelayedRemovalArray<Powerup>();
         transports = new DelayedRemovalArray<Transport>();
         scopedEntities = new Array<Entity>();
         scopedGrounds = new Array<Ground>();
         scopedHazards = new Array<Hazard>();
-        scopedProjectiles = new Array<Projectile>();
         scopedImpacts = new Array<Impact>();
         scopedPowerups = new Array<Powerup>();
         scopedTransports = new Array<Transport>();
@@ -828,10 +824,8 @@ class LevelUpdater {
         powerups.clear();
         transports.clear();
         impacts.clear();
-        projectiles.clear();
         scopedGrounds.clear();
         scopedHazards.clear();
-        scopedProjectiles.clear();
         scopedImpacts.clear();
         scopedTransports.clear();
         scopedPowerups.clear();
@@ -845,13 +839,11 @@ class LevelUpdater {
         powerups = null;
         transports = null;
         impacts = null;
-        projectiles = null;
         scopedGrounds = null;
         scopedTransports = null;
         scopedPowerups = null;
         scopedImpacts = null;
         scopedHazards = null;
-        scopedProjectiles = null;
     }
 
     // level state handling
@@ -1065,6 +1057,4 @@ class LevelUpdater {
     public void setScopedTransports(Array<Transport> scopedTransports) { this.scopedTransports = scopedTransports; }
     public Array<Impact> getScopedImpacts() { return scopedImpacts; }
     public void setScopedImpacts(Array<Impact> scopedImpacts) { this.scopedImpacts = scopedImpacts; }
-    public Array<Projectile> getScopedProjectiles() { return scopedProjectiles; }
-    public void setScopedProjectiles(Array<Projectile> scopedProjectiles) { this.scopedProjectiles = scopedProjectiles; }
 }
