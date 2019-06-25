@@ -79,7 +79,7 @@ public final class Constants {
     public static final float MIN_GROUND_DISTANCE = 20;
     public static final float STRIDING_JUMP_MULTIPLIER = 1.1f;
     public static final float MAX_LOOK_DISTANCE = 60;
-    public static final float RECOVERY_TIME = .375f;
+    public static final float RECOVERY_TIME = .1f;
     public static final float DOUBLE_TAP_SPEED = 0.2f;
     public static final float DASH_TURBO_DECREMENT = 0.75f;
     public static final float RAPPEL_TURBO_DECREMENT = 0.5f;
