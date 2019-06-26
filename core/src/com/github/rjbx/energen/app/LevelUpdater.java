@@ -1,5 +1,6 @@
 package com.github.rjbx.energen.app;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.rjbx.energen.entity.*;
@@ -25,7 +27,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-// TODO: Restart level at save point before exiting or completing with level assets reset
 // immutable package-private singleton
 class LevelUpdater {
 
@@ -941,6 +942,38 @@ class LevelUpdater {
                 }
                 boss.setBattleState(false);
                 boss.setPosition(boss.getSpawnPosition());
+                SaveData.setTotalTime(SaveData.getTotalTime() + time);
+                clearEntities();
+                List<String> allRestores = Arrays.asList(SaveData.getLevelRestore().split(", "));
+                List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
+                List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
+                List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
+                int index = Arrays.asList(Enums.Theme.values()).indexOf(getTheme());
+                boolean levelRestored = !allRestores.get(index).equals("0:0");
+                if (!levelRestored) {
+                    allRestores.set(index, "0:0");
+                    allRemovals.set(index, "-1");
+                    allTimes.set(index, "0");
+                    allScores.set(index, "0");
+                    SaveData.setLevelRestore(allRestores.toString().replace("[", "").replace("]", ""));
+                    SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
+                    SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
+                    SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
+                }
+                setTime(Long.parseLong(allTimes.get(index)));
+                setScore(Integer.parseInt(allScores.get(index)));
+                try {
+                    restoreRemovals(allRemovals.get(index));
+                    if (levelRestored) {
+                        String[] coordinateStr = allRestores.get(index).split(":");
+                        Vector2 position = new Vector2(Float.valueOf(coordinateStr[0]), Float.valueOf(coordinateStr[1]));
+                        avatar.setSpawnPosition(position);
+                    }
+                    this.dispose();
+                } catch (GdxRuntimeException ex) {
+                    Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
+                    Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
+                }
                 return true;
             }
         }
