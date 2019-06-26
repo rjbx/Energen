@@ -432,7 +432,8 @@ final class LevelLoader {
                 Gdx.app.log(TAG, "Loaded Boss at " + bossPosition);
                 Boss boss = new Boss.Builder(bossPosition).energy(type).build();
                 level.addHazard(boss);
-                level.setBoss(boss);
+                if (tags[Constants.GOAL_TAG_INDEX]) level.setBoss(boss);
+                else boss.setMiniBoss(true);
                 ChaseCam.getInstance().setRoomPosition(bossPosition);
             } else if (item.getString(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.PORTAL_SPRITE_1)) {
                 final Vector2 portalPosition = imagePosition.add(Constants.PORTAL_CENTER);
