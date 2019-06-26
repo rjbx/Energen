@@ -804,7 +804,6 @@ class LevelUpdater {
 
     protected void restoreRemovals(String removals) {
         removedHazards = removals;
-        hazards.clear();
         List<String> levelRemovalStrings = Arrays.asList(removedHazards.split(";"));
         List<Integer> levelRemovals = new ArrayList<Integer>();
         for (String removalStr : levelRemovalStrings) {
@@ -948,7 +947,7 @@ class LevelUpdater {
                 List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
                 List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
                 List<String> allScores = Arrays.asList(SaveData.getLevelScores().split(", "));
-                int index = Arrays.asList(Enums.Theme.values()).indexOf(getTheme());
+                int index = Arrays.asList(Enums.Theme.values()).indexOf(theme);
                 boolean levelRestored = !allRestores.get(index).equals("0:0");
                 if (!levelRestored) {
                     allRestores.set(index, "0:0");
@@ -962,7 +961,9 @@ class LevelUpdater {
                 }
                 setTime(Long.parseLong(allTimes.get(index)));
                 setScore(Integer.parseInt(allScores.get(index)));
+                clearEntities();
                 try {
+                    LevelLoader.load(theme);
                     restoreRemovals(allRemovals.get(index));
                     if (levelRestored) {
                         String[] coordinateStr = allRestores.get(index).split(":");
