@@ -970,7 +970,6 @@ class LevelUpdater {
                         Vector2 position = new Vector2(Float.valueOf(coordinateStr[0]), Float.valueOf(coordinateStr[1]));
                         avatar.setSpawnPosition(position);
                     }
-                    this.dispose();
                 } catch (GdxRuntimeException ex) {
                     Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE);
                     Gdx.app.log(TAG, Constants.LEVEL_READ_MESSAGE, ex);
