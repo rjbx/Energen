@@ -804,6 +804,7 @@ class LevelUpdater {
 
     protected void restoreRemovals(String removals) {
         removedHazards = removals;
+        hazards.clear();
         List<String> levelRemovalStrings = Arrays.asList(removedHazards.split(";"));
         List<Integer> levelRemovals = new ArrayList<Integer>();
         for (String removalStr : levelRemovalStrings) {
@@ -943,7 +944,6 @@ class LevelUpdater {
                 boss.setBattleState(false);
                 boss.setPosition(boss.getSpawnPosition());
                 SaveData.setTotalTime(SaveData.getTotalTime() + time);
-                clearEntities();
                 List<String> allRestores = Arrays.asList(SaveData.getLevelRestore().split(", "));
                 List<String> allRemovals = Arrays.asList(SaveData.getLevelRemovals().split(", "));
                 List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
