@@ -46,6 +46,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     private float right;
     private float top;
     private float bottom;
+    private boolean miniBoss;
     private Rectangle bounds; // class-level instantiation
     private Vector2 position; // class-level instantiation
     private Vector2 previousFramePosition; // class-level instantiation
@@ -1685,5 +1686,13 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 
     public void dispose() {
         energyList.clear();
+    }
+
+    public boolean isMiniBoss() {
+        return miniBoss;
+    }
+
+    public void setMiniBoss(boolean miniBoss) {
+        this.miniBoss = miniBoss;
     }
 }
