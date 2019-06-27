@@ -58,6 +58,7 @@ class LevelUpdater {
     private Boss boss;
     private ChaseCam chaseCam;
     private String removedHazards;
+    private Rectangle updateBounds;
     private boolean goalReached;
     private boolean paused;
     private boolean musicEnabled;
@@ -105,6 +106,7 @@ class LevelUpdater {
         time = 0;
         refreshTime = 0;
         paused = false;
+        updateBounds = new Rectangle(0, 0, 0, 0);
     }
 
     protected void update(float delta) {
@@ -181,7 +183,8 @@ class LevelUpdater {
         //  and scope update bound lists from wide area lists.
         //  Wide area lists could be rescoped by saving the position of the previous scope
         //  and rescoping when reaching a point beyond a bound wrapping that position
-        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
+
+
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
@@ -243,94 +246,179 @@ class LevelUpdater {
             }
 
             // Update Transports
-            transports.begin();
-            for (int i = 0; i < transports.size; i++) {
-                Transport t = transports.get(i);
-                if (updateBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
-                    if (!updateTransport(delta, t, i)) {
-                        transports.removeIndex(i);
-                        if (scopedTransports.contains(t, true)) scopedTransports.removeValue(t, true);
-                    } else if (!scopedTransports.contains(t, true)) scopedTransports.add(t);
-                } else if (scopedTransports.contains(t, true)) scopedTransports.removeValue(t, true);
-            }
-            transports.end();
+            if (!updateBounds.overlaps(avatar.getCollisionBounds())) {
+                updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
 
-            // Update Hazards
-            hazards.begin();
-            for (int i = 0; i < hazards.size; i++) {
-                Hazard h = hazards.get(i);
-                if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
-                    if (!updateHazard(delta, h)) {
-                        spawnPowerup(h);
-                        hazards.removeIndex(i);
-                        removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
-                        if (scopedHazards.contains(h, true)) scopedHazards.removeValue(h, true);
-                    } else if (!scopedHazards.contains(h, true)) scopedHazards.add(h);
-                } else if (scopedHazards.contains(h, true)) scopedHazards.removeValue(h, true);
-            }
-            hazards.end();
+                transports.begin();
+                for (int i = 0; i < transports.size; i++) {
+                    Transport t = transports.get(i);
+                    if (updateBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
+                        if (!updateTransport(delta, t, i)) { transports.removeIndex(i);
+                            if (scopedTransports.contains(t, true)) scopedTransports.removeValue(t, true);
+                        } else if (!scopedTransports.contains(t, true)) scopedTransports.add(t);
+                    } else if (scopedTransports.contains(t, true)) scopedTransports.removeValue(t, true);
+                }
+                transports.end();
 
-            // Update Grounds
-            if (Helpers.secondsSince(refreshTime) > 10) {
-                grounds.sort(new Comparator<Ground>() {
-                    @Override
-                    public int compare(Ground o1, Ground o2) {
-                        if (o1.getBottom() > o2.getBottom()) {
-                            return 1;
-                        } else if (o1.getBottom() < o2.getBottom()) {
-                            return -1;
+                // Update Hazards
+                hazards.begin();
+                for (int i = 0; i < hazards.size; i++) {
+                    Hazard h = hazards.get(i);
+                    if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
+                        if (!updateHazard(delta, h)) {
+                            spawnPowerup(h);
+                            hazards.removeIndex(i);
+                            removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
+                            if (scopedHazards.contains(h, true)) scopedHazards.removeValue(h, true);
+                        } else if (!scopedHazards.contains(h, true)) scopedHazards.add(h);
+                    } else if (scopedHazards.contains(h, true)) scopedHazards.removeValue(h, true);
+                }
+                hazards.end();
+
+                // Update Grounds
+                if (Helpers.secondsSince(refreshTime) > 10) {
+                    grounds.sort(new Comparator<Ground>() {
+                        @Override
+                        public int compare(Ground o1, Ground o2) {
+                            if (o1.getBottom() > o2.getBottom()) {
+                                return 1;
+                            } else if (o1.getBottom() < o2.getBottom()) {
+                                return -1;
+                            }
+                            return 0;
                         }
-                        return 0;
-                    }
-                });
-                refreshTime = TimeUtils.nanoTime();
-            }
+                    });
+                    refreshTime = TimeUtils.nanoTime();
+                }
 
-            grounds.begin();
-            for (int i = 0; i < grounds.size; i++) {
-                Ground g = grounds.get(i);
-                 if ((!(g instanceof Pliable)
+                grounds.begin();
+                for (int i = 0; i < grounds.size; i++) {
+                    Ground g = grounds.get(i);
+                    if ((!(g instanceof Pliable)
                             || !(((Pliable) g).isBeingCarried())
                             || !(((Pliable) g).getMovingGround() instanceof Pliable)
                             || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())) {
-                     if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                         if (!updateGround(delta, g)) {
-                             if (!(g instanceof Destructible)) {
-                                 grounds.removeIndex(i);
-                                 if (scopedGrounds.contains(g, true))
-                                     scopedGrounds.removeValue(g, true);
-                             }
-                         }else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
-                     } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
-                 }
-             }
-            grounds.end();
+                        if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                            if (!updateGround(delta, g)) {
+                                if (!(g instanceof Destructible)) {
+                                    grounds.removeIndex(i);
+                                    if (scopedGrounds.contains(g, true))
+                                        scopedGrounds.removeValue(g, true);
+                                }
+                            } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
+                        } else if (scopedGrounds.contains(g, true))
+                            scopedGrounds.removeValue(g, true);
+                    }
+                }
+                grounds.end();
 
-            // Update Impacts
-            impacts.begin();
-            for (int index = 0; index < impacts.size; index++) {
-                Impact i = impacts.get(index);
-                if (updateBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
-                    if (i.isFinished()) {
-                        impacts.removeIndex(index);
-                        if (scopedImpacts.contains(i, true)) scopedImpacts.removeValue(i, true);
-                    } else if (!scopedImpacts.contains(i, true)) scopedImpacts.add(i);
-                } else if (scopedImpacts.contains(i, true)) scopedImpacts.removeValue(i, true);
-            }
-            impacts.end();
+                // Update Impacts
+                impacts.begin();
+                for (int index = 0; index < impacts.size; index++) {
+                    Impact i = impacts.get(index);
+                    if (updateBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
+                        if (i.isFinished()) {
+                            impacts.removeIndex(index);
+                            if (scopedImpacts.contains(i, true)) scopedImpacts.removeValue(i, true);
+                        } else if (!scopedImpacts.contains(i, true)) scopedImpacts.add(i);
+                    } else if (scopedImpacts.contains(i, true)) scopedImpacts.removeValue(i, true);
+                }
+                impacts.end();
 
-            // Update Powerups
-            powerups.begin();
-            for (int i = 0; i < powerups.size; i++) {
-                Powerup p = powerups.get(i);
-                if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
-                    if (!updatePowerup(delta, p)) {
-                        powerups.removeIndex(i);
-                        if (scopedPowerups.contains(p, true)) scopedPowerups.removeValue(p, true);
-                    } else if (!scopedPowerups.contains(p, true)) scopedPowerups.add(p);
-                } else if (scopedPowerups.contains(p, true)) scopedPowerups.removeValue(p, true);
+                // Update Powerups
+                powerups.begin();
+                for (int i = 0; i < powerups.size; i++) {
+                    Powerup p = powerups.get(i);
+                    if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
+                        if (!updatePowerup(delta, p)) {
+                            powerups.removeIndex(i);
+                            if (scopedPowerups.contains(p, true))
+                                scopedPowerups.removeValue(p, true);
+                        } else if (!scopedPowerups.contains(p, true)) scopedPowerups.add(p);
+                    } else if (scopedPowerups.contains(p, true))
+                        scopedPowerups.removeValue(p, true);
+                }
+                powerups.end();
+            } else {
+
+                for (int i = 0; i < scopedTransports.size; i++) {
+                    Transport t = scopedTransports.get(i);
+                    if (updateBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
+                        if (!updateTransport(delta, t, i)) {
+                            scopedTransports.removeIndex(i);
+                            if (transports.contains(t, true)) transports.removeValue(t, true);
+                        }
+                    } else scopedTransports.removeIndex(i);
+                }
+
+                // Update Hazards
+                for (int i = 0; i < scopedHazards.size; i++) {
+                    Hazard h = scopedHazards.get(i);
+                    if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
+                        if (!updateHazard(delta, h)) {
+                            spawnPowerup(h);
+                            scopedHazards.removeIndex(i);
+                            removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
+                            if (hazards.contains(h, true)) hazards.removeValue(h, true);
+                        }
+                    } else scopedHazards.removeIndex(i);
+                }
+
+                // Update Grounds
+                if (Helpers.secondsSince(refreshTime) > 10) {
+                    grounds.sort(new Comparator<Ground>() {
+                        @Override
+                        public int compare(Ground o1, Ground o2) {
+                            if (o1.getBottom() > o2.getBottom()) {
+                                return 1;
+                            } else if (o1.getBottom() < o2.getBottom()) {
+                                return -1;
+                            }
+                            return 0;
+                        }
+                    });
+                    refreshTime = TimeUtils.nanoTime();
+                }
+
+                for (int i = 0; i < scopedGrounds.size; i++) {
+                    Ground g = scopedGrounds.get(i);
+                    if ((!(g instanceof Pliable)
+                            || !(((Pliable) g).isBeingCarried())
+                            || !(((Pliable) g).getMovingGround() instanceof Pliable)
+                            || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())) {
+                        if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                            if (!updateGround(delta, g)) {
+                                if (!(g instanceof Destructible)) {
+                                    scopedGrounds.removeIndex(i);
+                                    if (grounds.contains(g, true)) grounds.removeValue(g, true);
+                                }
+                            }
+                        } else scopedGrounds.removeIndex(i);
+                    }
+                }
+
+                // Update Impacts
+                for (int index = 0; index < scopedImpacts.size; index++) {
+                    Impact i = scopedImpacts.get(index);
+                    if (updateBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
+                        if (i.isFinished()) {
+                            scopedImpacts.removeIndex(index);
+                            if (impacts.contains(i, true)) impacts.removeValue(i, true);
+                        }
+                    } else scopedImpacts.removeIndex(index);
+                }
+
+                // Update Powerups
+                for (int i = 0; i < scopedPowerups.size; i++) {
+                    Powerup p = scopedPowerups.get(i);
+                    if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
+                        if (!updatePowerup(delta, p)) {
+                            scopedPowerups.removeIndex(i);
+                            if (powerups.contains(p, true)) powerups.removeValue(p, true);
+                        }
+                    } else scopedPowerups.removeValue(p, true);
+                }
             }
-            powerups.end();
 
             avatar.updatePosition(delta);
             applyCollision(avatar);
