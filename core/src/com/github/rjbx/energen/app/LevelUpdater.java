@@ -253,10 +253,13 @@ class LevelUpdater {
                 for (int i = 0; i < transports.size; i++) {
                     Transport t = transports.get(i);
                     if (updateBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
-                        if (!updateTransport(delta, t, i)) { transports.removeIndex(i);
-                            if (scopedTransports.contains(t, true)) scopedTransports.removeValue(t, true);
+                        if (!updateTransport(delta, t, i)) {
+                            transports.removeIndex(i);
+                            if (scopedTransports.contains(t, true))
+                                scopedTransports.removeValue(t, true);
                         } else if (!scopedTransports.contains(t, true)) scopedTransports.add(t);
-                    } else if (scopedTransports.contains(t, true)) scopedTransports.removeValue(t, true);
+                    } else if (scopedTransports.contains(t, true))
+                        scopedTransports.removeValue(t, true);
                 }
                 transports.end();
 
@@ -419,28 +422,28 @@ class LevelUpdater {
                     } else scopedPowerups.removeValue(p, true);
                 }
             }
+        }
 
-            avatar.updatePosition(delta);
-            applyCollision(avatar);
-            avatar.update(delta);
-            Blade.getInstance().update(delta);
+        avatar.updatePosition(delta);
+        applyCollision(avatar);
+        avatar.update(delta);
+        Blade.getInstance().update(delta);
 
-            // Update Grounds
-            for (int i = 0; i < scopedGrounds.size; i++) {
-                Ground g = scopedGrounds.get(i);
-                if (g instanceof Destructible ||
-                        (g instanceof Pliable
-                            && ((((Pliable) g).isBeingCarried())
-                            || (((Pliable) g).isAtopMovingGround()
-                            && ((Pliable) g).getMovingGround() instanceof Pliable
-                            && ((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())))) {
-                    if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                        if (!updateGround(delta, g)) {
-                            scopedGrounds.removeIndex(i);
-                            if (grounds.contains(g, true)) grounds.removeValue(g, true);
-                        }
-                    } else scopedGrounds.removeIndex(i);
-                }
+        // Update Grounds
+        for (int i = 0; i < scopedGrounds.size; i++) {
+            Ground g = scopedGrounds.get(i);
+            if (g instanceof Destructible ||
+                    (g instanceof Pliable
+                        && ((((Pliable) g).isBeingCarried())
+                        || (((Pliable) g).isAtopMovingGround()
+                        && ((Pliable) g).getMovingGround() instanceof Pliable
+                        && ((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())))) {
+                if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                    if (!updateGround(delta, g)) {
+                        scopedGrounds.removeIndex(i);
+                        if (grounds.contains(g, true)) grounds.removeValue(g, true);
+                    }
+                } else scopedGrounds.removeIndex(i);
             }
         }
     }
