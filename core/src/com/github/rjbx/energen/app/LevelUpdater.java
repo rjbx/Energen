@@ -117,8 +117,6 @@ class LevelUpdater {
 
         if (!continuing() || batch == null || viewport == null) return;
 
-        Rectangle renderBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() / 1.25f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() / 1.25f), chaseCam.getViewport().getWorldWidth() * 2.5f, chaseCam.getViewport().getWorldHeight() * 2.5f);
-
         Vector3 camPosition = chaseCam.getCamera().position;
 
 //        if (theme == Enums.Theme.FINAL) {
@@ -731,12 +729,6 @@ class LevelUpdater {
             applyCollision((Impermeable) hazard);
         }
         return active;
-    }
-
-    public boolean updateProjectile(float delta, Projectile projectile) {
-        projectile.update(delta);
-
-        return projectile.isActive();
     }
 
     public boolean updatePowerup(float delta, Powerup powerup) {
