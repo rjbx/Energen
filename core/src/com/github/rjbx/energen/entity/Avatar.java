@@ -98,6 +98,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private long strideStartTime;
     private long recoveryStartTime;
     private long swipeStartTime;
+    private float superchargeStartTime;
     private float chargeTimeSeconds;
     private float lookTimeSeconds;
     private float dashTimeSeconds;
@@ -1807,7 +1808,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         body.add(frontHand);
         body.add(feet);
         if (frontFacing) {
-            Color suitColor = supercharged ? Color.GOLDENROD : energy.theme().color();
+            Color suitColor = supercharged ? Color.GOLD : energy.theme().color();
             batch.setColor(suitColor);
         } else {
             body.reverse();
