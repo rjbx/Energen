@@ -1817,8 +1817,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             if (Helpers.secondsSince(superchargeStartTime) % 0.75f < 0.325f) energyColor = Color.GOLD;
             else energyColor = new Color(0xffe740ff);
 
-        if (frontFacing) batch.setColor(energyColor);
-        else body.reverse();
+        batch.setColor(energyColor);
+        if (!frontFacing) body.reverse();
 
         Vector2 renderPosition = new Vector2().set(position);
         if (inverseX) renderPosition.x -= 2;
@@ -1827,7 +1827,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             Helpers.drawTextureRegion(batch, viewport, region, renderPosition, center, 1, rotation, inverseX, false);
             if (region == frontArm) {
                 if (frontFacing) batch.setColor(Color.WHITE);
-                else batch.setColor(energy.theme().color());
+                else batch.setColor(energyColor);
             }
         }
         batch.setColor(Color.WHITE);
