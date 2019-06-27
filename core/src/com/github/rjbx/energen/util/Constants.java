@@ -869,6 +869,11 @@ public final class Constants {
     public static final String LIFE_POWERUP_SPRITE = "icon-life";
     public static final Vector2 LIFE_POWERUP_CENTER = new Vector2(7, 5);
 
+    public static final String SUPER_POWERUP_SPRITE_1 = "icon-super-1";
+    public static final String SUPER_POWERUP_SPRITE_2 = "icon-super-2";
+    public static final String SUPER_POWERUP_SPRITE = "icon-super";
+    public static final Vector2 SUPER_POWERUP_CENTER = new Vector2(7, 5);
+
     public static final String CANNON_POWERUP_SPRITE_1 = "powerup-cannon-1";
     public static final String CANNON_POWERUP_SPRITE_2 = "powerup-cannon-2";
     public static final String CANNON_POWERUP_SPRITE_3 = "powerup-cannon-3";

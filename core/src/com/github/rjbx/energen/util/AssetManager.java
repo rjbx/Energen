@@ -1460,6 +1460,7 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation<TextureRegion> healthPowerup;
         public final Animation<TextureRegion> turboPowerup;
         public final Animation<TextureRegion> lifePowerup;
+        public final Animation<TextureRegion> superPowerup;
         public final Animation<TextureRegion> cannonPowerup;
         public final Animation<TextureRegion> ruby;
         public final Animation<TextureRegion> sapphire;
@@ -1491,6 +1492,13 @@ public final class AssetManager implements AssetErrorListener {
             lifePowerupRegions.add(atlas.findRegion(Constants.LIFE_POWERUP_SPRITE));
             lifePowerup = new Animation(Constants.POWERUP_DURATION / lifePowerupRegions.size, lifePowerupRegions, PlayMode.NORMAL);
 
+
+            Array<AtlasRegion> superPowerupRegions = new Array<AtlasRegion>();
+            superPowerupRegions.add(atlas.findRegion(Constants.SUPER_POWERUP_SPRITE_1));
+            superPowerupRegions.add(atlas.findRegion(Constants.SUPER_POWERUP_SPRITE_2));
+            superPowerupRegions.add(atlas.findRegion(Constants.SUPER_POWERUP_SPRITE));
+            superPowerup = new Animation(Constants.POWERUP_DURATION / superPowerupRegions.size, superPowerupRegions, PlayMode.NORMAL);
+            
             Array<AtlasRegion> cannonPowerupRegions = new Array<AtlasRegion>();
             cannonPowerupRegions.add(atlas.findRegion(Constants.CANNON_POWERUP_SPRITE_1));
             cannonPowerupRegions.add(atlas.findRegion(Constants.CANNON_POWERUP_SPRITE_2));
