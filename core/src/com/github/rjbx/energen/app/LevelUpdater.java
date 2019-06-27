@@ -1100,6 +1100,7 @@ class LevelUpdater {
     private void spawnProjectile(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Energy energy, Entity source) {
         Projectile projectile = new Projectile(position, direction, orientation, shotIntensity, energy, source);
         hazards.add(projectile);
+        scopedHazards.add(projectile);
     }
 
     private void spawnPowerup(Hazard hazard) {
