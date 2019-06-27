@@ -64,6 +64,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private ShotIntensity shotIntensity;
     private BladeState bladeState;
     private Energy energy;
+    private Color energyColor;
     private List<Energy> energyList; // class-level instantiation
     private ListIterator<Energy> energyToggler; // class-level instantiation
     private List<Upgrade> upgradeList;
@@ -172,6 +173,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             addEnergy(Energy.HYBRID);
             energy = Energy.GAS;
         }
+        energyColor = energy.theme().color();
 
         String savedUpgrades = SaveData.getUpgrades();
         if (!savedUpgrades.equals(Energy.NATIVE.name())) {
@@ -913,6 +915,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 turbo = Constants.MAX_TURBO;
                 chargeModifier = 1;
                 supercharged = true;
+                superchargeStartTime = TimeUtils.nanoTime();
+                energyColor = Color.GOLD;
                 break;
             default:
                 gems[((Powerup) r).getGemType().ordinal()]++;
@@ -1197,6 +1201,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         || ammo < Constants.SHOT_AMMO_CONSUMPTION) {
                     ammoUsed = 0;
                     this.energy = Energy.NATIVE;
+                    energyColor = Energy.NATIVE.theme().color();
                 } else {
                     ammoUsed = Helpers.useAmmo(shotIntensity);
                 }
@@ -1807,25 +1812,18 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         body.add(rearHand);
         body.add(frontHand);
         body.add(feet);
-        if (frontFacing) {
-            Color suitColor = supercharged ? Color.GOLD : energy.theme().color();
-            batch.setColor(suitColor);
-        } else {
-            body.reverse();
-        }
+
+        if (frontFacing) batch.setColor(energyColor);
+        else body.reverse();
+
         Vector2 renderPosition = new Vector2().set(position);
-        if (inverseX) {
-            renderPosition.x -= 2;
-        }
+        if (inverseX) renderPosition.x -= 2;
 
         for (TextureRegion region : body) {
             Helpers.drawTextureRegion(batch, viewport, region, renderPosition, center, 1, rotation, inverseX, false);
             if (region == frontArm) {
-                if (frontFacing) {
-                    batch.setColor(Color.WHITE);
-                } else {
-                    batch.setColor(energy.theme().color());
-                }
+                if (frontFacing) batch.setColor(Color.WHITE);
+                else batch.setColor(energy.theme().color());
             }
         }
         batch.setColor(Color.WHITE);
@@ -2067,6 +2065,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 } else {
                     energy = energyToggler.previous();
                 }
+                energyColor = energy.theme().color();
             } else if (toggleDirection == Direction.DOWN) {
                 if (!energyToggler.hasPrevious()) {
                     while (energyToggler.hasNext()) {
@@ -2078,6 +2077,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 } else {
                     energy = energyToggler.next();
                 }
+                energyColor = energy.theme().color();
             }
         }
     }
