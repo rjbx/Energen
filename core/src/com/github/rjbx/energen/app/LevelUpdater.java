@@ -242,7 +242,7 @@ class LevelUpdater {
             }
 
             // Update Transports
-            if (updateBounds == null || !updateBounds.overlaps(avatar.getCollisionBounds())) {
+            if (updateBounds == null || !updateBounds.overlaps(avatar.getUpdateBounds())) {
                 updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
 
                 transports.begin();
