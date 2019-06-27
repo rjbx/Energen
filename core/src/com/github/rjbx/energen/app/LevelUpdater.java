@@ -177,12 +177,6 @@ class LevelUpdater {
 
     // asset handling
     private void updateEntities(float delta) {
-        // TODO: Consider scoping wide area (i.e. magnitudes larger than update bounds) lists
-        //  from complete list to prevent iterating through complete list on each frame
-        //  and scope update bound lists from wide area lists.
-        //  Wide area lists could be rescoped by saving the position of the previous scope
-        //  and rescoping when reaching a point beyond a bound wrapping that position
-
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
