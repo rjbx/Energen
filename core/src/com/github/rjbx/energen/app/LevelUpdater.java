@@ -603,7 +603,7 @@ class LevelUpdater {
             }
 
             if (destructible.getHealth() < 1) {
-                if (destructible instanceof Armoroll || destructible instanceof Bladeroll) {
+                if (destructible instanceof Armoroll || destructible instanceof Bladeroll || (destructible instanceof Boss && ((Boss) destructible).isMiniBoss())) {
                     Trippable trip = (Trippable) destructible;
                     trip.convert();
                     if (trip.tripped()) {
