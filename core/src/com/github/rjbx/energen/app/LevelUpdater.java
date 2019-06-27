@@ -986,6 +986,7 @@ class LevelUpdater {
             }
         }
         clearEntities();
+        updateBounds = null;
     }
 
     protected void pause() {
