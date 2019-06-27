@@ -895,13 +895,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 AssetManager.getInstance().getSoundAssets().life.play();
                 if (lives < Constants.MAX_LIVES) lives ++;
                 break;
-            case CANNON:
+            case GEM:
                 AssetManager.getInstance().getSoundAssets().cannon.play();
                 chargeModifier = 1;
                 ammo += Constants.POWERUP_AMMO;
                 shotIntensity = ShotIntensity.BLAST;
                 break;
-            case SUPERCHARGE:
+            case CANNON:
                 AssetManager.getInstance().getSoundAssets().health.play();
                 AssetManager.getInstance().getSoundAssets().health.play();
                 AssetManager.getInstance().getSoundAssets().turbo.play();
@@ -913,7 +913,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 chargeModifier = 1;
                 supercharged = true;
                 break;
-            case GEM:
+            default:
                 gems[((Powerup) r).getGemType().ordinal()]++;
                 Gdx.app.log(TAG, gems[((Powerup) r).getGemType().ordinal()] + "");
         }
@@ -1807,7 +1807,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         body.add(frontHand);
         body.add(feet);
         if (frontFacing) {
-            batch.setColor(energy.theme().color());
+            Color suitColor = supercharged ? Color.GOLDENROD : energy.theme().color();
+            batch.setColor(suitColor);
         } else {
             body.reverse();
         }
