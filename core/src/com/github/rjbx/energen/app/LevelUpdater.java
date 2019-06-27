@@ -548,6 +548,7 @@ class LevelUpdater {
             Boss b = (Boss) hazard;
             b.updatePosition(delta);
             applyCollision((Impermeable) hazard);
+            if (b.isMiniBoss()) b.setBattleState(true);
             if (b.getRoomBounds().overlaps(avatar.getCollisionBounds())) {
                 if (!b.isBattling() || b.getHealth() < 1) {
                     b.setTalkState(true);
