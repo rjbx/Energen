@@ -1183,10 +1183,11 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canClimb = false;
             canRappel = false;
             canHurdle = false;
-            if (supercharged && health < 50) {
-                supercharged = false;
+            if (supercharged && health < 75) {
                 superchargeStartTime = 0;
                 dispenseUpgrades();
+                supercharged = false;
+                energyColor = energy.theme().color();
             }
         }
     }
@@ -2112,7 +2113,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (upgradeList.contains(Upgrade.JUMP)) {
             jumpMultiplier *= 1.15f;
         }
-        setHealth(Constants.MAX_HEALTH);
+        if (supercharged && superchargeStartTime != 0) setHealth(Constants.MAX_HEALTH);
     }
     public Rectangle getUpdateBounds() { return new Rectangle(position.x, position.y, width * 4, width * 4); }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
