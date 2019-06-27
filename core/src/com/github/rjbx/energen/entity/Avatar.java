@@ -916,7 +916,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 chargeModifier = 1;
                 supercharged = true;
                 superchargeStartTime = TimeUtils.nanoTime();
-                energyColor = new Color(0xfff780ff);
+                energyColor = new Color(0xffe740ff);
                 break;
             default:
                 gems[((Powerup) r).getGemType().ordinal()]++;
@@ -1813,9 +1813,11 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         body.add(frontHand);
         body.add(feet);
 
-        if (frontFacing)
-            if(!supercharged || (supercharged && Helpers.secondsSince(superchargeStartTime) % 0.75f < 0.325f))
-            batch.setColor(energyColor);
+        if (supercharged)
+            if (Helpers.secondsSince(superchargeStartTime) % 0.75f < 0.325f) energyColor = Color.GOLD;
+            else energyColor = new Color(0xffe740ff);
+
+        if (frontFacing) batch.setColor(energyColor);
         else body.reverse();
 
         Vector2 renderPosition = new Vector2().set(position);
