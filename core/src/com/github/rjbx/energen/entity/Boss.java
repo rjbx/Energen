@@ -30,7 +30,7 @@ import static com.github.rjbx.energen.util.Enums.Orientation.X;
 // TODO[L]: Add tag to enable adding bosses as regular enemies i.e. in final stage
 
 // mutable
-public class Boss extends Hazard implements Destructible, Humanoid, Impermeable, Shielded {
+public class Boss extends Hazard implements Destructible, Humanoid, Impermeable, Shielded, Trippable {
 
     // fields
     public final static String TAG = Boss.class.getName();
@@ -38,6 +38,11 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     private Avatar avatar;
     private Rectangle roomBounds;
     private float width;
+    private float speed;
+    private long startTime;
+    private boolean converted;
+    private Rectangle bounds;
+    private boolean state;
     private float height;
     private float headRadius;
     private float eyeHeight;
@@ -1694,5 +1699,40 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 
     public void setMiniBoss(boolean miniBoss) {
         this.miniBoss = miniBoss;
+    }
+
+    @Override
+    public void setState(boolean state) {
+
+    }
+
+    @Override
+    public boolean tripped() {
+        return false;
+    }
+
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
+    @Override
+    public void addCamAdjustment() {
+
+    }
+
+    @Override
+    public boolean maxAdjustmentsReached() {
+        return false;
+    }
+
+    @Override
+    public boolean isConverted() {
+        return false;
+    }
+
+    @Override
+    public void convert() {
+
     }
 }
