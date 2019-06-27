@@ -898,13 +898,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 AssetManager.getInstance().getSoundAssets().life.play();
                 if (lives < Constants.MAX_LIVES) lives ++;
                 break;
-            case GEM:
+            case CANNON:
                 AssetManager.getInstance().getSoundAssets().cannon.play();
                 chargeModifier = 1;
                 ammo += Constants.POWERUP_AMMO;
                 shotIntensity = ShotIntensity.BLAST;
                 break;
-            case CANNON:
+            case SUPER:
                 AssetManager.getInstance().getSoundAssets().health.play();
                 AssetManager.getInstance().getSoundAssets().health.play();
                 AssetManager.getInstance().getSoundAssets().turbo.play();
@@ -922,7 +922,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 strideMultiplier *= 1.35f;
                 jumpMultiplier *= 1.15f;
                 break;
-            default:
+            case GEM:
                 gems[((Powerup) r).getGemType().ordinal()]++;
                 Gdx.app.log(TAG, gems[((Powerup) r).getGemType().ordinal()] + "");
         }

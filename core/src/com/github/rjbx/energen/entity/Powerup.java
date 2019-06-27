@@ -52,6 +52,10 @@ public class Powerup extends Entity implements Replenishing {
                 animation = AssetManager.getInstance().getPowerupAssets().cannonPowerup;
                 center = Constants.CANNON_POWERUP_CENTER;
                 break;
+            case SUPER:
+                animation = AssetManager.getInstance().getPowerupAssets().superPowerup;
+                center = Constants.SUPER_POWERUP_CENTER;
+                break;
             default:
                 animation = AssetManager.getInstance().getPowerupAssets().ammoPowerup;
                 center = Constants.AMMO_POWERUP_CENTER;
