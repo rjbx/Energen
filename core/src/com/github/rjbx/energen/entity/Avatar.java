@@ -916,7 +916,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 chargeModifier = 1;
                 supercharged = true;
                 superchargeStartTime = TimeUtils.nanoTime();
-                energyColor = Color.GOLD;
+                energyColor = new Color(0xfff780ff);
                 break;
             default:
                 gems[((Powerup) r).getGemType().ordinal()]++;
