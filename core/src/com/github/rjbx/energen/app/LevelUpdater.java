@@ -239,26 +239,6 @@ class LevelUpdater {
                 spawnImpact(intersectionPoint, touchedHazard.getType());
             }
 
-            if (boss.getDispatchStatus()) {
-                if (boss.getLookStartTime() != 0) {
-                    if (boss.getDirectionY() == Direction.UP) {
-                        spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y + 5), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
-                    } else {
-                        spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), boss.getDirectionY(), Enums.Orientation.Y, boss.getShotIntensity(), boss.getEnergy(), boss);
-                    }
-                } else {
-                    spawnProjectile(new Vector2(boss.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, boss.getDirectionX(), Enums.Orientation.X), boss.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), boss.getDirectionX(), Enums.Orientation.X, boss.getShotIntensity(), boss.getEnergy(), boss);
-                }
-                boss.resetChargeIntensity();
-            }
-            if (boss.getTouchedHazard() != null) {
-                Vector2 intersectionPoint = new Vector2();
-                Hazardous touchedHazard = boss.getTouchedHazard();
-                intersectionPoint.x = Math.max(boss.getLeft(), touchedHazard.getLeft());
-                intersectionPoint.y = Math.max(boss.getBottom(), touchedHazard.getBottom());
-                spawnImpact(intersectionPoint, touchedHazard.getType());
-            }
-
             // Update Transports
             transports.begin();
             for (int i = 0; i < transports.size; i++) {
@@ -565,12 +545,33 @@ class LevelUpdater {
 
         boolean active = true;
         if (hazard instanceof Boss) {
-            ((Boss) hazard).updatePosition(delta);
+            Boss b = (Boss) hazard;
+            b.updatePosition(delta);
             applyCollision((Impermeable) hazard);
-            if (boss.getRoomBounds().overlaps(avatar.getCollisionBounds())) {
-                if (!boss.isBattling() || boss.getHealth() < 1) {
-                    boss.setTalkState(true);
+            if (b.getRoomBounds().overlaps(avatar.getCollisionBounds())) {
+                if (!b.isBattling() || b.getHealth() < 1) {
+                    b.setTalkState(true);
                 }
+            }
+
+            if (b.getDispatchStatus()) {
+                if (b.getLookStartTime() != 0) {
+                    if (b.getDirectionY() == Direction.UP) {
+                        spawnProjectile(new Vector2(b.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x, b.getDirectionX(), Enums.Orientation.X), b.getPosition().y + Constants.AVATAR_Y_CANNON_OFFSET.y + 5), b.getDirectionY(), Enums.Orientation.Y, b.getShotIntensity(), b.getEnergy(), b);
+                    } else {
+                        spawnProjectile(new Vector2(b.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_Y_CANNON_OFFSET.x - 3, b.getDirectionX(), Enums.Orientation.X), b.getPosition().y - Constants.AVATAR_Y_CANNON_OFFSET.y - 8), b.getDirectionY(), Enums.Orientation.Y, b.getShotIntensity(), b.getEnergy(), b);
+                    }
+                } else {
+                    spawnProjectile(new Vector2(b.getPosition().x + Helpers.speedToVelocity(Constants.AVATAR_X_CANNON_OFFSET.x, b.getDirectionX(), Enums.Orientation.X), b.getPosition().y + Constants.AVATAR_X_CANNON_OFFSET.y), b.getDirectionX(), Enums.Orientation.X, b.getShotIntensity(), b.getEnergy(), b);
+                }
+                b.resetChargeIntensity();
+            }
+            if (b.getTouchedHazard() != null) {
+                Vector2 intersectionPoint = new Vector2();
+                Hazardous touchedHazard = b.getTouchedHazard();
+                intersectionPoint.x = Math.max(b.getLeft(), touchedHazard.getLeft());
+                intersectionPoint.y = Math.max(b.getBottom(), touchedHazard.getBottom());
+                spawnImpact(intersectionPoint, touchedHazard.getType());
             }
         }
         if (hazard instanceof Destructible) {
