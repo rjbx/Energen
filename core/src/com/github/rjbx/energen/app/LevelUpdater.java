@@ -625,7 +625,7 @@ class LevelUpdater {
     }
 
     public boolean updateHazard(float delta, Hazard hazard) {
-        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 2f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 2f), chaseCam.getViewport().getWorldWidth() * 6f, chaseCam.getViewport().getWorldHeight() * 6f);
+        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 2f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 2f), chaseCam.getViewport().getWorldWidth() * 4f, chaseCam.getViewport().getWorldHeight() * 4f);
         if (!updateBounds.overlaps(new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight()))) return true;
 
         boolean active = true;
