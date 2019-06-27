@@ -1813,10 +1813,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         body.add(frontHand);
         body.add(feet);
 
-        if (!supercharged || (supercharged && Helpers.secondsSince(superchargeStartTime) % 0.75f < 0.325f)) {
-            if (frontFacing) batch.setColor(energyColor);
-            else body.reverse();
-        }
+        if (frontFacing)
+            if(!supercharged || (supercharged && Helpers.secondsSince(superchargeStartTime) % 0.75f < 0.325f))
+            batch.setColor(energyColor);
+        else body.reverse();
 
         Vector2 renderPosition = new Vector2().set(position);
         if (inverseX) renderPosition.x -= 2;
