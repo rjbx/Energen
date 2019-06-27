@@ -179,9 +179,8 @@ class LevelUpdater {
         // TODO: Consider scoping wide area (i.e. magnitudes larger than update bounds) lists
         //  from complete list to prevent iterating through complete list on each frame
         //  and scope update bound lists from wide area lists.
-        //  Wide area lists could be rescoped at certain intervals of time or by saving
-        //  the position of the previous scope and rescoping when reaching a point beyond a bound
-        //  wrapping that position
+        //  Wide area lists could be rescoped by saving the position of the previous scope
+        //  and rescoping when reaching a point beyond a bound wrapping that position
         Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
