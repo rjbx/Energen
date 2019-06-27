@@ -1813,8 +1813,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         body.add(feet);
 
         if (supercharged)
-            if (Helpers.secondsSince(superchargeStartTime) % 0.75f < 0.325f) energyColor = new Color(0.75f, 0.8f, 1, 1);
-            else energyColor = new Color(0.9f, 0.95f, 1, 1);
+            if (Helpers.secondsSince(superchargeStartTime) % 0.75f < 0.325f) energyColor = new Color(0xab8600ff);
+            else energyColor = new Color(0xcfa200ff);
 
         batch.setColor(energyColor);
         if (!frontFacing) body.reverse();
