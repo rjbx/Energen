@@ -176,6 +176,9 @@ class LevelUpdater {
 
     // asset handling
     private void updateEntities(float delta) {
+        // TODO: Consider creating larger scope lists from complete list for wide areas
+        //  to prevent iterating through complete list on larger levels and maintain access
+        //  to all areas without needing to reload parts of complete list
         Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
