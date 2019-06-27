@@ -1133,7 +1133,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     // disables all else by virtue of neither top level update conditions being satisfied due to state
     private void recoil(Vector2 velocity, Hazardous hazard) {
-        if (Helpers.secondsSince(recoveryStartTime) > Constants.RECOVERY_TIME) {
+        if (Helpers.secondsSince(recoveryStartTime) > Constants.RECOVERY_TIME * 2) {
             float xRelationship = Math.signum(position.x - hazard.getPosition().x);
             if (xRelationship != 0) {
                 this.velocity.x = velocity.x * xRelationship;
