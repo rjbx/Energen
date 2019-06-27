@@ -44,6 +44,7 @@ public final class Enums {
         TURBO,
         AMMO,
         CANNON,
+        SUPERCHARGE,
         GEM
     }
 
