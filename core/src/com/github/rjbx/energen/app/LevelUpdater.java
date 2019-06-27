@@ -1091,7 +1091,7 @@ class LevelUpdater {
     }
 
     private void spawnImpact(Vector2 position, Enums.Energy type) {
-        Impact i = new Impact(position, type));
+        Impact i = new Impact(position, type);
         impacts.add(i);
         scopedImpacts.add(i);
     }
