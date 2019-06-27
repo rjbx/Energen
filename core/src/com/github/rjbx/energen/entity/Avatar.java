@@ -916,6 +916,11 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 chargeModifier = 1;
                 supercharged = true;
                 superchargeStartTime = TimeUtils.nanoTime();
+                ammoMultiplier = .9f;
+                healthMultiplier = .8f;
+                turboMultiplier = .7f;
+                strideMultiplier = 1.35f;
+                jumpMultiplier = 1.15f;
                 break;
             default:
                 gems[((Powerup) r).getGemType().ordinal()]++;
