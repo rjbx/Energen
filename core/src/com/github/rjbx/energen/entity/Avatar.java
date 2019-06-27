@@ -901,6 +901,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 ammo += Constants.POWERUP_AMMO;
                 shotIntensity = ShotIntensity.BLAST;
                 break;
+            case SUPERCHARGE:
+                health = Constants.MAX_HEALTH;
+                ammo = Constants.MAX_AMMO;
+                turbo = Constants.MAX_TURBO;
+                chargeModifier = 1;
+                supercharged = true;
+                break;
             case GEM:
                 gems[((Powerup) r).getGemType().ordinal()]++;
                 Gdx.app.log(TAG, gems[((Powerup) r).getGemType().ordinal()] + "");
