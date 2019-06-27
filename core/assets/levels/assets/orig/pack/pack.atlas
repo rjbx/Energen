@@ -6,14 +6,14 @@ filter: Linear,Linear
 repeat: none
 armorollo-liquid-0
   rotate: false
-  xy: 383, 82
+  xy: 379, 33
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 armorollo-liquid-1
   rotate: false
-  xy: 410, 85
+  xy: 406, 35
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
@@ -79,21 +79,21 @@ cannon-x
   index: -1
 cannon-y
   rotate: false
-  xy: 324, 3
+  xy: 360, 60
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 chamber
   rotate: false
-  xy: 447, 106
+  xy: 404, 91
   size: 11, 20
   orig: 11, 20
   offset: 0, 0
   index: -1
 chamber-trip-1-off
   rotate: false
-  xy: 405, 67
+  xy: 402, 113
   size: 11, 13
   orig: 11, 13
   offset: 0, 0
@@ -107,14 +107,14 @@ coals-1
   index: -1
 gate-0
   rotate: false
-  xy: 437, 91
+  xy: 417, 91
   size: 8, 35
   orig: 8, 35
   offset: 0, 0
   index: -1
 gem-emerald-1
   rotate: false
-  xy: 322, 98
+  xy: 338, 98
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -128,7 +128,7 @@ gem-ruby-1
   index: -1
 gem-sapphire-1
   rotate: false
-  xy: 332, 98
+  xy: 348, 98
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -147,9 +147,16 @@ icon-life
   orig: 13, 13
   offset: 0, 0
   index: -1
-knob-1
+icon-super
   rotate: false
   xy: 309, 97
+  size: 14, 9
+  orig: 14, 9
+  offset: 0, 0
+  index: -1
+knob-1
+  rotate: false
+  xy: 325, 97
   size: 11, 9
   orig: 11, 9
   offset: 0, 0
@@ -171,7 +178,7 @@ lava-1
   index: -1
 lever-1
   rotate: false
-  xy: 374, 109
+  xy: 324, 6
   size: 29, 17
   orig: 29, 17
   offset: 0, 0
@@ -206,7 +213,7 @@ pod-1
   index: -1
 pole-1
   rotate: false
-  xy: 436, 6
+  xy: 436, 78
   size: 5, 48
   orig: 5, 48
   offset: 0, 0
@@ -220,7 +227,7 @@ portal-1
   index: -1
 powerup-ammo
   rotate: false
-  xy: 346, 6
+  xy: 370, 89
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
@@ -234,63 +241,63 @@ powerup-cannon
   index: -1
 powerup-health
   rotate: false
-  xy: 377, 62
+  xy: 387, 90
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo
   rotate: false
-  xy: 360, 62
+  xy: 374, 109
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 protrusion-gas-1
   rotate: false
-  xy: 433, 56
+  xy: 436, 6
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 protrusion-liquid-1
   rotate: false
-  xy: 417, 11
+  xy: 433, 35
   size: 17, 27
   orig: 17, 27
   offset: 0, 0
   index: -1
 protrusion-plasma-1
   rotate: false
-  xy: 394, 64
+  xy: 391, 110
   size: 9, 16
   orig: 9, 16
   offset: 0, 0
   index: -1
 protrusion-polymer-1
   rotate: false
-  xy: 335, 81
+  xy: 335, 80
   size: 19, 15
   orig: 19, 15
   offset: 0, 0
   index: -1
 protrusion-solid-1
   rotate: false
-  xy: 418, 67
+  xy: 427, 110
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 rollen-polymer-1
   rotate: false
-  xy: 390, 8
+  xy: 409, 64
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 rope
   rotate: false
-  xy: 452, 4
+  xy: 455, 26
   size: 6, 100
   orig: 6, 100
   offset: 0, 0
@@ -325,35 +332,35 @@ suspension-antimatter-1
   index: -1
 suspension-gas-1
   rotate: false
-  xy: 356, 81
+  xy: 352, 33
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-liquid-1
   rotate: false
-  xy: 363, 6
+  xy: 382, 62
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-plasma-1
   rotate: false
-  xy: 379, 35
+  xy: 382, 6
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-polymer-1
   rotate: false
-  xy: 352, 33
+  xy: 355, 6
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 suspension-solid-1
   rotate: false
-  xy: 406, 40
+  xy: 409, 8
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
@@ -402,7 +409,7 @@ treadmill-trip-1-left-off
   index: -1
 trip-1
   rotate: false
-  xy: 405, 112
+  xy: 356, 82
   size: 12, 14
   orig: 12, 14
   offset: 0, 0

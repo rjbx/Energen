@@ -403,6 +403,10 @@ final class LevelLoader {
                 final Vector2 powerupPosition = imagePosition.add(Constants.LIFE_POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded a LifePowerup at " + powerupPosition);
                 level.addPowerup(new Powerup(powerupPosition, Enums.PowerupType.LIFE));
+            } else if (item.getString(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.SUPER_POWERUP_SPRITE)) {
+                final Vector2 powerupPosition = imagePosition.add(Constants.SUPER_POWERUP_CENTER);
+                Gdx.app.log(TAG, "Loaded a SuperPowerup at " + powerupPosition);
+                level.addPowerup(new Powerup(powerupPosition, Enums.PowerupType.SUPER));
             } else if (item.getString(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.CANNON_POWERUP_SPRITE)) {
                 final Vector2 powerupPosition = imagePosition.add(Constants.CANNON_POWERUP_CENTER);
                 Gdx.app.log(TAG, "Loaded a CannonPowerup at " + powerupPosition);
