@@ -902,6 +902,11 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 shotIntensity = ShotIntensity.BLAST;
                 break;
             case SUPERCHARGE:
+                AssetManager.getInstance().getSoundAssets().health.play();
+                AssetManager.getInstance().getSoundAssets().health.play();
+                AssetManager.getInstance().getSoundAssets().turbo.play();
+                AssetManager.getInstance().getSoundAssets().life.play();
+                AssetManager.getInstance().getSoundAssets().cannon.play();
                 health = Constants.MAX_HEALTH;
                 ammo = Constants.MAX_AMMO;
                 turbo = Constants.MAX_TURBO;
