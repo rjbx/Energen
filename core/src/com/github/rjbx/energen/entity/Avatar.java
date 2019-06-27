@@ -67,6 +67,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private List<Energy> energyList; // class-level instantiation
     private ListIterator<Energy> energyToggler; // class-level instantiation
     private List<Upgrade> upgradeList;
+    private boolean supercharged;
     private boolean canShoot;
     private boolean canDispatch;
     private boolean canLook;
