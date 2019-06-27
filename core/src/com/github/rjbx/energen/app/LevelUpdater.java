@@ -184,7 +184,6 @@ class LevelUpdater {
         //  Wide area lists could be rescoped by saving the position of the previous scope
         //  and rescoping when reaching a point beyond a bound wrapping that position
 
-
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
             for (int i = 0; i < grounds.size; i++) {
@@ -193,11 +192,9 @@ class LevelUpdater {
                     for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
                         if (convertBounds.overlaps(new Rectangle(g.getPosition().x, g.getPosition().y, g.getWidth(), g.getHeight()))) {
                             if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                                if (!updateGround(delta, g)) {
-                                    grounds.removeIndex(i);
-                                    if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
-                                } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
-                            } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                                updateGround(delta, g)
+                                if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
+                            }
                         }
                     }
                 }
