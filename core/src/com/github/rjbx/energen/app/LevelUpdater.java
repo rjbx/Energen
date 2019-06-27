@@ -1091,7 +1091,9 @@ class LevelUpdater {
     }
 
     private void spawnImpact(Vector2 position, Enums.Energy type) {
-        impacts.add(new Impact(position, type));
+        Impact i = new Impact(position, type));
+        impacts.add(i);
+        scopedImpacts.add(i);
     }
 
     private void spawnProjectile(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Energy energy, Entity source) {
