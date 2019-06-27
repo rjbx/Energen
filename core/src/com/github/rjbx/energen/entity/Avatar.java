@@ -1183,6 +1183,11 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canClimb = false;
             canRappel = false;
             canHurdle = false;
+            if (supercharged && health < 50) {
+                supercharged = false;
+                superchargeStartTime = 0;
+                dispenseUpgrades();
+            }
         }
     }
 
