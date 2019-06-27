@@ -237,7 +237,7 @@ class LevelUpdater {
 
             // Update Transports
             if (updateBounds == null || !updateBounds.contains(avatar.getUpdateBounds())) {
-                updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 2f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 2f), chaseCam.getViewport().getWorldWidth() * 4f, chaseCam.getViewport().getWorldHeight() * 4f);
+                updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 3f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 3f), chaseCam.getViewport().getWorldWidth() * 6f, chaseCam.getViewport().getWorldHeight() * 6f);
 
                 transports.begin();
                 for (int i = 0; i < transports.size; i++) {
