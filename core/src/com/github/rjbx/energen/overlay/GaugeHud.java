@@ -41,8 +41,10 @@ public final class GaugeHud {
             renderer.setColor(Constants.HEALTH_CRITICAL_COLOR);
         } else if (avatar.getHealth() < Constants.MAX_HEALTH / 2) {
             renderer.setColor(Constants.HEALTH_LOW_COLOR);
+        } else if (avatar.getHealth() < Constants.MAX_HEALTH * .75f) {
+            renderer.setColor(Constants.HEALTH_MEDIUM_COLOR);
         } else if (avatar.getHealth() < Constants.MAX_HEALTH) {
-            renderer.setColor(Constants.HEALTH_NORMAL_COLOR);
+            renderer.setColor(Constants.HEALTH_HIGH_COLOR);
         } else {
             renderer.setColor(Constants.HEALTH_MAX_COLOR);
         }

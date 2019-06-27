@@ -950,7 +950,8 @@ public final class Constants {
     public static final Vector2 LIFE_ICON_CENTER = new Vector2(7, 4.5f);
     public static final Color HEALTH_CRITICAL_COLOR = Color.RED;
     public static final Color HEALTH_LOW_COLOR = Color.CORAL;
-    public static final Color HEALTH_NORMAL_COLOR = new Color(0x0077eeff);
+    public static final Color HEALTH_MEDIUM_COLOR = new Color(0x005fddff);
+    public static final Color HEALTH_HIGH_COLOR = new Color(0x0077eeff);
     public static final Color HEALTH_MAX_COLOR = new Color(0x1e90ffff);
     public static final Color TURBO_NORMAL_COLOR = Color.FOREST;
     public static final Color TURBO_MAX_COLOR = new Color(0x006400FF);
