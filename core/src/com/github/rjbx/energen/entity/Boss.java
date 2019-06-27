@@ -52,7 +52,8 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     private float top;
     private float bottom;
     private boolean miniBoss;
-    private Rectangle bounds; // class-level instantiation
+    private Rectangle convertBounds; // class-level instantiation
+    private int camAdjustments;
     private Vector2 position; // class-level instantiation
     private Vector2 previousFramePosition; // class-level instantiation
     private Vector2 spawnPosition;
@@ -308,11 +309,11 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         // positioning
         previousFramePosition.set(position);
         position.mulAdd(velocity, delta);
-        setBounds();
+        setCollisionBounds();
         detectInput();
     }
 
-    private void setBounds() {
+    private void setCollisionBounds() {
         left = position.x - halfWidth;
         right = position.x + halfWidth;
         top = position.y + headRadius;
@@ -323,7 +324,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     private void rush() {
 
         canDispatch = false;
-        if (roomBounds.overlaps(avatar.getBounds())) {
+        if (roomBounds.overlaps(avatar.getCollisionBounds())) {
             if (battling && !shielded) {
                 if (Helpers.overlapsBetweenTwoSides(avatar.getPosition().x, Constants.AVATAR_STANCE_WIDTH, getLeft(), getRight())
                         && Math.abs(position.y - avatar.getPosition().y) > getHeight()) {
@@ -779,7 +780,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     private void touchAllPowerups(Array<Powerup> powerups) {
         for (Powerup powerup : powerups) {
             Rectangle bounds = new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight());
-            if (getBounds().overlaps(bounds)) {
+            if (getConvertBounds().overlaps(bounds)) {
                 touchPowerup(powerup);
             }
         }
@@ -1529,7 +1530,6 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     public final void setVelocity(Vector2 velocity) { this.velocity = velocity; }
     @Override public final Enums.Direction getDirectionX() { return directionX; }
     @Override public final Enums.Direction getDirectionY() { return directionY; }
-    @Override public final Rectangle getBounds() { return bounds; }
     @Override public final float getLeft() { return left; }
     @Override public final float getRight() { return right; }
     @Override public final float getTop() { return top; }
@@ -1571,8 +1571,8 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     @Override public final int getHitScore() { return Constants.ZOOMBA_HIT_SCORE; }
     @Override public final int getKillScore() { return Constants.ZOOMBA_KILL_SCORE; }
     public final Rectangle getRoomBounds() { return roomBounds; }
-
     // Setters
+
     public void setBattleState(boolean state) { this.talking = false; this.battling = state;}
     public void setTalkState(boolean state) { this.talking = state; this.battling = false;}
     public void setDirectionX(Direction directionX) { this.directionX = directionX; }
@@ -1637,7 +1637,6 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         }
     }
     public void addUpgrade(Upgrade upgrade) { Gdx.app.log(TAG, upgradeList.toString()); upgradeList.add(upgrade); Gdx.app.log(TAG, upgradeList.toString()); dispenseUpgrades(); Gdx.app.log(TAG, turboMultiplier + "");}
-
     private void dispenseUpgrades() {
         if (upgradeList.contains(Upgrade.AMMO)) {
             ammoMultiplier = .9f;
@@ -1656,10 +1655,10 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         }
         setHealth(Constants.MAX_HEALTH);
     }
+
     public void detectInput() { if (InputControls.getInstance().hasInput()) { standStartTime = TimeUtils.nanoTime(); canPeer = false; } }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void resetChargeIntensity() { shotIntensity = ShotIntensity.NORMAL; }
-
     @Override
     public long getStartTime() {
         return 0;
@@ -1701,38 +1700,14 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         this.miniBoss = miniBoss;
     }
 
-    @Override
-    public void setState(boolean state) {
+    @Override public Rectangle getCollisionBounds() { return bounds; }
 
-    }
-
-    @Override
-    public boolean tripped() {
-        return false;
-    }
-
-    @Override
-    public boolean isActive() {
-        return false;
-    }
-
-    @Override
-    public void addCamAdjustment() {
-
-    }
-
-    @Override
-    public boolean maxAdjustmentsReached() {
-        return false;
-    }
-
-    @Override
-    public boolean isConverted() {
-        return false;
-    }
-
-    @Override
-    public void convert() {
-
-    }
+    @Override public void setState(boolean state) { this.state = !state; }
+    @Override public boolean tripped() { return state; }
+    @Override public boolean isActive() { return state; }
+    @Override public void addCamAdjustment() { camAdjustments++; }
+    @Override public boolean maxAdjustmentsReached() { return camAdjustments >= 2; }
+    @Override public boolean isConverted() { return state; }
+    @Override public void convert() { state = !state; }
+    @Override public final Rectangle getConvertBounds() { return convertBounds; }
 }

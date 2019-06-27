@@ -97,7 +97,7 @@ public class Tripknob extends Ground implements Trippable, Convertible, Strikeab
     @Override public final boolean isDense() { return true; }
     public final long getStartTime() { return startTime; }
     public final void resetStartTime() { this.startTime = 0; }
-    public Rectangle getBounds() { return bounds; }
+    public Rectangle getConvertBounds() { return bounds; }
     @Override public boolean isActive() { return state; }
     @Override public void setState(boolean state) { this.state = state; converted = true; }
     @Override public void convert() { state = !state; converted = true; }

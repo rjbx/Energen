@@ -9,5 +9,5 @@ public interface Trippable extends Nonstatic, Physical, Convertible {
     boolean isActive();
     void addCamAdjustment();
     boolean maxAdjustmentsReached();
-    Rectangle getBounds();
+    Rectangle getConvertBounds();
 }

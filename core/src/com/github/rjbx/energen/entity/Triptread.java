@@ -80,7 +80,7 @@ public class Triptread extends Ground implements Trippable, Convertible, Propell
     @Override public final float getBottom() { return position.y - Constants.TRIPTREAD_CENTER.y; }
     @Override public final boolean isDense() { return true; }
     public final long getStartTime() { return startTime; }
-    public Rectangle getBounds() { return bounds; }
+    public Rectangle getConvertBounds() { return bounds; }
     @Override public boolean isActive() { return state; }
     @Override public void setState(boolean state) { this.state = state; converted = true; }
     @Override public void convert() { direction = Helpers.getOppositeDirection(direction); }

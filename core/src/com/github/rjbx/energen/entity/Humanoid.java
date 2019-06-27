@@ -8,7 +8,7 @@ import com.github.rjbx.energen.util.Enums;
 public interface Humanoid extends Dynamic {
 
     Vector2 getVelocity();
-    Rectangle getBounds();
+    Rectangle getCollisionBounds();
     float getTurbo();
     float getHealth();
     boolean getJumpStatus();

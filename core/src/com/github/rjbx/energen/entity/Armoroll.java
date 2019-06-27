@@ -228,7 +228,7 @@ public class Armoroll extends Hazard implements Armored, Groundable, Roving, Des
     @Override public boolean isActive() { return state; }
     @Override public void addCamAdjustment() { camAdjustments++; }
     @Override public boolean maxAdjustmentsReached() { return camAdjustments >= 2; }
-    @Override public Rectangle getBounds() { return bounds; }
+    @Override public Rectangle getConvertBounds() { return bounds; }
     @Override public boolean isConverted() { return state; }
     @Override public void convert() { state = !state; }
 }

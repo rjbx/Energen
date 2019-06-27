@@ -81,7 +81,7 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     }
 
     @Override public final Vector2 getPosition() { return position; }
-    @Override public final Rectangle getBounds() { return bounds; }
+    @Override public final Rectangle getConvertBounds() { return bounds; }
     @Override public final float getHeight() { return Constants.LEVER_CENTER.y * 2; }
     @Override public final float getWidth() { return Constants.LEVER_CENTER.x * 2; }
     @Override public final float getLeft() { return position.x - Constants.LEVER_CENTER.x; }

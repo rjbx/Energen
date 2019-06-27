@@ -11,5 +11,5 @@ public interface Physical {
     float getRight();
     float getTop();
     float getBottom();
-    // Rectangle getBounds();
+    // Rectangle getConvertBounds();
 }

@@ -418,23 +418,23 @@ class LevelUpdater {
             if (trip.tripped()) {
                 if (hintsEnabled
                         && !trip.maxAdjustmentsReached()
-                        && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
-                        && !(trip.getBounds().overlaps(new Rectangle(chaseCam.getCamera().position.x - chaseCam.getViewport().getWorldWidth() / 4, chaseCam.getCamera().position.y - chaseCam.getViewport().getWorldHeight() / 4, chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getViewport().getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
+                        && !trip.getConvertBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
+                        && !(trip.getConvertBounds().overlaps(new Rectangle(chaseCam.getCamera().position.x - chaseCam.getViewport().getWorldWidth() / 4, chaseCam.getCamera().position.y - chaseCam.getViewport().getWorldHeight() / 4, chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getViewport().getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
 
                     chaseCam.setState(Enums.ChaseCamState.CONVERT);
-                    chaseCam.setConvertBounds(trip.getBounds());
+                    chaseCam.setConvertBounds(trip.getConvertBounds());
                     trip.addCamAdjustment();
                 }
                 for (Ground g : scopedGrounds) {
                     if (g instanceof Convertible && (g != trip || g instanceof Triptread)) {
-                        if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
+                        if (Helpers.betweenFourValues(g.getPosition(), trip.getConvertBounds().x, trip.getConvertBounds().x + trip.getConvertBounds().width, trip.getConvertBounds().y, trip.getConvertBounds().y + trip.getConvertBounds().height)) {
                             ((Convertible) g).convert();
                        }
                     }
                 }
                 for (Hazard h : scopedHazards) {
                     if (h instanceof Convertible && (h != trip)) {
-                        if (Helpers.betweenFourValues(h.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
+                        if (Helpers.betweenFourValues(h.getPosition(), trip.getConvertBounds().x, trip.getConvertBounds().x + trip.getConvertBounds().width, trip.getConvertBounds().y, trip.getConvertBounds().y + trip.getConvertBounds().height)) {
                             ((Convertible) h).convert();
                         }
                     }
@@ -567,7 +567,7 @@ class LevelUpdater {
         if (hazard instanceof Boss) {
             ((Boss) hazard).updatePosition(delta);
             applyCollision((Impermeable) hazard);
-            if (boss.getRoomBounds().overlaps(avatar.getBounds())) {
+            if (boss.getRoomBounds().overlaps(avatar.getCollisionBounds())) {
                 if (!boss.isBattling() || boss.getHealth() < 1) {
                     boss.setTalkState(true);
                 }
@@ -609,23 +609,23 @@ class LevelUpdater {
                     if (trip.tripped()) {
                         if (hintsEnabled
                                 && !trip.maxAdjustmentsReached()
-                                && !trip.getBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
-                                && !(trip.getBounds().overlaps(new Rectangle(chaseCam.getCamera().position.x - chaseCam.getViewport().getWorldWidth() / 4, chaseCam.getCamera().position.y - chaseCam.getViewport().getWorldHeight() / 4, chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getViewport().getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
+                                && !trip.getConvertBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
+                                && !(trip.getConvertBounds().overlaps(new Rectangle(chaseCam.getCamera().position.x - chaseCam.getViewport().getWorldWidth() / 4, chaseCam.getCamera().position.y - chaseCam.getViewport().getWorldHeight() / 4, chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getViewport().getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
 
                             chaseCam.setState(Enums.ChaseCamState.CONVERT);
-                            chaseCam.setConvertBounds(trip.getBounds());
+                            chaseCam.setConvertBounds(trip.getConvertBounds());
                             trip.addCamAdjustment();
                         }
                         for (Ground g : scopedGrounds) {
                             if (g instanceof Convertible && (g != trip || g instanceof Triptread)) {
-                                if (Helpers.betweenFourValues(g.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
+                                if (Helpers.betweenFourValues(g.getPosition(), trip.getConvertBounds().x, trip.getConvertBounds().x + trip.getConvertBounds().width, trip.getConvertBounds().y, trip.getConvertBounds().y + trip.getConvertBounds().height)) {
                                     ((Convertible) g).convert();
                                 }
                             }
                         }
                         for (Hazard h : scopedHazards) {
                             if (h instanceof Convertible && (h != trip)) {
-                                if (Helpers.betweenFourValues(h.getPosition(), trip.getBounds().x, trip.getBounds().x + trip.getBounds().width, trip.getBounds().y, trip.getBounds().y + trip.getBounds().height)) {
+                                if (Helpers.betweenFourValues(h.getPosition(), trip.getConvertBounds().x, trip.getConvertBounds().x + trip.getConvertBounds().width, trip.getConvertBounds().y, trip.getConvertBounds().y + trip.getConvertBounds().height)) {
                                     ((Convertible) h).convert();
                                 }
                             }

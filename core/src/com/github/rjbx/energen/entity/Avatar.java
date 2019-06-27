@@ -449,7 +449,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
     }
 
-    private void setBounds() {
+    private void setCollisionBounds() {
         left = position.x - halfWidth;
         right = position.x + halfWidth;
         top = position.y + headRadius;
@@ -468,7 +468,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 //        if (touchedGround != null)
 //            Gdx.app.log(TAG + "2", touchedGround.getClass().toString());
 
-        setBounds();
+        setCollisionBounds();
         detectInput();
     }
 
@@ -851,7 +851,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
             if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
                 Rectangle bounds = new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight());
-                if (getBounds().overlaps(bounds)) {
+                if (getConvertBounds().overlaps(bounds)) {
                     touchPowerup(p);
                 } else {
                     setPeerTarget(p, 2);
@@ -1960,7 +1960,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     public final void setVelocity(Vector2 velocity) { this.velocity = velocity; }
     @Override public final Enums.Direction getDirectionX() { return directionX; }
     @Override public final Enums.Direction getDirectionY() { return directionY; }
-    @Override public final Rectangle getBounds() { return bounds; }
+    @Override public final Rectangle getCollisionBounds() { return bounds; }
     @Override public final float getLeft() { return left; }
     @Override public final float getRight() { return right; }
     @Override public final float getTop() { return top; }
