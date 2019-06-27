@@ -106,7 +106,6 @@ class LevelUpdater {
         time = 0;
         refreshTime = 0;
         paused = false;
-        updateBounds = new Rectangle(0, 0, 0, 0);
     }
 
     protected void update(float delta) {
@@ -243,7 +242,7 @@ class LevelUpdater {
             }
 
             // Update Transports
-            if (!updateBounds.overlaps(avatar.getCollisionBounds())) {
+            if (updateBounds == null || !updateBounds.overlaps(avatar.getCollisionBounds())) {
                 updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
 
                 transports.begin();
