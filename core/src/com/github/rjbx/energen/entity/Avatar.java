@@ -1716,7 +1716,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     eyes = AssetManager.getInstance().getAvatarAssets().eyesBlink;
                     waist = AssetManager.getInstance().getAvatarAssets().waist.getKeyFrame(Constants.STRIDE_FRAME_DURATION * 3);
                     shoot = AssetManager.getInstance().getAvatarAssets().handPoint;
-                    rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handReach;
+                    rearHand = getRearHand(AssetManager.getInstance().getAvatarAssets().handReach);
                     frontHand = getFrontHand(shoot, AssetManager.getInstance().getAvatarAssets().handPoint.getKeyFrame(0));
                     feet = AssetManager.getInstance().getAvatarAssets().feetRecoil;
                     break;
