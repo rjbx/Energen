@@ -202,6 +202,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         groundState = Enums.GroundState.AIRBORNE;
         ammo = Constants.INITIAL_AMMO;
         health = Constants.INITIAL_HEALTH;
+        if (miniBoss) health /= 2;
         turbo = Constants.MAX_TURBO;
         shotIntensity = ShotIntensity.NORMAL;
         startTurbo = turbo;
