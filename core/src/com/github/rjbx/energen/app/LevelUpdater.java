@@ -184,10 +184,8 @@ class LevelUpdater {
                 if (g instanceof Nonstatic) {
                     for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
                         if (convertBounds.overlaps(new Rectangle(g.getPosition().x, g.getPosition().y, g.getWidth(), g.getHeight()))) {
-                            if (rescopeBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                                updateGround(delta, g);
-                                if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
-                            }
+                            updateGround(delta, g);
+                            if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
                         }
                     }
                 }
