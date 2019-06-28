@@ -72,7 +72,7 @@ canirol-x-1
   index: -1
 cannon-x
   rotate: false
-  xy: 276, 80
+  xy: 291, 94
   size: 20, 12
   orig: 20, 12
   offset: 0, 0
@@ -145,13 +145,6 @@ icon-life
   xy: 405, 113
   size: 13, 13
   orig: 13, 13
-  offset: 0, 0
-  index: -1
-icon-super
-  rotate: false
-  xy: 291, 94
-  size: 20, 12
-  orig: 20, 12
   offset: 0, 0
   index: -1
 knob-1
@@ -244,6 +237,13 @@ powerup-health
   xy: 377, 62
   size: 15, 17
   orig: 15, 17
+  offset: 0, 0
+  index: -1
+powerup-super
+  rotate: false
+  xy: 276, 80
+  size: 20, 12
+  orig: 20, 12
   offset: 0, 0
   index: -1
 powerup-turbo
