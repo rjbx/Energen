@@ -1300,28 +1300,28 @@ ammo-shot-liquid-2
   index: -1
 ammo-shot-native-1
   rotate: false
-  xy: 877, 708
+  xy: 295, 100
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-native-2
   rotate: false
-  xy: 888, 708
+  xy: 306, 100
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-plasma-1
   rotate: false
-  xy: 899, 708
+  xy: 877, 708
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
   index: -1
 ammo-shot-plasma-2
   rotate: false
-  xy: 977, 716
+  xy: 888, 708
   size: 9, 7
   orig: 9, 7
   offset: 0, 0
@@ -2357,23 +2357,23 @@ icon-rappel
   index: -1
 icon-super
   rotate: false
-  xy: 354, 108
-  size: 14, 9
-  orig: 14, 9
+  xy: 599, 689
+  size: 16, 12
+  orig: 16, 12
   offset: 0, 0
   index: -1
 icon-super-1
   rotate: false
-  xy: 370, 108
-  size: 14, 9
-  orig: 14, 9
+  xy: 599, 675
+  size: 16, 12
+  orig: 16, 12
   offset: 0, 0
   index: -1
 icon-super-2
   rotate: false
-  xy: 386, 108
-  size: 14, 9
-  orig: 14, 9
+  xy: 617, 676
+  size: 16, 12
+  orig: 16, 12
   offset: 0, 0
   index: -1
 impact-gas-large
@@ -2525,14 +2525,14 @@ impact-solid-small
   index: -1
 knob-1
   rotate: false
-  xy: 402, 108
+  xy: 354, 108
   size: 11, 9
   orig: 11, 9
   offset: 0, 0
   index: -1
 knob-2
   rotate: false
-  xy: 415, 108
+  xy: 367, 108
   size: 11, 9
   orig: 11, 9
   offset: 0, 0
@@ -2651,77 +2651,77 @@ orben-plasma-active-1
   index: -1
 orben-plasma-active-2
   rotate: false
-  xy: 428, 107
+  xy: 380, 107
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-plasma-alert
   rotate: false
-  xy: 440, 107
+  xy: 392, 107
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-0
   rotate: false
-  xy: 997, 742
+  xy: 404, 107
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-1
   rotate: false
-  xy: 1009, 742
+  xy: 416, 107
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-active-2
   rotate: false
-  xy: 453, 121
+  xy: 428, 107
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-polymer-alert
   rotate: false
-  xy: 465, 124
+  xy: 440, 107
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-shoot
   rotate: false
-  xy: 477, 124
+  xy: 997, 742
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-active-0
   rotate: false
-  xy: 977, 725
+  xy: 1009, 742
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-active-1
   rotate: false
-  xy: 287, 89
+  xy: 453, 121
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-active-2
   rotate: false
-  xy: 599, 672
+  xy: 465, 124
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 orben-solid-alert
   rotate: false
-  xy: 242, 15
+  xy: 477, 124
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -2763,21 +2763,21 @@ powerup-health-2
   index: -1
 powerup-turbo
   rotate: false
-  xy: 599, 684
+  xy: 617, 690
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo-1
   rotate: false
-  xy: 616, 690
+  xy: 634, 690
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
   index: -1
 powerup-turbo-2
   rotate: false
-  xy: 633, 690
+  xy: 635, 671
   size: 15, 17
   orig: 15, 17
   offset: 0, 0
