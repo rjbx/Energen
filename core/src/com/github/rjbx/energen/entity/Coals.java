@@ -53,6 +53,6 @@ public class Coals extends Ground implements Hazardous {
     @Override public final float getBottom() { return position.y - Constants.COALS_CENTER.y * scale.y; }
     @Override public final Enums.Energy getType() { return Enums.Energy.GAS; }
     @Override public final Vector2 getKnockback() { return new Vector2(new Random().nextFloat() * 200, Constants.PROTRUSION_GAS_KNOCKBACK.y); }
-    @Override public final int getDamage() { return 0; }
+    @Override public final int getDamage() { return 1; }
     @Override public final boolean isDense() { return true; }
 }
