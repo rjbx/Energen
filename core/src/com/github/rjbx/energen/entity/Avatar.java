@@ -2115,7 +2115,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         if (supercharged && superchargeStartTime != 0) setHealth(Constants.MAX_HEALTH);
     }
-    public Rectangle getUpdateBounds() { return new Rectangle(position.x, position.y, width * 4, width * 4); }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void resetChargeIntensity() { if (chargeModifier == 0) shotIntensity = ShotIntensity.NORMAL; }
     public void detectInput() { if (InputControls.getInstance().hasInput()) { activeStartTime = TimeUtils.nanoTime(); } }

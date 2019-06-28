@@ -58,7 +58,7 @@ class LevelUpdater {
     private Boss boss;
     private ChaseCam chaseCam;
     private String removedHazards;
-    private Rectangle updateBounds;
+    private Rectangle rescopeBounds;
     private boolean goalReached;
     private boolean paused;
     private boolean musicEnabled;
@@ -184,7 +184,7 @@ class LevelUpdater {
                 if (g instanceof Nonstatic) {
                     for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
                         if (convertBounds.overlaps(new Rectangle(g.getPosition().x, g.getPosition().y, g.getWidth(), g.getHeight()))) {
-                            if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                            if (rescopeBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
                                 updateGround(delta, g);
                                 if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
                             }
@@ -236,13 +236,14 @@ class LevelUpdater {
             }
 
             // Update Transports
-            if (updateBounds == null || !updateBounds.contains(avatar.getUpdateBounds())) {
-                updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 2.5f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 2.5f), chaseCam.getViewport().getWorldWidth() * 5f, chaseCam.getViewport().getWorldHeight() * 5f);
+            Rectangle determinantBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 0.5f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 0.5f), chaseCam.getViewport().getWorldWidth(), chaseCam.getViewport().getWorldHeight());
+            if (rescopeBounds == null || !rescopeBounds.contains(determinantBounds)) {
+                rescopeBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 2.5f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 2.5f), chaseCam.getViewport().getWorldWidth() * 5f, chaseCam.getViewport().getWorldHeight() * 5f);
 
                 transports.begin();
                 for (int i = 0; i < transports.size; i++) {
                     Transport t = transports.get(i);
-                    if (updateBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
+                    if (rescopeBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
                         if (!updateTransport(delta, t, i)) {
                             transports.removeIndex(i);
                             if (scopedTransports.contains(t, true))
@@ -257,7 +258,7 @@ class LevelUpdater {
                 hazards.begin();
                 for (int i = 0; i < hazards.size; i++) {
                     Hazard h = hazards.get(i);
-                    if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
+                    if (rescopeBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
                         if (!updateHazard(delta, h)) {
                             spawnPowerup(h);
                             hazards.removeIndex(i);
@@ -291,7 +292,7 @@ class LevelUpdater {
                             || !(((Pliable) g).isBeingCarried())
                             || !(((Pliable) g).getMovingGround() instanceof Pliable)
                             || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())) {
-                        if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                        if (rescopeBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
                             if (!updateGround(delta, g)) {
                                 if (!(g instanceof Destructible)) {
                                     grounds.removeIndex(i);
@@ -309,7 +310,7 @@ class LevelUpdater {
                 impacts.begin();
                 for (int index = 0; index < impacts.size; index++) {
                     Impact i = impacts.get(index);
-                    if (updateBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
+                    if (rescopeBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
                         if (i.isFinished()) {
                             impacts.removeIndex(index);
                             if (scopedImpacts.contains(i, true)) scopedImpacts.removeValue(i, true);
@@ -322,7 +323,7 @@ class LevelUpdater {
                 powerups.begin();
                 for (int i = 0; i < powerups.size; i++) {
                     Powerup p = powerups.get(i);
-                    if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
+                    if (rescopeBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
                         if (!updatePowerup(delta, p)) {
                             powerups.removeIndex(i);
                             if (scopedPowerups.contains(p, true))
@@ -336,7 +337,7 @@ class LevelUpdater {
 
                 for (int i = 0; i < scopedTransports.size; i++) {
                     Transport t = scopedTransports.get(i);
-                    if (updateBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
+                    if (rescopeBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
                         if (!updateTransport(delta, t, i)) {
                             scopedTransports.removeIndex(i);
                             if (transports.contains(t, true)) transports.removeValue(t, true);
@@ -347,7 +348,7 @@ class LevelUpdater {
                 // Update Hazards
                 for (int i = 0; i < scopedHazards.size; i++) {
                     Hazard h = scopedHazards.get(i);
-                    if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
+                    if (rescopeBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
                         if (!updateHazard(delta, h)) {
                             spawnPowerup(h);
                             scopedHazards.removeIndex(i);
@@ -379,7 +380,7 @@ class LevelUpdater {
                             || !(((Pliable) g).isBeingCarried())
                             || !(((Pliable) g).getMovingGround() instanceof Pliable)
                             || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())) {
-                        if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                        if (rescopeBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
                             if (!updateGround(delta, g)) {
                                 if (!(g instanceof Destructible)) {
                                     scopedGrounds.removeIndex(i);
@@ -393,7 +394,7 @@ class LevelUpdater {
                 // Update Impacts
                 for (int index = 0; index < scopedImpacts.size; index++) {
                     Impact i = scopedImpacts.get(index);
-                    if (updateBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
+                    if (rescopeBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
                         if (i.isFinished()) {
                             scopedImpacts.removeIndex(index);
                             if (impacts.contains(i, true)) impacts.removeValue(i, true);
@@ -404,7 +405,7 @@ class LevelUpdater {
                 // Update Powerups
                 for (int i = 0; i < scopedPowerups.size; i++) {
                     Powerup p = scopedPowerups.get(i);
-                    if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
+                    if (rescopeBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
                         if (!updatePowerup(delta, p)) {
                             scopedPowerups.removeIndex(i);
                             if (powerups.contains(p, true)) powerups.removeValue(p, true);
@@ -426,7 +427,7 @@ class LevelUpdater {
                                 || (((Pliable) g).isAtopMovingGround()
                                 && ((Pliable) g).getMovingGround() instanceof Pliable
                                 && ((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())))) {
-                    if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
+                    if (rescopeBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
                         if (!updateGround(delta, g)) {
                             scopedGrounds.removeIndex(i);
                             if (grounds.contains(g, true)) grounds.removeValue(g, true);
@@ -981,7 +982,7 @@ class LevelUpdater {
             }
         }
         clearEntities();
-        updateBounds = null;
+        rescopeBounds = null;
     }
 
     protected void pause() {
