@@ -1827,8 +1827,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             if (Helpers.secondsSince(superchargeStartTime) % 0.75f < 0.325f) energyColor = new Color(0x7a6000ff);
             else energyColor = new Color(0x6a5400ff);
 
-        batch.setColor(energyColor);
-        if (!frontFacing) body.reverse();
+        if (frontFacing) batch.setColor(energyColor);
+        else body.reverse();
 
         Vector2 renderPosition = new Vector2().set(position);
         if (inverseX) renderPosition.x -= 2;
