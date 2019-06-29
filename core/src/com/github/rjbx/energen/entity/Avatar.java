@@ -1169,7 +1169,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             groundState = GroundState.AIRBORNE;
             action = Action.RECOILING;
             recoveryStartTime = TimeUtils.nanoTime();
-            chargeModifier = 0;
             chargeStartTime = 0;
             rappelStartTime = 0;
             strideStartTime = 0;
@@ -1183,12 +1182,14 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canClimb = false;
             canRappel = false;
             canHurdle = false;
-            if (supercharged && health < 75) {
-                superchargeStartTime = 0;
-                dispenseUpgrades();
-                supercharged = false;
-                energyColor = energy.theme().color();
-            }
+            if (supercharged)
+                if (health < 75) {
+                    superchargeStartTime = 0;
+                    dispenseUpgrades();
+                    supercharged = false;
+                    chargeModifier = 0;
+                    energyColor = energy.theme().color();
+                } else chargeModifier = 0;
         }
     }
 
