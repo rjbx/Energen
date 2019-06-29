@@ -129,12 +129,6 @@ class LevelUpdater {
 
         backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
-        for (Ground ground : scopedGrounds) {
-            if ((!ground.isDense() && !(ground instanceof Climbable))) {
-                ground.render(batch, viewport);
-            }
-        }
-
         for (Transport transport : scopedTransports) {
             transport.render(batch, viewport);
         }
@@ -144,22 +138,14 @@ class LevelUpdater {
         }
 
         for (Hazard hazard : scopedHazards) {
-                hazard.render(batch, viewport);
-        }
-
-        for (Ground ground : scopedGrounds) {
-            if ((ground.isDense()) || ground instanceof Climbable) {
-                ground.render(batch, viewport);
-            }
+            hazard.render(batch, viewport);
         }
 
         avatar.render(batch, viewport);
         Blade.getInstance().render(batch, viewport);
 
         for (Ground ground : scopedGrounds) {
-            if (ground instanceof Pliable && ((Pliable) ground).isBeingCarried()) {
-                ground.render(batch, viewport);
-            }
+            ground.render(batch, viewport);
         }
 
         for (Impact impact : scopedImpacts) {
