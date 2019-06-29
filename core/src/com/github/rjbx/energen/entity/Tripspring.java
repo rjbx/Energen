@@ -10,7 +10,7 @@ import com.github.rjbx.energen.util.AssetManager;
 import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Helpers;
 
-public class Tripspring extends Ground implements Trippable, Compressible, Reboundable, Impermeable, Boxable {
+public class Tripspring extends Ground implements Trippable, Compressible, Reboundable, Impermeable, Groundable {
 
     // fields
     public final static String TAG = Tripspring.class.getName();

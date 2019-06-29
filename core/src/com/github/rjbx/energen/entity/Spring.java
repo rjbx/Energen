@@ -10,7 +10,7 @@ import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 
-public class Spring extends Ground implements Reboundable, Rappelable, Tossable, Compressible, Impermeable, Boxable {
+public class Spring extends Ground implements Reboundable, Rappelable, Tossable, Compressible, Impermeable, Groundable {
 
     // fields
     public final static String TAG = Spring.class.getName();
@@ -201,4 +201,5 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }
     public final void setMovingGround(Moving ground) { movingGround = ground; }
     public final void stopCarrying() { beingCarried = false; }
+    @Override int getPriority() { return 0; }
 }
