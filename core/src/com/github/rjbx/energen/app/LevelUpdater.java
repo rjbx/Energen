@@ -1023,12 +1023,12 @@ class LevelUpdater {
 
     private void spawnImpact(Vector2 position, Enums.Energy type) {
         Impact i = new Impact(position, type);
-        scopedImpacts.add(i);
+        scopeEntity(scopedImpacts, i);
     }
 
     private void spawnProjectile(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Energy energy, Entity source) {
         Projectile projectile = new Projectile(position, direction, orientation, shotIntensity, energy, source);
-        scopedHazards.add(projectile);
+        scopeEntity(scopedHazards, projectile);
     }
 
     private void spawnPowerup(Hazard hazard) {
@@ -1114,7 +1114,7 @@ class LevelUpdater {
     }
 
     public <T extends Entity> void unscopeEntity(Array<T> entities, T entity) {
-        entities.add(entity);
-        this.scopedEntities.add(entity);
+        entities.removeValue(entity, true);
+        this.scopedEntities.removeValue(entity, true);
     }
 }
