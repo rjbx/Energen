@@ -142,13 +142,13 @@ class LevelUpdater {
         }
 
         if (avatar.isOverlapsClimbable()) {
+            for (Ground ground : scopedGrounds) ground.render(batch, viewport);
             avatar.render(batch, viewport);
             Blade.getInstance().render(batch, viewport);
-            for (Ground ground : scopedGrounds) ground.render(batch, viewport);
         } else {
-            for (Ground ground : scopedGrounds) ground.render(batch, viewport);
             avatar.render(batch, viewport);
             Blade.getInstance().render(batch, viewport);
+            for (Ground ground : scopedGrounds) ground.render(batch, viewport);
         }
 
         for (Impact impact : scopedImpacts) {
