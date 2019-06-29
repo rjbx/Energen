@@ -492,6 +492,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 touchGroundTop(g);
             } else { // for non-dense grounds:
                 // additional ground collision instructions specific to certain types of grounds
+                overlapsClimabable = false;
                 if (g instanceof Climbable) {
                     overlapsClimabable = true;
                     if (!(touchedGround != null && touchedGround.isDense() && touchedGround.getTop() == g.getTop())) { // prevents flickering canclimb state
@@ -530,7 +531,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                                 touchGroundTop(g); // prevents descending below top when on non dense, non sinkable
                             }
                         }
-                    } else overlapsClimabable = false;
+                    }
                     if (action == Action.CLIMBING) {
                         velocity.y = 0; // halts progress when no directional input
                     }
