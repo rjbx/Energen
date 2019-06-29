@@ -177,6 +177,15 @@ class LevelUpdater {
                 }
             }
             grounds.end();
+
+            scopedGrounds.sort(new Comparator<Ground>() {
+                @Override
+                public int compare(Ground o1, Ground o2) {
+                    if (o1.getPriority() > o2.getPriority()) return 1;
+                    else if (o1.getPriority() < o2.getPriority()) return -1;
+                    return 0;
+                }
+            });
         } else if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
             if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
                 chaseCam.setState(Enums.ChaseCamState.BOSS);
