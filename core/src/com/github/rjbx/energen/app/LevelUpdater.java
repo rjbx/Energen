@@ -39,7 +39,6 @@ class LevelUpdater {
     private Timer timer;
     private boolean loadEx;
     private Backdrop backdrop;
-    private DelayedRemovalArray<Entity> scopedEntities;
     private DelayedRemovalArray<Ground> grounds;
     private DelayedRemovalArray<Hazard> hazards;
     private DelayedRemovalArray<Powerup> powerups;
@@ -86,7 +85,6 @@ class LevelUpdater {
         chaseCam = ChaseCam.getInstance();
         assetManager = AssetManager.getInstance();
         inputControls = InputControls.getInstance();
-        scopedEntities = new DelayedRemovalArray<Entity>();
         grounds = new DelayedRemovalArray<Ground>();
         hazards = new DelayedRemovalArray<Hazard>();
         impacts = new DelayedRemovalArray<Impact>();
@@ -174,7 +172,7 @@ class LevelUpdater {
                     for (Rectangle convertBounds : chaseCam.getConvertBounds()) {
                         if (convertBounds.overlaps(new Rectangle(g.getPosition().x, g.getPosition().y, g.getWidth(), g.getHeight()))) {
                             updateGround(delta, g);
-                            if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
+                            if (!scopedGrounds.contains(g, true)) scopeEntity(scopedGrounds, g);
                         }
                     }
                 }
@@ -1132,12 +1130,12 @@ class LevelUpdater {
     public Array<Impact> getScopedImpacts() { return scopedImpacts; }
     public void setScopedImpacts(Array<Impact> scopedImpacts) { this.scopedImpacts = scopedImpacts; }
 
-    public <T extends Entity> void scopeEntity(DelayedRemovalArray<T> entities, T entity) {
+    public <T extends Entity> void scopeEntity(Array<T> entities, T entity) {
         entities.add(entity);
         this.scopedEntities.add(entity);
     }
 
-    public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity) {
+    public <T extends Entity> void unscopeEntity(Array<T> entities, T entity) {
         entities.add(entity);
         this.scopedEntities.add(entity);
     }
