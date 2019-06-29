@@ -53,4 +53,9 @@ public class Waves extends Ground implements Indestructible, Pourous, Hazardous 
     @Override public final Vector2 getKnockback() { return Constants.WAVES_KNOCKBACK; }
     @Override public final int getDamage() { return Constants.WAVES_DAMAGE; }
     @Override public final boolean isDense() { return false; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
 }

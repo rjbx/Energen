@@ -18,6 +18,7 @@ public abstract class Ground extends Entity implements Groundable {
  2 ladder
  1 lava
  1 lift
+ 2 pillar
  2 pod
  2 pole
  2 rope
@@ -30,4 +31,5 @@ public abstract class Ground extends Entity implements Groundable {
  2 tripspring
  1 triptread
  2 vines
+ 1 waves
  */
