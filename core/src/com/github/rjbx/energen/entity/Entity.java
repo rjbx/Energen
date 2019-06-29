@@ -1,6 +1,6 @@
 package com.github.rjbx.energen.entity;
 
-public abstract class Entity implements Physical, Visible, Cloneable {
+public abstract class Entity implements Physical, Visible, Cloneable, Sortable {
 
     public static final String TAG = Entity.class.toString();
 

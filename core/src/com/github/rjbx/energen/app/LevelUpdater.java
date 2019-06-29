@@ -287,15 +287,6 @@ class LevelUpdater {
                 }
                 grounds.end();
 
-                scopedGrounds.sort(new Comparator<Ground>() {
-                    @Override
-                    public int compare(Ground o1, Ground o2) {
-                        if (o1.getPriority() > o2.getPriority()) return -1;
-                        else if (o1.getPriority() < o2.getPriority()) return 1;
-                        return 0;
-                    }
-                });
-
                 // Update Impacts
                 impacts.begin();
                 for (int index = 0; index < impacts.size; index++) {
@@ -313,13 +304,23 @@ class LevelUpdater {
                 powerups.begin();
                 for (int i = 0; i < powerups.size; i++) {
                     Powerup p = powerups.get(i);
-                   if (!updatePowerup(delta, p)) {
-                            powerups.removeIndex(i);
-                            if (scopedPowerups.contains(p, true))
-                                scopedPowerups.removeValue(p, true);
+                    if (!updatePowerup(delta, p)) {
+                        powerups.removeIndex(i);
+                        if (scopedPowerups.contains(p, true)) {
+                            scopedPowerups.removeValue(p, true);
+                        }
                     } else if (!scopedPowerups.contains(p, true)) scopedPowerups.add(p);
                 }
                 powerups.end();
+
+                scopedEntities.sort(new Comparator<Entity>() {
+                    @Override
+                    public int compare(Entity o1, Entity o2) {
+                        if (o1.getPriority() > o2.getPriority()) return -1;
+                        else if (o1.getPriority() < o2.getPriority()) return 1;
+                        return 0;
+                    }
+                });
             } else {
 
                 for (int i = 0; i < scopedTransports.size; i++) {
