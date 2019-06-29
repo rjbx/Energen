@@ -210,6 +210,8 @@ class LevelUpdater {
             if (rescopeBounds == null || !rescopeBounds.contains(determinantBounds)) {
                 rescopeBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 2.5f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 2.5f), chaseCam.getViewport().getWorldWidth() * 5f, chaseCam.getViewport().getWorldHeight() * 5f);
 
+                scopedEntities.add(avatar);
+
                 transports.begin();
                 for (int i = 0; i < transports.size; i++) {
                     Transport t = transports.get(i);
