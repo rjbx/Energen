@@ -107,7 +107,7 @@ public class Tripknob extends Ground implements Trippable, Convertible, Strikeab
     @Override public boolean tripped() { return previousState != state; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_MEDIUM;
     }
 }

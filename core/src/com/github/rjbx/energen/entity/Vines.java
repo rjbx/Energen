@@ -45,7 +45,7 @@ public class Vines extends Ground implements Climbable, Unsteady {
     @Override public final boolean isDense() { return false; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_MEDIUM;
     }
 }

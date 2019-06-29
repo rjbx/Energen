@@ -69,7 +69,7 @@ public class Treadmill extends Ground implements Nonstatic, Propelling, Converti
     @Override public boolean isConverted() { return tripped; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_HIGH;
     }
 }

@@ -55,7 +55,7 @@ public class Waves extends Ground implements Indestructible, Pourous, Hazardous 
     @Override public final boolean isDense() { return false; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_HIGH;
     }
 }

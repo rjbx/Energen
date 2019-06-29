@@ -47,7 +47,7 @@ public class Ice extends Ground implements Rappelable, Skateable {
     @Override public final boolean isDense() { return getHeight() > Constants.MAX_LEDGE_HEIGHT; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_HIGH;
     }
 }

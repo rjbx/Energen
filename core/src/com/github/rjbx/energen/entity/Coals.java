@@ -57,7 +57,7 @@ public class Coals extends Ground implements Hazardous {
     @Override public final boolean isDense() { return true; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_HIGH;
     }
 }

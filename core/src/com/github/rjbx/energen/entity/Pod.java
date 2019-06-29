@@ -76,7 +76,7 @@ public class Pod extends Ground implements Reboundable, Replenishing, Compressib
     @Override public final Ground getTopGround() { return topGround; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_MEDIUM;
     }
 }

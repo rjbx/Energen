@@ -44,7 +44,7 @@ public class Sand extends Ground implements Pourous {
     @Override public final boolean isDense() { return false; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_HIGH;
     }
 }

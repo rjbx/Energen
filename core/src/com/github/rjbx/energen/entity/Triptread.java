@@ -91,7 +91,7 @@ public class Triptread extends Ground implements Trippable, Convertible, Propell
     @Override public final Enums.Direction getDirectionX() { return direction; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_HIGH;
     }
 }

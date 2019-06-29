@@ -120,7 +120,7 @@ public class Lift extends Ground implements Dynamic, Convertible {
     }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_HIGH;
     }
 }

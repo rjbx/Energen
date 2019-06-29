@@ -44,7 +44,7 @@ public class Pole extends Ground implements Unsteady, Climbable {
     @Override public final boolean isDense() { return false; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_MEDIUM;
     }
 }

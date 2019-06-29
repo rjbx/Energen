@@ -141,7 +141,7 @@ public class Cannoroll extends Ground implements Energized, Orientable, Roving, 
     }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_MEDIUM;
     }
 }

@@ -77,7 +77,7 @@ public class Gate extends Ground implements Strikeable, Nonstatic {
     @Override public final boolean isDense() { return dense; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_HIGH;
     }
 }

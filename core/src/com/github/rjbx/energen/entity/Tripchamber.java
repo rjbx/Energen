@@ -91,7 +91,7 @@ public class Tripchamber extends Ground implements Trippable, Convertible, Charg
     @Override public boolean maxAdjustmentsReached() { return adjustments >= 2; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_MEDIUM;
     }
 }

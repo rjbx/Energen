@@ -52,7 +52,7 @@ public class Deposit extends Ground implements Destructible {
     @Override public boolean isDense() { return true; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_HIGH;
     }
 }

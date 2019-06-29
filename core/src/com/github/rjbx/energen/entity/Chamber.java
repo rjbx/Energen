@@ -66,7 +66,7 @@ public class Chamber extends Ground implements Chargeable, Strikeable, Groundabl
     public Enums.Upgrade getUpgrade() { return type; }
 
     @Override
-    int getPriority() {
+    public int getPriority() {
         return Constants.PRIORITY_MEDIUM;
     }
 }
