@@ -86,6 +86,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private boolean canFlip;
     private boolean canRush;
     private boolean canCut;
+    private boolean overlapsClimabable;
     private long chargeStartTime;
     private long shootStartTime;
     private long activeStartTime;
@@ -492,6 +493,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             } else { // for non-dense grounds:
                 // additional ground collision instructions specific to certain types of grounds
                 if (g instanceof Climbable) {
+                    overlapsClimabable = true;
                     if (!(touchedGround != null && touchedGround.isDense() && touchedGround.getTop() == g.getTop())) { // prevents flickering canclimb state
                         canCling = true;
                     }
@@ -528,7 +530,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                                 touchGroundTop(g); // prevents descending below top when on non dense, non sinkable
                             }
                         }
-                    }
+                    } else overlapsClimabable = false;
                     if (action == Action.CLIMBING) {
                         velocity.y = 0; // halts progress when no directional input
                     }
@@ -2112,4 +2114,5 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     public void setSupercharged(boolean supercharged) { this.supercharged = supercharged; }
 
     public void dispose() { energyList.clear(); }
+    public boolean isOverlapsClimbable() { return overlapsClimabable; }
 }

@@ -141,7 +141,7 @@ class LevelUpdater {
             hazard.render(batch, viewport);
         }
 
-        if (!(avatar.getTouchedGround() instanceof Climbable)) {
+        if (!(avatar.isOverlapsClimbable())) {
             avatar.render(batch, viewport);
             Blade.getInstance().render(batch, viewport);
         }
@@ -150,7 +150,7 @@ class LevelUpdater {
             ground.render(batch, viewport);
         }
 
-        if (avatar.getTouchedGround() instanceof Climbable) {
+        if (avatar.isOverlapsClimbable()) {
             avatar.render(batch, viewport);
             Blade.getInstance().render(batch, viewport);
         }
