@@ -280,9 +280,7 @@ class LevelUpdater {
                     Powerup p = powerups.get(i);
                     if (!updatePowerup(delta, p)) {
                         powerups.removeIndex(i);
-                        if (scopedPowerups.contains(p, true)) {
-                            unscopeEntity(scopedPowerups, p);
-                        }
+                        if (scopedPowerups.contains(p, true)) unscopeEntity(scopedPowerups, p);
                     } else if (!scopedPowerups.contains(p, true)) scopeEntity(scopedPowerups, p);
                 }
                 powerups.end();
@@ -300,7 +298,7 @@ class LevelUpdater {
                 for (int i = 0; i < scopedTransports.size; i++) {
                     Transport t = scopedTransports.get(i);
                     if (!updateTransport(delta, t, i)) {
-                        scopedTransports.removeIndex(i);
+                        unscopeEntity(scopedTransports, t, i);
                         if (transports.contains(t, true)) transports.removeValue(t, true);
                     }
                 }
@@ -310,7 +308,7 @@ class LevelUpdater {
                     Hazard h = scopedHazards.get(i);
                     if (!updateHazard(delta, h)) {
                         spawnPowerup(h);
-                        scopedHazards.removeIndex(i);
+                        unscopeEntity(scopedHazards, h, i);
                         removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                         if (hazards.contains(h, true)) hazards.removeValue(h, true);
                     }
@@ -324,7 +322,7 @@ class LevelUpdater {
                             || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())) {
                         if (!updateGround(delta, g)) {
                             if (!(g instanceof Destructible)) {
-                                scopedGrounds.removeIndex(i);
+                                unscopeEntity(scopedGrounds, g, i);
                                 if (grounds.contains(g, true)) grounds.removeValue(g, true);
                             }
                         }
@@ -335,7 +333,7 @@ class LevelUpdater {
                 for (int index = 0; index < scopedImpacts.size; index++) {
                     Impact i = scopedImpacts.get(index);
                     if (i.isFinished()) {
-                        scopedImpacts.removeIndex(index);
+                        unscopeEntity(scopedImpacts, i, index);
                         if (impacts.contains(i, true)) impacts.removeValue(i, true);
                     }
                 }
@@ -344,7 +342,7 @@ class LevelUpdater {
                 for (int i = 0; i < scopedPowerups.size; i++) {
                     Powerup p = scopedPowerups.get(i);
                     if (!updatePowerup(delta, p)) {
-                        scopedPowerups.removeIndex(i);
+                        unscopeEntity(scopedPowerups, p, i);
                         if (powerups.contains(p, true)) powerups.removeValue(p, true);
                     }
                 }
@@ -1114,6 +1112,11 @@ class LevelUpdater {
 
     public <T extends Entity> void unscopeEntity(Array<T> entities, T entity) {
         entities.removeValue(entity, true);
+        this.scopedEntities.removeValue(entity, true);
+    }
+
+    public <T extends Entity> void unscopeEntity(Array<T> entities, T entity, int index) {
+        entities.removeIndex(index);
         this.scopedEntities.removeValue(entity, true);
     }
 }
