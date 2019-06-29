@@ -254,17 +254,6 @@ class LevelUpdater {
                 hazards.end();
 
                 // Update Grounds
-                if (Helpers.secondsSince(refreshTime) > 10) {
-                    grounds.sort(new Comparator<Ground>() {
-                        @Override
-                        public int compare(Ground o1, Ground o2) {
-                            if (o1.getPriority() > o2.getPriority()) return 1;
-                            else if (o1.getPriority() < o2.getPriority()) return -1;
-                            return 0;
-                        }
-                    });
-                    refreshTime = TimeUtils.nanoTime();
-                }
 
                 grounds.begin();
                 for (int i = 0; i < grounds.size; i++) {
@@ -277,15 +266,26 @@ class LevelUpdater {
                             if (!updateGround(delta, g)) {
                                 if (!(g instanceof Destructible)) {
                                     grounds.removeIndex(i);
-                                    if (scopedGrounds.contains(g, true))
+                                    if (scopedGrounds.contains(g, true)) {
                                         scopedGrounds.removeValue(g, true);
+                                    }
                                 }
                             } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
-                        } else if (scopedGrounds.contains(g, true))
+                        } else if (scopedGrounds.contains(g, true)) {
                             scopedGrounds.removeValue(g, true);
+                        }
                     }
                 }
                 grounds.end();
+
+                scopedGrounds.sort(new Comparator<Ground>() {
+                    @Override
+                    public int compare(Ground o1, Ground o2) {
+                        if (o1.getPriority() > o2.getPriority()) return 1;
+                        else if (o1.getPriority() < o2.getPriority()) return -1;
+                        return 0;
+                    }
+                });
 
                 // Update Impacts
                 impacts.begin();
@@ -337,22 +337,6 @@ class LevelUpdater {
                             if (hazards.contains(h, true)) hazards.removeValue(h, true);
                         }
                     } else scopedHazards.removeIndex(i);
-                }
-
-                // Update Grounds
-                if (Helpers.secondsSince(refreshTime) > 10) {
-                    grounds.sort(new Comparator<Ground>() {
-                        @Override
-                        public int compare(Ground o1, Ground o2) {
-                            if (o1.getBottom() > o2.getBottom()) {
-                                return 1;
-                            } else if (o1.getBottom() < o2.getBottom()) {
-                                return -1;
-                            }
-                            return 0;
-                        }
-                    });
-                    refreshTime = TimeUtils.nanoTime();
                 }
 
                 for (int i = 0; i < scopedGrounds.size; i++) {
