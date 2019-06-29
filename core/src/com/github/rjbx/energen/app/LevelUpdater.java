@@ -218,9 +218,9 @@ class LevelUpdater {
                     if (rescopeBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
                         if (!updateTransport(delta, t, i)) {
                             transports.removeIndex(i);
-                            if (scopedTransports.contains(t, true)) scopedTransports.removeValue(t, true);
-                        } else if (!scopedTransports.contains(t, true)) scopedTransports.add(t);
-                    } else if (scopedTransports.contains(t, true)) scopedTransports.removeValue(t, true);
+                            if (scopedTransports.contains(t, true)) unscopeEntity(scopedTransports, t);
+                        } else if (!scopedTransports.contains(t, true)) scopeEntity(scopedTransports, t);
+                    } else if (scopedTransports.contains(t, true)) unscopeEntity(scopedTransports, t);
                 }
                 transports.end();
 
@@ -233,9 +233,9 @@ class LevelUpdater {
                             spawnPowerup(h);
                             hazards.removeIndex(i);
                             removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
-                            if (scopedHazards.contains(h, true)) scopedHazards.removeValue(h, true);
-                        } else if (!scopedHazards.contains(h, true)) scopedHazards.add(h);
-                    } else if (scopedHazards.contains(h, true)) scopedHazards.removeValue(h, true);
+                            if (scopedHazards.contains(h, true)) unscopeEntity(scopedHazards, h);
+                        } else if (!scopedHazards.contains(h, true)) scopeEntity(scopedHazards, h);
+                    } else if (scopedHazards.contains(h, true)) unscopeEntity(scopedHazards, h);
                 }
                 hazards.end();
 
@@ -252,12 +252,10 @@ class LevelUpdater {
                             if (!updateGround(delta, g)) {
                                 if (!(g instanceof Destructible)) {
                                     grounds.removeIndex(i);
-                                    if (scopedGrounds.contains(g, true)) {
-                                        scopedGrounds.removeValue(g, true);
-                                    }
+                                    if (scopedGrounds.contains(g, true)) unscopeEntity(scopedGrounds, g);
                                 }
-                            } else if (!scopedGrounds.contains(g, true)) scopedGrounds.add(g);
-                        } else if (scopedGrounds.contains(g, true)) scopedGrounds.removeValue(g, true);
+                            } else if (!scopedGrounds.contains(g, true)) scopeEntity(scopedGrounds, g);
+                        } else if (scopedGrounds.contains(g, true)) unscopeEntity(scopedGrounds, g);
                     }
                 }
                 grounds.end();
@@ -269,9 +267,9 @@ class LevelUpdater {
                     if (rescopeBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
                         if (i.isFinished()) {
                             impacts.removeIndex(index);
-                            if (scopedImpacts.contains(i, true)) scopedImpacts.removeValue(i, true);
-                        } else if (!scopedImpacts.contains(i, true)) scopedImpacts.add(i);
-                    } else if (scopedImpacts.contains(i, true)) scopedImpacts.removeValue(i, true);
+                            if (scopedImpacts.contains(i, true)) unscopeEntity(scopedImpacts, i);
+                        } else if (!scopedImpacts.contains(i, true)) scopeEntity(scopedImpacts, i);
+                    } else if (scopedImpacts.contains(i, true)) unscopeEntity(scopedImpacts, i);
                 }
                 impacts.end();
 
@@ -282,9 +280,9 @@ class LevelUpdater {
                     if (!updatePowerup(delta, p)) {
                         powerups.removeIndex(i);
                         if (scopedPowerups.contains(p, true)) {
-                            scopedPowerups.removeValue(p, true);
+                            unscopeEntity(scopedPowerups, p);
                         }
-                    } else if (!scopedPowerups.contains(p, true)) scopedPowerups.add(p);
+                    } else if (!scopedPowerups.contains(p, true)) scopeEntity(scopedPowerups, p);
                 }
                 powerups.end();
 
@@ -523,6 +521,7 @@ class LevelUpdater {
                     Brick b = new Brick(ground.getPosition().x, ground.getPosition().y, 5, 5, ((Destructible) ground).getType());
                     grounds.add(b);
                     scopedGrounds.add(b);
+                    scopedEntities.add(b);
                     assetManager.getSoundAssets().breakGround.play();
                 }
                 active = false;
@@ -1058,7 +1057,6 @@ class LevelUpdater {
     }
 
     // Public getters
-    protected final Array<Entity> getEntities() { return scopedEntities; }
     protected final Array<Ground> getGrounds() { return grounds; }
     protected final Array<Hazard> getHazards() { return hazards; }
     protected final Array<Powerup> getPowerups() { return powerups; }
@@ -1068,17 +1066,16 @@ class LevelUpdater {
     protected final Avatar getAvatar() { return avatar; }
     protected final Enums.Energy getType() { return levelEnergy; }
     protected final Viewport getViewport() { return levelScreen.getViewport(); }
-
     // Protected getters
+
     protected final long getUnsavedTime() { return timer.getMillis() - TimeUtils.nanosToMillis(savedTime); }
     protected final int getUnsavedScore() { return score - savedScore; }
     protected final void setBoss(Boss boss) { this.boss = boss; }
     protected final DelayedRemovalArray<Transport> getTransports() { return transports; }
     protected Enums.Theme getTheme() { return theme; }
     protected final boolean hasLoadEx() { return loadEx; }
-
     // Setters
-    protected final void addEntity(Entity entity) { scopedEntities.add(entity); }
+
     protected final void addGround(Ground ground) { grounds.add(ground); }
     protected final void addHazard(Hazard hazard) { hazards.add(hazard); }
     protected final void addPowerup(Powerup powerup) { powerups.add(powerup); }
@@ -1094,10 +1091,11 @@ class LevelUpdater {
     protected void toggleMusic() { musicEnabled = !musicEnabled; }
     protected void toggleHints() { hintsEnabled = !hintsEnabled; }
     protected final void setLoadEx(boolean state) { loadEx = state; }
-
     protected final Backdrop getBackdrop() { return backdrop; }
 
     public Array<Ground> getScopedGrounds() { return scopedGrounds; }
+
+    protected final Array<Entity> getScopedEntities() { return scopedEntities; }
     public void setScopedGrounds(Array<Ground> scopedGrounds) { this.scopedGrounds = scopedGrounds; }
     public Array<Hazard> getScopedHazards() { return scopedHazards; }
     public void setScopedHazards(Array<Hazard> scopedHazards) { this.scopedHazards = scopedHazards; }

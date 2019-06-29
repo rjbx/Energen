@@ -21,10 +21,10 @@ public final class LevelAssets {
     // Public getters
     public static final Array<Entity> getClonedEntities() {
 //        Array<Entity> clonedEntities = new Array<Entity>();
-//        for (Entity entity : levelUpdater.getEntities()) {
+//        for (Entity entity : levelUpdater.getScopedEntities()) {
 //            clonedEntities.add(entity.safeClone());
 //        }
-        return levelUpdater.getEntities();
+        return levelUpdater.getScopedEntities();
     }
 
     public static final Array<Ground> getClonedGrounds() {
