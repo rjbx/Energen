@@ -141,7 +141,7 @@ class LevelUpdater {
             hazard.render(batch, viewport);
         }
 
-        if (!avatar.getClingStatus() && avatar.getAction() != Enums.Action.CLIMBING) {
+        if (!(avatar.getTouchedGround() instanceof Climbable)) {
             avatar.render(batch, viewport);
             Blade.getInstance().render(batch, viewport);
         }
@@ -150,7 +150,7 @@ class LevelUpdater {
             ground.render(batch, viewport);
         }
 
-        if (avatar.getClingStatus() || avatar.getAction() == Enums.Action.CLIMBING) {
+        if (avatar.getTouchedGround() instanceof Climbable) {
             avatar.render(batch, viewport);
             Blade.getInstance().render(batch, viewport);
         }
