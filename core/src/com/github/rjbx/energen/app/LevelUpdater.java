@@ -242,8 +242,7 @@ class LevelUpdater {
                     if (rescopeBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
                         if (!updateTransport(delta, t, i)) {
                             transports.removeIndex(i);
-                            if (scopedTransports.contains(t, true))
-                                scopedTransports.removeValue(t, true);
+                            if (scopedTransports.contains(t, true)) scopedTransports.removeValue(t, true);
                         } else if (!scopedTransports.contains(t, true)) scopedTransports.add(t);
                     } else if (scopedTransports.contains(t, true)) scopedTransports.removeValue(t, true);
                 }
@@ -1132,4 +1131,9 @@ class LevelUpdater {
     public void setScopedTransports(Array<Transport> scopedTransports) { this.scopedTransports = scopedTransports; }
     public Array<Impact> getScopedImpacts() { return scopedImpacts; }
     public void setScopedImpacts(Array<Impact> scopedImpacts) { this.scopedImpacts = scopedImpacts; }
+
+    public <T extends Entity> void scopeEntity(DelayedRemovalArray<T> entities, T entity) {
+        entities.add(entity);
+        this.entities.add(entity);
+    }
 }
