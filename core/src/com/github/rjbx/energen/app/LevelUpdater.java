@@ -39,7 +39,7 @@ class LevelUpdater {
     private Timer timer;
     private boolean loadEx;
     private Backdrop backdrop;
-    private DelayedRemovalArray<Entity> entities;
+    private DelayedRemovalArray<Entity> scopedEntities;
     private DelayedRemovalArray<Ground> grounds;
     private DelayedRemovalArray<Hazard> hazards;
     private DelayedRemovalArray<Powerup> powerups;
@@ -86,7 +86,7 @@ class LevelUpdater {
         chaseCam = ChaseCam.getInstance();
         assetManager = AssetManager.getInstance();
         inputControls = InputControls.getInstance();
-        entities = new DelayedRemovalArray<Entity>();
+        scopedEntities = new DelayedRemovalArray<Entity>();
         grounds = new DelayedRemovalArray<Ground>();
         hazards = new DelayedRemovalArray<Hazard>();
         impacts = new DelayedRemovalArray<Impact>();
@@ -858,7 +858,7 @@ class LevelUpdater {
     }
 
     protected void clearEntities() {
-        entities.clear();
+        scopedEntities.clear();
         grounds.clear();
         hazards.clear();
         powerups.clear();
@@ -873,7 +873,7 @@ class LevelUpdater {
 
     protected void dispose() {
         clearEntities();
-        entities = null;
+        scopedEntities = null;
         grounds = null;
         hazards = null;
         powerups = null;
@@ -888,11 +888,11 @@ class LevelUpdater {
 
     // level state handling
     protected void begin() {
-        entities.addAll(grounds);
-        entities.addAll(hazards);
-        entities.addAll(powerups);
-        entities.addAll(transports);
-        entities.addAll(impacts);
+        scopedEntities.addAll(grounds);
+        scopedEntities.addAll(hazards);
+        scopedEntities.addAll(powerups);
+        scopedEntities.addAll(transports);
+        scopedEntities.addAll(impacts);
         chaseCam.setState(Enums.ChaseCamState.FOLLOWING);
         backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(theme));
         music = assetManager.getMusicAssets().getThemeMusic(theme);
@@ -1082,7 +1082,7 @@ class LevelUpdater {
     }
 
     // Public getters
-    protected final Array<Entity> getEntities() { return entities; }
+    protected final Array<Entity> getEntities() { return scopedEntities; }
     protected final Array<Ground> getGrounds() { return grounds; }
     protected final Array<Hazard> getHazards() { return hazards; }
     protected final Array<Powerup> getPowerups() { return powerups; }
@@ -1102,7 +1102,7 @@ class LevelUpdater {
     protected final boolean hasLoadEx() { return loadEx; }
 
     // Setters
-    protected final void addEntity(Entity entity) { entities.add(entity); }
+    protected final void addEntity(Entity entity) { scopedEntities.add(entity); }
     protected final void addGround(Ground ground) { grounds.add(ground); }
     protected final void addHazard(Hazard hazard) { hazards.add(hazard); }
     protected final void addPowerup(Powerup powerup) { powerups.add(powerup); }
@@ -1134,6 +1134,11 @@ class LevelUpdater {
 
     public <T extends Entity> void scopeEntity(DelayedRemovalArray<T> entities, T entity) {
         entities.add(entity);
-        this.entities.add(entity);
+        this.scopedEntities.add(entity);
+    }
+
+    public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity) {
+        entities.add(entity);
+        this.scopedEntities.add(entity);
     }
 }
