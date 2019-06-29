@@ -130,7 +130,7 @@ class LevelUpdater {
         backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
         for (Ground ground : scopedGrounds) {
-            if (!ground.isDense() || ground instanceof Boxable) {
+            if ((!ground.isDense() || ground instanceof Boxable) && !(ground instanceof Ladder)) {
                 ground.render(batch, viewport);
             }
         }
@@ -148,7 +148,7 @@ class LevelUpdater {
         }
 
         for (Ground ground : scopedGrounds) {
-            if ((ground.isDense() && !(ground instanceof Boxable)) || ground instanceof Climbable) {
+            if ((ground.isDense() && !(ground instanceof Boxable)) || ground instanceof Ladder) {
                 ground.render(batch, viewport);
             }
         }
