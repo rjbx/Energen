@@ -448,14 +448,14 @@ class LevelUpdater {
                     chaseCam.setConvertBounds(trip.getConvertBounds());
                     trip.addCamAdjustment();
                 }
-                for (Ground g : scopedGrounds) {
+                for (Ground g : grounds) {
                     if (g instanceof Convertible && (g != trip || g instanceof Triptread)) {
                         if (Helpers.betweenFourValues(g.getPosition(), trip.getConvertBounds().x, trip.getConvertBounds().x + trip.getConvertBounds().width, trip.getConvertBounds().y, trip.getConvertBounds().y + trip.getConvertBounds().height)) {
                             ((Convertible) g).convert();
                        }
                     }
                 }
-                for (Hazard h : scopedHazards) {
+                for (Hazard h : hazards) {
                     if (h instanceof Convertible && (h != trip)) {
                         if (Helpers.betweenFourValues(h.getPosition(), trip.getConvertBounds().x, trip.getConvertBounds().x + trip.getConvertBounds().width, trip.getConvertBounds().y, trip.getConvertBounds().y + trip.getConvertBounds().height)) {
                             ((Convertible) h).convert();
