@@ -272,11 +272,8 @@ class LevelUpdater {
                     grounds.sort(new Comparator<Ground>() {
                         @Override
                         public int compare(Ground o1, Ground o2) {
-                            if (o1.getBottom() > o2.getBottom()) {
-                                return 1;
-                            } else if (o1.getBottom() < o2.getBottom()) {
-                                return -1;
-                            }
+                            if (o1.getPriority() > o2.getPriority()) return 1;
+                            else if (o1.getPriority() < o2.getPriority()) return -1;
                             return 0;
                         }
                     });
