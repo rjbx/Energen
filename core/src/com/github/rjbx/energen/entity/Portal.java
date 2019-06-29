@@ -46,5 +46,10 @@ public final class Portal extends Transport {
     @Override public final float getTop() { return position.y + Constants.PORTAL_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.PORTAL_CENTER.y; }
     public boolean isGoal() { return goal; }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }
 

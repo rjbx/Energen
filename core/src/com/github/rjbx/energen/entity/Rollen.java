@@ -195,4 +195,9 @@ public class Rollen extends Hazard implements Destructible, Roving, Impermeable 
     @Override public Enums.Direction getDirectionX() { return xDirection; }
     @Override public void setDirectionX(Enums.Direction direction) { xDirection = direction; }
     public final long getStartTime() { return startTime; }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

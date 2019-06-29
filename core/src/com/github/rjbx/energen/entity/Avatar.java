@@ -2116,4 +2116,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     public void dispose() { energyList.clear(); }
     public boolean isPrioritized() { return prioritized; }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
 }

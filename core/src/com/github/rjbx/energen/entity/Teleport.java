@@ -46,4 +46,9 @@ public class Teleport extends Transport {
     @Override public final float getBottom() { return position.y - Constants.TELEPORT_CENTER.y; }
     @Override public final Vector2 getDestination() { return destination; }
     public boolean isGoal() { return goal; }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

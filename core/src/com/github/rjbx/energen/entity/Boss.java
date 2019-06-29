@@ -1715,4 +1715,9 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
     @Override public void convert() { state = !state; }
     @Override public final Rectangle getConvertBounds() { return convertBounds; }
     public final void setConvertBounds(Rectangle convertBounds) { this.convertBounds = convertBounds; }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
 }

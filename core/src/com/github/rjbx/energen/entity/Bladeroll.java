@@ -265,4 +265,9 @@ public class Bladeroll extends Hazard implements Armored, Bladed, Groundable, Ro
     @Override public Rectangle getConvertBounds() { return bounds; }
     @Override public boolean isConverted() { return state; }
     @Override public void convert() { state = !state; }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

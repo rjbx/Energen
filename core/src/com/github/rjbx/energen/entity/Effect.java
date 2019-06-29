@@ -80,5 +80,10 @@ public class Effect extends Entity {
     @Override public final float getTop() { return position.y + Constants.EXPLOSION_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.EXPLOSION_CENTER.y; }
     public boolean isFinished() { return Constants.IMPACT_DURATION < Helpers.secondsSince(startTime); }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }
 

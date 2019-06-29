@@ -226,4 +226,9 @@ public final class Projectile extends Hazard implements Indestructible, Orientab
 
     public final void deactivate() { active = false; }
     public final void setHitScore(int hitScore) { this.hitScore = hitScore; }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

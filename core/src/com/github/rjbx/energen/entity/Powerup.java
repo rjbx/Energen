@@ -103,4 +103,9 @@ public class Powerup extends Entity implements Replenishing {
     public boolean isActive() { return active; }
     public void deactivate() { active = false; }
     public final Enums.GemType getGemType() { return gemType; }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

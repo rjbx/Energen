@@ -231,4 +231,9 @@ public class Armoroll extends Hazard implements Armored, Groundable, Roving, Des
     @Override public Rectangle getConvertBounds() { return bounds; }
     @Override public boolean isConverted() { return state; }
     @Override public void convert() { state = !state; }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

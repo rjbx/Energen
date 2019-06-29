@@ -194,4 +194,9 @@ public class Orben extends Hazard implements Roving, Aerial, Destructible, Nonst
     public final boolean getDispatchStatus() { return canDispatch; }
     public final long getStartTime() { return startTime; }
     public final boolean isActive() { return active; }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

@@ -135,4 +135,9 @@ public class Suspension extends Hazard implements Indestructible, Convertible {
                 break;
         }
     }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

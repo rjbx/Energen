@@ -202,4 +202,9 @@ public class Zoomba extends Hazard implements Destructible, Dynamic, Groundable,
                 break;
         }
     }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
 }

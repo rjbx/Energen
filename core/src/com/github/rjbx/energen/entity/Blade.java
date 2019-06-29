@@ -212,4 +212,9 @@ public final class Blade extends Hazard implements Indestructible {
     public final Vector2 getKnockback() { return knockback; }
     public final Energy getType() { return energy; }
     public final int getHitScore() { return hitScore; }
+
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

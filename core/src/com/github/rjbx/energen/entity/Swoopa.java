@@ -135,6 +135,11 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
 
     @Override public final void setHealth( float health ) { this.health = health; }
 
+    @Override
+    public int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
+
     public void dispose() {
         sound.stop();
     }
