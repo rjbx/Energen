@@ -1189,7 +1189,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     supercharged = false;
                     chargeModifier = 0;
                     energyColor = energy.theme().color();
-                } else chargeModifier = 0;
+                }
+            else chargeModifier = 0;
         }
     }
 
