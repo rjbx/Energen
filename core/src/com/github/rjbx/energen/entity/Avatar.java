@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.rjbx.energen.app.SaveData;
 import com.github.rjbx.energen.util.AssetManager;
-import com.github.rjbx.energen.util.ChaseCam;
 import com.github.rjbx.energen.util.InputControls;
 import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
@@ -86,7 +85,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private boolean canFlip;
     private boolean canRush;
     private boolean canCut;
-    private boolean overlapsClimabable;
+    private boolean prioritized;
     private long chargeStartTime;
     private long shootStartTime;
     private long activeStartTime;
@@ -492,9 +491,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 touchGroundTop(g);
             } else { // for non-dense grounds:
                 // additional ground collision instructions specific to certain types of grounds
-                overlapsClimabable = false;
+                prioritized = false;
                 if (g instanceof Climbable) {
-                    overlapsClimabable = true;
+                    prioritized = true;
                     if (!(touchedGround != null && touchedGround.isDense() && touchedGround.getTop() == g.getTop())) { // prevents flickering canclimb state
                         canCling = true;
                     }
@@ -544,6 +543,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     canHover = false;
                     lookStartTime = 0;
                     lookTimeSeconds = 0;
+                    prioritized = true;
                 } else if (!(g instanceof Pliable) || !(canClimb && directionY == Direction.UP)) { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
                     if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
                         if (g instanceof Brick) { // prevents setting atop non-dense bricks
@@ -2115,5 +2115,5 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     public void setSupercharged(boolean supercharged) { this.supercharged = supercharged; }
 
     public void dispose() { energyList.clear(); }
-    public boolean isOverlapsClimbable() { return overlapsClimabable; }
+    public boolean isPrioritized() { return prioritized; }
 }

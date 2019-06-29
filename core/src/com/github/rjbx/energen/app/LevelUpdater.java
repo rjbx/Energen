@@ -141,7 +141,7 @@ class LevelUpdater {
             hazard.render(batch, viewport);
         }
 
-        if (avatar.isOverlapsClimbable()) {
+        if (avatar.isPrioritized()) {
             for (Ground ground : scopedGrounds) ground.render(batch, viewport);
             avatar.render(batch, viewport);
             Blade.getInstance().render(batch, viewport);
