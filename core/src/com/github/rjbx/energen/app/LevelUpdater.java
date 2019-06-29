@@ -141,7 +141,7 @@ class LevelUpdater {
             hazard.render(batch, viewport);
         }
 
-        if (!avatar.getAction() == Enums.Action.CLIMBING) {
+        if (avatar.getAction() != Enums.Action.CLIMBING) {
             avatar.render(batch, viewport);
             Blade.getInstance().render(batch, viewport);
         }
