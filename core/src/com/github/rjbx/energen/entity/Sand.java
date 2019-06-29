@@ -42,4 +42,9 @@ public class Sand extends Ground implements Pourous {
     @Override public final float getTop() { return position.y + Constants.SINK_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.SINK_CENTER.y; }
     @Override public final boolean isDense() { return false; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
 }

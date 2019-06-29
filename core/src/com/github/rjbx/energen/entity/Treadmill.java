@@ -67,4 +67,9 @@ public class Treadmill extends Ground implements Nonstatic, Propelling, Converti
     @Override public final Enums.Direction getDirectionX() { return direction; }
     @Override public void convert() { tripped = !tripped; direction = Helpers.getOppositeDirection(direction); }
     @Override public boolean isConverted() { return tripped; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
 }

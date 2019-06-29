@@ -103,4 +103,9 @@ public class Tripspring extends Ground implements Trippable, Compressible, Rebou
     @Override public void convert() { state = !state; converted = true; }
     @Override public boolean isConverted() { return converted; }
     @Override public final float jumpMultiplier() { return Constants.LEVER_JUMP_MULTIPLIER; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

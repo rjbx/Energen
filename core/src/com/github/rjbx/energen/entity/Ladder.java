@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.rjbx.energen.util.AssetManager;
+import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Helpers;
 
 public class Ladder extends Ground implements Climbable {
@@ -58,4 +59,9 @@ public class Ladder extends Ground implements Climbable {
     @Override public float getWidth() { return right - left;}
     @Override public float getHeight() { return top - bottom; }
     @Override public final boolean isDense() { return false; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

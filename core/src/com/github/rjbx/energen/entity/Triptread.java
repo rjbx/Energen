@@ -89,4 +89,9 @@ public class Triptread extends Ground implements Trippable, Convertible, Propell
     @Override public boolean maxAdjustmentsReached() { return adjustments > 3; }
     @Override public boolean tripped() { return previousState != state; }
     @Override public final Enums.Direction getDirectionX() { return direction; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
 }

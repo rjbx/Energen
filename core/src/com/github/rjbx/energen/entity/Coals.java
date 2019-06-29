@@ -55,4 +55,9 @@ public class Coals extends Ground implements Hazardous {
     @Override public final Vector2 getKnockback() { return new Vector2(new Random().nextFloat() * 200, Constants.PROTRUSION_GAS_KNOCKBACK.y); }
     @Override public final int getDamage() { return 1; }
     @Override public final boolean isDense() { return true; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
 }

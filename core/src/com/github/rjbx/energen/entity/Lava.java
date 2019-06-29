@@ -53,4 +53,9 @@ public class Lava extends Ground implements Indestructible, Pourous, Hazardous {
     @Override public final Vector2 getKnockback() { return Constants.LAVA_KNOCKBACK; }
     @Override public final int getDamage() { return Constants.LAVA_DAMAGE; }
     @Override public final boolean isDense() { return false; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
 }

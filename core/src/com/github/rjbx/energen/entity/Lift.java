@@ -118,4 +118,9 @@ public class Lift extends Ground implements Dynamic, Convertible {
                 direction = null;
         }
     }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
 }

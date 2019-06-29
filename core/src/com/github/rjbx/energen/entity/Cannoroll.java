@@ -139,4 +139,9 @@ public class Cannoroll extends Ground implements Energized, Orientable, Roving, 
         }
         animation.setFrameDuration(Constants.CANIROL_FRAME_DURATION * (40 / speed));
     }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

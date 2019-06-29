@@ -74,4 +74,10 @@ public class Gate extends Ground implements Strikeable, Nonstatic {
     @Override public final float getRight() { return position.x + Constants.GATE_CENTER.x; }
     @Override public final float getTop() { return position.y + Constants.GATE_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.GATE_CENTER.y; }
-    @Override public final boolean isDense() { return dense; }}
+    @Override public final boolean isDense() { return dense; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
+}

@@ -64,4 +64,9 @@ public class Chamber extends Ground implements Chargeable, Strikeable, Groundabl
     @Override public final void setChargeTime(float chargeTimeSeconds) { this.chargeTimeSeconds = chargeTimeSeconds; }
     public void setUpgrade(Enums.Upgrade type) { this.type = type; }
     public Enums.Upgrade getUpgrade() { return type; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

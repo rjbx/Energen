@@ -45,4 +45,9 @@ public class Slick extends Ground implements Rappelable, Skateable {
     @Override public final float getTop() { return position.y + Constants.SLICK_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.SLICK_CENTER.y * scale.y; }
     @Override public final boolean isDense() { return getHeight() > Constants.MAX_LEDGE_HEIGHT; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
 }

@@ -74,4 +74,9 @@ public class Pod extends Ground implements Reboundable, Replenishing, Compressib
     @Override public final void resetStartTime() { this.startTime = 0; }
     @Override public final boolean isBeneatheGround() { return beneatheGround; }
     @Override public final Ground getTopGround() { return topGround; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

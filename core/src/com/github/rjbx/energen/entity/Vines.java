@@ -43,4 +43,9 @@ public class Vines extends Ground implements Climbable, Unsteady {
     @Override public final float getTop() { return position.y + Constants.VINES_CENTER.y * scale.y; }
     @Override public final float getBottom() { return position.y - Constants.VINES_CENTER.y * scale.y; }
     @Override public final boolean isDense() { return false; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

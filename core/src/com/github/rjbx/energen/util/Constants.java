@@ -222,6 +222,12 @@ public final class Constants {
     public static final String BACKGROUND_HYBRID_SPRITE = "background-hybrid";
     public static final Vector2 BACKGROUND_CENTER = new Vector2(270, 180);
 
+    // All grounds
+    public static final int PRIORITY_MAX = 0;
+    public static final int PRIORITY_HIGH = 1;
+    public static final int PRIORITY_MEDIUM = 2;
+    public static final int PRIORITY_LOW = 3;
+
     // Box
     public static final int BLOCK_EDGE = 4;
     public static final float MAX_LEDGE_HEIGHT = 8;

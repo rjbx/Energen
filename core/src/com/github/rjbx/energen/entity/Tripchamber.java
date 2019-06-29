@@ -89,4 +89,9 @@ public class Tripchamber extends Ground implements Trippable, Convertible, Charg
     @Override public Rectangle getConvertBounds() { return bounds; }
     @Override public void addCamAdjustment() { this.adjustments++; }
     @Override public boolean maxAdjustmentsReached() { return adjustments >= 2; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

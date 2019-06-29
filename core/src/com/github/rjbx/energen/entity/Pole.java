@@ -42,4 +42,9 @@ public class Pole extends Ground implements Unsteady, Climbable {
     @Override public final float getTop() { return position.y + Constants.POLE_CENTER.y; }
     @Override public final float getBottom() { return position.y - Constants.POLE_CENTER.y; }
     @Override public final boolean isDense() { return false; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

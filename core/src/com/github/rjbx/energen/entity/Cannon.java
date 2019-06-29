@@ -83,4 +83,9 @@ public class Cannon extends Ground implements Energized, Nonstatic, Rappelable, 
     public final Enums.Orientation getOrientation() { return orientation; }
     public final long getStartTime() { return startTime; }
     public final void setStartTime(long startTime) { this.startTime = startTime; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_MEDIUM;
+    }
 }

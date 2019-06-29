@@ -50,4 +50,9 @@ public class Deposit extends Ground implements Destructible {
     @Override public float getHealth() { return damage; }
     @Override public Enums.Energy getType() { return Enums.Energy.ORE; }
     @Override public boolean isDense() { return true; }
+
+    @Override
+    int getPriority() {
+        return Constants.PRIORITY_HIGH;
+    }
 }
