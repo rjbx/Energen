@@ -127,31 +127,7 @@ class LevelUpdater {
 
         backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
-        for (Transport transport : scopedTransports) {
-            transport.render(batch, viewport);
-        }
-
-        for (Powerup powerup : scopedPowerups) {
-            powerup.render(batch, viewport);
-        }
-
-        for (Hazard hazard : scopedHazards) {
-            hazard.render(batch, viewport);
-        }
-
-        if (avatar.isPrioritized()) {
-            for (Ground ground : scopedGrounds) ground.render(batch, viewport);
-            avatar.render(batch, viewport);
-            Blade.getInstance().render(batch, viewport);
-        } else {
-            avatar.render(batch, viewport);
-            Blade.getInstance().render(batch, viewport);
-            for (Ground ground : scopedGrounds) ground.render(batch, viewport);
-        }
-
-        for (Impact impact : scopedImpacts) {
-            impact.render(batch, viewport);
-        }
+        for (Entity entity : scopedEntities) entity.render(batch, viewport);
     }
 
     private void applyCollision(Impermeable impermeable) {
@@ -179,9 +155,9 @@ class LevelUpdater {
             }
             grounds.end();
 
-            scopedGrounds.sort(new Comparator<Ground>() {
+            scopedEntities.sort(new Comparator<Entity>() {
                 @Override
-                public int compare(Ground o1, Ground o2) {
+                public int compare(Entity o1, Entity o2) {
                     if (o1.getPriority() > o2.getPriority()) return -1;
                     else if (o1.getPriority() < o2.getPriority()) return 1;
                     return 0;
@@ -460,9 +436,9 @@ class LevelUpdater {
                         }
                     }
                 }
-                scopedGrounds.sort(new Comparator<Ground>() {
+                scopedEntities.sort(new Comparator<Entity>() {
                     @Override
-                    public int compare(Ground o1, Ground o2) {
+                    public int compare(Entity o1, Entity o2) {
                         if (o1.getPriority() > o2.getPriority()) return -1;
                         else if (o1.getPriority() < o2.getPriority()) return 1;
                         return 0;
