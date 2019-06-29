@@ -138,6 +138,7 @@ class LevelUpdater {
         }
     }
 
+    // TODO: Ensure the equivalent scoped typed list value is removed from the complete typed and scoped entity lists
     // asset handling
     private void updateEntities(float delta) {
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
