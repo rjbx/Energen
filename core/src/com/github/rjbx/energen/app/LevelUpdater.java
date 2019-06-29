@@ -597,9 +597,6 @@ class LevelUpdater {
     }
 
     public boolean updateHazard(float delta, Hazard hazard) {
-        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 2f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 2f), chaseCam.getViewport().getWorldWidth() * 4f, chaseCam.getViewport().getWorldHeight() * 4f);
-        if (!updateBounds.overlaps(new Rectangle(hazard.getLeft(), hazard.getBottom(), hazard.getWidth(), hazard.getHeight()))) return true;
-
         boolean active = true;
         if (hazard instanceof Boss) {
             Boss b = (Boss) hazard;
@@ -791,9 +788,6 @@ class LevelUpdater {
     }
 
     public boolean updatePowerup(float delta, Powerup powerup) {
-        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
-        if (!updateBounds.overlaps(new Rectangle(powerup.getLeft(), powerup.getBottom(), powerup.getWidth(), powerup.getHeight()))) return true;
-
         if (Helpers.overlapsPhysicalObject(avatar, powerup)
                 || (avatar.getBladeState() != Enums.BladeState.RETRACTED && Helpers.overlapsPhysicalObject(Blade.getInstance(), powerup))) {
             avatar.touchPowerup(powerup);
@@ -806,9 +800,7 @@ class LevelUpdater {
     }
 
     public boolean updateTransport(float delta, Transport transport, int transportIndex) {
-        Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
-        if (!updateBounds.overlaps(new Rectangle(transport.getLeft(), transport.getBottom(), transport.getWidth(), transport.getHeight()))) return true;
-        boolean active = true;
+       boolean active = true;
         if (avatar.getPosition().dst(transport.getPosition()) < transport.getWidth() / 2 && inputControls.upButtonPressed && inputControls.jumpButtonJustPressed) {
             if (transport instanceof Portal) {
                 if (((Portal) transport).isGoal()) {

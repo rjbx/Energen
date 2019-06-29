@@ -478,11 +478,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     public void touchAllGrounds(Array<Ground> grounds) {
         for (Ground g : grounds) {
-            ChaseCam chaseCam = ChaseCam.getInstance();
-            Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
-            if (updateBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight()))) {
-                touchGround(g);
-            }
+            touchGround(g);
         }
         untouchGround();
     }
@@ -795,16 +791,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canPeer = false;
         }
         for (Hazard h : hazards) {
-            ChaseCam chaseCam = ChaseCam.getInstance();
-            Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
-            if (updateBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
-                if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
-                        && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
-                    if (Helpers.overlapsPhysicalObject(this, h)) {
-                        touchHazard(h);
-                    } else if (h instanceof Moving) {
-                        setPeerTarget(h, 1);
-                    }
+            if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
+                    && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
+                if (Helpers.overlapsPhysicalObject(this, h)) {
+                    touchHazard(h);
+                } else if (h instanceof Moving) {
+                    setPeerTarget(h, 1);
                 }
             }
         }
@@ -851,15 +843,11 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
    /* public void touchAllPowerups(Array<Powerup> powerups) {
         for (Powerup p : powerups) {
-            ChaseCam chaseCam = ChaseCam.getInstance();
-            Rectangle updateBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 4f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 4f), chaseCam.getViewport().getWorldWidth() * 8f, chaseCam.getViewport().getWorldHeight() * 8f);
-            if (updateBounds.overlaps(new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight()))) {
-                Rectangle bounds = new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight());
-                if (getConvertBounds().overlaps(bounds)) {
-                    touchPowerup(p);
-                } else {
-                    setPeerTarget(p, 2);
-                }
+            Rectangle bounds = new Rectangle(p.getLeft(), p.getBottom(), p.getWidth(), p.getHeight());
+            if (getConvertBounds().overlaps(bounds)) {
+                touchPowerup(p);
+            } else {
+                setPeerTarget(p, 2);
             }
         }
         if (turbo > Constants.MAX_TURBO) {
