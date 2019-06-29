@@ -211,6 +211,7 @@ class LevelUpdater {
                 rescopeBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 2.5f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 2.5f), chaseCam.getViewport().getWorldWidth() * 5f, chaseCam.getViewport().getWorldHeight() * 5f);
 
                 scopedEntities.add(avatar);
+                scopedEntities.add(Blade.getInstance());
 
                 transports.begin();
                 for (int i = 0; i < transports.size; i++) {
