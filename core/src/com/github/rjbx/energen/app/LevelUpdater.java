@@ -141,16 +141,12 @@ class LevelUpdater {
             hazard.render(batch, viewport);
         }
 
-        if (!(avatar.isOverlapsClimbable())) {
+        if (avatar.isOverlapsClimbable()) {
             avatar.render(batch, viewport);
             Blade.getInstance().render(batch, viewport);
-        }
-
-        for (Ground ground : scopedGrounds) {
-            ground.render(batch, viewport);
-        }
-
-        if (avatar.isOverlapsClimbable()) {
+            for (Ground ground : scopedGrounds) ground.render(batch, viewport);
+        } else {
+            for (Ground ground : scopedGrounds) ground.render(batch, viewport);
             avatar.render(batch, viewport);
             Blade.getInstance().render(batch, viewport);
         }
