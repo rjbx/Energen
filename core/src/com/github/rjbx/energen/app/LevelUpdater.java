@@ -347,6 +347,7 @@ class LevelUpdater {
                     if (!updateHazard(delta, h)) {
                         spawnPowerup(h);
                         unscopeEntity(scopedHazards, h, i);
+                        rescopeEntities();
                         removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                         if (hazards.contains(h, true)) hazards.removeValue(h, true);
                     }
@@ -366,6 +367,7 @@ class LevelUpdater {
                             if (!(g instanceof Destructible)) {
                                 unscopeEntity(scopedGrounds, g, i);
                                 if (grounds.contains(g, true)) grounds.removeValue(g, true);
+                                rescopeEntities();
                             }
                         }
                     }
@@ -381,6 +383,7 @@ class LevelUpdater {
                     if (i.isFinished()) {
                         unscopeEntity(scopedImpacts, i, index);
                         if (impacts.contains(i, true)) impacts.removeValue(i, true);
+                        rescopeEntities();
                     }
                 }
                 scopedImpacts.end();
@@ -394,6 +397,7 @@ class LevelUpdater {
                     if (!updatePowerup(delta, p)) {
                         unscopeEntity(scopedPowerups, p, i);
                         if (powerups.contains(p, true)) powerups.removeValue(p, true);
+                        rescopeEntities();
                     }
                 }
                 scopedPowerups.end();
@@ -418,6 +422,7 @@ class LevelUpdater {
                    if (!updateGround(delta, g)) {
                         scopedGrounds.removeIndex(i);
                         if (grounds.contains(g, true)) grounds.removeValue(g, true);
+                        rescopeEntities();
                     }
                 }
             }
