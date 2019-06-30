@@ -204,6 +204,7 @@ class LevelUpdater {
                 }
             }
         } else {
+            boolean updated = false;
             time = timer.getNanos();
             if (avatar.getDispatchStatus()) {
                 if (avatar.getLookStartTime() != 0) {
@@ -326,7 +327,6 @@ class LevelUpdater {
                 // scopedEntities.end();
                 rescopeEntities();
             } else {
-
                 scopedTransports.begin();
                 // scopedEntities.begin();
                 for (int i = 0; i < scopedTransports.size; i++) {
@@ -334,6 +334,7 @@ class LevelUpdater {
                     if (!updateTransport(delta, t, i)) {
                         unscopeEntity(scopedTransports, t, i);
                         transports.removeValue(t, true);
+                        updated = true;
                     }
                 }
                 scopedTransports.end();
@@ -347,7 +348,7 @@ class LevelUpdater {
                     if (!updateHazard(delta, h)) {
                         spawnPowerup(h);
                         unscopeEntity(scopedHazards, h, i);
-                        rescopeEntities();
+                        updated = true;
                         removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                         hazards.removeValue(h, true);
                     }
@@ -367,7 +368,7 @@ class LevelUpdater {
                             if (!(g instanceof Destructible)) {
                                 unscopeEntity(scopedGrounds, g, i);
                                 grounds.removeValue(g, true);
-                                rescopeEntities();
+                                updated = true;
                             }
                         }
                     }
@@ -383,7 +384,7 @@ class LevelUpdater {
                     if (i.isFinished()) {
                         unscopeEntity(scopedImpacts, i, index);
                         impacts.removeValue(i, true);
-                        rescopeEntities();
+                        updated = true;
                     }
                 }
                 scopedImpacts.end();
@@ -397,7 +398,7 @@ class LevelUpdater {
                     if (!updatePowerup(delta, p)) {
                         unscopeEntity(scopedPowerups, p, i);
                         powerups.removeValue(p, true);
-                        rescopeEntities(); // TODO: Inconsequential due to scoped typed list delayed removal; must occur after end()
+                        updated = true;
                     }
                 }
                 scopedPowerups.end();
@@ -422,12 +423,14 @@ class LevelUpdater {
                    if (!updateGround(delta, g)) {
                         scopedGrounds.removeIndex(i);
                         grounds.removeValue(g, true);
-                        rescopeEntities();
+                        updated = true;
                     }
                 }
             }
             scopedGrounds.end();
             // scopedEntities.end();
+
+            if (updated) rescopeEntities();
         }
     }
 
