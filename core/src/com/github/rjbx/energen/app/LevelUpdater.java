@@ -401,7 +401,7 @@ class LevelUpdater {
                     }
                 }
                 scopedPowerups.end();
-                 scopedEntities.end();
+                scopedEntities.end();
             }
             avatar.updatePosition(delta);
             applyCollision(avatar);
@@ -1164,13 +1164,13 @@ class LevelUpdater {
 
     public <T extends Entity> void scopeEntity(DelayedRemovalArray<T> entities, T entity) {
         if (!entities.contains(entity, false)) entities.add(entity);
-        this.scopedEntities.add(entity);
+        if (!scopedEntities.contains(entity, false)) this.scopedEntities.add(entity);
     }
 
     // TODO: Understand why remove value always returns true
     public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity) {
         entities.removeValue(entity, true);
-        boolean value = this.scopedEntities.removeValue(entity, true);
+        boolean value = this.scopedEntities.removeValue(entity, false);
         if (entity.getId() == 877) {
             Gdx.app.log(TAG, "" + entity.getId());
             value = true;
@@ -1180,7 +1180,7 @@ class LevelUpdater {
     public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity, int index) {
         entities.removeIndex(index);
         rescopeEntities();
-        boolean value = this.scopedEntities.removeValue(entity, true);
+        boolean value = this.scopedEntities.removeValue(entity, false);
         if (entity.getId() == 877) {
             Gdx.app.log(TAG, "" + entity.getId());
             value = true;
