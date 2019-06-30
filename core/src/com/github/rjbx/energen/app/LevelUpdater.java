@@ -267,7 +267,7 @@ class LevelUpdater {
                 scopedHazards.end();
 
                 // Update Grounds
-                scopedGrounds.sort(new Comparator<Entity>() {
+                grounds.sort(new Comparator<Entity>() {
                     @Override
                     public int compare(Entity o1, Entity o2) {
                         if (o1.getBottom() > o2.getBottom()) return 1;
