@@ -903,6 +903,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 health = Constants.MAX_HEALTH;
                 ammo = Constants.MAX_AMMO;
                 turbo = Constants.MAX_TURBO;
+                shotIntensity = ShotIntensity.BLAST;
                 supercharged = true;
                 autoblast = true;
                 superchargeStartTime = TimeUtils.nanoTime();
