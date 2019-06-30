@@ -1164,7 +1164,7 @@ class LevelUpdater {
     public void setScopedImpacts(DelayedRemovalArray<Impact> scopedImpacts) { this.scopedImpacts = scopedImpacts; }
 
     public <T extends Entity> void scopeEntity(DelayedRemovalArray<T> entities, T entity) {
-        entities.add(entity);
+        if (!entities.contains(entity, false)) entities.add(entity);
 //        this.scopedEntities.add(entity);
     }
 
