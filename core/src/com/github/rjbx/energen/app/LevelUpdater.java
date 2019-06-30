@@ -136,14 +136,14 @@ class LevelUpdater {
     }
 
     public void sortEntities() {
-        scopedEntities.sort(new Comparator<Entity>() {
-            @Override
-            public int compare(Entity o1, Entity o2) {
-                if (o1.getPriority() > o2.getPriority()) return -1;
-                else if (o1.getPriority() < o2.getPriority()) return 1;
-                return 0;
-            }
-        });
+//        scopedEntities.sort(new Comparator<Entity>() {
+//            @Override
+//            public int compare(Entity o1, Entity o2) {
+//                if (o1.getPriority() > o2.getPriority()) return -1;
+//                else if (o1.getPriority() < o2.getPriority()) return 1;
+//                return 0;
+//            }
+//        });
     }
 
     private void applyCollision(Impermeable impermeable) {
@@ -318,6 +318,8 @@ class LevelUpdater {
                 powerups.end();
                 scopedPowerups.end();
                 scopedEntities.end();
+
+                sortEntities();
             } else {
                 scopedTransports.begin();
                 scopedEntities.begin();
@@ -1154,20 +1156,17 @@ class LevelUpdater {
     public void setScopedImpacts(DelayedRemovalArray<Impact> scopedImpacts) { this.scopedImpacts = scopedImpacts; }
 
     public <T extends Entity> void scopeEntity(DelayedRemovalArray<T> entities, T entity) {
-        entitiesUpdated = true;
-        if (!entities.contains(entity, false)) entities.add(entity);
-        if (!scopedEntities.contains(entity, false)) this.scopedEntities.add(entity);
+        if (!entities.contains(entity, true)) entities.add(entity);
+        if (!scopedEntities.contains(entity, true)) this.scopedEntities.add(entity);
     }
 
     // TODO: Understand why remove value always returns true
     public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity) {
-        entitiesUpdated = true;
-        entities.removeValue(entity, true);
+        entities.removeValue(entity, false);
         scopedEntities.removeValue(entity, false);
     }
 
     public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity, int index) {
-        entitiesUpdated = true;
         entities.removeIndex(index);
         scopedEntities.removeValue(entity, false);
     }
