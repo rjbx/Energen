@@ -1155,7 +1155,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
             this.velocity.y = velocity.y;
             AssetManager.getInstance().getSoundAssets().damage.play();
-            shotIntensity = ShotIntensity.NORMAL;
             health -= hazard.getDamage() * healthMultiplier;
             groundState = GroundState.AIRBORNE;
             action = Action.RECOILING;
@@ -1184,7 +1183,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     shotIntensity = ShotIntensity.NORMAL;
                     autoblast = false;
                 }
-            }
+            } else shotIntensity = ShotIntensity.NORMAL;
         }
     }
 
