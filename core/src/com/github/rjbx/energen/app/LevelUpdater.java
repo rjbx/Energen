@@ -131,7 +131,6 @@ class LevelUpdater {
 
         backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
-        rescopeEntities();
         for (Entity entity : scopedEntities) entity.render(batch, viewport);
     }
 
@@ -183,6 +182,7 @@ class LevelUpdater {
             grounds.end();
             scopedGrounds.end();
             // scopedEntities.end();
+            rescopeEntities();
         } else if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
             if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
                 chaseCam.setState(Enums.ChaseCamState.BOSS);
@@ -324,6 +324,7 @@ class LevelUpdater {
                 powerups.end();
                 scopedPowerups.end();
                 // scopedEntities.end();
+                rescopeEntities();
             } else {
 
                 scopedTransports.begin();
@@ -567,7 +568,7 @@ class LevelUpdater {
                     Brick b = new Brick(ground.getPosition().x, ground.getPosition().y, 5, 5, ((Destructible) ground).getType());
                     grounds.add(b);
                     scopedGrounds.add(b);
-//                    scopedEntities.add(b);
+                    rescopeEntities();
                     assetManager.getSoundAssets().breakGround.play();
                 }
                 active = false;
@@ -1169,6 +1170,7 @@ class LevelUpdater {
 
     public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity, int index) {
         entities.removeIndex(index);
+        rescopeEntities();
 //        boolean value = this.scopedEntities.removeValue(entity, true);
 //        if (entity.getId() == 877) {
 //            Gdx.app.log(TAG, "" + entity.getId());
