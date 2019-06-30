@@ -1113,11 +1113,11 @@ class LevelUpdater {
 
     public <T extends Entity> void unscopeEntity(Array<T> entities, T entity) {
         entities.removeValue(entity, true);
-        this.scopedEntities.removeValue(entity, true);
+        this.scopedEntities.removeValue(entity, false);
     }
 
     public <T extends Entity> void unscopeEntity(Array<T> entities, T entity, int index) {
         entities.removeIndex(index);
-        this.scopedEntities.removeValue(entity, true);
+        this.scopedEntities.removeValue(entity, false);
     }
 }
