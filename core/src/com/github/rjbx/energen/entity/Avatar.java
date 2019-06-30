@@ -176,6 +176,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         supercharged = Integer.valueOf(savedSuit[1]) == 1;
         energyColor = energy.theme().color();
 
+        if (supercharged) supercharge();
+
         String savedUpgrades = SaveData.getUpgrades();
         if (!savedUpgrades.equals(Energy.NATIVE.name())) {
             List<String> savedUpgradesList = Arrays.asList(savedUpgrades.split(", "));
@@ -902,18 +904,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 AssetManager.getInstance().getSoundAssets().turbo.play();
                 AssetManager.getInstance().getSoundAssets().life.play();
                 AssetManager.getInstance().getSoundAssets().cannon.play();
-                health = Constants.MAX_HEALTH;
-                ammo = Constants.MAX_AMMO;
-                turbo = Constants.MAX_TURBO;
-                shotIntensity = ShotIntensity.BLAST;
-                supercharged = true;
-                autoblast = true;
-                superchargeStartTime = TimeUtils.nanoTime();
-                ammoMultiplier *= .9f;
-                healthMultiplier *= .8f;
-                turboMultiplier *= .7f;
-                strideMultiplier *= 1.35f;
-                jumpMultiplier *= 1.15f;
+                supercharge();
                 break;
             case GEM:
                 gems[((Powerup) r).getGemType().ordinal()]++;
@@ -2117,7 +2108,20 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     public void detectInput() { if (InputControls.getInstance().hasInput()) { activeStartTime = TimeUtils.nanoTime(); } }
     public boolean isSupercharged() { return supercharged; }
     public void setSupercharged(boolean supercharged) { this.supercharged = supercharged; }
-
+    public void supercharge() {
+        health = Constants.MAX_HEALTH;
+        ammo = Constants.MAX_AMMO;
+        turbo = Constants.MAX_TURBO;
+        shotIntensity = ShotIntensity.BLAST;
+        supercharged = true;
+        autoblast = true;
+        superchargeStartTime = TimeUtils.nanoTime();
+        ammoMultiplier *= .9f;
+        healthMultiplier *= .8f;
+        turboMultiplier *= .7f;
+        strideMultiplier *= 1.35f;
+        jumpMultiplier *= 1.15f;
+    }
     public void dispose() { energyList.clear(); }
     public boolean isPrioritized() { return prioritized; }
 
