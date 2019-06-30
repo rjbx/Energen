@@ -318,7 +318,6 @@ class LevelUpdater {
                 powerups.end();
                 scopedPowerups.end();
                 scopedEntities.end();
-                sortEntities();
             } else {
                 scopedTransports.begin();
                 scopedEntities.begin();
@@ -1071,13 +1070,11 @@ class LevelUpdater {
     private void spawnImpact(Vector2 position, Enums.Energy type) {
         Impact i = new Impact(position, type);
         scopeEntity(scopedImpacts, i);
-        entitiesUpdated = true;
     }
 
     private void spawnProjectile(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Energy energy, Entity source) {
         Projectile projectile = new Projectile(position, direction, orientation, shotIntensity, energy, source);
         scopeEntity(scopedHazards, projectile);
-        entitiesUpdated = true;
     }
 
     private void spawnPowerup(Hazard hazard) {
@@ -1104,7 +1101,6 @@ class LevelUpdater {
                     break;
             }
         }
-        entitiesUpdated = true;
     }
 
     // Public getters
@@ -1158,27 +1154,21 @@ class LevelUpdater {
     public void setScopedImpacts(DelayedRemovalArray<Impact> scopedImpacts) { this.scopedImpacts = scopedImpacts; }
 
     public <T extends Entity> void scopeEntity(DelayedRemovalArray<T> entities, T entity) {
+        entitiesUpdated = true;
         if (!entities.contains(entity, false)) entities.add(entity);
         if (!scopedEntities.contains(entity, false)) this.scopedEntities.add(entity);
     }
 
     // TODO: Understand why remove value always returns true
     public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity) {
+        entitiesUpdated = true;
         entities.removeValue(entity, true);
-        boolean value = this.scopedEntities.removeValue(entity, false);
-        if (entity.getId() == 877) {
-            Gdx.app.log(TAG, "" + entity.getId());
-            value = true;
-        }
+        scopedEntities.removeValue(entity, false);
     }
 
     public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity, int index) {
+        entitiesUpdated = true;
         entities.removeIndex(index);
-        sortEntities();
-        boolean value = this.scopedEntities.removeValue(entity, false);
-        if (entity.getId() == 877) {
-            Gdx.app.log(TAG, "" + entity.getId());
-            value = true;
-        }
+        scopedEntities.removeValue(entity, false);
     }
 }
