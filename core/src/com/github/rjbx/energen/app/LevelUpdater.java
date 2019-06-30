@@ -56,7 +56,7 @@ class LevelUpdater {
     private Avatar avatar;
     private Boss boss;
     private ChaseCam chaseCam;
-    private String removedHazards;
+    private StringBuilder removedHazards;
     private Rectangle rescopeBounds;
     private boolean goalReached;
     private boolean paused;
@@ -67,7 +67,6 @@ class LevelUpdater {
     private long time;
     private int savedScore;
     private long savedTime;
-    private long refreshTime;
 
     // cannot be subclassed
     private LevelUpdater() {}
@@ -100,10 +99,9 @@ class LevelUpdater {
         loadEx = false;
         musicEnabled = false;
         hintsEnabled = true;
-        removedHazards = "-1";
+        removedHazards = new StringBuilder("-1");
         score = 0;
         time = 0;
-        refreshTime = 0;
         paused = false;
     }
 
@@ -119,23 +117,17 @@ class LevelUpdater {
 
         Vector3 camPosition = chaseCam.getCamera().position;
 
-//        if (theme == Enums.Theme.FINAL) {
-        if (camPosition.y > 810 || (camPosition.x < 3575 && camPosition.y > 535))
-            backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.ELECTROMAGNETIC));
-        else if (camPosition.x < -180)
-            backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.HOME));
-        else if (camPosition.y < 35)
-            backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.FINAL));
-        else
-            backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.GRAVITATIONAL));
-//        } else backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(theme));
+        if (camPosition.y > 810 || (camPosition.x < 3575 && camPosition.y > 535)) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.ELECTROMAGNETIC));
+        else if (camPosition.x < -180) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.HOME));
+        else if (camPosition.y < 35) backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.FINAL));
+        else backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(Enums.Theme.GRAVITATIONAL));
 
         backdrop.render(batch, viewport, new Vector2(chaseCam.getCamera().position.x, chaseCam.getCamera().position.y), Constants.BACKGROUND_CENTER, 1);
 
         for (Entity entity : scopedEntities) entity.render(batch, viewport);
     }
 
-    public void rescopeEntities() {
+    private void rescopeEntities() {
         scopedEntities.clear();
         scopedEntities.add(avatar);
         scopedEntities.add(Blade.getInstance());
@@ -155,14 +147,12 @@ class LevelUpdater {
     }
 
     private void applyCollision(Impermeable impermeable) {
-//        impermeable.touchAllGrounds(grounds);
         if (impermeable instanceof Humanoid) {
             ((Humanoid) impermeable).touchAllGrounds(scopedGrounds);
             ((Humanoid) impermeable).touchAllHazards(scopedHazards);
         }
     }
 
-    // TODO: Ensure the equivalent scoped typed list value is removed from the complete typed and scoped entity lists
     // asset handling
     private void updateEntities(float delta) {
         scopedEntities.begin();
@@ -247,7 +237,6 @@ class LevelUpdater {
                 }
                 transports.end();
                 scopedTransports.end();
-                
 
                 // Update Hazards
                 hazards.begin();
@@ -258,7 +247,7 @@ class LevelUpdater {
                         if (!updateHazard(delta, h)) {
                             spawnPowerup(h);
                             hazards.removeIndex(i);
-                            removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
+                            removedHazards.append(";").append(i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                             unscopeEntity(scopedHazards, h);
                         } else scopeEntity(scopedHazards, h);
                     } else unscopeEntity(scopedHazards, h);
@@ -337,7 +326,6 @@ class LevelUpdater {
                     }
                 }
                 scopedTransports.end();
-                
 
                 scopedHazards.begin();
                 // Update Hazards
@@ -346,7 +334,7 @@ class LevelUpdater {
                     if (!updateHazard(delta, h)) {
                         spawnPowerup(h);
                         unscopeEntity(scopedHazards, i);
-                        removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
+                        removedHazards.append(";").append(i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                         hazards.removeValue(h, true);
                     }
                 }
@@ -423,7 +411,7 @@ class LevelUpdater {
         if (entitiesUpdated) rescopeEntities();
     }
 
-    public boolean updateGround(float delta, Ground ground) {
+    private boolean updateGround(float delta, Ground ground) {
 
         if (ground instanceof Energized && ((Energized) ground).getDispatchStatus()) {
             Energized energy = (Energized) ground;
@@ -559,7 +547,7 @@ class LevelUpdater {
                 }
             }
         }
-        if (ground instanceof Destructible && active) {
+        if (ground instanceof Destructible) {
             if (((Destructible) ground).getHealth() < 1) {
                 if (ground instanceof Box) {
                     Brick b = new Brick(ground.getPosition().x, ground.getPosition().y, 5, 5, ((Destructible) ground).getType());
@@ -610,7 +598,7 @@ class LevelUpdater {
         return active;
     }
 
-    public boolean updateHazard(float delta, Hazard hazard) {
+    private boolean updateHazard(float delta, Hazard hazard) {
         boolean active = true;
         if (hazard instanceof Boss) {
             Boss b = (Boss) hazard;
@@ -801,7 +789,7 @@ class LevelUpdater {
         return active;
     }
 
-    public boolean updatePowerup(float delta, Powerup powerup) {
+    private boolean updatePowerup(float delta, Powerup powerup) {
         if (Helpers.overlapsPhysicalObject(avatar, powerup)
                 || (avatar.getBladeState() != Enums.BladeState.RETRACTED && Helpers.overlapsPhysicalObject(Blade.getInstance(), powerup))) {
             avatar.touchPowerup(powerup);
@@ -813,7 +801,7 @@ class LevelUpdater {
         return powerup.isActive();
     }
 
-    public boolean updateTransport(float delta, Transport transport, int transportIndex) {
+    private boolean updateTransport(float delta, Transport transport, int transportIndex) {
        boolean active = true;
         if (avatar.getPosition().dst(transport.getPosition()) < transport.getWidth() / 2 && inputControls.upButtonPressed && inputControls.jumpButtonJustPressed) {
             if (transport instanceof Portal) {
@@ -837,7 +825,7 @@ class LevelUpdater {
                 allRestores.set(level, restorePosition.x + ":" + restorePosition.y);
                 allTimes.set(level, Long.toString(time));
                 allScores.set(level, Integer.toString(score));
-                allRemovals.set(level, removedHazards);
+                allRemovals.set(level, removedHazards.toString());
                 SaveData.setLevelRestore(allRestores.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
@@ -861,9 +849,9 @@ class LevelUpdater {
         return active;
     }
 
-    protected void restoreRemovals(String removals) {
-        removedHazards = removals;
-        List<String> levelRemovalStrings = Arrays.asList(removedHazards.split(";"));
+    private void restoreRemovals(String removals) {
+        removedHazards = new StringBuilder(removals);
+        List<String> levelRemovalStrings = Arrays.asList(removedHazards.toString().split(";"));
         List<Integer> levelRemovals = new ArrayList<Integer>();
         for (String removalStr : levelRemovalStrings) {
             levelRemovals.add(Integer.parseInt(removalStr));
@@ -875,7 +863,7 @@ class LevelUpdater {
         }
     }
 
-    protected void clearEntities() {
+    private void clearEntities() {
         scopedEntities.clear();
         grounds.clear();
         hazards.clear();
@@ -905,7 +893,7 @@ class LevelUpdater {
     }
 
     // level state handling
-    protected void begin() {
+    void begin() {
         scopedEntities.addAll(grounds);
         scopedEntities.addAll(hazards);
         scopedEntities.addAll(powerups);
@@ -968,7 +956,7 @@ class LevelUpdater {
         paused = true;
     }
 
-    protected void unpause() {
+    void unpause() {
         if (musicEnabled) {
             music.play();
         }
@@ -976,7 +964,7 @@ class LevelUpdater {
         timer.resume();
     }
 
-    protected void reset() {
+    void reset() {
         int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
         List<String> allRestores = Arrays.asList(SaveData.getLevelRestore().split(", "));
         List<String> allTimes = Arrays.asList(SaveData.getLevelTimes().split(", "));
@@ -992,7 +980,7 @@ class LevelUpdater {
         SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
     }
 
-    protected boolean restarted() {
+    boolean restarted() {
         if (avatar.getFallLimit() != -10000) {
             if (avatar.getPosition().y < avatar.getFallLimit() || avatar.getHealth() < 1) {
                 avatar.setHealth(0);
@@ -1040,7 +1028,7 @@ class LevelUpdater {
         return false;
     }
 
-    protected boolean failed() {
+    boolean failed() {
         if (restarted()) {
             if (avatar.getLives() < 0) {
                 return true;
@@ -1055,11 +1043,11 @@ class LevelUpdater {
         return false;
     }
 
-    protected boolean completed() { return goalReached || (chaseCam.getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1 && boss.isBattling()); }
+    boolean completed() { return goalReached || (chaseCam.getState() == Enums.ChaseCamState.BOSS && boss.getHealth() < 1 && boss.isBattling()); }
 
-    protected boolean continuing() { return !(completed() || failed()); }
+    boolean continuing() { return !(completed() || failed()); }
 
-    protected boolean paused() {
+    boolean paused() {
         return paused;
     }
 
@@ -1111,45 +1099,39 @@ class LevelUpdater {
     protected final Viewport getViewport() { return levelScreen.getViewport(); }
     // Protected getters
 
-    protected final long getUnsavedTime() { return timer.getMillis() - TimeUtils.nanosToMillis(savedTime); }
-    protected final int getUnsavedScore() { return score - savedScore; }
+    final long getUnsavedTime() { return timer.getMillis() - TimeUtils.nanosToMillis(savedTime); }
+    final int getUnsavedScore() { return score - savedScore; }
     protected final void setBoss(Boss boss) { this.boss = boss; }
-    protected final DelayedRemovalArray<Transport> getTransports() { return transports; }
+    final DelayedRemovalArray<Transport> getTransports() { return transports; }
     protected Enums.Theme getTheme() { return theme; }
-    protected final boolean hasLoadEx() { return loadEx; }
+    final boolean hasLoadEx() { return loadEx; }
     // Setters
 
-    protected final void addGround(Ground ground) { grounds.add(ground); }
-    protected final void addHazard(Hazard hazard) { hazards.add(hazard); }
-    protected final void addPowerup(Powerup powerup) { powerups.add(powerup); }
-    protected void setTime(long time) { this.time = time; }
-    protected void setScore(int score) {this.score = score; }
-    protected void setTheme(Enums.Theme selectedLevel) {
+    final void addGround(Ground ground) { grounds.add(ground); }
+    final void addHazard(Hazard hazard) { hazards.add(hazard); }
+    final void addPowerup(Powerup powerup) { powerups.add(powerup); }
+    void setTime(long time) { this.time = time; }
+    void setScore(int score) {this.score = score; }
+    void setTheme(Enums.Theme selectedLevel) {
         theme = selectedLevel;
 
         int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
         savedTime = Long.parseLong(SaveData.getLevelScores().split(", ")[level]);
     }
     protected int getIndex() { return Arrays.asList(Enums.Theme.values()).indexOf(this.theme); }
-    protected void toggleMusic() { musicEnabled = !musicEnabled; }
-    protected void toggleHints() { hintsEnabled = !hintsEnabled; }
-    protected final void setLoadEx(boolean state) { loadEx = state; }
-    protected final Backdrop getBackdrop() { return backdrop; }
+    void toggleMusic() { musicEnabled = !musicEnabled; }
+    void toggleHints() { hintsEnabled = !hintsEnabled; }
+    final void setLoadEx(boolean state) { loadEx = state; }
+    final Backdrop getBackdrop() { return backdrop; }
 
-    public DelayedRemovalArray<Ground> getScopedGrounds() { return scopedGrounds; }
+    DelayedRemovalArray<Entity> getScopedEntities() { return scopedEntities; }
+    DelayedRemovalArray<Ground> getScopedGrounds() { return scopedGrounds; }
+    DelayedRemovalArray<Hazard> getScopedHazards() { return scopedHazards; }
+    DelayedRemovalArray<Powerup> getScopedPowerups() { return scopedPowerups; }
+    DelayedRemovalArray<Transport> getScopedTransports() { return scopedTransports; }
+    DelayedRemovalArray<Impact> getScopedImpacts() { return scopedImpacts; }
 
-    protected final DelayedRemovalArray<Entity> getScopedEntities() { return scopedEntities; }
-    public void setScopedGrounds(DelayedRemovalArray<Ground> scopedGrounds) { this.scopedGrounds = scopedGrounds; }
-    public DelayedRemovalArray<Hazard> getScopedHazards() { return scopedHazards; }
-    public void setScopedHazards(DelayedRemovalArray<Hazard> scopedHazards) { this.scopedHazards = scopedHazards; }
-    public DelayedRemovalArray<Powerup> getScopedPowerups() { return scopedPowerups; }
-    public void setScopedPowerups(DelayedRemovalArray<Powerup> scopedPowerups) { this.scopedPowerups = scopedPowerups; }
-    public DelayedRemovalArray<Transport> getScopedTransports() { return scopedTransports; }
-    public void setScopedTransports(DelayedRemovalArray<Transport> scopedTransports) { this.scopedTransports = scopedTransports; }
-    public DelayedRemovalArray<Impact> getScopedImpacts() { return scopedImpacts; }
-    public void setScopedImpacts(DelayedRemovalArray<Impact> scopedImpacts) { this.scopedImpacts = scopedImpacts; }
-
-    public <T extends Entity> void scopeEntity(DelayedRemovalArray<T> entities, T entity) {
+    private  <T extends Entity> void scopeEntity(DelayedRemovalArray<T> entities, T entity) {
         entitiesUpdated = true;
         if (!entities.contains(entity, true)) {
             entitiesUpdated = true;
@@ -1157,11 +1139,11 @@ class LevelUpdater {
         }
     }
 
-    public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity) {
+    private  <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity) {
         if (entities.removeValue(entity, false)) entitiesUpdated = true;
     }
 
-    public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, int index) {
+    private  <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, int index) {
         entitiesUpdated = true;
         entities.removeIndex(index);
     }
