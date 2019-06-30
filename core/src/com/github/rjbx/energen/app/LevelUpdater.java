@@ -184,7 +184,6 @@ class LevelUpdater {
             }
             grounds.end();
             scopedGrounds.end();
-            entitiesUpdated = true;
         } else if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
             if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
                 chaseCam.setState(Enums.ChaseCamState.BOSS);
@@ -206,7 +205,6 @@ class LevelUpdater {
                 }
             }
         } else {
-            entitiesUpdated = false;
             time = timer.getNanos();
             if (avatar.getDispatchStatus()) {
                 if (avatar.getLookStartTime() != 0) {
@@ -327,9 +325,8 @@ class LevelUpdater {
                 for (int i = 0; i < scopedTransports.size; i++) {
                     Transport t = scopedTransports.get(i);
                     if (!updateTransport(delta, t, i)) {
-                        unscopeEntity(scopedTransports, t, i);
+                        unscopeEntity(scopedTransports, i);
                         transports.removeValue(t, true);
-                        entitiesUpdated = true;
                     }
                 }
                 scopedTransports.end();
@@ -341,8 +338,7 @@ class LevelUpdater {
                     Hazard h = scopedHazards.get(i);
                     if (!updateHazard(delta, h)) {
                         spawnPowerup(h);
-                        unscopeEntity(scopedHazards, h, i);
-                        entitiesUpdated = true;
+                        unscopeEntity(scopedHazards, i);
                         removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                         hazards.removeValue(h, true);
                     }
@@ -358,9 +354,8 @@ class LevelUpdater {
                             || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())) {
                         if (!updateGround(delta, g)) {
                             if (!(g instanceof Destructible)) {
-                                unscopeEntity(scopedGrounds, g, i);
+                                unscopeEntity(scopedGrounds, i);
                                 grounds.removeValue(g, true);
-                                entitiesUpdated = true;
                             }
                         }
                     }
@@ -373,9 +368,8 @@ class LevelUpdater {
                 for (int index = 0; index < scopedImpacts.size; index++) {
                     Impact i = scopedImpacts.get(index);
                     if (i.isFinished()) {
-                        unscopeEntity(scopedImpacts, i, index);
+                        unscopeEntity(scopedImpacts, index);
                         impacts.removeValue(i, true);
-                        entitiesUpdated = true;
                     }
                 }
                 scopedImpacts.end();
@@ -386,9 +380,8 @@ class LevelUpdater {
                 for (int i = 0; i < scopedPowerups.size; i++) {
                     Powerup p = scopedPowerups.get(i);
                     if (!updatePowerup(delta, p)) {
-                        unscopeEntity(scopedPowerups, p, i);
+                        unscopeEntity(scopedPowerups, i);
                         powerups.removeValue(p, true);
-                        entitiesUpdated = true;
                     }
                 }
                 scopedPowerups.end();
@@ -411,9 +404,8 @@ class LevelUpdater {
                                 && ((Pliable) g).getMovingGround() instanceof Pliable
                                 && ((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())))) {
                    if (!updateGround(delta, g)) {
-                        unscopeEntity(scopedGrounds, g, i);
+                        unscopeEntity(scopedGrounds, i);
                         grounds.removeValue(g, true);
-//                        entitiesUpdated = true;
                     }
                 }
             }
@@ -1152,20 +1144,18 @@ class LevelUpdater {
 
     public <T extends Entity> void scopeEntity(DelayedRemovalArray<T> entities, T entity) {
         entitiesUpdated = true;
-        if (!entities.contains(entity, true)) entities.add(entity);
-//        if (!scopedEntities.contains(entity, true)) this.scopedEntities.add(entity);
+        if (!entities.contains(entity, true)) {
+            entitiesUpdated = true;
+            entities.add(entity);
+        }
     }
 
-    // TODO: Understand why remove value always returns true
     public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity) {
-        entitiesUpdated = true;
-        entities.removeValue(entity, false);
-//        scopedEntities.removeValue(entity, false);
+        if (entities.removeValue(entity, false)) entitiesUpdated = true;
     }
 
-    public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity, int index) {
+    public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, int index) {
         entitiesUpdated = true;
         entities.removeIndex(index);
-//        scopedEntities.removeValue(entity, false);
     }
 }
