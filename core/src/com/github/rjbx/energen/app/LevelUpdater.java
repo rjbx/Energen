@@ -1070,11 +1070,13 @@ class LevelUpdater {
     private void spawnImpact(Vector2 position, Enums.Energy type) {
         Impact i = new Impact(position, type);
         scopeEntity(scopedImpacts, i);
+        rescopeEntities();
     }
 
     private void spawnProjectile(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Energy energy, Entity source) {
         Projectile projectile = new Projectile(position, direction, orientation, shotIntensity, energy, source);
         scopeEntity(scopedHazards, projectile);
+        rescopeEntities();
     }
 
     private void spawnPowerup(Hazard hazard) {
