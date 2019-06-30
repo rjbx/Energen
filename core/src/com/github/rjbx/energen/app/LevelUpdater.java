@@ -135,8 +135,10 @@ class LevelUpdater {
         for (Entity entity : scopedEntities) entity.render(batch, viewport);
     }
 
-    public void sortEntities() {
+    public void rescopeEntities() {
         scopedEntities.clear();
+        scopedEntities.add(avatar);
+        scopedEntities.add(Blade.getInstance());
         scopedEntities.addAll(scopedGrounds);
         scopedEntities.addAll(scopedHazards);
         scopedEntities.addAll(scopedTransports);
@@ -163,6 +165,8 @@ class LevelUpdater {
     // TODO: Ensure the equivalent scoped typed list value is removed from the complete typed and scoped entity lists
     // asset handling
     private void updateEntities(float delta) {
+        scopedEntities.begin();
+        entitiesUpdated = false;
         if (chaseCam.getState() == Enums.ChaseCamState.CONVERT) {
             grounds.begin();
             scopedGrounds.begin();
@@ -180,8 +184,7 @@ class LevelUpdater {
             }
             grounds.end();
             scopedGrounds.end();
-            
-            sortEntities();
+            entitiesUpdated = true;
         } else if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
             if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
                 chaseCam.setState(Enums.ChaseCamState.BOSS);
@@ -225,8 +228,6 @@ class LevelUpdater {
                 spawnImpact(intersectionPoint, touchedHazard.getType());
             }
 
-            scopedEntities.begin();
-
             // Update Transports
             Rectangle determinantBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 0.5f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 0.5f), chaseCam.getViewport().getWorldWidth(), chaseCam.getViewport().getWorldHeight());
             if (rescopeBounds == null || !rescopeBounds.contains(determinantBounds)) {
@@ -253,7 +254,6 @@ class LevelUpdater {
                 // Update Hazards
                 hazards.begin();
                 scopedHazards.begin();
-                
                 for (int i = 0; i < hazards.size; i++) {
                     Hazard h = hazards.get(i);
                     if (rescopeBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
@@ -273,7 +273,6 @@ class LevelUpdater {
 
                 grounds.begin();
                 scopedGrounds.begin();
-                
                 for (int i = 0; i < grounds.size; i++) {
                     Ground g = grounds.get(i);
                     if ((!(g instanceof Pliable)
@@ -297,7 +296,6 @@ class LevelUpdater {
                 // Update Impacts
                 impacts.begin();
                 scopedImpacts.begin();
-                
                 for (int index = 0; index < impacts.size; index++) {
                     Impact i = impacts.get(index);
                     if (rescopeBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
@@ -314,7 +312,6 @@ class LevelUpdater {
                 // Update Powerups
                 powerups.begin();
                 scopedPowerups.begin();
-                
                 for (int i = 0; i < powerups.size; i++) {
                     Powerup p = powerups.get(i);
                     if (!updatePowerup(delta, p)) {
@@ -324,12 +321,9 @@ class LevelUpdater {
                 }
                 powerups.end();
                 scopedPowerups.end();
-                
 
-                sortEntities();
             } else {
                 scopedTransports.begin();
-                
                 for (int i = 0; i < scopedTransports.size; i++) {
                     Transport t = scopedTransports.get(i);
                     if (!updateTransport(delta, t, i)) {
@@ -342,7 +336,6 @@ class LevelUpdater {
                 
 
                 scopedHazards.begin();
-                
                 // Update Hazards
                 for (int i = 0; i < scopedHazards.size; i++) {
                     Hazard h = scopedHazards.get(i);
@@ -355,10 +348,8 @@ class LevelUpdater {
                     }
                 }
                 scopedHazards.end();
-                
 
                 scopedGrounds.begin();
-                
                 for (int i = 0; i < scopedGrounds.size; i++) {
                     Ground g = scopedGrounds.get(i);
                     if ((!(g instanceof Pliable)
@@ -378,7 +369,6 @@ class LevelUpdater {
                 
 
                 scopedImpacts.begin();
-                
                 // Update Impacts
                 for (int index = 0; index < scopedImpacts.size; index++) {
                     Impact i = scopedImpacts.get(index);
@@ -392,7 +382,6 @@ class LevelUpdater {
                 
 
                 scopedPowerups.begin();
-                 
                 // Update Powerups
                 for (int i = 0; i < scopedPowerups.size; i++) {
                     Powerup p = scopedPowerups.get(i);
@@ -430,9 +419,9 @@ class LevelUpdater {
             }
             scopedGrounds.end();
             
-            scopedEntities.end();
-            if (entitiesUpdated) sortEntities();
         }
+        scopedEntities.end();
+        if (entitiesUpdated) rescopeEntities();
     }
 
     public boolean updateGround(float delta, Ground ground) {
