@@ -24,6 +24,7 @@ import com.github.rjbx.energen.util.Helpers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 // immutable package-private singleton
@@ -133,23 +134,15 @@ class LevelUpdater {
         for (Entity entity : scopedEntities) entity.render(batch, viewport);
     }
 
-    public void rescopeEntities() {
-//        scopedEntities.clear();
-//        scopedEntities.add(avatar);
-//        scopedEntities.add(Blade.getInstance());
-//        scopedEntities.addAll(scopedGrounds);
-//        scopedEntities.addAll(scopedHazards);
-//        scopedEntities.addAll(scopedImpacts);
-//        scopedEntities.addAll(scopedPowerups);
-//        scopedEntities.addAll(scopedTransports);
-//        scopedEntities.sort(new Comparator<Entity>() {
-//            @Override
-//            public int compare(Entity o1, Entity o2) {
-//                if (o1.getPriority() > o2.getPriority()) return -1;
-//                else if (o1.getPriority() < o2.getPriority()) return 1;
-//                return 0;
-//            }
-//        });
+    public void sortEntities() {
+        scopedEntities.sort(new Comparator<Entity>() {
+            @Override
+            public int compare(Entity o1, Entity o2) {
+                if (o1.getPriority() > o2.getPriority()) return -1;
+                else if (o1.getPriority() < o2.getPriority()) return 1;
+                return 0;
+            }
+        });
     }
 
     private void applyCollision(Impermeable impermeable) {
@@ -181,7 +174,7 @@ class LevelUpdater {
             grounds.end();
             scopedGrounds.end();
             // scopedEntities.end();
-            rescopeEntities();
+            sortEntities();
         } else if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
             if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
                 chaseCam.setState(Enums.ChaseCamState.BOSS);
@@ -324,7 +317,7 @@ class LevelUpdater {
                 powerups.end();
                 scopedPowerups.end();
                 scopedEntities.end();
-                rescopeEntities();
+                sortEntities();
             } else {
                 scopedTransports.begin();
                 scopedEntities.begin();
@@ -429,7 +422,7 @@ class LevelUpdater {
             scopedGrounds.end();
             scopedEntities.end();
 
-            if (updated) rescopeEntities();
+            if (updated) sortEntities();
         }
     }
 
@@ -575,7 +568,7 @@ class LevelUpdater {
                     Brick b = new Brick(ground.getPosition().x, ground.getPosition().y, 5, 5, ((Destructible) ground).getType());
                     grounds.add(b);
                     scopedGrounds.add(b);
-//                    rescopeEntities();
+//                    sortEntities();
                     assetManager.getSoundAssets().breakGround.play();
                 }
                 active = false;
@@ -1077,13 +1070,13 @@ class LevelUpdater {
     private void spawnImpact(Vector2 position, Enums.Energy type) {
         Impact i = new Impact(position, type);
         scopeEntity(scopedImpacts, i);
-        rescopeEntities();
+        sortEntities();
     }
 
     private void spawnProjectile(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Energy energy, Entity source) {
         Projectile projectile = new Projectile(position, direction, orientation, shotIntensity, energy, source);
         scopeEntity(scopedHazards, projectile);
-        rescopeEntities();
+        sortEntities();
     }
 
     private void spawnPowerup(Hazard hazard) {
@@ -1179,7 +1172,7 @@ class LevelUpdater {
 
     public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity, int index) {
         entities.removeIndex(index);
-        rescopeEntities();
+        sortEntities();
         boolean value = this.scopedEntities.removeValue(entity, false);
         if (entity.getId() == 877) {
             Gdx.app.log(TAG, "" + entity.getId());
