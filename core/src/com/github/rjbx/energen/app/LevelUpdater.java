@@ -1111,13 +1111,20 @@ class LevelUpdater {
         this.scopedEntities.add(entity);
     }
 
+    // TODO: Understand why remove value always returns true
     public <T extends Entity> void unscopeEntity(Array<T> entities, T entity) {
         entities.removeValue(entity, true);
-        this.scopedEntities.removeValue(entity, false);
+        boolean value = this.scopedEntities.removeValue(new Pole(new Vector2(0,0)), true);
+        if (!value) {
+            Gdx.app.log(TAG, "" + entity.getId());
+        }
     }
 
     public <T extends Entity> void unscopeEntity(Array<T> entities, T entity, int index) {
         entities.removeIndex(index);
-        this.scopedEntities.removeValue(entity, false);
+        boolean value = this.scopedEntities.removeValue(new Pole(new Vector2(0,0)), true);
+        if (!value) {
+            Gdx.app.log(TAG, "" + entity.getId());
+        }
     }
 }
