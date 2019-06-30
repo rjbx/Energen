@@ -24,7 +24,6 @@ import com.github.rjbx.energen.util.Helpers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 // immutable package-private singleton
@@ -135,22 +134,22 @@ class LevelUpdater {
     }
 
     public void rescopeEntities() {
-        scopedEntities.clear();
-        scopedEntities.add(avatar);
-        scopedEntities.add(Blade.getInstance());
-        scopedEntities.addAll(scopedGrounds);
-        scopedEntities.addAll(scopedHazards);
-        scopedEntities.addAll(scopedImpacts);
-        scopedEntities.addAll(scopedPowerups);
-        scopedEntities.addAll(scopedTransports);
-        scopedEntities.sort(new Comparator<Entity>() {
-            @Override
-            public int compare(Entity o1, Entity o2) {
-                if (o1.getPriority() > o2.getPriority()) return -1;
-                else if (o1.getPriority() < o2.getPriority()) return 1;
-                return 0;
-            }
-        });
+//        scopedEntities.clear();
+//        scopedEntities.add(avatar);
+//        scopedEntities.add(Blade.getInstance());
+//        scopedEntities.addAll(scopedGrounds);
+//        scopedEntities.addAll(scopedHazards);
+//        scopedEntities.addAll(scopedImpacts);
+//        scopedEntities.addAll(scopedPowerups);
+//        scopedEntities.addAll(scopedTransports);
+//        scopedEntities.sort(new Comparator<Entity>() {
+//            @Override
+//            public int compare(Entity o1, Entity o2) {
+//                if (o1.getPriority() > o2.getPriority()) return -1;
+//                else if (o1.getPriority() < o2.getPriority()) return 1;
+//                return 0;
+//            }
+//        });
     }
 
     private void applyCollision(Impermeable impermeable) {
@@ -231,8 +230,8 @@ class LevelUpdater {
             if (rescopeBounds == null || !rescopeBounds.contains(determinantBounds)) {
                 rescopeBounds = new Rectangle(chaseCam.getCamera().position.x - (chaseCam.getViewport().getWorldWidth() * 2.5f), chaseCam.getCamera().position.y - (chaseCam.getViewport().getWorldHeight() * 2.5f), chaseCam.getViewport().getWorldWidth() * 5f, chaseCam.getViewport().getWorldHeight() * 5f);
 
-//                scopedEntities.add(avatar);
-//                scopedEntities.add(Blade.getInstance());
+                scopedEntities.add(avatar);
+                scopedEntities.add(Blade.getInstance());
 
                 transports.begin();
                 scopedTransports.begin();
@@ -248,12 +247,12 @@ class LevelUpdater {
                 }
                 transports.end();
                 scopedTransports.end();
-                // scopedEntities.end();
+                scopedEntities.end();
 
                 // Update Hazards
                 hazards.begin();
                 scopedHazards.begin();
-                // scopedEntities.begin();
+                scopedEntities.begin();
                 for (int i = 0; i < hazards.size; i++) {
                     Hazard h = hazards.get(i);
                     if (rescopeBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
@@ -267,13 +266,13 @@ class LevelUpdater {
                 }
                 hazards.end();
                 scopedHazards.end();
-                // scopedEntities.end();
+                scopedEntities.end();
 
                 // Update Grounds
 
                 grounds.begin();
                 scopedGrounds.begin();
-                // scopedEntities.begin();
+                scopedEntities.begin();
                 for (int i = 0; i < grounds.size; i++) {
                     Ground g = grounds.get(i);
                     if ((!(g instanceof Pliable)
@@ -292,12 +291,12 @@ class LevelUpdater {
                 }
                 grounds.end();
                 scopedGrounds.end();
-                // scopedEntities.end();
+                scopedEntities.end();
 
                 // Update Impacts
                 impacts.begin();
                 scopedImpacts.begin();
-                // scopedEntities.begin();
+                scopedEntities.begin();
                 for (int index = 0; index < impacts.size; index++) {
                     Impact i = impacts.get(index);
                     if (rescopeBounds.overlaps(new Rectangle(i.getLeft(), i.getBottom(), i.getWidth(), i.getHeight()))) {
@@ -309,12 +308,12 @@ class LevelUpdater {
                 }
                 impacts.end();
                 scopedImpacts.end();
-                // scopedEntities.end();
+                scopedEntities.end();
 
                 // Update Powerups
                 powerups.begin();
                 scopedPowerups.begin();
-                // scopedEntities.begin();
+                scopedEntities.begin();
                 for (int i = 0; i < powerups.size; i++) {
                     Powerup p = powerups.get(i);
                     if (!updatePowerup(delta, p)) {
@@ -324,11 +323,11 @@ class LevelUpdater {
                 }
                 powerups.end();
                 scopedPowerups.end();
-                // scopedEntities.end();
+                scopedEntities.end();
                 rescopeEntities();
             } else {
                 scopedTransports.begin();
-                // scopedEntities.begin();
+                scopedEntities.begin();
                 for (int i = 0; i < scopedTransports.size; i++) {
                     Transport t = scopedTransports.get(i);
                     if (!updateTransport(delta, t, i)) {
@@ -338,10 +337,10 @@ class LevelUpdater {
                     }
                 }
                 scopedTransports.end();
-                // scopedEntities.end();
+                scopedEntities.end();
 
                 scopedHazards.begin();
-                // scopedEntities.begin();
+                scopedEntities.begin();
                 // Update Hazards
                 for (int i = 0; i < scopedHazards.size; i++) {
                     Hazard h = scopedHazards.get(i);
@@ -354,10 +353,10 @@ class LevelUpdater {
                     }
                 }
                 scopedHazards.end();
-                // scopedEntities.end();
+                scopedEntities.end();
 
                 scopedGrounds.begin();
-                // scopedEntities.begin();
+                scopedEntities.begin();
                 for (int i = 0; i < scopedGrounds.size; i++) {
                     Ground g = scopedGrounds.get(i);
                     if ((!(g instanceof Pliable)
@@ -374,10 +373,10 @@ class LevelUpdater {
                     }
                 }
                 scopedGrounds.end();
-                // scopedEntities.end();
+                scopedEntities.end();
 
                 scopedImpacts.begin();
-                // scopedEntities.begin();
+                scopedEntities.begin();
                 // Update Impacts
                 for (int index = 0; index < scopedImpacts.size; index++) {
                     Impact i = scopedImpacts.get(index);
@@ -388,10 +387,10 @@ class LevelUpdater {
                     }
                 }
                 scopedImpacts.end();
-                // scopedEntities.end();
+                scopedEntities.end();
 
                 scopedPowerups.begin();
-                // scopedEntities.begin();
+                 scopedEntities.begin();
                 // Update Powerups
                 for (int i = 0; i < scopedPowerups.size; i++) {
                     Powerup p = scopedPowerups.get(i);
@@ -402,7 +401,7 @@ class LevelUpdater {
                     }
                 }
                 scopedPowerups.end();
-                // scopedEntities.end();
+                 scopedEntities.end();
             }
             avatar.updatePosition(delta);
             applyCollision(avatar);
@@ -411,7 +410,7 @@ class LevelUpdater {
 
             // Update Grounds
             scopedGrounds.begin();
-            // scopedEntities.begin();
+             scopedEntities.begin();
             for (int i = 0; i < scopedGrounds.size; i++) {
                 Ground g = scopedGrounds.get(i);
                 if (g instanceof Destructible ||
@@ -421,14 +420,14 @@ class LevelUpdater {
                                 && ((Pliable) g).getMovingGround() instanceof Pliable
                                 && ((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())))) {
                    if (!updateGround(delta, g)) {
-                        scopedGrounds.removeIndex(i);
+                        unscopeEntity(scopedGrounds, g, i);
                         grounds.removeValue(g, true);
-                        updated = true;
+//                        updated = true;
                     }
                 }
             }
             scopedGrounds.end();
-            // scopedEntities.end();
+            scopedEntities.end();
 
             if (updated) rescopeEntities();
         }
@@ -576,7 +575,7 @@ class LevelUpdater {
                     Brick b = new Brick(ground.getPosition().x, ground.getPosition().y, 5, 5, ((Destructible) ground).getType());
                     grounds.add(b);
                     scopedGrounds.add(b);
-                    rescopeEntities();
+//                    rescopeEntities();
                     assetManager.getSoundAssets().breakGround.play();
                 }
                 active = false;
@@ -1165,26 +1164,26 @@ class LevelUpdater {
 
     public <T extends Entity> void scopeEntity(DelayedRemovalArray<T> entities, T entity) {
         if (!entities.contains(entity, false)) entities.add(entity);
-//        this.scopedEntities.add(entity);
+        this.scopedEntities.add(entity);
     }
 
     // TODO: Understand why remove value always returns true
     public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity) {
         entities.removeValue(entity, true);
-//        boolean value = this.scopedEntities.removeValue(entity, false);
-//        if (entity.getId() == 877) {
-//            Gdx.app.log(TAG, "" + entity.getId());
-//            value = true;
-//        }
+        boolean value = this.scopedEntities.removeValue(entity, true);
+        if (entity.getId() == 877) {
+            Gdx.app.log(TAG, "" + entity.getId());
+            value = true;
+        }
     }
 
     public <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity, int index) {
         entities.removeIndex(index);
         rescopeEntities();
-//        boolean value = this.scopedEntities.removeValue(entity, true);
-//        if (entity.getId() == 877) {
-//            Gdx.app.log(TAG, "" + entity.getId());
-//            value = true;
-//        }
+        boolean value = this.scopedEntities.removeValue(entity, true);
+        if (entity.getId() == 877) {
+            Gdx.app.log(TAG, "" + entity.getId());
+            value = true;
+        }
     }
 }
