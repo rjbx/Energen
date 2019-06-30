@@ -235,7 +235,7 @@ class LevelUpdater {
 
                 transports.begin();
                 scopedTransports.begin();
-                // scopedEntities.begin();
+                scopedEntities.begin();
                 for (int i = 0; i < transports.size; i++) {
                     Transport t = transports.get(i);
                     if (rescopeBounds.overlaps(new Rectangle(t.getLeft(), t.getBottom(), t.getWidth(), t.getHeight()))) {
