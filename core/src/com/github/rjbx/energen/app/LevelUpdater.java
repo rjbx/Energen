@@ -397,7 +397,7 @@ class LevelUpdater {
                     if (!updatePowerup(delta, p)) {
                         unscopeEntity(scopedPowerups, p, i);
                         if (powerups.contains(p, true)) powerups.removeValue(p, true);
-                        rescopeEntities();
+                        rescopeEntities(); // TODO: Inconsequential due to scoped typed list delayed removal; must occur after end()
                     }
                 }
                 scopedPowerups.end();
