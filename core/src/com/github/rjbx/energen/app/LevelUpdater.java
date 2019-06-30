@@ -830,7 +830,7 @@ class LevelUpdater {
                 SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
-                SaveData.setSuit(avatar.getEnergy() + ";" + avatar.isSupercharged());
+                SaveData.setSuit(avatar.getEnergy() + ";" + (avatar.isSupercharged() ? 1 : 0));
                 SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
                 SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
 
