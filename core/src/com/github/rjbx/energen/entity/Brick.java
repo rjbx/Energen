@@ -8,6 +8,7 @@ import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 
+// TODO: Restore move while adjacently planted and resolve bug when moving into thin wall
 // also functions as shield
 public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable {
 
