@@ -67,7 +67,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private List<Energy> energyList; // class-level instantiation
     private ListIterator<Energy> energyToggler; // class-level instantiation
     private List<Upgrade> upgradeList;
-    private boolean supercharged;
     private boolean canShoot;
     private boolean canDispatch;
     private boolean canLook;
@@ -85,6 +84,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private boolean canFlip;
     private boolean canRush;
     private boolean canCut;
+    private boolean autoblast;
+    private boolean supercharged;
     private boolean prioritized;
     private long chargeStartTime;
     private long shootStartTime;
@@ -114,7 +115,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private float healthMultiplier;
     private float strideMultiplier;
     private float jumpMultiplier;
-    private float chargeModifier;
     private float startTurbo;
     private float turbo;
     private float fallLimit;
@@ -154,7 +154,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         healthMultiplier = 1;
         strideMultiplier = 1;
         jumpMultiplier = 1;
-        chargeModifier = 0;
         String savedEnergies = SaveData.getEnergies();
         if (!savedEnergies.equals(Energy.NATIVE.name())) {
             List<String> savedEnergiesList = Arrays.asList(savedEnergies.split(", "));
@@ -887,13 +886,13 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 break;
             case LIFE:
                 AssetManager.getInstance().getSoundAssets().life.play();
-                if (lives < Constants.MAX_LIVES) lives ++;
+                if (lives < Constants.MAX_LIVES) lives++;
                 break;
             case CANNON:
                 AssetManager.getInstance().getSoundAssets().cannon.play();
-                chargeModifier = 1;
                 ammo += Constants.POWERUP_AMMO;
                 shotIntensity = ShotIntensity.BLAST;
+                autoblast = true;
                 break;
             case SUPER:
                 AssetManager.getInstance().getSoundAssets().health.play();
@@ -904,8 +903,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 health = Constants.MAX_HEALTH;
                 ammo = Constants.MAX_AMMO;
                 turbo = Constants.MAX_TURBO;
-                chargeModifier = 1;
                 supercharged = true;
+                autoblast = true;
                 superchargeStartTime = TimeUtils.nanoTime();
                 ammoMultiplier *= .9f;
                 healthMultiplier *= .8f;
@@ -1173,15 +1172,18 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             canClimb = false;
             canRappel = false;
             canHurdle = false;
-            if (supercharged)
-                if (health < 75) {
-                    superchargeStartTime = 0;
-                    dispenseUpgrades();
-                    supercharged = false;
-                    chargeModifier = 0;
-                    energyColor = energy.theme().color();
+            if (autoblast) {
+                if (!supercharged || health < 75) {
+                    if (supercharged) {
+                        superchargeStartTime = 0;
+                        dispenseUpgrades();
+                        supercharged = false;
+                        energyColor = energy.theme().color();
+                    }
+                    shotIntensity = ShotIntensity.NORMAL;
+                    autoblast = false;
                 }
-            else chargeModifier = 0;
+            }
         }
     }
 
@@ -1196,7 +1198,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 } else if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION / 3) {
                     shotIntensity = ShotIntensity.CHARGED;
                 }
-                chargeTimeSeconds = Helpers.secondsSince(chargeStartTime) + chargeModifier;
+                chargeTimeSeconds = Helpers.secondsSince(chargeStartTime);
             } else if (chargeStartTime != 0) {
                 int ammoUsed;
                 if (energy == Energy.NATIVE
@@ -1880,7 +1882,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
         }
         if (inputControls.shootButtonPressed) {
-            if (shotIntensity == ShotIntensity.NORMAL || chargeModifier != 0) {
+            if (action != Action.RECOILING) {
                 return (shoot.getKeyFrame(0));
             } else if (shotIntensity != ShotIntensity.BLAST) {
                 return (shoot.getKeyFrame(chargeTimeSeconds / 1.25f));
@@ -2109,7 +2111,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (supercharged && superchargeStartTime != 0) setHealth(Constants.MAX_HEALTH);
     }
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
-    public void resetChargeIntensity() { if (chargeModifier == 0) shotIntensity = ShotIntensity.NORMAL; }
+    public void resetChargeIntensity() { if (!autoblast) shotIntensity = ShotIntensity.NORMAL; }
     public void detectInput() { if (InputControls.getInstance().hasInput()) { activeStartTime = TimeUtils.nanoTime(); } }
     public boolean isSupercharged() { return supercharged; }
     public void setSupercharged(boolean supercharged) { this.supercharged = supercharged; }
