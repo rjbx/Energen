@@ -830,7 +830,7 @@ class LevelUpdater {
                 SaveData.setLevelTimes(allTimes.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelScores(allScores.toString().replace("[", "").replace("]", ""));
                 SaveData.setLevelRemovals(allRemovals.toString().replace("[", "").replace("]", ""));
-
+                SaveData.setSuit(avatar.getEnergy() + ";" + avatar.isSupercharged());
                 SaveData.setTotalTime(Helpers.numStrToSum(allTimes));
                 SaveData.setTotalScore((int) Helpers.numStrToSum(allScores));
 
@@ -849,7 +849,7 @@ class LevelUpdater {
         return active;
     }
 
-    private void restoreRemovals(String removals) {
+    void restoreRemovals(String removals) {
         removedHazards = new StringBuilder(removals);
         List<String> levelRemovalStrings = Arrays.asList(removedHazards.toString().split(";"));
         List<Integer> levelRemovals = new ArrayList<Integer>();

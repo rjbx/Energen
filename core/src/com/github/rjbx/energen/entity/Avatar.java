@@ -160,7 +160,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             for (String energiestring : savedEnergiesList) {
                 addEnergy(Energy.valueOf(energiestring));
             }
-            energy = Energy.GAS;
         } else {
             addEnergy(Energy.NATIVE);
             addEnergy(Energy.ORE);
@@ -172,6 +171,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             addEnergy(Energy.HYBRID);
             energy = Energy.GAS;
         }
+        String[] savedSuit = SaveData.getSuit().split(";");
+        energy = Energy.valueOf(savedSuit[0]);
+        supercharged = Integer.valueOf(savedSuit[1]) == 1;
         energyColor = energy.theme().color();
 
         String savedUpgrades = SaveData.getUpgrades();
