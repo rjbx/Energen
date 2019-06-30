@@ -735,7 +735,7 @@ class LevelUpdater {
                                 projectile.deactivate();
                             }
                             score += projectile.getHitScore();
-                        } else if (destructible instanceof Zoomba) {
+                        } else {
                             ((Zoomba) destructible).convert();
                             if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(destructible)) {
                                 avatar.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.AVATAR_EYE_HEIGHT));
