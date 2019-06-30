@@ -62,6 +62,7 @@ class LevelUpdater {
     private boolean paused;
     private boolean musicEnabled;
     private boolean hintsEnabled;
+    private boolean entitiesUpdated;
     private int score;
     private long time;
     private int savedScore;
@@ -196,7 +197,7 @@ class LevelUpdater {
                 }
             }
         } else {
-            boolean updated = false;
+            entitiesUpdated = false;
             time = timer.getNanos();
             if (avatar.getDispatchStatus()) {
                 if (avatar.getLookStartTime() != 0) {
@@ -326,7 +327,7 @@ class LevelUpdater {
                     if (!updateTransport(delta, t, i)) {
                         unscopeEntity(scopedTransports, t, i);
                         transports.removeValue(t, true);
-                        updated = true;
+                        entitiesUpdated = true;
                     }
                 }
                 scopedTransports.end();
@@ -340,7 +341,7 @@ class LevelUpdater {
                     if (!updateHazard(delta, h)) {
                         spawnPowerup(h);
                         unscopeEntity(scopedHazards, h, i);
-                        updated = true;
+                        entitiesUpdated = true;
                         removedHazards += (";" + i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
                         hazards.removeValue(h, true);
                     }
@@ -360,7 +361,7 @@ class LevelUpdater {
                             if (!(g instanceof Destructible)) {
                                 unscopeEntity(scopedGrounds, g, i);
                                 grounds.removeValue(g, true);
-                                updated = true;
+                                entitiesUpdated = true;
                             }
                         }
                     }
@@ -376,7 +377,7 @@ class LevelUpdater {
                     if (i.isFinished()) {
                         unscopeEntity(scopedImpacts, i, index);
                         impacts.removeValue(i, true);
-                        updated = true;
+                        entitiesUpdated = true;
                     }
                 }
                 scopedImpacts.end();
@@ -390,7 +391,7 @@ class LevelUpdater {
                     if (!updatePowerup(delta, p)) {
                         unscopeEntity(scopedPowerups, p, i);
                         powerups.removeValue(p, true);
-                        updated = true;
+                        entitiesUpdated = true;
                     }
                 }
                 scopedPowerups.end();
@@ -415,14 +416,14 @@ class LevelUpdater {
                    if (!updateGround(delta, g)) {
                         unscopeEntity(scopedGrounds, g, i);
                         grounds.removeValue(g, true);
-//                        updated = true;
+//                        entitiesUpdated = true;
                     }
                 }
             }
             scopedGrounds.end();
             scopedEntities.end();
 
-            if (updated) sortEntities();
+            if (entitiesUpdated) sortEntities();
         }
     }
 
@@ -1070,13 +1071,13 @@ class LevelUpdater {
     private void spawnImpact(Vector2 position, Enums.Energy type) {
         Impact i = new Impact(position, type);
         scopeEntity(scopedImpacts, i);
-        sortEntities();
+        entitiesUpdated = true;
     }
 
     private void spawnProjectile(Vector2 position, Direction direction, Enums.Orientation orientation, Enums.ShotIntensity shotIntensity, Enums.Energy energy, Entity source) {
         Projectile projectile = new Projectile(position, direction, orientation, shotIntensity, energy, source);
         scopeEntity(scopedHazards, projectile);
-        sortEntities();
+        entitiesUpdated = true;
     }
 
     private void spawnPowerup(Hazard hazard) {
@@ -1103,6 +1104,7 @@ class LevelUpdater {
                     break;
             }
         }
+        entitiesUpdated = true;
     }
 
     // Public getters
