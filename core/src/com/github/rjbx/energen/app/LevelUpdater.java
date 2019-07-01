@@ -276,7 +276,7 @@ class LevelUpdater {
                             || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())) {
                         if ((!(g instanceof Pliable)
                                 && rescopeBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight())))
-                                || (g instanceof Pliable && rescopeBounds.contains(new Rectangle(g.getLeft(), g.getBottom() - 10, g.getWidth(), g.getHeight()))) {
+                                || (g instanceof Pliable && rescopeBounds.contains(new Rectangle(g.getLeft(), g.getBottom() - 10, g.getWidth(), g.getHeight())))) {
                             if (!updateGround(delta, g)) {
                                 if (!(g instanceof Destructible)) {
                                     grounds.removeIndex(i);
