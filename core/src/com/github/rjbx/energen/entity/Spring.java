@@ -201,5 +201,5 @@ public class Spring extends Ground implements Reboundable, Rappelable, Tossable,
     public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }
     public final void setMovingGround(Moving ground) { movingGround = ground; }
     public final void stopCarrying() { beingCarried = false; }
-    @Override public int getPriority() { return beingCarried ? Constants.PRIORITY_MAX : Constants.PRIORITY_MEDIUM; }
+    @Override public int getPriority() { return isDense() ? Constants.PRIORITY_MAX : Constants.PRIORITY_MEDIUM; }
 }
