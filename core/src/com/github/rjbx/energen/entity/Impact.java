@@ -83,6 +83,6 @@ public class Impact extends Entity {
 
     @Override
     public int getPriority() {
-        return Constants.PRIORITY_HIGH;
+        return Constants.PRIORITY_OVERRIDE;
     }
 }

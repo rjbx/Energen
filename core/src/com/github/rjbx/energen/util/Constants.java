@@ -223,6 +223,7 @@ public final class Constants {
     public static final Vector2 BACKGROUND_CENTER = new Vector2(270, 180);
 
     // All grounds
+    public static final int PRIORITY_OVERRIDE = -1;
     public static final int PRIORITY_MAX = 0;
     public static final int PRIORITY_HIGH = 1;
     public static final int PRIORITY_MEDIUM = 2;
