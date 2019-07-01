@@ -20,7 +20,7 @@ blade 2
  1 gate
  1 ice
  1 impact
- 1  knob
+ 1 knob
  2 ladder
  1 lava
  1 lift
@@ -34,9 +34,9 @@ blade 2
  2 protrusion
  2 rollen
  2 rope
- 1 sand
+ 2 sand
  1 slick
- 2 spring
+ 1 spring
  2 suspension
  1 swoopa
  2 teleport
