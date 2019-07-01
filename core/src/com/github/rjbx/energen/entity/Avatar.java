@@ -1185,16 +1185,14 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         canDispatch = false;
         if (canShoot) {
             if (getCarriedGround() == null && (inputControls.shootButtonPressed || (action == Action.RAPPELLING && (inputControls.rightButtonPressed || inputControls.leftButtonPressed)))) {
-                if (!autoblast) {
-                    if (chargeStartTime == 0) {
-                        chargeStartTime = TimeUtils.nanoTime();
-                    } else if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION) {
-                        shotIntensity = ShotIntensity.BLAST;
-                    } else if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION / 3) {
-                        shotIntensity = ShotIntensity.CHARGED;
-                    }
-                    chargeTimeSeconds = Helpers.secondsSince(chargeStartTime);
+                if (chargeStartTime == 0) {
+                    chargeStartTime = TimeUtils.nanoTime();
+                } else if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION) {
+                    shotIntensity = ShotIntensity.BLAST;
+                } else if (chargeTimeSeconds > Constants.BLAST_CHARGE_DURATION / 3) {
+                    if (!autoblast) shotIntensity = ShotIntensity.CHARGED;
                 }
+                chargeTimeSeconds = Helpers.secondsSince(chargeStartTime);
             } else if (chargeStartTime != 0) {
                 int ammoUsed;
                 if (energy == Energy.NATIVE
