@@ -269,10 +269,13 @@ class LevelUpdater {
                 scopedGrounds.begin();
                 for (int i = 0; i < grounds.size; i++) {
                     Ground g = grounds.get(i);
-                    if ((!(g instanceof Pliable && rescopeBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight())))
-                    || (!(((Pliable) g).isBeingCarried())
+                    if ((!(g instanceof Pliable)
+                            || !(((Pliable) g).isBeingCarried())
                             || !(((Pliable) g).getMovingGround() instanceof Pliable)
-                            || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried()) && rescopeBounds.contains(new Rectangle(g.getLeft(), g.getBottom() - 10, g.getWidth(), g.getHeight())))) {
+                            || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())) {
+                        if ((!(g instanceof Pliable)
+                                && rescopeBounds.overlaps(new Rectangle(g.getLeft(), g.getBottom(), g.getWidth(), g.getHeight())))
+                                || rescopeBounds.contains(new Rectangle(g.getLeft(), g.getBottom() - 10, g.getWidth(), g.getHeight()))) {
                             if (!updateGround(delta, g)) {
                                 if (!(g instanceof Destructible)) {
                                     grounds.removeIndex(i);
@@ -280,6 +283,7 @@ class LevelUpdater {
                                 }
                             } else scopeEntity(scopedGrounds, g);
                         } else unscopeEntity(scopedGrounds, g);
+                    }
                 }
                 grounds.end();
                 scopedGrounds.end();
