@@ -48,6 +48,6 @@ public class Slick extends Ground implements Rappelable, Skateable {
 
     @Override
     public int getPriority() {
-        return Constants.PRIORITY_HIGH;
+        return Constants.PRIORITY_OVERRIDE;
     }
 }
