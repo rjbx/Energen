@@ -215,6 +215,6 @@ public final class Blade extends Hazard implements Indestructible {
 
     @Override
     public int getPriority() {
-        return Constants.PRIORITY_MEDIUM;
+        return Constants.PRIORITY_HIGH;
     }
 }
