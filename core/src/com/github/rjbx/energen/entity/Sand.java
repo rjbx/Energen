@@ -45,6 +45,6 @@ public class Sand extends Ground implements Pourous {
 
     @Override
     public int getPriority() {
-        return Constants.PRIORITY_MEDIUM;
+        return Constants.PRIORITY_LOW;
     }
 }

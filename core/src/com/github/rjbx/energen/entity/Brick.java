@@ -177,4 +177,9 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
     public final void setVelocity(Vector2 velocity) { this.velocity.set(velocity); }
     public final void setMovingGround(Moving ground) { movingGround = ground; }
     public final void stopCarrying() { beingCarried = false; }
+
+    @Override
+    public int getPriority() {
+        return beingCarried ? Constants.PRIORITY_MAX : super.getPriority();
+    }
 }
