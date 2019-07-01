@@ -263,6 +263,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         inputControls = InputControls.getInstance();
         activeStartTime = TimeUtils.nanoTime();
         recoveryStartTime = TimeUtils.nanoTime();
+        if (supercharged) supercharge();
     }
 
     public void update(float delta) {
