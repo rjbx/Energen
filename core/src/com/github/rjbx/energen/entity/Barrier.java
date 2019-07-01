@@ -79,7 +79,7 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
     @Override public float getHeight() { return height; }
     @Override public Vector2 getPosition() { return position; }
     public void setDensity(boolean state) { dense = state; }
-    @Override public boolean isDense() { return dense && getHeight() > Constants.MAX_LEDGE_HEIGHT; }
+    @Override public boolean isDense() { return dense && (height > Constants.MAX_LEDGE_HEIGHT); }
     @Override public void convert() { if (convertible) dense = !dense; converted = true; }
     @Override public boolean isConverted() { return converted; }
     public Enums.Energy getType() { return type; }
@@ -94,6 +94,6 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
 
     @Override
     public int getPriority() {
-        return dense ? Constants.PRIORITY_MAX : Constants.PRIORITY_LOW;
+        return isDense() ? Constants.PRIORITY_MAX : Constants.PRIORITY_LOW;
     }
 }
