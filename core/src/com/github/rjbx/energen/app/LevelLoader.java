@@ -616,7 +616,7 @@ final class LevelLoader {
             } else if (item.getString(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.X_CANNON_SPRITE)) {
                 final Vector2 cannonPosition = imagePosition.add(Constants.X_CANNON_CENTER);
                 Gdx.app.log(TAG, "Loaded the cannon at " + cannonPosition);
-                Cannoroll e = new Cannoroll(cannonPosition, Enums.Orientation.X, intensity, range, tags[Constants.OFF_TAG_INDEX]);
+                Cannon e = new Cannon(cannonPosition, Enums.Orientation.X, intensity, tags[Constants.OFF_TAG_INDEX]);
                 e.setId(id);
                 level.addGround(e);
             } else if (item.getString(Constants.LEVEL_IMAGENAME_KEY).equals(Constants.Y_CANNON_SPRITE)) {
