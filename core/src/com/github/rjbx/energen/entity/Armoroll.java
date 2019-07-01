@@ -16,7 +16,7 @@ import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Armoroll extends Hazard implements Armored, Groundable, Roving, Destructible, Impermeable, Trippable {
+public class Armoroll extends Hazard implements Armored, Gravitating, Groundable, Roving, Destructible, Impermeable, Trippable {
 
     // fields
     public final static String TAG = Rollen.class.getName();

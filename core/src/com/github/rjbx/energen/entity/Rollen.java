@@ -14,7 +14,7 @@ import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Rollen extends Hazard implements Destructible, Roving, Impermeable {
+public class Rollen extends Hazard implements Destructible, Roving, Impermeable, Gravitating {
 
     // fields
     public final static String TAG = Rollen.class.getName();

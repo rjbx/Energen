@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.github.rjbx.energen.util.Enums;
 
-public interface Humanoid extends Dynamic {
+public interface Humanoid extends Dynamic, Gravitating {
 
     Vector2 getVelocity();
     Rectangle getCollisionBounds();
