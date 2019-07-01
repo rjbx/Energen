@@ -343,10 +343,7 @@ class LevelUpdater {
                 scopedGrounds.begin();
                 for (int i = 0; i < scopedGrounds.size; i++) {
                     Ground g = scopedGrounds.get(i);
-                    if ((!(g instanceof Pliable)
-                            || !(((Pliable) g).isBeingCarried())
-                            || !(((Pliable) g).getMovingGround() instanceof Pliable)
-                            || !((Pliable) ((Pliable) g).getMovingGround()).isBeingCarried())) {
+                    if (!(g instanceof Pliable)) {
                         if (!updateGround(delta, g)) {
                             if (!(g instanceof Destructible)) {
                                 unscopeEntity(scopedGrounds, i);
