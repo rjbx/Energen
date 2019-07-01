@@ -1140,7 +1140,7 @@ class LevelUpdater {
     }
 
     private  <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, T entity) {
-        if (entities.removeValue(entity, false)) entitiesUpdated = true;
+        if (entities.removeValue(entity, true)) entitiesUpdated = true;
     }
 
     private  <T extends Entity> void unscopeEntity(DelayedRemovalArray<T> entities, int index) {
