@@ -247,7 +247,7 @@ class LevelUpdater {
                         if (!updateHazard(delta, h)) {
                             spawnPowerup(h);
                             hazards.removeIndex(i);
-                            removedHazards.append(";").append(i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
+                            removedHazards.append(";").append(h.getId()); // ';' delimiter prevents conflict with higher level parse (for str containing all level removal lists)
                             unscopeEntity(scopedHazards, h);
                         } else scopeEntity(scopedHazards, h);
                     } else unscopeEntity(scopedHazards, h);
@@ -334,7 +334,7 @@ class LevelUpdater {
                     if (!updateHazard(delta, h)) {
                         spawnPowerup(h);
                         unscopeEntity(scopedHazards, i);
-                        removedHazards.append(";").append(i); // ';' delimeter prevents conflict with higher level parse (for str containing all level removal lists)
+                        removedHazards.append(";").append(h.getId()); // ';' delimiter prevents conflict with higher level parse (for str containing all level removal lists)
                         hazards.removeValue(h, true);
                     }
                 }
@@ -857,8 +857,8 @@ class LevelUpdater {
             levelRemovals.add(Integer.parseInt(removalStr));
         }
         for (Integer removal : levelRemovals) {
-            if (removal < hazards.size && removal != -1) {
-                hazards.removeIndex(removal);
+            for (Hazard h : hazards) {
+                if (removal == h.getId()) hazards.removeValue(h, true);
             }
         }
     }
