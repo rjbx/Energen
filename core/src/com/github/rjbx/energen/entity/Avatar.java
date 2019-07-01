@@ -2088,19 +2088,19 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     private void dispenseUpgrades() {
         if (upgradeList.contains(Upgrade.AMMO)) {
-            ammoMultiplier *= .9f;
+            ammoMultiplier = .9f;
         }
         if (upgradeList.contains(Upgrade.HEALTH)) {
-            healthMultiplier *= .8f;
+            healthMultiplier = .8f;
         }
         if (upgradeList.contains(Upgrade.TURBO)) {
-            turboMultiplier *= .7f;
+            turboMultiplier = .7f;
         }
         if (upgradeList.contains(Upgrade.STRIDE)) {
-            strideMultiplier *= 1.35f;
+            strideMultiplier = 1.35f;
         }
         if (upgradeList.contains(Upgrade.JUMP)) {
-            jumpMultiplier *= 1.15f;
+            jumpMultiplier = 1.15f;
         }
         if (supercharged && superchargeStartTime != 0) setHealth(Constants.MAX_HEALTH);
     }
@@ -2117,11 +2117,11 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         supercharged = true;
         autoblast = true;
         superchargeStartTime = TimeUtils.nanoTime();
-        ammoMultiplier *= .9f;
-        healthMultiplier *= .8f;
-        turboMultiplier *= .7f;
-        strideMultiplier *= 1.35f;
-        jumpMultiplier *= 1.15f;
+        ammoMultiplier = .9f;
+        healthMultiplier = .8f;
+        turboMultiplier = .7f;
+        strideMultiplier = 1.35f;
+        jumpMultiplier = 1.15f;
     }
     public void dispose() { energyList.clear(); }
     public boolean isPrioritized() { return prioritized; }
