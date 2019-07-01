@@ -243,7 +243,8 @@ class LevelUpdater {
                 scopedHazards.begin();
                 for (int i = 0; i < hazards.size; i++) {
                     Hazard h = hazards.get(i);
-                    if (rescopeBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) {
+                    if ((!(h instanceof Gravitating) && rescopeBounds.overlaps(new Rectangle(h.getLeft(), h.getBottom(), h.getWidth(), h.getHeight()))) ||
+                    (rescopeBounds.contains(new Rectangle(h.getLeft(), h.getBottom() - 10, h.getWidth(), h.getHeight())))) {
                         if (!updateHazard(delta, h)) {
                             spawnPowerup(h);
                             hazards.removeIndex(i);
