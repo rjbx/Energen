@@ -84,10 +84,6 @@ final class LaunchScreen extends ScreenAdapter {
         continuing = SaveData.getDifficulty() != -1;
         choices.add("NO");
         choices.add("YES");
-
-        if (Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS) {
-            SaveData.setTouchscreen(true);
-        }
     }
 
     @Override
