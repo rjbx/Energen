@@ -50,7 +50,7 @@ public final class Menu {
             cursor.update();
             if (cursor.getOrientation() == Enums.Orientation.X) {
                 for (Object option : optionStrings) {
-                    Helpers.drawBitmapFont(batch, viewport, font, (String) option, startingPosition, viewport.getCamera().position.y, textAlignment);
+                    Helpers.drawBitmapFont(batch, viewport, font, (String) option, startingPosition, viewport.getCamera().position.y + 10, textAlignment);
                     startingPosition += 100;
                 }
             } else if (cursor.getOrientation() == Enums.Orientation.Y) {

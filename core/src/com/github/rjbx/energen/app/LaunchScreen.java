@@ -127,7 +127,7 @@ final class LaunchScreen extends ScreenAdapter {
                 case ERASE:
                     menu.render(batch, font, viewport, Cursor.getInstance());
                     if (inputControls.shootButtonJustPressed) {
-                        if (cursor.getPosition() == (150)) {
+                        if (cursor.getPosition() == (viewport.getCamera().position.x + 50)) {
                             SaveData.erase();
                             screenManager.dispose();
                             screenManager.create();
@@ -185,8 +185,8 @@ final class LaunchScreen extends ScreenAdapter {
         menuType = Enums.MenuType.START;
     }
 
-    private static void setEraseMenu() {
-        cursor.setRange(50, 150);
+    private void setEraseMenu() {
+        cursor.setRange(viewport.getCamera().position.x - 50, viewport.getCamera().position.x + 50);
         cursor.setOrientation(Enums.Orientation.X);
         cursor.resetPosition();
         String[] optionStrings = {"NO", "YES"};

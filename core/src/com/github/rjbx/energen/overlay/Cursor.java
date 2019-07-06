@@ -14,7 +14,6 @@ public class Cursor {
     // fields
     public static final String TAG = Cursor.class.getName();
     private static final Cursor INSTANCE = new Cursor();
-    private ExtendViewport viewport;
     private Enums.Orientation orientation;
     private float startingPosition;
     private float endingPosition;
@@ -87,13 +86,12 @@ public class Cursor {
 
     public void render(SpriteBatch batch, ExtendViewport viewport) {
         if (orientation == Enums.Orientation.X) {
-            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getOverlayAssets().selectionCursor, position, viewport.getCamera().position.y - 10);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getOverlayAssets().selectionCursor, position, viewport.getCamera().position.y);
         } else {
             Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getOverlayAssets().selectionCursor, viewport.getCamera().position.x - viewport.getWorldWidth() / 4, position);
         }
     }
 
-    public ExtendViewport getViewport() { return viewport; }
     public float getPosition() { return position; }
     public float getStartingPosition() { return startingPosition; }
     public Enums.Orientation getOrientation() { return orientation; }
