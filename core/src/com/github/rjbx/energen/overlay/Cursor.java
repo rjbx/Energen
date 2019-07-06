@@ -38,11 +38,14 @@ public class Cursor {
 
     public void update() {
         if (orientation == Enums.Orientation.X) {
+            if (startingPosition == position) {
+                position = startingPosition - 25;
+            }
             if (inputControls.downButtonJustPressed || inputControls.rightButtonJustPressed || inputControls.upButtonJustPressed || inputControls.leftButtonJustPressed) {
-                if (position == endingPosition) {
-                    position = startingPosition;
+                if (position == endingPosition - 25) {
+                    position = startingPosition - 25;
                 } else {
-                    position = endingPosition;
+                    position = endingPosition - 25;
                 }
             }
         } else if (orientation == Enums.Orientation.Y) {
@@ -84,7 +87,7 @@ public class Cursor {
 
     public void render(SpriteBatch batch, ExtendViewport viewport) {
         if (orientation == Enums.Orientation.X) {
-            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getOverlayAssets().selectionCursor, position, viewport.getCamera().position.y);
+            Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getOverlayAssets().selectionCursor, position, viewport.getCamera().position.y - 10);
         } else {
             Helpers.drawTextureRegion(batch, viewport, AssetManager.getInstance().getOverlayAssets().selectionCursor, viewport.getCamera().position.x - viewport.getWorldWidth() / 4, position);
         }
