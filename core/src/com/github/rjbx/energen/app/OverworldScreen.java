@@ -101,7 +101,7 @@ final class OverworldScreen extends ScreenAdapter {
             case MAIN:
                 menu.render(batch, font, viewport, Cursor.getInstance());
                 if (inputControls.justSelected()) {
-                    if (cursor.getPosition() <= viewport.getCamera().position.y + 55 && cursor.getPosition() > viewport.getCamera().position.y - 50) {
+                    if (cursor.getPosition() <= viewport.getCamera().position.y + 55 && cursor.getPosition() > viewport.getCamera().position.y - 65) {
                         selection = Enums.Theme.valueOf(cursor.getIterator().previous());
                         loadLevel(selection);
                     } else {
