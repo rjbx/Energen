@@ -77,9 +77,17 @@ public final class AssetManager implements AssetErrorListener {
         assetManager.load(Constants.BLAST_LIQUID_SOUND);
         assetManager.load(Constants.BLAST_SOLID_SOUND);
         assetManager.load(Constants.BLAST_ANTIMATTER_SOUND);
-        assetManager.load(Constants.WARP_SOUND);
         assetManager.load(Constants.BLAST_HYBRID_SOUND);
         assetManager.load(Constants.BLAST_GAS_SOUND);
+        assetManager.load(Constants.SHOT_NATIVE_SOUND);
+        assetManager.load(Constants.SHOT_ORE_SOUND);
+        assetManager.load(Constants.SHOT_PLASMA_SOUND);
+        assetManager.load(Constants.SHOT_LIQUID_SOUND);
+        assetManager.load(Constants.SHOT_SOLID_SOUND);
+        assetManager.load(Constants.SHOT_ANTIMATTER_SOUND);
+        assetManager.load(Constants.SHOT_HYBRID_SOUND);
+        assetManager.load(Constants.SHOT_GAS_SOUND);
+        assetManager.load(Constants.WARP_SOUND);
         assetManager.load(Constants.HIT_SOUND);
         assetManager.load(Constants.HIT_GROUND_SOUND);
         assetManager.load(Constants.BREAK_GROUND_SOUND);

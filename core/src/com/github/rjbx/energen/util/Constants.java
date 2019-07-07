@@ -59,7 +59,7 @@ public final class Constants {
     public static final AssetDescriptor<BitmapFont> TITLE_FONT = new AssetDescriptor<BitmapFont>("font/title.fnt", BitmapFont.class);
 
     // TODO[M]: Convert all to .wav
-    public static final AssetDescriptor<Music> INTRO_MUSIC = new AssetDescriptor<Music>("audio/riff-intro.mp3", Music.class);
+    public static final AssetDescriptor<Music> INTRO_MUSIC = new AssetDescriptor<Music>("audio/riff-intro.wav", Music.class);
     public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/riff-level.mp3", Music.class);
     public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/riff-level3.wav", Music.class);
     public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/thermal.mp3", Music.class);
