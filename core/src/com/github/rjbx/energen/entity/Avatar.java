@@ -1,6 +1,7 @@
 package com.github.rjbx.energen.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -1217,7 +1218,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         if (shotIntensity == ShotIntensity.BLAST) {
             AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
         } else {
-            AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play(1, 2, 0);
+            Sound sound = AssetManager.getInstance().getSoundAssets().getEnergySound(energy);
+            sound.setPitch(sound.play(), 2);
         }
         if (health < 100) ammo -= ammoUsed * ammoMultiplier;
     }

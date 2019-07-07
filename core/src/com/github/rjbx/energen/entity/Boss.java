@@ -1,6 +1,7 @@
 package com.github.rjbx.energen.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -1120,9 +1121,10 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         if (Helpers.secondsSince(shootStartTime) > 1) {
             canDispatch = true;
             if (shotIntensity == ShotIntensity.BLAST) {
-                      AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
+                  AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
             } else {
-                     AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play(1, 2, 0);
+                Sound sound = AssetManager.getInstance().getSoundAssets().getEnergySound(energy);
+                sound.setPitch(sound.play(), 2);
             }
             ammo -= ammoUsed * ammoMultiplier;
         }
