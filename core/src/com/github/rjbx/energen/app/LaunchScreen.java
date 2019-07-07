@@ -142,9 +142,9 @@ final class LaunchScreen extends ScreenAdapter {
                     if (inputControls.shootButtonJustPressed) {
                         if (cursor.getPosition() == viewport.getCamera().position.y) {
                             SaveData.setDifficulty(0);
-                        } else if (cursor.getPosition() == viewport.getCamera().position.y - 25) {
+                        } else if (cursor.getPosition() == viewport.getCamera().position.y - 15) {
                             SaveData.setDifficulty(1);
-                        } else if (cursor.getPosition() == viewport.getCamera().position.y - 50) {
+                        } else if (cursor.getPosition() == viewport.getCamera().position.y - 30) {
                             SaveData.setDifficulty(2);
                         }
                         OverworldScreen overworldScreen = OverworldScreen.getInstance();
@@ -207,7 +207,7 @@ final class LaunchScreen extends ScreenAdapter {
     }
 
     private void setDifficultyMenu() {
-        cursor.setRange(viewport.getCamera().position.y, viewport.getCamera().position.y - 50);
+        cursor.setRange(viewport.getCamera().position.y, viewport.getCamera().position.y - 30);
         cursor.setOrientation(Enums.Orientation.Y);
         cursor.resetPosition();
         String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
