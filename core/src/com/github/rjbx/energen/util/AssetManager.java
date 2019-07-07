@@ -71,15 +71,15 @@ public final class AssetManager implements AssetErrorListener {
         assetManager.load(Constants.CANNON_SOUND);
         assetManager.load(Constants.LIFE_SOUND);
         assetManager.load(Constants.UPGRADE_SOUND);
-        assetManager.load(Constants.NATIVE_SOUND);
-        assetManager.load(Constants.ORE_SOUND);
-        assetManager.load(Constants.PLASMA_SOUND);
-        assetManager.load(Constants.LIQUID_SOUND);
-        assetManager.load(Constants.SOLID_SOUND);
-        assetManager.load(Constants.ANTIMATTER_SOUND);
+        assetManager.load(Constants.BLAST_NATIVE_SOUND);
+        assetManager.load(Constants.BLAST_ORE_SOUND);
+        assetManager.load(Constants.BLAST_PLASMA_SOUND);
+        assetManager.load(Constants.BLAST_LIQUID_SOUND);
+        assetManager.load(Constants.BLAST_SOLID_SOUND);
+        assetManager.load(Constants.BLAST_ANTIMATTER_SOUND);
         assetManager.load(Constants.WARP_SOUND);
-        assetManager.load(Constants.HYBRID_SOUND);
-        assetManager.load(Constants.GAS_SOUND);
+        assetManager.load(Constants.BLAST_HYBRID_SOUND);
+        assetManager.load(Constants.BLAST_GAS_SOUND);
         assetManager.load(Constants.HIT_SOUND);
         assetManager.load(Constants.HIT_GROUND_SOUND);
         assetManager.load(Constants.BREAK_GROUND_SOUND);
@@ -1622,15 +1622,15 @@ public final class AssetManager implements AssetErrorListener {
             cannon = assetManager.get(Constants.CANNON_SOUND); // use of descriptor enforces type checking
             life = assetManager.get(Constants.LIFE_SOUND); // use of descriptor enforces type checking
             upgrade = assetManager.get(Constants.UPGRADE_SOUND); // use of descriptor enforces type checking
-            blast = assetManager.get(Constants.NATIVE_SOUND); // use of descriptor enforces type checking
-            plasma = assetManager.get(Constants.PLASMA_SOUND); // use of descriptor enforces type checking
-            liquid = assetManager.get(Constants.LIQUID_SOUND); // use of descriptor enforces type checking
-            solid = assetManager.get(Constants.SOLID_SOUND); // use of descriptor enforces type checking
-            gas = assetManager.get(Constants.GAS_SOUND); // use of descriptor enforces type checking
-            antimatter = assetManager.get(Constants.ANTIMATTER_SOUND); // use of descriptor enforces type checking
+            blast = assetManager.get(Constants.BLAST_NATIVE_SOUND); // use of descriptor enforces type checking
+            plasma = assetManager.get(Constants.BLAST_PLASMA_SOUND); // use of descriptor enforces type checking
+            liquid = assetManager.get(Constants.BLAST_LIQUID_SOUND); // use of descriptor enforces type checking
+            solid = assetManager.get(Constants.BLAST_SOLID_SOUND); // use of descriptor enforces type checking
+            gas = assetManager.get(Constants.BLAST_GAS_SOUND); // use of descriptor enforces type checking
+            antimatter = assetManager.get(Constants.BLAST_ANTIMATTER_SOUND); // use of descriptor enforces type checking
             warp = assetManager.get(Constants.WARP_SOUND); // use of descriptor enforces type checking
-            hybrid = assetManager.get(Constants.HYBRID_SOUND); // use of descriptor enforces type checking
-            ore = assetManager.get(Constants.ORE_SOUND); // use of descriptor enforces type checking
+            hybrid = assetManager.get(Constants.BLAST_HYBRID_SOUND); // use of descriptor enforces type checking
+            ore = assetManager.get(Constants.BLAST_ORE_SOUND); // use of descriptor enforces type checking
             hit = assetManager.get(Constants.HIT_SOUND); // use of descriptor enforces type checking
             hitGround = assetManager.get(Constants.HIT_GROUND_SOUND);
             breakGround = assetManager.get(Constants.BREAK_GROUND_SOUND); // use of descriptor enforces type checking
