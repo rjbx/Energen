@@ -101,7 +101,7 @@ final class OverworldScreen extends ScreenAdapter {
             case MAIN:
                 menu.render(batch, font, viewport, Cursor.getInstance());
                 if (inputControls.shootButtonJustPressed) {
-                    if (cursor.getPosition() <= 145 && cursor.getPosition() >= 40) {
+                    if (cursor.getPosition() <= viewport.getCamera().position.y + 55 && cursor.getPosition() > viewport.getCamera().position.y - 50) {
                         selection = Enums.Theme.valueOf(cursor.getIterator().previous());
                         loadLevel(selection);
                     } else {
@@ -112,11 +112,11 @@ final class OverworldScreen extends ScreenAdapter {
             case OPTIONS:
                 menu.render(batch, font, viewport, Cursor.getInstance());
                 if (inputControls.shootButtonJustPressed) {
-                    if (cursor.getPosition() == 106) {
+                    if (cursor.getPosition() == viewport.getCamera().position.y + 30) {
                         setMainMenu();
-                    } else if (cursor.getPosition() == 91) {
+                    } else if (cursor.getPosition() == viewport.getCamera().position.y + 15) {
                         SaveData.setTouchscreen(!SaveData.hasTouchscreen());
-                    } else if (cursor.getPosition() == 76) {
+                    } else if (cursor.getPosition() == viewport.getCamera().position.y) {
                         screenManager.dispose();
                         screenManager.create();
                     }
@@ -126,7 +126,7 @@ final class OverworldScreen extends ScreenAdapter {
         }
         if (messageVisible) {
             font.getData().setScale(0.25f);
-            Helpers.drawBitmapFont(batch, viewport, font, Constants.LEVEL_READ_MESSAGE, viewport.getWorldWidth() / 2, Constants.HUD_MARGIN - 5, Align.center);
+            Helpers.drawBitmapFont(batch, viewport, font, Constants.LEVEL_READ_MESSAGE, viewport.getCamera().position.x, viewport.getCamera().position.y + 70, Align.center);
             font.getData().setScale(.5f);
         }
         inputControls.update();
@@ -175,13 +175,13 @@ final class OverworldScreen extends ScreenAdapter {
     protected static Enums.Theme getSelection() { return selection; }
 
 
-    public static void setMainMenu() {
+    public void setMainMenu() {
         List<String> selectionStrings = new ArrayList();
         for (Enums.Theme level : Enums.Theme.values()) {
             selectionStrings.add(level.name());
         }
         selectionStrings.add("OPTIONS");
-        cursor.setRange(145, 25);
+        cursor.setRange(viewport.getCamera().position.y + 55, viewport.getCamera().position.y - 65);
         cursor.setOrientation(Enums.Orientation.Y);
         cursor.resetPosition();
         menu.clearStrings();
@@ -190,8 +190,8 @@ final class OverworldScreen extends ScreenAdapter {
         menuType = Enums.MenuType.MAIN;
     }
 
-    private static void setOptionsMenu() {
-        cursor.setRange(106, 76);
+    private void setOptionsMenu() {
+        cursor.setRange(viewport.getCamera().position.y + 30, viewport.getCamera().position.y);
         cursor.setOrientation(Enums.Orientation.Y);
         cursor.resetPosition();
         String[] optionStrings = {"BACK", "TOUCH PAD", "QUIT GAME"};
