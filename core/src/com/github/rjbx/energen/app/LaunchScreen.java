@@ -127,7 +127,7 @@ final class LaunchScreen extends ScreenAdapter {
                 case ERASE:
                     menu.render(batch, font, viewport, Cursor.getInstance());
                     if (inputControls.shootButtonJustPressed) {
-                        if (cursor.getPosition() == (viewport.getCamera().position.x + 50)) {
+                        if (cursor.getPosition() == (viewport.getCamera().position.x + 25)) {
                             SaveData.erase();
                             screenManager.dispose();
                             screenManager.create();
@@ -140,11 +140,11 @@ final class LaunchScreen extends ScreenAdapter {
                 case DIFFICULTY:
                     menu.render(batch, font, viewport, Cursor.getInstance());
                     if (inputControls.shootButtonJustPressed) {
-                        if (cursor.getPosition() == 75) {
+                        if (cursor.getPosition() == viewport.getCamera().position.y) {
                             SaveData.setDifficulty(0);
-                        } else if (cursor.getPosition() == 60) {
+                        } else if (cursor.getPosition() == viewport.getCamera().position.y - 25) {
                             SaveData.setDifficulty(1);
-                        } else if (cursor.getPosition() == 45) {
+                        } else if (cursor.getPosition() == viewport.getCamera().position.y - 50) {
                             SaveData.setDifficulty(2);
                         }
                         OverworldScreen overworldScreen = OverworldScreen.getInstance();
@@ -206,8 +206,8 @@ final class LaunchScreen extends ScreenAdapter {
         menuType = Enums.MenuType.START;
     }
 
-    private static void setDifficultyMenu() {
-        cursor.setRange(75, 35);
+    private void setDifficultyMenu() {
+        cursor.setRange(viewport.getCamera().position.y, viewport.getCamera().position.y - 50);
         cursor.setOrientation(Enums.Orientation.Y);
         cursor.resetPosition();
         String[] optionStrings = {"NORMAL", "HARD", "VERY HARD"};
