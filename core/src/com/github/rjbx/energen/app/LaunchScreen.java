@@ -111,12 +111,12 @@ final class LaunchScreen extends ScreenAdapter {
                     if (inputControls.shootButtonJustPressed) {
                         assetManager.getMusicAssets().intro.stop();
                         if (continuing) {
-                            if (cursor.getPosition() == 35) {
+                            if (cursor.getPosition() == viewport.getCamera().position.y - 50) {
                                 inputControls.shootButtonJustPressed = false;
                                 screenManager.setScreen(overworldScreen);
                                 this.dispose();
                                 return;
-                            } else if (cursor.getPosition() == 20) {
+                            } else if (cursor.getPosition() == viewport.getCamera().position.y - 65) {
                                 setEraseMenu();
                             }
                         } else {
@@ -126,7 +126,7 @@ final class LaunchScreen extends ScreenAdapter {
                     break;
                 case ERASE:
                     menu.render(batch, font, viewport, Cursor.getInstance());
-                    if (inputControls.shootButtonJustPressed) {
+                    if (inputControls.shootButtonJustPressed || inputControls.pauseButtonJustPressed) {
                         if (cursor.getPosition() == (viewport.getCamera().position.x + 25)) {
                             SaveData.erase();
                             screenManager.dispose();
@@ -174,8 +174,8 @@ final class LaunchScreen extends ScreenAdapter {
         touchInterface.render(batch);
     }
 
-    private static void setResumeMenu() {
-        cursor.setRange(35, 20);
+    private void setResumeMenu() {
+        cursor.setRange(viewport.getCamera().position.y - 50, viewport.getCamera().position.y - 65);
         cursor.setOrientation(Enums.Orientation.Y);
         cursor.resetPosition();
         String[] optionStrings = {"START GAME", "ERASE GAME"};
@@ -196,8 +196,8 @@ final class LaunchScreen extends ScreenAdapter {
         menuType = Enums.MenuType.ERASE;
     }
 
-    private static void setBeginMenu() {
-        cursor.setRange(30, 30);
+    private void setBeginMenu() {
+        cursor.setRange(viewport.getCamera().position.y - 55, viewport.getCamera().position.y - 55);
         menu.isSingleOption(true);
         String[] option = {"PRESS START"};
         menu.clearStrings();
