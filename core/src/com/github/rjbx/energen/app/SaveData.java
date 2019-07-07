@@ -8,11 +8,15 @@ import com.github.rjbx.energen.util.Enums;
 public final class SaveData {
 
     public final static String TAG = SaveData.class.getName();
+    private static Preferences preferences;
 
     // cannot be subclassed
     private SaveData() {}
 
-    private static Preferences getPreferences() { return Gdx.app.getPreferences("avatar-prefs"); }
+    private static Preferences getPreferences() {
+        if (preferences == null) preferences = Gdx.app.getPreferences("avatar-prefs");
+        return preferences;
+    }
 
     protected static void erase() { getPreferences().clear(); getPreferences().flush(); }
 
