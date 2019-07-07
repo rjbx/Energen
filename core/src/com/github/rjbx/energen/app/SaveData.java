@@ -20,7 +20,7 @@ public final class SaveData {
 
     protected static void erase() { getPreferences().clear(); getPreferences().flush(); }
 
-    public static boolean hasTouchscreen() { return getPreferences().getBoolean("Touchscreen", Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS); }
+    public static boolean hasTouchscreen() { return getPreferences().getBoolean("Touchscreen", false); }
     public static int getDifficulty() { return getPreferences().getInteger("Difficulty", -1); }
     public static int getTotalScore() { return getPreferences().getInteger("TotalScore", 0); }
     public static long getTotalTime() { return getPreferences().getLong("TotalTime", 0); }
