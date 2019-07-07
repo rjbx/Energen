@@ -1727,7 +1727,7 @@ public final class AssetManager implements AssetErrorListener {
 
             title = assetManager.get(Constants.TITLE_FONT);
             title.getData().setScale(1);
-            title.setColor(Color.SKY);
+            title.setColor(Color.WHITE);
         }
     }
 
