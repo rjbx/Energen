@@ -108,11 +108,10 @@ final class LaunchScreen extends ScreenAdapter {
                     avatar.render(batch, viewport);
                     menu.render(batch, font, viewport, Cursor.getInstance());
 
-                    if (inputControls.shootButtonJustPressed || inputControls.pauseButtonJustPressed) {
+                    if (inputControls.justSelected()) {
                         assetManager.getMusicAssets().intro.stop();
                         if (continuing) {
                             if (cursor.getPosition() == viewport.getCamera().position.y - 50) {
-                                inputControls.shootButtonJustPressed = false;
                                 screenManager.setScreen(overworldScreen);
                                 this.dispose();
                                 return;
@@ -126,7 +125,7 @@ final class LaunchScreen extends ScreenAdapter {
                     break;
                 case ERASE:
                     menu.render(batch, font, viewport, Cursor.getInstance());
-                    if (inputControls.shootButtonJustPressed || inputControls.pauseButtonJustPressed) {
+                    if (inputControls.justSelected()) {
                         if (cursor.getPosition() == (viewport.getCamera().position.x + 25)) {
                             SaveData.erase();
                             screenManager.dispose();
@@ -139,7 +138,7 @@ final class LaunchScreen extends ScreenAdapter {
                     break;
                 case DIFFICULTY:
                     menu.render(batch, font, viewport, Cursor.getInstance());
-                    if (inputControls.shootButtonJustPressed || inputControls.pauseButtonJustPressed) {
+                    if (inputControls.justSelected()) {
                         if (cursor.getPosition() == viewport.getCamera().position.y) {
                             SaveData.setDifficulty(0);
                         } else if (cursor.getPosition() == viewport.getCamera().position.y - 15) {

@@ -149,7 +149,7 @@ final class LevelScreen extends ScreenAdapter {
                     menu.setPromptString(Align.left, "GAUGE\n" + Constants.HUD_FUEL_LABEL + (int) avatar.getAmmo() + "\n" + Constants.HUD_HEALTH_LABEL + (int) avatar.getHealth() + "\n" + Constants.HUD_STAMINA_LABEL + (int) avatar.getTurbo() + "\n" + Constants.HUD_ENERGY_LABEL + avatar.getEnergy().toString());
 //                    menu.setPromptString(Align.right, "ENERGY\n" + (avatar.getEnergy().name().toLowerCase() + "\n" + SaveData.getEnergies().replace(avatar.getEnergy().name(), "").replace(", ", "\n")).replace("\n\n", "\n").toLowerCase());
                 }
-                if (inputControls.shootButtonJustPressed) {
+                if (inputControls.justSelected()) {
                     if (cursor.getPosition() == staticViewport.getCamera().position.y - 30 && chaseCam.getState() != Enums.ChaseCamState.DEBUG) {
                         levelUpdater.unpause();
                     } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 45) {
@@ -166,7 +166,7 @@ final class LevelScreen extends ScreenAdapter {
                 }
                 break;
             case OPTIONS:
-                if (inputControls.shootButtonJustPressed) {
+                if (inputControls.justSelected()) {
                     if (cursor.getPosition() == staticViewport.getCamera().position.y + 45) {
                         setMainMenu();
                     } else if (cursor.getPosition() == staticViewport.getCamera().position.y + 30) {
@@ -193,7 +193,7 @@ final class LevelScreen extends ScreenAdapter {
                 }
                 break;
             case RESET:
-                if (inputControls.shootButtonJustPressed) {
+                if (inputControls.justSelected()) {
                     if (cursor.getPosition() == staticViewport.getCamera().position.x + 50) {
 
                         levelUpdater.unpause();
@@ -208,7 +208,7 @@ final class LevelScreen extends ScreenAdapter {
                 boolean inBossArea = LevelUpdater.getInstance().getBoss().isBattling();
                 levelUpdater.render(batch, chaseViewport);
                 chaseCam.update(batch, delta);
-                if (inputControls.shootButtonJustPressed) {
+                if (inputControls.justSelected()) {
                     if (inBossArea) {
                         chaseCam.setState(Enums.ChaseCamState.BOSS);
                     } else {
