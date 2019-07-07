@@ -31,22 +31,22 @@ public final class Constants {
     public static final AssetDescriptor<Sound> CANNON_SOUND = new AssetDescriptor<Sound>("audio/cannon.wav", Sound.class);
     public static final AssetDescriptor<Sound> LIFE_SOUND = new AssetDescriptor<Sound>("audio/life.wav", Sound.class);
     public static final AssetDescriptor<Sound> UPGRADE_SOUND = new AssetDescriptor<Sound>("audio/upgrade.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_NATIVE_SOUND = new AssetDescriptor<Sound>("audio/blast-native.mp3", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_PLASMA_SOUND = new AssetDescriptor<Sound>("audio/blast-plasma.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_GAS_SOUND = new AssetDescriptor<Sound>("audio/blast-gas.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_LIQUID_SOUND = new AssetDescriptor<Sound>("audio/blast-liquid.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_ORE_SOUND = new AssetDescriptor<Sound>("audio/blast-ore.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_SOLID_SOUND = new AssetDescriptor<Sound>("audio/blast-solid.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/blast-antimatter.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_HYBRID_SOUND = new AssetDescriptor<Sound>("audio/blast-hybrid.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_NATIVE_SOUND = new AssetDescriptor<Sound>("audio/nativeBlast-native.mp3", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_PLASMA_SOUND = new AssetDescriptor<Sound>("audio/nativeBlast-plasmaBlast.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_GAS_SOUND = new AssetDescriptor<Sound>("audio/nativeBlast-gasBlast.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_LIQUID_SOUND = new AssetDescriptor<Sound>("audio/nativeBlast-liquidBlast.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_ORE_SOUND = new AssetDescriptor<Sound>("audio/nativeBlast-oreBlast.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_SOLID_SOUND = new AssetDescriptor<Sound>("audio/nativeBlast-solidBlast.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/nativeBlast-antimatterBlast.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_HYBRID_SOUND = new AssetDescriptor<Sound>("audio/nativeBlast-hybridBlast.wav", Sound.class);
     public static final AssetDescriptor<Sound> SHOT_NATIVE_SOUND = new AssetDescriptor<Sound>("audio/shot-native.mp3", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_PLASMA_SOUND = new AssetDescriptor<Sound>("audio/shot-plasma.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_GAS_SOUND = new AssetDescriptor<Sound>("audio/shot-gas.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_LIQUID_SOUND = new AssetDescriptor<Sound>("audio/shot-liquid.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_ORE_SOUND = new AssetDescriptor<Sound>("audio/shot-ore.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_SOLID_SOUND = new AssetDescriptor<Sound>("audio/shot-solid.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/shot-antimatter.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_HYBRID_SOUND = new AssetDescriptor<Sound>("audio/shot-hybrid.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_PLASMA_SOUND = new AssetDescriptor<Sound>("audio/shot-plasmaBlast.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_GAS_SOUND = new AssetDescriptor<Sound>("audio/shot-gasBlast.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_LIQUID_SOUND = new AssetDescriptor<Sound>("audio/shot-liquidBlast.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_ORE_SOUND = new AssetDescriptor<Sound>("audio/shot-oreBlast.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_SOLID_SOUND = new AssetDescriptor<Sound>("audio/shot-solidBlast.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/shot-antimatterBlast.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_HYBRID_SOUND = new AssetDescriptor<Sound>("audio/shot-hybridBlast.wav", Sound.class);
     public static final AssetDescriptor<Sound> WARP_SOUND = new AssetDescriptor<Sound>("audio/warp.wav", Sound.class);
     public static final AssetDescriptor<Sound> HIT_SOUND = new AssetDescriptor<Sound>("audio/hit_effective.wav", Sound.class);
     public static final AssetDescriptor<Sound> HIT_GROUND_SOUND = new AssetDescriptor<Sound>("audio/hit_ground.wav", Sound.class);
@@ -147,8 +147,8 @@ public final class Constants {
     public static final String HAND_LOWER_0 = "avatar-hand-lower-0";
     public static final String HAND_LOWER_1 = "avatar-hand-lower-1";
     public static final String HAND_LOWER_2 = "avatar-hand-lower-2";
-    public static final String HAND_BLAST_1 = "avatar-hand-blast-1";
-    public static final String HAND_BLAST_2 = "avatar-hand-blast-2";
+    public static final String HAND_BLAST_1 = "avatar-hand-nativeBlast-1";
+    public static final String HAND_BLAST_2 = "avatar-hand-nativeBlast-2";
     public static final String HAND_RAPPEL_1 = "avatar-hand-rappel-1";
     public static final String HAND_RAPPEL_2 = "avatar-hand-rappel-2";
     public static final String HAND_MOVE_1 = "avatar-hand-move-1";
@@ -201,33 +201,33 @@ public final class Constants {
     public static final float SIDESWIPE_FRAME_DURATION = 0.08f;
 
     // Boss
-    public static final String BOSS_LIQUID_BLOCK_LEFT = "boss-liquid-block-left";
-    public static final String BOSS_LIQUID_BLOCK_RIGHT = "boss-liquid-block-right";
-    public static final String BOSS_LIQUID_LOOKUP_BLOCK_LEFT = "boss-liquid-lookup-block-left";
-    public static final String BOSS_LIQUID_LOOKUP_BLOCK_RIGHT = "boss-liquid-lookup-block-right";
-    public static final String BOSS_LIQUID_STAND_LEFT = "boss-liquid-stand-left";
-    public static final String BOSS_LIQUID_STAND_RIGHT = "boss-liquid-stand-right";
-    public static final String BOSS_LIQUID_FALL_LEFT = "boss-liquid-fall-left";
-    public static final String BOSS_LIQUID_FALL_RIGHT = "boss-liquid-fall-right";
-    public static final String BOSS_LIQUID_DASH_LEFT = "boss-liquid-dash-left";
-    public static final String BOSS_LIQUID_DASH_RIGHT = "boss-liquid-dash-right";
-    public static final String BOSS_LIQUID_RECOIL_LEFT = "boss-liquid-recoil-left";
-    public static final String BOSS_LIQUID_RECOIL_RIGHT = "boss-liquid-recoil-right";
-    public static final String BOSS_LIQUID_LOOKUP_STAND_LEFT = "boss-liquid-lookup-stand-left";
-    public static final String BOSS_LIQUID_LOOKUP_STAND_RIGHT = "boss-liquid-lookup-stand-right";
-    public static final String BOSS_LIQUID_LOOKUP_FALL_LEFT = "boss-liquid-lookup-fall-left";
-    public static final String BOSS_LIQUID_LOOKUP_FALL_RIGHT = "boss-liquid-lookup-fall-right";
-    public static final String BOSS_LIQUID_LOOKDOWN_FALL_LEFT = "boss-liquid-lookdown-fall-left";
-    public static final String BOSS_LIQUID_LOOKDOWN_FALL_RIGHT = "boss-liquid-lookdown-fall-right";
+    public static final String BOSS_LIQUID_BLOCK_LEFT = "boss-liquidBlast-block-left";
+    public static final String BOSS_LIQUID_BLOCK_RIGHT = "boss-liquidBlast-block-right";
+    public static final String BOSS_LIQUID_LOOKUP_BLOCK_LEFT = "boss-liquidBlast-lookup-block-left";
+    public static final String BOSS_LIQUID_LOOKUP_BLOCK_RIGHT = "boss-liquidBlast-lookup-block-right";
+    public static final String BOSS_LIQUID_STAND_LEFT = "boss-liquidBlast-stand-left";
+    public static final String BOSS_LIQUID_STAND_RIGHT = "boss-liquidBlast-stand-right";
+    public static final String BOSS_LIQUID_FALL_LEFT = "boss-liquidBlast-fall-left";
+    public static final String BOSS_LIQUID_FALL_RIGHT = "boss-liquidBlast-fall-right";
+    public static final String BOSS_LIQUID_DASH_LEFT = "boss-liquidBlast-dash-left";
+    public static final String BOSS_LIQUID_DASH_RIGHT = "boss-liquidBlast-dash-right";
+    public static final String BOSS_LIQUID_RECOIL_LEFT = "boss-liquidBlast-recoil-left";
+    public static final String BOSS_LIQUID_RECOIL_RIGHT = "boss-liquidBlast-recoil-right";
+    public static final String BOSS_LIQUID_LOOKUP_STAND_LEFT = "boss-liquidBlast-lookup-stand-left";
+    public static final String BOSS_LIQUID_LOOKUP_STAND_RIGHT = "boss-liquidBlast-lookup-stand-right";
+    public static final String BOSS_LIQUID_LOOKUP_FALL_LEFT = "boss-liquidBlast-lookup-fall-left";
+    public static final String BOSS_LIQUID_LOOKUP_FALL_RIGHT = "boss-liquidBlast-lookup-fall-right";
+    public static final String BOSS_LIQUID_LOOKDOWN_FALL_LEFT = "boss-liquidBlast-lookdown-fall-left";
+    public static final String BOSS_LIQUID_LOOKDOWN_FALL_RIGHT = "boss-liquidBlast-lookdown-fall-right";
 
     // Background
     public static final String BACKGROUND_HOME_SPRITE = "background-home";
-    public static final String BACKGROUND_ORE_SPRITE = "background-ore";
-    public static final String BACKGROUND_PLASMA_SPRITE = "background-plasma";
-    public static final String BACKGROUND_GAS_SPRITE = "background-gas-1";
-    public static final String BACKGROUND_LIQUID_SPRITE = "background-gas-2";
-    public static final String BACKGROUND_SOLID_SPRITE = "background-solid";
-    public static final String BACKGROUND_HYBRID_SPRITE = "background-hybrid";
+    public static final String BACKGROUND_ORE_SPRITE = "background-oreBlast";
+    public static final String BACKGROUND_PLASMA_SPRITE = "background-plasmaBlast";
+    public static final String BACKGROUND_GAS_SPRITE = "background-gasBlast-1";
+    public static final String BACKGROUND_LIQUID_SPRITE = "background-gasBlast-2";
+    public static final String BACKGROUND_SOLID_SPRITE = "background-solidBlast";
+    public static final String BACKGROUND_HYBRID_SPRITE = "background-hybridBlast";
     public static final Vector2 BACKGROUND_CENTER = new Vector2(270, 180);
 
     // All grounds
@@ -429,29 +429,29 @@ public final class Constants {
     public static final float ZOOMBA_RANGE = 50;
     public static final String ZOOMBA_SPRITE = "zoomba";
 
-    public static final String FIERYZOOMBA_SPRITE_1_LEFT = "zoomba-gas-1-left";
-    public static final String FIERYZOOMBA_SPRITE_2_LEFT = "zoomba-gas-2-left";
+    public static final String FIERYZOOMBA_SPRITE_1_LEFT = "zoomba-gasBlast-1-left";
+    public static final String FIERYZOOMBA_SPRITE_2_LEFT = "zoomba-gasBlast-2-left";
 
-    public static final String FIERYZOOMBA_SPRITE_1_RIGHT = "zoomba-gas-1-right";
-    public static final String FIERYZOOMBA_SPRITE_2_RIGHT = "zoomba-gas-2-right";
+    public static final String FIERYZOOMBA_SPRITE_1_RIGHT = "zoomba-gasBlast-1-right";
+    public static final String FIERYZOOMBA_SPRITE_2_RIGHT = "zoomba-gasBlast-2-right";
 
-    public static final String FIERYZOOMBA_SPRITE_1_UP = "zoomba-gas-1-up";
-    public static final String FIERYZOOMBA_SPRITE_2_UP = "zoomba-gas-2-up";
+    public static final String FIERYZOOMBA_SPRITE_1_UP = "zoomba-gasBlast-1-up";
+    public static final String FIERYZOOMBA_SPRITE_2_UP = "zoomba-gasBlast-2-up";
 
-    public static final String FIERYZOOMBA_SPRITE_1_DOWN = "zoomba-gas-1-down";
-    public static final String FIERYZOOMBA_SPRITE_2_DOWN = "zoomba-gas-2-down";
+    public static final String FIERYZOOMBA_SPRITE_1_DOWN = "zoomba-gasBlast-1-down";
+    public static final String FIERYZOOMBA_SPRITE_2_DOWN = "zoomba-gasBlast-2-down";
 
-    public static final String GUSHINGZOOMBA_SPRITE_1 = "zoomba-liquid-1";
-    public static final String GUSHINGZOOMBA_SPRITE_2 = "zoomba-liquid-2";
+    public static final String GUSHINGZOOMBA_SPRITE_1 = "zoomba-liquidBlast-1";
+    public static final String GUSHINGZOOMBA_SPRITE_2 = "zoomba-liquidBlast-2";
 
-    public static final String CHARGEDZOOMBA_SPRITE_1 = "zoomba-plasma-1";
-    public static final String CHARGEDZOOMBA_SPRITE_2 = "zoomba-plasma-2";
+    public static final String CHARGEDZOOMBA_SPRITE_1 = "zoomba-plasmaBlast-1";
+    public static final String CHARGEDZOOMBA_SPRITE_2 = "zoomba-plasmaBlast-2";
 
     public static final String OREZOOMBA_SPRITE_1 = "zoomba-polymer-1";
     public static final String OREZOOMBA_SPRITE_2 = "zoomba-polymer-2";
 
-    public static final String SOLIDZOOMBA_SPRITE_1 = "zoomba-solid-1";
-    public static final String SOLIDZOOMBA_SPRITE_2 = "zoomba-solid-2";
+    public static final String SOLIDZOOMBA_SPRITE_1 = "zoomba-solidBlast-1";
+    public static final String SOLIDZOOMBA_SPRITE_2 = "zoomba-solidBlast-2";
 
     // Swoopa
     public static final Vector2 SWOOPA_CENTER = new Vector2(25f, 13.5f);
@@ -465,23 +465,23 @@ public final class Constants {
     public static final String SWOOPA_SPRITE_LEFT = "swoopa-left";
     public static final String SWOOPA_SPRITE_RIGHT = "swoopa-right";
 
-    public static final String FIERYSWOOPA_SPRITE_1_LEFT = "swoopa-gas-1-left";
-    public static final String FIERYSWOOPA_SPRITE_2_LEFT = "swoopa-gas-2-left";
+    public static final String FIERYSWOOPA_SPRITE_1_LEFT = "swoopa-gasBlast-1-left";
+    public static final String FIERYSWOOPA_SPRITE_2_LEFT = "swoopa-gasBlast-2-left";
 
-    public static final String FIERYSWOOPA_SPRITE_1_RIGHT = "swoopa-gas-1-right";
-    public static final String FIERYSWOOPA_SPRITE_2_RIGHT = "swoopa-gas-2-right";
+    public static final String FIERYSWOOPA_SPRITE_1_RIGHT = "swoopa-gasBlast-1-right";
+    public static final String FIERYSWOOPA_SPRITE_2_RIGHT = "swoopa-gasBlast-2-right";
 
-    public static final String GUSHINGSWOOPA_SPRITE_1 = "swoopa-liquid-1";
-    public static final String GUSHINGSWOOPA_SPRITE_2 = "swoopa-liquid-2";
+    public static final String GUSHINGSWOOPA_SPRITE_1 = "swoopa-liquidBlast-1";
+    public static final String GUSHINGSWOOPA_SPRITE_2 = "swoopa-liquidBlast-2";
 
-    public static final String CHARGEDSWOOPA_SPRITE_1 = "swoopa-plasma-1";
-    public static final String CHARGEDSWOOPA_SPRITE_2 = "swoopa-plasma-2";
+    public static final String CHARGEDSWOOPA_SPRITE_1 = "swoopa-plasmaBlast-1";
+    public static final String CHARGEDSWOOPA_SPRITE_2 = "swoopa-plasmaBlast-2";
 
     public static final String ORESWOOPA_SPRITE_1 = "swoopa-polymer-1";
     public static final String ORESWOOPA_SPRITE_2 = "swoopa-polymer-2";
 
-    public static final String SOLIDSWOOPA_SPRITE_1 = "swoopa-solid-1";
-    public static final String SOLIDSWOOPA_SPRITE_2 = "swoopa-solid-2";
+    public static final String SOLIDSWOOPA_SPRITE_1 = "swoopa-solidBlast-1";
+    public static final String SOLIDSWOOPA_SPRITE_2 = "swoopa-solidBlast-2";
 
     // Orben
     public static final float ORBEN_TEXTURE_SCALE = 1.5f;
@@ -497,25 +497,25 @@ public final class Constants {
     public static final int ORBEN_REGIONS = 3;
     public static final String ORBEN_SPRITE = "orben-dormant";
 
-    public static final String ORBEN_GAS_SPRITE_0 = "orben-gas-active-0";
-    public static final String ORBEN_GAS_SPRITE_1 = "orben-gas-active-1";
-    public static final String ORBEN_GAS_SPRITE_2 = "orben-gas-active-2";
+    public static final String ORBEN_GAS_SPRITE_0 = "orben-gasBlast-active-0";
+    public static final String ORBEN_GAS_SPRITE_1 = "orben-gasBlast-active-1";
+    public static final String ORBEN_GAS_SPRITE_2 = "orben-gasBlast-active-2";
 
-    public static final String ORBEN_LIQUID_SPRITE_0 = "orben-liquid-active-0";
-    public static final String ORBEN_LIQUID_SPRITE_1 = "orben-liquid-active-1";
-    public static final String ORBEN_LIQUID_SPRITE_2 = "orben-liquid-active-2";
+    public static final String ORBEN_LIQUID_SPRITE_0 = "orben-liquidBlast-active-0";
+    public static final String ORBEN_LIQUID_SPRITE_1 = "orben-liquidBlast-active-1";
+    public static final String ORBEN_LIQUID_SPRITE_2 = "orben-liquidBlast-active-2";
 
-    public static final String ORBEN_PLASMA_SPRITE_0 = "orben-plasma-active-0";
-    public static final String ORBEN_PLASMA_SPRITE_1 = "orben-plasma-active-1";
-    public static final String ORBEN_PLASMA_SPRITE_2 = "orben-plasma-active-2";
+    public static final String ORBEN_PLASMA_SPRITE_0 = "orben-plasmaBlast-active-0";
+    public static final String ORBEN_PLASMA_SPRITE_1 = "orben-plasmaBlast-active-1";
+    public static final String ORBEN_PLASMA_SPRITE_2 = "orben-plasmaBlast-active-2";
 
     public static final String ORBEN_ORE_SPRITE_0 = "orben-polymer-active-0";
     public static final String ORBEN_ORE_SPRITE_1 = "orben-polymer-active-1";
     public static final String ORBEN_ORE_SPRITE_2 = "orben-polymer-active-2";
 
-    public static final String ORBEN_SOLID_SPRITE_0 = "orben-solid-active-0";
-    public static final String ORBEN_SOLID_SPRITE_1 = "orben-solid-active-1";
-    public static final String ORBEN_SOLID_SPRITE_2 = "orben-solid-active-2";
+    public static final String ORBEN_SOLID_SPRITE_0 = "orben-solidBlast-active-0";
+    public static final String ORBEN_SOLID_SPRITE_1 = "orben-solidBlast-active-1";
+    public static final String ORBEN_SOLID_SPRITE_2 = "orben-solidBlast-active-2";
 
     // Rollen
     public static final float ROLLEN_TEXTURE_SCALE = 1.5f;
@@ -528,37 +528,37 @@ public final class Constants {
     public static final float ROLLEN_DURATION = .5f;
     public static final int ROLLEN_REGIONS = 4;
 
-    public static final String ROLLEN_GAS_SPRITE_4 = "rollen-gas-4";
-    public static final String ROLLEN_GAS_SPRITE_1 = "rollen-gas-1";
-    public static final String ROLLEN_GAS_SPRITE_2 = "rollen-gas-2";
-    public static final String ROLLEN_GAS_SPRITE_3 = "rollen-gas-3";
+    public static final String ROLLEN_GAS_SPRITE_4 = "rollen-gasBlast-4";
+    public static final String ROLLEN_GAS_SPRITE_1 = "rollen-gasBlast-1";
+    public static final String ROLLEN_GAS_SPRITE_2 = "rollen-gasBlast-2";
+    public static final String ROLLEN_GAS_SPRITE_3 = "rollen-gasBlast-3";
 
-    public static final String ROLLEN_LIQUID_SPRITE_4 = "rollen-liquid-4";
-    public static final String ROLLEN_LIQUID_SPRITE_1 = "rollen-liquid-1";
-    public static final String ROLLEN_LIQUID_SPRITE_2 = "rollen-liquid-2";
-    public static final String ROLLEN_LIQUID_SPRITE_3 = "rollen-liquid-3";
+    public static final String ROLLEN_LIQUID_SPRITE_4 = "rollen-liquidBlast-4";
+    public static final String ROLLEN_LIQUID_SPRITE_1 = "rollen-liquidBlast-1";
+    public static final String ROLLEN_LIQUID_SPRITE_2 = "rollen-liquidBlast-2";
+    public static final String ROLLEN_LIQUID_SPRITE_3 = "rollen-liquidBlast-3";
 
-    public static final String ROLLEN_PLASMA_SPRITE_4 = "rollen-plasma-4";
-    public static final String ROLLEN_PLASMA_SPRITE_1 = "rollen-plasma-1";
-    public static final String ROLLEN_PLASMA_SPRITE_2 = "rollen-plasma-2";
-    public static final String ROLLEN_PLASMA_SPRITE_3 = "rollen-plasma-3";
+    public static final String ROLLEN_PLASMA_SPRITE_4 = "rollen-plasmaBlast-4";
+    public static final String ROLLEN_PLASMA_SPRITE_1 = "rollen-plasmaBlast-1";
+    public static final String ROLLEN_PLASMA_SPRITE_2 = "rollen-plasmaBlast-2";
+    public static final String ROLLEN_PLASMA_SPRITE_3 = "rollen-plasmaBlast-3";
 
     public static final String ROLLEN_ORE_SPRITE_4 = "rollen-polymer-4";
     public static final String ROLLEN_ORE_SPRITE_1 = "rollen-polymer-1";
     public static final String ROLLEN_ORE_SPRITE_2 = "rollen-polymer-2";
     public static final String ROLLEN_ORE_SPRITE_3 = "rollen-polymer-3";
 
-    public static final String ROLLEN_SOLID_SPRITE_4 = "rollen-solid-4";
-    public static final String ROLLEN_SOLID_SPRITE_1 = "rollen-solid-1";
-    public static final String ROLLEN_SOLID_SPRITE_2 = "rollen-solid-2";
-    public static final String ROLLEN_SOLID_SPRITE_3 = "rollen-solid-3";
+    public static final String ROLLEN_SOLID_SPRITE_4 = "rollen-solidBlast-4";
+    public static final String ROLLEN_SOLID_SPRITE_1 = "rollen-solidBlast-1";
+    public static final String ROLLEN_SOLID_SPRITE_2 = "rollen-solidBlast-2";
+    public static final String ROLLEN_SOLID_SPRITE_3 = "rollen-solidBlast-3";
 
     // Armorollen
-    public static final String ARMOROLL_LIQUID_SPRITE_0 = "armorollo-liquid-0";
-    public static final String ARMOROLL_LIQUID_SPRITE_1 = "armorollo-liquid-1";
-    public static final String ARMOROLLO_LIQUID_SPRITE_2 = "armorollo-liquid-2";
-    public static final String ARMOROLLO_LIQUID_SPRITE_3 = "armorollo-liquid-3";
-    public static final String ARMOROLLO_LIQUID_SPRITE_4 = "armorollo-liquid-4";
+    public static final String ARMOROLL_LIQUID_SPRITE_0 = "armorollo-liquidBlast-0";
+    public static final String ARMOROLL_LIQUID_SPRITE_1 = "armorollo-liquidBlast-1";
+    public static final String ARMOROLLO_LIQUID_SPRITE_2 = "armorollo-liquidBlast-2";
+    public static final String ARMOROLLO_LIQUID_SPRITE_3 = "armorollo-liquidBlast-3";
+    public static final String ARMOROLLO_LIQUID_SPRITE_4 = "armorollo-liquidBlast-4";
 
     // Protrusions
     public static final Vector2 PROTRUSION_SOLID_CENTER = new Vector2(4, 8);
@@ -567,8 +567,8 @@ public final class Constants {
     public static final Vector2 PROTRUSION_SOLID_KNOCKBACK = new Vector2(50, Y_KNOCKBACK);
     public static final float PROTRUSION_SOLID_COLLISION_WIDTH = 9;
     public static final float PROTRUSION_SOLID_COLLISION_HEIGHT = 17;
-    public static final String PROTRUSION_SOLID_SPRITE_1 = "protrusion-solid-1";
-    public static final String PROTRUSION_SOLID_SPRITE_2 = "protrusion-solid-2";
+    public static final String PROTRUSION_SOLID_SPRITE_1 = "protrusion-solidBlast-1";
+    public static final String PROTRUSION_SOLID_SPRITE_2 = "protrusion-solidBlast-2";
 
     public static final Vector2 PROTRUSION_GAS_CENTER = new Vector2(8.5f, 17.5f);
     public static final float PROTRUSION_GAS_DURATION = 0.15f;
@@ -576,8 +576,8 @@ public final class Constants {
     public static final Vector2 PROTRUSION_GAS_KNOCKBACK = new Vector2(100, Y_KNOCKBACK);
     public static final float PROTRUSION_GAS_COLLISION_WIDTH = 15;
     public static final float PROTRUSION_GAS_COLLISION_HEIGHT = 25;
-    public static final String PROTRUSION_GAS_SPRITE_1 = "protrusion-gas-1";
-    public static final String PROTRUSION_GAS_SPRITE_2 = "protrusion-gas-2";
+    public static final String PROTRUSION_GAS_SPRITE_1 = "protrusion-gasBlast-1";
+    public static final String PROTRUSION_GAS_SPRITE_2 = "protrusion-gasBlast-2";
 
     public static final Vector2 PROTRUSION_LIQUID_CENTER = new Vector2(8.5f, 18.5f);
     public static final float PROTRUSION_LIQUID_DURATION = 0.3f;
@@ -585,8 +585,8 @@ public final class Constants {
     public static final Vector2 PROTRUSION_LIQUID_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
     public static final float PROTRUSION_LIQUID_COLLISION_WIDTH = 15;
     public static final float PROTRUSION_LIQUID_COLLISION_HEIGHT = 25;
-    public static final String PROTRUSION_LIQUID_SPRITE_1 = "protrusion-liquid-1";
-    public static final String PROTRUSION_LIQUID_SPRITE_2 = "protrusion-liquid-2";
+    public static final String PROTRUSION_LIQUID_SPRITE_1 = "protrusion-liquidBlast-1";
+    public static final String PROTRUSION_LIQUID_SPRITE_2 = "protrusion-liquidBlast-2";
 
     public static final Vector2 PROTRUSION_PLASMA_CENTER = new Vector2(4, 8);
     public static final float PROTRUSION_PLASMA_DURATION = 0.3f;
@@ -594,8 +594,8 @@ public final class Constants {
     public static final Vector2 PROTRUSION_PLASMA_KNOCKBACK = new Vector2(25, Y_KNOCKBACK);
     public static final float PROTRUSION_PLASMA_COLLISION_WIDTH = 8;
     public static final float PROTRUSION_PLASMA_COLLISION_HEIGHT = 16;
-    public static final String PROTRUSION_PLASMA_SPRITE_1 = "protrusion-plasma-1";
-    public static final String PROTRUSION_PLASMA_SPRITE_2 = "protrusion-plasma-2";
+    public static final String PROTRUSION_PLASMA_SPRITE_1 = "protrusion-plasmaBlast-1";
+    public static final String PROTRUSION_PLASMA_SPRITE_2 = "protrusion-plasmaBlast-2";
 
     public static final Vector2 PROTRUSION_ORE_CENTER = new Vector2(8.5f, 17.5f);
     public static final float PROTRUSION_ORE_DURATION = 0.3f;
@@ -616,8 +616,8 @@ public final class Constants {
     public static final Vector2 SUSPENSION_GAS_KNOCKBACK = new Vector2(200, Y_KNOCKBACK + 100);
     public static final float SUSPENSION_GAS_COLLISION_WIDTH = 25;
     public static final float SUSPENSION_GAS_COLLISION_HEIGHT = 25;
-    public static final String SUSPENSION_GAS_SPRITE_1 = "suspension-gas-1";
-    public static final String SUSPENSION_GAS_SPRITE_2 = "suspension-gas-2";
+    public static final String SUSPENSION_GAS_SPRITE_1 = "suspension-gasBlast-1";
+    public static final String SUSPENSION_GAS_SPRITE_2 = "suspension-gasBlast-2";
 
     public static final Vector2 SUSPENSION_PLASMA_CENTER = new Vector2(12.5f, 12.5f);
     public static final float SUSPENSION_PLASMA_DURATION = 0.5f;
@@ -625,8 +625,8 @@ public final class Constants {
     public static final Vector2 SUSPENSION_PLASMA_KNOCKBACK = new Vector2(200, Y_KNOCKBACK);
     public static final float SUSPENSION_PLASMA_COLLISION_WIDTH = 25;
     public static final float SUSPENSION_PLASMA_COLLISION_HEIGHT = 25;
-    public static final String SUSPENSION_PLASMA_SPRITE_1 = "suspension-plasma-1";
-    public static final String SUSPENSION_PLASMA_SPRITE_2 = "suspension-plasma-2";
+    public static final String SUSPENSION_PLASMA_SPRITE_1 = "suspension-plasmaBlast-1";
+    public static final String SUSPENSION_PLASMA_SPRITE_2 = "suspension-plasmaBlast-2";
 
     public static final Vector2 SUSPENSION_LIQUID_CENTER = new Vector2(12.5f, 12.5f);
     public static final float SUSPENSION_LIQUID_DURATION = 0.5f;
@@ -634,8 +634,8 @@ public final class Constants {
     public static final Vector2 SUSPENSION_LIQUID_KNOCKBACK = new Vector2(200, Y_KNOCKBACK);
     public static final float SUSPENSION_LIQUID_COLLISION_WIDTH = 25;
     public static final float SUSPENSION_LIQUID_COLLISION_HEIGHT = 25;
-    public static final String SUSPENSION_LIQUID_SPRITE_1 = "suspension-liquid-1";
-    public static final String SUSPENSION_LIQUID_SPRITE_2 = "suspension-liquid-2";
+    public static final String SUSPENSION_LIQUID_SPRITE_1 = "suspension-liquidBlast-1";
+    public static final String SUSPENSION_LIQUID_SPRITE_2 = "suspension-liquidBlast-2";
 
     public static final Vector2 SUSPENSION_SOLID_CENTER = new Vector2(12.5f, 12.5f);
     public static final float SUSPENSION_SOLID_DURATION = 0.5f;
@@ -643,8 +643,8 @@ public final class Constants {
     public static final Vector2 SUSPENSION_SOLID_KNOCKBACK = new Vector2(200, Y_KNOCKBACK);
     public static final float SUSPENSION_SOLID_COLLISION_WIDTH = 25;
     public static final float SUSPENSION_SOLID_COLLISION_HEIGHT = 25;
-    public static final String SUSPENSION_SOLID_SPRITE_1 = "suspension-solid-1";
-    public static final String SUSPENSION_SOLID_SPRITE_2 = "suspension-solid-2";
+    public static final String SUSPENSION_SOLID_SPRITE_1 = "suspension-solidBlast-1";
+    public static final String SUSPENSION_SOLID_SPRITE_2 = "suspension-solidBlast-2";
 
     public static final Vector2 SUSPENSION_ORE_CENTER = new Vector2(12.5f, 12.5f);
     public static final float SUSPENSION_ORE_DURATION = 0.1f;
@@ -661,9 +661,9 @@ public final class Constants {
     public static final Vector2 SUSPENSION_ANTIMATTER_KNOCKBACK = new Vector2(100, Y_KNOCKBACK);
     public static final float SUSPENSION_ANTIMATTER_COLLISION_WIDTH = 25;
     public static final float SUSPENSION_ANTIMATTER_COLLISION_HEIGHT = 25;
-    public static final String SUSPENSION_ANTIMATTER_SPRITE_1 = "suspension-antimatter-1";
-    public static final String SUSPENSION_ANTIMATTER_SPRITE_2 = "suspension-antimatter-2";
-    public static final String SUSPENSION_ANTIMATTER_SPRITE_3 = "suspension-antimatter-3";
+    public static final String SUSPENSION_ANTIMATTER_SPRITE_1 = "suspension-antimatterBlast-1";
+    public static final String SUSPENSION_ANTIMATTER_SPRITE_2 = "suspension-antimatterBlast-2";
+    public static final String SUSPENSION_ANTIMATTER_SPRITE_3 = "suspension-antimatterBlast-3";
 
     public static final Vector2 SUSPENSION_INACTIVE_CENTER = new Vector2(12.5f, 12.5f);
     public static final String SUSPENSION_INACTIVE_SPRITE = "suspension-inactive";
@@ -709,44 +709,44 @@ public final class Constants {
     public static final Vector2 BLAST_CENTER = new Vector2(BLAST_RADIUS, BLAST_RADIUS);
     public static final String SHOT_NATIVE_SPRITE_1 = "ammo-shot-native-1";
     public static final String SHOT_NATIVE_SPRITE_2 = "ammo-shot-native-2";
-    public static final String BLAST_NATIVE_SPRITE_1 = "ammo-blast-native-1";
-    public static final String BLAST_NATIVE_SPRITE_2 = "ammo-blast-native-2";
-    public static final String BLAST_NATIVE_SPRITE_3 = "ammo-blast-native-3";
-    public static final String SHOT_GAS_SPRITE_1 = "ammo-shot-gas-1";
-    public static final String SHOT_GAS_SPRITE_2 = "ammo-shot-gas-2";
-    public static final String BLAST_GAS_SPRITE_1 = "ammo-blast-gas-1";
-    public static final String BLAST_GAS_SPRITE_2 = "ammo-blast-gas-2";
-    public static final String BLAST_GAS_SPRITE_3 = "ammo-blast-gas-3";
-    public static final String SHOT_LIQUID_SPRITE_1 = "ammo-shot-liquid-1";
-    public static final String SHOT_LIQUID_SPRITE_2 = "ammo-shot-liquid-2";
-    public static final String BLAST_LIQUID_SPRITE_1 = "ammo-blast-liquid-1";
-    public static final String BLAST_LIQUID_SPRITE_2 = "ammo-blast-liquid-2";
-    public static final String BLAST_LIQUID_SPRITE_3 = "ammo-blast-liquid-3";
-    public static final String SHOT_PLASMA_SPRITE_1 = "ammo-shot-plasma-1";
-    public static final String SHOT_PLASMA_SPRITE_2 = "ammo-shot-plasma-2";
-    public static final String BLAST_PLASMA_SPRITE_1 = "ammo-blast-plasma-1";
-    public static final String BLAST_PLASMA_SPRITE_2 = "ammo-blast-plasma-2";
-    public static final String BLAST_PLASMA_SPRITE_3 = "ammo-blast-plasma-3";
+    public static final String BLAST_NATIVE_SPRITE_1 = "ammo-nativeBlast-native-1";
+    public static final String BLAST_NATIVE_SPRITE_2 = "ammo-nativeBlast-native-2";
+    public static final String BLAST_NATIVE_SPRITE_3 = "ammo-nativeBlast-native-3";
+    public static final String SHOT_GAS_SPRITE_1 = "ammo-shot-gasBlast-1";
+    public static final String SHOT_GAS_SPRITE_2 = "ammo-shot-gasBlast-2";
+    public static final String BLAST_GAS_SPRITE_1 = "ammo-nativeBlast-gasBlast-1";
+    public static final String BLAST_GAS_SPRITE_2 = "ammo-nativeBlast-gasBlast-2";
+    public static final String BLAST_GAS_SPRITE_3 = "ammo-nativeBlast-gasBlast-3";
+    public static final String SHOT_LIQUID_SPRITE_1 = "ammo-shot-liquidBlast-1";
+    public static final String SHOT_LIQUID_SPRITE_2 = "ammo-shot-liquidBlast-2";
+    public static final String BLAST_LIQUID_SPRITE_1 = "ammo-nativeBlast-liquidBlast-1";
+    public static final String BLAST_LIQUID_SPRITE_2 = "ammo-nativeBlast-liquidBlast-2";
+    public static final String BLAST_LIQUID_SPRITE_3 = "ammo-nativeBlast-liquidBlast-3";
+    public static final String SHOT_PLASMA_SPRITE_1 = "ammo-shot-plasmaBlast-1";
+    public static final String SHOT_PLASMA_SPRITE_2 = "ammo-shot-plasmaBlast-2";
+    public static final String BLAST_PLASMA_SPRITE_1 = "ammo-nativeBlast-plasmaBlast-1";
+    public static final String BLAST_PLASMA_SPRITE_2 = "ammo-nativeBlast-plasmaBlast-2";
+    public static final String BLAST_PLASMA_SPRITE_3 = "ammo-nativeBlast-plasmaBlast-3";
     public static final String SHOT_ORE_SPRITE_1 = "ammo-shot-polymer-1";
     public static final String SHOT_ORE_SPRITE_2 = "ammo-shot-polymer-2";
-    public static final String BLAST_ORE_SPRITE_1 = "ammo-blast-polymer-1";
-    public static final String BLAST_ORE_SPRITE_2 = "ammo-blast-polymer-2";
-    public static final String BLAST_ORE_SPRITE_3 = "ammo-blast-polymer-3";
-    public static final String SHOT_SOLID_SPRITE_1 = "ammo-shot-solid-1";
-    public static final String SHOT_SOLID_SPRITE_2 = "ammo-shot-solid-2";
-    public static final String BLAST_SOLID_SPRITE_1 = "ammo-blast-solid-1";
-    public static final String BLAST_SOLID_SPRITE_2 = "ammo-blast-solid-2";
-    public static final String BLAST_SOLID_SPRITE_3 = "ammo-blast-solid-3";
+    public static final String BLAST_ORE_SPRITE_1 = "ammo-nativeBlast-polymer-1";
+    public static final String BLAST_ORE_SPRITE_2 = "ammo-nativeBlast-polymer-2";
+    public static final String BLAST_ORE_SPRITE_3 = "ammo-nativeBlast-polymer-3";
+    public static final String SHOT_SOLID_SPRITE_1 = "ammo-shot-solidBlast-1";
+    public static final String SHOT_SOLID_SPRITE_2 = "ammo-shot-solidBlast-2";
+    public static final String BLAST_SOLID_SPRITE_1 = "ammo-nativeBlast-solidBlast-1";
+    public static final String BLAST_SOLID_SPRITE_2 = "ammo-nativeBlast-solidBlast-2";
+    public static final String BLAST_SOLID_SPRITE_3 = "ammo-nativeBlast-solidBlast-3";
     public static final String SHOT_ANTIMATTER_SPRITE_1 = "ammo-shot-psychic-1";
     public static final String SHOT_ANTIMATTER_SPRITE_2 = "ammo-shot-psychic-2";
-    public static final String BLAST_ANTIMATTER_SPRITE_1 = "ammo-blast-psychic-1";
-    public static final String BLAST_ANTIMATTER_SPRITE_2 = "ammo-blast-psychic-2";
-    public static final String BLAST_ANTIMATTER_SPRITE_3 = "ammo-blast-psychic-3";
-    public static final String SHOT_HYBRID_SPRITE = "ammo-shot-hybrid";
-    public static final String SHOT_HYBRID_SPRITE_2 = "ammo-shot-hybrid-2";
-    public static final String BLAST_HYBRID_SPRITE_1 = "ammo-blast-hybrid-1";
-    public static final String BLAST_HYBRID_SPRITE_2 = "ammo-blast-hybrid-2";
-    public static final String BLAST_HYBRID_SPRITE_3 = "ammo-blast-hybrid-3";
+    public static final String BLAST_ANTIMATTER_SPRITE_1 = "ammo-nativeBlast-psychic-1";
+    public static final String BLAST_ANTIMATTER_SPRITE_2 = "ammo-nativeBlast-psychic-2";
+    public static final String BLAST_ANTIMATTER_SPRITE_3 = "ammo-nativeBlast-psychic-3";
+    public static final String SHOT_HYBRID_SPRITE = "ammo-shot-hybridBlast";
+    public static final String SHOT_HYBRID_SPRITE_2 = "ammo-shot-hybridBlast-2";
+    public static final String BLAST_HYBRID_SPRITE_1 = "ammo-nativeBlast-hybridBlast-1";
+    public static final String BLAST_HYBRID_SPRITE_2 = "ammo-nativeBlast-hybridBlast-2";
+    public static final String BLAST_HYBRID_SPRITE_3 = "ammo-nativeBlast-hybridBlast-3";
 
     // Blade
     public static final Vector2 BLADE_CENTER = new Vector2(40, 35);
@@ -772,45 +772,45 @@ public final class Constants {
     public static final String SIDESWIPE_ORE_SPRITE_2 = "blade-side-polymer-2";
     public static final String SIDESWIPE_ORE_SPRITE_3 = "blade-side-polymer-3";
 
-    public static final String FLIPSWIPE_PLASMA_SPRITE_1 = "blade-flip-plasma-1";
-    public static final String FLIPSWIPE_PLASMA_SPRITE_2 = "blade-flip-plasma-2";
-    public static final String FLIPSWIPE_PLASMA_SPRITE_3 = "blade-flip-plasma-3";
-    public static final String FLIPSWIPE_PLASMA_SPRITE_4 = "blade-flip-plasma-4";
-    public static final String FLIPSWIPE_PLASMA_SPRITE_5 = "blade-flip-plasma-5";
-    public static final String FLIPSWIPE_PLASMA_SPRITE_6 = "blade-flip-plasma-6";
-    public static final String SIDESWIPE_PLASMA_SPRITE_1 = "blade-side-plasma-1";
-    public static final String SIDESWIPE_PLASMA_SPRITE_2 = "blade-side-plasma-2";
-    public static final String SIDESWIPE_PLASMA_SPRITE_3 = "blade-side-plasma-3";
+    public static final String FLIPSWIPE_PLASMA_SPRITE_1 = "blade-flip-plasmaBlast-1";
+    public static final String FLIPSWIPE_PLASMA_SPRITE_2 = "blade-flip-plasmaBlast-2";
+    public static final String FLIPSWIPE_PLASMA_SPRITE_3 = "blade-flip-plasmaBlast-3";
+    public static final String FLIPSWIPE_PLASMA_SPRITE_4 = "blade-flip-plasmaBlast-4";
+    public static final String FLIPSWIPE_PLASMA_SPRITE_5 = "blade-flip-plasmaBlast-5";
+    public static final String FLIPSWIPE_PLASMA_SPRITE_6 = "blade-flip-plasmaBlast-6";
+    public static final String SIDESWIPE_PLASMA_SPRITE_1 = "blade-side-plasmaBlast-1";
+    public static final String SIDESWIPE_PLASMA_SPRITE_2 = "blade-side-plasmaBlast-2";
+    public static final String SIDESWIPE_PLASMA_SPRITE_3 = "blade-side-plasmaBlast-3";
 
-    public static final String FLIPSWIPE_GAS_SPRITE_1 = "blade-flip-gas-1";
-    public static final String FLIPSWIPE_GAS_SPRITE_2 = "blade-flip-gas-2";
-    public static final String FLIPSWIPE_GAS_SPRITE_3 = "blade-flip-gas-3";
-    public static final String FLIPSWIPE_GAS_SPRITE_4 = "blade-flip-gas-4";
-    public static final String FLIPSWIPE_GAS_SPRITE_5 = "blade-flip-gas-5";
-    public static final String FLIPSWIPE_GAS_SPRITE_6 = "blade-flip-gas-6";
-    public static final String SIDESWIPE_GAS_SPRITE_1 = "blade-side-gas-1";
-    public static final String SIDESWIPE_GAS_SPRITE_2 = "blade-side-gas-2";
-    public static final String SIDESWIPE_GAS_SPRITE_3 = "blade-side-gas-3";
+    public static final String FLIPSWIPE_GAS_SPRITE_1 = "blade-flip-gasBlast-1";
+    public static final String FLIPSWIPE_GAS_SPRITE_2 = "blade-flip-gasBlast-2";
+    public static final String FLIPSWIPE_GAS_SPRITE_3 = "blade-flip-gasBlast-3";
+    public static final String FLIPSWIPE_GAS_SPRITE_4 = "blade-flip-gasBlast-4";
+    public static final String FLIPSWIPE_GAS_SPRITE_5 = "blade-flip-gasBlast-5";
+    public static final String FLIPSWIPE_GAS_SPRITE_6 = "blade-flip-gasBlast-6";
+    public static final String SIDESWIPE_GAS_SPRITE_1 = "blade-side-gasBlast-1";
+    public static final String SIDESWIPE_GAS_SPRITE_2 = "blade-side-gasBlast-2";
+    public static final String SIDESWIPE_GAS_SPRITE_3 = "blade-side-gasBlast-3";
 
-    public static final String FLIPSWIPE_LIQUID_SPRITE_1 = "blade-flip-liquid-1";
-    public static final String FLIPSWIPE_LIQUID_SPRITE_2 = "blade-flip-liquid-2";
-    public static final String FLIPSWIPE_LIQUID_SPRITE_3 = "blade-flip-liquid-3";
-    public static final String FLIPSWIPE_LIQUID_SPRITE_4 = "blade-flip-liquid-4";
-    public static final String FLIPSWIPE_LIQUID_SPRITE_5 = "blade-flip-liquid-5";
-    public static final String FLIPSWIPE_LIQUID_SPRITE_6 = "blade-flip-liquid-6";
-    public static final String SIDESWIPE_LIQUID_SPRITE_1 = "blade-side-liquid-1";
-    public static final String SIDESWIPE_LIQUID_SPRITE_2 = "blade-side-liquid-2";
-    public static final String SIDESWIPE_LIQUID_SPRITE_3 = "blade-side-liquid-3";
+    public static final String FLIPSWIPE_LIQUID_SPRITE_1 = "blade-flip-liquidBlast-1";
+    public static final String FLIPSWIPE_LIQUID_SPRITE_2 = "blade-flip-liquidBlast-2";
+    public static final String FLIPSWIPE_LIQUID_SPRITE_3 = "blade-flip-liquidBlast-3";
+    public static final String FLIPSWIPE_LIQUID_SPRITE_4 = "blade-flip-liquidBlast-4";
+    public static final String FLIPSWIPE_LIQUID_SPRITE_5 = "blade-flip-liquidBlast-5";
+    public static final String FLIPSWIPE_LIQUID_SPRITE_6 = "blade-flip-liquidBlast-6";
+    public static final String SIDESWIPE_LIQUID_SPRITE_1 = "blade-side-liquidBlast-1";
+    public static final String SIDESWIPE_LIQUID_SPRITE_2 = "blade-side-liquidBlast-2";
+    public static final String SIDESWIPE_LIQUID_SPRITE_3 = "blade-side-liquidBlast-3";
 
-    public static final String FLIPSWIPE_SOLID_SPRITE_1 = "blade-flip-solid-1";
-    public static final String FLIPSWIPE_SOLID_SPRITE_2 = "blade-flip-solid-2";
-    public static final String FLIPSWIPE_SOLID_SPRITE_3 = "blade-flip-solid-3";
-    public static final String FLIPSWIPE_SOLID_SPRITE_4 = "blade-flip-solid-4";
-    public static final String FLIPSWIPE_SOLID_SPRITE_5 = "blade-flip-solid-5";
-    public static final String FLIPSWIPE_SOLID_SPRITE_6 = "blade-flip-solid-6";
-    public static final String SIDESWIPE_SOLID_SPRITE_1 = "blade-side-solid-1";
-    public static final String SIDESWIPE_SOLID_SPRITE_2 = "blade-side-solid-2";
-    public static final String SIDESWIPE_SOLID_SPRITE_3 = "blade-side-solid-3";
+    public static final String FLIPSWIPE_SOLID_SPRITE_1 = "blade-flip-solidBlast-1";
+    public static final String FLIPSWIPE_SOLID_SPRITE_2 = "blade-flip-solidBlast-2";
+    public static final String FLIPSWIPE_SOLID_SPRITE_3 = "blade-flip-solidBlast-3";
+    public static final String FLIPSWIPE_SOLID_SPRITE_4 = "blade-flip-solidBlast-4";
+    public static final String FLIPSWIPE_SOLID_SPRITE_5 = "blade-flip-solidBlast-5";
+    public static final String FLIPSWIPE_SOLID_SPRITE_6 = "blade-flip-solidBlast-6";
+    public static final String SIDESWIPE_SOLID_SPRITE_1 = "blade-side-solidBlast-1";
+    public static final String SIDESWIPE_SOLID_SPRITE_2 = "blade-side-solidBlast-2";
+    public static final String SIDESWIPE_SOLID_SPRITE_3 = "blade-side-solidBlast-3";
 
     public static final String FLIPSWIPE_ANTIMATTER_SPRITE_1 = "blade-flip-psychic-1";
     public static final String FLIPSWIPE_ANTIMATTER_SPRITE_2 = "blade-flip-psychic-2";
@@ -822,34 +822,34 @@ public final class Constants {
     public static final String SIDESWIPE_ANTIMATTER_SPRITE_2 = "blade-side-psychic-2";
     public static final String SIDESWIPE_ANTIMATTER_SPRITE_3 = "blade-side-psychic-3";
 
-    public static final String FLIPSWIPE_HYBRID_SPRITE_1 = "blade-flip-hybrid-1";
-    public static final String FLIPSWIPE_HYBRID_SPRITE_2 = "blade-flip-hybrid-2";
-    public static final String FLIPSWIPE_HYBRID_SPRITE_3 = "blade-flip-hybrid-3";
-    public static final String FLIPSWIPE_HYBRID_SPRITE_4 = "blade-flip-hybrid-4";
-    public static final String FLIPSWIPE_HYBRID_SPRITE_5 = "blade-flip-hybrid-5";
-    public static final String FLIPSWIPE_HYBRID_SPRITE_6 = "blade-flip-hybrid-6";
-    public static final String SIDESWIPE_HYBRID_SPRITE_1 = "blade-side-hybrid-1";
-    public static final String SIDESWIPE_HYBRID_SPRITE_2 = "blade-side-hybrid-2";
-    public static final String SIDESWIPE_HYBRID_SPRITE_3 = "blade-side-hybrid-3";
+    public static final String FLIPSWIPE_HYBRID_SPRITE_1 = "blade-flip-hybridBlast-1";
+    public static final String FLIPSWIPE_HYBRID_SPRITE_2 = "blade-flip-hybridBlast-2";
+    public static final String FLIPSWIPE_HYBRID_SPRITE_3 = "blade-flip-hybridBlast-3";
+    public static final String FLIPSWIPE_HYBRID_SPRITE_4 = "blade-flip-hybridBlast-4";
+    public static final String FLIPSWIPE_HYBRID_SPRITE_5 = "blade-flip-hybridBlast-5";
+    public static final String FLIPSWIPE_HYBRID_SPRITE_6 = "blade-flip-hybridBlast-6";
+    public static final String SIDESWIPE_HYBRID_SPRITE_1 = "blade-side-hybridBlast-1";
+    public static final String SIDESWIPE_HYBRID_SPRITE_2 = "blade-side-hybridBlast-2";
+    public static final String SIDESWIPE_HYBRID_SPRITE_3 = "blade-side-hybridBlast-3";
 
     // Impact
     public static final Vector2 EXPLOSION_CENTER = new Vector2(8, 8);
     public static final float IMPACT_DURATION = 0.5f;
-    public static final String IMPACT_PLASMA_LARGE = "impact-plasma-large";
-    public static final String IMPACT_PLASMA_MEDIUM = "impact-plasma-medium";
-    public static final String IMPACT_PLASMA_SMALL = "impact-plasma-small";
-    public static final String IMPACT_GAS_LARGE = "impact-gas-large";
-    public static final String IMPACT_GAS_MEDIUM = "impact-gas-medium";
-    public static final String IMPACT_GAS_SMALL = "impact-gas-small";
-    public static final String IMPACT_LIQUID_LARGE = "impact-liquid-large";
-    public static final String IMPACT_LIQUID_MEDIUM = "impact-liquid-medium";
-    public static final String IMPACT_LIQUID_SMALL = "impact-liquid-small";
-    public static final String IMPACT_SOLID_LARGE = "impact-solid-large";
-    public static final String IMPACT_SOLID_MEDIUM = "impact-solid-medium";
-    public static final String IMPACT_SOLID_SMALL = "impact-solid-small";
-    public static final String IMPACT_HYBRID_LARGE = "impact-hybrid-large";
-    public static final String IMPACT_HYBRID_MEDIUM = "impact-hybrid-medium";
-    public static final String IMPACT_HYBRID_SMALL = "impact-hybrid-small";
+    public static final String IMPACT_PLASMA_LARGE = "impact-plasmaBlast-large";
+    public static final String IMPACT_PLASMA_MEDIUM = "impact-plasmaBlast-medium";
+    public static final String IMPACT_PLASMA_SMALL = "impact-plasmaBlast-small";
+    public static final String IMPACT_GAS_LARGE = "impact-gasBlast-large";
+    public static final String IMPACT_GAS_MEDIUM = "impact-gasBlast-medium";
+    public static final String IMPACT_GAS_SMALL = "impact-gasBlast-small";
+    public static final String IMPACT_LIQUID_LARGE = "impact-liquidBlast-large";
+    public static final String IMPACT_LIQUID_MEDIUM = "impact-liquidBlast-medium";
+    public static final String IMPACT_LIQUID_SMALL = "impact-liquidBlast-small";
+    public static final String IMPACT_SOLID_LARGE = "impact-solidBlast-large";
+    public static final String IMPACT_SOLID_MEDIUM = "impact-solidBlast-medium";
+    public static final String IMPACT_SOLID_SMALL = "impact-solidBlast-small";
+    public static final String IMPACT_HYBRID_LARGE = "impact-hybridBlast-large";
+    public static final String IMPACT_HYBRID_MEDIUM = "impact-hybridBlast-medium";
+    public static final String IMPACT_HYBRID_SMALL = "impact-hybridBlast-small";
     public static final String IMPACT_PSYCHIC_LARGE = "impact-psychic-large";
     public static final String IMPACT_PSYCHIC_MEDIUM = "impact-psychic-medium";
     public static final String IMPACT_PSYCHIC_SMALL = "impact-psychic-small";
@@ -952,8 +952,8 @@ public final class Constants {
     public static final float AMMO_ICON_SCALE = 1.25f;
     public static final float LIFE_ICON_SCALE = 1;
     public static final float ACTION_ICON_SCALE = .75f;
-    public static final String SHOOT_ICON = "icon-blast";
-    public static final String BLAST_ICON = "icon-blast";
+    public static final String SHOOT_ICON = "icon-nativeBlast";
+    public static final String BLAST_ICON = "icon-nativeBlast";
     public static final String JUMP_ICON = "icon-jump";
     public static final String HOVER_ICON = "icon-hover";
     public static final String RAPPEL_ICON = "icon-rappel";

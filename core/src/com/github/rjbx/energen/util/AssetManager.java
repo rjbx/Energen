@@ -1599,15 +1599,23 @@ public final class AssetManager implements AssetErrorListener {
         public final Sound cannon;
         public final Sound life;
         public final Sound upgrade;
-        public final Sound blast;
-        public final Sound ore;
-        public final Sound plasma;
-        public final Sound gas;
-        public final Sound liquid;
-        public final Sound solid;
-        public final Sound antimatter;
+        public final Sound nativeBlast;
+        public final Sound oreBlast;
+        public final Sound plasmaBlast;
+        public final Sound gasBlast;
+        public final Sound liquidBlast;
+        public final Sound solidBlast;
+        public final Sound antimatterBlast;
+        public final Sound hybridBlast;
+        public final Sound nativeShot;
+        public final Sound oreShot;
+        public final Sound plasmaShot;
+        public final Sound gasShot;
+        public final Sound liquidShot;
+        public final Sound solidShot;
+        public final Sound antimatterShot;
+        public final Sound hybridShot;
         public final Sound warp;
-        public final Sound hybrid;
         public final Sound hit;
         public final Sound hitGround;
         public final Sound breakGround;
@@ -1622,15 +1630,23 @@ public final class AssetManager implements AssetErrorListener {
             cannon = assetManager.get(Constants.CANNON_SOUND); // use of descriptor enforces type checking
             life = assetManager.get(Constants.LIFE_SOUND); // use of descriptor enforces type checking
             upgrade = assetManager.get(Constants.UPGRADE_SOUND); // use of descriptor enforces type checking
-            blast = assetManager.get(Constants.BLAST_NATIVE_SOUND); // use of descriptor enforces type checking
-            plasma = assetManager.get(Constants.BLAST_PLASMA_SOUND); // use of descriptor enforces type checking
-            liquid = assetManager.get(Constants.BLAST_LIQUID_SOUND); // use of descriptor enforces type checking
-            solid = assetManager.get(Constants.BLAST_SOLID_SOUND); // use of descriptor enforces type checking
-            gas = assetManager.get(Constants.BLAST_GAS_SOUND); // use of descriptor enforces type checking
-            antimatter = assetManager.get(Constants.BLAST_ANTIMATTER_SOUND); // use of descriptor enforces type checking
+            nativeBlast = assetManager.get(Constants.BLAST_NATIVE_SOUND); // use of descriptor enforces type checking
+            plasmaBlast = assetManager.get(Constants.BLAST_PLASMA_SOUND); // use of descriptor enforces type checking
+            liquidBlast = assetManager.get(Constants.BLAST_LIQUID_SOUND); // use of descriptor enforces type checking
+            solidBlast = assetManager.get(Constants.BLAST_SOLID_SOUND); // use of descriptor enforces type checking
+            gasBlast = assetManager.get(Constants.BLAST_GAS_SOUND); // use of descriptor enforces type checking
+            antimatterBlast = assetManager.get(Constants.BLAST_ANTIMATTER_SOUND); // use of descriptor enforces type checking
+            hybridBlast = assetManager.get(Constants.BLAST_HYBRID_SOUND); // use of descriptor enforces type checking
+            oreBlast = assetManager.get(Constants.BLAST_ORE_SOUND); // use of descriptor enforces type checking
+            nativeShot = assetManager.get(Constants.SHOT_NATIVE_SOUND); // use of descriptor enforces type checking
+            plasmaShot = assetManager.get(Constants.SHOT_PLASMA_SOUND); // use of descriptor enforces type checking
+            liquidShot = assetManager.get(Constants.SHOT_LIQUID_SOUND); // use of descriptor enforces type checking
+            solidShot = assetManager.get(Constants.SHOT_SOLID_SOUND); // use of descriptor enforces type checking
+            gasShot = assetManager.get(Constants.SHOT_GAS_SOUND); // use of descriptor enforces type checking
+            antimatterShot = assetManager.get(Constants.SHOT_ANTIMATTER_SOUND); // use of descriptor enforces type checking
+            oreShot = assetManager.get(Constants.SHOT_ORE_SOUND); // use of descriptor enforces type checking
+            hybridShot = assetManager.get(Constants.SHOT_HYBRID_SOUND); // use of descriptor enforces type checking
             warp = assetManager.get(Constants.WARP_SOUND); // use of descriptor enforces type checking
-            hybrid = assetManager.get(Constants.BLAST_HYBRID_SOUND); // use of descriptor enforces type checking
-            ore = assetManager.get(Constants.BLAST_ORE_SOUND); // use of descriptor enforces type checking
             hit = assetManager.get(Constants.HIT_SOUND); // use of descriptor enforces type checking
             hitGround = assetManager.get(Constants.HIT_GROUND_SOUND);
             breakGround = assetManager.get(Constants.BREAK_GROUND_SOUND); // use of descriptor enforces type checking
@@ -1638,26 +1654,49 @@ public final class AssetManager implements AssetErrorListener {
             flight = assetManager.get(Constants.FLIGHT_SOUND);
         }
 
-        public Sound getEnergySound(Enums.Energy energy) {
+        public Sound getBlastSound(Enums.Energy energy) {
             switch (energy) {
                 case NATIVE:
-                    return blast;
+                    return nativeBlast;
                 case ORE:
-                    return ore;
+                    return oreBlast;
                 case PLASMA:
-                    return plasma;
+                    return plasmaBlast;
                 case GAS:
-                    return gas;
+                    return gasBlast;
                 case LIQUID:
-                    return liquid;
+                    return liquidBlast;
                 case SOLID:
-                    return solid;
+                    return solidBlast;
                 case ANTIMATTER:
-                    return antimatter;
+                    return antimatterBlast;
                 case HYBRID:
-                    return hybrid;
+                    return hybridBlast;
                 default:
-                    return blast;
+                    return nativeBlast;
+            }
+        }
+
+        public Sound getShotSound(Enums.Energy energy) {
+            switch (energy) {
+                case NATIVE:
+                    return nativeShot;
+                case ORE:
+                    return oreShot;
+                case PLASMA:
+                    return plasmaShot;
+                case GAS:
+                    return gasShot;
+                case LIQUID:
+                    return liquidShot;
+                case SOLID:
+                    return solidShot;
+                case ANTIMATTER:
+                    return antimatterShot;
+                case HYBRID:
+                    return hybridShot;
+                default:
+                    return nativeShot;
             }
         }
     }

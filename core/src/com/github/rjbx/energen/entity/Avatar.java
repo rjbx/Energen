@@ -339,7 +339,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 bladeState = BladeState.FLIP;
             }
         } else if (canFlip) { // manual deactivation by shoot button release
-            AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
+            AssetManager.getInstance().getSoundAssets().getBlastSound(energy).stop();
             swipeStartTime = 0;
             swipeTimeSeconds = 0;
             canFlip = false;
@@ -357,7 +357,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 bladeState = BladeState.RUSH;
             }
         } else if (canRush) {  // manual deactivation by dash interrupt
-            AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
+            AssetManager.getInstance().getSoundAssets().getBlastSound(energy).stop();
             swipeStartTime = 0;
             swipeTimeSeconds = 0;
             canRush = false;
@@ -371,7 +371,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 bladeState = BladeState.CUT;
             }
         } else if (canCut) {
-            AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
+            AssetManager.getInstance().getSoundAssets().getBlastSound(energy).stop();
             swipeStartTime = 0;
             swipeTimeSeconds = 0;
             canCut = false;
@@ -400,11 +400,11 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     }
                 }
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 5) {
-                AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
+                AssetManager.getInstance().getSoundAssets().getBlastSound(energy).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
                 if (action != Action.HOVERING && action != Action.RECOILING) turbo -= Constants.FALL_TURBO_INCREMENT;
             } else { // auto deactivation when animation completes
-                AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
+                AssetManager.getInstance().getSoundAssets().getBlastSound(energy).stop();
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
                 canFlip = false;
@@ -420,10 +420,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
-                AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
+                AssetManager.getInstance().getSoundAssets().getBlastSound(energy).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
             } else { // auto deactivation when animation completes
-                AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
+                AssetManager.getInstance().getSoundAssets().getBlastSound(energy).stop();
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
                 canRush = false;
@@ -441,10 +441,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 swipeStartTime = TimeUtils.nanoTime();
                 swipeTimeSeconds = 0;
             } else if (swipeTimeSeconds < Constants.FLIPSWIPE_FRAME_DURATION * 3) {
-                AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
+                AssetManager.getInstance().getSoundAssets().getBlastSound(energy).play();
                 swipeTimeSeconds = Helpers.secondsSince(swipeStartTime);
             } else { // auto deactivation when animation completes
-                AssetManager.getInstance().getSoundAssets().getEnergySound(energy).stop();
+                AssetManager.getInstance().getSoundAssets().getBlastSound(energy).stop();
                 swipeStartTime = 0;
                 swipeTimeSeconds = 0;
                 canCut = false;
@@ -1216,11 +1216,9 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         shootStartTime = TimeUtils.nanoTime();
         canDispatch = true;
         if (shotIntensity == ShotIntensity.BLAST) {
-            AssetManager.getInstance().getSoundAssets().getEnergySound(energy).play();
+            AssetManager.getInstance().getSoundAssets().getBlastSound(energy).play();
         } else {
-
-            Sound sound = AssetManager.getInstance().getSoundAssets().getEnergySound(energy);
-            sound.play(1, 2, 1);
+            AssetManager.getInstance().getSoundAssets().getShotSound(energy).play();
         }
         if (health < 100) ammo -= ammoUsed * ammoMultiplier;
     }
@@ -2058,7 +2056,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     }
     public void setFallLimit(float limit) { fallLimit = limit; }
     public void addEnergy(Energy energy) { energyToggler.add(energy); }
-    public void toggleEnergy(Direction toggleDirection) { // to enable in-game, must discharge blast ammo
+    public void toggleEnergy(Direction toggleDirection) { // to enable in-game, must discharge nativeBlast ammo
         if (energyList.size() > 1) {
             if (toggleDirection == Direction.UP) {
                 if (!energyToggler.hasNext()) {
