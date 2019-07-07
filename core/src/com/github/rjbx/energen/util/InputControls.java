@@ -315,5 +315,13 @@ public class InputControls extends InputAdapter {
             || downButtonJustPressed
             || jumpButtonJustPressed
             || shootButtonJustPressed
-            || pauseButtonJustPressed;  }
+            || pauseButtonJustPressed;
+    }
+
+    public final boolean justSelected() {
+        boolean select =  shootButtonJustPressed || pauseButtonJustPressed;
+        shootButtonJustPressed = false;
+        pauseButtonJustPressed = false;
+        return select;
+    }
 }
