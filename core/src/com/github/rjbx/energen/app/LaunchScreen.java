@@ -89,7 +89,7 @@ final class LaunchScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-        final Vector2 avatarPosition = new Vector2(viewport.getWorldWidth() / 2.1f, viewport.getWorldHeight() / 2f);
+        final Vector2 avatarPosition = new Vector2(viewport.getCamera().position.x, viewport.getCamera().position.y);
         avatar.setPosition(avatarPosition);
         touchInterface.getViewport().update(width, height, true);
         touchInterface.recalculateButtonPositions();
@@ -102,9 +102,9 @@ final class LaunchScreen extends ScreenAdapter {
         if (!launching) {
             switch(menuType) {
                 case START:
-                    Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().beast, viewport.getWorldWidth() / 4.25f, viewport.getWorldHeight() / 1.625f, Constants.BEAST_CENTER.x, Constants.BEAST_CENTER.y, 2f);
-                    Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().globe, viewport.getWorldWidth() / 2.25f, viewport.getWorldHeight() / 2.6125f, Constants.GLOBE_CENTER.x, Constants.GLOBE_CENTER.y, 3f);
-                    Helpers.drawBitmapFont(batch, viewport, title, "ENERGEN", viewport.getWorldWidth() / 2, viewport.getWorldHeight() - 10f, Align.center);
+                    Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().beast, viewport.getCamera().position.x - 55, viewport.getCamera().position.y + 25, Constants.BEAST_CENTER.x, Constants.BEAST_CENTER.y, 2f);
+                    Helpers.drawTextureRegion(batch, viewport, assetManager.getOverlayAssets().globe, viewport.getCamera().position.x, viewport.getCamera().position.y, Constants.GLOBE_CENTER.x + 12, Constants.GLOBE_CENTER.y + 20, 3f);
+                    Helpers.drawBitmapFont(batch, viewport, title, "ENERGEN", viewport.getCamera().position.x, viewport.getCamera().position.y + 70, Align.center);
                     avatar.render(batch, viewport);
                     menu.render(batch, font, viewport, Cursor.getInstance());
 
