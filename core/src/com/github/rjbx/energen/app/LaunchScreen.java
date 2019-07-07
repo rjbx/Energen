@@ -84,8 +84,6 @@ final class LaunchScreen extends ScreenAdapter {
         continuing = SaveData.getDifficulty() != -1;
         choices.add("NO");
         choices.add("YES");
-
-        SaveData.setTouchscreen(true);
     }
 
     @Override

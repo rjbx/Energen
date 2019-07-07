@@ -14,7 +14,10 @@ public final class SaveData {
     private SaveData() {}
 
     private static Preferences getPreferences() {
-        if (preferences == null) preferences = Gdx.app.getPreferences("avatar-prefs");
+        if (preferences == null) {
+            preferences = Gdx.app.getPreferences("avatar-prefs");
+            SaveData.setTouchscreen(Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS);
+        }
         return preferences;
     }
 
