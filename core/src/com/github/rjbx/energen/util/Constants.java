@@ -31,7 +31,7 @@ public final class Constants {
     public static final AssetDescriptor<Sound> CANNON_SOUND = new AssetDescriptor<Sound>("audio/cannon.wav", Sound.class);
     public static final AssetDescriptor<Sound> LIFE_SOUND = new AssetDescriptor<Sound>("audio/life.wav", Sound.class);
     public static final AssetDescriptor<Sound> UPGRADE_SOUND = new AssetDescriptor<Sound>("audio/upgrade.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_NATIVE_SOUND = new AssetDescriptor<Sound>("audio/blast-native.mp3", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_NATIVE_SOUND = new AssetDescriptor<Sound>("audio/blast-native.wav", Sound.class);
     public static final AssetDescriptor<Sound> BLAST_PLASMA_SOUND = new AssetDescriptor<Sound>("audio/blast-plasma.wav", Sound.class);
     public static final AssetDescriptor<Sound> BLAST_GAS_SOUND = new AssetDescriptor<Sound>("audio/blast-gas.wav", Sound.class);
     public static final AssetDescriptor<Sound> BLAST_LIQUID_SOUND = new AssetDescriptor<Sound>("audio/blast-liquid.wav", Sound.class);
@@ -39,7 +39,7 @@ public final class Constants {
     public static final AssetDescriptor<Sound> BLAST_SOLID_SOUND = new AssetDescriptor<Sound>("audio/blast-solid.wav", Sound.class);
     public static final AssetDescriptor<Sound> BLAST_ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/blast-antimatter.wav", Sound.class);
     public static final AssetDescriptor<Sound> BLAST_HYBRID_SOUND = new AssetDescriptor<Sound>("audio/blast-hybrid.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_NATIVE_SOUND = new AssetDescriptor<Sound>("audio/shot-native.mp3", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_NATIVE_SOUND = new AssetDescriptor<Sound>("audio/shot-native.wav", Sound.class);
     public static final AssetDescriptor<Sound> SHOT_PLASMA_SOUND = new AssetDescriptor<Sound>("audio/shot-plasma.wav", Sound.class);
     public static final AssetDescriptor<Sound> SHOT_GAS_SOUND = new AssetDescriptor<Sound>("audio/shot-gas.wav", Sound.class);
     public static final AssetDescriptor<Sound> SHOT_LIQUID_SOUND = new AssetDescriptor<Sound>("audio/shot-liquid.wav", Sound.class);
