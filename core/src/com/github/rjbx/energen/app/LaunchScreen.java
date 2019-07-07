@@ -108,7 +108,7 @@ final class LaunchScreen extends ScreenAdapter {
                     avatar.render(batch, viewport);
                     menu.render(batch, font, viewport, Cursor.getInstance());
 
-                    if (inputControls.shootButtonJustPressed) {
+                    if (inputControls.shootButtonJustPressed || inputControls.pauseButtonJustPressed) {
                         assetManager.getMusicAssets().intro.stop();
                         if (continuing) {
                             if (cursor.getPosition() == viewport.getCamera().position.y - 50) {
@@ -139,7 +139,7 @@ final class LaunchScreen extends ScreenAdapter {
                     break;
                 case DIFFICULTY:
                     menu.render(batch, font, viewport, Cursor.getInstance());
-                    if (inputControls.shootButtonJustPressed) {
+                    if (inputControls.shootButtonJustPressed || inputControls.pauseButtonJustPressed) {
                         if (cursor.getPosition() == viewport.getCamera().position.y) {
                             SaveData.setDifficulty(0);
                         } else if (cursor.getPosition() == viewport.getCamera().position.y - 15) {
