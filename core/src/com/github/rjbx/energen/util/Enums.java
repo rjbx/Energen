@@ -86,14 +86,14 @@ public final class Enums {
 
     public enum Theme {
 
-        HOME { @Override public final Color color() { return new Color(0, 0.4f, .65f, 1); } },
+        HOME { @Override public final Color color() { return new Color(0, .35f, .65f, 1); } },
 
-        MECHANICAL { @Override public final Color color() { return new Color(.2f, .6f, 0, 1); } },
-        ELECTROMAGNETIC { @Override public final Color color() { return new Color(.6f, 0, .4f, 1); } },
-        NUCLEAR { @Override public final Color color() { return new Color(.6f, .2f, 0, 1); } },
+        MECHANICAL { @Override public final Color color() { return new Color(0f, .35f, .1f, 1); } },
+        ELECTROMAGNETIC { @Override public final Color color() { return new Color(.45f, .15f, .4f, 1); } },
+        NUCLEAR { @Override public final Color color() { return new Color(.65f, .25f, 0, 1); } },
         THERMAL { @Override public final Color color() { return new Color(.3f, .3f, .3f, 1); } },
-        GRAVITATIONAL { @Override public final Color color() { return new Color(.45f, .1f, .0f, 1); } },
-        MYSTERIOUS { @Override public final Color color() { return new Color(.4f, 0, .6f, 1); } },
+        GRAVITATIONAL { @Override public final Color color() { return new Color(.2f, .4f, .6f, 1); } },
+        MYSTERIOUS { @Override public final Color color() { return new Color(.3f, .0f, .7f, 1); } },
 
         FINAL { @Override public final Color color() { return new Color(1, 1, 1, 1); } };
 
