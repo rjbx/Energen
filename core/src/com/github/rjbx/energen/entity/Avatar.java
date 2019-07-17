@@ -2105,6 +2105,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         if (supercharged && superchargeStartTime != 0) setHealth(Constants.MAX_HEALTH);
     }
+
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void resetChargeIntensity() { if (!autoblast) shotIntensity = ShotIntensity.NORMAL; }
     public void detectInput() { if (InputControls.getInstance().hasInput()) { activeStartTime = TimeUtils.nanoTime(); } }
@@ -2129,6 +2130,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     @Override
     public int getPriority() {
-        return Constants.PRIORITY_HIGH;
+        return carriedGround != null ? Constants.PRIORITY_MAX : Constants.PRIORITY_MEDIUM;
     }
 }
