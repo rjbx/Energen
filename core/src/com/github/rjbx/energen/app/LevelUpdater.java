@@ -322,7 +322,7 @@ class LevelUpdater {
                 scopedPowerups.end();
 
             } else {
-                if (avatar.getClimbStatus()) stateUpdated = false;
+                if (avatar.getClimbStatus() || avatar.getCarriedGround() != null) stateUpdated = false;
                 scopedTransports.begin();
                 for (int i = 0; i < scopedTransports.size; i++) {
                     Transport t = scopedTransports.get(i);
@@ -391,7 +391,7 @@ class LevelUpdater {
             applyCollision(avatar);
             avatar.update(delta);
             Blade.getInstance().update(delta);
-            if (avatar.getClimbStatus()) {
+            if (avatar.getClimbStatus() || avatar.getCarriedGround() != null) {
                 entitiesUpdated = !stateUpdated;
                 stateUpdated = true;
             }
