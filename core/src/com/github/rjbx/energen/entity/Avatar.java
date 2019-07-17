@@ -101,6 +101,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     private long strideStartTime;
     private long recoveryStartTime;
     private long swipeStartTime;
+    private long climbStartTime;
     private float superchargeStartTime;
     private float chargeTimeSeconds;
     private float lookTimeSeconds;
@@ -1512,7 +1513,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             if (action != Action.RAPPELLING || inputControls.upButtonPressed) {
                 // when overlapping all but top, set canrappel which if action enablesclimb will set canclimb to true
                 if (inputControls.jumpButtonPressed) {
-                    if (lookStartTime == 0) { // cannot initiate climb if already looking; must first neutralize
+                    if (lookStartTime == 0) {// cannot initiate climb if already looking; must first neutralize
                         canLook = false; // prevents look from overriding climb
                         canClimb = true; // enables climb handling from handleY()
                     }
@@ -1526,6 +1527,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             }
             if (!inputControls.hasInput() && turbo < Constants.MAX_TURBO) turbo += Constants.CLIMB_TURBO_INCREMENT;
         } else {
+            climbStartTime = 0;
             if (action == Action.CLIMBING) {
                 fall();
                 if (!(touchedGround instanceof Climbable && Helpers.overlapsBetweenTwoSides(position.x, getHalfWidth(), touchedGround.getLeft(), touchedGround.getRight())))  {
@@ -1540,6 +1542,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             if (action != Action.CLIMBING) { // at the time of climb initiation
                 groundState = GroundState.PLANTED;
                 action = Action.CLIMBING;
+            } else if (climbStartTime == 0) {
+                climbStartTime = TimeUtils.nanoTime();
             }
             resetChaseCamPosition();
             canHover = false;
@@ -2105,6 +2109,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         if (supercharged && superchargeStartTime != 0) setHealth(Constants.MAX_HEALTH);
     }
+
+    public long getClimbStartTime() { return climbStartTime; }
 
     public void setSpawnPosition(Vector2 spawnPosition) { this.spawnPosition.set(spawnPosition); }
     public void resetChargeIntensity() { if (!autoblast) shotIntensity = ShotIntensity.NORMAL; }
