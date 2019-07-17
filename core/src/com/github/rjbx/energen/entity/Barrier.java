@@ -94,6 +94,6 @@ public class Barrier extends Ground implements Rappelable, Hurdleable, Strikeabl
 
     @Override
     public int getPriority() {
-        return isDense() ? Constants.PRIORITY_MAX : Constants.PRIORITY_LOW;
+        return this instanceof Box ? Constants.PRIORITY_OVERRIDE : isDense() ? Constants.PRIORITY_MAX : Constants.PRIORITY_LOW;
     }
 }
