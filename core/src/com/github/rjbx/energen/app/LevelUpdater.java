@@ -173,8 +173,7 @@ class LevelUpdater {
                     }
                 }
             }
-            entitiesUpdated = !stateUpdated;
-            stateUpdated = true;
+
             grounds.end();
             scopedGrounds.end();
         } else if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
@@ -322,7 +321,6 @@ class LevelUpdater {
                 scopedPowerups.end();
 
             } else {
-                if (avatar.getClimbStatus() || avatar.getCarriedGround() != null) stateUpdated = false;
                 scopedTransports.begin();
                 for (int i = 0; i < scopedTransports.size; i++) {
                     Transport t = scopedTransports.get(i);
@@ -391,10 +389,6 @@ class LevelUpdater {
             applyCollision(avatar);
             avatar.update(delta);
             Blade.getInstance().update(delta);
-            if (avatar.getClimbStatus() || avatar.getCarriedGround() != null) {
-                entitiesUpdated = !stateUpdated;
-                stateUpdated = true;
-            }
 
             // Update Grounds
             scopedGrounds.begin();
@@ -467,6 +461,7 @@ class LevelUpdater {
                         && !trip.getConvertBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
                         && !(trip.getConvertBounds().overlaps(new Rectangle(chaseCam.getCamera().position.x - chaseCam.getViewport().getWorldWidth() / 4, chaseCam.getCamera().position.y - chaseCam.getViewport().getWorldHeight() / 4, chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getViewport().getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
 
+                    if (chaseCam.getConvertStartTime() == 0) entitiesUpdated = true;
                     chaseCam.setState(Enums.ChaseCamState.CONVERT);
                     chaseCam.setConvertBounds(trip.getConvertBounds());
                     trip.addCamAdjustment();
@@ -496,6 +491,7 @@ class LevelUpdater {
                 if (Helpers.overlapsPhysicalObject(avatar, ground)) {
                     if (!compressible.getState()) {
                         compressible.resetStartTime();
+                        entitiesUpdated = true;
                     }
                     compressible.setState(true);
                 } else if (compressible.getState() && !(compressible instanceof Pliable && ((Pliable) compressible).isAtopMovingGround() && Helpers.betweenTwoValues(avatar.getBottom(), ground.getTop(), ground.getTop() + 2))) {
@@ -679,6 +675,7 @@ class LevelUpdater {
                                 && !trip.getConvertBounds().equals(Rectangle.tmp) // where tmp has bounds of (0,0,0,0)
                                 && !(trip.getConvertBounds().overlaps(new Rectangle(chaseCam.getCamera().position.x - chaseCam.getViewport().getWorldWidth() / 4, chaseCam.getCamera().position.y - chaseCam.getViewport().getWorldHeight() / 4, chaseCam.getViewport().getWorldWidth() / 2, chaseCam.getViewport().getWorldHeight() / 2)))) { // halving dimensions heightens camera sensitivity
 
+                            if (chaseCam.getConvertStartTime() == 0) entitiesUpdated = true;
                             chaseCam.setState(Enums.ChaseCamState.CONVERT);
                             chaseCam.setConvertBounds(trip.getConvertBounds());
                             trip.addCamAdjustment();

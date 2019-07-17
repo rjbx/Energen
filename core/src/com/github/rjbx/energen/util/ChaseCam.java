@@ -95,6 +95,7 @@ public final class ChaseCam {
         batch.end();
     }
 
+    public long getConvertStartTime() { return convertStartTime; }
     public final ExtendViewport getViewport() { return viewport; }
     public final Array<Rectangle> getConvertBounds() { return convertBoundsArray; }
     public final void setConvertBounds(Rectangle convertBounds) { this.convertBoundsArray.add(convertBounds); }
