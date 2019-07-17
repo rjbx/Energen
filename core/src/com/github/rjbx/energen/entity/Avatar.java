@@ -2130,6 +2130,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
 
     @Override
     public int getPriority() {
-        return carriedGround == null ? Constants.PRIORITY_MAX : Constants.PRIORITY_MEDIUM;
+        return Constants.PRIORITY_HIGH;
     }
 }

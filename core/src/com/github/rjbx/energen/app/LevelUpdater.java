@@ -491,6 +491,7 @@ class LevelUpdater {
                 if (Helpers.overlapsPhysicalObject(avatar, ground)) {
                     if (!compressible.getState()) {
                         compressible.resetStartTime();
+                        entitiesUpdated = true;
                     }
                     compressible.setState(true);
                 } else if (compressible.getState() && !(compressible instanceof Pliable && ((Pliable) compressible).isAtopMovingGround() && Helpers.betweenTwoValues(avatar.getBottom(), ground.getTop(), ground.getTop() + 2))) {
