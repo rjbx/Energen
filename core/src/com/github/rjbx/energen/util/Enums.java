@@ -92,7 +92,7 @@ public final class Enums {
         ELECTROMAGNETIC { @Override public final Color color() { return new Color(.3f, .7f, .9f, 1); } },
         NUCLEAR { @Override public final Color color() { return new Color(.65f, .2f, 0, 1); } },
         THERMAL { @Override public final Color color() { return new Color(.3f, .3f, .3f, 1); } },
-        GRAVITATIONAL { @Override public final Color color() { return new Color(.4f, .5f, .6f, 1); } },
+        GRAVITATIONAL { @Override public final Color color() { return new Color(.45f, .1f, .0f, 1); } },
         MYSTERIOUS { @Override public final Color color() { return new Color(.5f, 0, .7f, 1); } },
 
         FINAL { @Override public final Color color() { return new Color(1, 1, 1, 1); } };
