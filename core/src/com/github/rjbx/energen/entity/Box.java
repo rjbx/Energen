@@ -1,5 +1,6 @@
 package com.github.rjbx.energen.entity;
 
+import com.github.rjbx.energen.util.Constants;
 import com.github.rjbx.energen.util.Enums;
 
 // TODO: Add bounds attribute for ledge switching when all activators in area are tripped
@@ -29,4 +30,7 @@ public class Box extends Barrier implements Destructible {
     @Override public float getShotRadius() { return Math.min(getWidth(), getHeight()) / 2; }
     @Override public void setHealth(float damage) { this.damage = damage; }
     @Override public float getHealth() { return damage; }
+
+    @Override
+    public int getPriority() { return Constants.PRIORITY_OVERRIDE; }
 }
