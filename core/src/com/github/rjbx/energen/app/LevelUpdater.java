@@ -63,6 +63,7 @@ class LevelUpdater {
     private boolean musicEnabled;
     private boolean hintsEnabled;
     private boolean entitiesUpdated;
+    private boolean stateUpdated;
     private int score;
     private long time;
     private int savedScore;
@@ -172,6 +173,8 @@ class LevelUpdater {
                     }
                 }
             }
+            entitiesUpdated = !entitiesUpdated;
+            stateUpdated = true;
             grounds.end();
             scopedGrounds.end();
         } else if (boss != null && (boss.isTalking() || boss.getHealth() < 1)) {
@@ -319,6 +322,7 @@ class LevelUpdater {
                 scopedPowerups.end();
 
             } else {
+                if (avatar.getClimbStatus()) stateUpdated = false;
                 scopedTransports.begin();
                 for (int i = 0; i < scopedTransports.size; i++) {
                     Transport t = scopedTransports.get(i);
@@ -358,7 +362,6 @@ class LevelUpdater {
                     }
                 }
                 scopedGrounds.end();
-                
 
                 scopedImpacts.begin();
                 // Update Impacts
@@ -388,6 +391,7 @@ class LevelUpdater {
             applyCollision(avatar);
             avatar.update(delta);
             Blade.getInstance().update(delta);
+            if (avatar.getClimbStatus() && !stateUpdated) entitiesUpdated = true;
 
             // Update Grounds
             scopedGrounds.begin();
