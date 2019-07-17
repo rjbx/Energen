@@ -389,7 +389,7 @@ class LevelUpdater {
             applyCollision(avatar);
             avatar.update(delta);
             Blade.getInstance().update(delta);
-            entitiesUpdated = avatar.getClimbStatus() && avatar.getClimbStartTime() == 0;
+            if (avatar.getClimbStatus() && avatar.getClimbStartTime() == 0) entitiesUpdated = true;
 
             // Update Grounds
             scopedGrounds.begin();
