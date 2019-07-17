@@ -173,7 +173,7 @@ class LevelUpdater {
                     }
                 }
             }
-            entitiesUpdated = !entitiesUpdated;
+            entitiesUpdated = !stateUpdated;
             stateUpdated = true;
             grounds.end();
             scopedGrounds.end();
@@ -391,7 +391,10 @@ class LevelUpdater {
             applyCollision(avatar);
             avatar.update(delta);
             Blade.getInstance().update(delta);
-            if (avatar.getClimbStatus() && !stateUpdated) entitiesUpdated = true;
+            if (avatar.getClimbStatus()) {
+                entitiesUpdated = !stateUpdated;
+                stateUpdated = true;
+            }
 
             // Update Grounds
             scopedGrounds.begin();
