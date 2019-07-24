@@ -1231,12 +1231,14 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             lookStartTime = TimeUtils.nanoTime();
             chaseCamPosition.set(position, 0);
         } else if (groundState != GroundState.AIRBORNE) {
-            if (!touchedGround.isDense() && carriedGround == null && inputControls.shootButtonPressed && shotIntensity == ShotIntensity.BLAST && inputControls.jumpButtonJustPressed && directionY == Direction.DOWN) {
-                groundState = GroundState.AIRBORNE;
-                position.y -= 5;
-                fall();
-            } else if (!getSwipeStatus() && (velocity.y == 0 || Helpers.inputToDirection() != Helpers.velocityToDirection(velocity, Orientation.Y))) {
-                setChaseCamPosition(offset);
+            if (!getSwipeStatus() && (velocity.y == 0 || Helpers.inputToDirection() != Helpers.velocityToDirection(velocity, Orientation.Y))) {
+                if (setChaseCamPosition(offset)) {
+                    if (!touchedGround.isDense() && carriedGround == null && inputControls.shootButtonPressed && inputControls.jumpButtonJustPressed && directionY == Direction.DOWN) {
+                        groundState = GroundState.AIRBORNE;
+                        position.y -= 5;
+                        fall();
+                    }
+                }
             } else {
                 resetChaseCamPosition();
             }
@@ -2034,15 +2036,16 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
     public void setTurbo(float turbo) { this.turbo = turbo; }
     public void setMoveStatus(boolean state) { canMove = state; }
     public void setInputControls(InputControls inputControls) { this.inputControls = inputControls; }
-    public void setChaseCamPosition(float offset) {
+    public boolean setChaseCamPosition(float offset) {
         lookTimeSeconds = Helpers.secondsSince(lookStartTime);
         if (lookTimeSeconds > 1 || velocity.y != 0) {
             offset += 1.5f;
             if (Math.abs(chaseCamPosition.y - position.y) < Constants.MAX_LOOK_DISTANCE) {
                 chaseCamPosition.y += Helpers.speedToVelocity(offset, directionY, Orientation.Y);
                 chaseCamPosition.x = position.x;
-            }
+            } else return true;
         }
+        return false;
     }
     public void resetChaseCamPosition() {
         float offsetDistance = chaseCamPosition.y - position.y;
