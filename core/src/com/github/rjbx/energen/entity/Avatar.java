@@ -1231,7 +1231,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             lookStartTime = TimeUtils.nanoTime();
             chaseCamPosition.set(position, 0);
         } else if (groundState != GroundState.AIRBORNE) {
-            if (!touchedGround.isDense() && inputControls.shootButtonPressed && inputControls.jumpButtonJustPressed && directionY == Direction.DOWN) {
+            if (!touchedGround.isDense() && carriedGround == null && inputControls.shootButtonPressed && inputControls.jumpButtonJustPressed && directionY == Direction.DOWN) {
                 groundState = GroundState.AIRBORNE;
                 position.y -= 5;
                 fall();
