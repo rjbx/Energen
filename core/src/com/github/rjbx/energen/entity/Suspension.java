@@ -50,12 +50,15 @@ public class Suspension extends Hazard implements Indestructible, Convertible {
 
     @Override
     public void update(float delta) {
-        converted = false;
-        if (!state && !knockback.equals(Vector2.Zero)) {
-            knockback.setZero();
-            damage = 0;
-        } else if (state && knockback.equals(Vector2.Zero)) {
-            setTypeAttributes(type);
+        if (state) {
+            if (knockback.equals(Vector2.Zero)) {
+                setTypeAttributes(type);
+            }
+        } else {
+            converted = false;
+            if (!knockback.equals(Vector2.Zero)) {
+                knockback.setZero();
+            }
         }
     }
 
@@ -81,7 +84,7 @@ public class Suspension extends Hazard implements Indestructible, Convertible {
     public final long getStartTime() { return startTime; }
     public final void resetStartTime() { this.startTime = 0; }
     @Override public void convert() { state = !state; converted = true; }
-    @Override public boolean isConverted() { return converted; }
+    @Override public boolean isConverted() { return !state; }
     private final void setTypeAttributes(Enums.Energy type) {
         switch (type) {
             case ORE:
