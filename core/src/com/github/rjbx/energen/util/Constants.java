@@ -657,7 +657,7 @@ public final class Constants {
 
     public static final Vector2 SUSPENSION_ANTIMATTER_CENTER = new Vector2(31, 31);
     public static final float SUSPENSION_ANTIMATTER_FRAME_DURATION = 0.4f;
-    public static final int SUSPENSION_ANTIMATTER_DAMAGE = 100;
+    public static final int SUSPENSION_ANTIMATTER_DAMAGE = 75;
     public static final Vector2 SUSPENSION_ANTIMATTER_KNOCKBACK = new Vector2(100, Y_KNOCKBACK);
     public static final float SUSPENSION_ANTIMATTER_COLLISION_WIDTH = 25;
     public static final float SUSPENSION_ANTIMATTER_COLLISION_HEIGHT = 25;

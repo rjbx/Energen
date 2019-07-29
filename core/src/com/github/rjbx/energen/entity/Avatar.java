@@ -795,7 +795,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         }
         for (Hazard h : hazards) {
             if (!(h instanceof Projectile && ((Projectile) h).getSource() instanceof Avatar)
-                    && !(h instanceof Protrusion && ((Protrusion) h).isConverted())) {
+                    && !(h instanceof Indestructible && h instanceof Convertible && ((Protrusion) h).isConverted())) {
                 if (Helpers.overlapsPhysicalObject(this, h)) {
                     touchHazard(h);
                 } else if (h instanceof Moving) {
