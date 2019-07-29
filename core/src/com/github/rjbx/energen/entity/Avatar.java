@@ -204,6 +204,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         bounds = new Rectangle(left, bottom, width, height);
         velocity.setZero();
         directionX = Enums.Direction.RIGHT;
+        directionY = Direction.UP;
         action = Enums.Action.FALLING;
         groundState = Enums.GroundState.AIRBORNE;
         ammo = Constants.INITIAL_AMMO;
@@ -244,8 +245,6 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
         lookStartTime = 0;
         hoverStartTime = 0;
         rappelStartTime = 0;
-        Direction directionY = Direction.UP;
-//        region = TextureRegion.
         chargeTimeSeconds = 0f;
         lookTimeSeconds = 0f;
         dashTimeSeconds = 0f;
