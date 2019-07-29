@@ -29,7 +29,6 @@ import static com.github.rjbx.energen.util.Enums.Orientation.X;
 //  Considerations:
 //    -Would need to modularize rendering as with Avatar
 //    -Alternative is to create distinct sprites for each type and provide from AssetManager a texture by type accessor
-// TODO[L]: Add tag to enable adding bosses as regular enemies i.e. in final stage
 
 // mutable
 public class Boss extends Hazard implements Destructible, Humanoid, Impermeable, Shielded, Trippable {

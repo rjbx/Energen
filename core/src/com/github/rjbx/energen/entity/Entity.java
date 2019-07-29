@@ -6,18 +6,6 @@ public abstract class Entity implements Physical, Visible, Cloneable, Sortable {
 
     private int cloneHashCode;
     private int id;
-//    private int renderPriority;
-//    private int updatePriority;
-
-    // TODO: Add field for determining sort priority so as to eliminate need for
-    //  multiple and/or distinct passes through subtype loops due to logic ordering
-    //  with one pass through the presorted global entity loop
-    //
-    //  Considerations:
-    //   -Distinction by subtype is currently handled seamlessly by direct load into subtype lists
-    //   -Alternative to fields is to direct load into lists filtering subtype by condition
-    //   -Further need for distinction applies to one additional ground loop for each render and update call
-
 
     // default ctor
     public Entity() { cloneHashCode = hashCode(); }

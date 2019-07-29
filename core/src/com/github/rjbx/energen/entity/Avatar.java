@@ -27,11 +27,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
-// mutable
-// TODO: Add powerup that turns suit gold and maxes out all abilities
-//  (as though all upgrades have been activated) until hit
-//  - Either add new ability upgrades or spread out redundant chambers
-//   replacing them with above-referenced powerup
 public class Avatar extends Entity implements Impermeable, Humanoid {
 
     // fields
