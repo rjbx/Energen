@@ -72,7 +72,7 @@ public class Brick extends Barrier implements Tossable, Impermeable, Hurdleable 
                         atopMovingGround = true;
                         movingGround = (Moving) ground;
                     } else if ((!(ground instanceof Climbable && isBeingCarried()))
-                            && ground.getWidth() >= this.getWidth()) { // prevents setting to unreachable, narrower ground
+                            && (ground.getWidth() >= this.getWidth() || ground instanceof Pourous)) { // prevents setting to unreachable, narrower ground
                         position.y = ground.getTop() + getHeight() / 2;
 //                        if (Helpers.overlapsBetweenTwoSides(position.x, getWidth() / 2, ground.getLeft() + 2, ground.getRight() - 2)) {
                             velocity.y = 0;
