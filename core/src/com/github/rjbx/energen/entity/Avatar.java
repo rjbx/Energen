@@ -584,7 +584,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                 if (groundState != GroundState.PLANTED) {
                     // if x velocity (magnitude, without concern for direction) greater than one third max speed,
                     // boost x velocity by starting speed, enable rappel, verify rappelling ground and capture rappelling ground boundaries
-                    if ((Math.abs(velocity.x) >= Constants.AVATAR_MAX_SPEED / 8) || g instanceof Hazard) {
+                    if ((Math.abs(velocity.x) >= Constants.AVATAR_STARTING_SPEED / 8) || g instanceof Hazard) {
                         // if already rappelling, halt x progression
                         if (action != Action.RAPPELLING) {
                             if (g instanceof Rappelable) {
