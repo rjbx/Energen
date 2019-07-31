@@ -538,12 +538,12 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     if (g.getBottom() < bottom - 5) {
                         canCling = false;
                         canClimb = false;
+                        lookStartTime = 0;
+                        lookTimeSeconds = 0;
                     }
                     canSink = true;
                     canDash = false;
 //                    canHover = false;
-                    lookStartTime = 0;
-                    lookTimeSeconds = 0;
                     prioritized = true;
                 } else if (!(g instanceof Pliable) || !(canClimb && directionY == Direction.UP)) { // canclimb set to false from fall to prevent ignoring top collision after initiating climb, holding jump and passing through ledge top
                     if (!(canClimb && directionY == Direction.DOWN)) { /// ignore side and bottom collision always and top collision when can climb and looking downward
