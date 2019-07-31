@@ -715,14 +715,14 @@ class LevelUpdater {
         } else if (hazard instanceof Projectile) {
             Projectile projectile = (Projectile) hazard;
             for (Hazard h : scopedHazards) {
-                if (h instanceof Destructible) {
-                    Destructible destructible = (Destructible) h;
-                    if (!projectile.equals(h) && projectile.isActive() && Helpers.overlapsPhysicalObject(projectile, destructible)) {
-                        if (!(destructible instanceof Zoomba)
-                                || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
-                                || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
+                if (h instanceof Strikeable) {
+                    Strikeable strikeable = (Destructible) h;
+                    if (!projectile.equals(h) && projectile.isActive() && Helpers.overlapsPhysicalObject(projectile, strikeable)) {
+                        if (!(strikeable instanceof Zoomba)
+                                || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, strikeable.getBottom() + 5, strikeable.getTop() - 5))
+                                || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, strikeable.getLeft() + 5, strikeable.getRight() - 5)))) {
                             if (!(h instanceof Armored || h instanceof Boss)) {
-                                Helpers.applyDamage(destructible, projectile);
+                                Helpers.applyDamage((Destructible) strikeable, projectile);
                                 this.spawnImpact(projectile.getPosition(), projectile.getType());
                                 projectile.deactivate();
                             } else {
@@ -731,12 +731,12 @@ class LevelUpdater {
                             }
                             score += projectile.getHitScore();
                         } else {
-                            ((Zoomba) destructible).convert();
-                            if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(destructible)) {
-                                avatar.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.AVATAR_EYE_HEIGHT));
+                            ((Zoomba) strikeable).convert();
+                            if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(strikeable)) {
+                                avatar.setPosition(new Vector2(strikeable.getPosition().x, strikeable.getTop() + Constants.AVATAR_EYE_HEIGHT));
                             }
                         }
-                        if (destructible instanceof Zoomba) {
+                        if (strikeable instanceof Zoomba) {
                             this.spawnImpact(projectile.getPosition(), projectile.getType());
                             projectile.deactivate();
                         }
