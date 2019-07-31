@@ -27,6 +27,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import sun.security.krb5.internal.crypto.Des;
+
 // immutable package-private singleton
 class LevelUpdater {
 
@@ -716,30 +718,25 @@ class LevelUpdater {
             Projectile projectile = (Projectile) hazard;
             for (Hazard h : scopedHazards) {
                 if (h instanceof Strikeable) {
-                    Strikeable strikeable = (Strikeable) h;
-                    if (!projectile.equals(h) && projectile.isActive() && Helpers.overlapsPhysicalObject(projectile, strikeable)) {
-                        if (!(strikeable instanceof Zoomba)
-                                || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, strikeable.getBottom() + 5, strikeable.getTop() - 5))
-                                || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, strikeable.getLeft() + 5, strikeable.getRight() - 5)))) {
-                            if (strikeable instanceof Destructible && !(h instanceof Armored || h instanceof Boss)) {
-                                Helpers.applyDamage((Destructible) strikeable, projectile);
-                                this.spawnImpact(projectile.getPosition(), projectile.getType());
-                                projectile.deactivate();
+                    if (!projectile.equals(h) && projectile.isActive() && Helpers.overlapsPhysicalObject(projectile, h)) {
+                        if (h instanceof Destructible) {
+                            Destructible destructible = (Destructible) h;
+                            if (!(destructible instanceof Zoomba)
+                                    || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
+                                    || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
+                                if (destructible instanceof Destructible && !(h instanceof Armored || h instanceof Boss)) {
+                                    Helpers.applyDamage((Destructible) destructible, projectile);
+                                } else AssetManager.getInstance().getSoundAssets().hitGround.play();
+                                score += projectile.getHitScore();
                             } else {
-                                AssetManager.getInstance().getSoundAssets().hitGround.play();
-                                projectile.deactivate();
-                            }
-                            score += projectile.getHitScore();
-                        } else {
-                            ((Zoomba) strikeable).convert();
-                            if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(strikeable)) {
-                                avatar.setPosition(new Vector2(strikeable.getPosition().x, strikeable.getTop() + Constants.AVATAR_EYE_HEIGHT));
+                                ((Zoomba) destructible).convert();
+                                if (avatar.getTouchedGround() != null && avatar.getTouchedGround().equals(destructible)) {
+                                    avatar.setPosition(new Vector2(destructible.getPosition().x, destructible.getTop() + Constants.AVATAR_EYE_HEIGHT));
+                                }
                             }
                         }
-                        if (strikeable instanceof Zoomba) {
-                            this.spawnImpact(projectile.getPosition(), projectile.getType());
-                            projectile.deactivate();
-                        }
+                        this.spawnImpact(projectile.getPosition(), projectile.getType());
+                        projectile.deactivate();
                     }
                 }
             }
