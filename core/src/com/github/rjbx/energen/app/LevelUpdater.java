@@ -716,12 +716,12 @@ class LevelUpdater {
             Projectile projectile = (Projectile) hazard;
             for (Hazard h : scopedHazards) {
                 if (h instanceof Strikeable) {
-                    Strikeable strikeable = (Destructible) h;
+                    Strikeable strikeable = (Strikeable) h;
                     if (!projectile.equals(h) && projectile.isActive() && Helpers.overlapsPhysicalObject(projectile, strikeable)) {
                         if (!(strikeable instanceof Zoomba)
                                 || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, strikeable.getBottom() + 5, strikeable.getTop() - 5))
                                 || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, strikeable.getLeft() + 5, strikeable.getRight() - 5)))) {
-                            if (!(h instanceof Armored || h instanceof Boss)) {
+                            if (strikeable instanceof Destructible && !(h instanceof Armored || h instanceof Boss)) {
                                 Helpers.applyDamage((Destructible) strikeable, projectile);
                                 this.spawnImpact(projectile.getPosition(), projectile.getType());
                                 projectile.deactivate();
