@@ -535,7 +535,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     }
                 } else if (g instanceof Pourous) {
                     setAtopGround(g); // when any kind of collision detected and not only when breaking plane of ground.top
-                    canCling = false;
+//                    canCling = false;
 //                    canClimb = false;
                     canSink = true;
                     canDash = false;
