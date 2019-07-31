@@ -1,4 +1,4 @@
 package com.github.rjbx.energen.entity;
 
-public interface Indestructible {
+public interface Indestructible extends Strikeable {
 }
