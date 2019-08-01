@@ -540,8 +540,8 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                         canClimb = false;
 //                        lookStartTime = 0;
 //                        lookTimeSeconds = 0;
+                        canSink = true;
                     }
-                    canSink = true;
                     canDash = false;
 //                    canHover = false;
                     prioritized = true;
@@ -1060,9 +1060,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             strideTimeSeconds = 0;
             strideAcceleration = 0;
             velocity.x = 0;
-            if (touchedGround.getBottom() < bottom - 5) {
-                velocity.y = -3;
-            }
+            if (canSink) velocity.y = -3;
         } else if (touchedGround instanceof Skateable) {
             if (Math.abs(velocity.x) > 0.005f) {
                 velocity.x /= 1.005;
