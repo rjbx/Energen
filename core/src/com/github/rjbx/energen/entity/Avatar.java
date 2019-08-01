@@ -538,10 +538,10 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     if (g.getBottom() < bottom - 5) {
                         canCling = false;
                         canClimb = false;
-//                        lookStartTime = 0;
-//                        lookTimeSeconds = 0;
-                        canSink = true;
+                        lookStartTime = 0;
+                        lookTimeSeconds = 0;
                     }
+                    canSink = true;
                     canDash = false;
 //                    canHover = false;
                     prioritized = true;
@@ -1060,7 +1060,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             strideTimeSeconds = 0;
             strideAcceleration = 0;
             velocity.x = 0;
-            if (canSink) velocity.y = -3;
+            velocity.y = -3;
         } else if (touchedGround instanceof Skateable) {
             if (Math.abs(velocity.x) > 0.005f) {
                 velocity.x /= 1.005;
@@ -1226,7 +1226,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             lookStartTime = TimeUtils.nanoTime();
             chaseCamPosition.set(position, 0);
         } else if (groundState != GroundState.AIRBORNE) {
-            if (!getSwipeStatus() && (velocity.y == 0 || Helpers.inputToDirection() != Helpers.velocityToDirection(velocity, Orientation.Y))) {
+            if (!getSwipeStatus() && (velocity.y == 0 || touchedGround instanceof Pourous || Helpers.inputToDirection() != Helpers.velocityToDirection(velocity, Orientation.Y))) {
                 if (setChaseCamPosition(offset)) {
                     if (!touchedGround.isDense() && carriedGround == null && inputControls.shootButtonPressed && inputControls.jumpButtonJustPressed && directionY == Direction.DOWN) {
                         groundState = GroundState.AIRBORNE;
