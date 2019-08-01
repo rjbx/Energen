@@ -27,8 +27,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import sun.security.krb5.internal.crypto.Des;
-
 // immutable package-private singleton
 class LevelUpdater {
 
@@ -724,8 +722,8 @@ class LevelUpdater {
                             if (!(destructible instanceof Zoomba)
                                     || !((projectile.getOrientation() == Enums.Orientation.X && Helpers.betweenTwoValues(projectile.getPosition().y, destructible.getBottom() + 5, destructible.getTop() - 5))
                                     || (projectile.getOrientation() == Enums.Orientation.Y && Helpers.betweenTwoValues(projectile.getPosition().x, destructible.getLeft() + 5, destructible.getRight() - 5)))) {
-                                if (destructible instanceof Destructible && !(h instanceof Armored || h instanceof Boss)) {
-                                    Helpers.applyDamage((Destructible) destructible, projectile);
+                                if (!(h instanceof Armored || h instanceof Boss)) {
+                                    Helpers.applyDamage(destructible, projectile);
                                 } else AssetManager.getInstance().getSoundAssets().hitGround.play();
                                 score += projectile.getHitScore();
                             } else {
