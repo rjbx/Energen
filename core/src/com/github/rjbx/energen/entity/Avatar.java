@@ -538,7 +538,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
                     if (g.getBottom() < bottom - 5) {
                         canCling = false;
                         canClimb = false;
-                        lookStartTime = 0;
+                        lookStartTime = TimeUtils.nanoTime();
                         lookTimeSeconds = 0;
                     }
                     canSink = true;
