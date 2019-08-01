@@ -1060,7 +1060,7 @@ public class Avatar extends Entity implements Impermeable, Humanoid {
             strideTimeSeconds = 0;
             strideAcceleration = 0;
             velocity.x = 0;
-            if (touchedGround.getBottom() > bottom - 5) {
+            if (touchedGround.getBottom() < bottom - 5) {
                 velocity.y = -3;
             }
         } else if (touchedGround instanceof Skateable) {
