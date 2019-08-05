@@ -733,8 +733,10 @@ class LevelUpdater {
                                 }
                             }
                         }
-                        this.spawnImpact(projectile.getPosition(), projectile.getType());
-                        projectile.deactivate();
+                        if (!(h instanceof Suspension && ((Convertible) h).isConverted())) {
+                            this.spawnImpact(projectile.getPosition(), projectile.getType());
+                            projectile.deactivate();
+                        }
                     }
                 }
             }
