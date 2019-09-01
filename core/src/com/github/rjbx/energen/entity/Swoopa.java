@@ -31,6 +31,7 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
     private long descentStartTime;
     private Animation<TextureRegion> animation;
     private Sound sound;
+    private boolean initiated = false;
 
     // ctor
     public Swoopa(Vector2 position, Enums.Direction direction, Enums.Energy type) {
@@ -41,7 +42,6 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
         velocity = new Vector2(Helpers.speedToVelocity(3, direction, Enums.Orientation.X), -5);
         startTime = TimeUtils.nanoTime();
         health = Constants.SWOOPA_MAX_HEALTH;
-        bobOffset = MathUtils.random();
         sound = AssetManager.getInstance().getSoundAssets().flight;
         switch (type) {
             case ORE:
@@ -86,6 +86,7 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
         // while the swoopa is within a screens' width from the screen center on either side, permit movement
         if (Helpers.betweenTwoValues(position.x, (camera.x - worldSpan.x), (camera.x + worldSpan.x))
             && Helpers.betweenTwoValues(position.y, (camera.y - (worldSpan.y * 1.5f)), (camera.y + (worldSpan.y * 1.5f)))) {
+            if (!initiated) initiated = true;
             if (descentStartTime == 0) {
                 sound.play();
                 descentStartTime = TimeUtils.nanoTime();
@@ -98,14 +99,16 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
                 velocity.y = 0;
             }
         }
-        position.mulAdd(velocity, delta);
+        if (initiated) {
+            position.mulAdd(velocity, delta);
 
-        // when the swoopa progresses past the center screen position with a margin of ten screen widths, reset x and y position
-        if (position.x > (camera.x + Math.abs(worldSpan.x * 2))) {
-            descentStartTime = 0;
-            position.set(startPosition);
+            // when the swoopa progresses past the center screen position with a margin of ten screen widths, reset x and y position
+            if (position.x > (camera.x + Math.abs(worldSpan.x * 2))) {
+                descentStartTime = 0;
+                position.set(startPosition);
 //            position.y = Avatar.getInstance().getTop() + Constants.SWOOPA_COLLISION_HEIGHT;
-            velocity.set(Helpers.speedToVelocity(5, direction, Enums.Orientation.X), -5);
+                velocity.set(Helpers.speedToVelocity(5, direction, Enums.Orientation.X), -5);
+            }
         }
     }
 
