@@ -637,7 +637,7 @@ class LevelUpdater {
                 spawnImpact(intersectionPoint, touchedHazard.getType());
             }
         } else if (hazard instanceof Swoopa) {
-            hazard.setActive(true);
+            ((Swoopa) hazard).setActive(true);
         }
 
         if (hazard instanceof Destructible) {
