@@ -22,16 +22,16 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
     public final static String TAG = Swoopa.class.getName();
 
     private final long startTime;
-    private final Vector2 startPosition;
     private Vector2 velocity; // class-level instantiation
     private Vector2 position;
+    private final Vector2 startPosition;
     private final Enums.Direction direction;
     private final Enums.Energy type;
     private float health;
     private long descentStartTime;
     private Animation<TextureRegion> animation;
     private Sound sound;
-    private boolean active = false;
+    private boolean active;
 
     // ctor
     public Swoopa(Vector2 position, Enums.Direction direction, Enums.Energy type) {
@@ -104,8 +104,8 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
             // when the swoopa progresses past the center screen position with a margin of ten screen widths, reset x and y position
             if (position.x > (camera.x + Math.abs(worldSpan.x * 2))) {
                 descentStartTime = 0;
-                position.set(startPosition);
-//            position.y = Avatar.getInstance().getTop() + Constants.SWOOPA_COLLISION_HEIGHT;
+                position.x = startPosition.x;
+                position.y = Avatar.getInstance().getTop() + Constants.SWOOPA_COLLISION_HEIGHT;
                 velocity.set(Helpers.speedToVelocity(5, direction, Enums.Orientation.X), -5);
             }
         }
@@ -132,13 +132,12 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
     @Override public final Vector2 getKnockback() { return Constants.SWOOPA_KNOCKBACK; }
     @Override public final Enums.Energy getType() { return type; }
     @Override public final boolean isDense() { return true; }
-    public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
+    @Override public final void setHealth(float health ) { this.health = health; }
     public int getMountDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.SWOOPA_KNOCKBACK; }
     public final long getStartTime() { return startTime; }
-
-    @Override public final void setHealth( float health ) { this.health = health; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 
     @Override
     public int getPriority() {
