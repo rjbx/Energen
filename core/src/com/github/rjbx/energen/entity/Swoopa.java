@@ -22,7 +22,7 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
     public final static String TAG = Swoopa.class.getName();
 
     private final long startTime;
-    private final float bobOffset;
+    private final Vector2 startPosition;
     private Vector2 velocity; // class-level instantiation
     private Vector2 position;
     private final Enums.Direction direction;
@@ -35,6 +35,7 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
     // ctor
     public Swoopa(Vector2 position, Enums.Direction direction, Enums.Energy type) {
         this.position = position;
+        startPosition = position;
         this.direction = direction;
         this.type = type;
         velocity = new Vector2(Helpers.speedToVelocity(3, direction, Enums.Orientation.X), -5);
@@ -102,7 +103,7 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
         // when the swoopa progresses past the center screen position with a margin of ten screen widths, reset x and y position
         if (position.x > (camera.x + Math.abs(worldSpan.x * 2))) {
             descentStartTime = 0;
-            position.x = camera.x - Helpers.speedToVelocity(worldSpan.x + 1, direction, Enums.Orientation.X);
+            position.set(startPosition);
 //            position.y = Avatar.getInstance().getTop() + Constants.SWOOPA_COLLISION_HEIGHT;
             velocity.set(Helpers.speedToVelocity(5, direction, Enums.Orientation.X), -5);
         }
