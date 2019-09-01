@@ -636,7 +636,10 @@ class LevelUpdater {
                 intersectionPoint.y = Math.max(b.getBottom(), touchedHazard.getBottom());
                 spawnImpact(intersectionPoint, touchedHazard.getType());
             }
+        } else if (hazard instanceof Swoopa) {
+            hazard.setActive(true);
         }
+
         if (hazard instanceof Destructible) {
             Destructible destructible = (Destructible) hazard;
             if (Helpers.overlapsPhysicalObject(Blade.getInstance(), destructible) && !(hazard instanceof Boss)) {
@@ -664,8 +667,6 @@ class LevelUpdater {
                         }
                     }
                 }
-            } else if (hazard instanceof Swoopa) {
-                ((Swoopa) hazard).setActive(true);
             }
 
             if (destructible.getHealth() < 1) {
