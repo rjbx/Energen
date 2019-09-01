@@ -31,7 +31,7 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
     private long descentStartTime;
     private Animation<TextureRegion> animation;
     private Sound sound;
-    private boolean initiated = false;
+    private boolean active = false;
 
     // ctor
     public Swoopa(Vector2 position, Enums.Direction direction, Enums.Energy type) {
@@ -80,26 +80,25 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
     }
 
     public void update(float delta) {
-        Viewport viewport = ChaseCam.getInstance().getViewport();
-        Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
-        Vector3 camera = new Vector3(viewport.getCamera().position);
-        // while the swoopa is within a screens' width from the screen center on either side, permit movement
-        if (Helpers.betweenTwoValues(position.x, (camera.x - worldSpan.x), (camera.x + worldSpan.x))
-            && Helpers.betweenTwoValues(position.y, (camera.y - (worldSpan.y * 1.5f)), (camera.y + (worldSpan.y * 1.5f)))) {
-            if (!initiated) initiated = true;
-            if (descentStartTime == 0) {
-                sound.play();
-                descentStartTime = TimeUtils.nanoTime();
-            }
-            if (Helpers.secondsSince(descentStartTime) < .5f) {
+        if (active) {
+            Viewport viewport = ChaseCam.getInstance().getViewport();
+            Vector2 worldSpan = new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight());
+            Vector3 camera = new Vector3(viewport.getCamera().position);
+            // while the swoopa is within a screens' width from the screen center on either side, permit movement
+            if (Helpers.betweenTwoValues(position.x, (camera.x - worldSpan.x), (camera.x + worldSpan.x))
+                    && Helpers.betweenTwoValues(position.y, (camera.y - (worldSpan.y * 1.5f)), (camera.y + (worldSpan.y * 1.5f)))) {
+                if (descentStartTime == 0) {
+                    sound.play();
+                    descentStartTime = TimeUtils.nanoTime();
+                }
+                if (Helpers.secondsSince(descentStartTime) < .5f) {
                     velocity.x /= 1.1f;
                     velocity.y /= 1.1f;
-            } else {
-                velocity.x = Helpers.speedToVelocity(Math.min(Constants.SWOOPA_MOVEMENT_SPEED, Helpers.speedToVelocity(velocity.x, direction, Enums.Orientation.X) * 1.0375f), direction, Enums.Orientation.X);
-                velocity.y = 0;
+                } else {
+                    velocity.x = Helpers.speedToVelocity(Math.min(Constants.SWOOPA_MOVEMENT_SPEED, Helpers.speedToVelocity(velocity.x, direction, Enums.Orientation.X) * 1.0375f), direction, Enums.Orientation.X);
+                    velocity.y = 0;
+                }
             }
-        }
-        if (initiated) {
             position.mulAdd(velocity, delta);
 
             // when the swoopa progresses past the center screen position with a margin of ten screen widths, reset x and y position
@@ -133,6 +132,8 @@ public class Swoopa extends Hazard implements Destructible, Vehicular, Groundabl
     @Override public final Vector2 getKnockback() { return Constants.SWOOPA_KNOCKBACK; }
     @Override public final Enums.Energy getType() { return type; }
     @Override public final boolean isDense() { return true; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
     public int getMountDamage() { return Constants.SWOOPA_STANDARD_DAMAGE; }
     public Vector2 getMountKnockback() { return Constants.SWOOPA_KNOCKBACK; }
     public final long getStartTime() { return startTime; }

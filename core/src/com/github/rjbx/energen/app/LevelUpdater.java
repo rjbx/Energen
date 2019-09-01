@@ -664,6 +664,8 @@ class LevelUpdater {
                         }
                     }
                 }
+            } else if (hazard instanceof Swoopa) {
+                ((Swoopa) hazard).setActive(true);
             }
 
             if (destructible.getHealth() < 1) {
@@ -773,7 +775,8 @@ class LevelUpdater {
                                     chargeable.uncharge();
                                 }
                             }
-                        } else if (strikeable instanceof Destructible) {
+                        }
+                        if (strikeable instanceof Destructible) {
                             Helpers.applyDamage((Destructible) g, projectile);
                         } else if (strikeable instanceof Gate && projectile.getDirection() == Direction.RIGHT) { // prevents from re-unlocking after crossing gate boundary (always left to right)
                             ((Gate) strikeable).deactivate();
