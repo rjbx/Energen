@@ -103,8 +103,10 @@ final class OverworldScreen extends ScreenAdapter {
                 if (inputControls.justSelected()) {
                     if (cursor.getPosition() <= viewport.getCamera().position.y + 55 && cursor.getPosition() > viewport.getCamera().position.y - 65) {
                         selection = Enums.Theme.valueOf(cursor.getIterator().previous());
-                        if (selection == Enums.Theme.GRAVITATIONAL || selection == Enums.Theme.MYSTERIOUS) return;
-                        loadLevel(selection);
+                        if (selection == Enums.Theme.GRAVITATIONAL || selection == Enums.Theme.MYSTERIOUS) {
+                            selection = null;
+                            cursor.getIterator().next();
+                        } else loadLevel(selection);
                     } else {
                         setOptionsMenu();
                     }
