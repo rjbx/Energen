@@ -202,7 +202,7 @@ public class InputControls extends InputAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.PERIOD)) {
             shootButtonPressed = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             pauseButtonPressed = true;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
@@ -223,7 +223,7 @@ public class InputControls extends InputAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.PERIOD)) {
             shootButtonJustPressed = true;
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             pauseButtonJustPressed = true;
         }
 
@@ -266,10 +266,10 @@ public class InputControls extends InputAdapter {
             downPointer = 0;
         }
 
-        if (!Gdx.input.isTouched(pausePointer) && !Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+        if (!Gdx.input.isTouched(pausePointer) && !Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             pauseButtonPressed = false;
         }
-        if (!Gdx.input.isKeyJustPressed(pausePointer) && !Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        if (!Gdx.input.isKeyJustPressed(pausePointer) && !Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             pauseButtonJustPressed = false;
             pausePointer = 0;
         }
