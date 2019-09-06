@@ -31,7 +31,7 @@ public final class Menu {
         singleOption = false;
     }
 
-    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, Cursor cursor) {
+    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, Cursor cursor, int... invalidIndeces) {
 
         float startingPosition = cursor.getStartingPosition();
         float alignmentPosition = viewport.getCamera().position.x;
