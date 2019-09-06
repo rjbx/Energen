@@ -64,8 +64,10 @@ public final class Menu {
                 for (Object option : optionStrings) {
                     if (inactive != null && inactive.length > 0) {
                         for (Object inactiveOption : inactive)
-                            if (inactiveOption.equals(option)) font.setColor(Color.GRAY);
-                            else font.setColor(Color.WHITE);
+                            if (inactiveOption.equals(option)) {
+                                font.setColor(Color.GRAY);
+                                break;
+                            } else font.setColor(Color.WHITE);
                     }
                     Helpers.drawBitmapFont(batch, viewport, font, (String) option, alignmentPosition, startingPosition + 10, textAlignment);
                     startingPosition -= 15;
