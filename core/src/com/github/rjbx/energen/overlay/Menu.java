@@ -1,9 +1,11 @@
 package com.github.rjbx.energen.overlay;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.github.rjbx.energen.util.AssetManager;
 import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 
@@ -31,7 +33,7 @@ public final class Menu {
         singleOption = false;
     }
 
-    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, Cursor cursor, int... invalidIndeces) {
+    public void render(SpriteBatch batch, BitmapFont font, ExtendViewport viewport, Cursor cursor, Object... inactive) {
 
         float startingPosition = cursor.getStartingPosition();
         float alignmentPosition = viewport.getCamera().position.x;
@@ -50,11 +52,21 @@ public final class Menu {
             cursor.update();
             if (cursor.getOrientation() == Enums.Orientation.X) {
                 for (Object option : optionStrings) {
+                    if (inactive != null && inactive.length > 0) {
+                        for (Object inactiveOption : inactive)
+                            if (inactiveOption.equals(option)) font.setColor(Color.GRAY);
+                            else font.setColor(Color.WHITE);
+                    }
                     Helpers.drawBitmapFont(batch, viewport, font, (String) option, startingPosition, viewport.getCamera().position.y + 10, textAlignment);
                     startingPosition += 100;
                 }
             } else if (cursor.getOrientation() == Enums.Orientation.Y) {
                 for (Object option : optionStrings) {
+                    if (inactive != null && inactive.length > 0) {
+                        for (Object inactiveOption : inactive)
+                            if (inactiveOption.equals(option)) font.setColor(Color.GRAY);
+                            else font.setColor(Color.WHITE);
+                    }
                     Helpers.drawBitmapFont(batch, viewport, font, (String) option, alignmentPosition, startingPosition + 10, textAlignment);
                     startingPosition -= 15;
                 }
