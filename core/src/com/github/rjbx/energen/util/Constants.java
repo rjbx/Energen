@@ -1000,7 +1000,7 @@ public final class Constants {
     public static final int ZOOMBA_COUNT = 200;
     public static final String VICTORY_MESSAGE = "COURSE CLEARED";
     public static final String FAIL_MESSAGE = "GAME OVER";
-    public static final String LAUNCH_MESSAGE = "Energen v0.0.4";
+    public static final String LAUNCH_MESSAGE = "Energen v0.0.5";
     public static final String TIME_PATTERN = "HH:mm:ss";
 
     // Start screen
