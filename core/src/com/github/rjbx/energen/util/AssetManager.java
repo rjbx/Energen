@@ -367,7 +367,26 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class BossAssets {
         
-        private interface ScopedBossAssets {}
+        private class ScopedBossAssets {
+            public AtlasRegion blockLeft;
+            public AtlasRegion blockRight;
+            public AtlasRegion lookupBlockLeft;
+            public AtlasRegion lookupBlockRight;
+            public AtlasRegion standLeft;
+            public AtlasRegion standRight;
+            public AtlasRegion fallLeft;
+            public AtlasRegion fallRight;
+            public AtlasRegion dashLeft;
+            public AtlasRegion dashRight;
+            public AtlasRegion recoilLeft;
+            public AtlasRegion recoilRight;
+            public AtlasRegion lookupStandLeft;
+            public AtlasRegion lookupStandRight;
+            public AtlasRegion lookupFallLeft;
+            public AtlasRegion lookupFallRight;
+            public AtlasRegion lookdownFallLeft;
+            public AtlasRegion lookdownFallRight;
+        }
 
         Liquid liquid;
         Plasma plasma;
@@ -377,26 +396,7 @@ public final class AssetManager implements AssetErrorListener {
             plasma = new Plasma(atlas);
         }
 
-        private class Liquid implements ScopedBossAssets {
-
-            public final AtlasRegion blockLeft;
-            public final AtlasRegion blockRight;
-            public final AtlasRegion lookupBlockLeft;
-            public final AtlasRegion lookupBlockRight;
-            public final AtlasRegion standLeft;
-            public final AtlasRegion standRight;
-            public final AtlasRegion fallLeft;
-            public final AtlasRegion fallRight;
-            public final AtlasRegion dashLeft;
-            public final AtlasRegion dashRight;
-            public final AtlasRegion recoilLeft;
-            public final AtlasRegion recoilRight;
-            public final AtlasRegion lookupStandLeft;
-            public final AtlasRegion lookupStandRight;
-            public final AtlasRegion lookupFallLeft;
-            public final AtlasRegion lookupFallRight;
-            public final AtlasRegion lookdownFallLeft;
-            public final AtlasRegion lookdownFallRight;
+        private class Liquid extends ScopedBossAssets {
 
             private Liquid(TextureAtlas atlas) {
                 blockLeft = atlas.findRegion(Constants.BOSS_LIQUID_BLOCK_LEFT);
@@ -420,26 +420,7 @@ public final class AssetManager implements AssetErrorListener {
             }
         }
 
-        private class Plasma implements ScopedBossAssets {
-
-            public final AtlasRegion blockLeft;
-            public final AtlasRegion blockRight;
-            public final AtlasRegion lookupBlockLeft;
-            public final AtlasRegion lookupBlockRight;
-            public final AtlasRegion standLeft;
-            public final AtlasRegion standRight;
-            public final AtlasRegion fallLeft;
-            public final AtlasRegion fallRight;
-            public final AtlasRegion dashLeft;
-            public final AtlasRegion dashRight;
-            public final AtlasRegion recoilLeft;
-            public final AtlasRegion recoilRight;
-            public final AtlasRegion lookupStandLeft;
-            public final AtlasRegion lookupStandRight;
-            public final AtlasRegion lookupFallLeft;
-            public final AtlasRegion lookupFallRight;
-            public final AtlasRegion lookdownFallLeft;
-            public final AtlasRegion lookdownFallRight;
+        private class Plasma extends ScopedBossAssets {
 
             private Plasma(TextureAtlas atlas) {
                 blockLeft = atlas.findRegion(Constants.BOSS_PLASMA_BLOCK_LEFT);
@@ -463,10 +444,10 @@ public final class AssetManager implements AssetErrorListener {
             }
         }
 
-        public ScopedBossAssets getBoss(Enums.Theme theme) {
-            switch (theme) {
-                case NUCLEAR: return liquid;
-                case ELECTROMAGNETIC: return plasma;
+        public ScopedBossAssets getBoss(Enums.Energy energy) {
+            switch (energy) {
+                case LIQUID: return liquid;
+                case PLASMA: return plasma;
                 default: return liquid;
             }
         }

@@ -1430,7 +1430,7 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         if (directionX == Direction.RIGHT) {
             if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
-                    region = shielded ? AssetManager.getInstance().getBossAssets().liquidLookupBlockRight : AssetManager.getInstance().getBossAssets().liquidLookupStandRight;
+                    region = shielded ? AssetManager.getInstance().getBossAssets().getBoss(energy).lookupBlockRight : AssetManager.getInstance().getBossAssets().liquidLookupStandRight;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
                         region = AssetManager.getInstance().getBossAssets().liquidLookupFallRight;
                     } else if (action == Action.HOVERING) {
