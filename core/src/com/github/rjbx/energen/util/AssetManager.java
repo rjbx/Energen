@@ -367,7 +367,7 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class BossAssets {
         
-        private class ScopedBossAssets {
+        public class ScopedBossAssets {
             public AtlasRegion blockLeft;
             public AtlasRegion blockRight;
             public AtlasRegion lookupBlockLeft;
