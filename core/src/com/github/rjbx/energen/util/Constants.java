@@ -25,47 +25,47 @@ public final class Constants {
 
     // Asset files
     public static final AssetDescriptor<TextureAtlas> TEXTURE_ATLAS = new AssetDescriptor<TextureAtlas>("images/energen.pack.atlas", TextureAtlas.class);
-    public static final AssetDescriptor<Sound> HEALTH_SOUND = new AssetDescriptor<Sound>("audio/health.wav", Sound.class);
-    public static final AssetDescriptor<Sound> AMMO_SOUND = new AssetDescriptor<Sound>("audio/ammo.wav", Sound.class);
-    public static final AssetDescriptor<Sound> TURBO_SOUND = new AssetDescriptor<Sound>("audio/turbo.wav", Sound.class);
-    public static final AssetDescriptor<Sound> CANNON_SOUND = new AssetDescriptor<Sound>("audio/cannon.wav", Sound.class);
-    public static final AssetDescriptor<Sound> LIFE_SOUND = new AssetDescriptor<Sound>("audio/life.wav", Sound.class);
-    public static final AssetDescriptor<Sound> UPGRADE_SOUND = new AssetDescriptor<Sound>("audio/upgrade.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_NATIVE_SOUND = new AssetDescriptor<Sound>("audio/blast-native.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_PLASMA_SOUND = new AssetDescriptor<Sound>("audio/blast-plasma.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_GAS_SOUND = new AssetDescriptor<Sound>("audio/blast-gas.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_LIQUID_SOUND = new AssetDescriptor<Sound>("audio/blast-liquid.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_ORE_SOUND = new AssetDescriptor<Sound>("audio/blast-ore.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_SOLID_SOUND = new AssetDescriptor<Sound>("audio/blast-solid.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/blast-antimatter.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BLAST_HYBRID_SOUND = new AssetDescriptor<Sound>("audio/blast-hybrid.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_NATIVE_SOUND = new AssetDescriptor<Sound>("audio/shot-native.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_PLASMA_SOUND = new AssetDescriptor<Sound>("audio/shot-plasma.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_GAS_SOUND = new AssetDescriptor<Sound>("audio/shot-gas.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_LIQUID_SOUND = new AssetDescriptor<Sound>("audio/shot-liquid.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_ORE_SOUND = new AssetDescriptor<Sound>("audio/shot-ore.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_SOLID_SOUND = new AssetDescriptor<Sound>("audio/shot-solid.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/shot-antimatter.wav", Sound.class);
-    public static final AssetDescriptor<Sound> SHOT_HYBRID_SOUND = new AssetDescriptor<Sound>("audio/shot-hybrid.wav", Sound.class);
-    public static final AssetDescriptor<Sound> WARP_SOUND = new AssetDescriptor<Sound>("audio/warp.wav", Sound.class);
-    public static final AssetDescriptor<Sound> HIT_SOUND = new AssetDescriptor<Sound>("audio/hit_effective.wav", Sound.class);
-    public static final AssetDescriptor<Sound> HIT_GROUND_SOUND = new AssetDescriptor<Sound>("audio/hit_ground.wav", Sound.class);
-    public static final AssetDescriptor<Sound> FLIGHT_SOUND = new AssetDescriptor<Sound>("audio/flight.wav", Sound.class);
-    public static final AssetDescriptor<Sound> BREAK_GROUND_SOUND = new AssetDescriptor<Sound>("audio/break_ground.wav", Sound.class);
-    public static final AssetDescriptor<Sound> DAMAGE_SOUND = new AssetDescriptor<Sound>("audio/damage.wav", Sound.class);
+    public static final AssetDescriptor<Sound> HEALTH_SOUND = new AssetDescriptor<Sound>("audio/sound/health.wav", Sound.class);
+    public static final AssetDescriptor<Sound> AMMO_SOUND = new AssetDescriptor<Sound>("audio/sound/ammo.wav", Sound.class);
+    public static final AssetDescriptor<Sound> TURBO_SOUND = new AssetDescriptor<Sound>("audio/sound/turbo.wav", Sound.class);
+    public static final AssetDescriptor<Sound> CANNON_SOUND = new AssetDescriptor<Sound>("audio/sound/cannon.wav", Sound.class);
+    public static final AssetDescriptor<Sound> LIFE_SOUND = new AssetDescriptor<Sound>("audio/sound/life.wav", Sound.class);
+    public static final AssetDescriptor<Sound> UPGRADE_SOUND = new AssetDescriptor<Sound>("audio/sound/upgrade.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_NATIVE_SOUND = new AssetDescriptor<Sound>("audio/sound/blast-native.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_PLASMA_SOUND = new AssetDescriptor<Sound>("audio/sound/blast-plasma.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_GAS_SOUND = new AssetDescriptor<Sound>("audio/sound/blast-gas.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_LIQUID_SOUND = new AssetDescriptor<Sound>("audio/sound/blast-liquid.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_ORE_SOUND = new AssetDescriptor<Sound>("audio/sound/blast-ore.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_SOLID_SOUND = new AssetDescriptor<Sound>("audio/sound/blast-solid.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/sound/blast-antimatter.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BLAST_HYBRID_SOUND = new AssetDescriptor<Sound>("audio/sound/blast-hybrid.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_NATIVE_SOUND = new AssetDescriptor<Sound>("audio/sound/shot-native.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_PLASMA_SOUND = new AssetDescriptor<Sound>("audio/sound/shot-plasma.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_GAS_SOUND = new AssetDescriptor<Sound>("audio/sound/shot-gas.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_LIQUID_SOUND = new AssetDescriptor<Sound>("audio/sound/shot-liquid.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_ORE_SOUND = new AssetDescriptor<Sound>("audio/sound/shot-ore.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_SOLID_SOUND = new AssetDescriptor<Sound>("audio/sound/shot-solid.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_ANTIMATTER_SOUND = new AssetDescriptor<Sound>("audio/sound/shot-antimatter.wav", Sound.class);
+    public static final AssetDescriptor<Sound> SHOT_HYBRID_SOUND = new AssetDescriptor<Sound>("audio/sound/shot-hybrid.wav", Sound.class);
+    public static final AssetDescriptor<Sound> WARP_SOUND = new AssetDescriptor<Sound>("audio/sound/warp.wav", Sound.class);
+    public static final AssetDescriptor<Sound> HIT_SOUND = new AssetDescriptor<Sound>("audio/sound/hit_effective.wav", Sound.class);
+    public static final AssetDescriptor<Sound> HIT_GROUND_SOUND = new AssetDescriptor<Sound>("audio/sound/hit_ground.wav", Sound.class);
+    public static final AssetDescriptor<Sound> FLIGHT_SOUND = new AssetDescriptor<Sound>("audio/sound/flight.wav", Sound.class);
+    public static final AssetDescriptor<Sound> BREAK_GROUND_SOUND = new AssetDescriptor<Sound>("audio/sound/break_ground.wav", Sound.class);
+    public static final AssetDescriptor<Sound> DAMAGE_SOUND = new AssetDescriptor<Sound>("audio/sound/damage.wav", Sound.class);
     public static final AssetDescriptor<BitmapFont> MESSAGE_FONT = new AssetDescriptor<BitmapFont>("font/message.fnt", BitmapFont.class);
     public static final AssetDescriptor<BitmapFont> MENU_FONT = new AssetDescriptor<BitmapFont>("font/menu.fnt", BitmapFont.class);
     public static final AssetDescriptor<BitmapFont> INACTIVE_FONT = new AssetDescriptor<BitmapFont>("font/inactive.fnt", BitmapFont.class);
     public static final AssetDescriptor<BitmapFont> TITLE_FONT = new AssetDescriptor<BitmapFont>("font/title.fnt", BitmapFont.class);
 
     // TODO[M]: Convert all to .wav
-    public static final AssetDescriptor<Music> INTRO_MUSIC = new AssetDescriptor<Music>("audio/riff-intro.mp3", Music.class);
-    public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/riff-level.mp3", Music.class);
-    public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/riff-level3.wav", Music.class);
-    public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/thermal.mp3", Music.class);
-    public static final AssetDescriptor<Music> NUCLEAR_MUSIC = new AssetDescriptor<Music>("audio/nuclear.mp3", Music.class);
-    public static final AssetDescriptor<Music> MECHANICAL_MUSIC = new AssetDescriptor<Music>("audio/mechanical.mp3", Music.class);
-    public static final AssetDescriptor<Music> MYSTERIOUS_MUSIC = new AssetDescriptor<Music>("audio/mysterious.mp3", Music.class);
+    public static final AssetDescriptor<Music> INTRO_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-intro.mp3", Music.class);
+    public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/music/riff-level.mp3", Music.class);
+    public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-encounter.mp3", Music.class);
+    public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-puzzle.mp3", Music.class);
+    public static final AssetDescriptor<Music> NUCLEAR_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-tunnel.mp3", Music.class);
+    public static final AssetDescriptor<Music> MECHANICAL_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-stroll.mp3", Music.class);
+    public static final AssetDescriptor<Music> MYSTERIOUS_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-trial.mp3", Music.class);
 
 
     // Avatar attributes
