@@ -368,6 +368,8 @@ public final class AssetManager implements AssetErrorListener {
 
     public static final class BossAssets {
 
+        private interface ScopedBossAssets {}
+
         Liquid liquid;
         Plasma plasma;
 
@@ -376,7 +378,7 @@ public final class AssetManager implements AssetErrorListener {
             plasma = new Plasma(atlas);
         }
 
-        private class Liquid {
+        private class Liquid implements ScopedBossAssets {
         
             public final AtlasRegion liquidBlockLeft;
             public final AtlasRegion liquidBlockRight;
@@ -419,7 +421,7 @@ public final class AssetManager implements AssetErrorListener {
             }
         }
 
-        private class Plasma {
+        private class Plasma implements ScopedBossAssets {
 
             public final AtlasRegion plasmaBlockLeft;
             public final AtlasRegion plasmaBlockRight;
@@ -462,7 +464,13 @@ public final class AssetManager implements AssetErrorListener {
             }
         }
 
-        public BossAssets getBoss(Enums.Theme theme) {}
+        public ScopedBossAssets getBoss(Enums.Theme theme) {
+            switch (theme) {
+                case NUCLEAR: return liquid;
+                case ELECTROMAGNETIC: return plasma;
+                default: return liquid;
+            }
+        }
     }
 
     public static final class BackgroundAssets {
