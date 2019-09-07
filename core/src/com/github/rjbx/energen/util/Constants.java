@@ -220,6 +220,25 @@ public final class Constants {
     public static final String BOSS_LIQUID_LOOKDOWN_FALL_LEFT = "boss-liquid-lookdown-fall-left";
     public static final String BOSS_LIQUID_LOOKDOWN_FALL_RIGHT = "boss-liquid-lookdown-fall-right";
 
+    public static final String BOSS_PLASMA_BLOCK_LEFT = "boss-plasma-block-left";
+    public static final String BOSS_PLASMA_BLOCK_RIGHT = "boss-plasma-block-right";
+    public static final String BOSS_PLASMA_LOOKUP_BLOCK_LEFT = "boss-plasma-lookup-block-left";
+    public static final String BOSS_PLASMA_LOOKUP_BLOCK_RIGHT = "boss-plasma-lookup-block-right";
+    public static final String BOSS_PLASMA_STAND_LEFT = "boss-plasma-stand-left";
+    public static final String BOSS_PLASMA_STAND_RIGHT = "boss-plasma-stand-right";
+    public static final String BOSS_PLASMA_FALL_LEFT = "boss-plasma-fall-left";
+    public static final String BOSS_PLASMA_FALL_RIGHT = "boss-plasma-fall-right";
+    public static final String BOSS_PLASMA_DASH_LEFT = "boss-plasma-dash-left";
+    public static final String BOSS_PLASMA_DASH_RIGHT = "boss-plasma-dash-right";
+    public static final String BOSS_PLASMA_RECOIL_LEFT = "boss-plasma-recoil-left";
+    public static final String BOSS_PLASMA_RECOIL_RIGHT = "boss-plasma-recoil-right";
+    public static final String BOSS_PLASMA_LOOKUP_STAND_LEFT = "boss-plasma-lookup-stand-left";
+    public static final String BOSS_PLASMA_LOOKUP_STAND_RIGHT = "boss-plasma-lookup-stand-right";
+    public static final String BOSS_PLASMA_LOOKUP_FALL_LEFT = "boss-plasma-lookup-fall-left";
+    public static final String BOSS_PLASMA_LOOKUP_FALL_RIGHT = "boss-plasma-lookup-fall-right";
+    public static final String BOSS_PLASMA_LOOKDOWN_FALL_LEFT = "boss-plasma-lookdown-fall-left";
+    public static final String BOSS_PLASMA_LOOKDOWN_FALL_RIGHT = "boss-plasma-lookdown-fall-right";
+
     // Background
     public static final String BACKGROUND_HOME_SPRITE = "background-home";
     public static final String BACKGROUND_ORE_SPRITE = "background-ore";

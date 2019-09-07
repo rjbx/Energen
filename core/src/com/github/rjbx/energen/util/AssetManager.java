@@ -366,6 +366,7 @@ public final class AssetManager implements AssetErrorListener {
     }
 
     public static final class BossAssets {
+        
         public final AtlasRegion liquidBlockLeft;
         public final AtlasRegion liquidBlockRight;
         public final AtlasRegion liquidLookupBlockLeft;
@@ -384,6 +385,25 @@ public final class AssetManager implements AssetErrorListener {
         public final AtlasRegion liquidLookupFallRight;
         public final AtlasRegion liquidLookdownFallLeft;
         public final AtlasRegion liquidLookdownFallRight;
+
+        public final AtlasRegion plasmaBlockLeft;
+        public final AtlasRegion plasmaBlockRight;
+        public final AtlasRegion plasmaLookupBlockLeft;
+        public final AtlasRegion plasmaLookupBlockRight;
+        public final AtlasRegion plasmaStandLeft;
+        public final AtlasRegion plasmaStandRight;
+        public final AtlasRegion plasmaFallLeft;
+        public final AtlasRegion plasmaFallRight;
+        public final AtlasRegion plasmaDashLeft;
+        public final AtlasRegion plasmaDashRight;
+        public final AtlasRegion plasmaRecoilLeft;
+        public final AtlasRegion plasmaRecoilRight;
+        public final AtlasRegion plasmaLookupStandLeft;
+        public final AtlasRegion plasmaLookupStandRight;
+        public final AtlasRegion plasmaLookupFallLeft;
+        public final AtlasRegion plasmaLookupFallRight;
+        public final AtlasRegion plasmaLookdownFallLeft;
+        public final AtlasRegion plasmaLookdownFallRight;
 
         private BossAssets(TextureAtlas atlas) {
             liquidBlockLeft = atlas.findRegion(Constants.BOSS_LIQUID_BLOCK_LEFT);
@@ -404,6 +424,25 @@ public final class AssetManager implements AssetErrorListener {
             liquidLookupFallRight = atlas.findRegion(Constants.BOSS_LIQUID_LOOKUP_FALL_RIGHT);
             liquidLookdownFallLeft = atlas.findRegion(Constants.BOSS_LIQUID_LOOKDOWN_FALL_LEFT);
             liquidLookdownFallRight = atlas.findRegion(Constants.BOSS_LIQUID_LOOKDOWN_FALL_RIGHT);
+
+            plasmaBlockLeft = atlas.findRegion(Constants.BOSS_PLASMA_BLOCK_LEFT);
+            plasmaBlockRight = atlas.findRegion(Constants.BOSS_PLASMA_BLOCK_RIGHT);
+            plasmaLookupBlockLeft = atlas.findRegion(Constants.BOSS_PLASMA_LOOKUP_BLOCK_LEFT);
+            plasmaLookupBlockRight = atlas.findRegion(Constants.BOSS_PLASMA_LOOKUP_BLOCK_RIGHT);
+            plasmaStandLeft = atlas.findRegion(Constants.BOSS_PLASMA_STAND_LEFT);
+            plasmaStandRight = atlas.findRegion(Constants.BOSS_PLASMA_STAND_RIGHT);
+            plasmaFallLeft = atlas.findRegion(Constants.BOSS_PLASMA_FALL_LEFT);
+            plasmaFallRight = atlas.findRegion(Constants.BOSS_PLASMA_FALL_RIGHT);
+            plasmaDashLeft = atlas.findRegion(Constants.BOSS_PLASMA_DASH_LEFT);
+            plasmaDashRight = atlas.findRegion(Constants.BOSS_PLASMA_DASH_RIGHT);
+            plasmaRecoilLeft = atlas.findRegion(Constants.BOSS_PLASMA_RECOIL_LEFT);
+            plasmaRecoilRight = atlas.findRegion(Constants.BOSS_PLASMA_RECOIL_RIGHT);
+            plasmaLookupStandLeft = atlas.findRegion(Constants.BOSS_PLASMA_LOOKUP_STAND_LEFT);
+            plasmaLookupStandRight = atlas.findRegion(Constants.BOSS_PLASMA_LOOKUP_STAND_RIGHT);
+            plasmaLookupFallLeft = atlas.findRegion(Constants.BOSS_PLASMA_LOOKUP_FALL_LEFT);
+            plasmaLookupFallRight = atlas.findRegion(Constants.BOSS_PLASMA_LOOKUP_FALL_RIGHT);
+            plasmaLookdownFallLeft = atlas.findRegion(Constants.BOSS_PLASMA_LOOKDOWN_FALL_LEFT);
+            plasmaLookdownFallRight = atlas.findRegion(Constants.BOSS_PLASMA_LOOKDOWN_FALL_RIGHT);
         }
     }
 
