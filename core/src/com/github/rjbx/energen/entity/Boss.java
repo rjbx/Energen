@@ -1,7 +1,6 @@
 package com.github.rjbx.energen.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -1430,18 +1429,18 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
         if (directionX == Direction.RIGHT) {
             if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
-                    region = shielded ? AssetManager.getInstance().getBossAssets().getBoss(energy).lookupBlockRight : AssetManager.getInstance().getBossAssets().getBoss(energy).lookupStandRight;
+                    region = shielded ? AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).lookupBlockRight : AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).lookupStandRight;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = AssetManager.getInstance().getBossAssets().getBoss(energy).lookupFallRight;
+                        region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).lookupFallRight;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilRight;
+                        region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilRight;
                     }
                 } else if (directionY == Direction.DOWN) {
-                    region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilRight;
+                    region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilRight;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = AssetManager.getInstance().getBossAssets().getBoss(energy).lookdownFallRight;
+                        region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).lookdownFallRight;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilRight;
+                        region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilRight;
                     }
                 }
             } else if (action == Action.CLIMBING) {
@@ -1455,40 +1454,40 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 //                } else if (canPeer) {
 //                    region = AssetManager.getInstance().getAvatarAssets().lookbackRight;
 //                } else {
-                    region = shielded ? AssetManager.getInstance().getBossAssets().getBoss(energy).blockRight : AssetManager.getInstance().getBossAssets().getBoss(energy).standRight;
+                    region = shielded ? AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).blockRight : AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).standRight;
 //                }
             } else if (action == Action.STRIDING) {
-                region = AssetManager.getInstance().getBossAssets().getBoss(energy).dashRight;
+                region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).dashRight;
             } else if (action == Action.DASHING) {
-                region = AssetManager.getInstance().getBossAssets().getBoss(energy).dashRight;
+                region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).dashRight;
             } else if (action == Action.HOVERING) {
-                region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilRight;
+                region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilRight;
             } else if (action == Action.RAPPELLING) {
                 if (canHurdle) {
-                    region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilRight;
+                    region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilRight;
                 } else {
-                    region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilRight;
+                    region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilRight;
                 }
             } else if (action == Action.RECOILING){
-                region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilRight;
+                region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilRight;
             } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
-                region = AssetManager.getInstance().getBossAssets().getBoss(energy).fallRight;
+                region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).fallRight;
             }
         } else if (directionX == Direction.LEFT) {
             if (lookStartTime != 0) {
                 if (directionY == Direction.UP) {
-                    region = shielded ? AssetManager.getInstance().getBossAssets().getBoss(energy).lookupBlockLeft: AssetManager.getInstance().getBossAssets().getBoss(energy).lookupStandLeft;
+                    region = shielded ? AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).lookupBlockLeft: AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).lookupStandLeft;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = AssetManager.getInstance().getBossAssets().getBoss(energy).lookupFallLeft;
+                        region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).lookupFallLeft;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilLeft;
+                        region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilLeft;
                     }
                 } else if (directionY == Direction.DOWN) {
-                    region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilLeft;
+                    region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilLeft;
                     if (action == Action.FALLING || action == Action.CLIMBING) {
-                        region = AssetManager.getInstance().getBossAssets().getBoss(energy).lookdownFallLeft;
+                        region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).lookdownFallLeft;
                     } else if (action == Action.HOVERING) {
-                        region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilLeft;
+                        region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilLeft;
                     }
                 }
             } else if (action == Action.CLIMBING) {
@@ -1502,24 +1501,24 @@ public class Boss extends Hazard implements Destructible, Humanoid, Impermeable,
 //                } else if (canPeer) {
 //                    region = AssetManager.getInstance().getAvatarAssets().lookbackLeft;
 //                } else {
-                    region = shielded ? AssetManager.getInstance().getBossAssets().getBoss(energy).blockLeft : AssetManager.getInstance().getBossAssets().getBoss(energy).standLeft;
+                    region = shielded ? AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).blockLeft : AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).standLeft;
 //                }
             } else if (action == Action.STRIDING) {
-                region = AssetManager.getInstance().getBossAssets().getBoss(energy).dashLeft;
+                region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).dashLeft;
             } else if (action == Action.DASHING) {
-                region = AssetManager.getInstance().getBossAssets().getBoss(energy).dashLeft;
+                region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).dashLeft;
             } else if (action == Action.HOVERING) {
-                region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilLeft;
+                region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilLeft;
             } else if (action == Action.RAPPELLING) {
                 if (canHurdle) {
-                    region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilLeft;
+                    region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilLeft;
                 } else {
-                    region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilLeft;
+                    region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilLeft;
                 }
             } else if (action == Action.RECOILING) {
-                region = AssetManager.getInstance().getBossAssets().getBoss(energy).recoilLeft;
+                region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).recoilLeft;
             } else if (action == Action.FALLING /*|| action == Action.JUMPING*/) {
-                region = AssetManager.getInstance().getBossAssets().getBoss(energy).fallRight;
+                region = AssetManager.getInstance().getBossAssets().getScopedBossAssets(energy).fallRight;
             }
         }
         if (miniBoss) batch.setColor(Color.BLACK);

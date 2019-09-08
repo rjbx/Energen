@@ -388,22 +388,22 @@ public final class AssetManager implements AssetErrorListener {
             public AtlasRegion lookdownFallRight;
         }
         
-        Liquid liquid;
-        Gas gas;
-        Plasma plasma;
-        Ore ore;
+        LiquidBossAssets liquid;
+        GasBossAssets gas;
+        PlasmaBossAssets plasma;
+        OreBossAssets ore;
         
 
         private BossAssets(TextureAtlas atlas) {
-            liquid = new Liquid(atlas);
-            gas = new Gas(atlas);
-            plasma = new Plasma(atlas);
-            ore = new Ore(atlas);
+            liquid = new LiquidBossAssets(atlas);
+            gas = new GasBossAssets(atlas);
+            plasma = new PlasmaBossAssets(atlas);
+            ore = new OreBossAssets(atlas);
         }
 
-        private class Liquid extends ScopedBossAssets {
+        private class LiquidBossAssets extends ScopedBossAssets {
 
-            private Liquid(TextureAtlas atlas) {
+            private LiquidBossAssets(TextureAtlas atlas) {
                 blockLeft = atlas.findRegion(Constants.BOSS_LIQUID_BLOCK_LEFT);
                 blockRight = atlas.findRegion(Constants.BOSS_LIQUID_BLOCK_RIGHT);
                 lookupBlockLeft = atlas.findRegion(Constants.BOSS_LIQUID_LOOKUP_BLOCK_LEFT);
@@ -425,9 +425,9 @@ public final class AssetManager implements AssetErrorListener {
             }
         }
 
-        private class Gas extends ScopedBossAssets {
+        private class GasBossAssets extends ScopedBossAssets {
 
-            private Gas(TextureAtlas atlas) {
+            private GasBossAssets(TextureAtlas atlas) {
                 blockLeft = atlas.findRegion(Constants.BOSS_GAS_BLOCK_LEFT);
                 blockRight = atlas.findRegion(Constants.BOSS_GAS_BLOCK_RIGHT);
                 lookupBlockLeft = atlas.findRegion(Constants.BOSS_GAS_LOOKUP_BLOCK_LEFT);
@@ -449,9 +449,9 @@ public final class AssetManager implements AssetErrorListener {
             }
         }
 
-        private class Plasma extends ScopedBossAssets {
+        private class PlasmaBossAssets extends ScopedBossAssets {
 
-            private Plasma(TextureAtlas atlas) {
+            private PlasmaBossAssets(TextureAtlas atlas) {
                 blockLeft = atlas.findRegion(Constants.BOSS_PLASMA_BLOCK_LEFT);
                 blockRight = atlas.findRegion(Constants.BOSS_PLASMA_BLOCK_RIGHT);
                 lookupBlockLeft = atlas.findRegion(Constants.BOSS_PLASMA_LOOKUP_BLOCK_LEFT);
@@ -473,9 +473,9 @@ public final class AssetManager implements AssetErrorListener {
             }
         }
 
-        private class Ore extends ScopedBossAssets {
+        private class OreBossAssets extends ScopedBossAssets {
 
-            private Ore(TextureAtlas atlas) {
+            private OreBossAssets(TextureAtlas atlas) {
                 blockLeft = atlas.findRegion(Constants.BOSS_ORE_BLOCK_LEFT);
                 blockRight = atlas.findRegion(Constants.BOSS_ORE_BLOCK_RIGHT);
                 lookupBlockLeft = atlas.findRegion(Constants.BOSS_ORE_LOOKUP_BLOCK_LEFT);
@@ -497,13 +497,12 @@ public final class AssetManager implements AssetErrorListener {
             }
         }
 
-        public ScopedBossAssets getBoss(Enums.Energy energy) {
+        public ScopedBossAssets getScopedBossAssets(Enums.Energy energy) {
             switch (energy) {
                 case LIQUID: return liquid;
                 case GAS: return gas;
                 case PLASMA: return plasma;
-                case ORE: return ore;
-                default: return liquid;
+                default: return ore;
             }
         }
     }
