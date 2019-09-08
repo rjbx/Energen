@@ -387,13 +387,18 @@ public final class AssetManager implements AssetErrorListener {
             public AtlasRegion lookdownFallLeft;
             public AtlasRegion lookdownFallRight;
         }
-
+        
         Liquid liquid;
+        Gas gas;
         Plasma plasma;
+        Ore ore;
+        
 
         private BossAssets(TextureAtlas atlas) {
             liquid = new Liquid(atlas);
+            gas = new Gas(atlas);
             plasma = new Plasma(atlas);
+            Ore ore = new Ore(atlas);
         }
 
         private class Liquid extends ScopedBossAssets {
@@ -417,6 +422,30 @@ public final class AssetManager implements AssetErrorListener {
                 lookupFallRight = atlas.findRegion(Constants.BOSS_LIQUID_LOOKUP_FALL_RIGHT);
                 lookdownFallLeft = atlas.findRegion(Constants.BOSS_LIQUID_LOOKDOWN_FALL_LEFT);
                 lookdownFallRight = atlas.findRegion(Constants.BOSS_LIQUID_LOOKDOWN_FALL_RIGHT);
+            }
+        }
+
+        private class Gas extends ScopedBossAssets {
+
+            private Gas(TextureAtlas atlas) {
+                blockLeft = atlas.findRegion(Constants.BOSS_GAS_BLOCK_LEFT);
+                blockRight = atlas.findRegion(Constants.BOSS_GAS_BLOCK_RIGHT);
+                lookupBlockLeft = atlas.findRegion(Constants.BOSS_GAS_LOOKUP_BLOCK_LEFT);
+                lookupBlockRight = atlas.findRegion(Constants.BOSS_GAS_LOOKUP_BLOCK_RIGHT);
+                standLeft = atlas.findRegion(Constants.BOSS_GAS_STAND_LEFT);
+                standRight = atlas.findRegion(Constants.BOSS_GAS_STAND_RIGHT);
+                fallLeft = atlas.findRegion(Constants.BOSS_GAS_FALL_LEFT);
+                fallRight = atlas.findRegion(Constants.BOSS_GAS_FALL_RIGHT);
+                dashLeft = atlas.findRegion(Constants.BOSS_GAS_DASH_LEFT);
+                dashRight = atlas.findRegion(Constants.BOSS_GAS_DASH_RIGHT);
+                recoilLeft = atlas.findRegion(Constants.BOSS_GAS_RECOIL_LEFT);
+                recoilRight = atlas.findRegion(Constants.BOSS_GAS_RECOIL_RIGHT);
+                lookupStandLeft = atlas.findRegion(Constants.BOSS_GAS_LOOKUP_STAND_LEFT);
+                lookupStandRight = atlas.findRegion(Constants.BOSS_GAS_LOOKUP_STAND_RIGHT);
+                lookupFallLeft = atlas.findRegion(Constants.BOSS_GAS_LOOKUP_FALL_LEFT);
+                lookupFallRight = atlas.findRegion(Constants.BOSS_GAS_LOOKUP_FALL_RIGHT);
+                lookdownFallLeft = atlas.findRegion(Constants.BOSS_GAS_LOOKDOWN_FALL_LEFT);
+                lookdownFallRight = atlas.findRegion(Constants.BOSS_GAS_LOOKDOWN_FALL_RIGHT);
             }
         }
 
@@ -444,10 +473,36 @@ public final class AssetManager implements AssetErrorListener {
             }
         }
 
+        private class Ore extends ScopedBossAssets {
+
+            private Ore(TextureAtlas atlas) {
+                blockLeft = atlas.findRegion(Constants.BOSS_ORE_BLOCK_LEFT);
+                blockRight = atlas.findRegion(Constants.BOSS_ORE_BLOCK_RIGHT);
+                lookupBlockLeft = atlas.findRegion(Constants.BOSS_ORE_LOOKUP_BLOCK_LEFT);
+                lookupBlockRight = atlas.findRegion(Constants.BOSS_ORE_LOOKUP_BLOCK_RIGHT);
+                standLeft = atlas.findRegion(Constants.BOSS_ORE_STAND_LEFT);
+                standRight = atlas.findRegion(Constants.BOSS_ORE_STAND_RIGHT);
+                fallLeft = atlas.findRegion(Constants.BOSS_ORE_FALL_LEFT);
+                fallRight = atlas.findRegion(Constants.BOSS_ORE_FALL_RIGHT);
+                dashLeft = atlas.findRegion(Constants.BOSS_ORE_DASH_LEFT);
+                dashRight = atlas.findRegion(Constants.BOSS_ORE_DASH_RIGHT);
+                recoilLeft = atlas.findRegion(Constants.BOSS_ORE_RECOIL_LEFT);
+                recoilRight = atlas.findRegion(Constants.BOSS_ORE_RECOIL_RIGHT);
+                lookupStandLeft = atlas.findRegion(Constants.BOSS_ORE_LOOKUP_STAND_LEFT);
+                lookupStandRight = atlas.findRegion(Constants.BOSS_ORE_LOOKUP_STAND_RIGHT);
+                lookupFallLeft = atlas.findRegion(Constants.BOSS_ORE_LOOKUP_FALL_LEFT);
+                lookupFallRight = atlas.findRegion(Constants.BOSS_ORE_LOOKUP_FALL_RIGHT);
+                lookdownFallLeft = atlas.findRegion(Constants.BOSS_ORE_LOOKDOWN_FALL_LEFT);
+                lookdownFallRight = atlas.findRegion(Constants.BOSS_ORE_LOOKDOWN_FALL_RIGHT);
+            }
+        }
+
         public ScopedBossAssets getBoss(Enums.Energy energy) {
             switch (energy) {
                 case LIQUID: return liquid;
+                case GAS: return gas;
                 case PLASMA: return plasma;
+                case ORE: return ore;
                 default: return liquid;
             }
         }
