@@ -99,7 +99,7 @@ final class OverworldScreen extends ScreenAdapter {
 
         switch (menuType) {
             case MAIN:
-                menu.render(batch, font, viewport, Cursor.getInstance(), Enums.Theme.GRAVITATIONAL.name(), Enums.Theme.MYSTERIOUS.name());
+                menu.render(batch, font, viewport, Cursor.getInstance(), Enums.Theme.GRAVITATIONAL.name(), Enums.Theme.MYSTERIOUS.name(), Enums.Theme.FINAL.name());
                 if (inputControls.justSelected()) {
                     if (cursor.getPosition() <= viewport.getCamera().position.y + 55 && cursor.getPosition() > viewport.getCamera().position.y - 65) {
                         selection = Enums.Theme.valueOf(cursor.getIterator().previous());
