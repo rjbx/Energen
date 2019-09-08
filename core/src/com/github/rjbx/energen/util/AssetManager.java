@@ -398,7 +398,7 @@ public final class AssetManager implements AssetErrorListener {
             liquid = new Liquid(atlas);
             gas = new Gas(atlas);
             plasma = new Plasma(atlas);
-            Ore ore = new Ore(atlas);
+            ore = new Ore(atlas);
         }
 
         private class Liquid extends ScopedBossAssets {
