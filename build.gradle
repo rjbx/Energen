@@ -124,115 +124,24 @@ project(":core") {
         compile ('com.googlecode.json-simple:json-simple:1.1.1') { exclude module: 'junit' }
     }
 
-    task packTextures {
-        def androidPack = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack.png")
-        def androidPack2 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack2.png")
-        def androidPack3 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack3.png")
-        def androidPack4 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack4.png")
-        def androidAtlas = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack.atlas")
+    task deleteAssets {
+        def android = new File("${rootProject.getRootDir()}/android/assets")
+        def ios = new File("${rootProject.getRootDir()}/ios/assets")
+        def desktop = new File("${rootProject.getRootDir()}/desktop/assets")
+        def html = new File("${rootProject.getRootDir()}/html/assets")
 
-        inputs.dir "${rootProject.getRootDir()}/core/assets/images"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack2.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack3.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack4.png"
-        outputs.file "${rootProject.getRootDir()}/android/assets/images/energen.pack.atlas"
-
-
-        def iosPack = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack.png")
-        def iosPack2 = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack2.png")
-        def iosPack3 = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack3.png")
-        def iosPack4 = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack4.png")
-        def iosAtlas = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack.atlas")
-
-        inputs.dir "${rootProject.getRootDir()}/core/assets/images"
-        outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.pack.png"
-        outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.pack2.png"
-        outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.pack3.png"
-        outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.pack4.png"
-        outputs.file "${rootProject.getRootDir()}/ios/assets/images/energen.pack.atlas"
-
-        def desktopPack = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack.png")
-        def desktopPack2 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack2.png")
-        def desktopPack3 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack3.png")
-        def desktopPack4 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack4.png")
-        def desktopAtlas = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack.atlas")
-
-        inputs.dir "${rootProject.getRootDir()}/core/assets/images"
-        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack.png"
-        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack2.png"
-        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack3.png"
-        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack4.png"
-        outputs.file "${rootProject.getRootDir()}/desktop/assets/images/energen.pack.atlas"
-
-
-        def htmlPack = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack.png")
-        def htmlPack2 = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack2.png")
-        def htmlPack3 = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack3.png")
-        def htmlPack4 = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack4.png")
-        def htmlAtlas = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack.atlas")
-
-        inputs.dir "${rootProject.getRootDir()}/core/assets/images"
-        outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.pack.png"
-        outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.pack2.png"
-        outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.pack3.png"
-        outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.pack4.png"
-        outputs.file "${rootProject.getRootDir()}/html/assets/images/energen.pack.atlas"
-
-        doLast {
-            androidPack.delete()
-            androidPack2.delete()
-            androidPack3.delete()
-            androidPack4.delete()
-            androidAtlas.delete()
-            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/android/assets/images", "energen.pack")
-
-            iosPack.delete()
-            iosPack2.delete()
-            iosPack3.delete()
-            iosPack4.delete()
-            iosAtlas.delete()
-            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/ios/assets/images", "energen.pack")
-
-            desktopPack.delete()
-            desktopPack2.delete()
-            desktopPack3.delete()
-            desktopPack4.delete()
-            desktopAtlas.delete()
-            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/desktop/assets/images", "energen.pack")
-
-            htmlPack.delete()
-            htmlPack2.delete()
-            htmlPack3.delete()
-            htmlPack4.delete()
-            htmlAtlas.delete()
-            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/html/assets/images", "energen.pack")
-        }
-    }
-
-    task copyLevels(type: Copy){
-        from "../core/assets/levels/scenes"
-        into "../android/assets/levels"
-        into "../ios/assets/levels"
-        into "../desktop/assets/levels"
-        into "../html/assets/levels"
-        exclude "MainScene.dt"
-    }
-
-    task copyAudio(type: Copy){
-        from "../core/assets/audio"
-        into "../android/assets/audio"
-        into "../ios/assets/audio"
-        into "../desktop/assets/audio"
-        into "../html/assets/audio"
+        android.delete()
+        ios.delete()
+        desktop.delete()
+        html.delete()
     }
 
     task copyAssets(type: Copy){
         from "../core/assets"
         into "../android/assets"
         into "../ios/assets"
-        into "../desktop"
-        into "../html"
+        into "../desktop/assets"
+        into "../html/assets"
     }
 
 
