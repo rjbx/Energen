@@ -213,32 +213,30 @@ project(":core") {
     task copyLevels(type: Copy){
         from "../core/assets/levels/scenes"
         into "../android/assets/levels"
-//        into "../ios/assets/levels"
-//        into "../desktop/assets/levels"
-//        into "../html/assets/levels"
+        into "../ios/assets/levels"
+        into "../desktop/assets/levels"
+        into "../html/assets/levels"
         exclude "MainScene.dt"
     }
 
     task copyAudio(type: Copy){
         from "../core/assets/audio"
         into "../android/assets/audio"
-//        into "../ios/assets/audio"
-//        into "../desktop/assets/audio"
-//        into "../html/assets/audio"
+        into "../ios/assets/audio"
+        into "../desktop/assets/audio"
+        into "../html/assets/audio"
     }
 
-    task copyFont(type: Copy){
-        from "../core/assets/font"
-        into "../android/assets/font"
-//        into "../ios/assets/font"
-//        into "../desktop/assets/font"
-//        into "../html/assets/font"
+    task copyAssets(type: Copy){
+        from "../core/assets"
+        into "../android/assets"
+        into "../ios/assets"
+        into "../desktop"
+        into "../html"
     }
 
-    project.tasks.compileJava.dependsOn packTextures
-    project.tasks.compileJava.dependsOn copyLevels
-    project.tasks.compileJava.dependsOn copyAudio
-    project.tasks.compileJava.dependsOn copyFont
+
+    project.tasks.compileJava.dependsOn copyAssets
 }
 
 tasks.eclipse.doLast {
