@@ -125,10 +125,10 @@ project(":core") {
     }
 
     task deleteAssets(type: Delete) {
-        project.delete() "../android/assets"
-        project.delete() "../ios/assets"
-        project.delete() "../desktop/assets"
-        project.delete() "../html/assets"
+        project.delete "../android/assets"
+        project.delete "../ios/assets"
+        project.delete "../desktop/assets"
+        project.delete "../html/assets"
     }
 
     task copyAssets(type: Copy){
