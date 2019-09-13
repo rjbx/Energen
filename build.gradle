@@ -124,16 +124,11 @@ project(":core") {
         compile ('com.googlecode.json-simple:json-simple:1.1.1') { exclude module: 'junit' }
     }
 
-    task deleteAssets {
-        def android = new File("${rootProject.getRootDir()}/android/assets")
-        def ios = new File("${rootProject.getRootDir()}/ios/assets")
-        def desktop = new File("${rootProject.getRootDir()}/desktop/assets")
-        def html = new File("${rootProject.getRootDir()}/html/assets")
-
-        android.delete()
-        ios.delete()
-        desktop.delete()
-        html.delete()
+    task deleteAssets(type: Delete) {
+        project.delete() "../android/assets"
+        project.delete() "../ios/assets"
+        project.delete() "../desktop/assets"
+        project.delete() "../html/assets"
     }
 
     task copyAssets(type: Copy){
