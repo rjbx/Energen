@@ -125,20 +125,30 @@ project(":core") {
     }
 
     task deleteAssets(type: Delete) {
-        project.delete "../android/assets"
-        project.delete "../ios/assets"
-        project.delete "../desktop/assets"
-        project.delete "../html/assets"
+        delete "../android/assets"
+        delete "../ios/assets"
+        delete "../desktop/assets"
+        delete "../html/assets"
     }
 
-    task copyAssets(type: Copy){
-        from "../core/assets"
-        into "../android/assets"
-        into "../ios/assets"
-        into "../desktop/assets"
-        into "../html/assets"
+    task copyAssets(dependsOn: deleteAssets) {
+        copy {
+            from "../core/assets"
+            into "../android/assets"
+        }
+        copy {
+            from "../core/assets"
+            into "../ios/assets"
+        }
+        copy {
+            from "../core/assets"
+            into "../desktop/assets"
+        }
+        copy {
+            from "../core/assets"
+            into "../html/assets"
+        }
     }
-
 
     project.tasks.compileJava.dependsOn copyAssets
 }
