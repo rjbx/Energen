@@ -66,7 +66,7 @@ final class LevelLoader {
 
         LevelUpdater.getInstance().setTheme(level);
 
-        final FileHandle file = Gdx.files.internal("levels/" + level + ".dt");
+        final FileHandle file = Gdx.files.internal("levels/scenes/" + level + ".dt");
 
         JsonReader reader = new JsonReader();
         JsonValue rootJsonValue = reader.parse(file.reader());
