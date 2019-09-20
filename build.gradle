@@ -135,7 +135,7 @@ project(":core") {
         project.delete("../html/assets")
     }
 
-    task packTextures {
+    task packTextures(dependsOn: deleteAssets) {
         def androidPack = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack.png")
         def androidPack2 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack2.png")
         def androidPack3 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack3.png")
@@ -219,7 +219,7 @@ project(":core") {
         }
     }
 
-    task copyAssets {
+    task copyAssets(dependsOn: packTextures) {
         copy {
             from "../core/assets"
             into "../android/assets"
