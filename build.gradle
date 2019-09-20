@@ -113,6 +113,10 @@ project(":html") {
     }
 }
 
+
+tasks.eclipse.doLast {
+    delete ".project"
+}
 project(":core") {
     apply plugin: "java"
 
@@ -124,14 +128,98 @@ project(":core") {
         compile ('com.googlecode.json-simple:json-simple:1.1.1') { exclude module: 'junit' }
     }
 
-    task deleteAssets(type: Delete) {
-        delete "../android/assets"
-        delete "../ios/assets"
-        delete "../desktop/assets"
-        delete "../html/assets"
+    task deleteAssets {
+        project.delete("../android/assets")
+        project.delete("../ios/assets")
+        project.delete("../desktop/assets")
+        project.delete("../html/assets")
     }
 
-    task copyAssets() {
+    task packTextures {
+        def androidPack = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack.png")
+        def androidPack2 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack2.png")
+        def androidPack3 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack3.png")
+        def androidPack4 = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack4.png")
+        def androidAtlas = new File("${rootProject.getRootDir()}/android/assets/images/energen.pack.atlas")
+
+        inputs.dir "${rootProject.getRootDir()}/core/assets/images"
+        outputs.file androidPack
+        outputs.file androidPack2
+        outputs.file androidPack3
+        outputs.file androidPack4
+        outputs.file androidAtlas
+
+        def iosPack = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack.png")
+        def iosPack2 = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack2.png")
+        def iosPack3 = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack3.png")
+        def iosPack4 = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack4.png")
+        def iosAtlas = new File("${rootProject.getRootDir()}/ios/assets/images/energen.pack.atlas")
+
+        inputs.dir "${rootProject.getRootDir()}/core/assets/images"
+        outputs.file iosPack
+        outputs.file iosPack2
+        outputs.file iosPack3
+        outputs.file iosPack4
+        outputs.file iosAtlas
+
+        def desktopPack = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack.png")
+        def desktopPack2 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack2.png")
+        def desktopPack3 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack3.png")
+        def desktopPack4 = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack4.png")
+        def desktopAtlas = new File("${rootProject.getRootDir()}/desktop/assets/images/energen.pack.atlas")
+
+        inputs.dir "${rootProject.getRootDir()}/core/assets/images"
+        outputs.file desktopPack
+        outputs.file desktopPack2
+        outputs.file desktopPack3
+        outputs.file desktopPack4
+        outputs.file desktopAtlas
+
+        def htmlPack = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack.png")
+        def htmlPack2 = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack2.png")
+        def htmlPack3 = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack3.png")
+        def htmlPack4 = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack4.png")
+        def htmlAtlas = new File("${rootProject.getRootDir()}/html/assets/images/energen.pack.atlas")
+
+        inputs.dir "${rootProject.getRootDir()}/core/assets/images"
+        outputs.file htmlPack
+        outputs.file htmlPack2
+        outputs.file htmlPack3
+        outputs.file htmlPack4
+        outputs.file htmlAtlas
+
+        doLast {
+            androidPack.delete()
+            androidPack2.delete()
+            androidPack3.delete()
+            androidPack4.delete()
+            androidAtlas.delete()
+            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/android/assets/images", "energen.pack")
+
+            iosPack.delete()
+            iosPack2.delete()
+            iosPack3.delete()
+            iosPack4.delete()
+            iosAtlas.delete()
+            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/ios/assets/images", "energen.pack")
+
+            desktopPack.delete()
+            desktopPack2.delete()
+            desktopPack3.delete()
+            desktopPack4.delete()
+            desktopAtlas.delete()
+            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/desktop/assets/images", "energen.pack")
+
+            htmlPack.delete()
+            htmlPack2.delete()
+            htmlPack3.delete()
+            htmlPack4.delete()
+            htmlAtlas.delete()
+            TexturePacker.process("${rootProject.getRootDir()}/core/assets/images", "${rootProject.getRootDir()}/html/assets/images", "energen.pack")
+        }
+    }
+
+    task copyAssets {
         copy {
             from "../core/assets"
             into "../android/assets"
@@ -151,10 +239,6 @@ project(":core") {
     }
 
     project.tasks.compileJava.dependsOn deleteAssets
+    project.tasks.compileJava.dependsOn packTextures
     project.tasks.compileJava.dependsOn copyAssets
-
-}
-
-tasks.eclipse.doLast {
-    delete ".project"
 }
