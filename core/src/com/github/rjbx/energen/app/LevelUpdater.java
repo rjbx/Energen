@@ -1129,6 +1129,8 @@ class LevelUpdater {
     protected int getIndex() { return Arrays.asList(Enums.Theme.values()).indexOf(this.theme); }
     void toggleMusic() { musicEnabled = !musicEnabled; }
     void toggleHints() { hintsEnabled = !hintsEnabled; }
+    boolean isMusicEnabled() { return musicEnabled; }
+    boolean areHintsEnabled() { return hintsEnabled; }
     final void setLoadEx(boolean state) { loadEx = state; }
     final Backdrop getBackdrop() { return backdrop; }
 

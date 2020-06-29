@@ -180,6 +180,14 @@ final class LevelScreen extends ScreenAdapter {
                         SaveData.setTouchscreen(!SaveData.hasTouchscreen());
                     } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 15) {
                         levelUpdater.toggleMusic();
+                        menu.clearStrings();
+                        if (levelUpdater.isMusicEnabled()) {
+                            String[] optionStrings = {"BACK", "RESET LEVEL", "DEBUG CAM", "TOUCH PAD", "MUSIC ON", "HINTS", "QUIT"};
+                            menu.setOptionStrings(Arrays.asList(optionStrings));
+                        } else {
+                            String[] optionStrings = {"BACK", "RESET LEVEL", "DEBUG CAM", "TOUCH PAD", "MUSIC OFF", "HINTS", "QUIT"};
+                            menu.setOptionStrings(Arrays.asList(optionStrings));
+                        }
                     } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 30) {
                         levelUpdater.toggleHints();
                     } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 45) {

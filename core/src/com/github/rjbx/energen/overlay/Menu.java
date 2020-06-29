@@ -79,6 +79,8 @@ public final class Menu {
      //   cursor.resetPosition();
     }
 
+    // TODO: Implement option String setter
+
     public void isSingleOption(boolean mode) { singleOption = mode; }
     public void setOptionStrings(List<String> optionStrings) {
         this.optionStrings = optionStrings.toArray();
