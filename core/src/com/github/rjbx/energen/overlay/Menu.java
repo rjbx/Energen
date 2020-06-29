@@ -9,6 +9,7 @@ import com.github.rjbx.energen.util.AssetManager;
 import com.github.rjbx.energen.util.Enums;
 import com.github.rjbx.energen.util.Helpers;
 
+import java.util.Arrays;
 import java.util.List;
 
 // immutable
@@ -18,6 +19,7 @@ public final class Menu {
     public final static String TAG = Menu.class.getName();
     private static final Menu INSTANCE = new Menu();
     private Object[] optionStrings;
+    private List<String> optionStringsList;
     private String leftPrompt;
     private String centerPrompt;
     private String rightPrompt;
@@ -79,12 +81,20 @@ public final class Menu {
      //   cursor.resetPosition();
     }
 
-    // TODO: Implement option String setter
-
     public void isSingleOption(boolean mode) { singleOption = mode; }
-    public void setOptionStrings(List<String> optionStrings) {
-        this.optionStrings = optionStrings.toArray();
-        Cursor.getInstance().setIterator(optionStrings.listIterator());
+    public void setOptionStrings(List<String> optionStringsList) {
+        this.optionStringsList = optionStringsList;
+        this.optionStrings = optionStringsList.toArray();
+        Cursor.getInstance().setIterator(this.optionStringsList.listIterator());
+    }
+    public void setOptionString(int index, String optionString) {
+        if (index >= 0 && index < optionStringsList.size()) {
+            this.optionStringsList.set(index, optionString);
+            this.optionStrings = optionStringsList.toArray();
+            Cursor.getInstance().setIterator(this.optionStringsList.listIterator());
+        } else {
+            throw new IndexOutOfBoundsException("Option string cannot be changed because selected index is not within bounds of option string list");
+        }
     }
     public void TextAlignment(int alignment) { this.textAlignment = alignment; }
     public void setPromptString(int screenAlignment, String promptString) {
