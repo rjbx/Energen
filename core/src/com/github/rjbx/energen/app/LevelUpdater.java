@@ -98,7 +98,7 @@ class LevelUpdater {
         scopedPowerups = new DelayedRemovalArray<Powerup>();
         scopedTransports = new DelayedRemovalArray<Transport>();
         loadEx = false;
-        musicEnabled = false;
+        musicEnabled = true;
         hintsEnabled = true;
         removedHazards = new StringBuilder("-1");
         score = 0;
@@ -187,9 +187,12 @@ class LevelUpdater {
             } else {
                 if (avatar.getAction() != Enums.Action.STANDING) {
                     avatar.setAction(Enums.Action.STANDING);
+                    music = AssetManager.getInstance().getMusicAssets().dialog;
+                    music.play();
                 } else if (InputControls.getInstance().shootButtonJustPressed) {
                     boss.setBattleState(true);
                     if (musicEnabled) {
+                        music.stop();
                         music = AssetManager.getInstance().getMusicAssets().boss;
                         music.setLooping(true);
                         music.play();

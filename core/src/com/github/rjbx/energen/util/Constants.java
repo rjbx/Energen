@@ -59,9 +59,10 @@ public final class Constants {
     public static final AssetDescriptor<BitmapFont> TITLE_FONT = new AssetDescriptor<BitmapFont>("font/title.fnt", BitmapFont.class);
 
     // TODO[M]: Convert all to .wav
-    public static final AssetDescriptor<Music> INTRO_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-intro.mp3", Music.class);
+    public static final AssetDescriptor<Music> INTRO_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-outset.mp3", Music.class);
     public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-sky.mp3", Music.class);
-    public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-encounter.mp3", Music.class);
+    public static final AssetDescriptor<Music> DIALOG_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-encounter.mp3", Music.class);
+    public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-escalation.mp3", Music.class);
     public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-puzzle.mp3", Music.class);
     public static final AssetDescriptor<Music> NUCLEAR_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-tunnel.mp3", Music.class);
     public static final AssetDescriptor<Music> MECHANICAL_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-stroll.mp3", Music.class);
