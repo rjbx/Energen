@@ -62,6 +62,8 @@ final class OverworldScreen extends ScreenAdapter {
 
         assetManager = AssetManager.getInstance();
         font = assetManager.getFontAssets().menu;
+        assetManager.getMusicAssets().overworld.play();
+        assetManager.getMusicAssets().overworld.setLooping(true);
 
         touchInterface = TouchInterface.getInstance();
 
@@ -101,6 +103,7 @@ final class OverworldScreen extends ScreenAdapter {
             case MAIN:
                 menu.render(batch, font, viewport, Cursor.getInstance(), Enums.Theme.GRAVITATIONAL.name(), Enums.Theme.MYSTERIOUS.name(), Enums.Theme.FINAL.name());
                 if (inputControls.justSelected()) {
+                    assetManager.getMusicAssets().overworld.stop();
                     if (cursor.getPosition() <= viewport.getCamera().position.y + 55 && cursor.getPosition() > viewport.getCamera().position.y - 65) {
                         selection = Enums.Theme.valueOf(cursor.getIterator().previous());
                         if (selection == Enums.Theme.GRAVITATIONAL || selection == Enums.Theme.MYSTERIOUS) {

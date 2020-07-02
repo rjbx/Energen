@@ -59,7 +59,9 @@ public final class AssetManager implements AssetErrorListener {
         assetManager.setErrorListener(this);
         assetManager.load(Constants.TEXTURE_ATLAS); // atlas packed upon gradle build; load all at once instead of individually
         assetManager.load(Constants.INTRO_MUSIC);
+        assetManager.load(Constants.CUTSCENE_MUSIC);
         assetManager.load(Constants.LEVEL_MUSIC);
+        assetManager.load(Constants.OVERWORLD_MUSIC);
         assetManager.load(Constants.DIALOG_MUSIC);
         assetManager.load(Constants.BOSS_MUSIC);
         assetManager.load(Constants.MECHANICAL_MUSIC);
@@ -1813,7 +1815,9 @@ public final class AssetManager implements AssetErrorListener {
     public final class MusicAssets {
 
         public final Music intro;
+        public final Music cutscene;
         public final Music level;
+        public final Music overworld;
         public final Music dialog;
         public final Music boss;
         public final Music mechanical;
@@ -1823,7 +1827,9 @@ public final class AssetManager implements AssetErrorListener {
 
         private MusicAssets() {
             intro = assetManager.get(Constants.INTRO_MUSIC);
+            cutscene = assetManager.get(Constants.CUTSCENE_MUSIC); // use of descriptor enforces type checking
             level = assetManager.get(Constants.LEVEL_MUSIC); // use of descriptor enforces type checking
+            overworld = assetManager.get(Constants.OVERWORLD_MUSIC); // use of descriptor enforces type checking
             dialog = assetManager.get(Constants.DIALOG_MUSIC); // use of descriptor enforces type checking
             boss = assetManager.get(Constants.BOSS_MUSIC); // use of descriptor enforces type checking
             mechanical = assetManager.get(Constants.MECHANICAL_MUSIC);
