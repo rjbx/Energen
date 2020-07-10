@@ -137,11 +137,9 @@ public final class Enums {
         CONVERT
     }
 
-    public enum EffectsType {
-        ELECTROLYSIS,
-        INCINERATION,
-        SHORT_CIRCUITING,
-        MELTING,
-        CRUSHING
+    public enum MusicStyle {
+        CLASSIC,
+        AMBIENT,
+        CHIPTUNE
     }
 }

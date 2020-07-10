@@ -181,14 +181,15 @@ final class LevelScreen extends ScreenAdapter {
                     } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 15) {
                         levelUpdater.toggleMusic();
                         menu.clearStrings();
-                        if (levelUpdater.isMusicEnabled()) {
-                            menu.setOptionString(4, "MUSIC ON");
-                        } else {
-                            menu.setOptionString(4, "MUSIC OFF");
-                        }
+                        if (levelUpdater.isMusicEnabled()) menu.setOptionString(4, "MUSIC ON");
+                        else menu.setOptionString(4, "MUSIC OFF");
                     } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 30) {
-                        levelUpdater.toggleHints();
+                        levelUpdater.toggleStyle();
+                        menu.clearStrings();
+                        menu.setOptionString(5, "STYLE " + levelUpdater.getStyle().name());
                     } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 45) {
+                        levelUpdater.toggleHints();
+                    } else if (cursor.getPosition() == staticViewport.getCamera().position.y - 60) {
                         levelUpdater.unpause();
                         levelUpdater.end();
                         screenManager.create();
@@ -283,12 +284,12 @@ final class LevelScreen extends ScreenAdapter {
     }
 
     private static void setOptionsMenu() {
-        cursor.setRange(staticViewport.getCamera().position.y + 45, staticViewport.getCamera().position.y - 45);
+        cursor.setRange(staticViewport.getCamera().position.y + 45, staticViewport.getCamera().position.y - 60);
         cursor.setOrientation(Enums.Orientation.Y);
         cursor.resetPosition();
         menu.isSingleOption(false);
         menu.clearStrings();
-        String[] optionStrings = {"BACK", "RESET LEVEL", "DEBUG CAM", "TOUCH PAD", "MUSIC", "HINTS", "QUIT"};
+        String[] optionStrings = {"BACK", "RESET LEVEL", "DEBUG CAM", "TOUCH PAD", "MUSIC " + (levelUpdater.isMusicEnabled() ? "ON" : "OFF"), "STYLE " + levelUpdater.getStyle(), "HINTS", "QUIT"};
         menu.setOptionStrings(Arrays.asList(optionStrings));
         menu.TextAlignment(Align.center);
         menuType = Enums.MenuType.OPTIONS;

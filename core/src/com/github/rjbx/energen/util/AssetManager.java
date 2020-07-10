@@ -58,16 +58,24 @@ public final class AssetManager implements AssetErrorListener {
         this.assetManager = new com.badlogic.gdx.assets.AssetManager();
         assetManager.setErrorListener(this);
         assetManager.load(Constants.TEXTURE_ATLAS); // atlas packed upon gradle build; load all at once instead of individually
-        assetManager.load(Constants.INTRO_MUSIC);
-        assetManager.load(Constants.CUTSCENE_MUSIC);
-        assetManager.load(Constants.LEVEL_MUSIC);
-        assetManager.load(Constants.OVERWORLD_MUSIC);
-        assetManager.load(Constants.DIALOG_MUSIC);
-        assetManager.load(Constants.BOSS_MUSIC);
-        assetManager.load(Constants.MECHANICAL_MUSIC);
-        assetManager.load(Constants.THERMAL_MUSIC);
-        assetManager.load(Constants.MYSTERIOUS_MUSIC);
-        assetManager.load(Constants.NUCLEAR_MUSIC);
+        assetManager.load(Constants.OUTSET_MUSIC);
+        assetManager.load(Constants.OFFENCE_MUSIC);
+        assetManager.load(Constants.SELECTION_MUSIC);
+        assetManager.load(Constants.ENCOUNTER_MUSIC);
+        assetManager.load(Constants.ESCALATION_MUSIC);
+        assetManager.load(Constants.RESTART_MUSIC);
+        assetManager.load(Constants.UPSTART_MUSIC);
+        assetManager.load(Constants.RECKONING_MUSIC);
+        assetManager.load(Constants.REELING_MUSIC);
+        assetManager.load(Constants.VILLAGE_MUSIC);
+        assetManager.load(Constants.CONTEMPLATION_MUSIC);
+        assetManager.load(Constants.SKY_MUSIC);
+        assetManager.load(Constants.STROLL_MUSIC);
+        assetManager.load(Constants.PUZZLE_MUSIC);
+        assetManager.load(Constants.TRIAL_MUSIC);
+        assetManager.load(Constants.TUNNEL_MUSIC);
+        assetManager.load(Constants.BUZZARD_MUSIC);
+        assetManager.load(Constants.CHIRPY_MUSIC);
         assetManager.load(Constants.HEALTH_SOUND);
         assetManager.load(Constants.AMMO_SOUND);
         assetManager.load(Constants.TURBO_SOUND);
@@ -197,7 +205,6 @@ public final class AssetManager implements AssetErrorListener {
         public final Animation<TextureRegion> feetStride;
         public final Animation<TextureRegion> feetHover;
         public final Animation<TextureRegion> eyesOpen;
-
         public final AtlasRegion stand;
         public final AtlasRegion fall;
 
@@ -1815,49 +1822,101 @@ public final class AssetManager implements AssetErrorListener {
     public final class MusicAssets {
 
         public final Music intro;
-        public final Music cutscene;
-        public final Music level;
+        public final Music backstory;
         public final Music overworld;
         public final Music dialog;
         public final Music boss;
-        public final Music mechanical;
-        public final Music thermal;
-        public final Music nuclear;
-        public final Music mysterious;
+        public final Music restart;
+        public final Music decision;
+        public final Music faceoff;
+        public final Music upstart;
+        public final Music reeling;
+        public final Music village;
+        public final Music sky;
+        public final Music stroll;
+        public final Music puzzle;
+        public final Music tunnel;
+        public final Music trial;
+        public final Music buzzard;
+        public final Music chirpy;
 
         private MusicAssets() {
-            intro = assetManager.get(Constants.INTRO_MUSIC);
-            cutscene = assetManager.get(Constants.CUTSCENE_MUSIC); // use of descriptor enforces type checking
-            level = assetManager.get(Constants.LEVEL_MUSIC); // use of descriptor enforces type checking
-            overworld = assetManager.get(Constants.OVERWORLD_MUSIC); // use of descriptor enforces type checking
-            dialog = assetManager.get(Constants.DIALOG_MUSIC); // use of descriptor enforces type checking
-            boss = assetManager.get(Constants.BOSS_MUSIC); // use of descriptor enforces type checking
-            mechanical = assetManager.get(Constants.MECHANICAL_MUSIC);
-            thermal = assetManager.get(Constants.THERMAL_MUSIC); // use of descriptor enforces type checking
-            nuclear = assetManager.get(Constants.NUCLEAR_MUSIC); // use of descriptor enforces type checking
-            mysterious = assetManager.get(Constants.MYSTERIOUS_MUSIC); // use of descriptor enforces type checking
+            intro = assetManager.get(Constants.OUTSET_MUSIC); // use of descriptor enforces type checking
+            backstory = assetManager.get(Constants.OFFENCE_MUSIC); // use of descriptor enforces type checking
+            overworld = assetManager.get(Constants.SELECTION_MUSIC); // use of descriptor enforces type checking
+            dialog = assetManager.get(Constants.ENCOUNTER_MUSIC); // use of descriptor enforces type checking
+            boss = assetManager.get(Constants.ESCALATION_MUSIC); // use of descriptor enforces type checking
+            decision = assetManager.get(Constants.CONTEMPLATION_MUSIC); // use of descriptor enforces type checking
+            faceoff = assetManager.get(Constants.RECKONING_MUSIC); // use of descriptor enforces type checking
+            village = assetManager.get(Constants.VILLAGE_MUSIC); // use of descriptor enforces type checking
+            restart = assetManager.get(Constants.RESTART_MUSIC); //  use of descriptor enforces type checking
+            upstart = assetManager.get(Constants.UPSTART_MUSIC); // use of descriptor enforces type checking
+            reeling = assetManager.get(Constants.REELING_MUSIC); //  use of descriptor enforces type checking
+            sky = assetManager.get(Constants.SKY_MUSIC); // use of descriptor enforces type checking
+            stroll = assetManager.get(Constants.STROLL_MUSIC); //  use of descriptor enforces type checking
+            puzzle = assetManager.get(Constants.PUZZLE_MUSIC); // use of descriptor enforces type checking
+            tunnel = assetManager.get(Constants.TUNNEL_MUSIC); // use of descriptor enforces type checking
+            trial = assetManager.get(Constants.TRIAL_MUSIC); // use of descriptor enforces type checking
+            buzzard = assetManager.get(Constants.BUZZARD_MUSIC); //  use of descriptor enforces type checking
+            chirpy = assetManager.get(Constants.CHIRPY_MUSIC); //  use of descriptor enforces type checking
         }
 
-        public Music getThemeMusic(Enums.Theme theme) {
+        public Music getThemeMusic(Enums.Theme theme, Enums.MusicStyle style) {
             switch (theme) {
                 case HOME:
-                    return thermal;
+                    switch (style) {
+                        case CLASSIC: return upstart;
+                        case AMBIENT: return sky;
+                        case CHIPTUNE: return chirpy;
+                    }
                 case MECHANICAL:
-                    return mechanical;
+                    switch (style) {
+                        case CLASSIC: return reeling;
+                        case AMBIENT: return stroll;
+                        case CHIPTUNE: return buzzard;
+                    }
                 case ELECTROMAGNETIC:
-                    return thermal;
+                    switch (style) {
+                        case CLASSIC: return upstart;
+                        case AMBIENT: return puzzle;
+                        case CHIPTUNE: return chirpy;
+                    }
                 case NUCLEAR:
-                    return nuclear;
+                    switch (style) {
+                        case CLASSIC: return reeling;
+                        case AMBIENT: return tunnel;
+                        case CHIPTUNE: return buzzard;
+                    }
                 case THERMAL:
-                    return thermal;
+                    switch (style) {
+                        case CLASSIC: return upstart;
+                        case AMBIENT: return puzzle;
+                        case CHIPTUNE: return chirpy;
+                    }
                 case GRAVITATIONAL:
-                    return thermal;
+                    switch (style) {
+                        case CLASSIC: return reeling;
+                        case AMBIENT: return puzzle;
+                        case CHIPTUNE: return buzzard;
+                    }
                 case MYSTERIOUS:
-                    return mysterious;
+                    switch (style) {
+                        case CLASSIC: return upstart;
+                        case AMBIENT: return trial;
+                        case CHIPTUNE: return chirpy;
+                    }
                 case FINAL:
-                    return boss;
+                    switch (style) {
+                        case CLASSIC: return reeling;
+                        case AMBIENT: return trial;
+                        case CHIPTUNE: return buzzard;
+                    }
                 default:
-                    return level;
+                    switch (style) {
+                        case AMBIENT: return sky;
+                        case CHIPTUNE: return chirpy;
+                        default: return upstart;
+                    }
             }
         }
     }

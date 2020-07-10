@@ -53,6 +53,7 @@ class LevelUpdater {
     private Enums.Energy levelEnergy;
     private Enums.Theme theme;
     private Music music;
+    private Enums.MusicStyle musicStyle;
     private Avatar avatar;
     private Boss boss;
     private ChaseCam chaseCam;
@@ -98,7 +99,8 @@ class LevelUpdater {
         scopedPowerups = new DelayedRemovalArray<Powerup>();
         scopedTransports = new DelayedRemovalArray<Transport>();
         loadEx = false;
-        musicEnabled = true;
+        musicEnabled = SaveData.hasMusic();
+        musicStyle = Enums.MusicStyle.valueOf(SaveData.getStyle());
         hintsEnabled = true;
         removedHazards = new StringBuilder("-1");
         score = 0;
@@ -180,7 +182,7 @@ class LevelUpdater {
             if (chaseCam.getState() != Enums.ChaseCamState.BOSS) {
                 chaseCam.setState(Enums.ChaseCamState.BOSS);
             } else if (avatar.getPosition().x < boss.getPosition().x - boss.getRoomBounds().width / 3) {
-                music.stop();
+                if (music.isPlaying()) music.stop();
                 avatar.setVelocity(new Vector2(40, 0));
                 avatar.setPosition(avatar.getPosition().mulAdd(avatar.getVelocity(), delta));
                 avatar.stride();
@@ -192,7 +194,7 @@ class LevelUpdater {
                 } else if (InputControls.getInstance().shootButtonJustPressed) {
                     boss.setBattleState(true);
                     if (musicEnabled) {
-                        music.stop();
+                        if (music.isPlaying()) music.stop();
                         music = AssetManager.getInstance().getMusicAssets().boss;
                         music.setLooping(true);
                         music.play();
@@ -912,11 +914,7 @@ class LevelUpdater {
         scopedEntities.addAll(impacts);
         chaseCam.setState(Enums.ChaseCamState.FOLLOWING);
         backdrop = new Backdrop(assetManager.getBackgroundAssets().getBackground(theme));
-        music = assetManager.getMusicAssets().getThemeMusic(theme);
-        music.setLooping(true);
-        if (musicEnabled) {
-            music.play();
-        }
+        startThemeMusic();
         levelEnergy = Enums.Energy.NATIVE;
         for (Enums.Energy energy : Arrays.asList(Enums.Energy.values())) {
             if (energy.theme().equals(theme)) {
@@ -934,7 +932,7 @@ class LevelUpdater {
     }
 
     protected void end() {
-        music.stop();
+        if (music.isPlaying()) music.stop();
         timer.suspend();
         if (completed()) {
 //            int level = Arrays.asList(Enums.Theme.values()).indexOf(this.theme);
@@ -962,7 +960,7 @@ class LevelUpdater {
     }
 
     protected void pause() {
-        music.pause();
+        if (music.isPlaying()) music.pause();
         timer.suspend();
         paused = true;
     }
@@ -1044,11 +1042,7 @@ class LevelUpdater {
             if (avatar.getLives() < 0) {
                 return true;
             }
-            if (musicEnabled) {
-                music.stop();
-                music = AssetManager.getInstance().getMusicAssets().getThemeMusic(theme);
-                music.play();
-            }
+            startThemeMusic();
             avatar.respawn();
         }
         return false;
@@ -1130,7 +1124,25 @@ class LevelUpdater {
         savedTime = Long.parseLong(SaveData.getLevelScores().split(", ")[level]);
     }
     protected int getIndex() { return Arrays.asList(Enums.Theme.values()).indexOf(this.theme); }
-    void toggleMusic() { musicEnabled = !musicEnabled; }
+    void toggleMusic() { musicEnabled = !SaveData.hasMusic(); SaveData.setMusic(musicEnabled); }
+    void toggleStyle() {
+        switch (musicStyle) {
+            case CLASSIC: musicStyle = Enums.MusicStyle.AMBIENT; break;
+            case AMBIENT: musicStyle = Enums.MusicStyle.CHIPTUNE; break;
+            default: musicStyle = Enums.MusicStyle.CLASSIC;
+        }
+        SaveData.setStyle(musicStyle.name());
+        startThemeMusic();
+    }
+    Enums.MusicStyle getStyle() { return musicStyle; }
+    void startThemeMusic() {
+        music = assetManager.getMusicAssets().getThemeMusic(theme, musicStyle);
+        if (musicEnabled) {
+            if (music.isPlaying()) music.stop();
+            if (!music.isLooping()) music.setLooping(true);
+            music.play();
+        }
+    }
     void toggleHints() { hintsEnabled = !hintsEnabled; }
     boolean isMusicEnabled() { return musicEnabled; }
     boolean areHintsEnabled() { return hintsEnabled; }

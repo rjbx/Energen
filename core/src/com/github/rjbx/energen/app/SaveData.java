@@ -24,6 +24,7 @@ public final class SaveData {
     protected static void erase() { getPreferences().clear(); getPreferences().flush(); }
 
     public static boolean hasTouchscreen() { return getPreferences().getBoolean("Touchscreen", false); }
+    public static boolean hasMusic() { return getPreferences().getBoolean("Music", true); }
     public static int getDifficulty() { return getPreferences().getInteger("Difficulty", -1); }
     public static int getTotalScore() { return getPreferences().getInteger("TotalScore", 0); }
     public static long getTotalTime() { return getPreferences().getLong("TotalTime", 0); }
@@ -34,8 +35,10 @@ public final class SaveData {
     public static String getEnergies() { return getPreferences().getString("Energies", Enums.Energy.NATIVE.name() + ", " + Enums.Energy.ORE + ", " + Enums.Energy.PLASMA + ", " + Enums.Energy.GAS + ", " + Enums.Energy.LIQUID + ", " + Enums.Energy.SOLID + ", " + Enums.Energy.ANTIMATTER + ", " + Enums.Energy.HYBRID); }
     public static String getUpgrades() { return getPreferences().getString("Upgrades", Enums.Upgrade.NONE.name()); }
     public static String getSuit() { return getPreferences().getString("Suit", Enums.Energy.NATIVE.name() + ";0"); }
+    public static String getStyle() { return getPreferences().getString("Style", Enums.MusicStyle.CLASSIC.name()); }
 
     protected static void setTouchscreen(boolean touchscreen) { getPreferences().putBoolean("Touchscreen", touchscreen); getPreferences().flush(); }
+    protected static void setMusic(boolean music) { getPreferences().putBoolean("Music", music); getPreferences().flush(); }
     protected static void setDifficulty(int difficulty) { getPreferences().putInteger("Difficulty", difficulty); getPreferences().flush(); }
     protected static void setTotalScore(int score) { getPreferences().putInteger("TotalScore", score); getPreferences().flush(); }
     protected static void setTotalTime(long time) { getPreferences().putLong("TotalTime", time); getPreferences().flush(); }
@@ -46,4 +49,5 @@ public final class SaveData {
     protected static void setEnergies(String energies) { getPreferences().putString("Energies", energies); getPreferences().flush(); }
     protected static void setUpgrades(String upgrades) { getPreferences().putString("Upgrades", upgrades); getPreferences().flush(); }
     protected static void setSuit(String suit) { getPreferences().putString("Suit", suit); getPreferences().flush(); }
+    protected static void setStyle(String style) { getPreferences().putString("Style", style); getPreferences().flush(); }
 }

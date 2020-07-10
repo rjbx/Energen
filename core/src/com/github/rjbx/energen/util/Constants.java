@@ -59,18 +59,24 @@ public final class Constants {
     public static final AssetDescriptor<BitmapFont> TITLE_FONT = new AssetDescriptor<BitmapFont>("font/title.fnt", BitmapFont.class);
 
     // TODO[M]: Convert all to .wav
-    public static final AssetDescriptor<Music> INTRO_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-outset.mp3", Music.class);
-    public static final AssetDescriptor<Music> CUTSCENE_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-offence.mp3", Music.class);
-    public static final AssetDescriptor<Music> LEVEL_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-sky.mp3", Music.class);
-    public static final AssetDescriptor<Music> OVERWORLD_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-selection.mp3", Music.class);
-    public static final AssetDescriptor<Music> DIALOG_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-encounter.mp3", Music.class);
-    public static final AssetDescriptor<Music> BOSS_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-escalation.mp3", Music.class);
-    public static final AssetDescriptor<Music> THERMAL_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-puzzle.mp3", Music.class);
-    public static final AssetDescriptor<Music> NUCLEAR_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-tunnel.mp3", Music.class);
-    public static final AssetDescriptor<Music> MECHANICAL_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-stroll.mp3", Music.class);
-    public static final AssetDescriptor<Music> MYSTERIOUS_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-trial.mp3", Music.class);
-
-
+    public static final AssetDescriptor<Music> SKY_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-sky.mp3", Music.class);
+    public static final AssetDescriptor<Music> PUZZLE_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-puzzle.mp3", Music.class);
+    public static final AssetDescriptor<Music> TUNNEL_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-tunnel.mp3", Music.class);
+    public static final AssetDescriptor<Music> STROLL_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-stroll.mp3", Music.class);
+    public static final AssetDescriptor<Music> TRIAL_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-trial.mp3", Music.class);
+    public static final AssetDescriptor<Music> OUTSET_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-outset.mp3", Music.class);
+    public static final AssetDescriptor<Music> OFFENCE_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-offence.mp3", Music.class);
+    public static final AssetDescriptor<Music> SELECTION_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-selection.mp3", Music.class);
+    public static final AssetDescriptor<Music> ENCOUNTER_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-encounter.mp3", Music.class);
+    public static final AssetDescriptor<Music> ESCALATION_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-escalation.mp3", Music.class);
+    public static final AssetDescriptor<Music> CONTEMPLATION_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-contemplation.mp3", Music.class);
+    public static final AssetDescriptor<Music> RECKONING_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-reckoning.mp3", Music.class);
+    public static final AssetDescriptor<Music> REELING_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-reeling.mp3", Music.class);
+    public static final AssetDescriptor<Music> VILLAGE_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-village.mp3", Music.class);
+    public static final AssetDescriptor<Music> RESTART_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-restart.mp3", Music.class);
+    public static final AssetDescriptor<Music> UPSTART_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-upstart.mp3", Music.class);
+    public static final AssetDescriptor<Music> BUZZARD_MUSIC= new AssetDescriptor<Music>("audio/music/chip-buzzard.mp3", Music.class);
+    public static final AssetDescriptor<Music> CHIRPY_MUSIC = new AssetDescriptor<Music>("audio/music/chip-chirpy.mp3", Music.class);
     // Avatar attributes
     public static final Vector2 AVATAR_EYE_POSITION = new Vector2(12, 24);
     public static final float AVATAR_EYE_HEIGHT = 16.0f;

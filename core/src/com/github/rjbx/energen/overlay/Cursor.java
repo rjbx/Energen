@@ -75,6 +75,7 @@ public class Cursor {
                 } else if (position <= startingPosition - 15) {
                     position += 15;
                     if (iterator != null) {
+                        // TODO: Resolve NoSuchElementException
                         iterator.previous();
                     }
                 } else {
