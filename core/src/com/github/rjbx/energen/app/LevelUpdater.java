@@ -1136,12 +1136,10 @@ class LevelUpdater {
     }
     Enums.MusicStyle getStyle() { return musicStyle; }
     void startThemeMusic() {
+        if (music != null && music.isPlaying()) music.stop();
         music = assetManager.getMusicAssets().getThemeMusic(theme, musicStyle);
-        if (musicEnabled) {
-            if (music.isPlaying()) music.stop();
-            if (!music.isLooping()) music.setLooping(true);
-            music.play();
-        }
+        if (!music.isLooping()) music.setLooping(true);
+        if (musicEnabled) music.play();
     }
     void toggleHints() { hintsEnabled = !hintsEnabled; }
     boolean isMusicEnabled() { return musicEnabled; }
