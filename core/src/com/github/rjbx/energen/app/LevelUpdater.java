@@ -1140,6 +1140,12 @@ class LevelUpdater {
         if (music.isLooping()) music.setLooping(false);
         if (musicEnabled) music.play();
     }
+    void playCompleteMusic() {
+        if (music != null && music.isPlaying()) music.stop();
+        music = assetManager.getMusicAssets().complete;
+        if (music.isLooping()) music.setLooping(false);
+        if (musicEnabled) music.play();
+    }
     Enums.MusicStyle getStyle() { return musicStyle; }
     void startThemeMusic() {
         if (music != null && music.isPlaying()) music.stop();

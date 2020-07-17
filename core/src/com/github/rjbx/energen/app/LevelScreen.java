@@ -251,6 +251,7 @@ final class LevelScreen extends ScreenAdapter {
         } else if (levelUpdater.completed()) {
             endMessage = Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "TIME: " + Helpers.millisToString(TimeUtils.nanosToMillis(SaveData.getTotalTime())) + "\nSCORE: " + SaveData.getTotalScore() + "\n\nLEVEL TOTAL\n" + "TIME: " + Helpers.millisToString(levelUpdater.getUnsavedTime()) + "\n" + "SCORE " + levelUpdater.getScore();
             yDivisor = 3;
+            levelUpdater.playCompleteMusic();
             if (levelEndOverlayStartTime == 0) {
                 levelUpdater.end();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
