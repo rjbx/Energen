@@ -1134,7 +1134,7 @@ class LevelUpdater {
         SaveData.setStyle(musicStyle.name());
         startThemeMusic();
     }
-    void playEndMusic() {
+    void playExitMusic() {
         if (music != null && music.isPlaying()) music.stop();
         music = assetManager.getMusicAssets().decision;
         if (music.isLooping()) music.setLooping(false);

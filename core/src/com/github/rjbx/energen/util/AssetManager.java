@@ -68,6 +68,7 @@ public final class AssetManager implements AssetErrorListener {
         assetManager.load(Constants.RECKONING_MUSIC);
         assetManager.load(Constants.REELING_MUSIC);
         assetManager.load(Constants.VILLAGE_MUSIC);
+        assetManager.load(Constants.CONTINUATION_MUSIC);
         assetManager.load(Constants.CONTEMPLATION_MUSIC);
         assetManager.load(Constants.SKY_MUSIC);
         assetManager.load(Constants.STROLL_MUSIC);
@@ -1832,6 +1833,7 @@ public final class AssetManager implements AssetErrorListener {
         public final Music upstart;
         public final Music reeling;
         public final Music village;
+        public final Music complete;
         public final Music sky;
         public final Music stroll;
         public final Music puzzle;
@@ -1849,6 +1851,7 @@ public final class AssetManager implements AssetErrorListener {
             decision = assetManager.get(Constants.CONTEMPLATION_MUSIC); // use of descriptor enforces type checking
             faceoff = assetManager.get(Constants.RECKONING_MUSIC); // use of descriptor enforces type checking
             village = assetManager.get(Constants.VILLAGE_MUSIC); // use of descriptor enforces type checking
+            complete = assetManager.get(Constants.CONTINUATION_MUSIC); // use of descriptor enforces type checking
             restart = assetManager.get(Constants.RESTART_MUSIC); //  use of descriptor enforces type checking
             upstart = assetManager.get(Constants.UPSTART_MUSIC); // use of descriptor enforces type checking
             reeling = assetManager.get(Constants.REELING_MUSIC); //  use of descriptor enforces type checking
