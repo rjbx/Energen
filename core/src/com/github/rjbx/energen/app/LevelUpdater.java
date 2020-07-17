@@ -67,6 +67,7 @@ class LevelUpdater {
     private boolean stateUpdated;
     private int score;
     private long time;
+    private long restartTime;
     private int savedScore;
     private long savedTime;
 
@@ -105,6 +106,7 @@ class LevelUpdater {
         removedHazards = new StringBuilder("-1");
         score = 0;
         time = 0;
+        restartTime = 0;
         paused = false;
     }
 
@@ -1041,9 +1043,17 @@ class LevelUpdater {
         if (restarted()) {
             if (avatar.getLives() < 0) {
                 return true;
+            } else {
+                if (restartTime == 0) {
+                    playRestartMusic();
+                    restartTime = TimeUtils.nanoTime();
+                }
+                if (Helpers.secondsSince(restartTime) > Constants.LEVEL_END_DURATION || inputControls.shootButtonJustPressed) {
+                    restartTime = 0;
+                    startThemeMusic();
+                    avatar.respawn();
+                }
             }
-            startThemeMusic();
-            avatar.respawn();
         }
         return false;
     }
@@ -1143,6 +1153,12 @@ class LevelUpdater {
     void playCompleteMusic() {
         if (music != null && music.isPlaying()) music.stop();
         music = assetManager.getMusicAssets().complete;
+        if (music.isLooping()) music.setLooping(false);
+        if (musicEnabled) music.play();
+    }
+    void playRestartMusic() {
+        if (music != null && music.isPlaying()) music.stop();
+        music = assetManager.getMusicAssets().restart;
         if (music.isLooping()) music.setLooping(false);
         if (musicEnabled) music.play();
     }
