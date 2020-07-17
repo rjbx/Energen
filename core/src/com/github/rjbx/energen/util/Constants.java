@@ -73,6 +73,8 @@ public final class Constants {
     public static final AssetDescriptor<Music> RECKONING_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-reckoning.mp3", Music.class);
     public static final AssetDescriptor<Music> REELING_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-reeling.mp3", Music.class);
     public static final AssetDescriptor<Music> CONTINUATION_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-continuation.mp3", Music.class);
+    public static final AssetDescriptor<Music> ENDING_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-ending.mp3", Music.class);
+    public static final AssetDescriptor<Music> COMBUSTION_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-combustion.mp3", Music.class);
     public static final AssetDescriptor<Music> VILLAGE_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-village.mp3", Music.class);
     public static final AssetDescriptor<Music> RESTART_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-restart.mp3", Music.class);
     public static final AssetDescriptor<Music> UPSTART_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-upstart.mp3", Music.class);
