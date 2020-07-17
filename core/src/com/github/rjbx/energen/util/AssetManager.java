@@ -1865,19 +1865,19 @@ public final class AssetManager implements AssetErrorListener {
             switch (theme) {
                 case HOME:
                     switch (style) {
-                        case CLASSIC: return upstart;
+                        case CLASSIC: return village;
                         case AMBIENT: return sky;
                         case CHIPTUNE: return chirpy;
                     }
                 case MECHANICAL:
                     switch (style) {
-                        case CLASSIC: return reeling;
+                        case CLASSIC: return upstart;
                         case AMBIENT: return stroll;
                         case CHIPTUNE: return buzzard;
                     }
                 case ELECTROMAGNETIC:
                     switch (style) {
-                        case CLASSIC: return upstart;
+                        case CLASSIC: return reeling;
                         case AMBIENT: return puzzle;
                         case CHIPTUNE: return chirpy;
                     }
@@ -1895,7 +1895,7 @@ public final class AssetManager implements AssetErrorListener {
                     }
                 case GRAVITATIONAL:
                     switch (style) {
-                        case CLASSIC: return reeling;
+                        case CLASSIC: return village;
                         case AMBIENT: return puzzle;
                         case CHIPTUNE: return buzzard;
                     }
