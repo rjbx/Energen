@@ -73,7 +73,7 @@ public final class Constants {
     public static final AssetDescriptor<Music> RECKONING_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-reckoning.mp3", Music.class);
     public static final AssetDescriptor<Music> REELING_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-reeling.mp3", Music.class);
     public static final AssetDescriptor<Music> CONTINUATION_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-continuation.mp3", Music.class);
-    public static final AssetDescriptor<Music> ENDING_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-ending.mp3", Music.class);
+    public static final AssetDescriptor<Music> SENDOFF_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-sendoff.mp3", Music.class);
     public static final AssetDescriptor<Music> COMBUSTION_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-combustion.mp3", Music.class);
     public static final AssetDescriptor<Music> VILLAGE_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-village.mp3", Music.class);
     public static final AssetDescriptor<Music> RESTART_MUSIC = new AssetDescriptor<Music>("audio/music/guitar-restart.mp3", Music.class);
@@ -1064,7 +1064,7 @@ public final class Constants {
     public static final String SELECTION_CURSOR = "selection-cursor";
 
     // Victory/Game Over screens
-    public static final float LEVEL_END_DURATION = 12;
+    public static final float LEVEL_END_DURATION = 20;
     public static final int EXPLOSION_COUNT = 500;
     public static final int ZOOMBA_COUNT = 200;
     public static final String VICTORY_MESSAGE = "COURSE CLEARED";
