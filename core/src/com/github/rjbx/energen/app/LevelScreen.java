@@ -235,12 +235,12 @@ final class LevelScreen extends ScreenAdapter {
             endMessage = Constants.FAIL_MESSAGE;
             yDivisor = 12;
             font.getData().setScale(.4f);
-            levelUpdater.playExitMusic();
             if (levelEndOverlayStartTime == 0) {
                 levelUpdater.end();
+                levelUpdater.playExitMusic();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
             }
-            if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION / 2) {
+            if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION || inputControls.shootButtonJustPressed) {
                 levelEndOverlayStartTime = 0;
                 overworldScreen.setMainMenu();
                 screenManager.setScreen(overworldScreen);
@@ -251,12 +251,12 @@ final class LevelScreen extends ScreenAdapter {
         } else if (levelUpdater.completed()) {
             endMessage = Constants.VICTORY_MESSAGE + "\n\n\n" + "GAME TOTAL\n" + "TIME: " + Helpers.millisToString(TimeUtils.nanosToMillis(SaveData.getTotalTime())) + "\nSCORE: " + SaveData.getTotalScore() + "\n\nLEVEL TOTAL\n" + "TIME: " + Helpers.millisToString(levelUpdater.getUnsavedTime()) + "\n" + "SCORE " + levelUpdater.getScore();
             yDivisor = 3;
-            levelUpdater.playCompleteMusic();
             if (levelEndOverlayStartTime == 0) {
                 levelUpdater.end();
+                levelUpdater.playCompleteMusic();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
             }
-            if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION) {
+            if (Helpers.secondsSince(levelEndOverlayStartTime) > Constants.LEVEL_END_DURATION || inputControls.shootButtonJustPressed) {
                 levelEndOverlayStartTime = 0;
                 overworldScreen.setMainMenu();
                 screenManager.setScreen(overworldScreen);
