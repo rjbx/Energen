@@ -1061,7 +1061,7 @@ public final class Constants {
     public static final String SELECTION_CURSOR = "selection-cursor";
 
     // Victory/Game Over screens
-    public static final float LEVEL_END_DURATION = 5;
+    public static final float LEVEL_END_DURATION = 12;
     public static final int EXPLOSION_COUNT = 500;
     public static final int ZOOMBA_COUNT = 200;
     public static final String VICTORY_MESSAGE = "COURSE CLEARED";

@@ -235,6 +235,7 @@ final class LevelScreen extends ScreenAdapter {
             endMessage = Constants.FAIL_MESSAGE;
             yDivisor = 12;
             font.getData().setScale(.4f);
+            levelUpdater.playEndMusic();
             if (levelEndOverlayStartTime == 0) {
                 levelUpdater.end();
                 levelEndOverlayStartTime = TimeUtils.nanoTime();
