@@ -1898,7 +1898,7 @@ public final class AssetManager implements AssetErrorListener {
                     }
                 case THERMAL:
                     switch (style) {
-                        case CLASSIC: return upstart;
+                        case CLASSIC: return backstory;
                         case AMBIENT: return puzzle;
                         case CHIPTUNE: return chirpy;
                     }
