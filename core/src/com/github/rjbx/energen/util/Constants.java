@@ -58,7 +58,6 @@ public final class Constants {
     public static final AssetDescriptor<BitmapFont> INACTIVE_FONT = new AssetDescriptor<BitmapFont>("font/inactive.fnt", BitmapFont.class);
     public static final AssetDescriptor<BitmapFont> TITLE_FONT = new AssetDescriptor<BitmapFont>("font/title.fnt", BitmapFont.class);
 
-    // TODO[M]: Convert all to .mp3
     public static final AssetDescriptor<Music> SKY_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-sky.mp3", Music.class);
     public static final AssetDescriptor<Music> PUZZLE_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-puzzle.mp3", Music.class);
     public static final AssetDescriptor<Music> TUNNEL_MUSIC = new AssetDescriptor<Music>("audio/music/ambient-tunnel.mp3", Music.class);
